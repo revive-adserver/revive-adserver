@@ -250,7 +250,7 @@ if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
     //process submitted values
     $errors = processCampaignForm ( $campaignForm );
     if (! empty ( $errors )) { //need to redisplay page with general errors
-        displayPage ( $campaign, $campaignForm, $statusForm, $campaignErrors );
+        displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
 } else if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
     processStatusForm ( $statusForm );
@@ -575,52 +575,6 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
     $form->addGroup ( $miscG, 'misc_g', $GLOBALS ['strPriorityOptimisation'], "<BR>" );
 }
 
-//-----------
-
-
-function OLD_buildInventoryDetailsFormSection(&$form, $campaign)
-{
-    global $conf;
-
-    $form->addElement ( 'header', 'h_inv_details', $GLOBALS ['strInventoryDetails'] );
-
-    //EX.    $form->addDecorator('inv_details', 'tag', array('tag' => 'span',
-    //        'mode' => 'wrap', 'attributes' => array('id' => 'test', 'style' => 'display:none')));
-    //EX.    $form->addDecorator('basic_info', 'tag', array('tag' => 'div',
-    //        'attributes' => array('id' => 'innerdiv', 'style' => 'display:none')));
-
-
-    //impr booked
-    $imprCount ['radio'] = $form->createElement ( 'radio', 'rd_impr_bkd', null, null, 'no', array ('id' => 'limitedimpressions' ) );
-    $imprCount ['impressions'] = $form->createElement ( 'text', 'impressions' );
-    $imprCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-impr', null, array ('impressionsRemaining' => $campaign ['impressionsRemaining'] ), false );
-
-    $imprBookedGroup ['count'] = $form->createElement ( 'group', 'impr_booked', null, $imprCount, null, false );
-    $imprBookedGroup ['unlimitedradio'] = $form->createElement ( 'radio', 'rd_impr_bkd', null, $GLOBALS ['strUnlimited'], 'unl', array ('id' => 'unlimitedimpressions' ) );
-
-    $form->addGroup ( $imprBookedGroup, 'impr_booked', $GLOBALS ['strImpressionsBooked'], "<br/>" );
-
-    //clicks booked
-    $clickCount ['radio'] = $form->createElement ( 'radio', 'rd_click_bkd', null, null, 'no', array ('id' => 'limitedclicks' ) );
-    $clickCount ['clicks'] = $form->createElement ( 'text', 'clicks' );
-    $clickCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-click', null, array ('clicksRemaining' => $campaign ['clicksRemaining'] ), false );
-    $clickBookedGroup ['count'] = $form->createElement ( 'group', 'click_booked', null, $clickCount, null, false );
-    $clickBookedGroup ['unlimitedradio'] = $form->createElement ( 'radio', 'rd_click_bkd', null, $GLOBALS ['strUnlimited'], 'unl', array ('id' => 'unlimitedclicks' ) );
-
-    $form->addGroup ( $clickBookedGroup, 'click_booked', $GLOBALS ['strClicksBooked'], "<br/>" );
-
-    // Conditionally display conversion tracking
-    if ($conf ['logging'] ['trackerImpressions']) {
-        //conversions booked
-        $convCount ['radio'] = $form->createElement ( 'radio', 'rd_conv_bkd', null, null, 'no', array ('id' => 'limitedconv' ) );
-        $convCount ['conversions'] = $form->createElement ( 'text', 'conversions' );
-        $convCount ['note'] = $form->createElement ( 'html', null, '<span  id="remainingConversions" >' . $GLOBALS ['strConversionsRemaining'] . ':<span id="remainingConversionsCount">' . $campaign ['conversionsRemaining'] . '</span></span>' );
-        $convBookedGroup ['count'] = $form->createElement ( 'group', 'conv_booked', null, $convCount, null, false );
-        $convBookedGroup ['unlimitedradio'] = $form->createElement ( 'radio', 'rd_conv_bkd', null, $GLOBALS ['strUnlimited'], 'unl', array ('id' => 'unlimitedconversions' ) );
-
-        $form->addGroup ( $convBookedGroup, 'conv_booked', $GLOBALS ['strConversionsBooked'], "<br/>" );
-    }
-}
 
 function buildStatusForm($campaign)
 {
@@ -727,14 +681,14 @@ function processCampaignForm($form)
         //pricing model - reset fields not applicable to model to 0,
         //note that in new flow MAX_FINANCE_CPA allows all limits to be set
         if ($aFields ['revenue_type'] == MAX_FINANCE_CPM) {
-            $aFields ['clicks'] = 0;
-            $aFields ['conversions'] = 0;
+            $aFields ['clicks'] = -1;
+            $aFields ['conversions'] = -1;
         } else if ($aFields ['revenue_type'] == MAX_FINANCE_CPC) {
-            $aFields ['conversions'] = 0;
+            $aFields ['conversions'] = -1;
         } else if ($aFields ['revenue_type'] == MAX_FINANCE_MT) {
-            $aFields ['impressions'] = 0;
-            $aFields ['clicks'] = 0;
-            $aFields ['conversions'] = 0;
+            $aFields ['impressions'] = -1;
+            $aFields ['clicks'] = -1;
+            $aFields ['conversions'] = -1;
         }
 
         //check type and set priority
