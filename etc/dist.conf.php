@@ -413,14 +413,6 @@ deleteUnverifiedUsersAfter = 2419200   ; 28 days (in seconds)
 [geotargeting]
 type="none"
 saveStats=false
-geoipCountryLocation=
-geoipRegionLocation=
-geoipCityLocation=
-geoipAreaLocation=
-geoipDmaLocation=
-geoipOrgLocation=
-geoipIspLocation=
-geoipNetspeedLocation=
 showUnavailable=false
 
 [pluginPaths]

@@ -180,13 +180,9 @@ function MAX_remotehostSetGeoInfo()
     $aConf = $GLOBALS['_MAX']['CONF'];
     $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
-        $functionName = 'OA_Geo_'.$type.'_getInfo';
-        if (function_exists($functionName)) {
-            return;
-        }
-        @include(MAX_PATH . '/plugins/geotargeting/' . $type . '/' . $type . '.delivery.php');
-        if (function_exists($functionName)) {
-            $GLOBALS['_MAX']['CLIENT_GEO'] = $functionName();
+        $aComponent = explode(':', $aConf['geotargeting']['type']);
+        if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
+            $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', array(), $type);
         }
     }
 }

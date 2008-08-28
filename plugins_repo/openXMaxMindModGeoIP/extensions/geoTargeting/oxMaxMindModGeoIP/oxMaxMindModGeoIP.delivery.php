@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: ModGeoIP.delivery.php 19480 2008-04-25 16:16:50Z andrew.hill@openx.org $
 */
 
 /**
@@ -32,7 +32,7 @@ $Id$
  * @return array An array that will contain the results of the
  *               GeoTargeting lookup.
  */
-function OA_Geo_ModGeoIP_getInfo() {
+function Plugin_geoTargeting_oxMaxMindModGeoIP_oxMaxMindModGeoIP_Delivery_getGeoInfo() {
     $result = array();
     if (isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
           $result['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];

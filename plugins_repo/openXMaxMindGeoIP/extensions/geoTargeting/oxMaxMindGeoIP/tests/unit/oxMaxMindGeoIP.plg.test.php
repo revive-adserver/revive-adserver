@@ -22,13 +22,13 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: GeoIP.plg.test.php 18872 2008-04-15 11:48:59Z chris.nutting@openx.org $
 */
 
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/oxMaxMindGeoIP.delivery.php';
 
 /**
- * A class for testing the Plugins_Geotargeting_GeoIP_GeoIP class.
+ * A class for testing the OxMaxMindGeoIP delivery component.
  * Will only test all database types if the databases are available -
  * see README.txt file, and contact MaxMind LLC (http://maxmind.com/)
  * for databases.
@@ -39,38 +39,26 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  * @TODO       Has not been tested with the Netspeed database,
  *             tests for this database type need to be written.
  */
-class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
+class Delivery_TestOfOxMaxMindGeoIP extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP()
+    function Delivery_TestOfOxMaxMindGeoIP()
     {
         $this->UnitTestCase();
     }
 
-    /**
-     * Test the getModuleInfo method.
-     */
-    function testGetModuleInfo()
-    {
-        $this->assertEqual(
-            MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getModuleInfo'),
-            'MaxMind GeoIP'
-        );
-    }
-
     function setUp()
     {
-        // Save the conf variable so it can be modified during the test
         TestEnv::restoreConfig();
     }
 
     /**
-     * Test the getInfo function.
+     * Test the getGeoInfo delivery function.
      */
-    function testGetInfo_noDb()
+    function testGetGeoInfo_noDb()
     {
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
@@ -79,15 +67,15 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         $GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
 
         // Test with the default database, and no additional MaxMind GeoIP databases
-        $conf['geotargeting']['geoipCountryLocation'] = '';
-        $conf['geotargeting']['geoipRegionLocation'] = '';
-        $conf['geotargeting']['geoipCityLocation'] = '';
-        $conf['geotargeting']['geoipAreaLocation'] = '';
-        $conf['geotargeting']['geoipDmaLocation'] = '';
-        $conf['geotargeting']['geoipOrgLocation'] = '';
-        $conf['geotargeting']['geoipIspLocation'] = '';
-        $conf['geotargeting']['geoipNetspeedLocation'] = '';
-        $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+        $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+        $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
         $this->assertEqual($result['country_code'], 'US');
         $this->assertNull($result['region']);
         $this->assertNull($result['city']);
@@ -100,16 +88,15 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         $this->assertNull($result['netspeed']);
 
         // Test with a supplied GeoIP Country database
-        $conf['geotargeting']['geoipCountryLocation'] =
-            MAX_PATH . '/plugins/geotargeting/GeoIP/data/FreeGeoIPCountry.dat';
-        $conf['geotargeting']['geoipRegionLocation'] = '';
-        $conf['geotargeting']['geoipCityLocation'] = '';
-        $conf['geotargeting']['geoipAreaLocation'] = '';
-        $conf['geotargeting']['geoipDmaLocation'] = '';
-        $conf['geotargeting']['geoipOrgLocation'] = '';
-        $conf['geotargeting']['geoipIspLocation'] = '';
-        $conf['geotargeting']['geoipNetspeedLocation'] = '';
-        $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+        $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = dirname(dirname(dirname(__FILE__))) . '/data/FreeGeoIPCountry.dat';
+        $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+        $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+        $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
         $this->assertEqual($result['country_code'], 'US');
         $this->assertNull($result['region']);
         $this->assertNull($result['city']);
@@ -122,21 +109,21 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         $this->assertNull($result['netspeed']);
     }
 
-    function testGetInfo_RegionDb() {
+    function testGetGeoInfo_RegionDb() {
         // Test with a supplied GeoIP Region database
         $conf = &$GLOBALS['_MAX']['CONF'];
 
-        $regionFile = $conf['geotargeting']['geoipRegionLocation'];
+        $regionFile = $conf['oxMaxMindGeoIP']['geoipRegionLocation'];
         if (file_exists($regionFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = $regionFile;
-            $conf['geotargeting']['geoipCityLocation'] = '';
-            $conf['geotargeting']['geoipAreaLocation'] = '';
-            $conf['geotargeting']['geoipDmaLocation'] = '';
-            $conf['geotargeting']['geoipOrgLocation'] = '';
-            $conf['geotargeting']['geoipIspLocation'] = '';
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = $regionFile;
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertEqual($result['country_code'], 'US');
             $this->assertEqual($result['region'], 'NY');
             $this->assertNull($result['city']);
@@ -149,22 +136,22 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['netspeed']);
         }
     }
-    function testGetInfo_CityDb()
+    function testGetGeoInfo_CityDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test with a supplied GeoIP City database
-        $cityFile = $conf['geotargeting']['geoipCityLocation'];
+        $cityFile = $conf['oxMaxMindGeoIP']['geoipCityLocation'];
         if (file_exists($cityFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = '';
-            $conf['geotargeting']['geoipCityLocation'] = $cityFile;
-            $conf['geotargeting']['geoipAreaLocation'] = '';
-            $conf['geotargeting']['geoipDmaLocation'] = '';
-            $conf['geotargeting']['geoipOrgLocation'] = '';
-            $conf['geotargeting']['geoipIspLocation'] = '';
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = $cityFile;
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertEqual($result['country_code'], 'US');
             $this->assertEqual($result['region'], 'NY');
             $this->assertEqual($result['city'], 'Homer');
@@ -177,22 +164,22 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['netspeed']);
         }
     }
-    function testGetInfo_AreaDb()
+    function testGetGeoInfo_AreaDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test with a supplied GeoIP Area Code database
-        $areaCodeFile = $conf['geotargeting']['geoipAreaLocation'];
+        $areaCodeFile = $conf['oxMaxMindGeoIP']['geoipAreaLocation'];
         if (file_exists($areaCodeFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = '';
-            $conf['geotargeting']['geoipCityLocation'] = '';
-            $conf['geotargeting']['geoipAreaLocation'] = $areaCodeFile;
-            $conf['geotargeting']['geoipDmaLocation'] = '';
-            $conf['geotargeting']['geoipOrgLocation'] = '';
-            $conf['geotargeting']['geoipIspLocation'] = '';
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = $areaCodeFile;
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertEqual($result['country_code'], 'US');
             $this->assertEqual($result['region'], 'NY');
             $this->assertEqual($result['city'], 'Homer');
@@ -204,22 +191,22 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['netspeed']);
         }
     }
-    function testGetInfo_DmaDb()
+    function testGetGeoInfo_DmaDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test with a supplied GeoIP DMA Code database
-        $dmaCodeFile = $conf['geotargeting']['geoipDmaLocation'];
+        $dmaCodeFile = $conf['oxMaxMindGeoIP']['geoipDmaLocation'];
         if (file_exists($dmaCodeFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = '';
-            $conf['geotargeting']['geoipCityLocation'] = '';
-            $conf['geotargeting']['geoipAreaLocation'] = '';
-            $conf['geotargeting']['geoipDmaLocation'] = $dmaCodeFile;
-            $conf['geotargeting']['geoipOrgLocation'] = '';
-            $conf['geotargeting']['geoipIspLocation'] = '';
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = $dmaCodeFile;
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertEqual($result['country_code'], 'US');
             $this->assertEqual($result['region'], 'NY');
             $this->assertEqual($result['city'], 'Homer');
@@ -231,22 +218,22 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['netspeed']);
         }
     }
-    function testGetInfo_OrgDb()
+    function testGetGeoInfo_OrgDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test with a supplied GeoIP Organisation database
-        $orgFile = $conf['geotargeting']['geoipOrgLocation'];
+        $orgFile = $conf['oxMaxMindGeoIP']['geoipOrgLocation'];
         if (file_exists($orgFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = '';
-            $conf['geotargeting']['geoipCityLocation'] = '';
-            $conf['geotargeting']['geoipAreaLocation'] = '';
-            $conf['geotargeting']['geoipDmaLocation'] = '';
-            $conf['geotargeting']['geoipOrgLocation'] = $orgFile;
-            $conf['geotargeting']['geoipIspLocation'] = '';
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = $orgFile;
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertequal($result['country_code'], 'US');
             $this->assertNull($result['region']);
             $this->assertNull($result['city']);
@@ -261,22 +248,22 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         }
     }
     // Note: ISP database populates organisation field and this is what's tested by delivery
-    function testGetInfo_IspDb()
+    function testGetGeoInfo_IspDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test with a supplied GeoIP ISP database
-        $ispFile = $conf['geotargeting']['geoipIspLocation'];
+        $ispFile = $conf['oxMaxMindGeoIP']['geoipIspLocation'];
         if (file_exists($ispFile)) {
-            $conf['geotargeting']['geoipCountryLocation'] = '';
-            $conf['geotargeting']['geoipRegionLocation'] = '';
-            $conf['geotargeting']['geoipCityLocation'] = '';
-            $conf['geotargeting']['geoipAreaLocation'] = '';
-            $conf['geotargeting']['geoipDmaLocation'] = '';
-            $conf['geotargeting']['geoipOrgLocation'] = '';
-            $conf['geotargeting']['geoipIspLocation'] = $ispFile;
-            $conf['geotargeting']['geoipNetspeedLocation'] = '';
-            $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+            $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipDmaLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipOrgLocation'] = '';
+            $conf['oxMaxMindGeoIP']['geoipIspLocation'] = $ispFile;
+            $conf['oxMaxMindGeoIP']['geoipNetspeedLocation'] = '';
+            $result = Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo(false);
             $this->assertequal($result['country_code'], 'US');
             $this->assertNull($result['region']);
             $this->assertNull($result['city']);

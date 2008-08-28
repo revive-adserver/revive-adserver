@@ -95,7 +95,7 @@ class OX_Component
 
     function _isEnabledComponent($extension, $group, $component)
     {
-        $aRefactoredExtensions = array('deliveryLimitations', 'bannerTypeHtml', 'bannerTypeText', 'deliveryCacheStore');
+        $aRefactoredExtensions = array('deliveryLimitations', 'bannerTypeHtml', 'bannerTypeText', 'deliveryCacheStore', 'geoTargeting');
         if (in_array($extension, $aRefactoredExtensions))
         {
             $aConf = $GLOBALS['_MAX']['CONF'];

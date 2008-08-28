@@ -1,4 +1,4 @@
-<?php // $Revision: 3830 $
+<?php
 
 /*
 +---------------------------------------------------------------------------+
@@ -22,11 +22,82 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: GeoIP.delivery.php 18872 2008-04-15 11:48:59Z chris.nutting@openx.org $
 */
 
 
-function OA_Geo_GeoIP_getGeo($addr, $db)
+/**
+ * Get the geo-information for this IP address using the GeoIP plugin
+ *
+ * @param boolean $useCookie Reading geo-information from the cookie enabled
+ * @return array An array(
+ *                  'country_code',
+ *                  'region',
+ *                  'city',
+ *                  'postal_code',
+ *                  'latitude',
+ *                  'longitude',
+ *                  'dma_code',
+ *                  'area_code',
+ *                  'organisation',
+ *                  'isp',
+ *                  'netspeed'
+ *              );
+ */
+function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($useCookie = true)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Try and read the data from the geo cookie...
+    if ($useCookie && isset($_COOKIE[$conf['var']['viewerGeo']])) {
+        $ret = _unpackGeoCookie($_COOKIE[$conf['var']['viewerGeo']]);
+        if ($ret !== false) {
+            return $ret;
+        }
+    }
+
+    if (isset($GLOBALS['_MAX']['GEO_IP'])) {
+        $ip   = $GLOBALS['_MAX']['GEO_IP'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    $aGeoConf = (is_array($conf['oxMaxMindGeoIP'])) ? $conf['oxMaxMindGeoIP'] : array();
+
+    $ret = array();
+    foreach ($aGeoConf as $key => $db) {
+        if ((substr($key, 0, 5) == 'geoip') && !empty($db) && is_readable($db)) {
+            $geo = oxMaxMind_getGeo($ip, $db);
+            foreach ($geo as $feature => $value) {
+                if (!empty($value)) {
+                    $ret[$feature] = $geo[$feature];
+                }
+            }
+        }
+    }
+
+    if (empty($ret['country_code']) && empty($aGeoConf['geoipCountryLocation'])) {
+        $geo = oxMaxMind_getGeo($ip, dirname(__FILE__) . '/data/FreeGeoIPCountry.dat');
+        foreach ($geo as $feature => $value) {
+            if (!empty($value) && empty($ret[$feature])) {
+                $ret[$feature] = $geo[$feature];
+            }
+        }
+    }
+
+    // The data comes out of the MaxMind .dat file in ISO-8859-1 encoding, convert this to UTF-8
+    foreach ($ret as $key => $value) {
+        $ret[$key] = MAX_commonConvertEncoding($value, 'UTF-8', 'ISO-8859-1');
+    }
+
+    // Store this information in the cookie for later use
+    if ($useCookie) {
+        MAX_cookieAdd($conf['var']['viewerGeo'], _packGeoCookie($ret));
+    }
+
+    return $ret;
+}
+
+function oxMaxMind_getGeo($addr, $db)
 {
     if ($db == '')
         return false;
@@ -37,7 +108,7 @@ function OA_Geo_GeoIP_getGeo($addr, $db)
     {
         $continent = false;
 
-        $res = OA_Geo_GeoIP_seek($fp, $ipnum);
+        $res = _oxMaxMind_seek($fp, $ipnum);
 
         if (!is_array($res))
             return false;
@@ -76,12 +147,9 @@ function OA_Geo_GeoIP_getGeo($addr, $db)
         return false;
 }
 
-
-
-
 /* PRIVATE FUNCTIONS */
 
-function OA_Geo_GeoIP_get_defaults()
+function _oxMaxMind_getDefaults()
 {
     return array(
         'COUNTRY_BEGIN'             => 16776960,
@@ -123,10 +191,10 @@ function OA_Geo_GeoIP_get_defaults()
     );
 }
 
-function OA_Geo_GeoIP_get_info($fp)
+function _oxMaxMind_getGeoInfo($fp)
 {
     // Default variables
-    extract(OA_Geo_GeoIP_get_defaults());
+    extract(_oxMaxMind_getDefaults());
 
     /* default to GeoIP Country Edition */
     $databaseType = $GEOIP_COUNTRY_EDITION;
@@ -207,14 +275,12 @@ function OA_Geo_GeoIP_get_info($fp)
     );
 }
 
-
-
-function OA_Geo_GeoIP_seek($fp, $ipnum)
+function _oxMaxMind_seek($fp, $ipnum)
 {
     // Default variables
-    extract(OA_Geo_GeoIP_get_defaults());
+    extract(_oxMaxMind_getDefaults());
 
-    $aPluginConf = OA_Geo_GeoIP_get_info($fp);
+    $aPluginConf = _oxMaxMind_getGeoInfo($fp);
     if (is_array($aPluginConf)) {
         extract($aPluginConf);
     }
@@ -508,5 +574,56 @@ function OA_Geo_GeoIP_seek($fp, $ipnum)
     );
 }
 
+function _packGeoCookie($data = array())
+{
+    $aGeoInfo = array (
+            'country_code'  => '',
+            'region'        => '',
+            'city'          => '',
+            'postal_code'   => '',
+            'latitude'      => '',
+            'longitude'     => '',
+            'dma_code'      => '',
+            'area_code'     => '',
+            'organisation'  => '',
+            'isp'           => '',
+            'netspeed'      => ''
+    );
+
+    return join('|', array_merge($aGeoInfo, $data));
+}
+
+function _unpackGeoCookie($string = '')
+{
+    $aGeoInfo = array (
+            'country_code'  => '',
+            'region'        => '',
+            'city'          => '',
+            'postal_code'   => '',
+            'latitude'      => '',
+            'longitude'     => '',
+            'dma_code'      => '',
+            'area_code'     => '',
+            'organisation'  => '',
+            'isp'           => '',
+            'netspeed'      => ''
+    );
+
+    $aPieces = explode('|', $string);
+    if (count($aPieces) == count($aGeoInfo)) {
+        $i = 0;
+        foreach (array_keys($aGeoInfo) as $key) {
+            if (!empty($aPieces[$i])) {
+                $aGeoInfo[$key] = $aPieces[$i++];
+            } else {
+                unset($aGeoInfo[$key]);
+            }
+        }
+    } else {
+        return false;
+    }
+
+    return $aGeoInfo;
+}
 
 ?>

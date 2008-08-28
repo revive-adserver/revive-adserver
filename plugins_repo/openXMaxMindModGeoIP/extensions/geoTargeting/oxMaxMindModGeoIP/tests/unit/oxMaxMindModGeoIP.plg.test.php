@@ -22,10 +22,10 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: ModGeoIP.plg.test.php 19480 2008-04-25 16:16:50Z andrew.hill@openx.org $
 */
 
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/oxMaxMindModGeoIP.delivery.php';
 
 /**
  * A class for testing the Plugins_Geotargeting_ModGeoIP_ModGeoIP class.
@@ -46,20 +46,9 @@ class Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIP extends UnitTestCase
     }
 
     /**
-     * Test the getModuleInfo method.
+     * Test the getGeoInfo method.
      */
-    function testGetModuleInfo()
-    {
-        $this->assertEqual(
-            MAX_Plugin::callStaticMethod('geotargeting', 'ModGeoIP', 'ModGeoIP', 'getModuleInfo'),
-            'MaxMind mod_apache GeoIP'
-        );
-    }
-
-    /**
-     * Test the getInfo method.
-     */
-    function testGetInfo()
+    function testGetGeoInfo()
     {
         // Test the old style database codes
         $_SERVER['GEOIP_COUNTRY_CODE']  = 'Test Country';
@@ -74,7 +63,7 @@ class Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIP extends UnitTestCase
         $_SERVER['GEOIP_ORGANIZATION']  = 'Test Org';
         $_SERVER['GEOIP_NETSPEED']      = 'Test Speed';
 
-        $result = MAX_Plugin::callStaticMethod('geotargeting', 'ModGeoIP', 'ModGeoIP', 'getInfo');
+        $result = Plugin_geoTargeting_oxMaxMindModGeoIP_oxMaxMindModGeoIP_Delivery_getGeoInfo();
 
         $this->assertEqual($result['country_code'], 'Test Country');
         $this->assertEqual($result['country_name'], 'Test Name');
@@ -113,7 +102,7 @@ class Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIP extends UnitTestCase
         $_SERVER['GEOIP_ORGANIZATION']       = 'Test Org';
         $_SERVER['GEOIP_NETSPEED']           = 'Test Speed';
 
-        $result = MAX_Plugin::callStaticMethod('geotargeting', 'ModGeoIP', 'ModGeoIP', 'getInfo');
+        $result = Plugin_geoTargeting_oxMaxMindModGeoIP_oxMaxMindModGeoIP_Delivery_getGeoInfo();
 
         $this->assertEqual($result['country_code'], 'Test Country');
         $this->assertEqual($result['country_name'], 'Test Name');

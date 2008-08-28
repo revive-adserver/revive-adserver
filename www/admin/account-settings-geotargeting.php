@@ -70,110 +70,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-        // Write out the plugin settings configuration file(s)
-        phpAds_registerGlobal(
-            'geotargeting_type'
-        );
-        if ($geotargeting_type != 'none') {
-            $oSettings = new OA_Admin_Settings();
-            phpAds_registerGlobal(
-                'geotargeting_geoipCountryLocation',
-                'geotargeting_geoipRegionLocation',
-                'geotargeting_geoipCityLocation',
-                'geotargeting_geoipAreaLocation',
-                'geotargeting_geoipDmaLocation',
-                'geotargeting_geoipOrgLocation',
-                'geotargeting_geoipIspLocation',
-                'geotargeting_geoipNetspeedLocation'
-            );
-            if (isset($geotargeting_geoipCountryLocation) && ($geotargeting_geoipCountryLocation != '')) {
-                if (is_readable($geotargeting_geoipCountryLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipCountryLocation', $geotargeting_geoipCountryLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipCountryLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipCountryLocation', '');
-            }
-            if (isset($geotargeting_geoipRegionLocation) && ($geotargeting_geoipRegionLocation != '')) {
-                if (is_readable($geotargeting_geoipRegionLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipRegionLocation', $geotargeting_geoipRegionLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipRegionLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipRegionLocation', '');
-            }
-            if (isset($geotargeting_geoipCityLocation) && ($geotargeting_geoipCityLocation != '')) {
-                if (is_readable($geotargeting_geoipCityLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipCityLocation', $geotargeting_geoipCityLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipCityLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipCityLocation', '');
-            }
-            if (isset($geotargeting_geoipAreaLocation) && ($geotargeting_geoipAreaLocation != '')) {
-                if (is_readable($geotargeting_geoipAreaLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipAreaLocation', $geotargeting_geoipAreaLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipAreaLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipAreaLocation', '');
-            }
-            if (isset($geotargeting_geoipDmaLocation) && ($geotargeting_geoipDmaLocation != '')) {
-                if (is_readable($geotargeting_geoipDmaLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipDmaLocation', $geotargeting_geoipDmaLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipDmaLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipDmaLocation', '');
-            }
-            if (isset($geotargeting_geoipOrgLocation) && ($geotargeting_geoipOrgLocation != '')) {
-                if (is_readable($geotargeting_geoipOrgLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipOrgLocation', $geotargeting_geoipOrgLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipOrgLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipOrgLocation', '');
-            }
-            if (isset($geotargeting_geoipIspLocation) && ($geotargeting_geoipIspLocation != '')) {
-                if (is_readable($geotargeting_geoipIspLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipIspLocation', $geotargeting_geoipIspLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipIspLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipIspLocation', '');
-            }
-            if (isset($geotargeting_geoipNetspeedLocation) && ($geotargeting_geoipNetspeedLocation != '')) {
-                if (is_readable($geotargeting_geoipNetspeedLocation)) {
-                    $oSettings->settingChange('geotargeting', 'geoipNetspeedLocation', $geotargeting_geoipNetspeedLocation);
-                } else {
-                    $aErrormessage[0][] = $strGeotrackingGeoipNetspeedLocationError;
-                }
-            } else {
-                $oSettings->settingChange('geotargeting', 'geoipNetspeedLocation', '');
-            }
-
-        }
-        if (!count($aErrormessage)) {
-            $oConfigFileName = MAX_Plugin::getConfigFileName('geotargeting', $geotargeting_type);
-            if (!file_exists($oConfigFileName)) {
-                MAX_Plugin::copyDefaultConfig('geotargeting', $geotargeting_type);
-            }
-            if ($geotargeting_type != 'none' && !$oSettings->writeConfigChange()) {
-                // Unable to write the config file out
-                $aErrormessage[0][] = $strUnableToWriteConfig;
-            } else {
-                // The settings configuration files were written correctly,
-                // go to the "next" settings page from here
-                OX_Admin_Redirect::redirect('account-settings-maintenance.php');
-            }
-        }
+        // The settings configuration files were written correctly,
+        // go to the "next" settings page from here
+        OX_Admin_Redirect::redirect('account-settings-maintenance.php');
     } else {
         // Could not write the settings configuration file, store this
         // error message and continue
@@ -187,6 +86,14 @@ phpAds_PageHeader('account-settings-index');
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection("geotargeting");
 
+$aComponents = OX_Component::getComponents('geoTargeting');
+$aComponentItems = array('none' => $strNone);
+foreach ($aComponents as $name => $oComponent) {
+    if ($oComponent->enabled) {
+        $aComponentItems[$oComponent->getComponentIdentifier()] = $oComponent->getName();
+    }
+}
+
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
@@ -197,87 +104,7 @@ $aSettings = array (
                 'type'    => 'select',
                 'name'    => 'geotargeting_type',
                 'text'    => $strGeotargetingType,
-                'items'   => MAX_Admin_Geotargeting::AvailableGeotargetingModes()
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipCountryLocation',
-                'text'    => $strGeotargetingGeoipCountryLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipRegionLocation',
-                'text'    => $strGeotargetingGeoipRegionLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipCityLocation',
-                'text'    => $strGeotargetingGeoipCityLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipAreaLocation',
-                'text'    => $strGeotargetingGeoipAreaLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipDmaLocation',
-                'text'    => $strGeotargetingGeoipDmaLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipOrgLocation',
-                'text'    => $strGeotargetingGeoipOrgLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipIspLocation',
-                'text'    => $strGeotargetingGeoipIspLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'geotargeting_geoipNetspeedLocation',
-                'text'    => $strGeotargetingGeoipNetspeedLocation,
-                'size'    => 35,
-                'depends' => 'geotargeting_type==1'
+                'items'   => $aComponentItems
             ),
             array (
                 'type'    => 'break'
@@ -286,7 +113,6 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'geotargeting_saveStats',
                 'text'    => $strGeoSaveStats,
-                'depends' => 'geotargeting_type==1 || geotargeting_type==2'
             ),
             array (
                 'type'    => 'break'
@@ -295,7 +121,6 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'geotargeting_showUnavailable',
                 'text'    => $strGeoShowUnavailable,
-                'depends' => 'geotargeting_type==1 || geotargeting_type==2'
             )
         )
     )

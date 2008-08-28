@@ -46,17 +46,17 @@ MAX_remotehostSetGeoInfo();
  */
 
 // Register the geotargeting information if necessary
-if (!isset($GLOBALS['_MAX']['GEO_DATA'])) {
-    $oGeoPlugin = MAX_Plugin::factoryPluginByModuleConfig('geotargeting');
+if (!isset($GLOBALS['_MAX']['GEO_DATA']) && (!empty($conf['geotargeting']['type']) && $conf['geotargeting']['type'] != 'none')) {
+    $oGeoComponent = OX_Component::factoryByComponentIdentifier($conf['geotargeting']['type']);
     // Get geotargeting info
-    if ($oGeoPlugin) {
+    if ($oGeoComponent) {
     	// Set the geotargeting IP to the fixed test address
         // (IP Address used to determine which (if any) MaxMind databases are installed)
     	$GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
     	// Get the geotargeting config
     	$geoTargetingType = $oGeoPlugin->name;
     	// Look up the Geotargeting data
-        $GLOBALS['_MAX']['GEO_DATA'] = $oGeoPlugin->getInfo();
+        $GLOBALS['_MAX']['GEO_DATA'] = $oGeoComponent->getGeoInfo();
     }
 }
 

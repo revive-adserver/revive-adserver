@@ -22,33 +22,31 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: GeoIP.plugin.php 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
-require_once MAX_PATH . '/plugins/geotargeting/Geotargeting.php';
-require_once(MAX_PATH . '/plugins/geotargeting/ModGeoIP/ModGeoIP.delivery.php');
+require_once dirname(__FILE__) . '/oxMaxMindGeoIP.delivery.php';
 
 /**
- * Class to get GeoTargeting information from the MaxMind LLC database file,
- * after the lookup has been performed via the C/mod_apache interface.
+ * Class to get GeoTargeting information directly from the MaxMind LLC
+ * database file, without having it accessed via the C/mod_apache
+ * interface.
  *
- * @static
  * @package    OpenXPlugin
- * @subpackage Geotargeting
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Radek Maciaszek <radek@m3.net>
+ * @subpackage GeoTargeting
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
-class Plugins_Geotargeting_ModGeoIP_ModGeoIP extends Plugins_Geotargeting
+class Plugins_GeoTargeting_oxMaxMindGeoIP_OxMaxMindGeoIP extends OX_Component
 {
 
     /**
-     * A method to return information about the class.
+     * Return plugin name
      *
      * @return string A string describing the class.
      */
-    function getModuleInfo()
+    function getName()
     {
-        return 'MaxMind mod_apache GeoIP';
+        return 'OpenX MaxMind (Flat file)';
     }
 
     /**
@@ -58,9 +56,9 @@ class Plugins_Geotargeting_ModGeoIP_ModGeoIP extends Plugins_Geotargeting
      * @return array An array that will contain the results of the
      *               GeoTargeting lookup.
      */
-    function getInfo()
+    function getGeoInfo($useCookie = false)
     {
-        return OA_Geo_ModGeoIP_getInfo();
+        return Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($useCookie);
     }
 }
 
