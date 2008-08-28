@@ -42,9 +42,22 @@ $Id$
         <div class="widgetOverlayRight">&nbsp;</div>
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent" style="text-align: center">
-                <h1 style="margin-top: 70px">Dashboard Error</h1>
+                <h1 style="margin-top: 30px">Dashboard Error</h1>
                 <p style="color: red">
-                    {$errorMessage|escape} (code: {$errorCode})
+                    {$errorMessage|escape} ({t str=DashboardErrorCode}: {$errorCode})
+                </p>
+                {if $systemMessage}
+                    <p>
+                    {t str=DashboardSystemMessage}: {$systemMessage|escape}
+                    </p>
+                {/if}
+                {if $errorDescription}
+	                <p style="text-align: justify">
+	                {$errorDescription}
+	                </p>
+	            {/if}
+                <p style="text-align: justify">
+                {t str=DashboardErrorHelp}
                 </p>
             </div>
         </div>

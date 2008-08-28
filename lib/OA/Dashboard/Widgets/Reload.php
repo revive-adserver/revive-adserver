@@ -95,20 +95,28 @@ class OA_Dashboard_Widget_Reload extends OA_Dashboard_Widget
 
         $oTpl = new OA_Admin_Template('dashboard/error.html');
 
-        $aErrors = array(
-            -1 => 'Test'
-        );
-
-        $errorMessage = $oError->getMessage();
-
-        if (isset($aErrors[$oError->getCode()])) {
-            $errorMessage = $aErrors[$oError->getCode()];
-        } elseif (empty($errorMessage)) {
-            $errorMessage = 'Generic error';
+        $errorCode = $oError->getCode();
+        $nativeErrorMessage = $oError->getMessage();
+        
+        // Set error message
+        if (isset($GLOBALS['strDashboardErrorMsg'.$errorCode])) {
+            $errorMessage = $GLOBALS['strDashboardErrorMsg'.$errorCode];
+        } else if (!empty($nativeErrorMessage)) {
+            $errorMessage = $nativeErrorMessage;
+            // Don't show this message twice on error page
+            unset($nativeErrorMessage); 
+        } else {
+            $errorMessage = $GLOBALS['strDashboardGenericError'];
+        }
+        // Set error description
+        if (isset($GLOBALS['strDashboardErrorDsc'.$errorCode])) {
+            $errorDescription = $GLOBALS['strDashboardErrorDsc'.$errorCode];
         }
 
-        $oTpl->assign('errorCode', $oError->getCode());
+        $oTpl->assign('errorCode', $errorCode);
         $oTpl->assign('errorMessage', $errorMessage);
+        $oTpl->assign('systemMessage', $nativeErrorMessage);
+        $oTpl->assign('errorDescription', $errorDescription);
 
         $oTpl->display();
     }
