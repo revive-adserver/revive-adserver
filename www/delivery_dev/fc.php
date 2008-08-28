@@ -26,42 +26,37 @@ $Id$
 */
 
 /**
- * Front controller for invocationTags plugins
+ * This script allows a delivery script to be included by the delivery engine
+ * without requiring write access to be provided into the www/delivery folder
  *
- * Thanks to this file you could create the invocationTag plugin and put all the files
- * only under plugins folder.
- *
- * Create the invocation tag plugin. Put delivery code into yourTagName.delivery.php file
- * in plugins/invocationTags/yourTagName folder
- * To run this file point invocation code to
- * http://serverName/delivery/fc.php?MMM_tagName=yourTagName&andAnyOtherCustomOptions=someValues
+ * The the plugin-component identifier should be passed into this script via the
+ * ?script= $_GET parameter (along with any other $_GET values that may be
+ * required for the script to execute)
  *
  */
+
+if (empty($_GET['script'])) {
+    // Don't generate any output when no script name is passed in, just silently fail
+    exit(1);
+}
 
 // Require the initialisation file
 include_once '../../init-delivery.php';
 
-/**
- * Invocation tag (plugin) name
- */
-$MAX_PLUGINS_AD_PLUGIN_NAME = 'MAX_type';
+// Strip out any '../' from the passed in script value to try and prevent directory traversal attacks
+$script = str_replace('../', '', $_GET['script']);
+$aPluginId = explode(':', $script);
 
-if(!isset($_GET[$MAX_PLUGINS_AD_PLUGIN_NAME])) {
-    echo $MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified';
+$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
+
+if (!is_readable($scriptFileName) || !is_file($scriptFileName)) {
+    if (empty($conf['debug']['production'])) {
+        echo "Unable to find delivery script ({$scriptFileName}) for specified plugin-component-identifier: {$script}";
+    }
     exit(1);
 }
 
-$tagName = $_GET[$MAX_PLUGINS_AD_PLUGIN_NAME];
-$tagFileName = MAX_PATH . '/plugins/invocationTags/'.$tagName.'/'.$tagName.'.delivery.php';
-
-if(!file_exists($tagFileName)) {
-    echo 'Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists';
-    exit(1);
-}
-
-// include plugin specific delivery script
-// (we are not using MAX_Plugin interface for it because it has to be as fast as possible)
-include $tagFileName;
-
+// Include the delivery script for the specified plugin-component identifier
+include $scriptFileName;
 
 ?>
