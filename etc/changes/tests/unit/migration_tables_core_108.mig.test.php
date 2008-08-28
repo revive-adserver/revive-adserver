@@ -123,7 +123,7 @@ class Migration_tables_core_108Test extends MigrationTest
     function checkGeoIp(&$migration, $host)
     {
         $geotracking_type = 'geoip';
-        $geotracking_location = MAX_PATH . '/plugins/geotargeting/GeoIP/data/FreeGeoIPCountry.dat';
+        $geotracking_location = MAX_PATH . '/plugins_repo/openXMaxMindGeoIP/extensions/geoTargeting/oxMaxMindGeoIP/data/FreeGeoIPCountry.dat';
         $geotracking_stats = true;
         $geotracking_conf = '';
 

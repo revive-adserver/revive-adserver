@@ -450,7 +450,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the getConfigByFileName() method.
      */
-    function testGetConfigByFileName()
+    function deprecated_testGetConfigByFileName()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
