@@ -43,22 +43,24 @@ $Id$
  *
  */
 
+if (empty($_GET['script'])) {
+// Don't generate any output when no script name is passed in, just silently fail
+exit(1);
+}
 // Require the initialisation file
 include_once '../../init-delivery.php';
-$MAX_PLUGINS_AD_PLUGIN_NAME = 'MAX_type';
-if(!isset($_GET[$MAX_PLUGINS_AD_PLUGIN_NAME])) {
-echo $MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified';
+// Strip out any '../' from the passed in script value to try and prevent directory traversal attacks
+$script = str_replace('../', '', $_GET['script']);
+$aPluginId = explode(':', $script);
+$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
+if (!is_readable($scriptFileName) || !is_file($scriptFileName)) {
+if (empty($conf['debug']['production'])) {
+echo "Unable to find delivery script ({$scriptFileName}) for specified plugin-component-identifier: {$script}";
+}
 exit(1);
 }
-$tagName = $_GET[$MAX_PLUGINS_AD_PLUGIN_NAME];
-$tagFileName = MAX_PATH . '/plugins/invocationTags/'.$tagName.'/'.$tagName.'.delivery.php';
-if(!file_exists($tagFileName)) {
-echo 'Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists';
-exit(1);
-}
-// include plugin specific delivery script
-// (we are not using MAX_Plugin interface for it because it has to be as fast as possible)
-include $tagFileName;
+// Include the delivery script for the specified plugin-component identifier
+include $scriptFileName;
 
 
 ?>
