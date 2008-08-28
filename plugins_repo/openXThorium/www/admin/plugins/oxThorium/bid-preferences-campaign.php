@@ -33,7 +33,9 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 /*-------------------------------------------------------*/
 /* SECURITY CHECK                                        */
 /*-------------------------------------------------------*/
-
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccessToObject ( 'clients', $clientid );
+OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid, true );
 
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
