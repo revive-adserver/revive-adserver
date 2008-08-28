@@ -61,7 +61,11 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
         $this->postTaskFile     = MAX_PATH.$pluginPath.'TASKS.php';*/
 
         $this->initDatabaseConnection();
-        $this->oLogger->setLogFile($this->aComponentGroup['name'].'_upgrade.log');
+        if (!file_exists(MAX_PATH.'/var/plugins/log'))
+        {
+            @mkdir(MAX_PATH.'/var/plugins/log');
+        }
+        $this->oLogger->setLogFile('plugins/log/'.$this->aComponentGroup['name'].'_upgrade.log');
     }
 
     function canUpgrade()
