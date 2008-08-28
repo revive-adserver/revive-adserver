@@ -304,6 +304,16 @@ function phpAds_sqlDie()
 
 function phpAds_Die($title="Error", $message="Unknown error")
 {
+    if (defined('OA_WEBSERVICES_API_XMLRPC')) {
+        // It's an XML-RPC response
+        if (class_exists('XmlRpcUtils')) {
+            $oResponse = XmlRpcUtils::generateError( $message );
+        } else {
+            $oResponse = new XML_RPC_Response('', 99999, $message);
+        }
+        echo $oResponse->serialize();
+        exit;
+    }
     $conf = $GLOBALS['_MAX']['CONF'];
     global $phpAds_GUIDone, $phpAds_TextDirection;
 
