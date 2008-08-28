@@ -198,7 +198,7 @@ class OX_PluginExport
                 }
             }
         }
-        return ($aResult ? $aResult : true);
+        return ($aResult ? $aResult : array(0=>'plugin has no tables to backup'));
     }
 
     function _compressFiles($name)

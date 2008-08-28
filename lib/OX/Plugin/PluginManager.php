@@ -198,7 +198,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return $aParsed;
     }
 
-    function installPackageCodeOnly()
+    function installPackageCodeOnly($aFile)
     {
         $aParsed = $this->unpackPlugin($aFile);
         if (!$aParsed)
@@ -207,17 +207,20 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         foreach ($aParsed['plugins'] as $aGroup)
         {
-            $aSchema = $aGroup['install']['schema'];
-            $name    = $aGroup['name'];
-            if (!$this->_putDataObjects($name, $aSchema))
+            if (!empty($aGroup['install']['schema']['dataobjects']))
             {
-                $this->_logError('Failed to copy dataobject classes for '.$name);
-                return false;
-            }
-            if (!$this->_cacheDataObjects($name, $aSchema))
-            {
-                $this->_logError('Failed to merge dataobject schema for '.$name);
-                return false;
+                $aSchema = $aGroup['install']['schema'];
+                $name    = $aGroup['name'];
+                if (!$this->_putDataObjects($name, $aSchema))
+                {
+                    $this->_logError('Failed to copy dataobject classes for '.$name);
+                    return false;
+                }
+                if (!$this->_cacheDataObjects($name, $aSchema))
+                {
+                    $this->_logError('Failed to merge dataobject schema for '.$name);
+                    return false;
+                }
             }
         }
         return true;
