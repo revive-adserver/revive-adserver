@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxThorium</name>
+  <version>001</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>deliveryAdRender</name>
+      <version>001</version>
+      <add>
+        <table>
+        <name>ext_thorium_campaign_pref</name>
+        <was>ext_thorium_campaign_pref</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>oxThorium</name>
+    <version>001</version>
+  </changeset>
+</destructive>
+</instructionset>

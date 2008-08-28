@@ -82,6 +82,13 @@
 
         </configuration>
 
+        <schema>
+            <mdb2schema>tables_oxThorium</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Ext_thorium_campaign_pref.php</dataobject>
+        </schema>
+
     </install>
 
 </plugin>

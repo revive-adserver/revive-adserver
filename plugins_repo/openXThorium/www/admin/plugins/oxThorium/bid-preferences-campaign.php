@@ -31,6 +31,11 @@ require_once 'bid-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
 /*-------------------------------------------------------*/
+/* SECURITY CHECK                                        */
+/*-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 //build form
@@ -38,7 +43,7 @@ $marketplaceForm = buildForm($clientid, $campaignid);
 
 if ($marketplaceForm->validate()) {
     //process submitted values
-    processForm($marketplaceForm);
+    processForm($marketplaceForm, $campaignId);
 }
 displayPage($clientId, $campaignId, $marketplaceForm);
 
@@ -48,23 +53,33 @@ displayPage($clientId, $campaignId, $marketplaceForm);
 /*-------------------------------------------------------*/
 function buildForm($clientId, $campaignId)
 {
+    $oExt_thorium_campaign_pref = OA_Dal::factoryDO('ext_thorium_campaign_pref');
+    $aFields = array(
+        'is_enabled' => 'f',
+        'floor_price' => 0.1,
+    );
+    if ($oExt_thorium_campaign_pref->get($campaignId)) {
+        $aFields = array(
+            'is_enabled' => $oExt_thorium_campaign_pref->is_enabled ? 't' : 'f',
+            'floor_price' => $oExt_thorium_campaign_pref->floor_price,
+        );
+    }
+
     $form = new OA_Admin_UI_Component_Form("campaignmplaceform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'clientid', $clientId);
     $form->addElement('hidden', 'campaignid', $campaignId);
-    $form->addElement('advcheckbox', 'enable_mplace', null, 'Yes, allow this campaign to be challenged by MarketPlace', null, array("f", "t"));
+    $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', null, array("f", "t"));
     $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'style' => "margin-left: 5px;"));
 
 
     //Form validation rules
     $translation = new OA_Translation();
     $requiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array('Campaign floor price'));
-    $form->addRule('floor_price', $requiredMsg, 'required');    
-    
-    $aDefaults = array('enable_mplace' => 't', 'floor_price' => '5.5');
-    //set form  values
-    $form->setDefaults($aDefaults); //here we set current values of floor price and if campaign is enabled for marketplace 
+    $form->addRule('floor_price', $requiredMsg, 'required');
+
+    $form->setDefaults($aFields);
     return $form;
 }
 
@@ -74,9 +89,21 @@ function buildForm($clientId, $campaignId)
 /*-------------------------------------------------------*/
 function processForm($form)
 {
-    $aFields = $form->exportValues(); //this contains submitted values
-    
-    //this function is invoked only if validation was successful    
+    $aFields = $form->exportValues();
+    $oExt_thorium_campaign_pref = OA_Dal::factoryDO('ext_thorium_campaign_pref');
+    $oExt_thorium_campaign_pref->campaignid = $aFields['campaignid'];
+    $recordExist = false;
+    if ($oExt_thorium_campaign_pref->find()) {
+        $oExt_thorium_campaign_pref->fetch();
+        $recordExist = true;
+    }
+    $oExt_thorium_campaign_pref->is_enabled = $aFields['is_enabled'] == 't' ? 1 : 0;
+    $oExt_thorium_campaign_pref->floor_price = $aFields['floor_price'];
+    if ($recordExist) {
+        $oExt_thorium_campaign_pref->update();
+    } else {
+        $oExt_thorium_campaign_pref->insert();
+    }
 }
 
 
@@ -91,11 +118,5 @@ function displayPage($clientId, $campaignId, $form)
     $oTpl->display();
     phpAds_PageFooter();
 }
-
-
-
-
-
-
 
 ?>
