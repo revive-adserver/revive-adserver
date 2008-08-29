@@ -40,9 +40,9 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 class Plugins_BannerTypeHTML_oxHtml_genericHtml extends Plugins_BannerTypeHTML
 {
 
-    function buildForm(&$form, $bannerId)
+    function buildForm(&$form, $row)
     {
-        parent::buildForm($form, $bannerId);
+        parent::buildForm($form, $row);
     }
 
 }

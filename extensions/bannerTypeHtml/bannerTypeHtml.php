@@ -67,7 +67,7 @@ class Plugins_BannerTypeHTML extends OX_Component
      * @param object form
      * @param integer banner id
      */
-    function buildForm(&$form, $bannerId)
+    function buildForm(&$form, &$row)
     {
         $form->setAttribute("onSubmit", "return max_formValidateHtml(this.banner)");
         $header = $form->createElement('header', 'header_html', $GLOBALS['strHTMLBanner']." -  banner code");
@@ -109,7 +109,7 @@ class Plugins_BannerTypeHTML extends OX_Component
         $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'].":");
         $sizeG['height']->setSize(5);
 
-        if (!empty($bannerId)) {
+        if (!empty($row['bannerid'])) {
             $sizeG['height']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
             $sizeG['width']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
         }

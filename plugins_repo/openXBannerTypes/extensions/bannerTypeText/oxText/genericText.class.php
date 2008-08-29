@@ -49,9 +49,9 @@ class Plugins_BannerTypeText_oxText_genericText extends Plugins_BannerTypeText
         return 'OpenX Generic Text Banner';
     }
 
-    function buildForm(&$form, $bannerId)
+    function buildForm(&$form, &$row)
     {
-        parent::buildForm($form, $bannerId);
+        parent::buildForm($form, $row);
     }
 
 }
