@@ -33,8 +33,8 @@ require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheManager.php';
  *
  * To run tests installed delivery cache storage plugin is required.
  * Don't forget to set plugin enabled in test.conf.php
- * if [delivery] cacheStorePlugin = Extension/Group/Component   (e.g. deliveryCacheStore:oxFile:oxFile)
- * add to [pluginGroupComponents] entry: Group=1        (e.g. oxFile=1)
+ * if [delivery] cacheStorePlugin = Extension/Group/Component   (e.g. deliveryCacheStore:oxCacheFile:oxCacheFile)
+ * add to [pluginGroupComponents] entry: Group=1        (e.g. oxCacheFile=1)
  * 
  * If you want to run tests for memcached plugin you have to create [oxMemcached] section in test.conf 
  * and set memcachedServers parameter in this new section

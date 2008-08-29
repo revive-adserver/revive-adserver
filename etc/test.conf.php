@@ -134,7 +134,7 @@ xmlrpc                              = false
 
 [delivery]
 cacheExpire                         = 1200
-cacheStorePlugin              	    = deliveryCacheStore:oxFile:oxFile
+cacheStorePlugin              	    = deliveryCacheStore:oxCacheFile:oxCacheFile
 cachePath                           =
 acls                                = true
 obfuscate                           = false

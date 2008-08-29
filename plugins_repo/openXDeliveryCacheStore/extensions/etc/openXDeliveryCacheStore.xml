@@ -15,12 +15,12 @@
     <install>
 
         <contents>
-            <group name="oxFile"     >1</group>
+            <group name="oxCacheFile"     >1</group>
             <group name="oxMemcached">2</group>
         </contents>
 
         <register>
-            <extension type='deliveryCacheStore' group='oxFile'>oxFile</extension>
+            <extension type='deliveryCacheStore' group='oxCacheFile'>oxCacheFile</extension>
 
             <extension type='deliveryCacheStore' group='oxMemcached'>oxMemcached</extension>
         </register>

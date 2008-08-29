@@ -48,10 +48,10 @@ class Plugins_TestOfPlugins_openXDeliveryCacheStore extends UnitTestCase
         TestEnv::uninstallPluginPackage('openXDeliveryCacheStore');
     }
 
-    function test_oxFile_class()
+    function test_oxCacheFile_class()
     {
-        $oComponent = &OX_Component::factory('deliveryCacheStore', 'oxFile', 'oxFile');
-        $this->_assertClass($oComponent,'deliveryCacheStore', 'oxFile', 'oxFile');
+        $oComponent = &OX_Component::factory('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
+        $this->_assertClass($oComponent,'deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
     }
 
     function test_oxMemcached_class()

@@ -15,7 +15,7 @@
 
     <install>
         <files>
-            <file path="{PLUGINPATH}oxMemcached/">processSettings.php</file>
+            <file path="{GROUPPATH}/">processSettings.php</file>
 
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.class.php</file>
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.delivery.php</file>

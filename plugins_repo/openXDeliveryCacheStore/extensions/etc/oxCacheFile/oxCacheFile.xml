@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>oxFile</name>
+    <name>oxCacheFile</name>
     <creationDate>2008-07-21</creationDate>
     <author>Łukasz Wikierski</author>
     <authorEmail>lukasz.wikierski@openx.org</authorEmail>
@@ -15,18 +15,18 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.class.php</file>
-            <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.delivery.php</file>
+            <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/">oxCacheFile.class.php</file>
+            <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/">oxCacheFile.delivery.php</file>
 
-            <file path="{MODULEPATH}deliveryCacheStore/oxFile/_lang/">en.php</file>
+            <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/_lang/">en.php</file>
 
-            <file path="{PLUGINPATH}oxFile/">processSettings.php</file>
+            <file path="{GROUPPATH}/">processSettings.php</file>
         </files>
 
         <components>
            <component>
-                <name>oxFile</name>
-                <translations>{MODULEPATH}deliveryCacheStore/oxFile/_lang/</translations>
+                <name>oxCacheFile</name>
+                <translations>{MODULEPATH}deliveryCacheStore/oxCacheFile/_lang/</translations>
                 <hook>cacheStore</hook>
                 <hook>cacheRetrieve</hook>
            </component>

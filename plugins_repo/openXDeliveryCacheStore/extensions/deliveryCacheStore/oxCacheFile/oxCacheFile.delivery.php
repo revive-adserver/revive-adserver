@@ -36,8 +36,8 @@ $Id$
 /**
  * Make sure that the custom path is used if set
  */
-if (!empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
-    $GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['oxFile']['cachePath']).'/';
+if (!empty($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'])) {
+    $GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath']).'/';
 } else {
     $GLOBALS['OA_Delivery_Cache']['path'] = MAX_PATH.'/var/cache/';
 }
@@ -48,7 +48,7 @@ if (!empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
  * @param string $filename The name of file where cache entry is stored
  * @return mixed False on error, or array the cache content
  */
-function Plugin_deliveryCacheStore_oxFile_oxFile_Delivery_cacheRetrieve($filename) 
+function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve($filename) 
 {
     $cache_complete = false;
     $cache_contents = '';
@@ -70,7 +70,7 @@ function Plugin_deliveryCacheStore_oxFile_oxFile_Delivery_cacheRetrieve($filenam
  * @param array $cache_contents  The cache content
  * @return bool True if the entry was succesfully stored
  */
-function Plugin_deliveryCacheStore_oxFile_oxFile_Delivery_cacheStore($filename, $cache_contents)
+function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $cache_contents)
 {    
     if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
         return false;

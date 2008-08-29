@@ -24,14 +24,14 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
  * A class that deals with configuration settings for this group of components
  *
  */
-class oxFile_processSettings
+class oxCacheFile_processSettings
 {
 
     /**
@@ -45,14 +45,14 @@ class oxFile_processSettings
         // Store current values from config
         // overwrite it by tested ones
         $storeSettings = array();
-        if (isset($GLOBALS['oxFile_cachePath'])) {
-            $storeSettings['cachePath'] = $GLOBALS['_MAX']['CONF']['oxFile']['cachePath'];
-            $GLOBALS['_MAX']['CONF']['oxFile']['cachePath'] = $GLOBALS['oxFile_cachePath'];
+        if (isset($GLOBALS['oxCacheFile_cachePath'])) {
+            $storeSettings['cachePath'] = $GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'];
+            $GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'] = $GLOBALS['oxCacheFile_cachePath'];
         }
         
         // Use file plugin getStatus function to validate
-        $oPlgOxFile = &OX_Component::factory('deliveryCacheStore', 'oxFile', 'oxFile');
-        $result = $oPlgOxFile->getStatus();
+        $oPlgoxCacheFile = &OX_Component::factory('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
+        $result = $oPlgoxCacheFile->getStatus();
         if ($result !== true) {
             $aErrorMessage[0] = $result;
             $result = false;
@@ -60,7 +60,7 @@ class oxFile_processSettings
 
         // Restore config values 
         foreach ($storeSettings as $key => $value) {
-            $GLOBALS['_MAX']['CONF']['oxFile'][$key] = $value;
+            $GLOBALS['_MAX']['CONF']['oxCacheFile'][$key] = $value;
         }
         
         return $result;

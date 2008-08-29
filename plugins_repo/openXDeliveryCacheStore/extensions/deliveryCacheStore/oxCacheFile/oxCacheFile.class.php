@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage DeliveryCacheStore
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_DeliveryCacheStore_oxFile_oxFile extends Plugins_DeliveryCacheStore
+class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_DeliveryCacheStore
 {
     /**
      * Return the name of plugin
