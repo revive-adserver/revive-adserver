@@ -22,6 +22,7 @@
 					    <arg value="a+rw"/>
 					    <arg value="${basedir}/../../../var"/>
 				 	</exec>
+								
 					&terms;
 					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
 					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
@@ -36,7 +37,7 @@
 					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
 					<clickButton label="Continue »"/>
 					
-
+<!--
 					<ifStep description="version tests">
 						<condition>
 							<verifyProperty description="Verify version no."
@@ -51,7 +52,7 @@
 							<clickButton label="Continue »"/>
 						</then>					
 					</ifStep>
-
+-->
 									
 					<clickButton label="Continue »"/>
 					<verifyText description="Check text on page:100%" text="100%" />
