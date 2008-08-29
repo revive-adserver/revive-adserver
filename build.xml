@@ -2,6 +2,7 @@
   <property name="test.conf.xml" value="devel.xml"/>
   <property name="dir.test.results" location="build/test-results"/>
   <property name="dir.test.reports" location="build/test-results"/>
+  <property name="origin" value=""/>
   <property file="devel.properties"/>
   <property file="etc/version.properties"/>
 
@@ -144,19 +145,25 @@
     <delete dir="${release.dir}" failonerror="false"/>
   </target>
 
-  <target name="package-bzip2" depends="prepare-distribution">
-    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
+  <target name="package-bzip2" depends="prepare-version-info">
+      <tar destfile="${dir.test.results}/${release}${origin}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
   </target>
 
-  <target name="package-gz" depends="prepare-distribution">
-    <tar destfile="${dir.test.results}/${release}.tar.gz" includes="${release}/**" basedir="${dir.test.results}" compression="gzip" longfile="gnu"/>
+  <target name="package-gz" depends="prepare-version-info">
+    <tar destfile="${dir.test.results}/${release}${origin}.tar.gz" includes="${release}/**" basedir="${dir.test.results}" compression="gzip" longfile="gnu"/>
   </target>
 
-  <target name="package-zip" depends="prepare-distribution">
-    <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
+  <target name="package-zip" depends="prepare-version-info">
+    <zip destfile="${dir.test.results}/${release}${origin}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip, clear-distribution"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip, clear-distribution"/>
+
+  <target name="write-origin-id" depends="prepare-version-info" if="originid">
+    <echo message="${originid}" file="${dir.test.results}/${release}/etc/origin.txt" append="no"/>
+  </target>
+
+  <target name="repackage" if="originid" depends="write-origin-id,package-bzip2,package-gz,package-zip"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
