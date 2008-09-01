@@ -89,8 +89,14 @@ Calendar.is_ie = ( /msie/i.test(navigator.userAgent) &&
 
 Calendar.is_ie5 = ( Calendar.is_ie && /msie 5\.0/i.test(navigator.userAgent) );
 
+/// detect IE 7 or greater
+Calendar.is_ie7up = ((/MSIE (\d+\.\d+);/.test(navigator.userAgent)) && parseInt(RegExp.$1)>6);
+
 /// detect Opera browser
 Calendar.is_opera = /opera/i.test(navigator.userAgent);
+
+/// detect Opera 9 or greater
+Calendar.is_opera9up = (Calendar.is_opera && parseInt(navigator.appVersion)>8);
 
 /// detect KHTML-based browsers
 Calendar.is_khtml = /Konqueror|Safari|KHTML/i.test(navigator.userAgent);
@@ -1489,7 +1495,11 @@ Calendar.prototype.hideShowCovered = function () {
 	var EY2 = el.offsetHeight + EY1;
 
 	for (var k = tags.length; k > 0; ) {
-		var ar = document.getElementsByTagName(tags[--k]);
+		// Not apply for select items in opera9 and ie7
+	    if ( tags[--k] == "select" && (Calendar.is_opera9up || Calendar.is_ie7up) )
+	       continue;
+		
+		var ar = document.getElementsByTagName(tags[k]);
 		var cc = null;
 
 		for (var i = ar.length; i > 0;) {
