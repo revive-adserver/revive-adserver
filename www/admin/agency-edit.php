@@ -124,7 +124,7 @@ function buildAgencyForm($aAgency)
     $aUnique_names = $doAgency->getUniqueValuesFromColumn('name', $aAgency['name']);
     $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strAgency'], strtolower($GLOBALS['strName'])));
-    $form->addRule('name', $nameUniqueMsg, 'unique', $unique_names);
+    $form->addRule('name', $nameUniqueMsg, 'unique', $aUnique_names);
 
     $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     $form->addRule('contact', $contactRequiredMsg, 'required');
