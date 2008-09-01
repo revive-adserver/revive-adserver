@@ -8,7 +8,7 @@ function Plugin_deliveryAdRender_oxIndium_beaconService_Delivery_postAdRender(&$
         $code = $html;
     }
     if (MAX_marketplaceNeedsIndium()) {
-        $code .= MAX_adRenderImageBeacon(MAX_commonGetDeliveryUrl('in.php'), 'indium_');
+        $code .= MAX_adRenderImageBeacon(MAX_commonGetDeliveryUrl('fc.php?script=deliveryAdRender:oxIndium:in'), 'indium_');
     }
 }
 

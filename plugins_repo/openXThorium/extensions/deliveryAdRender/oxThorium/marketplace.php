@@ -188,6 +188,15 @@ function MAX_Dal_Delivery_getCampaignThoriumInfo($campaignId)
     return OA_Dal_Delivery_fetchAssoc($res);
 }
 
+
+function MAX_cacheInvalidateGetCampaignThoriumInfo($campaignId)
+{
+    require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    $oCache = new OA_Cache_DeliveryCacheCommon();
+    $sName  = OA_Delivery_Cache_getName('MAX_cacheGetCampaignThoriumInfo', $campaignId);
+    return $oCache->invalidateFile($sName);
+}
+
 function MAX_cacheGetWebsiteThoriumInfo($websiteId, $cached = true)
 {
     $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $websiteId);
@@ -216,6 +225,14 @@ function MAX_Dal_Delivery_getWebsiteThoriumInfo($websiteId)
         return false;
     }
     return OA_Dal_Delivery_fetchAssoc($res);
+}
+
+function MAX_cacheInvalidateGetWebsiteThoriumInfo($websiteId)
+{
+    require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    $oCache = new OA_Cache_DeliveryCacheCommon();
+    $sName  = OA_Delivery_Cache_getName('MAX_cacheGetWebsiteThoriumInfo', $websiteId);
+    return $oCache->invalidateFile($sName);
 }
 
 ?>

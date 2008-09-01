@@ -29,6 +29,7 @@ $Id$
 
 require_once 'bid-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once OX_EXTENSIONS_PATH . '/deliveryAdRender/oxThorium/marketplace.php';
 
 /*-------------------------------------------------------*/
 /* SECURITY CHECK                                        */
@@ -55,15 +56,16 @@ displayPage($clientId, $campaignId, $marketplaceForm);
 /*-------------------------------------------------------*/
 function buildForm($clientId, $campaignId)
 {
+    $aConf = $GLOBALS['_MAX']['CONF'];
     $oExt_thorium_campaign_pref = OA_Dal::factoryDO('ext_thorium_campaign_pref');
     $aFields = array(
         'is_enabled' => 'f',
-        'floor_price' => 0.1,
+        'floor_price' => (float) $aConf['oxThorium']['defaultFloorPrice'],
     );
     if ($oExt_thorium_campaign_pref->get($campaignId)) {
         $aFields = array(
             'is_enabled' => $oExt_thorium_campaign_pref->is_enabled ? 't' : 'f',
-            'floor_price' => $oExt_thorium_campaign_pref->floor_price,
+            'floor_price' => (float) $oExt_thorium_campaign_pref->floor_price,
         );
     }
 
@@ -106,6 +108,12 @@ function processForm($form)
     } else {
         $oExt_thorium_campaign_pref->insert();
     }
+    // invalidate campaign-thorium delivery cache
+    MAX_cacheInvalidateGetCampaignThoriumInfo($aFields['campaignid']);
+
+    // redirect after submit
+    global $returnurl, $clientid, $campaignid;
+    Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$aFields['campaignid']}");
 }
 
 
