@@ -308,6 +308,7 @@ function _buildNavigation($accountType)
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", $GLOBALS['strBanners'], "campaign-banners.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/banners"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", $GLOBALS['strBannerProperties'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/editBanner"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", $GLOBALS['strUserAccess'], "advertiser-access.php?clientid={clientid}"));
+                    $oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", $GLOBALS['strUserProperties'], "advertiser-user.php?userid={userid}&clientid={clientid}"));
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php", false, "settings/prefrences"));
