@@ -280,7 +280,7 @@ phpAds_PageFooter();
 
 function addPageTools()
 {
-    addPageLinkTool($GLOBALS['strAddAgency_Key'], "zone-edit.php?affiliateid=$websiteId", "iconAdvertiserAdd", $GLOBALS["keyAddNew"] );
+    addPageLinkTool($GLOBALS['strAddAgency_Key'], "agency-edit.php", "iconAdvertiserAdd", $GLOBALS["keyAddNew"] );
 }
 
 ?>
