@@ -67,7 +67,7 @@ class OA_Admin_Menu
             $oPluginManager = & new OX_Plugin_ComponentGroupManager();
             $oPluginManager->mergeMenu($oMenu, $accountType);
             $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;
-            //$oMenu->_saveToCache($accountType);
+            $oMenu->_saveToCache($accountType);
         }
         // Filter against user-account-preferences...
         return $oMenu;
