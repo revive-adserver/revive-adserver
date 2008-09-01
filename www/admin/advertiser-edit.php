@@ -143,7 +143,7 @@ function buildAdvertiserForm($aAdvertiser)
             empty($aAdvertiser['clientid'])? '' : $aAdvertiser['clientname']);
         $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
             array($GLOBALS['strClient'], strtolower($GLOBALS['strName'])));
-        $form->addRule('clientname', $nameUniqueMsg, 'unique', $unique_names);
+        $form->addRule('clientname', $nameUniqueMsg, 'unique', $aUnique_names);
     }
 
 
