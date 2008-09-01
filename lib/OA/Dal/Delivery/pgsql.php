@@ -101,6 +101,16 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
 }
 
 /**
+ * The function to fetch a result from a database resource
+ *
+ * @param resource  The PgSQL resource
+ * @return array
+ */
+function OA_Dal_Delivery_fetchAssoc($resource) {
+    return pg_fetch_assoc($resource);
+}
+
+/**
  * The function to retrieve the last-insert-id from the database
  *
  * @param string $database The name of the database config to use
@@ -499,10 +509,12 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.session_capping AS session_cap_campaign,
             c.clientid AS client_id,
             m.advertiser_limitation AS advertiser_limitation,
-            a.account_id AS account_id
+            a.account_id AS account_id,
+            z.affiliateid AS affiliate_id
         FROM
             \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d JOIN
             \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az ON (d.bannerid = az.ad_id) JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['zones']}\" AS z ON (az.zone_id = z.zoneid) JOIN
             \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS c ON (c.campaignid = d.campaignid) LEFT JOIN
             \"{$conf['table']['prefix']}{$conf['table']['clients']}\" AS m ON (m.clientid = c.clientid) LEFT JOIN
             \"{$conf['table']['prefix']}{$conf['table']['agency']}\" AS a ON (a.agencyid = m.agencyid)
