@@ -25,13 +25,6 @@ $Id$
 -->*}
 {*debug*}
 
-{if $showAddBannerLink}
-    <img src='{$assetPath}/images/icon-banner-new.gif' border='0' align='absmiddle'>&nbsp; 
-    <a href='banner-edit.php?clientid={$clientid}&campaignid={$campaignid}' accesskey='{t str=keyAddNew}'>{t str=AddBanner_Key}</a>
-    {phpAds_ShowBreak}
-{/if}
-<br/><br/>
-
 {include file=form/general-errors.html errors=$campaignErrors title=ErrorEditingCampaign text=UnableToChangeCampaign}
 
 {*campaign status change form*}

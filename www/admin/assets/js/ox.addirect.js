@@ -1029,3 +1029,50 @@ function formUnFormat(field)
 	    field.value = '';
 	}
 }
+
+(function($) {
+  $.fn.expandableContainer = function() {
+    return this.each(function() {
+        var o = {
+            hookClass: "more-less",
+            moreContainerClass: "moreContainer"
+        };
+        
+        var $container = $(this);
+        var $moreContainer = $('.' + o.moreContainerClass, $container);
+        var $hook = $('.' + o.hookClass, $container);
+        
+        
+        //hide more content until requested
+        $moreContainer.hide();
+        $hook.show();
+
+        $container.find("li a.hasForm").click(showForm);
+    
+        //bind listeners        
+        $hook.toggle(expand, collapse);
+        //$container.hover(expand, collapse);
+        
+        
+        function showForm()
+        {
+            $(this).siblings('.form').show('normal');
+            $(this).parent('li').addClass('expanded');    
+        }
+        
+        function expand() 
+        {
+                $moreContainer.stop().slideFadeIn('slow');
+                $hook.addClass('expanded');
+        }
+        
+        function collapse()
+        {
+                $container.find("li .form").hide('normal');        
+                $moreContainer.stop().slideFadeOut('slow');
+                $hook.removeClass('expanded');
+        }
+        
+    });
+  };
+})(jQuery);

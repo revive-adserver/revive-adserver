@@ -48,7 +48,6 @@ class Test_OA_Admin_Menu
         OA::enableErrorHandling();
     }
 
-
     function testSingleton()
     {
     	//nimm 2 ;-)
@@ -93,7 +92,6 @@ class Test_OA_Admin_Menu
         //TODO test add null or string
     }
 
-
     function testAddTwice()
     {
         $menu = &new OA_Admin_Menu();
@@ -116,7 +114,6 @@ class Test_OA_Admin_Menu
         $result = $menu->add($fakeSection1);
         $this->assertTrue(PEAR::isError($result));
     }
-
 
     function testAddTo()
     {
@@ -158,7 +155,6 @@ class Test_OA_Admin_Menu
         }
     }
 
-
     function testAddToTwice()
     {
         $menu = &new OA_Admin_Menu();
@@ -188,7 +184,6 @@ class Test_OA_Admin_Menu
         $this->assertTrue(PEAR::isError($result));
         $this->assertNotNull($menu->get($section1->getId()));
     }
-
 
     function testAddToHierarchy()
     {
@@ -224,7 +219,6 @@ class Test_OA_Admin_Menu
         }
     }
 
-
     function testGetRootSections()
     {
         $menu = &new OA_Admin_Menu();
@@ -251,17 +245,18 @@ class Test_OA_Admin_Menu
 
         // Calling this at the root section should return the current section if it exists
         $next = $menu->getNextSection($parentId);
-        $this->assertEqual($next, $sections[0]);
+        $this->assertSectionsEqual($next, $sections[0]);
 
         // First tab of 2nd level should return 2nd tab of 2nd level
         $next = $menu->getNextSection('my-section2');
-        $this->assertEqual($next, $sections[2]);
+        $this->assertSectionsEqual($next, $sections[2]);
 
         // Last tab of 2nd level should return the parent tab
         $next = $menu->getNextSection('my-section5');
-        $this->assertEqual($next, $sections[0]);
+        $this->assertSectionsEqual($next, $sections[0]);
     }
-
+    
+    
     function testIsRootSection()
     {
         $menu = &new OA_Admin_Menu();
@@ -360,6 +355,39 @@ class Test_OA_Admin_Menu
             $this->assertEqual($i, count($parents));
             $expectedParents = array_slice($sections, 0, $i);
             $this->assertSectionListsEqual($expectedParents, $parents);
+        }
+    }
+    
+    function testGetLevel()
+    {
+        $menu = &new OA_Admin_Menu();
+        $sections = $this->generateSections(20, 1);
+
+
+        //build hierarchy
+        $menu->add($sections[0]);
+        $parentId = $sections[0]->getId();
+        for ($i = 1; $i < count($sections); $i++) {
+            $menu->addTo($parentId, $sections[$i]);
+            $parentId = $sections[$i]->getId();
+        }
+
+        //get level of a non existent section
+        $level = $menu->getLevel("some-nonexistent-section-id");
+        $this->assertNotNull($level);
+        $this->assertEqual(-1, $level);
+
+
+        //get level of first level section (should be 0)
+        $level = $menu->getLevel($sections[0]->getId());
+        $this->assertNotNull($level);
+        $this->assertEqual(0, $level);
+
+        //get other parents
+        for ($i = 0; $i < count($sections); $i++) {
+            $level = $menu->getLevel($sections[$i]->getId());
+            $this->assertNotNull($level);
+            $this->assertEqual($i, $level);
         }
     }
 }

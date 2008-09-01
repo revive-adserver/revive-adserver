@@ -34,6 +34,8 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
+require_once LIB_PATH . '/Admin/Redirect.php';
+
 
 // Register input variables
 phpAds_registerGlobalUnslashed('name', 'description', 'comments',  
@@ -124,6 +126,15 @@ function processForm($form)
         $doChannel->description = $aFields['description'];
         $doChannel->comments = $aFields['comments'];
         $ret = $doChannel->update();
+
+        if ($ret) {
+            if (!empty($aFields['affiliateid'])) {
+                header("Location: channel-acl.php?affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
+            } else {
+                header("Location: channel-acl.php?channelid=".$aFields['channelid']);
+            }
+            exit;
+        }
     } 
     else {
         $doChannel = OA_Dal::factoryDO('channel');
@@ -135,16 +146,22 @@ function processForm($form)
         $doChannel->compiledlimitation = 'true';
         $doChannel->acl_plugins = 'true';
         $doChannel->active = 1;
-        $ret = $aFields['channelid'] = $doChannel->insert();
-    }
+        $aFields['channelid'] = $doChannel->insert();
 
-    if ($ret) {
+        // Queue confirmation message        
+        $translation = new OA_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenAdded'], array(
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']), 
+            $aFields['name'], 
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
         if (!empty($aFields['affiliateid'])) {
-            header("Location: channel-acl.php?affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
+            OX_Admin_Redirect::redirect("affiliate-channels.php?affiliateid=" . $aFields['affiliateid']);
         } else {
-            header("Location: channel-acl.php?channelid=".$aFields['channelid']);
+            OX_Admin_Redirect::redirect("channel-index.php");
         }
-        exit;
     }
 }
 
@@ -162,7 +179,8 @@ function displayPage($channel, $form)
         // Editing a channel at the publisher level; Only use the
         // channels at this publisher level for the navigation bar
         $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $channel['affiliateid']));
-    } else {
+    } 
+    else {
         $aEntities = array('agencyid' => $agencyId, 'channelid' => $channel['channelid']);
         // Editing a channel at the agency level; Only use the
         // channels at this agency level for the navigation bar

@@ -50,7 +50,19 @@ if (!empty($channelid))
 {
     $doChannel = OA_Dal::factoryDO('channel');
     $doChannel->channelid = $channelid;
+    
+    if ($doChannel->get($channelid)) {
+        $aChannel = $doChannel->toArray();
+    }
+        
     $doChannel->delete();
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenDeleted'], array(
+        $aChannel['name']
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 if (empty($returnurl)) {

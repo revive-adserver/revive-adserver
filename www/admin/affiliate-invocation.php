@@ -46,7 +46,7 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
+$oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -60,19 +60,15 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $affiliateid == $row['affiliateid']
         );
     }
-
-    phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
-    phpAds_PageShortcut($strZoneHistory, 'stats.php?entity=zone&breakdown=history&affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
-    MAX_displayWebsiteBreadcrumbs($affiliateid);
-    phpAds_PageHeader("4.2.5");
-    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
+    addWebsitePageTools($affiliateid);
+    phpAds_PageHeader("4.2.5", $oHeaderModel);
 } else {
     $sections = array();
     $sections[] = "2.1";
     if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
         $sections[] = "2.2";
     }
-    phpAds_PageHeader('2.2');
+    phpAds_PageHeader('2.2', $oHeaderModel);
     phpAds_ShowSections($sections);
 }
 

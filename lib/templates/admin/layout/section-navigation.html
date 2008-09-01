@@ -24,16 +24,11 @@
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
-    {*// Close current table 
-    TODO this closing needs to be refactored  *}
-    
+
 {if !empty($aSectionNav)}
-    
-    </td></tr></table>
-    
-    <div id='oaSection'>
+    <div id='thirdLevelNavigation'>
     <a id='context-help' target='_blank' href='{$helpLink|escape}'>Help</a>
-    <ul id='oaSectionTabs'>
+    <ul class='navigation'>
     {section name=n loop=$aSectionNav}
       {if $aSectionNav[n].selected}
         <li class="active {if $smarty.section.n.first} first{/if}{if $smarty.section.n.last} last{/if}">
@@ -46,9 +41,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         </li>
     {/section}
     </ul></div>
-
-  {*if $sectionOpenNewTable*} 
-    <table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>
-    <td width='40'>&nbsp;</td><td><br />
-  {*/if*}    
 {/if}
+
+

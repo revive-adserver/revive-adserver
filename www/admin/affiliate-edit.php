@@ -182,9 +182,16 @@ function buildWebsiteForm($affiliate)
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-        $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
-        OX_Admin_Redirect::redirect($redirect_url);
-        exit;
+        // Queue confirmation message        
+        $translation = new OA_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
+            MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+            $oPublisher->publisherName, 
+            MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        OX_Admin_Redirect::redirect("website-index.php");
     }
 }
 
@@ -194,16 +201,15 @@ function buildWebsiteForm($affiliate)
 function displayPage($affiliateid, $form)
 {
     //header and breadcrumbs
+    $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);
     if ($affiliateid != "") {
         OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
-        phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-        MAX_displayWebsiteBreadcrumbs($affiliateid);
-        phpAds_PageHeader();
+        addWebsitePageTools($affiliateid);
+        phpAds_PageHeader(null, $oHeaderModel);
     }
     else {
-        MAX_displayWebsiteBreadcrumbs(null);
-        phpAds_PageHeader("affiliate-edit_new");
-    }
+        phpAds_PageHeader("affiliate-edit_new", $oHeaderModel);
+    }    
 
     //get template and display form
     $oTpl = new OA_Admin_Template('affiliate-edit.html');
@@ -216,7 +222,6 @@ function displayPage($affiliateid, $form)
 
     $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
     $oTpl->assign('keyAddNew', $keyAddNew);
-    $oTpl->assign('showAddZone', !empty($affiliateid) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)));
 
     $oTpl->display();
 

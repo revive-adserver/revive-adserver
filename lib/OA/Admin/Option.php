@@ -118,26 +118,10 @@ class OA_Admin_Option
 
         echo "// -->\n</script>";
     }
-
-    /**
-     * Build a menu with all settings or preferences
-     *
-     * @param string $section The drop down section name.
-     */
-    function selection($section)
+    
+    
+    function getSettingsPreferences($section)
     {
-        global $phpAds_TextDirection, $strHelp;
-        global $tabindex;
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-        if (!isset($tabindex)) {
-            $tabindex = 1;
-        }
-
-        $this->_writeJavascriptFunctions();
-
-        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr>";
-
         /**
          *  @todo After have a way to know if a user is in the admin role, manager role, publisher role
          *        or advertiser role we'll create a personalized "Choose section" listBox
@@ -157,7 +141,8 @@ class OA_Admin_Option
                 'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],         'perm' => OA_ACCOUNT_ADMIN),
                 'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
             );
-        } elseif ($this->_optionType == 'account-preferences') {
+        } 
+        elseif ($this->_optionType == 'account-preferences') {
             $aSections = array();
             $aSections['banner'] =
                 array(
@@ -192,8 +177,9 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
             $this->_mergePluginOptions($aSections);
-        } elseif ($this->_optionType == 'account-user') {
-        	$aSections = array();
+        } 
+        elseif ($this->_optionType == 'account-user') {
+            $aSections = array();
             $aSections['name-language'] =
                 array(
                     'name' => $GLOBALS['strNameLanguage'],
@@ -210,17 +196,44 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
         }
+        
+        foreach ($aSections as $k => $v) {
+            if (OA_Permission::isAccount($v['perm'])) {
+                $aResult[$k]['name'] = (isset($v['text']) ? $v['text'] : $v['name']);
+                $aResult[$k]['link'] = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType.'-'.$k.'.php');
+                addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
+            }
+        }
+        setCurrentLeftMenuSubItem($section);
+        
+        return $aResult;
+    }
+    
+
+    /**
+     * Build a menu with all settings or preferences
+     *
+     * @param string $section The drop down section name.
+     */
+    function selection($section)
+    {
+        global $phpAds_TextDirection, $strHelp;
+        global $tabindex;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        if (!isset($tabindex)) {
+            $tabindex = 1;
+        }
+
+        $this->_writeJavascriptFunctions();
+
+        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr>";
+        $aSections = $this->getSettingsPreferences($section);
         echo "<td><form name='settings_selection'><td height='35'><b>";
         echo $GLOBALS['strChooseSection'].":&nbsp;</b>";
         echo "<select name='section' onChange='options_goto_section();' tabindex='".($tabindex++)."'>";
-        foreach ($aSections as $k => $v)
-        {
-            if (OA_Permission::isAccount($v['perm']))
-            {
-                $value = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType.'-'.$k.'.php');
-                $text  = (isset($v['text']) ? $v['text'] : $v['name']);
-                echo "<option value='{$value}'".($section == $k ? ' selected' : '').">{$text}</option>";
-            }
+        foreach ($aSections as $k => $v) {
+            echo "<option value='{$v['link']}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
         }
         echo "</select>&nbsp;<a href='#' onClick='options_goto_section();'>";
         echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
@@ -228,6 +241,7 @@ class OA_Admin_Option
         phpAds_ShowBreak();
     }
 
+    
     function _mergePluginOptions(&$aSections)
     {
 
@@ -238,6 +252,7 @@ class OA_Admin_Option
             $aSections = array_merge($aSections, $aPrefOptions);
         }
     }
+    
 
     /**
      * Build and display the settings or preferences user interface

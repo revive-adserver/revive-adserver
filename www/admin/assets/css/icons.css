@@ -1,0 +1,187 @@
+#thirdLevelHeader .hasIcon {
+  /*padding: 0px 0px 0px 55px;*/
+  padding: 0px 0px 35px 55px;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
+
+#thirdLevelHeader .hasIcon .titleIcon {
+    display: inline;
+    background-position: left top;
+    background-repeat: no-repeat;
+    padding: 0px 0px 55px 55px;
+}
+
+div.breadcrumb .inlineIcon {
+  padding: 2px 0 2px 20px;
+  line-height: 20px;
+} 
+
+
+.inlineIcon,
+.inlineIconHasNext {
+    padding: 2px 0 2px 20px;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.inlineIconHasNext {
+    padding: 1px 5px 1px 20px;
+}
+
+/** Entities **/
+.iconAdvertiser {
+    background-image: url("../images/icon-advertiser.png");
+}
+.iconAdvertiserLarge {
+    background-image: url("../images/icon-advertiser-large.png");
+}
+.iconAdvertiserAdd {
+    background-image: url("../images/icon-advertiser-add.png");
+}
+.iconAdvertiserAddLarge {
+    background-image: url("../images/icon-advertiser-add-large.png");
+}
+.iconAdvertisersLarge {
+    background-image: url("../images/icon-advertisers-large.png");
+}
+.iconCampaign {
+    background-image: url("../images/icon-campaign.png");
+}
+.iconCampaignLarge {
+    background-image: url("../images/icon-campaign-large.png");
+}
+.iconCampaignAdd {
+    background-image: url("../images/icon-campaign-add.png");
+}
+.iconCampaignAddLarge {
+    background-image: url("../images/icon-campaign-add-large.png");
+}
+.iconCampaignDuplicate {
+    background-image: url("../images/icon-campaign-duplicate.png");
+}
+.iconCampaignMove {
+    background-image: url("../images/icon-campaign-to-advertiser.png");
+}
+.iconCampaignDelete {
+    background-image: url("../images/icon-campaign-remove.png");
+}
+.iconCampaigns {
+    background-image: url("../images/icon-campaigns.png");
+}
+.iconCampaignsLarge {
+    background-image: url("../images/icon-campaigns-large.png");
+}
+.iconTrackerLarge {
+  background-image: url("../images/icon-tracker-large.png");
+}
+.iconTrackerAddLarge {
+  background-image: url("../images/icon-tracker-add-large.png");
+}
+.iconTrackerAdd {
+  background-image: url("../images/icon-tracker-add.png");
+}
+.iconTrackerDuplicate {
+  background-image: url("../images/icon-tracker-duplicate.png");
+}
+.iconTrackerMove {
+  background-image: url("../images/icon-tracker-to-advertiser.png");
+}
+.iconBannerLarge {
+  background-image: url("../images/icon-banner-large.png");  
+}
+.iconBannerAdd {
+  background-image: url("../images/icon-banner-add.png");
+}
+.iconBannerAddLarge {
+  background-image: url("../images/icon-banner-add-large.png");
+}
+.iconBannerDuplicate {
+  background-image: url("../images/icon-banner-duplicate.png");  
+}
+.iconBannerMove {
+  background-image: url("../images/icon-banner-to-campaign.png");  
+}
+.iconBannerApplyLimitations {
+  background-image: url("../images/icon-duplicate-acl.gif");  
+}
+.iconBanners {
+  background-image: url("../images/icon-banners.png");
+}
+.iconBannersLarge {
+  background-image: url("../images/icon-banners-large.png");  
+}
+.iconWebsiteLarge {
+  background-image: url("../images/icon-website-large.png ");
+}
+.iconWebsiteAdd {
+  background-image: url("../images/icon-website-add.png ");
+}
+.iconWebsiteAddLarge {
+  background-image: url("../images/icon-website-add-large.png ");
+}
+.iconWebsiteUserAdd {
+  background-image: url("../images/icon-website-add.png");  
+}
+.iconWebsitesLarge {
+  background-image: url("../images/icon-websites-large.png");  
+}
+.iconZoneLarge {
+  background-image: url("../images/icon-zone-large.png ");  
+}
+.iconZoneAdd {
+  background-image: url("../images/icon-zone-add.png ");  
+}
+.iconZoneAddLarge {
+  background-image: url("../images/icon-zone-add-large.png ");  
+}
+.iconZoneDuplicate {
+  background-image: url("../images/icon-zone-duplicate.png");  
+}
+.iconZoneMove {
+  background-image: url("../images/icon-zone-to-website.png");  
+}
+.iconZones {
+    background-image: url("../images/icon-zones.png");
+}
+.iconZonesLarge {
+    background-image: url("../images/icon-zones-large.png");
+}
+.iconTargetingChannelLarge {
+  background-image: url("../images/icon-targeting-channel-large.png");
+}
+.iconTargetingChannelAdd {
+  background-image: url("../images/icon-targeting-channel-add.png");
+}
+.iconTargetingChannelAddLarge {
+  background-image: url("../images/icon-targeting-channel-add-large.gif");
+}
+.iconTargetingChannelDuplicate {
+  background-image: url("../images/icon-targeting-channel-duplicate.png");
+}
+.iconTargetingChannelsLarge {
+  background-image: url("../images/icon-targeting-channels-large.png");
+}
+
+/** Single pages **/
+.iconDirectSelectionLarge {
+  background-image: url("../images/icon-direct-select-large.png");  
+}
+
+/** General */
+.iconBack {
+    background-image: url("../images/icon-back.gif");
+}
+.iconDelete {
+    background-image: url("../images/icon-cross.gif");
+}
+.iconStatistics {
+    background-image: url("../images/icon-statistics.png");
+}
+
+/** test icon **/
+.iconDummyLarge {
+    background-image: url("../images/icon-dummy-large.png");
+}
+    
+

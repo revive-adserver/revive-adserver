@@ -96,11 +96,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader("account-user-index");
-
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("password");
+$prefSection = "password";
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-user-index', $oHeaderModel);
+
 
 // Get the current logged in user details
 $oUser = OA_Permission::getCurrentUser();

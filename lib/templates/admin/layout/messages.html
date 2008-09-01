@@ -1,0 +1,19 @@
+{if $aMessageQueue}
+<script type="text/javascript">
+<!--
+
+	$(window).load(function () {literal}{{/literal}
+{foreach from=$aMessageQueue item=message}
+		$('body').queueMessage({literal}{{/literal}
+			id: {$message.id|string_format:"%d"},
+			text: '{$message.text|escape:'javascript'}', 
+			location: '{$message.location|escape:'javascript'}',
+			type: '{$message.type|escape:'javascript'}',
+			timeout: {$message.timeout|string_format:"%d"}
+		});
+{/foreach}
+	});
+
+//-->
+</script>
+{/if}

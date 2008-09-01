@@ -59,6 +59,10 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 if (!empty($campaignid)) {
     $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doCampaigns->campaignid = $campaignid;
+    if ($doCampaigns->get($campaignid)) {
+        $aCampaign = $doCampaigns->toArray();
+    }
+	
     $doCampaigns->delete();
     // Find and delete the campains from $node_array, if
     // necessary. (Later, it would be better to have
@@ -71,10 +75,22 @@ if (!empty($campaignid)) {
             }
         }
     }
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDeleted'], array(
+        $aCampaign['campaignname']
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 } else if (!empty($clientid)) {
     $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doCampaigns->clientid = $clientid;
     $doCampaigns->delete();
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strAllCampaignsHaveBeenDeleted'], array());
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 // Run the Maintenance Priority Engine process

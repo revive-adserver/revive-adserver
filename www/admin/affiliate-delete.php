@@ -51,11 +51,14 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 if (!empty($affiliateid))
 {
-	$doAffiliates = OA_Dal::factoryDO('affiliates');
-	$doAffiliates->affiliateid = $affiliateid;
-
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $doAffiliates->affiliateid = $affiliateid;
+    
+    if ($doAffiliates->get($affiliateid)) {
+        $aAffiliate = $doAffiliates->toArray();
+    }
+	
     // User unsubscribed from adnetworks
-    $doAffiliates->get($affiliateid);
 //    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
     $oacWebsiteId = $doAffiliates->as_website_id;
     $aPublisher = array(
@@ -66,10 +69,17 @@ if (!empty($affiliateid))
         );
     $oAdNetworks->unsubscribeWebsites($aPublisher);
 	$doAffiliates->delete();
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDeleted'], array(
+        $aAffiliate['name']
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 if (empty($returnurl))
-	$returnurl = 'affiliate-index.php';
+	$returnurl = 'website-index.php';
 
 Header("Location: ".$returnurl);
 

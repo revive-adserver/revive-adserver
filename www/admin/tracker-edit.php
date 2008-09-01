@@ -82,7 +82,8 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->get($ID);
     $tracker = $doTrackers->toArray();
-} else {
+} 
+else {
     // New tracker
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
@@ -343,61 +344,23 @@ function displayPage($tracker, $form, $plugins)
 {
     //header and breadcrumbs
     if ($tracker['trackerid'] != "") {
-        // Get other trackers
-        $doTrackers = OA_Dal::factoryDO('trackers');
-        $doTrackers->clientid = $tracker['clientid'];
-        $doTrackers->find();
-
-        while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
-            phpAds_PageContext(
-                MAX_buildName ($row['trackerid'], $row['trackername']),
-                "tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$row['trackerid'],
-                $tracker['trackerid'] == $row['trackerid']
-            );
-        }
-
-        phpAds_PageShortcut($GLOBALS['strClientProperties'], 'advertiser-edit.php?clientid='.$tracker['clientid'], 'images/icon-advertiser.gif');
-
-        $extra  = "<form action='tracker-modify.php'>\n";
-        $extra .= "<input type='hidden' name='trackerid' value='".$tracker['trackerid'].">\n";
-        $extra .= "<input type='hidden' name='clientid' value='".$tracker['clientid'].">\n";
-        $extra .= "<input type='hidden' name='returnurl' value='tracker-edit.php'>\n";
-        $extra .= "<br /><br />"."\n";
-        $extra .= "<b>".$GLOBALS['strModifyTracker']."</b><br />"."\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."&duplicate=true&returnurl=tracker-edit.php'>".$GLOBALS['strDuplicate']."</a><br />\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;".$GLOBALS['strMoveTo']."<br />\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />\n";
-        $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
-        $extra .= "<select name='moveto' style='width: 110;'>"."\n";
-
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->whereAdd('clientid <>'.$tracker['clientid']);
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $doClients->agencyid = OA_Permission::getAgencyId();
         }
         $doClients->find();
-
+        $aOtherAdvertisers = array();
         while ($doClients->fetch() && $row = $doClients->toArray()) {
-            $extra .= "<option value='".$row['clientid']."'>".MAX_buildName($row['clientid'], $row['clientname'])."</option>\n";
+            $aOtherAdvertisers[] = $row;
         }
-
-        $extra .= "</select>&nbsp;\n";
-        $extra .= "<input type='image' src='" . OX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif'><br />\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-        $extra .= "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
-        $extra .= "<a href='tracker-delete.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteTracker']).">".$GLOBALS['strDelete']."</a><br />\n";
-        $extra .= "</form>\n";
-
-        MAX_displayTrackerBreadcrumbs($tracker['trackerid'], $tracker['clientid']);
-        phpAds_PageHeader(null, $extra);
+        MAX_displayNavigationTracker($tracker['clientid'], $tracker['trackerid'], $aOtherAdvertisers); 
     }
     else {
         // New tracker
-        MAX_displayTrackerBreadcrumbs(null, $tracker['clientid']);
-        phpAds_PageHeader("tracker-edit_new");
-    }
+        $oHeaderModel = MAX_displayTrackerBreadcrumbs($tracker['clientid'], null);
+        phpAds_PageHeader("tracker-edit_new", $oHeaderModel);
+    }    
 
     //get template and display form
     $oTpl = new OA_Admin_Template('tracker-edit.html');

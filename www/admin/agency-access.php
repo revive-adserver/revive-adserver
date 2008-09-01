@@ -47,8 +47,8 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
 if ($agencyid != '') {
+    addPageTools($agencyid);
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
     	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
@@ -95,5 +95,11 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools($agencyId)
+{
+    addPageLinkTool($GLOBALS["strLinkUser_Key"], "agency-user-start.php?agencyid={$agencyId}", "iconAdvertiserAdd", $GLOBALS["strAddNew"] );
+}
+
 
 ?>

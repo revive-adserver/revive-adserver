@@ -90,7 +90,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/foreach}
 
 </head>
-<body class="hasInterface{if $showSidebar} hasSidebar{/if}" onload="initPage();">
+<body class="hasInterface {if $showMainNav}hasGradient{/if} {if $showSidebar} hasSidebar{/if}" onload="initPage();">
+
 
 {* Using insert to prevent caching *}
 {insert name=OA_Admin_UI_CustomHeader}
@@ -180,61 +181,43 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <div class='accountSwitcherOverlay'>&nbsp;</div>
 </div>
 
-<div id="oaMain">
+<div id="firstLevelContent">
 {if $showSidebar}
-{include file=layout/sidebar.html}
+    {include file=layout/sidebar.html}
 {/if}
 
-    <div id="oaContents">
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-{if !$noBorder}
-                <td colspan='2' height='10'><img src='{$assetPath}/images/spacer.gif' height='1'></td>
-            </tr>
-            <tr>
-                <td width="20">&nbsp;</td>
+{if $aShortcuts|@count}
+    {capture assign=linksTitle}{t str=Shortcuts}{/capture}
+    {include file=layout/links-container.html aLinks=$aShortcuts title=$linksTitle cssClass=shortcuts}
 {/if}
-                <td>
 
-{include file=layout/breadcrumbs-title.html}
-{include file=layout/section-navigation.html}
+{if $aTools|@count}
+    {capture assign=linksTitle}{t str=Actions}{/capture}
+    {include file=layout/links-container.html aLinks=$aTools title=$linksTitle cssClass=tools}
+{/if}    
+
+
+<div id="secondLevelContent">
+  {include file=layout/content-header.html}    
+  {include file=layout/section-navigation.html}  
+  <div id="thirdLevelContent" {if !empty($aSectionNav)}class="thirdLevelHasTabs"{/if} >
 {* Footer *}
 {else}
 
-                </td>
-{if !$noBorder}
-                <td width="40">&nbsp;</td>
-            </tr>
-            <tr>
-                <td width="40" height="20">&nbsp;</td>
-                <td height="20">&nbsp;</td>
-{/if}
-            </tr>
 
 {* Using insert to prevent caching *}
 {insert name=OA_Admin_UI_CustomFooter}
-{* The insert function call above outputs this HTML code as well
-            <tr>
-                <td width="40" height="20">&nbsp;</td>
-                <td height="20">
-                    [...]
-                </td>
-            </tr>
-
-*}
-        </table>
-
+        </div>
     </div>
 </div>
 
 {if $jsMPE}
-<div id="runMpe" name="runMpe">&#160;</div>
-<script type="text/javascript">
-<!--
-    xajax_OA_runMPE();
-//-->
-</script>
+  <div id="runMpe" name="runMpe">&#160;</div>
+  <script type="text/javascript">
+  <!--
+      xajax_OA_runMPE();
+  //-->
+  </script>
 {/if}
 
 {if $productUpdatesCheck}
@@ -249,6 +232,18 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 //-->
 </script>
 {/if}
+
+{include file=layout/messages.html}
+
+<script type='text/javascript'>
+{literal}
+  <!--
+  $(document).ready(function() {
+    $('div.tools, div.shortcuts').expandableContainer();
+  });
+  -->
+{/literal}  
+</script>    
 
 </body>
 </html>

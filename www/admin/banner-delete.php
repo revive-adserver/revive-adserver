@@ -52,10 +52,26 @@ $doBanners = OA_Dal::factoryDO('banners');
 
 if (!empty($bannerid)) {
     $doBanners->bannerid = $bannerid;
+    if ($doBanners->get($bannerid)) {
+        $aBanner = $doBanners->toArray();
+    }
+	
     $doBanners->delete();
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenDeleted'], array(
+        $aBanner['description']
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 } else if (!empty($campaignid)) {
     $doBanners->campaignid = $campaignid;
     $doBanners->delete();
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strAllBannersHaveBeenDeleted'], array());
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 // Run the Maintenance Priority Engine process

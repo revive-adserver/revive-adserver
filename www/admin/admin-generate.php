@@ -42,7 +42,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.3");
+$oHeader = new OA_Admin_UI_Model_PageHeaderModel($GLOBALS['strGenerateBannercode'], 'iconDirectSelectionLarge');
+phpAds_PageHeader(null, $oHeader);
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $sections = array("4.1", "4.3");
 } else {

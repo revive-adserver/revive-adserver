@@ -24,12 +24,6 @@
 $Id$
 
 -->*}
-<img src='{$assetPath|escape}/images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
-{assign var="linkAffiliateUrl" value="affiliate-user-start.php?affiliateid=$entityIdValue" }
-
-<a href="{$linkAffiliateUrl}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
-{phpAds_ShowBreak}
-
 {if $infomessage}
   <!-- TODO: display confirmation if a new user was added or invitation has been sent or password reset e-mail has been sent -->
   <div class='infomessage'>

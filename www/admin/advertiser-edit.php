@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-
+require_once MAX_PATH . '/lib/OA/Admin/UI/model/InventoryPageHeaderModelBuilder.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
@@ -130,8 +130,7 @@ function buildAdvertiserForm($aAdvertiser)
 
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
-    $submitLabel = (!empty($aAdvertiser['clientid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';
-    $form->addElement('submit', 'submit', $submitLabel);
+    $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
 
     //Form validation rules
     $translation = new OA_Translation();
@@ -198,9 +197,18 @@ function processForm($aAdvertiser, $form)
         // Insert
         $aAdvertiser['clientid'] = $doClients->insert();
 
+        // Queue confirmation message        
+        $translation = new OA_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenAdded'], array(
+            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
+            $aAdvertiser['clientname'], 
+            MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aAdvertiser['clientid']), 
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
         // Go to next page
-        OX_Admin_Redirect::redirect("campaign-edit.php?clientid=".$aAdvertiser['clientid']);
-    }
+        OX_Admin_Redirect::redirect("advertiser-index.php");
+    } 
     else {
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->get($aAdvertiser['clientid']);
@@ -224,20 +232,19 @@ function processForm($aAdvertiser, $form)
 function displayPage($aAdvertiser, $form)
 {
     //header and breadcrumbs
+    $oHeaderModel = buildAdvertiserHeaderModel($aAdvertiser);    
     if ($aAdvertiser['clientid'] != "") {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             OA_Admin_Menu::setAdvertiserPageContext($aAdvertiser['clientid'], 'advertiser-index.php');
-            phpAds_PageShortcut($GLOBALS['strClientHistory'], 'stats.php?entity=advertiser&breakdown=history&clientid='.$aAdvertiser['clientid'], 'images/icon-statistics.gif');
-            MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
-            phpAds_PageHeader("4.1.2");
+            addAdvertiserPageToolsAndShortcuts($aAdvertiser['clientid']);
+            phpAds_PageHeader(null, $oHeaderModel);
         }
         else {
-            phpAds_PageHeader("4");
+            phpAds_PageHeader(null, $oHeaderModel);
         }
     }
     else { //new advertiser
-        MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
-        phpAds_PageHeader('advertiser-edit_new');
+        phpAds_PageHeader('advertiser-edit_new', $oHeaderModel);
     }
 
     //get template and display form
@@ -245,12 +252,10 @@ function displayPage($aAdvertiser, $form)
 
     $oTpl->assign('clientid',  $aAdvertiser['clientid']);
     $oTpl->assign('form', $form->serialize());
-    $oTpl->assign('showAddCampaignLink', !empty($aAdvertiser['clientid'])
-        && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
-
     $oTpl->display();
 
     //footer
     phpAds_PageFooter();
 }
+
 ?>

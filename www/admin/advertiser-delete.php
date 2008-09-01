@@ -55,6 +55,10 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 if (!empty($clientid)) {
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
+    if ($doClients->get($clientid)) {
+        $aAdvertiser = $doClients->toArray();
+    }
+		
     $doClients->delete();
 
     // Delete the advertiser from the $node_array,
@@ -62,6 +66,13 @@ if (!empty($clientid)) {
     if (isset($node_array)) {
         unset($node_array['clients'][$clientid]);
     }
+
+    // Queue confirmation message        
+    $translation = new OA_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenDeleted'], array(
+        $aAdvertiser['clientname']
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 // Run the Maintenance Priority Engine process

@@ -63,7 +63,6 @@ class Test_OA_Admin_Menu_Section
         }
     }
 
-
     function testAddToOneParent()
     {
         $parent = $this->generateSection(0);
@@ -87,7 +86,6 @@ class Test_OA_Admin_Menu_Section
 
         //TODO test add null or string
     }
-
 
     function testAddTwice()
     {
@@ -113,7 +111,6 @@ class Test_OA_Admin_Menu_Section
         $result = $parent->add($fakeSection1);
         $this->assertTrue(PEAR::isError($result));
     }
-
 
     function testAddToManyParents()
     {
@@ -142,7 +139,6 @@ class Test_OA_Admin_Menu_Section
         }
     }
 
-
     function testAddToHierarchy()
     {
         $parent = $this->generateSection(0);
@@ -164,7 +160,6 @@ class Test_OA_Admin_Menu_Section
             $current = $child;
       }
     }
-
 
     function testGetById()
     {
@@ -193,7 +188,6 @@ class Test_OA_Admin_Menu_Section
         }
     }
 
-
     function testGetSections()
     {
         $parent = $this->generateSection(0);
@@ -214,7 +208,6 @@ class Test_OA_Admin_Menu_Section
         }
     }
 
-
     function testInsertBeforeIntoEmpty()
     {
         $parent = $this->generateSection(0);
@@ -226,7 +219,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertNull($parent->get($insertedChild->getId()));
         $this->assertEqual(0, count($parent->getSections()));
     }
-
 
     function testInsertBeforeNonExistent()
     {
@@ -245,7 +237,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertEqual(count($sections), count($parent->getSections()));
     }
 
-
     function testInsertBeforeTwice()
     {
         $parent = $this->generateSection(0);
@@ -260,7 +251,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertTrue(PEAR::isError($result));
         $this->assertNotNull($parent->get($insertedChild->getId()));
     }
-
 
     function testInsertBeforeFirst()
     {
@@ -278,7 +268,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertSectionsEqual($insertedChild, $children[0]);
         $this->assertSectionsEqual($existingChild, $children[1]);
     }
-
 
     function testInsertBeforeNth()
     {
@@ -301,7 +290,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertSectionsEqual($existingChild, $children[6]);
     }
 
-
     function testInsertBeforeLast()
     {
         $parent = $this->generateSection(0);
@@ -322,7 +310,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertSectionsEqual($existingChild, $children[10]);
     }
 
-
     function testInsertAfterIntoEmpty()
     {
         $parent = $this->generateSection(0);
@@ -334,7 +321,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertNull($parent->get($insertedChild->getId()));
         $this->assertEqual(0, count($parent->getSections()));
     }
-
 
     function testInsertAfterNonExistent()
     {
@@ -353,7 +339,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertEqual(count($sections), count($parent->getSections()));
     }
 
-
     function testInsertAfterTwice()
     {
         $parent = $this->generateSection(0);
@@ -368,7 +353,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertTrue(PEAR::isError($result));
         $this->assertNotNull($parent->get($insertedChild->getId()));
     }
-
 
     function testInsertAfterFirst()
     {
@@ -386,7 +370,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertSectionsEqual($insertedChild, $children[1]);
         $this->assertSectionsEqual($existingChild, $children[0]);
     }
-
 
     function testInsertAfterNth()
     {
@@ -407,7 +390,6 @@ class Test_OA_Admin_Menu_Section
         $this->assertSectionsEqual($insertedChild, $children[6]);
         $this->assertSectionsEqual($existingChild, $children[5]);
     }
-
 
     function testInsertAfterLast()
     {

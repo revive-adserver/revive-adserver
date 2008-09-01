@@ -45,7 +45,25 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+if (!empty($affiliateid)) { //check if client explicitly given
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+}
+
+/*-------------------------------------------------------*/
+/* Init data                                             */
+/*-------------------------------------------------------*/
+//get websites and set the current one
+$aWebsites = getWebsiteMap();
+if (empty($affiliateid)) {
+    $ids = array_keys($aWebsites);
+    if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid']) {
+        $affiliateid = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'];
+    }
+    
+    if (!$affiliateid || !isset($aWebsites[$affiliateid])) { //check if 'current' from session was not removed 
+        $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set non-existent id 
+    }   
+}
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -70,37 +88,14 @@ if (!isset($orderdirection)) {
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
+addPageTools($affiliateid);
+$oHeaderModel = buildHeaderModel($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    // Get other affiliates
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->addSessionListOrderBy('affiliate-index.php');
-    $doAffiliates->agencyid = OA_Permission::getAgencyId();
-    $doAffiliates->find();
-
-    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-        phpAds_PageContext(
-            MAX_buildName ($row['affiliateid'], $row['name']),
-            "affiliate-zones.php?affiliateid=".$row['affiliateid'],
-            $affiliateid == $row['affiliateid']
-        );
-    }
-
-    phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-
-    MAX_displayWebsiteBreadcrumbs($affiliateid);
-    phpAds_PageHeader("4.2.3");
-    phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6", "4.2.7"));
-} else {
+    phpAds_PageHeader(null, $oHeaderModel);
+} 
+else {
     $sections = array("2.1");
-    if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
-        $sections[] = "2.2";
-    }
-    if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
-        $sections[] = "2.3";
-    }
-    phpAds_PageHeader('2.1');
-    phpAds_ShowSections($sections);
+    phpAds_PageHeader(null, $oHeaderModel);
 }
 
 /*-------------------------------------------------------*/
@@ -113,16 +108,6 @@ $doZones->affiliateid = $affiliateid;
 $doZones->addListorderBy($listorder, $orderdirection);
 $doZones->find();
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD))
-{
-    echo "<img src='" . OX::assetPath() . "/images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;";
-    echo "<a href='zone-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>".$strAddNewZone_Key."</a>&nbsp;&nbsp;";
-    phpAds_ShowBreak();
-}
-
-
-
-echo "<br /><br />";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 
@@ -190,7 +175,12 @@ echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPa
 if ($doZones->getRowCount() == 0)
 {
     echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
-    echo "&nbsp;&nbsp;".$strNoZones;
+    if (empty($affiliateid) || $affiliateid < 0) {
+        echo "&nbsp;&nbsp;$strNoZonesAddWebsite";
+    }
+    else {
+        echo "&nbsp;&nbsp;$strNoZones";
+    }
     echo "</td></tr>";
 
     echo "<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
@@ -309,6 +299,7 @@ echo "<br /><br />";
 
 $session['prefs']['affiliate-zones.php']['listorder'] = $listorder;
 $session['prefs']['affiliate-zones.php']['orderdirection'] = $orderdirection;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
 
 phpAds_SessionDataStore();
 
@@ -319,5 +310,60 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function buildHeaderModel($websiteId)
+{
+    if ($websiteId) {    
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        if ($doAffiliates->get($websiteId)) {
+            $aWebsite = $doAffiliates->toArray();
+        }
+        
+        $websiteName = $aWebsite['name'];
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+            $websiteEditUrl = "affiliate-edit.php?affiliateid=$websiteId";
+        }
+    }
+    $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+    $oHeaderModel = $builder->buildEntityHeader(array(
+        array ('name' => $websiteName, 'url' => $websiteEditUrl, 
+               'id' => $websiteId, 'entities' => getWebsiteMap(),
+               'htmlName' => 'affiliateid'
+              ),
+        array('name' => '')               
+    ), 'zones', 'list');    
+    
+    return $oHeaderModel;
+}
+
+
+function getWebsiteMap()
+{
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { //should this constraint be added always instead of only for managers?
+        $doAffiliates->agencyid = OA_Permission::getAgencyId();
+    }
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        $doAffiliates->agencyid = OA_Permission::getEntityId();
+    }
+    $doAffiliates->find();
+    
+    $aWebsiteMap = array();    
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
+        $aWebsiteMap[$row['affiliateid']] = array('name' => $row['name'],
+            'url' => "affiliate-edit.php?affiliateid=".$row['affiliateid']);        
+    }
+    
+    return $aWebsiteMap;
+}
+
+
+function addPageTools($websiteId)
+{
+    if ($websiteId > 0 && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)))
+    {
+        addPageLinkTool($GLOBALS["strAddNewZone_Key"], "zone-edit.php?affiliateid=$websiteId", 'iconZoneAdd', $GLOBALS["strAddNew"] );
+    }    
+}
 
 ?>

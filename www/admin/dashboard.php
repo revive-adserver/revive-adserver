@@ -33,6 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

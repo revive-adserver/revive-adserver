@@ -23,13 +23,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 -->*}
-
-{if $showAddCampaignLink}
-    <img src='{$assetPath}/images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;
-    <a href='campaign-edit.php?clientid={$clientid}' accesskey='{t str=keyAddNew}'>{t str=AddCampaign_Key}</a>
-    {phpAds_ShowBreak}
-{/if}
-<br/><br/>
 {*advertiser form*}
 {include file=form/form.html form=$form}
 {*/advertiser form*}

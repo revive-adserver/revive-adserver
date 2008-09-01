@@ -89,8 +89,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
+// Set the correct section of the preference pages and display the drop-down menu
+$prefSection = "name-language";
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
 // Display the settings page's header and sections
-phpAds_PageHeader('account-user-index');
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-user-index', $oHeaderModel);
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
@@ -108,8 +115,6 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER))
     phpAds_ShowSections($sections);
 }
 
-// Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("name-language");
 
 // Get the current logged in user details
 $oUser = OA_Permission::getCurrentUser();

@@ -819,8 +819,21 @@ function processCampaignForm($form)
         $cache = new Cache_Lite ( $options );
         $group = 'campaign_' . $aFields ['campaignid'];
         $cache->clean ( $group );
-
-        OX_Admin_Redirect::redirect ( "campaign-zone.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
+        
+        if ($new_campaign) {
+            // Queue confirmation message        
+            $translation = new OA_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenAdded'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
+                $aFields['campaignname'], 
+                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            
+            OX_Admin_Redirect::redirect ( "advertiser-campaigns.php?clientid=" . $aFields ['clientid'] );
+        } else {
+            OX_Admin_Redirect::redirect ( "campaign-zone.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
+        }
     }
 
     //return processing errors
@@ -858,7 +871,6 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     //header and breadcrumbs
     if ($campaign ['campaignid'] != "") { //edit campaign
         // Initialise some parameters
-        $pageName = basename ( $_SERVER ['PHP_SELF'] );
         $tabindex = 1;
         $agencyId = OA_Permission::getAgencyId ();
         $aEntities = array ('clientid' => $campaign ['clientid'], 'campaignid' => $campaign ['campaignid'] );
@@ -866,22 +878,25 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
         // Display navigation
         $aOtherAdvertisers = Admin_DA::getAdvertisers ( array ('agency_id' => $agencyId ) );
         $aOtherCampaigns = Admin_DA::getPlacements ( array ('advertiser_id' => $campaign ['clientid'] ) );
-        MAX_displayNavigationCampaign ( $pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities );
-    } else { //new campaign
+        MAX_displayNavigationCampaign ($campaign ['campaignid'], $aOtherAdvertisers, $aOtherCampaigns, $aEntities );
+    } 
+    else { //new campaign
         $advertiser = phpAds_getClientDetails ( $campaign ['clientid'] );
         $advertiserName = $advertiser ['clientname'];
         $advertiserEditUrl = "advertiser-edit.php?clientid=" . $campaign ['clientid'];
 
         // New campaign
-        MAX_displayInventoryBreadcrumbs ( array (array ("name" => $advertiserName, "url" => $advertiserEditUrl ), array ("name" => "" ) ), "campaign", true );
-        phpAds_PageHeader ( "campaign-edit_new" );
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader(
+            array(array ("name" => $advertiserName, "url" => $advertiserEditUrl ), 
+                array ("name" => "" ) ), "campaign", "edit-new");
+        phpAds_PageHeader ( "campaign-edit_new", $oHeaderModel);
     }
 
     //get template and display form
     $oTpl = new OA_Admin_Template ( 'campaign-edit.html' );
     $oTpl->assign ( 'clientid', $campaign ['clientid'] );
     $oTpl->assign ( 'campaignid', $campaign ['campaignid'] );
-    $oTpl->assign ( 'showAddBannerLink', ! empty ( $campaign ['campaignid'] ) && ! OA_Permission::isAccount ( OA_ACCOUNT_ADVERTISER ) );
     $oTpl->assign ( 'calendarBeginOfWeek', $GLOBALS ['pref'] ['begin_of_week'] ? 1 : 0 );
     $oTpl->assign ( 'language', $GLOBALS ['_MAX'] ['PREF'] ['language'] );
     $oTpl->assign ( 'conversionsEnabled', $conf ['logging'] ['trackerImpressions'] );
@@ -973,5 +988,6 @@ function getCampaignInactiveReasons($aCampaign)
 
     return $aReasons;
 }
+
 
 ?>

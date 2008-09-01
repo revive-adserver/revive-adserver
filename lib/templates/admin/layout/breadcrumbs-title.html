@@ -1,8 +1,8 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -25,32 +25,54 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
 
-{if $aBreadcrumbs}
-    <div class="breadcrumb{if $aBreadcrumbs.path|@count == 1} onlytitle{/if}">
-        {assign var=totalbc value=$aBreadcrumbs.path|@count}
-        {section name=topbc start=0 loop=$totalbc-1}
-            {if $aBreadcrumbs.path[topbc].url}
-                <a href="{$aBreadcrumbs.path[topbc].url}" class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</a>
+{if $headerModel && $headerModel->getTitle() != ''}
+    {assign var=breadcrumbs value=$headerModel->getEntityBreadcrumbs()}
+    {assign var=breadcrumbCount value=$breadcrumbs|@count}
+
+    <div class="breadcrumb {if $headerModel->getIconClass()}hasIcon {$headerModel->getIconClass()}{/if}">
+        <h3 {if $breadcrumbCount == 0}class="noBreadcrumb"{/if}>
+            <span class='label'>{$headerModel->getTitle()}</span>{if $headerModel->getPageType() == "edit"}:{/if} 
+            {$headerModel->getEntityName()}
+            {if $headerModel->getNewTargetName()}
+                <span class='target'>
+                    {$headerModel->getNewTargetTitle()} 
+                    {if $headerModel->getNewTargetLink()}<a href="{$headerModel->getNewTargetLink()}">{/if}
+                    {$headerModel->getNewTargetName()}
+                    {if $headerModel->getNewTargetLink()}</a>{/if}
+                </span>
+            {/if} 
+        </h3>
+        
+        {if $headerModel->hasEntityList()}
+        <form>
+        {/if}
+        
+        {section name=breadcrumbIndex loop=$breadcrumbs}
+            {if $breadcrumbs[breadcrumbIndex]->getEntityMap()}
+                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}:            
+                  <select name="{$breadcrumbs[breadcrumbIndex]->getHtmlName()}" onChange="this.form.submit();">
+                  {foreach from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}
+                    <option value='{$itemId}' {if $itemId == $breadcrumbs[breadcrumbIndex]->getEntityId()}selected{/if}>{$aEntity.name}</option>";
+                  {/foreach}
+                  </select>
+                </span>
+            {elseif $breadcrumbs[breadcrumbIndex]->getUrl()}
+                <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()}</a>
             {else}
-                <span class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</span>
+                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()}</span>
             {/if}
             
-            {if $smarty.section.topbc.index lt $totalbc-2}
+            {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
                 <span class='sep'>&gt;</span>
             {/if}
         {/section}
-        
-        {assign var=mainbcindex value=$totalbc-1}
-        {assign var=targetindex value=$totalbc-2}
-        <h3>
-            <span class='label'>{$aBreadcrumbs.path[$mainbcindex].label}</span>{if !$aBreadcrumbs.newEntity}:{/if} 
-            {$aBreadcrumbs.path[$mainbcindex].name}
-            {if $aBreadcrumbs.newEntity && $aBreadcrumbs.path[$mainbcindex].newTarget}
-                <span class='target'>{$aBreadcrumbs.path[$mainbcindex].newTarget} {$aBreadcrumbs.path[$targetindex].name}</span>
-            {/if} 
-            
-        </h3>
+        {if $headerModel->hasEntityList()}
+        </form>
+        {/if}
     </div>
 {/if}
+
+
+
 
 {$breadcrumbsExtra}

@@ -25,14 +25,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
     <ul id="oaNavigationTabs">
-{section name=n loop=$aNav}
-{if $aNav[n].selected}
+{section name=n loop=$aMainTabNav}
+{if $aMainTabNav[n].selected}
       <li class="active {if $smarty.section.n.first} first{/if}{if $smarty.section.n.last} last{/if}">
 {else}
-      <li class="passive {if $smarty.section.n.first} first{else}{if $smarty.section.n.last} last{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{/if}">
+      <li class="passive {if $smarty.section.n.first} first{else}{if $smarty.section.n.last} last{/if}{/if}{if $aMainTabNav[$smarty.section.n.index_prev].selected} after-active{/if}">
 {/if}
         <div class="left"><div class="right">
-          <a href="{$adminBaseURL}{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a>
+          <a href="{$adminBaseURL}{$aMainTabNav[n].filename|escape}" accesskey="{t key=Home}">{$aMainTabNav[n].title|escape}</a>
         </div></div>
       </li>
 {/section}

@@ -44,7 +44,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
+addPageTools();
 phpAds_PageHeader("4.4");
 phpAds_ShowSections(array("4.1", "4.3", "4.4"));
 
@@ -74,5 +74,11 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools()
+{
+    addPageLinkTool($GLOBALS['strLinkUser_Key'], "zone-edit.php?affiliateid=$websiteId", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"] );
+}
+
 
 ?>

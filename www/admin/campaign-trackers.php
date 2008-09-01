@@ -142,7 +142,7 @@ $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
 // Display navigation
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $clientid));
-MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
+MAX_displayNavigationCampaign($campaignid, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
 
 if (!empty($campaignid)) {
     $doCampaigns = OA_Dal::factoryDO('campaigns');

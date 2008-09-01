@@ -78,54 +78,19 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($trackerid != "") {
-	// Get other trackers
-	$doTrackers = OA_Dal::factoryDO('trackers');
-	$doTrackers->addSessionListOrderBy('advertiser-trackers.php');
-	$doTrackers->clientid = $clientid;
-	$doTrackers->find();
-
-	while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
-		phpAds_PageContext(
-			MAX_buildName ($row['trackerid'], $row['trackername']),
-			"tracker-invocation.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
-			$trackerid == $row['trackerid']
-		);
-	}
-	phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
-	$extra  = "\t\t\t\t<form name='modif' action='tracker-modify.php'>"."\n";
-	$extra .= "\t\t\t\t<input type='hidden' name='trackerid' value='$trackerid'>"."\n";
-	$extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n";
-	$extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-invocation.php'>"."\n";
-	$extra .= "\t\t\t\t<br /><br />"."\n";
-	$extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-invocation.php'>$strDuplicate</a><br />"."\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
-	$extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
-	$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
-
-	$doClients = OA_Dal::factoryDO('clients');
-	$doClients->whereAdd('clientid <> '.$clientid);
-	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-	    $doClients->addReferenceFilter('agency', OA_Permission::getAgencyId());
-	}
-	$doClients->find();
-	while ($doClients->fetch() && $row = $doClients->toArray()) {
-		$extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".MAX_buildName($row['clientid'], $row['clientname'])."</option>\n";
-	}
-	$extra .= "\t\t\t\t</select>&nbsp;\n";
-	$extra .= "\t\t\t\t<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-	$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
-	$extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
-	$extra .= "\t\t\t\t</form>\n";
-
-	phpAds_PageHeader("4.1.4.4", $extra);
-	MAX_displayTrackerBreadcrumbs($trackerid);
-    phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
-} else {
+    $doClients = OA_Dal::factoryDO('clients');
+    $doClients->whereAdd('clientid <>'.$trackerid);
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->agencyid = OA_Permission::getAgencyId();
+    }
+    $doClients->find();
+    $aOtherAdvertisers = array();
+    while ($doClients->fetch() && $row = $doClients->toArray()) {
+        $aOtherAdvertisers[] = $row;
+    }
+    MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);  
+} 
+else {
 	if (isset($move) && $move == 't') {
 		// Convert client to tracker
         // TODO: is this still used? if not, we may want to remove it

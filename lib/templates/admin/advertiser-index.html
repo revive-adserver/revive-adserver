@@ -1,8 +1,8 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -24,35 +24,21 @@
 $Id$
 
 -->*}
-<img src="{$assetPath|escape}/images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
-<a href="advertiser-edit.php" accesskey="{t key=AddNew}">{t str='AddClient_Key'}</a>&nbsp;&nbsp;
-
-{phpAds_ShowBreak}
-
-<br>
-<br>
-
-<div class="section">
-<div class="title">&nbsp;{t str=Advertisers}</div>
-<div class="content">
-
 {include file=advertiser-index-list.html from=$aAdvertisers aCount=$aCount}
+<br /><br />
+{* Total number of clients *}
+<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+<tr>
+    <td height='25' colspan='2'>&nbsp;&nbsp;<b>{t str=Overall}</b></td>
+</tr>
+<tr height='1'>
+    <td colspan='3' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
+</tr>
 
-</div>
-</div>
-
-<div class="section">
-<div class="title">&nbsp;{t str=Overall}</div>
-<div class="content">
-<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
-  <tr>
-    <td height="25"><b>{$aCount.advertisers}</b> {t str=OverallAdvertisers}</td>
-    <td height="25"><b>{$aCount.campaigns}</b> {t str=OverallCampaigns} (<i>{$aCount.campaigns_active} {t str=Active}</i>)</td>
-    <td height="25"><b>{$aCount.banners}</b> {t str=OverallBanners} (<i>{$aCount.banners_active} {t str=Active}</i>)</td>
-  </tr>
-  <tr class="break">
-      <td colspan="3"></td>
-  </tr>
+<tr>
+    <td height='25'><b>{$aCount.advertisers}</b> {t str=OverallAdvertisers}</td>
+</tr>
+<tr height='1'>
+    <td colspan='3' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
+</tr>
 </table>
-</div>
-</div>

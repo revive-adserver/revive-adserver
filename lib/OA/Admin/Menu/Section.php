@@ -36,6 +36,13 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionTypeFilter.php');
  */
 class OA_Admin_Menu_Section
 {
+    const TYPE_ROOT = 0;
+    const TYPE_TAB_MAIN = 1;
+    const TYPE_LEFT_MAIN = 2;
+    const TYPE_LEFT_SUB = 3;
+    const TYPE_TAB_CONTENT = 4;
+    const TYPE_CONTENT = 5;    
+    
     var $id; //eg campaign-edit
     var $name; //eg campaign-edit
     var $link; //link to script with params
@@ -47,7 +54,23 @@ class OA_Admin_Menu_Section
     var $oSectionChecker; //checker used to decide whether this section can be shown to the user
     var $parentSection; //reference to parent section
     var $aSectionsMap; //hash holding id => section
+    
+    /**
+     * A string name that indicates relationship between sections on
+     * the same level - if a couple of sections share the same group name they could 
+     * eg. be displayed with separator added after to separate from other sections
+     * @var string
+     */
+    var $groupName;
 
+    /**
+     * Indicates section type. Whether it is eg. main tab or left menu or content tab
+     *
+     * @var int
+     */
+    var $type = -1;
+
+    
     /**
      * Enter description here...
      *
@@ -61,7 +84,7 @@ class OA_Admin_Menu_Section
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
-    function OA_Admin_Menu_Section($id, $name, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false)
+    function OA_Admin_Menu_Section($id, $name, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -73,6 +96,7 @@ class OA_Admin_Menu_Section
         $this->aSections = array();
         $this->oSectionChecker = $this->_createSecurityChecker($aAccountPermissions);
         $this->aSectionsMap = array();
+        $this->groupName = $groupName;
     }
 
 
@@ -93,6 +117,7 @@ class OA_Admin_Menu_Section
 	    return $this->setLinkParams($aParams);
 	}
 
+	
 	function setLinkParams($aParams)
 	{
         if (strpos($this->link,'?'))
@@ -105,6 +130,7 @@ class OA_Admin_Menu_Section
         return $this->link;
 	}
 
+	
 	function getHelpLink()
 	{
 	    return $this->helpLink;
@@ -127,7 +153,47 @@ class OA_Admin_Menu_Section
     {
         return $this->affixed;
     }
+    
+    
+    /**
+     * Returns the groupName of this section (if any). Group name is used to
+     * express relation between sections on the same level eg. a 10 sections on the same level
+     * could be split intto three "groups" using group names. This information
+     * would be used by UI to eg. display separator between the groups.
+     * @return string group name or null if none
+     */
+    public function getGroupName()
+    {
+        return $this->groupName;
+    }
 
+    
+    /**
+     * @param string $groupName
+     */
+    public function setGroupName($groupName)
+    {
+        $this->groupName = $groupName;
+    }
+
+    
+    /**
+     * @return int section type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    
+    /**
+     * @return int section type
+     */
+    public function setType($type)
+    {
+        return $this->type = $type;
+    }
+    
 
     /**
      * Returns a child with a given id. If user have no access to this section
@@ -159,16 +225,23 @@ class OA_Admin_Menu_Section
 
 
     /**
-     * Gets a list of child sections
+     * Gets a list of child sections. Check access indicates whether section should
+     * be filtered. If type is given only children of a given type are considered.
      * @param boolean $checkAccess indicates whether checks should permormed before letting user access sections
      */
-	function getSections($checkAccess = true)
+	function getSections($checkAccess = true, $type = null)
 	{
 	   $aSections = &$this->aSections;
 
 	   if ($checkAccess) {
-	       $aSections = array_values(array_filter($aSections, array(new OA_Admin_SectionCheckerFilter(), 'accept')));
-	       //TODO remove filter, use either foreach or a callback in menusection object
+	       $aFilteredSections = array();
+	       foreach ($aSections as $oSection) {
+               if ($oSection->check() 
+                && ($type == null || $type == $oSection->getType())) {
+                   $aFilteredSections[] = $oSection;
+               }
+	       }
+	       $aSections = $aFilteredSections;
 	   }
 
 	   return $aSections;
@@ -184,6 +257,40 @@ class OA_Admin_Menu_Section
 	{
 	   return $this->parentSection;
 	}
+	
+	
+	/**
+	 * Returns parent section of a given type. If current section is of the given 
+	 * type it will be returned. If there is no parent of a given type null is returned.
+	 *
+	 * @param int $type OA_Admin_Menu_Section type contant
+	 * @return matching section of null in none matched 
+	 */
+	function &getParentOrSelf($type) 
+	{
+        if ($this->type == $type) {
+            return $this;
+        } 
+        else {
+            return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
+        }
+	}
+	
+	/**
+	 * Returns siblings of this section. If type is given, returns only siblings
+	 * with this type. 
+	 *
+	 * @param int $type
+	 * @return array of OA_Admin_Menu_Section objects
+	 */
+	function getSiblings($type)
+	{
+	    if ($this->parentSection == null) {
+	        return array();
+	    }
+	    return $this->parentSection->getSections(true, $type);
+	}
+	
 
 
 	function setParent(&$section)
@@ -204,6 +311,16 @@ class OA_Admin_Menu_Section
     }
 
 
+    function check()
+    {
+        if (empty($this->osSectionChecker)) {
+             return true;
+        }
+        
+        return $this->oSectionChecker($this);
+    }
+    
+    
     //BUILDER FUNCTIONS - not secured
     /**
      * Appends new section to the list of subsections. If element cannot be
@@ -355,8 +472,8 @@ class OA_Admin_Menu_Section
 
         return new OA_Admin_Menu_Compound_Checker($checkers, 'OR');
     }
-
 }
+    
     /**
      * TODO refactor as util
      *

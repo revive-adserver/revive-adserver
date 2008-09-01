@@ -298,8 +298,7 @@ function buildZoneForm($zone)
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
 
     $form->addElement('controls', 'form-controls');
-    $submitLabel = (!empty($zone['zoneid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';
-    $form->addElement('submit', 'submit', $submitLabel);
+    $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
 
 
     //validation rules
@@ -554,6 +553,15 @@ function processForm($form)
                 }
             }
 
+            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
+                    OX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+                } else {
+                    OX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+                }
+            } else {
+                OX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+            }
         }
         // Add
         else
@@ -595,16 +603,16 @@ function processForm($form)
             	$oAdNetworks = new OA_Central_AdNetworks();
     			$oAdNetworks->updateZone($doZones, $anWebsiteId);
             }
-        }
+			
+            // Queue confirmation message        
+            $translation = new OA_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenAdded'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']), 
+                $aFields['zonename']
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
-        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                OX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
-            } else {
-                OX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
-            }
-        } else {
-            OX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+            OX_Admin_Redirect::redirect("affiliate-zones.php?affiliateid=".$aFields['affiliateid']);
         }
     }
 

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -48,19 +48,9 @@ define("phpAds_Login", 0);
 define("phpAds_Error", -1);
 define("phpAds_PasswordRecovery", -2);
 
-/*-------------------------------------------------------*/
-/* Add breadcrumb context to left menubar                */
-/*-------------------------------------------------------*/
 
 function phpAds_PageContext($name, $link, $selected)
 {
-    global $phpAds_context;
-    $phpAds_context[] = array(
-        'name' => $name,
-        'name_full' => preg_replace("/<\\/?span.*>/U", "",$name),
-        'link' => $link,
-        'selected' => $selected
-    );
 }
 
 /*-------------------------------------------------------*/
@@ -85,6 +75,81 @@ function registerStylesheetFile($filePath)
 
 
 /**
+ * Adds new action to the page. 
+ * 
+ * Please note that you need to add tools before invoking showHeader function.
+ *
+ * @param string $title action title - translated
+ * @param string $url link url for the action
+ * @param string $iconClass icon class for action (if any)
+ * @param string $accesskey access key for action (if any)
+ * @param string $extraAttributes extra html attributes for action link (if any)
+ */
+function addPageLinkTool($title, $url, $iconClass = null, $accesskey = null, $extraAttributes = null)
+{
+    $oUI = OA_Admin_UI::getInstance();
+    $oUI->addPageLinkTool($title, $url, $iconClass, $accesskey, $extraAttributes);
+}
+
+/**
+ * Adds new action to the page. 
+ * 
+ * Please note that you need to add tools before invoking showHeader function.
+ *
+ * @param string $title action title - translated
+ * @param string $url link url for the action
+ * @param string $iconClass icon class for action (if any)
+ * @param string $accesskey access key for action (if any)
+ * @param string $extraAttributes extra html attributes for action link (if any)
+ */
+function addPageFormTool($title, $url, $iconClass = null, $accesskey = null, $extraAttributes = null)
+{
+    $oUI = OA_Admin_UI::getInstance();
+    $oUI->addPageFormTool($title, $url, $iconClass, $accesskey, $extraAttributes);
+}
+
+/**
+ * A hook to add left menu subitems to current left menu item
+ *
+ */
+function addLeftMenuSubItem($id, $title, $url)
+{
+    global $ox_left_menu_sub;
+    
+    $ox_left_menu_sub['items'][$id]['title'] = $title;
+    $ox_left_menu_sub['items'][$id]['link'] = $url;
+}
+
+
+function setCurrentLeftMenuSubItem($itemId)
+{
+    global $ox_left_menu_sub;
+    
+    $ox_left_menu_sub['current'] = $itemId;
+}
+
+
+/**
+ * Adds new shortcut to the page.
+ * 
+ * Please note that you need to add shortcuts before invoking showHeader function. 
+ *
+ * @param string $title action title - translated
+ * @param string $url link url for the action
+ * @param string $iconClass icon class for action (if any)
+ * @param string $accesskey access key for action (if any)
+ */
+function addPageShortcut($title, $url, $iconClass, $accesskey = null)
+{
+    $oUI = OA_Admin_UI::getInstance();
+    $oUI->addPageShortcut($title, $url, $iconClass);
+    
+}
+
+
+
+
+/**
  * Show page header
  *
  * @todo Remove the "if stats, use numeric system" mechanism, should happen with the stats rewrite
@@ -97,10 +162,10 @@ function registerStylesheetFile($filePath)
  * @param boolean set to false if you do not wish to show the main navigation
  * @param boolean set to true to hide white borders between main nav and sub nav in the main part
  */
-function phpAds_PageHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
+function phpAds_PageHeader($ID = null, $headerModel = null, $imgPath="", $showSidebar=true, $showMainNav=true)
 {
     $GLOBALS['_MAX']['ADMIN_UI'] = OA_Admin_UI::getInstance();
-    $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $extra, $imgPath, $showSidebar, $showMainNav, $noBorder);
+    $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $headerModel, $imgPath, $showSidebar, $showMainNav);
     $GLOBALS['phpAds_GUIDone'] = true;
 }
 
@@ -108,7 +173,7 @@ function phpAds_PageHeader($ID = null, $extra="", $imgPath="", $showSidebar=true
 /* Show page footer                                      */
 /*-------------------------------------------------------*/
 
-function phpAds_PageFooter($imgPath='', $noBorder = false)
+function phpAds_PageFooter($imgPath='')
 {
     if (isset($GLOBALS['_MAX']['ADMIN_UI'])) {
         $GLOBALS['_MAX']['ADMIN_UI']->showFooter();

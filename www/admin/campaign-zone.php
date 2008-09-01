@@ -48,7 +48,7 @@ $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
 $pageName = basename($_SERVER['PHP_SELF']);
 $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
-MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
+MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
     
 /*-------------------------------------------------------*/
 /* Main code                                             */

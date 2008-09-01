@@ -73,25 +73,10 @@ if (!isset($orderdirection))
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-	// Get other advertisers
-    $doAdvertiser = OA_Dal::factoryDO('clients');
-	$doAdvertiser->agencyid = OA_Permission::getEntityId();
-    $doAdvertiser->addSessionListOrderBy('advertiser-index.php');
-    $doAdvertiser->find();
-	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
-	{
-		phpAds_PageContext(
-			MAX_buildName ($row['clientid'], $row['clientname']),
-			"advertiser-trackers.php?clientid=".$row['clientid'],
-			$clientid == $row['clientid']
-		);
-	}
-
-	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
-
-	MAX_displayAdvertiserBreadcrumbs($clientid);
-	phpAds_PageHeader("4.1.4");
-    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
+    addPageTools($clientid);
+    addAdvertiserPageToolsAndShortcuts($clientid);    
+	$oHeaderModel = buildAdvertiserHeaderModel($clientid);
+	phpAds_PageHeader(null, $oHeaderModel);
 }
 
 /*-------------------------------------------------------*/
@@ -104,16 +89,6 @@ $doTrackers->clientid = $clientid;
 $doTrackers->addListOrderBy($listorder, $orderdirection);
 $doTrackers->find();
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-	echo "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-tracker-new.gif' border='0' align='absmiddle'>\n";
-	echo "\t\t\t\t<a href='tracker-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddTracker_Key."</a>&nbsp;&nbsp;\n";
-	phpAds_ShowBreak();
-}
-
-
-
-echo "\t\t\t\t<br /><br />\n";
 echo "\t\t\t\t<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
 
 
@@ -258,5 +233,13 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools($clientid)
+{
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {    
+        addPageLinkTool($GLOBALS["strAddTracker_Key"], "tracker-edit.php?clientid=$clientid", "iconTrackerAdd", $GLOBALS["strAddNew"] );
+    }
+}
+
 
 ?>

@@ -519,22 +519,25 @@ $aInstallerSections = array (
 
 // setup which sections to display
 $oMenu = OA_Admin_Menu::singleton();
-$currentSectionID = "'".$activeNav[$action]."'";
-$oMenu->add(new OA_Admin_Menu_Section($currentSectionID,  '', ''));
+
+//since we display installer nav as horizontal tabs we need to add two fake levels above
+$firstLevelNavID = 'l1'.$activeNav[$action];
+$secondLevelNavID = 'l2'.$activeNav[$action];
+$oMenu->add(new OA_Admin_Menu_Section($firstLevelNavID,  '', ''));
+$oMenu->addTo($firstLevelNavID, new OA_Admin_Menu_Section($secondLevelNavID,  '', ''));
+
+//$currentSectionID = $firstLevelNavID;
+$currentSectionID = $secondLevelNavID;
 
 foreach ($activeNav as $val) {
-	if ($oMenu->get($val) == null) {
-    $oMenu->addTo($currentSectionID, $aInstallerSections[$val]);
+    if ($oMenu->get($val) == null) {
+        $oMenu->addTo($secondLevelNavID, $aInstallerSections[$val]);
+//        $oMenu->addTo($firstLevelNavID, $aInstallerSections[$val]);
 	}
 }
 
 // display header and navigation, with proper 'active page' marked using $activeNav[$action]
-phpAds_PageHeader($activeNav[$action],'', $imgPath, false, false);
-
-// display navigation
-//phpAds_ShowSections($showSections, false, true, $imgPath, $OA_Navigation);
-
-
+phpAds_PageHeader($activeNav[$action], new OA_Admin_UI_Model_PageHeaderModel(), $imgPath, false, false);
 // calculate percentage complete
 $currSection = $oMenu->get($currentSectionID);
 $showSections = $currSection->getSections();

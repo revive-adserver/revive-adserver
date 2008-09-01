@@ -50,19 +50,20 @@ $userAccess->init();
 
 function OA_headerNavigation()
 {
+    $oHeaderModel = buildAdvertiserHeaderModel($GLOBALS['clientid']);
+    
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        phpAds_PageHeader("advertiser-access");
-        MAX_displayAdvertiserBreadcrumbs($GLOBALS['clientid']);
+        phpAds_PageHeader("advertiser-access", $oHeaderModel);
         phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.2"));
-    } else {
+    } 
+    else {
     	$sections = array();
     	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
         	$sections[] = '2.2';
     	}
         $sections[] = '2.3';
         $sections[] = '2.3.2';
-        phpAds_PageHeader('2.3.2');
-        MAX_displayAdvertiserBreadcrumbs($GLOBALS['clientid']);
+        phpAds_PageHeader('2.3.2', $oHeaderModel);
     	phpAds_ShowSections($sections);
     }
 }

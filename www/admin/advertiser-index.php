@@ -43,8 +43,7 @@ function _isBannerAssignedToCampaign($aBannerData)
 }
 
 // Register input variables
-phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
-                      'orderdirection');
+phpAds_registerGlobal('hideinactive', 'listorder', 'orderdirection');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -52,13 +51,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
-$sections = array("4.1", "4.2", "4.3");
-if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
-    $sections[] = '4.4';
-}
-phpAds_PageHeader('4.1');
-phpAds_ShowSections($sections);
+addPageTools();
+phpAds_PageHeader(null, buildHeaderModel());
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -111,48 +105,14 @@ $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $dalBanners = OA_Dal::factoryDAL('banners');
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
-    $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
-    $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
-} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+} 
+elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
-    $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
-    $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
 }
 
 // Build Tree
 $clientshidden = 0;
-
-if (!empty($banners)) {
-    // Add banner to campaigns
-    foreach ($banners as $bkey => $banner) {
-        $name = $strUntitled;
-        if (!empty($banner['alt'])) {
-            $name = $banner['alt'];
-        }
-        if (!empty($banner['description'])) {
-            $name = $banner['description'];
-        }
-        $banner['name'] = phpAds_breakString ($name, '30');
-
-        if (_isBannerAssignedToCampaign($banner)) {
-            $campaigns[$banner['campaignid']]['banners'][$bkey] = $banner;
-        }
-    }
-    unset ($banners);
-}
-
-if (!empty($campaigns)) {
-    foreach ($campaigns as $ckey => $campaign) {
-        if (!isset($campaign['banners'])) {
-            $campaign['banners'] = array();
-        }
-        //add artificial type attribute
-        $campaign['type'] = OX_Util_Utils::getCampaignType($campaign['priority']);
-        $clients[$campaign['clientid']]['campaigns'][$ckey] = $campaign;
-    }
-    unset ($campaigns);
-}
 
 if (!empty($clients)) {
     foreach ($clients as $key => $client) {
@@ -162,122 +122,28 @@ if (!empty($clients)) {
     }
 }
 
-// Add ID found in expand to expanded nodes
-if (!empty($expand)) {
-    switch ($expand) {
-        case 'all':
-       	if(is_array($clients)) {
-        	foreach($clients as $key=>$client) {
-        	    $node_array['clients'][$key]['expand'] = TRUE;
-    	        if(is_array($client['campaigns'])) {
-	            	foreach($client['campaigns'] as $ckey=>$campaign) {
-                		$node_array['clients'][$key]['campaigns'][$ckey]['expand'] = TRUE;
-            		}
-            	}
-        	}
-        }
-        break;
-
-        case 'none':
-        if(is_array($clients)) {
-        	foreach($clients as $key=>$client) {
-            	$node_array['clients'][$key]['expand'] = FALSE;
-            	if(is_array($client['campaigns'])) {
-            		foreach($client['campaigns'] as $ckey=>$campaign) {
-                		$node_array['clients'][$key]['campaigns'][$ckey]['expand'] = FALSE;
-            		}
-            	}
-        	}
-        }
-        break;
-
-        default:
-        if (preg_match("/client:([0-9]*)/i", $expand, $result)) {
-            $node_array['clients'][$result[1]]['expand'] = TRUE;
-        } else if (preg_match("/campaign:([0-9]*)-([0-9]*)/i", $expand, $result)) {
-            $node_array['clients'][$result[1]]['campaigns'][$result[2]]['expand'] = TRUE;
-        }
-        break;
-    }
-} else if (isset($collapse) && $collapse != '') {
-    if (preg_match("/client:([0-9]*)/i", $collapse, $result)) {
-        $node_array['clients'][$result[1]]['expand'] = FALSE;
-    } else if (preg_match("/campaign:([0-9]*)-([0-9]*)/i", $collapse, $result)) {
-        $node_array['clients'][$result[1]]['campaigns'][$result[2]]['expand'] = FALSE;
-    }
-
-}
-$expandUsed = false;
-if (isset($node_array['clients'])) {
-    foreach($node_array['clients'] as $cid=>$client) {
-        if (!empty($clients[$cid])) {
-            $clients[$cid]['expand'] = (!empty($client['expand']) ? TRUE : FALSE);
-            
-            if (!$expandUsed && $clients[$cid]['expand'] == true) {
-                $expandUsed = true;
-            }
-            
-            if(!empty($client['campaigns'])) {
-                foreach($client['campaigns'] as $campaignid=>$campaign) {
-                    $clients[$cid]['campaigns'][$campaignid]['expand'] = (!empty($campaign['expand']) ? TRUE : FALSE);
-                }
-            }
-        }
-    }
-}
-
 $aOacAdvertisers = array();
 $aCount = array(
     'advertisers'        => 0,
     'advertisers_hidden' => 0,
-    'campaigns'          => 0,
-    'banners'            => 0,
-    'campaigns_active'   => 0,
-    'banners_active'     => 0
 );
 
 foreach (array_keys($clients) as $clientid) {
     $client = &$clients[$clientid];
 
     $aCount['advertisers']++;
-    if (isset($client['campaigns'])) {
-        foreach (array_keys($client['campaigns']) as $campaignid) {
-            $campaign = &$client['campaigns'][$campaignid];
-            $aCount['campaigns']++;
-            foreach (array_keys($campaign['banners']) as $bannerid) {
-                $banner = &$campaign['banners'][$bannerid];
-    
-                $aCount['banners']++;
-                if ($hideinactive && $banner['status'] != OA_ENTITY_STATUS_RUNNING) {
-                    unset($campaign['banners'][$bannerid]);
-                } else {
-                    $aCount['banners_active']++;
-                }
-            }
-    
-            if ($hideinactive && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || !count($campaign['banners']))) {
-                $aCount['banners_active'] -= count($campaign['banners']);
-                unset($client['campaigns'][$campaignid]);
-                $aCount['an_hidden']++;
-            } else {
-                $aCount['campaigns_active']++;
-            }
-        }
-    }
-
     if ($hideinactive && !count($client['campaigns'])) {
         unset($clients[$clientid]);
         $aCount['advertisers_hidden']++;
-    } elseif ($isOac) {
+    } 
+    elseif ($isOac) {
         unset($clients[$clientid]);
         $aOacAdvertisers[$clientid] = $client;
     }
-
 }
 
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
-$oTpl->assign('showAdDirect', true); // Always true OX-3481
 $oTpl->assign('expandUsed', $expandUsed);
 
 $oTpl->assign('hideinactive', $hideinactive);
@@ -305,4 +171,18 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools()
+{
+    addPageLinkTool($GLOBALS["strAddClient_Key"], "advertiser-edit.php", "iconAdvertiserAdd", $GLOBALS["strAddNew"] );
+}
+
+function buildHeaderModel()
+{
+    $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+    return $builder->buildEntityHeader(array(), 'advertisers', 'list');
+}
+
+
+
 ?>

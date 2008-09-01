@@ -4,9 +4,7 @@ body {
 	background: #fff;
 	color: #444444;
 }
-body.hasSidebar {
-	background: #fff url(../images/ltr/background.gif) top left repeat-y;
-}
+
 body.hasInterface {
 	min-width: 1000px;
 
@@ -377,111 +375,214 @@ a:hover {
 }
 
 
-#oaMain {
+/* First level content */
+#firstLevelContent {
 	margin-top: -24px;
+	position: relative;
+	z-index: 1;
 }
+
+body.hasGradient #firstLevelContent {
+    background:#FFFFFF url(../images/background-gradient.gif) repeat-x scroll left -16px;
+}
+
 
 #context-help {
 	position: absolute;
 	right: 40px;
 	margin-top: 32px;
-	padding-left: 20px;
-	background: url(../images/icon-help.gif) no-repeat left 2px;
+	padding: 1px 0px 1px 20px;
+	background: url(../images/icon-help.gif) no-repeat left center;
 }
 
-#oaSidebar {
+
+/** second level navigation */
+
+#secondLevelNavigation {
 	position: absolute;
 	left: 0;
 
 	width: 160px;
-	margin: 0 1px 0 0;
-	padding: 0 0 0 20px;
-	color: #0767A8;
+	margin: 24px 0 0 20px;
 }
 
-#oaSidebar h3 {
-	margin: 20px 0 4px;
-	font-size: 11px;
+#secondLevelNavigation .navigation {
+  width: 160px;
+  margin: 0 0 20px 0;
+  padding: 0;
+  list-style-type: none;
 }
-#oaSidebar ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+#secondLevelNavigation .navigation li {
+  background: url(../images/button-navigation.gif) left -26px no-repeat;
 }
-#oaSidebar ul li {
-	margin: 0;
-	padding: 0;
+#secondLevelNavigation .navigation li.first, #secondLevelNavigation .navigation li.single {
+  background-position: left 0;
 }
-#oaSidebar #oaSidebarNavigation {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+#secondLevelNavigation .navigation li.last {
+  background-position: left -52px;
 }
-#oaSidebarNavigation li {
-	background: url(../images/caret-u.gif) left 3px no-repeat;
+#secondLevelNavigation .navigation li.single {
+  background-position: left 0;
 }
-#oaSidebarNavigation .top {
-	background-image: url(../images/caret-t.gif);
-	background-position: left 7px;
-
-	padding: 4px 0;
-}
-#oaSidebarNavigation .first {
-	padding-top: 4px;
-	background-position: left 7px;
-	border-top: 1px solid #ccc;
-}
-#oaSidebarNavigation .current {
-	padding-bottom: 4px;
-}
-#oaSidebarNavigation a {
-	display: block;
-	padding: 0 0 0 20px;
+#secondLevelNavigation .navigation li.active {
+  background-position: -160px -52px;
 }
 
-#oaSidebar #oaSidebarContext {
-	border-bottom: 1px solid #ccc;
-	padding: 4px 0;
-	padding-right: 3px;
-}
-#oaSidebarContext li {
-	background: url(../images/box-0.gif) 18px 4px no-repeat;
-	overflow: hidden;
-	word-wrap: break-word;
+#secondLevelNavigation .before-active div.left {
+  background: url(../images/button-navigation.gif) -160px 0px no-repeat;
 }
 
-#oaSidebarContext li.selected {
-	background-image: url(../images/box-1.gif);
+#secondLevelNavigation .after-active div.left {
+  background: url(../images/button-navigation.gif) -160px -26px no-repeat;
 }
 
-#oaSidebarContext a {
-	display: block;
-	padding: 0 0 0 36px;
+#secondLevelNavigation .navigation li.single div.left {
+  background: url(../images/button-navigation.gif) -320px -9px no-repeat;;
 }
 
-#oaSidebarCustom select {
-	width: 120px;
+#secondLevelNavigation .active div.left {
+  background: url(../images/button-navigation.gif) -320px bottom no-repeat;
+}
+#secondLevelNavigation .navigation li a {
+  display: block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  color: #444;
+}
+#secondLevelNavigation .navigation li.active a {
+  color: #fff;
+}
+#secondLevelNavigation .navigation li.active ul {
+  margin: 0;
+  padding: 0 0 9px;
+}
+#secondLevelNavigation .navigation li.active ul li.first,
+#secondLevelNavigation .navigation li.active ul li.last,
+#secondLevelNavigation .navigation li.active ul li.active,
+#secondLevelNavigation .navigation li.active ul li {
+  width: 160px;
+  background: url(../images/button-navigation.gif) -480px -52px no-repeat;
+}
+#secondLevelNavigation .navigation li.active ul li div.left {
+  background-image: none;
+}
+#secondLevelNavigation .navigation li.active ul li.first div.left {
+  background: url(../images/button-navigation.gif) -480px -26px no-repeat;
+}
+#secondLevelNavigation .navigation li.active ul li a {
+  padding: 0 20px;
+  color: #444;
+}
+#secondLevelNavigation .navigation li.active ul li.active a {
+  font-weight: bold;
 }
 
-#oaSidebarShortcuts {
-	border-top: 1px solid #ccc;
+/* Second level content */
+#secondLevelContent {
+    margin: 0;
 }
-#oaSidebarShortcuts li {
-	border-bottom: 1px solid #ccc;
-	background-repeat: no-repeat;
-	background-position: left center;
-	line-height: 24px;
+
+.hasSidebar #secondLevelContent {
+  margin: 0 0 0 186px;
+  /*OLD margin: 0 0 0 181px;*/
+  padding: 6px 0 0;
 }
-#oaSidebarShortcuts li a {
-	padding: 0 0 0 20px;
+
+/* Third level navigation */
+
+#thirdLevelNavigation {
+  padding: 6px 0 0 15px;
+}
+#thirdLevelNavigation .navigation {
+  margin: 0;
+  padding: 0;
+
+  white-space: nowrap;
+  overflow: hidden;
+
+  background: #fff url(../images/section-body.gif) left -80px repeat-x;
+  height: 21px;
+  line-height: 21px;
+  width: 100%;
+}
+#thirdLevelNavigation li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  background: url(../images/section-body.gif) left 0px repeat-x;
+  list-style-type: none;
+}
+#thirdLevelNavigation li div.left {
+  background: url(../images/section-link.gif) left 0px no-repeat;
+}
+#thirdLevelNavigation li.first div.left {
+  background: url(../images/section-lead-in-plain.gif) left 0px no-repeat;
+}
+#thirdLevelNavigation li.last div.right {
+  background: url(../images/section-lead-out.gif) right 0px no-repeat;
+}
+#thirdLevelNavigation li.active,
+#thirdLevelNavigation li.active div.left {
+  background-position: left -40px;
+}
+#thirdLevelNavigation li.after-active div.left {
+  background-position: left -80px;
+}
+#thirdLevelNavigation li.active div.right {
+  background-position: right -40px;
+}
+#thirdLevelNavigation li div {
+  overflow: hidden;
+
+  /* Fix IE bug: div should wrap around contents */
+  -overflow: visible;
+  -width: 1px;
+}
+#thirdLevelNavigation li span,
+#thirdLevelNavigation li a {
+  display: block;
+  float: left;
+  font-size: 11px;
+  color: #444;
+  padding: 0 6px 0 17px;
+  white-space: nowrap;
+}
+#thirdLevelNavigation li.last span,
+#thirdLevelNavigation li.last a {
+  padding-right: 17px;
+}
+#thirdLevelNavigation li.active span,
+#thirdLevelNavigation li.active a {
+  color: #0767A8;
 }
 
 
-#oaContents {
-	margin: 0;
+/* Third level header */
+#thirdLevelHeader
+{
+  padding: 0px 20px 0px 15px;
+  min-height: 40px;
 }
-.hasSidebar #oaContents {
-	margin: 0 0 0 181px;
+  
+
+/* Third level content */
+
+#thirdLevelContent {
+  margin: 0 20px 0 20px;
+  min-height: 350px;
+
+  /* Fix IE bug: min-height not supported */
+  -height: expression((this.offsetHeight < 370) ? "350px": "auto");
 }
+
+.thirdLevelHasTabs {
+  background: url(../images/line-gradient.gif) top left no-repeat;
+  padding-left: 20px;
+  padding-top: 30px;
+}
+
+
 
 #oaSection {
 	background: #fff url(../images/section-body.gif) left -80px repeat-x;
@@ -578,24 +679,30 @@ select.switcher optgroup {
 }
 
 div.breadcrumb {
-	margin: 10px 0px 17px 20px;
+    padding: 0px 0px 35px 3px;	
+	margin-top: 14px;
 	font-size: 10px;
 }
 
-div.onlytitle {
-	margin-top: 16px;
-}
 
 div.breadcrumb h3 {
 	font-size: 18px;
 	font-weight: bold;
-	margin: 6px 0 0 0;
+	margin: 0px;
 	color: #666666;
 }
 
 div.breadcrumb h3 span.label {
   color: #333333;
 }
+
+div.hasIcon h3.noBreadcrumb,
+div.hasIcon h3.noBreadcrumb,
+div.hasIcon h3.noBreadcrumb {
+  position: relative;
+  top: 13px;
+}
+
 
 div.breadcrumb h3 span.dest,
 div.breadcrumb h3 span.target {
@@ -607,6 +714,15 @@ div.breadcrumb span.sep {
 	padding-right: 2ex;
 	position: relative;
 	color: #606060;
+}
+
+div.breadcrumb form {
+  margin: 4px 0px 0px 0px;
+}
+
+
+div.breadcrumb select {
+  font-weight: normal;
 }
 
 div.bannercode {
@@ -636,6 +752,121 @@ div.breadcrumb .ban {
 div.breadcrumb .webs {
 	background-image: url("../images/icon-affiliate.gif");
 }
+
+/* Actions and shortcuts */
+div.tools, div.shortcuts {
+    float: right;
+    padding: 3px 10px 3px 10px;
+    border-top: none;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    background-color: white;
+    /*position: relative;
+    top: -6px;*/
+   position: relative;
+   z-index: 1;    
+}
+
+div.tools, div.shortcuts {
+    margin-right: 20px;
+}
+
+div.tools .expanded .more, div.shortcuts .expanded .more, div.tools .less, div.shortcuts .less {
+  display: none;
+}
+
+div.tools .expanded .less, div.shortcuts .expanded .less {
+  display: inline;
+}
+
+
+div.tools a.more-less, div.shortcuts a.more-less {
+  display: block;
+  text-align: right;
+  font-size: 10px;
+}
+
+div.shortcuts .corner, div.tools .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    top: 0;
+    -top: auto;
+
+    bottom: -1px;
+    -bottom: -2px;
+
+    width: 8px;
+    height: expression((this.offsetParent.scrollHeight + 1) + 'px');
+
+    background-image: url("../images/dark-control-corners.png");
+    background-repeat: no-repeat;
+}
+
+
+div.tools .bottom-left, div.shortcuts .bottom-left {
+    left: -1px;
+    background-position: bottom left;
+}
+
+div.tools .bottom-right, div.shortcuts .bottom-right {
+    right: -1px;
+    background-position: bottom right;
+}
+
+div.shortcuts {
+    padding: 3px 10px 3px 10px;
+}
+
+
+div.tools h4, div.shortcuts h4 {
+  padding: 5px 5px 5px 0px;
+  margin: 0;
+  font-size: 100%;
+  font-weight: bold;
+  color: #626262;
+}
+
+
+div.tools .title, div.shortcuts .title {
+    font-weight: bold;
+    margin-bottom: 2px;
+    //margin-right: 3px;
+    //float: left;
+}
+
+div.tools ul, div.shortcuts ul {
+    list-style-type:none;
+    margin:0pt;
+    padding:0pt;
+}
+
+div.tools li, div.shortcuts li {
+    padding:0px 0px 5px 0px;
+    //line-height: 16px;
+}
+
+div.tools .form {
+    display: none;
+    margin: 3px 0px 3px 0px;
+    padding: 0px;
+}
+
+div.tools form .submit, div.shortcuts form .submit {
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+div.tools form select, div.shortcuts form select
+{
+    width: 100px;
+}
+
+
+
+
 
 .ent {
 	font-weight: bold;
@@ -712,11 +943,6 @@ form.flat textarea.h-medium-h {
 form.flat textarea.h-large-h {
     height: 260px;	
 }
-
-form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].frozen {
-	color: #6F6F6F;
-}
-
 
 /* standard control sizes */
 form.flat .x-small {
@@ -809,17 +1035,6 @@ padding: 0px 10px;
 
 .control-panel .right {
     margin-right: 0px;
-}
-
-.control-set {
-    float: left;
-    color: #666666;
-    margin-top: 10px;
-    padding: 15px 15px 10px 15px;
-    border-top: none;
-    border-left: 1px solid #dddddd;
-    border-right: 1px solid #dddddd;
-    border-bottom: 1px solid #dddddd;
 }
 
 .control-set {
@@ -1183,7 +1398,6 @@ table.data td.graph .percentage {
 .message {
 	width: 650px;
     margin-bottom: 1em;
-    border: 1px solid red;
     padding: .7em 1em 0.7em 30px;
     color: black;
     background-position: 5px center;

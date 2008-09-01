@@ -44,7 +44,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
+addPageTools();
 phpAds_PageHeader("4.1");
 phpAds_ShowSections(array("4.1", "4.3", "4.4"));
 
@@ -102,15 +102,6 @@ foreach ($aManagers as $k => $v) {
     $aManagers[$k]['hideinactive'] = 0;
 }
 
-
-// using same icons and images for agencies as we do for advertisers...
-echo "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-advertiser-new.gif' border='0' align='absmiddle'>&nbsp;\n";
-echo "\t\t\t\t<a href='agency-edit.php' accesskey='".$keyAddNew."'>".$strAddAgency_Key."</a>&nbsp;&nbsp;\n";
-phpAds_ShowBreak();
-
-
-
-echo "\t\t\t\t<br /><br />\n";
 echo "\t\t\t\t<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
 
 echo "\t\t\t\t<tr height='25'>\n";
@@ -286,5 +277,10 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools()
+{
+    addPageLinkTool($GLOBALS['strAddAgency_Key'], "zone-edit.php?affiliateid=$websiteId", "iconAdvertiserAdd", $GLOBALS["keyAddNew"] );
+}
 
 ?>

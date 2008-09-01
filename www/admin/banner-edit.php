@@ -775,13 +775,30 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         }
     }
 
-    // Determine what the next page is
-    if ($editSwf) {
-        $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $nextPage = "banner-edit.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+    if ($insert) {
+        // Queue confirmation message        
+        $translation = new OA_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
+            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid), 
+            $aFields['description']
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        // Determine what the next page is
+        if ($editSwf) {
+            $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid&insert=true";
+        } else {
+            $nextPage = "campaign-banners.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid'];
+        }
     } else {
-        $nextPage = "banner-acl.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+        // Determine what the next page is
+        if ($editSwf) {
+            $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $nextPage = "banner-edit.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+        } else {
+            $nextPage = "banner-acl.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+        }
     }
 
     // Go to the next page

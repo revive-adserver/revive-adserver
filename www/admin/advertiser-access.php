@@ -47,36 +47,19 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
+addPageTools($clientid);
+addAdvertiserPageToolsAndShortcuts($clientid);
 if (!empty($clientid)) {
+    $oHeaderModel = buildAdvertiserHeaderModel($clientid);
+    
 	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-access.php');
-		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
-        MAX_displayAdvertiserBreadcrumbs($clientid);
-		phpAds_PageHeader("4.1.5");
-		$aTabSections = array("4.1.2", "4.1.3");
-        // Conditionally display conversion tracking values
-		if ($conf['logging']['trackerImpressions']) {
-		    $aTabSections[] = "4.1.4";
-		}
-		$aTabSections[] = "4.1.5";
-		phpAds_ShowSections($aTabSections);
-	} else {
-		phpAds_PageHeader('2.3');
-		MAX_displayAdvertiserBreadcrumbs($clientid);
-        $sections = array();
-    	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-        	$sections[] = '2.2';
-    	}
-        $sections[] = '2.3';
-    	phpAds_ShowSections($sections);
+		phpAds_PageHeader("4.1.5", $oHeaderModel);
+	} 
+	else {
+		phpAds_PageHeader('2.3', $oHeaderModel);
 	}
-} else {
-    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))),
-                                    "advertiser");
-    phpAds_PageHeader("4.1.1");
-	phpAds_ShowSections(array("4.1.1"));
-}
+} 
 $tabindex = 1;
 
 
@@ -108,5 +91,11 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+function addPageTools($clientid)
+{
+    addPageLinkTool($GLOBALS["strLinkUser_Key"], "advertiser-user-start.php?clientid=$clientid", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"] );
+}
+
 
 ?>

@@ -67,7 +67,7 @@ class OA_Admin_Menu
             $oPluginManager = & new OX_Plugin_ComponentGroupManager();
             $oPluginManager->mergeMenu($oMenu, $accountType);
             $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;
-            $oMenu->_saveToCache($accountType);
+            //$oMenu->_saveToCache($accountType);
         }
         // Filter against user-account-preferences...
         return $oMenu;
@@ -80,6 +80,7 @@ class OA_Admin_Menu
         $this->aAllSections = array();
     }
 
+    
     function _loadFromCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
@@ -87,12 +88,14 @@ class OA_Admin_Menu
         return $oCache->load(true);
     }
 
+    
     function _saveToCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
         return $oCache->save($this);
     }
+    
 
     function _clearCache($accountType)
     {
@@ -100,11 +103,13 @@ class OA_Admin_Menu
         $oCache->setFileNameProtection(false);
         return $oCache->clear();
     }
+    
 
     function _setLinkParams($aParams)
     {
         $this->aLinkParams = $aParams;
     }
+    
 
     /**
      * Get menu section with a given name
@@ -134,6 +139,7 @@ class OA_Admin_Menu
 
         return $oSection;
     }
+    
 
     function removeSection($sectionId)
     {
@@ -147,6 +153,7 @@ class OA_Admin_Menu
 
         return (!array_key_exists($sectionId, $this->aAllSections));
     }
+    
 
     /**
      * Gets a list of root sections
@@ -223,6 +230,47 @@ class OA_Admin_Menu
 
         return array_reverse($aParents);
     }
+    
+
+    /**
+     * Returns a nesting level of section with given id (starting at the root which is 0)
+     * in menu tree
+     * eg. for the following structure where A,B,C,D are sections:
+     * |-A
+     * | |-B
+     * |   |-C
+     * |     |-D
+     *
+     * A call getLevel('D') will return 3
+     *
+     * There is an assumption that if section is accessible for the user, it's parents also are.
+     * Result will be -1 if you do not have rights to access this section.
+     *
+     * @param String $sectionId
+     * @param boolean $checkAccess indicates whether menu should perform checks before letting user access section  level
+     * @return int section level (number of parents sections up the tree) or -1  if security check fails or no such section found
+     */
+    function getLevel($sectionId, $checkAccess = true)
+    {
+        $level = -1;
+        if (!array_key_exists($sectionId, $this->aAllSections)) {
+            $errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
+            OA::debug($errMsg, PEAR_LOG_ERROR);
+            return $level;
+        }
+
+        $oSection = &$this->aAllSections[$sectionId];
+        $checker = &$oSection->getChecker();        
+        if ($checkAccess && !$checker->check($oSection)) {
+            return $level;
+        }
+
+        $aParents = $this->getParentSections($sectionId, $checkAccess);
+        
+        return count($aParents); 
+    }
+    
+    
 
     /**
      * This method gets the "next" page, the logic is currently:
@@ -343,6 +391,17 @@ class OA_Admin_Menu
 
         return $result;
     }
+    
+    
+    /**
+     * Additional hook. Allows to plug third level itemAdd third level
+     */
+    function addThirdLevelTo($sectionId, &$oSection)
+    {
+        $section->setType(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
+        $this->addTo($sectionId, $oSection);    
+    }
+    
 
     /**
      * Private
@@ -367,7 +426,7 @@ class OA_Admin_Menu
      * @param string $pageName
      * @param string $sortPageName
      */
-    function setPublisherPageContext($affiliateid, $pageName, $sortPageName = 'affiliate-index.php')
+    function setPublisherPageContext($affiliateid, $pageName, $sortPageName = 'website-index.php')
     {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = OA_Permission::getAgencyId();

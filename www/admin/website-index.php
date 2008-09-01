@@ -37,7 +37,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
-
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
@@ -52,12 +51,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.2");
-$sections = array("4.1", "4.2", "4.3");
-if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
-    $sections[] = '4.4';
-}
-phpAds_ShowSections($sections);
+addPageTools();
+phpAds_PageHeader(null, buildHeaderModel());
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -65,26 +60,19 @@ phpAds_ShowSections($sections);
 
 if (!isset($listorder))
 {
-	if (isset($session['prefs']['affiliate-index.php']['listorder']))
-		$listorder = $session['prefs']['affiliate-index.php']['listorder'];
+	if (isset($session['prefs']['website-index.php']['listorder']))
+		$listorder = $session['prefs']['website-index.php']['listorder'];
 	else
 		$listorder = '';
 }
 
 if (!isset($orderdirection))
 {
-	if (isset($session['prefs']['affiliate-index.php']['orderdirection']))
-		$orderdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
+	if (isset($session['prefs']['website-index.php']['orderdirection']))
+		$orderdirection = $session['prefs']['website-index.php']['orderdirection'];
 	else
 		$orderdirection = '';
 }
-
-if (isset($session['prefs']['affiliate-index.php']['nodes']))
-	$node_array = explode (",", $session['prefs']['affiliate-index.php']['nodes']);
-else
-	$node_array = array();
-
-
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -92,9 +80,7 @@ else
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('affiliate-index.html');
-
-$loosezones = false;
+$oTpl = new OA_Admin_Template('website-index.html');
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
@@ -154,8 +140,6 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
 		$zones[$row_zones['zoneid']] = $row_zones;
 		$affiliates[$row_zones['affiliateid']]['count']++;
 	}
-	else
-		$loosezones = true;
 }
 
 $doAdZoneAssoc->find();
@@ -173,34 +157,6 @@ while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
     $zones[$row_ad_zones['zone_id']]['num_ads'] = $row_ad_zones['num_ads'];
 }
 
-// Add ID found in expand to expanded nodes
-if (isset($expand) && $expand != '')
-{
-	switch ($expand)
-	{
-		case 'all' :	$node_array   = array();
-						if (isset($affiliates)) foreach (array_keys($affiliates) as $key)	$node_array[] = $key;
-						break;
-
-		case 'none':	$node_array   = array();
-						break;
-
-		default:		$node_array[] = $expand;
-						break;
-	}
-}
-
-$node_array_size = sizeof($node_array);
-for ($i=0; $i < $node_array_size;$i++)
-{
-	if (isset($collapse) && $collapse == $node_array[$i])
-		unset ($node_array[$i]);
-	else
-	{
-		if (isset($affiliates[$node_array[$i]]))
-			$affiliates[$node_array[$i]]['expand'] = 1;
-	}
-}
 
 // Build Tree
 if (isset($zones) && is_array($zones) && count($zones) > 0)
@@ -226,9 +182,7 @@ $countZone = $doZones->count();
 $countAffiliate = $doAffiliates->count();
 
 $oTpl->assign('affiliates',     $affiliates);
-$oTpl->assign('countZone',      $countZone);
 $oTpl->assign('countAffiliate', $countAffiliate);
-$oTpl->assign('loosezones',     $loosezones);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
@@ -242,9 +196,8 @@ $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_E
 /* Store preferences                                     */
 /*-------------------------------------------------------*/
 
-$session['prefs']['affiliate-index.php']['listorder'] = $listorder;
-$session['prefs']['affiliate-index.php']['orderdirection'] = $orderdirection;
-$session['prefs']['affiliate-index.php']['nodes'] = implode (",", $node_array);
+$session['prefs']['website-index.php']['listorder'] = $listorder;
+$session['prefs']['website-index.php']['orderdirection'] = $orderdirection;
 
 phpAds_SessionDataStore();
 
@@ -254,5 +207,16 @@ phpAds_SessionDataStore();
 $oTpl->display();
 
 phpAds_PageFooter();
+
+function addPageTools()
+{
+    addPageLinkTool($GLOBALS["strAddNewAffiliate_Key"], "affiliate-edit.php", "iconWebsiteAdd", $GLOBALS["strAddNew"] );
+}
+
+function buildHeaderModel()
+{
+    $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+    return $builder->buildEntityHeader(array(), 'websites', 'list');
+}
 
 ?>

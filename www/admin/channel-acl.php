@@ -64,7 +64,8 @@ if (!empty($affiliateid)) {
 if (!empty($action)) {
     if (empty($acl)) $acl = array();
     $acl = MAX_AclAdjust($acl, $action);
-} elseif (!empty($submit)) {
+} 
+elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();
     if (MAX_AclSave($acl, $aEntities)) {
         if (!empty($affiliateid)) {

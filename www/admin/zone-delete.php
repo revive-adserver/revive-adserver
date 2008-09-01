@@ -54,13 +54,22 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 $doZones = OA_Dal::factoryDO('zones');
 $doZones->zoneid = $zoneid;
 
-$doZones->get($zoneid);
+if ($doZones->get($zoneid)) {
+    $aZone = $doZones->toArray();
+}
 
 // Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
 $oAdNetworks->deleteZone($doZones->as_zone_id);
 
 $doZones->delete();
+
+// Queue confirmation message        
+$translation = new OA_Translation ();
+$translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenDeleted'], array(
+    $aZone['zonename']
+));
+OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
 if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'affiliate-zones.php';

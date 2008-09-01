@@ -56,6 +56,9 @@ $GLOBALS['strHelp']                     = "Help";
 $GLOBALS['strStartOver']                = "Start over";
 $GLOBALS['strNavigation']               = "Navigation";
 $GLOBALS['strShortcuts']                = "Shortcuts";
+$GLOBALS['strActions']                  = "Actions";
+$GLOBALS['strMore']                     = 'More';
+$GLOBALS['strLess']                     = 'Less';
 $GLOBALS['strAdminstration']            = "Inventory";
 $GLOBALS['strMaintenance']              = "Maintenance";
 $GLOBALS['strProbability']              = "Probability";
@@ -363,6 +366,7 @@ $GLOBALS['strTotalClients']                 = "Total advertisers";
 $GLOBALS['strClientProperties']             = "Advertiser Properties";
 $GLOBALS['strClientHistory']                = "Advertiser History";
 $GLOBALS['strNoClients']                    = "There are currently no advertisers defined. To create a campaign, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
+$GLOBALS['strNoClientsForBanners']          = "There are currently no advertisers defined. To add banners you need to <a href='advertiser-edit.php'>add new advertiser</a> and campaign first.";
 $GLOBALS['strConfirmDeleteClient']          = "Do you really want to delete this advertiser?";
 $GLOBALS['strConfirmResetClientStats']      = "Do you really want to delete all existing statistics for this advertiser?";
 $GLOBALS['strSite']                         = 'Site';
@@ -376,6 +380,7 @@ $GLOBALS['strAdvertiserSignupLink']         = 'Advertiser Sign Up link';
 $GLOBALS['strAdvertiserSignupLinkDesc']     = 'To add an Advertiser Sign Up link to your site, please copy the HTML below:';
 $GLOBALS['strAdvertiserSignupOption']       = 'Advertiser Sign Up option';
 $GLOBALS['strAdvertiserSignunOptionDesc']   = 'To edit your Advertiser Sign Up options, follow to';
+$GLOBALS['strAdvertiserCampaigns']          = "Advertiser's Campaigns";
 // Advertisers properties
 $GLOBALS['strContact']                          = "Contact";
 $GLOBALS['strContactName']                      = "Contact Name";
@@ -414,7 +419,8 @@ $GLOBALS['strCampaignStats']                = "Campaign Statistics";
 $GLOBALS['strCampaignProperties']           = "Campaign Properties";
 $GLOBALS['strCampaignOverview']             = "Campaign Overview";
 $GLOBALS['strCampaignHistory']              = "Campaign History";
-$GLOBALS['strNoCampaigns']                  = "There are currently no active campaigns defined";
+$GLOBALS['strNoCampaigns']                  = "There are currently no active campaigns defined for this advertiser";
+$GLOBALS['strNoCampaignsForBanners']        = "This advertiser has no campaigns. You need to <a href='campaign-edit.php?clientid=%s'>add first campaign</a> in order to add banners";
 $GLOBALS['strConfirmDeleteAllCampaigns']    = "Do you really want to delete all campaigns owned by this advertiser?";
 $GLOBALS['strConfirmDeleteCampaign']        = "Do you really want to delete this campaign?";
 $GLOBALS['strConfirmResetCampaignStats']    = "Do you really want to delete all existing statistics for this campaign?";
@@ -444,7 +450,7 @@ $GLOBALS['strRemaining']                    = "Remaining";
 $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
-
+$GLOBALS['strCampaignsOfAdvertiser']        = "of"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns']    = "Calculated for all campaigns";
@@ -547,6 +553,8 @@ $GLOBALS['strLimit']                        = "Limit";
 $GLOBALS['strLowExclusiveDisabled']         = "You cannot change this campaign to Remnant or Exclusive, since both an end date and either of impressions/clicks/conversions limit are set. <br>In order to change type, you need to set no expiry date or remove limits.";
 $GLOBALS['strCannotSetBothDateAndLimit']    = "You cannot set both an end date and limit for a Remnant or Exclusive campaign.<br>If you need to set both an end date and limit impressions/clicks/conversions please use a non-exclusive Contract campaign.";
 $GLOBALS['strWhyDisabled']                  = "why it is disabled?";
+$GLOBALS['strBackToCampaigns']              = "Back to campaigns";
+$GLOBALS['strCampaignBanners']              = "Campaign's banners";
 
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";
@@ -632,7 +640,9 @@ $GLOBALS['strWarningMissing']                = 'Warning, possibly missing ';
 $GLOBALS['strWarningMissingClosing']         = ' closing tag ">"';
 $GLOBALS['strWarningMissingOpening']         = ' opening tag "<"';
 $GLOBALS['strSubmitAnyway']       		     = 'Submit Anyway';
-$GLOBALS['strOverallBanners']             = 'banner(s)';
+$GLOBALS['strOverallBanners']                = 'banner(s)';
+$GLOBALS['strBannersOfCampaign']             = "in"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
+
 
 // Banner Preferences
 $GLOBALS['strBannerPreferences']                     = 'Banner Preferences';
@@ -650,38 +660,40 @@ $GLOBALS['strTypeHtmlAuto']                          = 'Automatically alter HTML
 $GLOBALS['strTypeHtmlPhp']                           = 'Allow PHP expressions to be executed from within a HTML banner';
 
 // Banner (Properties)
-$GLOBALS['strChooseBanner']         = "Please choose the type of the banner";
+$GLOBALS['strChooseBanner']            = "Please choose the type of the banner";
 $GLOBALS['strMySQLBanner']             = "Upload a local banner to the database";
-$GLOBALS['strWebBanner']             = "Upload a local banner to the webserver";
-$GLOBALS['strURLBanner']             = "Link an external banner";
-$GLOBALS['strHTMLBanner']             = "Create an HTML banner";
-$GLOBALS['strTextBanner']             = "Creat a Text banner";
-$GLOBALS['strAutoChangeHTML']        = "Alter HTML to enable tracking of Clicks";
+$GLOBALS['strWebBanner']               = "Upload a local banner to the webserver";
+$GLOBALS['strURLBanner']               = "Link an external banner";
+$GLOBALS['strHTMLBanner']              = "Create an HTML banner";
+$GLOBALS['strTextBanner']              = "Create a Text banner";
+$GLOBALS['strAutoChangeHTML']          = "Alter HTML to enable tracking of Clicks";
 $GLOBALS['strUploadOrKeep']            = "Do you wish to keep your <br />existing image, or do you <br />want to upload another?";
-$GLOBALS['strUploadOrKeepAlt']        = "Do you wish to keep your <br />existing backup image, or do you <br />want to upload another?";
-$GLOBALS['strNewBannerFile']         = "Select the image you want <br />to use for this banner<br /><br />";
-$GLOBALS['strNewBannerFileAlt']     = "Select a backup image you <br />want to use in case browsers<br />don't support rich media<br /><br />";
-$GLOBALS['strNewBannerURL']         = "Image URL (incl. http://)";
+$GLOBALS['strUploadOrKeepAlt']         = "Do you wish to keep your <br />existing backup image, or do you <br />want to upload another?";
+$GLOBALS['strNewBannerFile']           = "Select the image you want <br />to use for this banner<br /><br />";
+$GLOBALS['strNewBannerFileAlt']        = "Select a backup image you <br />want to use in case browsers<br />don't support rich media<br /><br />";
+$GLOBALS['strNewBannerURL']            = "Image URL (incl. http://)";
 $GLOBALS['strURL']                     = "Destination URL (incl. http://)";
-$GLOBALS['strHTML']                 = "HTML";
-$GLOBALS['strKeyword']              = "Keywords";
-$GLOBALS['strTextBelow']             = "Text below image";
-$GLOBALS['strWeight']                 = "Weight";
+$GLOBALS['strHTML']                    = "HTML";
+$GLOBALS['strKeyword']                 = "Keywords";
+$GLOBALS['strTextBelow']               = "Text below image";
+$GLOBALS['strWeight']                  = "Weight";
 $GLOBALS['strAlt']                     = "Alt text";
-$GLOBALS['strStatusText']            = "Status text";
+$GLOBALS['strStatusText']              = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
-$GLOBALS['strBannerType']           = "Ad Type";
-$GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
-$GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
-$GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
-$GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
-$GLOBALS['strAdserverTypeEyeblaster']   = "Rich Media - Eyeblaster";
-$GLOBALS['strAdserverTypeFalk']         = "Rich Media - Falk";
-$GLOBALS['strAdserverTypeMediaplex']    = "Rich Media - Mediaplex";
-$GLOBALS['strAdserverTypeTangozebra']   = "Rich Media - Tango Zebra";
-$GLOBALS['strGenericOutputAdServer'] = "Generic";
-$GLOBALS['strSwfTransparency']		= "Allow transparent background";
+$GLOBALS['strBannerType']              = "Ad Type";
+$GLOBALS['strAdserverTypeGeneric']     = "Generic HTML Banner";
+$GLOBALS['strAdserverTypeMax']         = "Rich Media - OpenX";
+$GLOBALS['strAdserverTypeAtlas']       = "Rich Media - Atlas";
+$GLOBALS['strAdserverTypeBluestreak']  = "Rich Media - Bluestreak";
+$GLOBALS['strAdserverTypeDoubleclick'] = "Rich Media - DoubleClick";
+$GLOBALS['strAdserverTypeEyeblaster']  = "Rich Media - Eyeblaster";
+$GLOBALS['strAdserverTypeFalk']        = "Rich Media - Falk";
+$GLOBALS['strAdserverTypeMediaplex']   = "Rich Media - Mediaplex";
+$GLOBALS['strAdserverTypeTangozebra']  = "Rich Media - Tango Zebra";
+$GLOBALS['strGenericOutputAdServer']   = "Generic";
+$GLOBALS['strSwfTransparency']		   = "Allow transparent background";
+$GLOBALS['strBackToBanners']           = "Back to banners";
+
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']                = "Check for hard-coded links inside the Flash file";
@@ -829,6 +841,7 @@ $GLOBALS['strPrimaryCategory']              = "Primary category";
 $GLOBALS['strSecondaryCategory']            = "Secondary category";
 $GLOBALS['strHelpFile']                     = "Help file";
 $GLOBALS['strApprovedTandC']                = "Approved terms and conditions";
+$GLOBALS['strWebsiteZones']                 = "Website's zones";
 
 // Zone
 $GLOBALS['strChooseZone']                   = "Choose Zone";
@@ -845,7 +858,8 @@ $GLOBALS['strLinkingNotSuccess']            = "Linking not successful, please tr
 $GLOBALS['strZoneOverview']                 = "Zone Overview";
 $GLOBALS['strZoneProperties']               = "Zone Properties";
 $GLOBALS['strZoneHistory']                  = "Zone History";
-$GLOBALS['strNoZones']                      = "There are currently no zones defined";
+$GLOBALS['strNoZones']                      = "There are currently no zones defined for this website.";
+$GLOBALS['strNoZonesAddWebsite']            = "There are currently no zones defined, because there are no websites. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first."; 
 $GLOBALS['strConfirmDeleteZone']            = "Do you really want to delete this zone?";
 $GLOBALS['strConfirmDeleteZoneLinkActive']  = "There are campaigns still linked to this zone, if you delete it these will not be able to run and you will not be paid for them.";
 $GLOBALS['strZoneType']                     = "Zone type";
@@ -872,6 +886,10 @@ $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlin
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
 $GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
+$GLOBALS['strZonesOfWebsite']               = 'in'; //this is added between page name and website name eg. 'Zones in www.example.com'
+$GLOBALS['strBackToZones']                  = "Back to zones";
+
+
 
 $GLOBALS['strIab']['IAB_FullBanner(468x60)']         = 'IAB Full Banner (468 x 60)';
 $GLOBALS['strIab']['IAB_Skyscraper(120x600)']        = 'IAB Skyscraper (120 x 600)';
@@ -1307,6 +1325,7 @@ $GLOBALS['strChannelProperties']          = "Targeting Channel properties";
 $GLOBALS['strChannelLimitations']         = "Delivery Options";
 $GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this targeting channel?";
 $GLOBALS['strModifychannel']              = "Edit targeting channel";
+$GLOBALS['strChannelsOfWebsite']          = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName']             = "Variable Name";
@@ -1423,6 +1442,24 @@ $GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewin
 
 $GLOBALS['strUnsavedChanges']       = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules";
+
+
+$GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
+$GLOBALS['strAdvertiserHasBeenAdded'] = "Advertiser <a href='%s'>%s</a> has been added, <a href='%s'>add a campaign</a>";
+$GLOBALS['strAdvertiserHasBeenDeleted'] = "Advertiser <b>%s</b> has been deleted";
+$GLOBALS['strCampaignHasBeenAdded'] = "Campaign <a href='%s'>%s</a> has been added, <a href='%s'>add a banner</a>";
+$GLOBALS['strCampaignHasBeenDeleted'] = "Campaign <b>%s</b> has been deleted";
+$GLOBALS['strAllCampaignsHaveBeenDeleted'] = "All campaigns of this advertiser have been deleted";
+$GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> has been added";
+$GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> has been deleted";
+$GLOBALS['strAllBannersHaveBeenDeleted'] = "All banners of this campaign have been deleted";
+$GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added, <a href='%s'>add a zone</a>";
+$GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
+$GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
+$GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
+$GLOBALS['strChannelHasBeenAdded'] = "Targeting Channel <a href='%s'>%s</a> has been added, <a href='%s'>change the Delivery Options</a>";
+$GLOBALS['strChannelHasBeenDeleted'] = "Targeting Channel <b>%s</b> has been deleted";
+
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */
