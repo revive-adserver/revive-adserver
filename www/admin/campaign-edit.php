@@ -310,7 +310,6 @@ function buildCampaignForm($campaign)
     $typeRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strCampaignType'] ) );
     //TODO$form->addRule('campaign_type', $typeRequiredMsg, 'required');
 
-
     $typeRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strPricingModel'] ) );
     $form->addRule ( 'revenue_type', $typeRequiredMsg, 'required' );
 
@@ -332,7 +331,6 @@ function buildCampaignForm($campaign)
 
     //set form values
     $form->setDefaults ( $campaign );
-
     $form->setDefaults ( array ('impressions' => ! isset ( $campaign ['impressions'] ) || $campaign ['impressions'] == '' || $campaign ['impressions'] < 0 ? '-' : $campaign ['impressions'], 'clicks' => ! isset ( $campaign ['clicks'] ) || $campaign ['clicks'] == '' || $campaign ['clicks'] < 0 ? '-' : $campaign ['clicks'], 'conversions' => ! isset ( $campaign ['conversions'] ) || $campaign ['conversions'] == '' || $campaign ['conversions'] < 0 ? '-' : $campaign ['conversions'] ) );
 
     $startDateSet = ($campaign ["activate_dayofmonth"] == 0 && $campaign ["activate_month"] == 0 && $campaign ["activate_year"] == 0) ? 'f' : 't';
@@ -425,7 +423,6 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
 
     //activation date
     $actDateGroup ['radioNow'] = $form->createElement ( 'radio', 'startSet', null, $GLOBALS ['strActivateNow'], 'f', array ('id' => 'startSet_immediate' ) );
-
     $actDateGroup ['radioSpecific'] = $form->createElement ( 'radio', 'startSet', null, $GLOBALS ['strSetSpecificDate'], 't', array ('id' => 'startSet_specific' ) );
 
     $specificStartDateGroup ['date'] = $form->createElement ( 'text', 'start', null, array ('id' => 'start', 'class' => 'small' ) );
@@ -438,7 +435,6 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
 
     //expiriation date
     $expDateGroup ['radioNow'] = $form->createElement ( 'radio', 'endSet', null, $GLOBALS ['strDontExpire'], 'f', array ('id' => 'endSet_immediate' ) );
-
     $expDateGroup ['radioSpecific'] = $form->createElement ( 'radio', 'endSet', null, $GLOBALS ['strSetSpecificDate'], 't', array ('id' => 'endSet_specific' ) );
     //add warning note when disabled
     $expDateGroup ['disablednote'] = $form->createElement ( 'custom', 'date-campaign-date-limit-set-note', null, null, false );

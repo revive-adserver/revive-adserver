@@ -144,7 +144,6 @@ foreach (array_keys($clients) as $clientid) {
 
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
-$oTpl->assign('expandUsed', $expandUsed);
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
