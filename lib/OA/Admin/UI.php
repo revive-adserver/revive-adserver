@@ -162,7 +162,12 @@ class OA_Admin_UI
                 //build default model with title and name taken from nav entry
                 $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName());
             }
-            $pageTitle .= ' - '.$oHeaderModel->getTitle();
+            if ($oHeaderModel->getTitle()) {
+                $pageTitle .= ' - '.$oHeaderModel->getTitle();
+            }
+            else {
+                $pageTitle .= ' - '.$oCurrentSection->getName();
+            }
             
             // compile navigation arrays
             $this->_compileMainNavigationTabBar($oCurrentSection, $oMenu, $aMainNav);

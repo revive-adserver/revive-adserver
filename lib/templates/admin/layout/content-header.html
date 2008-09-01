@@ -24,8 +24,9 @@
 $Id$
 
 -->*}
+{if ($headerModel && $headerModel->getTitle() != '') || $breadcrumbsExtra}
 <div id="thirdLevelHeader">
   {include file=layout/breadcrumbs-title.html}
 </div>
-
+{/if}
 <div class='messagePlaceholder'></div>
