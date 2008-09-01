@@ -228,7 +228,7 @@ function _buildNavigation($accountType)
 
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", $GLOBALS['strGenerateBannercode'], "admin-generate.php", false, ""));
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", $GLOBALS['strUserAccess'], "agency-access.php?agencyid={agencyid}", false, ""));
-            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-user", $GLOBALS['strUserProperties'], "agency-user.php?userid={userid}&agencyid={agencyid}", false, null, null, 1, true));
+                $oMenu->addTo("agency-access", new OA_Admin_Menu_Section("agency-user", $GLOBALS['strUserProperties'], "agency-user.php?userid={userid}&agencyid={agencyid}"));
 
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));
