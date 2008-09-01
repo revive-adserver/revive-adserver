@@ -28,8 +28,8 @@ $Id$
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 // Using multi-dirname so that the tests can run from either plugins or plugins_repo
-require_once dirname(dirname(dirname(__FILE__))) . '/OxCacheFile/OxCacheFile.delivery.php';
-require_once dirname(dirname(dirname(__FILE__))) . '/OxCacheFile/OxCacheFile.class.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/oxCacheFile/oxCacheFile.delivery.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/oxCacheFile/oxCacheFile.class.php';
 
 /**
  * A class for testing the Plugins_DeliveryCacheStore_OxCacheFile_OxCacheFile class.
@@ -38,7 +38,7 @@ require_once dirname(dirname(dirname(__FILE__))) . '/OxCacheFile/OxCacheFile.cla
  * @subpackage TestSuite
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends UnitTestCase
+class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends UnitTestCase
 {
     /**
      * The constructor method.
@@ -53,32 +53,32 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends U
      */
     
     /**
-     * A method to test the Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheRetrieve 
+     * A method to test the Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve 
      */
-    function test_Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheRetrieve() {
+    function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve() {
         $content = array( 'string' => 'teststring', 'num' => -1);
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore($filename,$content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename,$content);
         
         // Test reading new created file
-        $result = Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheRetrieve($filename, $name);
+        $result = Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve($filename, $name);
         $this->assertEqual($result, $content);
         
-        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_OxCacheFile_OxCacheFile('deliveryCacheStore', 'OxCacheFile', 'OxCacheFile');
+        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
         $oPlgOxCacheFile->deleteCacheFile($filename);
     }
     
     /**
-     * A method to test the Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore 
+     * A method to test the Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore 
      */
-    function test_Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore() {
+    function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore() {
         $content = array( 'string' => 'teststring', 'num' => -1);
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($filename);
         $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
         
-        Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore($filename, $content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         // Check if file exists
         $this->assertTrue(file_exists($cachefile));
         
@@ -91,7 +91,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends U
         $this->assertEqual(trim($aFileContent[7]), '$cache_complete   = true;');
         
         $content = null;
-        Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore($filename, $content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         // Check if file exists
         $this->assertTrue(file_exists($cachefile));
         
@@ -100,7 +100,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends U
         $this->assertEqual(trim($aFileContent[2]), '$cache_contents   = NULL;');
         $this->assertEqual(trim($aFileContent[4]), '$cache_complete   = true;');
 
-        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_OxCacheFile_OxCacheFile('deliveryCacheStore', 'OxCacheFile', 'OxCacheFile');
+        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
         $oPlgOxCacheFile->deleteCacheFile($filename);
     }
     
@@ -112,13 +112,13 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends U
      * A method to test the _deleteCacheFile method
      */
     function test__deleteCacheFile() {
-        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_OxCacheFile_OxCacheFile('deliveryCacheStore', 'OxCacheFile', 'OxCacheFile');
+        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
         $content = NULL;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
         $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
 
-        Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore($filename, $content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         $this->assertTrue(file_exists($cachefile));
         $oPlgOxCacheFile->_deleteCacheFile($filename);
         $this->assertFalse(file_exists($cachefile));
@@ -128,13 +128,13 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_OxCacheFile_OxCacheFile extends U
      * A method to test the _deleteAll mathod 
      */
     function test__deleteAll() {
-        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_OxCacheFile_OxCacheFile('deliveryCacheStore', 'OxCacheFile', 'OxCacheFile');
+        $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
         $content = NULL;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
         $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
         
-        Plugin_deliveryCacheStore_OxCacheFile_OxCacheFile_Delivery_cacheStore($filename, $content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         $this->assertTrue(file_exists($cachefile));
         $oPlgOxCacheFile->_deleteAll();
         $this->assertFalse(file_exists($cachefile));
