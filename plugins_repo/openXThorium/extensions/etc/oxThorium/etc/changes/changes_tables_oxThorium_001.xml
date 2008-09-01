@@ -13,6 +13,10 @@
         <name>ext_thorium_campaign_pref</name>
         <was>ext_thorium_campaign_pref</was>
       </table>
+        <table>
+        <name>ext_thorium_website_pref</name>
+        <was>ext_thorium_website_pref</was>
+      </table>
     </add>
   </changeset>
 </constructive>

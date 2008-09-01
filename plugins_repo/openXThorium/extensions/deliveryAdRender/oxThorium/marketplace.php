@@ -39,6 +39,7 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
  * @package    MaxDelivery
  * @subpackage marketplace
  * @author     Matteo Beccati <matteo.beccati@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
  * This library defines functions that need to be available to
  * marketplace-enabled delivery engine scripts
@@ -62,20 +63,31 @@ function MAX_marketplaceNeedsIndium()
     return MAX_marketplaceEnabled() && empty($_COOKIE['In']);
 }
 
+function MAX_isMarketplaceEnabledPerCampaign($aCampaignThoriumInfo)
+{
+    return !empty($aCampaignThoriumInfo['is_enabled']);
+}
+
 function MAX_marketplaceProcess($scriptFile, $adHtml, $aAd, $aZoneInfo = array(), $aParams = array())
 {
     $output = '';
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    if (MAX_marketplaceEnabled()) { // Need also to check if marketplace is enabled at zone level
-        if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])) {
+    $aCampaignThoriumInfo = MAX_cacheGetCampaignThoriumInfo($aAd['campaignid']);
+    if (MAX_marketplaceEnabled()
+        && MAX_isMarketplaceEnabledPerCampaign($aCampaignThoriumInfo))
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aWebsiteThoriumInfo = MAX_cacheGetWebsiteThoriumInfo($aAd['affiliate_id']);
+        if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])
+            && !empty($aWebsiteThoriumInfo['publisher_id']))
+        {
 
             $cb = mt_rand(0, PHP_INT_MAX);
 
-            $floorPrice = $aConf['oxThorium']['defaultFloorPrice'];
+            $floorPrice = (float) $aCampaignThoriumInfo['floor_price'];
 
             $baseUrl = 'http://'.$aConf['oxThorium']['thoriumHost'];
             $urlParams = array(
-                'pid=OpenXDemo',
+                'pid=' . $aWebsiteThoriumInfo['publisher_id'],
                 'tag_type=1',
                 'f='.urlencode($floorPrice),
                 's='.urlencode($aAd['width'].'x'.$aAd['height']),
@@ -143,6 +155,67 @@ function MAX_marketplaceLogGetIds()
         $aAdIds[0] = -1;
     }
     return $aAdIds;
+}
+
+function MAX_cacheGetCampaignThoriumInfo($campaignId, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $campaignId);
+    if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRow = MAX_Dal_Delivery_getCampaignThoriumInfo($campaignId);
+        $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
+    }
+
+    return $aRow;
+}
+
+function MAX_Dal_Delivery_getCampaignThoriumInfo($campaignId)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $query = "
+        SELECT
+            is_enabled,
+            floor_price
+        FROM
+            {$aConf['table']['prefix']}ext_thorium_campaign_pref
+        WHERE
+            campaignid = {$campaignId}";
+    $res = OA_Dal_Delivery_query($query);
+
+    if (!is_resource($res)) {
+        return false;
+    }
+    return OA_Dal_Delivery_fetchAssoc($res);
+}
+
+function MAX_cacheGetWebsiteThoriumInfo($websiteId, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $websiteId);
+    if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRow = MAX_Dal_Delivery_getWebsiteThoriumInfo($websiteId);
+        $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
+    }
+
+    return $aRow;
+}
+
+function MAX_Dal_Delivery_getWebsiteThoriumInfo($websiteId)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $query = "
+        SELECT
+            publisher_id
+        FROM
+            {$aConf['table']['prefix']}ext_thorium_website_pref
+        WHERE
+            affiliateid = {$websiteId}";
+    $res = OA_Dal_Delivery_query($query);
+
+    if (!is_resource($res)) {
+        return false;
+    }
+    return OA_Dal_Delivery_fetchAssoc($res);
 }
 
 ?>

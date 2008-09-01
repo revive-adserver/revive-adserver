@@ -64,17 +64,10 @@
         </navigation>
 
         <configuration option="Bid Service">
-            <setting key="message1" type="text" label="Message" required="1" size="32" visible="1">Default String All Accounts</setting>
-            <setting key="message2" type="text" label="Mgr/Admin Message" required="1" size="32" visible="1">Default String Mgr/Admin</setting>
-            <setting key="message3" type="text" label="Manager Message" required="1" size="32" visible="1">Default String Mgr</setting>
-            <setting key="message4" type="text" label="Admin Message" required="1" size="32" visible="1">Default String Admin</setting>
-
             <!-- todo - set proper hosts before final release and set visible ="0" -->
-		    <setting key="thoriumHost" type="text" label="Thorium host" required="1" size="32" visible="1">bid.openx.net</setting>
+		    <setting key="thoriumHost" type="text" label="Thorium host" required="1" size="32" visible="1">thorium.localhost</setting>
+		    <!-- bid.openx.net -->
 		    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="1">0.01</setting>
-
-            <preference name="bidpref_PublisherId" type="text" label="Thorium Publisher Id" required="1" size="7" visible="1" permission="MANAGER" ></preference>
-
         </configuration>
 
         <schema>
@@ -82,6 +75,7 @@
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Ext_thorium_campaign_pref.php</dataobject>
+            <dataobject>Ext_thorium_website_pref.php</dataobject>
         </schema>
 
     </install>
