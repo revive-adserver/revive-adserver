@@ -43,7 +43,7 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 phpAds_registerGlobalUnslashed('append', 'submitbutton', 'appendtype', 'appendid', 'appenddelivery', 'appendsave');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);
