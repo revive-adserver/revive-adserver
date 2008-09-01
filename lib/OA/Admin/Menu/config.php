@@ -311,6 +311,7 @@ function _buildNavigation($accountType)
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php", false, "settings/prefrences"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", $GLOBALS['strUserLog'], "userlog-index.php", false, "settings/userLog"));
         break;
     }
 
