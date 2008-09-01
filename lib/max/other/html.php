@@ -1555,7 +1555,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     require_once(MAX_PATH . '/lib/max/other/stats.php');
 
     $publisherEditUrl = "affiliate-edit.php?affiliateid=$websiteId";
-    if (!empty($websiteId)) {
+    if (!empty($channelId)) {
         addChannelPageTools($agencyId, $websiteId, $channelId, $channelType);
         
         // Determine which tab is highlighted
