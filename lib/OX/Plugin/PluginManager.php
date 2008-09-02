@@ -130,15 +130,21 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $this->disablePackage($name);
-        if (!($aParsed = $this->_unpack($aFile,true)))
+
+        $aParsed = $this->unpackPlugin($aFile, true);
+        if (!$aParsed)
         {
-            $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
             return false;
         }
         $aPackageNew = $aParsed['package'];
         if ($name != $aPackageNew['name'])
         {
             $this->_logError('Upgrade package name '.$aPackageNew['name'].'" does not match the package you are upgrading '.$name);
+            return false;
+        }
+        if (version_compare($aPackageOld['version'],$aPackageNew['version'],'>='))
+        {
+            $this->_logError('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not greater than that of the package you have installed');
             return false;
         }
         $aPluginsNew = $aParsed['pluginGroupComponents'];
@@ -182,7 +188,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aFile
      * @return boolean
      */
-    function unpackPlugin($aFile)
+    function unpackPlugin($aFile, $overwrite=false)
     {
         OA::switchLogFile('plugins');
         if (!@file_exists ($aFile['tmp_name']))
@@ -190,7 +196,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to read the uploaded file');
             return false;
         }
-        if (!($aParsed = $this->_unpack($aFile, true)))
+        if (!($aParsed = $this->_unpack($aFile, $overwrite)))
         {
             $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
             return false;
@@ -200,7 +206,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     function installPackageCodeOnly($aFile)
     {
-        $aParsed = $this->unpackPlugin($aFile);
+        $aParsed = $this->unpackPlugin($aFile, true);
         if (!$aParsed)
         {
             return false;
@@ -237,7 +243,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function installPackage($aFile)
     {
-        $aParsed = $this->unpackPlugin($aFile);
+        $aParsed = $this->unpackPlugin($aFile, false);
         if (!$aParsed)
         {
             return false;
