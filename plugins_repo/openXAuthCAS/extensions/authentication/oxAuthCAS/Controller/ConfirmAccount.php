@@ -25,11 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
+require_once dirname(__FILE__) . '/../Central/Cas.php';
 
 /**
  * A very simple controller for sso-accounts confirmation page.
- * 
+ *
  * Its a starting point for farther refactorization. Once we will decide
  * to use full blown framework system with some controllers it should
  * be relatively easily to migrate this class.
@@ -38,7 +38,7 @@ require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
 class OA_Controller_SSO_ConfirmAccount
 {
     var $request;
-    
+
     /**
      * Registered actions. Only these actions may be executed from withing controller
      *
@@ -51,15 +51,15 @@ class OA_Controller_SSO_ConfirmAccount
         'display'
     );
     var $actionDefault = 'display';
-    
+
     var $oCentral;
     var $oPlugin;
-    
+
     var $oTpl;
     var $aModel;
-    
+
     var $aErrors = array();
-    
+
     /**
      * actions specific variables
      */
@@ -67,17 +67,17 @@ class OA_Controller_SSO_ConfirmAccount
     var $ssoAccountId;
     var $doUsers;
     var $urlConfirm = "sso-confirm.php?id=%d&action=%s&email=%s";
-    
+
     /**
      * Messages
-     */    
+     */
     var $msgErrorNoMatchingUser = 'Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.';
     var $msgErrorPrefix = 'Error: ';
     var $msgErrorGeneralUpdateError = 'Error while updating an account. Please try again.';
     var $msgErrorWrongCredentials = 'Your username or password are not correct. Please try again.';
     var $msgErrorGeneralAccountCreateError = 'Could not create your new OpenX account. Please try again.';
     var $msgErrorWrongParameters = 'Wrong parameters';
-    
+
     function init()
     {
         $this->initModel();
@@ -85,7 +85,7 @@ class OA_Controller_SSO_ConfirmAccount
         $this->oPlugin = &MAX_Plugin::factory('authentication', 'cas');
         MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
     }
-    
+
     function initModel()
     {
         $this->aModel = array(
@@ -93,14 +93,14 @@ class OA_Controller_SSO_ConfirmAccount
             'hideLink' => true,
         );
     }
-    
+
     function process($request)
     {
         $this->setRequest($request);
         $this->init();
         return $this->executeAction($this->request['action']);
     }
-    
+
     function executeAction($action)
     {
         if (empty($action)) {
@@ -111,7 +111,7 @@ class OA_Controller_SSO_ConfirmAccount
         }
         MAX::raiseError('No such action: ' . $action, PEAR_ERROR_DIE);
     }
-    
+
     /**
      * Verify users email and verification hash
      */
@@ -127,7 +127,7 @@ class OA_Controller_SSO_ConfirmAccount
             return true;
         }
     }
-    
+
     function validate()
     {
         if (empty($this->request['email']) || empty($this->request['vh'])) {
@@ -136,7 +136,7 @@ class OA_Controller_SSO_ConfirmAccount
         }
         return true;
     }
-    
+
     function setVerified($isVerified)
     {
         if (!$isVerified) {
@@ -145,34 +145,34 @@ class OA_Controller_SSO_ConfirmAccount
         }
         $this->isVerified = $isVerified;
     }
-    
+
     function setRequest($request)
     {
         $this->request = $request;
     }
-    
+
     function setView(&$oTpl)
     {
         $this->oTpl = &$oTpl;
     }
-    
+
     function &getView()
     {
         return $this->oTpl;
     }
-    
+
     function setModelProperty($propety, $value)
     {
         $this->aModel[$propety] = $value;
     }
-    
+
     function assignModelToView(&$oTpl)
     {
         foreach ($this->aModel as $property => $value) {
             $oTpl->assign($property, $value);
         }
     }
-    
+
     /**
      * Returns true if checked value is equal false or it it is a PEAR_Error
      *
@@ -183,12 +183,12 @@ class OA_Controller_SSO_ConfirmAccount
     {
         return $error === false || PEAR::isError($error);
     }
-    
+
     function getErrors()
     {
         return $this->aErrors;
     }
-       
+
     function addError($errorMsg)
     {
         if (PEAR::isError($errorMsg)) {
@@ -198,7 +198,7 @@ class OA_Controller_SSO_ConfirmAccount
         }
         $this->aErrors[] = $errorMsg;
     }
-    
+
     function loadDoUsers()
     {
         $this->doUsers = OA_Dal::factoryDO('users');
@@ -210,7 +210,7 @@ class OA_Controller_SSO_ConfirmAccount
             return false;
         }
     }
-    
+
     /**
      * Default action.
      *
@@ -222,7 +222,7 @@ class OA_Controller_SSO_ConfirmAccount
         }
         return false;
     }
-    
+
     /**
      * Action "link". Links existing SSO account with users account.
      */
@@ -235,25 +235,25 @@ class OA_Controller_SSO_ConfirmAccount
             return false;
         }
         $this->setModelProperty('hideLink', false);
-        
-        if (empty($this->request['ssoexistinguser']) || empty($this->request['ssoexistingpassword'])) 
+
+        if (empty($this->request['ssoexistinguser']) || empty($this->request['ssoexistingpassword']))
         {
             $this->addError($this->msgErrorWrongParameters);
             return false;
         }
-        
+
         $ssoLinkAccountId = $this->getSsoAccountIdByUsernamePassword();
         if (!$ssoLinkAccountId) {
         	return false;
         }
-        
+
         // @todo - add a database constraint on sso_user_id
         if ($userId = $this->checkIfSsoUserExists($ssoLinkAccountId)) {
             if ($this->useExistingAccount($userId, $this->doUsers->user_id)) {
                 $this->redirectToConfirmPageAndExit('linked', $userId);
             }
         }
-        
+
         $accountEmail = $this->getSsoAccountEmail($ssoLinkAccountId);
         if ($accountEmail)
         {
@@ -267,7 +267,7 @@ class OA_Controller_SSO_ConfirmAccount
                 $this->addError($this->msgErrorGeneralUpdateError);
             }
         } else {
-            $this->addError($this->msgErrorWrongCredentials); 
+            $this->addError($this->msgErrorWrongCredentials);
         }
         return false;
     }
@@ -304,8 +304,8 @@ class OA_Controller_SSO_ConfirmAccount
         if (!$this->loadDoUsers()) {
             return false;
         }
-        $this->setModelProperty('hideCreate', false);        
-        if (!empty($this->request['ssonewuser']) && !empty($this->request['ssonewpassword'])) 
+        $this->setModelProperty('hideCreate', false);
+        if (!empty($this->request['ssonewuser']) && !empty($this->request['ssonewpassword']))
         {
             $ret = $this->oCentral->completePartialAccount($this->ssoAccountId, $this->request['ssonewuser'],
                 md5($this->request['ssonewpassword']), $this->request['vh']);
@@ -319,7 +319,7 @@ class OA_Controller_SSO_ConfirmAccount
         $this->setModelProperty('errorCreateFailed', $this->oPlugin->translate($this->msgErrorGeneralAccountCreateError));
         return false;
     }
-    
+
     function redirectToConfirmPageAndExit($action, $userId)
     {
         $doUsers = OA_Dal::staticGetDO('users', $userId);
@@ -327,7 +327,7 @@ class OA_Controller_SSO_ConfirmAccount
         header ("Location: " . $url);
         exit();
     }
-    
+
     /**
      * Action "check". Checks if username is available
      *
@@ -343,7 +343,7 @@ class OA_Controller_SSO_ConfirmAccount
         echo ($ret && !$this->isError($ret)) ? 'available': 'notavailable';
         exit();
     }
-    
+
     function checkIfSsoUserExists($ssoAccountId)
     {
         $doUsersCheck = OA_Dal::factoryDO('users');
@@ -353,12 +353,12 @@ class OA_Controller_SSO_ConfirmAccount
         }
         return false;
     }
-    
+
     function &getCasPlugin()
     {
         return $this->oPlugin;
     }
-    
+
     function getSsoAccountIdByUsernamePassword()
     {
         $md5Password = md5($this->request['ssoexistingpassword']);
@@ -370,7 +370,7 @@ class OA_Controller_SSO_ConfirmAccount
         }
         return $ret;
     }
-    
+
     function getSsoAccountEmail($ssoAccountId)
     {
         $accountEmail = false;
@@ -381,7 +381,7 @@ class OA_Controller_SSO_ConfirmAccount
             $accountEmail = false;
         }
         return $accountEmail;
-    }    
+    }
 }
 
 ?>

@@ -33,8 +33,8 @@ if (!isset($_SERVER['QUERY_STRING'])) {
     $_SERVER['QUERY_STRING'] = '';
 }
 
+//require_once dirname(__FILE__) . '/../../oxAuthCAS.class.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/plugins/authentication/cas/cas.plugin.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
@@ -45,21 +45,24 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
  * @subpackage TestSuite
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
+class Test_Plugins_Authentication_oxAuthCAS_oxAuthCAS extends UnitTestCase
 {
     /**
      * @var Plugins_Authentication_Cas_Cas
      */
     var $oPlugin;
 
-    function Test_Plugins_Authentication_oPlugin_oPlugin()
+    function Test_Plugins_Authentication_oxAuthCAS_oxAuthCAS()
     {
         $this->UnitTestCase();
     }
 
     function setUp()
     {
-        $this->oPlugin = OA_Auth::staticGetAuthPlugin('cas');
+        TestEnv::installPluginPackage('openXAuthCAS');
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf['authentication']['type'] = 'authentication:oxAuthCAS:oxAuthCAS';
+        $this->oPlugin = OA_Auth::staticGetAuthPlugin();
     }
 
     function tearDown()

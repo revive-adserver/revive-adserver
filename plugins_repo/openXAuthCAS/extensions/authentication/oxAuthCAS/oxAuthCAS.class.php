@@ -117,7 +117,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     function initCasClient()
     {
         static $initialized;
-        $aOpenSsoConfig = $GLOBALS['_MAX']['CONF']['oacSSO'];
+        $aOpenSsoConfig = $GLOBALS['_MAX']['CONF']['oxAuthCAS'];
         if (is_null($initialized)) {
             $this->casClientInitialization(CAS_VERSION_2_0,
                 $aOpenSsoConfig['host'],
@@ -343,7 +343,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     function &getCentralCas()
     {
         if (empty($this->oCentral)) {
-            require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
+            require_once dirname(__FILE__) . '/Central/Cas.php';
             $this->oCentral = &new OA_Central_Cas();
         }
 
@@ -377,7 +377,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
             $oUserInfo->username = 'user-'.md5(uniqid('', true));
         }
 
-        return parent::dllValidation($oUser, $oUserInfo);
+        return true;
     }
 
     /**

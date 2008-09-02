@@ -41,7 +41,6 @@ class Test_OA_Auth extends UnitTestCase
     function Test_OA_Auth()
     {
         $this->UnitTestCase();
-
     }
 
     /**
@@ -51,12 +50,12 @@ class Test_OA_Auth extends UnitTestCase
     function testStaticGetAuthPlugin()
     {
         $authInternal = OA_Auth::staticGetAuthPlugin('internal');
-        $this->assertIsA($authInternal, 'Plugins_Authentication_Internal_Internal');
+        $this->assertIsA($authInternal, 'Plugins_Authentication');
         $authInternal2 = OA_Auth::staticGetAuthPlugin('internal');
         $this->assertIdentical($authInternal, $authInternal2);
-        
+
         $authDefault = OA_Auth::staticGetAuthPlugin();
-        $this->assertIsA($authInternal, 'Plugins_Authentication_Internal_Internal');
+        $this->assertIsA($authInternal, 'Plugins_Authentication');
     }
 }
 

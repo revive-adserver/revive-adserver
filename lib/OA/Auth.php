@@ -45,14 +45,14 @@ class OA_Auth
      * @param string $authType
      * @return Plugins_Authentication
      */
-    function &staticGetAuthPlugin($authType = null)
+    function &staticGetAuthPlugin()
     {
         static $authPlugin;
         static $authPluginType;
 
         if (!isset($authPlugin) || $authPluginType != $authType) {
             $aConf = $GLOBALS['_MAX']['CONF'];
-            if (is_null($authType) && !empty($aConf['authentication']['type'])) {
+            if (!empty($aConf['authentication']['type'])) {
                 $authType = $aConf['authentication']['type'];
                 $authPlugin = &OX_Component::factoryByComponentIdentifier($authType);
             }

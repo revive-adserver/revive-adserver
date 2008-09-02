@@ -73,7 +73,14 @@
         <configuration>
             <!-- only administrator has permissions to change settings in config file -->
             <!-- settings are written to a group section [oxAuthCAS] -->
-            <!--setting key="setting1" type="text" label="Message" required="1" size="32" visible="1">Setting1 Default Value</setting-->
+
+            <setting key="protocol" type="text" label="Protocol" required="1" size="32" visible="1">https</setting>
+            <setting key="host" type="text" label="Host" required="1" size="32" visible="1">login.openx.org</setting>
+            <setting key="port" type="text" label="Port" required="1" size="32" visible="1">443</setting>
+            <setting key="path" type="text" label="Path" required="1" size="32" visible="1">/sso/login</setting>
+            <setting key="clientPath" type="text" label="Path" required="1" size="32" visible="1">/sso</setting>
+            <setting key="signup" type="text" label="Signup path" required="0" size="32" visible="1">/account/signup</setting>
+            <setting key="forgot" type="text" label="Forgot password path" required="0" size="32" visible="1">/account/forgotPassword</setting>
 
             <!-- preferences have role-based permissions-->
             <!-- preferences are prefixed in the preference table with the group name e.g. oxAuthCAS_preference_Admin -->

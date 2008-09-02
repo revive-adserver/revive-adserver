@@ -124,7 +124,7 @@ class OaCasClient extends CASClient
    */
   function getServerBaseURL()
     {
-      $protocol = $GLOBALS['_MAX']['CONF']['oacSSO']['protocol'];
+      $protocol = $GLOBALS['_MAX']['CONF']['oxAuthCAS']['protocol'];
       // the URL is build only when needed
       if ( empty($this->_server['base_url']) ) {
 	   $this->_server['base_url'] = $protocol . '://'

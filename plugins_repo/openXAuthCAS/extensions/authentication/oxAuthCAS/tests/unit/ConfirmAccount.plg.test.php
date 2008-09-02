@@ -33,7 +33,7 @@ if (!isset($_SERVER['QUERY_STRING'])) {
     $_SERVER['QUERY_STRING'] = '';
 }
 
-require_once MAX_PATH . '/plugins/authentication/cas/Controller/ConfirmAccount.php';
+require_once dirname(__FILE__) . '/../../Controller/ConfirmAccount.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
@@ -65,15 +65,15 @@ class Test_ConfirmAccount extends UnitTestCase
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = 'boo' . 1;
         DataGenerator::generate('users');
-        
+
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = 'boo' . 2;
         $doUsers->sso_user_id = $ssoUserId = 123;
         $userId = DataGenerator::generateOne($doUsers);
-        
+
         $ret = OA_Controller_SSO_ConfirmAccount::checkIfSsoUserExists($ssoUserId);
         $this->assertEqual($ret, $userId);
-        
+
         $ret = OA_Controller_SSO_ConfirmAccount::checkIfSsoUserExists(12345);
         $this->assertFalse($ret);
     }

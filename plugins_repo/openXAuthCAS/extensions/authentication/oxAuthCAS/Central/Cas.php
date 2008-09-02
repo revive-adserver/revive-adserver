@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Central/M2M.php';
-require_once MAX_PATH . '/plugins/authentication/cas/Central/RpcMapper.php';
+require_once dirname(__FILE__) . '/RpcMapper.php';
 
 /**
  * CAS authentication XML-RPC client
@@ -84,7 +84,7 @@ class OA_Central_Cas extends OA_Central_M2M
     {
         return $this->oMapper->createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent);
     }
-    
+
     /**
      * Completes the creation of partial account
      * @param $accountId email of new user

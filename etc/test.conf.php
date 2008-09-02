@@ -404,15 +404,6 @@ port        = 443
 path        = /oxc/dashboard/home
 ssoCheck    = /oxc/ssoCheck
 
-[oacSSO]
-protocol    = https
-host        = login.openx.org
-port        = 443
-path        = /sso/login
-clientPath  = /sso
-signup      = /account/signup
-forgot      = /account/forgotPassword
-
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;
 ;------------------------------------------------------------------------------------------;
