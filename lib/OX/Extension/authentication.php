@@ -347,7 +347,7 @@ class Plugins_Authentication extends OX_Component
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('user_id', $userid);
 
-        return $this->saveUserDo(&$doUsers, $login, $password, $contactName,
+        return $this->saveUserDo($doUsers, $login, $password, $contactName,
         $emailAddress, $language, $accountId);
     }
 
