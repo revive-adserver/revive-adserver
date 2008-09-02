@@ -286,6 +286,10 @@ else if (array_key_exists('btn_upgrade', $_POST))
                 if ($oUpgrader->versionInitialSchema['tables_core'] < 538 && empty($_POST['noTzAlert'])) {
                     OA_Dal_ApplicationVariables::set('utc_update', OA::getNowUTC());
                 }
+
+                // Clear the menu cache to built a new one with the new settings
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
+                OA_Admin_Menu::singleton();
             }
         }
     }
