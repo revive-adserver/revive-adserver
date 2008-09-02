@@ -25,7 +25,6 @@
 $Id: GeoIP.plg.test.php 12393 2007-11-14 15:53:36Z andrew.hill@openads.org $
 */
 
-require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
@@ -36,21 +35,21 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
  * @subpackage TestSuite
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
+class Test_Authentication extends UnitTestCase
 {
     /**
      * @var Plugins_Authentication_Internal_Internal
      */
     var $oPlugin;
 
-    function Test_Plugins_Authentication_Internal_Internal()
+    function Test_Authentication()
     {
         $this->UnitTestCase();
     }
 
     function setUp()
     {
-        $this->oPlugin =  OA_Auth::staticGetAuthPlugin('internal');
+        $this->oPlugin =  OA_Auth::staticGetAuthPlugin();
     }
 
     function testSuppliedCredentials()
