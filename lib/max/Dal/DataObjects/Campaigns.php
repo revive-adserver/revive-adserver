@@ -148,7 +148,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         $autotargeted = OA_Dal::isValidDate($this->expire) && ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
         if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
             $this->status = OA_ENTITY_STATUS_INACTIVE;
-        } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && !$autotargeted && ($targetOk || $weightOk)) {
+        } 
+        elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
             $this->status = OA_ENTITY_STATUS_RUNNING;
         }
     }

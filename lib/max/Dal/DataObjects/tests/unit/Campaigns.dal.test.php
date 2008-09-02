@@ -536,6 +536,36 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
     }
+    
+    
+    function testUpdateHighWithNoTargetSet()
+    {
+        //test for OX-3635
+        $expire = '2020-01-01'; 
+
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->name = 'Some test campaign';
+        $doCampaigns->expire = $expire;
+        $doCampaigns->views  = -1;
+        $doCampaigns->clicks = -1;
+        $doCampaigns->conversions = -1;
+        $doCampaigns->priority = 5;
+        $doCampaigns->weight = 0;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        //get campaign and check if it's inactive (it should be since we have not
+        //set target per day nor limit for high campaign
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_INACTIVE);
+        
+        $doCampaigns->views = 1000;
+        $doCampaigns->update();
+
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
+    }
+    
+    
 }
 
 ?>
