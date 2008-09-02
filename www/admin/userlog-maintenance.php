@@ -44,15 +44,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.4");
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-    phpAds_UserlogSelection("maintenance");
-} else {
-    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-}
+phpAds_PageHeader("userlog-index");
+phpAds_UserlogSelection("maintenance");
 
 // Load the required language files
 Language_Loader::load('userlog');
