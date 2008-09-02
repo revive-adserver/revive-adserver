@@ -68,7 +68,7 @@ class LogonServiceImpl extends BaseServiceImpl
         // Load the required language file.
         Language_Loader::load('default');
 
-        $oPlugin = &MAX_Plugin::factory('authentication', 'internal');
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
 
         $doUser = $oPlugin->checkPassword($username, $password);
         if ($doUser) {
