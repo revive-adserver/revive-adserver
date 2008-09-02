@@ -260,31 +260,42 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		echo "</td>";
 
     // status
-		if ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_PENDING) {
-        	echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
-        	echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_PAUSED) {
-        	echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_AWAITING) {
-        	echo "<td class=\"sts sts-not-started\">$strCampaignStatusAwaiting</td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_EXPIRED) {
-        	echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_INACTIVE) {
-            echo "<td class=\"sts sts-inactive\">$strCampaignStatusInactive</td>";
+        switch($campaigns[$ckey]['status']) {
+            case OA_ENTITY_STATUS_PENDING:
+                echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
+            break;
+            
+            case OA_ENTITY_STATUS_RUNNING:
+        	   echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
+        	break;
+        	   
+            case OA_ENTITY_STATUS_PAUSED:
+        	   echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
+        	break;
+        	
+            case OA_ENTITY_STATUS_AWAITING:
+        	   echo "<td class=\"sts sts-not-started\">$strCampaignStatusAwaiting</td>";
+        	break;
+        	   
+            case OA_ENTITY_STATUS_EXPIRED:
+        	   echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
+        	break;
+        	   
+            case OA_ENTITY_STATUS_INACTIVE:
+                echo "<td class=\"sts sts-inactive\">$strCampaignStatusInactive</td>";
+            break;
+            
+            case OA_ENTITY_STATUS_APPROVAL:
+        	   echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
+        	break;
+        	
+            case OA_ENTITY_STATUS_REJECTED:
+                echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
+            break;
+            
+            default: 
+                echo "<td class=\"sts\"></td>";
         }
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_APPROVAL) {
-        	echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
-        } 
-        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_REJECTED) {
-            echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
-        }
-
             //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
 
         //type

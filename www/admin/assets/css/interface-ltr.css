@@ -834,11 +834,15 @@ a.adv-list-entry {
 }
 
 .sts-accepted, .sts-finished {
-  color: green; /*#547852;*/
+  color: #299B3C;
 }
 
-.sts-rejected, .sts-pending, .sts-paused, .sts-inactive, .sts-not-started {
+.sts-rejected, .sts-pending, .sts-paused, .sts-not-started {
     color: #777777;
+}
+
+.sts-inactive {
+  color: #EB7E23;
 }
 
 .sts-pending, .sts-paused {
