@@ -833,11 +833,11 @@ a.adv-list-entry {
   padding: 0px 5px;
 }
 
-.sts-accepted, .sts-not-started, .sts-finished {
+.sts-accepted, .sts-finished {
   color: green; /*#547852;*/
 }
 
-.sts-rejected, .sts-pending, .sts-paused {
+.sts-rejected, .sts-pending, .sts-paused, .sts-inactive, .sts-not-started {
     color: #777777;
 }
 

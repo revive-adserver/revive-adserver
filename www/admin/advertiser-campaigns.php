@@ -253,25 +253,35 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		    } else {
 		        echo $campaigns[$ckey]['campaignname'];
 		    }
-		} else {
+		} 
+		else {
     		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname'];
 		}
 		echo "</td>";
 
     // status
-		if ($campaigns[$ckey]['status'] == -1) {
+		if ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_PENDING) {
         	echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
-        } elseif ($campaigns[$ckey]['status'] == 0) {
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
         	echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
-        } elseif ($campaigns[$ckey]['status'] == 1) {
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_PAUSED) {
         	echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
-        } elseif ($campaigns[$ckey]['status'] == 2) {
-        	echo "<td class=\"sts not-started\">$strCampaignStatusAwaiting</td>";
-        } elseif ($campaigns[$ckey]['status'] == 3) {
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_AWAITING) {
+        	echo "<td class=\"sts sts-not-started\">$strCampaignStatusAwaiting</td>";
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_EXPIRED) {
         	echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
-        } elseif ($campaigns[$ckey]['status'] == 21) {
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_INACTIVE) {
+            echo "<td class=\"sts sts-inactive\">$strCampaignStatusInactive</td>";
+        }
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_APPROVAL) {
         	echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
-        } elseif ($campaigns[$ckey]['status'] == 22) {
+        } 
+        elseif ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_REJECTED) {
             echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
         }
 

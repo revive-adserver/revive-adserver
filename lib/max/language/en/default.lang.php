@@ -508,6 +508,7 @@ $GLOBALS['strPriorityAutoTargeting']    = "Automatic - Distribute the remaining 
 $GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high, \nbut the target number of Impressions are not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid target \nnumber of Impressions has been set. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignStatusPending']       = "Pending";
+$GLOBALS['strCampaignStatusInactive']      = "Inactive";
 $GLOBALS['strCampaignStatusRunning']       = "Running";
 $GLOBALS['strCampaignStatusPaused']        = "Paused";
 $GLOBALS['strCampaignStatusAwaiting']      = "Awaiting";
