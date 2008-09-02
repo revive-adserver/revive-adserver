@@ -66,7 +66,7 @@ class OA_Upgrade_Login
 
         OA_Upgrade_Login::readSession($panDetected);
 
-        $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+        $oPlugin = new Plugins_Authentication();
 
         if ($oPlugin->suppliedCredentials()) {
             // The new Users, Account, Permissions & Preference feature was introduced in OpenX 2.5.46-dev
@@ -123,9 +123,9 @@ class OA_Upgrade_Login
 
     function _checkLoginNew()
     {
-        $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+        $oPlugin = new Plugins_Authentication();
 
-        $aCredentials = $oPlugin->getCredentials(false);
+        $aCredentials = $oPlugin->_getCredentials(false);
 
         if (!PEAR::isError($aCredentials)) {
             $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password']);
@@ -155,7 +155,7 @@ class OA_Upgrade_Login
 
             if (is_array($aPref)) {
                 $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
-                $aCredentials = $oPlugin->getCredentials(false);
+                $aCredentials = $oPlugin->_getCredentials(false);
 
                 if (!PEAR::isError($aCredentials)) {
                     if (strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
