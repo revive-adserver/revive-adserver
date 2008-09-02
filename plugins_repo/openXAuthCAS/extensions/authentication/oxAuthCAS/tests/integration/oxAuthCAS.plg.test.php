@@ -33,8 +33,6 @@ if (!isset($_SERVER['QUERY_STRING'])) {
     $_SERVER['QUERY_STRING'] = '';
 }
 
-//require_once dirname(__FILE__) . '/../../oxAuthCAS.class.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
@@ -48,7 +46,7 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
 class Test_Plugins_Authentication_oxAuthCAS_oxAuthCAS extends UnitTestCase
 {
     /**
-     * @var Plugins_Authentication_Cas_Cas
+     * @var Plugins_Authentication_oxAuthCAS_oxAuthCAS
      */
     var $oPlugin;
 
@@ -59,6 +57,7 @@ class Test_Plugins_Authentication_oxAuthCAS_oxAuthCAS extends UnitTestCase
 
     function setUp()
     {
+        TestEnv::uninstallPluginPackage('openXAuthCAS');
         TestEnv::installPluginPackage('openXAuthCAS');
         $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['authentication']['type'] = 'authentication:oxAuthCAS:oxAuthCAS';
@@ -67,6 +66,8 @@ class Test_Plugins_Authentication_oxAuthCAS_oxAuthCAS extends UnitTestCase
 
     function tearDown()
     {
+        TestEnv::uninstallPluginPackage('openXAuthCAS');
+        TestEnv::restoreConfig();
         DataGenerator::cleanUp();
     }
 
