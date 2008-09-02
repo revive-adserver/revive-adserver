@@ -29,6 +29,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 
 $words = array(
+    'OpenX CAS' => 'OpenX CAS',
     'Connection error, please send your data again' => 'Connection error, please send your data again',
     'User do not exists, please try again with different account' => 'User do not exists, please try again with different account',
     'Wrong password, please try again' => 'Wrong password, please try again',

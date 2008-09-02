@@ -43,14 +43,31 @@
         </syscheck>
 
         <files>
-            <file path="{GROUPPATH}/">processPreferences.php</file>
-            <file path="{GROUPPATH}/">processSettings.php</file>
-                        <file path="{MODULEPATH}authentication/oxAuthCAS/">oxAuthCASComponent.class.php</file>
-            <file path="{MODULEPATH}authentication/oxAuthCAS/">oxAuthCASComponent.delivery.php</file>
+            <!--file path="{GROUPPATH}/">processPreferences.php</file-->
+            <!--file path="{GROUPPATH}/">processSettings.php</file-->
+            <file path="{MODULEPATH}authentication/oxAuthCAS/">oxAuthCAS.class.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/">OxCASClient.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/">CAS.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/">client.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/">domxml-php4-php5.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">english.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">french.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">german.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">greek.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">japanese.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/languages/">languages.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/PGTStorage/">pgt-db.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/PGTStorage/">pgt-file.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/PGTStorage/">pgt-main.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Central/">Cas.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Central/">RpcMapper.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">ConfirmAccount.php</file>
+
+            <file path="{MODULEPATH}authentication/oxAuthCAS/_lang/">en.php</file>
             <!--file path="{MODULEPATH}authentication/oxAuthCAS/_lang">en.mo</file-->
         </files>
 
-        
+
 
         <!-- optional configuration settings and preferences -->
         <configuration>
@@ -80,11 +97,11 @@
         </components>
 
         <!-- optional database schema info -->
-        
+
 
         <!-- optional custom event scripts -->
-        <prescript>prescript_install_oxAuthCAS.php</prescript>
-        <postscript>postscript_install_oxAuthCAS.php</postscript>
+        <!--prescript>prescript_install_oxAuthCAS.php</prescript-->
+        <!--postscript>postscript_install_oxAuthCAS.php</postscript-->
 
     </install>
 

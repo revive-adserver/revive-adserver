@@ -24,8 +24,8 @@
 $Id: cas.plugin.php 14963 2008-01-22 18:18:51Z radek.maciaszek@openads.org $
 */
 
-require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
-require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
+require_once dirname(__FILE__) . '/CAS/CAS.php';
+require_once dirname(__FILE__) . '/CAS/client.php';
 
 /**
  * Authentication CAS plugin which authenticates users against cas-server
@@ -65,15 +65,15 @@ class OaCasClient extends CASClient
                 $server_uri,
                 $start_session);
     }
-    
+
   /**
    * This method is used to print the HTML output when the user was not authenticated.
-   * 
+   *
    * TODOLANG - localize errors strings
    *
    * @param $failure the failure that occured
    * @param $cas_url the URL the CAS server was asked for
-   * @param $no_response the response from the CAS server (other 
+   * @param $no_response the response from the CAS server (other
    * parameters are ignored if TRUE)
    * @param $bad_response bad response from the CAS server ($err_code
    * and $err_msg ignored if TRUE)
@@ -116,14 +116,14 @@ class OaCasClient extends CASClient
         phpAds_Die($title="Authentication Error", $message);
         exit();
     }
-    
+
   /**
    * This method is used to retrieve the base URL of the CAS server.
    * @return a URL.
    * @private
    */
   function getServerBaseURL()
-    { 
+    {
       $protocol = $GLOBALS['_MAX']['CONF']['oacSSO']['protocol'];
       // the URL is build only when needed
       if ( empty($this->_server['base_url']) ) {
@@ -133,7 +133,7 @@ class OaCasClient extends CASClient
 	  .$this->getServerPort()
 	  .$this->getServerURI();
       }
-      return $this->_server['base_url']; 
+      return $this->_server['base_url'];
     }
 }
 

@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 require_once LIB_PATH . '/Admin/Redirect.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -86,6 +87,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'bool'    => true
         )
     );
+
+    // Dashboard Settings
+    $aElements += array('authentication_type' => array('authentication' => 'type'));
+
+
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -239,6 +245,27 @@ $aSettings = array (
         )
     )
 );
+
+$aAuthPlugins = OX_Component::getComponents('authentication');
+if (!empty($aAuthPlugins) && is_array($aAuthPlugins)) {
+    // Add the 'none' (internal) authentication scheme to the list
+    $aItems = array('none' => 'None (internal)');
+    foreach ($aAuthPlugins as $oAuthPlugin) {
+        $aItems[$oAuthPlugin->getComponentIdentifier()] = $oAuthPlugin->getName();
+    }
+    $aSettings[] = array (
+         'text'  => 'Authentication mechanism',
+         'items' => array (
+             array (
+                 'type'  => 'select',
+                 'name'  => 'authentication_type',
+                 'text'  => 'Select the plugin-component to be used for authentication',
+                 'items' => $aItems,
+             )
+        )
+    );
+}
+
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer

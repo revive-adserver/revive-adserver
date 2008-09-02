@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Permission/User.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once OX_EXTENSIONS_PATH . '/authentication/Authentication.php';
 
 /**
  * A class to deal with user authentication
@@ -50,17 +51,18 @@ class OA_Auth
         static $authPluginType;
 
         if (!isset($authPlugin) || $authPluginType != $authType) {
-            if (!empty($authType)) {
-                $authPlugin = &MAX_Plugin::factory('authentication', $authType);
-            } else {
-                $authPlugin = &MAX_Plugin::factoryPluginByModuleConfig('authentication');
-                if (!$authPlugin) {
-                    // Fall back to internal
-                    $authPlugin = &MAX_Plugin::factory('authentication', 'internal');
-                }
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            if (is_null($authType) && !empty($aConf['authentication']['type'])) {
+                $authType = $aConf['authentication']['type'];
+                $authPlugin = &OX_Component::factoryByComponentIdentifier($authType);
             }
             if (!$authPlugin) {
-                OA::debug('Error while including authentication plugin', PEAR_LOG_ERR);
+                // Fall back to internal
+                $authType = 'none';
+                $authPlugin = new Plugins_Authentication();
+            }
+            if (!$authPlugin) {
+                OA::debug('Error while including authentication plugin and unable to fallback', PEAR_LOG_ERR);
             }
             $authPluginType = $authType;
         }

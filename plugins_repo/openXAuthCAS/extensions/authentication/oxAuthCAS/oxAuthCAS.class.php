@@ -27,12 +27,12 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
-require_once MAX_PATH . '/plugins/authentication/Authentication.php';
-require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
-require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
-require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once OX_EXTENSIONS_PATH . '/authentication/Authentication.php';
+require_once dirname(__FILE__) . '/CAS/CAS.php';
+require_once dirname(__FILE__) . '/CAS/client.php';
+require_once dirname(__FILE__) . '/OxCASClient.php';
 
 /**
  * String which CAS client uses to store data in session
@@ -54,7 +54,7 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
+class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
 {
     /**
      * @var OA_Central_Cas
@@ -63,7 +63,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 
     var $defaultErrorUnkownMsg = 'Error while connecting with server (%s), please try to resend your data again.';
     var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
-    
+
     var $msgErrorUserAlreadyLinked = 'Server error: One of the users already is connected with this SSO User ID';
 
     var $aErrorCodes = array(
@@ -94,6 +94,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID
             => 'M2M authentication error - invalid password',
     );
+
+    function getName()
+    {
+        return MAX_Plugin_Translation::translate('OpenX CAS');
+    }
 
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
@@ -410,7 +415,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         return $userExists || ($valid && $link);
     }
-    
+
     /**
      * Build an array required by template
      *
@@ -474,7 +479,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         if (!empty($userid)) {
             $doUsers = OA_Dal::factoryDO('users');
             if ($doUsers->loadByProperty('user_id', $userid)) {
-                return parent::saveUser($doUsers, null, null, $contactName,
+                return parent::saveUserDo($doUsers, null, null, $contactName,
                     $emailAddress, $language, $accountId);
             }
             return false;
@@ -506,14 +511,14 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             $this->addSignupError($this->msgErrorUserAlreadyLinked);
             return false;
         }
-        
+
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
-        return parent::saveUser($doUsers, null, null, $contactName,
+        return parent::saveUserDo($doUsers, null, null, $contactName,
             $emailAddress, $accountId);
     }
-    
+
     function createPartialAccount($receipientEmail, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -664,7 +669,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $doUsers->email_address = $emailAddress;
         return true;
     }
-    
+
     /**
      * Sets a new password on a user
      *
@@ -695,7 +700,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         return true;
     }
-    
+
     /**
      * Delete unverified accounts. By default deletes accounts
      * which are older than 28 days, noone ever logged into
@@ -709,13 +714,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     {
         $processName = 'delete unverified accounts';
         $oMaintenance->_startProcessDebugMessage($processName);
-            
+
         $doUsers = OA_Dal::factoryDO('users');
         $result = $doUsers->deleteUnverifiedUsers();
-        
+
         $oMaintenance->_debugIfError($processName, $result);
         $oMaintenance->_stopProcessDebugMessage($processName);
-        
+
         return PEAR::isError($result) ? false : true;
     }
 }
