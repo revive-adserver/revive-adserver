@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Permission/User.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once OX_EXTENSIONS_PATH . '/authentication/Authentication.php';
+require_once LIB_PATH . '/Extension/authentication.php';
 
 /**
  * A class to deal with user authentication

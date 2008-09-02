@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once OX_EXTENSIONS_PATH . '/authentication/Authentication.php';
+require_once LIB_PATH . '/Extensions/authentication.php';
 require_once dirname(__FILE__) . '/CAS/CAS.php';
 require_once dirname(__FILE__) . '/CAS/client.php';
 require_once dirname(__FILE__) . '/OxCASClient.php';
