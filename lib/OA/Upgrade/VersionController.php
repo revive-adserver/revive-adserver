@@ -115,6 +115,10 @@ class OA_Version_Controller
 
     function putApplicationVersion($version, $product='oa')
     {
+        // Set default product name if null given
+        if (is_null($product)) {
+            $product = 'oa';
+        }
         if ($this->getApplicationVersion($product))
         {
             return $this->_updateApplicationVersion($version, $product);
