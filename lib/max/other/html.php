@@ -1780,7 +1780,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
        || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) 
        || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
-        addPageLinkTool($GLOBALS["strDelete"], "zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=zones.php", "iconDelete", null, $deleteConfirm);
+        addPageLinkTool($GLOBALS["strDelete"], "zone-delete.php?affiliateid=$affiliateid&zoneid=$zoneid&returnurl=affiliate-zones.php", "iconDelete", null, $deleteConfirm);
     }
     
     //shortcut
