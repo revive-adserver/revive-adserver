@@ -120,7 +120,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
     </tr>
 {/if}
 
-{if $_e.type == 'checkbox'}
+{if $_e.type == 'checkbox' || $_e.type == 'radio'}
     <tr>
         <td width='30'>&nbsp;</td>
         {if $_e.label != ''}
@@ -133,10 +133,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                 {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
             </td>
         {/if}
-        
-        
     </tr>
-
 {/if}
 
 {if $_e.type == 'submit'}

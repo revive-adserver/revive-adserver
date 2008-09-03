@@ -240,7 +240,7 @@ $campaign ['campaignid'] = $campaignid;
 
 
 $campaignForm = buildCampaignForm ( $campaign );
-
+$statusForm = null;
 if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
     //campaign status form
     $statusForm = buildStatusForm ( $campaign );
@@ -252,9 +252,11 @@ if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
     if (! empty ( $errors )) { //need to redisplay page with general errors
         displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
-} else if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
+} 
+else if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
     processStatusForm ( $statusForm );
-} else { //either validation failed or no form was not submitted, display the page
+} 
+else { //either validation failed or no form was not submitted, display the page
     displayPage ( $campaign, $campaignForm, $statusForm );
 }
 
@@ -572,33 +574,35 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
 }
 
 
-function buildStatusForm($campaign)
+function buildStatusForm($aCampaign)
 {
     $form = new OA_Admin_UI_Component_Form ( "statusChangeForm", "POST", $_SERVER ['PHP_SELF'] );
     $form->forceClientValidation ( true );
-    $form->addElement ( 'hidden', 'campaignid', $campaign ['campaignid'] );
-    $form->addElement ( 'hidden', 'campaignid', $campaign ['clientid'] );
+    $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
+    $form->addElement ( 'hidden', 'clientid', $aCampaign ['clientid'] );
     $form->addElement ( 'header', 'h_misc', $GLOBALS ['strCampaignStatus'] );
 
-    if ($campaign ['status'] == OA_ENTITY_STATUS_APPROVAL) {
-        $form->addElement ( 'radio', 'status', $GLOBALS ['strStatus'], $GLOBALS ['strCampaignApprove'] . " - " . $GLOBALS ['strCampaignApproveDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_approve' ) );
-
-        $form->addElement ( 'radio', 'status', $GLOBALS ['strStatus'], $GLOBALS ['strCampaignReject'] . " - " . $GLOBALS ['strCampaignRejectDescription'], OA_ENTITY_STATUS_REJECTED, array ('id' => 'sts_reject' ) );
-    } elseif ($campaign ['status'] == OA_ENTITY_STATUS_RUNNING) {
-        $form->addElement ( 'radio', 'status', $GLOBALS ['strStatus'], $GLOBALS ['strCampaignPause'] . " - " . $GLOBALS ['strCampaignPauseDescription'], OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
-    } elseif ($campaign ['status'] == OA_ENTITY_STATUS_PAUSED) {
-        $form->addElement ( 'radio', 'status', $GLOBALS ['strStatus'], $GLOBALS ['strCampaignRestart'] . " - " . $GLOBALS ['strCampaignRestartDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_restart' ) );
-    } elseif ($campaign ['status'] == OA_ENTITY_STATUS_REJECTED) {
-        $rejectionReasonText = phpAds_showStatusRejected ( $campaign ['as_reject_reason'] );
-        $form->addElement ( 'static', 'status', $GLOBALS ['strStatus'], $rejectionReasonText, OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
+    $form->addElement ( 'static', 'status_display', $GLOBALS ['strStatus'], OX_Util_Utils::getCampaignStatusName($aCampaign ['status']));
+    
+    if ($aCampaign ['status'] == OA_ENTITY_STATUS_APPROVAL) {
+        $form->addElement ( 'radio', 'status', null , $GLOBALS ['strCampaignApprove'] . " - " . $GLOBALS ['strCampaignApproveDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_approve' ) );
+        $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignReject'] . " - " . $GLOBALS ['strCampaignRejectDescription'], OA_ENTITY_STATUS_REJECTED, array ('id' => 'sts_reject' ) );
+        $form->addElement ( 'select', 'as_reject_reason', $GLOBALS ['strReasonForRejection'], array (OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE => $GLOBALS ['strReasonSiteNotLive'], OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE => $GLOBALS ['strReasonBadCreative'], OA_ENTITY_ADVSIGNUP_REJECT_BADURL => $GLOBALS ['strReasonBadUrl'], OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS => $GLOBALS ['strReasonBreakTerms'] ) );
+        $form->addDecorator ( 'as_reject_reason', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'rsn_row{numCall}', 'class' => 'hide' ) ) );
+    } 
+    elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_RUNNING) {
+        $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignPause'] . " - " . $GLOBALS ['strCampaignPauseDescription'], OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
+    } 
+    elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_PAUSED) {
+        $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignRestart'] . " - " . $GLOBALS ['strCampaignRestartDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_restart' ) );
+    } 
+    elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_REJECTED) {
+        $rejectionReasonText = phpAds_showStatusRejected ( $aCampaign ['as_reject_reason'] );
+        $form->addElement ( 'static', 'status', null, $rejectionReasonText, OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
     }
-
-    $form->addElement ( 'select', 'as_reject_reason', $GLOBALS ['strReasonForRejection'], array (OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE => $GLOBALS ['strReasonSiteNotLive'], OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE => $GLOBALS ['strReasonBadCreative'], OA_ENTITY_ADVSIGNUP_REJECT_BADURL => $GLOBALS ['strReasonBadUrl'], OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS => $GLOBALS ['strReasonBreakTerms'] ) );
-
-    $form->addDecorator ( 'as_reject_reason', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'rsn_row{numCall}', 'class' => 'hide' ) ) );
-
+    
+    
     $form->addElement ( 'controls', 'form-controls' );
-    $submitLabel = (! empty ( $zone ['zoneid'] )) ? $GLOBALS ['strSaveChanges'] : $GLOBALS ['strNext'] . ' >';
     $form->addElement ( 'submit', 'submit_status', $GLOBALS ['strChangeStatus'] );
 
     return $form;

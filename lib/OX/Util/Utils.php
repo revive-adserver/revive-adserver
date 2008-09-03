@@ -144,7 +144,62 @@ class OX_Util_Utils
        }
        
        return $name;
-   }      
+   }
+
+
+    /**
+     * Returns campaign status translation key based on a given campaign status.
+     */ 
+   static function getCampaignStatusTranslationKey($status)
+   {
+       switch($status) {
+            case OA_ENTITY_STATUS_PENDING:
+                return 'strCampaignStatusPending';
+            
+            case OA_ENTITY_STATUS_RUNNING:
+               return 'strCampaignStatusRunning';
+               
+            case OA_ENTITY_STATUS_PAUSED:
+               return 'strCampaignStatusPaused';
+            
+            case OA_ENTITY_STATUS_AWAITING:
+               return 'strCampaignStatusAwaiting';
+               
+            case OA_ENTITY_STATUS_EXPIRED:
+               return 'strCampaignStatusExpired';
+               
+            case OA_ENTITY_STATUS_INACTIVE:
+               return 'strCampaignStatusInactive';
+            
+            case OA_ENTITY_STATUS_APPROVAL:
+               return 'strCampaignStatusApproval';
+            
+            case OA_ENTITY_STATUS_REJECTED:
+               return 'strCampaignStatusRejected';
+            break;       
+       }
+            //unknown status
+            return null;
+   }
+   
+   
+    /**
+     * Returns campaign status translated text based on given status. 
+     * 
+     * @param int $priority
+     * @return name for given campaign type
+     */
+   static function getCampaignStatusName($status)
+   {
+       $key = OX_Util_Utils::getCampaignStatusTranslationKey($status);
+       
+       if ($key) {
+           $name = $GLOBALS[$key];
+       }
+       
+       return $name;
+   }
+   
    
 }
 
