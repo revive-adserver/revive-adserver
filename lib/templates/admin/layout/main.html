@@ -106,7 +106,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <li class="infoUser">{$infoUser|escape}</li>
 {/if}
 
-{if $helpLink}
+{if empty($aSectionNav) && $helpLink}
         <li class="buttonHelp"><a href="{$helpLink|escape}" target="help">{t str=Help}</a></li>
 {/if}
 

@@ -27,7 +27,10 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if !empty($aSectionNav)}
     <div id='thirdLevelNavigation'>
-    <a id='context-help' target='_blank' href='{$helpLink|escape}'>Help</a>
+    {if $helpLink}
+            <a id='context-help' target='_blank' href='{$helpLink|escape}'>{t str=Help}</a>
+    {/if}
+    
     <ul class='navigation'>
     {section name=n loop=$aSectionNav}
       {if $aSectionNav[n].selected}
