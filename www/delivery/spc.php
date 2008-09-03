@@ -2831,9 +2831,8 @@ $thisZoneid = $varname = $thisZone;
 $what = 'zone:'.$thisZoneid;
 // Get the banner
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-$outputHtml .= $output['html'];
 // Store the html2js'd output for this ad
-$spc_output .= MAX_javascriptToHTML($outputHtml, $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
+$spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
 $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
