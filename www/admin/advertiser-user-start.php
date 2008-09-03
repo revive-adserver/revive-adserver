@@ -47,7 +47,7 @@ $oHeaderModel = buildAdvertiserHeaderModel($clientid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader('advertiser-access', $oHeaderModel);
     phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.1"));
-} 
+}
 else {
 	$sections = array();
 	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
@@ -55,7 +55,7 @@ else {
 	}
     $sections[] = '2.3';
     $sections[] = '2.3.1';
-    phpAds_PageHeader(null, $oHeaderModel);
+    phpAds_PageHeader('advertiser-access', $oHeaderModel);
 	phpAds_ShowSections($sections);
 }
 
