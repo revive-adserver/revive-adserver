@@ -414,6 +414,7 @@ class OA_DB_Upgrade
                                                               'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
                                                              )
                                                        );
+                       return false;
                     }
                     else
                     {
