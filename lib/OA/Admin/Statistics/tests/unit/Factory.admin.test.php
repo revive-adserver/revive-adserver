@@ -136,6 +136,28 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $class = 'OA_Admin_Statistics_Test';
         $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertIsA($oObject, $class);
+        
+        // Disable default error handling
+        PEAR::pushErrorHandling(null);
+        
+        // Test _instantiateController for not existing controller
+        $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestNotExists.php';
+        $aParams = array();
+        $class = 'OA_Admin_Statistics_Test';
+        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $this->assertTrue(PEAR::isError($oObject));
+        $this->assertEqual($oObject->getMessage(), 'OA_Admin_Statistics_Factory::_instantiateController() Failed to acquire file '.$file);
+
+        // Test _instantiateController for not existing class
+        $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
+        $aParams = array();
+        $class = 'OA_Admin_not_exists';
+        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $this->assertTrue(PEAR::isError($oObject));
+        $this->assertEqual($oObject->getMessage(), 'OA_Admin_Statistics_Factory::_instantiateController() Class '.$class.' doesn\'t exists');
+        
+        // Restore default error handling
+        PEAR::popErrorHandling();
     }
 
     /**

@@ -419,6 +419,9 @@ class Plugins_Reports extends MAX_Plugin_Common
                     'disablePager'   => true
                 )
             );
+            if (PEAR::isError($oStatsController)) {
+                return array('Unkcown Stats Controller ', array ($oStatsController->getMessage()));
+            }
             $oStatsController->start();
         }
         $aStats = $oStatsController->exportArray();

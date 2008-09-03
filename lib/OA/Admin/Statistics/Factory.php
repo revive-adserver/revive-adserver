@@ -51,12 +51,24 @@ class OA_Admin_Statistics_Factory
     {
         // Instantiate & return the required statistics class
         OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $aParams, $class, $file);
-        return OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        // To allow catch errors and pass it out without calling error handler
+        PEAR::pushErrorHandling(null); 
+        $oStatsController = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        PEAR::popErrorHandling();
+        return $oStatsController;
     }
 
     function _instantiateController($file, $class, $aParams = null)
     {
-        require_once $file;
+        if (!@include_once $file)
+        {
+            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Failed to acquire file ".$file;
+            return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
+        }
+        if (!class_exists($class)) {
+            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Class ".$class." doesn't exists";
+            return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
+        }
         $oController = new $class($aParams);
         return $oController;
     }

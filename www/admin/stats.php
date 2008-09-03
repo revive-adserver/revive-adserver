@@ -160,6 +160,9 @@ if (isset($plugin) && $plugin != '') {
 
 // Prepare the stats controller, and populate with the stats
 $oStatsController = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown, $aParams);
+if (PEAR::isError($oStatsController)) {
+    phpAds_Die('Error occured', $oStatsController->getMessage());
+}
 $oStatsController->start();
 
 // Export to XLS...
