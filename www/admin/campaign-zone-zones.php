@@ -31,7 +31,8 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 
-
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccessToObject ( 'campaigns', $_GET['campaignid'] );
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

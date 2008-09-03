@@ -43,6 +43,12 @@ $oAdNetworks = new OA_Central_AdNetworks();
 
 $advertiserId   = MAX_getValue('clientid');
 $campaignId     = MAX_getValue('campaignid');
+
+// Security check
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccessToObject ( 'clients', $clientid );
+OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
+
 $agencyId = OA_Permission::getAgencyId();
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));

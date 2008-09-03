@@ -43,6 +43,9 @@ $oDalZones  = OA_Dal::factoryDAL('zones');
 $action     = $_REQUEST["action"];
 $campaignId = $_REQUEST['campaignid'];
 
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
+
 $aZonesIds = array();
 $aZonesIdsHash = array();
 foreach ($_REQUEST['ids'] as $zone) {
