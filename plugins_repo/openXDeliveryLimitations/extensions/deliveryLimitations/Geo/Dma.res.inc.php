@@ -33,7 +33,7 @@ $Id$
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['dma'])) {
-    $pathPlugins = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['modules'].'deliveryLimitations/Geo/data/';
+    $pathPlugins = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'deliveryLimitations/Geo/data/';
     require $pathPlugins.'res-dmacodes.inc.php';
 
     $res = $OA_Geo_DmaCodes;
