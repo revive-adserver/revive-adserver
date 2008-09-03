@@ -533,7 +533,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->campaignid = $row['campaignid'];
     $aUnique_names = $doBanners->getUniqueValuesFromColumn('description',
-        empty($zone['zoneid'])? '': $row['description']);
+        empty($row['bannerid'])? '': $row['description']);
     $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strBanner'], strtolower($GLOBALS['strName'])));
     $form->addRule('description', $nameUniqueMsg, 'unique', $aUnique_names);
