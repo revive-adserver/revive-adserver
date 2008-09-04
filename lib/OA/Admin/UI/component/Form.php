@@ -93,6 +93,9 @@ class OA_Admin_UI_Component_Form
             'OA_Admin_UI_Rule_JQueryEmailRule');
         $this->registerJQueryRuleAdaptor("numeric", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryDigitsRule');
+        $this->registerJQueryRuleAdaptor("nonzero", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryNonZeroRule');
+        
         $this->registerJQueryRuleAdaptor("unique", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormUniqueRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryUniqueRule');
         

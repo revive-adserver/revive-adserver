@@ -1136,7 +1136,9 @@ $GLOBALS['strRequiredField']                    = 'Required field';
 $GLOBALS['strXRequiredField']                   = "%s is required";
 $GLOBALS['strEmailField']                       = "Please enter a valid email";
 $GLOBALS['strNumericField']                     = "Please enter a number";
-$GLOBALS['strXUniqueField']                      = "%s with this %s already exists";
+$GLOBALS['strNonZeroField']                     = "Must be greater than 0";
+$GLOBALS['strXNonZeroField']                     = "%s must be greater than 0";
+$GLOBALS['strXUniqueField']                     = "%s with this %s already exists";
 
 
 // Email

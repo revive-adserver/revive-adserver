@@ -92,9 +92,9 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                         {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
                     {else}
 	                    {if $groupItem.labelPlacement == "after"}
-	                       {*$groupItem.html*}{include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}
+	                       {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if}
 	                    {else}
-	                        {$groupItem.label} {*$groupItem.html*}{include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}
+	                        {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}
 	                    {/if}
                     {/if}
                     {if $groupItem.decorators}
@@ -105,6 +105,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                 {/if}
             {/foreach}
     {if !$_e.parent}
+        {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}    
         </td>
     </tr>
     {/if}
@@ -115,7 +116,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
     <tr>
         <td width='30'>&nbsp;</td><td width='170'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
         <td width='100%'>
-           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
+           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e} {if $_e.error}<font color="red">{$_e.error}</font>{/if}
         </td>
     </tr>
 {/if}
@@ -127,10 +128,12 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
             <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
 	        <td width='100%'>
 	            {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
+                {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}
 	        </td>
         {else}
             <td colspan="2">
                 {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
+                {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}
             </td>
         {/if}
     </tr>

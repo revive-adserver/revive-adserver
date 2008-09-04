@@ -117,7 +117,17 @@ class Plugins_BannerTypeHTML extends OX_Component
 
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
 
-        //TODO$form->addRule("size", 'Please enter a number', 'numeric'); //this should make all fields in group size are numeric
+        //validation rules
+        $translation = new OA_Translation();
+        $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
+        $widthPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strWidth'])), 'nonzero');
+        $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
+        $heightPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strHeight'])), 'nonzero');
+        $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
+        
+        $form->addGroupRule('size', array(
+            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule), 
+            'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
     }
 
     function preprocessForm($insert, $bannerid, $aFields)

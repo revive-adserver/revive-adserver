@@ -500,6 +500,19 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         {
             $form->addElement('checkbox', 'transparent', $GLOBALS['strSwfTransparency'], $GLOBALS['strSwfTransparency']);
         }
+        
+        //validation rules
+        $translation = new OA_Translation();
+        $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
+        $widthPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strWidth'])), 'nonzero');
+        $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
+        $heightPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strHeight'])), 'nonzero');
+        $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
+        
+        $form->addGroupRule('size', array(
+            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule), 
+            'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
+        
     }
 
     //html & text banners
