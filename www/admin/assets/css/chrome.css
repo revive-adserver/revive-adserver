@@ -571,6 +571,7 @@ body.hasGradient #firstLevelContent {
 #thirdLevelContent {
   margin: 0 20px 0 20px;
   min-height: 350px;
+  padding-top: 5px;
 
   /* Fix IE bug: min-height not supported */
   -height: expression((this.offsetHeight < 370) ? "350px": "auto");
@@ -696,11 +697,8 @@ div.breadcrumb h3 span.label {
   color: #333333;
 }
 
-div.hasIcon h3.noBreadcrumb,
-div.hasIcon h3.noBreadcrumb,
 div.hasIcon h3.noBreadcrumb {
-  position: relative;
-  top: 13px;
+  padding-top: 13px;
 }
 
 
