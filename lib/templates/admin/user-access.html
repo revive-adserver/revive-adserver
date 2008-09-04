@@ -65,7 +65,11 @@ $Id$
         <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {/if}
         <td>{$user.contact_name}</td>
+      {if $sso}
         <td>{$user.date_last_login}</td>
+      {else}
+        <td>{$user.date_created}</td>
+      {/if}
         <td class="last">
           <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
           <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
