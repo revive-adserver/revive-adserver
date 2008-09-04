@@ -104,7 +104,8 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory extends OA_Adm
         // Add standard page parameters
         $this->aPageParams = array(
             'affiliateid' => $publisherId,
-            'campaignid'  => $placementId
+            'campaignid'  => $placementId,
+            'zoneid'      => $zoneId
         );
 
         // Load the period preset and stats breakdown parameters
