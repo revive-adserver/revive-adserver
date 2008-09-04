@@ -61,6 +61,44 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         }
     }
 
+    function test_cacheComponentHooks()
+    {
+        $oExtension = new OX_Extension_Common();
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Plugin/tests/data/plugins/etc/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'] = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
+        $GLOBALS['_MAX']['CONF']['plugins'] = array('testPluginPackage'=>1);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
+
+        $oExtension->cacheComponentHooks();
+
+        $oCache = new OA_Cache('Plugins', 'ComponentHooks');
+        $oCache->setFileNameProtection(false);
+        $aHooks = $oCache->load(true);
+
+        $this->assertIsA($aHooks, 'array');
+        $this->assertEqual(count($aHooks),1);
+        $this->assertTrue(isset($aHooks['afterStart']));
+        $this->assertEqual(count($aHooks['afterStart']),1);
+        $this->assertEqual($aHooks['afterStart'][0],'admin:testPlugin:testPlugin');
+
+        /*$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/plugins/';
+        $aComponents = OX_Component::getComponents('admin','testPlugin',true);
+        $this->assertTrue(isset($aComponents['testPlugin']));
+        $this->assertEqual($aComponents['testPlugin']->extension,'admin');
+        $this->assertEqual($aComponents['testPlugin']->group, 'testPlugin');
+        $this->assertEqual($aComponents['testPlugin']->component, 'testPlugin');
+        $this->assertEqual($aComponents['testPlugin']->enabled, true);
+
+        $aComponents = OX_Component::getComponents('admin','testPlugin',false);
+        $this->assertTrue(isset($aComponents['admin:testPlugin:testPlugin']));
+        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->extension,'admin');
+        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->group, 'testPlugin');
+        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->component, 'testPlugin');
+        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->enabled, true);*/
+
+        TestEnv::restoreConfig();
+    }
+
     function test_cachePreferenceOptions()
     {
         $oExtension = new OX_Extension_Common();

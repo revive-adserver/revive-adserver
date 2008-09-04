@@ -31,6 +31,13 @@
 
         </syscheck>
 
+        <components>
+           <component>
+                <name>testPlugin</name>
+                <hook>afterStart</hook>
+           </component>
+        </components>
+
         <files>
             <file path="{GROUPPATH}/">processPreferences.php</file>
             <file path="{ADMINPATH}/templates/">testPlugin.html</file>

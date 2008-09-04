@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once LIB_PATH . '/Plugin/PluginManager.php';
+
 /**
  * Ancestor class for extension manager classes
  *
@@ -79,9 +81,17 @@ class OX_Extension_Common
         return true;
     }
 
+    function cacheComponentHooks()
+    {
+        $oPluginManager = new OX_PluginManager();
+        $aHooks = $oPluginManager->getComponentHooks();
+        $oCache = $oPluginManager->_getOA_Cache('Plugins', 'ComponentHooks');
+        $oCache->setFileNameProtection(false);
+        return $oCache->save($aHooks);
+    }
+
     function cachePreferenceOptions()
     {
-        require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
         $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
         $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
         $aOptions = array();
