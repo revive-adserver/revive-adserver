@@ -137,7 +137,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
                 $this->pageId = empty($adId) ? '2.4.2.2.1.1' : '2.4.2.2.2.1';
             }
             $this->aPageSections = array($this->pageId);
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (empty($placementId) && empty($adId)) {
                 $this->pageId = '1.2.1.1';
             } else {
