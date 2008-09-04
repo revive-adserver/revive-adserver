@@ -952,35 +952,94 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
 
     /**
      * New OPENX method to check database name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
-     *
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     *      
      * @param string $name database name to check
      * @return true in name is correct and PEAR error on failure
      */
     function validateDatabaseName($name)
     {
-        // Test for starting and ending spaces
+        return $this->_validateEntityName($name, 'Database');
+    }
+    
+    
+    /**
+     * New OPENX method to check table name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     * 
+     *  There are some restrictions on the characters that may appear in identifiers:
+     *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
+     *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+     *  - Database, table, and column names should not end with space characters.
+     *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
+     * 
+     *  Table name maximum length:
+     *  - 64
+     *
+     * @param string $name table name to check
+     * @return true if name is correct and PEAR error on failure
+     */
+    function validateTableName($name)
+    {
+        return $this->_validateEntityName($name, 'Table'); 
+    }
+    
+    
+    /**
+     * New OPENX method to check entity name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     * 
+     *  There are some restrictions on the characters that may appear in identifiers:
+     *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
+     *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+     *  - Database, table, and column names should not end with space characters.
+     *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
+     * 
+     *  Table/Database name maximum length:
+     *  - 64
+     *
+     * @param string $name table name to check
+     * @return true if name is correct and PEAR error on failure
+     *      *
+     * @param unknown_type $name
+     * @param unknown_type $entityType
+     * @return unknown
+     */
+    function _validateEntityName($name, $entityType)
+    {
+        // Table name maximum length is 64
+        if (strlen($name) > 64) {
+            return PEAR::raiseError(
+               $entityType.' names are limited to 64 characters in length');
+        }
+        
+        // Database, table, and column names should not end with space characters.
+        // Extended for leading and ending spaces
         if ($name != trim($name)) {
             return PEAR::raiseError(
-                'Database names should not start or end with space characters');
+                $entityType.' names should not start or end with space characters');
         }
-        // Test for length
-        if (strlen($name)>64) {
-            return PEAR::raiseError(
-               'Database names are limited to 64 characters in length');
-        }
-        // Test for special characters ASCII 0 and 255
+        
+        // No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
         if (preg_match( '/([\\x00|\\xff])/', $name)) {
             return PEAR::raiseError(
-               'Database names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
+               $entityType.' names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
         }
-        // Test for special characters ASCII 0 and 255
+        
+        //Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+        //we actually extend that and disallow quoting at all
         if (preg_match( '/(\\\\|\/|\.|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
             return PEAR::raiseError(
-                'Database names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
+                $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
         }
-        return true;
+        
+        return true; 
     }
-
 }
 ?>

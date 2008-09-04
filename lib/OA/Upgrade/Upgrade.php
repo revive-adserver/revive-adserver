@@ -1040,6 +1040,8 @@ class OA_Upgrade
         $this->oLogger->deleteLogFile();
 
         // Always use lower case prefixes for new installs
+        
+        
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
 
         if ($aConfig['database']['localsocket'] == true) {
@@ -1238,6 +1240,19 @@ class OA_Upgrade
             $GLOBALS['_OA']['CONNECTIONS']  = array();
             $GLOBALS['_MDB2_databases']     = array();
 
+            /**
+             * validate table prefix before creating DB since it does not
+             * make much sense to create a DB and then be unable to add tables
+             */
+            $result = OA_DB::validateTableName($this->aDsn['table']['prefix']);
+            if (PEAR::isError($result))
+            {
+                $this->oLogger->logError($result->getMessage());
+                $this->oLogger->logErrorUnlessEmpty($result->getUserInfo());
+                return false;
+            }
+            
+            //attempt to create DB
             $result = OA_DB::createDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($result))
             {

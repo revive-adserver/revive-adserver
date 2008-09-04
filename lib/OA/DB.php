@@ -681,6 +681,31 @@ class OA_DB
             }
         }
     }
+    
+    
+    /**
+     * A method to validate table name
+     *
+     * @param string $name
+     * @return true if valid PEAR error otherwise
+     */
+    function validateTableName($name)
+    {
+        $dsn = OA_DB::_getDefaultDsn();
+        $oDbh =& OA_DB::singleton($dsn);
+        if (PEAR::isError($oDbh)) {
+            return $oDbh;
+        }
+        OA::disableErrorHandling();
+        $result = $oDbh->manager->validateTableName($name);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        
+        return true;        
+    }
+    
 
 }
 

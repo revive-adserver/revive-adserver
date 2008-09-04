@@ -224,6 +224,57 @@ class Test_OA_DB extends UnitTestCase
         }
         OA::enableErrorHandling();
     }
+    
+    
+    /**
+     *  Method to tests function validateDatabaseName in MDB2 Manager modules
+     */
+    function testValidateTableName()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh  = &OA_DB::singleton();
+        
+        OA::disableErrorHandling();
+        if ($aConf['database']['type'] == 'mysql') {
+            $result = $oDbh->validateTableName('test white space ');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->validateTableName('special'.chr(255).'char');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->validateTableName('characters/that are not allowed in filenames.');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->validateTableName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
+            $this->assertTrue(PEAR::isError($result)); 
+            $this->assertTrue ($oDbh->validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
+        }
+        if ($aConf['database']['type'] == 'pgsql') {
+            $result = $oDbh->manager->validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234'); //64 chars
+            $this->assertTrue(PEAR::isError($result));
+            
+            $this->assertTrue($oDbh->manager->validateTableName('abcdefghij12345678901234567890123456789012345678901234567890123')); //63 chars
+            
+            $result = $oDbh->manager->validateTableName('1 is first character alfabetic'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $result = $oDbh->manager->validateTableName('some.namewithdot'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $result = $oDbh->manager->validateTableName('some\\namewith'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $result = $oDbh->manager->validateTableName('some/namewith'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $result = $oDbh->manager->validateTableName('some\'namewith'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $result = $oDbh->manager->validateTableName('some\"namewith'); 
+            $this->assertTrue(PEAR::isError($result));
+            
+            $this->assertTrue($oDbh->manager->validateTableName('properName'));
+        }
+        OA::enableErrorHandling();
+    }
+    
 }
 
 
