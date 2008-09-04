@@ -42,7 +42,7 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /* Advertiser interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
@@ -74,7 +74,7 @@ if (!isset($orderdirection))
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     addPageTools($clientid);
-    addAdvertiserPageToolsAndShortcuts($clientid);    
+    addAdvertiserPageToolsAndShortcuts($clientid);
 	$oHeaderModel = buildAdvertiserHeaderModel($clientid);
 	phpAds_PageHeader(null, $oHeaderModel);
 }
@@ -236,7 +236,7 @@ phpAds_PageFooter();
 
 function addPageTools($clientid)
 {
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {    
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         addPageLinkTool($GLOBALS["strAddTracker_Key"], "tracker-edit.php?clientid=$clientid", "iconTrackerAdd", $GLOBALS["strAddNew"] );
     }
 }
