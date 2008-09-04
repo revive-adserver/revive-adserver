@@ -120,14 +120,12 @@ class Plugins_BannerTypeHTML extends OX_Component
         //validation rules
         $translation = new OA_Translation();
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
-        $widthPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strWidth'])), 'nonzero');
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
-        $heightPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strHeight'])), 'nonzero');
         $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
         
         $form->addGroupRule('size', array(
-            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule), 
-            'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
+            'width' => array($widthRequiredRule, $numericRule), 
+            'height' => array($heightRequiredRule, $numericRule)));
     }
 
     function preprocessForm($insert, $bannerid, $aFields)
