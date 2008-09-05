@@ -25,17 +25,10 @@
 $Id$
 */
 
-function OA_runMPE()
-{
-    $objResponse = new xajaxResponse();
-    $objResponse->addAssign("run-mpe", "innerHTML", "<img src='run-mpe.php' />");
-    return $objResponse;
-}
+// Require the initialisation file
+require_once '../../init.php';
 
-require_once MAX_PATH .'/lib/Max.php';
-require_once MAX_PATH .'/lib/xajax/xajax.inc.php';
-$xajax = new xajax(MAX::constructURL(MAX_URL_ADMIN,'run-mpe-xajax.php'));
-$xajax->registerFunction("OA_runMPE");
-$xajax->processRequests();
+// Required files
+require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 
 ?>
