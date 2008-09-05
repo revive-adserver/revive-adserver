@@ -71,21 +71,35 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
         $registry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();        
         $rulesText .= "rules: {\n";
         $messagesText .= "messages: {\n";
-        foreach($rules as $elementName => $rules) {
+        $rulesCount = count($rules);
+        $i = 0;
+        foreach($rules as $elementName => $elementRules) {
+            $i++;
             $rulesText.= " \"$elementName\": {\n";
             $messagesText.= " \"$elementName\": {\n";
-            foreach ($rules as $rule) {
+            $elemRulesCount = count($elementRules);
+            $j = 0;
+            foreach ($elementRules as $rule) {
+                $j++;
                 $ruleAdaptor = $registry->getJQueryRuleAdaptor($rule['type']);
                 if (!empty($ruleAdaptor)) {
-                    $rulesText .= "  ".$ruleAdaptor->getJQueryValidationRule($rule).",\n";
-                    $messagesText .= "  ".$ruleAdaptor->getJQueryValidationMessage($rule).",\n";
+                    $rulesText .= "  ".$ruleAdaptor->getJQueryValidationRule($rule);
+                    $messagesText .= "  ".$ruleAdaptor->getJQueryValidationMessage($rule);
+                    if ($j < $elemRulesCount) {
+                        $rulesText .= ",\n";
+                        $messagesText .= ",\n";
+                    }
                 }
             }
-            $rulesText.= " },\n"; 
-            $messagesText.= " },\n"; //close element array
+            $rulesText.= " }";
+            $messagesText.= " }";
+            if ($i < $rulesCount) {
+                $rulesText.= ",\n";
+                $messagesText.= ",\n"; //close element array
+            }
         }
         $rulesText .= "},\n"; //close rules array
-        $messagesText .= "},\n"; //close messages array
+        $messagesText .= "}\n"; //close messages array
         
         return $rulesText."\n".$messagesText;
     }

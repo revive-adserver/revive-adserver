@@ -28,7 +28,9 @@ $Id$
 {include file=form/general-errors.html errors=$campaignErrors title=ErrorEditingCampaign text=UnableToChangeCampaign}
 
 {*campaign status change form*}
-{include file=form/form.html form=$statusForm}
+{if $statusForm}
+    {include file=form/form.html form=$statusForm}
+{/if}
 {*/campaign status change form*}
 
 {*campaign form*}
