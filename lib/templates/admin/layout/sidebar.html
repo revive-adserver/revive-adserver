@@ -29,19 +29,23 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $aLeftMenuNav|@count}
   {section name=n loop=$aLeftMenuNav}
     {if $smarty.section.n.first} {*open nav list*}
-        <ul class="navigation">
+        <ul class="navigation first">
     {elseif $aLeftMenuNav[n].first} {*if new group starts close list and start a new one*}
         </ul>
         <ul class="navigation">
     {/if}
   
     {if $aLeftMenuNav[n].selected}
-    <li class="active {if $aLeftMenuNav[n].first} first{/if}{if $aLeftMenuNav[n].last} last{/if}">
+      <li class="active {if $aLeftMenuNav[n].first} first{/if}{if $aLeftMenuNav[n].last} last{/if}">
     {else}
       <li class="passive {if $aLeftMenuNav[n].first} first{/if}{if $aLeftMenuNav[n].last} last{/if}{if $aLeftMenuNav[n].single} single{/if}{if !$aLeftMenuNav[n].first && $aLeftMenuNav[$smarty.section.n.index_prev].selected} after-active{/if}">
     {/if}
-        <div class="left"><div class="right">
-          <a href="{$adminBaseURL}{$aLeftMenuNav[n].filename|escape}">{$aLeftMenuNav[n].title|escape}</a>
+          <a href="{$adminBaseURL}{$aLeftMenuNav[n].filename|escape}">
+            {$aLeftMenuNav[n].title|escape}
+            <span class="top"></span>
+            <span class="bottom"></span>
+          </a>
+          
           {if $aLeftMenuNav[n].selected && $aLeftMenuSubNav|@count}
           <ul class="navigation">
             {section name=sub loop=$aLeftMenuSubNav}
@@ -50,16 +54,18 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
               {else}
               <li class="passive {if $smarty.section.sub.first} first{else}{if $smarty.section.sub.last} last {/if}{/if}{if $aLeftMenuSubNav[$smarty.section.sub.index_prev].selected} after-active{/if}">
               {/if}
-                <div class="left"><div class="right">
-                  <a href="{$adminBaseURL}{$aLeftMenuSubNav[sub].filename|escape}">{$aLeftMenuSubNav[sub].title|escape}</a>
-                </div></div>
+                <a href="{$adminBaseURL}{$aLeftMenuSubNav[sub].filename|escape}">
+                  {$aLeftMenuSubNav[sub].title|escape}
+                  <span class="top"></span>
+                  <span class="bottom"></span>
+                </a>
               </li>
             {/section}
           </ul>
           {/if}                        
-        </div></div>
+          
       </li>
-    {if $smarty.section.n.last || $aLeftMenuNav[n].last} {*close nav list*}
+    {if $smarty.section.n.last} {*close nav list*}
     </ul>
     {/if}      
   {/section}

@@ -410,72 +410,178 @@ body.hasGradient #firstLevelContent {
   margin: 0 0 20px 0;
   padding: 0;
   list-style-type: none;
+  
+  background: #f4f4f4;
+  
+/*  border: 1px solid #dddddd;
+  border-bottom: none; */
 }
+
 #secondLevelNavigation .navigation li {
-  background: url(../images/button-navigation.gif) left -26px no-repeat;
-}
-#secondLevelNavigation .navigation li.first, #secondLevelNavigation .navigation li.single {
-  background-position: left 0;
-}
-#secondLevelNavigation .navigation li.last {
-  background-position: left -52px;
-}
-#secondLevelNavigation .navigation li.single {
-  background-position: left 0;
-}
-#secondLevelNavigation .navigation li.active {
-  background-position: -160px -52px;
-}
+  position: relative;
+  overflow: visible;
 
-#secondLevelNavigation .before-active div.left {
-  background: url(../images/button-navigation.gif) -160px 0px no-repeat;
-}
+  padding: 0;
+  margin: 0;
+  
+  -zoom: 1;
+  -float: left;
+  -width: 160px;
 
-#secondLevelNavigation .after-active div.left {
-  background: url(../images/button-navigation.gif) -160px -26px no-repeat;
-}
-
-#secondLevelNavigation .navigation li.single div.left {
-  background: url(../images/button-navigation.gif) -320px -9px no-repeat;;
-}
-
-#secondLevelNavigation .active div.left {
-  background: url(../images/button-navigation.gif) -320px bottom no-repeat;
+  * zoom: 1;
+  * float: left;
+  * width: 160px;
 }
 #secondLevelNavigation .navigation li a {
   display: block;
-  height: 26px;
-  line-height: 26px;
-  padding: 0 10px;
+  position: relative;
+
+  padding: 7px 10px;
   color: #444;
+
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+#secondLevelNavigation .navigation li.last a {
+  border-bottom: none;
+}
+#secondLevelNavigation .navigation li.active {
+  background: url(../images/button-navigation.gif) left center no-repeat;
 }
 #secondLevelNavigation .navigation li.active a {
+  background: url(../images/button-navigation.gif) left center no-repeat;
+  border: none;
   color: #fff;
 }
+
+
+
+#secondLevelNavigation .navigation li .top, #secondLevelNavigation .navigation li .bottom {
+  display: block;
+  position: absolute;
+  left: -1px;
+  height: 4px;
+  width: 160px;
+  background: url(../images/button-navigation.gif) left 0 no-repeat;
+  font-size:0;
+  -left: -11px;
+}
+#secondLevelNavigation .navigation li.active .top, #secondLevelNavigation .navigation li.active .bottom {
+  left: 0;
+  -left: -10px;
+}
+#secondLevelNavigation .navigation li .top {
+  top: 0;
+}
+#secondLevelNavigation .navigation li .bottom {
+  bottom: 0;
+  -bottom: -1px;
+}
+
+#secondLevelNavigation .navigation li.first .top, #secondLevelNavigation .navigation li.single .top {
+  background-position: left -4px;
+}
+#secondLevelNavigation .navigation.first li.first .top, #secondLevelNavigation .navigation.first li.single .top {
+  background-position: left -12px;
+}
+#secondLevelNavigation .navigation li.last .bottom, #secondLevelNavigation .navigation li.single .bottom {
+  background-position: left -8px;
+}
+
+
+
+
+
 #secondLevelNavigation .navigation li.active ul {
   margin: 0;
-  padding: 0 0 9px;
+  background: #fff;
+  border: none;
 }
-#secondLevelNavigation .navigation li.active ul li.first,
-#secondLevelNavigation .navigation li.active ul li.last,
-#secondLevelNavigation .navigation li.active ul li.active,
-#secondLevelNavigation .navigation li.active ul li {
-  width: 160px;
-  background: url(../images/button-navigation.gif) -480px -52px no-repeat;
+#secondLevelNavigation .navigation li.active .top {
+  top: -1px;
+  background-position: left -152px;
 }
-#secondLevelNavigation .navigation li.active ul li div.left {
-  background-image: none;
+#secondLevelNavigation .navigation li.active .bottom {
+  background-position: left -156px;
 }
-#secondLevelNavigation .navigation li.active ul li.first div.left {
-  background: url(../images/button-navigation.gif) -480px -26px no-repeat;
+#secondLevelNavigation .navigation li.first.active .top,
+#secondLevelNavigation .navigation li.single.active .top {
+  top: -1px;
+  background-position: left -144px;
 }
+#secondLevelNavigation .navigation li.last.active .bottom,
+#secondLevelNavigation .navigation li.single.active .bottom {
+  background-position: left -148px;
+}
+
+
+#secondLevelNavigation .navigation.first li.first.active .top,
+#secondLevelNavigation .navigation.first li.single.active .top {
+  top: -1px;
+  background-position: left -140px;
+}
+
+
+
 #secondLevelNavigation .navigation li.active ul li a {
-  padding: 0 20px;
+  padding-left: 20px;
   color: #444;
+  background: #fff url(../images/button-navigation.gif) -160px 1px no-repeat;
+
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 #secondLevelNavigation .navigation li.active ul li.active a {
-  font-weight: bold;
+  color: #07963e;
+  background-position: -160px -79px;
 }
+
+
+
+#secondLevelNavigation .navigation.first li.first.active li .top, 
+#secondLevelNavigation .navigation.first li.single.active li .top, 
+#secondLevelNavigation .navigation li.first.active li .top, 
+#secondLevelNavigation .navigation li.single.active li .top {
+  background-position: left 0;
+}
+
+#secondLevelNavigation .navigation.first li.active li.first .top, 
+#secondLevelNavigation .navigation li.active li.first .top {
+  top: -4px;
+  left: -1px;
+  background-position: left -156px;
+
+  -margin-left: -20px;
+}
+
+#secondLevelNavigation .navigation li.active li .top, 
+#secondLevelNavigation .navigation li.last.active li .bottom,
+#secondLevelNavigation .navigation li.single.active li .bottom,
+#secondLevelNavigation .navigation li.active li .bottom {
+  background-position: left 0;
+}
+
+#secondLevelNavigation .navigation li.active ul li.last a .bottom {
+  left: -1px;
+  bottom: -3px;
+  height: 6px;
+  background-position: left -20px;
+  
+  -margin-left: -20px;
+}
+
+#secondLevelNavigation .navigation li.last.active ul li.last a .bottom,
+#secondLevelNavigation .navigation li.single.active ul li.last a .bottom {
+  left: -1px;
+  bottom: -1px;
+  height: 4px;
+  background-position: left -16px;
+  
+  -margin-left: -20px;
+}
+
 
 /* Second level content */
 #secondLevelContent {
