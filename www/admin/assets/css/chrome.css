@@ -379,7 +379,6 @@ a:hover {
 #firstLevelContent {
 	margin-top: -24px;
 	position: relative;
-	z-index: 1;
 }
 
 body.hasGradient #firstLevelContent {
