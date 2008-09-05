@@ -28,6 +28,7 @@ $Id$
 // Include required files
 require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 /**
  * A class for generating reports via exporting statistics screens data.
@@ -67,12 +68,17 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      */
     function export()
     {
-        global $OA_Navigation;
+        // Prepare the report name        
+        // Get system navigation
+        $oMenu = OA_Admin_Menu::singleton();
+        // Get section by pageId
+        $oCurrentSection = $oMenu->get($this->oStatsController->pageId);
+        if ($oCurrentSection == null) {
+            phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
+        }
+        // Get name
+        $reportName = $oCurrentSection->getName();
 
-        // Prepare the report name
-        $accountType = OA_Permission::getAccountType();
-        $aHeading = $OA_Navigation[$accountType][$this->oStatsController->pageId];
-        $reportName = current($aHeading);
         $this->_name = $reportName;
         // Prepare the output writer for generation
         $reportFileName = 'Exported Statistics - ' . $reportName;
