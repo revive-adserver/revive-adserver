@@ -378,7 +378,7 @@ a:hover {
 /* First level content */
 #firstLevelContent {
 	margin-top: -24px;
-	position: relative;
+	/*position: relative; this is causing IE to create stacking context...*/
 }
 
 body.hasGradient #firstLevelContent {
