@@ -721,8 +721,8 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
                 }
 
                 if (isset($aFields['alink_chosen']) && $aFields['alink_chosen'] == $key) {
-                    $final['url'] = $val;
-                    $final['target'] = $aFields['atar'][$key];
+                    $aVariables['url'] = $val;
+                    $aVariables['target'] = $aFields['atar'][$key];
                 }
 
 /*
