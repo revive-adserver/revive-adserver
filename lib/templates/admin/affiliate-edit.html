@@ -61,13 +61,13 @@ $Id$
         });
     {/literal}
     {literal}    
-		website = $("#website");
-		name = $("#name");
-		website.blur(function () {
-			if ($.trim(name.val()) == "") {
-			   val = website.val();
+		$websiteURL = $("#website");
+		$websiteName = $("#name");
+		$websiteURL.blur(function () {
+			if ($.trim($websiteName.val()) == "") {
+			   val = $websiteURL.val();
 			   val = val.replace(/^http[s]?:\/\//, "");
-			   name.val(val);
+			   $websiteName.val(val);
 			}
 		});
      {/literal}
