@@ -84,6 +84,12 @@ if (!empty($action))
             $oExtensionManager = new OX_Extension_Common();
             $oExtensionManager->cachePreferenceOptions();
             break;
+        case 'hook':
+            // this rebuilds the cached array that holds the component hook registration array
+            require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+            $oExtensionManager = new OX_Extension_Common();
+            $oExtensionManager->cacheComponentHooks();
+            break;
         case 'reg':
             // currently rewrites delivery hooks to conf
             require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
@@ -125,6 +131,8 @@ if (!empty($action))
     }
 }
 
+phpAds_ShowBreak();
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=hook'>Rebuild Component Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=pref'>Rebuild Preferences List</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
