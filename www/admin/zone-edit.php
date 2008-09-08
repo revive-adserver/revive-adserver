@@ -210,7 +210,7 @@ function buildZoneForm($zone)
     }
     $iabSizes['-'] = $GLOBALS['strCustom'];
     $aDefaultSize['select'] = $form->createElement('select', 'size', null, $iabSizes,
-        array('onchange' => 'phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage("warning_change_zone_size");'));
+        array('onchange' => 'phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage("warning_change_zone_size");', 'class' => 'medium'));
 
 
     $aCustomSize['radio'] = $form->createElement('radio', 'sizetype', '', '', 'custom',
