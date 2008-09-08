@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once OX_EXTENSIONS_PATH . '/bannerTypeHtml/bannerTypeHtml.php';
+require_once LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtml.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 

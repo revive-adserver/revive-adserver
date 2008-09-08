@@ -436,7 +436,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     // This is a wrapper to the "parent" bannerTypeHtml function
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
-        @include MAX_PATH . $aConf['pluginPaths']['extensions'] . '/bannerTypeHtml/bannerTypeHtmlDelivery.php';
+        @include LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php';
     }
     return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }
@@ -463,7 +463,7 @@ function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     // This is a wrapper to the "parent" bannerTypeHtml function
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!function_exists('Plugin_BannerTypeText_delivery_adRender')) {
-        @include MAX_PATH . $aConf['pluginPaths']['extensions'] . '/bannerTypeText/bannerTypeTextDelivery.php';
+        @include LIB_PATH . '/Extension/bannerTypeText/bannerTypeTextDelivery.php';
     }
     return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }

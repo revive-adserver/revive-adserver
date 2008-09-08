@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once OX_EXTENSIONS_PATH . '/deliveryLimitations/Time/AbstractTimePlugin.php';
+require_once LIB_PATH . '/Extension/deliveryLimitations/Time/AbstractTimePlugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 

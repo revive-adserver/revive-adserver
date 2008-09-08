@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once OX_EXTENSIONS_PATH . '/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
+require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 
 /**
  * A Site delivery limitation plugin, for filtering delivery of ads on the
@@ -90,8 +90,8 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         $this->bannerid = (isset($GLOBALS['bannerid'])) ? $GLOBALS['bannerid'] : 0;
         $tabindex =& $GLOBALS['tabindex'];
 
-        $aChannels = array();        
-        
+        $aChannels = array();
+
         // Get all of the agency channels that could be used for this banner
         //  select the agency ID that owns this banner (it may be the admin ID, 0)
         $doChannel = OA_Dal::factoryDO('channel');

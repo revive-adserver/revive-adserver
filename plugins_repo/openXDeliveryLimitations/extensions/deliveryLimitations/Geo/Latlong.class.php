@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once OX_EXTENSIONS_PATH . '/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
+require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 require_once MAX_PATH . '/lib/max/other/lib-geo.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 

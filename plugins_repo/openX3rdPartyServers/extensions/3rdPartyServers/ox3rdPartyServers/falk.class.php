@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
+require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *

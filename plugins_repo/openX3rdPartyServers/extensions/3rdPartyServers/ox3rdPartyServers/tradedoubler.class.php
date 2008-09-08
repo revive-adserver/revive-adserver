@@ -32,7 +32,7 @@ $Id: doubleclick.plugin.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.o
  *
  */
 
-require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
+require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *

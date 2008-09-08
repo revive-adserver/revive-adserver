@@ -50,8 +50,6 @@ function init()
     // Always include the configuration file
     include_once MAX_PATH . '/tests/config.php';
 
-    define('OX_EXTENSIONS_PATH', MAX_PATH . '/extensions');
-
 }
 
 // Run the init() function

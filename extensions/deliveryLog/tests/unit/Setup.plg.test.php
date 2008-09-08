@@ -26,8 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once OX_EXTENSIONS_PATH . '/deliveryLog/Setup.php';
-require_once OX_EXTENSIONS_PATH . '/deliveryLog/LogCommon.php';
+require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
+require_once LIB_PATH . '/Extension/deliveryLog/LogCommon.php';
 
 /**
  * A class for testing the OX_Plugins_DeliveryLog_Setup class.

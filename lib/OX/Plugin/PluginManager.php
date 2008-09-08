@@ -32,7 +32,6 @@ $Id$
 // Required files
 require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
 require_once LIB_PATH.'/Plugin/ParserPlugin.php';
-require_once MAX_PATH.'/extensions/deliveryLog/Setup.php';
 
 define('OX_PLUGIN_ERROR_PACKAGE_OK', 1);
 define('OX_PLUGIN_ERROR_PACKAGE_NAME_EXISTS'            ,    0);

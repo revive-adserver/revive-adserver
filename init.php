@@ -120,8 +120,6 @@ function init()
     $eh = new MAX_ErrorHandler();
     $eh->startHandler();
 
-    define('OX_EXTENSIONS_PATH', MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/'));
-
     // increase amount of required memory if necessery
     increaseMemoryLimit(getMinimumRequiredMemory());
 }

@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
+require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,9 +40,9 @@ require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyServers 
+class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyServers
 {
-    
+
     /**
      * Return the name of plugin
      *
@@ -52,10 +52,10 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyS
     {
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
-        
+
         return MAX_Plugin_Translation::translate('Rich Media - adtech', $this->module, $this->package);
     }
-    
+
     /**
      * Return plugin cache
      *
@@ -65,10 +65,10 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyS
     {
         $search  = array("/\[timestamp\]/i", "/(rdclick=)([^\";]*)/i");
         $replace = array("{timestamp}",      "$1{clickurl}");
-        
+
         $buffer = preg_replace ($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
-        
+
         return $buffer;
     }
 

@@ -45,25 +45,28 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
      */
     function __construct($extension, $group, $component) {
         // TODO Remove this temporary language loader
-        
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Get current language
-        if (!empty($GLOBALS['_MAX']['PREF']['language'])) {
-            $language = $GLOBALS['_MAX']['PREF']['language'];
-        } elseif (!empty($GLOBALS['_MAX']['CONF']['max']['language'])) {
-            $language = $GLOBALS['_MAX']['CONF']['max']['language'];
+        if (!empty($aConf['language'])) {
+            $language = $aConf['language'];
+        } elseif (!empty($aConf['max']['language'])) {
+            $language = $aConf['max']['language'];
         } else {
             $language = 'en';
         }
-        
+
         // Create paths to language files
-        $extensionLangPath = OX_EXTENSIONS_PATH. '/' . $extension . '/_lang/';
-        $groupLangPath     = OX_EXTENSIONS_PATH. '/' . $extension . '/' . $group . '/_lang/';
-        
+
+        $extensionLangPath = $aConf['pluginPaths']['extensions'].'_lang/';
+        $groupLangPath     = $aConf['pluginPaths']['extensions'].$group.'/_lang/';
+
         // Load translation files for group and for specific component
         MAX_Plugin_Translation::includePluginLanguageFile($extension, null, $language, $extensionLangPath);
         MAX_Plugin_Translation::includePluginLanguageFile($extension, $group, $language, $groupLangPath);
     }
-    
+
     /**
      * Return the name of plugin
      *
@@ -71,16 +74,16 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
      * @return string
      */
     abstract function getName();
-    
+
     /**
-     * Return information about cache store 
-     * (is it available etc.) 
+     * Return information about cache store
+     * (is it available etc.)
      *
-     * @abstract 
-     * @return bool|array True if there is no problems or array of string with error messages otherwise 
+     * @abstract
+     * @return bool|array True if there is no problems or array of string with error messages otherwise
      */
     abstract function getStatus();
-    
+
     /**
      * A function to delete a single cache entry or the entire delivery cache.
      *
@@ -95,7 +98,7 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
         }
         return $this->_deleteAll();
     }
-    
+
     /**
      * A function to delete a single cache entry
      *
@@ -104,7 +107,7 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
      * @return bool True if the entres were succesfully deleted
      */
     abstract function _deleteCacheFile($filename);
-    
+
     /**
      * A function to delete entire delivery cache
      *

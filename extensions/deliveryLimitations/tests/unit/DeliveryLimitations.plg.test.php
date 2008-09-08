@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once OX_EXTENSIONS_PATH . '/deliveryLimitations/DeliveryLimitations.php';
+require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 
 class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
 {

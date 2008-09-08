@@ -66,9 +66,9 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
         $this->assertIsA($aHooks, 'array');
         $this->assertEqual(count($aHooks),1);
-        $this->assertTrue(isset($aHooks['afterLogin']));
-        $this->assertEqual(count($aHooks['afterLogin']),1);
-        $this->assertEqual($aHooks['afterLogin'][0],'admin:testPlugin:testPlugin');
+        $this->assertTrue(isset($aHooks['duringTest']));
+        $this->assertEqual(count($aHooks['duringTest']),1);
+        $this->assertEqual($aHooks['duringTest'][0],'admin:testPlugin:testPlugin');
 
         $this->_restoreCacheFile('ComponentHooks_Plugins');
 

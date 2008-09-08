@@ -29,7 +29,7 @@ $Id$
 
 require_once 'bid-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once OX_EXTENSIONS_PATH . '/deliveryAdRender/oxThorium/marketplace.php';
+require_once $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'deliveryAdRender/oxThorium/marketplace.php';
 
 /*-------------------------------------------------------*/
 /* SECURITY CHECK                                        */

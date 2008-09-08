@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once OX_EXTENSIONS_PATH . '/deliveryCacheStore/DeliveryCacheStore.php';
+require_once LIB_PATH . '/Extension/deliveryCacheStore/DeliveryCacheStore.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -39,17 +39,17 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
 {
     /**
      * Return the name of plugin
-     * 
+     *
      * @return string
      */
     function getName()
     {
         return MAX_Plugin_Translation::translate('File based cache', $this->extension, $this->group);
     }
-    
+
     /**
-     * Return information about cache store 
-     * 
+     * Return information about cache store
+     *
      * @return bool|array True if there is no problems or array of string with error messages otherwise
      */
     function getStatus()
@@ -61,7 +61,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
         }
         return true;
     }
-        
+
     /**
      * A function to delete a single cache entry
      *
@@ -77,8 +77,8 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
         }
         return false;
     }
-    
-    
+
+
     /**
      * A function to delete entire delivery cache
      *
@@ -87,16 +87,16 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
     function _deleteAll()
     {
         $cachedir = @opendir($this->_getCachePath());
-    
+
         while (false !== ($filename = @readdir($cachedir))) {
             if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename))
                 @unlink ($GLOBALS['OA_Delivery_Cache']['path'].$filename);
         }
         @closedir($cachedir);
-        
+
         return true;
     }
-    
+
     function _getCachePath() {
         if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['cachePath'])) {
             return trim($GLOBALS['_MAX']['CONF'][$this->group]['cachePath']).'/';
