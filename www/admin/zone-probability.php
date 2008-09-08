@@ -115,9 +115,9 @@ function phpAds_showZoneBanners ($zoneId)
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
+                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".htmlspecialchars($name)."</a>";
                 } else {
-                    echo $name;
+                    echo htmlspecialchars($name);
                 }
                 echo "</td>";
                 echo "<td height='25'>".$adId."</td>";
@@ -197,9 +197,9 @@ function phpAds_showZoneBanners ($zoneId)
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
+                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".htmlspecialchars($name)."</a>";
                 } else {
-                    echo $name;
+                    echo htmlspecialchars($name);
                 }
                 echo "</td>";
                 echo "<td height='25'>".$adId."</td>";
@@ -288,9 +288,9 @@ function phpAds_showZoneBanners ($zoneId)
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
+                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".htmlspecialchars($name)."</a>";
                 } else {
-                    echo $name;
+                    echo htmlspecialchars($name);
                 }
                 echo "</td>";
                 echo "<td height='25'>".$adId."</td>";

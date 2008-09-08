@@ -201,7 +201,7 @@ function processForm($aAdvertiser, $form)
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
-            $aAdvertiser['clientname'], 
+            htmlspecialchars($aAdvertiser['clientname']), 
             MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aAdvertiser['clientid']), 
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

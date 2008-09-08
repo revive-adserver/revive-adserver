@@ -169,9 +169,9 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;";
 
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-		echo "<a href='tracker-edit.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>".$row_trackers['trackername']."</a>";
+		echo "<a href='tracker-edit.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>".htmlspecialchars($row_trackers['trackername'])."</a>";
 	else
-		echo $row_trackers['trackername'];
+		echo htmlspecialchars($row_trackers['trackername']);
 
 //	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td>\n";

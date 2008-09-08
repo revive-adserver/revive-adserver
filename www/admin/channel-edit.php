@@ -164,7 +164,7 @@ function processForm($form)
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']), 
-            $aFields['name'], 
+            htmlspecialchars($aFields['name']), 
             MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

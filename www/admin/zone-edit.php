@@ -608,7 +608,7 @@ function processForm($form)
             $translation = new OA_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenAdded'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']), 
-                $aFields['zonename']
+                htmlspecialchars($aFields['zonename'])
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

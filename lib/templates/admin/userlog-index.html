@@ -81,7 +81,7 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} {t str=$aValue.action} {$aValue.contextDescription} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} {t str=$aValue.action} {$aValue.contextDescription} "{$aValue.details.key_desc|escape}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
                         in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}

@@ -32,12 +32,12 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <div class="breadcrumb {if $headerModel->getIconClass()}hasIcon {$headerModel->getIconClass()}{/if}">
         <h3 {if $breadcrumbCount == 0}class="noBreadcrumb"{/if}>
             <span class='label'>{$headerModel->getTitle()}</span>{if $headerModel->getPageType() == "edit"}:{/if} 
-            {$headerModel->getEntityName()}
+            {$headerModel->getEntityName()|escape}
             {if $headerModel->getNewTargetName()}
                 <span class='target'>
                     {$headerModel->getNewTargetTitle()} 
                     {if $headerModel->getNewTargetLink()}<a href="{$headerModel->getNewTargetLink()}">{/if}
-                    {$headerModel->getNewTargetName()}
+                    {$headerModel->getNewTargetName()|escape}
                     {if $headerModel->getNewTargetLink()}</a>{/if}
                 </span>
             {/if} 
@@ -52,14 +52,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                 <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}:            
                   <select name="{$breadcrumbs[breadcrumbIndex]->getHtmlName()}" onChange="this.form.submit();">
                   {foreach from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}
-                    <option value='{$itemId}' {if $itemId == $breadcrumbs[breadcrumbIndex]->getEntityId()}selected{/if}>{$aEntity.name}</option>";
+                    <option value='{$itemId}' {if $itemId == $breadcrumbs[breadcrumbIndex]->getEntityId()}selected{/if}>{$aEntity.name|escape}</option>";
                   {/foreach}
                   </select>
                 </span>
             {elseif $breadcrumbs[breadcrumbIndex]->getUrl()}
-                <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()}</a>
+                <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</a>
             {else}
-                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()}</span>
+                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</span>
             {/if}
             
             {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}

@@ -61,10 +61,10 @@ $Id$
       {if $sso}
         <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {else}
-        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username|escape}</a></td>
         <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {/if}
-        <td>{$user.contact_name}</td>
+        <td>{$user.contact_name|escape}</td>
       {if $sso}
         <td>{$user.date_last_login}</td>
       {else}

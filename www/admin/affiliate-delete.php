@@ -73,7 +73,7 @@ if (!empty($affiliateid))
     // Queue confirmation message        
     $translation = new OA_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDeleted'], array(
-        $aAffiliate['name']
+        htmlspecialchars($aAffiliate['name'])
     ));
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }

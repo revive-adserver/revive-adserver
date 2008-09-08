@@ -143,7 +143,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if $buttonLogout}
         <li class="accountSwitcher">
-            <div class="triggerContainer">{$strWorkingAs} <span class="switchTrigger" href="#">{$accountName}</span></div>
+            <div class="triggerContainer">{$strWorkingAs} <span class="switchTrigger" href="#">{$accountName|escape}</span></div>
             <div class="accountsPanel">
               <div class="switchTop">&nbsp;</div>
               <div class="switchMiddle">
@@ -153,13 +153,13 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 	                <div class="result">
 	                  <ul id="accounts">
 						  {foreach from=$aAdminAccounts  key=accountId item=account}
-						    <li><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+						    <li><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account|escape}</a></li>
 						  {/foreach}
 
 		                  {foreach from=$aAccounts  key=groupName item=group}
 		                      <li class="opt">{$groupName|escape}</li>
 		                      {foreach from=$group key=accountId item=account}
-		                        <li class="inopt"><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+		                        <li class="inopt"><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account|escape}</a></li>
 		                      {/foreach}
 		                  {/foreach}
 	                  </ul>

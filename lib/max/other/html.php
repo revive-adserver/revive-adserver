@@ -844,7 +844,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 
         $name = MAX_buildName($otherEntityId, $aOtherEntity['name']);
         echo "
-        <option value='$otherEntityId'{$selected}>$name $adsCount</option>";
+        <option value='$otherEntityId'{$selected}>".htmlspecialchars($name)." $adsCount</option>";
     }
     echo "
     </select>
@@ -899,7 +899,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                 $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                 if (!$hideInactive || $adActive) {
                     $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
-                    $adName = MAX_getDisplayName($aAd['name']);
+                    $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                     $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                     $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
                     $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
@@ -993,7 +993,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                 }
 
                 $placementIcon = MAX_getEntityIcon('placement', $placementActive);
-                $placementName = MAX_getDisplayName($aPlacement['name']);
+                $placementName = htmlspecialchars(MAX_getDisplayName($aPlacement['name']));
                 $placementLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
                 $placementTypeName = OX_Util_Utils::getCampaignTypeName($aPlacement['priority']);
                 $adCount = empty($aAds) ? 0 : count($aAds);
@@ -1020,7 +1020,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                         $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                         if (!$hideInactive || $adActive) {
                             $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
-                            $adName = MAX_getDisplayName($aAd['name']);
+                            $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                             $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                             $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
                             $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
@@ -1238,9 +1238,9 @@ function MAX_displayChannels($channels, $aParams) {
                     $ownerNameStr = '';
                 }
             }
-            $ownerStr = !empty($ownerTypeStr) ? '&nbsp&nbsp<i>'.$ownerTypeStr.'</i>'.$ownerNameStr : '';
+            $ownerStr = !empty($ownerTypeStr) ? '&nbsp&nbsp<i>'.$ownerTypeStr.'</i>'.htmlspecialchars($ownerNameStr) : '';
 
-            echo "<a href='channel-edit.php?{$entityString}channelid={$channel['channel_id']}'>{$channel['name']}$ownerStr</a>";
+            echo "<a href='channel-edit.php?{$entityString}channelid={$channel['channel_id']}'>".htmlspecialchars($channel['name'].$ownerStr)."</a>";
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "</td>";
             echo "<td height='25'>{$channel['channel_id']}</td>";
@@ -1249,7 +1249,7 @@ function MAX_displayChannels($channels, $aParams) {
             // Description
             echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
             echo "<td>&nbsp;</td>";
-            echo "<td height='25' colspan='3'>".stripslashes($channel['description'])."</td>";
+            echo "<td height='25' colspan='3'>".htmlspecialchars(stripslashes($channel['description']))."</td>";
             echo "</tr>";
 
             echo "<tr height='1'>";

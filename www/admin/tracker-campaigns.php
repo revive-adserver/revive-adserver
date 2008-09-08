@@ -269,9 +269,9 @@ if ($doCampaigns->getRowCount() == 0) {
             // Name
             if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
                 echo "<a href='campaign-edit.php?clientid=".$campaign['clientid']."&campaignid=".$campaign['campaignid']."'>";
-                echo phpAds_breakString ($campaign['campaignname'], '60')."</a>";
+                echo htmlspecialchars(phpAds_breakString ($campaign['campaignname'], '60'))."</a>";
             } else {
-                echo phpAds_breakString ($campaign['campaignname'], '60');
+                echo htmlspecialchars(phpAds_breakString ($campaign['campaignname'], '60'));
             }
             echo "</td>\n";
 

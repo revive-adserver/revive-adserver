@@ -430,7 +430,7 @@ class MAX_Admin_Invocation {
         if (is_array($extra)) {
             reset($extra);
             while (list($k, $v) = each($extra)) {
-                $buffer .= "<input type='hidden' value='$v' name='$k'>";
+                $buffer .= "<input type='hidden' value='".htmlspecialchars($v,ENT_QUOTES)."' name='$k'>";
             }
         }
         // Hide when integrated in zone-advanced.php

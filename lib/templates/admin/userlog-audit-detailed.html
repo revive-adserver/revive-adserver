@@ -8,7 +8,7 @@
             </tr>
             <tr class="even">
                 <td style="width: 30%">{t str=Name}</td>
-                <td>{$aAuditDetail.name}</td>
+                <td>{$aAuditDetail.name|escape}</td>
             </tr>
             <tr class="odd">
                 <td style="width: 30%;">{t str=Type}</td>
@@ -20,7 +20,7 @@
             </tr>
             <tr class="odd">
                 <td class="label">{t str=Username}</td>
-                <td>{$aAuditDetail.username}</td>
+                <td>{$aAuditDetail.username|escape}</td>
             </tr>
         </tbody>
     </table>
@@ -38,13 +38,13 @@
                 {if is_array($value)}
             <tr class="{$rowClass}">
                 <td>{$key}</td>
-                <td>{if $value.was == ''}empty{else}{$value.was}{/if}&nbsp;&rarr;&nbsp;{$value.is}</td>
+                <td>{if $value.was == ''}empty{else}{$value.was|escape}{/if}&nbsp;&rarr;&nbsp;{$value.is|escape}</td>
             </tr>
 
                 {else}
             <tr class="{$rowClass}">
                 <td>{$key}</td>
-                <td>{$value}</td>
+                <td>{$value|escape}</td>
             </tr>
                 {/if}
             {/foreach}

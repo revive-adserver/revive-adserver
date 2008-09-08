@@ -191,7 +191,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
                 <td>&nbsp;</td>
                 <td valign='top'><input id='affiliate$publisherId' name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
                 <td valign='top'><img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
-                <td><a href='affiliate-edit.php?affiliateid=$publisherId'>$publisherName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><a href='affiliate-edit.php?affiliateid=$publisherId'>".htmlspecialchars($publisherName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </td>
@@ -218,12 +218,12 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
                 <td width='28'>&nbsp;</td>
                 <td valign='top'><input name='includezone[$zoneId]' id='a$publisherId' type='checkbox' value='t'$checked onClick='toggleAffiliate($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
                 <td valign='top'><img src='$zoneIcon' align='absmiddle'>&nbsp;</td>
-                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>$zoneName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>".htmlspecialchars($zoneName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </td>
     <td>$zoneId</td>
-    <td>$zoneDescription</td>
+    <td>".htmlspecialchars($zoneDescription)."</td>
 </tr>";
                     }
                 }

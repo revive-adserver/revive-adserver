@@ -253,9 +253,9 @@ if ($doTrackers->getRowCount() == 0) {
         // Name
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             echo "<a href='tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."'>";
-            echo phpAds_breakString ($tracker['trackername'], '60')."</a>";
+            echo htmlspecialchars(phpAds_breakString ($tracker['trackername'], '60'))."</a>";
         } else {
-            echo phpAds_breakString ($tracker['trackername'], '60');
+            echo htmlspecialchars(phpAds_breakString ($tracker['trackername'], '60'));
         }
         echo "</td>\n";
 

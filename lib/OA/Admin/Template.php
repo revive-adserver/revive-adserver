@@ -355,12 +355,12 @@ class OA_Admin_Template extends Smarty
                 $strPos = stripos($text,$searchPhrase);
                 if ($strPos !== false ) {
                     $strLen = strlen($searchPhrase);
-                    return  substr($text, 0, $strPos) .
-                            "<b class='sr'>" . substr($text, $strPos, $strLen) . "</b>" .
-                            substr($text, $strPos+$strLen);
+                    return  htmlspecialchars(substr($text, 0, $strPos)) .
+                            "<b class='sr'>" . htmlspecialchars(substr($text, $strPos, $strLen)) . "</b>" .
+                            htmlspecialchars(substr($text, $strPos+$strLen));
                     }
             }
-            return $aParams['text'];
+            return htmlspecialchars($aParams['text']);
         }
     }
 

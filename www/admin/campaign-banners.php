@@ -330,9 +330,9 @@ else {
 
         echo "&nbsp;";
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-            echo $name;
+            echo htmlspecialchars($name);
         } else {
-            echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</a>";
+            echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".htmlspecialchars($name)."</a>";
         }
         echo "</td>";
 
@@ -382,7 +382,7 @@ else {
             echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
             echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 
-            echo "<tr height='25'><td colspan='2'>".($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-')."</td></tr>";
+            echo "<tr height='25'><td colspan='2'>".htmlspecialchars(($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-'))."</td></tr>";
 
             if ($banners[$bkey]['type'] == 'txt') {
                 echo "<tr height='25'><td width='50%'>".$strSize.": ".strlen($banners[$bkey]['bannertext'])." ".$strChars."</td>";

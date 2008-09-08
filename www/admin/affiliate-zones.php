@@ -231,9 +231,9 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
     }
 
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_EDIT))
-        echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
+        echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".htmlspecialchars($row_zones['zonename'])."</a>";
     else
-        echo $row_zones['zonename'];
+        echo htmlspecialchars($row_zones['zonename']);
 
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td>";
@@ -260,7 +260,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
     // Description
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
     echo "<td>&nbsp;</td>";
-    echo "<td height='25' colspan='3'>".stripslashes($row_zones['description'])."</td>";
+    echo "<td height='25' colspan='3'>".htmlspecialchars(stripslashes($row_zones['description']))."</td>";
     echo "</tr>";
 
     echo "<tr height='1'>";

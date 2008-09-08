@@ -825,7 +825,7 @@ function processCampaignForm($form)
             $translation = new OA_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenAdded'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
-                $aFields['campaignname'], 
+                htmlspecialchars($aFields['campaignname']), 
                 MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

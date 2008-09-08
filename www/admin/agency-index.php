@@ -180,7 +180,7 @@ else
         echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
 
         echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>\n";
-        echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".$agency['name']."</a>\n";
+        echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".htmlspecialchars($agency['name'])."</a>\n";
         echo "\t\t\t\t\t</td>\n";
 
         // ID

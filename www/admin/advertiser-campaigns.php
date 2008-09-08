@@ -249,13 +249,13 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 		    if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-        		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname'];
+        		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".htmlspecialchars($campaigns[$ckey]['campaignname']);
 		    } else {
-		        echo $campaigns[$ckey]['campaignname'];
+		        echo htmlspecialchars($campaigns[$ckey]['campaignname']);
 		    }
 		} 
 		else {
-    		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname'];
+    		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".htmlspecialchars($campaigns[$ckey]['campaignname']);
 		}
 		echo "</td>";
 

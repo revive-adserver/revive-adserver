@@ -61,7 +61,7 @@ if (!empty($bannerid)) {
     // Queue confirmation message        
     $translation = new OA_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenDeleted'], array(
-        $aBanner['description']
+        htmlspecialchars($aBanner['description'])
     ));
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 } else if (!empty($campaignid)) {

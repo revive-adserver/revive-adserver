@@ -81,7 +81,7 @@ $Id$
 	            {/if}
             {/foreach}
 
-			<a href='affiliate-edit.php?affiliateid={$affiliate.affiliateid}'>{$affiliate.name}</a>
+			<a href='affiliate-edit.php?affiliateid={$affiliate.affiliateid}'>{$affiliate.name|escape}</a>
 		</td>
 		{* ID *}
 		<td height='25'>{$affiliate.affiliateid}</td>

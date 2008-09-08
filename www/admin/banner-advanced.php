@@ -172,7 +172,6 @@ if ($banner['type'] != 'txt') {
     if (isset($appendtype)) {
         $banner['appendtype'] = $appendtype;
     }
-
     // Appendtype choices
     echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$GLOBALS['strZoneAppendType']."</td><td>";
     echo "<select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>";
@@ -236,11 +235,11 @@ if ($banner['type'] != 'txt') {
         echo "onchange='phpAds_formSelectAppendZone(0)'";
         echo (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 
-        foreach ($available[phpAds_Zone] as $k => $v) {
+        foreach ($available[phpAds_ZonePopup] as $k => $v) {
             if ($appendid == $k) {
-                echo "<option value='".$k."' selected>".$v."</option>";
+                echo "<option value='".$k."' selected>".htmlspecialchars($v)."</option>";
             } else {
-                echo "<option value='".$k."'>".$v."</option>";
+                echo "<option value='".$k."'>".htmlspecialchars($v)."</option>";
             }
         }
         echo "</select></td></tr>";
@@ -263,9 +262,9 @@ if ($banner['type'] != 'txt') {
 
         foreach ($available[phpAds_ZoneInterstitial] as $k => $v) {
             if ($appendid == $k) {
-                echo "<option value='".$k."' selected>".$v."</option>";
+                echo "<option value='".$k."' selected>".htmlspecialchars($v)."</option>";
             } else {
-                echo "<option value='".$k."'>".$v."</option>";
+                echo "<option value='".$k."'>".htmlspecialchars($v)."</option>";
             }
         }
         echo "</select></td></tr>";

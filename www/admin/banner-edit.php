@@ -801,7 +801,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid), 
-            $aFields['description']
+            htmlspecialchars($aFields['description'])
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

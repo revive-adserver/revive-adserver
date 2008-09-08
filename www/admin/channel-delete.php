@@ -60,7 +60,7 @@ if (!empty($channelid))
     // Queue confirmation message        
     $translation = new OA_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenDeleted'], array(
-        $aChannel['name']
+        htmlspecialchars($aChannel['name'])
     ));
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }

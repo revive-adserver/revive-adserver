@@ -70,7 +70,7 @@ if (!empty($clientid)) {
     // Queue confirmation message        
     $translation = new OA_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenDeleted'], array(
-        $aAdvertiser['clientname']
+        htmlspecialchars($aAdvertiser['clientname'])
     ));
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }

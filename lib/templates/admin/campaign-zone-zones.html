@@ -34,7 +34,7 @@ $Id$
 <!--rows-{$status}-start-->
 {foreach from=$websites key=websiteid item=website}
 <tr class="website">
-  <td class="name" title="{$website.name}">
+  <td class="name" title="{$website.name|escape}">
     <label style="white-space: nowrap"><input id="{$checkboxPrefix}w{$websiteid}" name="w{$websiteid}" type="checkbox" class="checkbox parent" /> {boldSearchPhrase text=$website.name search=$text}</label>
   </td>
   <td class="category" title="{$website.category}">{$website.category}</td>
@@ -45,7 +45,7 @@ $Id$
 
 {foreach from=$website.zones key=zoneid item=zone}
 <tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
-  <td class="name" title="{$zone.name}">
+  <td class="name" title="{$zone.name|escape}">
     <label>
       <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}" 
              name="z{$zoneid}" type="checkbox" class="checkbox" /> {boldSearchPhrase text=$zone.name search=$text}</label>

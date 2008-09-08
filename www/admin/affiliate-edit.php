@@ -186,7 +186,7 @@ function buildWebsiteForm($affiliate)
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
-            $oPublisher->publisherName, 
+            htmlspecialchars($oPublisher->publisherName), 
             MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId), 
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
