@@ -383,6 +383,7 @@ a:hover {
 
 body.hasGradient #firstLevelContent {
     background:#FFFFFF url(../images/background-gradient.gif) repeat-x scroll left -16px;
+    -zoom: 1;   /*trigger hasLayout for IE6*/
 }
 
 
@@ -400,7 +401,6 @@ body.hasGradient #firstLevelContent {
 #secondLevelNavigation {
 	position: absolute;
 	left: 0;
-
 	width: 160px;
 	margin: 24px 0 0 20px;
 }
@@ -590,7 +590,6 @@ body.hasGradient #firstLevelContent {
 
 .hasSidebar #secondLevelContent {
   margin: 0 0 0 186px;
-  /*OLD margin: 0 0 0 181px;*/
   padding: 6px 0 0;
 }
 
