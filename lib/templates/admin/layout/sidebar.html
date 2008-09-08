@@ -24,9 +24,8 @@
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
-<div id="secondLevelNavigation">
-
 {if $aLeftMenuNav|@count}
+<div id="secondLevelNavigation">
   {section name=n loop=$aLeftMenuNav}
     {if $smarty.section.n.first} {*open nav list*}
         <ul class="navigation first">
@@ -69,19 +68,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     </ul>
     {/if}      
   {/section}
-{/if}
-
-{if $sidebarExtra}
-    <div id="oaSidebarCustom">{$sidebarExtra}</div>
-{/if}
-
-{if $aSideShortcuts|@count}
-    <h3>{t str=Shortcuts}</h3>
-    <ul id="oaSidebarShortcuts">
-{foreach item=s from=$aSideShortcuts}
-        <li style="background-image: url({$s.icon|escape});"><a href="{$s.link|escape}">{$s.name}</a></li>
-{/foreach}
-    </ul>
-{/if}
-
 </div>
+{/if}
+
