@@ -160,11 +160,6 @@ class Migration_324 extends Migration
 	        }
 	    }
 
-        $result = MAX_AclReCompileAll(true);
-        if (PEAR::isError($result)) {
-            return $this->_logErrorAndReturnFalse('Error recompiling ACLS during migration 324: '.$result->getUserInfo());
-        }
-
 	    return true;
 	}
 
