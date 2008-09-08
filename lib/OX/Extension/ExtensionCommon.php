@@ -42,12 +42,14 @@ class OX_Extension_Common
     function runTasksAfterPluginInstall()
     {
         $this->cachePreferenceOptions();
+        $this->cacheComponentHooks();
         return true;
     }
 
     function runTasksAfterPluginUninstall()
     {
         $this->cachePreferenceOptions();
+        $this->cacheComponentHooks();
         return true;
     }
 
@@ -68,6 +70,8 @@ class OX_Extension_Common
 
     function runTasksAfterPluginEnable()
     {
+        $this->cachePreferenceOptions();
+        $this->cacheComponentHooks();
         return true;
     }
 
@@ -78,9 +82,17 @@ class OX_Extension_Common
 
     function runTasksAfterPluginDisable()
     {
+        $this->cachePreferenceOptions();
+        $this->cacheComponentHooks();
         return true;
     }
 
+    /**
+     * caches hooks for enabled plugins only
+     * indexed by hookname
+     *
+     * @return boolean
+     */
     function cacheComponentHooks()
     {
         $oPluginManager = new OX_PluginManager();
@@ -90,7 +102,13 @@ class OX_Extension_Common
         return $oCache->save($aHooks);
     }
 
-    function cachePreferenceOptions()
+    /**
+     * caches hooks for enabled plugins only
+     * indexed by group name
+     *
+     * @return boolean
+     */
+   function cachePreferenceOptions()
     {
         $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
         $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());

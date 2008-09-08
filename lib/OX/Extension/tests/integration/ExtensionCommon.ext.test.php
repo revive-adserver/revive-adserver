@@ -42,23 +42,10 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
     function setUp()
     {
-        if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
-        {
-            unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak');
-        }
-        if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin'))
-        {
-            copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak');
-        }
     }
 
     function tearDown()
     {
-        if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
-        {
-            @unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
-            copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
-        }
     }
 
     function test_cacheComponentHooks()
@@ -69,6 +56,8 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         $GLOBALS['_MAX']['CONF']['plugins'] = array('testPluginPackage'=>1);
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
 
+        $this->_backupCacheFile('ComponentHooks_Plugins');
+
         $oExtension->cacheComponentHooks();
 
         $oCache = new OA_Cache('Plugins', 'ComponentHooks');
@@ -77,24 +66,11 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
         $this->assertIsA($aHooks, 'array');
         $this->assertEqual(count($aHooks),1);
-        $this->assertTrue(isset($aHooks['afterStart']));
-        $this->assertEqual(count($aHooks['afterStart']),1);
-        $this->assertEqual($aHooks['afterStart'][0],'admin:testPlugin:testPlugin');
+        $this->assertTrue(isset($aHooks['afterLogin']));
+        $this->assertEqual(count($aHooks['afterLogin']),1);
+        $this->assertEqual($aHooks['afterLogin'][0],'admin:testPlugin:testPlugin');
 
-        /*$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/plugins/';
-        $aComponents = OX_Component::getComponents('admin','testPlugin',true);
-        $this->assertTrue(isset($aComponents['testPlugin']));
-        $this->assertEqual($aComponents['testPlugin']->extension,'admin');
-        $this->assertEqual($aComponents['testPlugin']->group, 'testPlugin');
-        $this->assertEqual($aComponents['testPlugin']->component, 'testPlugin');
-        $this->assertEqual($aComponents['testPlugin']->enabled, true);
-
-        $aComponents = OX_Component::getComponents('admin','testPlugin',false);
-        $this->assertTrue(isset($aComponents['admin:testPlugin:testPlugin']));
-        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->extension,'admin');
-        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->group, 'testPlugin');
-        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->component, 'testPlugin');
-        $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->enabled, true);*/
+        $this->_restoreCacheFile('ComponentHooks_Plugins');
 
         TestEnv::restoreConfig();
     }
@@ -104,6 +80,8 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         $oExtension = new OX_Extension_Common();
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Extension/tests/data/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
+
+        $this->_backupCacheFile('PrefOptions_Plugins');
 
         $oExtension->cachePreferenceOptions();
 
@@ -122,9 +100,36 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         $this->assertEqual($aPrefOptions['testPlugin']['value'],'account-preferences-plugin.php?group=testPlugin');
         $this->assertEqual(count($aPrefOptions['testPlugin']['perm']),4);
 
+        $this->_restoreCacheFile('PrefOptions_Plugins');
+
         TestEnv::restoreConfig();
     }
 
+    function _backupCacheFile($name)
+    {
+        $filename = MAX_PATH.'/var/cache/cache_'.$name;
+        if (file_exists($filename.'.bak'))
+        {
+            unlink($filename.'.bak');
+        }
+        if (file_exists($filename))
+        {
+            copy($filename, $filename.'.bak');
+        }
+    }
+
+    function _restoreCacheFile($name)
+    {
+        $filename = MAX_PATH.'/var/cache/cache_'.$name;
+        if (file_exists($filename))
+        {
+            copy($filename.'.bak', $filename);
+        }
+        if (file_exists($filename.'.bak'))
+        {
+            unlink($filename.'.bak');
+        }
+    }
 
 }
 

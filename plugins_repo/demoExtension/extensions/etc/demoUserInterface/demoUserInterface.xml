@@ -30,7 +30,15 @@
             <file path="{ADMINPATH}/">demoUI-common.php</file>
             <file path="{ADMINPATH}/">demoUI-index.php</file>
             <file path="{ADMINPATH}/">demoUI-page.php</file>
+            <file path="{ADMINPATH}/">demoUserInterface.class.php</file>
         </files>
+
+        <components>
+           <component>
+                <name>demoUserInterface</name>
+                <hook>afterLogin</hook>
+           </component>
+        </components>
 
         <navigation>
 

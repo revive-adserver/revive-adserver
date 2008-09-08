@@ -125,6 +125,15 @@ function OA_Start($checkRedirectFunc = null)
         Language_Loader::load('default');
 
         phpAds_SessionDataRegister(OA_Auth::login($checkRedirectFunc));
+
+        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
+        foreach ($aPlugins as $i => $id)
+        {
+            if ($obj = OX_Component::factoryByComponentIdentifier($id))
+            {
+                $obj->afterLogin();
+            }
+        }
     }
     // Overwrite certain preset preferences
     if (!empty($session['language']) && $session['language'] != $GLOBALS['pref']['language']) {

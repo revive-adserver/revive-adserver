@@ -164,6 +164,32 @@ class Test_OX_Component extends UnitTestCase {
 
     }
 
+    function test_getListOfRegisteredComponentsForHook()
+    {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Plugin/tests/data/plugins/etc/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'] = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
+        $GLOBALS['_MAX']['CONF']['plugins'] = array('testPluginPackage'=>1);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
+
+        require_once LIB_PATH.'/Extension/ExtensionCommon.php';
+        //generate test cache
+        $oExtension = new OX_Extension_Common();
+        $oExtension->cacheComponentHooks();
+
+        $aHooks = OX_Component::getListOfRegisteredComponentsForHook('duringTest');
+
+        $this->assertIsA($aHooks, 'array');
+        $this->assertEqual(count($aHooks),1);
+        $this->assertEqual($aHooks[0],'admin:testPlugin:testPlugin');
+
+        //re-cache the hooks
+        $oExtension = new OX_Extension_Common();
+        $oExtension->cacheComponentHooks();
+
+        TestEnv::restoreConfig();
+
+    }
+
     function Xtest_includeComponentFile()
     {
     }

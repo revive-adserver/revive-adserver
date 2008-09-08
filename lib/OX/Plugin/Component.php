@@ -384,7 +384,7 @@ class OX_Component
      * A method to run a method on all component objects in an array of components.
      *
      * @static
-     * @param array $aPComponents An array of component objects.
+     * @param array $aComponents An array of component objects.
      * @param string $methodName The name of the method to executed for every component.
      * @param array $aParams An optional array of parameters to pass to the method called.
      * @return mixed An array of the results of the method calls, or false on error.
@@ -473,6 +473,27 @@ class OX_Component
             }
         }
         return $return;
+    }
+
+    function getListOfRegisteredComponentsForHook($hook)
+    {
+        $aHooks = self::getComponentsHookCache();
+        if (isset($aHooks[$hook]))
+        {
+            return $aHooks[$hook];
+        }
+        return array();
+    }
+
+    function getComponentsHookCache()
+    {
+        if (!isset($GLOBALS['_MAX']['ComponentHooks']))
+        {
+            $oCache = new OA_Cache('Plugins', 'ComponentHooks');
+            $oCache->setFileNameProtection(false);
+            $GLOBALS['_MAX']['ComponentHooks'] = $oCache->load(true);
+        }
+        return $GLOBALS['_MAX']['ComponentHooks'];
     }
 
     function getComponentIdentifier()

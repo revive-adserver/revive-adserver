@@ -34,7 +34,7 @@
         <components>
            <component>
                 <name>testPlugin</name>
-                <hook>afterStart</hook>
+                <hook>duringTest</hook>
            </component>
         </components>
 
