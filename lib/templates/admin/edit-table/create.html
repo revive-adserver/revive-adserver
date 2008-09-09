@@ -32,7 +32,7 @@ $Id$
 {oa_edit type=section params=$t}
 {foreach item=v from=$t.fields}
 {if $v.template == 'adnetworks' && !$showAdDirect}{else}
-    {oa_form_element params=$v}{$v.label}{/oa_form_element}
+    {oa_edit params=$v}{$v.label}{/oa_edit}
 {/if}
 {/foreach}
 {/oa_edit}
