@@ -225,18 +225,28 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     return true;
 }
 
-function MAX_AclGetCompiled($aAcls) {
-    if (empty($aAcls)) {
+function MAX_AclGetCompiled($aAcls)
+{
+    if (empty($aAcls))
+    {
         return "true";
-    } else {
+    }
+    else
+    {
         ksort($aAcls);
-        foreach ($aAcls as $acl) {
+        $compiledAcls = array();
+        foreach ($aAcls as $acl)
+        {
             $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
-            $compiled = $deliveryLimitationPlugin->compile();
-            if (!empty($compiledAcls)) {
-                $compiledAcls[] = $acl['logical'];
+            if ($deliveryLimitationPlugin)
+            {
+                $compiled = $deliveryLimitationPlugin->compile();
+                if (!empty($compiledAcls))
+                {
+                    $compiledAcls[] = $acl['logical'];
+                }
+                $compiledAcls[] = $compiled;
             }
-            $compiledAcls[] = $compiled;
         }
         return implode(' ', $compiledAcls);
     }
@@ -384,7 +394,7 @@ function &OA_aclGetComponentFromType($type)
 {
     $aComponentIdentifier = OX_Component::parseComponentIdentifier($type);
     if (count($aComponentIdentifier) == 2) {
-        array_push($aComponentIdentifier, 'deliveryLimitations');
+        array_unshift($aComponentIdentifier, 'deliveryLimitations');
     }
     list($extension, $group, $name) = $aComponentIdentifier;
 
@@ -441,12 +451,17 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     while ($rsAcls->fetch()) {
         $row = $rsAcls->toArray();
         $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($row);
-        if ($upgrade || $deliveryLimitationPlugin->isAllowed($page)) {
-            $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
+        if ($deliveryLimitationPlugin)
+        {
+            if ($upgrade || $deliveryLimitationPlugin->isAllowed($page))
+            {
+                $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
+            }
         }
     }
     // OK so we've updated all the data values, now the hard part, we need to recompile limitations for all banners
-    foreach ($aAcls as $id => $acl) {
+    foreach ($aAcls as $id => $acl)
+    {
         $aEntities = array($idColumn => $id);
         MAX_AclSave($acl, $aEntities, $page);
     }
