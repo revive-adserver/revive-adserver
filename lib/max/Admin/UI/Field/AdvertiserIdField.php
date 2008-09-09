@@ -25,8 +25,15 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Reporting.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
+
+/**
+ * NOTE
+ *
+ * THIS CLASS APPEARS TO BE REDUNDANT
+ * phpAds_dbQuery DOES NOT EXIST ANYMORE?
+ *
+ */
 
 class Admin_UI_AdvertiserIdField extends Admin_UI_Field
 {
@@ -38,9 +45,8 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
         }
         else
         {
-        $dal = new MAX_Dal_Reporting();
-        $aAdvertisers = $dal->phpAds_getAdvertiserArray('clientname');
-        
+        $aAdvertisers = Admin_UI_AdvertiserIdField::_getAdvertiserArray('clientname');
+
         echo "
         <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."'>";
         foreach ($aAdvertisers as $advertiserId => $aAdvertiser) {
@@ -52,6 +58,37 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
         </select>";
         }
     }
+
+    function _getAdvertiserArray($orderBy = null)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
+        {
+            $query =
+                "SELECT clientid,clientname".
+                " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $query =
+                "SELECT clientid,clientname".
+                " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
+                " WHERE agencyid=".OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $query =
+                "SELECT clientid,clientname".
+                " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
+                " WHERE clientid=".OA_Permission::getEntityId();
+        }
+        $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
+
+        $res = phpAds_dbQuery($query);
+
+        while ($row = phpAds_dbFetchArray($res))
+            $clientArray[$row['clientid']] = phpAds_buildName ($row['clientid'], $row['clientname']);
+
+        return ($clientArray);
+    }
+
 }
 
 ?>

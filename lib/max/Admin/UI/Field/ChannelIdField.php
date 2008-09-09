@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Reporting.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_ChannelIdField extends Admin_UI_Field
@@ -43,7 +42,7 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
     function getChannels()
     {
         global $list_filters;
-    
+
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
@@ -98,9 +97,9 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
             $aPublishers = array();
             $aChannels = array();
         }
-        
+
         // add admin-owned channels
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || 
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) ||
             OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
             OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             // add admin-owned channels
@@ -110,14 +109,14 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
                 $aChannels[$channelId] = $aAdminChannel;
             }
          }
-        
+
         $aChannelArray = array();
         foreach ($aChannels as $channelId => $aChannel) {
             $aChannelArray[$channelId] = "[$channelId]" . $aChannel['name'];
         }
         return $aChannelArray;
     }
-    
+
     function displayChannelsAsOptionList()
     {
         $aChannels = $this->getChannels();

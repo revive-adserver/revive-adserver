@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Reporting.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_ZoneIdField extends Admin_UI_Field
@@ -42,7 +41,7 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
     function getZones()
     {
         global $list_filters;
-    
+
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $aParams = array();
             $aPublishers = Admin_DA::getPublishers($aParams);
@@ -94,7 +93,7 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
         return $aZoneArray;
     }
 
-    function getForecastType () 
+    function getForecastType ()
     {
         switch ($this->_filter) {
         case FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED :

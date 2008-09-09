@@ -25,24 +25,30 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Reporting.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
+
+/**
+ * NOTE
+ *
+ * THIS CLASS APPEARS TO BE REDUNDANT
+ * phpAds_dbQuery DOES NOT EXIST ANYMORE?
+ *
+ */
 
 class Admin_UI_PublisherIdField extends Admin_UI_Field
 {
     function display()
     {
         global $session, $list_filters;
-    
+
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
         {
             echo "<input type='hidden' name='{$this->_name}' value='".OA_Permission::getEntityId()."'>";
         }
         else
         {
-        $dal = new MAX_Dal_Reporting();
-        $aPublishers = $dal->phpAds_getPublisherArray('name');
-        
+        $aPublishers = Admin_UI_PublisherIdField::phpAds_getPublisherArray('name');
+
         // if no default publisher set, set it to the first id in the array
         // - this is to ensure that we'll know which publisher to filter any other
         // dropdowns by even if no publisher is selected yet
@@ -66,6 +72,38 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
         echo "
         </select>";
         }
+    }
+
+    /**
+     * @todo Handle cases where user is not Admin, Agency or Advertiser
+     */
+    function _getPublisherArray($orderBy = null)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+            $query =
+                "SELECT affiliateid,name".
+                " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'];
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $query =
+                "SELECT affiliateid,name".
+                " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
+                " WHERE agencyid=".OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $query =
+                "SELECT affiliateid,name".
+                " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
+                " WHERE affiliateid=".OA_Permission::getEntityId();
+        }
+        $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
+
+        $res = phpAds_dbQuery($query);
+
+        while ($row = phpAds_dbFetchArray($res))
+            $affiliateArray[$row['affiliateid']] = phpAds_buildAffiliateName ($row['affiliateid'], $row['name']);;
+
+        return ($affiliateArray);
     }
 }
 
