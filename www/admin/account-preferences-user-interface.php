@@ -49,11 +49,6 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
-// This page depends on statisticsFieldsDelivery plugins, so get the required
-// information about all such plugins installed in this installation
-/*$aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));*/
-
 $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
 $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
 

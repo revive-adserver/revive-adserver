@@ -771,11 +771,14 @@ class OA_Preferences
             'ui_percentage_decimals'                        => array('account_type' => null,                    'default' => 2),
         );
 
-        $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-        uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
+        require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
+        require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
 
-        foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
-            foreach (array_keys($oPlugin->getVisibilitySettings()) as $prefName) {
+        $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
+        $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+
+        foreach ($aStatisticsFieldsDelivery as $obj) {
+            foreach (array_keys($obj->getVisibilitySettings()) as $prefName) {
                 $aPrefs[$prefName]          = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => false);
                 $aPrefs[$prefName.'_label'] = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => '');
                 $aPrefs[$prefName.'_rank']  = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => 0);

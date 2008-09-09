@@ -73,10 +73,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Conversion tracking has been turned on, need to update
             // account preferences to display the "Conversions" column
             // in statisitics screens
-            $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-            foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
+
+            require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
+            require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
+
+            $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
+            $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+
+            foreach ($aStatisticsFieldsDelivery as $obj) {
                 // Get the column preference name for "Sum Conversions"
-                $columnName = $oPlugin->getSumConversionsColumnPreferenceName();
+                $columnName = $obj->getSumConversionsColumnPreferenceName();
                 if (!is_null($columnName)) {
                     break;
                 }
@@ -106,11 +112,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Conversion tracking has been turned off, need to update
             // account preferences to not display any of the conversion
             // tracking columns in statistics screens
-            $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-            foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
+            require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
+            require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
+
+            $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
+            $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+
+            foreach ($aStatisticsFieldsDelivery as $obj) {
                 // Get all of the column preference names that relate to
                 // conversion tracking
-                $aPrefs = $oPlugin->getConversionColumnPreferenceNames();
+                $aPrefs = $obj->getConversionColumnPreferenceNames();
                 // Disable these preferences
                 OA_Preferences::disableStatisticsColumns($aPrefs);
             }
