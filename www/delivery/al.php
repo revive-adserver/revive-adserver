@@ -2818,8 +2818,8 @@ MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('layerstyle'));
 if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
 // Include layerstyle
-if (file_exists(MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
-include MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+if (file_exists(MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
+include MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
 }
 $limitations = MAX_layerGetLimitations();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
