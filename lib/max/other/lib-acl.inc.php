@@ -382,8 +382,13 @@ function MAX_AclCopy($page, $from, $to) {
  */
 function &OA_aclGetComponentFromType($type)
 {
-    list($package, $name) = explode(':', $type);
-    return OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
+    $aComponentIdentifier = OX_Component::parseComponentIdentifier($type);
+    if (count($aComponentIdentifier) == 2) {
+        array_push($aComponentIdentifier, 'deliveryLimitations');
+    }
+    list($extension, $group, $name) = $aComponentIdentifier;
+
+    return OX_Component::factory($extension, ucfirst($group), ucfirst($name));
 }
 
 /**

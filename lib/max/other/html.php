@@ -1167,8 +1167,7 @@ function MAX_displayAcls($acls, $aParams) {
         echo "<tr><td colspan='4'><img src='" . OX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>";
 
         foreach ($acls as $aclId => $acl) {
-            list($group, $name) = explode(':', $acl['type']);
-            if ($deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($group), ucfirst($name))) {
+            if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
                 $deliveryLimitationPlugin->init($acl);
                 $deliveryLimitationPlugin->count = count($acls);
                 if ($deliveryLimitationPlugin->isAllowed($page)) {
