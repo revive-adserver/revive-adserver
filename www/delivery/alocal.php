@@ -1458,7 +1458,7 @@ if (!function_exists($functionName)) {
 _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php');
 if (!function_exists($functionName)) {
 // Function or function file doesn't exist, use the "parent" function
-_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
+_includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
 $functionName = 'Plugin_' . $aInfo[0] . '_delivery';
 if (!empty($hook) && function_exists($functionName . '_' . $hook)) {
 $functionName .= '_' . $hook;
