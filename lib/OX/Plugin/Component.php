@@ -234,6 +234,7 @@ class OX_Component
      */
     function _getComponentsFiles($extension, $group = null, $recursive = 1)
     {
+        $aResult = array();
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($extension != 'admin')
         {
@@ -266,6 +267,7 @@ class OX_Component
 
     function _getComponentGroupsFromDirectory($directory)
     {
+        $aGroups = array();
         if (is_readable($directory))
         {
             if ($aFiles = scandir($directory))
