@@ -115,17 +115,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
         $this->_aFields['sum_conversions_pending'] =
             array(
                 'name'    => MAX_Plugin_Translation::translate('_Pending conversions', $this->module, $this->package),
-                'short'   => M    /**
-     * A method to return the name of the plugin.
-     *
-     * @return string A string describing the plugin class.
-     */
-    function getName()
-    {
-        return 'Affiliate delivery statistics columns plugin.';
-    }
-
-AX_Plugin_Translation::translate('Pending conversions', $this->module, $this->package),
+                'short'   => MAX_Plugin_Translation::translate('Pending conversions', $this->module, $this->package),
                 'pref'    => 'ui_column_conversions_pending',
                 'link'    => 'stats.php?entity=conversions&',
                 'active'  => true,
