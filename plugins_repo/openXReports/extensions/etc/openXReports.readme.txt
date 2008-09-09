@@ -1,0 +1,3 @@
+This plugin package contains the old style report plugins.
+
+We are hoping to refactor these with to use a more flexible reporting framework.

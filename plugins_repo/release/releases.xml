@@ -81,4 +81,18 @@
         <downloadUrl>{local}/download/openXDeliveryCacheStore.zip</downloadUrl>
     </package>
 
+    <package>
+        <name>openXReports</name>
+        <creationDate>2008-05-30</creationDate>
+        <author>Monique Szpak</author>
+        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Reports for OpenX</description>
+        <version>1.0.0</version>
+        <oxminver>2.7.16-dev</oxminver>
+        <oxmaxver>2.7.16-dev</oxmaxver>
+        <downloadUrl>{local}/download/openXReports.zip</downloadUrl>
+    </package>
+
 </releases>

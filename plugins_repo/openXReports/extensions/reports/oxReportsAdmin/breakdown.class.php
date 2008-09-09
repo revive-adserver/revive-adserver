@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
+require_once LIB_PATH . '/Extension/reports/Reports.php';
 
 /**
  * A plugin to generate a report showing the breakdown of delivery for the
@@ -46,7 +46,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  * @author     Chris Nutting <chris@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
+class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
 {
 
     /**

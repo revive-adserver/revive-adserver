@@ -24,7 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
 
 /**
  * A plugin to generate a report showing conversion tracking details, for the
@@ -128,7 +128,7 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Scott Switzer <scott@switzer.org>
  */
-class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsScope
+class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins_ReportsScope
 {
 
     /**
@@ -225,7 +225,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         if ($checkResult !== true) {
             return $checkResult;
         }
-        
+
         // Save the scope for use later
         $this->_oScope = $oScope;
         // Prepare the range information for the report
@@ -257,7 +257,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
     }
-    
+
     /**
      * Check input parameters
      *
@@ -265,17 +265,17 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
      * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
      * @param array $aSheets  An array of sheets that should be in the report.
      *
-     * @return bool|int - True if no errors, error code otherwise 
+     * @return bool|int - True if no errors, error code otherwise
      */
     function _checkParameters($oDaySpan, $oScope, $aSheets)
     {
         if (!isset($aSheets['performance_by_day']) &&
-            !isset($aSheets['connection_by_day']) && 
+            !isset($aSheets['connection_by_day']) &&
             !isset($aSheets['variable_by_day']) &&
             !isset($aSheets['variable_by_variable']) &&
             !isset($aSheets['connection_detail']))
         {
-            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
     }

@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
@@ -47,7 +47,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Scott Switzer <scott@switzer.org>
  */
-class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
+class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {
 
     /**

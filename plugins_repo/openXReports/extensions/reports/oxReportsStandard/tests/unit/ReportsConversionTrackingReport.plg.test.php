@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * @subpackage TestSuite
  * @author     Łukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends UnitTestCase
+class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends UnitTestCase
 {
     /**
      * @var Plugins_Reports_Standard_ConversionTrackingReport
@@ -45,24 +45,22 @@ class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends Un
     /**
      * The constructor method.
      */
-    function Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport()
-    {
-        $this->UnitTestCase();
-    }
-
-    function Test_Plugins_Authentication_oPlugin_oPlugin()
+    function Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport()
     {
         $this->UnitTestCase();
     }
 
     function setUp()
     {
-        $this->oPlugin = &MAX_Plugin::factory('reports', 'standard', 'conversionTrackingReport');
+        //$this->oPlugin = &MAX_Plugin::factory('reports', 'oxStandard', 'conversionTrackingReport');
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = str_replace('reports/oxReportsStandard/tests/unit','',dirname(str_replace(MAX_PATH,'',__FILE__)));
+        $this->oPlugin = &OX_Component::factory('reports', 'oxReportsStandard', 'conversionTrackingReport');
     }
 
     function tearDown()
     {
         DataGenerator::cleanUp();
+        TestEnv::restoreConfig();
     }
 
     /**

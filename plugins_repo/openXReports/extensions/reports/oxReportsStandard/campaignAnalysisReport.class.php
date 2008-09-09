@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
+require_once LIB_PATH . '/Extension/reports/Reports.php';
 
 /**
  * A plugin to generate a report showing the breakdown of delivery for a
@@ -80,7 +80,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Robert Hunter <roh@m3.net>
  */
-class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
+class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_Reports
 {
 
     /**
@@ -252,7 +252,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
     }
-    
+
     /**
      * Check input parameters
      *
@@ -264,10 +264,10 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     function _checkParameters($oDaySpan, $placementId, $aSheets)
     {
         if (!isset($aSheets['daily_breakdown']) &&
-            !isset($aSheets['ad_breakdown']) && 
+            !isset($aSheets['ad_breakdown']) &&
             !isset($aSheets['zone_breakdown']))
         {
-        	return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+        	return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
     }

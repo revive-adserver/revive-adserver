@@ -22,11 +22,11 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
+$Id$
 */
 
 // Include required files
-require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
 
 /**
  * A plugin to generate a report showing the breakdown of delivery for a
@@ -81,7 +81,7 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Robert Hunter <roh@m3.net>
  */
-class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_ReportsScope
+class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugins_ReportsScope
 {
 
     /**
@@ -175,7 +175,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         if ($checkResult !== true) {
             return $checkResult;
         }
-        
+
         // Save the scope for use later
         $this->_oScope = $oScope;
         // Prepare the range information for the report
@@ -197,7 +197,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
     }
-    
+
     /**
      * Check input parameters
      *
@@ -205,15 +205,15 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
      * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
      * @param array $aSheets  An array of sheets that should be in the report.
      *
-     * @return bool|int - True if no errors, error code otherwise 
+     * @return bool|int - True if no errors, error code otherwise
      */
     function _checkParameters($oDaySpan, $oScope, $aSheets)
     {
         if (!isset($aSheets['daily_breakdown']) &&
-            !isset($aSheets['campaign_breakdown']) && 
+            !isset($aSheets['campaign_breakdown']) &&
             !isset($aSheets['zone_breakdown']))
         {
-            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
     }

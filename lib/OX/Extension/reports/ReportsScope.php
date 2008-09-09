@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
+require_once LIB_PATH . '/Extension/reports/Reports.php';
 
 /**
  * Plugins_ReportsScope is an abstract class that extends the interface defined

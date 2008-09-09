@@ -72,7 +72,7 @@ class OA_Admin_Reports_Generate
     function _newPluginByName($reportIdentifier)
     {
         $pluginKey = explode(':', $reportIdentifier);
-        $oPlugin =& MAX_Plugin::factory('reports', $pluginKey[0], $pluginKey[1]);
+        $oPlugin = OX_Component::factoryByComponentIdentifier($reportIdentifier);
         return $oPlugin;
     }
 

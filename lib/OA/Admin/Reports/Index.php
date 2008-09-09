@@ -28,9 +28,8 @@ $Id:IndexModule.php 4204 2006-02-10 09:55:36Z roh@m3.net $
 // Include required files
 require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/www/admin/config.php';
-
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 /**
@@ -105,7 +104,7 @@ class OA_Admin_Reports_Index
     {
         $aDisplayablePlugins = array();
         // Get all the report plugins.
-        $aPlugins =& MAX_Plugin::getPlugins('reports', null, false);
+        $aPlugins = OX_Component::getComponents('reports');
         // Check the user's authorization level
         foreach ($aPlugins as $pluginType => $oPlugin) {
             if (!$oPlugin->isAllowedToExecute()) {
