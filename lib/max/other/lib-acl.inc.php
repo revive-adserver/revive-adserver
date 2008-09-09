@@ -399,11 +399,14 @@ function &OA_aclGetComponentFromType($type)
  */
 function &OA_aclGetComponentFromRow($row)
 {
-    $plugin =& OA_aclGetComponentFromType($row['type']);
-    $plugin->init($row);
-    return $plugin;
+    $oPlugin =& OA_aclGetComponentFromType($row['type']);
+    if (!$oPlugin)
+    {
+        return false;
+    }
+    $oPlugin->init($row);
+    return $oPlugin;
 }
-
 
 /**
  * Recompiles all acls definitions for one of the type: banners or channel.
