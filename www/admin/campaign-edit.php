@@ -907,7 +907,9 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'conversionsDelivered', isset ( $campaign ['conversions_delivered'] ) ? $campaign ['conversions_delivered'] : 0 );
 
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningNoWeightMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoWeight'] ) ) );
+    $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
+    $oTpl->assign ( 'strCampaignWarningExclusiveNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningExclusiveNoWeight'] ) ) );
+    
 
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
 
@@ -979,7 +981,7 @@ function getCampaignInactiveReasons($aCampaign)
         $aReasons [] = $GLOBALS ['strAfterExpire'];
     }
 
-    if ($aCampaign ['priority'] == 0 && $aCampaign ['weight'] == 0) {
+    if (($aCampaign ['priority'] == 0 || $aCampaign ['priority'] = -1) && $aCampaign ['weight'] == 0) {
         $aReasons [] = $GLOBALS ['strWeightIsNull'];
     }
     if ($aCampaign ['priority'] > 0 && $aCampaign ['target_value'] == 0) {

@@ -916,7 +916,7 @@ function campaignFormPriorityCheck(form)
 
     if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {  
-	        return confirm (strCampaignWarningNoWeightMessage);
+	        return confirm (strCampaignWarningExclusiveNoWeight);
 	    }
 	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL 
 	       && $("#endSet_immediate").attr("checked") == true 
@@ -926,7 +926,7 @@ function campaignFormPriorityCheck(form)
     }
     else {
         if (!parseInt($("#weight").val())) {  
-            return confirm (strCampaignWarningNoWeightMessage);
+            return confirm (strCampaignWarningRemnantNoWeight);
         }
     }
     
