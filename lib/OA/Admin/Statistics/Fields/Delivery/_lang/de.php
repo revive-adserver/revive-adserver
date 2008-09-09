@@ -29,9 +29,30 @@ $conf = $GLOBALS['_MAX']['CONF'];
 
 $words = array(
     // Settings
-    'Show %s column'       => '<i>%s</i>カラムを表示する',
-    'Label for %s column'  => '<i>%s</i>カラムのラベル',
-    'Rank of %s column'    => '<i>%s</i>カラムのランク',
+    'Show %s column'       => 'Zeige Spalte <i>%s</i>',
+    'Label for %s column'  => 'Name der Spalte <i>%s</i>',
+    'Rank of %s column'    => 'Position der Spalte <i>%s</i>',
+    // Long names
+    '_ID'                  => 'ID',
+    '_Requests'            => 'Zugriffe',
+    '_Impressions'         => 'Impressions',
+    '_Clicks'              => 'Klicks',
+    '_CTR'                 => 'CTR',
+    '_Conversions'         => 'Konversionen',
+    '_Pending conversions' => 'Offene Konversionen',
+    '_Impression SR'       => 'Impression SR',
+    '_Click SR'            => 'Klick SR',
+
+    // Short names
+    'ID'                  => 'ID',
+    'Requests'            => 'Zugr.',
+    'Impressions'         => 'Impr.',
+    'Clicks'              => 'Klicks',
+    'CTR'                 => 'CTR',
+    'Conversions'         => 'Konv.',
+    'Pending conversions' => 'Offene Konv.',
+    'Impression SR'       => 'Impr. SR',
+    'Click SR'            => 'Klick SR',
 );
 
 ?>

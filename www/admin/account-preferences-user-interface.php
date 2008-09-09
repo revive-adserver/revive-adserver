@@ -37,6 +37,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 require_once LIB_PATH . '/Admin/Redirect.php';
 
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
+
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
@@ -48,8 +51,11 @@ $oOptions = new OA_Admin_Option('preferences');
 
 // This page depends on statisticsFieldsDelivery plugins, so get the required
 // information about all such plugins installed in this installation
-$aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
+/*$aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
+uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));*/
+
+$aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
+$aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -84,8 +90,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements[] = 'ui_week_start_day';
     $aElements[] = 'ui_percentage_decimals';
     // Stats columns
-    foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
-        $aVars = $oPlugin->getVisibilitySettings();
+    foreach ($aStatisticsFieldsDelivery as $obj) {
+        $aVars = $obj->getVisibilitySettings();
         $aSuffixes = array('_label', '_rank');
         foreach (array_keys($aVars) as $name) {
             $aElements[] = $name;
@@ -112,8 +118,8 @@ $oOptions->selection("user-interface");
 
 // Prepare an array of columns to be used shortly
 $aStatistics = array();
-foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
-    $aVars = $oPlugin->getVisibilitySettings();
+foreach ($aStatisticsFieldsDelivery as $obj) {
+    $aVars = $obj->getVisibilitySettings();
     foreach ($aVars as $name => $text) {
         // prepend underscore to ensure long name is used
         $text = (substr($text, 0, 1) == '_') ? $text : '_'. $text;

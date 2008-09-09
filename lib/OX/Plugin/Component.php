@@ -98,10 +98,7 @@ class OX_Component
     {
         $aOldPlugins = array(
                              'invocationTags',
-                             'reports',
                              'statistics',
-                             'statisticsFieldsDelivery',
-                             'statisticsFieldsTargeting'
                              );
         if (!in_array($extension, $aOldPlugins))
         {

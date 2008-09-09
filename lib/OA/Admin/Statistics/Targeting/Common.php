@@ -152,8 +152,8 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
      */
     function _loadPlugins()
     {
-        $aPlugins =& MAX_Plugin::getPlugins('statisticsFieldsTargeting');
-        uasort($aPlugins, array($this, '_pluginSort'));
+        require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Targeting/Default.php';
+        $aPlugins['default'] = & new OA_StatisticsFieldsTargeting_Default();
         $this->aPlugins = $aPlugins;
     }
 

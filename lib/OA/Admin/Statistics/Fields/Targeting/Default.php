@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/statisticsFieldsTargeting/statisticsFieldsTargeting.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -36,20 +36,20 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting
+class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsDelivery
 {
 
     /**
      * Constructor
      */
-    function Plugins_statisticsFieldsTargeting_default_default()
+    function OA_StatisticsFieldsTargeting_Default()
     {
         // Set ordering to a low value to move columns to the left
         $this->displayOrder = -10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'statisticsFieldsTargeting';
-        $this->package = 'default';
+        /*$this->module  = 'statisticsFieldsTargeting';
+        $this->package = 'default';*/
 
         $this->_aFields = array(
             'placement_required_impressions'  => array('name'   => MAX_Plugin_Translation::translate('_Required', $this->module, $this->package),
@@ -102,17 +102,6 @@ class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisti
                                                       )
         );
     }
-
-    /**
-     * A method to return the name of the plugin.
-     *
-     * @return string A string describing the plugin class.
-     */
-    function getName()
-    {
-        return 'Default targeting statistics columns plugin.';
-    }
-
 
     /**
      * Generate target ratio

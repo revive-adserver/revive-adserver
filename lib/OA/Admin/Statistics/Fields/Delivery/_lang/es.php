@@ -27,11 +27,28 @@ $Id$
 
 $conf = $GLOBALS['_MAX']['CONF'];
 
-$words = array(
-    // Settings
-    'Show %s column'       => 'Zeige Spalte <i>%s</i>',
-    'Label for %s column'  => 'Name der Spalte <i>%s</i>',
-    'Rank of %s column'    => 'Position der Spalte <i>%s</i>',
+$words =  array(
+    'Show %s column' => 'Mostrar columna <i>%s</i> ',
+    'Label for %s column' => 'Etiqueta para columna <i>%s</i> ',
+    'Rank of %s column' => 'Rango de la columna <i>%s</i> ',
+    '_ID' => 'ID',
+    '_Requests' => 'Peticiones',
+    '_Impressions' => 'Impresiones',
+    '_Clicks' => 'Clics',
+    '_CTR' => 'CTR',
+    '_Conversions' => 'Conversiones',
+    '_Pending conversions' => 'Conversiones Pendientes',
+    '_Impression SR' => 'SR Impresiones',
+    '_Click SR' => 'SR Clics',
+    'ID' => 'ID',
+    'Requests' => 'Pet.',
+    'Impressions' => 'Impr.',
+    'Clicks' => 'Clics',
+    'CTR' => 'CTR',
+    'Conversions' => 'Conv.',
+    'Pending conversions' => 'Conv. Pend.',
+    'Impression SR' => 'SR Impr.',
+    'Click SR' => 'SR Clics',
 );
 
 ?>

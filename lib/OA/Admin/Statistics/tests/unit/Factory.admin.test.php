@@ -131,15 +131,32 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
 
     function test_instantiateController()
     {
+        $file = MAX_PATH.'/lib/OA/Admin/Statistics/Delivery/Common.php';
+        $aParams = array();
+        $class = 'OA_Admin_Statistics_Delivery_Common';
+        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $this->assertIsA($oObject, $class);
+        $this->assertEqual(count($oObject->aPlugins),2);
+        $this->assertTrue(isset($oObject->aPlugins['default']));
+        $this->assertTrue(isset($oObject->aPlugins['affiliates']));
+
+        $file = MAX_PATH.'/lib/OA/Admin/Statistics/Targeting/Common.php';
+        $aParams = array();
+        $class = 'OA_Admin_Statistics_Targeting_Common';
+        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $this->assertIsA($oObject, $class);
+        $this->assertEqual(count($oObject->aPlugins),1);
+        $this->assertTrue(isset($oObject->aPlugins['default']));
+
         $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
         $aParams = array();
         $class = 'OA_Admin_Statistics_Test';
         $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertIsA($oObject, $class);
-        
+
         // Disable default error handling
         PEAR::pushErrorHandling(null);
-        
+
         // Test _instantiateController for not existing controller
         $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestNotExists.php';
         $aParams = array();
@@ -155,7 +172,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertTrue(PEAR::isError($oObject));
         $this->assertEqual($oObject->getMessage(), 'OA_Admin_Statistics_Factory::_instantiateController() Class '.$class.' doesn\'t exists');
-        
+
         // Restore default error handling
         PEAR::popErrorHandling();
     }

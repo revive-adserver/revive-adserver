@@ -27,7 +27,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
-require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -39,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plugin_Common
+class OA_statisticsFieldsDelivery
 {
 
     /**
@@ -312,20 +311,6 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     function getSumFieldNames()

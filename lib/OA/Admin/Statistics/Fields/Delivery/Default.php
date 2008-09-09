@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/statisticsFieldsDelivery/statisticsFieldsDelivery.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -36,12 +36,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery
+class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 {
     /**
      * Constructor
      */
-    function Plugins_statisticsFieldsDelivery_default_default()
+    function OA_StatisticsFieldsDelivery_Default()
     {
 
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -50,8 +50,8 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
         $this->displayOrder = -10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'statisticsFieldsDelivery';
-        $this->package = 'default';
+        /*$this->module  = 'statisticsFieldsDelivery';
+        $this->package = 'default';*/
 
         $this->_aFields = array();
 
@@ -115,7 +115,17 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
         $this->_aFields['sum_conversions_pending'] =
             array(
                 'name'    => MAX_Plugin_Translation::translate('_Pending conversions', $this->module, $this->package),
-                'short'   => MAX_Plugin_Translation::translate('Pending conversions', $this->module, $this->package),
+                'short'   => M    /**
+     * A method to return the name of the plugin.
+     *
+     * @return string A string describing the plugin class.
+     */
+    function getName()
+    {
+        return 'Affiliate delivery statistics columns plugin.';
+    }
+
+AX_Plugin_Translation::translate('Pending conversions', $this->module, $this->package),
                 'pref'    => 'ui_column_conversions_pending',
                 'link'    => 'stats.php?entity=conversions&',
                 'active'  => true,
@@ -141,16 +151,6 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
                 'ctf'     => true
             );
 
-    }
-
-    /**
-     * A method to return the name of the plugin.
-     *
-     * @return string A string describing the plugin class.
-     */
-    function getName()
-    {
-        return 'Default delivery statistics columns plugin.';
     }
 
     function mergeData(&$aRows, $emptyRow, $method, $aParams)

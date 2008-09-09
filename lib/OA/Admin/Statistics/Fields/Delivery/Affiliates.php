@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/statisticsFieldsDelivery/statisticsFieldsDelivery.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -36,12 +36,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery
+class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 {
     /**
      * Constructor
      */
-    function Plugins_statisticsFieldsDelivery_affiliates_affiliates()
+    function OA_StatisticsFieldsDelivery_Affiliates()
     {
 
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -50,8 +50,8 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $this->displayOrder = 10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'statisticsFieldsDelivery';
-        $this->package = 'affiliates';
+        /*$this->module  = 'statisticsFieldsDelivery';
+        $this->package = 'affiliates';*/
 
         $this->_aFields = array();
 
@@ -222,16 +222,6 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                 'ctf'    => true
             );
 
-    }
-
-    /**
-     * A method to return the name of the plugin.
-     *
-     * @return string A string describing the plugin class.
-     */
-    function getName()
-    {
-        return 'Affiliate delivery statistics columns plugin.';
     }
 
     /**

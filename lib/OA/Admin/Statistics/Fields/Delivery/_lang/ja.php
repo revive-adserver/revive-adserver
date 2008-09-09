@@ -27,10 +27,32 @@ $Id$
 
 $conf = $GLOBALS['_MAX']['CONF'];
 
-$words =  array(
-    'Show %s column' => 'Mostrar columna <i>%s</i> ',
-    'Label for %s column' => 'Etiqueta para columna <i>%s</i> ',
-    'Rank of %s column' => 'Rango de la columna <i>%s</i> ',
+$words = array(
+    // Settings
+    'Show %s column'       => '<i>%s</i>カラムを表示する',
+    'Label for %s column'  => '<i>%s</i>カラムのラベル',
+    'Rank of %s column'    => '<i>%s</i>カラムのランク',
+    // Long names
+    '_ID'                  => 'ID',
+    '_Requests'            => 'リクエスト数',
+    '_Impressions'         => 'インプレッション数',
+    '_Clicks'              => 'クリック数',
+    '_CTR'                 => 'CTR',
+    '_Conversions'         => 'コンバージョン数',
+    '_Pending conversions' => 'コンバージョン留保数',
+    '_Impression SR'       => 'インプレッションSR',
+    '_Click SR'            => 'クリックSR',
+
+    // Short names
+    'ID'                  => 'ID',
+    'Requests'            => 'リクエスト数',
+    'Impressions'         => 'インプレ数',
+    'Clicks'              => 'クリック数',
+    'CTR'                 => 'CTR',
+    'Conversions'         => 'Conv.',
+    'Pending conversions' => 'Conv.保留数',
+    'Impression SR'       => 'インプレSR',
+    'Click SR'            => 'クリックSR',
 );
 
 ?>

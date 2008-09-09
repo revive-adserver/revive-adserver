@@ -28,27 +28,33 @@ $Id$
 $conf = $GLOBALS['_MAX']['CONF'];
 
 $words = array(
+
+    // Settings
+    'Show %s column'       => 'Show <i>%s</i> column',
+    'Label for %s column'  => 'Label for <i>%s</i> column',
+    'Rank of %s column'    => 'Rank of <i>%s</i> column',
+
     // Long names
     '_ID'                  => 'ID',
-    '_Requests'            => 'リクエスト数',
-    '_Impressions'         => 'インプレッション数',
-    '_Clicks'              => 'クリック数',
+    '_Requests'            => 'Requests',
+    '_Impressions'         => 'Impressions',
+    '_Clicks'              => 'Clicks',
     '_CTR'                 => 'CTR',
-    '_Conversions'         => 'コンバージョン数',
-    '_Pending conversions' => 'コンバージョン留保数',
-    '_Impression SR'       => 'インプレッションSR',
-    '_Click SR'            => 'クリックSR',
+    '_Conversions'         => 'Conversions',
+    '_Pending conversions' => 'Pending conversions',
+    '_Impression SR'       => 'Impression SR',
+    '_Click SR'            => 'Click SR',
 
     // Short names
     'ID'                  => 'ID',
-    'Requests'            => 'リクエスト数',
-    'Impressions'         => 'インプレ数',
-    'Clicks'              => 'クリック数',
+    'Requests'            => 'Req.',
+    'Impressions'         => 'Impr.',
+    'Clicks'              => 'Clicks',
     'CTR'                 => 'CTR',
     'Conversions'         => 'Conv.',
-    'Pending conversions' => 'Conv.保留数',
-    'Impression SR'       => 'インプレSR',
-    'Click SR'            => 'クリックSR',
+    'Pending conversions' => 'Pend conv.',
+    'Impression SR'       => 'Impr. SR',
+    'Click SR'            => 'Click SR',
 );
 
 ?>
