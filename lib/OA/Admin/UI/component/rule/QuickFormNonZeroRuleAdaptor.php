@@ -42,6 +42,13 @@ class OA_Admin_UI_Rule_JQueryNonZeroRule
     {
         return "\"min\": 1";    
     }
+    
+    
+    public function getJQueryValidationMessage($rule)
+    {
+        return "\"min\": \"".$rule['message']."\"";
+    }    
+    
 }
 
 ?>

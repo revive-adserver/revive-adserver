@@ -153,6 +153,8 @@ function buildAdvertiserForm($aAdvertiser)
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
     $form->addRule('reportinterval', $GLOBALS['strNumericField'], 'numeric');
+    $form->addRule('reportinterval', $GLOBALS['strNonZeroField'], 'nonzero');
+    
 
     //set form  values
     $form->setDefaults($aAdvertiser);
@@ -183,6 +185,9 @@ function processForm($aAdvertiser, $form)
     $aAdvertiser['report'] = $aFields['report'] == 't' ? 't' : 'f';
     $aAdvertiser['reportdeactivate'] = $aFields['reportdeactivate'] == 't' ? 't' : 'f';
     $aAdvertiser['reportinterval'] = (int)$aFields['reportinterval'];
+    if ($aAdvertiser['reportinterval'] == 0 ) {
+       $aAdvertiser['reportinterval'] = 1; 
+    }
     if ($aFields['reportlastdate'] == '' || $aFields['reportlastdate'] == '0000-00-00' ||  $aFields['reportprevious'] != $aAdvertiser['report']) {
         $aAdvertiser['reportlastdate'] = date ("Y-m-d");
     }
