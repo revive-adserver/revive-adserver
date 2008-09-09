@@ -32,7 +32,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -47,16 +46,6 @@ $oTranslation = new OA_Translation();
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
-
-// This page depends on invocationTags plugins, so get the required
-// information about all such plugins installed in this installation
-$aInvocationTags = &MAX_Plugin::getPlugins('invocationTags');
-$aInvocationSettings = MAX_Plugin::callOnPlugins($aInvocationTags, 'getSettingCode');
-foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
-    if (empty($invocationSettingVal)) {
-        unset($aInvocationSettings[$invocationSettingKey]);
-    }
-}
 
 // This page depends on deliveryCacheStore plugins, so get the required
 // information about all such plugins installed in this installation
@@ -75,13 +64,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
-    // Allowed Invocation Types
-    foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
-        $aElements[$invocationSettingVal] = array(
-            'allowedTags' => $invocationSettingKey,
-            'bool'        => true
-        );
-    }
     // Banner Delivery Cache Settings
     $aElements += array(
         'delivery_cacheExpire' => array('delivery' => 'cacheExpire'),
@@ -202,30 +184,6 @@ phpAds_PageHeader('account-settings-index');
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection('banner-delivery');
 
-// This page depends on invocationTags plugins, so use the plugin
-// information from earlier to generate the elements for the plugins
-// which is required in the next section
-$aInvocations =
-    array(
-        'text'  => $GLOBALS['strAllowedInvocationTypes'],
-        'items' => array(),
-    );
-foreach ($aInvocationSettings as $pluginKey => $invocationCode) {
-    if ($aInvocationTags[$pluginKey] === false) {
-        continue;
-    }
-    $aInvocations['items'][] = array(
-        'type' => 'checkbox',
-        'name' => $invocationCode,
-        'text' => $aInvocationTags[$pluginKey]->getAllowInvocationTypeForSettings(),
-    );
-}
-function MAX_sortSetting($a, $b)
-{
-   return strcasecmp($a['text'], $b['text']); //we allow names eg. 'iFrame' and 'Interstitial' treated equally
-}
-usort($aInvocations['items'], 'MAX_sortSetting');
-
 // This page depends on deliveryCacheStore plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
 // which is required in the next section
@@ -272,7 +230,6 @@ $availableOutputAdServerNames = $availableOutputAdServerNames = array(
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array(
-    $aInvocations,
     array (
         'text'  => $strDeliveryCaching,
         'items' => $aDeliveryCacheSettings

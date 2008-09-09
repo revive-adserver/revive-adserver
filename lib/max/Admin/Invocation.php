@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
@@ -156,7 +156,7 @@ class MAX_Admin_Invocation {
     /**
      * Generate bannercode (invocation code for banner)
      *
-     * @param object $invocationTag    If null the invocation tag is factory by MAX_Plugin class,
+     * @param object $invocationTag    If null the invocation tag is factory by OX_Component class,
      *                                 else this object is used
      * @param array  $aParams          Input parameters, if null globals will be fetched
      *
@@ -170,10 +170,10 @@ class MAX_Admin_Invocation {
         $this->assignVariables($aParams);
 
         if($invocationTag === null) {
-            $invocationTag = MAX_Plugin::factory('invocationTags', $this->codetype);
+            $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
         }
         if($invocationTag === false) {
-            OA::debug('Error while factory invocationTag plugin');
+            OA::debug('Error while factory invocationTag plugin '.$this->codetype);
             exit();
         }
 
@@ -285,8 +285,9 @@ class MAX_Admin_Invocation {
         // Invocation type selection
         if (!is_array($extra) || (isset($extra['delivery']) && ($extra['delivery']!=phpAds_ZoneInterstitial) && ($extra['delivery']!=phpAds_ZonePopup)) && ($extra['delivery']!=MAX_ZoneEmail)) {
 
-            $invocationTags =& MAX_Plugin::getPlugins('invocationTags');
+            $invocationTags =& OX_Component::getComponents('invocationTags');
 
+            $allowed = array();
             foreach($invocationTags as $pluginKey => $invocationTag) {
                 $allowed[$pluginKey] = $invocationTag->isAllowed($extra, $server_same);
             }
@@ -305,7 +306,7 @@ class MAX_Admin_Invocation {
             }
 
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-            $buffer .= "<tr><td height='25' width='350'><b>". MAX_Plugin_Translation::translate('Please choose the type of banner invocation', 'invocationTags') ."</b>";
+            $buffer .= "<tr><td height='25' width='350'><b>". $GLOBALS['strChooseTypeOfBannerInvocation'] ."</b>";
             if ($codetype=="adview" || $codetype=="clickonly"){
                 $buffer .= "";
             }
@@ -313,6 +314,7 @@ class MAX_Admin_Invocation {
             $buffer .= "</td></tr><tr><td height='35' valign='top'>";
             $buffer .= "<select name='codetype' onChange=\"disableTextarea();this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
+            $invocationTagsNames = array();
             foreach($invocationTags as $pluginKey => $invocationTag) {
                 if($allowed[$pluginKey]) {
                     $invocationTagsNames[$pluginKey] = $invocationTag->getName();
@@ -326,7 +328,7 @@ class MAX_Admin_Invocation {
             $buffer .= "</select>";
             $buffer .= "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></td>";
         } else {
-            $invocationTags =& MAX_Plugin::getPlugins('invocationTags');
+            $invocationTags =& OX_Component::getComponents('invocationTags');
             foreach($invocationTags as $invocationCode => $invocationTag) {
                 if(isset($invocationTag->defaultZone) && $extra['delivery'] == $invocationTag->defaultZone) {
                     $codetype = $invocationCode;
@@ -339,7 +341,7 @@ class MAX_Admin_Invocation {
         }
         if ($codetype != '') {
             // factory plugin for this $codetype
-            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+            $invocationTag = OX_Component::factoryByComponentIdentifier($codetype);
             if($invocationTag === false) {
                 OA::debug('Error while factory invocationTag plugin');
                 exit();

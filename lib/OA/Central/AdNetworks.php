@@ -936,7 +936,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                             $affiliateid = $doZone->affiliateid;
                             $zoneid      = $doZone->zoneid;
                             $codetype = 'adview';
-                            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+                            $invocationTag = OX_Component::factory('invocationTags', $codetype);
                             $maxInvocation = new MAX_Admin_Invocation();
                             
                             $invocationCode = $maxInvocation->generateInvocationCode($invocationTag);

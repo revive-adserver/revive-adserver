@@ -94,17 +94,9 @@ class OX_Component
         return isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group]);
     }
 
-    function _isGroupEnabled($group, $extension='')
+    function _isGroupEnabled($group)
     {
-        $aOldPlugins = array(
-                             'invocationTags',
-                             'statistics',
-                             );
-        if (!in_array($extension, $aOldPlugins))
-        {
-            return ( self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
-        }
-        return true;
+        return ( self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
     }
 
     /**

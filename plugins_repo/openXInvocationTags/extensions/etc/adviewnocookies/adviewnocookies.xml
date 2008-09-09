@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>adviewnocookies</name>
+    <creationDate>2008-08-27</creationDate>
+    <author>Lukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>No Cookie Image Invocation Tag for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.14-dev</oxversion>
+    <extends>invocationTags</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}invocationTags/adviewnocookies/">adviewnocookies.class.php</file>
+            
+            <file path="{MODULEPATH}invocationTags/adviewnocookies/_lang/">de.php</file>
+            <file path="{MODULEPATH}invocationTags/adviewnocookies/_lang/">en.php</file>
+            <file path="{MODULEPATH}invocationTags/adviewnocookies/_lang/">es.php</file>
+            <file path="{MODULEPATH}invocationTags/adviewnocookies/_lang/">ja.php</file>
+        </files>
+
+        <components>
+           <component>
+                <name>adviewnocookies</name>
+           </component>
+         </components>
+         
+         <configuration option="No Cookie Image Invocation Tag">
+            <setting key="allowed" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
+        </configuration>
+    </install>
+
+</plugin>

@@ -30,7 +30,7 @@ require_once '../../init.php';
 
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
-require_once MAX_PATH . '/plugins/invocationTags/InvocationTagsOptions.php';
+require_once OX_EXTENSIONS_PATH . '/invocationTags/InvocationTagsOptions.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);

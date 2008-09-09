@@ -298,8 +298,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         // Initalise any tracker based plugins
         $plugins = array();
-        require_once MAX_PATH.'/lib/max/Plugin.php';
-        $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
+        require_once LIB_PATH . '/Plugin/Component.php';
+        $invocationPlugins = &OX_Component::getComponents('invocationTags');
         foreach($invocationPlugins as $pluginKey => $plugin) {
             if (!empty($plugin->trackerEvent)) {
                 $plugins[] = $plugin;

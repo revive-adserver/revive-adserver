@@ -633,6 +633,20 @@ class OA_Dll_Zone extends OA_Dll
 
     function generateTags($zoneId, $codeType, $aParams = null)
     {
+        // Backwards Compatibity Array for code types
+        $aBackwardsCompatibityTypes = array (
+            'adframe'         => 'invocationTags:oxInvocationTags:adframe',
+            'adjs'            => 'invocationTags:oxInvocationTags:adjs',
+            'adlayer'         => 'invocationTags:oxInvocationTags:adlayer',
+            'adview'          => 'invocationTags:oxInvocationTags:adview',
+            'adviewnocookies' => 'invocationTags:oxInvocationTags:adviewnocookies',
+            'local'           => 'invocationTags:oxInvocationTags:local',
+            'xmlrpc'          => 'invocationTags:oxInvocationTags:xmlrpc'
+        );
+        // Translate old code type to new Component Identifier
+        if (array_key_exists($codeType,$aBackwardsCompatibityTypes)) {
+            $codeType = $aBackwardsCompatibityTypes[$codeType];
+        }
         if ($this->checkIdExistence('zones', $zoneId)) {
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_INVOCATION)) {
@@ -650,7 +664,7 @@ class OA_Dll_Zone extends OA_Dll
 
                 // factory plugin for this $codetype
                 OA::disableErrorHandling();
-                $invocationTag = MAX_Plugin::factory('invocationTags', $codeType);
+                $invocationTag = OX_Component::factoryByComponentIdentifier($codeType);
                 OA::enableErrorHandling();
                 if($invocationTag === false) {
                     $this->raiseError('Error while factory invocationTag plugin');
@@ -678,17 +692,14 @@ class OA_Dll_Zone extends OA_Dll
      * @return array of allowed invocation tags (strings)
      */
     function getAllowedTags() {
-        $aAllowedTags = $GLOBALS['_MAX']['CONF']['allowedTags'];
-        foreach ($aAllowedTags as $tag => $isAllowed) {
-            if (!$isAllowed) {
-                unset ($aAllowedTags[$tag]);
+        $aAllowedTags = array();
+        $invocationTags =& OX_Component::getComponents('invocationTags');
+        foreach($invocationTags as $pluginKey => $invocationTag) {
+            if ($invocationTag->isAllowed(null, null)){
+                $aAllowedTags[] = $pluginKey;
             }
         }
-        // Be sure that nobody add spc as allowed tag for zone
-        if (array_key_exists('spc', $aAllowedTags)) {
-            unset ($aAllowedTags['spc']);
-        }
-        return array_keys($aAllowedTags);
+        return $aAllowedTags;
     }
 }
 

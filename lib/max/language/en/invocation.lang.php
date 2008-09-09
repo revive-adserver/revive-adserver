@@ -28,6 +28,28 @@ $Id:invocation.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 // Other
 $GLOBALS['strCopyToClipboard']                      = "Copy to clipboard";
 $GLOBALS['strCopy']                                 = "copy";
+$GLOBALS['strChooseTypeOfInvocation']               = "Please choose the type of invocation";
+$GLOBALS['strChooseTypeOfBannerInvocation']         = "Please choose the type of banner invocation";
+
+//MAX_Plugin_Translation::translate('Pop-up', 'invocationTags')
+//MAX_Plugin_Translation::translate('Pop-under', 'invocationTags')
+//MAX_Plugin_Translation::translate('Instance when the pop-up is created', 'invocationTags')
+//MAX_Plugin_Translation::translate('Immediately', 'invocationTags')
+//MAX_Plugin_Translation::translate('When the page is closed', 'invocationTags')
+//MAX_Plugin_Translation::translate('After', 'invocationTags')
+//MAX_Plugin_Translation::translate('Initial position (top)', 'invocationTags')
+//MAX_Plugin_Translation::translate('Initial position (left)', 'invocationTags')
+//MAX_Plugin_Translation::translate('Automatically close after', 'invocationTags')
+//MAX_Plugin_Translation::translate('Window options', 'invocationTags')
+//MAX_Plugin_Translation::translate('Toolbars', 'invocationTags')
+//MAX_Plugin_Translation::translate('Location', 'invocationTags')
+//MAX_Plugin_Translation::translate('Menubar', 'invocationTags')
+//MAX_Plugin_Translation::translate('Status', 'invocationTags')
+//MAX_Plugin_Translation::translate('Resizable', 'invocationTags'
+//MAX_Plugin_Translation::translate('Scrollbars', 'invocationTags')
+//MAX_Plugin_Translation::translate('Use HTTPS to contact XML-RPC Server', 'invocationTags')
+//MAX_Plugin_Translation::translate('XML-RPC Timeout (Seconds)', 'invocationTags')
+//MAX_Plugin_Translation::translate('Host Language', 'invocationTags')
 
 // Measures
 $GLOBALS['strAbbrPixels']                           = "px";

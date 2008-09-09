@@ -68,6 +68,16 @@ class MAX_Plugin_Translation
 
         if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language)) {
             return true;
+        } else {
+            // Check extension path for language files (temporary added as new translation system isn't ready yet)
+            if ($package === null) {
+                $path = OX_EXTENSIONS_PATH . '/' . $module . '/_lang/';
+            } else {
+                $path = OX_EXTENSIONS_PATH . '/' . $module . '/' . $package . '/_lang/';
+            }
+            if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language, $path)) {
+                return true;
+            }
         }
     }
 

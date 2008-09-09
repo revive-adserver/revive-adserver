@@ -109,16 +109,6 @@ url                                 = true
 html                                = true
 text                                = true
 
-[allowedTags]
-adjs                                = true
-adlayer                             = true
-adviewnocookies                     = true
-local                               = true
-popup                               = false
-adframe                             = true
-adview                              = false
-xmlrpc                              = false
-
 [delivery]
 cacheExpire                         = 1200
 cacheStorePlugin               	    = deliveryCacheStore:oxCacheFile:oxCacheFile

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>adlayer</name>
+    <creationDate>2008-08-27</creationDate>
+    <author>Lukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Interstitial or Floating DHTML Invocation Tag for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.14-dev</oxversion>
+    <extends>invocationTags</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}invocationTags/adlayer/">adlayer.class.php</file>
+            
+            <file path="{MODULEPATH}invocationTags/adlayer/_lang/">de.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/_lang/">en.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/_lang/">es.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/_lang/">ja.php</file>
+            
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/cursor/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/cursor/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/floater/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/floater/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/geocities/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/geocities/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/simple/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/adlayer/layerstyles/simple/">layerstyle.inc.php</file>
+        </files>
+
+        <components>
+           <component>
+                <name>adlayer</name>
+           </component>
+         </components>
+         
+         <configuration option="Interstitial or Floating DHTML Invocation Tag">
+            <setting key="allowed" type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
+        </configuration>
+
+    </install>
+
+</plugin>

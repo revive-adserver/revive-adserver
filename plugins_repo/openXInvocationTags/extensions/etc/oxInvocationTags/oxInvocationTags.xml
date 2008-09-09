@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxInvocationTags</name>
+    <creationDate>2008-09-09</creationDate>
+    <author>Lukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Invocation Tags for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.16-dev</oxversion>
+    <extends>invocationTags</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adframe.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adjs.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adlayer.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adview.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adviewnocookies.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">local.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">spc.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">xmlrpc.class.php</file>
+
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adframe_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adframe_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adframe_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adframe_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adjs_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adjs_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adjs_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adjs_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adlayer_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adlayer_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adlayer_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adlayer_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adview_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adview_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adview_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adview_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adviewnocookies_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adviewnocookies_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adviewnocookies_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">adviewnocookies_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">local_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">local_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">local_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">local_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">popup_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">popup_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">popup_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">popup_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">spc_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">spc_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">spc_ja.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">xmlrpc_de.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">xmlrpc_en.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">xmlrpc_es.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/_lang/">xmlrpc_ja.php</file>
+
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/floater/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/floater/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/geocities/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/geocities/">layerstyle.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/simple/">invocation.inc.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/simple/">layerstyle.inc.php</file>
+        </files>
+
+        <components>
+           <component><name>adframe</name></component>
+           <component><name>adjs</name></component>
+           <component><name>adlayer</name></component>
+           <component><name>adview</name></component>
+           <component><name>adviewnocookies</name></component>
+           <component><name>local</name></component>
+           <component><name>popup</name></component>
+           <component><name>spc</name></component>
+           <component><name>xmlrpc</name></component>
+        </components>
+         
+        <configuration option="Invocation Tags">
+            <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAdjs"            type="checkbox" label="Allow Javascript Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAdlayer"         type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
+            <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedLocal"           type="checkbox" label="Allow Local Mode Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedPopup"           type="checkbox" label="Allow Popup Invocation Tag" required="0" size="1" visible="1">0</setting>
+            <setting key="isAllowedXmlrpc"          type="checkbox" label="Allow XML-RPC Invocation Tag" required="0" size="1" visible="1">0</setting>
+        </configuration>
+    </install>
+
+</plugin>

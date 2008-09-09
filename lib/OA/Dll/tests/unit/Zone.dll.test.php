@@ -394,6 +394,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
     function testGenerateTags()
     {
+        TestEnv::installPluginPackage('openXInvocationTags');
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
@@ -411,42 +412,45 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'foo'));
 
         // Not allowed code type
-        $isAllowedAdjsTags = $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'];
-        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = false;
+        $isAllowedAdjsTags = $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'];
+        $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'] = false;
         $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'adjs'));
         
         // Allowed code type
-        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = true;
+        $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'] = true;
         $tag1 = $dllZonePartialMock->generateTags($zoneId, 'adjs');
         $tag2 = $dllZonePartialMock->generateTags($zoneId, 'adjs', array('source' => 'x'));
 
         $this->assertTrue($tag1);
         $this->assertTrue($tag2);
         $this->assertNotEqual($tag1, $tag2);
-        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = $isAllowedAdjsTags;
+        $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'] = $isAllowedAdjsTags;
+        TestEnv::uninstallPluginPackage('openXInvocationTags');
     }
 
     function testGetAllowedTags()
     {
-        $dllZone = new OA_Dll_Zone();       
-        $aConfAllowedTags = $GLOBALS['_MAX']['CONF']['allowedTags'];
+        TestEnv::installPluginPackage('openXInvocationTags');
+        $dllZone = new OA_Dll_Zone();
         $aZoneAllowedTags = $dllZone->getAllowedTags();
         // Test if only and all allowed tags are returned 
         $count = 0;
-        foreach ($aConfAllowedTags as $tag => $value) {
-            if ($value) {
+        $invocationTags =& OX_Component::getComponents('invocationTags');
+        foreach($invocationTags as $pluginKey => $invocationTag) {
+            if ($invocationTag->isAllowed(null, null)){
                 $count++;
-                $this->assertTrue(in_array($tag, $aZoneAllowedTags)); 
+                $this->assertTrue(in_array($pluginKey, $aZoneAllowedTags));
             } else {
-                $this->assertFalse(in_array($tag, $aZoneAllowedTags));
+                $this->assertFalse(in_array($pluginKey, $aZoneAllowedTags));
             }
         }
         $this->assertEqual($count, count($aZoneAllowedTags));
         // tests if spc is disallowed anyway
-        $GLOBALS['_MAX']['CONF']['allowedTags']['spc'] = true;
+        $GLOBALS['_MAX']['CONF']['spc']['allowed'] = true;
         $aZoneAllowedTags = $dllZone->getAllowedTags();
         $this->assertFalse(in_array('spc',$aZoneAllowedTags));
-        unset ($GLOBALS['_MAX']['CONF']['allowedTags']['spc']);
+        unset ($GLOBALS['_MAX']['CONF']['spc']['allowed']);
+        TestEnv::uninstallPluginPackage('openXInvocationTags');
     }
 }
 

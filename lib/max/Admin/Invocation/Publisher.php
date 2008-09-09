@@ -70,19 +70,18 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             $this->$makeMeGlobal =& $$makeMeGlobal;
         }
 
-        $invocationTypes =& MAX_Plugin::getPlugins('invocationTags');
+        $invocationTypes =& OX_Component::getComponents('invocationTags');
         foreach($invocationTypes as $pluginKey => $invocationType) {
             if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
                 $names[$pluginKey] = $invocationType->getName();
                 if (!empty($invocationType->default)) {
-                    $defaultPublisherPlugin = $invocationType->name;
+                    $defaultPublisherPlugin = $pluginKey;
                 }
             }
         }
 
         $affiliateid = $this->affiliateid;
-
 
         if (count($available) == 1) {
             // Only one publisher invocation plugin available
@@ -98,7 +97,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 	        // Show the publisher invocation selection drop down
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             echo "<input type='hidden' name='affiliateid' value='{$affiliateid}'>";
-            echo "<tr><td height='25' colspan='3'><b>". MAX_Plugin_Translation::translate('Please choose the type of invocation', 'invocationTags') ."</b></td></tr>";
+            echo "<tr><td height='25' colspan='3'><b>". $GLOBALS['strChooseTypeOfInvocation'] ."</b></td></tr>";
             echo "<tr><td height='35'>";
             echo "<select name='codetype' onChange=\"this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
@@ -117,9 +116,10 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
         } else {
             // No publisher invocation plugins available
             $code = 'Error: No publisher invocation plugins available';
+            return;
         }
         if (!empty($codetype)) {
-            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+            $invocationTag = OX_Component::factoryByComponentIdentifier($codetype);
             if($invocationTag === false) {
                 OA::debug('Error while factory invocationTag plugin');
                 exit();
