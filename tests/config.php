@@ -48,7 +48,6 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OA',
         'lib/OX',
         'lib/util',
-        'plugins',
         'plugins_repo',
         'extensions',
         'www/admin/plugins',

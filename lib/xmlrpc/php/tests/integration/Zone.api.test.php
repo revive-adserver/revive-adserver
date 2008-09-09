@@ -138,6 +138,8 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
 			return;
 		}
 
+		TestEnv::uninstallPluginPackage('openXInvocationTags');
+		TestEnv::installPluginPackage('openXInvocationTags');
 		$this->expectError();
         $this->assertFalse($this->oApi->generateTags(-1, 'foo'));
 
@@ -150,6 +152,7 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
         $this->assertTrue($tag1);
         $this->assertTrue($tag2);
         $this->assertNotEqual($tag1, $tag2);
+		TestEnv::uninstallPluginPackage('openXInvocationTags');
 	}
 }
 
