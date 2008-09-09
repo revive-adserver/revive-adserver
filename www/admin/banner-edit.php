@@ -348,7 +348,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     else {
         $form->addElement('static', 'description', $GLOBALS['strName'], $row['description']);
     }
-    
 
 
     //local banners
@@ -500,7 +499,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         {
             $form->addElement('checkbox', 'transparent', $GLOBALS['strSwfTransparency'], $GLOBALS['strSwfTransparency']);
         }
-        
+
         //validation rules
         $translation = new OA_Translation();
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
@@ -508,16 +507,26 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
         $heightPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strHeight'])), 'nonzero');
         $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
-        
+
         $form->addGroupRule('size', array(
-            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule), 
+            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
             'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
-        
+
     }
 
     //html & text banners
     if ($oComponent)
     {
+        // Parser to deal with boolean values and HTML_QuickForm
+        // for the checkbox "Alter HTML to enable tracking of Clicks
+        // TODO change in the table banners the field autohtml
+        // from enum 't' or 'f' to 1 or 0
+        if(!isset($row['autohtml']) || $row['autohtml'] == 'f') {
+            $row['autohtml'] = false;
+        } else {
+            $row['autohtml'] = true;
+        }
+
         $oComponent->buildForm($form, $row);
     }
 
@@ -538,7 +547,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
 
     //validation rules
     $translation = new OA_Translation();
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {    
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
@@ -550,7 +559,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strBanner'], strtolower($GLOBALS['strName'])));
     $form->addRule('description', $nameUniqueMsg, 'unique', $aUnique_names);
-        
+
 
     //set banner values
     $form->setDefaults($row);
@@ -797,10 +806,10 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     }
 
     if ($insert) {
-        // Queue confirmation message        
+        // Queue confirmation message
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid), 
+            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
             htmlspecialchars($aFields['description'])
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

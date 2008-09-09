@@ -122,9 +122,9 @@ class Plugins_BannerTypeHTML extends OX_Component
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
         $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
-        
+
         $form->addGroupRule('size', array(
-            'width' => array($widthRequiredRule, $numericRule), 
+            'width' => array($widthRequiredRule, $numericRule),
             'height' => array($heightRequiredRule, $numericRule)));
     }
 
