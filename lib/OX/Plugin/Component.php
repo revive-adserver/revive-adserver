@@ -135,7 +135,7 @@ class OX_Component
         include_once $fileName;
         $className = self::_getComponentClassName($extension, $group, $component);
         if (!class_exists($className)) {
-            MAX::raiseError("Component file included but class '$className' does not exist.");
+            //MAX::raiseError("Component file included but class '$className' does not exist.");
             return false;
         } else {
             return true;
@@ -410,62 +410,6 @@ class OX_Component
         return $aReturn;
     }
 
-    /**
-     * A method to run one method on all the components in a group where the component
-     * has the specified type and component hook point. For use with Maintenance
-     * plugins only.
-     *
-     * @static
-     * @param array $aPlugins An array of plugin objects.
-     * @param string $methodName The name of the method to executed for every plugin
-     *                           that should be run.
-     * @param integer $type Either MAINTENANCE_PLUGIN_PRE or MAINTENANCE_PLUGIN_POST.
-     * @param integer $hook A maintenance plugin hook point. For example,
-     *                      MSE_PLUGIN_HOOK_summariseIntermediateRequests.
-     * @param array $aParams An optional array of parameters to pass to the method
-     *                       called for every plugin that should be run.
-     * @return boolean True, except when $type is MAINTENANCE_PLUGIN_PRE, and at least
-     *                 one of the plugins is a replacement plugin for a standard
-     *                 maintenance engine task (that is, at least one of the plugins
-     *                 had a run() method that returned false).
-     */
-    function &callOnComponentsByHook(&$aComponents, $methodName, $type, $hook, $aParams = null)
-    {
-        if (!is_array($aComponents)) {
-            MAX::raiseError('Bad argument: Not an array of components.', MAX_ERROR_INVALIDARGS);
-            return false;
-        }
-        foreach ($aComponents as $key => $oComponent) {
-            if (!is_a($oComponent, 'OX_Component_Common')) {
-                MAX::raiseError('Bad argument: Not an array of components.', MAX_ERROR_INVALIDARGS);
-                return false;
-            }
-        }
-        $return = true;
-        foreach ($aComponents as $key => $oComponent) {
-            // Ensure the plugin is a maintenance plugin
-            if (is_a($oComponent, 'Plugins_Maintenance')) {
-                // Check that the method name can be called
-                if (!is_callable(array($oComponent, $methodName))) {
-                    MAX::raiseError("Method '$methodName()' not defined in class '".get_class($oComponent)."'.", MAX_ERROR_INVALIDARGS);
-                    return false;
-                }
-                // Check that the the plugin's type and hook match
-                if (($oComponent->getHookType() == $type) && ($oComponent->getHook() == $hook)) {
-                    if (is_null($aParams)) {
-                        $methodReturn = call_user_func(array($aComponents[$key], $methodName));
-                    } else {
-                        $methodReturn = call_user_func_array(array($aComponents[$key], $methodName), $aParams);
-                    }
-                    if ($methodReturn === false) {
-                        $return = false;
-                    }
-                }
-            }
-        }
-        return $return;
-    }
-
     function getListOfRegisteredComponentsForHook($hook)
     {
         $aHooks = self::getComponentsHookCache();
@@ -506,8 +450,8 @@ class OX_Component
      */
     function &getFallbackHandler($extension)
     {
-        $path = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].$extension.'/';
-        $fileName = MAX_PATH.$path.$extension.'.php';
+        //$path = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].$extension.'/';
+        $fileName = LIB_PATH.'/Extension/'.$extension.'/'.$extension.'.php';
         if (!file_exists($fileName))
         {
             MAX::raiseError("Unable to include the file $fileName.");

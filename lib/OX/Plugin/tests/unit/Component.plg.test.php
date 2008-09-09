@@ -133,6 +133,67 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertEqual(count($aFiles),3);
     }
 
+    function test_includeComponentFile()
+    {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
+        $this->assertFalse(class_exists('Plugins_TestExtension1_TestGroup1_TestComponent1'));
+        $this->assertTrue(OX_Component::_includeComponentFile('testExtension1','testGroup1', 'testComponent1'));
+        $this->assertTrue(class_exists('Plugins_TestExtension1_TestGroup1_TestComponent1'));
+    }
+
+    function test_getComponentClassName()
+    {
+        $this->assertEqual(OX_Component::_getComponentClassName('testExtension1','testGroup1', 'testComponent1'),'Plugins_TestExtension1_TestGroup1_TestComponent1');
+    }
+
+    function test_getComponentFilesFromDirectory()
+    {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
+
+        $extension  = 'testExtension1';
+        $group      = 'testGroup1';
+        $recursive  = 0;
+        $aResult    = OX_Component::_getComponentsFiles($extension, $group, $recursive);
+        $this->assertEqual(count($aResult),1);
+        $this->assertTrue(isset($aResult['testGroup1']));
+        $this->assertEqual(count($aResult['testGroup1']),2);
+        $this->assertEqual($aResult['testGroup1'][0],'testComponent1.class.php');
+        $this->assertEqual($aResult['testGroup1'][1],'testComponent2.class.php');
+
+        $extension  = 'testExtension1';
+        $group      = 'testGroup1';
+        $recursive  = 1;
+        $aResult    = OX_Component::_getComponentsFiles($extension, $group, $recursive);
+        $this->assertEqual(count($aResult),1);
+        $this->assertTrue(isset($aResult['testGroup1']));
+        $this->assertEqual(count($aResult['testGroup1']),2);
+        $this->assertEqual($aResult['testGroup1'][0],'testComponent1.class.php');
+        $this->assertEqual($aResult['testGroup1'][1],'testComponent2.class.php');
+
+        $extension  = 'testExtension1';
+        $group      = 'testGroup2';
+        $recursive  = 0;
+        $aResult    = OX_Component::_getComponentsFiles($extension, $group, $recursive);
+        $this->assertEqual(count($aResult),1);
+        $this->assertTrue(isset($aResult['testGroup2']));
+        $this->assertEqual(count($aResult['testGroup2']),2);
+        $this->assertEqual($aResult['testGroup2'][0],'testComponent1.class.php');
+        $this->assertEqual($aResult['testGroup2'][1],'testComponent2.class.php');
+
+        $extension  = 'testExtension1';
+        $group      = 'testGroup2';
+        $recursive  = 1;
+        $aResult    = OX_Component::_getComponentsFiles($extension, $group, $recursive);
+        $this->assertEqual(count($aResult),1);
+        $this->assertTrue(isset($aResult['testGroup2']));
+        $this->assertEqual(count($aResult['testGroup2']),3);
+        $this->assertEqual($aResult['testGroup2'][0],'testComponent1.class.php');
+        $this->assertEqual($aResult['testGroup2'][1],'testComponent2.class.php');
+        $this->assertEqual($aResult['testGroup2'][2],'testComponent3.class.php');
+    }
+
     function test_getComponents()
     {
         $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
@@ -161,7 +222,6 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertEqual($aComponents['admin:testPlugin:testPlugin']->enabled, true);
 
         TestEnv::restoreConfig();
-
     }
 
     function test_getListOfRegisteredComponentsForHook()
@@ -187,52 +247,106 @@ class Test_OX_Component extends UnitTestCase {
         $oExtension->cacheComponentHooks();
 
         TestEnv::restoreConfig();
-
     }
 
-    function Xtest_includeComponentFile()
+    function test_factory()
     {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
+
+        $oComponent = OX_Component::factory('testExtension1','testGroup1','testComponent1');
+        $this->assertIsA($oComponent, 'Plugins_TestExtension1_TestGroup1_TestComponent1');
+        $this->assertTrue($oComponent->enabled);
+        $this->assertEqual($oComponent->extension,'testExtension1');
+        $this->assertEqual($oComponent->group,'testGroup1');
+        $this->assertEqual($oComponent->component,'testComponent1');
+
+        $oComponent = OX_Component::factory('testExtension1','testGroup2','testComponent1');
+        $this->assertIsA($oComponent, 'Plugins_TestExtension1_TestGroup2_TestComponent1');
+        $this->assertFalse($oComponent->enabled);
+        $this->assertEqual($oComponent->extension,'testExtension1');
+        $this->assertEqual($oComponent->group,'testGroup2');
+        $this->assertEqual($oComponent->component,'testComponent1');
     }
 
-    function Xtest_getComponentClassName()
+    function test_getComponentIdentifier()
     {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
+        $oComponent = OX_Component::factory('testExtension1','testGroup1','testComponent1');
+        $this->assertEqual($oComponent->getComponentIdentifier('testExtension1','testGroup1','testComponent1'),
+                           'testExtension1:testGroup1:testComponent1'
+                          );
     }
 
-    function Xtest_getComponentFilesFromDirectory()
+    function test_parseComponentIdentifier()
     {
+        $aComponent = OX_Component::parseComponentIdentifier('testExtension1:testGroup1:testComponent1');
+        $this->assertIsA($aComponent,'array');
+        $this->assertEqual(count($aComponent),3);
+        $this->assertEqual($aComponent['0'],'testExtension1');
+        $this->assertEqual($aComponent['1'],'testGroup1');
+        $this->assertEqual($aComponent['2'],'testComponent1');
     }
 
-    function Xtest_callStaticMethod()
+    function test_factoryByComponentIdentifier()
     {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
+
+        $oComponent = OX_Component::factoryByComponentIdentifier('testExtension1:testGroup1:testComponent1');
+        $this->assertIsA($oComponent, 'Plugins_TestExtension1_TestGroup1_TestComponent1');
+        $this->assertTrue($oComponent->enabled);
+        $this->assertEqual($oComponent->extension,'testExtension1');
+        $this->assertEqual($oComponent->group,'testGroup1');
+        $this->assertEqual($oComponent->component,'testComponent1');
+
+        $oComponent = OX_Component::factoryByComponentIdentifier('testExtension1:testGroup2:testComponent1');
+        $this->assertIsA($oComponent, 'Plugins_TestExtension1_TestGroup2_TestComponent1');
+        $this->assertFalse($oComponent->enabled);
+        $this->assertEqual($oComponent->extension,'testExtension1');
+        $this->assertEqual($oComponent->group,'testGroup2');
+        $this->assertEqual($oComponent->component,'testComponent1');
     }
 
-    function Xtest_callOnComponents()
+    function test_callStaticMethod()
     {
+        $this->assertEqual(OX_Component::callStaticMethod('testExtension1','testGroup1','testComponent1', 'staticMethod'),'staticMethodResult1');
+
+        $this->assertEqual(OX_Component::callStaticMethod('testExtension1','testGroup1','testComponent1', 'staticMethodWithParams','foo'),'staticMethodWithParams1=foo');
     }
 
-    function Xtest_callOnComponentsByHook()
+    function test_callOnComponents()
     {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'] = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
+
+        $aComponents[] = OX_Component::factoryByComponentIdentifier('testExtension1:testGroup1:testComponent1');
+        $aComponents[] = OX_Component::factoryByComponentIdentifier('testExtension1:testGroup2:testComponent1');
+
+        $aResult = OX_Component::callOnComponents($aComponents, 'staticMethod');
+        $this->assertIsA($aResult,'array');
+        $this->assertEqual(count($aResult),2);
+        $this->assertEqual($aResult['0'],'staticMethodResult1');
+        $this->assertEqual($aResult['1'],'staticMethodResult2');
+
+        $aResult = OX_Component::callOnComponents($aComponents, 'staticMethodWithParams', array('foo'));
+        $this->assertIsA($aResult,'array');
+        $this->assertEqual(count($aResult),2);
+        $this->assertEqual($aResult['0'],'staticMethodWithParams1=foo');
+        $this->assertEqual($aResult['1'],'staticMethodWithParams2=foo');
     }
 
-    function Xtest_getComponentIdentifier()
+    function test_getFallbackHandler()
     {
+        $this->assertFalse(class_exists('Plugins_tests'));
+        $oHandler = OX_Component::getFallbackHandler('tests');
+        $this->assertIsA($oHandler,'Plugins_tests');
+        $this->assertFalse($oHandler->enabled);
+        $this->assertEqual($oHandler->extension,'tests');
     }
 
-    function Xtest_parseComponentIdentifier()
-    {
-    }
-
-    function Xtest_getFallbackHandler()
-    {
-    }
-
-    function Xtest_factory()
-    {
-    }
-
-    function Xtest_factoryByComponentIdentifier()
-    {
-    }
 
 }
 
