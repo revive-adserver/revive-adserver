@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -395,12 +395,8 @@ class OA_Admin_UI_UserAccess
      */
     function linkUserToAccount($userId, $accountId, $permissions, $aAllowedPermissions)
     {
-        if (empty($userId)) {
-            $message = sprintf($GLOBALS['strNoStatsForPeriod'], $login);
-            OA_Session::setMessage($message);
-        } else {
+        if (!empty($userId)) {
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
-                // TODO - add below - , $userId, $accountId
                 OA_Session::setMessage($GLOBALS['strUserLinkedToAccount']);
             } else {
                 OA_Session::setMessage($GLOBALS['strUserAccountUpdated']);

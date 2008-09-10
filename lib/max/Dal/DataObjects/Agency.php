@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -99,7 +99,14 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
         // Create user if needed
         if (!empty($aUser)) {
-            $this->createUser($aUser);
+            $userId = $this->createUser($aUser);
+            
+            // Give the permission to create other users.
+            $aAllowedPermissions = array(
+                OA_PERM_SUPER_ACCOUNT => 'this string intentionally left blank');
+            $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
+            OA_Permission::storeUserAccountsPermissions($aPermissions, $agencyid,
+                $userId, $aAllowedPermissions);
         }
 
         return $agencyid;

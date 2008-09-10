@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -150,7 +150,7 @@ class OA_Dll_Agency extends OA_Dll
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> agencyName<br />
-     *          <b>Optional properties:</b> contactName, emailAddress<br />
+     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> agencyId<br />

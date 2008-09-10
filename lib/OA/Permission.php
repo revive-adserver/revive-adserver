@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -483,8 +483,8 @@ class OA_Permission
      * Set user access to account
      *
      * @param integer $accountId  account ID
-     * @param boolean $setAccess  defines whether user should or shouldn't have an access to account
      * @param integer $userId  User ID (if null a logged user id is used)
+     * @param boolean $setAccess  defines whether user should or shouldn't have an access to account
      * @return boolean  True on success else false
      */
     function setAccountAccess($accountId, $userId, $setAccess = true)
