@@ -66,9 +66,27 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
         $form->addRule('floor_price', $requiredMsg, 'required');*/
 
         $form->setDefaults($aFields);
-
     }
 
+    function processForm(&$aFields)
+    {
+        $oExt_thorium_campaign_pref = OA_Dal::factoryDO('ext_thorium_campaign_pref');
+        $oExt_thorium_campaign_pref->campaignid = $aFields['campaignid'];
+        $recordExist = false;
+        if ($oExt_thorium_campaign_pref->find()) {
+            $oExt_thorium_campaign_pref->fetch();
+            $recordExist = true;
+        }
+        $oExt_thorium_campaign_pref->is_enabled = $aFields['is_enabled'] == 't' ? 1 : 0;
+        $oExt_thorium_campaign_pref->floor_price = $aFields['floor_price'];
+        if ($recordExist) {
+            $oExt_thorium_campaign_pref->update();
+        } else {
+            $oExt_thorium_campaign_pref->insert();
+        }
+        // invalidate campaign-thorium delivery cache
+        //MAX_cacheInvalidateGetCampaignThoriumInfo($aFields['campaignid']);
+    }
 }
 
 ?>

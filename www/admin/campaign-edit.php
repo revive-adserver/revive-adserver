@@ -237,9 +237,14 @@ $campaign ['campaignid'] = $campaignid;
 
 
 //var_dump($campaign);
+$oComponent = null;
+if ( isset($GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) &&
+     $GLOBALS['_MAX']['CONF']['plugins']['openXThorium'])
+{
+    $oComponent = &OX_Component::factory('admin', 'oxThorium', 'oxThorium');
+}
 
-
-$campaignForm = buildCampaignForm ( $campaign );
+$campaignForm = buildCampaignForm ( $campaign, $oComponent );
 $statusForm = null;
 if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
     //campaign status form
@@ -248,7 +253,7 @@ if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) &
 
 if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
     //process submitted values
-    $errors = processCampaignForm ( $campaignForm );
+    $errors = processCampaignForm ( $campaignForm, $oComponent );
     if (! empty ( $errors )) { //need to redisplay page with general errors
         displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
@@ -263,15 +268,8 @@ else { //either validation failed or no form was not submitted, display the page
 /*-------------------------------------------------------*/
 /* Build form                                            */
 /*-------------------------------------------------------*/
-function buildCampaignForm($campaign)
+function buildCampaignForm($campaign, &$oComponent=null)
 {
-    $oComponent = null;
-    if ( isset($GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) &&
-         $GLOBALS['_MAX']['CONF']['plugins']['openXThorium'])
-    {
-        $oComponent = &OX_Component::factory('admin', 'oxThorium', 'oxThorium');
-    }
-
     global $pref;
 
     $form = new OA_Admin_UI_Component_Form ( "campaignform", "POST", $_SERVER ['PHP_SELF'] );
@@ -633,7 +631,7 @@ function buildStatusForm($aCampaign)
  * @param OA_Admin_UI_Component_Form $form form to process
  * @return An array of Pear::Error objects if any
  */
-function processCampaignForm($form)
+function processCampaignForm($form, &$oComponent=null)
 {
     $aFields = $form->exportValues ();
 
@@ -793,12 +791,20 @@ function processCampaignForm($form)
 
         $doCampaigns->updated = OA::getNow ();
 
-        if (! empty ( $aFields ['campaignid'] ) && $aFields ['campaignid'] != "null") {
+        if (! empty ( $aFields ['campaignid'] ) && $aFields ['campaignid'] != "null")
+        {
             $doCampaigns->campaignid = $aFields ['campaignid'];
             $doCampaigns->update ();
-        } else {
+        }
+        else
+        {
             $aFields ['campaignid'] = $doCampaigns->insert ();
         }
+        if ($oComponent)
+        {
+            $oComponent->processForm($aFields);
+        }
+
 
         // Recalculate priority only when editing a campaign
         // or moving banners into a newly created, and when:
