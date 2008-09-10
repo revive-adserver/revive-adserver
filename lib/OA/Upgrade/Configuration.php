@@ -45,10 +45,27 @@ class OA_Upgrade_Config
         }
     }
 
+    function getRealConfigName()
+    {
+        if (file_exists($this->configPath.'default.conf.php'))
+        {
+            $conf = @parse_ini_file($this->configPath.'default.conf.php');
+            if (isset($conf['realConfig']))
+            {
+                return $conf['realConfig'];
+            }
+            return false;
+        }
+    }
+
     function getConfigFileName()
     {
+        if ($realConfig = $this->getRealConfigName())
+        {
+            $this->configFile = $realConfig.'.conf.php';
+            return true;
+        }
         $host = getHostName();
-        $this->configPath = MAX_PATH.'/var/';
         if (file_exists($host.'.conf.php'))
         {
             $this->configFile = $host.'.conf.php';
