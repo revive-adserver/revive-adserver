@@ -13,8 +13,18 @@
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				<clickLink label="Inventory" />
+				<clickLink label="Advertisers" />
+				<clickLink label="Advertiser 1"/>
+				<clickLink label="Trackers"/>
+				<clickLink label="Sample Tracker"/>
+				<clickLink label="Linked Campaigns"/>
+				<setCheckbox name="campaignids[]" value="3"/>
+				<clickElement htmlId="submit"/>
 				
-				<enableJavaScript enable="false" />
+				
+				
+				<!-- <enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
 				
@@ -31,10 +41,11 @@
 				<enableJavaScript enable="true" />
 				
 				<setCheckbox name="campaignids[]" value="3"/>
+				<clickElement htmlId="submit"/> -->
 				<!-- <clickButton label="Save Changes"/> <clickElement 
 					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/input[4]" /> -->
 <!-- @TODO: report bug -->				
-				<clickElement htmlId="submit"/>
+				
 				
 			</steps>
 	 	</webtest>

@@ -8,12 +8,54 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.linkZones.xml (DOES NOT WORK CORRECTLY YET!)">
+		<webtest name="Level3 - configuration test: openx.common.conf.linkZones.xml (DOES NOT WORK CORRECTLY YET!)">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
-				<enableJavaScript enable="false" />
+				<clickLink description="click on 'Inventory'" label="Inventory" />
+				<clickLink description="click on 'Campaigns'" label="Campaigns"/>
+				<clickLink description="click on 'Advertiser 1 - Default Campaign'" label="Advertiser 1 - Default Campaign"/>
+				<clickLink description="click on 'Linked Zones'" label="Linked Zones"/>
+				<setCheckbox description="Select 'Agency Publisher 1' zones"
+			        htmlid="available-select-all"
+			        checked="true" />
+				<clickButton description="click on 'link-button'"  htmlid="link-button"/>
+				
+				<clickLink description="click on 'Inventory'" label="Inventory" />
+				<clickLink description="click on 'Campaigns'" label="Campaigns"/>
+				<clickLink description="click on 'campaign 2 (gif)'" label="campaign 2 (gif)"/>
+				<clickLink description="click on 'Linked Zones'" label="Linked Zones"/>
+				<verifyText description="verify 'Available Zones'" text="Available Zones"/>
+				<verifyText description="verify 'Linked Zones'" text="Linked Zones"/>
+				<setCheckbox name="z2" description="Select 'Agency Publisher 1 - Default' zone"/>
+				<clickButton description="click on 'link-button'"  htmlid="link-button"/>	
+				<!--
+				<retry maxcount="5">
+					<verifyText description="verify 'Publisher 1 - Default'" text="Publisher 1 - Default"/>
+					<sleep seconds="5"/>
+				</retry>
+				-->	
+				<clickLink description="click on 'Inventory'" label="Inventory" />
+				<clickLink description="click on 'Campaigns'" label="Campaigns"/>
+				<clickLink  description="click on 'test campaign'" label="test campaign"/>
+				<clickLink description="click on 'Linked Zones'" label="Linked Zones"/>
+				<setCheckbox name="z1" description="Select 'Publisher 1 - Default' zone"/>
+				<clickButton description="click on 'link-button'"  htmlid="link-button"/>
+				
+				<setCheckbox name="z2" description="Select 'Agency Publisher 1 - Default' zone"/>
+				<clickButton label="Unlink"/>
+					
+
+				<!-- <setCheckbox name="z1" description="Select 'Publisher 1 - Default' zone"/> -->				
+				<!-- <setCheckbox htmlid="aw1_z1" description="Select 'Publisher 1 - Default' zone"/> -->
+				
+				
+
+				<!---->
+				
+				
+<!--				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
 				<clickLink label="Advertisers &amp; Campaigns"/>
@@ -29,7 +71,8 @@
 			        htmlid="available-select-all"
 			        checked="true" />
 				<clickButton htmlid="link-button"/>
-				<!-- <clickButton htmlid="aw1_z1"/> -->
+				<!- <clickButton htmlid="aw1_z1"/> ->
+-->
 			</steps>
 	 	</webtest>
 	</target>	

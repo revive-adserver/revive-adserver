@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
 	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
@@ -8,12 +8,50 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 configuration test openx.2.5.common.conf.addBanners.xml">
+		<webtest name="Level3 configuration test openx.common.conf.addBanners.xml">
 			&config;
 			<steps>
-				<enableJavaScript enable="${wt.enableJS}" />
+				<!-- <enableJavaScript enable="${wt.enableJS}" /> -->
 				&login;				
+				<clickLink label="Inventory" />
+				<clickLink label="Campaigns"/>
+				<clickLink description="Advertiser 1 - Default Campaign: Add new banner"		
+					label="Add new banner"
+					href="campaignid=1" />
+				<setSelectField description="choose the type of the banner -> HTML banner"
+				    name="type"
+					value="bannerTypeHtml:oxHtml:genericHtml" />
+				<setInputField name="description" value="Test HTML Banner!"/>									
+				<setInputField name="width" value="468"/>
+				<setInputField name="height" value="60"/>
+				<!-- 
+					openx.common.conf.addBanners.xml:11: java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V -->
+					<setInputField name="htmltemplate" value="Test HTML Banner!"/>
+				<!-- -->				
+				<clickButton name="submit"/>
 				
+				<clickLink label="Inventory" />
+				<clickLink label="Campaigns"/>
+				<clickLink description="test campaign: Add new banner"		
+					label="Add new banner"
+					href="campaignid=2" />
+				<setSelectField description="choose the type of the banner -> HTML banner"
+				    name="type"
+					value="bannerTypeHtml:oxHtml:genericHtml" />
+				<setInputField name="description" value="test banner"/>									
+				<setInputField name="width" value="468"/>
+				<setInputField name="height" value="60"/>
+				<setInputField name="url" value="https://developer.openx.org/"/>
+				<!-- 
+					openx.common.conf.addBanners.xml:11: java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V -->
+					<setInputField name="htmltemplate" value="html test banner"/> 
+				<!---->
+				<setSelectField name="adserver" text="Rich Media - OpenX"/>
+				<clickButton name="submit"/>
+				
+				
+				
+<!--
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
@@ -35,6 +73,7 @@
 				<setInputField name="description" value="Test HTML Banner!"/>									
 				<setInputField name="width" value="468"/>
 				<setInputField name="height" value="60"/>
+-->
 			<!-- 
 				disabled because of following error: 
 				openx.common.conf.addBanners.xml:11: java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V
@@ -101,6 +140,18 @@
 	-->			
 				
 				
+				<clickLink label="Inventory" />
+				<clickLink label="Campaigns"/>
+				<clickLink label="Add new banner" href="campaignid=3" saveResponse='true' />
+				<setSelectField name="type" value="sql" saveResponse='true' />
+				<setInputField name="description" value="sample gif banner" saveResponse='true' />
+				<setFileField description="File upload" fileName="${testcase.dir}/level3/resources/468x60.gif" name="upload" saveResponse='true' />
+				<setInputField name="url" value="https://developer.openx.org/" saveResponse='true' />
+				<setInputField name="alt" value="alt text" saveResponse='true' />
+				
+				<clickButton name="submit"/>
+				
+				<!-- #################################################
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
@@ -119,9 +170,10 @@
 				<setInputField name="url" value="https://developer.openx.org/" saveResponse='true' />
 				<setInputField name="alt" value="alt text" saveResponse='true' />
 				<enableJavaScript enable="false" />
-					<!-- <clickButton label="Save Changes"/> -->
+					
 					<clickButton htmlId="submit"/>
 				<enableJavaScript enable="true" />
+				-->
 			</steps>
 	 	</webtest>
 	</target>

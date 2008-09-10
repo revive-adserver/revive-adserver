@@ -8,11 +8,20 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addWebsite.xml">
+		<webtest name="Level3 - configuration test: openx.common.conf.addWebsite.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				<clickLink label="Inventory" />
+				<clickLink label="Websites"/>
+				<clickLink label="Add new website"/>
+				<setInputField name="website" value="http://fornax.net"/>
+				<setInputField name="name" value="Agency Publisher 1"/>
+				<setInputField name="contact" value="Andrew Hill"/>
+				<setInputField name="email" value="andrew.hill@openads.org"/>
+				<clickButton htmlId="save"/>
+				<!--
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
@@ -24,8 +33,9 @@
 				<setInputField name="name" value="Agency Publisher 1"/>
 				<setInputField name="contact" value="Andrew Hill"/>
 				<setInputField name="email" value="andrew.hill@openads.org"/>
-				<!-- <clickButton label="Save Changes"/> -->
-				<clickButton htmlId="save"/>
+				-->
+				<!-- <clickButton label="Save Changes"/>
+				<clickButton htmlId="save"/> -->
 			</steps>
 	 	</webtest>
 	</target>	

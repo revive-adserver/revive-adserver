@@ -8,23 +8,29 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addCampaigns.xml">
+		<webtest name="Level3 - configuration test: openx.common.conf.addCampaigns.xml">
 			&config;
 			<steps>
-				<enableJavaScript enable="${wt.enableJS}" />
+				<!-- <enableJavaScript enable="${wt.enableJS}" /> -->
 				&login;
-				<enableJavaScript enable="false" />
+				<!-- <enableJavaScript enable="false" /> -->
 				<clickLink label="Inventory" />
 				<clickLink label="Add new campaign"/>
-				<setInputField name="end" value="2007-07-01"/>
+				<setRadioButton description="Check radio button campaign_type: 1" name="campaign_type" value="1"/>
+				<setRadioButton description="Check radio button endSet: t" name="endSet" value="t"/>
+				<setInputField name="end" value="1 July 2007"/>
 				<clickButton label="Save Changes"/>
-				<clickLink label="Advertisers &amp; Campaigns"/>
+				
+				<clickLink label="Campaigns"/>
 				<clickLink label="Add new campaign"/>
 				<setInputField name="campaignname" value="test campaign"/>
+				<setRadioButton description="Check radio button campaign_type: 1" name="campaign_type" value="1"/>
 				<clickButton label="Save Changes"/>
-				<clickLink label="Advertisers &amp; Campaigns"/>
+				
+				<clickLink label="Campaigns"/>
 				<clickLink label="Add new campaign"/>
 				<setInputField name="campaignname" value="campaign 2 (gif)"/>
+				<setRadioButton description="Check radio button campaign_type: 1" name="campaign_type" value="1"/>
 				<clickButton label="Save Changes"/>
 			</steps>
 	 	</webtest>

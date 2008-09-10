@@ -8,12 +8,44 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.linkBanners.xml">
+		<webtest name="Level3 - configuration test: openx.common.conf.linkBanners.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
-
+				
+				<clickLink label="Inventory" />
+				<clickLink label="Zones"/>
+				<clickLink label="Agency Publisher 1 - Default"/>
+				<clickLink label="Linked Banners"/>
+				<clickButton htmlid="link_type_submit" /> 
+				
+				<setSelectField name="clientid" text="Advertiser 1"/>
+				<setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/>
+				<clickElement htmlid="link_submit"/>
+				
+				<setSelectField name="clientid" text="Advertiser 1"/>
+				<setSelectField name="campaignid" value="3" />
+				<clickElement htmlid="link_submit"/>
+				
+				
+				<clickLink label="Inventory" />
+				<clickLink label="Zones"/>
+				<clickLink label="Publisher 1 - Default"/>
+				<clickLink label="Linked Banners"/>
+				<clickButton htmlid="link_type_submit" />				    
+				
+				<setSelectField name="clientid" text="Advertiser 1"/>
+				<setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/>
+				<clickElement htmlid="link_submit"/>
+				
+				<setSelectField name="clientid" text="Advertiser 1"/>
+				<setSelectField name="campaignid" value="2" />
+				<clickElement htmlid="link_submit"/>
+				
+				
+				
+<!--				
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
@@ -34,35 +66,36 @@
 				
 				<setSelectField name="view" text="Link banners by parent campaign"/>
 				<clickButton htmlid="link_type_submit" /> 
-					<!--
+					<!-
 					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/form/table/tbody/tr[2]/td/input"
 					label=""/>
-					-->
-				<!-- <clickButton label=""/> -->				
+					->
+				<!- <clickButton label=""/> ->				
 				<setSelectField name="clientid" text="Advertiser 1"/>
 				
-<!-- modified!!! <setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/> -->
-				<!-- <setSelectField name="campaignid" text="campaign 2 (gif) (1 banner(s))"/>
-				<setSelectField name="campaignid" text="campaign 2 (gif) ()"/> -->
+<!- modified!!! <setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/> ->
+				<!- <setSelectField name="campaignid" text="campaign 2 (gif) (1 banner(s))"/>
+				<setSelectField name="campaignid" text="campaign 2 (gif) ()"/> ->
 				<setSelectField name="campaignid" value="3" />
 				
 				
 				<enableJavaScript enable="false" />
 					<clickElement htmlid="link_submit"/>
-					<!-- <clickButton htmlid="submitimage"/> -->
+					<!- <clickButton htmlid="submitimage"/> ->
 				<enableJavaScript enable="true" />
 				
-				<!-- xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>
-					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>  /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input -->
+				<!- xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>
+					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>  /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input ->
 					
-				<!-- <setSelectField name="bannerid" text="Test HTML Banner!"/> -->
-				<!-- <clickButton label=""/> 
+				<!- <setSelectField name="bannerid" text="Test HTML Banner!"/> ->
+				<!- <clickButton label=""/> 
 				<clickButton 
-					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[3]/input[2]" />-->
+					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[3]/input[2]" />->
 				
-				<!-- /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input				
+				<!- /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input				
 				/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]
-						   /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2] -->
+						   /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2] ->
+-->
 			</steps>
 	 	</webtest>
 	</target>	

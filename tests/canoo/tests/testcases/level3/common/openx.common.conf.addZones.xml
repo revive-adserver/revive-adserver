@@ -8,11 +8,23 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addZones.xml">
+		<webtest name="Level3 - configuration test: openx.common.conf.addZones.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				<clickLink label="Inventory" />
+				<clickLink label="Zones"/>
+				<clickLink label="Add new zone"/>
+				<setInputField name="zonename" value="Publisher 1 - Default"/>
+				<clickButton label="Save Changes"/>
+				
+				<clickLink label="Zones"/>
+				<clickLink label="Add new zone"/>
+				<setInputField name="zonename" value="Agency Publisher 1 - Default"/>
+				<clickButton label="Save Changes"/>
+				
+				<!--
 				
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
@@ -41,10 +53,11 @@
 				
 				<clickButton label="Next >"/>
 				
-				<!-- <clickButton label="Save Changes"/> -->
+				<!- <clickButton label="Save Changes"/> ->
 				<enableJavaScript enable="false" />
 					<clickButton label="Save Changes"/>
 				<enableJavaScript enable="true" />
+				-->
 			</steps>
 	 	</webtest>
 	</target>	

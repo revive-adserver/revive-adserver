@@ -13,7 +13,15 @@
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				<clickLink label="Inventory" />
+				<clickLink label="Targeting Channels"/>
+				<clickLink label="Add new Targeting Channel"/>
+				<setInputField name="name" value="Test Admin Channel 2"/>
+				<clickButton htmlId="submit"/>
 				
+				
+				
+				<!--
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
@@ -29,9 +37,10 @@
 				<enableJavaScript enable="true" />
 				
 				<setInputField name="name" value="Test Admin Channel 2"/>
-				<!-- <clickButton label="Save Changes"/> -->
-				<clickButton htmlId="submit"/>
 				
+				<clickButton htmlId="submit"/> -->
+				
+				<!-- <clickButton label="Save Changes"/> -->
 				<!-- OX-2726 -->
 				
 			</steps>

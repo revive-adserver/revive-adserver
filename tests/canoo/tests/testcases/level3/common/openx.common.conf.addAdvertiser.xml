@@ -13,16 +13,14 @@
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
-				<enableJavaScript enable="false" />
+				<!-- <enableJavaScript enable="false" /> -->
 					<clickLink label="Inventory" />
-				<enableJavaScript enable="true" />
+				<!-- <enableJavaScript enable="true" /> -->
 				<clickLink label="Add new advertiser" />
 				<setInputField name="clientname" value="Advertiser 1"/>
 				<setInputField name="contact" value="advertiser"/>
 				<setInputField name="email" value="example@example.com"/>
-				<enableJavaScript enable="false" />
-					<clickButton label="Next >"/>
-				<enableJavaScript enable="true" />
+				<clickButton name="submit"/>
 			</steps>
 	 	</webtest>
 	</target>	

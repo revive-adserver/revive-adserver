@@ -8,8 +8,9 @@
 	resultfile="${wt.resultfile}" 
 	resultpath="${wt.resultpath}" 
 	haltonfailure="false" 
-	haltonerror="false">
-	
+	haltonerror="false"
+	easyajax="${wt.easyAjax}"
+	timeout="${wt.timeout}">
 	<header name="User-Agent" value="${wt.browser}"/>
     <option name="JavaScriptEnabled" value="${wt.enableJS}"/>
     <option name="ThrowExceptionOnScriptError" value="${wt.throwExceptionOnScriptError}"/>
