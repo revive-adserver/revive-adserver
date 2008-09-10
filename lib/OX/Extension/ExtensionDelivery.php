@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+require_once(LIB_PATH.'/Extension/deliveryLog/Setup.php');
 
 class OX_Extension_Delivery extends OX_Extension_Common
 {
