@@ -1,3 +1,7 @@
+html {
+  -filter: expression(document.execCommand("BackgroundImageCache", false, true));
+}
+
 body {
 	margin: 0;
 	padding: 0;
