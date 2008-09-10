@@ -252,10 +252,10 @@ if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
     if (! empty ( $errors )) { //need to redisplay page with general errors
         displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
-} 
+}
 else if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
     processStatusForm ( $statusForm );
-} 
+}
 else { //either validation failed or no form was not submitted, display the page
     displayPage ( $campaign, $campaignForm, $statusForm );
 }
@@ -265,6 +265,13 @@ else { //either validation failed or no form was not submitted, display the page
 /*-------------------------------------------------------*/
 function buildCampaignForm($campaign)
 {
+    $oComponent = null;
+    if ( isset($GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) &&
+         $GLOBALS['_MAX']['CONF']['plugins']['openXThorium'])
+    {
+        $oComponent = &OX_Component::factory('admin', 'oxThorium', 'oxThorium');
+    }
+
     global $pref;
 
     $form = new OA_Admin_UI_Component_Form ( "campaignform", "POST", $_SERVER ['PHP_SELF'] );
@@ -295,6 +302,7 @@ function buildCampaignForm($campaign)
     buildBasicInformationFormSection ( $form, $campaign, $newCampaign );
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection ( $form, $campaign, $newCampaign );
+    buildPluggableFormSection( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign);
     buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
     buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, false, $newCampaign );
@@ -350,6 +358,14 @@ function buildCampaignForm($campaign)
     $form->setDefaults ( array ('campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType ( $campaign ['priority'] ), 'impr_unlimited' => (! empty ( $campaign ["impressions"] ) && $campaign ["impressions"] >= 0 ? 'f' : 't'), 'click_unlimited' => (! empty ( $campaign ["clicks"] ) && $campaign ["clicks"] >= 0 ? 'f' : 't'), 'conv_unlimited' => (! empty ( $campaign ["conversions"] ) && $campaign ["conversions"] >= 0 ? 'f' : 't'), 'startSet' => $startDateSet, 'endSet' => $endDateSet, 'start' => $startDateStr, 'end' => $endDateStr, 'priority' => ($campaign ['priority'] > '0' && $campaign ['campaignid'] != '') ? 2 : $campaign ['priority'], 'high_priority_value' => $campaign ['priority'] > '0' ? $campaign ['priority'] : 5, 'target_value' => ! empty ( $campaign ['target_value'] ) ? $campaign ['target_value'] : '-', 'weight' => isset ( $campaign ["weight"] ) ? $campaign ["weight"] : $pref ['default_campaign_weight'], 'revenue_type' => isset ( $campaign ["revenue_type"] ) ? $campaign ["revenue_type"] : MAX_FINANCE_CPM ) );
 
     return $form;
+}
+
+function buildPluggableFormSection(&$oComponent, $method, &$form, $campaign, $newCampaign)
+{
+    if ($oComponent && method_exists($oComponent, $method))
+    {
+        $oComponent->$method($form, $campaign, $newCampaign);
+    }
 }
 
 function buildBasicInformationFormSection(&$form, $campaign, $newCampaign)
@@ -583,25 +599,25 @@ function buildStatusForm($aCampaign)
     $form->addElement ( 'header', 'h_misc', $GLOBALS ['strCampaignStatus'] );
 
     $form->addElement ( 'static', 'status_display', $GLOBALS ['strStatus'], OX_Util_Utils::getCampaignStatusName($aCampaign ['status']));
-    
+
     if ($aCampaign ['status'] == OA_ENTITY_STATUS_APPROVAL) {
         $form->addElement ( 'radio', 'status', null , $GLOBALS ['strCampaignApprove'] . " - " . $GLOBALS ['strCampaignApproveDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_approve' ) );
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignReject'] . " - " . $GLOBALS ['strCampaignRejectDescription'], OA_ENTITY_STATUS_REJECTED, array ('id' => 'sts_reject' ) );
         $form->addElement ( 'select', 'as_reject_reason', $GLOBALS ['strReasonForRejection'], array (OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE => $GLOBALS ['strReasonSiteNotLive'], OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE => $GLOBALS ['strReasonBadCreative'], OA_ENTITY_ADVSIGNUP_REJECT_BADURL => $GLOBALS ['strReasonBadUrl'], OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS => $GLOBALS ['strReasonBreakTerms'] ) );
         $form->addDecorator ( 'as_reject_reason', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'rsn_row{numCall}', 'class' => 'hide' ) ) );
-    } 
+    }
     elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_RUNNING) {
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignPause'] . " - " . $GLOBALS ['strCampaignPauseDescription'], OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
-    } 
+    }
     elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_PAUSED) {
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignRestart'] . " - " . $GLOBALS ['strCampaignRestartDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_restart' ) );
-    } 
+    }
     elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_REJECTED) {
         $rejectionReasonText = phpAds_showStatusRejected ( $aCampaign ['as_reject_reason'] );
         $form->addElement ( 'static', 'status', null, $rejectionReasonText, OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
     }
-    
-    
+
+
     $form->addElement ( 'controls', 'form-controls' );
     $form->addElement ( 'submit', 'submit_status', $GLOBALS ['strChangeStatus'] );
 
@@ -819,17 +835,17 @@ function processCampaignForm($form)
         $cache = new Cache_Lite ( $options );
         $group = 'campaign_' . $aFields ['campaignid'];
         $cache->clean ( $group );
-        
+
         if ($new_campaign) {
-            // Queue confirmation message        
+            // Queue confirmation message
             $translation = new OA_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenAdded'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
-                htmlspecialchars($aFields['campaignname']), 
-                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']), 
+                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']),
+                htmlspecialchars($aFields['campaignname']),
+                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']),
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-            
+
             OX_Admin_Redirect::redirect ( "advertiser-campaigns.php?clientid=" . $aFields ['clientid'] );
         } else {
             OX_Admin_Redirect::redirect ( "campaign-zone.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
@@ -879,7 +895,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
         $aOtherAdvertisers = Admin_DA::getAdvertisers ( array ('agency_id' => $agencyId ) );
         $aOtherCampaigns = Admin_DA::getPlacements ( array ('advertiser_id' => $campaign ['clientid'] ) );
         MAX_displayNavigationCampaign ($campaign ['campaignid'], $aOtherAdvertisers, $aOtherCampaigns, $aEntities );
-    } 
+    }
     else { //new campaign
         $advertiser = phpAds_getClientDetails ( $campaign ['clientid'] );
         $advertiserName = $advertiser ['clientname'];
@@ -888,7 +904,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
         // New campaign
         $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
         $oHeaderModel = $builder->buildEntityHeader(
-            array(array ("name" => $advertiserName, "url" => $advertiserEditUrl ), 
+            array(array ("name" => $advertiserName, "url" => $advertiserEditUrl ),
                 array ("name" => "" ) ), "campaign", "edit-new");
         phpAds_PageHeader ( "campaign-edit_new", $oHeaderModel);
     }
@@ -909,7 +925,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
     $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
     $oTpl->assign ( 'strCampaignWarningExclusiveNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningExclusiveNoWeight'] ) ) );
-    
+
 
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
 

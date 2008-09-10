@@ -38,6 +38,7 @@
             <file path="{ADMINPATH}/">bid-preferences.php</file>
             <file path="{ADMINPATH}/">bid-preferences-campaign.php</file>
             <file path="{ADMINPATH}/">bid-preferences-website.php</file>
+            <file path="{ADMINPATH}/">oxThorium.class.php</file>
         </files>
 
         <navigation>
