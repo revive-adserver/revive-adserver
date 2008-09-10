@@ -164,7 +164,7 @@ $GLOBALS['strInstallSslExtension']      = 'It is necessary to install a PHP exte
 $GLOBALS['strChoosenDisableHomePage']   = 'You have choosen to disable your Home page.';
 $GLOBALS['strAccessHomePage']           = 'Click here to access your Home page';
 $GLOBALS['strEditSyncSettings']         = 'and edit your synchronization settings';
-// Dashboard Errors 
+// Dashboard Errors
 $GLOBALS['strDashboardErrorCode']       = "code";
 $GLOBALS['strDashboardGenericError']    = "Generic error";
 $GLOBALS['strDashboardSystemMessage']   = "System message";
@@ -861,7 +861,7 @@ $GLOBALS['strZoneOverview']                 = "Zone Overview";
 $GLOBALS['strZoneProperties']               = "Zone Properties";
 $GLOBALS['strZoneHistory']                  = "Zone History";
 $GLOBALS['strNoZones']                      = "There are currently no zones defined for this website.";
-$GLOBALS['strNoZonesAddWebsite']            = "There are currently no zones defined, because there are no websites. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first."; 
+$GLOBALS['strNoZonesAddWebsite']            = "There are currently no zones defined, because there are no websites. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first.";
 $GLOBALS['strConfirmDeleteZone']            = "Do you really want to delete this zone?";
 $GLOBALS['strConfirmDeleteZoneLinkActive']  = "There are campaigns still linked to this zone, if you delete it these will not be able to run and you will not be paid for them.";
 $GLOBALS['strZoneType']                     = "Zone type";
@@ -1487,5 +1487,31 @@ $GLOBALS['keyAddNew']        = 'n';
 $GLOBALS['keyNext']            = 'n';
 $GLOBALS['keyPrevious']        = 'p';
 $GLOBALS['keyLinkUser']        = 'u';
+
+
+/*-------------------------------------------------------*/
+/* Languages Names                                       */
+/*-------------------------------------------------------*/
+
+$GLOBALS['str_cs']                  = "Czech";
+$GLOBALS['str_de']                  = "German";
+$GLOBALS['str_en']                  = "English";
+$GLOBALS['str_es']                  = "Spanish";
+$GLOBALS['str_fa']                  = "Persian";
+$GLOBALS['str_fr']                  = "French";
+$GLOBALS['str_he']                  = "Hebrew";
+$GLOBALS['str_hu']                  = "Hungarian";
+$GLOBALS['str_id']                  = "Bahasa Indonesia";
+$GLOBALS['str_it']                  = "Italian";
+$GLOBALS['str_ja']                  = "Japanese";
+$GLOBALS['str_ko']                  = "Korean";
+$GLOBALS['str_nl']                  = "Dutch";
+$GLOBALS['str_pl']                  = "Polish";
+$GLOBALS['str_pt_BR']               = "Brazilian Portuguese";
+$GLOBALS['str_ro']                  = "Romanian";
+$GLOBALS['str_ru']                  = "Russian";
+$GLOBALS['str_sl']                  = "Slovenian";
+$GLOBALS['str_tr']                  = "Turkish";
+$GLOBALS['str_zh_CN']               = "Simplified Chinese";
 
 ?>

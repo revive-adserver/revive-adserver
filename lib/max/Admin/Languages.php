@@ -73,8 +73,7 @@ class MAX_Admin_Languages
             if (is_dir(MAX_PATH . '/lib/max/language/' . $langDir) &&
                     !in_array($langDir, $this->aDeprecated) &&
                     file_exists(MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php')) {
-                include_once MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php' ;
-                $languages[$langDir] = $translation_readable;
+                $languages[$langDir] = $GLOBALS["str_" . $langDir];
             }
         }
         closedir($langDirs);
