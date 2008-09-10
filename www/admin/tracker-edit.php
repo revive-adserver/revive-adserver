@@ -50,7 +50,7 @@ phpAds_registerGlobalUnslashed (
 );
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid, true);
 
@@ -83,7 +83,7 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->get($ID);
     $tracker = $doTrackers->toArray();
-} 
+}
 else {
     // New tracker
     $doClients = OA_Dal::factoryDO('clients');
@@ -355,13 +355,13 @@ function displayPage($tracker, $form, $plugins)
         while ($doClients->fetch() && $row = $doClients->toArray()) {
             $aOtherAdvertisers[] = $row;
         }
-        MAX_displayNavigationTracker($tracker['clientid'], $tracker['trackerid'], $aOtherAdvertisers); 
+        MAX_displayNavigationTracker($tracker['clientid'], $tracker['trackerid'], $aOtherAdvertisers);
     }
     else {
         // New tracker
         $oHeaderModel = MAX_displayTrackerBreadcrumbs($tracker['clientid'], null);
         phpAds_PageHeader("tracker-edit_new", $oHeaderModel);
-    }    
+    }
 
     //get template and display form
     $oTpl = new OA_Admin_Template('tracker-edit.html');
