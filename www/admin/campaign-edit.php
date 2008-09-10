@@ -641,7 +641,8 @@ function processCampaignForm($form, &$oComponent=null)
     // If ID is not set, it should be a null-value for the auto_increment
     if (empty ( $aFields ['campaignid'] )) {
         $aFields ['campaignid'] = "null";
-    } else {
+    } 
+    else {
         require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
         $oldCampaignAdZoneAssocs = Admin_DA::getAdZones ( array ('placement_id' => $aFields ['campaignid'] ) );
         $errors = array ();
@@ -791,13 +792,11 @@ function processCampaignForm($form, &$oComponent=null)
 
         $doCampaigns->updated = OA::getNow ();
 
-        if (! empty ( $aFields ['campaignid'] ) && $aFields ['campaignid'] != "null")
-        {
+        if (! empty ( $aFields ['campaignid'] ) && $aFields ['campaignid'] != "null") {
             $doCampaigns->campaignid = $aFields ['campaignid'];
             $doCampaigns->update ();
-        }
-        else
-        {
+        } 
+        else {
             $aFields ['campaignid'] = $doCampaigns->insert ();
         }
         if ($oComponent)
