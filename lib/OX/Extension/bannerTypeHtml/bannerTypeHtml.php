@@ -93,11 +93,15 @@ class Plugins_BannerTypeHTML extends OX_Component
             'onClick'=>'alterHtmlCheckbox()', 'id'=>'autohtml'
             ));
 
-        $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', null, $adPluginsList,
-            array('style' => 'margin-left: 15px;'));
+       $aSelectAttributes = array('id'=>'adserver', 'style' => 'margin-left: 15px;');
+
+       if (!$row['autohtml']) {
+           $aSelectAttributes['disabled'] = 'disabled';
+       }
+
+        $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', null, $adPluginsList, $aSelectAttributes);
 
         $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", ""), false);
-
 
         $form->addElement('header', 'header_b_links', "Banner link");
         $form->addElement('text', 'url', $GLOBALS['strURL']);
