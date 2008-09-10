@@ -313,8 +313,8 @@ function MAX_AclValidate($page, $aParams) {
     $doAclTable->find();
     while ($doAclTable->fetch()) {
         $aData = $doAclTable->toArray();
-        list($package, $name) = explode(':', $aData['type']);
-        if ($deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name))) {
+        $deliveryLimitationPlugin = OA_aclGetComponentFromRow($aData);
+        if ($deliveryLimitationPlugin) {
             $deliveryLimitationPlugin->init($aData);
             if ($deliveryLimitationPlugin->isAllowed($page)) {
                 $aAcls[$aData['executionorder']] = $aData;
