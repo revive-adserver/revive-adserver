@@ -137,7 +137,8 @@ class OA_Admin_Statistics_Delivery_Controller_BannerDaily extends OA_Admin_Stati
                 $this->pageId = '2.1.2.2.1.1';
             } else {
                 // Cross-entity
-                $this->pageId = empty($zoneId) ? '2.1.2.2.3.1.1' : '2.1.2.2.3.2.1';
+                $this->pageId = empty($zoneId) ? '2.1.2.2.2.1.1' : '2.1.2.2.2.2.1';
+
             }
             $this->aPageSections = array($this->pageId);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
