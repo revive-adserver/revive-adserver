@@ -79,22 +79,42 @@ class OA_Admin_UI_Component_Form
         $this->registerRule('wholenumber', 'regex', '/^\d+$/');            
         $this->registerRule('wholenumber-', 'regex', '/^\d+$|^\-$/');
         $this->registerRule('formattednumber', 'regex', '/^\d+$|^\d(,\d{3})+$/');
+        $this->registerRule('decimal', 'regex', '/^([+-])?\d+(\.\d+)?$/');
+        $this->registerRule('decimalplaces', 'rule', 'OA_Admin_UI_Rule_DecimalPlaces', 
+            MAX_PATH.'/lib/OA/Admin/UI/component/rule/DecimalPlaces.php');
+        $this->registerRule('min', 'rule', 'OA_Admin_UI_Rule_Min', 
+            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Min.php');
+        $this->registerRule('max', 'rule', 'OA_Admin_UI_Rule_Max', 
+            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Max.php');
+            
         $this->registerRule('unique', 'rule', 'OA_Admin_UI_Rule_Unique', 
             MAX_PATH.'/lib/OA/Admin/UI/component/rule/Unique.php');
-        
+            
         //register jquery rule adaptors
-        $this->registerJQueryRuleAdaptor("required", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormRequiredRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryRequiredRule');    
-        $this->registerJQueryRuleAdaptor("minlength", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMinLengthRuleAdaptor.php',
+        $this->registerJQueryRuleAdaptor('required', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormRequiredRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryRequiredRule');
+            
+        $this->registerJQueryRuleAdaptor('minlength', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMinLengthRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryMinLengthRule');    
-        $this->registerJQueryRuleAdaptor("maxlength", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMaxLengthRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMaxLengthRule');    
-        $this->registerJQueryRuleAdaptor("email", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormEmailRuleAdaptor.php',
+        $this->registerJQueryRuleAdaptor('maxlength', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMaxLengthRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMaxLengthRule');
+            
+        $this->registerJQueryRuleAdaptor('email', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormEmailRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryEmailRule');
-        $this->registerJQueryRuleAdaptor("numeric", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
+        
+        $this->registerJQueryRuleAdaptor('numeric', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryDigitsRule');
-        $this->registerJQueryRuleAdaptor("nonzero", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
+        $this->registerJQueryRuleAdaptor('nonzero', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryNonZeroRule');
+        $this->registerJQueryRuleAdaptor('decimal', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNumberRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryNumberRule');
+        $this->registerJQueryRuleAdaptor('min', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMinRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMinRule');
+        $this->registerJQueryRuleAdaptor('max', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMaxRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMaxRule');
+        $this->registerJQueryRuleAdaptor('decimalplaces', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDecimalPlacesAdaptor.php',
+            'OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor');
+        
         
         $this->registerJQueryRuleAdaptor("unique", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormUniqueRuleAdaptor.php',
             'OA_Admin_UI_Rule_JQueryUniqueRule');

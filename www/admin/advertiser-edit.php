@@ -153,7 +153,7 @@ function buildAdvertiserForm($aAdvertiser)
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
     $form->addRule('reportinterval', $GLOBALS['strNumericField'], 'numeric');
-    $form->addRule('reportinterval', $GLOBALS['strNonZeroField'], 'nonzero');
+    $form->addRule('reportinterval', $GLOBALS['strGreaterThanZeroField'], 'min', 1);
     
 
     //set form  values

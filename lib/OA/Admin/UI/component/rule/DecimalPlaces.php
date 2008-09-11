@@ -21,32 +21,36 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
-
+require_once 'HTML/QuickForm/Rule.php';
 
 /**
- * Wrapper rule for HTML_QuickForm "numeric" rule. This allows only digits. 
+ * Decimal validation with added support for a specific number of decimal places
  */
-class OA_Admin_UI_Rule_JQueryDigitsRule
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+class OA_Admin_UI_Rule_DecimalPlaces
+    extends HTML_QuickForm_Rule
 {
     /**
-     * Returns Jquery validation plugin "digits" rule 
-     "digits": true";    
-     * @param array $rule
-     * @return string
+     * Checks if an element is a valid decimal with a given number of decimal places.
+     * If strict mode is set, value must be exactly the given number of decimal places.
+     *
+     * @param     string  $value Value to check
+     * @param     int     $decimalPlaces maximum number of decimal places allowed
+     * @access    public
+     * @return    boolean   true if value is a proper decimal number with proper number of decimal places
      */
-    public function getJQueryValidationRule($rule)
+    function validate($value, $decimalPlaces = 0)
     {
-        return "\"digits\": true";    
-    }
-    
-    public function getJQueryValidationMessage($rule)
-    {
-        return "\"digits\": \"".$rule['message']."\"";
-    }    
-}
+        $regex = '/^\d+(.\d{1,'.$decimalPlaces.'})?$/';        
+        return preg_match($regex . 'D', $value) == 0 ? false : true;
+    } 
 
+
+    function getValidationScript($options = null)
+    {
+        return array('', ""); //return nothing, we use JQuery validate anyway
+    } 
+
+} 
 ?>

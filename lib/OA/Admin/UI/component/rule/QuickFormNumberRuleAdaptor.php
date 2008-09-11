@@ -27,26 +27,22 @@ require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQuery
 
 
 /**
- * Wrapper rule for HTML_QuickForm "numeric" rule. This allows only digits. 
+ * Wrapper rule for HTML_QuickForm "decimal" rule. This allows decimal numbers.
+ * Uses jQuery 'number' rule. 
  */
-class OA_Admin_UI_Rule_JQueryDigitsRule
+class OA_Admin_UI_Rule_JQueryNumberRule
     extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
 {
     /**
-     * Returns Jquery validation plugin "digits" rule 
-     "digits": true";    
+     * Returns Jquery validation plugin "number" rule 
+     "number": true";    
      * @param array $rule
      * @return string
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"digits\": true";    
+        return "\"number\": true";    
     }
-    
-    public function getJQueryValidationMessage($rule)
-    {
-        return "\"digits\": \"".$rule['message']."\"";
-    }    
 }
 
 ?>

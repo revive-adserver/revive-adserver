@@ -503,9 +503,9 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         //validation rules
         $translation = new OA_Translation();
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
-        $widthPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strWidth'])), 'nonzero');
+        $widthPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strWidth'])), 'min', 1);
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
-        $heightPositiveRule = array($translation->translate($GLOBALS['strXNonZeroField'], array($GLOBALS['strHeight'])), 'nonzero');
+        $heightPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strHeight'])), 'min', 1);
         $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
 
         $form->addGroupRule('size', array(

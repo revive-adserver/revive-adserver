@@ -1135,11 +1135,12 @@ $GLOBALS['strRequiredFieldLegend']              = 'denotes required field';
 $GLOBALS['strFormContainsErrors']               = 'Form contains errors, please correct the marked fields below.';
 $GLOBALS['strRequiredField']                    = 'Required field';
 $GLOBALS['strXRequiredField']                   = "%s is required";
-$GLOBALS['strEmailField']                       = "Please enter a valid email";
-$GLOBALS['strNumericField']                     = "Please enter a number";
-$GLOBALS['strNonZeroField']                     = "Must be greater than 0";
-$GLOBALS['strXNonZeroField']                     = "%s must be greater than 0";
+$GLOBALS['strEmailField']                          = "Please enter a valid email";
+$GLOBALS['strNumericField']                     = "Please enter a number (only digits allowed)";
+$GLOBALS['strGreaterThanZeroField']      = "Must be greater than 0";
+$GLOBALS['strXGreaterThanZeroField']     = "%s must be greater than 0";
 $GLOBALS['strXUniqueField']                     = "%s with this %s already exists";
+$GLOBALS['strXDecimalFieldWithDecimalPlaces']   = "Must be a decimal with maximum %s decimal places";
 
 
 // Email

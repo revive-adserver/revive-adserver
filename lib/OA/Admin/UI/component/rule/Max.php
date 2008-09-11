@@ -21,32 +21,35 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
-
+require_once 'HTML/QuickForm/Rule.php';
 
 /**
- * Wrapper rule for HTML_QuickForm "numeric" rule. This allows only digits. 
+ * A rule to check a maximum value of a number represented by validated string 
  */
-class OA_Admin_UI_Rule_JQueryDigitsRule
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+class OA_Admin_UI_Rule_Max
+    extends HTML_QuickForm_Rule
 {
     /**
-     * Returns Jquery validation plugin "digits" rule 
-     "digits": true";    
-     * @param array $rule
-     * @return string
+     * Checks if an element is a number with value equal or smaller than a given maximum value.
+     *
+     * @param     string  $value Value to check
+     * @param     float   $max maximum value
+     * @access    public
+     * @return    boolean true if value is equal or smaller than max
      */
-    public function getJQueryValidationRule($rule)
+    function validate($value, $max)
     {
-        return "\"digits\": true";    
-    }
-    
-    public function getJQueryValidationMessage($rule)
-    {
-        return "\"digits\": \"".$rule['message']."\"";
-    }    
-}
+        $numVal = (float)$value;         
+        return $numVal <= $max;
+    } 
 
+
+    function getValidationScript($options = null)
+    {
+        return array('', ""); //return nothing, we use JQuery validate anyway
+    } 
+
+} 
 ?>

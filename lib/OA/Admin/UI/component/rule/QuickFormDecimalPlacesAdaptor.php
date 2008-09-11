@@ -21,32 +21,40 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
 
 /**
- * Wrapper rule for HTML_QuickForm "numeric" rule. This allows only digits. 
+ * Wrapper rule for "decimalplaces" rule.
  */
-class OA_Admin_UI_Rule_JQueryDigitsRule
+class OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor
     extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
 {
     /**
-     * Returns Jquery validation plugin "digits" rule 
-     "digits": true";    
+     * Returns a custom JS function which adds unique method to jquery
+     */
+    public function getJQueryValidationMethodCode()
+    {
+        return "function(value, element, regex) {
+            var oRegex = new RegExp(regex);
+            return this.optional(element) || value.match(oRegex);
+        }";
+    }
+    //this.optional(element) ||
+    
+    /**
+     * Returns custom Jquery validation "regex" rule 
+     * "regex": /regex/
      * @param array $rule
-     * @return string
+     * @return JS string with unique rule definition 
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"digits\": true";    
+        $regex = '^\\\d+(\\\.\\\d{1,'.$rule['format'].'})?$'; //in JS when regexp is created via string all \ must be escaped
+        return '"'.$rule['type'].'": "'.$regex.'"';
     }
-    
-    public function getJQueryValidationMessage($rule)
-    {
-        return "\"digits\": \"".$rule['message']."\"";
-    }    
 }
 
 ?>

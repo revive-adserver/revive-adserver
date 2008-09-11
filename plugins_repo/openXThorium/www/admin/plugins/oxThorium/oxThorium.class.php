@@ -65,9 +65,13 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
         
 
         //Form validation rules
-        //validation rules
+        //TODO externalize strings
         $translation = new OA_Translation();
-        $form->addRule('floor_price', $translation->translate($GLOBALS['strXNonZeroField'], array('Campaign floor price')), 'nonzero');
+        $form->addRule('floor_price', $translation->translate($GLOBALS['strXGreaterThanZeroField'], array('Campaign floor price')), 
+            'min', 0.001);
+        $form->addRule('floor_price', $translation->translate($GLOBALS['strXDecimalFieldWithDecimalPlaces'], array('2')), 
+            'decimalplaces', 2); 
+        
 
         $form->setDefaults($aFields);
     }
