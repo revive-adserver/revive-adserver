@@ -74,8 +74,9 @@ class Test_OA_ConfParse extends UnitTestCase
      * test to ensure that special characters
      * are written and read correctly
      * IniCommented config class should quote all special chars
+     * except backslash and single quote
      *
-     * note: parse_ini_file() has problems with chars " ' \
+     * note: parse_ini_file() will break array on double quote
      *
      */
     function test_iniFile()
@@ -84,7 +85,7 @@ class Test_OA_ConfParse extends UnitTestCase
         $max = 126;
         for ($i=$min;$i<=$max;$i++)
         {
-            if (($i==34)  || ($i==39) || ($i==92))
+            if (($i==34)) //  || ($i==39) || ($i==92))
             {
                 /*
                     // double quotes breaks the array
@@ -126,7 +127,7 @@ class Test_OA_ConfParse extends UnitTestCase
             $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:'.$i);
             $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:'.$i);
             $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:'.$i);
-            @unlink($ini);
+            //@unlink($ini);
         }
     }
 
