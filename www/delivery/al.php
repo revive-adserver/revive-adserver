@@ -58,7 +58,8 @@ $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, $sections);
 if (isset($conf['realConfig'])) {
 // added for backward compatibility - realConfig points to different config
-$conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+$realconf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+$conf = mergeConfigFiles($realconf, $conf);
 }
 if (!empty($conf)) {
 return $conf;
@@ -637,7 +638,8 @@ $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, $sections);
 if (isset($conf['realConfig'])) {
 // added for backward compatibility - realConfig points to different config
-$conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+$realconf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+$conf = mergeConfigFiles($realconf, $conf);
 }
 if (!empty($conf)) {
 return $conf;
