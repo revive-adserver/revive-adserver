@@ -41,6 +41,13 @@ class CommonTest extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_MAX_isAnonymous()
+    {
+        $this->assertTrue(MAX_isAnonymous(true));
+        $this->assertTrue(MAX_isAnonymous('t'));
+        $this->assertFalse(MAX_isAnonymous(false));
+        $this->assertFalse(MAX_isAnonymous('f'));
+    }
 
 	function test_MAX_commonSlashArray()
 	{

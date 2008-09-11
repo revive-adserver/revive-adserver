@@ -232,7 +232,7 @@ function MAX_checkChannel($agencyId, $channelId)
 function MAX_getPlacementName($aPlacement, $length = null)
 {
     if (!empty($aPlacement)) {
-        if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && $aPlacement['anonymous'] == 't') {
+        if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && MAX_isAnonymous($aPlacement['anonymous'])) {
             $name = $GLOBALS['strHiddenCampaign'] . ' ' . $aPlacement['placement_id'];
         } else {
             $name = empty($aPlacement['name']) ? $GLOBALS['strUntitled'] : $aPlacement['name'];
@@ -252,7 +252,7 @@ function MAX_getAdName($description, $alt = null, $length = null, $anonymous = f
     $name = $GLOBALS['strUntitled'];
     if (!empty($alt)) $name = $alt;
     if (!empty($description)) $name = $description;
-    if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && $anonymous) {
+    if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && MAX_isAnonymous($anonymous)) {
         $name = $GLOBALS['strHiddenAd'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -269,7 +269,7 @@ function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = nu
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($zoneName)) $name = $zoneName;
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && MAX_isAnonymous($anonymous)) {
         $name = $GLOBALS['strHiddenZone'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -286,7 +286,7 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($publisherName)) $name = $publisherName;
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && MAX_isAnonymous($anonymous)) {
         $name = $GLOBALS['strHiddenWebsite'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -303,7 +303,7 @@ function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $i
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($trackerName)) $name = $trackerName;
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && MAX_isAnonymous($anonymous)) {
         $name = $GLOBALS['strHiddenTracker'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -320,7 +320,7 @@ function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = fal
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($advertiserName)) $name = $advertiserName;
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && MAX_isAnonymous($anonymous)) {
         $name = $GLOBALS['strHiddenAdvertiser'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -345,6 +345,18 @@ function MAX_getBannerName($description, $alt)
     return $name;
 }
 
+/**
+ * many methods are expecting $anonymous to be a boolean value
+ * although it is held as enum ('t','f') in table
+ * use this method to ensure the correct type gets passed
+ *
+ * @param string | boolean $anonymous
+ * @return boolean
+ */
+function MAX_isAnonymous($anonymous)
+{
+    return ($anonymous === 'f' ? false : ($anonymous === 't' ? true : $anonymous) );
+}
 
 /**
  * Retained for backward-compatibility.
