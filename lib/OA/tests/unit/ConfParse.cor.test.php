@@ -70,6 +70,67 @@ class Test_OA_ConfParse extends UnitTestCase
         @unlink(MAX_PATH.'/var/test.real.conf.php');
     }
 
+    /**
+     * test to ensure that special characters
+     * are written and read correctly
+     * IniCommented config class should quote all special chars
+     *
+     * note: parse_ini_file() has problems with chars " ' \
+     *
+     */
+    function test_iniFile()
+    {
+        $min = 32;
+        $max = 126;
+        for ($i=$min;$i<=$max;$i++)
+        {
+            if (($i==34)  || ($i==39) || ($i==92))
+            {
+                /*
+                    // double quotes breaks the array
+                    [test1]
+                    34="test\""
+                    [test2]
+                    34="\"test"
+                    [test3]
+                    34="te\"st"
+
+                    // single quotes returns backslash
+                    [test1]
+                    39="test\'"
+                    [test2]
+                    39="\'test"
+                    [test3]
+                    39="te\'st"
+
+                    // backslash quotes returns two backslashes
+                    [test1]
+                    92="test\\"
+                    [test2]
+                    92="\\test"
+                    [test3]
+                    92="te\\st"
+                */
+                continue;
+            }
+            $aIni = array();
+            $aIni['test1'][$i] = 'test'.chr($i);
+            $aIni['test2'][$i] = chr($i).'test';
+            $aIni['test3'][$i] = 'te'.chr($i).'st';
+            $ini = MAX_PATH.'/var/test_'.$i.'.ini';
+            $oConfig = new Config();
+            $oConfig->parseConfig($aIni, 'phpArray');
+            $this->assertTrue($oConfig->writeConfig($ini, 'IniCommented'));
+
+            $aResult = @parse_ini_file($ini, true);
+            $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:'.$i);
+            $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:'.$i);
+            $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:'.$i);
+            @unlink($ini);
+        }
+    }
+
+
 }
 
 ?>

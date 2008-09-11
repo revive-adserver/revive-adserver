@@ -25,6 +25,8 @@
 $Id$
 */
 
+$GLOBALS['CONFIG_TYPES']['inicommented'] = array(MAX_PATH.'/lib/OA/Admin/IniCommented.php','Config_Container_IniCommented');
+
 /**
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
