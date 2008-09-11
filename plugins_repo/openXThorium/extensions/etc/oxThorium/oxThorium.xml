@@ -24,7 +24,7 @@
         <files>
             <file path="{MODULEPATH}deliveryAdRender/oxThorium/">marketplace.php</file>
             <file path="{ADMINPATH}/css/">bid.css</file>
-            <file path="{ADMINPATH}/js/">bidservice.js</file>
+            <file path="{ADMINPATH}/js/">oxThorium.js</file>
             <file path="{ADMINPATH}/images/">bid.jpg</file>
             <file path="{ADMINPATH}/images/">sort-up.gif</file>
             <file path="{ADMINPATH}/images/">sort-down.gif</file>
@@ -32,6 +32,7 @@
             <file path="{ADMINPATH}/templates/">bid-preferences.html</file>
             <file path="{ADMINPATH}/templates/">bid-preferences-campaign.html</file>
             <file path="{ADMINPATH}/templates/">bid-preferences-website.html</file>
+            <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
             <file path="{ADMINPATH}/">bid-account-edit.php</file>
             <file path="{ADMINPATH}/">bid-common.php</file>

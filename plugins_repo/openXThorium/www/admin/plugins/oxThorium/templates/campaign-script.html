@@ -1,12 +1,14 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -23,49 +25,29 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
+-->*}
 
-require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
-require_once MAX_PATH . '/lib/OA/Dll.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+{* this is script which will be plugged on plugin page when added as a form element
+ make sure the form element name adding this script is the same as template file without .html extension
+ eg. this script should be added via 'campaign-script' name
+ 
+ When script is included it is assigned two variables:
+  - $plugin - contains plugin name, eg. 'oxThorium' 
+  - $pluginWebPath - absolute url to browser visible plugin directory eg. 'http://localhost/www/admin/plugins/oxThorium'. Can be used for to create a link to plugin's js/css
+  
+ Also, there is a global variable available:
+ - $adminPluginWebPath - absolute url to browser visible admin plugins directorory eg. 'http://localhost/www/admin/plugins' - this could be used if eg. to reference resources of another plugin
+ 
+ *}
 
-/**
- * A UI templating class.
- *
- * @package    OpenadsAdmin
- * @author     Monique Szpak <monique.szpak@openads.org>
- */
-class OA_Plugin_Template
-    extends OA_Admin_Template
-{
-    /**
-     * @var string
-     */
-    var $templateName;
-
-    /**
-     * @var string
-     */
-    var $cacheId;
-
-    /**
-     * @var int
-     */
-    var $_tabIndex = 0;
-
-    function OA_Plugin_Template($templateName, $pluginName)
-    {
-        $this->init($templateName, $pluginName);
-    }
-
-
-    function init($templateName, $pluginName)
-    {
-        parent::init($templateName);
-        $this->template_dir = 'templates';
-    }
-}
-
-?>
+<script type="text/javascript" src="{$pluginWebPath}/js/oxThorium.js" ></script>
+<script type="text/javascript">
+ <!--
+{literal}
+  $(document).ready(function() {
+    $('#campaignform').campaignThorium();
+  });
+{/literal}    
+ //-->
+ </script>

@@ -54,19 +54,22 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
 
         $form->addElement ( 'header', 'h_marketplace', 'Enable Marketplace' );
 
-        $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', null, array("f", "t"));
+        $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', array('id' => 'enable_mktplace'), array("f", "t"));
 
         $form->addElement ( 'header', 'h_floor_price', 'Floor Price' );
 
-        $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'style' => "margin-left: 5px;"));
+        $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'id' => 'floor_price'));
+        $form->addElement('plugin-script', 'campaign-script', 'oxThorium');        
+        
 
         //Form validation rules
-        /*$translation = new OA_Translation();
-        $requiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array('Campaign floor price'));
-        $form->addRule('floor_price', $requiredMsg, 'required');*/
+        //validation rules
+        $translation = new OA_Translation();
+        $form->addRule('floor_price', $translation->translate($GLOBALS['strXNonZeroField'], array('Campaign floor price')), 'nonzero');
 
         $form->setDefaults($aFields);
     }
+    
 
     function processForm(&$aFields)
     {

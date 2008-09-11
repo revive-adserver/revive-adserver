@@ -106,6 +106,17 @@ class OA_Admin_Template extends Smarty
         $this->assign('assetPath', OX::assetPath());
         $this->assign("adminWebPath", MAX::constructURL(MAX_URL_ADMIN, ''));
         $this->assign("oaTemplateDir", MAX_PATH.'/lib/templates/admin/');
+        
+        //for pluggable page elements
+        //- plugins may need to refrence their JS in OXP page templates 
+        $this->assign("adminPluginWebPath", MAX::constructURL(MAX_URL_ADMIN, 'plugins'));
+        
+        //- plugins may need to inject their own 
+        //template based elements into normal templates
+        $this->assign("pluginBaseDir", MAX_PATH.'/www/admin/plugins/');
+        $this->assign("pluginTemplateDir", '/templates/');
+        
+        
     }
 
     /**
