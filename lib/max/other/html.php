@@ -1151,6 +1151,15 @@ function MAX_displayAcls($acls, $aParams) {
         echo "<span class='tab-r'>{$GLOBALS['strDeliveryLimitationsDisagree']}</span><br>";
         echo "</div>";
     }
+    $aErrors = OX_AclCheckInputsFields($acls, $page);
+    if ($aErrors  !== true) {
+        echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
+        echo "<span class='tab-s'>{$GLOBALS['strDeliveryLimitationsInputErrors']}</span><br><ul>";
+        foreach ($aErrors as $error) {
+            echo "<li><span class='tab-s'>{$error}</span><br></li>";
+        }
+        echo "</ul></div>";
+    }
 
     foreach ($aParams as $name => $value) {
         echo "<input type='hidden' name='{$name}' value='{$value}' />";

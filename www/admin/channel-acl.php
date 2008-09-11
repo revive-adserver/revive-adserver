@@ -67,13 +67,16 @@ if (!empty($action)) {
 } 
 elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();
-    if (MAX_AclSave($acl, $aEntities)) {
-        if (!empty($affiliateid)) {
-            header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
-        } else {
-            header("Location: channel-acl.php?channelid={$channelid}");
+    // Only save when inputs are valid
+    if (OX_AclCheckInputsFields($acl, $pageName) === true) {
+        if (MAX_AclSave($acl, $aEntities)) {
+            if (!empty($affiliateid)) {
+                header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
+            } else {
+                header("Location: channel-acl.php?channelid={$channelid}");
+            }
+            exit;
         }
-        exit;
     }
 }
 

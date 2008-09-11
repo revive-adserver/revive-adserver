@@ -78,6 +78,23 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
     }
 
+     /**
+     * Method to check input data
+     *
+     * @param array $data Most important to check is $data['data'] field 
+     * @return bool|string true or error message
+     */
+    function checkInputData($data)
+    {
+        if (is_array($data['data'])) {
+            foreach( $data['data'] as $number) {
+                if(!is_numeric($number) || strpos($data['data'][0],',') !== false)
+                return MAX_Plugin_Translation::translate('Geo:Latitude/Longitude: One of the parameter is not a number', $this->extension, $this->group);
+            }
+        }
+        return true;
+    }
+    
     /**
      * Outputs the HTML to display the data for this limitation
      *

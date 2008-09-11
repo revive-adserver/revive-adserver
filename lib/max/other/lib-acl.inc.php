@@ -526,4 +526,29 @@ function modifyTableName($table)
     return $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table'][$table], true);
 }
 
+
+
+/**
+ * Do check on all ACL inputs values
+ * 
+ * @param array $aAcls
+ * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct 
+ */
+function OX_AclCheckInputsFields($aAcls, $page){
+    $aErrors = array();
+    foreach ($aAcls as $aclId => $acl) {
+        if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
+            $deliveryLimitationPlugin->init($acl);
+            if ($deliveryLimitationPlugin->isAllowed($page) && 
+                $deliveryLimitationPlugin->checkInputData($acl) !== true) {
+                    $aErrors[] = $deliveryLimitationPlugin->checkInputData($acl);
+            }
+        }
+    }
+    if (count($aErrors)>0) {
+        return $aErrors;
+    }
+    return true;
+}
+
 ?>

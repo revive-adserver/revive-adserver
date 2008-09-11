@@ -43,7 +43,8 @@ function MAX_checkSite_Variable($limitation, $op, $aParams = array())
     if (empty($aParams)) {
         $aParams = $_REQUEST;
     }
-    list($key,$value) = explode('|', $limitation);
+    $key   = substr($limitation, 0, strpos($limitation, '|'));
+    $value = substr($limitation, strpos($limitation, '|')+1);
     if (!isset($limitation) || !isset($aParams[$key])) {
         // To be safe, unless the paramters passed in, and configured are avaiable,
         // return depending on if the $op is considered a 'positive' test

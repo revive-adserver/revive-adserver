@@ -1447,7 +1447,7 @@ $GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewin
 
 $GLOBALS['strUnsavedChanges']       = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules";
-
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "Some of delivery limitations reports incorrect values:";
 
 $GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
 $GLOBALS['strAdvertiserHasBeenAdded'] = "Advertiser <a href='%s'>%s</a> has been added, <a href='%s'>add a campaign</a>";

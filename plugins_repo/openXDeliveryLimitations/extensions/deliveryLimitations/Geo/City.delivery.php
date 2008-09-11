@@ -48,7 +48,9 @@ function MAX_checkGeo_City($limitation, $op, $aParams = array())
         $aParams = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
     if ($aParams && $aParams['city'] && $aParams['country_code']) {
-        $aLimitation = explode('|', $limitation);
+        $aLimitation = array ( substr($limitation, 0, strpos($limitation, '|')),
+                               substr($limitation, strpos($limitation, '|')+1)
+                              );                               
         $sCities = $aLimitation[1];
         if (!empty($aLimitation[0])) {
             return MAX_limitationsMatchStringValue($aParams['country_code'], $aLimitation[0], '==')

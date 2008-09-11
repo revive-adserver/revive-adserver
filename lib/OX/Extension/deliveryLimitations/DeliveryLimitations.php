@@ -119,6 +119,17 @@ class Plugins_DeliveryLimitations extends OX_Component
     {
         return true;
     }
+    
+    /**
+     * Method to check input data
+     *
+     * @param array $data Most important to check is $data['data'] field 
+     * @return bool|string true or error message
+     */
+    function checkInputData($data)
+    {
+        return true;
+    }
 
     /**
      * Echos the HTML to display this limitation

@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  *
  */
 class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitations_CommaSeparatedData
-{
+{   
     function Plugins_DeliveryLimitations_Site_Variable()
     {
         $this->delimiter = '|';
@@ -58,6 +58,22 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
         return MAX_Plugin_Translation::translate('Variable', $this->extension, $this->group);
     }
 
+     /**
+     * Method to check input data
+     *
+     * @param array $data Most important to check is $data['data'] field 
+     * @return bool|string true or error message
+     */
+    function checkInputData($data)
+    {
+        if (is_array($data['data'])) {
+            if (strpos($data['data'][0],'|') !== false) {
+                return MAX_Plugin_Translation::translate('Site:Variable: Name contains unallowed character(s)', $this->extension, $this->group);
+            }
+        }
+        return true;
+    }
+    
     /**
      * Outputs the HTML to display the data for this limitation
      *
@@ -74,6 +90,26 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
 		echo "    <td align='left' width='50'><strong>Value:</strong></td><td><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[1])) ? $this->data[1] : '') . "' tabindex='".($tabindex++)."'></td>";
         echo "</tr>";
 		echo "</table>";
+    }
+
+    /**
+     * A private method to "expand" a delivery limitation from the string format that
+     * is saved in the database (ie. in the acls or acls_channel table) into its
+     * "expanded" form.
+     *
+     * Expands the string format into an array of browser codes.
+     *
+     * @access private
+     * @param string $data An optional, flat form delivery limitation data string.
+     * @return mixed The delivery limitation data in expanded format.
+     */
+    function _expandData($data = null)
+    {
+        $result = array (
+            substr($data, 0, strpos($data, '|')),
+            substr($data, strpos($data, '|')+1)
+        );
+        return $result;
     }
 }
 
