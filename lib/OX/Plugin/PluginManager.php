@@ -936,9 +936,17 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $aPkgInfo = $this->getPackageInfo($name);
                 foreach ($aPkgInfo['contents'] AS $componentGroup)
                 {
-                    foreach ($componentGroup['components'] as $componentName => $aComponent) {
-                        foreach ($aComponent['hooks'] as $hook) {
-                            $aResult[$hook][] = $componentGroup['extends'] . ':' . $componentGroup['name'] . ':' . $componentName;
+                    if (isset($componentGroup['components']))
+                    {
+                        foreach ($componentGroup['components'] as $componentName => $aComponent)
+                        {
+                            if (isset($aComponent['hooks']))
+                            {
+                                foreach ($aComponent['hooks'] as $hook)
+                                {
+                                    $aResult[$hook][] = $componentGroup['extends'] . ':' . $componentGroup['name'] . ':' . $componentName;
+                                }
+                            }
                         }
                     }
                 }

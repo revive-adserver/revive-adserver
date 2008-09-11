@@ -128,6 +128,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 break;
             case 'plugin-install-components-component':
                 $this->aData = array();
+                $this->aData['hooks'] = array();
                 $this->aComponent = array();
                 break;
             case 'plugin-install-components':
