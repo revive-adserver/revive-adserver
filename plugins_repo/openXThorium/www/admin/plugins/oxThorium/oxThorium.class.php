@@ -54,10 +54,12 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
 
         $form->addElement ( 'header', 'h_marketplace', 'Enable Marketplace' );
 
+        //TODO externalize intro strings
+        $form->addElement('static', 'enableIntro', null, 'You could possibly earn more if this campaign takes part in MarkePlace.');        
         $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', array('id' => 'enable_mktplace'), array("f", "t"));
 
         $form->addElement ( 'header', 'h_floor_price', 'Floor Price' );
-
+        $form->addElement('static', 'priceIntro', null, 'Define the minimum price (floor) to ensure that marketplace never delivers less profitable ad than you would serve otherwise.');
         $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'id' => 'floor_price'));
         $form->addElement('plugin-script', 'campaign-script', 'oxThorium');        
         

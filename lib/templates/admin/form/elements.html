@@ -156,10 +156,17 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 {if $_e.type == 'static'}
     <tr>
-        <td width='30'>&nbsp;</td><td width='170'>{$_e.label}</td>
-        <td width='100%' class="static">
-            {$_e.html}
-        </td>
+        <td width='30'>&nbsp;</td>
+        {if $_e.label != ''}
+            <td width='170'>{$_e.label}</td>
+            <td width='100%' class="static">
+                {$_e.html}
+            </td>
+        {else}
+            <td colspan="2">
+                {$_e.html}
+            </td>
+        {/if}        
     </tr>
 {/if}
 
