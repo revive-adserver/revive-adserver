@@ -50,11 +50,15 @@ class Test_OX_Extension_DeliveryLog_BucketProcessingStrategyFactory extends Unit
 
         // Test the creation of an edge/aggregate server MySQL strategy class
         $aConf['lb']['enabled'] = true;
-        $aconf['database']['type'] = 'mysql';
+        $aConf['database']['type'] = 'mysql';
         $oProcessingStrategy =
-            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aconf['database']['type']);
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aConf['database']['type']);
         $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysql'));
 
+        $aConf['database']['type'] = 'pgsql';
+        $oProcessingStrategy =
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aConf['database']['type']);
+        $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql'));
 
         // Restore the configuration file
         TestEnv::restoreConfig();
@@ -70,11 +74,15 @@ class Test_OX_Extension_DeliveryLog_BucketProcessingStrategyFactory extends Unit
 
         // Test the creation of an edge/aggregate server MySQL strategy class
         $aConf['lb']['enabled'] = true;
-        $aconf['database']['type'] = 'mysql';
+        $aConf['database']['type'] = 'mysql';
         $oProcessingStrategy =
-            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getRawBucketProcessingStrategy($aconf['database']['type']);
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getRawBucketProcessingStrategy($aConf['database']['type']);
         $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql'));
 
+        $aConf['database']['type'] = 'pgsql';
+        $oProcessingStrategy =
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getRawBucketProcessingStrategy($aConf['database']['type']);
+        $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql'));
 
         // Restore the configuration file
         TestEnv::restoreConfig();
