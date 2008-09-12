@@ -33,11 +33,11 @@ define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 10);
 
 require_once MAX_PATH . '/variables.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/pear/Date/Span.php';
+require_once LIB_PATH . '/Maintenance/Statistics.php';
 
 /**
  * A class for performing an integration test of the Maintenance
@@ -108,7 +108,6 @@ class Test_Priority extends UnitTestCase
         // Clean up the testing environment
         TestEnv::restoreEnv();
     }
-
 
     /**
      * A method to perform basic end-to-end integration testing of the Maintenance
@@ -314,14 +313,14 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-15 14:00:01');
         $this->oServiceLocator->register('now', $startDate);
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new OX_Maintenance_Statistics();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
         $oLogCompletion->run();
 
         // Test 2: Set "previous" date for the MPE run
@@ -504,14 +503,14 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-19 00:00:01');
         $this->oServiceLocator->register('now', $startDate);
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new OX_Maintenance_Statistics();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
         $oLogCompletion->run();
 
         // Test 3: Set "current" date for the MPE run
