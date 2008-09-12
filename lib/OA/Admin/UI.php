@@ -138,7 +138,7 @@ class OA_Admin_UI
      */
     function showHeader($ID = null, $oHeaderModel = null, $imgPath="", $showSidebar=true, $showMainNav=true)
     {
-        global $conf, $phpAds_CharSet;
+        global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
         
         $ID = $this->getId($ID);
@@ -219,12 +219,8 @@ class OA_Admin_UI
         $this->oTpl->assign('aLeftMenuNav', $aLeftMenuNav);
         $this->oTpl->assign('aLeftMenuSubNav', $aLeftMenuSubNav);
         $this->oTpl->assign('aSectionNav', $aSectionNav);
-        
-        
-//        $this->oTpl->assign('aSide', $aSideNav);
-//        $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
-//        $this->oTpl->assign('aBreadcrumbs', $aBreadcrumbs);
-//        $this->oTpl->assign('breadcrumbsExtra', $phpAds_breadcrumbs_extra);
+        // This is used to show banner preview
+        $this->oTpl->assign('breadcrumbsExtra', $phpAds_breadcrumbs_extra);
 
         //tools and shortcuts
         $this->oTpl->assign('aTools', $this->aTools);
