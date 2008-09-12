@@ -925,7 +925,7 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
         }
     } else {
         $output = array();
-        while ($aRow = mysql_fetch_assoc($rCreatives)) {
+        while ($aRow = pg_fetch_assoc($rCreatives)) {
             $output[$aRow['ad_id']] = $aRow;
         }
         return $output;
