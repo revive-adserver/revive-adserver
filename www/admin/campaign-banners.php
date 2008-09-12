@@ -37,58 +37,76 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (!empty($clientid)) {
-    OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser 
+    $page = basename($_SERVER['PHP_SELF']);
+    OX_Admin_Redirect::redirect($page);        
 }
-if (!empty($campaignid)) {
-    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+if (!empty($campaignid) && !OA_Permission::hasAccessToObject('campaigns', $campaignid)) {
+    $page = basename($_SERVER['PHP_SELF']);
+    OX_Admin_Redirect::redirect("$page?clientid=$clientid");        
 }
 
 
-
-
+/*-------------------------------------------------------*/
+/* Init data                                             */
+/*-------------------------------------------------------*/
 //get advertisers and set the current one
 $aAdvertisers = getAdvertiserMap();
-if (empty($clientid)) {
+if (empty($clientid)) { //if it's empty
     $campaignid = null; //reset campaign id, we could derive it after we have clientid
-    $ids = array_keys($aAdvertisers);
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid']) {
-        $clientid = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
+        //try previous one from session
+        $sessionClientId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
+        if (isset($aAdvertisers[$sessionClientId])) { //check if 'id' from session was not removed
+            $clientid = $sessionClientId;
+        }
     }
-
-    if (!$clientid || !isset($aAdvertisers[$clientid])) { //check if 'current' from session was not removed
+    if (empty($clientid)) { //was empty, is still empty - just pick one, no need for redirect
+        $ids = array_keys($aAdvertisers);
         if (!empty($ids)) {
-            $clientid = $ids[0];
+            $clientid = $ids[0];            
         }
         else {
             $clientid = -1; //if no advertisers set to non-existent id
-            $campaignid = -1;
+            $campaignid = -1; //also reset campaign id            
         }
+    }
+}
+else {
+    if (!isset($aAdvertisers[$clientid])) {
+        $page = basename($_SERVER['PHP_SELF']);
+        OX_Admin_Redirect::redirect($page);        
     }
 }
 
 //get campaigns - if there was any client id derived
 if ($clientid > 0) {
     $aCampaigns = getCampaignMap($clientid);
-    //check if the given campaign id belongs to this advertiser, otherwise reset
-    if (!isset($aCampaigns[$campaignid])) {
-        $campaignid = null;
-    }
-    if (empty($campaignid)) {
-        $ids = array_keys($aCampaigns);
+    if (empty($campaignid)) { //if it's empty
         if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid]) {
-            $campaignid = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid];
+            //try previous one from session
+            $sessionCampaignId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid];
+            if (isset($aCampaigns[$sessionCampaignId])) { //check if 'id' from session was not removed
+                $campaignid = $sessionCampaignId;
+            }
         }
-
-        if (!$campaignid || !isset($aCampaigns[$campaignid])) { //check if 'current' from session was not removed
-            $campaignid = !empty($ids) ? $ids[0] : -1; //if no campaigns set to non-existent id
+        if (empty($campaignid)) { //was empty, is still empty - just pick one, no need for redirect
+            $ids = array_keys($aCampaigns);
+            $campaignid = !empty($ids) ? $ids[0] : -1; //if no campaigns set to non-existent id        
+        }
+    }
+    else {
+        if (!isset($aCampaigns[$campaignid])) {
+            $page = basename($_SERVER['PHP_SELF']);
+            OX_Admin_Redirect::redirect("$page?clientid=$clientid");        
         }
     }
 }
@@ -596,7 +614,6 @@ function getCampaignMap($advertiserId)
         $aCampaignMap[$campaignId] = array('name' => $campaignName);
     }
 
-
     return $aCampaignMap;
 }
 
@@ -606,7 +623,7 @@ function addPageTools($advertiserId, $campaignId)
     if (!($advertiserId > 0) || !($campaignId > 0)) {
         return;
     }
-
+    
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         addPageLinkTool($GLOBALS["strAddBanner_Key"], "banner-edit.php?clientid=$advertiserId&campaignid=$campaignId", "iconBannerAdd", $GLOBALS["strAddNew"] );
     }

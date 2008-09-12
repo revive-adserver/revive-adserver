@@ -38,28 +38,43 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (!empty($clientid)) { //check if client explicitly given
-    OA_Permission::enforceAccessToObject('clients', $clientid);
+if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser 
+    $page = basename($_SERVER['PHP_SELF']);
+    OX_Admin_Redirect::redirect($page);        
 }
 
-
+/*-------------------------------------------------------*/
+/* Init data                                             */
+/*-------------------------------------------------------*/
 //get advertisers and set the current one
 $aAdvertisers = getAdvertiserMap();
-if (empty($clientid)) {
-    $ids = array_keys($aAdvertisers);
+if (empty($clientid)) { //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid']) {
-        $clientid = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
+        //try previous one from session
+        $sessionClientId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
+        if (isset($aAdvertisers[$sessionClientId])) { //check if 'id' from session was not removed
+            $clientid = $sessionClientId;
+        }
     }
-    
-    if (!$clientid || !isset($aAdvertisers[$clientid])) { //check if 'current' from session was not removed 
-        $clientid = !empty($ids) ? $ids[0] : -1; //if no advertisers set to non-existent id 
-    }   
+    if (empty($clientid)) { //was empty, is still empty - just pick one, no need for redirect
+        $ids = array_keys($aAdvertisers);
+        $clientid = !empty($ids) ? $ids[0] : -1; //if no advertisers set to non-existent id
+    }
 }
+else {
+    if (!isset($aAdvertisers[$clientid])) {
+        $page = basename($_SERVER['PHP_SELF']);
+        OX_Admin_Redirect::redirect($page);        
+    }
+}
+
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

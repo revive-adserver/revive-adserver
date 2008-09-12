@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -43,10 +44,10 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
-
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-if (!empty($affiliateid)) { //check if client explicitly given
-    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $affiliateid)) { //check if can see given website 
+    $page = basename($_SERVER['PHP_SELF']);
+    OX_Admin_Redirect::redirect($page);        
 }
 
 /*-------------------------------------------------------*/
@@ -54,16 +55,26 @@ if (!empty($affiliateid)) { //check if client explicitly given
 /*-------------------------------------------------------*/
 //get websites and set the current one
 $aWebsites = getWebsiteMap();
-if (empty($affiliateid)) {
-    $ids = array_keys($aWebsites);
+if (empty($affiliateid)) { //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid']) {
-        $affiliateid = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'];
+        //try previous one from session
+        $sessionWebsiteId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'];
+        if (isset($aWebsites[$sessionWebsiteId])) { //check if 'id' from session was not removed
+            $affiliateid = $sessionWebsiteId;
+        }
     }
-    
-    if (!$affiliateid || !isset($aWebsites[$affiliateid])) { //check if 'current' from session was not removed 
-        $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set non-existent id 
-    }   
+    if (empty($affiliateid)) { //was empty, is still empty - just pick one, no need for redirect
+        $ids = array_keys($aWebsites);
+        $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set to non-existent id
+    }
 }
+else {
+    if (!isset($aWebsites[$affiliateid])) { //bad id, redirect 
+        $page = basename($_SERVER['PHP_SELF']);
+        OX_Admin_Redirect::redirect($page);        
+    }
+}
+
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -102,7 +113,7 @@ else {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-// Get clients & campaign and build the tree
+// Get websites and build the tree
 $doZones = OA_Dal::factoryDO('zones');
 $doZones->affiliateid = $affiliateid;
 $doZones->addListorderBy($listorder, $orderdirection);
