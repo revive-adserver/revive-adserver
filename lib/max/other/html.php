@@ -1301,6 +1301,17 @@ function MAX_zoneDelConfirm($zoneId)
            );
 }
 
+function OX_Display_ConversionWindowHTML($varName, $windowSeconds, &$tabindex, $enabled = true)
+{
+    $window = _secondsToWindowArray($windowSeconds);
+    echo "
+        " . (($enabled) ? "<input id='{$varName}daytrk' class='flat' type='text' size='3' name='{$varName}day' value='{$window['days']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' />" : $window['days']) . " {$GLOBALS['strDays']} &nbsp;&nbsp;
+        " . (($enabled) ? "<input id='{$varName}hourtrk' class='flat' type='text' size='3' name='{$varName}hour' value='{$window['hours']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' />" : $window['hours']) . " {$GLOBALS['strHours']} &nbsp;&nbsp;
+        " . (($enabled) ? "<input id='{$varName}minutetrk' class='flat' type='text' size='3' name='{$varName}minute' value='{$window['minutes']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' />" : $window['minutes']) . " {$GLOBALS['strMinutes']} &nbsp;&nbsp;
+        " . (($enabled) ? "<input id='{$varName}secondtrk' class='flat' type='text' size='3' name='{$varName}second' value='{$window['seconds']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' />" : $window['seconds']) . " {$GLOBALS['strSeconds']} &nbsp;&nbsp;
+    ";
+}
+
 // Determine whether an advertiser has an active placement/ad running under it...
 function _isAdvertiserActive($aAdvertiserPlacementAd)
 {
@@ -1343,6 +1354,27 @@ function _isPublisherActive($aPublisherZone)
 function _isZoneActive($aZone)
 {
     return true;  // for now, all zones are active.
+}
+
+function _secondsToWindowArray($seconds)
+{
+    $return['days'] = floor($seconds / (60*60*24));
+    $seconds = $seconds % (60*60*24);
+    $return['hours'] = floor($seconds / (60*60));
+    $seconds = $seconds % (60*60);
+    $return['minutes'] = floor($seconds / (60));
+    $seconds = $seconds % (60);
+    $return['seconds'] = $seconds;
+    return $return;
+}
+
+function _windowValuesToseconds($days, $hours, $minutes, $seconds)
+{
+    $days =    ($days > 0)    ? $days    : 0;
+    $hours =   ($hours > 0)   ? $hours   : 0;
+    $minutes = ($minutes > 0) ? $minutes : 0;
+    $seconds = ($seconds > 0) ? $seconds : 0;
+    return $days * (24*60*60) + $hours * (60*60) + $minutes * (60) + $seconds;
 }
 
 function _multiSort($array, $arg1, $arg2){

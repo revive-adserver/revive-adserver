@@ -79,9 +79,9 @@ $DIR_OUTPUT = opendir($output_dir);
 $header = file_get_contents($input_dir . 'template.php');
 $header = preg_replace('#(.*)ant generate-delivery(.*)\n+\{TEMPLATE\}.*#is', "$1php " . $_SERVER['SCRIPT_FILENAME'] . "$2\n", $header);
 
-require_once MAX_PATH . '/lib/OA/Util/CodeMunger.php';
-$codeMunger = new OX_Util_CodeMunger();
-$codeMunger->setHeader($header);
+require_once LIB_PATH . '/Util/CodeMunger.php';
+$oCodeMunger = new OX_Util_CodeMunger();
+$oCodeMunger->setHeader($header);
 
 // Process all files in the www/delivery_dev folder (except those being explicitly ignored)
 while ($file = readdir($DIR_INPUT)) {
@@ -98,8 +98,8 @@ while ($file = readdir($DIR_INPUT)) {
                 continue;
             }
             echo "Processing php file: {$file}\n";
-            $codeMunger->resetCounters();
-            $code = $codeMunger->finalCleanup($codeMunger->flattenFile($input_dir . $file));
+            $oCodeMunger->resetCounters();
+            $code = $oCodeMunger->finalCleanup($oCodeMunger->flattenFile($input_dir . $file));
             fwrite($FILE_OUT, $code);
             fclose($FILE_OUT);
         break;

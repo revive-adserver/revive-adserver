@@ -33,6 +33,8 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
 
+require_once LIB_PATH . '/Plugin/Component.php';
+
 require_once OX_PATH . '/lib/OX.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
@@ -42,10 +44,19 @@ require_once OX_PATH . '/lib/pear/Date.php';
  *
  * @static
  * @package    OpenXMaintenance
+ * @author     David Keen <david.keen@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OX_Maintenance_Distributed
 {
+
+    /**
+     * A array containing component objects, indexed by the component names.
+     *
+     * @var array
+     */
+    private $aBuckets;
+
     /**
      * A method to run distributed maintenance.
      */
@@ -57,36 +68,41 @@ class OX_Maintenance_Distributed
         }
 
         $oLock =& OA_DB_AdvisoryLock::factory();
-
-        if ($oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED))
+        if (!$oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED))
         {
-            OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
-
-            // Attempt to increase PHP memory
-            increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
-
-            $oDal = new OA_Dal_Maintenance_Distributed();
-
-            // Ensure the current time is registered with the OA_ServiceLocator
-            $oServiceLocator =& OA_ServiceLocator::instance();
-            $oNow =& $oServiceLocator->get('now');
-            if (!$oNow) {
-                // Record the current time, and register with the OA_ServiceLocator
-                $oNow = new Date();
-                $oServiceLocator->register('now', $oNow);
-            }
-
-            // Copy buckets' records with interval_start up to and including previous OI start.
-            $aPreviousOperationIntervalDates =
-                OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
-            $oDal->processBuckets($aPreviousOperationIntervalDates['start']);
-
-            $oLock->release();
-
-            OA::debug('Maintenance Distributed Engine Completed', PEAR_LOG_INFO);
-        } else {
             OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);
+            return;
         }
+
+        OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
+
+        // Attempt to increase PHP memory
+        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+
+        // Ensure the current time is registered with the OA_ServiceLocator
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oNow =& $oServiceLocator->get('now');
+        if (!$oNow) {
+            // Record the current time, and register with the OA_ServiceLocator
+            $oNow = new Date();
+            $oServiceLocator->register('now', $oNow);
+        }
+
+        // Get the components of the deliveryLog extension
+        $this->aBuckets = OX_Component::getComponents('deliveryLog');
+
+        // Copy buckets' records with "interval_start" up to and including previous OI start,
+        // and then prune the data processed
+        $aPreviousOperationIntervalDates =
+            OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
+        foreach ($this->aBuckets as $sBucketName => $oBucketClass) {
+            $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
+            $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
+        }
+
+        $oLock->release();
+
+        OA::debug('Maintenance Distributed Engine Completed', PEAR_LOG_INFO);
     }
 }
 

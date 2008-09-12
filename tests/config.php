@@ -92,7 +92,6 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'del'   => array('Delivery Engine',                     NO_DB),
         'ext'   => array('Extensions',                          NO_DB),
         'mtc'   => array('Maintenance Engine (DB)',             DB_WITH_TABLES),
-        'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),
         'mtp'   => array('Maintenance Priority Engine',         NO_DB),
         'mtpdb' => array('Maintenance Priority Engine (DB)',    DB_WITH_TABLES),
@@ -125,7 +124,8 @@ define($type . '_TEST_STORE', 'tests/integration');
 $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
         'cor' => array('Core',                                      NO_DB),
-        'mts' => array('Maintenance Statistics Engine (DB)',        DB_NO_TABLES),
+        'dal' => array('Data Abstraction Layer (DB)',               DB_WITH_TABLES),
+        'mts' => array('Maintenance Statistics Engine (DB)',        DB_WITH_TABLES),
         'mtp' => array('Maintenance Priority Engine (DB)',          DB_WITH_DATA),
         'mpe' => array('Maintenance Priority Engine (DB, No Data)', DB_WITH_TABLES),
         'up'  => array('Upgrade Classes',                           DB_WITH_TABLES),

@@ -29,14 +29,14 @@ $Id$
 require_once '../../init-delivery.php';
 
 // Required files
-require(MAX_PATH . '/lib/max/Delivery/cache.php');
+require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 // Register input variables
-if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid'])) {
-    $serverRawTrackerImpressionId = $_GET['server_raw_tracker_impression_id'];
-    $serverRawIp                  = $_GET['server_raw_ip'];
-    $trackerId                    = $_GET['trackerid'];
-    $variables = MAX_cacheGetTrackerVariables($trackerId);
-    MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp);
+if (!empty($_GET['server_conv_id']) && !empty($_GET['trackerid'])) {
+    $serverConvId = $_GET['server_conv_id'];
+    $serverRawIp  = $_GET['server_raw_ip'];
+    $trackerId    = $_GET['trackerid'];
+    $aVariables   = MAX_cacheGetTrackerVariables($trackerId);
+    MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp);
 }
 
 ?>

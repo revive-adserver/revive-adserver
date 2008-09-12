@@ -32,7 +32,7 @@ require_once 'XML/Parser.php';
 /**
  * Parses an XML plugin install file
  *
- * @package OpenX Plugins
+ * @package OpenXPlugin
  * @author  Monique Szpak <monique.szpak@openx.org>
  */
 class OX_ParserBase extends XML_Parser

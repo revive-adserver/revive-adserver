@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -25,28 +25,35 @@
 $Id$
 */
 
-require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategy.php';
+require_once LIB_PATH . '/Extension/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 
 /**
- * A MySQL specific BucketProcessingStrategy class to migrate aggregate buckets.
- * 
- * @package    OpenXPlugin
- * @subpackage Plugins_DeliveryLog
+ * The default OX_Extension_DeliveryLog_BucketProcessingStrategy for MySQL,
+ * to migrate data from aggregate buckets from OpenX delivery (edge) servers,
+ * as well as from any intermediate aggregation servers, to an upstream
+ * aggregation server, or the upstream central database server.
+ *
+ * Should be used by any plugin component that uses the deliveryLog extension,
+ * and that has aggregate bucket data that needs to be migrated when running
+ * OpenX in distributed statistics mode.
+ *
+ * @package    OpenXExtension
+ * @subpackage DeliveryLog
  * @author     David Keen <david.keen@openx.org>
  */
-class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
-    implements Plugins_DeliveryLog_BucketProcessingStrategy
+class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysql implements OX_Extension_DeliveryLog_BucketProcessingStrategy
 {
+
     /**
      * Process an aggregate-type bucket.  This is MySQL specific.
      *
-     * @param Plugins_DeliveryLog_LogCommon $oBucket a reference to the using (context) object.
+     * @param Plugins_DeliveryLog $oBucket a reference to the using (context) object.
      * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
      */
     public function processBucket($oBucket, $oEnd)
     {
-        $sTableName = $oBucket->getTableBucketName();
+        $sTableName = $oBucket->getBucketTableName();
         $oMainDbh =& OA_DB_Distributed::singleton();
 
         if (PEAR::isError($oMainDbh)) {
@@ -64,7 +71,7 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
             $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
             $query      = '';
             $aExecQueries = array();
-            
+
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
                 $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
@@ -74,7 +81,7 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
             }
 
             if (count($aExecQueries)) {
-                // Disable the binlog for the inserts so we don't 
+                // Disable the binlog for the inserts so we don't
                 // replicate back out over our logged data.
                 $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
                 if (PEAR::isError($result)) {
@@ -89,31 +96,37 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
             }
         }
     }
-    
+
     /**
      * A method to prune a bucket of all records up to and
      * including the timestamp given.
      *
-     * @param Date   $oEnd Prune until this interval_start (inclusive).
+     * @param Date $oEnd   Prune until this interval_start (inclusive).
+     * @param Date $oStart Only prune before this interval_start date (inclusive)
+     *                     as well. Optional.
      */
-    public function pruneBucket($oBucket, $oEnd)
+    public function pruneBucket($oBucket, $oEnd, $oStart = null)
     {
-        $sTableName = $oBucket->getTableBucketName();
-        OA::debug(' - Pruning ' . $sTableName . ' until ' . 
-            $oEnd->format('%Y-%m-%d %H:%M:%S'));
-
+        $sTableName = $oBucket->getBucketTableName();
+        if (!is_null($oStart)) {
+            OA::debug('  - Pruning the ' . $sTableName . ' table for data between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+        } else {
+            OA::debug('  - Pruning the ' . $sTableName . ' table for all data before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+        }
         $query = "
-              DELETE FROM
-              {$sTableName}
-              WHERE
-                interval_start <= ".
-                    DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'))."
-            ";
-        
+            DELETE FROM
+                {$sTableName}
+            WHERE
+                interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
+        if (!is_null($oStart)) {
+            $query .= "
+                AND
+                date_time >= " . DBC::makeLiteral($oStart->format('%Y-%m-%d %H:%M:%S'));
+        }
         $oDbh = OA_DB::singleton();
         return $oDbh->exec($query);
     }
-    
+
     /**
      * A method to retrieve the table content as a recordset.
      *
@@ -125,11 +138,11 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
     {
         $query = "
             SELECT
-             *
+                *
             FROM
-             {$sTableName}
+                {$sTableName}
             WHERE
-              interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
+                interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
         $rsDataRaw = DBC::NewRecordSet($query);
         $rsDataRaw->find();
 

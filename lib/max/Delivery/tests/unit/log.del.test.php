@@ -187,500 +187,6 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * A method to test the _prepareLogInfo() function.
-     */
-    function test_prepareLogInfo()
-    {
-        // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
-        // options can be changed while the test is running
-        $conf = &$GLOBALS['_MAX']['CONF'];
-
-        // Prepare the test environment by setting the remove IP
-        // address, removing the remote host name, referer,
-        // user-agent, and channels
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        unset($_SERVER['REMOTE_HOST']);
-        unset($_SERVER['HTTP_REFERER']);
-        unset($_SERVER['HTTP_USER_AGENT']);
-        unset($GLOBALS['_MAX']['CHANNELS']);
-
-        // Set a non-SSL port
-        $_SERVER['SERVER_PORT'] = 80;
-
-
-
-        // Test 1: No geotargeting, no phpSniff and no page
-        //         info logging
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = false;
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 2: As for test one, BUT NOW WITH
-        //         GEOTARGETING ENABLED, BUT NO
-        //         GEO DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = true;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = false;
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 3: As for test two, BUT NOW WITH
-        //         GEO DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = true;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = false;
-
-        // Set some geotargeting data
-        $GLOBALS['_MAX']['CLIENT_GEO']['country_code']  = 'US';
-        $GLOBALS['_MAX']['CLIENT_GEO']['country_name']  = 'United States';
-        $GLOBALS['_MAX']['CLIENT_GEO']['region']        = 'VA';
-        $GLOBALS['_MAX']['CLIENT_GEO']['city']          = 'Herndon';
-        $GLOBALS['_MAX']['CLIENT_GEO']['postal_code']   = '20171';
-        $GLOBALS['_MAX']['CLIENT_GEO']['latitude']      = '38.9252';
-        $GLOBALS['_MAX']['CLIENT_GEO']['longitude']     = '-77.3928';
-        $GLOBALS['_MAX']['CLIENT_GEO']['dma_code']      = '42';
-        $GLOBALS['_MAX']['CLIENT_GEO']['area_code']     = '00';
-        $GLOBALS['_MAX']['CLIENT_GEO']['organisation']  = 'Foo';
-        $GLOBALS['_MAX']['CLIENT_GEO']['isp']           = 'Bar';
-        $GLOBALS['_MAX']['CLIENT_GEO']['netspeed']      = 'Unknown';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'],       'VA');
-        $this->assertEqual($geotargeting['city'],         'Herndon');
-        $this->assertEqual($geotargeting['postal_code'],  '20171');
-        $this->assertEqual($geotargeting['latitude'],     '38.9252');
-        $this->assertEqual($geotargeting['longitude'],    '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'],     '42');
-        $this->assertEqual($geotargeting['area_code'],    '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'],          'Bar');
-        $this->assertEqual($geotargeting['netspeed'],     'Unknown');
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 4: As for test one, BUT NOW WITH
-        //         phpSniff ENABLED, BUT NO CLIENT
-        //         DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = true;
-        $conf['logging']['pageInfo']       = false;
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 5: As for test four, BUT NOW WITH
-        //         CLIENT DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = true;
-        $conf['logging']['pageInfo']       = false;
-
-        // Set some client data
-        $GLOBALS['_MAX']['CLIENT']['os'] = '2k';
-        $GLOBALS['_MAX']['CLIENT']['long_name'] = 'msie';
-        $GLOBALS['_MAX']['CLIENT']['browser'] = 'ie';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($userAgentInfo['os'], '2k');
-        $this->assertEqual($userAgentInfo['long_name'], 'msie');
-        $this->assertEqual($userAgentInfo['browser'], 'ie');
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 6: As for test one, BUT NOW WITH
-        //         pageInfo ENABLED, BUT NO LOC
-        //         OR HTTP_REFERER DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = true;
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 7: As for test six, BUT NOW WITH
-        //         LOC DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = true;
-
-        // Set a passed in referer location
-        $_GET['loc'] = 'http://www.example.com/test.html';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($zoneInfo['scheme'], 0);
-        $this->assertEqual($zoneInfo['host'], 'www.example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.html');
-        $this->assertNull($zoneInfo['query']);
-        $this->assertNull($zoneInfo['channel_ids']);
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 8: As for test six, BUT NOW WITH
-        //         HTTP_REFERER DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = true;
-
-        // Unset the passed in referer location from before
-        unset($_GET['loc']);
-
-        // Set a normal referer location
-        $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($zoneInfo['scheme'], 1);
-        $this->assertEqual($zoneInfo['host'], 'example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.php');
-        $this->assertEqual($zoneInfo['query'], 'foo=bar');
-        $this->assertNull($zoneInfo['channel_ids']);
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 9: As for test six, BUT NOW WITH
-        //         LOC AND HTTP_REFERER DATA AVAILABLE
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = true;
-
-        // Set a passed in referer location
-        $_GET['loc'] = 'http://www.example.com/test.html';
-
-        // Set a normal referer location
-        $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($zoneInfo['scheme'], 0);
-        $this->assertEqual($zoneInfo['host'], 'www.example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.html');
-        $this->assertNull($zoneInfo['query']);
-        $this->assertNull($zoneInfo['channel_ids']);
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 10: As for test nine, BUT WITH CHANNEL
-        //          ID VALUES SET
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = true;
-
-        // Set an "array" of channel ids
-        $GLOBALS['_MAX']['CHANNELS'] = '|1|2|3|';
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($zoneInfo['scheme'], 0);
-        $this->assertEqual($zoneInfo['host'], 'www.example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.html');
-        $this->assertNull($zoneInfo['query']);
-        $this->assertEqual($zoneInfo['channel_ids'], '|1|2|3|');
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 0);
-
-
-
-        // Test 11: As for test one, BUT WITH AN SSL
-        //          SERVER PORT
-        $conf['geotargeting']['type']      = null;
-        $conf['geotargeting']['saveStats'] = false;
-        $conf['logging']['sniff']          = false;
-        $conf['logging']['pageInfo']       = false;
-
-        // Set the server port
-        $_SERVER['SERVER_PORT'] = $conf['openads']['sslPort'];
-
-        // Ensure initialisation data preparation is done
-        MAX_remotehostProxyLookup();
-        MAX_remotehostReverseLookup();
-        MAX_remotehostSetClientInfo();
-        MAX_remotehostSetGeoInfo();
-
-        // Unset the result information variables
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-
-        // Call _prepareLogInfo()
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-
-        // Test the results
-        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        foreach($geotargeting as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($zoneInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        foreach($userAgentInfo as $check) {
-            $this->assertTrue(empty($check));
-        }
-        $this->assertEqual($maxHttps, 1);
-
-
-
-        // Reset the configuration
-        TestEnv::restoreConfig();
-    }
-
-    /**
      * A method to test the MAX_Delivery_log_getArrGetVariable() function.
      *
      * Requirements:
@@ -774,6 +280,64 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertTrue(is_array($aArray));
         $this->assertEqual(count($aArray), 1);
         $this->assertEqual($aArray[5], 0);
+    }
+
+    /**
+     * A method to test the MAX_Delivery_log_isClickBlocked() function.
+     *
+     * Requirements:
+     * Test 1: Test with a 0 seconds click block looging window (block logging no active)
+     *         and ensure that false is returned.
+     * Test 2: Test with a click block looging window bigger than 0 seconds and an add
+     *         not clicked yet, and ensure that false is returned.
+     * Test 3: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked that still in the click block logging window, and ensure that
+     *         true is returned.
+     * Test 4: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked the same time ago that the click block logging window's lenght,
+     *         and ensure that true is returned.
+     * Test 5: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked with the click block logging window expired, and ensure that
+     *         false is returned.
+     */
+    function test_MAX_Delivery_log_isClickBlocked()
+    {
+        $timeNow = MAX_commonGetTimeNow();
+
+        $add1ClickTime = MAX_commonCompressInt($timeNow - 60);
+        $add3ClickTime = MAX_commonCompressInt($timeNow - 30);
+        $add9ClickTime = MAX_commonCompressInt($timeNow - 15);
+
+        $aBlockLoggingClick = array(
+                                  1 => $add1ClickTime,
+                                  3 => $add3ClickTime,
+                                  9 => $add9ClickTime
+                              );
+
+        // Test 1
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 0;
+        $aReturn = MAX_Delivery_log_isClickBlocked(1, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
+
+        // Test 2
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(2, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
+
+        // Test 3
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(9, $aBlockLoggingClick);
+        $this->assertTrue($aReturn);
+
+        // Test 4
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(3, $aBlockLoggingClick);
+        $this->assertTrue($aReturn);
+
+        // Test 5
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(1, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
     }
 
 }

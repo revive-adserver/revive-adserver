@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/LogCompletion.php';
+require_once LIB_PATH . '/Maintenance/Statistics/Task/LogCompletion.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
@@ -232,7 +232,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oServiceLocator->register('now', $oNowDate);
 
         // Insert the fact that the MSE has run "now" (but before the MPE)
-        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
         $oLogCompletion->oController->updateIntermediate = true;
         $oLogCompletion->oController->updateFinal        = true;
         $oLogCompletion->oController->oUpdateIntermediateToDate = $aDates['end'];

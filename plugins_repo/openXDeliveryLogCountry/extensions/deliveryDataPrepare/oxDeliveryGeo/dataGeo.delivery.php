@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -24,9 +25,11 @@
 $Id$
 */
 
-// if (isset($aConf['geotargeting']['saveStats'])
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLogCountry
+ */
 
-// decide if entire geotargeting should be moved in here
 function Plugins_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
 {
     // prevent from running twice

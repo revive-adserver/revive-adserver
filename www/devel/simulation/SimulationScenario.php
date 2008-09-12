@@ -34,9 +34,10 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/tests/testClasses/OATestData_MDB2Schema.php';
+
+require_once LIB_PATH . '/Maintenance/Statistics.php';
 
 /**
  * A class for simulating maintenance/delivery scenarios
@@ -498,7 +499,7 @@ class SimulationScenario
     function runMaintenance()
     {
         $this->printHeading('Starting Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
-        OA_Maintenance_Statistics::run();
+        OX_Maintenance_Statistics::run();
         $this->printHeading('End Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
     }
 

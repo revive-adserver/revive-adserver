@@ -1442,8 +1442,8 @@ class OX_Plugin_ComponentGroupManager
         foreach ($aTaskList as $aTask)
         {
             $this->_logMessage('Executing '.$aTask['method'].' for '.$name);
-            $result = call_user_func_array(array($this,$aTask['method']),$aTask['params']);
-            if(!$result)
+            $result = call_user_func_array(array($this, $aTask['method']), $aTask['params']);
+            if (!$result)
             {
                 $this->_logError('Task failed '.$aTask['method']);
                 if ($aUndoList)

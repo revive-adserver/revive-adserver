@@ -25,11 +25,14 @@
 $Id$
 */
 
-/**
- * Table Definition for data_bkt_c
- */
 require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
+/**
+ * DB_DataObject for data_bkt_c
+ *
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
 class DataObjects_Data_bkt_c extends DB_DataObjectCommon
 {
     ###START_AUTOCODE

@@ -85,6 +85,7 @@ class OA_Dal_Statistics extends OA_Dal
                             $aConf['table']['prefix'].$aConf['table'][$tableName],
                             true);
     }
+
 }
 
 ?>

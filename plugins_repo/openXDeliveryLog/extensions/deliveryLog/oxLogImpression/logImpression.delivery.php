@@ -25,13 +25,18 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 function Plugin_deliveryLog_OxLogImpression_LogImpression_Delivery_logImpression()
 {
-    $data = $GLOBALS['_MAX']['deliveryData'];
+    $aData = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
-        'interval_start' => $data['interval_start'],
-        'creative_id'    => $data['creative_id'],
-        'zone_id'        => $data['zone_id'],
+        'interval_start' => $aData['interval_start'],
+        'creative_id'    => $aData['creative_id'],
+        'zone_id'        => $aData['zone_id']
     );
     return OX_bucket_updateTable('data_bkt_m', $aQuery);
 }

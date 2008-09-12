@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for ox_banners_ox_adsense
+ * DB_DataObject for ox_banners_ox_adsense
  */
 require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 

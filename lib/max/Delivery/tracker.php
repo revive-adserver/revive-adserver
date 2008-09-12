@@ -26,12 +26,11 @@ $Id$
 */
 
 /**
- * @package OpenXDelivery
+ * @package    OpenXDelivery
  * @subpackage Trackers
- * @author chris@m3.net
+ * @author     Chris Nutting <chris.nutting@openx.org>
  *
  */
-
 
 /**
  * This function builds the JavaScript to track variables for a tracker-impression via JavaScript
@@ -126,7 +125,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         if (!empty($variableQuerystring)) {
             $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid&server_raw_tracker_impression_id={$conversionInfo['server_raw_tracker_impression_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
+    document.write (\"$url?trackerid=$trackerid&server_conv_id={$conversionInfo['server_conv_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
             $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
         }
     }
@@ -145,6 +144,97 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         $buffer = "document.write(\"\");";
     }
     return $buffer;
+}
+
+/**
+ * This function checks if the specified tracker connects back to a valid action
+ *
+ * @param integer $trackerid The ID of the tracker to look up in the database
+ * @return mixed If action occured: array indexed on [#s since action] => array('type' => <connection type>, 'id' => <creative ID>
+ *               else false
+ */
+function MAX_trackerCheckForValidAction($trackerid)
+{
+    // Get all creatives that are linked to this tracker
+    $aTrackerLinkedAds = MAX_cacheGetTrackerLinkedCreatives($trackerid);
+
+    // This tracker is not linked to any creatives
+    if (empty($aTrackerLinkedAds)) {
+        return false;
+    }
+
+    // Note: Constants are not included n the delivery engine, the values below map to the values defined in constants.php
+    $aPossibleActions = _getActionTypes();
+
+    $now = MAX_commonGetTimeNow();
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $aMatchingActions = array();
+
+    // Iterate over all creatives linked to this tracker...
+    foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
+        // Iterate over all possible actions (currently only "view" and "click")
+        foreach ($aPossibleActions as $actionId => $action) {
+            // If there is both a connection window set, and this creative has been actioned
+            if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
+                list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
+                // Decode the base32 timestamp
+                $lastAction = MAX_commonUnCompressInt($lastAction);
+
+                // Calculate how long ago this action occured
+                $lastSeenSecondsAgo = $now - $lastAction;
+                // If the action occured within the window (and sanity check that it's > 0), record this as a matching action
+                if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
+                    // Index the matching array against the # seconds ago that the action occured
+                    $aMatchingActions[$lastSeenSecondsAgo] = array(
+                        'action_type'   => $actionId,
+                        'tracker_type'  => $aLinkedInfo['tracker_type'],
+                        'status'        => $aLinkedInfo['status'],
+                        'cid'           => $creativeId,
+                        'zid'           => $zoneId,
+                        'dt'            => $lastAction,
+                        'window'        => $aLinkedInfo[$action . '_window'],
+                    );
+                }
+            }
+        }
+    }
+
+    // If no actions matched, return false
+    if (empty($aMatchingActions)) {
+        return false;
+    }
+
+    // Sort by ascending #seconds since action
+    ksort($aMatchingActions);
+    // Return the first matching action
+    return array_shift($aMatchingActions);
+}
+
+function MAX_trackerDeleteActionFromCookie($aConnection)
+{
+    $trackerTypes = _getTrackerTypes();
+    if ($trackerTypes[$aConnection['tracker_type']] != 'sale') {
+        // We only clear the cookie information for "sale" trackers
+        return;
+    }
+    // Haven't planned how this will be achieved yet...
+    // The cookie packing mechanism wasn't built to allow deleting items from the compacted array
+    // I'm guessing something like set _cookieName[adId] = "false", then unset from packed when recompacting
+    $actionTypes = _getActionTypes();
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
+    $cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
+    MAX_cookieAdd($cookieName, 'false', _getTimeThirtyDaysFromNow());
+}
+
+function _getActionTypes()
+{
+    return array(0 => 'view', 1 => 'click');
+}
+
+function _getTrackerTypes()
+{
+    return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
 }
 
 ?>

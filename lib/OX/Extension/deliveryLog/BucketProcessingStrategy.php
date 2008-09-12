@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -27,14 +27,18 @@ $Id$
 
 /**
  * The BucketProcessingStrategy interface
- * 
- * @package    OpenXPlugin
- * @subpackage Plugins_DeliveryLog
+ *
+ * @package    OpenXExtension
+ * @subpackage DeliveryLog
  * @author     David Keen <david.keen@openx.org>
  */
-interface Plugins_DeliveryLog_BucketProcessingStrategy {
+interface OX_Extension_DeliveryLog_BucketProcessingStrategy {
+
     public function processBucket($oBucket, $oEnd);
+
     public function pruneBucket($oBucket, $oEnd);
+
+
 }
 
 ?>

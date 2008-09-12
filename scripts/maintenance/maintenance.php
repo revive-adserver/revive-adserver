@@ -56,11 +56,11 @@ if (!ini_get('safe_mode')) {
 
 // Required files
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
 require_once OX_PATH . '/lib/OX.php';
+require_once LIB_PATH . '/Maintenance.php';
 
-$oMaint = new OA_Maintenance();
+$oMaint = new OX_Maintenance();
 $oMaint->run();
 
 // Update scheduled maintenance last run record

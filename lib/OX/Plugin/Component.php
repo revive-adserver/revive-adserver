@@ -41,7 +41,7 @@ define('OX_COMPONENT_SUFFIX', '.class.php');
  * @static
  * @package    OpenXPlugin
  * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrew Hill <andrew@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek@openx.org>
  */
 class OX_Component
@@ -178,7 +178,8 @@ class OX_Component
      *                         If an integer, returns all components in the given
      *                         extension (and group, if specified) and subdirectories
      *                         thereof, down to the depth specified by the parameter.
-     * @param boolean $enabledOnly Only return components which are enabled
+     * @param boolean $enabledOnly Only return components which are contained in plugins
+     *                             which are enabled.
      * @return array An array of component objects, indexed as specified by the
      *               $onlyComponentNameAsIndex parameter.
      */
@@ -186,17 +187,19 @@ class OX_Component
     {
         $aComponents = array();
         $aGroups = self::_getComponentsFiles($extension, $group, $recursive);
-        foreach ($aGroups as $group => $aComponentFiles)
-        {
-            if (self::_isGroupInstalled($group))
+        if (is_array($aGroups)) {
+            foreach ($aGroups as $group => $aComponentFiles)
             {
-                foreach ($aComponentFiles as $i => $file)
+                if (self::_isGroupInstalled($group))
                 {
-                    $component = str_replace(OX_COMPONENT_SUFFIX, '', $file);
-                    $oComponent = self::factory($extension, $group, $component);
-                    if ($oComponent !== false && (!$enabledOnly || $oComponent->enabled == true))
+                    foreach ($aComponentFiles as $i => $file)
                     {
-                        $aComponents[$oComponent->getComponentIdentifier()] = $oComponent;
+                        $component = str_replace(OX_COMPONENT_SUFFIX, '', $file);
+                        $oComponent = self::factory($extension, $group, $component);
+                        if ($oComponent !== false && (!$enabledOnly || $oComponent->enabled == true))
+                        {
+                            $aComponents[$oComponent->getComponentIdentifier()] = $oComponent;
+                        }
                     }
                 }
             }

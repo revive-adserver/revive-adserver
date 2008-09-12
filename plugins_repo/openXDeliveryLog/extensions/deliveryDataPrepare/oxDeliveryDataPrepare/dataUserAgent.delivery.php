@@ -25,6 +25,11 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 // if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT']))
 // @todo should the call to browser sniffer library be moved in here?
 

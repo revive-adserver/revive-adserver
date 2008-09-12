@@ -27,6 +27,9 @@ $Id$
 
 require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
 
+/**
+ * @package    OpenXExtension
+ */
 class OX_Extension_admin extends OX_Extension_Common
 {
     function __construct()

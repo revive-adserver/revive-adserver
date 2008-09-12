@@ -64,8 +64,7 @@ if (!empty($row['html'])) {
     // but this type of ad doesn't work with beacons, so the impression must
     // be logged here
     if ($conf['logging']['adImpressions']) {
-        $userid = MAX_cookieGetUniqueViewerID();
-        MAX_Delivery_log_logAdImpression($userid, $row['bannerid'], null, $zoneid);
+        MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
     }
     // Redirect to the banner
     MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));

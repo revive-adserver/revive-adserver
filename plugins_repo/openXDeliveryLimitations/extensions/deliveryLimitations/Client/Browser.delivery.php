@@ -27,8 +27,8 @@ $Id$
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';

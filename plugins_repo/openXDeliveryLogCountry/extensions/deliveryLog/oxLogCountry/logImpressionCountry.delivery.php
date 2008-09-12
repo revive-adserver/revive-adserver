@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -23,6 +24,11 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLogCountry
+ */
 
 function Plugin_deliveryLog_oxLogCountry_logImpressionCountry_Delivery_logImpression()
 {

@@ -25,6 +25,11 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
     // prevent from running twice

@@ -312,7 +312,13 @@ class MAX_Dal_Common
 
     function _getTablename($tableName)
     {
-        return $this->oDbh->quoteIdentifier($this->_getTablenameUnquoted($tableName), true);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (preg_match("/^{$aConf['table']['prefix']}/", $tableName)) {
+            $userTable = $tableName;
+        } else {
+            $userTable = $aConf['table']['prefix'] . $tableName;
+        }
+        return $this->oDbh->quoteIdentifier($this->_getTablenameUnquoted($userTable), true);
     }
 
     function _getTablenameUnquoted($tableName)

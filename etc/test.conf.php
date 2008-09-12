@@ -172,6 +172,7 @@ defaultClickConnectionWindow        =
 ignoreHosts                         =         ; Comma separated list of hosts
 ignoreUserAgents                    =         ; Pipe separated list of user-agents to ignore
 enforceUserAgents                   =         ; Pipe separated list of user-agents to enforce
+blockAdClicksWindow                 = 0      ; window for block clicks logging in seconds
 
 [maintenance]
 autoMaintenance                     = 1
@@ -343,7 +344,9 @@ sessionCapZone      = OASZCAP       ; Used for passing session zone capping cook
 vars                = OAVARS        ; Used for passing variables
 trackonly           = trackonly     ; Used to avoid redirecting after a click
 openads             = openads       ; Used as identifier for the adsense click tracking comments
-
+lastView            = OXLIA         ; Used to track the last time an ad was viewed
+lastClick           = OXLCA         ; Used to track the last time an ad was clicked
+blockLoggingClick     = OXBLC         ; Used to log the last time an ad was clicked
 
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;

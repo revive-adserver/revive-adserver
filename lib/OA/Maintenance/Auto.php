@@ -72,8 +72,8 @@ class OA_Maintenance_Auto
 
         	OA_Preferences::loadAdminAccountPreferences();
 
-		    require_once MAX_PATH . '/lib/OA/Maintenance.php';
-			$oMaint = new OA_Maintenance();
+		    require_once LIB_PATH . '/Maintenance.php';
+			$oMaint = new OX_Maintenance();
 			$oMaint->run();
 			$oLock->release();
 

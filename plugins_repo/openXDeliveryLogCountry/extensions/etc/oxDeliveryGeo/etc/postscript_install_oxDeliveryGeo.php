@@ -27,12 +27,14 @@ $Id$
 
 $className = 'postscript_install_oxDeliveryGeo';
 
-require_once MAX_PATH . '/extensions/deliveryLog/Setup.php';
+require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
 
 /**
  * Installs any additional data after the plugins are installed
  * (before they are enabled)
  *
+ * @package    Plugin
+ * @subpackage openxDeliveryLogCountry
  */
 class postscript_install_oxDeliveryGeo
 {
@@ -57,7 +59,7 @@ class postscript_install_oxDeliveryGeo
      */
     function execute()
     {
-        $setup = new OX_Plugins_DeliveryLog_Setup();
-        return $setup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
+        $oSetup = new OX_Extension_DeliveryLog_Setup();
+        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
     }
 }

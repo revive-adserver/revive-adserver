@@ -34,7 +34,7 @@ require_once LIB_PATH.'/Plugin/ParserBase.php';
 /**
  * Parses an XML plugin install file
  *
- * @package OpenX Plugins
+ * @package OpenXPlugin
  * @author  Monique Szpak <monique.szpak@openx.org>
  */
 class OX_ParserPlugin extends OX_ParserBase

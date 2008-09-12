@@ -39,19 +39,9 @@ require_once LIB_PATH . '/Plugin/Component.php';
 phpAds_registerGlobal (
      'action'
     ,'campaignids'
-    ,'clickwindowday'
-    ,'clickwindowhour'
-    ,'clickwindowminute'
-    ,'clickwindows'
-    ,'clickwindowsecond'
     ,'hideinactive'
     ,'statusids'
     ,'submit'
-    ,'viewwindowday'
-    ,'viewwindowhour'
-    ,'viewwindowminute'
-    ,'viewwindows'
-    ,'viewwindowsecond'
 );
 
 // Security check
@@ -85,19 +75,12 @@ if (!empty($trackerid)) {
                 $clickwindow = $clickwindowday[$i] * (24*60*60) + $clickwindowhour[$i] * (60*60) + $clickwindowminute[$i] * (60) + $clickwindowsecond[$i];
                 $viewwindow = $viewwindowday[$i] * (24*60*60) + $viewwindowhour[$i] * (60*60) + $viewwindowminute[$i] * (60) + $viewwindowsecond[$i];
 
-                $fields = array("campaignid", "trackerid", "status", "viewwindow", "clickwindow");
+                $aFields = array("campaignid", "trackerid", "status", "viewwindow", "clickwindow");
                 $values = array($campaignids[$i], $trackerid, $statusids[$i], $viewwindow, $clickwindow);
 
-                foreach ($plugins as $plugin) {
-                    $dbField = strtolower($plugin->trackerEvent) . "window";
-                    $value = ${$dbField."day"}[$i] * (24*60*60) + ${$dbField."hour"}[$i] * (60*60) + ${$dbField."minute"}[$i] * (60) + ${$dbField."second"}[$i];
-                    $fields[] = $dbField;
-                    $values[] = $value;
-                }
-
                 $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
-                for ($k = 0; $k < count($fields); $k++) {
-                    $field = $fields[$k];
+                for ($k = 0; $k < count($aFields); $k++) {
+                    $field = $aFields[$k];
                     $doCampaign_trackers->$field = $values[$k];
                 }
                 $doCampaign_trackers->insert();
@@ -151,7 +134,7 @@ $aOtherAdvertisers = array();
 while ($doClients->fetch() && $row = $doClients->toArray()) {
     $aOtherAdvertisers[] = $row;
 }
-MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);  
+MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);
 
 $doTrackers = OA_Dal::factoryDO('trackers');
 if ($doTrackers->get($trackerid)) {
@@ -269,7 +252,7 @@ if ($doCampaigns->getRowCount() == 0) {
 
             // Name
             if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
-                echo "<a href='campaign-edit.php?clientid=".$campaign['clientid']."&campaignid=".$campaign['campaignid']."'>";
+                echo "<a href='campaign-trackers.php?clientid=".$campaign['clientid']."&campaignid=".$campaign['campaignid']."'>";
                 echo htmlspecialchars(phpAds_breakString ($campaign['campaignname'], '60'))."</a>";
             } else {
                 echo htmlspecialchars(phpAds_breakString ($campaign['campaignname'], '60'));
@@ -299,24 +282,8 @@ if ($doCampaigns->getRowCount() == 0) {
             echo "</select>\n";
             echo "</td>\n";
 
-            $seconds_left = $defaults['clickwindow'];
-            if (isset($campaign_tracker_row[$campaign['campaignid']]))
-                $seconds_left = $campaign_tracker_row[$campaign['campaignid']]['clickwindow'];
-
-            $clickwindowday = floor($seconds_left / (60*60*24));
-            $seconds_left = $seconds_left % (60*60*24);
-            $clickwindowhour = floor($seconds_left / (60*60));
-            $seconds_left = $seconds_left % (60*60);
-            $clickwindowminute = floor($seconds_left / (60));
-            $seconds_left = $seconds_left % (60);
-            $clickwindowsecond = $seconds_left;
-
-            // Click Window
-            echo "<td nowrap>".$strClick."&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo "<input id='clickwindowdaycmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='clickwindowday[]' value='".$clickwindowday."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-            echo "<input id='clickwindowhourcmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='clickwindowhour[]' value='".$clickwindowhour."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-            echo "<input id='clickwindowminutecmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='clickwindowminute[]' value='".$clickwindowminute."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-            echo "<input id='clickwindowsecondcmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='clickwindowsecond[]' value='".$clickwindowsecond."' onBlur=\"phpAds_formLimitBlur('".$campaign['campaignid']."');\" onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
+            echo "<td nowrap>".$strView."&nbsp;&nbsp;&nbsp;&nbsp;";
+            OX_Display_ConversionWindowHTML('viewwindow', $campaign['viewwindow'], $tabindex, false);
             echo "</td>";
 
             echo "\t\t\t\t</tr>\n";
@@ -332,61 +299,12 @@ if ($doCampaigns->getRowCount() == 0) {
             echo "<td>&nbsp;</td>";
             echo "<td>&nbsp;</td>";
 
-            $seconds_left = $defaults['viewwindow'];
-            if (isset($campaign_tracker_row[$campaign['campaignid']]))
-                $seconds_left = $campaign_tracker_row[$campaign['campaignid']]['viewwindow'];
-
-            $viewwindowday = floor($seconds_left / (60*60*24));
-            $seconds_left = $seconds_left % (60*60*24);
-            $viewwindowhour = floor($seconds_left / (60*60));
-            $seconds_left = $seconds_left % (60*60);
-            $viewwindowminute = floor($seconds_left / (60));
-            $seconds_left = $seconds_left % (60);
-            $viewwindowsecond = $seconds_left;
-
-            // View Window
-            echo "<td nowrap>".$strView."&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo "<input id='viewwindowdaycmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='viewwindowday[]' value='".$viewwindowday."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-            echo "<input id='viewwindowhourcmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='viewwindowhour[]' value='".$viewwindowhour."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-            echo "<input id='viewwindowminutecmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='viewwindowminute[]' value='".$viewwindowminute."' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-            echo "<input id='viewwindowsecondcmp".$campaign['campaignid']."' class='flat' type='text' size='3' name='viewwindowsecond[]' value='".$viewwindowsecond."' onBlur=\"phpAds_formLimitBlur('".$campaign['campaignid']."');\" onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
+            echo "<td nowrap>".$strClick."&nbsp;&nbsp;&nbsp;&nbsp;";
+            OX_Display_ConversionWindowHTML('clickwindow', $campaign['clickwindow'], $tabindex, false);
             echo "</td>";
 
             // End row
             echo "</tr>"."\n";
-
-            foreach ($plugins as $plugin) {
-                $fieldName = strtolower($plugin->trackerEvent);
-                $seconds_left = $tracker[$fieldName . 'window'];
-                if (isset($campaign_tracker_row[$campaign['campaignid']])) {
-                    $seconds_left = $campaign_tracker_row[$campaign['campaignid']][$fieldName . 'window'];
-                }
-                $days = floor($seconds_left / (60*60*24));
-                $seconds_left = $seconds_left % (60*60*24);
-                $hours = floor($seconds_left / (60*60));
-                $seconds_left = $seconds_left % (60*60);
-                $minutes = floor($seconds_left / (60));
-                $seconds_left = $seconds_left % (60);
-                $seconds = $seconds_left;
-
-                // Mini Break Line
-                echo "\t\t\t\t<tr height='1'>\n";
-                echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>\n";
-                echo "\t\t\t\t\t<td colspan='3'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
-                echo "\t\t\t\t</tr>\n";
-
-                echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
-                echo "<td>&nbsp;</td>";
-                echo "<td>&nbsp;</td>";
-                echo "<td>&nbsp;</td>";
-
-                echo "<td nowrap>" . ucfirst($fieldName) . "&nbsp;&nbsp;";
-                echo "<input id='{$fieldName}windowdaycmp{$campaign['campaignid']}' class='flat' type='text' size='3' name='{$fieldName}windowday[]' value='{$days}' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-                echo "<input id='{$fieldName}windowhourcmp{$campaign['campaignid']}' class='flat' type='text' size='3' name='{$fieldName}windowhour[]' value='{$hours}' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-                echo "<input id='{$fieldName}windowminutecmp{$campaign['campaignid']}' class='flat' type='text' size='3' name='{$fieldName}windowminute[]' value='{$minutes}' onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-                echo "<input id='{$fieldName}windowsecondcmp{$campaign['campaignid']}' class='flat' type='text' size='3' name='{$fieldName}windowsecond[]' value='{$seconds}' onBlur=\"phpAds_formLimitBlur('".$campaign['campaignid']."');\" onKeyUp=\"phpAds_formLimitUpdate('".$campaign['campaignid']."');\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-                echo "</td></tr>";
-            }
 
             $i++;
         } else {
@@ -460,166 +378,12 @@ echo "</form>"."\n";
         for (var i=0; i<document.availablecampaigns.elements.length; i++) {
             var element = document.availablecampaigns.elements[i];
             if (element.id.substring(0,3) == 'cmp') {
-                var cmpid = element.id.substring(3);
-                phpAds_formLimitBlur(cmpid);
-                phpAds_formLimitUpdate(cmpid);
-
                 var logelement = document.getElementById('status' + element.id);
                 if (logelement) logelement.disabled = !element.checked;
-
-                var cwday = document.getElementById('clickwindowday' + element.id);
-                if (cwday) cwday.disabled = !element.checked;
-
-                var cwhour = document.getElementById('clickwindowhour' + element.id);
-                if (cwhour) cwhour.disabled = !element.checked;
-
-                var cwminute = document.getElementById('clickwindowminute' + element.id);
-                if (cwminute) cwminute.disabled = !element.checked;
-
-                var cwsecond = document.getElementById('clickwindowsecond' + element.id);
-                if (cwsecond) cwsecond.disabled = !element.checked;
-
-                var vwday = document.getElementById('viewwindowday' + element.id);
-                if (vwday) vwday.disabled = !element.checked;
-
-                var vwhour = document.getElementById('viewwindowhour' + element.id);
-                if (vwhour) vwhour.disabled = !element.checked;
-
-                var vwminute = document.getElementById('viewwindowminute' + element.id);
-                if (vwminute) vwminute.disabled = !element.checked;
-
-                var vwsecond = document.getElementById('viewwindowsecond' + element.id);
-                if (vwsecond) vwsecond.disabled = !element.checked;
-
-                <?php
-                foreach ($plugins as $plugin) {
-                    $fieldName = strtolower($plugin->trackerEvent);
-
-                    echo "
-                        var plugin{$i}_day = document.getElementById('{$fieldName}windowday' + element.id);
-                        if (plugin{$i}_day) plugin{$i}_day.disabled = !element.checked;
-
-                        var plugin{$i}_hour = document.getElementById('{$fieldName}windowhour' + element.id);
-                        if (plugin{$i}_hour) plugin{$i}_hour.disabled = !element.checked;
-
-                        var plugin{$i}_minute = document.getElementById('{$fieldName}windowminute' + element.id);
-                        if (plugin{$i}_minute) plugin{$i}_minute.disabled = !element.checked;
-
-                        var plugin{$i}_second = document.getElementById('{$fieldName}windowsecond' + element.id);
-                        if (plugin{$i}_second) plugin{$i}_second.disabled = !element.checked;
-                    ";
-                }
-                ?>
             }
         }
 
         document.availablecampaigns.checkall.checked = !phpAds_getAllChecked();
-    }
-
-    function phpAds_formLimitBlur (cmpid)
-    {
-        var cwday = document.getElementById('clickwindowdaycmp'+cmpid);
-        var cwhour = document.getElementById('clickwindowhourcmp'+cmpid);
-        var cwminute = document.getElementById('clickwindowminutecmp'+cmpid);
-        var cwsecond = document.getElementById('clickwindowsecondcmp'+cmpid);
-
-        if (cwday.value == '') cwday.value = '0';
-        if (cwhour.value == '') cwhour.value = '0';
-        if (cwminute.value == '') cwminute.value = '0';
-        if (cwsecond.value == '') cwsecond.value = '0';
-
-        var vwday = document.getElementById('viewwindowdaycmp'+cmpid);
-        var vwhour = document.getElementById('viewwindowhourcmp'+cmpid);
-        var vwminute = document.getElementById('viewwindowminutecmp'+cmpid);
-        var vwsecond = document.getElementById('viewwindowsecondcmp'+cmpid);
-
-        if (vwday.value == '') vwday.value = '0';
-        if (vwhour.value == '') vwhour.value = '0';
-        if (vwminute.value == '') vwminute.value = '0';
-        if (vwsecond.value == '') vwsecond.value = '0';
-
-        <?php
-        $i = 0;
-        foreach ($plugins as $plugin) {
-            $fieldName = strtolower($plugin->trackerEvent);
-            echo "
-            var plugin{$i}_day = document.getElementById('{$fieldName}windowdaycmp'+cmpid);
-            var plugin{$i}_hour = document.getElementById('{$fieldName}windowhourcmp'+cmpid);
-            var plugin{$i}_minute = document.getElementById('{$fieldName}windowminutecmp'+cmpid);
-            var plugin{$i}_second = document.getElementById('{$fieldName}windowsecondcmp'+cmpid);
-
-            if (plugin{$i}_day.value == '') plugin{$i}_day.value = '0';
-            if (plugin{$i}_hour.value == '') plugin{$i}_hour.value = '0';
-            if (plugin{$i}_minute.value == '') plugin{$i}_minute.value = '0';
-            if (plugin{$i}_second.value == '') plugin{$i}_second.value = '0';
-            ";
-            $i++;
-        }
-        ?>
-
-        phpAds_formLimitUpdate (cmpid);
-    }
-
-    function phpAds_formLimitUpdate (cmpid)
-    {
-        var cwday = document.getElementById('clickwindowdaycmp'+cmpid);
-        var cwhour = document.getElementById('clickwindowhourcmp'+cmpid);
-        var cwminute = document.getElementById('clickwindowminutecmp'+cmpid);
-        var cwsecond = document.getElementById('clickwindowsecondcmp'+cmpid);
-
-        var vwday = document.getElementById('viewwindowdaycmp'+cmpid);
-        var vwhour = document.getElementById('viewwindowhourcmp'+cmpid);
-        var vwminute = document.getElementById('viewwindowminutecmp'+cmpid);
-        var vwsecond = document.getElementById('viewwindowsecondcmp'+cmpid);
-
-        // Set -
-        if (cwhour.value == '-' && cwday.value != '-') cwhour.value = '0';
-        if (cwminute.value == '-' && cwhour.value != '-') cwminute.value = '0';
-        if (cwsecond.value == '-' && cwminute.value != '-') cwsecond.value = '0';
-
-        // Set 0
-        if (cwday.value == '0') cwday.value = '-';
-        if (cwday.value == '-' && cwhour.value == '0') cwhour.value = '-';
-        if (cwhour.value == '-' && cwminute.value == '0') cwminute.value = '-';
-        if (cwminute.value == '-' && cwsecond.value == '0') cwsecond.value = '-';
-
-        // Set -
-        if (vwhour.value == '-' && vwday.value != '-') vwhour.value = '0';
-        if (vwminute.value == '-' && vwhour.value != '-') vwminute.value = '0';
-        if (vwsecond.value == '-' && vwminute.value != '-') vwsecond.value = '0';
-
-        // Set 0
-        if (vwday.value == '0') vwday.value = '-';
-        if (vwday.value == '-' && vwhour.value == '0') vwhour.value = '-';
-        if (vwhour.value == '-' && vwminute.value == '0') vwminute.value = '-';
-        if (vwminute.value == '-' && vwsecond.value == '0') vwsecond.value = '-';
-
-        <?php
-        $i = 0;
-        foreach ($plugins as $plugin) {
-            $fieldName = strtolower($plugin->trackerEvent);
-            echo "
-            var plugin{$i}_day = document.getElementById('{$fieldName}windowdaycmp'+cmpid);
-            var plugin{$i}_hour = document.getElementById('{$fieldName}windowhourcmp'+cmpid);
-            var plugin{$i}_minute = document.getElementById('{$fieldName}windowminutecmp'+cmpid);
-            var plugin{$i}_second = document.getElementById('{$fieldName}windowsecondcmp'+cmpid);
-
-            // Set -
-            if (plugin{$i}_hour.value == '-' && plugin{$i}_day.value != '-') plugin{$i}_hour.value = '0';
-            if (plugin{$i}_minute.value == '-' && plugin{$i}_hour.value != '-') plugin{$i}_minute.value = '0';
-            if (plugin{$i}_second.value == '-' && plugin{$i}_minute.value != '-') plugin{$i}_second.value = '0';
-
-            // Set 0
-            if (plugin{$i}_day.value == '0') plugin{$i}_day.value = '-';
-            if (plugin{$i}_day.value == '-' && plugin{$i}_hour.value == '0') plugin{$i}_hour.value = '-';
-            if (plugin{$i}_hour.value == '-' && plugin{$i}_minute.value == '0') plugin{$i}_minute.value = '-';
-            if (plugin{$i}_minute.value == '-' && plugin{$i}_second.value == '0') plugin{$i}_second.value = '-';
-            ";
-
-            $i++;
-        }
-        ?>
-
     }
 
     phpAds_reviewAll();

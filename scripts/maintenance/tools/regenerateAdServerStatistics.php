@@ -60,9 +60,10 @@ require_once $path . '/../../../init.php';
 // Required files
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Regenerate.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once LIB_PATH . '/Maintenance/Statistics.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 // Create Date objects of the start and end dates, set the "current time"
 // to be 5 seconds after the end of the operation interval
@@ -100,6 +101,6 @@ $oLastUpdatedDate->subtractSeconds(1);
 $oServiceLocator->register('lastUpdatedDate', $oLastUpdatedDate);
 
 // Run the Maintenance Statistics Engine (MSE) process
-OA_Maintenance_Statistics::run();
+OX_Maintenance_Statistics::run();
 
 ?>

@@ -27,7 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
-require_once MAX_PATH . '/lib/OA/Util/CodeMunger.php';
+require_once LIB_PATH . '/Util/CodeMunger.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Ordered.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 
@@ -40,12 +40,13 @@ define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/plugins/cache/mergedDeliveryFu
  * Generates delivery log plugins cache and order the dependencies
  * between components per each delivery log hook.
  *
- * @package    OpenXPlugin
- * @subpackage Plugins_Log_Setup
+ * @package    OpenXExtension
+ * @subpackage DeliveryLog
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class OX_Plugins_DeliveryLog_Setup extends OX_Component
+class OX_Extension_DeliveryLog_Setup extends OX_Component
 {
+
     const DATA_EXTENSION = 'deliveryDataPrepare';
     const LOG_EXTENSION  = 'deliveryLog';
 
@@ -80,7 +81,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      *
      * @var OX_Util_CodeMunger
      */
-    private $codeMunger;
+    private $oCodeMunger;
 
     /**
      * Keeps the reference to already installed components, so it
@@ -268,8 +269,8 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      */
     function mungeFile($file)
     {
-        $codeMunger = $this->_getCodeMunger();
-        $code = $codeMunger->flattenFile($file);
+        $oCodeMunger = $this->_getCodeMunger();
+        $code = $oCodeMunger->flattenFile($file);
         return preg_replace(array('/^<\?php/', '/\?>$/'), array('', ''), $code);
     }
 
@@ -286,13 +287,13 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     {
         foreach ($aComponentGroups as $group) {
             $aComponents = $this->_getComponents($extension, $group, true, 1, $enabled = false);
-            foreach ($aComponents as $component) {
-                if (!$component->onInstall()) {
-                    $this->_logError('Error when installing component: '.get_class($component));
+            foreach ($aComponents as $oComponent) {
+                if (!$oComponent->onInstall()) {
+                    $this->_logError('Error when installing component: ' . get_class($oComponent));
                     $this->recoverUninstallComponents();
                     return false;
                 }
-                $this->markComponentAsInstalled($component);
+                $this->markComponentAsInstalled($oComponent);
             }
         }
         return true;
@@ -305,12 +306,12 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     function recoverUninstallComponents()
     {
         foreach ($this->aInstalledComponents as $componentId) {
-            $component = $this->_factoryComponentById($componentId);
-            if(!$component) {
+            $oComponent = $this->_factoryComponentById($componentId);
+            if (!$oComponent) {
                 $this->_logError('Error when creating component: '.$componentId);
                 continue;
             }
-            if (!$component->onUninstall()) {
+            if (!$oComponent->onUninstall()) {
                 $this->_logError('Error when uninstalling component: '.$componentId);
             }
         }
@@ -320,26 +321,25 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * Keeps the reference of already installed components. In case
      * a recovery uninstall will need to be performed.
      *
-     * @param Plugins_DeliveryLog_LogCommon $component
+     * @param Plugins_DeliveryLog $oComponent
      */
-    function markComponentAsInstalled(Plugins_DeliveryLog_LogCommon $component)
+    function markComponentAsInstalled(Plugins_DeliveryLog $oComponent)
     {
-        $this->aInstalledComponents[] = $component->getComponentIdentifier();
+        $this->aInstalledComponents[] = $oComponent->getComponentIdentifier();
     }
 
     /**
      * Returns OX_Util_CodeMunger.
-     * This method can be used for mocking
-     * in delivery.
+     * This method can be used for mocking in delivery.
      *
      * @return OX_Util_CodeMunger
      */
     function _getCodeMunger()
     {
-        if (!$this->codeMunger) {
-            $this->codeMunger = new OX_Util_CodeMunger();
+        if (!$this->oCodeMunger) {
+            $this->oCodeMunger = new OX_Util_CodeMunger();
         }
-        return $this->codeMunger;
+        return $this->oCodeMunger;
     }
 
     /**

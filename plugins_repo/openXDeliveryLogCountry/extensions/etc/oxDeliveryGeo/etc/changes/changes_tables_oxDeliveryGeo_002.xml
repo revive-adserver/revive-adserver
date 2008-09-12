@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxDeliveryGeo</name>
+  <version>002</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>oxDeliveryGeo</name>
+      <version>002</version>
+      <add>
+        <table>
+        <name>stats_country</name>
+        <was>stats_country</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>oxDeliveryGeo</name>
+    <version>002</version>
+  </changeset>
+</destructive>
+</instructionset>

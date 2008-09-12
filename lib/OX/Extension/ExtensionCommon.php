@@ -30,8 +30,8 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
 /**
  * Ancestor class for extension manager classes
  *
+ * @package    OpenXExtension
  */
-
 class OX_Extension_Common
 {
     function __construct()

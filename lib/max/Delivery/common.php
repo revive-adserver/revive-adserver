@@ -428,7 +428,10 @@ function MAX_commonInitVariables()
         $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
         $GLOBALS['_MAX']['CONF']['var']['blockZone'],
         $GLOBALS['_MAX']['CONF']['var']['capZone'],
-        $GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
+        $GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
+        $GLOBALS['_MAX']['CONF']['var']['lastClick'],
+        $GLOBALS['_MAX']['CONF']['var']['lastView'],
+        $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
     );
 }
 
@@ -581,6 +584,17 @@ function MAX_commonUnpackContext($context = '')
     list($exclude,$include) = explode('|', base64_decode($context));
     return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
 }
+
+function MAX_commonCompressInt($int)
+{
+    return base_convert($int, 10, 36);
+}
+
+function MAX_commonUnCompressInt($string)
+{
+    return base_convert($string, 36, 10);
+}
+
 
 function _convertContextArray($key, $array)
 {

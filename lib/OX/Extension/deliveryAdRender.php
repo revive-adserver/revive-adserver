@@ -27,6 +27,10 @@ $Id$
 
 require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
 
+/**
+ * @package    OpenXExtension
+ * @subpackage DeliveryAdRender
+ */
 class OX_Extension_deliveryAdRender extends OX_Extension_Delivery
 {
 

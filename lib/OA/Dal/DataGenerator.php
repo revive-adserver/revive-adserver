@@ -494,7 +494,7 @@ class DataGenerator
 
     /**
      * Resets a (postgresql) sequence to 1
-     * similar to OA_Table::resetSequence()
+     * similar to OA_DB_Table::resetSequence()
      * DOESN'T SEEM TO WORK THO
      *
      * @param string $sequence the name of the sequence to reset

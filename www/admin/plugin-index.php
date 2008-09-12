@@ -39,8 +39,8 @@ require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
-$oPluginManager = & new OX_PluginManager();
-$oComponentGroupManager  = & new OX_Plugin_ComponentGroupManager();
+$oPluginManager = new OX_PluginManager();
+$oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
 
 $action = $_REQUEST['action'];
 $plugin = $_REQUEST['package'];

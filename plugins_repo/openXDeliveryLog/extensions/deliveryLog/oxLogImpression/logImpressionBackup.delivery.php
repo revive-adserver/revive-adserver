@@ -25,6 +25,11 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 function Plugin_deliveryLog_oxLogImpression_logImpressionBackup_Delivery_logImpression()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];

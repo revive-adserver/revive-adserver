@@ -25,35 +25,62 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 MAX_Dal_Delivery_Include();
 
-function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($viewerId, $trackerId,
-    $aTrackerImpression, $aConnection)
+/**
+ * A function to log conversions.
+ *
+ * @param integer $trackerId The ID of the tracker for which the conversion is to be logged.
+ * @param array $serverRawIp The "raw IP address" value to use for the conversion.
+ * @param array $aConversion An array of the conversion details, as returned from the
+ *                           MAX_trackerCheckForValidAction() function.
+ * @return array An array...
+ */
+function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion)
 {
-    $aConf = $GLOBALS['_MAX']['CONF'];
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a';
 
-    $fields = array(
-        'server_ip' => $aTrackerImpression['server_raw_ip'],
-        'tracker_id' => $trackerId,
-        'date_time' => gmdate('Y-m-d H:i:s'),
-        'action_date_time' => gmdate('Y-m-d H:i:s', $aConnection['dt']),
-        'creative_id' => $aConnection['cid'],
-        'zone_id' => $aConnection['zid'],
-        'ip_address' => $_SERVER['REMOTE_ADDR'],
-        'action' => $aConnection['action_type'],
-        'window' => $aConnection['window'],
-        'status' => $aConnection['status']
+    if (empty($GLOBALS['_MAX']['NOW'])) {
+        $GLOBALS['_MAX']['NOW'] = time();
+    }
+    $time = $GLOBALS['_MAX']['NOW'];
+
+    $aFields = array(
+        'server_ip'        => $serverRawIp,
+        'tracker_id'       => $trackerId,
+        'date_time'        => gmdate('Y-m-d H:i:s', $time),
+        'action_date_time' => gmdate('Y-m-d H:i:s', $aConversion['dt']),
+        'creative_id'      => $aConversion['cid'],
+        'zone_id'          => $aConversion['zid'],
+        'ip_address'       => $_SERVER['REMOTE_ADDR'],
+        'action'           => $aConversion['action_type'],
+        'window'           => $aConversion['window'],
+        'status'           => $aConversion['status']
     );
 
-    array_walk($fields, 'OX_escapeString');
+    array_walk($aFields, 'OX_escapeString');
 
     $query = "
-        INSERT INTO {$table}
-            (" . implode(', ', array_keys($fields)) . ")
-            VALUES ('" . implode("', '", $fields) . "')
+        INSERT INTO
+            {$table}
+            (" . implode(', ', array_keys($aFields)) . ")
+        VALUES
+            ('" . implode("', '", $aFields) . "')
     ";
-    return OA_Dal_Delivery_query($query, 'rawDatabase');
+    $result = OA_Dal_Delivery_query($query, 'rawDatabase');
+    if (!$result) {
+        return false;
+    }
+    $aResult = array(
+        'server_conv_id' => OA_Dal_Delivery_insertId('rawDatabase'),
+        'server_raw_ip' => $serverRawIp
+    );
+    return $aResult;
 }
 
 ?>

@@ -42,9 +42,9 @@ require_once MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitations_CommaSeparatedData
 {

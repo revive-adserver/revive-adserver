@@ -176,7 +176,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
@@ -210,15 +210,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
         $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
@@ -363,7 +363,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
@@ -397,15 +397,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
         $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
@@ -550,7 +550,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
@@ -584,15 +584,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
         $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);

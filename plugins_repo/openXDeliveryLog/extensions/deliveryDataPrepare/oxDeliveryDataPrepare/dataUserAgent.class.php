@@ -27,6 +27,10 @@ $Id$
 
 require_once LIB_PATH . '/Plugin/Component.php';
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
 class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataUserAgent extends OX_Component
 {
     function getDependencies()

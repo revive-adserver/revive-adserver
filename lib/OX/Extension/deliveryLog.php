@@ -27,6 +27,10 @@ $Id$
 
 require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
 
+/**
+ * @package    OpenXExtension
+ * @subpackage DeliveryLog
+ */
 class OX_Extension_deliveryLog extends OX_Extension_Delivery
 {
 

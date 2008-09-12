@@ -25,6 +25,11 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 MAX_Dal_Delivery_Include();
 
 /**
@@ -32,24 +37,23 @@ MAX_Dal_Delivery_Include();
  * or other deliveryDataPrepare components as a base for their data preparations.
  * All data is stored in $GLOBALS['_MAX']['deliveryData']
  *
- * @param int $viewerId
  * @param int $adId
- * @param int $creativeId  Not in use
  * @param int $zoneId
  */
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId)
 {
-    // prevent from running twice
-    static $executed;
-    if ($executed) return;
-    $executed = true;
+    // Prevent the function from running twice
+    if ($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon']) {
+        return;
+    }
+    $GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon'] = true;
 
     $GLOBALS['_MAX']['deliveryData']['creative_id'] = $adId;
-    $GLOBALS['_MAX']['deliveryData']['zone_id'] = $zoneId;
+    $GLOBALS['_MAX']['deliveryData']['zone_id']     = $zoneId;
 
-    // calculate start date of current Operation Interval
+    // Calculate start date of current Operation Interval
     if (empty($GLOBALS['_MAX']['NOW'])) {
-        $GLOBALS['_MAX']['deliveryData']['date_time_now'] = $GLOBALS['_MAX']['NOW'] = time();
+        $GLOBALS['_MAX']['NOW'] = time();
     }
     $time = $GLOBALS['_MAX']['NOW'];
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
@@ -58,19 +62,19 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, 
 }
 
 // Followig methods are required due to functions names limitations
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logImpression($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logRequest($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logRequest($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logImpression($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logClick($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_logClick($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId);
 }
 
 ?>

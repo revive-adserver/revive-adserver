@@ -464,7 +464,7 @@ class DB_DataObject_Generator extends DB_DataObject
 
             $n=0;
             $write_ini = true;
-            
+
             switch (strtoupper($t->type)) {
 
                 case 'INT':
@@ -777,7 +777,7 @@ class DB_DataObject_Generator extends DB_DataObject
 
         // title = expand me!
         $foot = "";
-        $head = "<?php{$n}/**{$n} * Table Definition for {$this->table}{$n} */{$n}";
+        $head = "<?php{$n}/**{$n} * DB_DataObject for {$this->table}{$n} */{$n}";
         // requires
         $head .= "require_once '{$this->_extendsFile}';{$n}{$n}";
         // add dummy class header in...

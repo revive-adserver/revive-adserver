@@ -28,10 +28,10 @@
 $Id$
 */
 
-
 // Required files
-require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
-require_once LIB_PATH.'/Plugin/ParserPlugin.php';
+require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
+require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
+require_once LIB_PATH . '/Plugin/ParserPlugin.php';
 
 define('OX_PLUGIN_ERROR_PACKAGE_OK', 1);
 define('OX_PLUGIN_ERROR_PACKAGE_NAME_EXISTS'            ,    0);
@@ -48,7 +48,9 @@ define('OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH'            ,   -10);
 define('OX_PLUGIN_ERROR_ILLEGAL_FILE'                   ,   -11);
 define('OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH'    ,   -12);
 
-
+/**
+ * @package OpenXPlugin
+ */
 class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 {
     var $errcode;

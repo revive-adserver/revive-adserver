@@ -135,7 +135,6 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
     return mysql_insert_id($GLOBALS['_MAX'][$dbName]);
 }
 
-
 /**
  * The function to retrieve accounts timezones and the default admin's timezone
  *
@@ -427,6 +426,8 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * The function to get and return the ads linked to a zone
  *
  * @param  int   $zoneid The id of the zone to get linked ads for
+ *
+ * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|false
  *               The array containg zone information with nested arrays of linked ads
  *               or false on failure. Note that:
@@ -510,6 +511,8 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign,
             c.clientid AS client_id,
+            c.clickwindow AS clickwindow,
+            c.viewwindow AS viewwindow,
             m.advertiser_limitation AS advertiser_limitation,
             a.account_id AS account_id,
             z.affiliateid AS affiliate_id
@@ -528,6 +531,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.status <= 0
     ";
 
+//    $query = OA_Dal_Delivery_buildQuery('', '', '');
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
@@ -540,6 +544,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
     // Get timezone data
     $aTimezones = MAX_cacheGetAccountTZs();
+    $aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 
     while ($aAd = mysql_fetch_assoc($rAds)) {
         // Add timezone
@@ -548,6 +553,8 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         } else {
             $aAd['timezone'] = $aTimezones['default'];
         }
+
+        $aAd['tracker_status'] = (!empty($aConversionLinkedCreatives[$aAd['ad_id']]['status'])) ? $aConversionLinkedCreatives[$aAd['ad_id']]['status'] : null;
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -722,6 +729,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
  *
  * @param  string       $ad_id     The ad id for the specified ad
  *
+ * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|null   $ad        An array containing the ad data or null if nothing found
  */
 function OA_Dal_Delivery_getAd($ad_id) {
@@ -888,6 +896,43 @@ function OA_Dal_Delivery_getTracker($trackerid)
     }
 }
 
+function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $rCreatives = OA_Dal_Delivery_query("
+        SELECT
+            b.bannerid AS ad_id,
+            b.campaignid AS placement_id,
+            c.viewwindow AS view_window,
+            c.clickwindow AS click_window,
+            ct.status AS status,
+            t.type AS tracker_type
+        FROM
+            {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+            {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct,
+            {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
+            {$aConf['table']['prefix']}{$aConf['table']['trackers']} AS t
+        WHERE
+          ct.trackerid=t.trackerid
+          AND c.campaignid=b.campaignid
+          AND b.campaignid = ct.campaignid
+          " . ((!empty($trackerid)) ? ' AND t.trackerid='.$trackerid : '') . "
+    ");
+    if (!is_resource($rCreatives)) {
+        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
+            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
+        } else {
+            return null;
+        }
+    } else {
+        $output = array();
+        while ($aRow = mysql_fetch_assoc($rCreatives)) {
+            $output[$aRow['ad_id']] = $aRow;
+        }
+        return $output;
+    }
+}
+
 /**
  * This function gets all variables linked to a tracker
  *
@@ -950,403 +995,6 @@ function OA_Dal_Delivery_getMaintenanceInfo()
 
         return $result['maintenance_timestamp'];
     }
-}
-
-/**
- * A function to insert ad requests, ad impressions, ad clicks
- * and tracker clicks into the raw tables. Does NOT work with
- * tracker impressions.
- *
- * @param string  $table         The raw table name to insert into.
- * @param string  $viewerId      The viewer ID.
- * @param integer $adId          The advertisement ID.
- * @param integer $creativeId    The creative ID (currently unused).
- * @param integer $zoneId        The zone ID.
- * @param array   $aGeotargeting An array holding the viewer's geotargeting info.
- * @param array   $zoneInfo      An array to store information about the URL
- *                               the viewer used to access the page containing the zone.
- * @param array   $userAgentInfo An array to store information about the
- *                               viewer's web browser and operating system.
- * @param integer $maxHttps      An integer to store if the call to OpenX was
- *                               performed using HTTPS or not.
- */
-function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
-                                   $aGeotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
-{
-    // Whenever we assign a *new* viewer ID (or no viewerId was found),
-    // we should log the cookieless ID
-    if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
-        $log_viewerId = MAX_cookieGetCookielessViewerID();
-    } else {
-        $log_viewerId = substr($viewerId, 0, 32);
-    }
-    // Ensure that all geotargeting data is correctly escaped
-    $aGeotargeting = array_map('mysql_escape_string', $aGeotargeting);
-    // Log the raw data
-    $query = "
-        INSERT INTO
-            $table
-            (
-                viewer_id,
-                viewer_session_id,
-                date_time,
-                ad_id,
-                creative_id,
-                zone_id,";
-    if (isset($_GET['source'])) {
-        $query .= "
-                channel,";
-    }
-    if (isset($zoneInfo['channel_ids'])) {
-        $query .= "
-                channel_ids,";
-    }
-    $query .= "
-                language,
-                ip_address,
-                host_name,";
-    if (isset($aGeotargeting['country_code'])) {
-        $query .= "
-                country,";
-    }
-    if (isset($zoneInfo['scheme'])) {
-        $query .= "
-                https,";
-    }
-    if (isset($zoneInfo['host'])) {
-        $query .= "
-                domain,";
-    }
-    if (isset($zoneInfo['path'])) {
-        $query .= "
-                page,";
-    }
-    if (isset($zoneInfo['query'])) {
-        $query .= "
-                query,";
-    }
-    if ($GLOBALS['_MAX']['CONF']['logging']['referer'] && isset($_GET['referer'])) {
-        $query .= "
-                referer,";
-    }
-    $query .= "
-                search_term,";
-    if ($GLOBALS['_MAX']['CONF']['logging']['useragent']) {
-        $query .= "
-                user_agent,";
-    }
-    if (isset($userAgentInfo['os'])) {
-        $query .= "
-                os,";
-    }
-    if (isset($userAgentInfo['browser'])) {
-        $query .= "
-                browser,";
-    }
-    $query .= "
-                max_https,";
-    if (isset($aGeotargeting['region'])) {
-        $query .= "
-                geo_region,";
-    }
-    if (isset($aGeotargeting['city'])) {
-        $query .= "
-                geo_city,";
-    }
-    if (isset($aGeotargeting['postal_code'])) {
-        $query .= "
-                geo_postal_code,";
-    }
-    if (isset($aGeotargeting['latitude'])) {
-        $query .= "
-                geo_latitude,";
-    }
-    if (isset($aGeotargeting['longitude'])) {
-        $query .= "
-                geo_longitude,";
-    }
-    if (isset($aGeotargeting['dma_code'])) {
-        $query .= "
-                geo_dma_code,";
-    }
-    if (isset($aGeotargeting['area_code'])) {
-        $query .= "
-                geo_area_code,";
-    }
-    if (isset($aGeotargeting['organisation'])) {
-        $query .= "
-                geo_organisation,";
-    }
-    if (isset($aGeotargeting['netspeed'])) {
-        $query .= "
-                geo_netspeed,";
-    }
-    if (isset($aGeotargeting['continent'])) {
-        $query .= "
-                geo_continent,";
-    }
-    // Strip end comma!
-    $query = substr_replace($query, '', strlen($query) - 1);
-    $query .= "
-            )
-        VALUES
-            (
-                '$log_viewerId',
-                '',
-                '".gmdate('Y-m-d H:i:s')."',
-                '$adId',
-                '$creativeId',
-                '$zoneId',";
-    if (isset($_GET['source'])) {
-        $query .= "
-                '".mysql_escape_string(MAX_commonDecrypt($_GET['source']))."',";
-    }
-    if (isset($zoneInfo['channel_ids'])) {
-        $query .= "
-                '{$zoneInfo['channel_ids']}',";
-    }
-    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
-    $query .= "
-                '".mysql_escape_string(substr($httpLanguage, 0, 32))."',
-                '".mysql_escape_string($_SERVER['REMOTE_ADDR'])."',
-                '".mysql_escape_string($_SERVER['REMOTE_HOST'])."',";
-    if (isset($aGeotargeting['country_code'])) {
-        $query .= "
-                '{$aGeotargeting['country_code']}',";
-    }
-    if (isset($zoneInfo['scheme'])) {
-        $query .= "
-                '{$zoneInfo['scheme']}',";
-    }
-    if (isset($zoneInfo['host'])) {
-        $query .= "
-                '{$zoneInfo['host']}',";
-    }
-    if (isset($zoneInfo['path'])) {
-        $query .= "
-                '{$zoneInfo['path']}',";
-    }
-    if (isset($zoneInfo['query'])) {
-        $query .= "
-                '{$zoneInfo['query']}',";
-    }
-    if ($GLOBALS['_MAX']['CONF']['logging']['referer'] && isset($_GET['referer'])) {
-        $query .= "
-                '" . mysql_escape_string($_GET['referer']) . "',";
-    }
-    $query .= "
-                '',";
-    if ($GLOBALS['_MAX']['CONF']['logging']['useragent']) {
-        $query .= "
-                '".mysql_escape_string(substr($_SERVER['HTTP_USER_AGENT'], 0, 255))."',";
-    }
-    if (isset($userAgentInfo['os'])) {
-        $query .= "
-                '{$userAgentInfo['os']}',";
-    }
-    if (isset($userAgentInfo['browser'])) {
-        $query .= "
-                '{$userAgentInfo['browser']}',";
-    }
-    $query .= "
-                '$maxHttps',";
-    if (isset($aGeotargeting['region'])) {
-        $query .= "
-                '{$aGeotargeting['region']}',";
-    }
-    if (isset($aGeotargeting['city'])) {
-        $query .= "
-                '{$aGeotargeting['city']}',";
-    }
-    if (isset($aGeotargeting['postal_code'])) {
-        $query .= "
-                '{$aGeotargeting['postal_code']}',";
-    }
-    if (isset($aGeotargeting['latitude'])) {
-        $query .= "
-                " . floatval($aGeotargeting['latitude']) . ",";
-    }
-    if (isset($aGeotargeting['longitude'])) {
-        $query .= "
-                " . floatval($aGeotargeting['longitude']) . ",";
-    }
-    if (isset($aGeotargeting['dma_code'])) {
-        $query .= "
-                '{$aGeotargeting['dma_code']}',";
-    }
-    if (isset($aGeotargeting['area_code'])) {
-        $query .= "
-                '{$aGeotargeting['area_code']}',";
-    }
-    if (isset($aGeotargeting['organisation'])) {
-        $query .= "
-                '{$aGeotargeting['organisation']}',";
-    }
-    if (isset($aGeotargeting['netspeed'])) {
-        $query .= "
-                '{$aGeotargeting['netspeed']}',";
-    }
-    if (isset($aGeotargeting['continent'])) {
-        $query .= "
-                '{$aGeotargeting['continent']}',";
-    }
-    // Strip end comma!
-    $query = substr_replace($query, '', strlen($query) - 1);
-    $query .= "
-            )";
-    $result = OA_Dal_Delivery_query(
-        $query,
-        'rawDatabase'
-    );
-    return $result;
-}
-
-/**
- * A function to insert tracker impressions into the raw table.
- *
- * @param string  $table         The raw table name to insert into.
- * @param string  $viewerId      The viewer ID.
- * @param integer $adId          The advertisement ID.
- * @param integer $creativeId    The creative ID (currently unused).
- * @param integer $zoneId        The zone ID.
- * @param array   $aGeotargeting An array holding the viewer's geotargeting info.
- * @param array   $zoneInfo      An array to store information about the URL
- *                               the viewer used to access the page containing the zone.
- * @param array   $userAgentInfo An array to store information about the
- *                               viewer's web browser and operating system.
- * @param integer $maxHttps      An integer to store if the call to OpenX was
- *                               performed using HTTPS or not.
- *
- * @return int|false             Returns the insert ID for this record or false on failure
- */
-function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
-                                    $aGeotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
-{
-    // Whenever we assign a *new* viewer ID (or no viewerId was found),
-    // we should log the cookieless ID
-    if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
-        $log_viewerId = MAX_cookieGetCookielessViewerID();
-    } else {
-        $log_viewerId = substr($viewerId, 0, 32);
-    }
-    $source = isset($_GET['source']) ? $_GET['source'] : '';
-    $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
-    $httpUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
-    // Ensure that all geotargeting data is correctly escaped
-    $aGeotargeting = array_map('mysql_escape_string', $aGeotargeting);
-    // Log the raw data
-    OA_Dal_Delivery_query("
-        INSERT INTO
-            {$table}
-        (
-            server_raw_ip,
-            viewer_id,
-            viewer_session_id,
-            date_time,
-            tracker_id,
-            channel,
-            channel_ids,
-            language,
-            ip_address,
-            host_name,
-            country,
-            https,
-            domain,
-            page,
-            query,
-            referer,
-            search_term,
-            user_agent,
-            os,
-            browser,
-            max_https,
-            geo_region,
-            geo_city,
-            geo_postal_code,
-            geo_latitude,
-            geo_longitude,
-            geo_dma_code,
-            geo_area_code,
-            geo_organisation,
-            geo_netspeed,
-            geo_continent
-        )
-    VALUES
-        (
-            '$serverRawIp',
-            '$log_viewerId',
-            '',
-            '".gmdate('Y-m-d H:i:s')."',
-            '$trackerId',
-            '".mysql_escape_string(MAX_commonDecrypt($source))."',
-            '{$zoneInfo['channel_ids']}',
-            '".mysql_escape_string(substr($httpLanguage, 0, 32))."',
-            '".mysql_escape_string($_SERVER['REMOTE_ADDR'])."',
-            '".mysql_escape_string($_SERVER['REMOTE_HOST'])."',
-            '{$aGeotargeting['country_code']}',
-            '".intval($zoneInfo['scheme'])."',
-            '{$zoneInfo['host']}',
-            '{$zoneInfo['path']}',
-            '{$zoneInfo['query']}',
-            '{$referer}',
-            '',
-            '".mysql_escape_string(substr($httpUserAgent, 0, 255))."',
-            '{$userAgentInfo['os']}',
-            '{$userAgentInfo['browser']}',
-            '".intval($maxHttps)."',
-            '{$aGeotargeting['region']}',
-            '{$aGeotargeting['city']}',
-            '{$aGeotargeting['postal_code']}',
-            '".floatval($aGeotargeting['latitude'])."',
-            '".floatval($aGeotargeting['longitude'])."',
-            '{$aGeotargeting['dma_code']}',
-            '{$aGeotargeting['area_code']}',
-            '{$aGeotargeting['organisation']}',
-            '{$aGeotargeting['netspeed']}',
-            '{$aGeotargeting['continent']}'
-    )", 'rawDatabase');
-    return OA_Dal_Delivery_insertId('rawDatabase');
-}
-
-/**
- * This function logs the variable data passed in to a tracker impression
- *
- * @param array  $variables                     An array of the variable name=value data to be logged
- * @param int    $serverRawTrackerImpressionId  The associated tracker-impression ID for these values
- * @param string $serverRawIp                   The IP address of the raw database that logged the
- *                                              initial tracker-impression
- * @return bool True on success
- */
-function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $aRows = array();
-    foreach ($variables as $variable) {
-        $aRows[] = "(
-                        '{$variable['variable_id']}',
-                        '{$serverRawTrackerImpressionId}',
-                        '{$serverRawIp}',
-                        '".gmdate('Y-m-d H:i:s')."',
-                        '".mysql_escape_string($variable['value'])."'
-                    )";
-    }
-    if (empty($aRows)) {
-        return;
-    }
-    $query = "
-        INSERT INTO
-            {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}
-            (
-                tracker_variable_id,
-                server_raw_tracker_impression_id,
-                server_raw_ip,
-                date_time,
-                value
-            )
-        VALUES " . implode(',', $aRows);
-
-    return OA_Dal_Delivery_query($query, 'rawDatabase');
 }
 
 /**
@@ -1788,7 +1436,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 {
-    array_walk($aQuery, 'mysql_escape_string');
+    array_map('mysql_escape_string', $aQuery);
     $aQuery[$counter] = 1;
     $query = "
         INSERT INTO {$tableName}

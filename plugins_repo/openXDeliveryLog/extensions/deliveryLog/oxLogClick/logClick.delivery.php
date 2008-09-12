@@ -25,15 +25,20 @@
 $Id$
 */
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
+
 MAX_Dal_Delivery_Include();
 
 function Plugin_deliveryLog_oxLogClick_logClick_Delivery_logClick()
 {
-    $data = $GLOBALS['_MAX']['deliveryData'];
+    $aData = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
-        'interval_start' => $data['interval_start'],
-        'creative_id'    => $data['creative_id'],
-        'zone_id'        => $data['zone_id'],
+        'interval_start' => $aData['interval_start'],
+        'creative_id'    => $aData['creative_id'],
+        'zone_id'        => $aData['zone_id']
     );
     return OX_bucket_updateTable('data_bkt_c', $aQuery);
 }

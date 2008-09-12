@@ -43,119 +43,64 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
  */
 
 require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
+require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 
 /**
  * A function to log an ad request.
  *
- * @param integer $viewerId The viewer ID (was userid).
  * @param integer $adId The advertisement ID (was bannerid).
- * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdRequest($adId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
-        OX_Delivery_Common_hook('logRequest', array($viewerId, $adId, $creativeId, $zoneId));
-        // @todo - remove following code once buckets will be finished
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $geotargeting = array();
-        $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'];
-        MAX_Dal_Delivery_Include();
-        OA_Dal_Delivery_logAction(
-            $table,
-            $viewerId,
-            $adId,
-            $creativeId,
-            $zoneId,
-            $geotargeting,
-            $zoneInfo,
-            $userAgentInfo,
-            $maxHttps
-        );
+        // Call all registered plugins that use the "logRequest" hook
+        OX_Delivery_Common_hook('logRequest', array($adId, $zoneId));
     }
 }
 
 /**
  * A function to log an ad impression.
  *
- * @param integer $viewerId The viewer ID (was userid).
  * @param integer $adId The advertisement ID (was bannerid).
- * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
-        OX_Delivery_Common_hook('logImpression', array($viewerId, $adId, $creativeId, $zoneId));
-        // @todo - remove following code once buckets will be finished
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'];
-        MAX_Dal_Delivery_Include();
-        OA_Dal_Delivery_logAction(
-            $table,
-            $viewerId,
-            $adId,
-            $creativeId,
-            $zoneId,
-            $geotargeting,
-            $zoneInfo,
-            $userAgentInfo,
-            $maxHttps
-        );
+        // Call all registered plugins that use the "logImpression" hook
+        OX_Delivery_Common_hook('logImpression', array($adId, $zoneId));
     }
 }
 
 /**
  * A function to log an ad click.
  *
- * @param integer $viewerId The viewer ID (was userid).
  * @param integer $adId The advertisement ID (was bannerid).
- * @param integer $creativeId The creative ID (doesn't exist yet, use null).
  * @param integer $zoneId The zone ID.
  */
-function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
+function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
     if (_viewersHostOkayToLog()) {
-        OX_Delivery_Common_hook('logClick', array($viewerId, $adId, $creativeId, $zoneId));
-        // @todo - remove following code once buckets will be finished
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'];
-        MAX_Dal_Delivery_Include();
-        OA_Dal_Delivery_logAction(
-            $table,
-            $viewerId,
-            $adId,
-            $creativeId,
-            $zoneId,
-            $geotargeting,
-            $zoneInfo,
-            $userAgentInfo,
-            $maxHttps
-        );
+        // Call all registered plugins that use the "logClick" hook
+        OX_Delivery_Common_hook('logClick', array($adId, $zoneId));
     }
 }
 
 /**
- * A function to log a tracker impression.
+ * A function to log a conversion.
  *
- * Note that the $aConf['rawDatabase'] variables will only be defined
- * in the event that OpenX is configured for multiple databases. Normally,
- * this will not be the case, so the server_ip field will be 'singleDB'.
- *
- * @param integer $viewerId The viewer ID (was userid).
- * @param integer $trackerId The tracker ID.
- * @return mixed An array containing the server_raw_tracker_impression_id
- *               and the server_raw_ip values, if the tracker impression
- *               was inserted, false otherwise.
+ * @param integer $trackerId The tracker ID the conversion is for,
+ * @param array $aConversion An array of the conversion details, as returned from the
+ *                           MAX_trackerCheckForValidAction() function.
+ * @return mixed An array containing the server_conv_id and the server_raw_ip values,
+ *               if the conversion was logged successfully, false otherwise.
  */
-function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
+function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
     if (_viewersHostOkayToLog()) {
-        OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId));
-        // @todo - remove following code once buckets will be finished
+        // Prepare the raw database IP address, depending on if OpenX is running
+        // with multiple delivery servers, or just a single server
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($aConf['rawDatabase']['host'])) {
             if (!empty($aConf['lb']['enabled'])) {
@@ -169,20 +114,15 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
         } else {
             $serverRawIp = $aConf['rawDatabase']['host'];
         }
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_impression'];
-        MAX_Dal_Delivery_Include();
-        $rawTrackerImpressionId = OA_Dal_Delivery_logTracker(
-            $table,
-            $viewerId,
-            $trackerId,
-            $serverRawIp,
-            $geotargeting,
-            $zoneInfo,
-            $userAgentInfo,
-            $maxHttps
-        );
-        return array('server_raw_tracker_impression_id' => $rawTrackerImpressionId, 'server_raw_ip' => $serverRawIp);
+        // Call all registered plugins that use the "logConversion" hook
+        $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion));
+        // Check that the conversion was logged correctly
+        if (is_array($aConversionInfo)) {
+            // If this was a "sale" type conversion, then clear the cookie data
+            MAX_trackerDeleteActionFromCookie($aConnection);
+            // Return the result
+            return $aConversionInfo;
+        }
     }
     return false;
 }
@@ -194,33 +134,36 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
  * in the event that OpenX is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
+ * @param array $aVariables An array of variables as returned by
+ *                          MAX_cacheGetTrackerVariables().
  * @param integer $trackerId The tracker ID.
- * @param integer $serverRawTrackerImpressionId The unique tracker impression
- *                                              id on the raw database server.
- * @param string $serverRawIp The IP address of the raw database server, or null
- *                            if OpenX is not running in multiple database server
- *                            mode.
+ * @param integer $serverConvId The unique conversion ID value of the
+ *                              conversion as logged on the raw database
+ *                              server.
+ * @param string $serverRawIp The IP address of the raw database server,
+ *                            or the single server setup identifier.
  */
-function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     // Get the variable information, including the Variable ID
-    foreach ($variables as $variable) {
-        if (isset($_GET[$variable['name']])) {
-            $value = $_GET[$variable['name']];
+    foreach ($aVariables as $aVariable) {
+        if (isset($_GET[$aVariable['name']])) {
+            $value = $_GET[$aVariable['name']];
 
             // Do not save variable if empty or if the JS engine set it to "undefined"
             if (!strlen($value) || $value == 'undefined') {
-                unset($variables[$variable['variable_id']]);
+                unset($aVariables[$aVariable['variable_id']]);
                 continue;
             }
             // Sanitize by datatype
-            switch ($variable['type']) {
+            switch ($aVariable['type']) {
                 case 'int':
                 case 'numeric':
                     // Strip useless chars, such as currency
                     $value = preg_replace('/[^0-9.]/', '', $value);
-                    $value = floatval($value); break;
+                    $value = floatval($value);
+                    break;
                 case 'date':
                     if (!empty($value)) {
                         $value = date('Y-m-d H:i:s', strtotime($value));
@@ -231,16 +174,13 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
             }
         } else {
             // Do not save anything if the variable isn't set
-            unset($variables[$variable['variable_id']]);
+            unset($aVariables[$aVariable['variable_id']]);
             continue;
         }
-        $variables[$variable['variable_id']]['value'] = $value;
+        $aVariables[$aVariable['variable_id']]['value'] = $value;
     }
-    if (count($variables)) {
-        OX_Delivery_Common_hook('logConversionVariable', array($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp));
-        // @todo - remove following code once buckets will be finished
-        MAX_Dal_Delivery_Include();
-        OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
+    if (count($aVariables)) {
+        OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp));
     }
 }
 
@@ -248,6 +188,7 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
  * A "private" function to check if the information to be logged should be
  * logged or ignored, on the basis of the viewer's IP address or hostname.
  *
+ * @access private
  * @return boolean True if the information should be logged, or false if the
  *                 IP address or host name is in the list of hosts for which
  *                 information should not be logged.
@@ -299,104 +240,6 @@ function _viewersHostOkayToLog()
         }
     }
     return true;
-}
-
-/**
- * A function to get various information that needs to be logged.
- *
- * @todo Update the values set by this function so that safe empty values are set when the information is not available
- *
- * @return array Returns an array with four elements:
- *                  0: An array of the viewer's geotargeting info.
- *                  1: An array of information about the URL the viewer used
- *                     to access the page containing the zone.
- *                  2: An array of information about the viewer's web browser
- *                     and operating system.
- *                  3: An integer to store if the call to OpenX was performed
- *                     using HTTPS (1) or not (0).
- */
-function _prepareLogInfo()
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    // Get the Geotargeting information, if required
-    $geotargeting = array();
-    if (isset($aConf['geotargeting']['saveStats']) && $aConf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
-        $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
-    } else {
-        $geotargeting = array(
-            'country_code'  => null,
-            'region'        => null,
-            'city'          => null,
-            'postal_code'   => null,
-            'latitude'      => null,
-            'longitude'     => null,
-            'dma_code'      => null,
-            'area_code'     => null,
-            'organisation'  => null,
-            'netspeed'      => null,
-            'continent'     => null
-        );
-    }
-    // Get the zone location information, if set up to log this,
-    // and if possible
-    $zoneInfo = array();
-    if ($aConf['logging']['pageInfo']) {
-        if (!empty($_GET['loc'])) {
-            $zoneInfo = parse_url($_GET['loc']);
-        } elseif (!empty($_SERVER['HTTP_REFERER'])) {
-            $zoneInfo = parse_url($_SERVER['HTTP_REFERER']);
-        } elseif (!empty($GLOBALS['loc'])) {
-            $zoneInfo = parse_url($GLOBALS['loc']);
-        }
-        if (!empty($zoneInfo['scheme'])) {
-            $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
-        }
-        if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-            $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
-        }
-    }
-    // Get the operating system and browser type, if required
-    if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
-        $userAgentInfo = array(
-            'os' => $GLOBALS['_MAX']['CLIENT']['os'],
-            'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],
-            'browser'   => $GLOBALS['_MAX']['CLIENT']['browser'],
-        );
-    } else {
-        $userAgentInfo = array();
-    }
-    // Determine if the access to OpenX was made using HTTPS
-    $maxHttps = 0;  // https is false
-    if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
-        $maxHttps = 1;   // https is true
-    }
-
-    // Set required info for logging
-    if (!isset($zoneInfo['channel_ids'])) {
-        $zoneInfo['channel_ids'] = null;
-    }
-    if (!isset($zoneInfo['scheme'])) {
-        $zoneInfo['scheme'] = null;
-    }
-
-    if (!isset($zoneInfo['host'])) {
-        $zoneInfo['host'] = null;
-    }
-    if (!isset($zoneInfo['path'])) {
-        $zoneInfo['path'] = null;
-    }
-    if (!isset($zoneInfo['query'])) {
-        $zoneInfo['query'] = null;
-    }
-
-    if (!isset($userAgentInfo['os'])) {
-        $userAgentInfo['os'] = '';
-    }
-    if (!isset($userAgentInfo['browser'])) {
-        $userAgentInfo['browser'] = '';
-    }
-
-    return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
 }
 
 /**
@@ -490,8 +333,67 @@ function MAX_Delivery_log_setZoneLimitations($index, $aZones, $aCaps)
 }
 
 /**
+ * This function sets or updates the last action (cookie) record
+ * This value is used to track conversions for a campaign
+ *
+ * @param integer $index
+ * @param array $aAdIds
+ * @param array $aZoneIds
+ * @param array $aSetLastSeen
+ * @param integer $action
+ */
+function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action = 'view')
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (!empty($aSetLastSeen[$index])) {
+        MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
+    }
+}
+
+/**
+ * This fuction set or updates the click blocked (cookie) record
+ * This value is used to block clicks
+ *
+ * @param integer $index The index to the addId array that correspond
+ *                       with the add that has been clicked
+ * @param array $aAdIds  An array of add's id, indexed by integers that
+ *                       coincides with the add's id
+ *
+ */
+function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    MAX_cookieAdd("_{$aConf['var']['blockLoggingClick']}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()), _getTimeThirtyDaysFromNow());
+}
+
+/**
+ * This function check if the click logging for an add is blocked
+ * when the block logging is active
+ *
+ * @param integer $adId              The add's id of the add that the function checks
+ *                                   if is blocked for click logging
+ * @param array $aBlockLoggingClick  And array with the timestamps of the last click logged
+ *                                   for every add that has been clicked
+ * @return boolean                   Returns true when the click block logging window for
+ *                                   and add hasn't expired yet
+ */
+function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
+{
+    if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
+        if (isset($aBlockLoggingClick[$adId])) {
+            $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
+            if ($endBlock >= MAX_commonGetTimeNow()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
  * A "private" function to set delivery blocking and/or capping cookies.
  *
+ * @access private
  * @param string $type The type of blocking/capping cookies to set. One of
  *                     'Ad', 'Campaign' or 'Zone'.
  * @param integer $index The index to the item and item limitation

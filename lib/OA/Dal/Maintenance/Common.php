@@ -349,61 +349,6 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         return $aResult;
     }
 
-    /**
-     * A method to find the largest, active connection window for a given type.
-     *
-     * @param string $type The type (eg. "impression" or "click").
-     * @return integer Returns the largest active connection window for the
-     *                 given type, or zero on error, or if none found.
-     */
-    function maxConnectionWindow($type)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        // Translate the "impression" type name
-        if ($type == 'impression') {
-            $tableType = 'view';
-        } else {
-            $tableType = $type;
-        }
-        $tableName = $this->_getTablename('campaigns_trackers');
-        $query = "
-            SELECT
-                MAX(" . $tableType . "window) AS max
-            FROM
-                {$tableName}";
-        OA::debug('- Finding the largest active ' . $type . ' connection window', PEAR_LOG_DEBUG);
-        $rc = $this->oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        if (PEAR::isError($aRow)) {
-            OA::debug('- Error finding ' . $type . ' connection window', PEAR_LOG_ERR);
-            return 0;
-        }
-        if (empty($aRow['max']) || $aRow['max'] <= 0) {
-            $aRow['max'] = 0;
-        }
-        OA::debug('- Found ' . $aRow['max'] . ' as the largest active ' . $type . ' connection window', PEAR_LOG_DEBUG);
-        return $aRow['max'];
-    }
-
-    /**
-     * A method to find the largest, active impression and click connection
-     * windows.
-     *
-     * @return array Returns an array containing the largest active impression and
-     *               click connection windows. Default values are zero.
-     */
-    function maxConnectionWindows()
-    {
-        // Set default values
-        $impressionWindow = 0;
-        $clickWindow = 0;
-        // Find the largest, active tracker impression connection window
-        $impressionWindow = $this->maxConnectionWindow('impression');
-        // Find the largest, active tracker click connection window
-        $clickWindow = $this->maxConnectionWindow('click');
-        return array($impressionWindow, $clickWindow);
-    }
-
 }
 
 ?>

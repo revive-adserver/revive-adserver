@@ -1460,7 +1460,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
 
         $aComponentGroup = array('name'=>'foo',
                          'version'=>'1.0.0',
@@ -1517,7 +1517,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
 
         $aComponentGroup = array('name'=>'foo',
                          'version'=>'1.0.0',

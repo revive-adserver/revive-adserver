@@ -68,6 +68,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $as_reject_reason;                // INT(11) => openads_int => 129 
     public $hosted_views;                    // INT(11) => openads_int => 129 
     public $hosted_clicks;                   // INT(11) => openads_int => 129 
+    public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
@@ -96,6 +98,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'as_reject_reason' => 0,
                 'hosted_views' => 0,
                 'hosted_clicks' => 0,
+                'viewwindow' => 0,
+                'clickwindow' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

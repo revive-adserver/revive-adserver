@@ -27,6 +27,10 @@ $Id$
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
+/**
+ * @package    Plugin
+ * @subpackage openxDeliveryLog
+ */
 class Migration_001 extends Migration
 {
 

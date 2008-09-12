@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance.php';
+require_once LIB_PATH . '/Maintenance.php';
 
 
 /**
@@ -58,8 +58,8 @@ class OA_Maintenance_Status
         $oOneHourAgo->subtractSpan(new Date_Span('0-1-0-0'));
 
         // Get last runs
-        $oLastCronRun = OA_Maintenance::getLastScheduledRun();
-        $oLastRun     = OA_Maintenance::getLastRun();
+        $oLastCronRun = OX_Maintenance::getLastScheduledRun();
+        $oLastRun     = OX_Maintenance::getLastRun();
 
         // Reset minutes and seconds
         if (isset($oLastCronRun)) {

@@ -277,6 +277,7 @@ $GLOBALS['strDebugIdent']                            = 'Debug Identification Str
 $GLOBALS['strDebugUsername']                         = 'mCal, SQL Server Username';
 $GLOBALS['strDebugPassword']                         = 'mCal, SQL Server Password';
 $GLOBALS['strProductionSystem']                      =  'Production System';
+$GLOBALS['strBlockAdClicksWindow']                   = 'Click Block Logging Window (seconds)';
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = 'Delivery Settings';

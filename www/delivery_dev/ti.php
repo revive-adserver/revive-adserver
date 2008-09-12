@@ -40,16 +40,21 @@ MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('trackerid'));
 if (empty($trackerid)) $trackerid = 0;
 
-// Determine the user ID
-$userid = MAX_cookieGetUniqueViewerID(false);
-
 // Log the tracker impression
 if ($conf['logging']['trackerImpressions']) {
-	$conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
-	if (isset($conversionInfo['server_raw_tracker_impression_id'])) {
-	    // Store tracker impression variable values
-	    MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $conversionInfo['server_raw_tracker_impression_id'], $conversionInfo['server_raw_ip']);
-	}
+    $aConversion = MAX_trackerCheckForValidAction($trackerid);
+    if (!empty($aConversion)) {
+        $aConversionInfo = MAX_Delivery_log_logConversion($trackerid, $aConversion);
+        if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'])) {
+            // Store tracker impression variable values
+            MAX_Delivery_log_logVariableValues(
+                MAX_cacheGetTrackerVariables($trackerid),
+                $trackerid,
+                $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'],
+                $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip']
+            );
+        }
+    }
 }
 MAX_cookieFlush();
 // Send a 1 x 1 gif

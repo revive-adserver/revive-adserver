@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Plugin prepares data for buckets logging</description>
-    <version>1.0.0-dev</version>
+    <version>1.0.1-dev</version>
     <oxversion>2.7.10-dev</oxversion>
     <extends>deliveryDataPrepare</extends>
 
@@ -25,6 +25,7 @@
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Data_bkt_m_country.php</dataobject>
             <dataobject>Data_bkt_c_country.php</dataobject>
+            <dataobject>Stats_country.php</dataobject>
         </schema>
 
         <postscript>postscript_install_oxDeliveryGeo.php</postscript>

@@ -130,7 +130,7 @@ class Admin_DaTest extends DalUnitTestCase
     function test_getColumns()
     {
         //  load hash representing data structure
-        require MAX_PATH . '/lib/max/data/data.entities.php';
+        require MAX_PATH . '/tests/data/data.entities.php';
         foreach ($entities as $entity => $hash) {
             $ret = SqlBuilder::_getColumns($entity, array(), true);
             // Sort! Database column order is not relevant
@@ -142,7 +142,7 @@ class Admin_DaTest extends DalUnitTestCase
 
     function test_getPrimaryTable()
     {
-        require MAX_PATH . '/lib/max/data/data.entities.php';
+        require MAX_PATH . '/tests/data/data.entities.php';
         foreach ($entities as $entity => $hash) {
             $ret = SqlBuilder::_getPrimaryTable($entity);
             $this->assertTrue(is_array($ret));
@@ -156,7 +156,7 @@ class Admin_DaTest extends DalUnitTestCase
 
     function test_getTables()
     {
-        require MAX_PATH . '/lib/max/data/data.entities.php';
+        require MAX_PATH . '/tests/data/data.entities.php';
         foreach ($entities as $entity => $hash) {
             $ret = SqlBuilder::_getTables($entity, array());
             $this->assertTrue(is_array($ret));
@@ -170,7 +170,7 @@ class Admin_DaTest extends DalUnitTestCase
 
     function test_getLimitations()
     {
-        require MAX_PATH . '/lib/max/data/data.entities.php';
+        require MAX_PATH . '/tests/data/data.entities.php';
         foreach ($entities as $entity => $hash) {
             $ret = SqlBuilder::_getLimitations($entity, array_flip($hash));
             $this->assertTrue(is_array($ret));

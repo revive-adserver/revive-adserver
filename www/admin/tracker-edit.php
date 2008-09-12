@@ -181,35 +181,6 @@ function buildTrackerForm($tracker, $plugins)
     $viewG['second']->setSize(3);
     $form->addGroup($viewG, 'size', $GLOBALS['strViewWindow'], "&nbsp;", false);
 
-    //plugin fields
-    foreach ($plugins as $plugin) {
-        $fieldName = strtolower($plugin->trackerEvent);
-
-
-        $pluginG['day'] = $form->createElement('text', '{$fieldName}window[day]', $GLOBALS['strDays'],
-            array("id" => "{$fieldName}windowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
-        $pluginG['day']->setSize(3);
-        $pluginG['hour'] = $form->createElement('text', '{$fieldName}window[hour]', $GLOBALS['strHours'],
-            array("id" => "{$fieldName}windowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
-        $pluginG['hour']->setSize(3);
-        $pluginG['minute'] = $form->createElement('text', '{$fieldName}window[minute]', $GLOBALS['strMinutes'],
-            array("id" => "{$fieldName}windowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
-        $pluginG['minute']->setSize(3);
-        $pluginG['second'] = $form->createElement('text', '{$fieldName}window[second]', $GLOBALS['strSeconds'],
-            array("id" => "{$fieldName}windowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-                "onBlur" => "phpAds_formLimitBlur(this.form);"));
-        $pluginG['second']->setSize(3);
-        $form->addGroup($pluginG, 'size', ucfirst($fieldName), "&nbsp;", false);
-
-        //set plugin defaults
-        $pluginsCalendarItems = splitSecondsIntoCalendarItems($tracker[$fieldName . 'window']);
-        $form->setDefaults(array($fieldName."window[day]" => $clickCalendarItems['day'],
-            $fieldName."window[hour]" => $clickCalendarItems['hour'],
-            $fieldName."window[minute]" => $clickCalendarItems['minute'],
-            $fieldName."window[second]" => $clickCalendarItems['second']));
-    }
-
-
     $statuses = $GLOBALS['_MAX']['STATUSES'];
     $startStatusesIds = array(1,2,4);
     foreach($statuses as $statusId => $statusName) {
@@ -318,12 +289,6 @@ function processForm($form, $plugins)
     $doTrackers->type = $aFields['type'];
     $doTrackers->linkcampaigns = $aFields['linkcampaigns'] == "t" ? "t" : "f";
     $doTrackers->clientid = $aFields['clientid'];
-
-    foreach ($plugins as $plugin) {
-        $dbField = strtolower($plugin->trackerEvent) . 'window';
-        $value = ${$dbField}['day'] * (24*60*60) + ${$dbField}['hour'] * (60*60) + ${$dbField}['minute'] * (60) + ${$dbField}['second'];
-        $doTrackers->$dbField = $value;
-    }
 
     if (empty($aFields['trackerid']) || $aFields['trackerid'] == "null") {
         $aFields['trackerid'] = $doTrackers->insert();

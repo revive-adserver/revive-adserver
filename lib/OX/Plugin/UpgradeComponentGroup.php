@@ -39,6 +39,9 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
 // setup oUpgrader, determine whether they are installing or that they can Upgrade
 
+/**
+ * @package OpenXPlugin
+ */
 class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
 {
 

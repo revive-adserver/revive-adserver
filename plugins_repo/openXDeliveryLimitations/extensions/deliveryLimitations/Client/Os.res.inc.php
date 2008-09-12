@@ -28,7 +28,7 @@ $Id$
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
 
 $res = array(

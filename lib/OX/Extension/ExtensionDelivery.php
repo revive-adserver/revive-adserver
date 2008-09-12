@@ -28,6 +28,9 @@ $Id$
 require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
 require_once(LIB_PATH.'/Extension/deliveryLog/Setup.php');
 
+/**
+ * @package    OpenXExtension
+ */
 class OX_Extension_Delivery extends OX_Extension_Common
 {
 
@@ -119,7 +122,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
             case 'logConversionVariable':
             case 'logImpression':
             case 'logRequest':
-                $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
+                $deliveryLogSetup = new OX_Extension_DeliveryLog_Setup();
                 return $deliveryLogSetup->getDependencyOrderedPlugins($aComponentIdentifiers, $aHooks);
                 break;
             default:
@@ -136,7 +139,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
      */
     function _generateDeliveryHooksCacheFile($aHooks = array())
     {
-        $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
+        $deliveryLogSetup = new OX_Extension_DeliveryLog_Setup();
         return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
     }
 

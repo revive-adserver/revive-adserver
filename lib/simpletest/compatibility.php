@@ -4,14 +4,14 @@
      *	@package	SimpleTest
      *	@version	$Id$
      */
-    
+
     /**
      *  Static methods for compatibility between different
      *  PHP versions.
      *  @package	SimpleTest
      */
     class SimpleTestCompatibility {
-    	
+
     	/**
     	 *	  Creates a copy whether in PHP5 or PHP4.
     	 *	  @param object $object		Thing to copy.
@@ -26,7 +26,7 @@
             }
             return $object;
     	}
-        
+
         /**
          *    Identity test. Drops back to equality + types for PHP5
          *    objects as the === operator counts as the
@@ -46,7 +46,7 @@
             }
             return ($first === $second);
         }
-        
+
         /**
          *    Recursive type test.
          *    @param mixed $first    Test subject.
@@ -75,7 +75,7 @@
             }
             return true;
         }
-        
+
         /**
          *    Recursive type test for each element of an array.
          *    @param mixed $first    Test subject.
@@ -98,7 +98,7 @@
             }
             return true;
         }
-        
+
         /**
          *    Test for two variables being aliases.
          *    @param mixed $first    Test subject.
@@ -124,7 +124,7 @@
             $first = $temp;
             return $is_ref;
         }
-        
+
         /**
          *    Test to see if an object is a member of a
          *    class hiearchy.
@@ -152,7 +152,7 @@
             return ((strtolower($class) == get_class($object))
                     or (is_subclass_of($object, $class)));
         }
-        
+
         /**
          *    Sets a socket timeout for each chunk.
          *    @param resource $handle    Socket handle.

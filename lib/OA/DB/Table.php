@@ -319,11 +319,28 @@ class OA_DB_Table
     }
 
      /**
+     * A method to check if a table exists
+     *
+     * @param string $table The full name of the table, i.e. with prefix if required.
+     * @return boolean True if exists, false otherwise.
+     */
+    function extistsTable($table)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $tableName = preg_replace("/^{$aConf['table']['prefix']}/", '', $table);
+        $aResult = $this->listOATablesCaseSensitive($tableName);
+        if (is_array($aResult) && in_array($table, $aResult)) {
+            return true;
+        }
+        return false;
+    }
+
+     /**
      * A method to check if a temporary table exists
      * temporary tables are hidden from SHOW TABLES statement
      *
-     * @param string $table the name of the table
-     * @return boolean True if exists, false if not exists
+     * @param string $table The full name of the table, i.e. with prefix if required.
+     * @return boolean True if exists, false otherwise.
      */
     function existsTemporaryTable($table)
     {

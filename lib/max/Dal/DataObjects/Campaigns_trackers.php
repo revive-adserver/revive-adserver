@@ -39,8 +39,6 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     public $campaign_trackerid;              // MEDIUMINT(9) => openads_mediumint => 129 
     public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
     public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129 
-    public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
     public $status;                          // SMALLINT(1) => openads_smallint => 145 
 
     /* Static get */
@@ -49,8 +47,6 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     var $defaultValues = array(
                 'campaignid' => 0,
                 'trackerid' => 0,
-                'viewwindow' => 0,
-                'clickwindow' => 0,
                 'status' => 1,
                 );
 

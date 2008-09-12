@@ -846,7 +846,7 @@ class Test_OX_PluginManager extends UnitTestCase
                                      )
                              );
         $oManager = new $oMockManager($this);
-        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
 
         // Test 1 - fail (no plugin definitions provided)
         $aPluginsNew    = array();

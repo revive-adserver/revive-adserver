@@ -9,5 +9,6 @@ $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXReport
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryCacheStore','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMaxMindGeoIP','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXInvocationTags','ext'=>'zip');
+$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLog','ext'=>'zip');
 
 ?>

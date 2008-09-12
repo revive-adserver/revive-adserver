@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -25,60 +25,65 @@
 $Id$
 */
 
-require_once MAX_PATH . '/extensions/deliveryLog/AggregateBucketProcessingStrategyMysql.php';
-require_once MAX_PATH . '/extensions/deliveryLog/RawBucketProcessingStrategyMysql.php';
-require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
-
 /**
  * A factory for creating BucketProcessingStrategy classes.
- * 
- * @package    OpenXPlugin
- * @subpackage Plugins_DeliveryLog
+ *
+ * @package    OpenXExtension
+ * @subpackage DeliveryLog
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     David Keen <david.keen@openx.org>
  */
-class Plugins_DeliveryLog_BucketProcessingStrategyFactory
+class OX_Extension_DeliveryLog_BucketProcessingStrategyFactory
 {
+
     /**
      * Creates a BucketProcessingStrategy for aggregate type buckets.
      *
-     * @param string $dbType only 'mysql' supported.
-     * @return Plugins_DeliveryLog_BucketProcessingStrategy
+     * @return OX_Extension_DeliveryLog_BucketProcessingStrategy
      */
-    public static function getAggregateBucketProcessingStrategy($dbType)
+    public static function getAggregateBucketProcessingStrategy()
     {
-        switch ($dbType) {
-            case 'mysql':
-                return new Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql();
-                break;
-            case 'pgsql':
-                MAX::raiseError('Unsupported DB type for distributed statistics.',
-                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
-                break;
-            default:
-                MAX::raiseError('Unsupported DB type for distributed statistics.',
-                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
-        }
+        return OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::_getBucketProcessingStrategy('Aggregate');
     }
-    
+
     /**
      * Creates a BucketProcessingStrategy for raw type buckets.
      *
-     * @param string $dbType only 'mysql' supported.
-     * @return Plugins_DeliveryLog_BucketProcessingStrategy
+     * @return OX_Extension_DeliveryLog_BucketProcessingStrategy
      */
-    public static function getRawBucketProcessingStrategy($dbType)
+    public static function getRawBucketProcessingStrategy()
     {
-        switch ($dbType) {
-            case 'mysql':
-                return new Plugins_DeliveryLog_RawBucketProcessingStrategyMysql();
-                break;
-            case 'pgsql':
-                MAX::raiseError('Unsupported DB type for distributed statistics.',
-                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
-                break;
-            default:
-                MAX::raiseError('Unsupported DB type for distributed statistics.',
-                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
+        return OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::_getBucketProcessingStrategy('Raw');
+    }
+
+    /**
+     * A private method to get the required default deliveryLog extension
+     * bucket processing strategy class.
+     *
+     * @access private
+     * @param string $type Either "Aggregate" or "Raw".
+     * @return OX_Extension_DeliveryLog_BucketProcessingStrategy
+     */
+    private static function _getBucketProcessingStrategy($type)
+    {
+        $dbType = $GLOBALS['_MAX']['CONF']['database']['type'];
+
+        // Prepare the required filename for the default bucket processing strategy needed
+        $fileName = LIB_PATH . '/Extension/deliveryLog/' . ucfirst(strtolower($type)) . 'BucketProcessingStrategy' . ucfirst(strtolower($dbType)) . '.php';
+        // Include the required bucket processing strategy file
+        if (file_exists($fileName)) {
+            @include_once $fileName;
+            // Prepare the required class name for the default bucket processing strategy needed
+            $className = 'OX_Extension_DeliveryLog_' . ucfirst(strtolower($type)) . 'BucketProcessingStrategy' . ucfirst(strtolower($dbType));
+            if (class_exists($className)) {
+                return new $className();
+            }
         }
+
+        $message = 'Unable to instantiate the required default ' . strtolower($type) .
+            " datbase bucket processing strategy for database type '$dbType'.";
+        MAX::raiseError($message, MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
     }
 }
+
+?>

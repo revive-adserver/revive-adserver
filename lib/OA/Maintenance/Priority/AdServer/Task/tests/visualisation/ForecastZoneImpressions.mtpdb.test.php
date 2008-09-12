@@ -270,7 +270,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $antialias = true;
         }
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
@@ -524,7 +524,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $antialias = true;
         }
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
@@ -780,7 +780,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $antialias = true;
         }
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
+        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
             $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
