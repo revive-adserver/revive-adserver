@@ -283,6 +283,7 @@ $GLOBALS['strNoBannerId']               = "No banner ID";
 $GLOBALS['strDeadLink']                 = "Your link is invalid.";
 $GLOBALS['strNoPlacement']              = "Selected campaign does not exist. Try this <a href='{link}'>link</a> instead";
 $GLOBALS['strNoAdvertiser']             = "Selected advertiser does not exist. Try this <a href='{link}'>link</a> instead";
+$GLOBALS['strSwitchAccountWithPermissions'] = "You do not have the required permission to see this page whilst you are logged into this account. However, you have another account with the correct permissions. To view this page using that account please use the account switcher above.";
 
 // General advertising
 $GLOBALS['strRequests']                 = 'Requests';
