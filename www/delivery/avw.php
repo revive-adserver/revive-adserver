@@ -719,78 +719,197 @@ require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type'])
 require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 }
 }
-function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
+function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $trackerJsCode = null)
 {
-if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logRequest', array($viewerId, $adId, $creativeId, $zoneId));
-// @todo - remove following code once buckets will be finished
+$conf = $GLOBALS['_MAX']['CONF'];
+$buffer = '';
+$url = MAX_commonGetDeliveryUrl($conf['file']['conversionvars']);
+$tracker = MAX_cacheGetTracker($trackerid);
+$variables = MAX_cacheGetTrackerVariables($trackerid);
+$variableQuerystring = '';
+if (empty($trackerJsCode)) {
+$trackerJsCode = md5(uniqid('', true));
+} else {
+// Appended tracker - set method to default
+$tracker['variablemethod'] = 'default';
+}
+if (!empty($variables)) {
+if ($tracker['variablemethod'] == 'dom') {
+$buffer .= "
+function MAX_extractTextDom(o)
+{
+var txt = '';
+if (o.nodeType == 3) {
+txt = o.data;
+} else {
+for (var i = 0; i < o.childNodes.length; i++) {
+txt += MAX_extractTextDom(o.childNodes[i]);
+}
+}
+return txt;
+}
+function MAX_TrackVarDom(id, v)
+{
+if (max_trv[id][v]) { return; }
+var o = document.getElementById(v);
+if (o) {
+max_trv[id][v] = escape(o.tagName == 'INPUT' ? o.value : MAX_extractTextDom(o));
+}
+}";
+$funcName = 'MAX_TrackVarDom';
+} elseif ($tracker['variablemethod'] == 'default') {
+$buffer .= "
+function MAX_TrackVarDefault(id, v)
+{
+if (max_trv[id][v]) { return; }
+if (typeof(window[v]) == undefined) { return; }
+max_trv[id][v] = window[v];
+}";
+$funcName = 'MAX_TrackVarDefault';
+} else {
+$buffer .= "
+function MAX_TrackVarJs(id, v, c)
+{
+if (max_trv[id][v]) { return; }
+if (typeof(window[v]) == undefined) { return; }
+if (typeof(c) != 'undefined') {
+eval(c);
+}
+max_trv[id][v] = window[v];
+}";
+$funcName = 'MAX_TrackVarJs';
+}
+$buffer .= "
+if (!max_trv) { var max_trv = new Array(); }
+if (!max_trv['{$trackerJsCode}']) { max_trv['{$trackerJsCode}'] = new Array(); }";
+foreach($variables as $key => $variable) {
+$variableQuerystring .= "&{$variable['name']}=\"+max_trv['{$trackerJsCode}']['{$variable['name']}']+\"";
+if ($tracker['variablemethod'] == 'custom') {
+$buffer .= "
+{$funcName}('{$trackerJsCode}', '{$variable['name']}', '".addcslashes($variable['variablecode'], "'")."');";
+} else {
+$buffer .= "
+{$funcName}('{$trackerJsCode}', '{$variable['name']}');";
+}
+}
+if (!empty($variableQuerystring)) {
+$buffer .= "
+document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
+document.write (\"$url?trackerid=$trackerid&server_conv_id={$conversionInfo['server_conv_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
+$buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
+}
+}
+if(!empty($tracker['appendcode'])) {
+// Add the correct "inherit" parameter if a OpenX trackercode was found
+$tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
+$jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");
+// Replace template style variables
+$jscode = preg_replace("/\{m3_trackervariable:(.+?)\}/", "\"+max_trv['{$trackerJsCode}']['$1']+\"", $jscode);
+$buffer .= "\n".preg_replace('/^/m', "\t", $jscode)."\n";
+}
+if (empty($buffer)) {
+$buffer = "document.write(\"\");";
+}
+return $buffer;
+}
+function MAX_trackerCheckForValidAction($trackerid)
+{
+// Get all creatives that are linked to this tracker
+$aTrackerLinkedAds = MAX_cacheGetTrackerLinkedCreatives($trackerid);
+// This tracker is not linked to any creatives
+if (empty($aTrackerLinkedAds)) {
+return false;
+}
+// Note: Constants are not included n the delivery engine, the values below map to the values defined in constants.php
+$aPossibleActions = _getActionTypes();
+$now = MAX_commonGetTimeNow();
 $aConf = $GLOBALS['_MAX']['CONF'];
-list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$geotargeting = array();
-$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'];
-MAX_Dal_Delivery_Include();
-OA_Dal_Delivery_logAction(
-$table,
-$viewerId,
-$adId,
-$creativeId,
-$zoneId,
-$geotargeting,
-$zoneInfo,
-$userAgentInfo,
-$maxHttps
+$aMatchingActions = array();
+// Iterate over all creatives linked to this tracker...
+foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
+// Iterate over all possible actions (currently only "view" and "click")
+foreach ($aPossibleActions as $actionId => $action) {
+// If there is both a connection window set, and this creative has been actioned
+if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
+list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
+// Decode the base32 timestamp
+$lastAction = MAX_commonUnCompressInt($lastAction);
+// Calculate how long ago this action occured
+$lastSeenSecondsAgo = $now - $lastAction;
+// If the action occured within the window (and sanity check that it's > 0), record this as a matching action
+if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
+// Index the matching array against the # seconds ago that the action occured
+$aMatchingActions[$lastSeenSecondsAgo] = array(
+'action_type'   => $actionId,
+'tracker_type'  => $aLinkedInfo['tracker_type'],
+'status'        => $aLinkedInfo['status'],
+'cid'           => $creativeId,
+'zid'           => $zoneId,
+'dt'            => $lastAction,
+'window'        => $aLinkedInfo[$action . '_window'],
 );
 }
 }
-function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
+}
+}
+// If no actions matched, return false
+if (empty($aMatchingActions)) {
+return false;
+}
+// Sort by ascending #seconds since action
+ksort($aMatchingActions);
+// Return the first matching action
+return array_shift($aMatchingActions);
+}
+function MAX_trackerDeleteActionFromCookie($aConnection)
 {
-if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logImpression', array($viewerId, $adId, $creativeId, $zoneId));
-// @todo - remove following code once buckets will be finished
+$trackerTypes = _getTrackerTypes();
+if ($trackerTypes[$aConnection['tracker_type']] != 'sale') {
+// We only clear the cookie information for "sale" trackers
+return;
+}
+// Haven't planned how this will be achieved yet...
+// The cookie packing mechanism wasn't built to allow deleting items from the compacted array
+// I'm guessing something like set _cookieName[adId] = "false", then unset from packed when recompacting
+$actionTypes = _getActionTypes();
 $aConf = $GLOBALS['_MAX']['CONF'];
-list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'];
-MAX_Dal_Delivery_Include();
-OA_Dal_Delivery_logAction(
-$table,
-$viewerId,
-$adId,
-$creativeId,
-$zoneId,
-$geotargeting,
-$zoneInfo,
-$userAgentInfo,
-$maxHttps
-);
+$cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
+MAX_cookieAdd($cookieName, 'false', _getTimeThirtyDaysFromNow());
 }
+function _getActionTypes()
+{
+return array(0 => 'view', 1 => 'click');
 }
-function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
+function _getTrackerTypes()
+{
+return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
+}
+function MAX_Delivery_log_logAdRequest($adId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logClick', array($viewerId, $adId, $creativeId, $zoneId));
-// @todo - remove following code once buckets will be finished
-$aConf = $GLOBALS['_MAX']['CONF'];
-list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'];
-MAX_Dal_Delivery_Include();
-OA_Dal_Delivery_logAction(
-$table,
-$viewerId,
-$adId,
-$creativeId,
-$zoneId,
-$geotargeting,
-$zoneInfo,
-$userAgentInfo,
-$maxHttps
-);
+// Call all registered plugins that use the "logRequest" hook
+OX_Delivery_Common_hook('logRequest', array($adId, $zoneId));
 }
 }
-function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
+function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId));
-// @todo - remove following code once buckets will be finished
+// Call all registered plugins that use the "logImpression" hook
+OX_Delivery_Common_hook('logImpression', array($adId, $zoneId));
+}
+}
+function MAX_Delivery_log_logAdClick($adId, $zoneId)
+{
+if (_viewersHostOkayToLog()) {
+// Call all registered plugins that use the "logClick" hook
+OX_Delivery_Common_hook('logClick', array($adId, $zoneId));
+}
+}
+function MAX_Delivery_log_logConversion($trackerId, $aConversion)
+{
+if (_viewersHostOkayToLog()) {
+// Prepare the raw database IP address, depending on if OpenX is running
+// with multiple delivery servers, or just a single server
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (empty($aConf['rawDatabase']['host'])) {
 if (!empty($aConf['lb']['enabled'])) {
@@ -804,60 +923,38 @@ $serverRawIp = $aConf['rawDatabase']['serverRawIp'];
 } else {
 $serverRawIp = $aConf['rawDatabase']['host'];
 }
-list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_impression'];
-MAX_Dal_Delivery_Include();
-$rawTrackerImpressionId = OA_Dal_Delivery_logTracker(
-$table,
-$viewerId,
-$trackerId,
-$serverRawIp,
-$geotargeting,
-$zoneInfo,
-$userAgentInfo,
-$maxHttps
-);
-return array('server_raw_tracker_impression_id' => $rawTrackerImpressionId, 'server_raw_ip' => $serverRawIp);
-}
-return false;
-}
-function MAX_Delivery_log_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
-{
-if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId, $aTrackerImpression, $aConnection));
-// @todo - remove following code once buckets will be finished
-MAX_Dal_Delivery_Include();
-if (OA_Dal_Delivery_logTrackerConnection(
-$viewerId,
-$trackerId,
-$aTrackerImpression,
-$aConnection
-)) {
-// Log of the connection was sucessful, if this was a "sale" type conversion, then clear the cookie data
+// Call all registered plugins that use the "logConversion" hook
+$aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion));
+// Check that the conversion was logged correctly
+if (is_array($aConversionInfo)) {
+// If this was a "sale" type conversion, then clear the cookie data
 MAX_trackerDeleteActionFromCookie($aConnection);
+// Return the result
+return $aConversionInfo;
 }
 }
 return false;
 }
-function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 // Get the variable information, including the Variable ID
-foreach ($variables as $variable) {
-if (isset($_GET[$variable['name']])) {
-$value = $_GET[$variable['name']];
+foreach ($aVariables as $aVariable) {
+if (isset($_GET[$aVariable['name']])) {
+$value = $_GET[$aVariable['name']];
 // Do not save variable if empty or if the JS engine set it to "undefined"
 if (!strlen($value) || $value == 'undefined') {
-unset($variables[$variable['variable_id']]);
+unset($aVariables[$aVariable['variable_id']]);
 continue;
 }
 // Sanitize by datatype
-switch ($variable['type']) {
+switch ($aVariable['type']) {
 case 'int':
 case 'numeric':
 // Strip useless chars, such as currency
 $value = preg_replace('/[^0-9.]/', '', $value);
-$value = floatval($value); break;
+$value = floatval($value);
+break;
 case 'date':
 if (!empty($value)) {
 $value = date('Y-m-d H:i:s', strtotime($value));
@@ -868,16 +965,13 @@ break;
 }
 } else {
 // Do not save anything if the variable isn't set
-unset($variables[$variable['variable_id']]);
+unset($aVariables[$aVariable['variable_id']]);
 continue;
 }
-$variables[$variable['variable_id']]['value'] = $value;
+$aVariables[$aVariable['variable_id']]['value'] = $value;
 }
-if (count($variables)) {
-OX_Delivery_Common_hook('logConversionVariable', array($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp));
-// @todo - remove following code once buckets will be finished
-MAX_Dal_Delivery_Include();
-OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
+if (count($aVariables)) {
+OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp));
 }
 }
 function _viewersHostOkayToLog()
@@ -922,85 +1016,6 @@ return false;
 }
 }
 return true;
-}
-function _prepareLogInfo()
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-// Get the Geotargeting information, if required
-$geotargeting = array();
-if (isset($aConf['geotargeting']['saveStats']) && $aConf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
-$geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
-} else {
-$geotargeting = array(
-'country_code'  => null,
-'region'        => null,
-'city'          => null,
-'postal_code'   => null,
-'latitude'      => null,
-'longitude'     => null,
-'dma_code'      => null,
-'area_code'     => null,
-'organisation'  => null,
-'netspeed'      => null,
-'continent'     => null
-);
-}
-// Get the zone location information, if set up to log this,
-// and if possible
-$zoneInfo = array();
-if ($aConf['logging']['pageInfo']) {
-if (!empty($_GET['loc'])) {
-$zoneInfo = parse_url($_GET['loc']);
-} elseif (!empty($_SERVER['HTTP_REFERER'])) {
-$zoneInfo = parse_url($_SERVER['HTTP_REFERER']);
-} elseif (!empty($GLOBALS['loc'])) {
-$zoneInfo = parse_url($GLOBALS['loc']);
-}
-if (!empty($zoneInfo['scheme'])) {
-$zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
-}
-if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-$zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
-}
-}
-// Get the operating system and browser type, if required
-if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
-$userAgentInfo = array(
-'os' => $GLOBALS['_MAX']['CLIENT']['os'],
-'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],
-'browser'   => $GLOBALS['_MAX']['CLIENT']['browser'],
-);
-} else {
-$userAgentInfo = array();
-}
-// Determine if the access to OpenX was made using HTTPS
-$maxHttps = 0;  // https is false
-if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
-$maxHttps = 1;   // https is true
-}
-// Set required info for logging
-if (!isset($zoneInfo['channel_ids'])) {
-$zoneInfo['channel_ids'] = null;
-}
-if (!isset($zoneInfo['scheme'])) {
-$zoneInfo['scheme'] = null;
-}
-if (!isset($zoneInfo['host'])) {
-$zoneInfo['host'] = null;
-}
-if (!isset($zoneInfo['path'])) {
-$zoneInfo['path'] = null;
-}
-if (!isset($zoneInfo['query'])) {
-$zoneInfo['query'] = null;
-}
-if (!isset($userAgentInfo['os'])) {
-$userAgentInfo['os'] = '';
-}
-if (!isset($userAgentInfo['browser'])) {
-$userAgentInfo['browser'] = '';
-}
-return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
 }
 function MAX_Delivery_log_getArrGetVariable($name)
 {
@@ -2442,7 +2457,7 @@ $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remai
 if (is_array($row) && empty($row['default'])) {
 // Log the ad request
 if ($conf['logging']['adRequests']) {
-MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
+MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid']);
 }
 if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
 // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
@@ -2860,8 +2875,7 @@ $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['ur
 // but this type of ad doesn't work with beacons, so the impression must
 // be logged here
 if ($conf['logging']['adImpressions']) {
-$userid = MAX_cookieGetUniqueViewerID();
-MAX_Delivery_log_logAdImpression($userid, $row['bannerid'], null, $zoneid);
+MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
 }
 // Redirect to the banner
 MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
