@@ -39,6 +39,8 @@ class OA_Upgrade_Config
     {
         $this->oSettings = new OA_Admin_Settings();
         $this->aConfig =& $this->oSettings->getConfigArray();
+        // set default configPath
+        $this->configPath = MAX_PATH.'/var/';
         if (!OA_Admin_Settings::isConfigWritable())
         {
             return false;
