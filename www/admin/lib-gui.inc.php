@@ -75,8 +75,8 @@ function registerStylesheetFile($filePath)
 
 
 /**
- * Adds new action to the page.
- *
+ * Adds new action to the page. 
+ * 
  * Please note that you need to add tools before invoking showHeader function.
  *
  * @param string $title action title - translated
@@ -92,8 +92,8 @@ function addPageLinkTool($title, $url, $iconClass = null, $accesskey = null, $ex
 }
 
 /**
- * Adds new action to the page.
- *
+ * Adds new action to the page. 
+ * 
  * Please note that you need to add tools before invoking showHeader function.
  *
  * @param string $title action title - translated
@@ -115,7 +115,7 @@ function addPageFormTool($title, $url, $iconClass = null, $accesskey = null, $ex
 function addLeftMenuSubItem($id, $title, $url)
 {
     global $ox_left_menu_sub;
-
+    
     $ox_left_menu_sub['items'][$id]['title'] = $title;
     $ox_left_menu_sub['items'][$id]['link'] = $url;
 }
@@ -124,15 +124,15 @@ function addLeftMenuSubItem($id, $title, $url)
 function setCurrentLeftMenuSubItem($itemId)
 {
     global $ox_left_menu_sub;
-
+    
     $ox_left_menu_sub['current'] = $itemId;
 }
 
 
 /**
  * Adds new shortcut to the page.
- *
- * Please note that you need to add shortcuts before invoking showHeader function.
+ * 
+ * Please note that you need to add shortcuts before invoking showHeader function. 
  *
  * @param string $title action title - translated
  * @param string $url link url for the action
@@ -143,7 +143,7 @@ function addPageShortcut($title, $url, $iconClass, $accesskey = null)
 {
     $oUI = OA_Admin_UI::getInstance();
     $oUI->addPageShortcut($title, $url, $iconClass);
-
+    
 }
 
 
@@ -367,7 +367,7 @@ function phpAds_sqlDie()
 /* Display a custom error message and die                */
 /*-------------------------------------------------------*/
 
-function phpAds_Die($title="Error", $message="Unknown error", $diplayLogin = true)
+function phpAds_Die($title="Error", $message="Unknown error")
 {
     if (defined('OA_WEBSERVICES_API_XMLRPC')) {
         // It's an XML-RPC response
@@ -394,13 +394,10 @@ function phpAds_Die($title="Error", $message="Unknown error", $diplayLogin = tru
     echo "<br>";
     echo "<div class='errormessage'><img class='errormessage' src='". OX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'>".$title."</span><br><br>".$message."</div><br>";
-
-    if ($diplayLogin) {
-        // Die
-        if ($header == phpAds_Login) {
-            $_COOKIE['sessionID'] = phpAds_SessionStart();
-            OA_Auth::displayLogin('', $_COOKIE['sessionID'], true);
-        }
+    // Die
+    if ($header == phpAds_Login) {
+        $_COOKIE['sessionID'] = phpAds_SessionStart();
+        OA_Auth::displayLogin('', $_COOKIE['sessionID'], true);
     }
     phpAds_PageFooter();
     exit;

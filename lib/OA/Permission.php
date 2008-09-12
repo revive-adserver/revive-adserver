@@ -90,30 +90,12 @@ class OA_Permission
      *
      * @static
      * @param boolean $condition  Condition to check
-     * @param boolean $showSwitchAccountMessage  Flag to show or not the
-     *                                           switch account message
      */
-    function enforceTrue($condition, $showSwitchAccountMessage = false)
+    function enforceTrue($condition)
     {
-        if ((!$condition || $showSwitchAccountMessage)) {
+        if (!$condition) {
             phpAds_PageHeader(0);
-            // If don't show the switch account message diplay the login form
-            if (!$showSwitchAccountMessage)
-                 $displayLogin = true;
-            // If the user is linked to admin don't show the login form because
-            // he is going to be able to switch to the account with the requiered permissions
-            if (OA_Permission::isUserLinkedToAccountType(OA_ACCOUNT_ADMIN)) {
-                $linkedToAdmin = true;
-                $displayLogin = false;
-            } else {
-                $linkedToAdmin = false;
-            }
-            if ($showSwitchAccountMessage || $linkedToAdmin) {
-                $message = $GLOBALS['strSwitchAccountWithPermissions'];
-            } else {
-                $message = $GLOBALS['strNotAdmin'];
-            }
-            phpAds_Die($GLOBALS['strAccessDenied'], $message, $displayLogin);
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
     }
 
@@ -129,15 +111,13 @@ class OA_Permission
      */
     function enforceAccount($accountType)
     {
-        $linkedToAccountWithPermission = false;
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
         $isAccount = OA_Permission::isAccount($aArgs);
         if (!$isAccount) {
             OA_Permission::redirectIfManualAccountSwitch();
-            $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs, $switch = false);
-            $linkedToAccountWithPermission = $isAccount;
+            $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
         }
-        OA_Permission::enforceTrue($isAccount, $linkedToAccountWithPermission);
+        OA_Permission::enforceTrue($isAccount);
     }
 
     /**
@@ -159,7 +139,10 @@ class OA_Permission
      */
     function isManualAccountSwitch()
     {
-        if (isset($GLOBALS['_OX']['accountSwtich'])) {
+        global $session;
+        if (isset($session['accountSwitch'])) {
+            unset($session['accountSwitch']);
+            phpAds_SessionDataStore();
             return true;
         }
         return false;
@@ -227,7 +210,11 @@ class OA_Permission
         }
         $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
         if (!$hasAccess) {
+            $hasAccess = OA_Permission::isUserLinkedToAdmin();
+        }
+        if (!$hasAccess) {
             OA_Permission::redirectIfManualAccountSwitch();
+            $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
         }
         OA_Permission::enforceTrue($hasAccess);
     }
@@ -294,7 +281,7 @@ class OA_Permission
         // Force session save
         phpAds_SessionDataRegister('user', $oUser);
 
-        // Queue confirmation message
+        // Queue confirmation message        
         $translation = new OA_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strYouAreNowWorkingAsX'], array( htmlspecialchars($oUser->aAccount['account_name']) ));
         OA_Admin_UI::queueMessage($translated_message, 'global', 'info');
@@ -322,15 +309,8 @@ class OA_Permission
         return false;
     }
 
-    /**
-     * A method to attempt to switch account, if the paramater $switch is false
-     * don't switch account and just return if is possible to switch or not
-     *
-     * @param string  $accountType The account type to switch
-     * @param boolean $switch      If false don't switch account
-     * @return unknown
-     */
-    function attemptToSwitchToAccount($accountType, $switch = true)
+
+    function attemptToSwitchToAccount($accountType)
     {
         $oUser = OA_Permission::getCurrentUser();
         if (!$oUser) {
@@ -346,8 +326,7 @@ class OA_Permission
                 } else {
                     $accountId = array_shift(array_keys($aAccountIds[$accountType]));
                 }
-                if ($switch)
-                    OA_Permission::switchAccount($accountId, $hasAccess = true);
+                OA_Permission::switchAccount($accountId, $hasAccess = true);
                 return true;
             }
         }
@@ -498,21 +477,6 @@ class OA_Permission
         $doAccount_user_Assoc->user_id = $userId;
         $doAccount_user_Assoc->account_id = $accountId;
         return $doAccount_user_Assoc->count();
-    }
-
-    /**
-     * A method to check if the user is linked to an specific account type
-     *
-     * @param  string  $accountType  account type
-     * @return boolean
-     */
-    function isUserLinkedToAccountType($accountType)
-    {
-        $aAccountIds = OA_Permission::getLinkedAccounts(true);
-        if (array_key_exists($accountType, $aAccountIds)) {
-            return true;
-        }
-        return false;
     }
 
     /**

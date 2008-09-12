@@ -139,12 +139,6 @@ function OA_Start($checkRedirectFunc = null)
     if (!empty($session['language']) && $session['language'] != $GLOBALS['pref']['language']) {
         $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
     }
-    // Check if manual account swtich has happened and migrate to new global variable
-    if (isset($session['accountSwitch'])) {
-        $GLOBALS['_OX']['accountSwtich'] = $session['accountSwitch'];
-        unset($session['accountSwitch']);
-        phpAds_SessionDataStore();
-    }
 
 }
 

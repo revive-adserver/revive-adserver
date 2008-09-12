@@ -47,7 +47,6 @@ function init()
 {
     // Prevent _MAX from being read from the request string (if register globals is on)
     unset($GLOBALS['_MAX']);
-    unset($GLOBALS['_OX']);
 
 
     // Set up server variables
