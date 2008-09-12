@@ -77,7 +77,6 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $this->assertEqual($agencyContactEmail, $doAgencyResult->email);
         
         $doAccountUserPermissionAssocResult = OA_Dal::factoryDO('account_user_permission_assoc');
-        $doAccountUserPermissionAssocResult->account_id = $agencyId;
         $doAccountUserPermissionAssocResult->find(true);
         
         $doUsersResult = OA_Dal::factoryDO('users');
@@ -88,7 +87,7 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $this->assertEqual($password, $doUsersResult->password);
         
         $this->assertEqual(1, $doAccountUserPermissionAssocResult->getRowCount());
-        $this->assertEqual($agencyId, $doAccountUserPermissionAssocResult->account_id);
+        $this->assertEqual($doAgencyResult->account_id, $doAccountUserPermissionAssocResult->account_id);
         $this->assertEqual($doUsersResult->user_id, $doAccountUserPermissionAssocResult->user_id);
         $this->assertEqual(OA_PERM_SUPER_ACCOUNT, $doAccountUserPermissionAssocResult->permission_id);
         $this->assertEqual(1, $doAccountUserPermissionAssocResult->is_allowed);

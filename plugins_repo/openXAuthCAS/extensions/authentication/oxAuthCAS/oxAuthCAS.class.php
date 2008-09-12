@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -180,11 +180,19 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     {
         // Preload the Central object
         $this->getCentralCas();
-        $result = $this->oCentral->checkUsernameMd5Password($username, md5($password));
-        if (PEAR::isError($result)) {
+        $ssoId = $this->oCentral->getAccountIdByUsernamePassword($username, md5($password));
+        if (PEAR::isError($ssoId)) {
             return false;
         }
-        return (bool) $result;
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->sso_id = $ssoId;
+        $doUser->find();
+
+        if ($doUser->fetch()) {
+            return $doUser;
+        } else {
+            return false;
+        }
     }
 
     /**

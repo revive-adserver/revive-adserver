@@ -105,7 +105,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
             $aAllowedPermissions = array(
                 OA_PERM_SUPER_ACCOUNT => 'this string intentionally left blank');
             $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
-            OA_Permission::storeUserAccountsPermissions($aPermissions, $agencyid,
+            OA_Permission::storeUserAccountsPermissions($aPermissions, $this->account_id,
                 $userId, $aAllowedPermissions);
         }
 

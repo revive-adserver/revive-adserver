@@ -182,6 +182,12 @@ class OA_Dll_Agency extends OA_Dll
             $doAgency = OA_Dal::factoryDO('agency');
             if (!isset($agencyData['agencyId'])) {
                 $doAgency->setFrom($agencyData);
+                if (isset($agencyData['username'])) {
+                    $doAgency->username = $agencyData['username'];
+                }
+                if (isset($agencyData['password'])) {
+                    $doAgency->password = $agencyData['password'];
+                }
                 $oAgency->agencyId = $doAgency->insert();
                 if ($oAgency->agencyId) {
                     // Set the account ID
