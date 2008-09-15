@@ -119,7 +119,6 @@ function OA_Dal_Delivery_fetchAssoc($resource) {
  * @param string $column   The name of the column we need to get the ID from
  * @return int|false       The last insert ID (zero if last query didn't generate an ID)
  *                         or false on failure
- * @todo Fix this!
  */
 function OA_Dal_Delivery_insertId($database = 'database', $table, $column)
 {
