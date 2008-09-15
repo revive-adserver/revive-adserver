@@ -678,7 +678,7 @@ body.hasGradient #firstLevelContent {
   min-height: 350px;
 
   /* Fix IE bug: min-height not supported */
-  /*-height: expression((this.offsetHeight < 370) ? "350px": "auto");*/
+  -height: expression((this.offsetHeight < 370) ? "350px": "auto");
 }
 
 .thirdLevelHasTabs {
