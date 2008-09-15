@@ -136,8 +136,8 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
                 12 => 'inside_window'
             ),
             'extrasValue'       => array(
-                11 => 0,
-                12 => 1
+                11 => '0',
+                12 => '1'
             )
         );
         return $aMap;

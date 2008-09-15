@@ -94,8 +94,8 @@ class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCas
                 12 => 'inside_window'
             ),
             'extrasValue'       => array(
-                11 => 0,
-                12 => 1
+                11 => '0',
+                12 => '1'
             )
         );
         $aDates = array(
