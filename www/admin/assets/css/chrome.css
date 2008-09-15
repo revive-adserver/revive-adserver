@@ -416,9 +416,6 @@ body.hasGradient #firstLevelContent {
   list-style-type: none;
   
   background: #f4f4f4;
-  
-/*  border: 1px solid #dddddd;
-  border-bottom: none; */
 }
 
 #secondLevelNavigation .navigation li {
@@ -939,8 +936,6 @@ div.tools h4, div.shortcuts h4 {
 div.tools .title, div.shortcuts .title {
     font-weight: bold;
     margin-bottom: 2px;
-    //margin-right: 3px;
-    //float: left;
 }
 
 div.tools ul, div.shortcuts ul {
@@ -951,7 +946,6 @@ div.tools ul, div.shortcuts ul {
 
 div.tools li, div.shortcuts li {
     padding:0px 0px 5px 0px;
-    //line-height: 16px;
 }
 
 div.tools .form {
@@ -1011,7 +1005,6 @@ form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].f
 
 form.flat input[type=radio], form.flat input[type=checkbox] {
     position: relative;
-    //top: 2px;
     margin-right: 5px;
 }
 
