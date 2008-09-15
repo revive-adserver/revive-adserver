@@ -127,7 +127,7 @@ class Test_OA_ConfParse extends UnitTestCase
             $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:'.$i);
             $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:'.$i);
             $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:'.$i);
-            //@unlink($ini);
+            @unlink($ini);
         }
     }
 
