@@ -676,10 +676,9 @@ body.hasGradient #firstLevelContent {
 #thirdLevelContent {
   margin: 0 20px 0 20px;
   min-height: 350px;
-  padding-top: 5px;
 
   /* Fix IE bug: min-height not supported */
-  -height: expression((this.offsetHeight < 370) ? "350px": "auto");
+  /*-height: expression((this.offsetHeight < 370) ? "350px": "auto");*/
 }
 
 .thirdLevelHasTabs {
@@ -902,7 +901,7 @@ div.shortcuts .corner, div.tools .corner {
     -bottom: -2px;
 
     width: 8px;
-    height: expression((this.offsetParent.scrollHeight + 1) + 'px');
+    -height: expression((this.offsetParent.scrollHeight + 1) + 'px');
 
     background-image: url("../images/dark-control-corners.png");
     background-repeat: no-repeat;
@@ -1166,7 +1165,7 @@ padding: 0px 10px;
     -bottom: -2px;
 
     width: 8px;
-    height: expression((this.offsetParent.scrollHeight + 1) + 'px');
+    -height: expression((this.offsetParent.scrollHeight + 1) + 'px');
 
     background-image: url("../images/control-corners.png");
     background-repeat: no-repeat;
