@@ -85,7 +85,7 @@ class Test_OA_ConfParse extends UnitTestCase
         $max = 126;
         for ($i=$min;$i<=$max;$i++)
         {
-            if (($i==34)) //  || ($i==39) || ($i==92))
+            if (($i==34) || ($i==39) || ($i==92))
             {
                 /*
                     // double quotes breaks the array

@@ -269,10 +269,10 @@ class Config_Container_IniCommented {
                     $content = '0';
                 } elseif ($content === true) {
                     $content = '1';
-                } elseif ( strpos($content, '\'') !== false ||
+                /*} elseif ( strpos($content, '\'') !== false ||
                            strpos($content, '\\') !== false )  // OPENX FIX :)
                 {
-                    // leave unquoted
+                    // leave unquoted*/
                 } elseif ( strpos($content, '"') !== false ) // OPENX FIX :)
                 {
                     // can't do anything with double quotes, they will break parse_ini_file()
