@@ -358,10 +358,18 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         // Prepare the select column statements array
         $aSelectColumnStatements = array();
         foreach ($aMigrationDetails['destination'] as $key => $value) {
-            $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            if (is_numeric($aMigrationDetails['source'][$key])) {
+                $aSelectColumnStatements[] = $aMigrationDetails['source'][$key] . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            } else {
+                $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            }
         }
         foreach ($aMigrationDetails['extrasDestination'] as $key => $value) {
-            $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['extrasValue'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            if (is_numeric($aMigrationDetails['source'][$key])) {
+                $aSelectColumnStatements[] = $aMigrationDetails['extrasValue'][$key] . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            } else {
+                $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['extrasValue'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            }
         }
 
         // Prepare the query to migrate the raw data
