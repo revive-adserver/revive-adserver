@@ -189,10 +189,6 @@ class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCas
         $result = $oDalMaintenanceStatistics->summariseBucketsRaw($statisticsTableName, $aMigrationDetails, $aDates);
         $this->assertEqual($result, 0);
 
-        if (PEAR::isError($result)) {
-            echo $result->message;
-        }
-
         // Insert some data into the data_bkt_a table in the incorrect
         // operation interval
         $oData_bkt_a = OA_Dal::factoryDO('data_bkt_a');
