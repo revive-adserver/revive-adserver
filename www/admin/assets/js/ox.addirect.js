@@ -919,7 +919,7 @@ function campaignFormPriorityCheck(form)
 	        return confirm (strCampaignWarningExclusiveNoWeight);
 	    }
 	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL 
-	       && $("#endSet_immediate").attr("checked") == true 
+	       && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet()) 
             && !parseInt($("#target_value").val()) ) {
         return confirm (strCampaignWarningNoTargetMessage);	    
 	    }

@@ -1002,7 +1002,7 @@ function getCampaignInactiveReasons($aCampaign)
         $aReasons [] = $GLOBALS ['strAfterExpire'];
     }
 
-    if (($aCampaign ['priority'] == 0 || $aCampaign ['priority'] = -1) && $aCampaign ['weight'] == 0) {
+    if (($aCampaign ['priority'] == 0 || $aCampaign ['priority'] == -1) && $aCampaign ['weight'] == 0) {
         $aReasons [] = $GLOBALS ['strWeightIsNull'];
     }
     if ($aCampaign ['priority'] > 0 && $aCampaign ['target_value'] == 0) {
