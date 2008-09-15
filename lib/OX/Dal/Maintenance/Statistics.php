@@ -365,7 +365,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             }
         }
         foreach ($aMigrationDetails['extrasDestination'] as $key => $value) {
-            if (is_numeric($aMigrationDetails['source'][$key])) {
+            if (is_numeric($aMigrationDetails['extrasValue'][$key])) {
                 $aSelectColumnStatements[] = $aMigrationDetails['extrasValue'][$key] . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
             } else {
                 $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['extrasValue'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
