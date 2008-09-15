@@ -27,7 +27,7 @@ $Id$
 
 // Include required files
 require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
-require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 /**
