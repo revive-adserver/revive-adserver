@@ -574,6 +574,14 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     function manageConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        // The custom IF function in PgSQL is not suitable for this query, we need explicit use of CASE
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $sqlBasketValue = "CASE WHEN v.purpose = 'basket_value' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED ." THEN diavv.value::numeric ELSE 0 END";
+            $sqlNumItems = "CASE WHEN v.purpose = 'num_items' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED ." THEN diavv.value::integer ELSE 0 END";
+        } else {
+            $sqlBasketValue = "IF(v.purpose = 'basket_value' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)";
+            $sqlNumItems = "IF(v.purpose = 'num_items' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)";
+        }
         // Prepare the query to obtain all of the conversions, and their associated total number
         // of items and total basket values (where they exist), ready for update/insertion into
         // the data_intermediate_ad table
@@ -583,8 +591,8 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 diac.ad_id AS ad_id,
                 diac.zone_id AS zone_id,
                 COUNT(DISTINCT(diac.data_intermediate_ad_connection_id)) AS conversions,
-                SUM(IF(v.purpose = 'basket_value' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS total_basket_value,
-                SUM(IF(v.purpose = 'num_items' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS total_num_items
+                SUM({$sqlBasketValue}) AS total_basket_value,
+                SUM({$sqlNumItems}) AS total_num_items
             FROM
                 " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_intermediate_ad_connection', true) . " AS diac
             LEFT JOIN
@@ -648,6 +656,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             interval_start,
                             interval_end,
                             ad_id,
+                            creative_id,
                             zone_id,
                             conversions,
                             total_basket_value,
@@ -661,6 +670,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             " . $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . ",
                             " . $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . ",
                             " . $this->oDbh->quote($aRow['ad_id'], 'integer') . ",
+                            0,
                             " . $this->oDbh->quote($aRow['zone_id'], 'integer') . ",
                             " . $this->oDbh->quote($aRow['conversions'], 'integer') . ",
                             " . $this->oDbh->quote($aRow['total_basket_value'], 'float') . ",
