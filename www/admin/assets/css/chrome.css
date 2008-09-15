@@ -1007,6 +1007,10 @@ form.flat input[type=radio], form.flat input[type=checkbox] {
     margin-right: 5px;
 }
 
+form.flat select.error, form.flat textarea.error, form.flat input.error {
+    border-color:#990000;
+}
+
 /* standard control sizes */
 form.flat .x-small, .x-small {
 	width: 50px;

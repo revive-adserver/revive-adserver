@@ -64,7 +64,8 @@ $Id: create.html 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 $(document).ready(function() {ldelim}
     $("#{$form.id}").validate({ldelim}
         event: "keyup",
-        errorContainer: '#errors'{if !empty($form.JQueryRules)},{/if} 
+        focusInvalid: true,
+        errorContainer: '#errors'{if !empty($form.JQueryRules)},{/if}
         {$form.JQueryRules}
     {rdelim});
 {rdelim});
