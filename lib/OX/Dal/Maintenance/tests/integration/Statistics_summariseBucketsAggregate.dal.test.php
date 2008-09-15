@@ -146,10 +146,10 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $aExtras = array(
             'operation_interval'    => $aConf['maintenance']['operationInterval'],
             'operation_interval_id' => OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
-            'interval_start'        => $oDalMaintenanceStatistics->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
-            'interval_end'          => $oDalMaintenanceStatistics->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
+            'interval_start'        => $oDalMaintenanceStatistics->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
+            'interval_end'          => $oDalMaintenanceStatistics->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
             'creative_id'           => 0,
-            'updated'               => $oDalMaintenanceStatistics->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
+            'updated'               => $oDalMaintenanceStatistics->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
         );
 
         // Test 1: Test with an incorrect method name in the mapping array

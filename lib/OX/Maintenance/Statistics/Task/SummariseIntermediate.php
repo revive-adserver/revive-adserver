@@ -178,10 +178,10 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         $aExtras = array(
                             'operation_interval'    => $aConf['maintenance']['operationInterval'],
                             'operation_interval_id' => OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
-                            'interval_start'        => $oDal->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
-                            'interval_end'          => $oDal->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
+                            'interval_start'        => $oDal->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
+                            'interval_end'          => $oDal->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
                             'creative_id'           => 0,
-                            'updated'               => $oDal->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'),
+                            'updated'               => $oDal->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
                         );
                     }
                     $message = "- Migrating aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
