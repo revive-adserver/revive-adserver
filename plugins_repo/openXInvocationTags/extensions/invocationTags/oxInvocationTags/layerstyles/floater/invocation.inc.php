@@ -40,7 +40,7 @@ MAX_commonRegisterGlobalsArray(array('ltr', 'loop', 'speed', 'pause', 'shiftv', 
  * Layerstyle for invocation tag plugin
  *
  */
-class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
+class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation
 {
 
 

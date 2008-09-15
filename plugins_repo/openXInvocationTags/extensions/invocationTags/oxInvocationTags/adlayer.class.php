@@ -160,7 +160,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         } else {
             include_once $fileName;
         }
-        $className = "Plugins_" . ucfirst($this->extension) . '_' . ucfirst($this->group) . '_Layerstyles_'
+        $className = "Plugins_" . ucfirst($this->group) . '_' . ucfirst($this->component) . '_Layerstyles_'
             . ucfirst($style) . '_' . ucfirst($type);
         if (!class_exists($className)) {
             MAX::raiseError("Plugin file included but class '$className' doesn't exists");

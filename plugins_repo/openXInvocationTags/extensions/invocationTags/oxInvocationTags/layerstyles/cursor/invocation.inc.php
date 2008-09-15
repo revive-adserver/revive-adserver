@@ -40,7 +40,7 @@ MAX_commonRegisterGlobalsArray(array('stickyness', 'offsetx', 'offsety', 'hide',
  * Layerstyle for invocation tag plugin
  *
  */
-class Plugins_InvocationTags_Adlayer_Layerstyles_Cursor_Invocation
+class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
 {
 
     /*-------------------------------------------------------*/

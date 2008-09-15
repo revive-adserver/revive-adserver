@@ -641,6 +641,7 @@ class OA_Dll_Zone extends OA_Dll
             'adview'          => 'invocationTags:oxInvocationTags:adview',
             'adviewnocookies' => 'invocationTags:oxInvocationTags:adviewnocookies',
             'local'           => 'invocationTags:oxInvocationTags:local',
+            'popup'           => 'invocationTags:oxInvocationTags:popup',
             'xmlrpc'          => 'invocationTags:oxInvocationTags:xmlrpc'
         );
         // Translate old code type to new Component Identifier

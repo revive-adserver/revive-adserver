@@ -221,7 +221,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[7], generateTagsParameters };
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, popup, adframe, adview, xmlrpc"));
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
 	}  
 	
 	/**
@@ -257,7 +257,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, "clickonly", generateTagsParameters };
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, popup, adframe, adview, xmlrpc"));
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
 	}
 	
 	/**
@@ -275,7 +275,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, "", generateTagsParameters };
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, popup, adframe, adview, xmlrpc"));
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
 	}
 
 	
