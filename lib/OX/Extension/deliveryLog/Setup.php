@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: Setup.php 25359 2008-09-08 12:55:14Z andrew.hill $
 */
 
 require_once LIB_PATH . '/Plugin/Component.php';
@@ -286,7 +286,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
     function installComponents($extension, $aComponentGroups)
     {
         foreach ($aComponentGroups as $group) {
-            $aComponents = $this->_getComponents($extension, $group, true, 1, $enabled = false);
+            $aComponents = $this->_getComponents($extension, $group);
             foreach ($aComponents as $oComponent) {
                 if (!$oComponent->onInstall()) {
                     $this->_logError('Error when installing component: ' . get_class($oComponent));
@@ -368,11 +368,9 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @return array  Array of components in chosen extension, group
      */
-    function _getComponents($extension, $group, $onlyComponentNameAsIndex = true,
-        $recursive = 1, $enabled = false)
+    function _getComponents($extension, $group, $recursive = 1, $enabledOnly = false)
     {
-        return OX_Component::getComponents($extension, $group, $onlyComponentNameAsIndex,
-            $recursive, $enabledOnly);
+        return OX_Component::getComponents($extension, $group, $recursive, $enabledOnly);
     }
 
     /**

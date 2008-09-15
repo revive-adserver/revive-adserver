@@ -180,8 +180,7 @@ class OX_Component
      *                         thereof, down to the depth specified by the parameter.
      * @param boolean $enabledOnly Only return components which are contained in plugins
      *                             which are enabled.
-     * @return array An array of component objects, indexed as specified by the
-     *               $onlyComponentNameAsIndex parameter.
+     * @return array An array of component objects, indexed by component identifier.
      */
     function &getComponents($extension, $group = null, $recursive = 1, $enabledOnly = true)
     {
