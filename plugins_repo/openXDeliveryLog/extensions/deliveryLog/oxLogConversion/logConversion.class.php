@@ -132,10 +132,12 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
                 10 => 'connection_status'
             ),
             'extrasDestination' => array(
-                11 => 'inside_window'
+                11 => 'creative_id',
+                12 => 'inside_window'
             ),
             'extrasValue'       => array(
-                11 => '1'
+                11 => 0,
+                12 => 1
             )
         );
         return $aMap;

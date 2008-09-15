@@ -90,10 +90,12 @@ class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCas
                 10 => 'connection_status'
             ),
             'extrasDestination' => array(
-                11 => 'inside_window'
+                11 => 'creative_id',
+                12 => 'inside_window'
             ),
             'extrasValue'       => array(
-                11 => 1
+                11 => 0,
+                12 => 1
             )
         );
         $aDates = array(

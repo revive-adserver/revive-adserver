@@ -358,11 +358,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         // Prepare the select column statements array
         $aSelectColumnStatements = array();
         foreach ($aMigrationDetails['destination'] as $key => $value) {
-            if (is_numeric($aMigrationDetails['source'][$key])) {
-                $aSelectColumnStatements[] = $aMigrationDetails['source'][$key] . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
-            } else {
-                $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
-            }
+            $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
         }
         foreach ($aMigrationDetails['extrasDestination'] as $key => $value) {
             if (is_numeric($aMigrationDetails['extrasValue'][$key])) {
