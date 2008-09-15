@@ -21,6 +21,8 @@
             <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversionVariable.class.php</file>
         </files>
 
+        <postscript>postscript_install_oxLogConversion.php</postscript>
+
         <components>
            <component>
                 <name>logConversion</name>

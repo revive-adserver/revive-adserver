@@ -25,7 +25,7 @@
 $Id$
 */
 
-$className = 'postscript_install_oxDeliveryDataPrepare';
+$className = 'postscript_install_oxLogImpression';
 
 require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
 
@@ -36,33 +36,25 @@ require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
  * @package    Plugin
  * @subpackage openxDeliveryLog
  */
-class postscript_install_oxDeliveryDataPrepare
+class postscript_install_oxLogImpression
 {
+
     const DELIVERY_LOG_EXTENSION = 'deliveryLog';
+    const DELIVERY_LOG_GROUP     = 'oxLogImpression';
 
     /**
-     * Names of component groups which performs additional actions
-     * on installing.
+     * Calls onInstall method for the required component and group.
      *
-     * @var array
-     */
-    private $aGroups = array(
-        'oxLogClick',
-        'oxLogImpression',
-        'oxLogRequest',
-        'oxLogConversion',
-    );
-
-    /**
-     * Calls onInstall method on every component from installed groups.
      * If for any reason the installation failed perform uninstall of already installed
      * components.
      *
-     * @return boolean  True on success, else false
+     * @return boolean True on success, else false.
      */
     function execute()
     {
         $oSetup = new OX_Extension_DeliveryLog_Setup();
-        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
+        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, array(self::DELIVERY_LOG_GROUP));
     }
 }
+
+?>

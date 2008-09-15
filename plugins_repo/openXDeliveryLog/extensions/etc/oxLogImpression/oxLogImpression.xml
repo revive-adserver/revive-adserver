@@ -21,6 +21,8 @@
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.class.php</file>
         </files>
 
+        <postscript>postscript_install_oxLogImpression.php</postscript>
+
         <components>
            <component>
                 <name>logImpression</name>

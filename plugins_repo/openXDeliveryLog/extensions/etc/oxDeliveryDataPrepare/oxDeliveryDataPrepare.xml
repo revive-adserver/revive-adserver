@@ -35,8 +35,6 @@
             <dataobject>Data_bkt_a_var.php</dataobject>
         </schema>
 
-        <postscript>postscript_install_oxDeliveryDataPrepare.php</postscript>
-
         <components>
            <component>
                 <name>dataCommon</name>

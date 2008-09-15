@@ -18,6 +18,9 @@
             <file path="{MODULEPATH}deliveryLog/oxLogRequest/">logRequest.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogRequest/">logRequest.class.php</file>
         </files>
+
+        <postscript>postscript_install_oxLogRequest.php</postscript>
+
         <components>
            <component>
                 <name>logRequest</name>
