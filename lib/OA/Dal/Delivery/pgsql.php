@@ -121,7 +121,7 @@ function OA_Dal_Delivery_fetchAssoc($resource) {
  *                         or false on failure
  * @todo Fix this!
  */
-function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column = '')
+function OA_Dal_Delivery_insertId($database = 'database', $table, $column)
 {
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(is_resource($GLOBALS['_MAX'][$dbName]))) {

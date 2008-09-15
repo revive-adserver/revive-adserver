@@ -77,7 +77,7 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
         return false;
     }
     $aResult = array(
-        'server_conv_id' => OA_Dal_Delivery_insertId('rawDatabase'),
+        'server_conv_id' => OA_Dal_Delivery_insertId('rawDatabase', $table, 'server_conv_id'),
         'server_raw_ip' => $serverRawIp
     );
     return $aResult;
