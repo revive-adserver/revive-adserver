@@ -63,7 +63,7 @@ $Id$
     {literal}    
 		$websiteURL = $("#website");
 		$websiteName = $("#name");
-		$websiteURL.blur(function () {
+		$websiteName.focus(function () {
 			if ($.trim($websiteName.val()) == "") {
 			   val = $websiteURL.val();
 			   val = val.replace(/^http[s]?:\/\//, "");
