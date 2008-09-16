@@ -547,8 +547,7 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
 - Updating the data_summary_zone_impression_history table for data after 2008-08-28 14:00:00 UTC.
 - Updating the data_summary_ad_hourly table for data after 2008-08-28 14:00:00 UTC.
 - Managing (activating/deactivating) campaigns.
-- Logging the completion of the maintenance statistics run.
-";
+- Logging the completion of the maintenance statistics run.";
 
         $doUserlog = OA_Dal::factoryDO('userlog');
         $doUserlog->find();

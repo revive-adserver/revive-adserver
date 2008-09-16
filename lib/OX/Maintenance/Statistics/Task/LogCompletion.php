@@ -170,7 +170,7 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
         $oUserlog->userid    = 0;
         $oUserlog->action    = phpAds_actionBatchStatistics;
         $oUserlog->object    = 0;
-        $oUserlog->details   = addslashes($report);
+        $oUserlog->details   = addslashes(trim($report));
         $oUserlog->insert();
     }
 
