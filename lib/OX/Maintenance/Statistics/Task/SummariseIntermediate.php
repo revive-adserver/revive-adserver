@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
+require_once LIB_PATH . '/Plugin/PluginManager.php';
 
 /**
  * The MSE process task class that migrates any logged delivery data
