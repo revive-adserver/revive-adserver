@@ -2522,7 +2522,7 @@ $target = '_blank';  // Default
 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
-return array('html' => $outputbuffer, 'bannerid' => '' );
+return array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
 } else {
 // No default banner was returned, return no banner
 $outputbuffer = $g_prepend . $g_append;
@@ -2880,7 +2880,17 @@ MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
 // Redirect to the banner
 MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
 MAX_cookieFlush();
+if ($row['bannerid'] == '') {
+if ($row['default_banner_image_url'] != '') {
+// Show default banner image url
+MAX_redirect($row['default_banner_image_url']);
+} else {
+// Show 1x1 Gif, to ensure not broken image icon is shown.
+MAX_commonDisplay1x1();
+}
+} else {
 MAX_redirect($row['html']);
+}
 } else {
 MAX_cookieAdd($conf['var']['vars'] . "[$n]", 'DEFAULT');
 MAX_cookieFlush();

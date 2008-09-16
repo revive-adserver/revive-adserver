@@ -1830,12 +1830,13 @@ MAX_sendStatusCode(304);
 MAX_commonRegisterGlobalsArray(array('filename', 'contenttype'));
 if (!empty($filename)) {
 $aCreative = MAX_cacheGetCreative($filename);
-if (empty($aCreative)) {
+if (empty($aCreative) || !isset($aCreative['contents'])) {
 // Filename not found, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
-$pref = OA_Preferences::loadAdminAccountPreferences(true);
-if ($pref['default_banner_image_url'] != "") {
-MAX_redirect($pref['default_banner_image_url']);
+if ($conf['defaultBanner']['imageUrl'] != "") {
+MAX_redirect($conf['defaultBanner']['imageUrl']);
+} else {
+MAX_commonDisplay1x1();
 }
 } else {
 // Filename found, dump contents to browser
@@ -1844,9 +1845,10 @@ MAX_imageServe($aCreative, $filename, $contenttype);
 } else {
 // Filename not specified, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
-$aPref = OA_Preferences::loadAdminAccountPreferences(true);
-if ($aPref['default_banner_image_url'] != "") {
-MAX_redirect($aPref['default_banner_image_url']);
+if ($conf['defaultBanner']['imageUrl'] != "") {
+MAX_redirect($conf['defaultBanner']['imageUrl']);
+} else {
+MAX_commonDisplay1x1();
 }
 }
 
