@@ -783,8 +783,7 @@ form.new-form {
 }
 
 form .controls {
-    width:100%;
-    text-align:left;
+    text-align: left;
     margin-top: 15px;
     padding-top: 7px;
 }
@@ -833,11 +832,11 @@ a.adv-list-entry {
   padding: 0px 5px;
 }
 
-.sts-accepted, .sts-finished {
+.sts-accepted {
   color: #299B3C;
 }
 
-.sts-rejected, .sts-pending, .sts-paused, .sts-not-started {
+.sts-rejected, .sts-pending, .sts-paused, .sts-not-started, .sts-finished {
     color: #777777;
 }
 
