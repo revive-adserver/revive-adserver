@@ -390,13 +390,34 @@ class MAX_Admin_Invocation {
                     $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
                     $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
                     $buffer .= "</textarea>";
-                } else {
+                    
+                    $buffer .= "
+                        <script type='text/javascript'>
+                        <!--
+    
+                        $(document).ready(function() {
+                            $('#bannercode')
+                              .bind('mousedown', selectTextArea)
+                              .bind('click', selectTextArea)
+                              .bind('mousemove', selectTextArea);
+                        });
+                        
+                        function selectTextArea()
+                        {
+                            $(this).select();
+                        }
+    
+                        //-->
+                        </script>";                
+                } 
+                else {
                     $buffer .= $this->generateInvocationCode($invocationTag);
                 }
                 $buffer .= "</td></tr>";
                 $buffer .= "</table><br />";
                 $buffer .= phpAds_ShowBreak($print = false);
                 $buffer .= "<br />";
+                
 
                 $generated = true;
             }
