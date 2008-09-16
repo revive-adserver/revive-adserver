@@ -522,6 +522,8 @@ function initCampaignForm(formId)
               $('#' + infoId).slideFadeIn('slow');
               updateCampaignTypeForm();
          });
+         
+     $('#weight').keypress(maskNonNumeric);    
     
     $("#pricing_revenue_type").change(function() {
         updateCampaignPricingSection();

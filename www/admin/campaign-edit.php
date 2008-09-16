@@ -372,50 +372,24 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign)
 
     $form->addElement ( 'text', 'campaignname', $GLOBALS ['strName'] );
 
-    //block type change - allow for new campaigns only
-    if ($newCampaign) {
-        $priority_h [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strStandardContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_NORMAL, array ('id' => 'priority-h' ) );
-        $priority_h [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-h', 'infoKey' => 'StandardContractInfo' ) );
+    $priority_h [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strStandardContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_NORMAL, array ('id' => 'priority-h' ) );
+    $priority_h [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-h', 'infoKey' => 'StandardContractInfo' ) );
 
-        $priority_e [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strExclusiveContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE, array ('id' => 'priority-e' ) );
-        $priority_e [] = $form->createElement ( 'custom', array ('excl-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
-        $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
-        $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
+    $priority_e [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strExclusiveContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE, array ('id' => 'priority-e' ) );
+    $priority_e [] = $form->createElement ( 'custom', array ('excl-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+    $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
+    $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
 
-        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
-        $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
-        $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
+    $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
+    $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+    $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
 
-        $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
+    $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
 
-        $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
-        $typeG [] = $form->createElement ( 'group', 'g_priority_e', null, $priority_e, null, false );
-        $typeG [] = $form->createElement ( 'group', 'g_priority_l', null, $priority_l, null, false );
-        $form->addGroup ( $typeG, 'g_ctype', $GLOBALS ['strCampaignType'], "" );
-
-        $translation = new OA_Translation ( );
-        $typeRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strCampaignType'] ) );
-        //        $form->addGroupRule('g_ctype', $typeRequiredMsg, 'required', null, 1);
-
-
-    //        $form->addGroupRule('g_ctype', array(
-    //            'campaign_type' => array(
-    //                array($typeRequiredMsg, 'required')
-    //            )
-    //        ));
-    } else {
-        $type = OX_Util_Utils::getCampaignType ( $campaign ['priority'] );
-        $form->addElement ( 'hidden', 'campaign_type', $type, array ('id' => 'campaign_type' ) );
-
-        $typeName = OX_Util_Utils::getCampaignTypeName ( $campaign ['priority'] );
-        $typeG [] = $form->createElement ( 'static', 'campaign_type_static', null, "<label class='type-name'>" . $typeName . "</label>" );
-
-        $translationKey = OX_Util_Utils::getCampaignTypeDescriptionTranslationKey ( $campaign ['priority'] );
-        $translationKey = substr ( $translationKey, 3 );
-        $typeG [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('infoKey' => $translationKey ) );
-
-        $form->addGroup ( $typeG, 'g_ctype', $GLOBALS ['strCampaignType'], "" );
-    }
+    $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
+    $typeG [] = $form->createElement ( 'group', 'g_priority_e', null, $priority_e, null, false );
+    $typeG [] = $form->createElement ( 'group', 'g_priority_l', null, $priority_l, null, false );
+    $form->addGroup ( $typeG, 'g_ctype', $GLOBALS ['strCampaignType'], "" );
 
 //EX.   $form->addElement('text', 'test', 'Test field');
 //EX.   $form->addRule('test', 'Weight must be positive number', 'formattednumber');
@@ -430,6 +404,7 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign)
 //EX.    $form->addDecorator('test', 'process', array('tag' => 'tr',
 //        'addAttributes' => array('id' => 'trtest{numCall}', 'style' => 'display: none')));
 }
+
 
 function buildDateFormSection(&$form, $campaign, $newCampaign)
 {
