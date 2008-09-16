@@ -341,6 +341,7 @@ $GLOBALS['strDeliveryAcls']                          = 'Evaluate banner delivery
 $GLOBALS['strDeliveryObfuscate']                     = 'Obfuscate channel when delivering ads';
 $GLOBALS['strDeliveryExecPhp']                       = 'Allow PHP code in ads to be executed<br />(Warning: Security risk)';
 $GLOBALS['strDeliveryCtDelimiter']                   = '3rd Party Click Tracking Delimiter';
+$GLOBALS['strGlobalDefaultBannerUrl']                = 'Global default Banner Image URL';
 $GLOBALS['strP3PSettings']                           = 'P3P Privacy Policies';
 $GLOBALS['strUseP3P']                                = 'Use P3P Policies';
 $GLOBALS['strP3PCompactPolicy']                      = 'P3P Compact Policy';

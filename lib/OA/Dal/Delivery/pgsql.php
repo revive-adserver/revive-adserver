@@ -347,6 +347,10 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     }
 
     if (pg_num_rows($rDefaultBannerInfo) == 0) {
+        // Set global default image if no preferences sets
+        if ($conf['defaultBanner']['imageUrl'] != '') {
+            $aZoneInfo['default_banner_image_url'] = $conf['defaultBanner']['imageUrl'];
+        }
         // No default banner image or destination URLs to deal with
         return $aZoneInfo;
     }

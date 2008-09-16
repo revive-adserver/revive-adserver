@@ -84,7 +84,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'delivery' => 'execPhp',
             'bool'     => true
         ),
-        'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter')
+        'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter'),
+        'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl')
     );
     // Invocation Defaults
     $aElements += array(
@@ -265,6 +266,15 @@ $aSettings = array(
                 'type'    => 'text',
                 'name'    => 'delivery_ctDelimiter',
                 'text'    => $strDeliveryCtDelimiter
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'defaultBanner_imageUrl',
+                'text'    => $strGlobalDefaultBannerUrl,
+                'check'   => 'url'
             )
         )
     ),

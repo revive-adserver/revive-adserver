@@ -125,6 +125,10 @@ cgiForceStatusHeader                = false ; Set this to true if using a CGI sa
                                             ; (i.e. "HTTP/1.1 302" insead that 302 Found)
 clicktracking                       = "No"
 
+[defaultBanner]
+imageUrl                            =       ; If banner was deleted and ai.php script
+                                            ; is called use this imageUrl
+
 [p3p]
 policies                            = true
 compactPolicy                       = CUR ADM OUR NOR STA NID
