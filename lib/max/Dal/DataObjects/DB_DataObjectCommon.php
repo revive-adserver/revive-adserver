@@ -1090,6 +1090,7 @@ class DB_DataObjectCommon extends DB_DataObject
             // ON DELETE CASCADE
             $doLinkded->delete(false, true, $parentid);
         }
+        return true;
     }
 
     /**

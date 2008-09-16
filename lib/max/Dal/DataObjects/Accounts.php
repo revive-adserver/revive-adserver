@@ -9,7 +9,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $onDeleteCascadeSkip = array(
-        'audit'
+        'audit', 'users'
     );
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -47,6 +47,26 @@ class DataObjects_Accounts extends DB_DataObjectCommon
         return $result;
     }
 
+    /**
+     * Delete all referenced records
+     *
+     * Although it's a public access to this method it shouldn't be called outside
+     * this class. The only reason it's not private is because it needs to be executed
+     * on new objects.
+     *
+     * @return boolean  True on success else false
+     * @access public
+     **/
+    function deleteCascade($linkedRefs, $primaryKey, $parentid)
+    {
+        $result = parent::deleteCascade($linkedRefs, $primaryKey, $parentid);
+        // Delete users or link them to other accounts 
+        if ($result) {
+            return $this->_relinkOrDeleteUsers();
+        }
+        return $result;
+    }
+    
     /**
      * Returns ADMIN account ID
      *
@@ -88,5 +108,38 @@ class DataObjects_Accounts extends DB_DataObjectCommon
         } else {
             // No need to log if nothing was changed, apart from M2M fields
         }
+    }
+    
+    /**
+     * On cascade deleting check if linked users should be deleted
+     * or can be relinked to other account
+     *
+     * @return bool True on succes False on error
+     */
+    function _relinkOrDeleteUsers()
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->default_account_id = $this->account_id;
+        $doUsers->find();
+        if (PEAR::isError($doUsers)) {
+            return false;
+        }
+        while ($doUsers->fetch()) {
+            if ($doUsers->countLinkedAccounts() == 0) {
+                // Delete user without accounts
+                $doUserDelete = OA_Dal::factoryDO('users');
+                $doUserDelete->user_id = $doUsers->user_id;
+                $doUserDelete->delete();
+            } else {
+                // Relink user to oldest account (lowest account ID)
+                $aAccountsIds = $doUsers->getLinkedAccountsIds();
+                sort($aAccountsIds);
+                reset($aAccountsIds);
+                $doUserUpdate = clone($doUsers);
+                $doUserUpdate->default_account_id = current($aAccountsIds);
+                $doUserUpdate->update();
+            }
+        }
+        return true;
     }
 }
