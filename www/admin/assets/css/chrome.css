@@ -674,11 +674,11 @@ body.hasGradient #firstLevelContent {
 /* Third level content */
 
 #thirdLevelContent {
-  margin: 0 20px 0 20px;
+  margin: 0 20px 20px 20px;
   min-height: 350px;
 
-  /* Fix IE bug: min-height not supported */
-  -height: expression((this.offsetHeight < 370) ? "350px": "auto");
+  /* Fix IE bug: min-height not supported, IE6 will expand container anyway if it's bigger than given height*/
+  -height: 350px;
 }
 
 .thirdLevelHasTabs {
