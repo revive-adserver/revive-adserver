@@ -2211,7 +2211,8 @@ if (is_array($row) && empty($row['default'])) {
 if ($conf['logging']['adRequests']) {
 MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid']);
 }
-if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
+if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
+&& preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
 // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
 $GLOBALS['_MAX']['adChain'][] = $row;
 $found = false;
@@ -2510,7 +2511,8 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 // Capping & blocking
 return false;
 }
-if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'] != 'max' || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
+if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' &&
+(($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
 // HTML Banners that contain 'http:' on SSL
 return false;
 }
