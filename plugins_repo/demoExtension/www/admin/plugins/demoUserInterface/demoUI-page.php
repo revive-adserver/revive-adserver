@@ -29,7 +29,7 @@ $Id$
 
 require_once 'demoUI-common.php';
 
-if (isset($_REQUEST['action']) && in_array($_REQUEST['action'],array('1','2','3','4')))
+if (isset($_REQUEST['action']) && in_array($_REQUEST['action'],array('1','2','3','4','4-1', '4-2')))
 {
     $i = $_REQUEST['action'];
 
@@ -49,6 +49,10 @@ if (isset($_REQUEST['action']) && in_array($_REQUEST['action'],array('1','2','3'
     $colour  = $GLOBALS['_MAX']['PREF']['demoUserInterface_demopref_'.OA_Permission::getAccountType(true)];
     //$image   = 'demoUI'.$i.'.jpg';
     $message = $GLOBALS['_MAX']['CONF']['demoUserInterface']['message'.$i];
+
+    addLeftMenuSubItem('demo-menu-sub-1', 'demo submenu 1', '');
+    addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
+    setCurrentLeftMenuSubItem($section);
 
     phpAds_PageHeader('demo-menu-'.$i,'','../../');
 

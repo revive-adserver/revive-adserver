@@ -48,6 +48,7 @@
                 <menu addto="demo-menu" index="demo-menu-1" link="plugins/demoUserInterface/demoUI-page.php?action=1">Demo Page 1 - All Accounts</menu>
                 <menu addto="demo-menu" index="demo-menu-2" link="plugins/demoUserInterface/demoUI-page.php?action=2">Demo Page 2 - Managers and Administrators Only</menu>
                 <menu addto="demo-menu" index="demo-menu-4" link="plugins/demoUserInterface/demoUI-page.php?action=4">Demo Page 4 - Administrator Only</menu>
+                <menu addto="demo-menu-4" index="demo-menu-4_1" link="plugins/demoUserInterface/demoUI-page.php?action=1">Demo Page 4 sub page - Administrator Only</menu>
             </admin>
 
             <manager>
