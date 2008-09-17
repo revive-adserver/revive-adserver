@@ -220,7 +220,7 @@
   <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
 
   <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openx-configuration-remote"/>
-
-  <target name="simpletest" depends="clean, init, test-all, package" />
 -->
+  <target name="simpletest" depends="clean, init, test-all, package" />
+
 </project>
