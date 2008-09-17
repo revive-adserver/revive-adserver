@@ -281,7 +281,8 @@ class Config_Container_IniCommented {
                             preg_match( '/[\W]/', $content, $aMatches)   // OPENX FIX :)
                          )
                 {
-                    $content = '"'.addslashes($content).'"';
+                    $content = '"'.$content.'"';    // OPENX FIX :)
+                                                    // removed addslashes as parse_ini_file works correct only with unescaped chars
                 }
                 if ($count > 1) {
                     // multiple values for a directive are separated by a comma
