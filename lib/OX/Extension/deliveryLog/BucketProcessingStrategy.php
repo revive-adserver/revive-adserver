@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: BucketProcessingStrategy.php 24123 2008-08-14 08:17:40Z andrew.hill@openx.org $
 */
 
 /**
@@ -37,7 +37,6 @@ interface OX_Extension_DeliveryLog_BucketProcessingStrategy {
     public function processBucket($oBucket, $oEnd);
 
     public function pruneBucket($oBucket, $oEnd);
-
 
 }
 

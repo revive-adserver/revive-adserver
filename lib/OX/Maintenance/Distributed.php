@@ -44,6 +44,7 @@ require_once OX_PATH . '/lib/pear/Date.php';
  *
  * @static
  * @package    OpenXMaintenance
+ * @subpackage Statistics
  * @author     David Keen <david.keen@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
