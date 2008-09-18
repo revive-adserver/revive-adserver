@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM  "../modules/errors.xml">
+  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+]
+>
+
+<project name="OpenX Level6 - My Account screen test" basedir="../.." default="main">
+  <target name="main">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+      	&login;
+		<clickLink label="Administrator account"/>
+		<clickLink label="Configuration"/>
+		<clickLink label="Plugins"/>
+		<clickLink label="Details" href="package=openXInvocationTags"/>
+		<clickLink label="Settings" href="parent=openXInvocationTags"/>
+		<setCheckbox name="oxInvocationTags_isAllowedAdview"/>
+		<setCheckbox name="oxInvocationTags_isAllowedPopup"/>
+		<setCheckbox name="oxInvocationTags_isAllowedXmlrpc"/>
+		<clickButton label="Save Changes"/>
+	
+<!--	
+		<clickLink label="My Account" />
+		<clickLink label="User Preferences" />
+		<clickLink label="Name &amp; Language" />		
+-->
+     </steps>
+    </webtest>
+  </target>
+</project>

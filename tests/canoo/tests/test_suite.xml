@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 2.8 -->
-<project name="OpenX" default="Level5" basedir=".">
+<project name="OpenX" default="Level6" basedir=".">
 
 	<target name="setup">
 		<mkdir dir="${screens}" />
@@ -68,6 +68,18 @@
         	<fileset dir="${testcase.dir}/level5" includes="${testcase.level5.pattern}"/>
         </subant>
 		<echo>5th level language tests finished - check for potential errors!</echo>	
+    </target>
+	
+    <target name="Level6" if="test.level6" depends="Level5">
+		<echo>Starting configuration tests - 6th level...</echo>
+		<echo>+-----------------------------------------+</echo>
+		<echo>| WARNING! 6th Level tests are optional	 |</echo>
+		<echo>| and could fail without BUILD FAILED!	 |</echo>
+		<echo>+-----------------------------------------+</echo>
+		<subant failonerror="${wt.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level6" includes="${testcase.level6.pattern}"/>
+        </subant>
+		<echo>6th level OpenX cofiguration tests finished - check for potential errors!</echo>	
     </target>
 
 </project>
