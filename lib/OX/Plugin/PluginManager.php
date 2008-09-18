@@ -1080,6 +1080,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		$pathPackages = '/var/tmp'.$this->pathPackages;
 	    $aPackage = $this->_parsePackage(MAX_PATH.$pathPackages.$pkgFile);
 	    @unlink(MAX_PATH.$pathPackages.$pkgFile);
+	    $chmodPath = dirname($this->pathPackages.$pkgFile);
+	    // Change permissions to created directories (OX-4068)
+	    while( !empty($chmodPath)) {
+	       chmod(MAX_PATH.'/var/tmp'.$chmodPath, 0777);
+	       $newChmodPath = dirname($chmodPath);
+	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;  
+	    }
         if (!$aPackage || (!is_array($aPackage)))
         {
             $this->_logError('Failed to parse the plugin definition '.$pkgFile);
@@ -1308,6 +1315,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		    $this->_logError('Unrecoverable decompression error: '.$oZip->errorName(true));
 			return false;
 		}
+		// Change permissions to created directories (OX-4068)
+		$dirList = $this->_getDirsFromFileList($oZip->listContent());
+		$fileOwner = fileowner(MAX_PATH.'index.php'); 
+		foreach ($dirList as $dir) {
+		  $chmodDir = $target."/".$dir;
+		  if (fileowner($chmodDir) != $fileOwner) { 
+		      chmod($chmodDir, 0777);
+		  }
+		}
 
         foreach ($result as $i => $aInfo)
         {
@@ -1331,6 +1347,28 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
         }
         return ($error ? false : $result);
+    }
+    
+    /**
+     * @param array $aFileList an array in format given by PclZip listContent();
+     * 
+     * @return array list of directories
+     */
+    function _getDirsFromFileList($aFileList){
+        $aResult = array();
+        if (is_array($aFileList)) {
+            foreach ($aFileList as $file) {
+                if (isset($file['filename'])) {
+                    $dir = dirname($file['filename']);
+                    while (!empty($dir)) {
+                        $aResult[$dir] = $dir;
+                        $newDir = dirname($dir);
+                        $dir = ($newDir == $dir) ? "" : $newDir; 
+                    }
+                }
+            }
+        }
+        return $aResult;
     }
 
     function checkForUpdates($aParams)

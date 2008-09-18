@@ -131,12 +131,12 @@ function processForm(&$form, $aPluginValues)
     $varTmp = MAX_PATH.'/var/tmp/';
     if (!file_exists($varTmp))
     {
-        mkdir($varTmp);
+        mkdir($varTmp, 0777);
     }
     $pathPlugin = $varTmp.$aPluginValues['name'];
     if (!file_exists($pathPlugin))
     {
-        mkdir($pathPlugin);
+        mkdir($pathPlugin, 0777);
     }
     $pathPackages   = $pathPlugin.$aPaths['packages'];
     $pathAdmin      = $pathPlugin.$aPaths['admin'];
