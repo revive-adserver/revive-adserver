@@ -1083,7 +1083,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	    $chmodPath = dirname($this->pathPackages.$pkgFile);
 	    // Change permissions to created directories (OX-4068)
 	    while( !empty($chmodPath)) {
-	       chmod(MAX_PATH.'/var/tmp'.$chmodPath, 0777);
+	       @chmod(MAX_PATH.'/var/tmp'.$chmodPath, 0777);
 	       $newChmodPath = dirname($chmodPath);
 	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;  
 	    }
@@ -1317,11 +1317,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		}
 		// Change permissions to created directories (OX-4068)
 		$dirList = $this->_getDirsFromFileList($oZip->listContent());
-		$fileOwner = fileowner(MAX_PATH.'/index.php'); 
+		$fileOwner = @fileowner(MAX_PATH.'/index.php'); 
 		foreach ($dirList as $dir) {
 		  $chmodDir = $target."/".$dir;
-		  if (fileowner($chmodDir) != $fileOwner) { 
-		      chmod($chmodDir, 0777);
+		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner) 
+		       && file_exists($chmodDir)) { 
+		      @chmod($chmodDir, 0777);
 		  }
 		}
 
