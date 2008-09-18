@@ -149,7 +149,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
 
                 $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer);
                 if (!isset($mi->comments) || ($mi->comments == "1")) {
-                    $buffer .= "\n  *". $this->translate("PHP Commentp) . "\n\n";
+                    $buffer .= "\n  *". $this->translate("PHP Comment") . "\n\n";
                 } else {
                     $buffer .= "  */\n";
                 }
