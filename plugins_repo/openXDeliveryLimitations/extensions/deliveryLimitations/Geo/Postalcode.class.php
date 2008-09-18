@@ -55,7 +55,7 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('US/Canada Postal Code', $this->extension, $this->group);
+        return $this->translate('US/Canada Postal Code');
     }
 
     /**

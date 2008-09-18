@@ -46,7 +46,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Local Mode Tag', $this->extension, $this->group);
+        return $this->translate("Local Mode Tag");
     }
 
     /**
@@ -136,7 +136,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
             $buffer .= "    $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."phpAds_raw['campaignid']);\n";
         }
         $buffer .= "  }\n";
-        $buffer .= (isset($mi->raw) && $mi->raw == '1') ? "  // " . MAX_Plugin_Translation::translate('Assign the $phpAds_raw[\'html\'] variable to your template', $this->extension, $this->group) . "\n  // " : '  ';
+        $buffer .= (isset($mi->raw) && $mi->raw == '1') ? "  // " . $this->translate("Assign the \$phpAds_raw['html'] variable to your template") . "\n  // " : '  ';
         $buffer .= "echo $"."phpAds_raw['html'];\n";
         $buffer .= "?".">\n";
 

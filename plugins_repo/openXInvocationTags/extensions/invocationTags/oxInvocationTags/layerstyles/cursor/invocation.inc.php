@@ -67,7 +67,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Smooth movement', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Smooth movement")."</td><td width='370'>";
     	$buffer .= "<select name='trail' style='width:60px;' onChange='this.form.stickyness.disabled = this.selectedIndex ? true : false;' tabindex='".($tabindex++)."'>";
     	$buffer .= "<option value='1'".($trail == '1' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     	$buffer .= "<option value='0'".($trail == '0' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
@@ -75,7 +75,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Speed', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Speed")."</td><td width='370'>";
     	$buffer .= "<select name='stickyness' style='width:60px;'".($trail == '0' ? ' disabled' : '')." tabindex='".($tabindex++)."'>";
     	for ($i=1;$i<=9;$i++) {
     		$buffer .= "<option value='".$i."'".($stickyness == $i ? ' selected' : '').">".$i."</option>";
@@ -88,7 +88,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Hide the banner when the cursor is not moving', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Hide the banner when the cursor is not moving")."</td><td width='370'>";
     	$buffer .= "<select name='hide' style='width:60px;' tabindex='".($tabindex++)."' onChange='this.form.transparancy.disabled = this.selectedIndex ? true : false; this.form.delay.disabled = this.selectedIndex ? true : false;'>";
     	$buffer .= "<option value='1'".($hide == '1' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     	$buffer .= "<option value='0'".($hide == '0' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
@@ -96,12 +96,12 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Delay before banner is hidden', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Delay before banner is hidden")."</td><td width='370'>";
     	$buffer .= "<input class='flat' type='text' name='delay' size='' value='".$delay."' style='width:60px;'".($hide == '0' ? ' disabled' : '')." tabindex='".($tabindex++)."'> ms</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Transparancy of the hidden banner', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Transparancy of the hidden banner")."</td><td width='370'>";
     	$buffer .= "<select name='transparancy' style='width:60px;'".($hide == '0' ? ' disabled' : '')." tabindex='".($tabindex++)."'>";
     	for ($i=0;$i<=9;$i++) {
     		$buffer .= "<option value='".($i * 10)."'".($transparancy == ($i * 10) ? ' selected' : '').">".($i * 10)." %</option>";
@@ -114,12 +114,12 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Horizontal shift', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Horizontal shift")."</td><td width='370'>";
     	$buffer .= "<input class='flat' type='text' name='offsetx' size='' value='".$offsetx."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Vertical shift', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Vertical shift")."</td><td width='370'>";
     	$buffer .= "<input class='flat' type='text' name='offsety' size='' value='".$offsety."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 

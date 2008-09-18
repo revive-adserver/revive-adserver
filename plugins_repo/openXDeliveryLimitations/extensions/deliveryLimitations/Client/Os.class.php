@@ -60,7 +60,7 @@ class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Operating system', $this->extension, $this->group);
+        return $this->translate('Operating system');
     }
 
     /**

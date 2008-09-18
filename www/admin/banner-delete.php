@@ -55,11 +55,11 @@ if (!empty($bannerid)) {
     if ($doBanners->get($bannerid)) {
         $aBanner = $doBanners->toArray();
     }
-	
+
     $doBanners->delete();
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenDeleted'], array(
         htmlspecialchars($aBanner['description'])
     ));
@@ -68,8 +68,8 @@ if (!empty($bannerid)) {
     $doBanners->campaignid = $campaignid;
     $doBanners->delete();
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strAllBannersHaveBeenDeleted'], array());
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }

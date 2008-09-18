@@ -50,7 +50,7 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Image Tag', $this->extension, $this->group);
+        return $this->translate("Image Tag");
     }
 
     /**

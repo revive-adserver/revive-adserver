@@ -53,7 +53,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     	if (!isset($align)) $align = 'right';
     	if (!isset($collapsetime)) $collapsetime = '-';
     	if (!isset($padding)) $padding = '2';
-    	if (!isset($closetext)) $closetext = MAX_Plugin_Translation::translate('[Close]', 'invocationTags');
+    	if (!isset($closetext)) $closetext = $this->translate("[Close]");
 
     	$buffer = '';
 
@@ -62,27 +62,27 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Alignment', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Alignment")."</td><td width='370'>";
     	$buffer .= "<select name='align' style='width:175px;' tabindex='".($tabindex++)."'>";
-    	    $buffer .= "<option value='left'".($align == 'left' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Left', 'invocationTags')."</option>";
-    		$buffer .= "<option value='center'".($align == 'center' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Center', 'invocationTags')."</option>";
-    		$buffer .= "<option value='right'".($align == 'right' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Right', 'invocationTags')."</option>";
+    	    $buffer .= "<option value='left'".($align == 'left' ? ' selected' : '').">".$this->translate("Left")."</option>";
+    		$buffer .= "<option value='center'".($align == 'center' ? ' selected' : '').">".$this->translate("Center")."</option>";
+    		$buffer .= "<option value='right'".($align == 'right' ? ' selected' : '').">".$this->translate("Right")."</option>";
     	$buffer .= "</select>";
     	$buffer .= "</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Close text', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Close text")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='closetext' size='' value='".$closetext."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Automatically collapse after', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Automatically collapse after")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Banner padding', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Banner padding")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? $padding : '0')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 

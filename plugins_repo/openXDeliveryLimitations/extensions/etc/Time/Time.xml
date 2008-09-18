@@ -23,6 +23,10 @@
             <file path="{MODULEPATH}deliveryLimitations/Time/">Day.res.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
         </files>
 
         <components>

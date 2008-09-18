@@ -117,10 +117,10 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      */
     function initInfo()
     {
-        $this->_name         = MAX_Plugin_Translation::translate('Campaign Analysis Report', $this->module, $this->package);
-        $this->_description  = MAX_Plugin_Translation::translate('This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.', $this->module, $this->package);
+        $this->_name         = $this->translate("Campaign Analysis Report");
+        $this->_description  = $this->translate("This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.");
         $this->_category     = 'standard';
-        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_categoryName = $this->translate("Standard Reports");
         $this->_author       = 'Rob Hunter';
         $this->_export       = 'xls';
         $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
@@ -156,9 +156,9 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
                 'title'   => $GLOBALS['strWorksheets'],
                 'type'    => 'sheet',
                 'sheets'  => array(
-                    'daily_breakdown' => MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
-                    'ad_breakdown'    => MAX_Plugin_Translation::translate('Ad Breakdown', $this->module, $this->package),
-                    'zone_breakdown'  => MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package)
+                    'daily_breakdown' => $this->translate("Daily Breakdown"),
+                    'ad_breakdown'    => $this->translate("Ad Breakdown"),
+                    'zone_breakdown'  => $this->translate("Zone Breakdown")
                 )
             )
         );
@@ -324,7 +324,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
+            $this->translate("Daily Breakdown"),
             $aHeaders,
             $aData
         );
@@ -362,7 +362,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Ad Breakdown', $this->module, $this->package),
+            $this->translate("Ad Breakdown"),
             $aHeaders,
             $aData
         );
@@ -400,7 +400,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package),
+            $this->translate("Zone Breakdown"),
             $aHeaders,
             $aData
         );

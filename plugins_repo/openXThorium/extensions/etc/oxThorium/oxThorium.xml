@@ -40,6 +40,9 @@
             <file path="{ADMINPATH}/">bid-preferences-campaign.php</file>
             <file path="{ADMINPATH}/">bid-preferences-website.php</file>
             <file path="{ADMINPATH}/">oxThorium.class.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <navigation>

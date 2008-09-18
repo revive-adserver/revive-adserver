@@ -17,6 +17,9 @@
         <files>
             <file path="{MODULEPATH}bannerTypeHtml/oxHtml/">genericHtml.class.php</file>
             <file path="{MODULEPATH}bannerTypeHtml/oxHtml/">genericHtml.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <components>

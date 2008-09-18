@@ -39,6 +39,15 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_BannerTypeHTML_oxHtml_genericHtml extends Plugins_BannerTypeHTML
 {
+    /**
+     * Return type of plugin
+     *
+     * @return string A string describing the type of plugin.
+     */
+    function getOptionDescription()
+    {
+        return $this->translate("OpenX Generic HTML Banner");
+    }
 
     function buildForm(&$form, $row)
     {

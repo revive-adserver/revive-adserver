@@ -40,7 +40,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/Field/AuditDaySpanField.php';
 require_once 'Pager/Pager.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -148,7 +148,7 @@ if ($showPublishers) {
     }
 }
 
-$oTrans = new OA_Translation();
+$oTrans = new OX_Translation();
 
 $aParams = array(
     'order'         => $orderdirection,

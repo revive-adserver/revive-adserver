@@ -59,7 +59,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Interstitial or Floating DHTML Tag', $this->extension, $this->group);
+        return $this->translate("Interstitial or Floating DHTML Tag");
     }
 
     /**
@@ -203,7 +203,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         closedir($stylesdir);
         asort($layerstyles, SORT_STRING);
         $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>". MAX_Plugin_Translation::translate('Style', 'invocationTags') ."</td><td width='370'>";
+        $option .= "<td width='200'>". $this->translate("Style") ."</td><td width='370'>";
         $option .= "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;' tabindex='".($this->maxInvocation->tabindex++)."'>";
         reset($layerstyles);
         while (list($k, $v) = each($layerstyles)) {

@@ -51,7 +51,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('XML-RPC Tag', $this->extension, $this->group);
+        return $this->translate("XML-RPC Tag");
     }
 
     /**
@@ -149,7 +149,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
 
                 $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer);
                 if (!isset($mi->comments) || ($mi->comments == "1")) {
-                    $buffer .= "\n  *". MAX_Plugin_Translation::translate('PHP Comment', $this->extension, $this->group) . "\n\n";
+                    $buffer .= "\n  *". $this->translate("PHP Commentp) . "\n\n";
                 } else {
                     $buffer .= "  */\n";
                 }

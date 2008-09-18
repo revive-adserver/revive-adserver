@@ -29,6 +29,9 @@
             <file path="{MODULEPATH}deliveryLimitations/Client/">Os.res.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <components>

@@ -56,6 +56,8 @@ displayPage($clientId, $campaignId, $marketplaceForm);
 /*-------------------------------------------------------*/
 function buildForm($clientId, $campaignId)
 {
+    $obj = OX_Component::factory('admin', 'oxThorium');
+
     $aConf = $GLOBALS['_MAX']['CONF'];
     $oExt_thorium_campaign_pref = OA_Dal::factoryDO('ext_thorium_campaign_pref');
     $aFields = array(
@@ -74,13 +76,12 @@ function buildForm($clientId, $campaignId)
 
     $form->addElement('hidden', 'clientid', $clientId);
     $form->addElement('hidden', 'campaignid', $campaignId);
-    $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', null, array("f", "t"));
-    $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'style' => "margin-left: 5px;"));
+    $form->addElement('advcheckbox', 'is_enabled', null, $obj->translate("Yes, allow this campaign to be challenged by MarketPlace"), null, array("f", "t"));
+    $form->addElement('text', 'floor_price', $obj->translate("Campaign floor price"), array('class' => 'x-small', 'style' => "margin-left: 5px;"));
 
 
     //Form validation rules
-    $translation = new OA_Translation();
-    $requiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array('Campaign floor price'));
+    $requiredMsg = $obj->translate("%s is required", array($obj->translate("Campaign floor price")));
     $form->addRule('floor_price', $requiredMsg, 'required');
 
     $form->setDefaults($aFields);

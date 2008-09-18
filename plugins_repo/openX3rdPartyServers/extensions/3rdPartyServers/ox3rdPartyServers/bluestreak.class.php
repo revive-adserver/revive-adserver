@@ -50,10 +50,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_bluestreak extends Plugins_3rdPa
      */
     function getName()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Bluestreak', $this->module, $this->package);
+        return $this->translate('Rich Media - Bluestreak');
     }
 
     /**

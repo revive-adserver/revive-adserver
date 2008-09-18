@@ -52,30 +52,28 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
             );
         }
 
-        $form->addElement ( 'header', 'h_marketplace', 'Enable Marketplace' );
+        $form->addElement ( 'header', 'h_marketplace', $this->translate("Enable Marketplace"));
 
         //TODO externalize intro strings
-        $form->addElement('static', 'enableIntro', null, 'You could possibly earn more if this campaign takes part in MarkePlace.');        
-        $form->addElement('advcheckbox', 'is_enabled', null, 'Yes, allow this campaign to be challenged by MarketPlace', array('id' => 'enable_mktplace'), array("f", "t"));
+        $form->addElement('static', 'enableIntro', null, $this->translate("You could possibly earn more if this campaign takes part in MarkePlace."));
+        $form->addElement('advcheckbox', 'is_enabled', null, $this->translate("Yes, allow this campaign to be challenged by MarketPlace"), array('id' => 'enable_mktplace'), array("f", "t"));
 
-        $form->addElement ( 'header', 'h_floor_price', 'Floor Price' );
-        $form->addElement('static', 'priceIntro', null, 'Define the minimum price (floor) to ensure that marketplace never delivers less profitable ad than you would serve otherwise.');
-        $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'id' => 'floor_price'));
-        $form->addElement('plugin-script', 'campaign-script', 'oxThorium');        
-        
+        $form->addElement ( 'header', 'h_floor_price', $this->translate("Floor Price"));
+        $form->addElement('static', 'priceIntro', null, $this->translate("Define the minimum price (floor) to ensure that marketplace never delivers less profitable ad than you would serve otherwise."));
+        $form->addElement('text', 'floor_price', $this->translate("Campaign floor price"), array('class' => 'x-small', 'id' => 'floor_price'));
+        $form->addElement('plugin-script', 'campaign-script', 'oxThorium');
+
 
         //Form validation rules
-        //TODO externalize strings
-        $translation = new OA_Translation();
-        $form->addRule('floor_price', $translation->translate($GLOBALS['strXGreaterThanZeroField'], array('Campaign floor price')), 
+        $form->addRule('floor_price', $this->translate("", array('Campaign floor price')),
             'min', 0.001);
-        $form->addRule('floor_price', $translation->translate($GLOBALS['strXDecimalFieldWithDecimalPlaces'], array('2')), 
-            'decimalplaces', 2); 
-        
+        $form->addRule('floor_price', $this->translate("Must be a decimal with maximum %s decimal places", array('2')),
+            'decimalplaces', 2);
+
 
         $form->setDefaults($aFields);
     }
-    
+
 
     function processForm(&$aFields)
     {

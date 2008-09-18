@@ -65,7 +65,7 @@ class Plugins_DeliveryLimitations_Time_Hour extends Plugins_DeliveryLimitations_
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Hour of day', $this->extension, $this->group);
+        return $this->translate('Hour of day');
     }
 
     /**

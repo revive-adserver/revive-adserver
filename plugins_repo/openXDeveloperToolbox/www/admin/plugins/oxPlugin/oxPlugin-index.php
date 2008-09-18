@@ -50,12 +50,12 @@ $aVersion['major'] = 0;
 $aVersion['minor'] = 0;
 $aVersion['build'] = 1;
 $aVersion['status'] = '-dev';
-$aValues['name']          = ($name        ? $name        : 'myPlugin');
+$aValues['name']          = ($name        ? $name        : $oTrans->translate("myPlugin"));
 $aValues['email']         = ($email       ? $email       : $session['user']->aUser['email_address']);
 $aValues['author']        = ($author      ? $author      : $session['user']->aUser['contact_name']);
 $aValues['url']           = ($url         ? $url         : $GLOBALS['HTTP_SERVER_VARS']['HTTP_HOST']);
 $aValues['licence']       = ($licence     ? $licence     : 'GPL');
-$aValues['description']   = ($description ? $description : 'My New Plugin');
+$aValues['description']   = ($description ? $description : $oTrans->translate("My New Plugin"));
 $aValues['group']         = ($group       ? $group       : array());
 $aValues['version']       = ($version     ? $version     : $aVersion);
 
@@ -73,38 +73,40 @@ displayPage($form, $aMessages);
 
 function &buildForm()
 {
+    global $oTrans;
+
     $form = new OA_Admin_UI_Component_Form("oxToolBoxForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
     $form->forceClientValidation(true);
 
-    $form->addElement('header', 'header', "New Plugin");
+    $form->addElement('header', 'header', $oTrans->translate("New Plugin"));
 
-    $form->addElement('text', 'name'        , 'Plugin Name', array('class'=>'medium'));
-    $form->addElement('text', 'email'       , 'Author Email');
-    $form->addElement('text', 'author'      , 'Author Name');
-    $form->addElement('text', 'url'         , 'Author URL');
-    $form->addElement('text', 'licence'     , 'Licence Info');
-    $form->addElement('text', 'description' , 'Description');
-    $version['major']  = $form->createElement('text', 'version[major]', 'Major');
-    $version['minor']  = $form->createElement('text', 'version[minor]', 'Minor');
-    $version['build']  = $form->createElement('text', 'version[build]', 'Build');
+    $form->addElement('text', 'name'        , $oTrans->translate("Plugin Name"), array('class'=>'medium'));
+    $form->addElement('text', 'email'       , $oTrans->translate("Author Email"));
+    $form->addElement('text', 'author'      , $oTrans->translate("Author Name"));
+    $form->addElement('text', 'url'         , $oTrans->translate("Author URL"));
+    $form->addElement('text', 'licence'     , $oTrans->translate("Licence Info"));
+    $form->addElement('text', 'description' , $oTrans->translate("Description"));
+    $version['major']  = $form->createElement('text', 'version[major]', $oTrans->translate("Major"));
+    $version['minor']  = $form->createElement('text', 'version[minor]', $oTrans->translate("Minor"));
+    $version['build']  = $form->createElement('text', 'version[build]', $oTrans->translate("Build"));
     // for new plugins status is -dev only
     //$aStatus = array('-dev','-beta','-beta-rc');
     $aStatus = array('-dev'=>'-dev');
-    $version['status'] = $form->createElement( 'select', 'version[status]', 'Status', $aStatus);
+    $version['status'] = $form->createElement( 'select', 'version[status]', $oTrans->translate("Status"), $aStatus);
     //$version['rc']     = $form->createElement('text', 'version[rc]', 'rc#');
-    $form->addGroup($version, 'version', 'Version', "", false);
+    $form->addGroup($version, 'version', $oTrans->translate("Version"), "", false);
 
     //$form->addElement('text', 'versionMajor', 'Version',  array('class'=>'small'));
 
     $aGroups = getExtensionList();
     foreach ($aGroups as $extension)
     {
-        $group['name']   = $form->createElement('text'    , 'group['.$extension.'][groupname]', 'Group Name ', array('class'=>'medium'));
-        $group['schema']  = $form->createElement('checkbox', 'group['.$extension.'][schema]', 'Has Schema');
-        $form->addGroup($group, 'group_'.$extension, 'Extends '.$extension, "", false);
+        $group['name']   = $form->createElement('text'    , 'group['.$extension.'][groupname]', $oTrans->translate("Group Name"), array('class'=>'medium'));
+        $group['schema']  = $form->createElement('checkbox', 'group['.$extension.'][schema]', $oTrans->translate("Has Schema"));
+        $form->addGroup($group, 'group_'.$extension, $oTrans->translate("Extends %s",array($extension)), "", false);
     }
     $form->addElement('controls', 'form-controls');
-    $form->addElement('submit'  , 'submit', 'Submit');
+    $form->addElement('submit'  , 'submit', $oTrans->translate("Submit"));
     return $form;
 }
 

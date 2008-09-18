@@ -17,6 +17,9 @@
         <files>
             <file path="{MODULEPATH}deliveryLimitations/demoDeliveryLimitation/">demoLimitation.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/demoDeliveryLimitation/">demoLimitation.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
     </install>
 

@@ -55,7 +55,7 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Variable', $this->extension, $this->group);
+        return $this->translate('Variable');
     }
 
      /**

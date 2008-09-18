@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX - demoDeliveryLimitations plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-08 15:10+0100\n"
+"PO-Revision-Date: 2008-09-08 15:11+0100\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/trunk-HEAD/\n"
+"X-Poedit-SearchPath-0: plugins_repo/demoExtension/extensions/deliveryLimitations\n"
+
+#: plugins_repo/demoExtension/extensions/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:67
+msgid "Demo"
+msgstr "Demo"
+

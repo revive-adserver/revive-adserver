@@ -54,7 +54,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('No Cookie Image Tag', $this->extension, $this->group);
+        return $this->translate("No Cookie Image Tag");
     }
 
     /**

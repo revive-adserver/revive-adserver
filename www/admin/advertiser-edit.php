@@ -133,7 +133,7 @@ function buildAdvertiserForm($aAdvertiser)
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
 
     //Form validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('clientname', $nameRequiredMsg, 'required');
@@ -202,8 +202,8 @@ function processForm($aAdvertiser, $form)
         // Insert
         $aAdvertiser['clientid'] = $doClients->insert();
 
-        // Queue confirmation message        
-        $translation = new OA_Translation ();
+        // Queue confirmation message
+        $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
             htmlspecialchars($aAdvertiser['clientname']), 
@@ -213,7 +213,7 @@ function processForm($aAdvertiser, $form)
 
         // Go to next page
         OX_Admin_Redirect::redirect("advertiser-index.php");
-    } 
+    }
     else {
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->get($aAdvertiser['clientid']);
@@ -237,7 +237,7 @@ function processForm($aAdvertiser, $form)
 function displayPage($aAdvertiser, $form)
 {
     //header and breadcrumbs
-    $oHeaderModel = buildAdvertiserHeaderModel($aAdvertiser);    
+    $oHeaderModel = buildAdvertiserHeaderModel($aAdvertiser);
     if ($aAdvertiser['clientid'] != "") {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             OA_Admin_Menu::setAdvertiserPageContext($aAdvertiser['clientid'], 'advertiser-index.php');

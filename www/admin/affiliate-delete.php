@@ -53,11 +53,11 @@ if (!empty($affiliateid))
 {
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->affiliateid = $affiliateid;
-    
+
     if ($doAffiliates->get($affiliateid)) {
         $aAffiliate = $doAffiliates->toArray();
     }
-	
+
     // User unsubscribed from adnetworks
 //    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
     $oacWebsiteId = $doAffiliates->as_website_id;
@@ -70,8 +70,8 @@ if (!empty($affiliateid))
     $oAdNetworks->unsubscribeWebsites($aPublisher);
 	$doAffiliates->delete();
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDeleted'], array(
         htmlspecialchars($aAffiliate['name'])
     ));

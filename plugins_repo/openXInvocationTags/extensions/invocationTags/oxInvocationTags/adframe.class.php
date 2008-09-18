@@ -50,7 +50,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('iFrame Tag', $this->extension, $this->group);
+        return $this->translate("iFrame Tag");
     }
 
     /**
@@ -195,7 +195,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
             // Do no rewrite target frames
             $mi->parameters['rewrite'] = 'rewrite=0';
             $buffer .= "\n\n";
-            $buffer .= "<!-- " . MAX_Plugin_Translation::translate('Placement Comment', $this->extension, $this->group) . " -->\n";
+            $buffer .= "<!-- " . $this->translate("Placement Comment") . " -->\n";
             $buffer .= "<layer src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
             $buffer .= "?n=".$uniqueid;
             if (sizeof($mi->parameters) > 0) {

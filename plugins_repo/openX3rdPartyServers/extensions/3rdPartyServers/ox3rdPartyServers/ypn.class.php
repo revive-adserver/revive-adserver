@@ -50,10 +50,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_ypn extends Plugins_3rdPartyServ
      */
     function getName()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Yahoo! Publisher Network', $this->module, $this->package);
+        return $this->translate('Rich Media - Yahoo! Publisher Network');
     }
 
     /**

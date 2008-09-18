@@ -90,7 +90,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
         echo "
             <table border='0' cellpadding='2'>
                 <tr>
-                    <th>" . MAX_Plugin_Translation::translate('Country', $this->extension, $this->group) . "</th>
+                    <th>" . $this->translate('Country') . "</th>
                     <td>
                         <select name='acl[{$this->executionorder}][data][]' {$disabled}>";
                         foreach ($this->res as $countryCode => $countryName) {
@@ -105,7 +105,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
         if (isset($this->data[0])) {
             // A country has been selected, show city list for this country...
             // Note: Since a disabled field does not pass it's value through, we need to pass the selected country in...
-            echo "<tr><th>" . MAX_Plugin_Translation::translate('City(s)', $this->extension, $this->group) . "</th><td>";
+            echo "<tr><th>" . $this->translate('City(s)') . "</th><td>";
             echo "<input type='text' name='acl[{$this->executionorder}][data][]' value='{$this->data[1]}' tabindex='".($tabindex++)."' />";
             echo "</td></tr>";
         }

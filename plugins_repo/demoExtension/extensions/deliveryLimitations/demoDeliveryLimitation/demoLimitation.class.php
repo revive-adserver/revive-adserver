@@ -64,7 +64,7 @@ class Plugins_DeliveryLimitations_DemoDeliveryLimitation_DemoLimitation extends 
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Demo', $this->extension, $this->group);
+        return $this->translate('Demo');
     }
 }
 

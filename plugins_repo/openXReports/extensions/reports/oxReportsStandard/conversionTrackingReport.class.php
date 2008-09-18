@@ -137,10 +137,10 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      */
     function initInfo()
     {
-        $this->_name         = MAX_Plugin_Translation::translate('Conversion Tracking Report', $this->module, $this->package);
-        $this->_description  = MAX_Plugin_Translation::translate('A detailed breakdown of all conversion activity by advertiser or publisher.', $this->module, $this->package);
+        $this->_name         = $this->translate("Conversion Tracking Report");
+        $this->_description  = $this->translate("A detailed breakdown of all conversion activity by advertiser or publisher.");
         $this->_category     = 'standard';
-        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_categoryName = $this->translate("Standard Reports");
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
         if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] && $this->_hasTrackers()) {
@@ -181,11 +181,11 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 'title'            => $GLOBALS['strWorksheets'],
                 'type'             => 'sheet',
                 'sheets'           => array(
-                    'performance_by_day'   => MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package),
-                    'connection_by_day'    => MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package),
-                    'variable_by_day'      => MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package),
-                    'variable_by_variable' => MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package),
-                    'connection_detail'    => MAX_Plugin_Translation::translate('Connection Detail', $this->module, $this->package)
+                    'performance_by_day'   => $this->translate("Performance by Day"),
+                    'connection_by_day'    => $this->translate("Connection Summary by Day"),
+                    'variable_by_day'      => $this->translate("Variable Summary by Day"),
+                    'variable_by_variable' => $this->translate("Variable Summary by Variable"),
+                    'connection_detail'    => $this->translate("Connection Detail")
                 )
             )
         );
@@ -343,7 +343,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package),
+            $this->translate("Performance by Day"),
             $aHeaders,
             $aData
         );
@@ -358,7 +358,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _addConnectionByDayWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
-        $worksheetName = MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package);
+        $worksheetName = $this->translate("Connection Summary by Day");
         $this->_oReportWriter->createReportWorksheet(
             $worksheetName,
             $this->_name,
@@ -374,10 +374,10 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $aHeaders = array();
             $key = $GLOBALS['strDate'];
             $aHeaders[$key] = 'date';
-            $key = MAX_Plugin_Translation::translate('Total Connections', $this->module, $this->package);
+            $key = $this->translate("Total Connections");
             $aHeaders[$key] = 'number';
             foreach ($aStatus as $status) {
-                $key = MAX_Plugin_Translation::translate($status . ' Connections', $this->module, $this->package);
+                $key = $status . $this->translate(" Connections");
                 $aHeaders[$key] = 'number';
             }
             if (!empty($aTracker['variables'])) {
@@ -451,7 +451,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _addVariableByDayWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
-        $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package);
+        $worksheetName = $this->translate("Variable Summary by Day");
         $this->_oReportWriter->createReportWorksheet(
             $worksheetName,
             $this->_name,
@@ -570,7 +570,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _addVariableByVariableWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
-        $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package);
+        $worksheetName = $this->translate("Variable Summary by Variable");
         $this->_oReportWriter->createReportWorksheet(
             $worksheetName,
             $this->_name,
@@ -663,7 +663,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _addConnectionDetailWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
-        $worksheetName = MAX_Plugin_Translation::translate('Connection Detail', $this->module, $this->package);
+        $worksheetName = $this->translate("Connection Detail");
         $this->_oReportWriter->createReportWorksheet(
             $worksheetName,
             $this->_name,
@@ -676,9 +676,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
             $trackerName = MAX_getTrackerName($aTracker['tracker_name'], null, $trackerAnonymous, $trackerId);
             $aHeaders = array();
-            $key = MAX_Plugin_Translation::translate('Connection ID', $this->module, $this->package);
+            $key = $this->translate("Connection ID");
             $aHeaders[$key] = 'id';
-            $key = MAX_Plugin_Translation::translate('Connection Date / Time', $this->module, $this->package);
+            $key = $this->translate("Connection Date / Time");
             $aHeaders[$key] = 'datetime';
             if (!empty($aTracker['variables'])) {
                 foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
@@ -700,29 +700,29 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     }
                 }
             }
-            $key = MAX_Plugin_Translation::translate('Approval Status', $this->module, $this->package);
+            $key = $this->translate("Approval Status");
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Comment', $this->module, $this->package);
+            $key = $this->translate("Comment");
             $aHeaders[$key] = 'text';
             if ($this->_shouldDisplaySourceField()) {
                 $key = $GLOBALS['strSource'];
                 $aHeaders[$key] = 'text';
             }
-            $key = MAX_Plugin_Translation::translate('Advertiser Name', $this->module, $this->package);
+            $key = $this->translate("Advertiser Name");
             $aHeaders[$key] = 'text';
             $key = $GLOBALS['strTrackerName'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Ad Name', $this->module, $this->package);
+            $key = $this->translate("Ad Name");
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Publisher Name', $this->module, $this->package);
+            $key = $this->translate("Publisher Name");
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Zone Name', $this->module, $this->package);
+            $key = $this->translate("Zone Name");
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Connection Type', $this->module, $this->package);
+            $key = $this->translate("Connection Type");
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Connecting Value Date / Time', $this->module, $this->package);
+            $key = $this->translate("Connecting Value Date / Time");
             $aHeaders[$key] = 'datetime';
-            $key = MAX_Plugin_Translation::translate('IP Address', $this->module, $this->package);
+            $key = $this->translate("IP Address");
             $aHeaders[$key] = 'text';
             $key = $GLOBALS['strCountry'];
             $aHeaders[$key] = 'text';
@@ -1281,7 +1281,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _decodeConnectionStatus($code)
     {
         $aStatus = $this->_getConnectionStatuses();
-        return MAX_Plugin_Translation::translate($aStatus[$code], $this->module, $this->package);
+        return $this->translate($aStatus[$code]);
     }
 
 }

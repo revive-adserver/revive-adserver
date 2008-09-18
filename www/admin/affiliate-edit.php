@@ -120,7 +120,7 @@ function buildWebsiteForm($affiliate)
     $form->addElement('submit', 'save', 'Save changes');
 
     //Form validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWebsiteURL']));
     $form->addRule('website', $urlRequiredMsg, 'required');
     $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
@@ -182,8 +182,8 @@ function buildWebsiteForm($affiliate)
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-        // Queue confirmation message        
-        $translation = new OA_Translation ();
+        // Queue confirmation message
+        $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
             htmlspecialchars($oPublisher->publisherName), 
@@ -209,7 +209,7 @@ function displayPage($affiliateid, $form)
     }
     else {
         phpAds_PageHeader("affiliate-edit_new", $oHeaderModel);
-    }    
+    }
 
     //get template and display form
     $oTpl = new OA_Admin_Template('affiliate-edit.html');

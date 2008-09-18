@@ -32,10 +32,10 @@ $Id$
  */
 
 $res = array(
-    'unknown'   => MAX_Plugin_Translation::translate('Unknown', $this->extension, $this->group),
-    'dialup'    => MAX_Plugin_Translation::translate('Dial-up', $this->extension, $this->group),
-    'cabledsl'  => MAX_Plugin_Translation::translate('Broadband', $this->extension, $this->group),
-    'corporate' => MAX_Plugin_Translation::translate('Corporate', $this->extension, $this->group),
+    'unknown'   => $this->translate('Unknown'),
+    'dialup'    => $this->translate('Dial-up'),
+    'cabledsl'  => $this->translate('Broadband'),
+    'corporate' => $this->translate('Corporate'),
 );
 
 ?>

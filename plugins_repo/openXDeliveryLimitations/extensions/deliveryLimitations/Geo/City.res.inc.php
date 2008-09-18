@@ -41,8 +41,7 @@ if (!isset($GLOBALS['_MAX']['_GEOCACHE']['city'])) {
         unset($res[$k]);
     }
 
-    $res = array('' => MAX_Plugin_Translation::translate('---Any---', $this->extension, $this->group)) +
-        $res;
+    $res = array('' => $this->translate('---Any---')) + $res;
 
     $GLOBALS['_MAX']['_GEOCACHE']['city'] = $res;
 } else {

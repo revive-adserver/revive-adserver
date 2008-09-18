@@ -39,6 +39,9 @@
             <file path="{ADMINPATH}/etc/elements/">header.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">navigation.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">schema.xml.tpl</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <navigation>

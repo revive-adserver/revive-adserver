@@ -97,7 +97,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
 
     function getName()
     {
-        return MAX_Plugin_Translation::translate('OpenX CAS');
+        return $this->translate('OpenX CAS');
     }
 
     /**
@@ -253,12 +253,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     function displayRegistrationRequiredInfo()
     {
         phpAds_PageHeader("1");
-        $msg = MAX_Plugin_Translation::translate('strRegistrationRequiredInfo', $this->module, $this->package);
-        $replacements = array(
-            '{userName}'   => phpCAS::getUser(),
-        );
-        $msg = str_replace(array_keys($replacements), array_values($replacements), $msg);
-        echo $msg;
+        echo $this->translate('strRegistrationRequiredInfo', array(phpCAS::getUser()));
         phpAds_PageFooter();
         exit();
     }
@@ -572,9 +567,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
      */
     function getEmailSubject($superUserName)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject',
-            $this->module, $this->package);
-        return str_replace('{superUserName}', $superUserName, $subject);
+        return $this->translate('strEmailSsoConfirmationSubject', array($superUserName));
     }
 
     /**
@@ -587,17 +580,8 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
      */
     function getEmailBody($superUserName, $contactName, $receipientEmail)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody',
-            $this->module, $this->package);
-        $url = MAX::constructURL(MAX_URL_ADMIN, 'sso-accounts.php');
-        $replacements = array(
-            '{contactName}'   => $contactName,
-            '{superUserName}' => $superUserName,
-            '{url}' => $url . '?email='.$receipientEmail.'&vh=${verificationHash}',
-        );
-
-        return str_replace(array_keys($replacements),
-            array_values($replacements), $subject);
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'sso-accounts.php') . '?email='.$receipientEmail.'&vh=${verificationHash}';
+        return $this->translate('strEmailSsoConfirmationBody', array($contactName, $superUserName, $url));
     }
 
     /**
@@ -608,14 +592,12 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     function addSignupError($error)
     {
         if (PEAR::isError($error) && isset($this->aErrorCodes[$error->getCode()])) {
-            $msg = MAX_Plugin_Translation::translate(
-                $this->aErrorCodes[$error->getCode()], $this->module, $this->package);
+            $msg = $this->translate($this->aErrorCodes[$error->getCode()]);
             parent::addSignupError($msg);
         } elseif(PEAR::isError($error)) {
             $errorMsg = $error->getMessage();
             if (empty($errorMsg)) {
-                $msg = MAX_Plugin_Translation::translate(
-                    $this->defaultErrorUnknownCode, $this->module, $this->package);
+                $msg = $this->translate($this->defaultErrorUnknownCode, $this->module, $this->package);
                 $errorMsg = sprintf($msg, $error->getCode());
             }
             $errorMsg = sprintf($this->defaultErrorUnkownMsg, $errorMsg);

@@ -65,7 +65,7 @@ class Plugins_DeliveryLimitations_Time_Day extends Plugins_DeliveryLimitations_A
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Day of week', $this->extension, $this->group);
+        return $this->translate('Day of week');
     }
 
     /**

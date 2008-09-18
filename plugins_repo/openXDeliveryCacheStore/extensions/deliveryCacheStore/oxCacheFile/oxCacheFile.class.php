@@ -44,7 +44,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('File based cache', $this->extension, $this->group);
+        return $this->translate('File based cache');
     }
 
     /**
@@ -56,8 +56,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
     {
         $deliveryPath = $this->_getCachePath();
         if (!is_writable($deliveryPath)) {
-            $strError = MAX_Plugin_Translation::translate('strUnableToWriteTo', $this->extension, $this->group);
-            return array($strError.htmlspecialchars($deliveryPath));
+            return array($this->translate('strUnableToWriteTo') . ' ' . htmlspecialchars($deliveryPath));
         }
         return true;
     }

@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX - CAS authentication plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-08 15:19+0100\n"
+"PO-Revision-Date: 2008-09-08 15:55+0100\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS/\n"
+
+#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:100
+msgid "OpenX CAS"
+msgstr "OpenX CAS"
+
+#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:248
+msgid "strRegistrationRequiredInfo"
+msgstr ""
+"Welcome <b>%s</b>\n"
+"\n"
+"You do not currently have an account on the hosted version of OpenX.\n"
+"\n"
+"If you want to create one please sign up <a href='http://www.openx.org/hosted'>here</a>.\n"
+"\n"
+"To login as a different user click <a href='logout.php'>here</a>."
+
+#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:567
+msgid "strEmailSsoConfirmationSubject"
+msgstr "%s has given you access to an OpenX account, please complete your sign up"
+
+#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:581
+msgid "strEmailSsoConfirmationBody"
+msgstr ""
+"Hello %s\n"
+"\n"
+"You have been given access to an \".$name.\" account by %s, to confirm your details and complete the sign up process please click on the link below%s\n"
+"\n"
+"Please contact us at info@openx.org if you have any questions\n"
+"\n"
+"Thanks\n"
+"The OpenX Team"
+

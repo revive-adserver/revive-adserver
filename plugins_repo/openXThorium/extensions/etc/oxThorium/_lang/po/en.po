@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX Thorium\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-18 11:59+0100\n"
+"PO-Revision-Date: 2008-09-18 12:00+0100\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXThorium/www/admin/plugins/oxThorium/\n"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:63
+msgid "Company & Contacts"
+msgstr "Company & Contacts"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:64
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:106
+msgid "Company name"
+msgstr "Company name"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:65
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:107
+msgid "Company reg. number"
+msgstr "Company reg. number"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:68
+msgid "Phone"
+msgstr "Phone"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:87
+msgid "County"
+msgstr "County"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:93
+msgid "Payment"
+msgstr "Payment"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:95
+msgid "Payment Method"
+msgstr "Payment Method"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:97
+msgid "Vat registered"
+msgstr "Vat registered"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:97
+msgid "Yes, I'm VAT registered"
+msgstr "Yes, I'm VAT registered"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:98
+msgid "VAT number"
+msgstr "VAT number"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:102
+msgid "Update account data"
+msgstr "Update account data"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:102
+msgid "Create account"
+msgstr "Create account"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:106
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:107
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-account-edit.php:111
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-preferences-campaign.php:84
+#, php-format
+msgid "%s is required"
+msgstr "%s is required"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-preferences-campaign.php:79
+msgid "Yes, allow this campaign to be challenged by MarketPlace"
+msgstr "Yes, allow this campaign to be challenged by MarketPlace"
+
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-preferences-campaign.php:80
+#: plugins_repo/openXThorium/www/admin/plugins/oxThorium//bid-preferences-campaign.php:84
+msgid "Campaign floor price"
+msgstr "Campaign floor price"
+

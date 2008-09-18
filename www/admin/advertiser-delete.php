@@ -58,7 +58,7 @@ if (!empty($clientid)) {
     if ($doClients->get($clientid)) {
         $aAdvertiser = $doClients->toArray();
     }
-		
+
     $doClients->delete();
 
     // Delete the advertiser from the $node_array,
@@ -67,8 +67,8 @@ if (!empty($clientid)) {
         unset($node_array['clients'][$clientid]);
     }
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenDeleted'], array(
         htmlspecialchars($aAdvertiser['clientname'])
     ));

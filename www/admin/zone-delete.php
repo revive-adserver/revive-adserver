@@ -64,8 +64,8 @@ $oAdNetworks->deleteZone($doZones->as_zone_id);
 
 $doZones->delete();
 
-// Queue confirmation message        
-$translation = new OA_Translation ();
+// Queue confirmation message
+$translation = new OX_Translation ();
 $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenDeleted'], array(
     htmlspecialchars($aZone['zonename'])
 ));

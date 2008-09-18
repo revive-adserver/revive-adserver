@@ -311,7 +311,7 @@ function buildCampaignForm($campaign, &$oComponent=null)
     $form->addElement ( 'submit', 'submit', $GLOBALS ['strSaveChanges'] );
 
     //validation rules
-    $translation = new OA_Translation ( );
+    $translation = new OX_Translation ( );
     $nameRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strName'] ) );
     $form->addRule ( 'campaignname', $nameRequiredMsg, 'required' );
 
@@ -818,7 +818,7 @@ function processCampaignForm($form, &$oComponent=null)
 
         if ($new_campaign) {
             // Queue confirmation message
-            $translation = new OA_Translation ();
+            $translation = new OX_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenAdded'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']),
                 htmlspecialchars($aFields['campaignname']),

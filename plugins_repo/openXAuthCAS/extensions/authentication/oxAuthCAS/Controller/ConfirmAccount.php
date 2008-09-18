@@ -82,8 +82,7 @@ class OA_Controller_SSO_ConfirmAccount
     {
         $this->initModel();
         $this->oCentral = &new OA_Central_Cas();
-        $this->oPlugin = &MAX_Plugin::factory('authentication', 'cas');
-        MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
+        $this->oPlugin = OX_Component::factory('authentication', 'oxAuthCAS', 'oxAuthCAS');
     }
 
     function initModel()

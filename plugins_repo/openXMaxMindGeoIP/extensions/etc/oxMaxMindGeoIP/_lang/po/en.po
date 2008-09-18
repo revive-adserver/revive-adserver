@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX - Delivery limitations (Client)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-17 11:06+0100\n"
+"PO-Revision-Date: 2008-09-17 11:07+0100\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXMaxMindGeoIP/extensions/geoTargeting/oxMaxMindGeoIP/\n"
+
+#: plugins_repo/openXMaxMindGeoIP/extensions/geoTargeting/oxMaxMindGeoIP//oxMaxMindGeoIP.class.php:49
+msgid "OpenX MaxMind (Flat file)"
+msgstr "OpenX MaxMind (Flat file)"
+

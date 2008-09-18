@@ -258,6 +258,10 @@ function setupConstants()
             $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
         }
         ini_set('include_path', $newPearPath);
+
+        // Add the Zend installation path to the include path
+        set_include_path(MAX_PATH . '/lib' . PATH_SEPARATOR . get_include_path());
+
         // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
         // Define the OpenX Cache File location path (required trailing slash)

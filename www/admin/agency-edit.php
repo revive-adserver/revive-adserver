@@ -116,7 +116,7 @@ function buildAgencyForm($aAgency)
 
 
     //Form validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('name', $nameRequiredMsg, 'required');
     // Get unique agencyname

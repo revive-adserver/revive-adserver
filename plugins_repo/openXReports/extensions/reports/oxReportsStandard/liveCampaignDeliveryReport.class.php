@@ -56,10 +56,10 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      */
     function initInfo()
     {
-        $this->_name         = MAX_Plugin_Translation::translate('Campaign Delivery Report', $this->module, $this->package);
-        $this->_description  = MAX_Plugin_Translation::translate('This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.', $this->module, $this->package);
+        $this->_name         = $this->translate("Campaign Delivery Report");
+        $this->_description  = $this->translate("This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.");
         $this->_category     = 'standard';
-        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_categoryName = $this->translate("Standard Reports");
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
         $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -83,12 +83,12 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         // Prepare the array for displaying the generation page
         $aImport = array(
             'period' => array(
-                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'title'            => $this->translate("Period"),
                 'type'             => 'date-month',
                 'default'          => $default_period_preset
             ),
             'scope'  => array(
-                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'title'            => $this->translate("Limitations"),
                 'type'             => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
                 'scope_publisher'  => $default_scope_publisher
@@ -166,7 +166,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $aHeaders = array();
         $key = $GLOBALS['strCampaignName'];
         $aHeaders[$key] = 'text';
-        $key = MAX_Plugin_Translation::translate('Type', $this->module, $this->package);
+        $key = $this->translate("Type");
         $aHeaders[$key] = 'text';
         $key = $GLOBALS['strStatus'];
         $aHeaders[$key] = 'text';
@@ -176,15 +176,15 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $aHeaders[$key] = 'date';
         $key = $GLOBALS['strEndDate'];
         $aHeaders[$key] = 'date';
-        $key = MAX_Plugin_Translation::translate('Booked Impressions', $this->module, $this->package);
+        $key = $this->translate("Booked Impressions");
         $aHeaders[$key] = 'number';
-        $key = MAX_Plugin_Translation::translate('Delivered Impressions', $this->module, $this->package);
+        $key = $this->translate("Delivered Impressions");
         $aHeaders[$key] = 'number';
-        $key = MAX_Plugin_Translation::translate('% Complete', $this->module, $this->package);
+        $key = $this->translate("% Complete");
         $aHeaders[$key] = 'percent';
-        $key = MAX_Plugin_Translation::translate('Overall +/-', $this->module, $this->package);
+        $key = $this->translate("Overall +/-");
         $aHeaders[$key] = 'percent';
-        $key = MAX_Plugin_Translation::translate('Current +/-', $this->module, $this->package);
+        $key = $this->translate("Current +/-");
         $aHeaders[$key] = 'percent';
         // Get the raw data for the worksheet
         $aData = $this->_getDeliveryPerformanceData();
@@ -482,9 +482,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $dalCampaigns = OA_Dal::factoryDAL('campaigns');
         $isTargeted = $dalCampaigns->isTargeted($campaignId);
         if ($isTargeted) {
-            $type = MAX_Plugin_Translation::translate('Targeted', $this->module, $this->package);
+            $type = $this->translate("Targeted");
         } else {
-            $type = MAX_Plugin_Translation::translate('Run of Site', $this->module, $this->package);
+            $type = $this->translate("Run of Site");
         }
         return $type;
     }
@@ -500,9 +500,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _decodeStatusDescription($isActive)
     {
         if ($isActive == OA_ENTITY_STATUS_RUNNING) {
-            $type = MAX_Plugin_Translation::translate('Running', $this->module, $this->package);
+            $type = $this->translate("Running");
         } else {
-            $type = MAX_Plugin_Translation::translate('Stopped', $this->module, $this->package);
+            $type = $this->translate("Stopped");
 
         }
         return $type;
@@ -519,11 +519,11 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _decodePriority($priorityCode)
     {
         if ($priorityCode == -1) {
-            $type = MAX_Plugin_Translation::translate('1: Exclusive', $this->module, $this->package);
+            $type = $this->translate("1: Exclusive");
         } else if ($priorityCode == 0) {
-            $type = MAX_Plugin_Translation::translate('3: Low', $this->module, $this->package);
+            $type = $this->translate("3: Low");
         } else {
-            $type = MAX_Plugin_Translation::translate('2: High', $this->module, $this->package);
+            $type = $this->translate("2: High");
         }
         return $type;
     }

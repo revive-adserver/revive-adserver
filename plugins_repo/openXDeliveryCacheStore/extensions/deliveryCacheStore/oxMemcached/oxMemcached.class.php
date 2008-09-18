@@ -46,7 +46,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('memcached', $this->extension, $this->group);
+        return $this->translate('memcached');
     }
 
     /**
@@ -57,15 +57,15 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
     function getStatus()
     {
         $aErrors = array();
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Check if memcached is enabled in php.ini
         if (!class_exists('Memcache'))
         {
-            $strError = MAX_Plugin_Translation::translate('strNoMemcacheModuleInPhp', $this->extension, $this->group);
-            return array($strError);
+            return array($this->translate('strNoMemcacheModuleInPhp'));
         }
         // Check servers list
-        $aServers = (explode(',', $GLOBALS['_MAX']['CONF'][$this->group]['memcachedServers']));
+        $aServers = (explode(',', $aConf[$this->group]['memcachedServers']));
         if (count($aServers) > 0)
         {
             foreach ($aServers as $key => $server)
@@ -77,36 +77,31 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         }
         if (count($aServers) == 0)
         {
-            $aErrors[] = sprintf(
-                MAX_Plugin_Translation::translate('strEmptyServerList', $this->extension, $this->group),
-                'plugin-settings.php?group=oxMemcached'
-            );
-            return $aErrors;
+            return $this->translate('strEmptyServerList', array('plugin-settings.php?group=oxMemcached'));
         }
         $oMemcache = new Memcache();
         foreach ($aServers as $server)
         {
             if (!_oxMemcached_addMemcachedServer($oMemcache, $server))
             {
-                $errormsg = MAX_Plugin_Translation::translate('strInvalidServerAdress', $this->extension, $this->group);
-                $aErrors[] = $errormsg." ".$server;
+                $aErrors[] = $this->translate('strInvalidServerAddress') . " " . $server;
             }
         }
         // Check expire time
-        if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime']) &&
+        if (!empty($aConf[$this->group]['memcachedExpireTime']) &&
             (
-                !is_numeric($GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime']) ||
-                $GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime'] <= $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
+                !is_numeric($aConf[$this->group]['memcachedExpireTime']) ||
+                $aConf[$this->group]['memcachedExpireTime'] <= $aConf['delivery']['cacheExpire']
             )
         )
         {
-            $aErrors[] = MAX_Plugin_Translation::translate('strInvalidExpireTime', $this->extension, $this->group);
+            $aErrors[] = $this->translate('strInvalidExpireTime');
         }
         // Check if memcached server is running
 
         if (@$oMemcache->getVersion() === false)
         {
-            $aErrors[] = MAX_Plugin_Translation::translate('strCouldntConnectToMemcached', $this->extension, $this->group);
+            $aErrors[] = $this->translate('strCouldntConnectToMemcached');
         }
 
         if (count($aErrors) > 0)

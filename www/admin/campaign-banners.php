@@ -36,7 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
@@ -72,7 +72,7 @@ if (empty($clientid)) { //if it's empty
     if (empty($clientid)) { //was empty, is still empty - just pick one, no need for redirect
         $ids = array_keys($aAdvertisers);
         if (!empty($ids)) {
-            $clientid = $ids[0];            
+            $clientid = $ids[0];
         }
         else {
             $clientid = -1; //if no advertisers set to non-existent id
@@ -120,7 +120,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
-$oTrans = new OA_Translation();
+$oTrans = new OX_Translation();
 
 // Display navigation
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
@@ -283,7 +283,7 @@ if (empty($clientid) || $clientid < 0) {
 }
 else if (empty($campaignid) || $campaignid < 0) {
     echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     $noBannersMsg = $translation->translate($GLOBALS['strNoCampaignsForBanners'], array($clientid));
     echo "&nbsp;&nbsp;$noBannersMsg";
     echo "</td></tr>";
@@ -623,7 +623,7 @@ function addPageTools($advertiserId, $campaignId)
     if (!($advertiserId > 0) || !($campaignId > 0)) {
         return;
     }
-    
+
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         addPageLinkTool($GLOBALS["strAddBanner_Key"], "banner-edit.php?clientid=$advertiserId&campaignid=$campaignId", "iconBannerAdd", $GLOBALS["strAddNew"] );
     }

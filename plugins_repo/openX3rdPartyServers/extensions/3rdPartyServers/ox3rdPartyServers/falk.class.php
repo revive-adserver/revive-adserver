@@ -50,10 +50,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_falk extends Plugins_3rdPartySer
      */
     function getName()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Falk', $this->module, $this->package);
+        return $this->translate('Rich Media - Falk');
     }
 
     /**

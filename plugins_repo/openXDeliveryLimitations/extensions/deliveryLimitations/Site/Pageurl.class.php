@@ -63,7 +63,7 @@ class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitatio
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Page URL', $this->extension, $this->group);
+        return $this->translate('Page URL');
     }
 }
 

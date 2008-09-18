@@ -21,6 +21,10 @@
             <file path="{MODULEPATH}reports/oxReportsAdmin/_lang/">de.php</file>
             <file path="{MODULEPATH}reports/oxReportsAdmin/_lang/">es.php</file>
             <file path="{MODULEPATH}reports/oxReportsAdmin/_lang/">ja.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
         </files>
 
     </install>

@@ -46,6 +46,9 @@
             <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-fips.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166-2.inc.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
 

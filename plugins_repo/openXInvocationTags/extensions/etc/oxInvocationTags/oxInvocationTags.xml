@@ -73,6 +73,10 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/geocities/">layerstyle.inc.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/simple/">invocation.inc.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/simple/">layerstyle.inc.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
         </files>
 
         <components>
@@ -86,7 +90,7 @@
            <component><name>spc</name></component>
            <component><name>xmlrpc</name></component>
         </components>
-         
+
         <configuration option="Invocation Tags">
             <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdjs"            type="checkbox" label="Allow Javascript Invocation Tag" required="0" size="1" visible="1">1</setting>

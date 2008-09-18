@@ -46,7 +46,7 @@ class Plugins_BannerTypeText_oxText_genericText extends Plugins_BannerTypeText
      */
     function getOptionDescription()
     {
-        return 'OpenX Generic Text Banner';
+        return $this->translate("OpenX Generic Text Banner");
     }
 
     function buildForm(&$form, &$row)

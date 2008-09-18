@@ -33,7 +33,6 @@ die('Not implemented in Thorium Alpha');
 require_once 'bid-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
-
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
@@ -53,18 +52,20 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildAccountForm($aAccount)
 {
+    $obj = OX_Component::factory('admin', 'oxThorium');
+
     $form = new OA_Admin_UI_Component_Form("account_form", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'accountid', $aAccount['accountid']);
 
     //section: company and contact
-    $form->addElement('header', 'header_comp_cont', 'Company & Contacts');
-    $form->addElement('text', 'company_name', 'Company name');
-    $form->addElement('text', 'company_reg_no', 'Company reg. number');
+    $form->addElement('header', 'header_comp_cont', $obj->translate("Company & Contacts"));
+    $form->addElement('text', 'company_name', $obj->translate("Company name"));
+    $form->addElement('text', 'company_reg_no', $obj->translate("Company reg. number"));
 
     $contact['name'] = $form->createElement('text', 'contact', "", array('class' => 'medium'));
-    $contact['phone'] = $form->createElement('text', 'company_phone', 'Phone', array('class' => 'small'));
+    $contact['phone'] = $form->createElement('text', 'company_phone', $obj->translate("Phone"), array('class' => 'small'));
     $form->addGroup($contact, 'g_contact', $GLOBALS['strContact'], "&nbsp;");
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
 
@@ -83,38 +84,31 @@ function buildAccountForm($aAccount)
     //TODO DEV: get countries here
     $countries = array();
     $countyCountry['county'] = $form->createElement('select', 'county', "", $countries, array('class' => 'medium'));
-    $countyCountry['country'] = $form->createElement('text', 'county', 'County', array('class' => 'small'));
+    $countyCountry['country'] = $form->createElement('text', 'county', $obj->translate("County"), array('class' => 'small'));
     $form->addGroup($countyCountry, 'g_country', $GLOBALS['strCountry'], "&nbsp;");
 
     //TODO DEV: this section is not final yet - product does not know how we wil pay
     //probably should be hidden when implementation starts - created for future reference
     //section: payment
-    $form->addElement('header', 'header_payment', 'Payment');
+    $form->addElement('header', 'header_payment', $obj->translate("Payment"));
     $payMethods = array('PayPal');
-    $form->addElement('select', 'payment_method', "Payment Method", $payMethods, array('class' => 'small'));
+    $form->addElement('select', 'payment_method', $obj->translate("Payment Method"), $payMethods, array('class' => 'small'));
     $form->addElement('text', 'pay_email', $GLOBALS['strEMail']);
-    $form->addElement('advcheckbox', 'vat_reg', 'Vat registered', 'Yes, I\'m VAT registered', null, array("t", "f"));
-    $form->addElement('text', 'vat_no', 'VAT number', array('class' => 'small'));
-
-
-
+    $form->addElement('advcheckbox', 'vat_reg', $obj->translate("Vat registered"), $obj->translate("Yes, I'm VAT registered"), null, array("t", "f"));
+    $form->addElement('text', 'vat_no', $obj->translate("VAT number"), array('class' => 'small'));
 
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
-    $submitLabel = (!empty($aAccount['account_id']))  ? 'Update account data' : 'Create account';
+    $submitLabel = (!empty($aAccount['account_id']))  ? $obj->translate("Update account data") : $obj->translate("Create account");
     $form->addElement('submit', 'submit', $submitLabel);
 
     //Form validation rules
-    $translation = new OA_Translation();
-    $form->addRule('company_name', $translation->translate($GLOBALS['strXRequiredField'], array('Company name')),
-        'required');
+    $form->addRule('company_name', $obj->translate("%s is required", array($obj->translate("Company name"))), 'required');
+    $form->addRule('company_reg_no', $obj->translate("%s is required", array($obj->translate("Company reg. number"))), 'required');
 
-    $form->addRule('company_reg_no', $translation->translate($GLOBALS['strXRequiredField'], array('Company reg. number')),
-        'required');
-
-    //$contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
+    //$contactRequiredMsg = $obj->translate("%s is required", array($GLOBALS['strContact']));
     //$form->addRule('contact', $contactRequiredMsg, 'required');
-    $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
+    $emailRequiredMsg = $translation->translate("%s is required", array($GLOBALS['strEMail']));
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
 

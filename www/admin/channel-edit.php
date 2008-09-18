@@ -38,7 +38,7 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed('name', 'description', 'comments',  
+phpAds_registerGlobalUnslashed('name', 'description', 'comments',
     'affiliateid','agencyid', 'channelid');
 
 /*-------------------------------------------------------*/
@@ -52,11 +52,11 @@ OA_Permission::enforceAccessToObject('channel', $channelid, true);
 $doChannel = OA_Dal::factoryDO('channel');
 if (!empty($channelid)) {
     $doChannel->get($channelid);
-    $channel = $doChannel->toArray();    
+    $channel = $doChannel->toArray();
 }
 else {
     //for ne channels set affiliate id (if any)
-    $channel['affiliateid'] = $affiliateid;    
+    $channel['affiliateid'] = $affiliateid;
 }
 
 
@@ -82,7 +82,7 @@ function buildChannelForm($channel)
 {
     $form = new OA_Admin_UI_Component_Form("channelform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
-    
+
     $form->addElement('hidden', 'agencyid', OA_Permission::getAgencyId());
     $form->addElement('hidden', 'affiliateid', $channel['affiliateid']);
     $form->addElement('hidden', 'channelid', $channel['channelid']);
@@ -91,23 +91,23 @@ function buildChannelForm($channel)
     $form->addElement('text', 'name', $GLOBALS['strName']);
     $form->addElement('text', 'description', $GLOBALS['strDescription']);
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
-        
+
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
-    
-    //set form values 
+
+    //set form values
     $form->setDefaults($channel);
-    
+
     //validation rules
-    $translation = new OA_Translation();
-    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+    $translation = new OX_Translation();
+    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('name', $nameRequiredMsg, 'required');
-    
+
     // Get unique affiliate
     $doChannels = OA_Dal::factoryDO('channel');
     if (!empty($channel['affiliateid'])) {
         $doChannels->affiliateid = $channel['affiliateid'];
-    } 
+    }
     else {
         $doChannels->agencyid = OA_Permission::getAgencyId();
     }
@@ -116,15 +116,15 @@ function buildChannelForm($channel)
     $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strChannel'], strtolower($GLOBALS['strName'])));
     $form->addRule('name', $nameUniqueMsg, 'unique', $aUnique_names);
-    return $form;    
-    
+    return $form;
+
 }
 
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($form) 
+function processForm($form)
 {
     $aFields = $form->exportValues();
 
@@ -147,7 +147,7 @@ function processForm($form)
             }
             exit;
         }
-    } 
+    }
     else {
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->agencyid = $aFields['agencyid'];
@@ -160,8 +160,8 @@ function processForm($form)
         $doChannel->active = 1;
         $aFields['channelid'] = $doChannel->insert();
 
-        // Queue confirmation message        
-        $translation = new OA_Translation ();
+        // Queue confirmation message
+        $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']), 
             htmlspecialchars($aFields['name']), 
@@ -184,14 +184,14 @@ function displayPage($channel, $form)
 {
     $pageName = basename($_SERVER['PHP_SELF']);
     $agencyId = OA_Permission::getAgencyId();
-    
+
     // Obtain the needed data
     if (!empty($channel['affiliateid'])) {
         $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $channel['affiliateid'], 'channelid' => $channel['channelid']);
         // Editing a channel at the publisher level; Only use the
         // channels at this publisher level for the navigation bar
         $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $channel['affiliateid']));
-    } 
+    }
     else {
         $aEntities = array('agencyid' => $agencyId, 'channelid' => $channel['channelid']);
         // Editing a channel at the agency level; Only use the
@@ -201,14 +201,14 @@ function displayPage($channel, $form)
     //show header and breadcrumbs
     MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities);
 
-    
+
     //get template and display form
     $oTpl = new OA_Admin_Template('channel-edit.html');
     $oTpl->assign('form', $form->serialize());
     $oTpl->assign('formId', $form->getId());
     $oTpl->display();
-    
-    
+
+
     //show footer
     phpAds_PageFooter();
 }

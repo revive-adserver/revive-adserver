@@ -56,7 +56,7 @@ class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimi
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Refering Page', $this->extension, $this->group);
+        return $this->translate('Refering Page');
     }
 }
 

@@ -302,7 +302,7 @@ function buildZoneForm($zone)
 
 
     //validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('zonename', $urlRequiredMsg, 'required');
 
@@ -603,11 +603,11 @@ function processForm($form)
             	$oAdNetworks = new OA_Central_AdNetworks();
     			$oAdNetworks->updateZone($doZones, $anWebsiteId);
             }
-			
-            // Queue confirmation message        
-            $translation = new OA_Translation ();
+
+            // Queue confirmation message
+            $translation = new OX_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenAdded'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']), 
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
                 htmlspecialchars($aFields['zonename'])
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

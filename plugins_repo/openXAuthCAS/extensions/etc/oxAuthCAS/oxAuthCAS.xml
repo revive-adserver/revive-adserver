@@ -63,8 +63,10 @@
             <file path="{MODULEPATH}authentication/oxAuthCAS/Central/">RpcMapper.php</file>
             <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">ConfirmAccount.php</file>
 
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
             <file path="{MODULEPATH}authentication/oxAuthCAS/_lang/">en.php</file>
-            <!--file path="{MODULEPATH}authentication/oxAuthCAS/_lang">en.mo</file-->
         </files>
 
 

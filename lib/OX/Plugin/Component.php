@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once LIB_PATH . '/Translation.php';
 
 define('OX_COMPONENT_SUFFIX', '.class.php');
 
@@ -51,6 +52,8 @@ class OX_Component
     var $component;
     var $enabled;
 
+    var $oTrans;
+
     /**
      * A factory method, for including and instantiating a component, given an
      * extension/group (and optional component name).
@@ -67,6 +70,7 @@ class OX_Component
      */
     function &factory($extension, $group, $component = null)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($component === null) {
             $component = $group;
         }
@@ -80,6 +84,8 @@ class OX_Component
         $obj->group     = $group;
         $obj->component = $component;
         $obj->enabled   = self::_isGroupEnabled($group, $extension);
+        $obj->oTrans = new OX_Translation($aConf['pluginPaths']['packages'] . $group . '/_lang');
+
         return $obj;
     }
 
@@ -472,6 +478,10 @@ class OX_Component
         return $oPlugin;
     }
 
+    function translate($string, $aValues = array(), $pluralVar = false)
+    {
+        return $this->oTrans->translate($string, $aValues, $pluralVar);
+    }
 }
 
 ?>

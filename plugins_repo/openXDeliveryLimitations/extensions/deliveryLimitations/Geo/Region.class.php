@@ -67,7 +67,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Country / Region', $this->extension, $this->group);
+        return $this->translate('Country / Region');
     }
 
     /**
@@ -95,7 +95,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
         echo "
             <table border='0' cellpadding='2'>
                 <tr>
-                    <th>" . MAX_Plugin_Translation::translate('Country', $this->extension, $this->group) . "</th>
+                    <th>" . $this->translate('Country') . "</th>
                     <td>
                         <select name='acl[{$this->executionorder}][data][]' {$disabled}>";
                         foreach ($this->res as $countryCode => $countryName) {
@@ -111,7 +111,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
         if (!empty($this->data[0])) {
             // A country has been selected, show city list for this country...
             // Note: Since a disabled field does not pass it's value through, we need to pass the selected country in...
-            echo "<tr><th>" . MAX_Plugin_Translation::translate('Region(s)', $this->extension, $this->group) . "</th><td><div class='box'>";
+            echo "<tr><th>" . $this->translate('Region(s)') . "</th><td><div class='box'>";
             $aRegions = $this->res[$this->data[0]];
             unset($aRegions[0]);
             $aSelectedRegions = $this->data;

@@ -64,7 +64,7 @@ class Plugins_DeliveryLimitations_Client_Ip extends Plugins_DeliveryLimitations
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('IP address', $this->extension, $this->group);
+        return $this->translate('IP address');
     }
 }
 

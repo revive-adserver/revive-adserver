@@ -79,24 +79,24 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Direction', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Direction")."</td><td width='370'>";
     	$buffer .= "<select name='ltr' style='width:175px;' tabindex='".($tabindex++)."'>";
-    		$buffer .= "<option value='t'".($ltr == 't' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Left to right', 'invocationTags')."</option>";
-    		$buffer .= "<option value='f'".($ltr == 'f' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Right to left', 'invocationTags') ."</option>";
+    		$buffer .= "<option value='t'".($ltr == 't' ? ' selected' : '').">".$this->translate("Left to right")."</option>";
+    		$buffer .= "<option value='f'".($ltr == 'f' ? ' selected' : '').">".$this->translate("Right to left") ."</option>";
     	$buffer .= "</select>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Looping', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Looping")."</td><td width='370'>";
     	$buffer .= "<select name='loop' style='width:175px;' tabindex='".($tabindex++)."'>";
-    		$buffer .= "<option value='n'".($loop == 'n' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Always active', 'invocationTags')."</option>";
+    		$buffer .= "<option value='n'".($loop == 'n' ? ' selected' : '').">".$this->translate("Always active")."</option>";
     	for ($i=1;$i<=10;$i++)
     		$buffer .= "<option value='".$i."'".($loop == $i ? ' selected' : '').">".$i."</option>";
     	$buffer .= "</select>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Speed', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Speed")."</td><td width='370'>";
     	$buffer .= "<select name='speed' style='width:60px;' tabindex='".($tabindex++)."'>";
     	for ($i=1;$i<=5;$i++)
     		$buffer .= "<option value='".$i."'".($speed == $i ? ' selected' : '').">".$i."</option>";
@@ -104,17 +104,17 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Pause', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Pause")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='pause' size='' value='".$pause."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strSeconds']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Vertical shift', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Vertical shift")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Limited', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Limited")."</td><td width='370'>";
     	$buffer .= "<select name='limited' style='width:60px;' tabindex='".($tabindex++)."' onChange='this.form.lmargin.disabled = this.selectedIndex ? true : false; this.form.rmargin.disabled = this.selectedIndex ? true : false'>";
     		$buffer .= "<option value='t'".($limited == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     		$buffer .= "<option value='f'".($limited == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
@@ -122,17 +122,17 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Left margin', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Left margin")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='lmargin' size='' tabindex='".($tabindex++)."' value='".$lmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Right margin', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Right margin")."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='rmargin' size='' tabindex='".($tabindex++)."' value='".$rmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Transparent background', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Transparent background")."</td><td width='370'>";
     	$buffer .= "<select name='transparent' style='width:60px;' onChange='this.form.backcolor.disabled = this.selectedIndex ? false : true' tabindex='".($tabindex++)."'>";
     		$buffer .= "<option value='t'".($transparent == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     		$buffer .= "<option value='f'".($transparent == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
@@ -142,7 +142,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	$this->settings_cp_map();
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
-    	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Background color', 'invocationTags')."</td><td width='370'>";
+    	$buffer .= "<td width='200'>".$this->translate("Background color")."</td><td width='370'>";
     		$buffer .= "<table border='0' cellspacing='0' cellpadding='0'>";
     		$buffer .= "<tr><td width='22'>";
     		$buffer .= "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";

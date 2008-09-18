@@ -54,7 +54,7 @@ class Plugins_DeliveryLimitations_Geo_Netspeed extends Plugins_DeliveryLimitatio
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Net Speed', $this->extension, $this->group);
+        return $this->translate('Net Speed');
     }
 
     /**

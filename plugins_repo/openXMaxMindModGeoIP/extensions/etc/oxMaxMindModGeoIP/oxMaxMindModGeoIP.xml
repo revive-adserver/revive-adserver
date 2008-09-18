@@ -46,6 +46,10 @@
             <file path="{MODULEPATH}geoTargeting/oxMaxMindModGeoIP/">oxMaxMindModGeoIP.class.php</file>
             <file path="{MODULEPATH}geoTargeting/oxMaxMindModGeoIP/">oxMaxMindModGeoIP.delivery.php</file>
             <!--file path="{MODULEPATH}geoTargeting/oxMaxMindModGeoIP/_lang">en.mo</file-->
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
         </files>
 
 

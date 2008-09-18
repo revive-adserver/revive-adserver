@@ -53,10 +53,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_doubleclick extends Plugins_3rdP
      */
     function getName()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Doubleclick', $this->module, $this->package);
+        return $this->translate('Rich Media - Doubleclick');
     }
 
     /**

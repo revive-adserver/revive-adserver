@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 require_once('Image/Graph.php');
 
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
@@ -52,7 +52,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     {
         parent::OA_Dashboard_Widget($aParams);
         
-        $this->oTrans = new OA_Translation();
+        $this->oTrans = new OX_Translation();
 
         $gdAvailable = extension_loaded('gd');
 
@@ -260,7 +260,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      */
     function _formatY($value)
     {
-        $oTrans = new OA_Translation();
+        $oTrans = new OX_Translation();
         $unit = '';
         $aUnits = array('B' => 1000000000, 'M' => 1000000, 'k' => 1000);
         foreach ($aUnits as $k => $v) {

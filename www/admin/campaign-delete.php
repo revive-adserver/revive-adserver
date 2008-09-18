@@ -62,7 +62,7 @@ if (!empty($campaignid)) {
     if ($doCampaigns->get($campaignid)) {
         $aCampaign = $doCampaigns->toArray();
     }
-	
+
     $doCampaigns->delete();
     // Find and delete the campains from $node_array, if
     // necessary. (Later, it would be better to have
@@ -76,8 +76,8 @@ if (!empty($campaignid)) {
         }
     }
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDeleted'], array(
         htmlspecialchars($aCampaign['campaignname'])
     ));
@@ -87,8 +87,8 @@ if (!empty($campaignid)) {
     $doCampaigns->clientid = $clientid;
     $doCampaigns->delete();
 
-    // Queue confirmation message        
-    $translation = new OA_Translation ();
+    // Queue confirmation message
+    $translation = new OX_Translation ();
     $translated_message = $translation->translate ( $GLOBALS['strAllCampaignsHaveBeenDeleted'], array());
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }

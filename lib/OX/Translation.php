@@ -26,7 +26,7 @@ $Id: Template.php 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Preferences.php';
-//require_once MAX_PATH . '/lib/php-gettext/gettext.inc';
+require_once 'Zend/Translate.php';
 
 /**
  * This class provides a translation mechanism which can be used throughout
@@ -34,14 +34,14 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
  *
  * @todo This is just wrapping the old GLOBALS array. Need to plug in a proper i18n library.
  */
-class OA_Translation
+class OX_Translation
 {
     /**
-     * Boolean class property to control if the returned string should have HTML entities converted.
+     * Boolean class property to control if the returned string should have HTML special characters escaped.
      *
-     * @var boolean $htmlEntities
+     * @var boolean $htmlSpecialChars
      */
-    var $htmlEntities = false;
+    var $htmlSpecialChars = false;
 
     /**
      * The output language to translate strings into
@@ -50,49 +50,30 @@ class OA_Translation
      */
     var $locale = 'en_US';
 
-    /**
-     * This map maps the possible existing language selections to their new language codes
-     * any unrecognised language selections default to english (sorry!)
-     *
-     * @var array The array mapping existing language -> new language code
-     */
-    var $languageMap = array(
-            'chinese_big5'      => 'zh-t',
-            'chinese_gb2312'    => 'zh-s',
-            'czech'             => 'cs',
-            'dutch'             => 'nl',
-            'en'                => 'en_US',
-            'french'            => 'fr',
-            'german'            => 'de',
-            'hebrew'            => 'he',
-            'indonesian'        => 'id',
-            'italian'           => 'it',
-            'korean'            => 'ko',
-            'pl'                => 'pl_PL',
-            'portuguese'        => 'pt',
-            'russian_cp1251'    => 'ru',
-            'russian_koi8r'     => 'ru',
-            'spanish'           => 'es',
-            'turkish'           => 'tr',
-            // Deprecated
-            'english_affiliates'=> 'en',
-            // Deprecated
-            'english_us'        => 'en',
-        );
+    var $zTrans = false;
 
-    function OA_Translation()
+    var $debug = false;
+
+    /**
+     * Constructor class
+     *
+     * @param string $transPath The (optional) path to look for .mo translation resources
+     * @return OX_Translation
+     */
+    function OX_Translation($transPath = null)
     {
         if (isset($GLOBALS['_MAX']['PREF']['language'])) {
-            // We are going to have to map the stored value
-            // if it is not the full language_country code.
             $this->locale = $GLOBALS['_MAX']['PREF']['language'];
         }
-        
-        //$this->locale = 'fr_FR';
-//        T_setlocale(LC_ALL, $this->locale);
-//        T_bindtextdomain("openx", MAX_PATH . "/lib/OA/locale");
-//        T_bind_textdomain_codeset("openx", "UTF-8");
-//        T_textdomain("openx");
+
+        if (!is_null($transPath)) {
+            $transFile = MAX_PATH . $transPath . '/' . $this->locale . '.mo';
+            if (@is_readable($transFile)) {
+                $this->zTrans = new Zend_Translate('gettext', $transFile, $this->locale);
+            } elseif (@is_readable(MAX_PATH . $transPath . '/en.mo')) {
+                $this->zTrans = new Zend_Translate('gettext', MAX_PATH . $transPath . '/en.mo', 'en');
+            }
+        }
     }
 
     /**
@@ -109,34 +90,28 @@ class OA_Translation
      *
      * @return string The translated string
      */
-    function translate($sString, $aValues = array(), $pluralVar = false)
+    function translate($string, $aValues = array(), $pluralVar = false)
     {
-        if (!empty($GLOBALS['str' . $sString])) { 
-            $sReturn = $GLOBALS['str' . $sString];
-        } 
-        else {
-            $sReturn = $sString;
+        if ($this->zTrans) {
+            $return = $this->zTrans->_($string);
+        } elseif (!empty($GLOBALS['str' . $string])) {
+            $return = $GLOBALS['str' . $string];
+        } else {
+            $return = $string;
         }
 
         // If substitution variables have been provided
         if (!empty($aValues)) {
-            $eval = '$sSprintf = sprintf($sReturn, ';
-            foreach ($aValues as $key => $value) {
-                $aVals[] = '$aValues[\'' . $key . '\']';
-            }
-            $eval .= implode(',', $aVals);
-            $eval .= ');';
+            $return = vsprintf($return, $aValues);
+        }
+        $return = ($this->htmlSpecialChars) ? htmlspecialchars($return) : $return;
 
-            if (@eval($eval) !== false) {
-                $sReturn = $sSprintf;
-            }
+        // For debugging add strike tags
+        if ($this->debug) {
+            $return = '<strike>' . $return . '</strike>';
         }
 
-        $sReturn = ($this->htmlEntities) ? htmlentities($sReturn) : $sReturn;
-        
-        // For debugging
-        //$sReturn = '<strike>' . $sReturn . '</strike>';
-        return $sReturn;
+        return $return;
     }
 }
 

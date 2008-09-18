@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 
 /**
  * A dashboard widget to diplay an RSS feed of the OpenX Blog
@@ -50,7 +50,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl = new OA_Admin_Template('dashboard/audit.html');
-        $this->oTrans = new OA_Translation();
+        $this->oTrans = new OX_Translation();
     }
 
     function display()

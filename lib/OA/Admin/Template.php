@@ -30,7 +30,7 @@ define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
 /**
@@ -175,7 +175,7 @@ class OA_Admin_Template extends Smarty
 
     function _function_t($aParams, &$smarty)
     {
-        $oTrans = new OA_Translation();
+        $oTrans = new OX_Translation();
 
         if (!empty($aParams['str'])) {
             if (!empty($aParams['values'])) {
@@ -252,7 +252,7 @@ class OA_Admin_Template extends Smarty
                 	    $text  = $strCampaignStatusRejected;
                 		break;
                 }
-                $oTrans = new OA_Translation();
+                $oTrans = new OX_Translation();
                 $text = $oTrans->translate($text);
 
                 if ($status == OA_ENTITY_STATUS_APPROVAL) {

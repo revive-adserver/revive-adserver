@@ -54,8 +54,12 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     function Plugins_DeliveryLimitations_Site_Channel()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
-        $this->aOperations['=='] = MAX_Plugin_Translation::translate(
-            'Is all of', $this->extension, $this->group);
+    }
+
+    function init($data)
+    {
+        parent::init($data);
+        $this->aOperations['=='] = $this->translate('Is all of');
     }
 
     /**
@@ -65,7 +69,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Channel', $this->extension, $this->group);
+        return $this->translate('Channel');
     }
 
 

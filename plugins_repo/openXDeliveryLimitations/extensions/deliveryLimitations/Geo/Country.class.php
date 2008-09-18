@@ -56,7 +56,7 @@ class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitation
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Country', $this->extension, $this->group);
+        return $this->translate("Country");
     }
 
     /**

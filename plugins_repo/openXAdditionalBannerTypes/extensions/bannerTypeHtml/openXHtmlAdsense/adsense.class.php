@@ -28,7 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtml.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
  *
@@ -46,7 +45,7 @@ class Plugins_BannerTypeHTML_openXHtmlAdsense_adsense extends Plugins_BannerType
      */
     function getOptionDescription()
     {
-        return 'Google Adsense HTML Banner';
+        return $this->translate("Google Adsense HTML Banner");
     }
 
     /**
@@ -78,24 +77,24 @@ class Plugins_BannerTypeHTML_openXHtmlAdsense_adsense extends Plugins_BannerType
         $header->setAttribute('icon', 'icon-banner-html.gif');
         $form->addElement($header);
 
-        $form->addElement('text', 'gas_publisher_id','Google Adsense Publisher Id', $GLOBALS['strHTMLBanner']);
+        $form->addElement('text', 'gas_publisher_id', $this->translate("Google Adsense Publisher Id"), $GLOBALS['strHTMLBanner']);
 
-        $form->addElement('header', 'header_b_display', 'Banner display');
+        $form->addElement('header', 'header_b_display', $this->translate("Banner display"));
 
-        $adTypeList['text.button.125.125']           =   'Text Button 125 x 125';
-        $adTypeList['text.banner.468.60']            =   'Text Banner 468 x 60';
-        $adTypeList['text.halfbanner.234.60']        =   'Text Half Banner 234 x 60';
-        $adTypeList['text.vertbanner.120.240']       =   'Text Vertical Banner 120 x 240';
-        $adTypeList['text.leaderboard.728.90']       =   'Text Leaderboard 728 x 90';
-        $adTypeList['text.skyscraper.120.600']       =   'Text Skyscraper 120 x 600';
-        $adTypeList['text.wideskyscraper.160.600']   =   'Text Wide Skyscraper 160 x 600';
-        $adTypeList['text.smallrectangle.180.150']   =   'Text Small Rectangle 180 x 150';
-        $adTypeList['text.mediumrectangle.300.250']  =   'Text Medium Rectangle 300 x 250';
-        $adTypeList['text.largerectangle.336.280']   =   'Text Large Rectangle 336 x 280';
-        $adTypeList['text.square.250.250']           =   'Text Square 250 x 250';
-        $adTypeList['text.smallsquare.200.200']      =   'Text Small Square 200 x 200';
+        $adTypeList['text.button.125.125']           =   $this->translate("Text Button 125x125");
+        $adTypeList['text.banner.468.60']            =   $this->translate("Text Banner 468x60");
+        $adTypeList['text.halfbanner.234.60']        =   $this->translate("Text Half Banner 234x60");
+        $adTypeList['text.vertbanner.120.240']       =   $this->translate("Text Vertical Banner 120x240");
+        $adTypeList['text.leaderboard.728.90']       =   $this->translate("Text Leaderboard 728x90");
+        $adTypeList['text.skyscraper.120.600']       =   $this->translate("Text Skyscraper 120x600");
+        $adTypeList['text.wideskyscraper.160.600']   =   $this->translate("Text Wide Skyscraper 160x600");
+        $adTypeList['text.smallrectangle.180.150']   =   $this->translate("Text Small Rectangle 180x150");
+        $adTypeList['text.mediumrectangle.300.250']  =   $this->translate("Text Medium Rectangle 300x250");
+        $adTypeList['text.largerectangle.336.280']   =   $this->translate("Text Large Rectangle 336x280");
+        $adTypeList['text.square.250.250']           =   $this->translate("Text Square 250x250");
+        $adTypeList['text.smallsquare.200.200']      =   $this->translate("Text Small Square 200x200");
 
-        $form->addElement('select', 'gas_type', 'Ad Format', $adTypeList);
+        $form->addElement('select', 'gas_type', $this->translate("Ad Format"), $adTypeList);
 
         $form->setDefaults(array('gas_type'=>$selected));
     }

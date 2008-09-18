@@ -25,6 +25,9 @@
             <file path="{MODULEPATH}deliveryLimitations/Site/">Source.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <components>

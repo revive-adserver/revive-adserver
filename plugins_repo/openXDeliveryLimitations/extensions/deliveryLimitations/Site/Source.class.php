@@ -56,7 +56,7 @@ class Plugins_DeliveryLimitations_Site_Source extends Plugins_DeliveryLimitation
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Source', $this->extension, $this->group);
+        return $this->translate('Source');
     }
 }
 

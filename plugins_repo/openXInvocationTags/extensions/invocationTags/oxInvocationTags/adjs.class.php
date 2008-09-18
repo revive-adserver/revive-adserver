@@ -50,7 +50,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Javascript Tag', $this->extension, $this->group);
+        return $this->translate("Javascript Tag");
     }
 
     /**

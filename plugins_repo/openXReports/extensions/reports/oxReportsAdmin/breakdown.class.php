@@ -55,10 +55,10 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      */
     function initInfo()
     {
-        $this->_name         = MAX_Plugin_Translation::translate('Manager Account Breakdown', $this->module, $this->package);
-        $this->_description  = MAX_Plugin_Translation::translate('Lists Adviews/AdClicks/AdSales totals for a given month.', $this->module, $this->package);
+        $this->_name         = $this->translate("Manager Account Breakdown");
+        $this->_description  = $this->translate("Lists Adviews/AdClicks/AdSales totals for a given month.");
         $this->_category     = 'admin';
-        $this->_categoryName = MAX_Plugin_Translation::translate('Admin Reports', $this->module, $this->package);
+        $this->_categoryName = $this->translate("Admin Reports");
         $this->_author       = 'Chris Nutting';
         $this->_export       = 'xls';
         $this->_authorize    = OA_ACCOUNT_ADMIN;
@@ -143,7 +143,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         // Manually prepare the header array
         global $strImpressions, $strClicks, $strConversions;
         $aHeaders = array(
-            MAX_Plugin_Translation::translate('Manager', $this->module, $this->package) => 'text',
+            $this->translate("Manager") => 'text',
             $strImpressions => 'decimal',
             $strClicks      => 'decimal',
             $strConversions => 'decimal'
@@ -152,7 +152,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         $aData = $this->_fetchData();
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Manager Account Breakdown', $this->module, $this->package),
+            $this->translate("Manager Account Breakdown"),
             $aHeaders,
             $aData
         );

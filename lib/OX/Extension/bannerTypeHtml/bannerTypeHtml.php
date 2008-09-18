@@ -122,7 +122,7 @@ class Plugins_BannerTypeHTML extends OX_Component
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
 
         //validation rules
-        $translation = new OA_Translation();
+        $translation = new OX_Translation();
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
         $numericRule = array($GLOBALS['strNumericField'] , 'numeric');

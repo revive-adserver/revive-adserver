@@ -350,6 +350,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     }
 
 
+
     //local banners
     if ($type == 'sql' || $type == 'web') {
         if ($type == 'sql') {
@@ -501,7 +502,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         }
 
         //validation rules
-        $translation = new OA_Translation();
+        $translation = new OX_Translation();
         $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
         $widthPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strWidth'])), 'min', 1);
         $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
@@ -546,7 +547,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     $form->addElement('submit', 'submit', 'Save changes');
 
     //validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
@@ -807,7 +808,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
     if ($insert) {
         // Queue confirmation message
-        $translation = new OA_Translation ();
+        $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
             htmlspecialchars($aFields['description'])

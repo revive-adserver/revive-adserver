@@ -42,7 +42,7 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Load translation class
-$oTranslation = new OA_Translation();
+$oTranslation = new OX_Translation();
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');

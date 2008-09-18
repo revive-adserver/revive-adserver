@@ -88,7 +88,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Publisher code - Single Page Call', $this->extension, $this->group);
+        return $this->translate("Publisher code - Single Page Call");
     }
 
     /**
@@ -234,11 +234,11 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
 						break;
 				case 'noscript':
-						$optionName = MAX_Plugin_Translation::translate('Option - noscript', $this->extension, $this->group);
+						$optionName = $this->translate("Option - noscript");
 						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
 						break;
 				case 'ssl':
-						$optionName = MAX_Plugin_Translation::translate('Option - SSL', $this->extension, $this->group);
+						$optionName = $this->translate("Option - SSL");
 						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
 						break;
 				case 'charset':
@@ -408,7 +408,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - noscript', $this->extension, $this->group) . "</td>";
+        $option .= "<td width='200'>" . $this->translate("Option - noscript") . "</td>";
         $option .= "<td width='370'><input type='radio' id='noscript-y' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' id='noscript-n' name='noscript' value='0'".($noscript == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";
@@ -423,7 +423,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - SSL', $this->extension, $this->group) . "</td>";
+        $option .= "<td width='200'>" . $this->translate("Option - SSL") . "</td>";
         $option .= "<td width='370'><input type='radio' id='ssl-y' name='ssl' value='1'".($ssl == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' name='ssl' id='ssl-y' value='0'".($ssl == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";

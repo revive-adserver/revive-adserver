@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX test strings\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-07-29 18:41+0100\n"
+"PO-Revision-Date: 2008-07-29 18:48+0100\n"
+"Last-Translator: Chris Nutting <Chris.Nutting@openx.org>\n"
+"Language-Team: OpenX developers <developers@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/trunk-HEAD/\n"
+"X-Poedit-SearchPath-0: lib/OX/tests/unit\n"
+
+#: lib/OX/tests/unit/Translation.cor.test.php:114
+msgid "TestString"
+msgstr "This is a test string"
+
+#: lib/OX/tests/unit/Translation.cor.test.php:120
+msgid "This is another test string"
+msgstr "This is the translation of \"another string\""
+
+#: lib/OX/tests/unit/Translation.cor.test.php:125
+msgid "This string doesn't exist in the source po file"
+msgstr ""
+
+#: lib/OX/tests/unit/Translation.cor.test.php:130
+#, php-format
+msgid "This is a test %s with a %d number in it"
+msgstr "This is a test %s with a %d number in it"
+

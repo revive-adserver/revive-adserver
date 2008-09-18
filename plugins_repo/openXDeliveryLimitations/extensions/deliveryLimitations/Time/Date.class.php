@@ -76,7 +76,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Date', $this->extension, $this->group);
+        return $this->translate('Date');
     }
 
     /**

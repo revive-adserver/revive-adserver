@@ -52,11 +52,16 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
     function Plugins_DeliveryLimitations_Geo_Latlong()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
-        $this->aOperations = array(
-            '==' => MAX_Plugin_Translation::translate('Is within', $this->extension, $this->group),
-            '!=' => MAX_Plugin_Translation::translate('Is not within', $this->extension, $this->group));
     }
 
+    function init($data)
+    {
+        parent::init($data);
+        $this->aOperations = array(
+            '==' => $this->translate('Is within'),
+            '!=' => $this->translate('Is not within')
+        );
+    }
     /**
      * Return name of plugin
      *
@@ -64,7 +69,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Latitude/Longitude', $this->extension, $this->group);
+        return $this->translate('Latitude/Longitude');
     }
 
     /**
@@ -106,13 +111,13 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
 		echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
 		echo "<tr>";
 		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[0])) ? $this->data[0] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
-		echo "    <th align='center'>&nbsp;&gt;&nbsp;".MAX_Plugin_Translation::translate('Latitude', $this->extension, $this->group)."&nbsp;&lt;&nbsp;</th>";
+		echo "    <th align='center'>&nbsp;&gt;&nbsp;".$this->translate('Latitude')."&nbsp;&lt;&nbsp;</th>";
 		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[1])) ? $this->data[1] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "</tr>";
 
 		echo "<tr>";
 		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[2])) ? $this->data[2] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
-		echo "    <th align='center'>&nbsp;&gt;&nbsp;".MAX_Plugin_Translation::translate('Longitude', $this->extension, $this->group)."&nbsp;&lt;&nbsp;</th>";
+		echo "    <th align='center'>&nbsp;&gt;&nbsp;".$this->translate('Longitude')."&nbsp;&lt;&nbsp;</th>";
 		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[3])) ? $this->data[3] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "</tr>";
 		echo "</table>";

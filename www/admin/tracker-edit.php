@@ -214,7 +214,7 @@ function buildTrackerForm($tracker, $plugins)
         "viewwindow[second]" => $clickclickCalendarItems['second']));
 
     //validation rules
-    $translation = new OA_Translation();
+    $translation = new OX_Translation();
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('trackername', $nameRequiredMsg, 'required');
 

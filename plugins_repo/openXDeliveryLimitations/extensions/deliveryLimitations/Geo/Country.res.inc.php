@@ -30,6 +30,9 @@ $Id$
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris.nutting@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>
+ *
+ * @todo       The $this->translate calls below won't pull into the .pot files correctly...
+ *             we need to look into how best to do these kinds of bulk translates
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['country'])) {
@@ -40,14 +43,14 @@ if (!isset($GLOBALS['_MAX']['_GEOCACHE']['country'])) {
 
     foreach ($OA_Geo_ISO3166 as $k => $v) {
         if (!in_array($k, $OA_Geo_ISO3166_Deprecated) && !in_array($k, $OA_Geo_ISO3166_MaxMind)) {
-            $res[$k] = MAX_Plugin_Translation::translate($v, $this->extension, $this->group);
+            $res[$k] = $this->translate($v);
         }
     }
 
     asort($res);
 
     foreach ($OA_Geo_ISO3166_MaxMind as $k => $v) {
-        $res[$k] = MAX_Plugin_Translation::translate($v, $this->extension, $this->group);
+        $res[$k] = $this->translate($v);
     }
 
     $GLOBALS['_MAX']['_GEOCACHE']['country'] = $res;

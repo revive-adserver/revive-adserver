@@ -56,7 +56,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      */
     function getName()
     {
-        return MAX_Plugin_Translation::translate('Popup Tag', $this->extension, $this->group);
+        return $this->translate("Popup Tag");
     }
 
     /**

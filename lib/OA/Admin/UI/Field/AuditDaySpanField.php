@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
-require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 
 class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 {
@@ -37,7 +37,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
                          $aFieldSelectionNames = null)
     {
         parent::Admin_UI_DaySpanField($name, $fieldSelectionDefault, $aFieldSelectionNames);
-        $this->oTrans = new OA_Translation();
+        $this->oTrans = new OX_Translation();
     }
 
     /**
