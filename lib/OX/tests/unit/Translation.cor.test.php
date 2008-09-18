@@ -105,10 +105,13 @@ class Test_OX_Translation extends UnitTestCase
 
     function testPluginTranslationByPlainString()
     {
-        $transPath = MAX_PATH . '/tests/data/_lang';
+        $transPath = '/tests/data/_lang';
         $GLOBALS['_MAX']['PREF']['language'] = 'en';
 
         $oTrans = new OX_Translation($transPath);
+
+        // Make sure the translation resource loaded correctly
+        $this->assertNotNull($oTrans->zTrans);
 
         // Translation by "key"
         $result = $oTrans->translate('TestString');
