@@ -1317,7 +1317,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		}
 		// Change permissions to created directories (OX-4068)
 		$dirList = $this->_getDirsFromFileList($oZip->listContent());
-		$fileOwner = fileowner(MAX_PATH.'index.php'); 
+		$fileOwner = fileowner(MAX_PATH.'/index.php'); 
 		foreach ($dirList as $dir) {
 		  $chmodDir = $target."/".$dir;
 		  if (fileowner($chmodDir) != $fileOwner) { 
