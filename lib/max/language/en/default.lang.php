@@ -471,6 +471,8 @@ $GLOBALS['strAvailable']                    = "Available";
 $GLOBALS['strShowing']                      = "Showing";
 $GLOBALS['strAllCategories']                = "all categories";
 $GLOBALS['strUncategorized']                = "Uncategorized";
+$GLOBALS['strEditZone']                     = "Edit zone";
+$GLOBALS['strEditWebsite']                  = "Edit website";
 
 
 // Campaign properties

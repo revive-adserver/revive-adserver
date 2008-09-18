@@ -1174,6 +1174,11 @@ input.checkbox {
 	width: 4em;
 }
 
+#campaign-zone .zones .link {
+	width: 20px;
+	border-left: none;
+}
+
 #campaign-zone .zones .category {
 	width: 20%;
 }
@@ -1260,6 +1265,22 @@ input.checkbox {
 #campaign-zone .category-filter,
 #campaign-zone .search-filter {
 	width: 32%;
+}
+
+#campaign-zone .zone-icon,
+#campaign-zone .website-icon {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+}
+
+#campaign-zone .zone-icon {
+	background-image: url("../images/icon-shortcut-zone.png");
+}
+
+#campaign-zone .website-icon {
+    background-image: url("../images/icon-shortcut-website.png");
 }
 
 .example-search {
