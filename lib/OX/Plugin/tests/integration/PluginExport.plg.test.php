@@ -60,25 +60,42 @@ class Test_OX_PluginExport extends UnitTestCase
 
     function test_backupTables()
     {
-        TestEnv::installPluginPackage('demoExtension', false);
-
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['repo'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['repo'].'|'.MAX_PATH.$this->testpathData.'plugins_repo/';
+        $zipFile = $this->testpathData.'plugins_repo/'.'testPluginPackage_v3.zip';
+        $plugin  = $this->testpathData.'plugins_repo/'.'testPluginPackage.zip';
+        if (file_exists($zipFile) && (!unlink($zipFile)) )
+        {
+            $this->fail('error unlinking '.$zipFile);
+            return false;
+        }
+        if (!copy(MAX_PATH.$zipFile,MAX_PATH.$plugin))
+        {
+            $this->fail('error copying '.$zipFile);
+            return false;
+        }
+        if (!file_exists(MAX_PATH.$plugin))
+        {
+            $this->fail('file does not exist '.$plugin);
+            return false;
+        }
+        TestEnv::installPluginPackage('testPluginPackage', false);
         $prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
         $oExport    = new OX_PluginExport();
-        $oExport->init('demoExtension');
+        $oExport->init('testPluginPackage');
 
-        $aTables = OA_DB_Table::listOATablesCaseSensitive('banners_demo');
+        $aTables = OA_DB_Table::listOATablesCaseSensitive('testplugin_table');
         $this->assertEqual(count($aTables),1);
-        $this->assertEqual($aTables[0],$prefix.'banners_demo');
+        $this->assertEqual($aTables[0],$prefix.'testplugin_table');
 
-        $this->assertTrue($oExport->backupTables('demoExtension'));
+        $this->assertTrue($oExport->backupTables('testPluginPackage'));
 
-        $aTables = OA_DB_Table::listOATablesCaseSensitive('banners_demo');
+        $aTables = OA_DB_Table::listOATablesCaseSensitive('testplugin_table');
         $this->assertEqual(count($aTables),2);
-        $this->assertEqual($aTables[0],$prefix.'banners_demo');
-        $this->assertPattern('/'.$prefix.'banners_demo_'.date('Ymd').'_[\d]{6}/',$aTables[1]);
+        $this->assertEqual($aTables[0],$prefix.'testplugin_table');
+        $this->assertPattern('/'.$prefix.'testplugin_table_'.date('Ymd').'_[\d]{6}/',$aTables[1]);
 
-        TestEnv::uninstallPluginPackage('demoExtension', false);
+        TestEnv::uninstallPluginPackage('testPluginPackage', false);
         TestEnv::restoreConfig();
     }
 
