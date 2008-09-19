@@ -190,8 +190,6 @@ blockAdImpressions                  = 0      ; How many seconds must be between 
 blockAdClicks                       = 0      ; from the same viewer ID for them to count? Set to 0 seconds
                                              ; for all to count.
 
-compactStats                        = true
-compactStatsGrace                   = 604800
 pruneCompletedCampaignsSummaryData  = false
 channelForecasting                  = true
 ;channelForecastingDaysBack          = 30     ; How many days from history should be used for forecasting
@@ -253,7 +251,6 @@ data_summary_ad_zone_assoc               = data_summary_ad_zone_assoc
 data_summary_channel_daily               = data_summary_channel_daily
 data_summary_zone_impression_history     = data_summary_zone_impression_history
 images                                   = images
-lb_local                                 = lb_local
 log_maintenance_forecasting              = log_maintenance_forecasting
 log_maintenance_priority                 = log_maintenance_priority
 log_maintenance_statistics               = log_maintenance_statistics
@@ -358,9 +355,6 @@ blockLoggingClick     = OXBLC         ; Used to log the last time an ad was clic
 
 [lb]
 enabled             = false         ; Should distributed stats be enabled
-hasSuper            = false         ; Does the user used to insert the stats into the main
-                                    ; database have the SUPER permissions, so the BINLOG
-                                    ; can be disabled?
 type                = mysql         ; Main database details
 host                = localhost
 port                = 3306
@@ -368,8 +362,6 @@ username            =
 password            =
 name                =
 persistent          = false
-compactStats        = true
-compactStatsGrace   = 604800
 
 ;------------------------------------------------------------------------------------------;
 ; OpenX Central Settings                                                                   ;

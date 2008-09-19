@@ -53,25 +53,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
-    /*
-    // Block Banner Logging Settings
-    $aElements += array(
-        'maintenance_blockAdImpressions' => array('maintenance' => 'blockAdImpressions'),
-        'maintenance_blockAdClicks'      => array('maintenance' => 'blockAdClicks')
-    );
-    */
     // Maintenance Settings
     $aElements += array(
         'maintenance_autoMaintenance' => array(
             'maintenance' => 'autoMaintenance',
             'bool'        => true
         ),
-        'maintenance_operationInterval' => array('maintenance' => 'operationInterval'),
-        'maintenance_compactStats' => array(
-            'maintenance' => 'compactStats',
-            'bool'        => true
-        ),
-        'maintenance_compactStatsGrace' => array('maintenance' => 'compactStatsGrace'),
+        'maintenance_operationInterval' => array('maintenance' => 'operationInterval')
     );
     // Priority Settings
     $aElements += array(
@@ -102,30 +90,6 @@ $oOptions->selection("maintenance");
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
-  /*array (
-        'text'  => $strPreventLogging,
-        'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'maintenance_blockAdImpressions',
-                'text'    => $strBlockAdViews,
-                'size'    => 12,
-                'depends' => 'logging_adImpressions==true',
-                'check'   => 'number+'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'maintenance_blockAdClicks',
-                'text'    => $strBlockAdClicks,
-                'size'    => 12,
-                'depends' => 'logging_adClicks==true',
-                'check'   => 'number+'
-            )
-        )
-    ),*/
     array (
         'text'  => $strMaintenanceSettings,
         'items' => array (
@@ -150,25 +114,6 @@ $aSettings = array (
                     10 => 10,
                     5 => 5
                 )
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'maintenance_compactStats',
-                'text'    => $strMaintenanceCompactStats
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'maintenance_compactStatsGrace',
-                'text'    => $strMaintenanceCompactStatsGrace,
-                'size'    => 12,
-                'depends' => 'maintenance_compactStats==true',
-                'check'   => 'wholeNumber'
             )
         )
     ),
