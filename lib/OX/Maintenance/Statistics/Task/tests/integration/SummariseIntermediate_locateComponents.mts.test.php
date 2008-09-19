@@ -101,6 +101,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         }
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversionVariable', $aComponentClasses));
 
+/*
+TODO: move this test from core code to the plugin.  only bundled plugins (or the test plugin) can be used in core tests
+
         // Setup the default OpenX country based impression and click delivery logging plugin for the next test
         TestEnv::installPluginPackage('openXDeliveryLogCountry', false);
 
@@ -150,9 +153,11 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogCountry_LogClickCountry', $aComponentClasses));
 
         // Uninstall the installed plugins
-        TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
         TestEnv::uninstallPluginPackage('openXDeliveryLogCountry', false);
 
+*/
+        // Uninstall the installed plugins
+        TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
