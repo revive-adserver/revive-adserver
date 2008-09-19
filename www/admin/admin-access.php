@@ -77,7 +77,7 @@ phpAds_PageFooter();
 
 function addPageTools()
 {
-    addPageLinkTool($GLOBALS['strLinkUser_Key'], "zone-edit.php?affiliateid=$websiteId", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"] );
+    addPageLinkTool($GLOBALS['strLinkUser_Key'], "admin-user-start.php", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"] );
 }
 
 

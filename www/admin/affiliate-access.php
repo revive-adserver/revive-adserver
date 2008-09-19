@@ -60,6 +60,7 @@ if (!empty($affiliateid)) {
         phpAds_PageHeader("4.2.7", $oHeaderModel);
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
     } else {
+        addPageTools($affiliateid);
         phpAds_PageHeader('2.3', $oHeaderModel);
         $sections = array('2.1');
         if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {

@@ -98,7 +98,7 @@ class OA_Admin_UI
     
     function setLinkParams()
     {
-        global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid;
+        global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid, $userid;
 
         $this->aLinkParams = array('affiliateid'    => $affiliateid,
                                      'agencyid'     => $agencyid,
@@ -110,6 +110,7 @@ class OA_Admin_UI
                                      'trackerid'    => $trackerid,
                                      'userlogid'    => $userlogid,
                                      'zoneid'       => $zoneid,
+                                     'userid'       => $userid,
                                     );
     }
 
