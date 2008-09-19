@@ -148,7 +148,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not greater than that of the package you have installed');
             return false;
         }
-        $aPluginsNew = $aParsed['pluginGroupComponents'];
+        $aPluginsNew = $aParsed['plugins'];
         $this->_runExtensionTasks('BeforePluginInstall');
         $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
                                     'version_to'=>$aPackageNew['version'],
@@ -162,8 +162,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                      );
         if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld))
         {
-            $this->aErrors = $this->oUpgrader->getErrors();
-            $this->aWarning = $this->oUpgrader->getMessages();
+            if ($this->oUpgrader)
+            {
+                $this->aErrors = $this->oUpgrader->getErrors();
+                $this->aWarning = $this->oUpgrader->getMessages();
+            }
             $this->_logError('One or more plugins cannot be upgraded');
             return false;
         }
@@ -1085,7 +1088,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	    while( !empty($chmodPath)) {
 	       @chmod(MAX_PATH.'/var/tmp'.$chmodPath, 0777);
 	       $newChmodPath = dirname($chmodPath);
-	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;  
+	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;
 	    }
         if (!$aPackage || (!is_array($aPackage)))
         {
@@ -1317,11 +1320,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		}
 		// Change permissions to created directories (OX-4068)
 		$dirList = $this->_getDirsFromFileList($oZip->listContent());
-		$fileOwner = @fileowner(MAX_PATH.'/index.php'); 
+		$fileOwner = @fileowner(MAX_PATH.'/index.php');
 		foreach ($dirList as $dir) {
 		  $chmodDir = $target."/".$dir;
-		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner) 
-		       && file_exists($chmodDir)) { 
+		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner)
+		       && file_exists($chmodDir)) {
 		      @chmod($chmodDir, 0777);
 		  }
 		}
@@ -1349,10 +1352,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         return ($error ? false : $result);
     }
-    
+
     /**
      * @param array $aFileList an array in format given by PclZip listContent();
-     * 
+     *
      * @return array list of directories
      */
     function _getDirsFromFileList($aFileList){
@@ -1364,7 +1367,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                     while (!empty($dir)) {
                         $aResult[$dir] = $dir;
                         $newDir = dirname($dir);
-                        $dir = ($newDir == $dir) ? "" : $newDir; 
+                        $dir = ($newDir == $dir) ? "" : $newDir;
                     }
                 }
             }
