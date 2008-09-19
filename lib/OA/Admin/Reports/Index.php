@@ -195,7 +195,7 @@ class OA_Admin_Reports_Index
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>
               <tr>
                 <td width='30'>&nbsp;</td>
-                <td width='200'><a href='report-generation.php?selection=$pluginType'>{$aInfo['plugin-name']}</a></td>
+                <td width='200'><a href='report-generation.php?report=$pluginType'>{$aInfo['plugin-name']}</a></td>
                 <td width='100%'>{$aInfo['plugin-description']}</td>
               </tr>";
     }

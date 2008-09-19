@@ -101,7 +101,7 @@ class OA_Admin_Reports_Generate
         $aCallback = array(&$oPlugin, 'execute');
         $result = call_user_func_array($aCallback, $aVariables);
         if (!empty($result)) {
-        	OX_Admin_Redirect::redirect('report-generation.php?selection='.$oPlugin->package.':'.$oPlugin->name.'&error='.$result);
+        	OX_Admin_Redirect::redirect('report-generation.php?report='.$oPlugin->getComponentIdentifier().'&error='.$result);
         }
     }
 

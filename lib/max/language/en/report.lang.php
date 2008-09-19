@@ -84,5 +84,8 @@ $GLOBALS['strCampaignPredictedFullDeliveryMessage']  = 'On track';
 
 $GLOBALS['strStatsAnalysisReport']  = 'Stats Analysis Report';
 
+// Error messages
+$GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report";
+$GLOBALS['strReportErrorUnknownCode']   = "Unknown error code #";
 
 ?>

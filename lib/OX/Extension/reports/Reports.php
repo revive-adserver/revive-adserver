@@ -205,9 +205,9 @@ class Plugins_Reports extends OX_Component
     function getErrorMessage($errorCode) {
         switch ($errorCode) {
            case PLUGINS_REPORTS_MISSING_SHEETS_ERROR :
-               return MAX_Plugin_Translation::translate('Missing Sheets', $this->module, $this->package);
+               return $GLOBALS['strReportErrorMissingSheets'];
            default :
-               return MAX_Plugin_Translation::translate('Unknown error code', $this->module, $this->package).htmlentities($errorCode);
+               return $GLOBALS['strReportErrorUnknownCode'].htmlentities($errorCode);
         }
     }
 

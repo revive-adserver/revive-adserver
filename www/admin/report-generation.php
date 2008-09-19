@@ -32,7 +32,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
 // Register input variables
-phpAds_registerGlobal ('selection');
+phpAds_registerGlobal ('report');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -50,7 +50,7 @@ phpAds_PageHeader("report-index");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 $oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection, $_GET['error']);
+$oModule->displayReportGeneration($report, $_GET['error']);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

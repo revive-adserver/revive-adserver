@@ -84,9 +84,6 @@ $words = array(
     'On Hold'                       => 'On Hold',
     'Ignored'                       => 'Ignored',
 
-    // Errors
-    'Missing Sheets'                => "No worksheet was selected for report",
-    'Unknown error code'            => "Unknown error code #"
 );
 
 ?>
