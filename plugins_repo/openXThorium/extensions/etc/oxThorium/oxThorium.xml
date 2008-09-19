@@ -29,16 +29,25 @@
             <file path="{ADMINPATH}/images/">sort-up.gif</file>
             <file path="{ADMINPATH}/images/">sort-down.gif</file>
             <file path="{ADMINPATH}/templates/">bid-account-edit.html</file>
+            <file path="{ADMINPATH}/templates/">bid-overview.html</file>
+            <file path="{ADMINPATH}/templates/">bid-payment-edit.html</file>
+            <file path="{ADMINPATH}/templates/">bid-payment-history.html</file>
             <file path="{ADMINPATH}/templates/">bid-preferences.html</file>
             <file path="{ADMINPATH}/templates/">bid-preferences-campaign.html</file>
             <file path="{ADMINPATH}/templates/">bid-preferences-website.html</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/templates/">bid-stats-website.html</file>
+            <file path="{ADMINPATH}/templates/">bid-stats-zone.html</file>
             <file path="{ADMINPATH}/">bid-account-edit.php</file>
             <file path="{ADMINPATH}/">bid-common.php</file>
+            <file path="{ADMINPATH}/">bid-overview.php</file>
+            <file path="{ADMINPATH}/">bid-payment-edit.php</file>
+            <file path="{ADMINPATH}/">bid-payment-history.php</file>
             <file path="{ADMINPATH}/">bid-preferences.php</file>
             <file path="{ADMINPATH}/">bid-preferences-campaign.php</file>
             <file path="{ADMINPATH}/">bid-preferences-website.php</file>
+            <file path="{ADMINPATH}/">bid-stats.php</file>
             <file path="{ADMINPATH}/">oxThorium.class.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
@@ -47,15 +56,17 @@
 
         <navigation>
 
-            <!--admin>
+            <admin>
                 <menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu>
-            </admin-->
+                <menu addto="account-index" index="openx-market" link="plugins/oxThorium/bid-overview.php">OpenX Market</menu>
+            </admin>
 
             <manager>
                 <!--menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu-->
                 <!--menu addto="inventory" index="bid-account-edit" link="plugins/oxThorium/bid-account-edit.php">Marketplace Account</menu-->
                 <!--menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/oxThorium/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu-->
                 <menu addto="advertiser-campaigns" index="bid-preferences-campaign"   link="plugins/oxThorium/bid-preferences-campaign.php?clientid={clientid}&amp;campaignid={campaignid}">Thorium</menu>
+                <menu addto="account-index" index="openx-market" link="plugins/oxThorium/bid-overview.php">OpenX Market</menu>
             </manager>
 
             <!--advertiser>

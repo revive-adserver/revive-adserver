@@ -94,6 +94,26 @@ class Plugins_admin_oxThorium_oxThorium extends OX_Component
         // invalidate campaign-thorium delivery cache
         //MAX_cacheInvalidateGetCampaignThoriumInfo($aFields['campaignid']);
     }
+
+    function setCurrentMenuItem($item)
+    {
+        switch($item) {
+        case 'bid-overview':
+        case 'bid-payment-edit':
+        case 'bid-payment-history':
+        case 'bid-stats':
+            setCurrentLeftMenuSubItem($item);
+            break;
+        }
+    }
+
+    function addSubMenu()
+    {
+        addLeftMenuSubItem('bid-overview', 'Overview', 'plugins/oxThorium/bid-overview.php');
+        addLeftMenuSubItem('bid-payment-edit', 'Payment Details', 'plugins/oxThorium/bid-payment-edit.php');
+//        addLeftMenuSubItem('bid-payment-history', 'Payment History', 'plugins/oxThorium/bid-history.php');
+        addLeftMenuSubItem('bid-stats', 'Statistics', 'plugins/oxThorium/bid-stats.php');
+    }
 }
 
 ?>

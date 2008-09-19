@@ -167,11 +167,9 @@ table#sites-cpm-comparison .less {
 
 
 /** account form **/
-form #address1 {
+form #address1, form #address2 {
     margin-bottom: 5px;
 }
-
-
 
 /** sortable **/
 table.sortable .sort {
