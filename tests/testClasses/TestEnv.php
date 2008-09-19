@@ -149,7 +149,23 @@ class TestEnv
         $result = false;
         $aFile['name']      = $pkgName.'.zip';
         $aFile['tmp_name']  = MAX_PATH.'/var/'.$aFile['name'];
-        file_put_contents($aFile['tmp_name'], file_get_contents($GLOBALS['_MAX']['CONF']['pluginPaths']['repo'].$aFile['name']));
+
+        $aPaths = explode('|',$GLOBALS['_MAX']['CONF']['pluginPaths']['repo']);
+        foreach ($aPaths as $i => $path)
+        {
+            if (file_exists($path.$aFile['name']))
+            {
+                $file = $path.$aFile['name'];
+                break;
+            }
+        }
+        if (!$file)
+        {
+            PEAR::raiseError('TestEnv unable to find plugin '.$file, PEAR_LOG_ERR);
+            die(1);
+        }
+
+        file_put_contents($aFile['tmp_name'], file_get_contents($file));
         if (file_exists($aFile['tmp_name']))
         {
             $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
