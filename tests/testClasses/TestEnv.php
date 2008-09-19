@@ -161,7 +161,7 @@ class TestEnv
         }
         if (!$file)
         {
-            PEAR::raiseError('TestEnv unable to find plugin '.$file, PEAR_LOG_ERR);
+            PEAR::raiseError('TestEnv unable to find plugin '.$aFile['name'], PEAR_LOG_ERR);
             die(1);
         }
 
