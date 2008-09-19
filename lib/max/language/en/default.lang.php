@@ -1024,6 +1024,8 @@ $GLOBALS['strItemsPerPage']              = "Items per page";
 $GLOBALS['strDistributionHistory']       = "Distribution history";
 $GLOBALS['strDistributionHistoryCampaign'] = "Distribution history (Campaign)";
 $GLOBALS['strDistributionHistoryBanner'] = "Distribution history (Banner)";
+$GLOBALS['strDistributionHistoryWebsite'] = "Distribution history (Website)";
+$GLOBALS['strDistributionHistoryZone']   = "Distribution history (Zone)";
 $GLOBALS['strShowGraphOfStatistics']     = "Show <u>G</u>raph of Statistics";
 $GLOBALS['strExportStatisticsToExcel']   = "<u>E</u>xport Statistics to Excel";
 $GLOBALS['strGDnotEnabled']              = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
