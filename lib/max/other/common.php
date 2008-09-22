@@ -724,6 +724,7 @@ function MAX_getLinkedAdParams($zoneId)
     if ($aZone['type'] == phpAds_ZoneText) {
         $aParams['ad_type'] = 'txt';
     } else {
+        $aParams['ad_type'] = '!txt';
         if ($aZone['width'] > -1) {
             $aParams['ad_width'] = $aZone['width'];
         }

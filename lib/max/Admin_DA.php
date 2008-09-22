@@ -1064,6 +1064,9 @@ class Admin_DA
                         return $okToLink;
                     }
                 }
+                if ($aZone['type'] != phpAds_ZoneText && $azAds[$azParams['ad_id']]['type'] == 'txt') {
+                    return PEAR::raiseError('Text banner can be linked only to text zone', MAX_ERROR_INVALIDBANNERSIZE);
+                }
                 return true;
             } else {
                 return PEAR::raiseError('This banner is the wrong size for this zone', MAX_ERROR_INVALIDBANNERSIZE);

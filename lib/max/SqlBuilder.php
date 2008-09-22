@@ -549,7 +549,13 @@ class SqlBuilder
 
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
         if (isset($aParams['ad_height'])) SqlBuilder::_addLimitation($aLimitations, 'ad_height', 'd.height', $aParams['ad_height']);
-        if (!empty($aParams['ad_type'])) SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
+        if (!empty($aParams['ad_type'])) {
+            if ($aParams['ad_type'] = "!txt") {
+                SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', 'txt', MAX_LIMITATION_NOT_EQUAL);
+            } else {
+                SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
+            }
+        }
         if (!empty($aParams['ad_active'])) {
             SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.status', OA_ENTITY_STATUS_RUNNING,
                 $aParams['ad_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL);
