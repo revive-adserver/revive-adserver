@@ -327,9 +327,11 @@ function MAX_AclValidate($page, $aParams) {
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
         return true;
-    } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
+    } 
+    elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
-    } else {
+    } 
+    else {
         return false;
     }
 }
@@ -539,9 +541,11 @@ function OX_AclCheckInputsFields($aAcls, $page){
     foreach ($aAcls as $aclId => $acl) {
         if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
             $deliveryLimitationPlugin->init($acl);
-            if ($deliveryLimitationPlugin->isAllowed($page) && 
-                $deliveryLimitationPlugin->checkInputData($acl) !== true) {
-                    $aErrors[] = $deliveryLimitationPlugin->checkInputData($acl);
+            if ($deliveryLimitationPlugin->isAllowed($page)) {
+                $checkResult = $deliveryLimitationPlugin->checkInputData($acl);     
+                if ($checkResult !== true) {
+                    $aErrors[] = $checkResult;
+                }
             }
         }
     }
