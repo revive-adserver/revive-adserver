@@ -18,14 +18,26 @@
 					<else>
 						<ifStep description="version tests">
 							<condition>
-								<verifyProperty description="if upgrade.version=2.3.31-alpha-pr3" name="upgrade.version" propertyType="ant" text="2.3.31-alpha" />
+								<verifyProperty description="if upgrade.version=2.3.31-alpha-pr3" name="upgrade.version" propertyType="ant" text="2.3.31-alpha" />														
 							</condition>
 							<then>
 		 						<storeProperty description="set config file name" name="configFileName" value="${wt.host}.conf.ini" propertyType="ant" />
 								<storeProperty description="set original file name" name="configFileNameFrom" value="@wt.host.conf.ini" propertyType="ant" />
-							</then>
+							</then>							
 							<else>
-								<storeProperty description="set config file name" name="configFileName" value="${wt.host}.conf.php" propertyType="ant" />
+								<ifStep description="version tests">
+									<condition>
+										<verifyProperty description="if upgrade.version=0.1.29-rc" name="upgrade.version" propertyType="ant" text="2.1.29-rc" />
+									</condition>
+									<then>
+				 						<storeProperty description="set config file name" name="configFileName" value="config.inc.php" propertyType="ant" />
+										<storeProperty description="flag" name="flag" value="true" propertyType="dynamic" />										
+									</then>
+									<else>	
+										<storeProperty description="set config file name" name="configFileName" value="${wt.host}.conf.php" propertyType="ant" />							
+									</else>	
+								</ifStep>
+
 							</else>						
 						</ifStep>
 					</else>						
