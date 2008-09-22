@@ -240,20 +240,8 @@ function processForm($aZone, $form)
     // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
     // phpAds_cacheDelete('what=zone:'.$zoneid);
 
-    // Do not redirect until not finished with zone appending, if present
-    if (!empty($aFields['appendsave'])) {
-        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                OX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
-            }
-            else {
-                OX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
-            }
-        }
-        else {
-            OX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
-        }
-    }
+    $oUI = OA_Admin_UI::getInstance();
+    OX_Admin_Redirect::redirect($oUI->getNextPage());
 }
 
 
