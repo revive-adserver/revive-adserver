@@ -147,6 +147,33 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
 
         return $aResult;
     }
+    
+    
+     /**
+     * Method to check input data
+     *
+     * @param array $data Most important to check is $data['data'] field. 
+     * By default the empty string check is done. 
+     * @return bool|string true or error message
+     */
+    function checkInputData($data)
+    {
+//        $result = parent::checkInputData($data);
+//        if ($result === true) { //if parent check was OK
+//            if (is_array($data['data'])) {
+//                foreach ($data['data'] as $dataEntry) {
+//                    if (trim($dataEntry) == '') {
+//                        return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);                        
+//                    }
+//                }
+//            }
+//        }
+//        
+//        return $result;
+
+          return true;
+    }
+        
 
 }
 

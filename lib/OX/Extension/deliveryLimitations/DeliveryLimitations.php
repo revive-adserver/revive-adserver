@@ -128,7 +128,10 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     function checkInputData($data)
     {
-        return true;
+//        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
+//            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
+//        }
+        return true;  
     }
 
     /**

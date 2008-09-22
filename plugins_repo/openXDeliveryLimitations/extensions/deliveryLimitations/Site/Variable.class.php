@@ -66,10 +66,13 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      */
     function checkInputData($data)
     {
+        $result = parent::checkInputData($data);
+        if ($result === true) { //if parent check was OK
         if (is_array($data['data'])) {
             if (strpos($data['data'][0],'|') !== false) {
                 return MAX_Plugin_Translation::translate('Site:Variable: Name contains unallowed character(s)', $this->extension, $this->group);
             }
+        }
         }
         return true;
     }
