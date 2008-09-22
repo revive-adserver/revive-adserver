@@ -44,14 +44,14 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser 
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
     $page = basename($_SERVER['PHP_SELF']);
-    OX_Admin_Redirect::redirect($page);        
+    OX_Admin_Redirect::redirect($page);
 }
 if (!empty($campaignid) && !OA_Permission::hasAccessToObject('campaigns', $campaignid)) {
     $page = basename($_SERVER['PHP_SELF']);
-    OX_Admin_Redirect::redirect("$page?clientid=$clientid");        
+    OX_Admin_Redirect::redirect("$page?clientid=$clientid");
 }
 
 
@@ -76,14 +76,14 @@ if (empty($clientid)) { //if it's empty
         }
         else {
             $clientid = -1; //if no advertisers set to non-existent id
-            $campaignid = -1; //also reset campaign id            
+            $campaignid = -1; //also reset campaign id
         }
     }
 }
 else {
     if (!isset($aAdvertisers[$clientid])) {
         $page = basename($_SERVER['PHP_SELF']);
-        OX_Admin_Redirect::redirect($page);        
+        OX_Admin_Redirect::redirect($page);
     }
 }
 
@@ -100,13 +100,13 @@ if ($clientid > 0) {
         }
         if (empty($campaignid)) { //was empty, is still empty - just pick one, no need for redirect
             $ids = array_keys($aCampaigns);
-            $campaignid = !empty($ids) ? $ids[0] : -1; //if no campaigns set to non-existent id        
+            $campaignid = !empty($ids) ? $ids[0] : -1; //if no campaigns set to non-existent id
         }
     }
     else {
         if (!isset($aCampaigns[$campaignid])) {
             $page = basename($_SERVER['PHP_SELF']);
-            OX_Admin_Redirect::redirect("$page?clientid=$clientid");        
+            OX_Admin_Redirect::redirect("$page?clientid=$clientid");
         }
     }
 }
