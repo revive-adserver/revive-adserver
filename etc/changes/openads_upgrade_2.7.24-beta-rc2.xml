@@ -8,9 +8,9 @@
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Openads Upgrade 2.7.24-beta-rc1</description>
+    <description>Openads Upgrade 2.7.24-beta-rc2</description>
     <versionFrom></versionFrom>
-    <versionTo>2.7.24-beta-rc1</versionTo>
+    <versionTo>2.7.24-beta-rc2</versionTo>
 
     <!-- Database Packages -->
     <database>
@@ -25,7 +25,7 @@
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript>prescript_openads_upgrade_2.7.24-beta-rc1.php</prescript-->
-    <!--postscript>postscript_openads_upgrade_2.7.24-beta-rc1.php</postscript-->
+    <!--prescript>prescript_openads_upgrade_2.7.24-beta-rc2.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.7.24-beta-rc2.php</postscript-->
 
 </upgrade>
