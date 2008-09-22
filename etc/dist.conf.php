@@ -240,7 +240,6 @@ data_summary_ad_zone_assoc               = data_summary_ad_zone_assoc
 data_summary_channel_daily               = data_summary_channel_daily
 data_summary_zone_impression_history     = data_summary_zone_impression_history
 images                                   = images
-lb_local                                 = lb_local
 log_maintenance_forecasting              = log_maintenance_forecasting
 log_maintenance_priority                 = log_maintenance_priority
 log_maintenance_statistics               = log_maintenance_statistics

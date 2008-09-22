@@ -25,24 +25,29 @@
 $Id$
 */
 
-/**
- * Table Definition for lb_local
- */
-require_once 'DB_DataObjectCommon.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
-class DataObjects_Lb_local extends DB_DataObjectCommon
+class Migration_602 extends Migration
 {
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'lb_local';                        // table name
-    public $last_run;                        // INT(11) => openads_int => 1 
+    function Migration_602()
+    {
+        //$this->__construct();
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Lb_local',$k,$v); }
+		$this->aTaskList_destructive[] = 'beforeRemoveTable__lb_local';
+		$this->aTaskList_destructive[] = 'afterRemoveTable__lb_local';
+    }
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
+	function beforeRemoveTable__lb_local()
+	{
+		return $this->beforeRemoveTable('lb_local');
+	}
+
+	function afterRemoveTable__lb_local()
+	{
+		return $this->afterRemoveTable('lb_local');
+	}
+
 }
 
 ?>
