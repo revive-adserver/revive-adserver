@@ -73,6 +73,7 @@ class MAX_Admin_Invocation {
             'hostlanguage',
             'iframetracking',
             'ilayer',
+            'layerstyle',
             'left',
             'location',
             'menubar',
@@ -307,7 +308,7 @@ class MAX_Admin_Invocation {
 
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             $buffer .= "<tr><td height='25' width='350'><b>". $GLOBALS['strChooseTypeOfBannerInvocation'] ."</b>";
-            if ($codetype=="adview" || $codetype=="clickonly"){
+            if ($codetype=="invocationTags:oxInvocationTags:adview" || $codetype=="invocationTags:oxInvocationTags:clickonly"){
                 $buffer .= "";
             }
 
@@ -354,18 +355,18 @@ class MAX_Admin_Invocation {
 
             // Code
             // Layer and popup invocation types require specific paramters to be provided before invcation is possible
-            if ( empty($submitbutton) && ($codetype=='popup' || $codetype=='adlayer')) {
+            if ( empty($submitbutton) && ($codetype=='invocationTags:oxInvocationTags:popup' || $codetype=='invocationTags:oxInvocationTags:adlayer')) {
                 $generated = false;
             } else {
                 $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
                 $buffer .= "<tr><td height='25'>";
-                if ($codetype == "clickonly" && !$this->zone_invocation) {
+                if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
                     if ($bannerid == 0) {
                         $this->ads = array();
                     } else {
                         $this->ads = array($bannerid => $aAd);
                     }
-                } elseif ($codetype == 'local' && !$server_same) {
+                } elseif ($codetype == 'invocationTags:oxInvocationTags:local' && !$server_same) {
                     $buffer .= "
                         <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
                             $strWarningLocalInvocation
