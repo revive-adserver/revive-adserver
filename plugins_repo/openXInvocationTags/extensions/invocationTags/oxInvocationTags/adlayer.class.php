@@ -168,6 +168,9 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         }
 
         $obj = new $className;
+
+        // Assign this component group's translation resource to the created layer object
+        $obj->oTrans = $this->oTrans;
         return $obj;
     }
 

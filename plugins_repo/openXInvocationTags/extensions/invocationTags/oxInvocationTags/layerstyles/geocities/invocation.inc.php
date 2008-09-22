@@ -38,7 +38,7 @@ MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding', 'closet
  * Layerstyle for invocation tag plugin
  *
  */
-class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation
+class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends Plugins_InvocationTags_OxInvocationTags_adlayer
 {
 
     /*-------------------------------------------------------*/

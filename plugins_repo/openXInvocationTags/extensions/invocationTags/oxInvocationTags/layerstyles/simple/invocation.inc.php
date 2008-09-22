@@ -40,7 +40,7 @@ MAX_commonRegisterGlobalsArray(array('target', 'align', 'padding', 'closebutton'
  * Layerstyle for invocation tag plugin
  *
  */
-class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation
+class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plugins_InvocationTags_OxInvocationTags_adlayer
 {
 
     /*-------------------------------------------------------*/
