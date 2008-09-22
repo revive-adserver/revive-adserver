@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -47,6 +47,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
      *
      */
     var $unknownIdError = 'Unknown agencyId Error';
+    var $duplicateAgencyNameError = 'Agency name must be unique';
 
     /**
      * The constructor method.
@@ -74,7 +75,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
-        $dllAgencyPartialMock->expectCallCount('checkPermissions', 5);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 9);
 
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
@@ -86,17 +87,37 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
                           $dllAgencyPartialMock->getLastError());
 
         $this->assertTrue($oAgencyInfo->accountId);
+        
+        // Try adding a duplicate agency name.
+        $oDupeAgencyInfo = new OA_Dll_AgencyInfo();
+        $oDupeAgencyInfo->agencyName = $oAgencyInfo->agencyName;
+        $oDupeAgencyInfo->contactName = $oAgencyInfo->contactName;
+        
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) && 
+            $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
+            $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
+        
 
         // Modify
         $oAgencyInfo->agencyName = 'modified Agency';
 
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
+                          
+        // Try to modify to a duplicate agency name.
+        $this->assertTrue($dllAgencyPartialMock->modify($oDupeAgencyInfo),
+                          $dllAgencyPartialMock->getLastError());
+        $oDupeAgencyInfo->agencyName = 'modified Agency';
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) && 
+            $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
+            $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
 
-        // Delete
+        // Delete (both of the agencies)
         $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo->agencyId),
             $dllAgencyPartialMock->getLastError());
-
+        $this->assertTrue($dllAgencyPartialMock->delete($oDupeAgencyInfo->agencyId),
+            $dllAgencyPartialMock->getLastError());
+            
         // Modify not existing id
         $this->assertTrue((!$dllAgencyPartialMock->modify($oAgencyInfo) &&
                           $dllAgencyPartialMock->getLastError() == $this->unknownIdError),
@@ -109,7 +130,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $dllAgencyPartialMock->tally();
     }
-
+    
     /**
      * A method to test get and getList method.
      */

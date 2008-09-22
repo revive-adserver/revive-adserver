@@ -110,7 +110,27 @@ class OA_Dll_Agency extends OA_Dll
 
             return false;
         }
+        
+        if (!$this->_validateAgencyName($oAgency->agencyName)) {
+            return false;
+        }
 
+        return true;
+    }
+    
+    /**
+     * This method performs data validation for the agency name uniqueness
+     *
+     * @param OA_Dll_AgencyInfo $oAgency
+     * @return boolean
+     */
+    function _validateAgencyName($agencyName)
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        if ($doAgency->agencyExists($agencyName)) {
+            $this->raiseError('Agency name must be unique');
+            return false;
+        }
         return true;
     }
 

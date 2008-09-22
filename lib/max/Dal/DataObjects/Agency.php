@@ -195,6 +195,12 @@ class DataObjects_Agency extends DB_DataObjectCommon
     {
         $aAuditFields['key_desc']     = $this->name;
     }
+    
+    function agencyExists($agencyName)
+    {
+        $this->name = $agencyName;
+        return (bool)$this->count();
+    }
 
 }
 
