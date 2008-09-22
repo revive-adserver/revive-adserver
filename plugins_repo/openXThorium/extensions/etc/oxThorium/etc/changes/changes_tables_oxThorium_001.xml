@@ -9,11 +9,27 @@
       <name>deliveryAdRender</name>
       <version>001</version>
       <add>
-        <table>
+      <table>
+        <name>ext_thorium_account_mapping</name>
+        <was>ext_thorium_account_mapping</was>
+      </table>
+      <table>
+        <name>ext_thorium_ad_size</name>
+        <was>ext_thorium_ad_size</was>
+      </table>
+      <table>
         <name>ext_thorium_campaign_pref</name>
         <was>ext_thorium_campaign_pref</was>
       </table>
-        <table>
+      <table>
+        <name>ext_thorium_payment_details</name>
+        <was>ext_thorium_payment_details</was>
+      </table>
+      <table>
+        <name>ext_thorium_publisher_reporting</name>
+        <was>ext_thorium_publisher_reporting</was>
+      </table>
+      <table>
         <name>ext_thorium_website_pref</name>
         <was>ext_thorium_website_pref</was>
       </table>

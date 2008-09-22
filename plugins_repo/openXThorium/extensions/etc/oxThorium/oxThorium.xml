@@ -3,7 +3,7 @@
 
 <plugin>
     <name>oxThorium</name>
-    <creationDate>2008-07-04</creationDate>
+    <creationDate>2008-09-19</creationDate>
     <author>Bernard Lange</author>
     <authorEmail>bernard@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
@@ -90,7 +90,11 @@
             <mdb2schema>tables_oxThorium</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Ext_thorium_account_mapping.php</dataobject>
+            <dataobject>Ext_thorium_ad_size.php</dataobject>
             <dataobject>Ext_thorium_campaign_pref.php</dataobject>
+            <dataobject>Ext_thorium_payment_details.php</dataobject>
+            <dataobject>Ext_thorium_publisher_reporting.php</dataobject>
             <dataobject>Ext_thorium_website_pref.php</dataobject>
         </schema>
 
