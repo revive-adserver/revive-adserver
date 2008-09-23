@@ -1323,8 +1323,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		$fileOwner = @fileowner(MAX_PATH.'/index.php');
 		foreach ($dirList as $dir) {
 		  $chmodDir = $target."/".$dir;
+		  $this->_logMessage("Checking $chmodDir");
 		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner)
 		       && file_exists($chmodDir)) {
+		      $this->_logMessage("Changing $chmodDir set chmod to 0777");
 		      @chmod($chmodDir, 0777);
 		  }
 		}
