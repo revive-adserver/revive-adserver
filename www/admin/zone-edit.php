@@ -167,14 +167,14 @@ function buildZoneForm($zone)
         phpAds_ZoneBanner, array('id' => 'delivery-b',
             'onClick' => 'phpAds_formEnableSize();',
             'onChange' => 'oa_hide("warning_change_zone_type");'));
-    if ($conf['adlayer']['allowed'] || $zone['delivery'] == phpAds_ZoneInterstitial) {
+    if ($conf['oxInvocationTags']['isAllowedAdlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial) {
         $zoneTypes[] = $form->createElement('radio', 'delivery', '',
             "<img src='".OX::assetPath()."/images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$GLOBALS['strInterstitial'],
             phpAds_ZoneInterstitial, array('id' => 'delivery-i',
                 'onClick' => 'phpAds_formEnableSize();',
                 'onChange' => 'oa_hide("warning_change_zone_type");'));
     }
-    if ($conf['popup']['allowed'] || $zone['delivery'] == phpAds_ZonePopup) {
+    if ($conf['oxInvocationTags']['isAllowedPopup'] || $zone['delivery'] == phpAds_ZonePopup) {
         $zoneTypes[] = $form->createElement('radio', 'delivery', '',
             "<img src='".OX::assetPath()."/images/icon-popup.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopup'],
             phpAds_ZonePopup, array('id' => 'delivery-p',
