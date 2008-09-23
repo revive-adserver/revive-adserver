@@ -37,10 +37,11 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 $clientId      = MAX_getValue('clientid');
 $campaignId    = MAX_getValue('campaignid');
@@ -211,13 +212,14 @@ if (!empty($aConversions))
 
                 // Update finance info
                 $oServiceLocator =& OA_ServiceLocator::instance();
-                $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+                $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
                 if (!$oDal) {
-                    $oDal = new OA_Dal_Maintenance_Statistics_AdServer_mysql;
+                    $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+                    $oDal = $oFactory->factory();
                 }
                 $oStartDate = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
                 $oEndDate   = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
-                $oDal->_updateWithFinanceInfo($oStartDate, $oEndDate, $data_summary_table);
+                $oDal->_saveSummaryUpdateWithFinanceInfo($oStartDate, $oEndDate, $data_summary_table);
 
                 if (!is_null($plugin)) {
                     $plugin->serviceLocatorRemove();
