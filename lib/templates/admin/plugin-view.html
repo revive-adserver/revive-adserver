@@ -111,23 +111,23 @@ $Id$
         <div style="overflow: hidden;">
 	        <div class="split-right">
 		        <table class="detail-table">
-		            <tr><th>Version</td><td>{$aPackage.version}</td><th>Author</td><td>{$aPackage.author}</td></tr>
-		            <tr><th>Creation Date</td><td>{$aPackage.creationdate}</td><th>Email</th><td>{if {$aPackage.authoremail}<a href="mailto:{$aPackage.authoremail}">{/if}{$aPackage.authoremail}{if {$aPackage.authoremail}</a>{/if}</td></tr>
-		            <tr><th>License</td><td>{$aPackage.license}</td><th>URL</td><td>{if {$aPackage.authorurl}<a href="{$aPackage.authorurl}">{/if}{$aPackage.authorurl}{if {$aPackage.authorurl}</a>{/if}</td></tr>
+		            <tr><th>Version</th><td>{$aPackage.version}</td><th>Author</th><td>{$aPackage.author}</td></tr>
+		            <tr><th>Creation Date</th><td>{$aPackage.creationdate}</td><th>Email</th><td>{if {$aPackage.authoremail}<a href="mailto:{$aPackage.authoremail}">{/if}{$aPackage.authoremail}{if {$aPackage.authoremail}</a>{/if}</td></tr>
+		            <tr><th>License</th><td>{$aPackage.license}</td><th>URL</th><td>{if {$aPackage.authorurl}<a href="{$aPackage.authorurl}">{/if}{$aPackage.authorurl}{if {$aPackage.authorurl}</a>{/if}</td></tr>
 				</table>
 	        </div>
 
 	        <div class="split-left">
-                <span class="item-info">
+                <div class="item-info">
                     <p><span class="name">{$aPackage.name}</span></p>
                     <p>{$aPackage.description}</p>
-                </span>
+                </div>
             </div>
 
 	      </div>
     </div>
 
-    {include file=plugin-group-index-list.html aPlugins=$aPlugins}
+    {include file=plugin-group-index-list.html aPlugins=$aPlugins hideSwitcher=true}
 
     <div class='panel'>
         <span class='corner top-left'></span>
@@ -137,7 +137,7 @@ $Id$
 
         <div style="overflow: hidden;">
            <pre class='item-info'>{$readme}</pre>
-	      </div>
+	    </div>
     </div>
 
 </div>

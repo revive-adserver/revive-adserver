@@ -36,93 +36,85 @@ $Id$
 </div>
 {/if}
 
-<div style="min-width: 750px;">
-    <p class="backlink"><a href="{$backURL}">&laquo; Back to {$parent}</a></p>
+<p class="backlink"><a href="{$backURL}">&laquo; Back to {$parent}</a></p>
 
-    <div class='panel'>
-       <span class='corner top-left'></span>
-       <span class='corner top-right'></span>
-       <span class='corner bottom-left'></span>
-       <span class='corner bottom-right'></span>
+<div class='panel'>
+   <span class='corner top-left'></span>
+   <span class='corner top-right'></span>
+   <span class='corner bottom-left'></span>
+   <span class='corner bottom-right'></span>
 
-       <div style="overflow: hidden;">
-        <div class="split-right">
-           <div class="vertical first-vertical">
-		        <table class="detail-table">
-		            <tr><th>Version</td><td>{$aPlugin.version}</td><th>Author</td><td>{$aPlugin.author}</td></tr>
-		            <tr><th>Creation Date</td><td>{$aPlugin.creationdate}</td><th>Email</th><td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.authoremail}{if {$aPlugin.authoremail}</a>{/if}</td></tr>
-		            <tr><th>License</td><td>{$aPlugin.license}</td><th>URL</td><td>{if {$aPlugin.authorurl}<a href="{$aPlugin.authorurl}">{/if}{$aPlugin.authorurl}{if {$aPlugin.authorurl}</a>{/if}</td></tr>
-				</table>
-			</div>
-		    <div class="vertical top-split">
-		        <table class="detail-table">
-			        <tr><th>Compatible with</th><td>{$aPlugin.oxversion}</td></tr>
-			        <tr><th>Extends</th><td>{$aPlugin.extends}</td></tr>
-			        <tr><th>Has specific settings</th><td>{if $aPlugin.settings} yes {else} no {/if}</td></tr>
-			        <tr><th>Has specific preferences</th><td>{if $aPlugin.preferences} yes {else} no {/if}</td></tr>
-			    </table>
-		    </div>
-		    <div class="vertical top-split last-vertical">
-			    <table class="detail-table">
-			        <tr><th>Schema Name</th><td>{if $aPlugin.schema_name} {$aPlugin.schema_name} {else} -- {/if}</td></tr>
-			        <tr><th>Schema Version</th><td>{if $aPlugin.schema_version} {$aPlugin.schema_version} {else} -- {/if}</td></tr>
-			        <!-- tr><td colspan="2" style="padding: 0px">
-			          <form name='pluginform' id='pluginform' method='post' action="plugin-index.php?checkdb={$aPlugin.name}&plugins=true&parent={$parent}">
-	                    <input class="checkdb" type="submit" value="Check Database" />
-	                  </form>
-			        </td>
-			        </tr-->
-		        </table>
-	        </div>
-        </div>
-
-        <div class="split-left">
-               <span class="item-info">
-                   <p><span class="name">{$aPlugin.name}</span></p>
-                   <p>{$aPlugin.description}</p>
-               </span>
-        </div>
-
+   <div style="overflow: hidden;">
+    <div class="split-right">
+       <div class="vertical first-vertical">
+        <table class="detail-table">
+            <tr><th>Version</th><td>{$aPlugin.version}</td><th>Author</th><td>{$aPlugin.author}</td></tr>
+            <tr><th>Creation Date</th><td>{$aPlugin.creationdate}</td><th>Email</th><td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.authoremail}{if {$aPlugin.authoremail}</a>{/if}</td></tr>
+            <tr><th>License</th><td>{$aPlugin.license}</td><th>URL</th><td>{if {$aPlugin.authorurl}<a href="{$aPlugin.authorurl}">{/if}{$aPlugin.authorurl}{if {$aPlugin.authorurl}</a>{/if}</td></tr>
+		</table>
+	</div>
+    <div class="vertical top-split">
+        <table class="detail-table">
+	        <tr><th>Compatible with</th><td>{$aPlugin.oxversion}</td></tr>
+	        <tr><th>Extends</th><td>{$aPlugin.extends}</td></tr>
+	        <tr><th>Has specific settings</th><td>{if $aPlugin.settings} yes {else} no {/if}</td></tr>
+	        <tr><th>Has specific preferences</th><td>{if $aPlugin.preferences} yes {else} no {/if}</td></tr>
+	    </table>
+    </div>
+    <div class="vertical top-split last-vertical">
+	    <table class="detail-table">
+	        <tr><th>Schema Name</th><td>{if $aPlugin.schema_name} {$aPlugin.schema_name} {else} -- {/if}</td></tr>
+	        <tr><th>Schema Version</th><td>{if $aPlugin.schema_version} {$aPlugin.schema_version} {else} -- {/if}</td></tr>
+	        <!-- tr><td colspan="2" style="padding: 0px">
+	          <form name='pluginform' id='pluginform' method='post' action="plugin-index.php?checkdb={$aPlugin.name}&plugins=true&parent={$parent}">
+                  <input class="checkdb" type="submit" value="Check Database" />
+                </form>
+	        </td>
+	        </tr-->
+        </table>
       </div>
-   </div>
+    </div>
+
+    <div class="split-left">
+           <div class="item-info">
+               <p><span class="name">{$aPlugin.name}</span></p>
+               <p>{$aPlugin.description}</p>
+           </div>
+    </div>
+
+  </div>
 </div>
 
-<div style="min-width: 750px">
-    {if count($aPlugin.pluginGroupComponents) > 0}
-        <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-
-            <tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-        	<tr height='25' bgcolor="{$bgColor}" style="font-weight:bold;">
-        		<td>
-                    Extension
-        		</td>
-        		<td>
-                    Group
-        		</td>
-        		<td>
-                    Component
-        		</td>
-            </tr>
-
-        {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
+{if count($aPlugin.pluginGroupComponents) > 0}
+    <table class="data">
+      <thead>
+    	<tr>
+    		<td>
+                Extension
+    		</td>
+    		<td>
+                Group
+    		</td>
+    		<td>
+                Component
+    		</td>
+        </tr>
+      </thead>
+      <tbody>
+        {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
         {foreach from=$aPlugin.pluginGroupComponents key=name item=aItem}
-        	<tr height='25' bgcolor="{$bgColor}">
-        		<td>
-                    {$aItem.extension}
-        		</td>
-        		<td>
-                    {$aItem.group}
-        		</td>
-        		<td>
-                    {$aItem.component}
-        		</td>
+        {cycle name=bgclass assign=bgClass}
+        	<tr class="{$bgClass}">
+        		<td>{$aItem.extension}</td>
+        		<td>{$aItem.group}</td>
+        		<td>{$aItem.component}</td>
             </tr>
         {/foreach}
-        </table>
-    {/if}
-</div>
+        </tbody>
+    </table>
+{/if}
 
-{*<div style="min-width: 750px">
+{*
     {if count($aPluginDB) > 0}
         <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 
@@ -130,6 +122,7 @@ $Id$
 
         {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
         {foreach from=$aPluginDB key=name item=aReport}
+        {cycle name=bgclass assign=bgClass}
         	<tr height='25' bgcolor="{$bgColor}">
         		<td>
                     {$name}
@@ -144,5 +137,5 @@ $Id$
         {/foreach}
         </table>
     {/if}
-</div>*}
+>*}
 

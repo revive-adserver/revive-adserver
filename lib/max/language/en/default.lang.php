@@ -1282,6 +1282,8 @@ $GLOBALS['strGeneralSettings']              = "General Settings";
 $GLOBALS['strMainSettings']                 = "Main Settings";
 $GLOBALS['strAdminSettings']                = "Administration Settings";
 
+$GLOBALS['strChooseSection']          = 'Choose Section';
+
 // Product Updates
 $GLOBALS['strProductUpdates']         = "Product Updates";
 $GLOBALS['strCheckForUpdates']        = "Check for Updates";

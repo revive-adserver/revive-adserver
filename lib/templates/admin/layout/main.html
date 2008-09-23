@@ -29,9 +29,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
 <head>
 <title>{$pageTitle}</title>
-
-<meta name="generator" content="{$metaGenerator}" />
-<meta name="robots" content="noindex, nofollow" />
+<meta name="generator" content="{$metaGenerator}" >
+<meta name="robots" content="noindex, nofollow" >
 
 {include file=layout/styles.html}
 {include file=layout/scripts.html}
@@ -143,7 +142,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if $buttonLogout}
         <li class="accountSwitcher">
-            <div class="triggerContainer">{$strWorkingAs} <span class="switchTrigger" href="#">{$accountName|escape}</span></div>
+            <div class="triggerContainer">{$strWorkingAs} <span class="switchTrigger">{$accountName|escape}</span></div>
             <div class="accountsPanel">
               <div class="switchTop">&nbsp;</div>
               <div class="switchMiddle">
@@ -169,20 +168,20 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
               <div class="switchDown">&nbsp;</div>
             </div>
         </li>
-        
-        <script type='text/javascript'>
-        {literal}
-          <!--
-          $(document).ready(function() {
-            initAccoutSwitcher();
-          });
-          -->
-        {/literal}  
-        </script>        
 {/if}
-
     </ul>
+{if $buttonLogout}
+    <script type='text/javascript'>
+    {literal}
+      <!--
+      $(document).ready(function() {
+        initAccoutSwitcher();
+      });
+      -->
+    {/literal}  
+    </script>        
     <div class='accountSwitcherOverlay'>&nbsp;</div>
+{/if}    
 </div>
 
 <div id="firstLevelContent">

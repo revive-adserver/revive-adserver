@@ -28,30 +28,13 @@ $Id$
 
 -->*}
 
-            <table width="100%" cellspacing="0" cellpadding="0" border="0">
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td height="35">
-                            <form method="get" action="plugin-index.php">
-                                <b>Choose Section: </b>
-                                <select name='selection' id="selection" onchange="this.form.submit()">
-                                    <option value="plugins" {if $selected == 'plugins'} selected {/if} >Plugins</option>
-                                    <option value="components" {if $selected == 'components'} selected {/if} >Components</option>
-                                </select>
-                                <input type="image" src="{$assetPath}/images/ltr/go_blue.gif" />
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<hr>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tbody><tr>
-        <td width="40">
-        </td>
-        <td>
+<div id="section-switcher">
+<form method="get" action="plugin-index.php">
+    <b>{t str=ChooseSection}:</b>
+    <select name='selection' id="selection" onchange="this.form.submit()">
+        <option value="plugins" {if $selected == 'plugins'} selected {/if} >Plugins</option>
+        <option value="components" {if $selected == 'components'} selected {/if} >Components</option>
+    </select>
+    <input type="image" src="{$assetPath}/images/ltr/go_blue.gif" />
+</form>
+</div>

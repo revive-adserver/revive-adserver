@@ -29,20 +29,20 @@ $Id$
 -->*}
 {include file=plugin-group-switcher.html}
 
-<form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
-        <div class="control-panel">
-            <div class="control-set left">
-                <input name="package" value="1" type="hidden">
-		        <span class='corner bottom-left'></span>
-		        <span class='corner bottom-right'></span>
-	            <h2>Install new plugin</h2>
-	            Select file
-	            <input name="filename" tabindex="1" type="file">
-	            <input value="Install" name="install" tabindex="2" type="submit">
-	            <input value="Import (code only)" name="import" tabindex="3" type="submit">
-            </div>
-        </div>
-</form>
+<div class="control-panel">
+    <form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
+    <div class="control-set left">
+        <input name="package" value="1" type="hidden">
+    <span class='corner bottom-left'></span>
+    <span class='corner bottom-right'></span>
+      <h2>Install new plugin</h2>
+      Select file
+      <input name="filename" tabindex="1" type="file">
+      <input value="Install" name="install" tabindex="2" type="submit">
+      <input value="Import (code only)" name="import" tabindex="3" type="submit">
+    </div>
+    </form>
+</div>
 
 
 {if $formError && $formError.id > 0 && $formError.message}
@@ -76,52 +76,50 @@ $Id$
     </div>
 {/if}
 
-<div style="min-width: 750px">
-    <table class="data" >
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>Author</td>
-                <td>Status</td>
-                <td colspan="3">Actions</td>
-            </tr>
-        </thead>
+<table class="data" >
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Author</td>
+            <td>Status</td>
+            <td colspan="3">Actions</td>
+        </tr>
+    </thead>
 
-        <tbody>
-          {if !$aPackages|@count}
-            <tr class="even">
-                <td colspan="6">
-                 <p>No plugins installed.</p>
-                </td>
-            </tr>
-          {else}
-	        {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
-	        {foreach from=$aPackages key=name item=aitem}
-	        {cycle name=bgclass assign=bgClass}
-	            <tr class="{$bgClass}">
-	                <td width="40%">
-	                   <span class="item-info">
-	                       <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
-	                       <p>{$aitem.description}</p>
-	                   </span>
-	                </td>
-	                <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
-	                <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
-	                <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
-	                <td>
-		                {if $aitem.enabled > 0}
-		                   <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
-		                {else}
-		                   <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
-		                {/if}
-	                </td>
-	                <td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>
-	            </tr>
-            {/foreach}
-           {/if}
-        </tbody>
-    </table>
-</div>
+    <tbody>
+      {if !$aPackages|@count}
+        <tr class="even">
+            <td colspan="6">
+             <p>No plugins installed.</p>
+            </td>
+        </tr>
+      {else}
+      {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
+      {foreach from=$aPackages key=name item=aitem}
+      {cycle name=bgclass assign=bgClass}
+          <tr class="{$bgClass}">
+              <td width="40%">
+                 <div class="item-info">
+                     <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
+                     <p>{$aitem.description}</p>
+                 </div>
+              </td>
+              <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
+              <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
+              <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
+              <td>
+                {if $aitem.enabled > 0}
+                   <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
+                {else}
+                   <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+                {/if}
+              </td>
+              <td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>
+          </tr>
+        {/foreach}
+       {/if}
+    </tbody>
+</table>
 
 
 

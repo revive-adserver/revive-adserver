@@ -1120,10 +1120,14 @@ padding: 0px 10px;
 
 
 /* Plugins Page */
-.section-switcher
+#section-switcher
 {
-    height: 53px;
+    padding-bottom: 12px;
     border-bottom: 1px #dddddd solid;
+}
+
+#section-switcher form, form.packageform {
+  margin: 0px;
 }
 
 /** section tools **/
