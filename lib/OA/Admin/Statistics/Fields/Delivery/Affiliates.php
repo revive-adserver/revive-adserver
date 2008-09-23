@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
  * The affiliates delivery statistics fields plugin.
@@ -57,8 +56,8 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_revenue'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
+                'name'   => $GLOBALS['strRevenue'],
+                'short'  => $GLOBALS['strRevenue_short'],
                 'rank'   => 4,
                 'pref'   => 'ui_column_revenue',
                 'format' => 'currency'
@@ -66,16 +65,16 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_cost'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Cost', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
+                'name'   => $GLOBALS['strCost'],
+                'short'  => $GLOBALS['strCost_short'],
                 'pref'   => 'ui_column_cost',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_bv'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Basket value', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
+                'name'   => $GLOBALS['strBasketValue'],
+                'short'  => $GLOBALS['strBasketValue_short'],
                 'pref'   => 'ui_column_bv',
                 'format' => 'currency',
                 'ctf'    => true
@@ -83,8 +82,8 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_num_items'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Number of items', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Number of items', $this->module, $this->package),
+                'name'   => $GLOBALS['strNumberOfItems'],
+                'short'  => $GLOBALS['strNumberOfItems_short'],
                 'pref'   => 'ui_column_num_items',
                 'format' => 'default',
                 'ctf'    => true
@@ -92,80 +91,80 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_revcpc'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Revenue CPC', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Revenue CPC', $this->module, $this->package),
+                'name'   => $GLOBALS['strRevenueCPC'],
+                'short'  => $GLOBALS['strRevenueCPC_short'],
                 'pref'   => 'ui_column_revcpc',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_costcpc'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Cost CPC', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Cost CPC', $this->module, $this->package),
+                'name'   => $GLOBALS['strCostCPC'],
+                'short'  => $GLOBALS['strCostCPC_short'],
                 'pref'   => 'ui_column_costcpc',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_technology_cost'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Technology Cost', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Technology Cost', $this->module, $this->package),
+                'name'   => $GLOBALS['strTechnologyCost'],
+                'short'  => $GLOBALS['strTechnologyCost_short'],
                 'pref'   => 'ui_column_technology_cost',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_income'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Income', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Income', $this->module, $this->package),
+                'name'   => $GLOBALS['strIncome'],
+                'short'  => $GLOBALS['strIncome_short'],
                 'pref'   => 'ui_column_income',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_income_margin'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Income Margin', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Income Margin', $this->module, $this->package),
+                'name'   => $GLOBALS['strIncomeMargin'],
+                'short'  => $GLOBALS['strIncomeMargin_short'],
                 'pref'   => 'ui_column_income_margin',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_profit'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Profit', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Profit', $this->module, $this->package),
+                'name'   => $GLOBALS['strProfit'],
+                'short'  => $GLOBALS['strProfit_short'],
                 'pref'   => 'ui_column_profit',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_margin'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Margin', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Margin', $this->module, $this->package),
+                'name'   => $GLOBALS['strMargin'],
+                'short'  => $GLOBALS['strMargin_short'],
                 'pref'   => 'ui_column_margin',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_erpm'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ERPM', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ERPM', $this->module, $this->package),
+                'name'   => $GLOBALS['strERPM'],
+                'short'  => $GLOBALS['strERPM_short'],
                 'pref'   => 'ui_column_erpm',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_erpc'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ERPC', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ERPC', $this->module, $this->package),
+                'name'   => $GLOBALS['strERPC'],
+                'short'  => $GLOBALS['strERPC_short'],
                 'pref'   => 'ui_column_erpc',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_erps'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ERPS', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ERPS', $this->module, $this->package),
+                'name'   => $GLOBALS['strERPS'],
+                'short'  => $GLOBALS['strERPS_short'],
                 'pref'   => 'ui_column_erps',
                 'format' => 'currency',
                 'ctf'    => true
@@ -173,24 +172,24 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_eipm'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_EIPM', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('EIPM', $this->module, $this->package),
+                'name'   => $GLOBALS['strEIPM'],
+                'short'  => $GLOBALS['strEIPM_short'],
                 'pref'   => 'ui_column_eipm',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_eipc'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_EIPC', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('EIPC', $this->module, $this->package),
+                'name'   => $GLOBALS['strEIPC'],
+                'short'  => $GLOBALS['strEIPC_short'],
                 'pref'   => 'ui_column_eipc',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_eips'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_EIPS', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('EIPS', $this->module, $this->package),
+                'name'   => $GLOBALS['strEIPS'],
+                'short'  => $GLOBALS['strEIPS_short'],
                 'pref'   => 'ui_column_eips',
                 'format' => 'currency',
                 'ctf'    => true
@@ -198,8 +197,8 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_ecpm'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ECPM', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ECPM', $this->module, $this->package),
+                'name'   => $GLOBALS['strECPM'],
+                'short'  => $GLOBALS['strECPM_short'],
                 'rank'   => 5,
                 'pref'   => 'ui_column_ecpm',
                 'format' => 'currency'
@@ -207,16 +206,16 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_ecpc'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ECPC', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ECPC', $this->module, $this->package),
+                'name'   => $GLOBALS['strECPC'],
+                'short'  => $GLOBALS['strECPC_short'],
                 'pref'   => 'ui_column_ecpc',
                 'format' => 'currency'
             );
 
         $this->_aFields['sum_ecps'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ECPS', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
+                'name'   => $GLOBALS['strECPS'],
+                'short'  => $GLOBALS['strECPS_short'],
                 'pref'   => 'ui_column_ecps',
                 'format' => 'currency',
                 'ctf'    => true

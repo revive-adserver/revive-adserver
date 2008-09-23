@@ -31,7 +31,6 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Load the required language files

@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
  * Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting is an abstract

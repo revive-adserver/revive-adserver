@@ -116,8 +116,6 @@ $aStatistics = array();
 foreach ($aStatisticsFieldsDelivery as $obj) {
     $aVars = $obj->getVisibilitySettings();
     foreach ($aVars as $name => $text) {
-        // prepend underscore to ensure long name is used
-        $text = (substr($text, 0, 1) == '_') ? $text : '_'. $text;
         $aStatistics[] = array(
             'text' => $text,
             'name' => $name

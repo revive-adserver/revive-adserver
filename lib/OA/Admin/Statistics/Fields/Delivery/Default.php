@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
  * The default delivery statistics fields plugin.
@@ -57,16 +56,16 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['id'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_ID', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('ID', $this->module, $this->package),
+                'name'   => $GLOBALS['strID'],
+                'short'  => $GLOBALS['strID_short'],
                 'pref'   => 'ui_column_id',
                 'ctrl'   => 'OA_Admin_Statistics_Delivery_CommonEntity',
                 'format' => 'id'
             );
         $this->_aFields['sum_requests'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Requests', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Requests', $this->module, $this->package),
+                'name'   => $GLOBALS['strRequests'],
+                'short'  => $GLOBALS['strRequests_short'],
                 'pref'   => 'ui_column_requests',
                 'active' => true,
                 'format' => 'default'
@@ -74,8 +73,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_views'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Impressions', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Impressions', $this->module, $this->package),
+                'name'   => $GLOBALS['strImpressions'],
+                'short'  => $GLOBALS['strImpressions_short'],
                 'pref'   => 'ui_column_impressions',
                 'rank'   => 1,
                 'active' => true,
@@ -84,8 +83,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_clicks'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_Clicks', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('Clicks', $this->module, $this->package),
+                'name'   => $GLOBALS['strClicks'],
+                'short'  => $GLOBALS['strClicks_short'],
                 'pref'   => 'ui_column_clicks',
                 'rank'   => 2,
                 'active' => true,
@@ -94,8 +93,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_ctr'] =
             array(
-                'name'   => MAX_Plugin_Translation::translate('_CTR', $this->module, $this->package),
-                'short'  => MAX_Plugin_Translation::translate('CTR', $this->module, $this->package),
+                'name'   => $GLOBALS['strCTR'],
+                'short'  => $GLOBALS['strCTR_short'],
                 'pref'   => 'ui_column_ctr',
                 'rank'   => 3,
                 'format' => 'percent'
@@ -103,8 +102,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_conversions'] =
             array(
-                'name'    => MAX_Plugin_Translation::translate('_Conversions', $this->module, $this->package),
-                'short'   => MAX_Plugin_Translation::translate('Conversions', $this->module, $this->package),
+                'name'    => $GLOBALS['strConversions'],
+                'short'   => $GLOBALS['strConversions_short'],
                 'pref'    => 'ui_column_conversions',
                 'link'    => 'stats.php?entity=conversions&',
                 'active'  => true,
@@ -114,8 +113,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_conversions_pending'] =
             array(
-                'name'    => MAX_Plugin_Translation::translate('_Pending conversions', $this->module, $this->package),
-                'short'   => MAX_Plugin_Translation::translate('Pending conversions', $this->module, $this->package),
+                'name'    => $GLOBALS['strPendingConversions'],
+                'short'   => $GLOBALS['strPendingConversions_short'],
                 'pref'    => 'ui_column_conversions_pending',
                 'link'    => 'stats.php?entity=conversions&',
                 'active'  => true,
@@ -125,8 +124,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_sr_views'] =
             array(
-                'name'    => MAX_Plugin_Translation::translate('_Impression SR', $this->module, $this->package),
-                'short'   => MAX_Plugin_Translation::translate('Impression SR', $this->module, $this->package),
+                'name'    => $GLOBALS['strImpressionSR'],
+                'short'   => $GLOBALS['strImpressionSR_short'],
                 'pref'    => 'ui_column_sr_views',
                 'format'  => 'percent',
                 'ctf'     => true
@@ -134,8 +133,8 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
         $this->_aFields['sum_sr_clicks'] =
             array(
-                'name'    => MAX_Plugin_Translation::translate('_Click SR', $this->module, $this->package),
-                'short'   => MAX_Plugin_Translation::translate('Click SR', $this->module, $this->package),
+                'name'    => $GLOBALS['strClickSR'],
+                'short'   => $GLOBALS['strClickSR_short'],
                 'pref'    => 'ui_column_sr_clicks',
                 'format'  => 'percent',
                 'ctf'     => true
