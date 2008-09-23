@@ -34,16 +34,13 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once LIB_PATH . '/Plugin/Component.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed (
-     'clickwindow'
-    ,'description'
+    'description'
     ,'move'
     ,'submit'
     ,'trackername'
-    ,'viewwindow'
     ,'status'
     ,'type'
     ,'linkcampaigns'
@@ -53,17 +50,6 @@ phpAds_registerGlobalUnslashed (
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid, true);
-
-// Initalise any tracker based plugins
-$plugins = array();
-$invocationPlugins = &OX_Component::getComponents('invocationTags');
-foreach($invocationPlugins as $pluginKey => $plugin) {
-    if (!empty($plugin->trackerEvent)) {
-        $plugins[] = $plugin;
-        $fieldName = strtolower($plugin->trackerEvent);
-        phpAds_registerGlobal("{$fieldName}window");
-    }
-}
 
 /*-------------------------------------------------------*/
 /* Initialise data                                       */
@@ -96,8 +82,6 @@ else {
     }
 
     $tracker['trackername']  .= $strDefault." ".$strTracker;
-    $tracker['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
-    $tracker['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
     $tracker['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
     $tracker['type']          = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
     $tracker['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
@@ -110,20 +94,20 @@ else {
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 //build form
-$trackerForm = buildTrackerForm($tracker, $plugins);
+$trackerForm = buildTrackerForm($tracker);
 
 if ($trackerForm->validate()) {
     //process submitted values
-    processForm($trackerForm, $plugins);
+    processForm($trackerForm);
 }
 else { //either validation failed or form was not submitted, display the form
-    displayPage($tracker, $trackerForm, $plugins);
+    displayPage($tracker, $trackerForm);
 }
 
 /*-------------------------------------------------------*/
 /* Build form                                            */
 /*-------------------------------------------------------*/
-function buildTrackerForm($tracker, $plugins)
+function buildTrackerForm($tracker)
 {
     $form = new OA_Admin_UI_Component_Form("trackerform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
@@ -132,7 +116,7 @@ function buildTrackerForm($tracker, $plugins)
     $form->addElement('hidden', 'move', $tracker['move']);
 
 
-    $form->addElement('header', 'basic_info', $GLOBALS['strBasicInformation']);
+    $form->addElement('header', 'basic_info', $GLOBALS['strTrackerInformation']);
     $form->addElement('text', 'trackername', $GLOBALS['strName']);
     $form->addElement('text', 'description', $GLOBALS['strDescription']);
 
@@ -142,45 +126,7 @@ function buildTrackerForm($tracker, $plugins)
         $aTypes[$typeId] = $GLOBALS[$typeName];
     }
     $form->addElement('select', 'type', $GLOBALS['strConversionType'], $aTypes);
-
-
-    $form->addElement('header', 'conv_rules', $GLOBALS['strDefaultConversionRules']);
-    $clickG['day'] = $form->createElement('text', 'clickwindow[day]', $GLOBALS['strDays'],
-        array("id" => "clickwindowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $clickG['day']->setSize(3);
-    $clickG['hour'] = $form->createElement('text', 'clickwindow[hour]', $GLOBALS['strHours'],
-        array("id" => "clickwindowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $clickG['hour']->setSize(3);
-    $clickG['minute'] = $form->createElement('text', 'clickwindow[minute]', $GLOBALS['strMinutes'],
-        array("id" => "clickwindowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $clickG['minute']->setSize(3);
-    $clickG['second'] = $form->createElement('text', 'clickwindow[second]', $GLOBALS['strSeconds'],
-        array("id" => "clickwindowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-            "onBlur" => "phpAds_formLimitBlur(this.form);", "labelPlacement" => "after"));
-    $clickG['second']->setSize(3);
-    $form->addGroup($clickG, 'size', $GLOBALS['strClickWindow'], "&nbsp;", false);
-
-    $viewG['day'] = $form->createElement('text', 'viewwindow[day]', $GLOBALS['strDays'],
-        array("id" => "viewwindowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $viewG['day']->setSize(3);
-    $viewG['hour'] = $form->createElement('text', 'viewwindow[hour]', $GLOBALS['strHours'],
-        array("id" => "viewwindowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $viewG['hour']->setSize(3);
-    $viewG['minute'] = $form->createElement('text', 'viewwindow[minute]', $GLOBALS['strMinutes'],
-        array("id" => "viewwindowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-        "labelPlacement" => "after"));
-    $viewG['minute']->setSize(3);
-    $viewG['second'] = $form->createElement('text', 'viewwindow[second]', $GLOBALS['strSeconds'],
-        array("id" => "viewwindowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
-            "onBlur" => "phpAds_formLimitBlur(this.form);", "labelPlacement" => "after"));
-    $viewG['second']->setSize(3);
-    $form->addGroup($viewG, 'size', $GLOBALS['strViewWindow'], "&nbsp;", false);
-
+    
     $statuses = $GLOBALS['_MAX']['STATUSES'];
     $startStatusesIds = array(1,2,4);
     foreach($statuses as $statusId => $statusName) {
@@ -193,25 +139,11 @@ function buildTrackerForm($tracker, $plugins)
     $form->addElement('advcheckbox', 'linkcampaigns', null,
         $GLOBALS['strLinkCampaignsByDefault'], null, array("f", "t"));
 
-
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
 
     //set form values
     $form->setDefaults($tracker);
-
-    // Parse the number of seconds in the conversion windows into days, hours, minutes, seconds..
-    $clickCalendarItems = splitSecondsIntoCalendarItems($tracker['clickwindow']);
-    $form->setDefaults(array("clickwindow[day]" => $clickCalendarItems['day'],
-        "clickwindow[hour]" => $clickCalendarItems['hour'],
-        "clickwindow[minute]" => $clickCalendarItems['minute'],
-        "clickwindow[second]" => $clickCalendarItems['second']));
-
-    $clickclickCalendarItems = splitSecondsIntoCalendarItems($tracker['viewwindow']);
-    $form->setDefaults(array("viewwindow[day]" => $clickclickCalendarItems['day'],
-        "viewwindow[hour]" => $clickclickCalendarItems['hour'],
-        "viewwindow[minute]" => $clickclickCalendarItems['minute'],
-        "viewwindow[second]" => $clickclickCalendarItems['second']));
 
     //validation rules
     $translation = new OX_Translation();
@@ -234,7 +166,7 @@ function buildTrackerForm($tracker, $plugins)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($form, $plugins)
+function processForm($form)
 {
     $aFields = $form->exportValues();
     // If ID is not set, it should be a null-value for the auto_increment
@@ -243,48 +175,9 @@ function processForm($form, $plugins)
         $aFields['trackerid'] = "null";
     }
 
-    // Set window delays
-    if (isset($aFields['clickwindow'])) {
-        $clickwindow_seconds = 0;
-        if ($aFields['clickwindow']['second'] != '-') {
-            $clickwindow_seconds += (int)$aFields['clickwindow']['second'];
-        }
-        if ($aFields['clickwindow']['minute'] != '-') {
-            $clickwindow_seconds += (int)$aFields['clickwindow']['minute'] * 60;
-        }
-        if ($aFields['clickwindow']['hour'] != '-') {
-            $clickwindow_seconds += (int)$aFields['clickwindow']['hour'] * 60*60;
-        }
-        if ($aFields['clickwindow']['day'] != '-') {
-            $clickwindow_seconds += (int)$aFields['clickwindow']['day'] * 60*60*24;
-        }
-    }
-    else {
-        $clickwindow_seconds = 0;
-    }
-    if (isset($aFields['viewwindow'])) {
-        $viewwindow_seconds = 0;
-        if ($aFields['viewwindow']['second'] != '-') {
-            $viewwindow_seconds += (int)$aFields['viewwindow']['second'];
-        }
-        if ($aFields['viewwindow']['minute'] != '-') {
-            $viewwindow_seconds += (int)$aFields['viewwindow']['minute'] * 60;
-        }
-        if ($aFields['viewwindow']['hour'] != '-') {
-            $viewwindow_seconds += (int)$aFields['viewwindow']['hour'] * 60*60;
-        }
-        if ($aFields['viewwindow']['day'] != '-') {
-            $viewwindow_seconds += (int)$aFields['viewwindow']['day'] * 60*60*24;
-        }
-    } else {
-        $viewwindow_seconds = 0;
-    }
-
     $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->trackername = $aFields['trackername'];
     $doTrackers->description = $aFields['description'];
-    $doTrackers->clickwindow = $clickwindow_seconds;
-    $doTrackers->viewwindow = $viewwindow_seconds;
     $doTrackers->status = $aFields['status'];
     $doTrackers->type = $aFields['type'];
     $doTrackers->linkcampaigns = $aFields['linkcampaigns'] == "t" ? "t" : "f";
@@ -306,7 +199,7 @@ function processForm($form, $plugins)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($tracker, $form, $plugins)
+function displayPage($tracker, $form)
 {
     //header and breadcrumbs
     if ($tracker['trackerid'] != "") {
@@ -332,11 +225,6 @@ function displayPage($tracker, $form, $plugins)
     $oTpl = new OA_Admin_Template('tracker-edit.html');
     $oTpl->assign('form', $form->serialize());
     $oTpl->assign('formId', $form->getId());
-
-    foreach ($plugins as $plugin) {
-        $aPlugins[]['fieldName'] = strtolower($plugin->trackerEvent);
-    }
-    $oTpl->assign('aPlugins', $aPlugins);
 
     $oTpl->display();
 

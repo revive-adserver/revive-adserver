@@ -579,6 +579,7 @@ $GLOBALS['strLog']                        = "Log?";
 $GLOBALS['strDefaultStatus']              = "Default Status";
 $GLOBALS['strStatus']                     = "Status";
 $GLOBALS['strLinkedTrackers']             = "Linked Trackers";
+$GLOBALS['strTrackerInformation']        = "Tracker Information";
 $GLOBALS['strDefaultConversionRules']     = "Default conversion rules";
 $GLOBALS['strConversionWindow']           = "Conversion window";
 $GLOBALS['strClickWindow']                = "Click window";
@@ -603,6 +604,8 @@ $GLOBALS['strConversionType']             = "Conversion Type";
 $GLOBALS['strLinkCampaignsByDefault']     = "Link newly created campaigns by default";
 $GLOBALS['strNoLinkedTrackersDropdown']   = "-- No linked tracker --";
 $GLOBALS['strPerSingleImpression']        = "per single impression";
+$GLOBALS['strBackToTrackers']             = "Back to trackers";
+
 
 
 // Banners (General)
