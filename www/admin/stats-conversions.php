@@ -124,11 +124,13 @@ MAX_adjustNodes($aNodes, $expand, $collapse);
 if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
     // editing statuses is allowed only for admin and agency
     $editStatuses = false;
-} else {
+} 
+else {
     if($editStatuses) {
-        phpAds_PageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&'.$addUrl, 'images/icon-zoom.gif');
-    } else {
-        phpAds_PageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&'.$addUrl, 'images/icon-edit.gif');
+        addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&'.$addUrl, 'iconZoom');
+    } 
+    else {
+        addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&'.$addUrl, 'iconEdit');
     }
 }
 

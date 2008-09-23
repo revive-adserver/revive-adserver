@@ -178,6 +178,12 @@ div.breadcrumb .inlineIcon {
 .iconStatistics {
     background-image: url("../images/icon-statistics.png");
 }
+.iconZoom {
+    background-image: url("../images/icon-zoom.gif");
+}
+.iconEdit {
+    background-image: url("../images/icon-edit.gif");
+}
 
 /** test icon **/
 .iconDummyLarge {

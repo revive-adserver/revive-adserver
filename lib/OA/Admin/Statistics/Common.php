@@ -1497,12 +1497,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * A private method to output the shortcuts in the left navigation bar.
      *
      * @access private
-     * {@uses phpAds_PageShortcut()}
+     * {@uses addPageShortcut()}
      */
     function _showShortcuts()
     {
         foreach ($this->aPageShortcuts as $shortcut) {
-            phpAds_PageShortcut($shortcut['name'], $shortcut['link'], $shortcut['icon']);
+            addPageShortcut($shortcut['name'], $shortcut['link'], $shortcut['iconClass']);
         }
     }
 
