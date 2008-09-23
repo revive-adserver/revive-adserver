@@ -1665,6 +1665,7 @@ function addTrackerPageTools($advertiserId, $trackerId, $aOtherAdvertisers)
         //delete
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteTracker']);
         addPageLinkTool($GLOBALS["strDelete"], "tracker-delete.php?clientid=".$advertiserId."&trackerid=".$trackerId."&returnurl=advertiser-trackers.php", "iconDelete", null, $deleteConfirm);
+        addPageShortcut($GLOBALS['strBackToTrackers'], "advertiser-trackers.php?clientid=$advertiserId", "iconBack");
     }
 }
 
