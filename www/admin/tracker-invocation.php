@@ -194,13 +194,23 @@ if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&	strpos ($_SERVER['HTTP_U
 	echo "<td colspan='2'>&nbsp;</td>";
 }
 
-echo "<tr><td colspan='3'><textarea name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>".htmlspecialchars($tracker_code)."</textarea></td></tr>";
+echo "<tr><td colspan='3'><textarea name='bannercode' id='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>".htmlspecialchars($tracker_code)."</textarea></td></tr>";
 echo "</table>";
 echo "<br />";
 // END CODE
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "</table>"."\n";
+
+
+echo "<script type='text/javascript'>
+    <!--
+    $(document).ready(function() {
+        $('#bannercode').selectText();
+    });
+    //-->
+    </script>";                
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

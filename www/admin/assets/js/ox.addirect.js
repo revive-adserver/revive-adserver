@@ -1078,3 +1078,19 @@ function formUnFormat(field)
     });
   };
 })(jQuery);
+
+(function($) {
+  $.fn.selectText = function() {
+    return this.each(function() {
+        
+        $(this).bind('mousedown', selectText)
+                .bind('click', selectText)
+                .bind('mousemove', selectText);
+        
+		function selectText()
+		{
+		    $(this).select();
+		}
+    });
+  };
+})(jQuery);

@@ -395,19 +395,9 @@ class MAX_Admin_Invocation {
                     $buffer .= "
                         <script type='text/javascript'>
                         <!--
-    
                         $(document).ready(function() {
-                            $('#bannercode')
-                              .bind('mousedown', selectTextArea)
-                              .bind('click', selectTextArea)
-                              .bind('mousemove', selectTextArea);
+                            $('#bannercode').selectText();
                         });
-                        
-                        function selectTextArea()
-                        {
-                            $(this).select();
-                        }
-    
                         //-->
                         </script>";                
                 } 
