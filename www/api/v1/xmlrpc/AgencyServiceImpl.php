@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -88,7 +88,7 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param string $sessionId
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>Required properties:</b> agencyName<br />
-     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> contactName, emailAddress, username, password, userEmail, language<br />
      *
      * @return boolean
      */

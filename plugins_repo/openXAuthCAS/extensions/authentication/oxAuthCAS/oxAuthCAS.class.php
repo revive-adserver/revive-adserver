@@ -487,11 +487,11 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
             }
             return false;
         } else {
-            return $this->createUser($contactName, $emailAddress, $accountId);
+            return $this->createUser($contactName, $emailAddress, $language, $accountId);
         }
     }
 
-    function createUser($contactName, $emailAddress, $accountId)
+    function createUser($contactName, $emailAddress, $language, $accountId)
     {
         $this->getCentralCas();
         $ssoUserId = $this->getAccountId($emailAddress);
@@ -519,7 +519,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
         $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
         return parent::saveUserDo($doUsers, null, null, $contactName,
-            $emailAddress, $accountId);
+            $emailAddress, $language, $accountId);
     }
 
     function createPartialAccount($receipientEmail, $superUserName, $contactName)

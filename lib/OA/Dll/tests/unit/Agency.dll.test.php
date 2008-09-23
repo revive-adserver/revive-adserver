@@ -48,6 +48,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
      */
     var $unknownIdError = 'Unknown agencyId Error';
     var $duplicateAgencyNameError = 'Agency name must be unique';
+    var $invalidLanguageError = 'Invalid language';
 
     /**
      * The constructor method.
@@ -129,6 +130,50 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
             $this->_getMethodShouldReturnError($this->unknownIdError));
 
         $dllAgencyPartialMock->tally();
+    }
+    
+    function testAddAgencyWithUser()
+    {
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+
+        $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 2);
+
+        $oAgencyInfo = new OA_Dll_AgencyInfo();
+
+        $oAgencyInfo->agencyName = 'testAgency';
+        $oAgencyInfo->contactName = 'Bob';
+        $oAgencyInfo->username = 'user';
+        $oAgencyInfo->userEmail = 'bob@example.com';
+        $oAgencyInfo->password = 'pass';
+        $oAgencyInfo->language = 'de';
+
+        // Add
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
+                          $dllAgencyPartialMock->getLastError());
+
+        $this->assertTrue($oAgencyInfo->accountId);
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->default_account_id = $oAgencyInfo->accountId;
+        $doUsers->find(true);
+        $this->assertEqual(1, $doUsers->count(), 'Should be one user found.');
+        $this->assertEqual($oAgencyInfo->username, $doUsers->username, 'Username does not match.');
+        $this->assertEqual($oAgencyInfo->userEmail, $doUsers->email_address, 'User email does not match.');
+        // Because the password gets unset.
+        $this->assertEqual(md5('pass'), $doUsers->password, 'Password does not match.');
+        $this->assertEqual($oAgencyInfo->language, $doUsers->language, 'Language does not match.');
+        
+        // Test a dodgy language
+        $oBadLanguageInfo = clone $oAgencyInfo; 
+        
+        $oBadLanguageInfo->language = 'BAD_LANGUAGE';
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oBadLanguageInfo) && 
+            $dllAgencyPartialMock->getLastError() == $this->invalidLanguageError),
+            $this->_getMethodShouldReturnError($this->invalidLanguageError));
+        
+        $dllAgencyPartialMock->tally();
+        
+        DataGenerator::cleanUp(array('agency', 'users'));
     }
     
     /**

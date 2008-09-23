@@ -306,6 +306,8 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php", false, "settings/prefrences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", $GLOBALS['strUserLog'], "userlog-index.php", false, "settings/userLog"));
         break;
+        default:
+            // If the user is not logged in then $accountType will be null
     }
 
     $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;

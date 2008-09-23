@@ -35,6 +35,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Agency.php';
+require_once MAX_PATH . '/lib/OA/Auth.php';
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
 
 /**
@@ -111,6 +113,18 @@ class OA_Dll_Agency extends OA_Dll
             return false;
         }
         
+        if ((isset($oAgency->UserEmail) &&
+            !$this->checkEmail($oAgency->UserEmail)) ||
+            !$this->checkStructureNotRequiredStringField($oAgency, 'userEmail', 64)) {
+            
+            return false;
+        }
+        
+        if (isset($oAgency->language) && !$this->_validateLangage($oAgency->language)) {
+            $this->raiseError('Invalid language');
+            return false;
+        }
+        
         if (!$this->_validateAgencyName($oAgency->agencyName)) {
             return false;
         }
@@ -132,6 +146,12 @@ class OA_Dll_Agency extends OA_Dll
             return false;
         }
         return true;
+    }
+    
+    function _validateLangage($language)
+    {
+        $oLanguages = new MAX_Admin_Languages();
+        return array_key_exists($language, $oLanguages->AvailableLanguages());
     }
 
     /**
@@ -193,26 +213,33 @@ class OA_Dll_Agency extends OA_Dll
         $agencyData['contact'] = $oAgency->contactName;
         $agencyData['email']   = $oAgency->emailAddress;
 
-        // Password
-        if (isset($agencyData['password'])) {
-            $agencyData['password'] = md5($oAgency->password);
-        }
-
         if ($this->_validate($oAgency)) {
             $doAgency = OA_Dal::factoryDO('agency');
             if (!isset($agencyData['agencyId'])) {
                 $doAgency->setFrom($agencyData);
-                if (isset($agencyData['username'])) {
-                    $doAgency->username = $agencyData['username'];
-                }
-                if (isset($agencyData['password'])) {
-                    $doAgency->password = $agencyData['password'];
-                }
                 $oAgency->agencyId = $doAgency->insert();
+                
                 if ($oAgency->agencyId) {
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
                     $oAgency->accountId = (int)$doAgency->account_id;
+                }
+                
+                if (isset($agencyData['username']) || isset($agencyData['userEmail'])) {
+                    // Use the authentication plugin to create the user
+                    $oPlugin = OA_Auth::staticGetAuthPlugin();
+                    $userId = $oPlugin->getMatchingUserId($agencyData['userEmail'], $agencyData['username']);
+                    $userId = $oPlugin->saveUser($userId, $agencyData['username'], $agencyData['password'],
+                        $agencyData['contactName'], $agencyData['userEmail'], $agencyData['language'], $oAgency->accountId);
+                    if ($userId) {
+                        // Link the user and give permission to create new accounts
+                        $aAllowedPermissions = array(
+                            OA_PERM_SUPER_ACCOUNT => 'This string intentionally left blank. WTF?');
+                        $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
+                        OA_Permission::setAccountAccess($oAgency->accountId, $userId);
+                        OA_Permission::storeUserAccountsPermissions($aPermissions, $oAgency->accountId,
+                            $userId, $aAllowedPermissions);
+                    }
                 }
             } else {
                 $doAgency->get($agencyData['agencyId']);

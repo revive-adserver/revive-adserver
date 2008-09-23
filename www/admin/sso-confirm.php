@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -35,8 +35,9 @@ phpAds_SessionDataDestroy();
 // Register input variables
 phpAds_registerGlobalUnslashed ('id', 'action', 'email');
 
-$oPlugin = &MAX_Plugin::factory('authentication', 'cas');
-MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
+$authType = $GLOBALS['_MAX']['CONF']['authentication']['type'];
+$oPlugin = &OX_Component::factoryByComponentIdentifier($authType);
+MAX_Plugin_Translation::registerInGlobalScope('authentication', 'oxAuthCAS');
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -58,23 +59,23 @@ if (!empty($id))
                 $message = $oPlugin->translate('Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.');
                 break;
             case 'created':
-                $message = $oPlugin->translate('Your OpenX account was succesfully created. You may now sign-in.');
+                $message = $oPlugin->translate('Your OpenX account was succesfully created.');
                 break;
         }
         $oTpl->assign('ssoMessage', $message);
     } else {
-        $errors[] = $oPlugin->translate('Error: such user do not exist');
+        $errors[] = $oPlugin->translate('Error: That user does not exist.');
     }
 }
 else
 {
-    $errors[] = $oPlugin->translate('Error: wrong parameters, user do not exist');
+    $errors[] = $oPlugin->translate('Error: Wrong or missing parameters. That user does not exist.');
 }
 
 $oTpl->assign('errorMessage', implode('<br />', $errors));
 
 
-phpAds_PageHeader("1");
+phpAds_PageHeader(phpAds_Login);
 
 $oTpl->display();
 

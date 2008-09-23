@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -29,7 +29,7 @@ define ('OA_SKIP_LOGIN', 1);
 
 require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/plugins/authentication/cas/Controller/ConfirmAccount.php';
+require_once MAX_PATH . '/extensions/authentication/oxAuthCAS/Controller/ConfirmAccount.php';
 
 phpAds_SessionDataDestroy();
 phpAds_SessionStart();
@@ -121,7 +121,7 @@ $oTpl->assign('ssoid', $ssoid);
 $oTpl->assign('email', $email);
 $oTpl->assign('vh', $vh);
 
-phpAds_PageHeader(phpAds_login);
+phpAds_PageHeader(phpAds_Login);
 $oTpl->display();
 phpAds_PageFooter();
 

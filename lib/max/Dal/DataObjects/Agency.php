@@ -98,15 +98,9 @@ class DataObjects_Agency extends DB_DataObjectCommon
         }
 
         // Create user if needed
+        // Is this even required anymore?
         if (!empty($aUser)) {
-            $userId = $this->createUser($aUser);
-            
-            // Give the permission to create other users.
-            $aAllowedPermissions = array(
-                OA_PERM_SUPER_ACCOUNT => 'this string intentionally left blank');
-            $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
-            OA_Permission::storeUserAccountsPermissions($aPermissions, $this->account_id,
-                $userId, $aAllowedPermissions);
+            $this->createUser($aUser);
         }
 
         return $agencyid;

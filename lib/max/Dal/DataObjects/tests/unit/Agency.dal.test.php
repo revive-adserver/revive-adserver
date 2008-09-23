@@ -1,8 +1,8 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -52,47 +52,27 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     function testInsert()
     {
         // Insert an agency
-        // Include a username and password to also generate a linked user.
+
         $agencyName = 'Agency name';
         $agencyContact = 'Agency contact';
         $agencyContactEmail = 'agencycontact@example.com';
-        $username = 'username';
-        $password = 'password';
 
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = $agencyName;
         $doAgency->contact = $agencyContact;
         $doAgency->email = $agencyContactEmail;
-        $doAgency->username = $username;
-        $doAgency->password = $password;
 
         $agencyId = $doAgency->insert();
 
         $doAgencyResult = OA_Dal::factoryDO('agency');
         $doAgencyResult->get($agencyId);
 
-        $this->assertEqual($doAgencyResult->getRowCount(), 1);
+        $this->assertTrue($doAgencyResult->getRowCount(), 1);
         $this->assertEqual($agencyName, $doAgencyResult->name);
         $this->assertEqual($agencyContact, $doAgencyResult->contact);
         $this->assertEqual($agencyContactEmail, $doAgencyResult->email);
-        
-        $doAccountUserPermissionAssocResult = OA_Dal::factoryDO('account_user_permission_assoc');
-        $doAccountUserPermissionAssocResult->find(true);
-        
-        $doUsersResult = OA_Dal::factoryDO('users');
-        $doUsersResult->username = $username;
-        $doUsersResult->find(true);
-        
-        $this->assertEqual(1, $doUsersResult->getRowCount());
-        $this->assertEqual($password, $doUsersResult->password);
-        
-        $this->assertEqual(1, $doAccountUserPermissionAssocResult->getRowCount());
-        $this->assertEqual($doAgencyResult->account_id, $doAccountUserPermissionAssocResult->account_id);
-        $this->assertEqual($doUsersResult->user_id, $doAccountUserPermissionAssocResult->user_id);
-        $this->assertEqual(OA_PERM_SUPER_ACCOUNT, $doAccountUserPermissionAssocResult->permission_id);
-        $this->assertEqual(1, $doAccountUserPermissionAssocResult->is_allowed);
-        
-        DataGenerator::cleanUp(array('agency', 'account_user_permission_assoc'));
+
+        DataGenerator::cleanUp(array('agency'));
     }
 
     function testUpdate()
