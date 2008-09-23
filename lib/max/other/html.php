@@ -1139,19 +1139,20 @@ function MAX_displayAcls($acls, $aParams) {
 
     phpAds_ShowBreak();
     echo "<br />";
-
+    $aErrors = OX_AclCheckInputsFields($acls, $page);
     if (!empty($GLOBALS['action'])) {
         // We are part way through making changes, show a message
         //echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-s'>{$GLOBALS['strUnsavedChanges']}</span><br>";
         echo "</div>";
-    } elseif (!MAX_AclValidate($page, $aParams)) {
+    } 
+    elseif (!MAX_AclValidate($page, $aParams)) {
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strDeliveryLimitationsDisagree']}</span><br>";
         echo "</div>";
     }
-    $aErrors = OX_AclCheckInputsFields($acls, $page);
+    
     if ($aErrors  !== true) {
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-s'>{$GLOBALS['strDeliveryLimitationsInputErrors']}</span><br><ul>";
