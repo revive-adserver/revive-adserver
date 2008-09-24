@@ -224,7 +224,7 @@ if ($doCampaigns->getRowCount() == 0) {
 
     foreach ($campaigns as $campaign) {
 
-        if ($campaign['active'] == 't' || $hideinactive != '1') {
+        if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING || $hideinactive != '1') {
             if ($i > 0) {
                 echo "\t\t\t\t<tr height='1'>\n";
                 echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
@@ -244,9 +244,10 @@ if ($doCampaigns->getRowCount() == 0) {
             }
 
             // Campaign icon
-            if ($campaign['active'] == 't') {
+            if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING) {
                 echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>";
-            } else {
+            } 
+            else {
                 echo "<img src='" . OX::assetPath() . "/images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
             }
 
