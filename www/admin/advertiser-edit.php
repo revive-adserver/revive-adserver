@@ -221,12 +221,15 @@ function processForm($aAdvertiser, $form)
         $doClients->updated = OA::getNow();
         $doClients->update();
 
-        // Go to next page
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-            OX_Admin_Redirect::redirect('index.php');
-        } else {
-            OX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=".$aAdvertiser['clientid']);
-        }
+        // Queue confirmation message
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenUpdated'], 
+            array(
+            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
+            htmlspecialchars($aAdvertiser['clientname'])
+            ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect('advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']);
     }
     exit;
 }

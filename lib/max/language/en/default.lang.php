@@ -1467,11 +1467,22 @@ $GLOBALS['strUnsavedChanges']       = "You have unsaved changes on this page, ma
 $GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Some of delivery limitations reports incorrect values:";
 
+//confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
 $GLOBALS['strAdvertiserHasBeenAdded'] = "Advertiser <a href='%s'>%s</a> has been added, <a href='%s'>add a campaign</a>";
+$GLOBALS['strAdvertiserHasBeenUpdated'] = "Advertiser <a href='%s'>%s</a> has been updated";
 $GLOBALS['strAdvertiserHasBeenDeleted'] = "Advertiser <b>%s</b> has been deleted";
+
+$GLOBALS['strTrackerHasBeenAdded'] = "Tracker <a href='%s'>%s</a> has been added";
+$GLOBALS['strTrackerHasBeenUpdated'] = "Tracker <a href='%s'>%s</a> has been updated";
+$GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> has been deleted";
+$GLOBALS['strAdvertiserTrackersHasBeenDeleted'] = "All trackers of advertiser <b>%s</b> has been deleted";
+$GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+$GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> has been moved to advertiser <b>%s</b>";
+
 $GLOBALS['strCampaignHasBeenAdded'] = "Campaign <a href='%s'>%s</a> has been added, <a href='%s'>add a banner</a>";
 $GLOBALS['strCampaignHasBeenDeleted'] = "Campaign <b>%s</b> has been deleted";
+
 $GLOBALS['strAllCampaignsHaveBeenDeleted'] = "All campaigns of this advertiser have been deleted";
 $GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> has been added";
 $GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> has been deleted";

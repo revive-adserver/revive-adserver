@@ -60,11 +60,23 @@ if (!empty($trackerid))
         $doCampaign_trackers->trackerid = $trackerid;
         $doCampaign_trackers->delete();
 
-        // Move the campaign
+        // Move the tracker
         $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid)) {
             $doTrackers->clientid = $moveto;
             $doTrackers->update();
+            
+            // Queue confirmation message
+            $trackerName = $doTrackers->trackername;
+            $doClients = OA_Dal::factoryDO('clients');
+            if ($doClients->get($moveto)) {
+                $advertiserName = $doClients->clientname;
+            }    
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenMoved'],
+                array(htmlspecialchars($trackerName), htmlspecialchars($advertiserName))
+            );
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
 
         Header ("Location: ".$returnurl."?clientid=".$moveto."&trackerid=".$trackerid);
@@ -75,7 +87,24 @@ if (!empty($trackerid))
         $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid))
         {
+            $oldName = $doTrackers->trackername; 
             $new_trackerid = $doTrackers->duplicate();
+            
+            if ($doTrackers->get($new_trackerid)) {
+                $newName = $doTrackers->trackername;
+            }
+            
+            // Queue confirmation message
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenDuplicated'],
+                array(MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$trackerid"), 
+                    htmlspecialchars($oldName),
+                    MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$new_trackerid"), 
+                    htmlspecialchars($newName))
+            );
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            
+            
             Header ("Location: ".$returnurl."?clientid=".$clientid."&trackerid=".$new_trackerid);
             exit;
         }

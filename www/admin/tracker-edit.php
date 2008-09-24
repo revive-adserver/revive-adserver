@@ -34,6 +34,8 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
+
 
 // Register input variables
 phpAds_registerGlobalUnslashed (
@@ -185,13 +187,29 @@ function processForm($form)
 
     if (empty($aFields['trackerid']) || $aFields['trackerid'] == "null") {
         $aFields['trackerid'] = $doTrackers->insert();
+        
+        // Queue confirmation message
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenAdded'], array(
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']), 
+            htmlspecialchars($aFields['trackername'])
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect('advertiser-trackers?clientid=' .  $aFields['clientid']);
     }
     else {
         $doTrackers->trackerid = $aFields['trackerid'];
         $doTrackers->update();
+        
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenUpdated'], array(
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']), 
+            htmlspecialchars($aFields['trackername'])
+        ));        
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect("tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']);
     }
-
-    Header("Location: tracker-campaigns.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']);
     exit;
 }
 

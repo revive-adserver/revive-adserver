@@ -53,18 +53,45 @@ $doTrackers = OA_Dal::factoryDO('trackers');
 if (!empty($trackerid))
 {
     $doTrackers->trackerid = $trackerid;
-    $doTrackers->delete();
+    if ($doTrackers->find()) {
+        $doTrackers->fetch();
+        $name = $doTrackers->trackername;
+    }
+    $deleted = $doTrackers->delete();
+    
+    if ($deleted) {
+        // Queue confirmation message
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenDeleted'], 
+            array(htmlspecialchars($name)));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+    }
 }
 elseif (!empty($clientid))
 {
+    $doClients = OA_Dal::factoryDO('clients');
+    if ($doClients->get($clientid)) {
+        $name = $doClients->clientname;
+    }    
+    
     $doTrackers->clientid = $clientid;
-    $doTrackers->delete();
+    $deleted = $doTrackers->delete();
+    
+    if ($deleted) {
+        // Queue confirmation message
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strAdvertiserTrackersHasBeenDeleted'], 
+            array(htmlspecialchars($name)));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+    }
+}
+    
+if (empty($returnurl)) {
+	$returnurl = 'advertiser-trackers.php';
 }
 
 
-if (empty($returnurl))
-	$returnurl = 'advertiser-trackers.php';
-
+	
 header ("Location: ".$returnurl."?clientid=".$clientid);
 
 ?>
