@@ -1064,14 +1064,25 @@ function formUnFormat(field)
         
         function expand() 
         {
-                $moreContainer.stop().slideFadeIn('slow');
+                if (jQuery.browser.msie && parseInt(jQuery.browser.version) == 6) {
+                    $moreContainer.stop().show();
+                }
+                else {
+                    $moreContainer.stop().slideFadeIn('normal');
+                }
+                
                 $hook.addClass('expanded');
         }
         
         function collapse()
         {
-                $container.find("li .form").hide('normal');        
-                $moreContainer.stop().slideFadeOut('slow');
+                $container.find("li .form").hide('normal');
+                if (jQuery.browser.msie && parseInt(jQuery.browser.version) == 6) {
+                    $moreContainer.stop().hide();
+                }
+                else {
+                    $moreContainer.stop().slideFadeOut('normal');
+                }
                 $hook.removeClass('expanded');
         }
         
