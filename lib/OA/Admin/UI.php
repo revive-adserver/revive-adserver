@@ -570,7 +570,23 @@ class OA_Admin_UI
             }
         }
     }
-
+    
+    /**
+     * Schedules a message to be shown. Message can be of 4 different types:
+     * - info
+     * - confirm
+     * - warning
+     * - error and 
+     * It can be shown in two locations (global - glued to the top of the scren, local
+     * - placed within page content). Message can automatically disappera after a given number
+     * of miliseconds. If timeout is set to 0, message will not disappear automaticaly, 
+     * user will have to close it.
+     *
+     * @param string $text either Message text 
+     * @param string $location either local or global
+     * @param string $type info, confirm, warning, error
+     * @param int $timeout value or 0
+     */
     function queueMessage($text, $location = 'global', $type = 'confirm', $timeout = 5000) {
         global $session;
 
