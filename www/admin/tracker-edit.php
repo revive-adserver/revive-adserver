@@ -128,7 +128,7 @@ function buildTrackerForm($tracker)
         $aTypes[$typeId] = $GLOBALS[$typeName];
     }
     $form->addElement('select', 'type', $GLOBALS['strConversionType'], $aTypes);
-    
+
     $statuses = $GLOBALS['_MAX']['STATUSES'];
     $startStatusesIds = array(1,2,4);
     foreach($statuses as $statusId => $statusName) {
@@ -187,26 +187,26 @@ function processForm($form)
 
     if (empty($aFields['trackerid']) || $aFields['trackerid'] == "null") {
         $aFields['trackerid'] = $doTrackers->insert();
-        
+
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']), 
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']),
             htmlspecialchars($aFields['trackername'])
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        OX_Admin_Redirect::redirect('advertiser-trackers?clientid=' .  $aFields['clientid']);
+        OX_Admin_Redirect::redirect('advertiser-trackers.php?clientid=' .  $aFields['clientid']);
     }
     else {
         $doTrackers->trackerid = $aFields['trackerid'];
         $doTrackers->update();
-        
+
         // Queue confirmation message
         $translation = new OX_Translation();
         $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenUpdated'], array(
-            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']), 
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']),
             htmlspecialchars($aFields['trackername'])
-        ));        
+        ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect("tracker-edit.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']);
     }
