@@ -48,6 +48,8 @@ define('OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH'            ,   -10);
 define('OX_PLUGIN_ERROR_ILLEGAL_FILE'                   ,   -11);
 define('OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH'    ,   -12);
 
+define('OX_PLUGIN_DIR_WRITE_MODE', 0755);
+
 /**
  * @package OpenXPlugin
  */
@@ -1086,7 +1088,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	    $chmodPath = dirname($this->pathPackages.$pkgFile);
 	    // Change permissions to created directories (OX-4068)
 	    while( !empty($chmodPath)) {
-	       @chmod(MAX_PATH.'/var/tmp'.$chmodPath, 0777);
+	       @chmod(MAX_PATH.'/var/tmp'.$chmodPath, OX_PLUGIN_DIR_WRITE_MODE);
 	       $newChmodPath = dirname($chmodPath);
 	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;
 	    }
@@ -1327,7 +1329,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner)
 		       && file_exists($chmodDir)) {
 		      $this->_logMessage("Changing $chmodDir set chmod to 0777");
-		      @chmod($chmodDir, 0777);
+		      @chmod($chmodDir, OX_PLUGIN_DIR_WRITE_MODE);
 		  }
 		}
 
