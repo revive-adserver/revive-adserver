@@ -245,7 +245,7 @@ if ($doCampaigns->getRowCount() == 0) {
 
             // Campaign icon
             if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING) {
-                echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>";
+                echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;";
             } 
             else {
                 echo "<img src='" . OX::assetPath() . "/images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
