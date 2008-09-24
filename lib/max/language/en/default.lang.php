@@ -1487,8 +1487,12 @@ $GLOBALS['strAllCampaignsHaveBeenDeleted'] = "All campaigns of this advertiser h
 $GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> has been added";
 $GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> has been deleted";
 $GLOBALS['strAllBannersHaveBeenDeleted'] = "All banners of this campaign have been deleted";
+
 $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added, <a href='%s'>add a zone</a>";
+$GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> has been updated";
+
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
+
 $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
 $GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
 $GLOBALS['strChannelHasBeenAdded'] = "Targeting Channel <a href='%s'>%s</a> has been added, <a href='%s'>change the Delivery Options</a>";

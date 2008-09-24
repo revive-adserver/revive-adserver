@@ -159,6 +159,7 @@ function buildWebsiteForm($affiliate)
  function processForm($affiliateid, $form)
 {
     $aFields = $form->exportValues();
+    $newWebsite = empty($aFields['affiliateid']);
 
     if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
             $aFields['oac_category_id'] = 'NULL';
@@ -184,14 +185,25 @@ function buildWebsiteForm($affiliate)
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
         // Queue confirmation message
         $translation = new OX_Translation ();
-        $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
-            htmlspecialchars($oPublisher->publisherName), 
-            MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId), 
-        ));
+        if ($newWebsite) {
+            $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+                htmlspecialchars($oPublisher->publisherName), 
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            $redirectURL = "website-index.php";
+        }
+        else {
+            $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenUpdated'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+                htmlspecialchars($oPublisher->publisherName), 
+            ));
+            $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
+        }
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-        OX_Admin_Redirect::redirect("website-index.php");
+        OX_Admin_Redirect::redirect($redirectURL);
+        
     }
 }
 
