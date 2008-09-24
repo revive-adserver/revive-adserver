@@ -248,19 +248,9 @@ function setupConstants()
         if (!defined('LIB_PATH')) {
             define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
         }
-        // Define the PEAR installation path
-        $existingPearPath = ini_get('include_path');
-        $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
-        if (!empty($existingPearPath)) {
-            $newPearPath .= PATH_SEPARATOR . $existingPearPath;
-        }
-        if (!ereg("\.", $newPearPath)) {
-            $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
-        }
-        ini_set('include_path', $newPearPath);
 
-        // Add the Zend installation path to the include path
-        set_include_path(MAX_PATH . '/lib' . PATH_SEPARATOR . get_include_path());
+        // Setup the include path
+        setupIncludePath();
 
         // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();

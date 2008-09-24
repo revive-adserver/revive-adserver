@@ -109,7 +109,7 @@ function setupDeliveryConfigVariables()
     }
     if (!defined('LIB_PATH')) {
         define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
-    }    
+    }
     // Ensure that the initialisation has not been run before
     if ( !(isset($GLOBALS['_MAX']['CONF']))) {
         // Parse the Max configuration file
@@ -202,16 +202,10 @@ function setupIncludePath()
     }
     $checkIfAlreadySet = true;
 
-    // Define the PEAR installation path
-    $existingPearPath = ini_get('include_path');
-    $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
-    if (!empty($existingPearPath)) {
-        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
-    }
-    if (!ereg("\.", $newPearPath)) {
-        $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
-    }
-    ini_set('include_path', $newPearPath);
+    $oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pear';
+    $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
+
+    set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
 
 /**

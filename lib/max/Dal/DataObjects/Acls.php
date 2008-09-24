@@ -39,7 +39,7 @@ class DataObjects_Acls extends DB_DataObjectCommon
     public $__table = 'acls';                            // table name
     public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129 
     public $logical;                         // VARCHAR(3) => openads_varchar => 130 
-    public $type;                            // VARCHAR(32) => openads_varchar => 130 
+    public $type;                            // VARCHAR(255) => openads_varchar => 130 
     public $comparison;                      // CHAR(2) => openads_char => 130 
     public $data;                            // TEXT() => openads_text => 162 
     public $executionorder;                  // INT(10) => openads_int => 129 

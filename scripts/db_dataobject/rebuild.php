@@ -55,6 +55,7 @@ $options = array(
 require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
 
 $generator = new OA_DB_DataObject_Generator();
+$schema = MAX_PATH . '/etc/tables_core.xml';
 $generator->start($schema);
 
 ?>

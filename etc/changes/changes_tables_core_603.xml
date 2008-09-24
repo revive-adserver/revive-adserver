@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>603</version>
+  <comments>Increased the size of the fields which will now contain plugin-component identifiers</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>603</version>
+      <change>
+        <table>
+          <name>acls</name>
+        <change>
+          <field>
+            <name>type</name>
+            <length>255</length>
+          </field>
+        </change>
+      </table>
+        <table>
+          <name>acls_channel</name>
+        <change>
+          <field>
+            <name>type</name>
+            <length>255</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>603</version>
+  </changeset>
+</destructive>
+</instructionset>

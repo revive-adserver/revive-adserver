@@ -34,8 +34,8 @@ $Id$
 
 require_once 'pre-check.php';
 require_once 'init-parse.php';
-require_once 'constants.php';
 require_once 'variables.php';
+require_once 'constants.php';
 
 /**
  * The environment initialisation function for the OpenX administration interface.
