@@ -44,27 +44,6 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
      * Constructor method
      */
     function __construct($extension, $group, $component) {
-        // TODO Remove this temporary language loader
-
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-        // Get current language
-        if (!empty($aConf['language'])) {
-            $language = $aConf['language'];
-        } elseif (!empty($aConf['max']['language'])) {
-            $language = $aConf['max']['language'];
-        } else {
-            $language = 'en';
-        }
-
-        // Create paths to language files
-
-        $extensionLangPath = $aConf['pluginPaths']['extensions'].'_lang/';
-        $groupLangPath     = $aConf['pluginPaths']['extensions'].$group.'/_lang/';
-
-        // Load translation files for group and for specific component
-        MAX_Plugin_Translation::includePluginLanguageFile($extension, null, $language, $extensionLangPath);
-        MAX_Plugin_Translation::includePluginLanguageFile($extension, $group, $language, $groupLangPath);
     }
 
     /**

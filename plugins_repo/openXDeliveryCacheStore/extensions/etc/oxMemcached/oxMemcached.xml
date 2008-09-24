@@ -20,8 +20,6 @@
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.class.php</file>
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.delivery.php</file>
 
-            <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/_lang/">en.php</file>
-
             <file path="{PLUGINPATH}oxMemcached/_lang/">en.mo</file>
             <file path="{PLUGINPATH}oxMemcached/_lang/po/">en.pot</file>
             <file path="{PLUGINPATH}oxMemcached/_lang/po/">en.po</file>

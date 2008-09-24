@@ -18,8 +18,6 @@
             <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/">oxCacheFile.class.php</file>
             <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/">oxCacheFile.delivery.php</file>
 
-            <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/_lang/">en.php</file>
-
             <file path="{PLUGINPATH}oxCacheFile/_lang/">en.mo</file>
             <file path="{PLUGINPATH}oxCacheFile/_lang/po/">en.pot</file>
             <file path="{PLUGINPATH}oxCacheFile/_lang/po/">en.po</file>
