@@ -571,8 +571,9 @@ class OA_Admin_UI
         }
     }
     
+    
     /**
-     * Schedules a message to be shown. Message can be of 4 different types:
+     * Schedules a message to be shown on next showHeader call. Message can be of 4 different types:
      * - info
      * - confirm
      * - warning
