@@ -1918,7 +1918,7 @@ $source = htmlspecialchars($source, ENT_QUOTES);
 $aBanner['bannerContent'] = "";
 // Pre adRender hook
 OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
-$functionName = _getAdRenderFunction($aBanner);
+$functionName = _getAdRenderFunction($aBanner, $richMedia);
 $code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
 // Transform any code
 // Get a timestamp
@@ -2337,7 +2337,7 @@ function _adRenderBuildStatusCode($aBanner)
 {
 return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 }
-function _getAdRenderFunction($aBanner)
+function _getAdRenderFunction($aBanner, $richMedia = true)
 {
 $functionName = false;
 if (!empty($aBanner['ext_bannertype'])) {
