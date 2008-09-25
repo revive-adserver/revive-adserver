@@ -21,40 +21,19 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: custom-country-language.html 12839 2007-11-27 16:32:39Z bernard.lange@openads.org $
 
 -->
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 *}
-
-<div id="sso-link-form" {if $hide}style="display: none"{/if}>
-  {*
-    Error message to be shown when linking failed...
-  *}
-  {if $errorMessage}
-  <div class="errormessageicon">
-    {$errorMessage}
-  </div>
-  {/if}
-
-  {*
-    Form to be shown where there is a matching user.
-  *}
-  <form id="sso-link" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
-    <input type="hidden" name="action" value="link" />
-    <input type="hidden" name="email" value="{$email}" />
-    <input type="hidden" name="vh" value="{$vh}" />
-    
-    {include file=edit-table/create.html from=$fields}
-
-    <div class="controls">
-      <input value="Accept invitation" class="main-submit" type="submit" {tabindex}>
-    </div>
-  </form>
-
-</div>
-
+  <tr>
+      <td width="30">&nbsp;</td>
+      <td width="200">{$_e.label}</td>
+      <td>
+          <a href="{$_e.href|escape}">{$_e.text|escape}</a>
+      </td>
+  </tr>
 {*
 </table>
 *}

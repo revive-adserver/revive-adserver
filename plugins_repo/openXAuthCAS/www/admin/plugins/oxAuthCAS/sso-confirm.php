@@ -27,8 +27,9 @@ $Id$
 
 define ('OA_SKIP_LOGIN', 1);
 
-require_once '../../init.php';
+require_once '../../../../../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
 phpAds_SessionDataDestroy();
 
@@ -37,17 +38,15 @@ phpAds_registerGlobalUnslashed ('id', 'action', 'email');
 
 $authType = $GLOBALS['_MAX']['CONF']['authentication']['type'];
 $oPlugin = &OX_Component::factoryByComponentIdentifier($authType);
-MAX_Plugin_Translation::registerInGlobalScope('authentication', 'oxAuthCAS');
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('sso-confirm.html');
+$oTpl = new OA_Plugin_Template('sso-confirm.html','oxAuthCAS');
 $errors = array();
 
-if (!empty($id)) 
+if (!empty($id))
 {
     $doUsers = OA_Dal::factoryDO('users');
     $exist = $doUsers->loadByProperty('user_id', $id);

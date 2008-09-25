@@ -27,8 +27,9 @@ $Id$
 
 define ('OA_SKIP_LOGIN', 1);
 
-require_once '../../init.php';
+require_once '../../../../../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 require_once MAX_PATH . '/extensions/authentication/oxAuthCAS/Controller/ConfirmAccount.php';
 
 phpAds_SessionDataDestroy();
@@ -43,8 +44,8 @@ $request = phpAds_registerGlobalUnslashed ('action', 'ssoid', 'email', 'vh', 'ss
 $oController = new OA_Controller_SSO_ConfirmAccount();
 $oController->process($request);
 
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-$oTpl = new OA_Admin_Template('sso-start.html');
+$oTpl = new OA_Plugin_Template('sso-start.html','oxAuthCAS');
+
 $oController->assignModelToView($oTpl);
 $oPlugin = &$oController->getCasPlugin();
 

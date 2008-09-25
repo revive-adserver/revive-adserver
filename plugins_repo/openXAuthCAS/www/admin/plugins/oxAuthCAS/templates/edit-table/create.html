@@ -21,38 +21,19 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: create.html 25426 2008-09-09 11:28:41Z bernard.lange $
 
 -->
 
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-*}
-
-
-{if $errorMessage}
-  <div class="errormessageicon">
-    {$errorMessage}
-  </div>
-
-{else}
-{*
- TODO: should we add some links here, now user is stucked on this page
-*}
-<div class="infomessage" id="intro" style="margin-top: 0;">
-  <p>
-    {t str="Welcome"} {$userName},<br />
-  </p>
-
-  <p>
-   {$ssoMessage}
-  </p>
-  <p>
-   {t str="You may now"} <a href="logout.php">{t str="sign-in here"}</a>.
-  </p>
-</div>
-
+*}{foreach item=t from=$from name=_e_outer}
+{if !$smarty.foreach._e_outer.first}
+<br /><br />
 {/if}
-
-{*
-</table>
-*}
+{oa_edit type=section params=$t}
+{foreach item=v from=$t.fields}
+{if $v.template == 'adnetworks' && !$showAdDirect}{else}
+    {oa_edit params=$v}{$v.label}{/oa_edit}
+{/if}
+{/foreach}
+{/oa_edit}
+{/foreach}

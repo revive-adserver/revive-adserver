@@ -248,16 +248,20 @@ class OA_Auth
      */
     function checkRedirect($location = 'admin')
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         $redirect = false;
         // Is it possible to detect that we are NOT in the admin directory
         // via the URL the user is accessing OpenXwith?
         if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
             $dirName = dirname($_SERVER['REQUEST_URI']);
-            if (!preg_match('#/'. $location .'$#', $dirName)) {
+            // This check now allows for files in plugin folders
+            $pluginDirName = basename($aConf['pluginPaths'][$location]);
+            if (!preg_match("#/{$location}(/{$pluginDirName}/.*?)?/?$#", $dirName)) {
                 // The user is not in the "admin" folder directly. Are they
                 // in the admin folder as a result of a "full" virtual host
                 // configuration?
-                if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != getHostName()) {
+                if ($aConf['webpath']['admin'] != getHostName()) {
                     // Not a "full" virtual host setup, so re-direct
                     $redirect = true;
                 }

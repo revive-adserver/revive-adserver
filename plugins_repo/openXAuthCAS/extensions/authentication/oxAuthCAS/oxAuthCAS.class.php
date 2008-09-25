@@ -580,7 +580,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
      */
     function getEmailBody($superUserName, $contactName, $receipientEmail)
     {
-        $url = MAX::constructURL(MAX_URL_ADMIN, 'sso-accounts.php') . '?email='.$receipientEmail.'&vh=${verificationHash}';
+        $url = MAX::constructURL(MAX_URL_ADMIN, '') . 'plugins/' . $this->group . '/sso-accounts.php?email='.$receipientEmail.'&vh=${verificationHash}';
         return $this->translate('strEmailSsoConfirmationBody', array($contactName, $superUserName, $url));
     }
 

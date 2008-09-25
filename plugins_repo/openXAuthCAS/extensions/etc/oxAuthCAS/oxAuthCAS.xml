@@ -66,7 +66,18 @@
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
 
-            <file path="{MODULEPATH}authentication/oxAuthCAS/_lang/">en.php</file>
+
+            <file path="{ADMINPATH}/">sso-accounts.php</file>
+            <file path="{ADMINPATH}/">sso-confirm.php</file>
+            <file path="{ADMINPATH}/templates/">sso-confirm.html</file>
+            <file path="{ADMINPATH}/templates/">sso-create.html</file>
+            <file path="{ADMINPATH}/templates/">sso-link.html</file>
+            <file path="{ADMINPATH}/templates/">sso-start.html</file>
+            <file path="{ADMINPATH}/templates/edit-table/">create.html</file>
+            <file path="{ADMINPATH}/templates/edit-table/">custom-link.html</file>
+            <file path="{ADMINPATH}/templates/edit-table/">custom-user-availability-check.html</file>
+            <file path="{ADMINPATH}/templates/edit-table/">main.html</file>
+
         </files>
 
 
