@@ -31,7 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the appropriate "Settings" page
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {

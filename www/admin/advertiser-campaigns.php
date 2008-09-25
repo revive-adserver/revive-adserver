@@ -38,15 +38,14 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser 
+if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
     $page = basename($_SERVER['PHP_SELF']);
-    OX_Admin_Redirect::redirect($page);        
+    OX_Admin_Redirect::redirect($page);
 }
 
 /*-------------------------------------------------------*/
@@ -70,7 +69,7 @@ if (empty($clientid)) { //if it's empty
 else {
     if (!isset($aAdvertisers[$clientid])) {
         $page = basename($_SERVER['PHP_SELF']);
-        OX_Admin_Redirect::redirect($page);        
+        OX_Admin_Redirect::redirect($page);
     }
 }
 
@@ -268,7 +267,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		    } else {
 		        echo htmlspecialchars($campaigns[$ckey]['campaignname']);
 		    }
-		} 
+		}
 		else {
     		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".htmlspecialchars($campaigns[$ckey]['campaignname']);
 		}
@@ -279,36 +278,36 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
             case OA_ENTITY_STATUS_PENDING:
                 echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
             break;
-            
+
             case OA_ENTITY_STATUS_RUNNING:
         	   echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
         	break;
-        	   
+
             case OA_ENTITY_STATUS_PAUSED:
         	   echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
         	break;
-        	
+
             case OA_ENTITY_STATUS_AWAITING:
         	   echo "<td class=\"sts sts-not-started\">$strCampaignStatusAwaiting</td>";
         	break;
-        	   
+
             case OA_ENTITY_STATUS_EXPIRED:
         	   echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
         	break;
-        	   
+
             case OA_ENTITY_STATUS_INACTIVE:
                 echo "<td class=\"sts sts-inactive\">$strCampaignStatusInactive</td>";
             break;
-            
+
             case OA_ENTITY_STATUS_APPROVAL:
         	   echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
         	break;
-        	
+
             case OA_ENTITY_STATUS_REJECTED:
                 echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
             break;
-            
-            default: 
+
+            default:
                 echo "<td class=\"sts\"></td>";
         }
             //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
@@ -401,7 +400,7 @@ if ($hideinactive == true) {
 	echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
 	echo "&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&hideinactive=0'>".$strShowAll."</a>";
 	echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$campaignshidden." ".$strInactiveCampaignsHidden;
-} 
+}
 else {
 	echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
 	echo "&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&hideinactive=1'>".$strHideInactiveCampaigns."</a>";
@@ -445,13 +444,13 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
     }
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(array(
-        array ('name' => $advertiserName, 'url' => $advertiserEditUrl, 
+        array ('name' => $advertiserName, 'url' => $advertiserEditUrl,
                'id' => $advertiserId, 'entities' => $aAllAdvertisers,
                'htmlName' => 'clientid'
               ),
-        array('name' => '')               
-    ), 'campaigns', 'list');    
-    
+        array('name' => '')
+    ), 'campaigns', 'list');
+
     return $oHeaderModel;
 }
 
@@ -462,7 +461,7 @@ function getAdvertiserMap()
     // Unless admin, restrict results shown.
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $doClients->clientid = OA_Permission::getEntityId();
-    } 
+    }
     else {
         $doClients->agencyid = OA_Permission::getEntityId();
     }
@@ -481,7 +480,7 @@ function getAdvertiserMap()
 
 function addPageTools($clientid)
 {
-    if ($clientid > 0 && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {    
+    if ($clientid > 0 && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
        addPageLinkTool($GLOBALS["strAddCampaign_Key"], "campaign-edit.php?clientid=$clientid", 'iconCampaignAdd', $GLOBALS["strAddNew"] );
     }
 }

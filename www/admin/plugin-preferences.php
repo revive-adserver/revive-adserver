@@ -37,7 +37,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -102,7 +101,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
         {
             // The settings configuration file was written correctly,
             // go back to the plugins main page from here
-            require_once LIB_PATH . '/Admin/Redirect.php';
             OX_Admin_Redirect::redirect($backURL);
         }
         // Could not write the settings configuration file, store this

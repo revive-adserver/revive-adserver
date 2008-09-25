@@ -34,7 +34,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 
 // Register input variables
@@ -163,8 +162,8 @@ function processForm($form)
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']), 
-            htmlspecialchars($aFields['name']), 
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
+            htmlspecialchars($aFields['name']),
             MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

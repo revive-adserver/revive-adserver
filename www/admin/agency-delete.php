@@ -37,7 +37,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 require_once OX_PATH . '/lib/pear/DB/DataObject.php';
 

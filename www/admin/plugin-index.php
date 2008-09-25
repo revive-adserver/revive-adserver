@@ -247,7 +247,6 @@ else if ('uninstall' == $action)
     $oPluginManager->uninstallPackage($plugin);
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
-        require_once LIB_PATH . '/Admin/Redirect.php';
         OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }
@@ -259,7 +258,6 @@ else if ('enable' == $action)
     }
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
-        require_once LIB_PATH . '/Admin/Redirect.php';
         OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }

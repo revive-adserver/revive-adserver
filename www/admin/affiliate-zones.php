@@ -36,7 +36,6 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -45,9 +44,9 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $affiliateid)) { //check if can see given website 
+if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $affiliateid)) { //check if can see given website
     $page = basename($_SERVER['PHP_SELF']);
-    OX_Admin_Redirect::redirect($page);        
+    OX_Admin_Redirect::redirect($page);
 }
 
 /*-------------------------------------------------------*/
@@ -69,9 +68,9 @@ if (empty($affiliateid)) { //if it's empty
     }
 }
 else {
-    if (!isset($aWebsites[$affiliateid])) { //bad id, redirect 
+    if (!isset($aWebsites[$affiliateid])) { //bad id, redirect
         $page = basename($_SERVER['PHP_SELF']);
-        OX_Admin_Redirect::redirect($page);        
+        OX_Admin_Redirect::redirect($page);
     }
 }
 
@@ -103,7 +102,7 @@ addPageTools($affiliateid);
 $oHeaderModel = buildHeaderModel($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader(null, $oHeaderModel);
-} 
+}
 else {
     $sections = array("2.1");
     phpAds_PageHeader(null, $oHeaderModel);
@@ -324,12 +323,12 @@ phpAds_PageFooter();
 
 function buildHeaderModel($websiteId)
 {
-    if ($websiteId) {    
+    if ($websiteId) {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($websiteId)) {
             $aWebsite = $doAffiliates->toArray();
         }
-        
+
         $websiteName = $aWebsite['name'];
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
             $websiteEditUrl = "affiliate-edit.php?affiliateid=$websiteId";
@@ -337,13 +336,13 @@ function buildHeaderModel($websiteId)
     }
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(array(
-        array ('name' => $websiteName, 'url' => $websiteEditUrl, 
+        array ('name' => $websiteName, 'url' => $websiteEditUrl,
                'id' => $websiteId, 'entities' => getWebsiteMap(),
                'htmlName' => 'affiliateid'
               ),
-        array('name' => '')               
-    ), 'zones', 'list');    
-    
+        array('name' => '')
+    ), 'zones', 'list');
+
     return $oHeaderModel;
 }
 
@@ -358,13 +357,13 @@ function getWebsiteMap()
         $doAffiliates->agencyid = OA_Permission::getEntityId();
     }
     $doAffiliates->find();
-    
-    $aWebsiteMap = array();    
+
+    $aWebsiteMap = array();
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         $aWebsiteMap[$row['affiliateid']] = array('name' => $row['name'],
-            'url' => "affiliate-edit.php?affiliateid=".$row['affiliateid']);        
+            'url' => "affiliate-edit.php?affiliateid=".$row['affiliateid']);
     }
-    
+
     return $aWebsiteMap;
 }
 
@@ -374,7 +373,7 @@ function addPageTools($websiteId)
     if ($websiteId > 0 && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)))
     {
         addPageLinkTool($GLOBALS["strAddNewZone_Key"], "zone-edit.php?affiliateid=$websiteId", 'iconZoneAdd', $GLOBALS["strAddNew"] );
-    }    
+    }
 }
 
 ?>

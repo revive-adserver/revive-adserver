@@ -35,7 +35,6 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);

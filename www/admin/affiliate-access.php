@@ -41,7 +41,6 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -55,7 +54,7 @@ $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);
 if (!empty($affiliateid)) {
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-access.php');
-        addPageTools($affiliateid);        
+        addPageTools($affiliateid);
         addWebsitePageTools($affiliateid);
         phpAds_PageHeader("4.2.7", $oHeaderModel);
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
@@ -69,7 +68,7 @@ if (!empty($affiliateid)) {
         $sections[] = '2.3';
         phpAds_ShowSections($sections);
     }
-} 
+}
 else {
     phpAds_PageHeader("4.2.1", $oHeaderModel);
     phpAds_ShowSections(array("4.2.1"));

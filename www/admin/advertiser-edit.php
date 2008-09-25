@@ -38,7 +38,6 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/InventoryPageHeaderModelBuilder.php';
-require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -154,7 +153,7 @@ function buildAdvertiserForm($aAdvertiser)
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
     $form->addRule('reportinterval', $GLOBALS['strNumericField'], 'numeric');
     $form->addRule('reportinterval', $GLOBALS['strGreaterThanZeroField'], 'min', 1);
-    
+
 
     //set form  values
     $form->setDefaults($aAdvertiser);
@@ -186,7 +185,7 @@ function processForm($aAdvertiser, $form)
     $aAdvertiser['reportdeactivate'] = $aFields['reportdeactivate'] == 't' ? 't' : 'f';
     $aAdvertiser['reportinterval'] = (int)$aFields['reportinterval'];
     if ($aAdvertiser['reportinterval'] == 0 ) {
-       $aAdvertiser['reportinterval'] = 1; 
+       $aAdvertiser['reportinterval'] = 1;
     }
     if ($aFields['reportlastdate'] == '' || $aFields['reportlastdate'] == '0000-00-00' ||  $aFields['reportprevious'] != $aAdvertiser['report']) {
         $aAdvertiser['reportlastdate'] = date ("Y-m-d");
@@ -205,9 +204,9 @@ function processForm($aAdvertiser, $form)
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
-            htmlspecialchars($aAdvertiser['clientname']), 
-            MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aAdvertiser['clientid']), 
+            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']),
+            htmlspecialchars($aAdvertiser['clientname']),
+            MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' .  $aAdvertiser['clientid']),
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -223,9 +222,9 @@ function processForm($aAdvertiser, $form)
 
         // Queue confirmation message
         $translation = new OX_Translation ();
-        $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenUpdated'], 
+        $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenUpdated'],
             array(
-            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']), 
+            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' .  $aAdvertiser['clientid']),
             htmlspecialchars($aAdvertiser['clientname'])
             ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

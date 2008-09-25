@@ -35,7 +35,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
-require_once LIB_PATH . '/Admin/Redirect.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 
 // Security check
