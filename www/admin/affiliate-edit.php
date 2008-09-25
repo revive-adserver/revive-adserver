@@ -72,12 +72,20 @@ if ($affiliateid != "") {
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
+//  check if Thorium plugin is enabled
+$oComponent = null;
+if ( isset($GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) &&
+     $GLOBALS['_MAX']['CONF']['plugins']['openXThorium'])
+{
+    $oComponent = &OX_Component::factory('admin', 'oxThorium', 'oxThorium');
+}
+
 //build form
 $websiteForm = buildWebsiteForm($affiliate);
 
 if ($websiteForm->validate()) {
     //process submitted values
-    processForm($affiliateid, $websiteForm);
+    processForm($affiliateid, $websiteForm, $oComponent);
 }
 else { //either validation failed or form was not submitted, display the form
     displayPage($affiliateid, $websiteForm);
@@ -156,7 +164,7 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
- function processForm($affiliateid, $form)
+ function processForm($affiliateid, $form, $oComponent)
 {
     $aFields = $form->exportValues();
     $newWebsite = empty($aFields['affiliateid']);
@@ -183,27 +191,34 @@ function buildWebsiteForm($affiliate)
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
+        //  process form data for oxThorium
+        if ($oComponent)
+        {
+            $aFields['affiliateid'] = $oPublisher->publisherId;
+            $oComponent->processAffiliateForm($aFields);
+        }
+
         // Queue confirmation message
         $translation = new OX_Translation ();
         if ($newWebsite) {
             $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
-                htmlspecialchars($oPublisher->publisherName), 
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId), 
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId),
+                htmlspecialchars($oPublisher->publisherName),
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $oPublisher->publisherId),
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             $redirectURL = "website-index.php";
         }
         else {
             $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenUpdated'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId), 
-                htmlspecialchars($oPublisher->publisherName), 
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId),
+                htmlspecialchars($oPublisher->publisherName),
             ));
             $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
         }
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect($redirectURL);
-        
+
     }
 }
 
