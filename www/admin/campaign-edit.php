@@ -411,7 +411,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $actDateGroup ['radioSpecific'] = $form->createElement ( 'radio', 'startSet', null, $GLOBALS ['strSetSpecificDate'], 't', array ('id' => 'startSet_specific' ) );
     
     $specificStartDateGroup ['date'] = $form->createElement ( 'text', 'start', null, array ('id' => 'start', 'class' => 'small' ) );
-    $specificStartDateGroup ['cal_img'] = $form->createElement ( 'image', 'start_button', OX::assetPath () . "/images/icon-calendar.gif", array ('id' => 'start_button', 'align' => 'absmiddle' ) );
+    $specificStartDateGroup ['cal_img'] = $form->createElement ('html', 'start_button', "<a href='#' id='start_button'><img src='".OX::assetPath () . "/images/icon-calendar.gif' align= 'absmiddle' /></a>");
     $specificStartDateGroup ['note'] = $form->createElement ( 'html', 'activation_note', $GLOBALS ['strActivationDateComment'] );
     $actDateGroup ['specificDate'] = $form->createElement ( 'group', 'g_specificStartDate', null, $specificStartDateGroup, null, false );
     $form->addDecorator ( 'g_specificStartDate', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'specificStartDateSpan', 'style' => 'display:none' ) ) );
@@ -426,7 +426,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'date-campaign-date-limit-set-note', 'tag', array ('attributes' => array ('id' => 'date-section-limit-date-set', 'class' => 'hide' ) ) );
     
     $specificEndDateGroup ['date'] = $form->createElement ( 'text', 'end', null, array ('id' => 'end', 'class' => 'small' ) );
-    $specificEndDateGroup ['cal_img'] = $form->createElement ( 'image', 'end_button', OX::assetPath () . "/images/icon-calendar.gif", array ('id' => 'end_button', 'align' => 'absmiddle' ) );
+    $specificEndDateGroup ['cal_img'] = $form->createElement ( 'html', 'end_button',    "<a href='#' id='end_button'><img src='".OX::assetPath () . "/images/icon-calendar.gif' align='absmiddle' /></a>");
     $specificEndDateGroup ['note'] = $form->createElement ( 'html', 'expiration_note', $GLOBALS ['strExpirationDateComment'] );
     $expDateGroup ['specificDate'] = $form->createElement ( 'group', 'g_specificEndDate', null, $specificEndDateGroup, null, false );
     $form->addDecorator ( 'g_specificEndDate', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'specificEndDateSpan', 'style' => 'display:none' ) ) );

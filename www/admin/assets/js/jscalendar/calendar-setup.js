@@ -150,7 +150,17 @@ Calendar.setup = function (params) {
 	}
 
 	var triggerEl = params.button || params.displayArea || params.inputField;
-	triggerEl["on" + params.eventName] = function() {
+	triggerEl["on" + params.eventName] = function(event) {
+	   //if triger element is input[type=image] it's onClick listener will be invoked
+	   // in some browsers (probably as a part of form submit behaviour)
+	   //this can lead to some weird results - calendar showing up on clicking enter on any field
+	   if (event && event.target && this.name) {
+	       if (event.target.name != this.name) {
+	           alert('badTarget: ' + event.target.name + ' vs ' + this.name); 
+	           return false;
+	       } 
+	   }
+	
 		var dateEl = params.inputField || params.displayArea;
 		var dateFmt = params.inputField ? params.ifFormat : params.daFormat;
 		var mustCreate = false;
