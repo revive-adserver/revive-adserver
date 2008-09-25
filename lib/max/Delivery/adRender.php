@@ -121,7 +121,7 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
 	// Pre adRender hook
 	OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
 
-	$functionName = _getAdRenderFunction($aBanner);
+	$functionName = _getAdRenderFunction($aBanner, $richMedia);
 	$code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
 
     // Transform any code
@@ -762,7 +762,7 @@ function _adRenderBuildStatusCode($aBanner)
 
 }
 
-function _getAdRenderFunction($aBanner)
+function _getAdRenderFunction($aBanner, $richMedia = true)
 {
     $functionName = false;
     if (!empty($aBanner['ext_bannertype'])) {
