@@ -116,7 +116,25 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      */
     function generateInvocationCode()
     {
-        parent::prepareCommonInvocationData();
+        $aComments = array(
+            'Third Party Comment'  => $this->translate("
+  -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with
+  -- the click tracking URL if this ad is to be delivered through a 3rd
+  -- party (non-Max) adserver.
+  --
+  -- Don't forget to replace the 'Insert_Random_Number_Here' text with
+  -- a cache-buster random number each time you deliver the tag through
+  -- a 3rd party (non-Max) adserver.
+  --"),  
+            'Comment'              => $this->translate("
+  -- This tag has been generated for use on a non-SSL page. If this tag
+  -- is to be placed on an SSL page, change all instances of
+  --   'http://%s/...'
+  -- to
+  --   'https://%s/...'
+  --", array($conf['webpath']['delivery'],$conf['webpath']['deliverySSL'])),
+            );
+        parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;

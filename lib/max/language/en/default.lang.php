@@ -1089,6 +1089,29 @@ $GLOBALS['strBackToTheList']            = "Go back to report list";
 $GLOBALS['strGoToReportBuilder']        = "Go to the selected report";
 $GLOBALS['strCharset']                  = "Character set";
 $GLOBALS['strAutoDetect']                   = "Auto-detect";
+$GLOBALS['strCacheBusterComment']       = "  * Replace all instances of {random} with
+  * a generated random number (or timestamp).
+  *";
+$GLOBALS['strSSLBackupComment']         = "
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://%s/...'
+  * to
+  *   'https://%s/...'
+  *";
+$GLOBALS['strSSLDeliveryComment']       = "
+  * This tag has been generated for use on a non-SSL page. If this tag
+  * is to be placed on an SSL page, change the
+  *   'http://%s/...'
+  * to
+  *   'https://%s/...'
+  *";
+  
+$GLOBALS['strThirdPartyComment']        = "
+  * Don't forget to replace the '{clickurl}' text with
+  * the click tracking URL if this ad is to be delivered through a 3rd
+  * party (non-Max) adserver.
+  *";
 
 // Errors
 $GLOBALS['strMySQLError']                       = "SQL Error:";

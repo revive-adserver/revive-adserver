@@ -117,7 +117,12 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      */
     function generateInvocationCode()
     {
-        parent::prepareCommonInvocationData();
+        $aComments = array(
+            'Third Party Comment'  => '', 
+            'SSL Delivery Comment' => '', 
+            'Comment'              => '',
+            );
+        parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;

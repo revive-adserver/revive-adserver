@@ -27,7 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/lib/OX/Translation.php';
 
 define('MAX_PLUGINS_INVOCATION_TAGS_ALLOW', 'Allow ');
 define('MAX_PLUGINS_INVOCATION_TAGS_STANDARD', 0);
@@ -135,8 +135,11 @@ class Plugins_InvocationTags extends OX_Component
     /**
      * Prepare data before generating the invocation code
      *
+     * @param array $aComments Array of comments allowed keys: 'Cache Buster Comment', 'Third Party Comment', 
+     *                                     'SSL Delivery Comment', 'SSL Backup Comment', 'Comment'
+     * 
      */
-    function prepareCommonInvocationData()
+    function prepareCommonInvocationData($aComments)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;
@@ -214,19 +217,39 @@ class Plugins_InvocationTags extends OX_Component
         $buffer .= " */-->\n\n";
 
         if (!empty($mi->comments)) {
+            $oTrans = new OX_Translation();
             $comment = '';
             if ((!empty($mi->cachebuster)) && ($mi->thirdpartytrack == 'generic' || $mi->thirdpartytrack === 0)) {
-                $cbComment = MAX_Plugin_Translation::translate('Cache Buster Comment', $this->extension, $this->group);
+                if (isset($aComments['Cache Buster Comment'])) {
+                    $cbComment = $aComments['Cache Buster Comment'];
+                } else {
+                    $cbComment = $GLOBALS['strCacheBusterComment'];
+                }
                 $comment .= str_replace('{random}', $mi->macros['cachebuster'], $cbComment);
             }
             if (isset($mi->thirdpartytrack) && ($mi->thirdpartytrack == 'generic' || $mi->thirdpartytrack === 0)) {
-                $clickurlComment = MAX_Plugin_Translation::translate('Third Party Comment', $this->extension, $this->group);
+                if (isset($aComments['Third Party Comment'])) {
+                    $clickurlComment = $aComments['Third Party Comment'];
+                } else {
+                    $clickurlComment = $GLOBALS['strThirdPartyComment'];
+                }
+                $clickurlComment = $aComments['Third Party Comment'];
                 $comment .= str_replace('{clickurl}', $mi->macros['clickurl'], $clickurlComment);
             }
             //SSL Delivery Comment
-            $comment .= MAX_Plugin_Translation::translate('SSL Delivery Comment', $this->extension, $this->group);
-            $comment .= MAX_Plugin_Translation::translate('SSL Backup Comment', $this->extension, $this->group);
-            $comment .= MAX_Plugin_Translation::translate('Comment', $this->extension, $this->group);
+            if (isset($aComments['SSL Delivery Comment'])) {
+                $comment .= $aComments['SSL Delivery Comment'];
+            } else {
+                $comment .= $oTrans->translate('SSLDeliveryComment', array($conf['webpath']['delivery'], $conf['webpath']['deliverySSL']));
+            }
+            if (isset($aComments['SSL Backup Comment'])) {
+                $comment .= $aComments['SSL Backup Comment'];
+            } else {
+                $comment .= $oTrans->translate('SSLBackupComment', array($conf['webpath']['delivery'], $conf['webpath']['deliverySSL']));
+            }
+            if (isset($aComments['Comment'])) {
+                $comment .= $aComments['Comment'];
+            }
 
             if ($comment != '') {
                 $buffer .= "<!--/*" . $comment . "\n  */-->\n\n";

@@ -103,7 +103,14 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      */
     function generateInvocationCode()
     {
-        parent::prepareCommonInvocationData();
+        $aComments = array(
+            'Cache Buster Comment' => '',
+            'Third Party Comment'  => '', 
+            'SSL Delivery Comment' => '',
+            'SSL Backup Comment'   => '', 
+            'Comment'              => '',
+            );
+        parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
