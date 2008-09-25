@@ -480,7 +480,7 @@ class OA_Admin_Settings
                     $preg_replace = $aConfigInfo['preg_replace'];
                     unset($aConfigInfo['preg_replace']);
                 }
-                $value = $GLOBALS[$htmlElement];
+                $value = stripslashes($GLOBALS[$htmlElement]);
                 if (isset($preg_match) && isset($preg_replace)) {
                     $value = preg_replace($preg_match, $preg_replace, $value);
                 }

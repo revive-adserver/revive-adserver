@@ -387,7 +387,7 @@ class OA_Admin_Option
             			if (isset($aItem['name'])) {
             			    MAX_commonRegisterGlobalsArray(array($aItem['name']));
             			    if (isset($GLOBALS[$aItem['name']])) {
-                				$value = $GLOBALS[$aItem['name']];
+                				$value = stripslashes($GLOBALS[$aItem['name']]);
                 				if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
                 					if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
                 						$value = $GLOBALS[$aItem['name'].'_defVal'];
