@@ -43,14 +43,29 @@ class OX_Admin_Redirect
      * A method to perform redirects. Only suitable for use once OpenX is installed,
      * as it requires the OpenX configuration file to be correctly set up.
      *
-     * @param string $adminPage The administration interface page to redirect to
-     *                          (excluding a leading slash ("/")). Default is the
-     *                          index (i.e. login) page.
+     * @param string  $adminPage           The administration interface page to redirect to
+     *                                     (excluding a leading slash ("/")). Default is the
+     *                                     index (i.e. login) page.
+     * @param boolean $manualAccountSwitch Flag to know if the user has switched account.
+     *
      */
-    function redirect($adminPage = 'index.php')
+    function redirect($adminPage = 'index.php', $manualAccountSwitch = false)
     {
-        if (!preg_match('/[\r\n]/', $adminPage)) {
-            header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+        if ($manualAccountSwitch) {
+            // Get the page where the user was in when switched account
+            $urlComponents = parse_url($_SERVER['HTTP_REFERER']);
+            $pathInformation = pathinfo($urlComponents['path']);
+            $sectionID = $pathInformation['filename'];
+            // Get the top level page
+            $return_url = OA_Admin_UI::getTopLevelPage($sectionID);
+            if (!empty($return_url)) {
+                header("Location: $return_url");
+            }
+        }
+        if (!$manualAccountSwitch || empty($return_url)) {
+            if (!preg_match('/[\r\n]/', $adminPage)) {
+                header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+            }
         }
         exit;
     }

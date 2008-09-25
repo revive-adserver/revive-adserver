@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
-//require_once LIB_PATH . '/Admin/Redirect.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 
 
@@ -46,8 +46,8 @@ class OA_Admin_UI
       * Singleton instance.
       * Holds the only one UI instance created per request
       */
-    private static $_instance; 
-    
+    private static $_instance;
+
     /**
      * @var OA_Admin_Template
      */
@@ -57,14 +57,14 @@ class OA_Admin_UI
     var $currentSectionId;
     var $aTools;
     var $aShortcuts;
-    
+
     /**
-     * An array containing a list of CSS files to be included in HEAD section 
+     * An array containing a list of CSS files to be included in HEAD section
      * when page header is rendered.
-     * @var array 
+     * @var array
      */
     var $otherCSSFiles;
-    
+
 
     /**
      * Class constructor, private to force getInstance usage
@@ -74,12 +74,12 @@ class OA_Admin_UI
     private function __construct()
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
-        $this->otherCSSFiles = array();        
+        $this->otherCSSFiles = array();
         $this->setLinkParams();
         $this->aTools = array();
         $this->aShortcuts = array();
     }
-    
+
 
     /**
      * Singleton instance
@@ -93,9 +93,9 @@ class OA_Admin_UI
         }
 
         return self::$_instance;
-    }    
-    
-    
+    }
+
+
     function setLinkParams()
     {
         global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid, $userid;
@@ -141,7 +141,7 @@ class OA_Admin_UI
     {
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
@@ -149,7 +149,7 @@ class OA_Admin_UI
         $aLeftMenuNav    = array();
         $aLeftMenuSubNav = array();
         $aSectionNav     = array();
-        
+
         if ($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery) {
             //get system navigation
             $oMenu = OA_Admin_Menu::singleton();
@@ -158,7 +158,7 @@ class OA_Admin_UI
             if ($oCurrentSection == null) {
                 phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
             }
-            
+
             if ($oHeaderModel == null) {
                 //build default model with title and name taken from nav entry
                 $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName());
@@ -169,13 +169,13 @@ class OA_Admin_UI
             else {
                 $pageTitle .= ' - '.$oCurrentSection->getName();
             }
-            
+
             // compile navigation arrays
             $this->_compileMainNavigationTabBar($oCurrentSection, $oMenu, $aMainNav);
             $this->_compileLeftMenuNavigation($oCurrentSection, $oMenu, $aLeftMenuNav);
             $this->_compileLeftSubMenuNavigation($oCurrentSection, $oMenu, $aLeftMenuSubNav);
             $this->_compileSectionTabBar($oCurrentSection, $oMenu, $aSectionNav);
-            
+
         }
         else {
             // Build tabbed navigation bar
@@ -198,7 +198,7 @@ class OA_Admin_UI
                     'selected' => true
                 );
             }
-        }  
+        }
 
         //html header
         $this->_assignLayout($pageTitle, $imgPath);
@@ -208,12 +208,12 @@ class OA_Admin_UI
         $this->oTpl->assign('uiPart', 'header');
         $this->oTpl->assign('showMainNav', $showMainNav);
         $this->oTpl->assign('showSidebar', $showSidebar);
-        
+
         //top
         $this->_assignBranding($conf['ui']);
         $this->_assignSearch($ID);
         $this->_assignUserAccountInfo($oCurrentSection);
-        
+
         $this->oTpl->assign('headerModel', $oHeaderModel);
         // Tabbed navigation bar and sidebar
         $this->oTpl->assign('aMainTabNav', $aMainNav);
@@ -226,21 +226,21 @@ class OA_Admin_UI
         //tools and shortcuts
         $this->oTpl->assign('aTools', $this->aTools);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
-        
-        
-        
+
+
+
         //additional things
         $this->_assignValidationDefaults(); //JS validation messages
         $this->_assignAlertMPE(); //mpe xajax
         $this->_assignInstalling(); //install indicator
         $this->_assignMessages(); //messaging system
-        
-        
-        
+
+
+
         //html header
         $this->_assignJavascriptandCSS();
-        
-        
+
+
         /* DISPLAY */
         // Use gzip content compression
         if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
@@ -253,11 +253,11 @@ class OA_Admin_UI
                 }
             }
         }
-        // Send header with charset info and display        
+        // Send header with charset info and display
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
     }
-    
+
     function getID($ID)
     {
         $id = $ID;
@@ -277,6 +277,21 @@ class OA_Admin_UI
         return $nextSection->getLink($this->aLinkParams);
     }
 
+    /**
+     * Method that returns the top level page of the page passed as parameter.
+     *
+     * @param string $sectionId The page that we want to know its parent page.
+     * @return string A string with the parent page, it will be null if the page
+     *                doesn't have a parent page.
+     */
+    function getTopLevelPage($sectionId = null)
+    {
+        $sectionId = OA_Admin_UI::getID($sectionId);
+        $oMenu = OA_Admin_Menu::singleton();
+        $parentSections = $oMenu->getParentSections($sectionId);
+        return $parentSections[0]->link;
+    }
+
     function _assignInstalling()
     {
         global $phpAds_installing;
@@ -293,7 +308,7 @@ class OA_Admin_UI
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
     }
 
-    
+
     function _assignAlertMPE()
     {
         global $xajax, $session;
@@ -327,7 +342,7 @@ class OA_Admin_UI
         $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
     }
 
-    
+
     function _compileMainNavigationTabBar($oCurrentSection, $oMenu, &$aMainNav)
     {
         $sectionID = $oCurrentSection->getId();
@@ -343,8 +358,8 @@ class OA_Admin_UI
             );
         }
     }
-    
-    
+
+
     function _compileLeftMenuNavigation($oCurrentSection, $oMenu, &$aLeftMenuNav)
     {
         $sectionID = $oCurrentSection->getId();
@@ -352,9 +367,9 @@ class OA_Admin_UI
 
         if ($aParentSections) {
             $aSecondLevelSections = $aParentSections[0]->getSections(); //second level
-            
+
             $secondLevelParentId = count($aParentSections) > 1  ? $aParentSections[1]->getId() : $sectionID;
-    
+
             $currGroup = '';
             $count = count($aSecondLevelSections);
             for ($i = 0; $i < $count; $i++) {
@@ -367,7 +382,7 @@ class OA_Admin_UI
                     $last = true;
                 }
                 $single = $first && $last;
-                
+
                 $aLeftMenuNav[]= array(
                   'title'    => $aSecondLevelSections[$i]->getName(),
                   'filename' => $aSecondLevelSections[$i]->getLink($this->aLinkParams),
@@ -380,15 +395,15 @@ class OA_Admin_UI
             }
         }
     }
-    
-    
+
+
     function _compileLeftSubMenuNavigation($oCurrentSection, $oMenu, &$aLeftMenuSubNav)
     {
         $oLeftMenuSub = $oCurrentSection->getParentOrSelf(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
 
         if ($oLeftMenuSub != null) {
             $aLeftMenuSubSections = $oLeftMenuSub->siblings(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
-        
+
             $count = count($aLeftMenuSubSections);
             for ($i = 0; $i < $count; $i++) {
                 $aLeftMenuSubNav[]= array(
@@ -398,11 +413,11 @@ class OA_Admin_UI
                 );
             }
         }
-        
+
         global $ox_left_menu_sub;
         if (count($ox_left_menu_sub)) {
             $currentLeftSub = $ox_left_menu_sub['current'];
-            
+
             foreach($ox_left_menu_sub['items'] as $k => $v) {
               $aLeftMenuSubNav[]= array(
                       'title'    => $v['title'],
@@ -411,16 +426,16 @@ class OA_Admin_UI
                     );
             }
         }
-    }    
+    }
 
 
     function _compileSectionTabBar($oCurrentSection, $oMenu, &$aSectionNav)
     {
         $sectionID = $oCurrentSection->getId();
-        if ($oMenu->getLevel($sectionID) < 2) { //if we are on root or first level 
+        if ($oMenu->getLevel($sectionID) < 2) { //if we are on root or first level
             return;                             //page no tabs will be shown since there is nav already for these levels
         }
-        
+
         //at the moment every root section in fact links to one of its children,
         //so there is no page for a root section actually
         //for broken implementations where there is such page we could check if we are root section and display children instead of siblings
@@ -431,11 +446,11 @@ class OA_Admin_UI
             $aParent = $oCurrentSection->getParent();
             $aSections = $aParent->getSections();
         }
-        
+
         //filter out exclusive and affixed sections from view if they're not active
         $aSections = array_values(array_filter($aSections, array(new OA_Admin_Section_Type_Filter($oCurrentSection), 'accept')));
-        
-        
+
+
         for ($i = 0; $i < count($aSections); $i++) {
         $aSectionNav[]= array(
           'title'    => $aSections[$i]->getName(),
@@ -479,7 +494,7 @@ class OA_Admin_UI
         $this->oTpl->assign('aGenericStyleshets', $this->genericStylesheets());
         $this->oTpl->assign('aOtherStylesheets', $this->otherCSSFiles);
         $this->oTpl->assign('aGenericJavascript', $this->genericJavascript());
-        
+
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
 
@@ -537,11 +552,11 @@ class OA_Admin_UI
 
     function _assignMessages() {
         global $session;
-		
+
         if (isset($session['messageQueue']) && is_array($session['messageQueue']) && count($session['messageQueue'])) {
             $this->oTpl->assign('aMessageQueue', $session['messageQueue']);
             $session['messageQueue'] = array();
-	
+
             // Force session storage
             phpAds_SessionDataStore();
         }
@@ -604,11 +619,11 @@ class OA_Admin_UI
             'type' => $type,
             'timeout' => $timeout
         );
-		
+
         // Force session storage
         phpAds_SessionDataStore();
     }
-	
+
 
     function genericJavascript() {
         return array (
@@ -639,7 +654,7 @@ class OA_Admin_UI
         );
     }
 
-    function genericStylesheets() 
+    function genericStylesheets()
     {
         global $phpAds_TextDirection;
 
@@ -668,15 +683,15 @@ class OA_Admin_UI
             'css/icons.css'
         );
     }
-    
-    function registerStylesheetFile($filePath) 
+
+    function registerStylesheetFile($filePath)
     {
         if (!in_array($filePath, $this->otherCSSFiles)) {
-            $this->otherCSSFiles[] = $filePath;     
+            $this->otherCSSFiles[] = $filePath;
         }
     }
-    
-    
+
+
     function addPageLinkTool($title, $url, $iconClass, $accesskey = null, $extraAttributes = null)
     {
         $this->aTools[] = array(
@@ -688,7 +703,7 @@ class OA_Admin_UI
             'extraAttr' => $extraAttributes
         );
     }
-    
+
     /** TODO refactor form **/
     function addPageFormTool($title, $iconClass, $form)
     {
@@ -697,11 +712,11 @@ class OA_Admin_UI
             'title' => $title,
             'iconClass' => $iconClass,
             'form'=> $form
-        );  
+        );
     }
-    
 
-    
+
+
     function addPageShortcut($title, $url, $iconClass = null)
     {
         $this->aShortcuts[] = array(
@@ -710,8 +725,8 @@ class OA_Admin_UI
             'url' => $url,
             'iconClass' => $iconClass,
         );
-    }    
-    
-    
+    }
+
+
 }
 ?>

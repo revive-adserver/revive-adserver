@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
 require_once MAX_PATH . '/lib/OA/Permission/SystemUser.php';
 
+
 /**
  * Account types
  */
@@ -94,8 +95,12 @@ class OA_Permission
     function enforceTrue($condition)
     {
         if (!$condition) {
-            phpAds_PageHeader(0);
-            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strYouDontHaveAccess']);
+            OA_Admin_UI::queueMessage($translated_message, 'global', 'error');
+            // Redirect
+            OX_Admin_Redirect::redirect();
         }
     }
 
@@ -121,14 +126,15 @@ class OA_Permission
     }
 
     /**
-     * Redirect to start page if account was switched manually
+     * Redirect to the parent page (if exists) or to the start page if account
+     * has been switched manually
      *
      */
     function redirectIfManualAccountSwitch()
     {
         if (OA_Permission::isManualAccountSwitch()) {
             require_once LIB_PATH . '/Admin/Redirect.php';
-            OX_Admin_Redirect::redirect();
+            OX_Admin_Redirect::redirect(null, true);
         }
     }
 
@@ -139,10 +145,7 @@ class OA_Permission
      */
     function isManualAccountSwitch()
     {
-        global $session;
-        if (isset($session['accountSwitch'])) {
-            unset($session['accountSwitch']);
-            phpAds_SessionDataStore();
+        if (isset($GLOBALS['_OX']['accountSwtich'])) {
             return true;
         }
         return false;
@@ -210,7 +213,9 @@ class OA_Permission
         }
         $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
         if (!$hasAccess) {
-            $hasAccess = OA_Permission::isUserLinkedToAdmin();
+            if(!OA_Permission::isManualAccountSwitch()) {
+                $hasAccess = OA_Permission::isUserLinkedToAdmin();
+            }
         }
         if (!$hasAccess) {
             OA_Permission::redirectIfManualAccountSwitch();

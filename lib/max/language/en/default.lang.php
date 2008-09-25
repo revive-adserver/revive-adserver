@@ -1520,7 +1520,7 @@ $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
 $GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
 $GLOBALS['strChannelHasBeenAdded'] = "Targeting Channel <a href='%s'>%s</a> has been added, <a href='%s'>change the Delivery Options</a>";
 $GLOBALS['strChannelHasBeenDeleted'] = "Targeting Channel <b>%s</b> has been deleted";
-
+$GLOBALS['strYouDontHaveAccess'] = "You don't have access to that page. You have been re-directed.";
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */
