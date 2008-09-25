@@ -96,8 +96,8 @@ class OA_Permission
     {
         if (!$condition) {
             // Queue confirmation message
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate ( $GLOBALS['strYouDontHaveAccess']);
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate($GLOBALS['strYouDontHaveAccess']);
             OA_Admin_UI::queueMessage($translated_message, 'global', 'error');
             // Redirect
             OX_Admin_Redirect::redirect();

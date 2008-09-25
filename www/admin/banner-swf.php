@@ -108,10 +108,13 @@ if (isset($convert)) {
 
                 $row['pluginversion'] = phpAds_SWFVersion($result);
                 $row['htmltemplate']  = $row['htmltemplate'];
+                $extension = substr($row['filename'], strrpos($row['filename'], "."));
+                $row['filename'] = phpAds_LocalUniqueName($result, $extension);
 
                 // Store the HTML Template
                 $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->get($bannerid);
+                $doBanners->filename = $row['filename'];
                 $doBanners->url = $row['url'];
                 $doBanners->target = $row['target'];
                 $doBanners->pluginversion = $row['pluginversion'];
@@ -120,7 +123,7 @@ if (isset($convert)) {
                 $doBanners->update();
 
                 // Store the banner
-                phpAds_ImageStore ($row['storagetype'], $row['filename'], $result, true);
+                phpAds_ImageStore($row['storagetype'], $row['filename'], $result, true);
 
                 // Rebuild cache
                 // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

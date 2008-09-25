@@ -34,41 +34,44 @@ require_once 'DB/DataObject/Cast.php';
 
 function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	$pref = $GLOBALS['_MAX']['PREF'];
 	// Make name web friendly
 	$name = basename($name);
 	$name = strtolower($name);
 	$name = str_replace(" ", "_", $name);
 	$name = str_replace("'", "", $name);
+	$extension = substr($name, strrpos($name, "."));
 	if ($type == 'web') {
-		if ($conf['store']['mode'] == 'ftp') {
+		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
-			$server['host'] = $conf['store']['ftpHost'];
-			$server['path'] = $conf['store']['ftpPath'];
+			$server['host'] = $aConf['store']['ftpHost'];
+			$server['path'] = $aConf['store']['ftpPath'];
 			if (($server['path'] != "") && (substr($server['path'], 0, 1) == "/")) {
 			    $server['path'] = substr($server['path'], 1);
 			}
-			$server['user'] = $conf['store']['ftpUsername'];
-			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
+			$server['user'] = $aConf['store']['ftpUsername'];
+			$server['pass'] = $aConf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
             $stored_url = phpAds_FTPStore($server, $name, $buffer, $overwrite);
 		} else {
-			// Local mode
-			if ($overwrite == false) {
-				$name = phpAds_LocalUniqueName($name);
-			}
-			// Write the file
-			if ($fp = @fopen($conf['store']['webDir']."/".$name, 'wb')) {
-				@fwrite($fp, $buffer);
-				@fclose($fp);
-				$stored_url = $name;
-			}
+			// Local mode, get the unique filename
+			$filename = phpAds_LocalUniqueName($buffer, $extension);
+			// Doe the file exist already?
+            if (@file_exists($aConf['store']['webDir']."/".$filename) == false) {
+    			// Write the file
+    			if ($fp = @fopen($aConf['store']['webDir']."/".$filename, 'wb')) {
+    				@fwrite($fp, $buffer);
+    				@fclose($fp);
+    				$stored_url = $filename;
+    			}
+            } else {
+                $stored_url = $filename;
+            }
 		}
 	}
 	if ($type == 'sql') {
-
 	    // Look for existing image.
 	    $doImages = OA_Dal::staticGetDO('images', $name);
 	    if ($doImages) {
@@ -87,8 +90,8 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
    			$doImages->contents = DB_DataObject_Cast::blob($buffer);
     		$doImages->insert();
 	    }
+        $stored_url = $name;
 	}
-    $stored_url = $name;
 	if (isset($stored_url) && $stored_url != '') {
 		return $stored_url;
 	} else {
@@ -100,31 +103,28 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 /* Duplicate a file on the webserver                     */
 /*-------------------------------------------------------*/
 
-function phpAds_ImageDuplicate ($type, $name)
+function phpAds_ImageDuplicate($type, $name)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	$pref = $GLOBALS['_MAX']['PREF'];
 	// Strip existing path
 	$name = basename($name);
 	if ($type == 'web') {
-		if ($conf['store']['mode'] == 'ftp') {
+		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
-			$server['host'] = $conf['store']['ftpHost'];
-			$server['path'] = $conf['store']['ftpPath'];
+			$server['host'] = $aConf['store']['ftpHost'];
+			$server['path'] = $aConf['store']['ftpPath'];
 			if (($server['path'] != "") && (substr($server['path'], 0, 1) == "/")) {
 			    $server['path'] = substr($server['path'], 1);
 			}
-			$server['user'] = $conf['store']['ftpUsername'];
-			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
+			$server['user'] = $aConf['store']['ftpUsername'];
+			$server['pass'] = $aConf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
 			$stored_url = phpAds_FTPDuplicate($server, $name);
 		} else {
-			// Local mode
-			$duplicate = phpAds_LocalUniqueName($name);
-			if (@copy($conf['store']['webDir']."/".$name, $conf['store']['webDir']."/".$duplicate)) {
-				$stored_url = $duplicate;
-			}
+			// Local mode, do nothing
+			$stored_url = $name;
 		}
 	}
 	if ($type == 'sql') {
@@ -145,26 +145,26 @@ function phpAds_ImageDuplicate ($type, $name)
 
 function phpAds_ImageRetrieve($type, $name)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	// Strip existing path
 	$name = basename($name);
 	if ($type == 'web') {
-		if ($conf['store']['mode'] == 'ftp') {
+		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
-			$server['host'] = $conf['store']['ftpHost'];
-			$server['path'] = $conf['store']['ftpPath'];
+			$server['host'] = $aConf['store']['ftpHost'];
+			$server['path'] = $aConf['store']['ftpPath'];
 			if (($server['path'] != "") && (substr($server['path'], 0, 1) == "/")) {
 			    $server['path'] = substr($server['path'], 1);
 			}
-			$server['user'] = $conf['store']['ftpUsername'];
-			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
+			$server['user'] = $aConf['store']['ftpUsername'];
+			$server['pass'] = $aConf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
 			$result = phpAds_FTPRetrieve($server, $name);
 		} else {
             // Local mode
 		    $result = '';
-            if ($fp = @fopen($conf['store']['webDir']."/".$name, 'rb')) {
+            if ($fp = @fopen($aConf['store']['webDir']."/".$name, 'rb')) {
                 while (!feof($fp)) {
                     $result .= @fread($fp, 8192);
                 }
@@ -191,23 +191,23 @@ function phpAds_ImageRetrieve($type, $name)
 
 function phpAds_ImageDelete ($type, $name)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	if ($type == 'web') {
-		if ($conf['store']['mode'] == 'ftp') {
+		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
-			$server['host'] = $conf['store']['ftpHost'];
-			$server['path'] = $conf['store']['ftpPath'];
+			$server['host'] = $aConf['store']['ftpHost'];
+			$server['path'] = $aConf['store']['ftpPath'];
 			if (($server['path'] != "") && (substr($server['path'], 0, 1) == "/")) {
 			    $server['path'] = substr($server['path'], 1);
 			}
-			$server['user'] = $conf['store']['ftpUsername'];
-			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
+			$server['user'] = $aConf['store']['ftpUsername'];
+			$server['pass'] = $aConf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
 			phpAds_FTPDelete($server, $name);
 		} else {
-			if (@file_exists($conf['store']['webDir']."/".$name)) {
-				@unlink($conf['store']['webDir']."/".$name);
+			if (@file_exists($aConf['store']['webDir']."/".$name)) {
+				@unlink($aConf['store']['webDir']."/".$name);
 			}
 		}
 	}
@@ -223,25 +223,25 @@ function phpAds_ImageDelete ($type, $name)
 
 function phpAds_ImageSize ($type, $name)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	// Strip existing path
 	$name = basename($name);
 	if ($type == 'web') {
-		if ($conf['store']['mode'] == 'ftp') {
+		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
-			$server['host'] = $conf['store']['ftpHost'];
-			$server['path'] = $conf['store']['ftpPath'];
+			$server['host'] = $aConf['store']['ftpHost'];
+			$server['path'] = $aConf['store']['ftpPath'];
 			if (($server['path'] != "") && (substr($server['path'], 0, 1) == "/")) {
 			    $server['path'] = substr($server['path'], 1);
 			}
-			$server['user'] = $conf['store']['ftpUsername'];
-			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
+			$server['user'] = $aConf['store']['ftpUsername'];
+			$server['pass'] = $aConf['store']['ftpPassword'];
+			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
 			$result = phpAds_FTPSize($server, $name);
 		} else {
 			// Local mode
-			$result = @filesize($conf['store']['webDir']."/".$name);
+			$result = @filesize($aConf['store']['webDir']."/".$name);
 		}
 	}
 	if ($type == 'sql') {
@@ -261,29 +261,19 @@ function phpAds_ImageSize ($type, $name)
 /* Local storage functions                               */
 /*-------------------------------------------------------*/
 
-function phpAds_LocalUniqueName($name)
+/**
+ * A function to get the unique filename that will be used
+ * for storing creative files when using the local disk for
+ * web-based creative storage.
+ *
+ * @param string $buffer The contents of the file.
+ * @param string $extension The extension of the file, e.g. ".jpg".
+ * @return string The filename, eg. "d41d8cd98f00b204e9800998ecf8427e.jpg"
+ */
+function phpAds_LocalUniqueName($buffer, $extension)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
-	$extension = substr($name, strrpos($name, ".") + 1);
-	$base	   = substr($name, 0, strrpos($name, "."));
-	if (@file_exists($conf['store']['webDir']."/".$base.".".$extension) == false) {
-		return ($base.".".$extension);
-	} else {
-		if (eregi("^(.*)_([0-9]+)$", $base, $matches)) {
-			$base = $matches[1];
-			$i = $matches[2];
-		} else {
-			$i = 1;
-		}
-		$found = false;
-		while ($found == false) {
-			$i++;
-			if (@file_exists($conf['store']['webDir']."/".$base."_".$i.".".$extension) == false) {
-				$found = true;
-			}
-		}
-		return ($base."_".$i.".".$extension);
-	}
+    $filename = md5($buffer) . $extension;
+    return $filename;
 }
 
 /*-------------------------------------------------------*/
@@ -330,7 +320,6 @@ function phpAds_FTPStore($server, $name, $buffer, $overwrite = false)
 	}
 }
 
-
 function phpAds_FTPDuplicate($server, $name)
 {
 	$pref = $GLOBALS['_MAX']['PREF'];
@@ -370,7 +359,6 @@ function phpAds_FTPDuplicate($server, $name)
 	    return ($stored_url);
 	}
 }
-
 
 function phpAds_FTPRetrieve($server, $name)
 {
