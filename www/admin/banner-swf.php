@@ -170,13 +170,13 @@ if ($bannerid != '') {
         phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
         phpAds_PageShortcut($strBannerHistory, 'stats.php?entity=banner&breakdown=history&clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 
-        phpAds_PageHeader("MANAGER_4.1.3.4.5");
+        phpAds_PageHeader("4.1.3.4.5");
         echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getParentClientName($campaignid);
         echo "&nbsp;<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
         echo "&nbsp;<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='" . OX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
-        phpAds_ShowSections(array("MANAGER_4.1.3.4.5"));
+        phpAds_ShowSections(array("4.1.3.4.5"));
     } else {
         phpAds_PageHeader("1.2.2.3");
         echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
