@@ -71,7 +71,12 @@ class Plugins_InvocationTagsOptions
         if (!$maxInvocation->zone_invocation && $maxInvocation->codetype != 'adviewnocookies') {
             $option .= "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
             $option .= "<td width='200' valign='top'>".$GLOBALS['strInvocationWhat']."</td><td width='370'>";
-            $option .= "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;' tabindex='".($maxInvocation->tabindex++)."'>".(isset($maxInvocation->what) ? stripslashes($maxInvocation->what) : '')."</textarea></td></tr>";
+            if (isset($maxInvocation->what)) {
+                $what = (!get_magic_quotes_runtime()) ? stripslashes($maxInvocation->what) : $maxInvocation->what;
+            } else {
+                $what = '';
+            }
+            $option .= "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;' tabindex='".($maxInvocation->tabindex++)."'>".htmlspecialchars($what,ENT_QUOTES)."</textarea></td></tr>";
 
             if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
                 $option .= "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -194,7 +199,12 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationSource']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='source' size='' value='".(isset($maxInvocation->source) ? $maxInvocation->source : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
+        if (isset($maxInvocation->source)) {
+                $source = (!get_magic_quotes_runtime()) ? stripslashes($maxInvocation->source) : $maxInvocation->source;
+            } else {
+                $source = '';
+            }
+        $option .= "<input class='flat' type='text' name='source' size='' value='".htmlspecialchars($source,ENT_QUOTES)."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
