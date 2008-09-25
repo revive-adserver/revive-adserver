@@ -354,7 +354,7 @@ function getWebsiteMap()
         $doAffiliates->agencyid = OA_Permission::getAgencyId();
     }
     if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        $doAffiliates->agencyid = OA_Permission::getEntityId();
+        $doAffiliates->affiliateid = OA_Permission::getEntityId();
     }
     $doAffiliates->find();
 
