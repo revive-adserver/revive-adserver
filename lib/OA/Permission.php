@@ -215,6 +215,20 @@ class OA_Permission
         if (!$hasAccess) {
             if(!OA_Permission::isManualAccountSwitch()) {
                 $hasAccess = OA_Permission::isUserLinkedToAdmin();
+                // if has access switch to the manager account that owns this object
+                if ($hasAccess) {
+                    if (OA_Permission::switchToManagerAccount($entityTable, $entityId)) {
+                        // Now that the admin user is working with the manager
+                        // account that owns the object, show to him the page.
+                        $url = $_SERVER['REQUEST_URI'];
+                        header("Location: $url");
+                        exit;
+                    } else {
+                        // If is not possible to switch redirect the admin to his home page
+                        OX_Admin_Redirect::redirect();
+                    }
+
+                }
             }
         }
         if (!$hasAccess) {
@@ -222,6 +236,36 @@ class OA_Permission
             $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
         }
         OA_Permission::enforceTrue($hasAccess);
+    }
+
+    /**
+     * A method to switch to the manager account that owns an specific entity
+     *
+     *@param string  $entityTable    The name of the table.
+     *@param integer $entityId       The entity ID.
+     */
+    function switchToManagerAccount($entityTable, $entityId)
+    {
+        if (empty($entityId)) {
+            return false;
+        }
+        $do = OA_Dal::factoryDO($entityTable);
+        if (!$do) {
+            return false;
+        }
+        $key = $do->getFirstPrimaryKey();
+        if (!$key) {
+            return false;
+        }
+        $do->$key = $entityId;
+        $do->find();
+        if ($do->getRowCount() > 0) {
+            $do->fetch();
+            $aDo = $do->toArray();
+        }
+        $owningAccounts = $do->_getOwningAccountIdsByAccountId($aDo['account_id']);
+        OA_Permission::switchAccount($owningAccounts['MANAGER'], true);
+        return true;
     }
 
     /**
