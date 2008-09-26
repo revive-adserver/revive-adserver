@@ -691,11 +691,10 @@ class OA_Admin_UI
         $aMessages = $session['messageQueue'];
         //filter messages out, if any
         $count = count($aMessages);
-        for($i = 0; $i < $count; $i++) {
+        for($i = $count; $i > 0; $i--) {
             if ($relatedAction == $aMessages[$i]['relatedAction']) {
                 unset($aMessages[$i]);
-                $aMessages = array_slice($aMessages, 0);
-                var_dump($aMessages); //a hack to reorder indices after elem was removed
+                $aMessages = array_slice($aMessages, 0); //a hack to reorder indices after elem was removed
                 break;
             }
         }
