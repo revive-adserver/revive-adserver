@@ -54,14 +54,12 @@ class OX_Admin_Redirect
         if ($manualAccountSwitch || $redirectTopLevel) {
             // Get the page where the user was in when switched account
             if (!empty($_SERVER['HTTP_REFERER'])) {
-                $urlComponents = parse_url($_SERVER['HTTP_REFERER']);
+                $aUrlComponents = parse_url($_SERVER['HTTP_REFERER']);
             } elseif (!empty($_SERVER['REQUEST_URI'])) {
-                $urlComponents = parse_url($_SERVER['REQUEST_URI']);
+                $aUrlComponents = parse_url($_SERVER['REQUEST_URI']);
             }
-            //$urlComponents = (empty($_SERVER['HTTP_REFERER'])) parse_url($_SERVER['HTTP_REFERER']);
-            //$urlComponents = parse_url($_SERVER['HTTP_REFERER']);
-            $pathInformation = pathinfo($urlComponents['path']);
-            $sectionID = $pathInformation['filename'];
+            $aPathInformation = pathinfo($aUrlComponents['path']);
+            $sectionID = $aPathInformation['filename'];
             // Get the top level page
             $return_url = OA_Admin_UI::getTopLevelPage($sectionID);
             if (!empty($return_url)) {
