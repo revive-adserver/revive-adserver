@@ -2789,8 +2789,8 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if(strlen($row['acl_plugins'])) {
 $acl_plugins = explode(',', $row['acl_plugins']);
 foreach ($acl_plugins as $acl_plugin) {
-list($package, $name) = explode(':', $acl_plugin);
-$pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "deliveryLimitations/{$package}/{$name}.delivery.php";
+list($extension, $package, $name) = explode(':', $acl_plugin);
+$pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "{$extension}/{$package}/{$name}.delivery.php";
 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
 include($pluginName);
 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
