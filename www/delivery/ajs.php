@@ -2449,9 +2449,7 @@ $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remai
 }
 if (is_array($row) && empty($row['default'])) {
 // Log the ad request
-if ($conf['logging']['adRequests']) {
 MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid']);
-}
 if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
 && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
 // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
