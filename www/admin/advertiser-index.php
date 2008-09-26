@@ -171,6 +171,15 @@ $oTpl->display();
 
 phpAds_PageFooter();
 
+OA_Admin_UI::queueMessage('1 some action has been done ', 'local', 'confirm', 0, 'someAction');
+OA_Admin_UI::queueMessage('2', 'local', 'confirm', 0);
+OA_Admin_UI::queueMessage('3', 'local', 'confirm', 0, 'test');
+OA_Admin_UI::queueMessage('4', 'local', 'confirm', 0);
+OA_Admin_UI::queueMessage('5', 'local', 'confirm', 0, 'test');
+
+
+
+
 function addPageTools()
 {
     addPageLinkTool($GLOBALS["strAddClient_Key"], "advertiser-edit.php", "iconAdvertiserAdd", $GLOBALS["strAddNew"] );
