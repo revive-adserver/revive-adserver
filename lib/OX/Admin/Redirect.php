@@ -47,7 +47,8 @@ class OX_Admin_Redirect
      *                                     (excluding a leading slash ("/")). Default is the
      *                                     index (i.e. login) page.
      * @param boolean $manualAccountSwitch Flag to know if the user has switched account.
-     *
+     * @param boolean $redirectTopLevel    Flag to know if the redirection should be to the top
+     *                                     level, even it not a manual account switch.
      */
     function redirect($adminPage = 'index.php', $manualAccountSwitch = false, $redirectTopLevel = false)
     {
@@ -61,17 +62,20 @@ class OX_Admin_Redirect
             $aPathInformation = pathinfo($aUrlComponents['path']);
             $sectionID = $aPathInformation['filename'];
             // Get the top level page
-            $return_url = OA_Admin_UI::getTopLevelPage($sectionID);
-            if (!empty($return_url)) {
-                header("Location: $return_url");
+            $adminPage = OA_Admin_UI::getTopLevelPage($sectionID);
+            if (!empty($adminPage)) {
+                header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+                exit;
             }
         }
 
         if (!$manualAccountSwitch || empty($return_url)) {
             if (!preg_match('/[\r\n]/', $adminPage)) {
                 header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+                exit;
             }
         }
+
         exit;
     }
 

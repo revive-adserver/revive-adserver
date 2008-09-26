@@ -100,7 +100,7 @@ class OA_Permission
             $translated_message = $translation->translate($GLOBALS['strYouDontHaveAccess']);
             OA_Admin_UI::queueMessage($translated_message, 'global', 'error');
             // Redirect
-            OX_Admin_Redirect::redirect(null, null, $redirectTopLevel = true);
+            OX_Admin_Redirect::redirect(null, null, true);
         }
     }
 
