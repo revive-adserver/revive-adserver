@@ -20,10 +20,7 @@
             <file path="{MODULEPATH}reports/oxReportsStandard/">campaignAnalysisReport.class.php</file>
             <file path="{MODULEPATH}reports/oxReportsStandard/">conversionTrackingReport.class.php</file>
             <file path="{MODULEPATH}reports/oxReportsStandard/">liveCampaignDeliveryReport.class.php</file>
-            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">en.php</file>
-            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">de.php</file>
-            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">es.php</file>
-            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">ja.php</file>
+
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>

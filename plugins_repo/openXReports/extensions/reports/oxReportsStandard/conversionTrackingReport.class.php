@@ -138,7 +138,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function initInfo()
     {
         $this->_name         = $this->translate("Conversion Tracking Report");
-        $this->_description  = $this->translate("A detailed breakdown of all conversion activity by advertiser or publisher.");
+        $this->_description  = $this->translate("A detailed breakdown of all conversion activity by advertiser or website.");
         $this->_category     = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
         $this->_author       = 'Scott Switzer';
