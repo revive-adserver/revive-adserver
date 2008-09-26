@@ -649,20 +649,61 @@ class OA_Admin_UI
             return 0;
         }
         
-        $messages = $session['messageQueue'];
-        $filteredMessages = array();
+        $aMessages = $session['messageQueue'];
+        $aFilteredMessages = array();
         
         //filter messages out, if any
-        foreach ($messages as $message) {
+        foreach ($aMessages as $message) {
             if ($relatedAction != $message['relatedAction']) {
-                $filteredMessages[] = $message;
+                $aFilteredMessages[] = $message;
             }
         }
         
         //if sth was filtered save new queue
-        $removedCount = count($messages) - count($filteredMessages);
+        $removedCount = count($aMessages) - count($aFilteredMessages);
         if ($removedCount > 0) {
-            $session['messageQueue'] = $filteredMessages;
+            $session['messageQueue'] = $aFilteredMessages;
+            // Force session storage
+            phpAds_SessionDataStore();
+        }
+    
+        return $removedCount;        
+    }
+    
+    
+    /**
+     * Removes from queue the latest message related to a given action. Please 
+     * make sure that if you intend to remove messages you queue them with 'relatedAction'
+     * parameter set properly.
+     *
+     * @param string $relatedAction name of the action which messages should be removed
+     * @return true if there was any message removed, false otherwise
+     */
+    function removeOneMessage($relatedAction)
+    {
+        global $session;
+        
+        if (empty($relatedAction) || !isset($session['messageQueue']) 
+            || !is_array($session['messageQueue']) || !count($session['messageQueue'])) {
+            return false;
+        }
+        
+        $aMessages = $session['messageQueue'];
+        //filter messages out, if any
+        $count = count($aMessages);
+        for($i = 0; $i < $count; $i++) {
+            if ($relatedAction == $aMessages[$i]['relatedAction']) {
+                unset($aMessages[$i]);
+                $aMessages = array_slice($aMessages, 0);
+                var_dump($aMessages); //a hack to reorder indices after elem was removed
+                break;
+            }
+        }
+        
+        //if sth was filtered save new queue
+        $removedCount = $count - count($aMessages);
+        if ($removedCount > 0) {
+            $session['messageQueue'] = $aMessages;
             // Force session storage
             phpAds_SessionDataStore();
         }
