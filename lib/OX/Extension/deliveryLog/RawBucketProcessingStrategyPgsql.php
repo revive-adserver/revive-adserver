@@ -27,6 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Extension/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 /**
  * The default OX_Extension_DeliveryLog_BucketProcessingStrategy for PgSQL,

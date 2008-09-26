@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 require_once LIB_PATH . '/Plugin/Component.php';
 
@@ -50,13 +50,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class OX_Maintenance_Distributed
 {
-
-    /**
-     * A array containing component objects, indexed by the component names.
-     *
-     * @var array
-     */
-    private $aBuckets;
 
     /**
      * A method to run distributed maintenance.
@@ -90,13 +83,13 @@ class OX_Maintenance_Distributed
         }
 
         // Get the components of the deliveryLog extension
-        $this->aBuckets = OX_Component::getComponents('deliveryLog');
+        $aBuckets = OX_Component::getComponents('deliveryLog');
 
         // Copy buckets' records with "interval_start" up to and including previous OI start,
         // and then prune the data processed
         $aPreviousOperationIntervalDates =
             OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
-        foreach ($this->aBuckets as $sBucketName => $oBucketClass) {
+        foreach ($aBuckets as $sBucketName => $oBucketClass) {
             $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
             $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
         }

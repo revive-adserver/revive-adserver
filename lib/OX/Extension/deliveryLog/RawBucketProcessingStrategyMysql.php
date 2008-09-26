@@ -22,11 +22,12 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: RawBucketProcessingStrategyMysql.php 25575 2008-09-11 13:01:40Z andrew.hill $
 */
 
 require_once LIB_PATH . '/Extension/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 /**
  * The default OX_Extension_DeliveryLog_BucketProcessingStrategy for MySQL,
