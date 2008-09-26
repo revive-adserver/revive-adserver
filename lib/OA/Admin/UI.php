@@ -144,6 +144,7 @@ class OA_Admin_UI
 
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
+        
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         $aMainNav        = array();
         $aLeftMenuNav    = array();
@@ -550,7 +551,8 @@ class OA_Admin_UI
         }
     }
 
-    function _assignMessages() {
+    function _assignMessages() 
+    {
         global $session;
 
         if (isset($session['messageQueue']) && is_array($session['messageQueue']) && count($session['messageQueue'])) {
@@ -597,13 +599,17 @@ class OA_Admin_UI
      * - placed within page content). Message can automatically disappera after a given number
      * of miliseconds. If timeout is set to 0, message will not disappear automaticaly, 
      * user will have to close it.
+     * 
+     * When adding a message an action it is related to can be specified.
+     * Later, this action type can be used to access messages in queue before they got displayed.
      *
      * @param string $text either Message text 
      * @param string $location either local or global
      * @param string $type info, confirm, warning, error
      * @param int $timeout value or 0
+     * @param string $relatedAction this is an optional parameter which can be used to asses the message with action it is related to
      */
-    function queueMessage($text, $location = 'global', $type = 'confirm', $timeout = 5000) {
+    function queueMessage($text, $location = 'global', $type = 'confirm', $timeout = 5000, $relatedAction = null) {
         global $session;
 
         if (!isset($session['messageId'])) {
@@ -617,11 +623,51 @@ class OA_Admin_UI
             'text' => $text,
             'location' => $location,
             'type' => $type,
-            'timeout' => $timeout
+            'timeout' => $timeout,
+            'relatedAction' => $relatedAction
         );
 
         // Force session storage
         phpAds_SessionDataStore();
+    }
+    
+    
+    /**
+     * Removes from queue all messages that are related to a given action. Please 
+     * make sure that if you intend to remove messages you queue them with 'relatedAction'
+     * parameter set properly.
+     *
+     * @param string $relatedAction name of the action which messages should be removed
+     * @return number of messages removed from queue
+     */
+    function removeMessages($relatedAction)
+    {
+        global $session;
+        
+        if (empty($relatedAction) || !isset($session['messageQueue']) 
+            || !is_array($session['messageQueue']) || !count($session['messageQueue'])) {
+            return 0;
+        }
+        
+        $messages = $session['messageQueue'];
+        $filteredMessages = array();
+        
+        //filter messages out, if any
+        foreach ($messages as $message) {
+            if ($relatedAction != $message['relatedAction']) {
+                $filteredMessages[] = $message;
+            }
+        }
+        
+        //if sth was filtered save new queue
+        $removedCount = count($messages) - count($filteredMessages);
+        if ($removedCount > 0) {
+            $session['messageQueue'] = $filteredMessages;
+            // Force session storage
+            phpAds_SessionDataStore();
+        }
+    
+        return $removedCount;        
     }
 
 
