@@ -330,10 +330,13 @@ class OA_Permission
         // Force session save
         phpAds_SessionDataRegister('user', $oUser);
 
+        // If exists previous message related to switchAccount remove it
+        OA_Admin_UI::removeOneMessage('switchAccount');
+
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strYouAreNowWorkingAsX'], array( htmlspecialchars($oUser->aAccount['account_name']) ));
-        OA_Admin_UI::queueMessage($translated_message, 'global', 'info');
+        OA_Admin_UI::queueMessage($translated_message, 'global', 'info', null, 'switchAccount');
     }
 
     /**
