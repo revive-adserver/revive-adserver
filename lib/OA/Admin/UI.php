@@ -144,7 +144,7 @@ class OA_Admin_UI
 
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
-        
+
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         $aMainNav        = array();
         $aLeftMenuNav    = array();
@@ -551,7 +551,7 @@ class OA_Admin_UI
         }
     }
 
-    function _assignMessages() 
+    function _assignMessages()
     {
         global $session;
 
@@ -587,23 +587,23 @@ class OA_Admin_UI
             }
         }
     }
-    
-    
+
+
     /**
      * Schedules a message to be shown on next showHeader call. Message can be of 4 different types:
      * - info
      * - confirm
      * - warning
-     * - error and 
+     * - error and
      * It can be shown in two locations (global - glued to the top of the scren, local
      * - placed within page content). Message can automatically disappera after a given number
-     * of miliseconds. If timeout is set to 0, message will not disappear automaticaly, 
+     * of miliseconds. If timeout is set to 0, message will not disappear automaticaly,
      * user will have to close it.
-     * 
+     *
      * When adding a message an action it is related to can be specified.
      * Later, this action type can be used to access messages in queue before they got displayed.
      *
-     * @param string $text either Message text 
+     * @param string $text either Message text
      * @param string $location either local or global
      * @param string $type info, confirm, warning, error
      * @param int $timeout value or 0
@@ -630,10 +630,10 @@ class OA_Admin_UI
         // Force session storage
         phpAds_SessionDataStore();
     }
-    
-    
+
+
     /**
-     * Removes from queue all messages that are related to a given action. Please 
+     * Removes from queue all messages that are related to a given action. Please
      * make sure that if you intend to remove messages you queue them with 'relatedAction'
      * parameter set properly.
      *
@@ -643,22 +643,22 @@ class OA_Admin_UI
     function removeMessages($relatedAction)
     {
         global $session;
-        
-        if (empty($relatedAction) || !isset($session['messageQueue']) 
+
+        if (empty($relatedAction) || !isset($session['messageQueue'])
             || !is_array($session['messageQueue']) || !count($session['messageQueue'])) {
             return 0;
         }
-        
+
         $aMessages = $session['messageQueue'];
         $aFilteredMessages = array();
-        
+
         //filter messages out, if any
         foreach ($aMessages as $message) {
             if ($relatedAction != $message['relatedAction']) {
                 $aFilteredMessages[] = $message;
             }
         }
-        
+
         //if sth was filtered save new queue
         $removedCount = count($aMessages) - count($aFilteredMessages);
         if ($removedCount > 0) {
@@ -666,13 +666,13 @@ class OA_Admin_UI
             // Force session storage
             phpAds_SessionDataStore();
         }
-    
-        return $removedCount;        
+
+        return $removedCount;
     }
-    
-    
+
+
     /**
-     * Removes from queue the latest message related to a given action. Please 
+     * Removes from queue the latest message related to a given action. Please
      * make sure that if you intend to remove messages you queue them with 'relatedAction'
      * parameter set properly.
      *
@@ -682,32 +682,31 @@ class OA_Admin_UI
     function removeOneMessage($relatedAction)
     {
         global $session;
-        
-        if (empty($relatedAction) || !isset($session['messageQueue']) 
+
+        if (empty($relatedAction) || !isset($session['messageQueue'])
             || !is_array($session['messageQueue']) || !count($session['messageQueue'])) {
             return false;
         }
-        
+
         $aMessages = $session['messageQueue'];
         //filter messages out, if any
         $count = count($aMessages);
-        for($i = $count; $i > 0; $i--) {
+        for($i = 0; $i < $count; $i++) {
             if ($relatedAction == $aMessages[$i]['relatedAction']) {
                 unset($aMessages[$i]);
                 $aMessages = array_slice($aMessages, 0); //a hack to reorder indices after elem was removed
                 break;
             }
         }
-        
+
         //if sth was filtered save new queue
-        $removedCount = $count - count($aMessages);
-        if ($removedCount > 0) {
+        if ($count > count($aMessages)) {
             $session['messageQueue'] = $aMessages;
             // Force session storage
             phpAds_SessionDataStore();
         }
-    
-        return $removedCount;        
+
+        return $removedCount;
     }
 
 
