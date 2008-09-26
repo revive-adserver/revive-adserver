@@ -2669,7 +2669,7 @@ return 'PEAR';
 }
 function errorObjToString($oError, $additionalInfo = null)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 $message = $oError->getMessage();
 $debugInfo = $oError->getDebugInfo();
 $backtrace = $oError->getBacktrace();
@@ -2707,12 +2707,12 @@ return $error;
 }
 function constructURL($type, $file = null)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 // Prepare the base URL
 if ($type == MAX_URL_ADMIN) {
-$path = $conf['webpath']['admin'];
+$path = $aConf['webpath']['admin'];
 } elseif ($type == MAX_URL_IMAGE) {
-$path = $conf['webpath']['admin'] . "/" . OX::assetPath("/images");
+$path = $aConf['webpath']['admin'] . "/" . OX::assetPath("/images");
 } else {
 return null;
 }
@@ -2722,9 +2722,9 @@ return null;
 // happens from the root of virtual hosts)
 $path .= '/';
 // Modify the admin URL for different SSL port if required
-if ($conf['openads']['sslPort'] != 443) {
+if ($aConf['openads']['sslPort'] != 443) {
 if ($GLOBALS['_MAX']['HTTP'] == 'https://') {
-$path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $path);
+$path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path);
 }
 }
 // Return the URL
@@ -2733,18 +2733,18 @@ return $GLOBALS['_MAX']['HTTP'] . $path . $file;
 }
 function pearErrorHandler($oError)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 // Log message
 $message = $oError->getMessage();
 $debugInfo = $oError->getDebugInfo();
 OA::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
 // If sesssion debug, send error info to screen
 $msg = '';
-if (empty($conf['debug']['production'])) {
+if (empty($aConf['debug']['production'])) {
 $GLOBALS['_MAX']['ERRORS'][] = $oError;
 }
 // Add backtrace info
-if (!empty($conf['debug']['showBacktrace'])) {
+if (!empty($aConf['debug']['showBacktrace'])) {
 $msg .= 'PEAR backtrace: <div onClick="if (this.style.height) {this.style.height = null;this.style.width = null;} else {this.style.height = \'8px\'; this.style.width=\'8px\'}"';
 $msg .= 'style="float:left; cursor: pointer; border: 1px dashed #FF0000; background-color: #EFEFEF; height: 8px; width: 8px; overflow: hidden; margin-bottom: 2px;">';
 $msg .= '<pre wrap style="margin: 5px; background-color: #EFEFEF">';
