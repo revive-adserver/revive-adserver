@@ -54,8 +54,6 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
      */
     public function processBucket($oBucket, $oEnd)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
         $sTableName = $oBucket->getBucketTableName();
         $oMainDbh =& OA_DB_Distributed::singleton();
 
@@ -63,11 +61,13 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
+        OA::debug('  - Processing the ' . $sTableName . ' table for data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
+
         // Select all rows with interval_start <= previous OI start.
         $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
         $count = $rsData->getRowCount();
 
-        OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
+        OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
 
         if ($count) {
             $aRow = $oMainDbh->queryRow("SHOW VARIABLES LIKE 'max_allowed_packet'");
@@ -133,7 +133,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
         if (!is_null($oStart)) {
             OA::debug('  - Pruning the ' . $sTableName . ' table for data between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         } else {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for all data before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for all data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         }
         $query = "
             DELETE FROM

@@ -81,6 +81,7 @@ class OX_Maintenance_Distributed
             $oNow = new Date();
             $oServiceLocator->register('now', $oNow);
         }
+        OA::debug(' - Current time is ' . $oNow->format('%Y-%m-%d %H:%M:%S') . ' ' . $oNow->tz->getShortName(), PEAR_LOG_DEBUG);
 
         // Get the components of the deliveryLog extension
         $aBuckets = OX_Component::getComponents('deliveryLog');
@@ -89,6 +90,8 @@ class OX_Maintenance_Distributed
         // and then prune the data processed
         $aPreviousOperationIntervalDates =
             OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
+        OA::debug(' - Will process data for all operation intervals before and up to start', PEAR_LOG_DEBUG);
+        OA::debug('   time of ' . $aPreviousOperationIntervalDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aPreviousOperationIntervalDates['start']->tz->getShortName(), PEAR_LOG_DEBUG);
         foreach ($aBuckets as $sBucketName => $oBucketClass) {
             $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
             $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);

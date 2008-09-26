@@ -61,24 +61,34 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
+        OA::debug('  - Processing the ' . $sTableName . ' table for data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
+
         // Select all rows with interval_start <= previous OI start.
         $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
         $rowCount = $rsData->getRowCount();
 
-        OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
+        OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
 
         if ($rowCount) {
             // We can't do bulk inserts with ON DUPLICATE.
-            $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
-            $query      = '';
             $aExecQueries = array();
-
-            while ($rsData->fetch()) {
+            if ($rsData->fetch()) {
+                // Get first row
                 $aRow = $rsData->toArray();
+                // Prepare INSERT
+                $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
+                // Add first row data
                 $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
                 $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
-
+                // Add first insert
                 $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
+                // Deal with the other rows
+                while ($rsData->fetch()) {
+                    $aRow = $rsData->toArray();
+                    $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
+                    $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
+                    $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
+                }
             }
 
             if (count($aExecQueries)) {
@@ -112,7 +122,7 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
         if (!is_null($oStart)) {
             OA::debug('  - Pruning the ' . $sTableName . ' table for data between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         } else {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for all data before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for all data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         }
         $query = "
             DELETE FROM
