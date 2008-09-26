@@ -49,11 +49,17 @@ class OX_Admin_Redirect
      * @param boolean $manualAccountSwitch Flag to know if the user has switched account.
      *
      */
-    function redirect($adminPage = 'index.php', $manualAccountSwitch = false)
+    function redirect($adminPage = 'index.php', $manualAccountSwitch = false, $redirectTopLevel = false)
     {
-        if ($manualAccountSwitch) {
+        if ($manualAccountSwitch || $redirectTopLevel) {
             // Get the page where the user was in when switched account
-            $urlComponents = parse_url($_SERVER['HTTP_REFERER']);
+            if (!empty($_SERVER['HTTP_REFERER'])) {
+                $urlComponents = parse_url($_SERVER['HTTP_REFERER']);
+            } elseif (!empty($_SERVER['REQUEST_URI'])) {
+                $urlComponents = parse_url($_SERVER['REQUEST_URI']);
+            }
+            //$urlComponents = (empty($_SERVER['HTTP_REFERER'])) parse_url($_SERVER['HTTP_REFERER']);
+            //$urlComponents = parse_url($_SERVER['HTTP_REFERER']);
             $pathInformation = pathinfo($urlComponents['path']);
             $sectionID = $pathInformation['filename'];
             // Get the top level page
@@ -62,6 +68,7 @@ class OX_Admin_Redirect
                 header("Location: $return_url");
             }
         }
+
         if (!$manualAccountSwitch || empty($return_url)) {
             if (!preg_match('/[\r\n]/', $adminPage)) {
                 header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
