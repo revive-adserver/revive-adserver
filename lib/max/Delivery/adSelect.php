@@ -203,9 +203,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
         }
         if (is_array($row) && empty($row['default'])) {
             // Log the ad request
-            if ($conf['logging']['adRequests']) {
-                MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid']);
-            }
+            MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid']);
             if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
                 && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
                 // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
@@ -622,7 +620,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
-    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && 
+    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' &&
         (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
         // HTML Banners that contain 'http:' on SSL
         return false;
