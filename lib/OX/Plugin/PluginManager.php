@@ -1307,7 +1307,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		}
 		else
 		{
-		    $result = $oZip->extract( PCLZIP_OPT_REPLACE_NEWER, PCLZIP_OPT_PATH, $target, PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_CB_POST_EXTRACT, 'setFolderPermission' );
+		    $result = $oZip->extract( PCLZIP_OPT_REPLACE_NEWER, PCLZIP_OPT_PATH, $target, PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE);
 		}
 		if($result == 0)
 		{
