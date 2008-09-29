@@ -1343,8 +1343,20 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                     case 'write_error':
                     case 'read_error':
                     case 'invalid_header':
+                        $this->_logError('Error: '.$aInfo['status'].' : '.$aInfo['filename']);
+                        $error = true;
+                        break;
                     case 'newer_exist':
                         $this->_logError('Error: '.$aInfo['status'].' : '.$aInfo['filename']);
+                        if ((!$aInfo['folder']) && ($time = @filectime($aInfo['filename'])))
+                        {
+                            $this->_logError('Existing file\'s timestamp is '.date('d/m/Y h:i:s', $time).' ... Replacement file\'s timestamp is '.date('d/m/Y h:i:s', $aInfo['mtime']));
+
+                        }
+                        else
+                        {
+                            $this->_logError('Unable to determine newer file\'s timestamp ... Replacement file\'s timestamp is '.date('d/m/Y h:i:s', $aInfo['mtime']));
+                        }
                         $error = true;
                         break;
                     case 'already_a_directory':
