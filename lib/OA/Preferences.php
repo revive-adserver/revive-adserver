@@ -165,7 +165,7 @@ class OA_Preferences
                             $owningAgencyId = $aOwningAgencyId[0];
                         }
                     } else if ($currentAccountType == OA_ACCOUNT_TRAFFICKER) {
-                        $doAffiliates = OA_Dal::factoryDO('affilates');
+                        $doAffiliates = OA_Dal::factoryDO('affiliates');
                         $doAffiliates->account_id = $accountId;
                         $doAffiliates->find();
                         if ($doAffiliates->getRowCount() == 1) {

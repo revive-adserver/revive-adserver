@@ -46,7 +46,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 
     var $tblPrefsOld;
     var $tblAgency;
-    var $tblAffilates;
+    var $tblAffiliates;
     var $tblChannel;
     var $tblClients;
     var $tblUsers;
@@ -318,7 +318,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         // both old names and new
         $this->tblPrefsOld  = $this->oDbh->quoteIdentifier($prefix.$aConf['preference'], true);
         $this->tblAgency    = $this->oDbh->quoteIdentifier($prefix.$aConf['agency'], true);
-        $this->tblAffilates = $this->oDbh->quoteIdentifier($prefix.$aConf['affiliates'], true);
+        $this->tblAffiliates = $this->oDbh->quoteIdentifier($prefix.$aConf['affiliates'], true);
         $this->tblChannel   = $this->oDbh->quoteIdentifier($prefix.$aConf['channel'], true);
         $this->tblClients   = $this->oDbh->quoteIdentifier($prefix.$aConf['clients'], true);
         $this->tblUsers     = $this->oDbh->quoteIdentifier($prefix.$aConf['users'], true);
@@ -399,8 +399,8 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password, language) VALUES ('Agency 4', 'ag4@example.com', 'agency4', NULL, 'french')");
         $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 5', 'ag5@example.com', NULL, 'agency3')");
 
-        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, language, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 'korean', 1)");
-        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, language, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'german', 'publisher2', 'publisher2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffiliates} (name, email, language, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 'korean', 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffiliates} (name, email, language, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'german', 'publisher2', 'publisher2')");
 
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 1', 0, 0)");
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 2', 0, 2)");
@@ -1482,7 +1482,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
     function _testMigrateUsers($set)
     {
         $aAgencies   = $this->oDbh->queryAll("SELECT agencyid, name, email, account_id FROM {$this->tblAgency} ORDER BY agencyid");
-        $aAffiliates = $this->oDbh->queryAll("SELECT affiliateid, agencyid, account_id FROM {$this->tblAffilates} ORDER BY affiliateid");
+        $aAffiliates = $this->oDbh->queryAll("SELECT affiliateid, agencyid, account_id FROM {$this->tblAffiliates} ORDER BY affiliateid");
         $aChannels   = $this->oDbh->queryAll("SELECT channelid, agencyid FROM {$this->tblChannel} ORDER BY channelid");
         $aClients    = $this->oDbh->queryAll("SELECT clientid, agencyid, account_id FROM {$this->tblClients} ORDER BY clientid");
         $aAccounts   = $this->oDbh->queryAll("SELECT * FROM {$this->tblAccounts} ORDER BY account_id");
