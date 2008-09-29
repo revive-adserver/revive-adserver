@@ -91,7 +91,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             'PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements',
             array(
                 '_getMaintenanceStatisticsLastRunInfo',
-                '_getEarliestLoggedDeliveryData'
+                '_getEarliestLoggedDeliveryData',
+                '_checkTables'
             )
         );
 
@@ -130,6 +131,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 // the expectations and return values required for the test run
 
                 $oSetUpdateRequirements = new PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements();
+
+                $oSetUpdateRequirements->setReturnValue('_checkTables', true);
 
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 2);
@@ -193,6 +196,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 // the expectations and return values required for the test run
 
                 $oSetUpdateRequirements = new PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements();
+
+                $oSetUpdateRequirements->setReturnValue('_checkTables', true);
 
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 2);
@@ -284,6 +289,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 $oSetUpdateRequirements = new PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements();
 
+                $oSetUpdateRequirements->setReturnValue('_checkTables', true);
+
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 1);
 
@@ -368,6 +375,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 // the expectations and return values required for the test run
 
                 $oSetUpdateRequirements = new PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements();
+
+                $oSetUpdateRequirements->setReturnValue('_checkTables', true);
 
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 0);
