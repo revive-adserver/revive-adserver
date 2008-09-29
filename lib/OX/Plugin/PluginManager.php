@@ -48,7 +48,8 @@ define('OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH'            ,   -10);
 define('OX_PLUGIN_ERROR_ILLEGAL_FILE'                   ,   -11);
 define('OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH'    ,   -12);
 
-define('OX_PLUGIN_DIR_WRITE_MODE', 0755);
+//define('OX_PLUGIN_DIR_WRITE_MODE', 0755);
+define('OX_PLUGIN_DIR_WRITE_MODE', 0777);
 
 /**
  * @package OpenXPlugin
@@ -1075,7 +1076,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	        $this->errcode = OX_PLUGIN_ERROR_PACKAGE_DEFINITION_NOT_FOUND;
 	        return false;
 	    }
-        $aResult = $oZip->extractByIndex($aPkgFile['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_REPLACE_NEWER);
+        $aResult = $oZip->extractByIndex($aPkgFile['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
 		if ((!is_array($aResult)) || ($aResult[0]['status'] != 'ok'))
 		{
 	        $this->_logError('Error extracting plugin definition file: '.$aResult[0]['status'].' : '.$aResult[0]['stored_filename']);
@@ -1085,13 +1086,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		$pathPackages = '/var/tmp'.$this->pathPackages;
 	    $aPackage = $this->_parsePackage(MAX_PATH.$pathPackages.$pkgFile);
 	    @unlink(MAX_PATH.$pathPackages.$pkgFile);
-	    $chmodPath = dirname($this->pathPackages.$pkgFile);
-	    // Change permissions to created directories (OX-4068)
-	    while( !empty($chmodPath)) {
-	       @chmod(MAX_PATH.'/var/tmp'.$chmodPath, OX_PLUGIN_DIR_WRITE_MODE);
-	       $newChmodPath = dirname($chmodPath);
-	       $chmodPath = ($newChmodPath == $chmodPath) ? "" : $newChmodPath;
-	    }
         if (!$aPackage || (!is_array($aPackage)))
         {
             $this->_logError('Failed to parse the plugin definition '.$pkgFile);
@@ -1130,7 +1124,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->errcode = OX_PLUGIN_ERROR_PACKAGE_CONTENTS_MISMATCH;
                 return false;
             }
-            $aResult = $oZip->extractByIndex($aXMLFiles[$aItem['name'].'.xml']['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_REPLACE_NEWER);
+            $aResult = $oZip->extractByIndex($aXMLFiles[$aItem['name'].'.xml']['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
     		if ((!is_array($aResult)) || ($aResult[0]['status'] != 'ok'))
     		{
     	        $this->_logError('Error extracting group definition file: '.$aResult[0]['status'].' : '.$aResult[0]['stored_filename']);
@@ -1309,30 +1303,17 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
 		if (!$overwrite)
 		{
-		  $result = $oZip->extract( PCLZIP_OPT_PATH, $target );
+		  $result = $oZip->extract( PCLZIP_OPT_PATH, $target, PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE);
 		}
 		else
 		{
-		    $result = $oZip->extract( PCLZIP_OPT_REPLACE_NEWER, PCLZIP_OPT_PATH, $target );
+		    $result = $oZip->extract( PCLZIP_OPT_REPLACE_NEWER, PCLZIP_OPT_PATH, $target, PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_CB_POST_EXTRACT, 'setFolderPermission' );
 		}
 		if($result == 0)
 		{
 		    $this->_logError('Unrecoverable decompression error: '.$oZip->errorName(true));
 			return false;
 		}
-		// Change permissions to created directories (OX-4068)
-		$dirList = $this->_getDirsFromFileList($oZip->listContent());
-		$fileOwner = @fileowner(MAX_PATH.'/index.php');
-		foreach ($dirList as $dir) {
-		  $chmodDir = $target."/".$dir;
-		  $this->_logMessage("Checking $chmodDir");
-		  if ( ($fileOwner == false || @fileowner($chmodDir) != $fileOwner)
-		       && file_exists($chmodDir)) {
-		      $this->_logMessage("Changing $chmodDir set chmod to 0777");
-		      @chmod($chmodDir, OX_PLUGIN_DIR_WRITE_MODE);
-		  }
-		}
-
         foreach ($result as $i => $aInfo)
         {
             if ($aInfo['status'] != 'ok')

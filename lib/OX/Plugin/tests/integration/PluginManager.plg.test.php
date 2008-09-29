@@ -113,8 +113,8 @@ class Test_OX_PluginManager extends UnitTestCase
     {
         @unlink(MAX_PATH.'/var/ziptest/foo.xml');
         @unlink(MAX_PATH.'/var/ziptest/etc/bar.xml');
-        @unlink(MAX_PATH.'/var/ziptest/etc');
-        @unlink(MAX_PATH.'/var/ziptest');
+        @rmdir(MAX_PATH.'/var/ziptest/etc');
+        @rmdir(MAX_PATH.'/var/ziptest');
 
         $oPackageManager                    = new OX_PluginManager();
         $oPackageManager->pathPackages      = $this->testpathPackages;
@@ -131,8 +131,8 @@ class Test_OX_PluginManager extends UnitTestCase
 
         @unlink(MAX_PATH.'/var/ziptest/foo.xml');
         @unlink(MAX_PATH.'/var/ziptest/etc/bar.xml');
-        @unlink(MAX_PATH.'/var/ziptest/etc');
-        @unlink(MAX_PATH.'/var/ziptest');
+        @rmdir(MAX_PATH.'/var/ziptest/etc');
+        @rmdir(MAX_PATH.'/var/ziptest');
     }
 
     function test_installPackage()
