@@ -143,6 +143,11 @@ class Test_OX_PluginManager extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']);
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
 
+
+        // try to clean up in case of previous failure
+        $oPkgMgr->uninstallPackage('testPluginPackage');
+        $oPkgMgr->clearErrors();
+
         //install
         $this->assertTrue($oPkgMgr->installPackage(array('tmp_name'=>$file, 'name'=>'testPluginPackage.zip')));
         if (count($oPkgMgr->aErrors))
@@ -194,7 +199,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertTrue($doTestPluginTable->delete());
 
         //uninstall
-        $oPkgMgr->aErrors = array();
+        $oPkgMgr->clearErrors();
         $this->assertTrue($oPkgMgr->uninstallPackage('testPluginPackage'));
         if (count($oPkgMgr->aErrors))
         {
