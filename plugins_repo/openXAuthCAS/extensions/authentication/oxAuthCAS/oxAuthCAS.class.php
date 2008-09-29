@@ -252,7 +252,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
      */
     function displayRegistrationRequiredInfo()
     {
-        phpAds_PageHeader("1");
+        phpAds_PageHeader(phpAds_Login);
         echo $this->translate('strRegistrationRequiredInfo', array(phpCAS::getUser()));
         phpAds_PageFooter();
         exit();
