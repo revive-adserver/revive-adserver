@@ -839,6 +839,20 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         return array($result);
     }
 
+    function checkTable($tableName)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        $result = $db->query('SELECT * FROM '.$tableName);
+        if (PEAR::isError($result))
+        {
+            return array('msg_text' => $result->getUserInfo());
+        }
+        return array('msg_text' => 'OK');
+    }
+
     function listCurrentSchemas()
     {
         $db =& $this->getDBInstance();
@@ -898,12 +912,12 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
 
         return $oid;
     }
-    
+
     /**
      * New OPENX method to check database name according to specifications:
      *  PostgreSQL specification: http://www.postgresql.org/docs/8.3/interactive/tutorial-createdb.html
      *
-     * @param string $name database name to check  
+     * @param string $name database name to check
      * @return true in name is correct and PEAR error on failure
      */
     function validateDatabaseName($name)
@@ -913,29 +927,29 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return PEAR::raiseError(
                 'Database names are limited to 63 characters in length');
         }
-        // Test for first character (is alfabetic?) 
+        // Test for first character (is alfabetic?)
         if ( !preg_match( '/^([a-zA-z]).*/', $name) ) {
             return PEAR::raiseError(
                 'Database names must have an alphabetic first character');
         }
         return true;
     }
-    
-    
+
+
     /**
      * New OPENX method to check database name according to specifications:
      *  PostgreSQL specification: http://www.postgresql.org/docs/8.1/interactive/sql-syntax.html#SQL-SYNTAX-IDENTIFIERS
-     * 
-     * - SQL identifiers and key words must begin with a letter (a-z, but also letters with diacritical marks and non-Latin letters) 
-     *  or an underscore (_). 
-     * - Subsequent characters in an identifier or key word can be letters, underscores, 
-     *  digits (0-9), or dollar signs ($). 
-     *  (Note that dollar signs are not allowed in identifiers according to the letter of the SQL standard, 
+     *
+     * - SQL identifiers and key words must begin with a letter (a-z, but also letters with diacritical marks and non-Latin letters)
+     *  or an underscore (_).
+     * - Subsequent characters in an identifier or key word can be letters, underscores,
+     *  digits (0-9), or dollar signs ($).
+     *  (Note that dollar signs are not allowed in identifiers according to the letter of the SQL standard,
      *  so their use may render applications less portable.
      * - maximum identifier length is 63
-     * 
      *
-     * @param string $name table name to check  
+     *
+     * @param string $name table name to check
      * @return true if name is correct and PEAR error on failure
      */
     function validateTableName($name)
@@ -945,39 +959,39 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return PEAR::raiseError(
                 'Table names are limited to 63 characters in length');
         }
-        
-        
+
+
         // Database, table, and column names should not end with space characters.
         // Extended for leading and ending spaces
         if ($name != trim($name)) {
             return PEAR::raiseError(
                 'Table names should not start or end with space characters');
         }
-        
-        
-        // Test for first character (is alfabetic?) 
+
+
+        // Test for first character (is alfabetic?)
         if ( !preg_match( '/^([a-zA-z_]).*/', $name) ) {
             return PEAR::raiseError(
                 'Table names must start with an alphabetic character or underscore');
         }
-        
-        
-        //Subsequent characters in an identifier or key word can be letters, underscores, 
-        //digits (0-9), or dollar signs ($).        
+
+
+        //Subsequent characters in an identifier or key word can be letters, underscores,
+        //digits (0-9), or dollar signs ($).
         if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) ) {
             return PEAR::raiseError(
                 'Table names must contain only alphabetic characters, digits, underscore or dollar sign');
         }
-        
-        
+
+
         //we disallow quoting at all
         if (preg_match( '/(\\\\|\/|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
             return PEAR::raiseError(
                 $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
         }
-        
-        
+
+
         return true;
-    }    
+    }
 }
 ?>

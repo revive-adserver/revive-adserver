@@ -710,6 +710,21 @@ class OA_DB_Table
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
+
+    function checkTable($tableName)
+    {
+        $aConf      = $GLOBALS['_MAX']['CONF']['table'];
+        $oDbh       = OA_DB::singleton();
+        $tableName  = $oDbh->quoteIdentifier($aConf['prefix'].($aConf[$tableName] ? $aConf[$tableName] : $tableName),true);
+        $aResult = $oDbh->manager->checkTable($tableName);
+        if ($aResult['msg_text']!=='OK')
+        {
+            OA::debug('PROBLEM WITH TABLE '.$tableName. ': '.$aResult['msg_text'], PEAR_LOG_ERR);
+            return false;
+        }
+        OA::debug($tableName. ': Status = OK');
+        return true;
+    }
 }
 
 ?>

@@ -950,12 +950,27 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         return $result;
     }
 
+    function checkTable($tableName)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        $query  = 'CHECK TABLE '.$tableName;
+        $result = $db->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
+        if (PEAR::isError($result))
+        {
+            return array('msg_text' => $result->getUserInfo());
+        }
+        return $result;
+    }
+
     /**
      * New OPENX method to check database name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *  For 4.0, 4.1, 5.0 seem to be the same
-     *      
+     *
      * @param string $name database name to check
      * @return true in name is correct and PEAR error on failure
      */
@@ -963,20 +978,20 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
     {
         return $this->_validateEntityName($name, 'Database');
     }
-    
-    
+
+
     /**
      * New OPENX method to check table name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *  For 4.0, 4.1, 5.0 seem to be the same
-     * 
+     *
      *  There are some restrictions on the characters that may appear in identifiers:
      *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
      *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
      *  - Database, table, and column names should not end with space characters.
      *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
-     * 
+     *
      *  Table name maximum length:
      *  - 64
      *
@@ -985,22 +1000,22 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
      */
     function validateTableName($name)
     {
-        return $this->_validateEntityName($name, 'Table'); 
+        return $this->_validateEntityName($name, 'Table');
     }
-    
-    
+
+
     /**
      * New OPENX method to check entity name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *  For 4.0, 4.1, 5.0 seem to be the same
-     * 
+     *
      *  There are some restrictions on the characters that may appear in identifiers:
      *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
      *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
      *  - Database, table, and column names should not end with space characters.
      *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
-     * 
+     *
      *  Table/Database name maximum length:
      *  - 64
      *
@@ -1018,28 +1033,29 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             return PEAR::raiseError(
                $entityType.' names are limited to 64 characters in length');
         }
-        
+
         // Database, table, and column names should not end with space characters.
         // Extended for leading and ending spaces
         if ($name != trim($name)) {
             return PEAR::raiseError(
                 $entityType.' names should not start or end with space characters');
         }
-        
+
         // No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
         if (preg_match( '/([\\x00|\\xff])/', $name)) {
             return PEAR::raiseError(
                $entityType.' names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
         }
-        
+
         //Before MySQL 4.1, identifier quote characters should not be used in identifiers.
         //we actually extend that and disallow quoting at all
         if (preg_match( '/(\\\\|\/|\.|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
             return PEAR::raiseError(
                 $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
         }
-        
-        return true; 
+
+        return true;
     }
+
 }
 ?>

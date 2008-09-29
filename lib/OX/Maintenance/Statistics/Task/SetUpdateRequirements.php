@@ -72,6 +72,13 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
 
+        if (!$this->_checkTables())
+        {
+            $message = "- Maintenance statistics will NOT be run : possible table corruption, check logfile and tables";
+            OA::debug($message, PEAR_LOG_ERR);
+            return false;
+        }
+
         // Don't update unless the time is right!
         $this->oController->updateIntermediate = false;
         $this->oController->updateFinal        = false;
@@ -222,6 +229,27 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
             OA::debug($message, PEAR_LOG_INFO);
             $this->oController->report .= "\n";
         }
+    }
+
+    function _checkTables()
+    {
+        $aTables = array(
+                        'data_summary_ad_hourly',
+                        'data_summary_ad_zone_assoc',
+                        'data_summary_zone_impression_history',
+                        'data_intermediate_ad',
+                        'data_intermediate_ad_connection',
+                        'data_intermediate_ad_variable_value',
+                        'log_maintenance_statistics',
+                        );
+        foreach ($aTables as $table)
+        {
+            if (!OA_DB_Table::checkTable($table))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
