@@ -1058,7 +1058,12 @@ function formUnFormat(field)
         
         function showForm()
         {
-            $(this).siblings('.form').show('normal');
+			if (jQuery.browser.msie && parseInt(jQuery.browser.version) == 6) {
+			    $(this).siblings('.form').show();
+			}
+			else {
+                $(this).siblings('.form').show('normal');
+            }
             $(this).parent('li').addClass('expanded');    
         }
         
