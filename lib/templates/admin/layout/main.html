@@ -189,6 +189,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     {include file=layout/sidebar.html}
 {/if}
 
+{if $aShortcuts|@count || $aTools|@count}
+<div id="contextContainer">
 {if $aShortcuts|@count}
     {capture assign=linksTitle}{t str=Shortcuts}{/capture}
     {include file=layout/links-container.html aLinks=$aShortcuts title=$linksTitle cssClass=shortcuts}
@@ -197,14 +199,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $aTools|@count}
     {capture assign=linksTitle}{t str=Actions}{/capture}
     {include file=layout/links-container.html aLinks=$aTools title=$linksTitle cssClass=tools}
-{/if}    
+{/if}
+</div>    
 
-{if $aShortcuts|@count || $aTools|@count}
 <script type='text/javascript'>
 {literal}
   <!--
   $(document).ready(function() {
-    $('div.tools, div.shortcuts').expandableContainer();
+    $('div.contextLinks').expandableContainer();
   });
   -->
 {/literal}  

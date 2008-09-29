@@ -24,7 +24,7 @@
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
-<div class='{$cssClass}'>
+<div class='contextLinks {$cssClass}'>
     <h4>{$title}</h4>
     <ul>
     {section name=linkLoop loop=$aLinks}
@@ -53,7 +53,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     {/if}
 
     {if $aLinks|@count > 3}        
-        <a class="more-less hide" href="#"><span class="more">{t str=More}</span><span class="less">{t str=Less}</span></a>
+        <a class="more-less" href="#"><span class="more">{t str=More}</span><span class="less">{t str=Less}</span></a>
     {/if}
     <span class="corner bottom-left"></span>
     <span class="corner bottom-right"></span>

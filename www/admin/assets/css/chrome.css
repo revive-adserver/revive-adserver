@@ -855,8 +855,14 @@ div.breadcrumb .webs {
 	background-image: url("../images/icon-affiliate.gif");
 }
 
-/* Actions and shortcuts */
-div.tools, div.shortcuts {
+/* Context Actions and shortcuts */
+#contextContainer {
+  position: absolute;
+  right: 20px;
+}
+
+
+div.contextLinks {
     float: right;
     padding: 3px 10px 3px 10px;
     border-top: none;
@@ -867,29 +873,26 @@ div.tools, div.shortcuts {
     /*position: relative;
     top: -6px;*/
    position: relative;
-   z-index: 1;    
+   z-index: 1;
+   margin-left: 20px;
 }
 
-div.tools, div.shortcuts {
-    margin-right: 20px;
-}
-
-div.tools .expanded .more, div.shortcuts .expanded .more, div.tools .less, div.shortcuts .less {
+div.contextLinks .expanded .more, div.contextLinks .less {
   display: none;
 }
 
-div.tools .expanded .less, div.shortcuts .expanded .less {
+div.contextLinks .expanded .less {
   display: inline;
 }
 
 
-div.tools a.more-less, div.shortcuts a.more-less {
+div.contextLinks a.more-less {
   display: block;
   text-align: right;
   font-size: 10px;
 }
 
-div.shortcuts .corner, div.tools .corner {
+div.contextLinks .corner {
     position: absolute;
     overflow: hidden;
     font-size: 0;
@@ -908,22 +911,17 @@ div.shortcuts .corner, div.tools .corner {
 }
 
 
-div.tools .bottom-left, div.shortcuts .bottom-left {
+div.contextLinks .bottom-left {
     left: -1px;
     background-position: bottom left;
 }
 
-div.tools .bottom-right, div.shortcuts .bottom-right {
+div.contextLinks .bottom-right {
     right: -1px;
     background-position: bottom right;
 }
 
-div.shortcuts {
-    padding: 3px 10px 3px 10px;
-}
-
-
-div.tools h4, div.shortcuts h4 {
+div.contextLinks h4 {
   padding: 5px 5px 5px 0px;
   margin: 0;
   font-size: 100%;
@@ -932,37 +930,37 @@ div.tools h4, div.shortcuts h4 {
 }
 
 
-div.tools .title, div.shortcuts .title {
+div.contextLinks .title {
     font-weight: bold;
     margin-bottom: 2px;
 }
 
-div.tools ul, div.shortcuts ul {
+div.contextLinks ul {
     list-style-type:none;
     margin:0pt;
     padding:0pt;
 }
 
-div.tools li, div.shortcuts li {
+div.contextLinks li {
     padding:0px 0px 5px 0px;
 }
 
-div.tools .form {
+div.contextLinks .form {
     display: none;
     margin: 3px 0px 3px 0px;
     padding: 0px;
 }
 
-div.tools form .submit, div.shortcuts form .submit {
+div.contextLinks form .submit {
     margin-left: 3px;
     vertical-align: middle;
 }
 
-div.tools form select, div.shortcuts form select
+div.contextLinks form select
 {
     width: 100px;
 }
-
+/* end of Context Actions and shortcuts */
 
 
 
