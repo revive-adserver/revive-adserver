@@ -74,6 +74,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
 
         if (!$this->_checkTables())
         {
+            $this->oController->updateIntermediate = false;
+            $this->oController->updateFinal        = false;
             $message = "- Maintenance statistics will NOT be run : possible table corruption, check logfile and tables";
             OA::debug($message, PEAR_LOG_ERR);
             return false;
