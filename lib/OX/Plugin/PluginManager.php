@@ -1350,28 +1350,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return ($error ? false : $result);
     }
 
-    /**
-     * @param array $aFileList an array in format given by PclZip listContent();
-     *
-     * @return array list of directories
-     */
-    function _getDirsFromFileList($aFileList){
-        $aResult = array();
-        if (is_array($aFileList)) {
-            foreach ($aFileList as $file) {
-                if (isset($file['filename'])) {
-                    $dir = dirname($file['filename']);
-                    while (!empty($dir)) {
-                        $aResult[$dir] = $dir;
-                        $newDir = dirname($dir);
-                        $dir = ($newDir == $dir) ? "" : $newDir;
-                    }
-                }
-            }
-        }
-        return $aResult;
-    }
-
     function checkForUpdates($aParams)
     {
         require_once ('XML/RPC.php' );
