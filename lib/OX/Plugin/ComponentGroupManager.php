@@ -1266,15 +1266,14 @@ class OX_Plugin_ComponentGroupManager
                 @unlink($pathDbo.$dbo);
             }
             @rmdir($pathDbo);
-
-            if ($aGroup['prescript'])
-            {
-                @unlink($pathEtc.$aGroup['prescript']);
-            }
-            if ($aGroup['postscript'])
-            {
-                @unlink($pathEtc.$aGroup['postscript']);
-            }
+        }
+        if ($aGroup['prescript'])
+        {
+            @unlink($pathEtc.$aGroup['prescript']);
+        }
+        if ($aGroup['postscript'])
+        {
+            @unlink($pathEtc.$aGroup['postscript']);
         }
         $pathChg = $pathEtc.'changes/';
         $dh = @opendir($pathChg);
