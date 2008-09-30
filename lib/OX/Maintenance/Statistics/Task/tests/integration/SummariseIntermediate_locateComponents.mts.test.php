@@ -158,6 +158,7 @@ TODO: move this test from core code to the plugin.  only bundled plugins (or the
 */
         // Uninstall the installed plugins
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
+
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
