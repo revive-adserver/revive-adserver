@@ -61,7 +61,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         );
 
         $this->oCache = new OA_PermanentCache();
-        
+
         // PartialMock of OA_Central_AdNetworks
         Mock::generatePartial(
             'OA_Central_AdNetworks',
@@ -105,58 +105,11 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         return $oAdNetworks;
     }
 
-
-    /**
-     * A method to test the getCategories() method.
-     *
-     */
-    function testGetCategories()
-    {
-        $this->_setUpAppVars();
-
-        $aCategories = array(
-            10 => array(
-                'name' => 'Music',
-                'subcategories' => array(
-                    21 => 'Pop',
-                    22 => 'Rock'
-                )
-            )
-        );
-
-        $oResponse = new XML_RPC_Response(XML_RPC_encode($aCategories));
-
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, $oResponse);
-
-/* DOESN'T WORK!!!
-        $oMsg = new XML_RPC_Message('oac.getCategories');
-        $oMsg->addParam(XML_RPC_encode(array(
-            'protocolVersion'   => OA_CENTRAL_PROTOCOL_VERSION,
-            'platformHash'      => sha1('foobar')
-        )));
-        $oMsg->addParam(new XML_RPC_Value('1', $GLOBALS['XML_RPC_String']));
-
-        $this->_mockSendExpect($oAdNetworks, array($oMsg));
-*/
-        $result = $oAdNetworks->getCategories();
-        $this->assertEqual($result, $aCategories);
-
-        // Test error, this should use the cached values
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
-        $result = $oAdNetworks->getCategories();
-        $expected = $this->oCache->get('AdNetworks::getCategories');
-        $this->assertTrue($expected, 'Invalid cache file for getCategories');
-        $this->assertEqual($result, $expected);
-        DataGenerator::cleanUp($this->aCleanupTables);
-    }
-
     /**
      * A method to test the getCategoriesFlatWithParentInfo() method.
      *
      */
-    function testGetCategoriesFlatWithParentInfo() { 
+    function testGetCategoriesFlatWithParentInfo() {
         $aCategories = array(
             10 => array(
                 'name' => 'Music',
@@ -174,18 +127,18 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
         $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
-        
+
         $aResult = $oAdNetworksPartialMock->getCategoriesFlatWithParentInfo();
         ksort($aExpected);
         ksort($aResult);
         $this->assertEqual($aResult, $aExpected);
     }
-    
+
     /**
      * A method to test the getCategoriesByIds() method.
      *
      */
-    function testGetCategoriesByIds() {       
+    function testGetCategoriesByIds() {
         $aCategories = array(
             10 => array(
                 'name' => 'Music',
@@ -224,17 +177,17 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
         $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
-        
+
         $aResult = $oAdNetworksPartialMock->getCategoriesByIds(array(22,30));
         ksort($aExpected);
         ksort($aResult);
         $this->assertEqual($aResult, $aExpected);
-        
+
         $aResult = $oAdNetworksPartialMock->getCategoriesByIds();
         ksort($aResult);
         $this->assertEqual($aResult, $aCategories);
     }
-    
+
     /**
      * A method to test the getSubCategoriesIds() method.
      *
@@ -254,73 +207,11 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
         $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
-        
+
         $aResult = $oAdNetworksPartialMock->getSubCategoriesIds(10);
         ksort($aExpected);
         ksort($aResult);
         $this->assertEqual($aResult, $aExpected);
-    }
-
-    /**
-     * A method to test the getCountries() method.
-     *
-     */
-    function testGetCountries()
-    {
-        $this->_setUpAppVars();
-
-        $aCountries = array(
-            'UK' => 'United Kingdom',
-            'IT' => 'Italy'
-        );
-
-        $oResponse = new XML_RPC_Response(XML_RPC_encode($aCountries));
-
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, $oResponse);
-        $result = $oAdNetworks->getCountries();
-        $this->assertEqual($result, $aCountries);
-
-        // Test error, this should use the cached values
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
-        $result = $oAdNetworks->getCountries();
-        $expected = $this->oCache->get('AdNetworks::getCountries');
-        $this->assertTrue($expected, 'Invalid cache file for getCountries');
-        $this->assertEqual($result, $expected);
-
-        DataGenerator::cleanUp($this->aCleanupTables);
-    }
-
-    /**
-     * A method to test the getLanguages() method.
-     *
-     */
-    function testGetLanguages()
-    {
-        $this->_setUpAppVars();
-
-        $aLanguages = array(
-            1 => 'en',
-            2 => 'it'
-        );
-
-        $oResponse = new XML_RPC_Response(XML_RPC_encode($aLanguages));
-
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, $oResponse);
-        $result = $oAdNetworks->getLanguages();
-        $this->assertEqual($result, $aLanguages);
-
-        // Test error, this should use the cached values
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
-        $result = $oAdNetworks->getLanguages();
-        $expected = $this->oCache->get('AdNetworks::getLanguages');
-        $this->assertTrue($expected, 'Invalid cache file for getLanguages');
-        $this->assertEqual($result, $expected);
-
-        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**

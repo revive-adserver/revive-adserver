@@ -64,46 +64,24 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
-     * A method to retrieve the localised list of categories and subcategories
-     *
-     * @see OA_Dal_Central_AdNetworks::getCategories
-
-     * @see R-AN-3: Gathering the data of Websites during Installation
-     * @see R-AN-16: Gathering the Websites after the Installation
-     *
-     * @return mixed The categories and subcategories array or false on error
-     */
-    function getCategories()
-    {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oCache->call(array(&$this->oMapper, 'getCategories'), $aPref['language']);
-
-        if (!$result) {
-            $result = $this->retrievePermanentCache('AdNetworks::getCategories');
-        }
-
-        return $result;
-    }
-
-    /**
-     * A method to retrieve the list of categories as for HTML select options 
+     * A method to retrieve the list of categories as for HTML select options
      *
      * Output can be limited to given categories IDs and it's parents
-     * 
+     *
      * @param mixed $aCategoriesIds Array of categories ID, if this is null all categories will be returned
-     * @param string $firstOption Name of first select's option. If false - there will be no first option in returned select. Otherwise first option is set to '- pick a category -' 
+     * @param string $firstOption Name of first select's option. If false - there will be no first option in returned select. Otherwise first option is set to '- pick a category -'
      * @return array
      */
     function getCategoriesSelect($aCategoriesIds = null, $firstOption = null)
     {
         $aCategories = $this->getCategoriesByIds($aCategoriesIds);
-        
+
         if (is_string($firstOption)) {
             $aSelectCategories = array('' => $firstOption);
         } else if ($firstOption===false) {
             $aSelectCategories = array();
         } else {
-            $aSelectCategories = array('' => '- pick a category -');            
+            $aSelectCategories = array('' => '- pick a category -');
         }
         if ($aCategories) {
             ksort($aCategories);
@@ -127,7 +105,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      */
     function getCategoriesFlat()
     {
-        $aCategories = $this->getCategories();
+        $aCategories = $this->retrievePermanentCache('AdNetworks::getCategories');
 
         $aFlatCategories = array();
         if ($aCategories) {
@@ -141,15 +119,15 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         return $aFlatCategories;
     }
-    
+
     /**
-     * A method to retrieve a list of categories with parent category key in a flattened array  
+     * A method to retrieve a list of categories with parent category key in a flattened array
      *
      * @return mixed The categories and subcategories flat array or false on error
      */
     function getCategoriesFlatWithParentInfo()
     {
-        $aCategories = $this->getCategories();
+        $aCategories = $this->retrievePermanentCache('AdNetworks::getCategories');
 
         $aFlatCategories = false;
         if ($aCategories) {
@@ -166,14 +144,14 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         return $aFlatCategories;
     }
-    
+
     /**
-     * Method returns selected categories and parent categories for given categories IDs 
+     * Method returns selected categories and parent categories for given categories IDs
      *
      * @param mixed $aCategoriesIds array of categories ID, if this is null all categories will be returned
      * @return array The categories and subcategories array or false on error
      */
-    function getCategoriesByIds($aCategoriesIds = null) 
+    function getCategoriesByIds($aCategoriesIds = null)
     {
         // Detect fast exits
         if (is_null($aCategoriesIds)) {
@@ -186,12 +164,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 return array();
             }
         }
-        
+
         $aCategories = $this->getCategoriesFlatWithParentInfo();
         if ($aCategories == false) {
             return false;
         }
-        
+
         $aReturnCategories = array();
         foreach ($aCategoriesIds as $categoryId) {
             //detect if given category is on list
@@ -200,65 +178,43 @@ class OA_Central_AdNetworks extends OA_Central_Common
             }
             // detect if this is category or subcategory
             if (is_null($aCategories[$categoryId]['parent'])) {
-                $aReturnCategories[$categoryId]['name'] = $aCategories[$categoryId]['name'];  
+                $aReturnCategories[$categoryId]['name'] = $aCategories[$categoryId]['name'];
             } else {
                 // If subcategory, get this subcategory and parent category
                 $parentId = $aCategories[$categoryId]['parent'];
                 $aReturnCategories[$parentId]['name']                       = $aCategories[$parentId]['name'];
                 $aReturnCategories[$parentId]['subcategories'][$categoryId] = $aCategories[$categoryId]['name'];
-                
+
             }
         }
         return $aReturnCategories;
     }
-    
+
     /**
-     * Returns IDs of subcategories for given category ID 
+     * Returns IDs of subcategories for given category ID
      *
      * @param int $categoryId CategoryID
-     * @return array Array of ID of subcategories, if given ID was subcategory function returns empty array, false on errors 
+     * @return array Array of ID of subcategories, if given ID was subcategory function returns empty array, false on errors
      */
-    function getSubCategoriesIds($categoryId) 
+    function getSubCategoriesIds($categoryId)
     {
         if (!is_numeric($categoryId)) {
             return false;
         }
 
         $aResult = array();
-        
+
         $aCategories = $this->getCategories();
         if ($aCategories == false) {
             return false;
         }
         if (array_key_exists($categoryId, $aCategories)) {
             foreach ($aCategories[$categoryId]['subcategories'] as $subCategoryId => $aSubCategory ) {
-                $aResult[] = $subCategoryId; 
+                $aResult[] = $subCategoryId;
             }
         }
-        
+
         return $aResult;
-    }
-
-    /**
-     * A method to retrieve the localised list of countries
-     *
-     * @see R-AN-3: Gathering the data of Websites during Installation
-     * @see R-AN-16: Gathering the Websites after the Installation
-     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     *
-     * @return mixed The array of countries, with country identifiers as keys, or
-     *               false on error
-     */
-    function getCountries()
-    {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oCache->call(array(&$this->oMapper, 'getCountries'), $aPref['language']);
-
-        if (!$result) {
-            $result = $this->retrievePermanentCache('AdNetworks::getCountries');
-        }
-
-        return $result;
     }
 
     /**
@@ -268,7 +224,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      */
     function getCountriesSelect()
     {
-        if ($aCountries = $this->getCountries()) {
+        if ($aCountries = $this->retrievePermanentCache('AdNetworks::getCountries')) {
             asort($aCountries);
         }
 
@@ -281,35 +237,13 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
-     * A method to retrieve the localised list of languages
-     *
-     * @see R-AN-3: Gathering the data of Websites during Installation
-     * @see R-AN-16: Gathering the Websites after the Installation
-     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     *
-     * @return mixed The array of languages, with language identifiers as keys, or
-     *               false on error
-     */
-    function getLanguages()
-    {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oCache->call(array(&$this->oMapper, 'getLanguages'), $aPref['language']);
-
-        if (!$result) {
-            $result = $this->retrievePermanentCache('AdNetworks::getLanguages');
-        }
-
-        return $result;
-    }
-
-    /**
      * A method to retrieve the list of languages as for HTML select options
      *
      * @return array
      */
     function getLanguagesSelect()
     {
-        if ($aLanguages = $this->getLanguages()) {
+        if ($aLanguages = $this->retrievePermanentCache('AdNetworks::getLanguages')) {
             asort($aLanguages);
         }
 
@@ -394,10 +328,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         $isAlexaDataFailed = false;
         for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
-            
-            $isAlexaDataFailed = ($aWebsite['isAlexaDataFailed']) ? 
+
+            $isAlexaDataFailed = ($aWebsite['isAlexaDataFailed']) ?
                                  $aWebsite['isAlexaDataFailed'] : $isAlexaDataFailed;
-                                 
+
             // Create new or use existing publisher
             $websiteIdx = key($aWebsites);
             foreach ($aWebsites as $key => $value) {
@@ -429,20 +363,20 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 );
             }
 
-            
+
             // an_website_id equal as_website_id
 //            if ($aWebsites[$websiteIdx]['adnetworks']) {
 //                $publisher += array(
 //                    'an_website_id'   => $aWebsite['website_id'],
 //                );
 //            }
-            
+
             if ($aWebsites[$websiteIdx]['advsignup']) {
 	            $publisher += array(
 	                'as_website_id'   => $aWebsite['website_id'],
 	            );
             }
-            
+
             $doPublishers->setFrom($publisher);
 
             if ($existingPublisher) {
@@ -628,7 +562,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     break;
                 }
             }
-            
+
             // Unsubscribe zones from central.
             $this->deleteZones($publisherId);
         }
@@ -652,10 +586,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         $oDbh = OA_DB::singleton();
-    	        
+
         $doPublishers = OA_Dal::factoryDO('affiliates');
         $doPublishers->get($publisherId);
-        
+
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->affiliateid = $doPublishers->affiliateid;
         $doZones->find();
@@ -663,9 +597,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
         while ($doZones->fetch()) {
         	$this->updateZone($doZones, $anWebsiteId);
         }
-        
+
     }
-    
+
     /**
      * A method to "subscribe" zone on Ad Networks program
      *
@@ -681,25 +615,25 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 		  'width' 		=> $doZone->width,
             	    	  'height' 		=> $doZone->height,
                          );
-                         
+
         if ($doZone->as_zone_id) {
             $aRpcZone += array('id' => $doZone->as_zone_id);
         }
-        
+
         $result = $this->oMapper->updateZone($aRpcZone);
-        
+
         if (is_object($result)) {
             $as_zone_id = 0;
         } else {
             $as_zone_id = (int)$result;
         }
-        
+
         $doZonesUpdate             = OA_Dal::factoryDO('zones');
         $doZonesUpdate->as_zone_id = $as_zone_id;
         $doZonesUpdate->zoneid     = $doZone->zoneid;
         $doZonesUpdate->update();
 	}
-    
+
     /**
      * A method to call method deleteZone for "subscribe" zone on Ad Networks program
      * All zones where belonging publihser.
@@ -715,7 +649,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         	$this->deleteZone($doZones->as_zone_id);
         }
     }
-    
+
     /**
      * A method to delete zone from Ad Networks program
      *
@@ -725,14 +659,14 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get('as_zone_id', $zoneId);
-        
+
         $r = $doZones->setFrom(
                                   array('as_zone_id' => 0)
                               );
         $doZones->update();
-        
+
         $result = $this->oMapper->deleteZone((int)$zoneId);
-        
+
     }
 
     /**
@@ -748,7 +682,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         while ($doAdvertisers->fetch()) {
             if ($doAdvertisers->as_advertiser_id) {
                 $campaigns = array();
-                
+
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
                 $doCampaigns->clientid = $doAdvertisers->clientid;
                 $doCampaigns->find();
@@ -760,13 +694,13 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 $requstIds[$doAdvertisers->as_advertiser_id] = $campaigns;
             }
         }
-        
+
         $requstIds = (count($requstIds)) ? $requstIds : array(null => null);
-        
+
         $aRespAdvetisers = $this->oMapper->getWebsitesAdvertisers($requstIds);
-        
+
         if (is_object($aRespAdvetisers)) {
-            return 0;            
+            return 0;
         }
 
         foreach ($aRespAdvetisers['websitesAdvertisers'] as $aAdvertiser) {
@@ -781,20 +715,20 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
             if ($doAdvertiser->fetch()) {
                 $advertiserId = $doAdvertiser->clientid;
-                
+
                 // Update Advertiser
 //                $doAdvertiser->clientname = $advertiserName;
 //                $doAdvertiser->contact    = $advertiserContact;
 //                $doAdvertiser->update();
-                
+
             } else {
                 // Make Advertiser data from response
                 $advertiserContact = $aAdvertiser['country_name'] . " " .
-                                     $aAdvertiser['country_code'] . ", " . 
-                                     $aAdvertiser['city'] . ", " . 
+                                     $aAdvertiser['country_code'] . ", " .
+                                     $aAdvertiser['city'] . ", " .
                                      $aAdvertiser['address'] . ", " .
                                      $aAdvertiser['post_code'] ;
-                                     
+
                 // Create Advertiser
                 $advertiser = array(
                     'clientname'       => $advertiserName,
@@ -809,7 +743,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
             // Campaigns
             foreach ($aAdvertiser['campaigns'] as $aCampaign) {
                 $campaignClientId = $advertiserId;
-                
+
                 $doCampaign = OA_Dal::factoryDO('campaigns');
                 $doCampaign->as_campaign_id = $aCampaign['id'];
                 $doCampaign->find();
@@ -829,7 +763,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     $campaignId = $doCampaign->campaignid;
                 } else {
                     // Make Campaign data from response
-                    $campaignName        = $this->oDal->getUniqueCampaignName($aCampaign['id'] . 
+                    $campaignName        = $this->oDal->getUniqueCampaignName($aCampaign['id'] .
                                                                               "-" . $advertiserName);
                     $campaignActivate    = date('Y-m-d',$aCampaign['start_date']/1000);
                     $campaignExpire      = date('Y-m-d',$aCampaign['end_date']/1000);
@@ -838,7 +772,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     $campaignRevenue     = $aCampaign['rate'];
                     $campaignRevenueType = $aCampaign['pricing'];
                     $campaignWeight      = $aCampaign['weight'];
-                
+
                     // Create campaign
                     $campaign = array(
                         'clientid'       => $campaignClientId,
@@ -856,24 +790,24 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     $doCampaign -> setFrom($campaign);
                     $campaignId = $doCampaign->insert();
                 }
-                
+
                 // get OAP zone by zone_id
                 $doZone             = OA_Dal::factoryDO('zones');
                 $doZone->as_zone_id = $aCampaign['zone_id'];
                 $doZone->find();
                 $doZone->fetch();
                 $zoneId = (int)$doZone->zoneid;
-                
+
                 // Banners
                 $bannerCampaignId = $campaignId;
                 foreach ($aCampaign['banners'] as $aBanner) {
                     // Make Banner data from response
                     $bannerUrl = $aBanner['url'];
-                    
+
                     $doBanner = OA_Dal::factoryDO('banners');
                     $doBanner->as_banner_id = $aBanner['id'];
                     $doBanner->find();
-    
+
                     if ($doBanner->fetch()) {
                         // Update Banner
 //                        $doBanner->url        = $bannerUrl;
@@ -890,12 +824,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
                         $doBanner -> setFrom($banner);
                         $bannerId = $doBanner->insert();
                     }
-                    
+
                     // Add banner zone assoc
                     $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
                     $doAdZone->ad_id = $bannerId;
                     $doAdZone->find();
-                    
+
                     if ($doAdZone->fetch()) {
                         $doAdZone->zone_id = $zoneId;
                         $id = $doAdZone->update();
@@ -904,7 +838,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
             }
         }
     }
-    
+
     /**
      * Set properties campaign to oac
      *   call XMLRPC method
@@ -917,7 +851,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aCampaigns = array();
         while ($doCampaigns->fetch()) {
             if ($doCampaigns->as_campaign_id) {
-                
+
                 // Get Invocation Code
                 $invocationCode = '';
                 $doBanner = OA_Dal::factoryDO('banners');
@@ -938,29 +872,29 @@ class OA_Central_AdNetworks extends OA_Central_Common
                             $codetype = 'adview';
                             $invocationTag = OX_Component::factory('invocationTags', $codetype);
                             $maxInvocation = new MAX_Admin_Invocation();
-                            
+
                             $invocationCode = $maxInvocation->generateInvocationCode($invocationTag);
                         }
                     }
                 }
-                
-                $aCampaigns[(int)$doCampaigns->as_campaign_id] = 
+
+                $aCampaigns[(int)$doCampaigns->as_campaign_id] =
                     array (
                               'id'             => (int)$doCampaigns->campaignid,
                               'invocationCode' => (string)$invocationCode,
                               'deliveredCount' => (int)$doCampaigns->capping,
-                              'status'         => 
+                              'status'         =>
                                     (string)$this->transformationStatusToOac($doCampaigns->status)
                           );
             }
         }
-        
+
         $aCampaigns = (count($aCampaigns)) ? $aCampaigns : array(null => null);
-      
+
         // Call XMLRPC method
         $result = $this->oMapper->setCampaignsProperties($aCampaigns);
     }
-    
+
     /**
      * Method to transformation oac status to oap status.
      *
@@ -990,7 +924,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 break;
         }
     }
-    
+
     /**
      * Method to transformation oap status to oac status.
      *
@@ -1020,8 +954,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 break;
         }
     }
-    
-    
+
+
     /**
      * A method to get updates about subscribed websites
      *
