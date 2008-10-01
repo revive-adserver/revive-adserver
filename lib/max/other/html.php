@@ -1274,7 +1274,7 @@ function MAX_displayChannels($channels, $aParams) {
             echo "<td height='25' colspan='3'>";
 
             echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' border='0' align='absmiddle' alt='{$GLOBALS['strIncludedBanners']}'>&nbsp;<a href='channel-acl.php?{$entityString}channelid={$channel['channel_id']}'>{$GLOBALS['strEditChannelLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'affiliate-channels.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']).">{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'channel-index.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']).">{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
             echo "</td></tr>";
             $i++;
@@ -1791,6 +1791,7 @@ function addWebsitePageTools($websiteId)
 
 function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
 {
+    global $phpAds_TextDirection;
     //duplicate
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
         || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
@@ -1813,7 +1814,8 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
                 $form .= "<option value='" . $aOtherPublisher['publisher_id'] . "'>$otherPublisherName</option>";
             }
         }
-        $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'></form>";
+        $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'></form>";
+                           
         addPageFormTool($GLOBALS['strMoveTo'], 'iconZoneMove', $form);
     }
 
