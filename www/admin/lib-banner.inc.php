@@ -43,7 +43,7 @@ function phpAds_getBannerCache($banner)
     // Auto change HTML banner
     if ($banner['storagetype'] == 'html')
     {
-        if ($banner['autohtml'] == 't' && $aPref['auto_alter_html_banners_for_click_tracking'] == true)
+        if ($banner['autohtml'] == 't')
         {
             if ($buffer != '')
             {
@@ -83,16 +83,16 @@ function phpAds_getBannerCache($banner)
 
             // run 3rd party component
             if(!empty($banner['adserver'])) {
-                include_once MAX_PATH . '/lib/max/Plugin.php';
+                require_once LIB_PATH . '/Plugin/Component.php';
                 /**
                  * @todo This entire function should be relocated to the DLL and should be object-ified
                  */
                 PEAR::pushErrorHandling(null);
-                $adServerComponent = OX_Component::factory('3rdPartyServers', $banner['adserver']);
+                $adServerComponent = OX_Component::factoryByComponentIdentifier($banner['adserver']);
                 PEAR::popErrorHandling();
                 if ($adServerComponent) {
                     $buffer = $adServerComponent->getBannerCache($buffer, $noScript);
-                } else if (!empty($banner['adserver'])) {
+                } else {
                     $GLOBALS['_MAX']['bannerrebuild']['errors'] = true;
                 }
             }
