@@ -155,7 +155,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         // Detect fast exits
         if (is_null($aCategoriesIds)) {
-            return $this->getCategories();
+            return $this->retrievePermanentCache('AdNetworks::getCategories');
         } else {
             if (!is_array($aCategoriesIds)) {
                 return false;
@@ -204,7 +204,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         $aResult = array();
 
-        $aCategories = $this->getCategories();
+        $aCategories = $this->retrievePermanentCache('AdNetworks::getCategories');
         if ($aCategories == false) {
             return false;
         }
