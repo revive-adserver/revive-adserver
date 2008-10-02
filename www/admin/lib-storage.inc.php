@@ -213,7 +213,9 @@ function phpAds_ImageDelete ($type, $name)
 	}
 	if ($type == 'sql') {
         $doImages = OA_Dal::staticGetDO('images', 'filename', $name);
-        $doImages->delete();
+        if ($doImages) {
+            $doImages->delete();
+        }
 	}
 }
 
