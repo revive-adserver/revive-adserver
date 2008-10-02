@@ -800,16 +800,21 @@ function processCampaignForm($form, &$oComponent = null)
         $cache = new Cache_Lite ( $options );
         $group = 'campaign_' . $aFields ['campaignid'];
         $cache->clean ( $group );
-        
+
+        $translation = new OX_Translation();
         if ($new_campaign) {
             // Queue confirmation message
-            $translation = new OX_Translation ( );
             $translated_message = $translation->translate ( $GLOBALS ['strCampaignHasBeenAdded'], array (MAX::constructURL ( MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ), htmlspecialchars ( $aFields ['campaignname'] ), MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ) ) );
-            OA_Admin_UI::queueMessage ( $translated_message, 'local', 'confirm', 0 );
-            
-            OX_Admin_Redirect::redirect ( "advertiser-campaigns.php?clientid=" . $aFields ['clientid'] );
-        } else {
-            OX_Admin_Redirect::redirect ( "campaign-zone.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            OX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=" . $aFields ['clientid']);
+        } 
+        else {
+            $translated_message = $translation->translate ($GLOBALS ['strCampaignHasBeenUpdated'], array (
+                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ), 
+                htmlspecialchars ( $aFields ['campaignname'] ) 
+                ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            OX_Admin_Redirect::redirect("campaign-edit.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
         }
     }
     

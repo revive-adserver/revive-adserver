@@ -44,7 +44,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
-
+$prefSection = "geotargeting";
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
@@ -70,21 +70,31 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-        // The settings configuration files were written correctly,
-        // go to the "next" settings page from here
-        OX_Admin_Redirect::redirect('account-settings-maintenance.php');
-    } else {
+            // Queue confirmation message
+            $setPref = $oOptions->getSettingsPreferences($prefSection);
+            $title = $setPref[$prefSection]['name'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
+                array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+             // The settings configuration file was written correctly,
+            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+    } 
+    else {
         // Could not write the settings configuration file, store this
         // error message and continue
         $aErrormessage[0][] = $strUnableToWriteConfig;
     }
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader('account-settings-index');
-
 // Set the correct section of the settings pages and display the drop-down menu
-$oOptions->selection("geotargeting");
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-settings-index', $oHeaderModel);
+
 
 $aComponents = OX_Component::getComponents('geoTargeting');
 $aComponentItems = array('none' => $strNone);

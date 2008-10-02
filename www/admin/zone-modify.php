@@ -59,10 +59,25 @@ if (isset($zoneid) && $zoneid != '') {
         $doZones->get($zoneid);
         $doZones->affiliateid = $newaffiliateid;
         $doZones->update();
+        
+        // Queue confirmation message
+        $zoneName = $doZones->zonename;
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        if ($doAffiliates->get($newaffiliateid)) {
+            $websiteName = $doAffiliates->website;
+        }    
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate($GLOBALS['strZoneHasBeenMoved'],
+            array(htmlspecialchars($zoneName), htmlspecialchars($websiteName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
+        
         Header("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
         exit;
 
-    } elseif (isset($duplicate) && $duplicate == 'true') {
+    } 
+    elseif (isset($duplicate) && $duplicate == 'true') {
         // Can the user add new zones?
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
@@ -70,7 +85,21 @@ if (isset($zoneid) && $zoneid != '') {
         // Duplicate the zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
+        $oldName = $doZones->zonename;
         $new_zoneid = $doZones->duplicate();
+        if ($doZones->get($new_zoneid)) {
+            $newName = $doZones->zonename;;
+        }
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenDuplicated'],
+            array(MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid"), 
+                htmlspecialchars($oldName),
+                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$new_zoneid"), 
+                htmlspecialchars($newName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
         Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
         exit;
 

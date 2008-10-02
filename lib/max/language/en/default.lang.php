@@ -1220,6 +1220,7 @@ $GLOBALS['strConfiguration']                    = "Configuration";
 $GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
+$GLOBALS['strTimezonePreferences']              = "Timezone Preferences";
 $GLOBALS['strAdminEmailWarnings']               = "Administrator email Warnings";
 $GLOBALS['strAgencyEmailWarnings']              = "Agency email Warnings";
 $GLOBALS['strAdveEmailWarnings']                = "Advertiser email Warnings";
@@ -1242,6 +1243,7 @@ $GLOBALS['strCurrentPassword']                  = "Current Password";
 $GLOBALS['strChooseNewPassword']                = "Choose a new password";
 $GLOBALS['strReenterNewPassword']               = "Re-enter new password";
 $GLOBALS['strNameLanguage']                     = "Name & Language";
+
 
 // Statistics columns
 // Long names
@@ -1504,11 +1506,21 @@ $GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> has been 
 $GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> has been moved to advertiser <b>%s</b>";
 
 $GLOBALS['strCampaignHasBeenAdded'] = "Campaign <a href='%s'>%s</a> has been added, <a href='%s'>add a banner</a>";
+$GLOBALS['strCampaignHasBeenUpdated'] = "Campaign <a href='%s'>%s</a> has been updated";
 $GLOBALS['strCampaignHasBeenDeleted'] = "Campaign <b>%s</b> has been deleted";
-
+$GLOBALS['strCampaignHasBeenDuplicated'] = "Campaign <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+$GLOBALS['strCampaignHasBeenMoved'] = "Campaign <b>%s</b> has been moved to advertiser <b>%s</b>";
 $GLOBALS['strAllCampaignsHaveBeenDeleted'] = "All campaigns of this advertiser have been deleted";
+
 $GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> has been added";
+$GLOBALS['strBannerHasBeenUpdated'] = "Banner <a href='%s'>%s</a> has been updated";
 $GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> has been deleted";
+$GLOBALS['strBannerHasBeenDuplicated'] = "Banner <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+$GLOBALS['strBannerHasBeenMoved'] = "Banner <b>%s</b> has been moved to campaign <b>%s</b>";
+
+$GLOBALS['strBannerHasBeenActivated'] = "Banner <a href='%s'>%s</a> has been activated";
+$GLOBALS['strBannerHasBeenDeactivated'] = "Banner <a href='%s'>%s</a> has been deactivated";
+
 $GLOBALS['strAllBannersHaveBeenDeleted'] = "All banners of this campaign have been deleted";
 
 $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added, <a href='%s'>add a zone</a>";
@@ -1517,10 +1529,27 @@ $GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> has been upd
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
+$GLOBALS['strZoneHasBeenUpdated'] = "Zone <a href='%s'>%s</a> has been updated";
 $GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
+$GLOBALS['strZoneHasBeenDuplicated'] = "Zone <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+$GLOBALS['strZoneHasBeenMoved'] = "Zone <b>%s</b> has been moved to website <b>%s</b>";
+
 $GLOBALS['strChannelHasBeenAdded'] = "Targeting Channel <a href='%s'>%s</a> has been added, <a href='%s'>change the Delivery Options</a>";
+$GLOBALS['strChannelHasBeenUpdated'] = "Targeting Channel <a href='%s'>%s</a> has been updated";
 $GLOBALS['strChannelHasBeenDeleted'] = "Targeting Channel <b>%s</b> has been deleted";
+$GLOBALS['strChannelHasBeenDuplicated'] = "Channel <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+
+$GLOBALS['strUserPreferencesUpdated'] = "Your <b>%s</b> preferences has been updated";
+$GLOBALS['strPreferencesHaveBeenUpdated'] = "Preferences have been updated";
+$GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
+$GLOBALS['strPasswordChanged'] = "Your password has been changed";
+$GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
+$GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strYouDontHaveAccess'] = "You don't have access to that page. You have been re-directed.";
+$GLOBALS['strXZonesLinked'] = "<b>%s</b> zone(s) linked";
+$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zone(s) unlinked";
+
+
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */

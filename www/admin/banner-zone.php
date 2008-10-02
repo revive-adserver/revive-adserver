@@ -70,6 +70,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
         // First, remove any zones that should be deleted.
         if (!empty($aPreviousZones)) {
+            $unlinked = 0;
             foreach ($aPreviousZones as $aAdZone) {
                 $zoneId = $aAdZone['zone_id'];
                 if ((empty($aCurrentZones[$zoneId])) && ($zoneId > 0))  {
@@ -77,7 +78,9 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
                     $aParameters = array('zone_id' => $zoneId, 'ad_id' => $bannerId);
                     Admin_DA::deleteAdZones($aParameters);
                     $prioritise = true;
-                } else {
+                    $unlinked++;
+                } 
+                else {
                     // Remove this key, because it is already there and does not need to be added again.
                     unset($aCurrentZones[$zoneId]);
                 }
@@ -85,9 +88,11 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
         }
 
         if (!empty($aCurrentZones)) {
+            $linked = 0;
             foreach ($aCurrentZones as $zoneId => $value) {
                 $aParameters = array('zone_id' => $zoneId, 'ad_id' => $bannerId);
                 $result = Admin_DA::addAdZone($aParameters);
+                $linked++;
                 if (PEAR::isError($result)) {
                     $errors[] = $result;
                 }
@@ -104,7 +109,17 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
         // Move on to the next page
         if (empty($errors)) {
-            Header("Location: banner-advanced.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            if ($linked) {
+                $linked_message = $translation->translate ( $GLOBALS['strXZonesLinked'], array($linked));
+            }
+            if ($unlinked) {
+                $unlinked_message = $translation->translate ( $GLOBALS['strXZonesUnlinked'], array($unlinked));
+            }
+            $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message; 
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
             exit;
         }
     }

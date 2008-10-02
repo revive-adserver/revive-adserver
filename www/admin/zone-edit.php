@@ -552,15 +552,16 @@ function processForm($form)
                 }
             }
 
-            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-                if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                    OX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
-                } else {
-                    OX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
-                }
-            } else {
-                OX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
-            }
+            // Queue confirmation message
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenUpdated'],
+                array(
+                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']),
+                htmlspecialchars($aFields['zonename'])
+                ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            
+            OX_Admin_Redirect::redirect("zone-edit.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
         }
         // Add
         else

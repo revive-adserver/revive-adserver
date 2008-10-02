@@ -41,6 +41,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
+$prefSection = "email";
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -83,20 +84,29 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-        // The settings configuration file was written correctly,
-        // go to the "next" settings page from here
-        OX_Admin_Redirect::redirect('account-settings-geotargeting.php');
-    }
+            // Queue confirmation message
+            $setPref = $oOptions->getSettingsPreferences($prefSection);
+            $title = $setPref[$prefSection]['name'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
+                array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+             // The settings configuration file was written correctly,
+            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+            }
     // Could not write the settings configuration file, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader('account-settings-index');
-
 // Set the correct section of the settings pages and display the drop-down menu
-$oOptions->selection('email');
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-settings-index', $oHeaderModel);
+
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object

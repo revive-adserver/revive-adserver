@@ -43,18 +43,46 @@ $affiliateid    = (int) $affiliateid;
 $channelid      = (int) $channelid;
 
 if (empty($returnurl)) {
-    $returnurl = 'channel-acl.php';
+    $returnurl = 'channel-edit.php';
 }
 
 // Security check
 if (isset($channelid) && $channelid != '') {
     if (isset($duplicate) && $duplicate == 'true') {
+        
+        //get channel old channel name
+        $doChannel = OA_Dal::factoryDO('channel');
+        if ($doChannel->get($channelid)) {
+            $oldName = $doChannel->name;
+        }
         // Duplicate the channel
         $newChannelId = OA_Dal::staticDuplicate('channel', $channelid);
-        $params = (!$affiliateid)
-            ? "?channelid=".$newChannelId
-            : "?affiliateid=".$affiliateid."&channelid=".$newChannelId;
-        Header("Location: ".$returnurl.$params);
+        
+        //get new name
+        $doChannel = OA_Dal::factoryDO('channel');
+        if ($doChannel->get($newChannelId)) {
+            $newName = $doChannel->name;
+        }
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $oldChannelParams = (!$affiliateid) 
+            ? "channelid=$channelid" 
+            :   "affiliateid=$affiliateid&channelid=$channelid";
+
+        $newChannelParams = (!$affiliateid)
+            ? "?channelid=$newChannelId"
+            : "?affiliateid=$affiliateid&channelid=$newChannelId";
+        
+        $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenDuplicated'],
+            array(MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?".$oldChannelParams), 
+                htmlspecialchars($oldName),
+                MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?".$newChannelParams), 
+                htmlspecialchars($newName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            
+            
+        Header("Location: ".$returnurl.$newChannelParams);
         exit;
 
     }

@@ -45,6 +45,7 @@ $oTranslation = new OX_Translation();
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
+$prefSection = "banner-delivery";
 
 // This page depends on deliveryCacheStore plugins, so get the required
 // information about all such plugins installed in this installation
@@ -167,9 +168,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
         if ($result) {
+            // Queue confirmation message
+            $setPref = $oOptions->getSettingsPreferences($prefSection);
+            $title = $setPref[$prefSection]['name'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
+                array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            
             // The settings configuration file was written correctly,
             // go to the "next" settings page from here
-            OX_Admin_Redirect::redirect('account-settings-banner-logging.php');
+            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
         }
         // Could not write the settings configuration file, store this
         // error message and continue
@@ -178,11 +187,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader('account-settings-index');
-
 // Set the correct section of the settings pages and display the drop-down menu
-$oOptions->selection('banner-delivery');
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // This page depends on deliveryCacheStore plugins, so use the plugin
 // information from earlier to generate the elements for the plugins

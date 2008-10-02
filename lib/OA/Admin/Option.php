@@ -166,7 +166,7 @@ class OA_Admin_Option
             }
             $aSections['timezone'] =
                 array(
-                    'name' => $GLOBALS['strTimezone'],
+                    'name' => $GLOBALS['strTimezonePreferences'],
                     'value' => $this->_optionType.'-timezone.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );

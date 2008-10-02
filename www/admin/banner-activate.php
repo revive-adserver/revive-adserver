@@ -69,6 +69,16 @@ if (!empty($bannerid))
 {
     $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
+    $bannerName = $doBanners->description;
+    
+    $translation = new OX_Translation();
+    $message = ($value == OA_ENTITY_STATUS_PAUSED) ? $GLOBALS ['strBannerHasBeenDeactivated'] : $GLOBALS ['strBannerHasBeenActivated'];
+    $translated_message = $translation->translate($message, array (
+        MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid"), 
+        htmlspecialchars($bannerName)
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+    
     $doBanners->status = $value;
     $doBanners->update();
 }

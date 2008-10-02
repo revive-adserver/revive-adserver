@@ -57,16 +57,30 @@ if (!empty($campaignid)) {
     	// Duplicate the campaign
     	$doCampaigns = OA_Dal::factoryDO('campaigns');
     	$doCampaigns->get($campaignid);
+        $oldName = $doCampaigns->campaignname; 
     	$newCampaignId = $doCampaigns->duplicate();
-    	    	
+    	
         if ($newCampaignId) {
+            // Queue confirmation message
+            $newName = $doCampaigns->campaignname;
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDuplicated'],
+                array(MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"), 
+                    htmlspecialchars($oldName),
+                    MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"), 
+                    htmlspecialchars($newName))
+            );
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+                        
             Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
             exit;
-        } else {
+        } 
+        else {
             phpAds_sqlDie();
         }
 
-    } else if (!empty($newclientid)) {
+    } 
+    else if (!empty($newclientid)) {
 
         /*-------------------------------------------------------*/
         /* Restore cache of $node_array, if it exists            */
@@ -115,6 +129,19 @@ if (!empty($campaignid)) {
         }
 
         /*-------------------------------------------------------*/
+        
+        // Queue confirmation message
+        $campaignName = $doCampaigns->campaignname;
+        $doClients = OA_Dal::factoryDO('clients');
+        if ($doClients->get($newclientid)) {
+            $advertiserName = $doClients->clientname;
+        }    
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenMoved'],
+            array(htmlspecialchars($campaignName), htmlspecialchars($advertiserName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
 
     }
 }

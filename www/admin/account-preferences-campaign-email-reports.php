@@ -44,6 +44,7 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
+$prefSection = "campaign-email-reports";
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -72,18 +73,29 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        OX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
+        // Queue confirmation message
+        $setPref = $oOptions->getSettingsPreferences($prefSection);
+        $title = $setPref[$prefSection]['name'];
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+            array(htmlspecialchars($title)));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
+        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
     }
     // Could not write the preferences to the database, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader("account-preferences-index");
-
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("campaign-email-reports");
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-preferences-index', $oHeaderModel);
+
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object

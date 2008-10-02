@@ -77,9 +77,23 @@ if (!empty($bannerid)) {
 
         // Get new clientid
         $clientid = phpAds_getCampaignParentClientID($moveto);
+        
+        //confirmation message        
+        $bannerName = $doBanners->description;
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        if ($doCampaigns->get($moveto)) {
+           $campaignName = $doCampaigns->campaignname;          
+        }
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenMoved'],
+            array(htmlspecialchars($bannerName), htmlspecialchars($campaignName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$moveto}&bannerid={$bannerid}");
 
-    } elseif (!empty($applyto) && isset($applyto_x)) {
+    } 
+    elseif (!empty($applyto) && isset($applyto_x)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             OA_Permission::enforceAccessToObject('banners', $applyto);
         }
@@ -89,12 +103,15 @@ if (!empty($bannerid)) {
             // phpAds_cacheDelete();
 
             Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$applyto);
-        } else {
+        } 
+        else {
             phpAds_sqlDie();
         }
-    } elseif (isset($duplicate) && $duplicate == 'true') {
+    } 
+    elseif (isset($duplicate) && $duplicate == 'true') {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
+        $oldName = $doBanners->description;        
         $new_bannerid = $doBanners->duplicate();
 
         // Run the Maintenance Priority Engine process
@@ -103,9 +120,21 @@ if (!empty($bannerid)) {
         // Rebuild cache
         // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
         // phpAds_cacheDelete();
+        
+        //confirmation message
+        $newName = $doBanners->description;
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenDuplicated'],
+            array(MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid"), 
+                htmlspecialchars($oldName),
+                MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$new_bannerid"), 
+                htmlspecialchars($newName))
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$new_bannerid);
-    } else {
+    } 
+    else {
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$bannerid);
     }
 }

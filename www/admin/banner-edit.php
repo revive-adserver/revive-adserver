@@ -810,9 +810,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         }
     }
 
+    $translation = new OX_Translation ();
     if ($insert) {
         // Queue confirmation message
-        $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
             htmlspecialchars($aFields['description'])
@@ -822,18 +822,25 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         // Determine what the next page is
         if ($editSwf) {
             $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid&insert=true";
-        } else {
+        } 
+        else {
             $nextPage = "campaign-banners.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid'];
         }
-    } else {
+    } 
+    else {
         // Determine what the next page is
         if ($editSwf) {
             $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        } 
+        else {
+            $translated_message = $translation->translate($GLOBALS['strBannerHasBeenUpdated'], 
+            array (
+                MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid='.$aFields['clientid'].'&campaignid='.$aFields['campaignid'].'&bannerid='.$aFields['bannerid'] ), 
+                htmlspecialchars ( $aFields ['description'])
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             $nextPage = "banner-edit.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-        } else {
-            $nextPage = "banner-acl.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-        }
+        } 
     }
 
     // Go to the next page

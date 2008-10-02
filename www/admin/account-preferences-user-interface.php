@@ -46,6 +46,7 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
+$prefSection = "user-interface";
 
 $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
 $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
@@ -97,17 +98,27 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        OX_Admin_Redirect::redirect('account-preferences-user-interface.php');
+        // Queue confirmation message
+        $setPref = $oOptions->getSettingsPreferences($prefSection);
+        $title = $setPref[$prefSection]['name'];
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+            array(htmlspecialchars($title)));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
     }
     // Could not write the preferences to the database, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
-phpAds_PageHeader("account-preferences-index");
-
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("user-interface");
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 // Prepare an array of columns to be used shortly
 $aStatistics = array();

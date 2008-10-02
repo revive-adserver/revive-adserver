@@ -43,6 +43,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('user');
+$prefSection = "name-language";
+
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -73,23 +75,32 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
+        } 
+        else {
         	//Add the new username to the session
             $oUser = &OA_Permission::getCurrentUser();
             $oUser->aUser['contact_name'] = $contact_name;
             $oUser->aUser['language'] = $language;
 
             phpAds_SessionDataStore();
+            
+            // Queue confirmation message
+            $setPref = $oOptions->getSettingsPreferences($prefSection);
+            $title = $setPref[$prefSection]['name'];
+            
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strUserPreferencesUpdated'],
+                array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
-            OX_Admin_Redirect::redirect('account-user-email.php');
+            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
         }
     }
 }
 
 // Set the correct section of the preference pages and display the drop-down menu
-$prefSection = "name-language";
 $setPref = $oOptions->getSettingsPreferences($prefSection);
 $title = $setPref[$prefSection]['name'];
 
