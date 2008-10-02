@@ -48,7 +48,6 @@ if (PEAR::isError($oDbh))
         phpAds_PageFooter();
         exit;
     }
-    // This text isn't translated, because if it is shown the language files are not yet loaded
     $translation = new OX_Translation ();
     $translated_message = $translation->translate ($GLOBALS['strErrorCantConnectToDatabase'], array(MAX_PRODUCT_NAME));
     phpAds_Die ($GLOBALS['strErrorDatabaseConnetion'], $translated_message);
