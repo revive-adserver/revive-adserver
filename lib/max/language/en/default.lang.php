@@ -1106,7 +1106,7 @@ $GLOBALS['strSSLDeliveryComment']       = "
   * to
   *   'https://%s/...'
   *";
-  
+
 $GLOBALS['strThirdPartyComment']        = "
   * Don't forget to replace the '{clickurl}' text with
   * the click tracking URL if this ad is to be delivered through a 3rd
@@ -1115,6 +1115,16 @@ $GLOBALS['strThirdPartyComment']        = "
 
 // Errors
 $GLOBALS['strMySQLError']                       = "SQL Error:";
+$GLOBALS['strErrorDatabaseConnetion']           = "Database connection error.";
+$GLOBALS['strErrorCantConnectToDatabase']       = "A fatal error occurred %s can't connect to the database. Because
+                                                   of this it isn't possible to use the administrator interface. The delivery
+                                                   of banners might also be affected. Possible reasons for the problem are:
+                                                   <ul>
+                                                     <li>The database server isn't functioning at the moment</li>
+                                                     <li>The location of the database server has changed</li>
+                                                     <li>The username or password used to contact the database server are not correct</li>
+                                                     <li>PHP has not loaded the MySQL Extension</li>
+                                                   </ul>";
 $GLOBALS['strLogErrorClients']                  = "[phpAds] An error occurred while trying to fetch the advertisers from the database.";
 $GLOBALS['strLogErrorBanners']                  = "[phpAds] An error occurred while trying to fetch the banners from the database.";
 $GLOBALS['strLogErrorViews']                    = "[phpAds] An error occurred while trying to fetch the Impressions from the database.";

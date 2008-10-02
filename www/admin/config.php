@@ -40,7 +40,7 @@ $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh))
 {
     // Check if UI is enabled
-    if (!$GLOBALS['_MAX']['PREF']['ui']['enabled']) {
+    if (!$GLOBALS['_MAX']['CONF']['ui']['enabled']) {
         phpAds_PageHeader(OA_Auth::login($checkRedirectFunc));
         phpAds_ShowBreak();
         echo "<br /><img src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>&nbsp;";
@@ -48,16 +48,10 @@ if (PEAR::isError($oDbh))
         phpAds_PageFooter();
         exit;
     }
-
     // This text isn't translated, because if it is shown the language files are not yet loaded
-    phpAds_Die ("A fatal error occurred", MAX_PRODUCT_NAME." can't connect to the database.
-                Because of this it isn't possible to use the administrator interface. The delivery
-                of banners might also be affected. Possible reasons for the problem are:
-                <ul><li>The database server isn't functioning at the moment</li>
-                <li>The location of the database server has changed</li>
-                <li>The username or password used to contact the database server are not correct</li>
-                <li>PHP has not loaded the MySQL Extension</li>
-                </ul>");
+    $translation = new OX_Translation ();
+    $translated_message = $translation->translate ($GLOBALS['strErrorCantConnectToDatabase'], array(MAX_PRODUCT_NAME));
+    phpAds_Die ($GLOBALS['strErrorDatabaseConnetion'], $translated_message);
 }
 
 // First thing to do is clear the $session variable to
