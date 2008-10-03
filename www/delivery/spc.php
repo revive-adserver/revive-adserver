@@ -2887,7 +2887,10 @@ return $buffer;
 }
 function MAX_javascriptEncodeJsonField($string)
 {
-return '"'.addcslashes($string, "\\/\"\f\n\r\t").'"';
+$string = addcslashes($string, "\\/\"\n\r\t");
+$string = str_replace("\x0C", "\\f", $string);
+$string = str_replace("\x0B", "\\b", $string);
+return '"'.$string.'"';
 }
 //require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 MAX_commonSetNoCacheHeaders();
