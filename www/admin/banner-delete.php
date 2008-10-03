@@ -48,31 +48,30 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanners = OA_Dal::factoryDO('banners');
-
 if (!empty($bannerid)) {
-    $doBanners->bannerid = $bannerid;
-    if ($doBanners->get($bannerid)) {
-        $aBanner = $doBanners->toArray();
+    $ids = explode(',', $bannerid);
+    while (list(,$bannerid) = each($ids)) {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = $bannerid;
+        if ($doBanners->get($bannerid)) {
+            $aBanner = $doBanners->toArray();
+        }
+
+        $doBanners->delete();
     }
 
-    $doBanners->delete();
-
     // Queue confirmation message
     $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenDeleted'], array(
-        htmlspecialchars($aBanner['description'])
-    ));
-    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-} else if (!empty($campaignid)) {
-    $doBanners->campaignid = $campaignid;
-    $doBanners->delete();
-
-    // Queue confirmation message
-    $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strAllBannersHaveBeenDeleted'], array());
-    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-}
+    
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ($GLOBALS['strBannerHasBeenDeleted'], array(
+            htmlspecialchars($aBanner['description'])
+        ));
+    } else {
+        $translated_message = $translation->translate ($GLOBALS['strBannersHaveBeenDeleted']);
+    }
+    
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);} 
 
 // Run the Maintenance Priority Engine process
 OA_Maintenance_Priority::scheduleRun();

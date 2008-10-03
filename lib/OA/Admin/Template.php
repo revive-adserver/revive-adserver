@@ -76,6 +76,17 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
+        
+        $this->register_function('ox_column_title', array('OA_Admin_Template',  '_function_ox_column_title'));
+        $this->register_function('ox_column_class', array('OA_Admin_Template',  '_function_ox_column_class'));
+        $this->register_function('ox_campaign_type', array('OA_Admin_Template',  '_function_ox_campaign_type'));
+        $this->register_function('ox_campaign_status', array('OA_Admin_Template',  '_function_ox_campaign_status'));
+        $this->register_function('ox_campaign_icon', array('OA_Admin_Template',  '_function_ox_campaign_icon'));
+        $this->register_function('ox_banner_size', array('OA_Admin_Template',  '_function_ox_banner_size'));
+        $this->register_function('ox_banner_icon', array('OA_Admin_Template',  '_function_ox_banner_icon'));
+        $this->register_function('ox_zone_size', array('OA_Admin_Template',  '_function_ox_zone_size'));
+        $this->register_function('ox_zone_icon', array('OA_Admin_Template',  '_function_ox_zone_icon'));
+        $this->register_function('ox_tracker_type', array('OA_Admin_Template',  '_function_ox_tracker_type'));
 
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
@@ -83,7 +94,6 @@ class OA_Admin_Template extends Smarty
         $this->register_function('oa_is_manager', array('OA_Admin_Template',  '_function_oa_is_manager'));
         $this->register_function('oa_is_advertiser', array('OA_Admin_Template',  '_function_oa_is_advertiser'));
         $this->register_function('oa_is_trafficker', array('OA_Admin_Template',  '_function_oa_is_trafficker'));
-
 
         $this->register_function('oac_captcha', array('OA_Admin_Template',  '_function_oac_captcha'));
 
@@ -209,48 +219,51 @@ class OA_Admin_Template extends Smarty
     function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
-               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected;
+               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected,
+               $strCampaignStatusPending;
 
-        $status = $aParams['status'];
-        $an_status = $aParams['an_status'];
-
-        if (isset($status)) {
-                switch ($status) {
-                	case OA_ENTITY_STATUS_PENDING:
-                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
-                    	    $class = 'awaiting';
-                    	    $text  = $strCampaignStatusApproval;
-                	    }
-
-                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
-                    	    $class = 'rejected';
-                    	    $text  = $strCampaignStatusRejected;
-                	    }
-                		break;
-                	case OA_ENTITY_STATUS_RUNNING:
-                	    $class = 'started';
-                	    $text  = $strCampaignStatusRunning;
-                		break;
-                	case OA_ENTITY_STATUS_PAUSED:
-                	    $class = 'paused';
-                	    $text  = $strCampaignStatusPaused;
-                		break;
-                	case OA_ENTITY_STATUS_AWAITING:
-                	    $class = 'awaiting';
-                	    $text  = $strCampaignStatusAwaiting;
-                		break;
-                	case OA_ENTITY_STATUS_EXPIRED:
-                	    $class = 'finished';
-                	    $text  = $strCampaignStatusExpired;
-                		break;
-                	case OA_ENTITY_STATUS_APPROVAL:
-                	    $class = 'accepted';
-                	    $text  = $strCampaignStatusApproval;
-                		break;
-                	case OA_ENTITY_STATUS_REJECTED:
-                	    $class = 'rejected';
-                	    $text  = $strCampaignStatusRejected;
-                		break;
+        if (isset($aParams['status'])) {
+              switch ($aParams['status']) {
+                    case OA_ENTITY_STATUS_PENDING:
+                        if (isset($aParams['an_status'])) {
+                            if ($aParams['an_status'] == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
+                                $class = 'awaiting';
+                                $text  = $strCampaignStatusApproval;
+                            }
+    
+                            if ($aParams['an_status'] == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
+                                $class = 'rejected';
+                                $text  = $strCampaignStatusRejected;
+                            }
+                        } else {
+                            $class = 'pending';
+                            $text  = $strCampaignStatusPending;
+                        }
+                        break;
+                    case OA_ENTITY_STATUS_RUNNING:
+                        $class = 'started';
+                        $text  = $strCampaignStatusRunning;
+                        break;
+                    case OA_ENTITY_STATUS_PAUSED:
+                        $class = 'paused';
+                        $text  = $strCampaignStatusPaused;
+                        break;
+                    case OA_ENTITY_STATUS_AWAITING:
+                        $class = 'awaiting';
+                        $text  = $strCampaignStatusAwaiting;
+                        break;
+                    case OA_ENTITY_STATUS_EXPIRED:
+                        $class = 'finished';
+                        $text  = $strCampaignStatusExpired;
+                        break;
+                    case OA_ENTITY_STATUS_APPROVAL:
+                        $class = 'accepted';
+                        $text  = $strCampaignStatusApproval;
+                        break;
+                    case OA_ENTITY_STATUS_REJECTED:
+                        $class = 'rejected';
+                        $text  = $strCampaignStatusRejected;
+                        break;
                 }
                 $oTrans = new OX_Translation();
                 $text = $oTrans->translate($text);
@@ -346,6 +359,282 @@ class OA_Admin_Template extends Smarty
             }
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
+        }
+    }
+
+
+    function _function_ox_column_title($aParams, &$smarty)
+    {
+        if (!empty($aParams['str'])) {
+            if (!empty($aParams['item'])) {
+                $str  = $this->_function_t($aParams, $smarty);
+                $item = $aParams['item'];
+
+                $url  = !empty($aParams['url']) ? $aParams['url'] : '#';
+                $url .= strpos($url, '?') !== false ? '&' : '?';
+                $url .= 'listorder=' . $item;
+                
+                $listorder = $smarty->get_template_vars('listorder');
+                if (empty($listorder) && !empty($aParams['default']) && $aParams['default']) {
+                    $listorder = $item;
+                }
+
+                if ($listorder == $item) {
+                    $orderdirection = $smarty->get_template_vars('orderdirection');
+                    if (empty($orderdirection)) {
+                        $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
+                    }
+                    
+                    $url .= '&orderdirection=' . ($orderdirection == 'down' ? 'up' : 'down');
+                }
+
+                $buffer = '<a href="' . htmlspecialchars($url) . '">' . $str . '</a>';
+
+                return $buffer;
+            } else {
+                $smarty->trigger_error("t: missing 'item' parameter");
+            }
+        } else {
+            $smarty->trigger_error("t: missing 'str'parameter");
+        }
+    }
+
+    function _function_ox_column_class($aParams, &$smarty)
+    {
+        if (!empty($aParams['item'])) {
+            $item = $aParams['item'];
+
+            $listorder = $smarty->get_template_vars('listorder');
+            if (empty($listorder) && !empty($aParams['default']) && $aParams['default']) {
+                $listorder = $item;
+            }
+            
+            
+            if ($listorder == $item) {
+                $orderdirection = $smarty->get_template_vars('orderdirection');
+                if (empty($orderdirection)) {
+                    $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
+                }
+                
+                if ($orderdirection == 'down') {
+                    return ' sortDown';
+                }               
+
+                return ' sortUp';
+            }
+            
+            return '';
+        } else {
+            $smarty->trigger_error("t: missing 'item' parameter");
+        }
+    }
+    
+    function _function_ox_banner_size($aParams, &$smarty)
+    {
+        global $phpAds_IAB;
+        require_once MAX_PATH . '/www/admin/lib-size.inc.php';
+
+        if (isset($aParams['width']) && isset($aParams['height'])) {
+            $width = $aParams['width'];
+            $height = $aParams['height'];
+            
+            if ($width == -1) $width = '*';
+            if ($height == -1) $height = '*';
+
+            return phpAds_getBannerSize($width, $height);
+        } else {
+            $smarty->trigger_error("t: missing 'width' or 'height' parameter");
+        }
+    }
+    
+    function _function_ox_banner_icon($aParams, &$smarty)
+    {
+        if (isset($aParams['type'])) {
+            if (isset($aParams['active'])) {
+                $active = $aParams['active'];
+                $type = $aParams['type'];
+                
+                if ($active) {              
+                    switch($type) {
+                        case 'html':    return 'iconBannerHtml';
+                        case 'txt':     return 'iconBannerText';
+                        case 'url':     return 'iconBannerExternal';
+                        default:        return 'iconBanner';
+                    }
+                }
+                
+                switch($type) {
+                    case 'html':    return 'iconBannerHtmlDisabled';
+                    case 'txt':     return 'iconBannerTextDisabled';
+                    case 'url':     return 'iconBannerExternalDisabled';
+                    default:        return 'iconBannerDisabled';
+                }
+            } else {
+                $smarty->trigger_error("t: missing 'active' parameter");
+            }
+        } else {
+            $smarty->trigger_error("t: missing 'type' parameter");
+        }
+    }
+    
+    function _function_ox_zone_size($aParams, &$smarty)
+    {
+        global $phpAds_IAB;
+        require_once MAX_PATH . '/www/admin/lib-size.inc.php';
+
+        if (isset($aParams['width']) && isset($aParams['height'])) {
+            if (isset($aParams['delivery'])) {
+                $width = $aParams['width'];
+                $height = $aParams['height'];
+                $delivery = $aParams['delivery'];
+                
+                if ($delivery == phpAds_ZoneText) {
+                    $translation = new OX_Translation ();
+                    
+                    return $translation->translate('Custom') . " (" . $translation->translate('TextAdZone') . ")";
+                } else {
+                    if ($width == -1) $width = '*';
+                    if ($height == -1) $height = '*';
+
+                    return phpAds_getBannerSize($width, $height);
+                }
+            } else {
+                $smarty->trigger_error("t: missing 'delivery' parameter");
+            }
+        } else {
+            $smarty->trigger_error("t: missing 'width' or 'height' parameter");
+        }
+    }
+    
+    function _function_ox_zone_icon($aParams, &$smarty)
+    {
+        if (isset($aParams['delivery'])) {
+            if (isset($aParams['active'])) {
+                $active = $aParams['active'];
+                $delivery = $aParams['delivery'];
+                
+                if (isset($aParams['warning']) && $aParams['warning']) {
+                    return 'iconZoneWarning';
+                }
+                
+                if ($active) {
+                    switch($delivery) {
+                        case phpAds_ZoneInterstitial:   return 'iconZoneFloating';
+                        case phpAds_ZoneText:           return 'iconZoneText';
+                        case MAX_ZoneEmail:             return 'iconZoneEmail';
+                        default:                        return 'iconZone';
+                    }
+                }
+                                
+                switch($delivery) {
+                    case phpAds_ZoneInterstitial:   return 'iconZoneFloatingDisabled';
+                    case phpAds_ZoneText:           return 'iconZoneTextDisabled';
+                    case MAX_ZoneEmail:             return 'iconZoneEmailDisabled';
+                    default:                        return 'iconZoneDisabled';
+                }
+            } else {
+                $smarty->trigger_error("t: missing 'active' parameter");
+            }
+        } else {
+            $smarty->trigger_error("t: missing 'delivery' parameter");
+        }
+    }
+    
+		function _function_ox_campaign_type($aParams, &$smarty)
+		{
+			if (isset($aParams['type'])) {
+				$type = $aParams['type'];
+				$translation = new OX_Translation ();
+				
+				if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
+				} else {
+					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
+				}
+			} else {
+				$smarty->trigger_error("t: missing 'type' parameter");
+			}
+		}
+
+    function _function_ox_campaign_status($aParams, &$smarty)
+    {
+        if (isset($aParams['status'])) {
+            $status = $aParams['status'];
+            $translation = new OX_Translation ();
+            
+            switch ($status) {
+                case OA_ENTITY_STATUS_PENDING:
+                    $class = 'sts-pending';
+                    $text  = $translation->translate('CampaignStatusPending');
+                    break;
+                case OA_ENTITY_STATUS_RUNNING:
+                    $class = 'sts-accepted';
+                    $text  = $translation->translate('CampaignStatusRunning');
+                    break;
+                case OA_ENTITY_STATUS_PAUSED:
+                    $class = 'sts-paused';
+                    $text  = $translation->translate('CampaignStatusPaused');
+                    break;
+                case OA_ENTITY_STATUS_AWAITING:
+                    $class = 'sts-not-started';
+                    $text  = $translation->translate('CampaignStatusAwaiting');
+                    break;
+                case OA_ENTITY_STATUS_EXPIRED:
+                    $class = 'sts-finished';
+                    $text  = $translation->translate('CampaignStatusExpired');
+                    break;
+                case OA_ENTITY_STATUS_INACTIVE:
+                    $class = 'sts-inactive';
+                    $text  = $translation->translate('CampaignStatusInactive');
+                    break;
+                case OA_ENTITY_STATUS_APPROVAL:
+                    $class = 'sts-awaiting';
+                    $text  = $translation->translate('CampaignStatusApproval');
+                    break;
+                case OA_ENTITY_STATUS_REJECTED:
+                    $class = 'sts-rejected';
+                    $text  = $translation->translate('CampaignStatusRejected');
+                    break;
+            }
+            $oTrans = new OX_Translation();
+            $text = $oTrans->translate($text);
+
+            if ($status == OA_ENTITY_STATUS_APPROVAL) {
+                $text = "<a href='campaign-edit.php?clientid=".$aParams['clientid']."&campaignid=".$aParams['campaignid']."'>" . $text . "</a>";
+            }
+
+            return "<span class='" . $class . "'>" . $text . "</span>";
+        }
+
+        $smarty->trigger_error("showStatusText: missing 'status' parameter");
+    }
+
+    function _function_ox_campaign_icon($aParams, &$smarty)
+    {
+        if (isset($aParams['status'])) {
+            if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
+                return 'iconCampaign';
+            } 
+            
+            return 'iconCampaignDisabled';
+        } else {
+            $smarty->trigger_error("t: missing 'status' parameter");
+        }
+    }
+
+    function _function_ox_tracker_type($aParams, &$smarty)
+    {
+        if (isset($aParams['type'])) {
+            $type = $aParams['type'];
+			$type = $GLOBALS['_MAX']['CONN_TYPES'][$type];
+			
+			// Warning: $type contains the id of translation string... remove 'str' to be able to pass it on to OX_Translation
+			$type = substr($type, 3);
+			
+            $translation = new OX_Translation ();
+			return $translation->translate($type);
+        } else {
+            $smarty->trigger_error("t: missing 'type' parameter");
         }
     }
 

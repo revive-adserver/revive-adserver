@@ -38,40 +38,39 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients', $clientid);
 
-/*-------------------------------------------------------*/
-/* Restore cache of $node_array, if it exists            */
-/*-------------------------------------------------------*/
-
-if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
-    $node_array = $session['prefs']['advertiser-index.php']['nodes'];
-}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (!empty($clientid)) {
-    $doClients = OA_Dal::factoryDO('clients');
-    $doClients->clientid = $clientid;
-    if ($doClients->get($clientid)) {
-        $aAdvertiser = $doClients->toArray();
-    }
+    $ids = explode(',', $clientid);
+    while (list(,$clientid) = each($ids)) {
 
-    $doClients->delete();
+        // Security check
+        OA_Permission::enforceAccessToObject('clients', $clientid);
 
-    // Delete the advertiser from the $node_array,
-    // if necessary
-    if (isset($node_array)) {
-        unset($node_array['clients'][$clientid]);
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientid = $clientid;
+        if ($doClients->get($clientid)) {
+            $aAdvertiser = $doClients->toArray();
+        }
+
+        $doClients->delete();
     }
 
     // Queue confirmation message
     $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strAdvertiserHasBeenDeleted'], array(
-        htmlspecialchars($aAdvertiser['clientname'])
-    ));
+
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ($GLOBALS['strAdvertiserHasBeenDeleted'], array(
+            htmlspecialchars($aAdvertiser['clientname'])
+        ));
+    } else {
+        $translated_message = $translation->translate ($GLOBALS['strAdvertisersHaveBeenDeleted']);
+    }
+
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
@@ -82,14 +81,6 @@ OA_Maintenance_Priority::scheduleRun();
 // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 // phpAds_cacheDelete();
 
-/*-------------------------------------------------------*/
-/* Save the $node_array, if necessary                    */
-/*-------------------------------------------------------*/
-
-if (isset($node_array)) {
-    $session['prefs']['advertiser-index.php']['nodes'] = $node_array;
-    phpAds_SessionDataStore();
-}
 
 /*-------------------------------------------------------*/
 /* Return to the index page                              */

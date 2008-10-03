@@ -48,11 +48,17 @@ div.breadcrumb .inlineIcon {
 .iconCampaign {
     background-image: url("../images/icon-campaign.png");
 }
+.iconCampaignDisabled {
+    background-image: url("../images/icon-campaign-disabled.png");
+}
 .iconCampaignLarge {
     background-image: url("../images/icon-campaign-large.png");
 }
 .iconCampaignAdd {
     background-image: url("../images/icon-campaign-add.png");
+}
+.iconCampaignAddDisabled {
+    background-image: url("../images/icon-campaign-add-disabled.png");
 }
 .iconCampaignAddLarge {
     background-image: url("../images/icon-campaign-add-large.png");
@@ -72,11 +78,17 @@ div.breadcrumb .inlineIcon {
 .iconCampaignsLarge {
     background-image: url("../images/icon-campaigns-large.png");
 }
+.iconTracker {
+  background-image: url("../images/icon-tracker.png");
+}
 .iconTrackerLarge {
   background-image: url("../images/icon-tracker-large.png");
 }
 .iconTrackerAddLarge {
   background-image: url("../images/icon-tracker-add-large.png");
+}
+.iconTrackerLink {
+  background-image: url("../images/icon-zone-linked.gif");
 }
 .iconTrackerAdd {
   background-image: url("../images/icon-tracker-add.png");
@@ -87,11 +99,38 @@ div.breadcrumb .inlineIcon {
 .iconTrackerMove {
   background-image: url("../images/icon-tracker-to-advertiser.png");
 }
+.iconBanner {
+  background-image: url("../images/icon-banner.png");  
+}
+.iconBannerDisabled {
+  background-image: url("../images/icon-banner-disabled.png");  
+}
+.iconBannerText {
+  background-image: url("../images/icon-banner-text.png");  
+}
+.iconBannerTextDisabled {
+  background-image: url("../images/icon-banner-text-disabled.png");  
+}
+.iconBannerHtml {
+  background-image: url("../images/icon-banner-html.png");  
+}
+.iconBannerHtmlDisabled {
+  background-image: url("../images/icon-banner-html-disabled.png");  
+}
+.iconBannerExternal {
+  background-image: url("../images/icon-banner-external.png");  
+}
+.iconBannerExternalDisabled {
+  background-image: url("../images/icon-banner-external-disabled.png");  
+}
 .iconBannerLarge {
   background-image: url("../images/icon-banner-large.png");  
 }
 .iconBannerAdd {
   background-image: url("../images/icon-banner-add.png");
+}
+.iconBannerAddDisabled {
+  background-image: url("../images/icon-banner-add-disabled.png");
 }
 .iconBannerAddLarge {
   background-image: url("../images/icon-banner-add-large.png");
@@ -103,13 +142,16 @@ div.breadcrumb .inlineIcon {
   background-image: url("../images/icon-banner-to-campaign.png");  
 }
 .iconBannerApplyLimitations {
-  background-image: url("../images/icon-duplicate-acl.gif");  
+  background-image: url("../images/icon-delivery.png");  
 }
 .iconBanners {
   background-image: url("../images/icon-banners.png");
 }
 .iconBannersLarge {
   background-image: url("../images/icon-banners-large.png");  
+}
+.iconWebsite {
+  background-image: url("../images/icon-website.png ");
 }
 .iconWebsiteLarge {
   background-image: url("../images/icon-website-large.png ");
@@ -126,11 +168,41 @@ div.breadcrumb .inlineIcon {
 .iconWebsitesLarge {
   background-image: url("../images/icon-websites-large.png");  
 }
+.iconZone {
+  background-image: url("../images/icon-zone.png ");  
+}
+.iconZoneDisabled {
+  background-image: url("../images/icon-zone-disabled.png ");  
+}
+.iconZoneWarning {
+    background-image: url("../images/icon-zone-w.gif");
+}
+.iconZoneEmail {
+    background-image: url("../images/icon-zone-email.png");
+}
+.iconZoneEmailDisabled {
+    background-image: url("../images/icon-zone-email-disabled.png");
+}
+.iconZoneText {
+    background-image: url("../images/icon-zone-text.png");
+}
+.iconZoneTextDisabled {
+    background-image: url("../images/icon-zone-text-disabled.png");
+}
+.iconZoneFloating {
+    background-image: url("../images/icon-zone-floating.png");
+}
+.iconZoneFloatingDisabled {
+    background-image: url("../images/icon-zone-floating-disabled.png");
+}
 .iconZoneLarge {
   background-image: url("../images/icon-zone-large.png ");  
 }
 .iconZoneAdd {
   background-image: url("../images/icon-zone-add.png ");  
+}
+.iconZoneAddDisabled {
+  background-image: url("../images/icon-zone-add-disabled.png ");  
 }
 .iconZoneAddLarge {
   background-image: url("../images/icon-zone-add-large.png ");  
@@ -147,17 +219,38 @@ div.breadcrumb .inlineIcon {
 .iconZonesLarge {
     background-image: url("../images/icon-zones-large.png");
 }
+.iconZoneLinked {
+    background-image: url("../images/icon-zone-link.png");
+}
+.iconZoneProbability {
+    background-image: url("../images/icon-probability.png");
+}
+.iconZoneInvocation {
+    background-image: url("../images/icon-tag.png");
+}
+.iconTargetingChannel {
+  background-image: url("../images/icon-targeting-channel.png");
+}
+.iconTargetingChannelAcl {
+  background-image: url("../images/icon-acl.gif");
+}
 .iconTargetingChannelLarge {
   background-image: url("../images/icon-targeting-channel-large.png");
 }
 .iconTargetingChannelAdd {
   background-image: url("../images/icon-targeting-channel-add.png");
 }
+.iconTargetingChannelAddDisabled {
+  background-image: url("../images/icon-targeting-channel-add-disabled.png");
+}
 .iconTargetingChannelAddLarge {
   background-image: url("../images/icon-targeting-channel-add-large.gif");
 }
 .iconTargetingChannelDuplicate {
   background-image: url("../images/icon-targeting-channel-duplicate.png");
+}
+.iconTargetingChannels {
+  background-image: url("../images/icon-targeting-channels.png");
 }
 .iconTargetingChannelsLarge {
   background-image: url("../images/icon-targeting-channels-large.png");
@@ -169,11 +262,20 @@ div.breadcrumb .inlineIcon {
 }
 
 /** General */
+.iconActivate {
+    background-image: url("../images/icon-activate.png");
+}
+.iconDeactivate {
+    background-image: url("../images/icon-deactivate.png");
+}
 .iconBack {
     background-image: url("../images/icon-back.gif");
 }
 .iconDelete {
     background-image: url("../images/icon-cross.gif");
+}
+.inactive .iconDelete {
+    background-image: url("../images/icon-cross-d.gif");
 }
 .iconStatistics {
     background-image: url("../images/icon-statistics.png");

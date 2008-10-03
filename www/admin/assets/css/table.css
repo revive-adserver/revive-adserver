@@ -1,0 +1,382 @@
+
+.tableWrapper {
+    position: relative; 
+    width: 100%;
+}
+
+.tableWrapper .tableHeader {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 6px 0 0;
+
+    position: relative; 
+    z-index: 1;
+    zoom: 1;
+}
+
+.tableWrapper .tableHeader .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.tableWrapper .tableHeader .left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.tableWrapper .tableHeader .right {
+    right: -1px;
+    top: -1px;
+    background-position: top right;
+    
+    -right: -1px;
+}
+
+.tableWrapper .clear {
+    clear: both;
+    height: 0px;
+    overflow: hidden;
+    margin: 6px 0 0;
+}
+
+
+
+.tableWrapper .tableActions,
+.tableWrapper .tableFilters {
+    display: block;
+    float: left;
+	clear: left;
+
+    margin: 0;
+    padding: 0 0 0 8px;
+    line-height: 26px;  
+    height: 26px;
+}
+.tableWrapper .tableFilters.alignRight {
+	clear: none;
+    float: right;
+}
+.tableWrapper .tableActions li,
+.tableWrapper .tableFilters li {
+    display: block;
+    float: left;
+    list-style-type: none;
+    padding: 0 12px 0 0;
+}
+
+
+
+
+.tableWrapper table {
+    width: 100%;
+    border-collapse: separate;
+    clear: left;
+
+    border-left: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+}
+.tableWrapper table table {
+	border: none;
+}
+.tableWrapper table th {
+    background: url(../images/table-header.png) left -2px repeat-x;
+    border-top: 1px solid #f4f4f4;
+    border-bottom: 1px solid #c9c9c9;
+    line-height: 26px;
+    padding: 0 8px;
+    font-weight: bold;
+}
+
+.tableWrapper table .toggleSelection,
+.tableWrapper table .toggleAll {
+    width: 20px;
+    padding: 5px 0 0 6px;
+    
+    /* IE 6 and IE7 have different metrics for checkboxes */
+    *padding: 0 0 0 6px;
+    -padding: 5px 0 0 6px;
+}
+.tableWrapper table .toggleAll {
+    padding: 0 0 0 6px; 
+}
+
+
+
+.tableWrapper table td {
+    border-bottom: 1px solid #e6e6e6;
+    line-height: 26px;
+    padding: 2px 8px 0;
+    vertical-align: top;
+}
+
+.tableWrapper table tr.even td {
+    background: #f6f6f6;
+}
+
+.tableWrapper table tr.hilite td {
+    background: #fffeea;
+}
+
+.tableWrapper table tr.selected td {
+    background: #ffffce;
+}
+
+.tableWrapper table .alignRight {
+    text-align: right;
+}
+
+
+.tableWrapper table .sortDown a,
+.tableWrapper table .sortDown span {
+    background: url(../images/arrow-d.gif) center right no-repeat;
+    padding: 2px 16px 2px 0;
+}
+.tableWrapper table .sortUp a,
+.tableWrapper table .sortUp span {
+    background: url(../images/arrow-u.gif) center right no-repeat;
+    padding: 2px 16px 2px 0;
+}
+.tableWrapper table .sortDown.alignRight a,
+.tableWrapper table .sortDown.alignRight span,
+.tableWrapper table .sortUp.alignRight a,
+.tableWrapper table .sortUp.alignRight span {
+    background-position: center left;
+    padding: 2px 0 2px 16px;
+}
+
+.horizontalActions {
+    -width: 0;
+}
+
+.rowActions {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.rowActions li {
+    display: inline;
+    margin: 0 0 0 16px;
+}
+.tableWrapper table .alignRight .rowActions li a {
+    /* Required because a bug in IE CSS selectors make it overwrite the padding with other values */
+    padding: 2px 0 2px 20px;
+}
+.verticalActions {
+    width: 0;
+}
+.verticalActions .rowActions {
+    display: block;
+    margin: 2px 0 0;
+}
+.verticalActions .rowActions li {
+    display: block;
+    margin: 0;
+    text-align: left;
+    white-space: nowrap;
+    line-height: 22px;
+}
+
+.tableWrapper .tableHeader .label {
+    float: left;
+}
+
+
+.dropDown {
+    display: block;
+    float: left;
+    position: relative;
+    
+    top: 0;
+    left: 0;
+    
+    white-space: nowrap;
+    margin: 0 0 0 4px;
+}
+.dropDown span {
+    display: block;
+    background: url(../images/dropdown-background.png) left top no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 4px;
+    padding: 0 0 4px;
+    
+    height: 18px;
+    line-height: 18px;
+    
+    -width: 0%;
+}
+.dropDown span span {
+    display: block;
+    background-position: right -25px;
+    padding: 0 26px 0 8px;
+
+    position: relative;
+    top: 0;
+	
+	color: #444;
+}
+.dropDown.active span {
+    background-position: left -50px;
+}
+.dropDown.active span span {
+    background-position: right -75px;
+    color: #fff;
+}
+.dropDown div.panel {
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 22px;
+    left: -2px;
+    margin: 0;
+    padding: 0 6px 0 0;
+    z-index: 1001;
+
+    background: url(../images/dropdown-right.png) right bottom no-repeat;
+    border: none;
+
+    /* Unfortunately we need a fixed width for IE6 */
+    -width: 160px;
+
+    /* Non transparent version for IE */
+    -background: url(../images/dropdown-right.gif) right bottom no-repeat;
+}
+.alignRight .dropDown div.panel {
+	left: auto;
+	right: -2px;
+}
+
+
+.dropDown.active div.panel {
+    display: block;
+}
+.dropDown div.panel div {
+    background: url(../images/dropdown-left.png) left bottom no-repeat;
+    padding: 0 0 8px;
+
+    /* Non transparent version for IE */
+    -background: url(../images/dropdown-left.gif) left bottom no-repeat;
+}
+.dropDown ul {
+    display: block;
+    
+    border-top: 1px solid #ccc;
+    padding: 6px 0 0;
+    margin: 0 -3px 0 3px;
+}
+.dropDown ul li {
+    display: block;
+    line-height: 22px;
+}
+.tableWrapper .tableFilters .dropDown li {
+    float: none;
+    padding: 0;
+}
+.dropDown ul li a {
+    display: block;
+    color: 0767a8;
+    padding: 0 40px 0 8px;
+    
+    -zoom: 1;
+}
+
+.dropDown ul li a:hover {
+    background-color: #0767a8;
+    color: #fff;
+    text-decoration: none;
+}
+.dropDown .mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    
+    background-color: transparent;
+    
+    z-index: 1000;
+}
+.dropDown.active div.mask {
+    display: block;
+}
+
+
+
+
+
+
+.tableMessage {
+    position: relative;
+}
+.tableMessage .panel {
+    position: absolute;
+    float: left;
+    
+    top: -22px;
+    left: 100px;
+    right: 100px;
+    padding: 16px 10px;
+    
+    font-weight: bold;
+    text-align: center;
+	line-height: 140%;
+}
+
+
+.tableWrapper table td.hasPanel {
+    width: 0;
+}
+.tableWrapper table td.hasPanel div.panel {
+    padding: 6px 10px;
+    margin: 4px 0 6px;
+}
+.tableWrapper table td.hasPanel div.panel table {
+    width: 0;
+}
+.tableWrapper table td.hasPanel div.panel table td,
+.tableWrapper table td.hasPanel div.panel table th {
+    background: none;
+    border: none;
+    
+    text-align: left;
+    font-size: 0.9em;
+    white-space: nowrap;
+    line-height: 140%;
+    padding: 0;
+}
+.tableWrapper table td.hasPanel div.panel table th {
+    padding: 0 12px 0 0;
+    text-align: right;
+}
+
+
+
+.tableWrapper .inactive a {
+    color: #999;
+    cursor: default;
+}
+.tableWrapper .inactive a:hover {
+    text-decoration: none;
+}
+.tableWrapper span {
+	color: #999;
+}
+
+
+
+
+
+
+
+

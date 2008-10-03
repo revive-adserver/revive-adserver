@@ -368,6 +368,7 @@ $GLOBALS['strClientHistory']                = "Advertiser History";
 $GLOBALS['strNoClients']                    = "There are currently no advertisers defined. To create a campaign, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
 $GLOBALS['strNoClientsForBanners']          = "There are currently no advertisers defined. To add banners you need to <a href='advertiser-edit.php'>add new advertiser</a> and campaign first.";
 $GLOBALS['strConfirmDeleteClient']          = "Do you really want to delete this advertiser?";
+$GLOBALS['strConfirmDeleteClients']         = "Do you really want to delete the selected advertisers?";
 $GLOBALS['strConfirmResetClientStats']      = "Do you really want to delete all existing statistics for this advertiser?";
 $GLOBALS['strSite']                         = 'Site';
 $GLOBALS['strHideInactive']                 = "Hide inactive";
@@ -419,10 +420,12 @@ $GLOBALS['strCampaignStats']                = "Campaign Statistics";
 $GLOBALS['strCampaignProperties']           = "Campaign Properties";
 $GLOBALS['strCampaignOverview']             = "Campaign Overview";
 $GLOBALS['strCampaignHistory']              = "Campaign History";
-$GLOBALS['strNoCampaigns']                  = "There are currently no active campaigns defined for this advertiser";
+$GLOBALS['strNoCampaigns']                  = "There are currently no campaigns defined for this advertiser.";
+$GLOBALS['strNoCampaignsAddAdvertiser']     = "There are currently no campaigns defined, because there are no advertisers. To create a campaign, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
 $GLOBALS['strNoCampaignsForBanners']        = "This advertiser has no campaigns. You need to <a href='campaign-edit.php?clientid=%s'>add first campaign</a> in order to add banners";
 $GLOBALS['strConfirmDeleteAllCampaigns']    = "Do you really want to delete all campaigns owned by this advertiser?";
 $GLOBALS['strConfirmDeleteCampaign']        = "Do you really want to delete this campaign?";
+$GLOBALS['strConfirmDeleteCampaigns']       = "Do you really want to delete the selected campaigns?";
 $GLOBALS['strConfirmResetCampaignStats']    = "Do you really want to delete all existing statistics for this campaign?";
 $GLOBALS['strShowParentAdvertisers']        = "Show parent advertisers";
 $GLOBALS['strHideParentAdvertisers']        = "Hide parent advertisers";
@@ -568,8 +571,9 @@ $GLOBALS['strTrackerPreferences']            = "Tracker Preferences";
 $GLOBALS['strAddTracker']                 = "Add new tracker";
 $GLOBALS['strAddTracker_Key']             = "Add <u>n</u>ew tracker";
 $GLOBALS['strTrackerForAdvertiser']       = "for advertiser";
-$GLOBALS['strNoTrackers']                 = "There are currently no trackers defined";
+$GLOBALS['strNoTrackers']                 = "There are currently no trackers defined for this advertiser";
 $GLOBALS['strConfirmDeleteAllTrackers']   = "Do you really want to delete all trackers owned by this advertiser?";
+$GLOBALS['strConfirmDeleteTrackers']      = "Do you really want to delete all selected trackers?";
 $GLOBALS['strConfirmDeleteTracker']       = "Do you really want to delete this tracker?";
 $GLOBALS['strDeleteAllTrackers']          = "Delete all trackers";
 $GLOBALS['strTrackerProperties']          = "Tracker Properties";
@@ -627,8 +631,11 @@ $GLOBALS['strBannerOverview']                = "Banner Overview";
 $GLOBALS['strBannerProperties']              = "Banner Properties";
 $GLOBALS['strBannerHistory']                 = "Banner History";
 $GLOBALS['strBannerNoStats']                 = "There are no statistics available for this banner";
-$GLOBALS['strNoBanners']                     = "There are currently no banners defined";
+$GLOBALS['strNoBanners']                     = "There are currently no banners defined for this campaign.";
+$GLOBALS['strNoBannersAddCampaign']          = "There are currently no banners defined, because there are no campaigns. To create a banner, <a href='campaign-edit.php?clientid=%s'>add a new campaign</a> first.";
+$GLOBALS['strNoBannersAddAdvertiser']        = "There are currently no banners defined, because there are no advertisers. To create a banner, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
 $GLOBALS['strConfirmDeleteBanner']           = "Do you really want to delete this banner?";
+$GLOBALS['strConfirmDeleteBanners']          = "Do you really want to delete the selected banners?";
 $GLOBALS['strConfirmDeleteAllBanners']       = "Do you really want to delete all banners which are owned by this campaign?";
 $GLOBALS['strConfirmResetBannerStats']       = "Do you really want to delete all existing statistics for this banner?";
 $GLOBALS['strShowParentCampaigns']           = "Show parent campaigns";
@@ -798,6 +805,7 @@ $GLOBALS['strZonesWithoutAffiliate']    = "Zones without website";
 $GLOBALS['strMoveToNewAffiliate']        = "Move to new website";
 $GLOBALS['strNoAffiliates']                = "There are currently no websites defined. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first.";
 $GLOBALS['strConfirmDeleteAffiliate']    = "Do you really want to delete this website?";
+$GLOBALS['strConfirmDeleteAffiliates']   = "Do you really want to delete the selected websites?";
 $GLOBALS['strMakePublisherPublic']        = "Make the zones owned by this website publically available";
 $GLOBALS['strAffiliateInvocation']      = 'Invocation Code';
 $GLOBALS['strAdvertiserSetup']          = 'Advertiser Sign Up';
@@ -865,6 +873,7 @@ $GLOBALS['strZoneHistory']                  = "Zone History";
 $GLOBALS['strNoZones']                      = "There are currently no zones defined for this website.";
 $GLOBALS['strNoZonesAddWebsite']            = "There are currently no zones defined, because there are no websites. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first.";
 $GLOBALS['strConfirmDeleteZone']            = "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteZones']           = "Do you really want to delete the selected zones?";
 $GLOBALS['strConfirmDeleteZoneLinkActive']  = "There are campaigns still linked to this zone, if you delete it these will not be able to run and you will not be paid for them.";
 $GLOBALS['strZoneType']                     = "Zone type";
 $GLOBALS['strBannerButtonRectangle']        = "Banner, Button or Rectangle";
@@ -1378,10 +1387,13 @@ $GLOBALS['strAddNewChannel']              = "Add new Targeting Channel";
 $GLOBALS['strAddNewChannel_Key']          = "Add <u>n</u>ew Targeting Channel";
 $GLOBALS['strChannelToWebsite']           = "to website";
 $GLOBALS['strNoChannels']                 = "There are currently no targeting channels defined";
+$GLOBALS['strNoChannelsAddWebsite']       = "There are currently no targeting channels defined, because there are no websites. To create a targeting channel, <a href='affiliate-edit.php'>add a new website</a> first.";
+
 $GLOBALS['strEditChannelLimitations']     = "Edit targeting channel limitations";
 $GLOBALS['strChannelProperties']          = "Targeting Channel properties";
 $GLOBALS['strChannelLimitations']         = "Delivery Options";
 $GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this targeting channel?";
+$GLOBALS['strConfirmDeleteChannels']      = "Do you really want to delete the selected targeting channels?";
 $GLOBALS['strModifychannel']              = "Edit targeting channel";
 $GLOBALS['strChannelsOfWebsite']          = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
 
@@ -1504,10 +1516,12 @@ $GLOBALS['strDeliveryLimitationsInputErrors'] = "Some of delivery limitations re
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
+$GLOBALS['strYouDontHaveAccess'] = "You don't have access to that page. You have been re-directed.";
 
 $GLOBALS['strAdvertiserHasBeenAdded'] = "Advertiser <a href='%s'>%s</a> has been added, <a href='%s'>add a campaign</a>";
 $GLOBALS['strAdvertiserHasBeenUpdated'] = "Advertiser <a href='%s'>%s</a> has been updated";
 $GLOBALS['strAdvertiserHasBeenDeleted'] = "Advertiser <b>%s</b> has been deleted";
+$GLOBALS['strAdvertisersHaveBeenDeleted'] = "All selected advertisers have been deleted";
 
 $GLOBALS['strTrackerHasBeenAdded'] = "Tracker <a href='%s'>%s</a> has been added";
 $GLOBALS['strTrackerHasBeenUpdated'] = "Tracker <a href='%s'>%s</a> has been updated";
@@ -1515,7 +1529,7 @@ $GLOBALS['strTrackerVarsHaveBeenUpdated'] = "Variables of tracker <a href='%s'>%
 $GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "Linked campaigns of tracker <a href='%s'>%s</a> have been updated";
 $GLOBALS['strTrackerAppendHasBeenUpdated'] = "Append tracker code of tracker <a href='%s'>%s</a> has been updated";
 $GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> has been deleted";
-$GLOBALS['strAdvertiserTrackersHasBeenDeleted'] = "All trackers of advertiser <b>%s</b> has been deleted";
+$GLOBALS['strTrackersHaveBeenDeleted'] = "All selected trackers have been deleted";
 $GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 $GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> has been moved to advertiser <b>%s</b>";
 
@@ -1523,28 +1537,34 @@ $GLOBALS['strCampaignHasBeenAdded'] = "Campaign <a href='%s'>%s</a> has been add
 $GLOBALS['strCampaignHasBeenUpdated'] = "Campaign <a href='%s'>%s</a> has been updated";
 $GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "Linked trackers of campaign <a href='%s'>%s</a> have been updated";
 $GLOBALS['strCampaignHasBeenDeleted'] = "Campaign <b>%s</b> has been deleted";
+$GLOBALS['strCampaignsHaveBeenDeleted'] = "All selected campaigns have been deleted";
 $GLOBALS['strCampaignHasBeenDuplicated'] = "Campaign <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 $GLOBALS['strCampaignHasBeenMoved'] = "Campaign <b>%s</b> has been moved to advertiser <b>%s</b>";
 
 $GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> has been added";
 $GLOBALS['strBannerHasBeenUpdated'] = "Banner <a href='%s'>%s</a> has been updated";
+$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Advanced settings for banner <a href='%s'>%s</a> have been updated";
+$GLOBALS['strBannerAclHasBeenUpdated'] = "Delivery options for banner <a href='%s'>%s</a> have been updated";
 $GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> has been deleted";
+$GLOBALS['strBannersHaveBeenDeleted'] = "All selected banners have been deleted";
 $GLOBALS['strBannerHasBeenDuplicated'] = "Banner <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 $GLOBALS['strBannerHasBeenMoved'] = "Banner <b>%s</b> has been moved to campaign <b>%s</b>";
 $GLOBALS['strBannerHasBeenActivated'] = "Banner <a href='%s'>%s</a> has been activated";
 $GLOBALS['strBannerHasBeenDeactivated'] = "Banner <a href='%s'>%s</a> has been deactivated";
-$GLOBALS['strAllBannersHaveBeenDeleted'] = "All banners of this campaign have been deleted";
-$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Advanced settings for banner <a href='%s'>%s</a> have been updated";
-$GLOBALS['strBannerAclHasBeenUpdated'] = "Delivery options for banner <a href='%s'>%s</a> have been updated";
+
+$GLOBALS['strXZonesLinked'] = "<b>%s</b> zone(s) linked";
+$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zone(s) unlinked";
 
 $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added, <a href='%s'>add a zone</a>";
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> has been updated";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
+$GLOBALS['strWebsitesHaveBeenDeleted'] = "All selected website have been deleted";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
 $GLOBALS['strZoneHasBeenUpdated'] = "Zone <a href='%s'>%s</a> has been updated";
-$GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
 $GLOBALS['strZoneAdvancedHasBeenUpdated'] = "Advanced settings for zone <a href='%s'>%s</a> have been updated";
+$GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> has been deleted";
+$GLOBALS['strZonesHaveBeenDeleted'] = "All selected zone have been deleted";
 $GLOBALS['strZoneHasBeenDuplicated'] = "Zone <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 $GLOBALS['strZoneHasBeenMoved'] = "Zone <b>%s</b> has been moved to website <b>%s</b>";
 $GLOBALS['strZoneLinkedBanner'] = "Banner has been linked to zone <a href='%s'>%s</a>";
@@ -1554,8 +1574,9 @@ $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a hr
 
 $GLOBALS['strChannelHasBeenAdded'] = "Targeting channel <a href='%s'>%s</a> has been added, <a href='%s'>change the delivery options</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Targeting channel <a href='%s'>%s</a> has been updated";
-$GLOBALS['strChannelHasBeenDeleted'] = "Targeting channel <b>%s</b> has been deleted";
 $GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for targeting channel <a href='%s'>%s</a> have been updated";
+$GLOBALS['strChannelHasBeenDeleted'] = "Targeting channel <b>%s</b> has been deleted";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "All selected Targeting Channels have been deleted";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Targeting channel <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 
 $GLOBALS['strUserPreferencesUpdated'] = "Your <b>%s</b> preferences has been updated";
@@ -1564,10 +1585,6 @@ $GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
 $GLOBALS['strPasswordChanged'] = "Your password has been changed";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
-$GLOBALS['strYouDontHaveAccess'] = "You don't have access to that page. You have been re-directed.";
-$GLOBALS['strXZonesLinked'] = "<b>%s</b> zone(s) linked";
-$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zone(s) unlinked";
-
 
 
 /*-------------------------------------------------------*/

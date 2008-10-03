@@ -45,51 +45,36 @@ OA_Permission::enforceAccessToObject('clients',   $clientid);
 
 
 /*-------------------------------------------------------*/
-/* Restore cache of $node_array, if it exists            */
-/*-------------------------------------------------------*/
-
-if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
-    $node_array = $session['prefs']['advertiser-index.php']['nodes'];
-}
-
-/*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
-    $doCampaigns = OA_Dal::factoryDO('campaigns');
-    $doCampaigns->campaignid = $campaignid;
-    if ($doCampaigns->get($campaignid)) {
-        $aCampaign = $doCampaigns->toArray();
-    }
+    $ids = explode(',', $campaignid);
+    while (list(,$campaignid) = each($ids)) {
 
-    $doCampaigns->delete();
-    // Find and delete the campains from $node_array, if
-    // necessary. (Later, it would be better to have
-    // links to this file pass in the clientid as well,
-    // to facilitate the process below.
-    if (!empty($node_array['clients'])) {
-        foreach ($node_array['clients'] as $key => $val) {
-            if (isset($node_array['clients'][$key]['campaigns'])) {
-                unset($node_array['clients'][$key]['campaigns'][$campaignid]);
-            }
+        // Security check
+        OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignid;
+        if ($doCampaigns->get($campaignid)) {
+            $aCampaign = $doCampaigns->toArray();
         }
+
+        $doCampaigns->delete();
     }
 
     // Queue confirmation message
     $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDeleted'], array(
-        htmlspecialchars($aCampaign['campaignname'])
-    ));
-    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-} else if (!empty($clientid)) {
-    $doCampaigns = OA_Dal::factoryDO('campaigns');
-    $doCampaigns->clientid = $clientid;
-    $doCampaigns->delete();
 
-    // Queue confirmation message
-    $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strAllCampaignsHaveBeenDeleted'], array());
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ($GLOBALS['strCampaignHasBeenDeleted'], array(
+            htmlspecialchars($aCampaign['campaignname'])
+        ));
+    } else {
+        $translated_message = $translation->translate ($GLOBALS['strCampaignsHaveBeenDeleted']);
+    }
+
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
@@ -100,14 +85,6 @@ OA_Maintenance_Priority::scheduleRun();
 // include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 // phpAds_cacheDelete();
 
-/*-------------------------------------------------------*/
-/* Save the $node_array, if necessary                    */
-/*-------------------------------------------------------*/
-
-if (isset($node_array)) {
-    $session['prefs']['advertiser-index.php']['nodes'] = $node_array;
-    phpAds_SessionDataStore();
-}
 
 /*-------------------------------------------------------*/
 /* Return to the index page                              */

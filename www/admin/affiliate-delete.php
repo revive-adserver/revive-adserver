@@ -43,43 +43,53 @@ $oAdNetworks = new OA_Central_AdNetworks();
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($affiliateid))
-{
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->affiliateid = $affiliateid;
+if (!empty($affiliateid)) {
+    $ids = explode(',', $affiliateid);
+    while (list(,$affiliateid) = each($ids)) {
 
-    if ($doAffiliates->get($affiliateid)) {
-        $aAffiliate = $doAffiliates->toArray();
+        // Security check
+        OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+    
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->affiliateid = $affiliateid;
+        if ($doAffiliates->get($affiliateid)) {
+            $aAffiliate = $doAffiliates->toArray();
+        }
+
+        // User unsubscribed from adnetworks
+        $oacWebsiteId = $doAffiliates->as_website_id;
+        $aPublisher = array(
+            array(
+                    'id'            => $affiliateid,
+                    'an_website_id' => $oacWebsiteId,
+                )
+            );
+        $oAdNetworks->unsubscribeWebsites($aPublisher);
+        
+        $doAffiliates->delete();
     }
-
-    // User unsubscribed from adnetworks
-//    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
-    $oacWebsiteId = $doAffiliates->as_website_id;
-    $aPublisher = array(
-        array(
-                'id'            => $affiliateid,
-                'an_website_id' => $oacWebsiteId,
-            )
-        );
-    $oAdNetworks->unsubscribeWebsites($aPublisher);
-	$doAffiliates->delete();
-
+    
     // Queue confirmation message
     $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDeleted'], array(
-        htmlspecialchars($aAffiliate['name'])
-    ));
+    
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDeleted'], array(
+            htmlspecialchars($aAffiliate['name'])
+        ));
+    } else {
+        $translated_message = $translation->translate ( $GLOBALS['strWebsitesHaveBeenDeleted']);
+    }
+    
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 if (empty($returnurl))
-	$returnurl = 'website-index.php';
+    $returnurl = 'website-index.php';
 
 Header("Location: ".$returnurl);
 

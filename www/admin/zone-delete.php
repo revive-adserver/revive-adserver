@@ -41,7 +41,6 @@ phpAds_registerGlobal ('returnurl');
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-OA_Permission::enforceAccessToObject('zones', $zoneid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
@@ -51,25 +50,39 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doZones = OA_Dal::factoryDO('zones');
-$doZones->zoneid = $zoneid;
+if (!empty($zoneid)) {
+    $ids = explode(',', $zoneid);
+    while (list(,$zoneid) = each($ids)) {
 
-if ($doZones->get($zoneid)) {
-    $aZone = $doZones->toArray();
+        // Security check
+        OA_Permission::enforceAccessToObject('zones', $zoneid);
+    
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->zoneid = $zoneid;
+        if ($doZones->get($zoneid)) {
+            $aZone = $doZones->toArray();
+        }
+
+        // Ad  Networks
+        $oAdNetworks = new OA_Central_AdNetworks();
+        $oAdNetworks->deleteZone($doZones->as_zone_id);
+
+        $doZones->delete();
+    }
+    
+    // Queue confirmation message
+    $translation = new OX_Translation ();
+    
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ($GLOBALS['strZoneHasBeenDeleted'], array(
+            htmlspecialchars($aZone['zonename'])
+        ));
+    } else {
+        $translated_message = $translation->translate ($GLOBALS['strZonesHaveBeenDeleted']);
+    }
+
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
-
-// Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
-$oAdNetworks->deleteZone($doZones->as_zone_id);
-
-$doZones->delete();
-
-// Queue confirmation message
-$translation = new OX_Translation ();
-$translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenDeleted'], array(
-    htmlspecialchars($aZone['zonename'])
-));
-OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
 if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'affiliate-zones.php';

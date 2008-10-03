@@ -231,7 +231,7 @@ class OA_Admin_UI
 
 
         //additional things
-        $this->_assignValidationDefaults(); //JS validation messages
+        $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
         $this->_assignAlertMPE(); //mpe xajax
         $this->_assignInstalling(); //install indicator
         $this->_assignMessages(); //messaging system
@@ -348,7 +348,7 @@ class OA_Admin_UI
     {
         $sectionID = $oCurrentSection->getId();
         $aRootPages = $oMenu->getRootSections();
-    	  $aParentSections = $oMenu->getParentSections($sectionID);
+          $aParentSections = $oMenu->getParentSections($sectionID);
         $rootParentId = !empty($aParentSections) ? $aParentSections[0]->getId() : $sectionID;
 
         for ($i = 0; $i < count($aRootPages); $i++) {
@@ -462,7 +462,7 @@ class OA_Admin_UI
     }
 
 
-    function _assignValidationDefaults()
+    function _assignJavascriptDefaults()
     {
         // Defaults for validation
         $aLocale = localeconv();
@@ -482,6 +482,7 @@ class OA_Admin_UI
         $this->oTpl->assign('strWarningMissingOpening', html_entity_decode($GLOBALS['strWarningMissingOpening']));
         $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
         $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
+		$this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
     }
 
     function _assignJavascriptandCSS()
@@ -733,6 +734,8 @@ class OA_Admin_UI
             'js/ox.help.js',
             'js/ox.util.js',
             'js/ox.multicheckbox.js',
+            'js/ox.dropdown.js',
+            'js/ox.table.js',
             'js/jquery.tablesorter.js',
             'js/ox.tablesorter.extensions.js',
             'js/formValidation.js'
@@ -749,6 +752,7 @@ class OA_Admin_UI
                 'css/jquery.autocomplete.css',
                 'css/oa.help.css',
                 'css/chrome.css',
+                'css/table.css',
                 'css/message.css',
                 'js/jscalendar/calendar-openads.css',
                 'css/interface-ltr.css',
@@ -761,6 +765,7 @@ class OA_Admin_UI
             'css/jquery.autocomplete.css',
             'css/oa.help.css',
             'css/chrome.css',
+            'css/table.css',
             'css/message.css',
             'css/chrome-rtl.css',
             'js/jscalendar/calendar-openads.css',

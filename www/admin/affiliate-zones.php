@@ -52,6 +52,7 @@ if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $aff
 /*-------------------------------------------------------*/
 /* Init data                                             */
 /*-------------------------------------------------------*/
+
 //get websites and set the current one
 $aWebsites = getWebsiteMap();
 if (empty($affiliateid)) { //if it's empty
@@ -98,7 +99,7 @@ if (!isset($orderdirection)) {
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-addPageTools($affiliateid);
+
 $oHeaderModel = buildHeaderModel($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader(null, $oHeaderModel);
@@ -108,9 +109,15 @@ else {
     phpAds_PageHeader(null, $oHeaderModel);
 }
 
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
+
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+$oTpl = new OA_Admin_Template('zone-index.html');
+
 
 // Get websites and build the tree
 $doZones = OA_Dal::factoryDO('zones');
@@ -118,189 +125,30 @@ $doZones->affiliateid = $affiliateid;
 $doZones->addListorderBy($listorder, $orderdirection);
 $doZones->find();
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-
-
-echo "<tr height='25'>";
-echo '<td height="25"><b>&nbsp;&nbsp;<a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=name">'.$GLOBALS['strName'].'</a>';
-
-if (($listorder == "name") || ($listorder == ""))
-{
-    if  (($orderdirection == "") || ($orderdirection == "down"))
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
-    }
-    else
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
-    }
-    echo '</a>';
-}
-
-echo '</b></td>';
-echo '<td height="25"><b><a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
-
-if ($listorder == "id")
-{
-    if  (($orderdirection == "") || ($orderdirection == "down"))
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
-    }
-    else
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
-    }
-    echo '</a>';
-}
-
-echo '</b>&nbsp;&nbsp;&nbsp;</td>';
-echo '<td height="25"><b><a href="affiliate-zones.php?affiliateid='.$affiliateid.'&listorder=size">'.$GLOBALS['strSize'].'</a>';
-
-if ($listorder == "size")
-{
-    if  (($orderdirection == "") || ($orderdirection == "down"))
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
-    }
-    else
-    {
-        echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="' . OX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
-    }
-    echo '</a>';
-}
-
-echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-echo "<td height='25'>&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-
-
-if ($doZones->getRowCount() == 0)
-{
-    echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
-    if (empty($affiliateid) || $affiliateid < 0) {
-        echo "&nbsp;&nbsp;$strNoZonesAddWebsite";
-    }
-    else {
-        echo "&nbsp;&nbsp;$strNoZones";
-    }
-    echo "</td></tr>";
-
-    echo "<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
-}
-
-$i=0;
-while ($doZones->fetch() && $row_zones = $doZones->toArray())
-{
-    if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
-    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-
-    echo "<td height='25'>&nbsp;&nbsp;";
+$aZones = array();
+while ($doZones->fetch() && $row_zones = $doZones->toArray()) {
+	$aZones[$row_zones['zoneid']] = $row_zones;
+	$aZones[$row_zones['zoneid']]['lowPriorityWarning'] = false;
 
     $aZoneAds = MAX_cacheGetZoneLinkedAds($row_zones['zoneid'], false);
-    if ($aZoneAds['count_active'] > 0) {
-        if ($row_zones['delivery'] == phpAds_ZoneBanner) {
-            if (count($aZoneAds['lAds']) == 0) {
-                // There are linked ads, but no low-priority ads (this will result in serving blanks)
-                echo "<acronym title='Warning - There are no low-priority ads linked to this zone'><img src='" . OX::assetPath() . "/images/icon-zone-w.gif' align='absmiddle' />&nbsp;</acronym>";
-            } else {
-                echo "<img src='" . OX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
-            }
-        } elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == phpAds_ZonePopup) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-popup.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == phpAds_ZoneText) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-textzone.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == MAX_ZoneEmail) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-zone-email.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == MAX_ZoneClick) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-zone-click.gif' align='absmiddle'>&nbsp;";
-        }
-    } else {
-        if ($row_zones['delivery'] == phpAds_ZoneBanner) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-zone-d.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == phpAds_ZonePopup) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == phpAds_ZoneText) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == MAX_ZoneEmail) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-zone-email-d.gif' align='absmiddle'>&nbsp;";
-        } elseif ($row_zones['delivery'] == MAX_ZoneClick) {
-            echo "<img src='" . OX::assetPath() . "/images/icon-zone-click-d.gif' align='absmiddle'>&nbsp;";
-        }
-    }
+    if ($aZoneAds['count_active'] > 0 && $row_zones['delivery'] == phpAds_ZoneBanner && count($aZoneAds['lAds']) == 0) {
+		$aZones[$row_zones['zoneid']]['lowPriorityWarning'] = true;
+	}
 
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_EDIT))
-        echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".htmlspecialchars($row_zones['zonename'])."</a>";
-    else
-        echo htmlspecialchars($row_zones['zonename']);
-
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "</td>";
-
-    // ID
-    echo "<td height='25'>".$row_zones['zoneid']."</td>";
-
-    // Size
-    if ($row_zones['delivery'] == phpAds_ZoneText)
-    {
-        echo "<td height='25'>".$strCustom." (".$strTextAdZone.")</td>";
-    }
-    else
-    {
-        if ($row_zones['width'] == -1) $row_zones['width'] = '*';
-        if ($row_zones['height'] == -1) $row_zones['height'] = '*';
-
-        echo "<td height='25'>".phpAds_getBannerSize($row_zones['width'], $row_zones['height'])."</td>";
-    }
-
-    echo "<td>&nbsp;</td>";
-    echo "</tr>";
-
-    // Description
-    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-    echo "<td>&nbsp;</td>";
-    echo "<td height='25' colspan='3'>".htmlspecialchars(stripslashes($row_zones['description']))."</td>";
-    echo "</tr>";
-
-    echo "<tr height='1'>";
-    echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>";
-    echo "<td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>";
-    echo "</tr>";
-    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-
-    // Empty
-    echo "<td>&nbsp;</td>";
-
-    // Button 1, 2 & 3
-    echo "<td height='25' colspan='3'>";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) echo "<img src='" . OX::assetPath() . "/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "<img src='" . OX::assetPath() . "/images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".MAX_zoneDelConfirm($row_zones['zoneid']).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "</td></tr>";
-
-    $i++;
+	$aZones[$row_zones['zoneid']]['active'] = $aZoneAds['count_active'] > 0;
 }
 
-if ($doZones->getRowCount() > 0)
-{
-    echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-}
+$oTpl->assign('affiliateId', $affiliateid);
+$oTpl->assign('aAdvertisers', $clients);
+$oTpl->assign('aZones', $aZones);
+$oTpl->assign('listorder', $listorder);
+$oTpl->assign('orderdirection', $orderdirection);
 
-echo "</table>";
-echo "<br /><br />";
-
+$oTpl->assign('canAdd', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD));
+$oTpl->assign('canEdit', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_EDIT));
+$oTpl->assign('canLink', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK));
+$oTpl->assign('canInvocation', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION));
+$oTpl->assign('canDelete', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE));
 
 
 /*-------------------------------------------------------*/
@@ -310,16 +158,14 @@ echo "<br /><br />";
 $session['prefs']['affiliate-zones.php']['listorder'] = $listorder;
 $session['prefs']['affiliate-zones.php']['orderdirection'] = $orderdirection;
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
-
 phpAds_SessionDataStore();
-
 
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageFooter();
+$oTpl->display();
 
 function buildHeaderModel($websiteId)
 {
@@ -365,15 +211,6 @@ function getWebsiteMap()
     }
 
     return $aWebsiteMap;
-}
-
-
-function addPageTools($websiteId)
-{
-    if ($websiteId > 0 && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)))
-    {
-        addPageLinkTool($GLOBALS["strAddNewZone_Key"], "zone-edit.php?affiliateid=$websiteId", 'iconZoneAdd', $GLOBALS["strAddNew"] );
-    }
 }
 
 ?>

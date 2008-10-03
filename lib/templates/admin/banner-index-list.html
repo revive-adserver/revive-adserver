@@ -1,0 +1,219 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: advertiser-index-list.html 24988 2008-09-01 07:37:56Z lukasz.wikierski $
+
+-->*}
+
+
+<div class='tableWrapper'>
+    <div class='tableHeader'>
+        <ul class='tableActions'>
+            <li>
+                {if $clientId != -1 || $campaignId != -1}
+                <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
+                {else}
+                <span class='inlineIcon iconBannerAddDisabled'>{t str=AddBanner}</span>
+                {/if}
+            </li>
+            {if $canDelete}
+            <li class='inactive activeIfSelected'>
+                <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
+                
+                {literal}
+                <script type='text/javascript'>
+                <!--
+                
+                $('#deleteSelection').click(function(event) {
+					event.preventDefault();
+					
+					if (!$(this).parents('li').hasClass('inactive')) {
+						var ids = [];
+						$(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
+							ids.push(this.value);
+						});
+						
+						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteBanners}{literal}")) {
+    						window.location = 'banner-delete.php?clientid={/literal}{$clientId}{literal}&campaignid={/literal}{$campaignId}{literal}&bannerid=' + ids.join(',');
+						}
+					}
+                });
+                
+                //-->
+                </script>
+                {/literal}
+            </li>
+            {/if}
+        </ul>
+        
+        <ul class='tableFilters alignRight'>
+            <li>
+                <div class='label'>
+                    Show
+                </div>
+                
+                <div class='dropDown'>
+                    <span><span>{if $hideinactive}Active banners{else}All banners{/if}</span></span>
+                    
+                    <div class='panel'>
+                        <div>
+                            <ul>
+                                <li><a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}&hideinactive=0'>All banners</a></li>
+                                <li><a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}&hideinactive=1'>Active banners</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class='mask'></div>
+                </div>
+            </li>
+        </ul>
+
+        <div class='clear'></div>
+        <div class='corner left'></div>
+        <div class='corner right'></div>
+    </div>
+
+    <table cellspacing='0' summary=''>
+        <thead>
+            <tr>
+              <th class='first toggleAll'>
+                    <input type='checkbox' />
+                </th>
+                <th class='{ox_column_class item=name order=up default=1}'>
+                    {ox_column_title item=name order=up default=1 str=Name url=campaign-banners.php}
+                </th>
+                <th>&nbsp;
+                  
+                </th>
+                <th class='last alignRight'>&nbsp;
+                  
+                </th>
+            </tr>
+        </thead>
+
+{if !$from|@count}
+        <tbody>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+            <tr class='even'>
+                <td colspan='4'>
+                    <div class='tableMessage'>
+                        <div class='panel'>
+                            
+                            {if $clientId != -1}
+                            	{if $campaignId != -1}
+                                    {if $hideinactive}
+                                        {$aCount.banners_hidden} {t str=InactiveBannersHidden}
+                                    {else} 
+                                        {t str=NoBanners}
+                                    {/if}
+                                {else}
+                                    {t str=NoBannersAddCampaign values=$clientId}
+                                {/if}
+                            {else}
+                                {t str=NoBannersAddAdvertiser}
+                            {/if} 
+
+                            <div class='corner top-left'></div>
+                            <div class='corner top-right'></div>
+                            <div class='corner bottom-left'></div>
+                            <div class='corner bottom-right'></div>
+                        </div>
+                    </div>
+                
+                    &nbsp;
+                </td>
+            </tr>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+      </tbody>
+        
+{else}
+        <tbody>
+    {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
+    {foreach key=bannerId item=banner from=$from}
+        {cycle name=bgcolor assign=bgColor}
+            <tr class='{$bgColor}'>
+                <td class='toggleSelection'>
+                    <input type='checkbox' value='{$bannerId}' />
+                </td>
+                <td>
+                  {if $canEdit}
+                      <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}' class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</a>
+                    {else}
+                      <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</span>
+                    {/if}
+                </td>
+                <td class='alignRight verticalActions'>
+                    <ul class='rowActions'>
+                      {if $canACL}
+                        <li>
+                            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}' class='inlineIcon iconBannerApplyLimitations'>{t str=ACL}</a>
+                        </li>
+                        {/if}
+                        {if !$banner.active && $canActivate}
+                        <li>
+                            <a href='banner-activate.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&value=1' class='inlineIcon iconActivate'>{t str=Activate}</a>
+                        </li>
+                        {/if}
+                        {if $banner.active && $canDeactivate}
+                        <li>
+                            <a href='banner-activate.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&value=0' class='inlineIcon iconDeactivate'>{t str=Deactivate}</a>
+                        </li>
+                        {/if}
+                    </ul>
+                </td>
+                <td class='hasPanel'>
+                    <div class='panel'>
+                        <table cellspacing='0' summary=''>
+                            {if $banner.type != 'txt'}
+                            <tr>
+                                <th>{t str=Size}</th>
+                                <td>{ox_banner_size width=$banner.width height=$banner.height}</td>
+                            </tr>
+                            {/if}
+                            <tr>
+                                <th>{t str=Url}</th>
+                                <td>{$banner.url}</td>
+                            </tr>
+                            <tr>
+                                <th>{t str=Weight}</th>
+                                <td>{$banner.weight}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class='corner top-left'></div>
+                        <div class='corner top-right'></div>
+                        <div class='corner bottom-left'></div>
+                        <div class='corner bottom-right'></div>
+                    </div>
+                </td>
+            </tr>
+    {/foreach}
+       </tbody>
+{/if}
+    </table>
+</div>

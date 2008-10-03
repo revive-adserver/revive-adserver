@@ -38,7 +38,6 @@ phpAds_registerGlobal ('returnurl', 'agencyid', 'channelid', 'affiliateid');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('channel', $channelid);
 
 
 
@@ -46,32 +45,46 @@ OA_Permission::enforceAccessToObject('channel', $channelid);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($channelid))
-{
-    $doChannel = OA_Dal::factoryDO('channel');
-    $doChannel->channelid = $channelid;
+if (!empty($channelid)) {
+    $ids = explode(',', $channelid);
+    while (list(,$channelid) = each($ids)) {
 
-    if ($doChannel->get($channelid)) {
-        $aChannel = $doChannel->toArray();
+        // Security check
+        OA_Permission::enforceAccessToObject('channel', $channelid);
+    
+        $doChannel = OA_Dal::factoryDO('channel');
+        $doChannel->channelid = $channelid;
+        if ($doChannel->get($channelid)) {
+           $aChannel = $doChannel->toArray();
+        }
+    
+        $doChannel->delete();
     }
-
-    $doChannel->delete();
-
+    
     // Queue confirmation message
     $translation = new OX_Translation ();
-    $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenDeleted'], array(
-        htmlspecialchars($aChannel['name'])
-    ));
+    
+    if (count($ids) == 1) {
+        $translated_message = $translation->translate ($GLOBALS['strChannelHasBeenDeleted'], array(
+            htmlspecialchars($aChannel['name'])
+        ));
+    } else {
+        $translated_message = $translation->translate ($GLOBALS['strChannelsHaveBeenDeleted']);
+    }
+
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
-if (empty($returnurl)) {
-    $returnurl = 'channel-index.php';
-}
 
 if (!empty($affiliateid)) {
+    if (empty($returnurl)) {
+        $returnurl = 'affiliate-channels.php';
+    }
     header("Location: {$returnurl}?affiliateid={$affiliateid}");
 } else {
+    if (empty($returnurl)) {
+        $returnurl = 'channel-index.php';
+    }
     header("Location: {$returnurl}");
 }
 

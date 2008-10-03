@@ -72,18 +72,11 @@ else {
     }
 }
 
-// Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
-$tabindex = 1;
-$aEntities = array('affiliateid' => $affiliateid);
-
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-// Display navigation
-addPageTools($affiliateid);
 $oHeaderModel = buildHeaderModel($affiliateid);
 phpAds_PageHeader(null, $oHeaderModel);
 
@@ -91,23 +84,38 @@ phpAds_PageHeader(null, $oHeaderModel);
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
+
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+$oTpl = new OA_Admin_Template('channel-index.html');
+
 $channels = Admin_DA::getChannels(array('publisher_id' => $affiliateid), true);
-MAX_displayChannels($channels, array('affiliateid' => $affiliateid));
+$aChannels = array();
+foreach ($channels as $channelId => $channel) {
+	$aChannels[$channelId] = $channel;
+}
+
+$oTpl->assign('aChannels', $aChannels);
+$oTpl->assign('entityUrl', 'affiliate-channels.php');
+$oTpl->assign('entityId', 'affiliateid=' . $affiliateid);
+$oTpl->assign('affiliateId', $affiliateid);
+
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */
 /*-------------------------------------------------------*/
+
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
 phpAds_SessionDataStore();
 
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+$oTpl->display();
 phpAds_PageFooter();
 
-function addPageTools($websiteId)
-{
-    if ($websiteId > 0) {
-        addPageLinkTool($GLOBALS["strAddNewChannel_Key"], "channel-edit.php?affiliateid=$websiteId", "iconTargetingChannelAdd", $GLOBALS["keyAddNew"] );
-    }
-}
 
 function buildHeaderModel($websiteId)
 {

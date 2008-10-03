@@ -1,0 +1,150 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: advertiser-index-list.html 24988 2008-09-01 07:37:56Z lukasz.wikierski $
+
+-->*}
+
+
+<div class='tableWrapper'>
+    <div class='tableHeader'>
+        <ul class='tableActions'>
+        	{if $canAdd}
+            <li>
+                <a href='tracker-edit.php?clientid={$clientId}' class='inlineIcon iconTrackerAdd'>{t str=AddTracker}</a>
+            </li>
+            {/if}
+            {if $canDelete}
+            <li class='inactive activeIfSelected'>
+                <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
+                
+                {literal}
+                <script type='text/javascript'>
+                <!--
+                
+                $('#deleteSelection').click(function(event) {
+					event.preventDefault();
+					
+					if (!$(this).parents('li').hasClass('inactive')) {
+						var ids = [];
+						$(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
+							ids.push(this.value);
+						});
+						
+						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteTrackers}{literal}")) {
+							alert ('tracker-delete.php?clientid={/literal}{$clientId}{literal}&trackerid=' + ids.join(','));
+    						window.location = 'tracker-delete.php?clientid={/literal}{$clientId}{literal}&trackerid=' + ids.join(',');
+						}
+					}
+                });
+                
+                //-->
+                </script>
+                {/literal}
+            </li>
+            {/if}
+        </ul>
+        
+        <div class='clear'></div>
+        <div class='corner left'></div>
+        <div class='corner right'></div>
+    </div>
+
+    <table cellspacing='0' summary=''>
+        <thead>
+            <tr>
+                <th class='first toggleAll'>
+                    <input type='checkbox' />
+                </th>
+                <th class='{ox_column_class item=name order=up default=1}'>
+                    {ox_column_title item=name order=up default=1 str=Name url=$url}
+                </th>
+                <th>
+                	{t str=ConversionType}
+                </th>
+                <th class='last'>
+                	&nbsp;
+                </th>
+            </tr>
+        </thead>
+
+{if !$from|@count}
+        <tbody>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+            <tr class='even'>
+                <td colspan='4'>
+                    <div class='tableMessage'>
+                        <div class='panel'>
+                            {t str=NoTrackers}
+
+                            <div class='corner top-left'></div>
+                            <div class='corner top-right'></div>
+                            <div class='corner bottom-left'></div>
+                            <div class='corner bottom-right'></div>
+                        </div>
+                    </div>
+                    
+                    &nbsp;
+                </td>
+            </tr>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+        </tbody>
+        
+{else}
+        <tbody>
+    {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
+    {foreach key=trackerId item=tracker from=$from}
+        {cycle name=bgcolor assign=bgColor}
+            <tr class='{$bgColor}'>
+                <td class='toggleSelection'>
+                    <input type='checkbox' value='{$trackerId}' />
+                </td>
+                <td>
+                    {if $canEdit}
+                    <a href='tracker-edit.php?clientid={$clientId}&trackerid={$trackerId}' class='inlineIcon iconTracker'>{$tracker.trackername|escape:html}</a>
+                    {else}
+                    <span class='inlineIcon iconTracker'>{$tracker.trackername|escape:html}</span>
+                    {/if}
+                </td>
+                <td>
+					{ox_tracker_type type=$tracker.type}
+                </td>
+                <td class='alignRight'>
+                    <ul class='rowActions'>
+                    	{if $canLink}
+                        <li>
+                            <a href='tracker-campaigns.php?clientid={$clientId}&trackerid={$trackerId}' class='inlineIcon iconTrackerLink'>{t str=LinkedCampaigns}</a>
+                        </li>
+                        {/if}
+                    </ul>
+                </td>
+            </tr>
+    {/foreach}
+       </tbody>
+{/if}
+    </table>
+</div>

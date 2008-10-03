@@ -48,11 +48,13 @@ phpAds_registerGlobal('hideinactive', 'listorder', 'orderdirection');
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
+
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-addPageTools();
+
 phpAds_PageHeader(null, buildHeaderModel());
+
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -83,10 +85,6 @@ if (!isset($orderdirection)) {
     }
 }
 
-$node_array = array();
-if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
-    $node_array = $session['prefs']['advertiser-index.php']['nodes'];
-}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -149,6 +147,7 @@ $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 
+
 /*-------------------------------------------------------*/
 /* Store preferences                                     */
 /*-------------------------------------------------------*/
@@ -156,32 +155,21 @@ $oTpl->assign('orderdirection', $orderdirection);
 $session['prefs']['advertiser-index.php']['hideinactive'] = $hideinactive;
 $session['prefs']['advertiser-index.php']['listorder'] = $listorder;
 $session['prefs']['advertiser-index.php']['orderdirection'] = $orderdirection;
-$session['prefs']['advertiser-index.php']['nodes'] = $node_array;
 phpAds_SessionDataStore();
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
 $oTpl->display();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
 phpAds_PageFooter();
 
-function addPageTools()
-{
-    addPageLinkTool($GLOBALS["strAddClient_Key"], "advertiser-edit.php", "iconAdvertiserAdd", $GLOBALS["strAddNew"] );
-}
 
 function buildHeaderModel()
 {
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     return $builder->buildEntityHeader(array(), 'advertisers', 'list');
 }
-
-
 
 ?>

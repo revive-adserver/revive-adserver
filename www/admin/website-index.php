@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection',
+phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection',
                                'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'advsignup', 'formId');
 
 // Security check
@@ -50,8 +50,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-addPageTools();
 phpAds_PageHeader(null, buildHeaderModel());
+
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -73,6 +73,7 @@ if (!isset($orderdirection))
 		$orderdirection = '';
 }
 
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
@@ -80,6 +81,7 @@ if (!isset($orderdirection))
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('website-index.html');
+
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
@@ -156,7 +158,6 @@ while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
     $zones[$row_ad_zones['zone_id']]['num_ads'] = $row_ad_zones['num_ads'];
 }
 
-
 // Build Tree
 if (isset($zones) && is_array($zones) && count($zones) > 0)
 {
@@ -177,11 +178,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doZones->joinAdd($doAffiliates);
 }
 
-$countZone = $doZones->count();
-$countAffiliate = $doAffiliates->count();
-
 $oTpl->assign('affiliates',     $affiliates);
-$oTpl->assign('countAffiliate', $countAffiliate);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
@@ -197,20 +194,17 @@ $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_E
 
 $session['prefs']['website-index.php']['listorder'] = $listorder;
 $session['prefs']['website-index.php']['orderdirection'] = $orderdirection;
-
 phpAds_SessionDataStore();
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+
 $oTpl->display();
 
 phpAds_PageFooter();
 
-function addPageTools()
-{
-    addPageLinkTool($GLOBALS["strAddNewAffiliate_Key"], "affiliate-edit.php", "iconWebsiteAdd", $GLOBALS["strAddNew"] );
-}
 
 function buildHeaderModel()
 {
