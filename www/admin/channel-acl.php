@@ -70,6 +70,19 @@ elseif (!empty($submit)) {
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
         if (MAX_AclSave($acl, $aEntities)) {
+
+            // Queue confirmation message
+            $doChannel = OA_Dal::factoryDO('channel');
+            $doChannel->get($channelid);
+
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strChannelAclHasBeenUpdated'], array(
+                MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . (!empty($affiliateid) ? "affiliateid={$affiliateid}&" : "") . "channelid={$channelid}"),
+                htmlspecialchars($doChannel->name)
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+            // Redirect
             if (!empty($affiliateid)) {
                 header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
             } else {

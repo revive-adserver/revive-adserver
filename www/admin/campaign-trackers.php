@@ -104,8 +104,16 @@ if (!empty($campaignid)) {
 
             }
         }
-        $oUI = OA_Admin_UI::getInstance();
-        OX_Admin_Redirect::redirect($oUI->getNextPage());
+
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strCampaignTrackersHaveBeenUpdated'], array(
+            MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=".$clientid."&campaignid=".$campaignid),
+            htmlspecialchars($doCampaigns->campaignname)
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        OX_Admin_Redirect::redirect("campaign-trackers.php?clientid=".$clientid."&campaignid=".$campaignid);
     }
 }
 

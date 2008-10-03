@@ -235,12 +235,20 @@ function processForm($aZone, $form)
     $doZones->session_capping = $aFields['session_capping'];
     $doZones->update();
 
+    // Queue confirmation message
+    $translation = new OX_Translation ();
+    $translated_message = $translation->translate ( $GLOBALS['strZoneAdvancedHasBeenUpdated'], array(
+        MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
+        htmlspecialchars($doZones->zonename)
+    ));
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
     // Rebuild Cache
     // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
     // phpAds_cacheDelete('what=zone:'.$zoneid);
 
     $oUI = OA_Admin_UI::getInstance();
-    OX_Admin_Redirect::redirect($oUI->getNextPage());
+    OX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
 }
 
 

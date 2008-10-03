@@ -161,7 +161,19 @@ class MAX_Admin_Inventory_TrackerAppend
 
         if (isset($vars['save'])) {
             $this->_dal->setAppendCodes($this->tracker_id, $codes);
-            OX_Admin_Redirect::redirect("tracker-invocation.php?clientid={$this->advertiser_id}&trackerid={$this->tracker_id}");
+
+            // Queue confirmation message
+            $doTrackers = OA_Dal::factoryDO('trackers');
+            $doTrackers->get($this->advertiser_id);
+  
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate ( $GLOBALS['strTrackerAppendHasBeenUpdated'], array(
+                MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$this->advertiser_id."&trackerid=".$this->tracker_id),
+                htmlspecialchars($doTrackers->trackername)
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+            OX_Admin_Redirect::redirect("tracker-append.php?clientid={$this->advertiser_id}&trackerid={$this->tracker_id}");
         } else {
             $this->codes = $codes;
             $this->showReminder = true;

@@ -267,6 +267,14 @@ if (!empty($trackerid))
 
         }
 
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strTrackerVarsHaveBeenUpdated'], array(
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$clientid."&trackerid=".$trackerid),
+            htmlspecialchars($doTrackers->trackername)
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
         // unset variables!
         unset    ($session['prefs']['tracker-variables.php']);
         phpAds_SessionDataStore();
@@ -276,7 +284,7 @@ if (!empty($trackerid))
         // phpAds_CacheDelete('what=tracker:' . $trackerid);
 
         // redirect to the next page
-        header     ("Location: tracker-append.php?clientid=".$clientid."&trackerid=".$trackerid);
+        header     ("Location: tracker-variables.php?clientid=".$clientid."&trackerid=".$trackerid);
         exit;
 
     }

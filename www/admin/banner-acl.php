@@ -85,15 +85,23 @@ if (!empty($action)) {
             $values['acls_updated'] = $now;
         }
     
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->get($bannerid);
         if (!empty($values)) {
             $values['updated'] = $now;
-            $doBanners = OA_Dal::factoryDO('banners');
-            $doBanners->get($bannerid);
             $doBanners->setFrom($values);
             $doBanners->update();
-        }
-    
-        header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
+				}
+
+        // Queue confirmation message
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate ( $GLOBALS['strBannerAclHasBeenUpdated'], array(
+            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
+            htmlspecialchars($doBanners->description)
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        header("Location: banner-acl.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
         exit;
     }
 }

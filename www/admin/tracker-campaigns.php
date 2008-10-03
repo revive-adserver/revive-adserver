@@ -86,7 +86,19 @@ if (!empty($trackerid)) {
                 $doCampaign_trackers->insert();
             }
         }
-        header ("Location: tracker-variables.php?clientid=".$clientid."&trackerid=".$trackerid);
+
+        // Queue confirmation message
+        $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers->get($trackerid);
+
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strTrackerCampaignsHaveBeenUpdated'], array(
+            MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$clientid."&trackerid=".$trackerid),
+            htmlspecialchars($doTrackers->trackername)
+        ));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        header ("Location: tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid);
         exit;
     }
 }

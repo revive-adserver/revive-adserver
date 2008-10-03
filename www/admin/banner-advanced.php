@@ -87,6 +87,14 @@ if (isset($submitbutton)) {
             $doBanners->get($bannerid);
             $doBanners->setFrom($sqlupdate);
             $doBanners->update();
+
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strBannerAdvancedHasBeenUpdated'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
+                htmlspecialchars($doBanners->description)
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
 
         // Do not redirect until not finished with zone appending, if present

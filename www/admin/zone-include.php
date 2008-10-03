@@ -84,15 +84,46 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 
             MAX_addLinkedAdsToZone($zoneId, $placementId);
 
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedCampaign'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                htmlspecialchars($aZone['name'])
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         } elseif ($action == 'set' && $view == 'ad' && !empty($adId)) {
             $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
             if (!isset($aLinkedAds[$adId])) {
                 $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
             }
+
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedBanner'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                htmlspecialchars($aZone['name'])
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         } elseif ($action == 'remove' && !empty($placementId) && empty($adId)) {
             Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $placementId));
+
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneRemovedCampaign'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                htmlspecialchars($aZone['name'])
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         } elseif ($action == 'remove' && !empty($adId) && empty($placementId)) {
             Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $adId));
+
+            // Queue confirmation message
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate ( $GLOBALS['strZoneRemovedBanner'], array(
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                htmlspecialchars($aZone['name'])
+            ));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
         if (!PEAR::isError($result)) {
             Header("Location: zone-include.php?affiliateid=$publisherId&zoneid=$zoneId");
