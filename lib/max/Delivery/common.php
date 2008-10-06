@@ -370,14 +370,22 @@ function MAX_commonInitVariables()
     MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset'));
     global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 
-    if (!isset($context)) 	$context = array();
-    if (!isset($source))	$source = '';
-    if (!isset($target)) 	$target = '_blank';
     if (isset($withText) && !isset($withtext))  $withtext = $withText;
-    if (!isset($withtext))  $withtext = '';
-    if (!isset($ct0)) 	    $ct0 = '';
-    if (!isset($charset)) 	$charset = 'UTF-8';
-    if (!isset($what)) {
+    $withtext   = (isset($withtext) && is_numeric($withtext) ? $withtext : 0  );
+    $ct0        = (isset($ct0)          ? $ct0          : ''        );
+    $context    = (isset($context)      ? $context      : array()   );
+
+    $target     = (isset($target)  && (!empty($target))  && (!strpos($target , chr(32))) ? $target       : '_blank'  );
+    $charset    = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset      : 'UTF-8'  );
+
+
+    $bannerid   = (isset($bannerid)     && is_numeric($bannerid)    ? $bannerid     : ''        );
+    $campaignid = (isset($campaignid)   && is_numeric($campaignid)  ? $campaignid   : ''        );
+    $clientid   = (isset($clientid)     && is_numeric($clientid)    ? $clientid     : ''        );
+    $zoneid     = (isset($zoneid)       && is_numeric($zoneid)      ? $zoneid       : ''        );
+
+    if (!isset($what))
+    {
         if (!empty($bannerid)) {
             $what = 'bannerid:'.$bannerid;
         } elseif (!empty($campaignid)) {
@@ -387,16 +395,26 @@ function MAX_commonInitVariables()
         } else {
             $what = '';
         }
-    } elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
-        switch ($matches[1]) {
+    }
+    elseif (preg_match('/^(.+):(.+)$/', $what, $matches))
+    {
+        switch ($matches[1])
+        {
             case 'zoneid':
-            case 'zone':        $zoneid     = $matches[2]; break;
-            case 'bannerid':    $bannerid   = $matches[2]; break;
-            case 'campaignid':  $campaignid = $matches[2]; break;
-            case 'clientid':    $clientid   = $matches[2]; break;
+            case 'zone':
+                $zoneid     = $matches[2];
+                break;
+            case 'bannerid':
+                $bannerid   = $matches[2];
+                break;
+            case 'campaignid':
+                $campaignid = $matches[2];
+                break;
+            case 'clientid':
+                $clientid   = $matches[2];
+                break;
         }
     }
-
 
     // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
     if (!isset($clientid)) $clientid = '';
@@ -428,10 +446,7 @@ function MAX_commonInitVariables()
         $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
         $GLOBALS['_MAX']['CONF']['var']['blockZone'],
         $GLOBALS['_MAX']['CONF']['var']['capZone'],
-        $GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
-        $GLOBALS['_MAX']['CONF']['var']['lastClick'],
-        $GLOBALS['_MAX']['CONF']['var']['lastView'],
-        $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
+        $GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
     );
 }
 

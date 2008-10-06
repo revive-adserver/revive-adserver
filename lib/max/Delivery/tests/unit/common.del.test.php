@@ -259,9 +259,14 @@ class test_DeliveryCommon extends UnitTestCase
 
     function test_MAX_commonInitVariables()
     {
+        // Test 1 : common defaults
 		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
-        $return = MAX_commonInitVariables();
-        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid;
+
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+
+        MAX_commonInitVariables();
+
         $this->assertEqual($context, array(), '$context');
         $this->assertEqual($source, '{obfs:}', '$source'); // only if conf->obfuscate
         $this->assertEqual($target, '_blank', '$target');
@@ -275,7 +280,119 @@ class test_DeliveryCommon extends UnitTestCase
         $this->assertEqual($zoneid, null, '$zoneid');
         $this->assertEqual($campaignid, null, '$campaignid');
         $this->assertEqual($bannerid, null, '$bannerid');
+
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 0;
+
+        // Test 2 : non-numeric id fields should be emptied
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+
+        $zoneid     = '1 and (select * from users)';
+        $campaignid = '1 and (select * from users)';
+        $bannerid   = '1 and (select * from users)';
+        $clientid   = '1 and (select * from users)';
+
+        MAX_commonInitVariables();
+
+        $this->assertEqual($GLOBALS['zoneid']      , '');
+        $this->assertEqual($GLOBALS['campaignid']  , '');
+        $this->assertEqual($GLOBALS['clientid']    , '');
+        $this->assertEqual($GLOBALS['bannerid']    , '');
+        $this->assertEqual($GLOBALS['what']        , '');
+
+        // Test 3 : "what" field should get value from id field
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $bannerid   = '456';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['what']    , 'bannerid:456');
+
+        // Test 4 : id fields should get value from "what" field
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $what = 'bannerid:456';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['what']    , 'bannerid:456');
+        $this->assertEqual($GLOBALS['bannerid'], '456');
+
+        // Test 5 : bad what field should leave empty what and id field
+        /*$this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+
+        $what = 'bannerid:1 and (select * from users)';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['what']    , 'bannerid:1 and (select * from users)');
+        $this->assertEqual($GLOBALS['bannerid'], '');*/
+
+        // Test 6 : target and charset fields should contain no whitespace
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $target  = '';
+        $charset = '';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['target'], '_blank');
+        $this->assertEqual($GLOBALS['charset'], 'UTF-8');
+
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $target  = 'select * from users';
+        $charset = 'select * from users';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['target'], '_blank');
+        $this->assertEqual($GLOBALS['charset'], 'UTF-8');
+
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $target  = '_self';
+        $charset = 'LATIN-1';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['target'], '_self');
+        $this->assertEqual($GLOBALS['charset'], 'LATIN-1');
+
+        // Test 7 : withtext and withText fields (numeric 0 or 1)
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $withText  = 1;
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['withText'], 1);
+        $this->assertEqual($GLOBALS['withtext'], 1);
+
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $withtext  = 1;
+        MAX_commonInitVariables();
+        $this->assertFalse(isset($GLOBALS['withText']));
+        $this->assertEqual($GLOBALS['withtext'], 1);
+
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        $withtext  = 'select * from users';
+        MAX_commonInitVariables();
+        $this->assertEqual($GLOBALS['withtext'], 0);
+
+        // Test 8 : URLs...
+        $this->_unsetMAXGlobals();
+        global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
+        //$ct0    = '';
+        //$loc    = '';
+        //$referer = '';
     }
+
+    function _unsetMAXGlobals()
+    {
+        unset($GLOBALS['zoneid']);
+        unset($GLOBALS['campaignid']);
+        unset($GLOBALS['clientid']);
+        unset($GLOBALS['bannerid']);
+        unset($GLOBALS['what']);
+        unset($GLOBALS['target']);
+        unset($GLOBALS['charset']);
+        unset($GLOBALS['withText']);
+        unset($GLOBALS['withtext']);
+
+        MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset'));
+    }
+
 
     /**
      * @todo create this as web test as it sends headers
