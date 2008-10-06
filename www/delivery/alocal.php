@@ -1308,7 +1308,7 @@ $what = 'zone:'.$zoneid;
 $what = '';
 }
 }
-elseif (preg_match('/^(.+):(.+)$/', $what, $matches))
+elseif (preg_match('/^([a-z]+):(\d+)$/', $what, $matches))
 {
 switch ($matches[1])
 {
