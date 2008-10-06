@@ -77,7 +77,6 @@ class OX_Plugin_ComponentGroupManager
     function init()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        //$this->pathPlugins      = $aConf['pluginPaths']['packages'];
         $this->pathPackages     = $aConf['pluginPaths']['packages'];
         $this->pathExtensions   = $aConf['pluginPaths']['extensions'];
         $this->pathPluginsAdmin = $aConf['pluginPaths']['admin'];
@@ -466,8 +465,7 @@ class OX_Plugin_ComponentGroupManager
                             'method' =>'_removeFiles',
                             'params' => array(
                                               $aGroup['name'],
-                                              $aGroup['install'],
-                                              $aGroup['extends']
+                                              $aGroup['allfiles'],
                                              ),
                             );
         return $aTaskList;
@@ -1221,16 +1219,16 @@ class OX_Plugin_ComponentGroupManager
         return true;
     }
 
-    function _removeFiles($name, $aGroup=array())
+    function _removeFiles($name, $aFiles)
     {
-        foreach ($aGroup['files'] AS $aFile)
+        foreach ($aFiles AS $aFile)
         {
             $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (file_exists($file))
             {
                 @unlink($file);
                 $folder = dirname($file);
-                if ($name) // its a plugin (no name = package)
+                if ($name) // its a group (no name = plugin package)
                 {
                     if ( ($folder !=  MAX_PATH.rtrim($this->pathPackages,'/')) &&
                          ($folder !=  MAX_PATH.rtrim($this->pathExtensions,'/')) &&
@@ -1241,40 +1239,14 @@ class OX_Plugin_ComponentGroupManager
                 }
             }
         }
-        if (!$name) // its a package, won't have files outside the packages folder)
+        if (!$name) // its a plugin package, won't have files outside the packages folder)
         {
             return true;
         }
-        $pathAdmin = MAX_PATH.$this->pathPluginsAdmin.$name;
-        if (file_exists($pathAdmin))
-        {
-            @rmdir($pathAdmin);
-        }
         $pathPlugin = MAX_PATH.$this->pathPackages.$name;
         $pathEtc = $pathPlugin.'/etc/';
-        if ($aGroup['schema']['mdb2schema'])
-        {
-            $mdb2schema = $this->getFilePathToMDB2Schema($name, $aGroup['schema']['mdb2schema']);
-            $pathDbo = $pathEtc.'DataObjects/';
-            @unlink($pathDbo.$aGroup['schema']['dboschema'].'.ini');
-            @unlink($pathDbo.$aGroup['schema']['dbolinks'].'.ini');
 
-            @unlink($mdb2schema);
-
-            foreach ($aGroup['schema']['dataobjects'] as $idx => $dbo)
-            {
-                @unlink($pathDbo.$dbo);
-            }
-            @rmdir($pathDbo);
-        }
-        if ($aGroup['prescript'])
-        {
-            @unlink($pathEtc.$aGroup['prescript']);
-        }
-        if ($aGroup['postscript'])
-        {
-            @unlink($pathEtc.$aGroup['postscript']);
-        }
+        // upgrade files : files in etc/changes are not declared in definition xml, just delete everything in folder
         $pathChg = $pathEtc.'changes/';
         $dh = @opendir($pathChg);
         if ($dh)
@@ -1289,12 +1261,10 @@ class OX_Plugin_ComponentGroupManager
             closedir($dh);
         }
         @rmdir($pathChg);
+        @rmdir($pathEtc.'_lang/');
+        @rmdir($pathEtc.'_lang/po/');
         @rmdir($pathEtc);
-        if (file_exists($pathPlugin))
-        {
-            @unlink($pathPlugin.'/'.$name.'.xml');
-            @rmdir($pathPlugin);
-        }
+        @rmdir($pathPlugin);
         return true;
     }
 

@@ -77,7 +77,7 @@
         <schema>
             <mdb2schema>tables_test</mdb2schema>
             <dboschema>db_schema</dboschema>
-            <dbolinks>db_schema_links</dbolinks>
+            <dbolinks>db_schema.links</dbolinks>
             <dataobject>Testplugin_table.php</dataobject>
         </schema>
 
@@ -96,14 +96,14 @@
            </component>
         </components>
 
-        <prescript>prescript_testParse.php</prescript>
-        <postscript>postscript_testParse.php</postscript>
+        <prescript>prescript_install_testParse.php</prescript>
+        <postscript>postscript_install_testParse.php</postscript>
 
     </install>
 
     <uninstall>
-        <prescript>prescript_testParse.php</prescript>
-        <postscript>postscript_testParse.php</postscript>
+        <prescript>prescript_uninstall_testParse.php</prescript>
+        <postscript>postscript_uninstall_testParse.php</postscript>
     </uninstall>
 
 </plugin>

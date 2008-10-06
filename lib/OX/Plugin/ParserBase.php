@@ -52,6 +52,8 @@ class OX_ParserBase extends XML_Parser
 
     var $aData      = array();
 
+    var $aAllFiles  = array();
+
     var $elements = array();
     var $element = '';
     var $count = 0;
@@ -131,6 +133,7 @@ class OX_ParserBase extends XML_Parser
         $this->aPlugin['install']   = $this->aInstall;
         $this->aPlugin['uninstall'] = $this->aUninstall;
         $this->aPlugin['upgrade']   = $this->aUpgrade;
+        $this->aPlugin['allfiles']  = $this->aAllFiles;
     }
 
     function startHandler($xp, $element, $attribs)
@@ -180,6 +183,7 @@ class OX_ParserBase extends XML_Parser
                 break;
             case 'plugin-install-files-file':
                 $this->aFiles[] = $this->aData;
+                $this->aAllFiles[] = $this->aData;
                 break;
             case 'plugin-install-syscheck-depends-plugin':
                 $this->aDepends[]  = $this->aData;
@@ -227,15 +231,19 @@ class OX_ParserBase extends XML_Parser
                 break;
             case 'plugin-install-prescript':
                 $this->aInstall['prescript'] = $data;
+                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
             case 'plugin-install-postscript':
                 $this->aInstall['postscript'] = $data;
+                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
             case 'plugin-uninstall-prescript':
                 $this->aUninstall['prescript'] = $data;
+                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
             case 'plugin-uninstall-postscript':
                 $this->aUninstall['postscript'] = $data;
+                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
             case 'plugin-name':
             case 'plugin-creationdate':

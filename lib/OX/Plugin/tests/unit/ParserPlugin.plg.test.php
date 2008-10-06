@@ -93,7 +93,11 @@ class Test_OX_ParserPlugin extends UnitTestCase
             $this->assertEqual($aPlugin['install']['contents'][1]['name'],'testPlugin1');
             $this->assertEqual($aPlugin['install']['contents'][2]['name'],'testPlugin2');
 
-
+            $this->assertEqual(count($aPlugin['allfiles']),2);
+            $this->assertEqual($aPlugin['allfiles'][0]['name'],'testParsePackage.xml');
+            $this->assertEqual($aPlugin['allfiles'][0]['path'],OX_PLUGIN_PLUGINPATH);
+            $this->assertEqual($aPlugin['allfiles'][1]['name'],'testParsePackage.readme.txt');
+            $this->assertEqual($aPlugin['allfiles'][1]['path'],OX_PLUGIN_PLUGINPATH);
         }
     }
 

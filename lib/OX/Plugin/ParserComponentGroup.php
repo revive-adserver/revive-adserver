@@ -188,15 +188,19 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 break;
             case 'plugin-install-schema-mdb2schema':
                 $this->aSchema['mdb2schema'] = $data;
+                $this->aAllFiles[] = array('name'=>$data.'.xml', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
             case 'plugin-install-schema-dboschema':
-                $this->aSchema['dboschema'] = $data;;
+                $this->aSchema['dboschema'] = $data;
+                $this->aAllFiles[] = array('name'=>$data.'.ini', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
                 break;
             case 'plugin-install-schema-dbolinks':
-                $this->aSchema['dbolinks'] = $data;;
+                $this->aSchema['dbolinks'] = $data;
+                $this->aAllFiles[] = array('name'=>$data.'.ini', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
                 break;
             case 'plugin-install-schema-dataobject':
-                $this->aSchema['dataobjects'][] = $data;;
+                $this->aSchema['dataobjects'][] = $data;
+                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
                 break;
             case 'plugin-install-configuration-setting':
                 $this->aData['value'] = $data;
@@ -212,6 +216,9 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 break;
             case 'plugin-install-components-component-hook':
                 $this->aData['hooks'][] = $data;
+                break;
+            case 'plugin-name':
+                $this->aAllFiles[] = array('name'=>$data.'.xml', 'path'=>OX_PLUGIN_GROUPPATH.'/');
                 break;
         }
 

@@ -481,7 +481,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         // assuming its all ok, remove the package file (send in no name)
         // usually used for package readme files
         $oPluginManager->aErrors = array();
-        $this->assertTrue($oPluginManager->_removeFiles('', array('files'=>$aPkgFiles)));
+        //$this->assertTrue($oPluginManager->_removeFiles('', array('files'=>$aPkgFiles)));
+        $this->assertTrue($oPluginManager->_removeFiles('', $aPkgFiles));
         if ($oPluginManager->countErrors())
         {
             foreach ($oPluginManager->aErrors as $msg)
@@ -520,7 +521,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         // remove the plugin files
         $oPluginManager->aErrors = array();
-        $this->assertTrue($oPluginManager->_removeFiles($name, array('files'=>$aFiles)));
+        //$this->assertTrue($oPluginManager->_removeFiles($name, array('files'=>$aFiles)));
+        $this->assertTrue($oPluginManager->_removeFiles($name, $aFiles));
         if ($oPluginManager->countErrors())
         {
             foreach ($oPluginManager->aErrors as $msg)

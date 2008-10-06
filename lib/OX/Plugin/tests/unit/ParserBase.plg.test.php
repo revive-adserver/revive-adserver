@@ -132,8 +132,8 @@ class Test_OX_ParserBase extends UnitTestCase
 
             $this->assertEqual(count($aPlugin['install']['syscheck']['dbms']),0);
 
-            $this->assertEqual($aPlugin['install']['prescript'],'prescript_testParse.php');
-            $this->assertEqual($aPlugin['install']['postscript'],'postscript_testParse.php');
+            $this->assertEqual($aPlugin['install']['prescript'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['install']['postscript'],'postscript_install_testParse.php');
         }
     }
 
@@ -192,11 +192,11 @@ class Test_OX_ParserBase extends UnitTestCase
             $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['name'],'pgsql');
             $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['supported'],0);
 
-            $this->assertEqual($aPlugin['install']['prescript'],'prescript_testParse.php');
-            $this->assertEqual($aPlugin['install']['postscript'],'postscript_testParse.php');
+            $this->assertEqual($aPlugin['install']['prescript'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['install']['postscript'],'postscript_install_testParse.php');
 
-            $this->assertEqual($aPlugin['uninstall']['prescript'],'prescript_testParse.php');
-            $this->assertEqual($aPlugin['uninstall']['postscript'],'postscript_testParse.php');
+            $this->assertEqual($aPlugin['uninstall']['prescript'],'prescript_uninstall_testParse.php');
+            $this->assertEqual($aPlugin['uninstall']['postscript'],'postscript_uninstall_testParse.php');
         }
     }
 

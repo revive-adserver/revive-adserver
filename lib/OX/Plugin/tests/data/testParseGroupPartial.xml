@@ -35,8 +35,8 @@
             </admin>
         </navigation>
 
-        <prescript>prescript_testParse.php</prescript>
-        <postscript>postscript_testParse.php</postscript>
+        <prescript>prescript_install_testParse.php</prescript>
+        <postscript>postscript_install_testParse.php</postscript>
 
     </install>
 

@@ -69,9 +69,6 @@ class OX_ParserPlugin extends OX_ParserBase
             case 'plugin':
                 $this->aInstall['contents']   = $this->aContents;
                 break;
-            /*case 'plugin-install-register-extension':
-                $this->aExtensions[$this->aData['type']][] = $this->aData['name'];
-                break;*/
         }
 
         parent::endHandler($xp, $element);
@@ -83,6 +80,9 @@ class OX_ParserPlugin extends OX_ParserBase
 
         switch ($this->element)
         {
+            case 'plugin-name':
+                $this->aAllFiles[] = array('name'=>$data.'.xml', 'path'=>OX_PLUGIN_PLUGINPATH);
+                break;
             case 'plugin-install-contents-group':
                 $this->aContents[$data] = $this->aData;
                 break;

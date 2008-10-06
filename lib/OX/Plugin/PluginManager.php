@@ -340,7 +340,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to unregister package '.$name);
             return false;
         }
-        if (!$this->_removeFiles('', $aPackage['install']))
+        if (!$this->_removeFiles('', $aPackage['allfiles']))
         {
             $this->_logError('Failed to remove some files belonging to '.$name);
         }
@@ -1013,8 +1013,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * require_once( MAX_PATH . '/lib/pclzip/pcltar.lib.php' );
      *
      *
-     * @param string $pkgFile
+     * @param string $pkgFileUploaded
      * @param string $zipFile
+     * @param boolean $overwrite
      * @return boolean
      */
     function _checkPackageContents($pkgFileUploaded, $zipFile, $overwrite=false)
@@ -1040,8 +1041,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
 		$pattPluginDefFile = '/'.preg_quote($aConf['pluginPaths']['packages'],'/').'[\w\d]+\.xml/';
 		$pattGroupDefFile = '/'.preg_quote($aConf['pluginPaths']['packages'],'/').'[\w\d]+\/[\w\d]+\.xml/';
-		$this->_logMessage('pattPluginDefFile = '.$pattPluginDefFile);
-		$this->_logMessage('pattGroupDefFile = '.$pattGroupDefFile);
+		// find all of the xml definition files and compile a smiple array of files that are stored in the zipfile (exclude folders)
 		foreach ($aContents AS $i => $aItem)
 		{
 	        $aPath = pathinfo($aItem['filename']);
@@ -1050,11 +1050,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	        {
 	            continue;
 	        }
-	        if ((!$aPkgFile) && preg_match($pattPluginDefFile, $file, $aMatches)) // its an OpenXtra definition file
+	        if ((!$aPkgFile) && preg_match($pattPluginDefFile, $file, $aMatches)) // its a plugin definition file
 	        {
 	            $this->_logMessage('detected plugin definition file '.$file);
 	            $aPkgFile['pathinfo']   = $aPath;
                 $aPkgFile['storedinfo'] = $aItem;
+                $aFilesStored[] = $file;
                 continue;
 	        }
             if (preg_match($pattGroupDefFile, $file, $aMatches)) // its a group definition file
@@ -1062,20 +1063,23 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->_logMessage('detected group definition file '.$file);
     		    $aXMLFiles[$aPath['basename']]['pathinfo'] = $aPath;
     		    $aXMLFiles[$aPath['basename']]['storedinfo'] = $aItem;
+    		    $aFilesStored[] = $file;
     		    continue;
             }
             if (strpos($aPath['dirname'],'/etc/changes') == 0) // don't check the changeset files (costly parsing of upgrade definitions etc.)
             {
-                $aFilesStored[] = '/'.$aItem['filename'];
+                $aFilesStored[] = $file;
                 continue;
             }
 		}
+		// must have a plugin package definition file
 	    if (!$aPkgFile)
 	    {
 	        $this->_logError('Plugin definition '.$aExpectedPackage['name'].'.xml not found in uploaded file: '.$pkgFileUploaded);
 	        $this->errcode = OX_PLUGIN_ERROR_PACKAGE_DEFINITION_NOT_FOUND;
 	        return false;
 	    }
+	    // extract the plugin package definition file to var/tmp folder
         $aResult = $oZip->extractByIndex($aPkgFile['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
 		if ((!is_array($aResult)) || ($aResult[0]['status'] != 'ok'))
 		{
@@ -1083,6 +1087,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	        $this->errcode = OX_PLUGIN_ERROR_PACKAGE_EXTRACT_FAILED;
 	        return false;
 		}
+		// parse the plugin package definition file
 		$pathPackages = '/var/tmp'.$this->pathPackages;
 	    $aPackage = $this->_parsePackage(MAX_PATH.$pathPackages.$pkgFile);
 	    @unlink(MAX_PATH.$pathPackages.$pkgFile);
@@ -1092,12 +1097,14 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_PARSE_FAILED;
             return false;
         }
+        // check that plugin is not already installed
         if (!($overwrite) && array_key_exists($aPackage['name'],$GLOBALS['_MAX']['CONF']['plugins']))
         {
             $this->_logError('Plugin with this name is already installed '.$aPackage['name']);
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_NAME_EXISTS;
             return false;
         }
+        // ensure the plugin package definition file has a valid version number
         if (empty($aPackage['version']))
         {
             $this->_logError('Failed to retrieve version from the plugin definition '.$pkgFile);
@@ -1110,12 +1117,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_VERSION_NOT_FOUND;
             return false;
         }
+        // ensure that the number of declaration files that were found in the zip file
+        // matches the number of declared component groups
         if (count($aPackage['install']['contents']) != count($aXMLFiles))
         {
             $this->_logError('Expected '.count($aPackage['install']['contents']).' definitions but found '.count($aXMLFiles));
             $this->errcode = OX_PLUGIN_ERROR_PLUGIN_DEFINITION_MISSING;
             return false;
         }
+        // extract each of the component group definitions to var/tmp
         foreach ($aPackage['install']['contents'] AS $aItem)
         {
             if (!array_key_exists($aItem['name'].'.xml', $aXMLFiles))
@@ -1132,6 +1142,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     	        return false;
     		}
         }
+        // parse each of the component group definitions
 		$pathPackagesOld = $this->pathPackages;
 		$this->pathPackages = '/var/tmp'.$this->pathPackages;
         $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
@@ -1147,136 +1158,69 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->errcode = OX_PLUGIN_ERROR_PLUGIN_PARSE_FAILED;
             return false;
         }
-        $aFilesExpected = array();
-        $nFilesExpected = 0;
-        // get the list of files belonging to the package 'wrapper' (should only be a 'readme' file)
-        foreach ($aPackage['install']['files'] AS $aFiles)
+        // the parser compiles and returns an array of files from the plugin declaration
+        foreach ($aPackage['allfiles'] as $i => $aFileExpected)
         {
-            $aFilesExpected[$aPackage['name']][] = $aFiles;
-            $nFilesExpected++;
+            // expand the file declaration's path macro to get the path
+            $fileExpected = $this->_expandFilePath($aFileExpected['path'], $aFileExpected['name'], $aPackage['name']);
+            // files must have a valid path macro (see _expandFilePath()) else they are illegal, ie could be unzipped outside legal paths
+            if ($fileExpected == $aFileExpected['path'].$aFileExpected['name'])
+            {
+                $this->_logError('Illegal file location found :'.$fileExpected);
+                $this->errcode = OX_PLUGIN_ERROR_ILLEGAL_FILE;
+                return false;
+            }
+            $aFilesExpected[] = $fileExpected;
         }
-        // get the list of files belonging to each plugin
         foreach ($aPlugins as $idx => $aPlugin)
         {
+            // check that group is not already installed
             if ((!$overwrite) && array_key_exists($aPlugin['name'],$GLOBALS['_MAX']['CONF']['pluginGroupComponents']))
             {
                 $this->_logError('Component group with this name is already installed '.$aPlugin['name']);
                 $this->errcode = OX_PLUGIN_ERROR_PLUGIN_NAME_EXISTS;
                 return false;
             }
-            $aFilesExpected[$aPlugin['name']] = $aPlugin['install']['files'];
-            $nFilesExpected+= count($aPlugin['install']['files']);
-
-            $pluginPath = OX_PLUGIN_GROUPPATH.'/etc/';
-
-            if ($aPlugin['install']['prescript'])
+            // the parser compiles and returns an array of files from the group declaration
+            foreach ($aPlugin['allfiles'] as $i => $aFileExpected)
             {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath,
-                                                            'name'=>$aPlugin['install']['prescript']
-                                                           );
-                $nFilesExpected++;
-            }
-            if ($aPlugin['install']['postscript'])
-            {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath,
-                                                            'name'=>$aPlugin['install']['postscript']
-                                                           );
-                $nFilesExpected++;
-            }
-            if ($aPlugin['install']['schema']['mdb2schema'])
-            {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath,
-                                                            'name'=>$aPlugin['install']['schema']['mdb2schema'].'.xml',
-                                                           );
-                $nFilesExpected++;
-            }
-            if ($aPlugin['install']['schema']['dboschema'])
-            {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath.'DataObjects/',
-                                                            'name'=>$aPlugin['install']['schema']['dboschema'].'.ini',
-                                                           );
-                $nFilesExpected++;
-            }
-            if ($aPlugin['install']['schema']['dbolinks'])
-            {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath.'DataObjects/',
-                                                            'name'=>$aPlugin['install']['schema']['dbolinks'].'.ini',
-                                                           );
-                $nFilesExpected++;
-            }
-            foreach ($aPlugin['install']['schema']['dataobjects'] as $k => $v)
-            {
-                $aFilesExpected[$aPlugin['name']][] = array(
-                                                            'path'=>$pluginPath.'DataObjects/',
-                                                            'name'=>$v,
-                                                           );
-                $nFilesExpected++;
-            }
-        }
-        // now see if the files expected match the files in the zipfile
-        if ($nFilesExpected != count($aFilesStored))
-        {
-            $this->_logError($nFilesExpected.' files expected but '.count($aFilesStored).' found');
-            $this->errcode = OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH;
-            return false;
-        }
-
-        foreach ($aFilesExpected AS $pluginName => $aPluginFilesExpected)
-        {
-            foreach ($aPluginFilesExpected AS $i => $aFileExpected)
-            {
-                $fileExpected = $aFileExpected['path'].$aFileExpected['name'];
-                $fileExpected = $this->_expandFilePath($aFileExpected['path'], $aFileExpected['name'], $pluginName);
+                // expand the file declaration's path macro to get the path
+                $fileExpected = $this->_expandFilePath($aFileExpected['path'], $aFileExpected['name'], $aPlugin['name']);
+                // files must have a valid path macro (see _expandFilePath()) else they are illegal, ie could be unzipped outside legal paths
                 if ($fileExpected == $aFileExpected['path'].$aFileExpected['name'])
                 {
                     $this->_logError('Illegal file location found :'.$fileExpected);
                     $this->errcode = OX_PLUGIN_ERROR_ILLEGAL_FILE;
                     return false;
                 }
-                $found = false;
-                foreach ($aFilesStored AS $n => $fileStored)
-                {
-                    if ($fileStored == $fileExpected)
-                    {
-                        unset($aFilesStored[$n]);
-                        $found = true;
-                        break;
-                    }
-                    //$this->_logMessage($fileStored.' != '.$fileExpected);
-                }
-                if (!$found)
-                {
-                    $aFilesNotFound[] = $fileExpected;
-                }
+                $aFilesExpected[] = $fileExpected;
             }
         }
-        if (count($aFilesStored) > 0)
+        // are any declared files missing from the zip?
+        $aDiffsExpected = array_diff($aFilesExpected, $aFilesStored);
+        if (count($aDiffsExpected))
         {
-            $this->_logError(count($aFilesStored).' unexpected files found');
-            foreach ($aFilesStored as $file)
+            $this->_logError(count($aDiffsExpected).' expected files not found');
+            foreach ($aDiffsExpected as $file)
             {
                 $this->_logError($file);
             }
             $this->errcode = OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH;
-        }
-        if (count($aFilesNotFound) > 0)
-        {
-            $this->_logError(count($aFilesNotFound).' expected files not found');
-            foreach ($aFilesNotFound as $file)
-            {
-                $this->_logError($file);
-            }
-            $this->errcode = OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH;
-        }
-        if ($this->errcode == OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH)
-        {
             return false;
         }
+        // are there any files in the zip that are not declared in the definitions?
+        $aDiffStored = array_diff($aFilesStored, $aFilesExpected);
+        if (count($aDiffStored) > 0)
+        {
+            $this->_logError(count($aDiffStored).' unexpected files found');
+            foreach ($aDiffStored as $file)
+            {
+                $this->_logError($file);
+            }
+            $this->errcode = OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH;
+            return false;
+        }
+        // package is good, return the parsed definitions
         $this->errcode = OX_PLUGIN_ERROR_PACKAGE_OK;
 		return array('package'=>$aPackage, 'plugins'=>$aPlugins);
     }

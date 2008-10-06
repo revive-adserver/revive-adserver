@@ -122,6 +122,22 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'');
             $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),0);
 
+            $this->assertEqual($aPlugin['install']['prescript'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['install']['postscript'],'postscript_install_testParse.php');
+
+            $this->assertEqual(count($aPlugin['allfiles']),6);
+            $this->assertEqual($aPlugin['allfiles'][0]['name'],'testParse.xml');
+            $this->assertEqual($aPlugin['allfiles'][0]['path'],OX_PLUGIN_GROUPPATH.'/');
+            $this->assertEqual($aPlugin['allfiles'][1]['name'],'testFile1.html');
+            $this->assertEqual($aPlugin['allfiles'][1]['path'],OX_PLUGIN_ADMINPATH.'/templates/');
+            $this->assertEqual($aPlugin['allfiles'][2]['name'],'testFile2.jpg');
+            $this->assertEqual($aPlugin['allfiles'][2]['path'],OX_PLUGIN_ADMINPATH.'/images/');
+            $this->assertEqual($aPlugin['allfiles'][3]['name'],'testFile3.php');
+            $this->assertEqual($aPlugin['allfiles'][3]['path'],OX_PLUGIN_ADMINPATH.'/');
+            $this->assertEqual($aPlugin['allfiles'][4]['name'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][4]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
+            $this->assertEqual($aPlugin['allfiles'][5]['name'],'postscript_install_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][5]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
         }
     }
 
@@ -243,7 +259,7 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $this->assertEqual(count($aPlugin['install']['schema']),4);
             $this->assertEqual($aPlugin['install']['schema']['mdb2schema'],'tables_test');
             $this->assertEqual($aPlugin['install']['schema']['dboschema'],'db_schema');
-            $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'db_schema_links');
+            $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'db_schema.links');
             $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),1);
             $this->assertEqual($aPlugin['install']['schema']['dataobjects'][0],'Testplugin_table.php');
 
@@ -258,10 +274,41 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent2']['translations']));
             $this->assertEqual($aPlugin['install']['components']['testComponent2']['translations'],'{MODULEPATH}/pathToTest2/_lang/');
 
-
             $this->assertEqual(count($aPlugin['install']['components']['testComponent']['hooks']), 2);
             $this->assertEqual($aPlugin['install']['components']['testComponent']['hooks'][0],'testPreHook');
             $this->assertEqual($aPlugin['install']['components']['testComponent']['hooks'][1],'testPostHook');
+
+            $this->assertEqual($aPlugin['install']['prescript'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['install']['postscript'],'postscript_install_testParse.php');
+
+            $this->assertEqual($aPlugin['uninstall']['prescript'],'prescript_uninstall_testParse.php');
+            $this->assertEqual($aPlugin['uninstall']['postscript'],'postscript_uninstall_testParse.php');
+
+            $this->assertEqual(count($aPlugin['allfiles']),12);
+            $this->assertEqual($aPlugin['allfiles'][0]['name'],'testParse.xml');
+            $this->assertEqual($aPlugin['allfiles'][0]['path'],OX_PLUGIN_GROUPPATH.'/');
+            $this->assertEqual($aPlugin['allfiles'][1]['name'],'testFile1.html');
+            $this->assertEqual($aPlugin['allfiles'][1]['path'],OX_PLUGIN_ADMINPATH.'/templates/');
+            $this->assertEqual($aPlugin['allfiles'][2]['name'],'testFile2.jpg');
+            $this->assertEqual($aPlugin['allfiles'][2]['path'],OX_PLUGIN_ADMINPATH.'/images/');
+            $this->assertEqual($aPlugin['allfiles'][3]['name'],'testFile3.php');
+            $this->assertEqual($aPlugin['allfiles'][3]['path'],OX_PLUGIN_ADMINPATH.'/');
+            $this->assertEqual($aPlugin['allfiles'][4]['name'],'tables_test.xml');
+            $this->assertEqual($aPlugin['allfiles'][4]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
+            $this->assertEqual($aPlugin['allfiles'][5]['name'],'db_schema.ini');
+            $this->assertEqual($aPlugin['allfiles'][5]['path'],OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+            $this->assertEqual($aPlugin['allfiles'][6]['name'],'db_schema.links.ini');
+            $this->assertEqual($aPlugin['allfiles'][6]['path'],OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+            $this->assertEqual($aPlugin['allfiles'][7]['name'],'Testplugin_table.php');
+            $this->assertEqual($aPlugin['allfiles'][7]['path'],OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+            $this->assertEqual($aPlugin['allfiles'][8]['name'],'prescript_install_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][8]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
+            $this->assertEqual($aPlugin['allfiles'][9]['name'],'postscript_install_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][9]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
+            $this->assertEqual($aPlugin['allfiles'][10]['name'],'prescript_uninstall_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][10]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
+            $this->assertEqual($aPlugin['allfiles'][11]['name'],'postscript_uninstall_testParse.php');
+            $this->assertEqual($aPlugin['allfiles'][11]['path'],OX_PLUGIN_GROUPPATH.'/etc/');
         }
     }
 
