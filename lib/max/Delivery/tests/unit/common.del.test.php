@@ -316,13 +316,13 @@ class test_DeliveryCommon extends UnitTestCase
         $this->assertEqual($GLOBALS['bannerid'], '456');
 
         // Test 5 : bad what field should leave empty what and id field
-        /*$this->_unsetMAXGlobals();
+        $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 
         $what = 'bannerid:1 and (select * from users)';
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['what']    , 'bannerid:1 and (select * from users)');
-        $this->assertEqual($GLOBALS['bannerid'], '');*/
+        $this->assertEqual($GLOBALS['bannerid'], '');
 
         // Test 6 : target and charset fields should contain no whitespace
         $this->_unsetMAXGlobals();

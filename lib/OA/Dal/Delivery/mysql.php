@@ -208,6 +208,9 @@ function OA_Dal_Delivery_getAccountTZs()
 function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
+    // Sanitise parameteres
+ 	$zoneid = (int)$zoneid;
+
     // Get the zone information
     $query = "
         SELECT
@@ -402,6 +405,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
 function OA_Dal_Delivery_getPublisherZones($publisherid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // Sanitise parameteres
     $publisherid = (int)$publisherid;
 
     $rZones = OA_Dal_Delivery_query("
@@ -447,6 +451,10 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
 function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
     $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Sanitise parameteres
+    $zoneid = (int)$zoneid;
+
     $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 
     $aRows['xAds']  = array();
@@ -628,6 +636,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // Sanitise parameteres
+ 	$campaignid = (int)$campaignid;
+
     if ($campaignid > 0) {
         $precondition = " AND d.campaignid = '".$campaignid."' ";
     } else {
@@ -739,6 +750,9 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
 function OA_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // Sanitise parameteres
+    $ad_id = (int)$ad_id;
+
     $query = "
         SELECT
         d.bannerid AS ad_id,
@@ -815,6 +829,9 @@ function OA_Dal_Delivery_getAd($ad_id) {
 function OA_Dal_Delivery_getChannelLimitations($channelid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // Sanitise parameteres
+    $channelid = (int)$channelid;
+
     $rLimitation = OA_Dal_Delivery_query("
     SELECT
             acl_plugins,compiledlimitation
@@ -873,6 +890,10 @@ function OA_Dal_Delivery_getCreative($filename)
 function OA_Dal_Delivery_getTracker($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Sanitise parameteres
+    $trackerid = (int)$trackerid;
+
     $rTracker = OA_Dal_Delivery_query("
         SELECT
             t.clientid AS advertiser_id,
@@ -903,6 +924,10 @@ function OA_Dal_Delivery_getTracker($trackerid)
 function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
+
+    // Sanitise parameteres
+    $trackerid = (int)$trackerid;
+
     $rCreatives = OA_Dal_Delivery_query("
         SELECT
             b.bannerid AS ad_id,
@@ -946,6 +971,10 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
 function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Sanitise parameteres
+    $trackerid = (int)$trackerid;
+
     $rVariables = OA_Dal_Delivery_query("
         SELECT
             v.variableid AS variable_id,

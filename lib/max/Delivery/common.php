@@ -396,7 +396,7 @@ function MAX_commonInitVariables()
             $what = '';
         }
     }
-    elseif (preg_match('/^(.+):(.+)$/', $what, $matches))
+    elseif (preg_match('/^([a-z]+):(\d+)$/', $what, $matches))
     {
         switch ($matches[1])
         {
