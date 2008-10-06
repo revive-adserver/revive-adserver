@@ -329,7 +329,11 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         foreach ($this->aStatsData as $h) {
             $row = array();
-            $row[] = $h['date_f'];
+            if ($this->statsBreakdown == 'week') {
+                $row[] = $h['week'];
+            } else {
+                $row[] = $h['date_f'];
+            }
             foreach (array_keys($this->aColumns) as $ck) {
                 if ($this->showColumn($ck)) {
                     $row[] = $h[$ck];
