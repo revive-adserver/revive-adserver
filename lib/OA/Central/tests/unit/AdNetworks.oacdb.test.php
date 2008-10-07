@@ -66,7 +66,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         Mock::generatePartial(
             'OA_Central_AdNetworks',
             'PartialMockOA_Central_AdNetworks',
-            array('getCategories')
+            array('retrievePermanentCache')
         );
     }
 
@@ -126,7 +126,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         );
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
-        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        $oAdNetworksPartialMock->setReturnValue('retrievePermanentCache', $aCategories);
 
         $aResult = $oAdNetworksPartialMock->getCategoriesFlatWithParentInfo();
         ksort($aExpected);
@@ -176,7 +176,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         );
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
-        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        $oAdNetworksPartialMock->setReturnValue('retrievePermanentCache', $aCategories);
 
         $aResult = $oAdNetworksPartialMock->getCategoriesByIds(array(22,30));
         ksort($aExpected);
@@ -206,7 +206,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $aExpected = array (21, 22);
 
         $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
-        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        $oAdNetworksPartialMock->setReturnValue('retrievePermanentCache', $aCategories);
 
         $aResult = $oAdNetworksPartialMock->getSubCategoriesIds(10);
         ksort($aExpected);
