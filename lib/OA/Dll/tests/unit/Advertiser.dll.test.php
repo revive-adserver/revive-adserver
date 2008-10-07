@@ -146,6 +146,7 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
 
         $oAgencyInfo             = new OA_Dll_AgencyInfo();
         $oAgencyInfo->agencyName = 'agency name';
+        $oAgencyInfo->password   = 'password';
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
 

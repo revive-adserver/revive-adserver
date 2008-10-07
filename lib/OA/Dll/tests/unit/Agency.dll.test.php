@@ -80,7 +80,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
-        $oAgencyInfo->agencyName = 'testAgency';
+        $oAgencyInfo->agencyName  = 'testAgency';
+        $oAgencyInfo->password    = 'password';
         $oAgencyInfo->contactName = 'Mike';
 
         // Add
@@ -88,28 +89,29 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
                           $dllAgencyPartialMock->getLastError());
 
         $this->assertTrue($oAgencyInfo->accountId);
-        
+
         // Try adding a duplicate agency name.
         $oDupeAgencyInfo = new OA_Dll_AgencyInfo();
         $oDupeAgencyInfo->agencyName = $oAgencyInfo->agencyName;
+        $oDupeAgencyInfo->password = $oAgencyInfo->password;
         $oDupeAgencyInfo->contactName = $oAgencyInfo->contactName;
-        
-        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) && 
+
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
             $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
             $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
-        
+
 
         // Modify
         $oAgencyInfo->agencyName = 'modified Agency';
 
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
-                          
+
         // Try to modify to a duplicate agency name.
         $this->assertTrue($dllAgencyPartialMock->modify($oDupeAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
         $oDupeAgencyInfo->agencyName = 'modified Agency';
-        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) && 
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
             $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
             $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
 
@@ -118,7 +120,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
             $dllAgencyPartialMock->getLastError());
         $this->assertTrue($dllAgencyPartialMock->delete($oDupeAgencyInfo->agencyId),
             $dllAgencyPartialMock->getLastError());
-            
+
         // Modify not existing id
         $this->assertTrue((!$dllAgencyPartialMock->modify($oAgencyInfo) &&
                           $dllAgencyPartialMock->getLastError() == $this->unknownIdError),
@@ -131,13 +133,13 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $dllAgencyPartialMock->tally();
     }
-    
+
     function testAddAgencyWithUser()
     {
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
-        $dllAgencyPartialMock->expectCallCount('checkPermissions', 2);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 3);
 
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
@@ -145,10 +147,16 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oAgencyInfo->contactName = 'Bob';
         $oAgencyInfo->username = 'user';
         $oAgencyInfo->userEmail = 'bob@example.com';
-        $oAgencyInfo->password = 'pass';
+        $oAgencyInfo->password = '';
         $oAgencyInfo->language = 'de';
 
-        // Add
+        // Add user without password
+        $this->assertFalse($dllAgencyPartialMock->modify($oAgencyInfo),
+                          $dllAgencyPartialMock->getLastError());
+
+        // Add user with password
+        $oAgencyInfo->password = 'pass';
+
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
 
@@ -162,20 +170,20 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Because the password gets unset.
         $this->assertEqual(md5('pass'), $doUsers->password, 'Password does not match.');
         $this->assertEqual($oAgencyInfo->language, $doUsers->language, 'Language does not match.');
-        
+
         // Test a dodgy language
-        $oBadLanguageInfo = clone $oAgencyInfo; 
-        
+        $oBadLanguageInfo = clone $oAgencyInfo;
+
         $oBadLanguageInfo->language = 'BAD_LANGUAGE';
-        $this->assertTrue((!$dllAgencyPartialMock->modify($oBadLanguageInfo) && 
+        $this->assertTrue((!$dllAgencyPartialMock->modify($oBadLanguageInfo) &&
             $dllAgencyPartialMock->getLastError() == $this->invalidLanguageError),
             $this->_getMethodShouldReturnError($this->invalidLanguageError));
-        
+
         $dllAgencyPartialMock->tally();
-        
+
         DataGenerator::cleanUp(array('agency', 'users'));
     }
-    
+
     /**
      * A method to test get and getList method.
      */
@@ -189,10 +197,12 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oAgencyInfo1               = new OA_Dll_AgencyInfo();
         $oAgencyInfo1->agencyName   = 'test name 1';
         $oAgencyInfo1->contactName  = 'contact';
+        $oAgencyInfo1->password     = 'password';
         $oAgencyInfo1->emailAddress = 'name@domain.com';
 
         $oAgencyInfo2               = new OA_Dll_AgencyInfo();
         $oAgencyInfo2->agencyName   = 'test name 2';
+        $oAgencyInfo2->password     = 'password';
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo1),
                           $dllAgencyPartialMock->getLastError());
@@ -266,6 +276,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
         $oAgencyInfo->agencyName = 'testAgency';
+        $oAgencyInfo->password   = 'password';
 
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),

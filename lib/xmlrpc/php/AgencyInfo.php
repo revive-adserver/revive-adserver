@@ -65,6 +65,13 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $agencyName;
 
     /**
+     * The password variable is the password for the agency.
+     *
+     * @var string $password
+     */
+    var $password;
+
+    /**
      * The contactName variable is the name of the contact for the agency.
      *
      * @var string $contactName
@@ -85,6 +92,7 @@ class OA_Dll_AgencyInfo extends OA_Info
                     'accountId' => 'integer',
                     'agencyName' => 'string',
                     'contactName' => 'string',
+                    'password' => 'string',
                     'emailAddress' => 'string'
                 );
     }

@@ -99,9 +99,11 @@ class OA_Dll_Agency extends OA_Dll
             }
         } else {
             // When adding an agency, check that the required field 'agencyName' is correct.
-            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
+            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255) ||
+                !$this->checkStructureRequiredStringField($oAgency, 'password', 64)) {
                 return false;
             }
+
         }
 
         if ((isset($oAgency->emailAddress) &&
@@ -112,26 +114,26 @@ class OA_Dll_Agency extends OA_Dll
 
             return false;
         }
-        
+
         if ((isset($oAgency->UserEmail) &&
             !$this->checkEmail($oAgency->UserEmail)) ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'userEmail', 64)) {
-            
+
             return false;
         }
-        
+
         if (isset($oAgency->language) && !$this->_validateLangage($oAgency->language)) {
             $this->raiseError('Invalid language');
             return false;
         }
-        
+
         if (!$this->_validateAgencyName($oAgency->agencyName)) {
             return false;
         }
 
         return true;
     }
-    
+
     /**
      * This method performs data validation for the agency name uniqueness
      *
@@ -147,7 +149,7 @@ class OA_Dll_Agency extends OA_Dll
         }
         return true;
     }
-    
+
     function _validateLangage($language)
     {
         $oLanguages = new MAX_Admin_Languages();
@@ -218,13 +220,13 @@ class OA_Dll_Agency extends OA_Dll
             if (!isset($agencyData['agencyId'])) {
                 $doAgency->setFrom($agencyData);
                 $oAgency->agencyId = $doAgency->insert();
-                
+
                 if ($oAgency->agencyId) {
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
                     $oAgency->accountId = (int)$doAgency->account_id;
                 }
-                
+
                 if (isset($agencyData['username']) || isset($agencyData['userEmail'])) {
                     // Use the authentication plugin to create the user
                     $oPlugin = OA_Auth::staticGetAuthPlugin();

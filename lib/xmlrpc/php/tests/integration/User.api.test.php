@@ -59,6 +59,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 
 		$oAgency = new OA_Dll_AgencyInfo();
 		$oAgency->agencyName = 'test agency';
+		$oAgency->password   = 'password';
 		$agencyId = $this->oApi->addAgency($oAgency);
 
 		$this->assertTrue($agencyId);

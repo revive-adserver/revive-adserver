@@ -120,6 +120,12 @@ class OA_Dll extends OA_BaseObjectWithErrors
             return false;
         }
 
+        if (empty($oStructure->$fieldName))
+        {
+            $this->raiseError('Data \''. $fieldName .'\' in structure is empty');
+            return false;
+        }
+
         if (!$this->checkStructureNotRequiredStringField($oStructure, $fieldName, $maxLength)) {
             return false;
         }
@@ -201,7 +207,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         }
         return true;
     }
-    
+
     /**
      * Checks required double field in structure.
      *
