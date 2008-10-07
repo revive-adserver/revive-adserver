@@ -19,9 +19,12 @@
 				<clickLink label="Trackers"/>
 				<clickLink label="Add new tracker"/>
 				<setInputField name="trackername" value="Sample Tracker"/>
+				<!--
 				<setInputField name="clickwindow[second]" value="3"/>
 				<setInputField name="viewwindow[second]" value="3"/>
+				-->
 				<clickButton label="Save Changes" name="submit"/>
+				<clickLink label="Linked Campaigns"/>
 				<setCheckbox name="campaignids[]" value="3"/>
 				<clickLink label="Variables"/>
 				<clickButton label="Save"/>
