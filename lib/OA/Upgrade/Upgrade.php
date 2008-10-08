@@ -1040,8 +1040,8 @@ class OA_Upgrade
         $this->oLogger->deleteLogFile();
 
         // Always use lower case prefixes for new installs
-        
-        
+
+
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
 
         if ($aConfig['database']['localsocket'] == true) {
@@ -1251,7 +1251,7 @@ class OA_Upgrade
                 $this->oLogger->logErrorUnlessEmpty($result->getUserInfo());
                 return false;
             }
-            
+
             //attempt to create DB
             $result = OA_DB::createDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($result))
@@ -1802,20 +1802,6 @@ class OA_Upgrade
         $oSync->checkForUpdates();
         OA::enableErrorHandling();
 
-        return true;
-    }
-
-    /**
-     * calls the dummy data class insert() method
-     * which uses the DataGenerator to insert some data
-     *
-     * @return boolean
-     */
-    function insertDummyData()
-    {
-        require_once MAX_PATH.'/lib/OA/Upgrade/DummyData.php';
-        $oDummy = new OA_Dummy_Data();
-        $oDummy->insert();
         return true;
     }
 
