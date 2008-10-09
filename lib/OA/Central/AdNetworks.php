@@ -454,9 +454,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
                         'adserver'        => $aBanner['adserver'],
                         'an_banner_id'    => $aBanner['banner_id']
                     );
-                    if (!empty($banner['adserver'])) {
-                        $banner['autohtml'] = 't';
-                    }
 
                     $doBanners = OA_Dal::factoryDO('banners');
                     $doBanners->setFrom($banner);

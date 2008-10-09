@@ -48,7 +48,6 @@ phpAds_registerGlobalUnslashed(
     ,'alt'
     ,'asource'
     ,'atar'
-    ,'autohtml'
     ,'adserver'
     ,'bannertext'
     ,'campaignid'
@@ -518,16 +517,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     //html & text banners
     if ($oComponent)
     {
-        // Parser to deal with boolean values and HTML_QuickForm
-        // for the checkbox "Alter HTML to enable tracking of Clicks
-        // TODO change in the table banners the field autohtml
-        // from enum 't' or 'f' to 1 or 0
-        if(!isset($row['autohtml']) || $row['autohtml'] == 'f') {
-            $row['autohtml'] = false;
-        } else {
-            $row['autohtml'] = true;
-        }
-
         $oComponent->buildForm($form, $row);
     }
 
@@ -638,7 +627,6 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     $aVariables['height']          = isset($aFields['height']) ? $aFields['height'] : 0;
     $aVariables['width']           = isset($aFields['width'])  ? $aFields['width'] : 0;
     $aVariables['weight']          = !empty($aFields['weight']) ? $aFields['weight'] : 0;
-    $aVariables['autohtml']        = isset($aFields['autohtml']) ? 't' : 'f';
     $aVariables['adserver']        = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
     $aVariables['alt']             = !empty($aFields['alt']) ? $aFields['alt'] : '';
     $aVariables['bannertext']      = !empty($aFields['bannertext']) ? phpAds_htmlQuotes($aFields['bannertext']) : ''; //still I need to quote the text ad text...
@@ -822,25 +810,25 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         // Determine what the next page is
         if ($editSwf) {
             $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid&insert=true";
-        } 
+        }
         else {
             $nextPage = "campaign-banners.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid'];
         }
-    } 
+    }
     else {
         // Determine what the next page is
         if ($editSwf) {
             $nextPage = "banner-swf.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-        } 
+        }
         else {
-            $translated_message = $translation->translate($GLOBALS['strBannerHasBeenUpdated'], 
+            $translated_message = $translation->translate($GLOBALS['strBannerHasBeenUpdated'],
             array (
-                MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid='.$aFields['clientid'].'&campaignid='.$aFields['campaignid'].'&bannerid='.$aFields['bannerid'] ), 
+                MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid='.$aFields['clientid'].'&campaignid='.$aFields['campaignid'].'&bannerid='.$aFields['bannerid'] ),
                 htmlspecialchars ( $aFields ['description'])
             ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             $nextPage = "banner-edit.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
-        } 
+        }
     }
 
     // Go to the next page

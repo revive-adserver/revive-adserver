@@ -62,7 +62,6 @@ $aBanner    =   array(
     'alt' => '',
     'status' => '',
     'bannertext' => 'm3 media services',
-    'autohtml' => 'f',
     'adserver' => '',
     'block' => 0,
     'capping' => 0,

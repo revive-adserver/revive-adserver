@@ -47,7 +47,6 @@ $Id$
                   'd.alt' => 'alt',
                   'd.statustext' => 'statustext',
                   'd.bannertext' => 'bannertext',
-                  'd.autohtml' => 'autohtml',
                   'd.adserver' => 'adserver',
                   'd.block' => 'block',
                   'd.capping' => 'capping',

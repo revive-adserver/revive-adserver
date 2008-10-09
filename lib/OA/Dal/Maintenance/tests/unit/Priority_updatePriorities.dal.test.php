@@ -369,7 +369,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
     function _generateTestData()
     {
         $oNow = new Date();
-        
+
         $clientId = DataGenerator::generateOne('clients', true);
 
         // Populate campaigns table
@@ -410,7 +410,6 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doBanners->statustext = '';
         $doBanners->bannerTEXT = '';
         $doBanners->description = '';
-        $doBanners->autohtml = 'f';
         $doBanners->adserver = '';
         $doBanners->block = 0;
         $doBanners->capping = 0;

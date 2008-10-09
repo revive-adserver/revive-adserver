@@ -1923,7 +1923,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Flash SQL banner';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -1960,7 +1959,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Flash web banner';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -1997,7 +1995,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External banner';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2034,7 +2031,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test HTML (TangoZebra)';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2070,7 +2066,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'm3 media services';
         $aBanners['description'] = 'Text ad';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2107,7 +2102,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Blue - Capped 1 per min';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '60';
         $aBanners['capping'] = '0';
@@ -2144,7 +2138,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Green - Capped Once Ever';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '1';
@@ -2181,7 +2174,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Orange - Capped once per session';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2218,7 +2210,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Purple - Targeted weekday';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2255,7 +2246,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Red - Targetted time';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2292,7 +2282,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Turquoise - Targeted country';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2329,7 +2318,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Yellow - Targeted Source';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2366,7 +2354,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Blue - Targetted ALL';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2403,7 +2390,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Falk 3rd party';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2440,7 +2426,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Purple - Targeted SOME';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2477,7 +2462,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2514,7 +2498,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2551,7 +2534,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = 'Status text';
         $aBanners['bannertext'] = 'Text below image';
         $aBanners['description'] = 'Web Flash (with backup GIF)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2588,7 +2570,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2625,7 +2606,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2662,7 +2642,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2699,7 +2678,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Atlas';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2736,7 +2714,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad';
         $aBanners['description'] = 'Text Ad';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2773,7 +2750,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - m3';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2810,7 +2786,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - DoubleClick';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2847,7 +2822,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - TangoZebra';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2884,7 +2858,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - EyeBlaster';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2921,7 +2894,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2958,7 +2930,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Green - Targetted testing';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -2995,7 +2966,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Eyeblaster';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3032,7 +3002,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Banner With ACL';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '600';
         $aBanners['capping'] = '0';
@@ -3069,7 +3038,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Banner With ACL';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '600';
         $aBanners['capping'] = '0';
@@ -3106,7 +3074,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'GeoTargeting test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3143,7 +3110,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Frontroom3';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3180,7 +3146,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Liquid 1';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3217,7 +3182,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Liquid 2';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3254,7 +3218,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Frontroom2';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3291,7 +3254,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Old Targeting Rules';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3328,7 +3290,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'New Targeting Rules';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3365,7 +3326,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'expandable flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3402,7 +3362,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'expandable flash (html)';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3439,7 +3398,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad 1';
         $aBanners['description'] = 'Test Text ad 1';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3476,7 +3434,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad 2';
         $aBanners['description'] = 'Test text ad 2';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3513,7 +3470,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad 3';
         $aBanners['description'] = 'Test text ad 3';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3550,7 +3506,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Copy from';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '3723';
         $aBanners['capping'] = '4';
@@ -3587,7 +3542,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Copy to';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3624,7 +3578,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'GIF Webserver';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '3723';
         $aBanners['capping'] = '4';
@@ -3661,7 +3614,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test HTML banner';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '420';
         $aBanners['capping'] = '100';
@@ -3698,7 +3650,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'GIF Webserver';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3735,7 +3686,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test HTML banner';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '420';
         $aBanners['capping'] = '100';
@@ -3772,7 +3722,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Copy of GIF Webserver';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '3723';
         $aBanners['capping'] = '4';
@@ -3809,7 +3758,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test for FORM tracking';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3846,7 +3794,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Iframe caller for FORM';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3883,7 +3830,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Zero by Zero';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3920,7 +3866,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test LoveFilm MPU';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3957,7 +3902,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Max';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -3994,7 +3938,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'TG-Broadspeed mpu Jan06';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4031,7 +3974,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'IFrame Caller for Some ad';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4068,7 +4010,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test banner for AA location';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4105,7 +4046,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4142,7 +4082,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4179,7 +4118,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4216,7 +4154,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '3';
@@ -4253,7 +4190,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4290,7 +4226,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4327,7 +4262,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4364,7 +4298,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '3';
@@ -4401,7 +4334,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4438,7 +4370,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - No limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4475,7 +4406,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'No Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4512,7 +4442,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Capping - Limitations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '3';
@@ -4549,7 +4478,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML $_REQUEST var substitution test';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4586,7 +4514,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Click here';
         $aBanners['description'] = 'Arrival Tracking Test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4623,7 +4550,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Expandable test creative';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4660,7 +4586,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web GIF 250x250';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4697,7 +4622,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test for callback loging';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4734,7 +4658,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Cookieless Test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4771,7 +4694,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'MAX Internal redirect';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'max';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4808,7 +4730,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4845,7 +4766,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Exclusive - One per session';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4882,7 +4802,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'House - No capping';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4919,7 +4838,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Blue (Session Capped 1)';
         $aBanners['description'] = 'Blue (Session Capped 1)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4956,7 +4874,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Green (Session capped 2)';
         $aBanners['description'] = 'Green (Session capped 2)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -4993,7 +4910,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Orange (Capped 2)';
         $aBanners['description'] = 'Orange (Capped 2)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '2';
@@ -5030,7 +4946,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Purple (Blocked 30s)';
         $aBanners['description'] = 'Purple (Blocked 30s)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '30';
         $aBanners['capping'] = '0';
@@ -5067,7 +4982,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Red (Blocked 65s)';
         $aBanners['description'] = 'Red (Blocked 65s)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '65';
         $aBanners['capping'] = '0';
@@ -5104,7 +5018,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Turquoise (No capping)';
         $aBanners['description'] = 'Turquoise (No capping)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5141,7 +5054,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Yellow (1/session, 2/cap, 2min)';
         $aBanners['description'] =  'Yellow (1/session, 2/cap, 2min)';
-        $aBanners['autohtml'] =  'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] =  '120';
         $aBanners['capping'] =  '0';
@@ -5178,7 +5090,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text below image';
         $aBanners['description'] = 'Targeted PageURL Exact';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5215,7 +5126,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Creative for DHTML invocation';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5252,7 +5162,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test Quiz MPU';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5289,7 +5198,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Flash ClickTAG test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5326,7 +5234,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External Flash SWF test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5363,7 +5270,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Homepage Targeted';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5400,7 +5306,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '468x60 Banner';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5437,7 +5342,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '120x600 Skyscraper';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5474,7 +5378,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '120x60 Button';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5511,7 +5414,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '250x250 MPU';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5548,7 +5450,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'MediaPlex test';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5585,7 +5486,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Adviva';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5621,7 +5521,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Ticketmaster - Generic feed';
         $aBanners['description'] = 'Ticketmaster - Generic feed';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5657,7 +5556,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Ticketmaster - Music Feed';
         $aBanners['description'] = 'Ticketmaster - Music Feed';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5693,7 +5591,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Ticketmaster - Generic feed (GIF)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5729,7 +5626,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Ticketmaster - Music feed (GIF)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5765,7 +5661,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Direct selection test - Blue';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5801,7 +5696,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Direct selection test - Green';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5838,7 +5732,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Click ghere';
         $aBanners['description'] = 'Test Text Ad';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5875,7 +5768,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SSL external GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5911,7 +5803,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Non-SSL external GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5947,7 +5838,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '468x60 Companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -5983,7 +5873,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '120x600 Companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6019,7 +5908,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Blue 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6055,7 +5943,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Green 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6091,7 +5978,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Orange 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6127,7 +6013,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Purple 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6163,7 +6048,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Red 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6199,7 +6083,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Turquoise 468x60 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6235,7 +6118,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Blue 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6271,7 +6153,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Green 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6307,7 +6188,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Orange 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6343,7 +6223,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Purple 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6379,7 +6258,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Red 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6415,7 +6293,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Turquoise 120x600 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6451,7 +6328,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '120x600 Companion (2)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6487,7 +6363,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '250x250 Companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6523,7 +6398,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Blue 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6559,7 +6433,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Green 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6595,7 +6468,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Orange 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6631,7 +6503,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Purple 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6667,7 +6538,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Red 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6703,7 +6573,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Turquoise 250x250 - Non-companion';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6739,7 +6608,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SSL safe content';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6775,7 +6643,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Ticketmaster HTML creative';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6811,7 +6678,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'DVLA - Problematic Creative';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6847,7 +6713,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'GIF DVLA creative';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6883,7 +6748,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test Sooper Pop-up code';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6919,7 +6783,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Click here';
         $aBanners['description'] = 'Test banner for tracking de-dupe';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6955,7 +6818,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Agency2\'s banner';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -6991,7 +6853,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Hard-Coded Flash Test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7027,7 +6888,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test 2';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7063,7 +6923,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Pre-Linked';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7099,7 +6958,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Not-linked';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7135,7 +6993,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Eyeblaster creative';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'eyeblaster';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7171,7 +7028,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '120x200 JS banner';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7207,7 +7063,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Rubin-m3-test-468x60-Hard-Coded.swf';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7243,7 +7098,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7279,7 +7133,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'test';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7315,7 +7168,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test Flash 8 Hard-Coded';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7351,7 +7203,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7387,7 +7238,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Orange - Targeted AA Locations';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7423,7 +7273,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'TheAA creative as sent';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7459,7 +7308,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Ticketmaster - Updated search module';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7495,7 +7343,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Blue (Session Capped 1)';
         $aBanners['description'] = 'Blue (Session Capped 1)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7532,7 +7379,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Green (Session capped 2)';
         $aBanners['description'] = 'Green (Session capped 2)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7569,7 +7415,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Orange (Capped 2)';
         $aBanners['description'] = 'Orange (Capped 2)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '2';
@@ -7606,7 +7451,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Purple (Blocked 30s)';
         $aBanners['description'] = 'Purple (Blocked 30s)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '30';
         $aBanners['capping'] = '0';
@@ -7643,7 +7487,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Red (Blocked 65s)';
         $aBanners['description'] = 'Red (Blocked 65s)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '65';
         $aBanners['capping'] = '0';
@@ -7680,7 +7523,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Turquoise (No capping)';
         $aBanners['description'] = 'Turquoise (No capping)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7717,7 +7559,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Yellow (1/session, 2/cap, 2min)';
         $aBanners['description'] =  'Yellow (1/session, 2/cap, 2min)';
-        $aBanners['autohtml'] =  'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] =  '120';
         $aBanners['capping'] =  '0';
@@ -7754,7 +7595,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Highly targeted ad';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '3600';
         $aBanners['capping'] = '2';
@@ -7791,7 +7631,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Add restrictive limitation';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7828,7 +7667,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '(Default) Flash that gets corrupted when loaded';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7864,7 +7702,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '(not-altered) Flash that gets corrupted when loaded';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7900,7 +7737,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = '(not-compressed) Flash that gets corrupted when loaded';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7937,7 +7773,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test Creative for ACL updating';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -7974,7 +7809,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Copy of Test Creative for ACL updating';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8011,7 +7845,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Copy of Copy of Test Creative for ACL updating';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8048,7 +7881,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML creative for JS validation testing';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8084,7 +7916,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test short hard-coded URL';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8120,7 +7951,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'cLiKcTaG';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8156,7 +7986,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Product feed';
         $aBanners['description'] = 'Product feed';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8192,7 +8021,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Test banner for arrival capable testing';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8228,7 +8056,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Grrr';
         $aBanners['description'] = '';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8264,7 +8091,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8300,7 +8126,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8336,7 +8161,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8372,7 +8196,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (No backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8408,7 +8231,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (With backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8444,7 +8266,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Atlas';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'atlas';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8480,7 +8301,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'bluestreak';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8516,7 +8336,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'doubleclick';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8552,7 +8371,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - EyeBlaster';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'eyeblaster';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8588,7 +8406,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Falk';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'falk';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8624,7 +8441,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - m3';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'max';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8660,7 +8476,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Mediaplex';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'mediaplex';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8696,7 +8511,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - TangoZebra';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'tangozebra';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8732,7 +8546,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External DoubleClick GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8768,7 +8581,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8804,7 +8616,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External - Jpeg';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8840,7 +8651,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8876,7 +8686,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text Ad without destination';
         $aBanners['description'] = 'Text Ad without destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8912,7 +8721,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad with destination';
         $aBanners['description'] = 'Text ad with destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8948,7 +8756,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -8984,7 +8791,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9020,7 +8826,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9056,7 +8861,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (No backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9092,7 +8896,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (With backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9128,7 +8931,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9164,7 +8966,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9200,7 +9001,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'SQL Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9236,7 +9036,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (No backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9272,7 +9071,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'Web Flash (With backup)';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9308,7 +9106,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Atlas';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'atlas';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9344,7 +9141,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'bluestreak';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9380,7 +9176,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'doubleclick';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9416,7 +9211,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - EyeBlaster';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'eyeblaster';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9452,7 +9246,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Falk';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'falk';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9488,7 +9281,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - m3';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'max';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9524,7 +9316,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Mediaplex';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'mediaplex';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9560,7 +9351,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - TangoZebra';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'tangozebra';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9596,7 +9386,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Atlas';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'atlas';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9632,7 +9421,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'bluestreak';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9668,7 +9456,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Bluestreak';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'doubleclick';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9704,7 +9491,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - EyeBlaster';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'eyeblaster';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9740,7 +9526,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Falk';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'falk';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9776,7 +9561,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - m3';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'max';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9812,7 +9596,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - Mediaplex';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'mediaplex';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9848,7 +9631,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'HTML - TangoZebra';
-        $aBanners['autohtml'] = 't';
         $aBanners['adserver'] = 'tangozebra';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9884,7 +9666,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External DoubleClick GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9920,7 +9701,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9956,7 +9736,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External - Jpeg';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -9992,7 +9771,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10028,7 +9806,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External DoubleClick GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10064,7 +9841,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External GIF';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10100,7 +9876,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External - Jpeg';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10136,7 +9911,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = '';
         $aBanners['description'] = 'External Flash';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10172,7 +9946,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text Ad without destination';
         $aBanners['description'] = 'Text Ad without destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10208,7 +9981,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad with destination';
         $aBanners['description'] = 'Text ad with destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10244,7 +10016,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text Ad without destination';
         $aBanners['description'] = 'Text Ad without destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';
@@ -10280,7 +10051,6 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
         $aBanners['status'] = '';
         $aBanners['bannertext'] = 'Text ad with destination';
         $aBanners['description'] = 'Text ad with destination';
-        $aBanners['autohtml'] = 'f';
         $aBanners['adserver'] = '';
         $aBanners['block'] = '0';
         $aBanners['capping'] = '0';

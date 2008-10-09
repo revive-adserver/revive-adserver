@@ -60,7 +60,6 @@ $aBanner = array(
         'alt' => '',
         'status' => '',
         'bannertext' => '',
-        'autohtml' => 't',
         'adserver' => '',
         'block' => 0,
         'capping' => 0,

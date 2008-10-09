@@ -131,7 +131,6 @@ class Plugins_BannerTypeHTML_openXHtmlAdsense_adsense extends Plugins_BannerType
                                                                   );
         // Attempt to enable click tracking of this banner, this will silently
         // and gracefully fail if the google "3rdpartyserver" isn't installed
-        $aVariables['autohtml'] = 't';
         $aVariables['adserver'] = 'google';
         return true;
     }

@@ -43,70 +43,68 @@ function phpAds_getBannerCache($banner)
     // Auto change HTML banner
     if ($banner['storagetype'] == 'html')
     {
-        if ($banner['autohtml'] == 't')
+        if ($buffer != '')
         {
-            if ($buffer != '')
-            {
-                // Remove target parameters
-                // The regexp should handle ", ', \", \' as delimiters
-                $buffer = preg_replace('# target\s*=\s*(\\\\?[\'"]).*?\1#i', ' ', $buffer);
+            // Remove target parameters
+            // The regexp should handle ", ', \", \' as delimiters
+            $buffer = preg_replace('# target\s*=\s*(\\\\?[\'"]).*?\1#i', ' ', $buffer);
 
-                // Put our click URL and our target parameter in all anchors...
-                // The regexp should handle ", ', \", \' as delimiters
-                $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
+            // Put our click URL and our target parameter in all anchors...
+            // The regexp should handle ", ', \", \' as delimiters
+            $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
 
-                // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
-                // Replace:<form\1 action="{url_prefix}/{$aConf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
-                $target = (!empty($banner['target'])) ? $banner['target'] : "_self";
-                $buffer = preg_replace(
-                    '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
-                    "<form $1 action=\"{url_prefix}\" $3 target='{$target}'>$4<input type='hidden' name='maxparams' value='{clickurlparams}$2'></form>",
-                    $buffer
-                );
+            // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
+            // Replace:<form\1 action="{url_prefix}/{$aConf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
+            $target = (!empty($banner['target'])) ? $banner['target'] : "_self";
+            $buffer = preg_replace(
+                '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
+                "<form $1 action=\"{url_prefix}\" $3 target='{$target}'>$4<input type='hidden' name='maxparams' value='{clickurlparams}$2'></form>",
+            $buffer
+            );
 
-                //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$aConf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
-                //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$aConf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
+            //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$aConf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
+            //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$aConf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
 
-                // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
-                $buffer = preg_replace('#clickTAG\s?=\s?(.*?)([\'"])#', "clickTAG={clickurl}$1$2", $buffer);
+            // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
+            $buffer = preg_replace('#clickTAG\s?=\s?(.*?)([\'"])#', "clickTAG={clickurl}$1$2", $buffer);
 
-                // Detect any JavaScript window.open() functions, and prepend the opened URL with our logurl
-                $buffer = preg_replace('#window.open\s?\((.*?)\)#i', "window.open(\\\'{logurl}&maxdest=\\\'+$1)", $buffer);
-            }
+            // Detect any JavaScript window.open() functions, and prepend the opened URL with our logurl
+            $buffer = preg_replace('#window.open\s?\((.*?)\)#i', "window.open(\\\'{logurl}&maxdest=\\\'+$1)", $buffer);
+        }
 
-            // Since we don't want to replace adserver noscript and iframe content with click tracking etc
-            $noScript = array();
+        // Since we don't want to replace adserver noscript and iframe content with click tracking etc
+        $noScript = array();
 
-            //Capture noscript content into $noScript[0], for seperate translations
-            preg_match("#<noscript>(.*?)</noscript>#is", $buffer, $noScript);
-            $buffer = preg_replace("#<noscript>(.*?)</noscript>#is", '{noscript}', $buffer);
+        //Capture noscript content into $noScript[0], for seperate translations
+        preg_match("#<noscript>(.*?)</noscript>#is", $buffer, $noScript);
+        $buffer = preg_replace("#<noscript>(.*?)</noscript>#is", '{noscript}', $buffer);
 
-            // run 3rd party component
-            if(!empty($banner['adserver'])) {
-                require_once LIB_PATH . '/Plugin/Component.php';
-                /**
-                 * @todo This entire function should be relocated to the DLL and should be object-ified
-                 */
-                PEAR::pushErrorHandling(null);
-                $adServerComponent = OX_Component::factoryByComponentIdentifier($banner['adserver']);
-                PEAR::popErrorHandling();
+        // run 3rd party component
+        if(!empty($banner['adserver'])) {
+            require_once LIB_PATH . '/Plugin/Component.php';
+            /**
+              * @todo This entire function should be relocated to the DLL and should be object-ified
+              *
+             */
+            PEAR::pushErrorHandling(null);
+            $adServerComponent = OX_Component::factoryByComponentIdentifier($banner['adserver']);
+            PEAR::popErrorHandling();
                 if ($adServerComponent) {
-                    $buffer = $adServerComponent->getBannerCache($buffer, $noScript);
-                } else {
-                    $GLOBALS['_MAX']['bannerrebuild']['errors'] = true;
-                }
+                $buffer = $adServerComponent->getBannerCache($buffer, $noScript);
+            } else {
+                $GLOBALS['_MAX']['bannerrebuild']['errors'] = true;
             }
+        }
 
-            // Wrap the banner inside a link if it doesn't seem to handle clicks itself
-            if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
-                $buffer = '<a href="{clickurl}" target="{target}">'.$buffer.'</a>';
-            }
+        // Wrap the banner inside a link if it doesn't seem to handle clicks itself
+        if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
+            $buffer = '<a href="{clickurl}" target="{target}">'.$buffer.'</a>';
+        }
 
-            // Adserver processing complete, now replace the noscript values back:
-            //$buffer = preg_replace("#{noframe}#", $noFrame[2], $buffer);
-            if (isset($noScript[0])) {
-                $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
-            }
+        // Adserver processing complete, now replace the noscript values back:
+        //$buffer = preg_replace("#{noframe}#", $noFrame[2], $buffer);
+        if (isset($noScript[0])) {
+            $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
         }
     }
 

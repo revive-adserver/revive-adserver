@@ -227,7 +227,6 @@ class Memory_TestData
         $doBanners->statustext    = '';
         $doBanners->bannertext    = '';
         $doBanners->description    = 'Default banner 468*60 ('.$index.')';
-        $doBanners->autohtml    = 't';
         $doBanners->adserver    = 'max';
         $doBanners->block    = '0';
         $doBanners->capping    = '0';

@@ -68,7 +68,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 1;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'png';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'sql';
          $aBanner['filename'] = 'openads_468x60.png';
          $aBanner['imageurl'] = '';
@@ -86,7 +85,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 2;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'html';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'html';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = '';
@@ -104,7 +102,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 3;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'txt';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'txt';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = '';
@@ -122,7 +119,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 4;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'swf';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'sql';
          $aBanner['filename'] = 'openads_468x60-hard-coded_3.swf';
          $aBanner['imageurl'] = '';
@@ -140,7 +136,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 5;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'swf';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'url';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = 'http://www.unanimis.co.uk/templates/unanimis_yb_new/images/intro.swf';
@@ -158,7 +153,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 6;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'gif';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'url';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = 'http://i.m3.net/m3_test_468x60.gif';
@@ -176,7 +170,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['bannerid'] = 7;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'html';
-         $aBanner['autohtml'] =  't';
          $aBanner['storagetype'] = 'html';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = '';

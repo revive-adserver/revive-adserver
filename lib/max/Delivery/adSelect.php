@@ -58,7 +58,6 @@ $Id$
  *       [alt] =>
  *       [status] =>
  *       [bannertext] =>
- *       [autohtml] => f
  *       [adserver] =>
  *       [block] => 0
  *       [capping] => 0

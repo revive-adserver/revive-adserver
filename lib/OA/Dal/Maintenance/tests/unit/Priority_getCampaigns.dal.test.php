@@ -145,7 +145,6 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doBanners->statustext = '';
         $doBanners->bannertext = '';
         $doBanners->description = '';
-        $doBanners->autohtml = 'f';
         $doBanners->adserver = '';
         $doBanners->block = 0;
         $doBanners->capping = 0;
@@ -157,7 +156,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doBanners->alt_filename = '';
         $doBanners->alt_imageurl = '';
         $doBanners->alt_contenttype = '';
-        
+
         $clientId = DataGenerator::generateOne('clients', true);
 
         // Add 3 campaigns - haha!

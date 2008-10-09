@@ -169,7 +169,6 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aBanners['description'] = 'Test HTML Banner';
         $aBanners['htmltemplate'] = '<p>Hello OpenX!</p>';
         $aBanners['htmlcache'] = '<a href="{clickurl}" target="{target}"><h1>Hello OpenX!</h1></a>';
-        $aBanners['autohtml'] = 't';
         $this->aIds['banners'][2] = $this->_insertBanners($aBanners);
 
         // Add zone record
@@ -314,7 +313,6 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $this->doBanners->statustext='';
         $this->doBanners->bannertext='';
         $this->doBanners->description='Banner';
-        $this->doBanners->autohtml='t';
         $this->doBanners->adserver='';
         $this->doBanners->block=0;
         $this->doBanners->capping=0;

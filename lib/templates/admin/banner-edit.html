@@ -103,15 +103,6 @@ $Id$
         }
     }
 
-    function alterHtmlCheckbox() {
-        var bannerForm = findObj ('bannerForm');
-        if (bannerForm.autohtml.checked) {
-            bannerForm.adserver.disabled = false;
-        } else {
-            bannerForm.adserver.disabled = true;
-        }
-    }
-
     function oa_sizeChangeUpdateMessage(id)
     {
         if (document.bannerWidth != document.bannerForm.width.value ||

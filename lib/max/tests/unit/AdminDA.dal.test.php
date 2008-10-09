@@ -603,7 +603,6 @@ class Admin_DaTest extends DalUnitTestCase
             [alt] =>
             [status] =>
             [bannertext] => asdasdfad
-            [autohtml] => t
             [adserver] =>
             [block] => 0
             [capping] => 0
@@ -639,7 +638,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('alt', $ret));
         $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('bannertext', $ret));
-        $this->assertTrue(array_key_exists('autohtml', $ret));
         $this->assertTrue(array_key_exists('adserver', $ret));
         $this->assertTrue(array_key_exists('block', $ret));
         $this->assertTrue(array_key_exists('capping', $ret));
