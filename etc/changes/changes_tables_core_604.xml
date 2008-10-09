@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>604</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>604</version>
+      <change>
+        <table>
+          <name>banners</name>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>604</version>
+    <change>
+      <table>
+        <name>banners</name>
+      <remove>
+        <field>
+          <name>autohtml</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>

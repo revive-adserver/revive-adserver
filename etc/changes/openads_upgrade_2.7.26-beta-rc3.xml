@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2008-10-08</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade 2.7.26-beta-rc3</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.7.26-beta-rc3</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>604</version>
+            <stamp>604</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_604.xml</file>
+            <file>changes_tables_core_604.xml</file>
+            <file>migration_tables_core_604.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>prescript_openads_upgrade_2.7.26-beta-rc3.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.7.26-beta-rc3.php</postscript-->
+
+</upgrade>
