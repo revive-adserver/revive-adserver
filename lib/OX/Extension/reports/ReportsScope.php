@@ -75,7 +75,7 @@ class Plugins_ReportsScope extends Plugins_Reports
                 $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->module);
             }
         }
-        $key = MAX_Plugin_Translation::translate('Publisher', $this->module);
+        $key = MAX_Plugin_Translation::translate('Website', $this->module);
         $publisherId = $this->_oScope->getPublisherId();
         if (!empty($publisherId)) {
             $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -89,7 +89,7 @@ class Plugins_ReportsScope extends Plugins_Reports
             if ($this->_oScope->getAnonymous()) {
                 $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->module);
             } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Publishers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->module);
             }
         }
         return $aParams;
