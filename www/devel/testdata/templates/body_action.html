@@ -20,6 +20,7 @@
    <div class="tablediv">
             <button name="btn_data_integ">run an integrity check on database "<?php echo $aDatasetFile['name']; ?>" against =></button>
             <select name="compare_version">
+                <option value="604" <?php echo ($aDatasetFile['version']==604 ? 'selected' : '')?>>schema 604 (2.7.26-beta-rc3)</option>
                 <option value="548" <?php echo ($aDatasetFile['version']==548 ? 'selected' : '')?>>schema 548 (2.5.50-dev)</option>
                 <option value="515" <?php echo ($aDatasetFile['version']==515 ? 'selected' : '')?>>schema 515 (2.3.32-beta >> 2.4.0)</option>
                 <option value="129.34" <?php echo ($aDatasetFile['version']==129.34 ? 'selected' : '')?>>schema 129.34 (2.3.34-beta)</option>
