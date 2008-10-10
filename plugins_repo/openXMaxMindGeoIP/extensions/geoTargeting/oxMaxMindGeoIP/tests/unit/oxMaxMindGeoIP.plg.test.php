@@ -55,6 +55,23 @@ class Delivery_TestOfOxMaxMindGeoIP extends UnitTestCase
         TestEnv::restoreConfig();
     }
 
+    function test_GeoCookie()
+    {
+        $string = _packGeoCookie();
+        $this->assertFalse(_unpackGeoCookie($string));
+        $string = "a|b|c";
+        $this->assertFalse(_unpackGeoCookie($string));
+        $string = 'val1|val2|val3|val4|val5|val6|val7|val8|val9|val10|val11';
+        $aResult = _unpackGeoCookie($string);
+        $this->assertIsA($aResult,'array');
+        $i = 1;
+        foreach ($aResult as $k => $v)
+        {
+            $this->assertEqual($v, 'val'.$i++);
+        }
+    }
+
+
     /**
      * Test the getGeoInfo delivery function.
      */

@@ -90,7 +90,7 @@ function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($
     }
 
     // Store this information in the cookie for later use
-    if ($useCookie) {
+    if ($useCookie && (!empty($ret))) {
         MAX_cookieAdd($conf['var']['viewerGeo'], _packGeoCookie($ret));
     }
 
@@ -589,7 +589,6 @@ function _packGeoCookie($data = array())
             'isp'           => '',
             'netspeed'      => ''
     );
-
     return join('|', array_merge($aGeoInfo, $data));
 }
 
@@ -622,8 +621,7 @@ function _unpackGeoCookie($string = '')
     } else {
         return false;
     }
-
-    return $aGeoInfo;
+    return (empty($aGeoInfo) ? false : $aGeoInfo);
 }
 
 ?>
