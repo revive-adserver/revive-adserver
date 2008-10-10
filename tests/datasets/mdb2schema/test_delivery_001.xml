@@ -91176,7 +91176,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -91186,7 +91186,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -91340,7 +91340,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -91350,7 +91350,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -91504,7 +91504,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -91514,7 +91514,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -91668,7 +91668,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -91678,7 +91678,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -91832,7 +91832,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -91842,7 +91842,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -91996,7 +91996,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92006,7 +92006,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92160,7 +92160,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92170,7 +92170,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92324,7 +92324,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92334,7 +92334,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92488,7 +92488,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92498,7 +92498,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92652,7 +92652,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92662,7 +92662,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92816,7 +92816,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92826,7 +92826,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -92980,7 +92980,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -92990,7 +92990,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93144,7 +93144,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93154,7 +93154,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93308,7 +93308,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93318,7 +93318,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93472,7 +93472,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93482,7 +93482,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93636,7 +93636,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93646,7 +93646,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93800,7 +93800,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93810,7 +93810,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -93964,7 +93964,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -93974,7 +93974,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94128,7 +94128,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94138,7 +94138,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94292,7 +94292,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94302,7 +94302,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94456,7 +94456,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94466,7 +94466,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94620,7 +94620,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94630,7 +94630,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94784,7 +94784,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94794,7 +94794,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -94948,7 +94948,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -94958,7 +94958,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95112,7 +95112,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95122,7 +95122,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95276,7 +95276,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95286,7 +95286,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95440,7 +95440,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95450,7 +95450,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95604,7 +95604,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95614,7 +95614,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95768,7 +95768,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95778,7 +95778,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -95932,7 +95932,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -95942,7 +95942,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96096,7 +96096,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96106,7 +96106,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96260,7 +96260,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96270,7 +96270,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96424,7 +96424,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96434,7 +96434,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96588,7 +96588,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96598,7 +96598,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96752,7 +96752,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96762,7 +96762,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -96916,7 +96916,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -96926,7 +96926,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97080,7 +97080,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97090,7 +97090,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97244,7 +97244,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97254,7 +97254,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97408,7 +97408,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97418,7 +97418,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97572,7 +97572,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97582,7 +97582,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97736,7 +97736,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97746,7 +97746,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -97900,7 +97900,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -97910,7 +97910,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98064,7 +98064,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98074,7 +98074,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98228,7 +98228,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98238,7 +98238,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98392,7 +98392,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98402,7 +98402,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98556,7 +98556,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98566,7 +98566,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98720,7 +98720,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98730,7 +98730,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -98884,7 +98884,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -98894,7 +98894,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99048,7 +99048,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99058,7 +99058,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99212,7 +99212,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99222,7 +99222,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99376,7 +99376,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99386,7 +99386,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99540,7 +99540,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99550,7 +99550,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99704,7 +99704,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99714,7 +99714,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -99868,7 +99868,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -99878,7 +99878,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100032,7 +100032,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100042,7 +100042,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100196,7 +100196,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100206,7 +100206,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100360,7 +100360,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100370,7 +100370,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100524,7 +100524,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100534,7 +100534,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100688,7 +100688,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100698,7 +100698,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -100852,7 +100852,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -100862,7 +100862,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101016,7 +101016,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101026,7 +101026,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101180,7 +101180,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101190,7 +101190,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101344,7 +101344,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101354,7 +101354,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101508,7 +101508,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101518,7 +101518,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101672,7 +101672,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101682,7 +101682,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -101836,7 +101836,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -101846,7 +101846,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -102000,7 +102000,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -102010,7 +102010,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -102164,7 +102164,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -102174,7 +102174,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
@@ -102328,7 +102328,7 @@
 
     <field>
      <name>rate</name>
-     <value></value>
+     <value>1</value>
     </field>
 
     <field>
@@ -102338,7 +102338,7 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
+     <value>1</value>
     </field>
 
    </insert>
