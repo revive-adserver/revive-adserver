@@ -94,6 +94,8 @@ exit(1);
 echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
+if (!function_exists('mergeConfigFiles'))
+{
 function mergeConfigFiles($realConfig, $fakeConfig)
 {
 //unset($fakeConfig['realConfig']);
@@ -117,6 +119,7 @@ $realConfig[$key] = $value;
 }
 }
 return $realConfig;
+}
 }
 function setupConfigVariables()
 {
@@ -689,6 +692,8 @@ exit(1);
 echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
+if (!function_exists('mergeConfigFiles'))
+{
 function mergeConfigFiles($realConfig, $fakeConfig)
 {
 //unset($fakeConfig['realConfig']);
@@ -712,6 +717,7 @@ $realConfig[$key] = $value;
 }
 }
 return $realConfig;
+}
 }
 }
 $aConf = $GLOBALS['_MAX']['CONF'];
