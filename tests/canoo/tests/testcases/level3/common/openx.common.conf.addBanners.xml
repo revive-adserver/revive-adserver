@@ -46,7 +46,7 @@
 					openx.common.conf.addBanners.xml:11: java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V -->
 					<setInputField name="htmltemplate" value="html test banner"/> 
 				<!---->
-				<setCheckbox name="autohtml"/>
+				<!-- <setCheckbox name="autohtml"/> -->
 				<setSelectField name="adserver" text="Rich Media - OpenX"/>
 				<clickButton name="submit"/>
 				
