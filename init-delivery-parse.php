@@ -92,4 +92,30 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     exit(1);
 }
 
+function mergeConfigFiles($realConfig, $fakeConfig)
+{
+    //unset($fakeConfig['realConfig']);
+    foreach ($fakeConfig as $key => $value) {
+        if (is_array($value)) {
+            if (!isset($realConfig[$key])) {
+                $realConfig[$key] = array();
+            }
+            $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
+        } else {
+            if (isset($realConfig[$key]) && is_array($realConfig[$key])) {
+                $realConfig[$key][0] = $value;
+            } else {
+                if (isset($realConfig) && !is_array($realConfig)) {
+                    $temp = $realConfig;
+                    $realConfig = array();
+                    $realConfig[0] = $temp;
+                }
+                $realConfig[$key] = $value;
+            }
+        }
+    }
+    return $realConfig;
+}
+
+
 ?>
