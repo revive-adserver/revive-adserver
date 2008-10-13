@@ -206,8 +206,8 @@ class OA_Admin_Menu
         $aParents = array();
 
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-            $errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
-            OA::debug($errMsg, PEAR_LOG_WARNING);
+            /*$errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
+            OA::debug($errMsg, PEAR_LOG_WARNING);*/
             return $aParents;
         }
 
@@ -254,8 +254,8 @@ class OA_Admin_Menu
     {
         $level = -1;
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-            $errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
-            OA::debug($errMsg, PEAR_LOG_WARNING);
+            /*$errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
+            OA::debug($errMsg, PEAR_LOG_WARNING);*/
             return $level;
         }
 

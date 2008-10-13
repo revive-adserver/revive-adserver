@@ -290,7 +290,7 @@ class OA_Admin_UI
         $sectionId = OA_Admin_UI::getID($sectionId);
         $oMenu = OA_Admin_Menu::singleton();
         $parentSections = $oMenu->getParentSections($sectionId);
-        return $parentSections[0]->link;
+        return (count($parentSections) ? $parentSections[0]->link : '');
     }
 
     function _assignInstalling()
