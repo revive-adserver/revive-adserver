@@ -31,6 +31,7 @@
     <exclude name="etc/*.properties*"/>
     <exclude name="etc/test.conf.php"/>
     <exclude name="etc/changesfantasy/**"/>
+    <include name="etc/permanentcache/**"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
