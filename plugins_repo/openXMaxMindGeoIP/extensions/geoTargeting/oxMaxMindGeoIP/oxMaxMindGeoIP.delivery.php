@@ -25,7 +25,6 @@
 $Id: GeoIP.delivery.php 18872 2008-04-15 11:48:59Z chris.nutting@openx.org $
 */
 
-
 /**
  * Get the geo-information for this IP address using the GeoIP plugin
  *
@@ -47,6 +46,12 @@ $Id: GeoIP.delivery.php 18872 2008-04-15 11:48:59Z chris.nutting@openx.org $
 function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($useCookie = true)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+
+    if ($conf['deliveryLog']['enabled'])
+    {
+        require_once MAX_PATH . '/lib/OA.php';
+        OA::switchLogFile($conf['deliveryLog']['name']);
+    }
 
     // Try and read the data from the geo cookie...
     if ($useCookie && isset($_COOKIE[$conf['var']['viewerGeo']])) {
