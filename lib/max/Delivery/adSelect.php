@@ -582,26 +582,41 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 
     // Excludelist banners
     if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
+        ###START_STRIP_DELIVERY
+        OA::debug('List of excluded banners list contains bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
         // Excludelist campaigns
+        ###START_STRIP_DELIVERY
+        OA::debug('List of excluded campaigns contains bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if (isset($aContext['client']['exclude'][$aAd['client_id']])) {
         // Excludelist clients
+        ###START_STRIP_DELIVERY
+        OA::debug('List of excluded clients contains bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
         // Includelist banners
+        ###START_STRIP_DELIVERY
+        OA::debug('List of included banners does not contain bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
         // Includelist campaigns
+        ###START_STRIP_DELIVERY
+        OA::debug('List of included campaigns does not contain bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
@@ -611,27 +626,42 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
         !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
        ) {
+        ###START_STRIP_DELIVERY
+        OA::debug('No alt image specified for richmedia bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if (MAX_limitationsIsAdForbidden($aAd)) {
         // Capping & blocking
+        ###START_STRIP_DELIVERY
+        OA::debug('MAX_limitationsIsAdForbidden = true for bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' &&
         (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
         // HTML Banners that contain 'http:' on SSL
+        ###START_STRIP_DELIVERY
+        OA::debug('"http:" on SSL found for html bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
         // It only matters if the initial call is to non-SSL (it can/could contain http:)
+        ###START_STRIP_DELIVERY
+        OA::debug('"http:" on SSL found in imagurl for url bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
     if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
         // Delivery limitations
+        ###START_STRIP_DELIVERY
+        OA::debug('MAX_limitationsCheckAcl = false for bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         return false;
     }
 
@@ -730,8 +760,19 @@ function _adSelectBuildContext($aBanner, $context = array()) {
 function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
 {
     foreach ($aAds as $adId => $aAd) {
+        ###START_STRIP_DELIVERY
+        OA::debug('_adSelectDiscardNonMatchingAds: checking bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        ###END_STRIP_DELIVERY
         if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
+            ###START_STRIP_DELIVERY
+            OA::debug('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+            ###END_STRIP_DELIVERY
             unset($aAds[$adId]);
+        }
+        else {
+            ###START_STRIP_DELIVERY
+            OA::debug('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+            ###END_STRIP_DELIVERY
         }
     }
     return $aAds;

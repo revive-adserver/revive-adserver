@@ -33,6 +33,10 @@ require_once MAX_PATH . '/init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 // init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
 // however - in local mode (only), this is not the case
 $referer = $loc;

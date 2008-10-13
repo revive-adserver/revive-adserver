@@ -33,6 +33,10 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 MAX_commonSendContentTypeHeader('text/html');
 
 //Register any script specific input variables

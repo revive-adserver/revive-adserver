@@ -36,6 +36,10 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 // Prevent click from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 

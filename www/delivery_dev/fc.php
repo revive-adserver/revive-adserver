@@ -43,6 +43,10 @@ if (empty($_GET['script'])) {
 // Require the initialisation file
 include_once '../../init-delivery.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 // Strip out any '../' from the passed in script value to try and prevent directory traversal attacks
 $script = str_replace('../', '', $_GET['script']);
 $aPluginId = explode(':', $script);

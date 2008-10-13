@@ -32,6 +32,10 @@ $GLOBALS['_OA']['invocationType'] = 'xml-rpc';
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 setupIncludePath();
 
 // Required files

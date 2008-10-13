@@ -31,6 +31,10 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
@@ -71,7 +75,7 @@ if (!empty($row['html'])) {
     MAX_cookieFlush();
     if ($row['bannerid'] == '') {
        if ($row['default_banner_image_url'] != '') {
-           // Show default banner image url 
+           // Show default banner image url
            MAX_redirect($row['default_banner_image_url']);
        } else {
            // Show 1x1 Gif, to ensure not broken image icon is shown.

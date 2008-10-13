@@ -34,6 +34,10 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 //require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
+###START_STRIP_DELIVERY
+OA::debug('starting delivery script '.__FILE__);
+###END_STRIP_DELIVERY
+
 MAX_commonSetNoCacheHeaders();
 
 /*-------------------------------------------------------*/

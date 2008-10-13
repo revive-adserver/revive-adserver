@@ -54,9 +54,9 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 
 // Set the log file
-if (!empty($conf['debug']['logfile'])) {
+/*if (!empty($conf['debug']['logfile'])) {
     @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
-}
+}*/
 
 // Disable all notices and warnings, as some PAN code still
 // generates PHP warnings in places
@@ -69,6 +69,11 @@ if (!empty($conf['debug']['production'])) {
 
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+
+###START_STRIP_DELIVERY
+require_once MAX_PATH . '/lib/OA.php';
+OA::switchLogFile($conf['deliveryLog']['name']);
+###END_STRIP_DELIVERY
 
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
