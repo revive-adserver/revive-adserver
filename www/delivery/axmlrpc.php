@@ -2999,7 +2999,7 @@ preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
 $search[] = $macros[0][$i];
-$replace[] = (!empty($macros[2][$i])) ? urlencode($_REQUEST[$macros[1][$i]]) : $_REQUEST[$macros[1][$i]];
+$replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : stripslashes($_REQUEST[$macros[1][$i]]);
 }
 }
 $code = str_replace($search, $replace, $code);
