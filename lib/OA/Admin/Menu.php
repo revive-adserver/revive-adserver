@@ -80,7 +80,7 @@ class OA_Admin_Menu
         $this->aAllSections = array();
     }
 
-    
+
     function _loadFromCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
@@ -88,14 +88,14 @@ class OA_Admin_Menu
         return $oCache->load(true);
     }
 
-    
+
     function _saveToCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
         return $oCache->save($this);
     }
-    
+
 
     function _clearCache($accountType)
     {
@@ -103,13 +103,13 @@ class OA_Admin_Menu
         $oCache->setFileNameProtection(false);
         return $oCache->clear();
     }
-    
+
 
     function _setLinkParams($aParams)
     {
         $this->aLinkParams = $aParams;
     }
-    
+
 
     /**
      * Get menu section with a given name
@@ -139,7 +139,7 @@ class OA_Admin_Menu
 
         return $oSection;
     }
-    
+
 
     function removeSection($sectionId)
     {
@@ -153,7 +153,7 @@ class OA_Admin_Menu
 
         return (!array_key_exists($sectionId, $this->aAllSections));
     }
-    
+
 
     /**
      * Gets a list of root sections
@@ -207,7 +207,7 @@ class OA_Admin_Menu
 
         if (!array_key_exists($sectionId, $this->aAllSections)) {
             $errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
-            OA::debug($errMsg, PEAR_LOG_ERROR);
+            OA::debug($errMsg, PEAR_LOG_WARNING);
             return $aParents;
         }
 
@@ -230,7 +230,7 @@ class OA_Admin_Menu
 
         return array_reverse($aParents);
     }
-    
+
 
     /**
      * Returns a nesting level of section with given id (starting at the root which is 0)
@@ -255,22 +255,22 @@ class OA_Admin_Menu
         $level = -1;
         if (!array_key_exists($sectionId, $this->aAllSections)) {
             $errMsg = "Menu::getParentSections() Cannot get parents for section '".$sectionId."': no such section found. Returning an empty array";
-            OA::debug($errMsg, PEAR_LOG_ERROR);
+            OA::debug($errMsg, PEAR_LOG_WARNING);
             return $level;
         }
 
         $oSection = &$this->aAllSections[$sectionId];
-        $checker = &$oSection->getChecker();        
+        $checker = &$oSection->getChecker();
         if ($checkAccess && !$checker->check($oSection)) {
             return $level;
         }
 
         $aParents = $this->getParentSections($sectionId, $checkAccess);
-        
-        return count($aParents); 
+
+        return count($aParents);
     }
-    
-    
+
+
 
     /**
      * This method gets the "next" page, the logic is currently:
@@ -391,17 +391,17 @@ class OA_Admin_Menu
 
         return $result;
     }
-    
-    
+
+
     /**
      * Additional hook. Allows to plug third level itemAdd third level
      */
     function addThirdLevelTo($sectionId, &$oSection)
     {
         $section->setType(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
-        $this->addTo($sectionId, $oSection);    
+        $this->addTo($sectionId, $oSection);
     }
-    
+
 
     /**
      * Private
