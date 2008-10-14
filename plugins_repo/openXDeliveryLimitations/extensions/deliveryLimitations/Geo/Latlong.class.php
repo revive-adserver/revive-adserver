@@ -86,7 +86,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
      /**
      * Method to check input data
      *
-     * @param array $data Most important to check is $data['data'] field 
+     * @param array $data Most important to check is $data['data'] field
      * @return bool|string true or error message
      */
     function checkInputData($data)
@@ -99,7 +99,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
         }
         return true;
     }
-    
+
     /**
      * Outputs the HTML to display the data for this limitation
      *
@@ -110,15 +110,15 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
         $tabindex =& $GLOBALS['tabindex'];
 		echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
 		echo "<tr>";
-		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[0])) ? $this->data[0] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
+		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[0])) ? htmlspecialchars($this->data[0], ENT_QUOTES) : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "    <th align='center'>&nbsp;&gt;&nbsp;".$this->translate('Latitude')."&nbsp;&lt;&nbsp;</th>";
-		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[1])) ? $this->data[1] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
+		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[1])) ? htmlspecialchars($this->data[1], ENT_QUOTES) : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "</tr>";
 
 		echo "<tr>";
-		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[2])) ? $this->data[2] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
+		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[2])) ? htmlspecialchars($this->data[2], ENT_QUOTES) : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "    <th align='center'>&nbsp;&gt;&nbsp;".$this->translate('Longitude')."&nbsp;&lt;&nbsp;</th>";
-		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[3])) ? $this->data[3] : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
+		echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[3])) ? htmlspecialchars($this->data[3], ENT_QUOTES) : '0.0000') . "' tabindex='".($tabindex++)."'></td>";
 		echo "</tr>";
 		echo "</table>";
     }
