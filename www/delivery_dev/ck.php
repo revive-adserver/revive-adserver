@@ -63,6 +63,29 @@ $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_
 $lastClick  = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : array();
 $aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : array();
 
+###START_STRIP_DELIVERY
+foreach ($adId as $k => $v)
+{
+    OA::debug('$adId['.$k.']='.$v);
+}
+foreach ($zoneId as $k => $v)
+{
+    OA::debug('$zoneId['.$k.']='.$v);
+}
+foreach ($creativeId as $k => $v)
+{
+    OA::debug('$creativeId['.$k.']='.$v);
+}
+foreach ($lastClick as $k => $v)
+{
+    OA::debug('$lastClick['.$k.']='.$v);
+}
+foreach ($aBlockLoggingClick as $k => $v)
+{
+    OA::debug('$aBlockLoggingClick['.$k.']='.$v);
+}
+###END_STRIP_DELIVERY
+
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {
         $adId[$index] = _getZoneAd($zone);

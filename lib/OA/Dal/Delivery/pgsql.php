@@ -1455,6 +1455,11 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+    if (!empty($GLOBALS['_MAX']['CONF']['deliveryLog']['enabled']))
+    {
+        require_once(MAX_PATH.'/lib/OA.php');
+        OA::debug('updating bucket '.$query);
+    }
     $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'

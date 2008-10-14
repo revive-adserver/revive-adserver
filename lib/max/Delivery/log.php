@@ -209,6 +209,9 @@ function _viewersHostOkayToLog()
                 break;
             }
         }
+        ###START_STRIP_DELIVERY
+        OA::debug('user-agent browser : '.$agent.' is '.($allowed ? '' : 'not ').'allowed');
+        ###END_STRIP_DELIVERY
         if (!$allowed) return false;
     }
 
@@ -217,6 +220,9 @@ function _viewersHostOkayToLog()
         $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
         foreach ($aKnownBots as $bot) {
             if (strpos($agent, $bot) !== false) {
+                ###START_STRIP_DELIVERY
+                OA::debug('user-agent '.$agent.' is a known bot '.$bot);
+                ###END_STRIP_DELIVERY
                 return false;
             }
         }
@@ -232,13 +238,22 @@ function _viewersHostOkayToLog()
         $hosts = str_replace('*', '[^.]+', $hosts);
         // Check if the viewer's IP address is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
+            ###START_STRIP_DELIVERY
+            OA::debug('viewer\'s ip is in the ignore list '.$_SERVER['REMOTE_ADDR']);
+            ###END_STRIP_DELIVERY
             return false;
         }
         // Check if the viewer's hostname is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
+            ###START_STRIP_DELIVERY
+            OA::debug('viewer\'s host is in the ignore list '.$_SERVER['REMOTE_HOST']);
+            ###END_STRIP_DELIVERY
             return false;
         }
     }
+    ###START_STRIP_DELIVERY
+    OA::debug('viewers host is OK to log');
+    ###END_STRIP_DELIVERY
     return true;
 }
 
@@ -383,6 +398,9 @@ function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
         if (isset($aBlockLoggingClick[$adId])) {
             $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
             if ($endBlock >= MAX_commonGetTimeNow()) {
+                ###START_STRIP_DELIVERY
+                OA::debug('adID '.$adId.' click is still blocked by block logging window ');
+                ###END_STRIP_DELIVERY
                 return true;
             }
         }

@@ -664,6 +664,9 @@ function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = 
             foreach ($hooks as $identifier) {
                 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
                 if (function_exists($functionName)) {
+                    ###START_STRIP_DELIVERY
+                    OA::debug('calling on '.$functionName);
+                    ###END_STRIP_DELIVERY
                     $return[$identifier] = call_user_func_array($functionName, $aParams);
                 }
             }
