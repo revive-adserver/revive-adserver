@@ -106,7 +106,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
             // A country has been selected, show city list for this country...
             // Note: Since a disabled field does not pass it's value through, we need to pass the selected country in...
             echo "<tr><th>" . $this->translate('City(s)') . "</th><td>";
-            echo "<input type='text' name='acl[{$this->executionorder}][data][]' value='{$this->data[1]}' tabindex='".($tabindex++)."' />";
+            echo "<input type='text' name='acl[{$this->executionorder}][data][]' value='".htmlspecialchars($this->data[1], ENT_QUOTES)."' tabindex='".($tabindex++)."' />";
             echo "</td></tr>";
         }
         echo "
