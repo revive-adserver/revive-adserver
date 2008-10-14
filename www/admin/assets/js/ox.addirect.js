@@ -411,10 +411,10 @@ function initAccoutSwitcher()
   //$("#oaNavigation").append("<div class='accountSwitcherOverlay'>&nbsp;</div>");
   
   
-  $(".triggerContainer").hover(function() {
-      $(this).addClass("hover");
+  $(".switchTrigger").hover(function() {
+      $(".triggerContainer").addClass("hover");
     }, function() {
-      $(this).removeClass("hover");
+      $(".triggerContainer").removeClass("hover");
   });
   
   

@@ -206,7 +206,7 @@ a:hover {
 
 #oaNavigationExtra {
     position: absolute;
-    top: 0;
+    top: 7px;
     right: 14px;
     color: #9c9c9c;
 }
@@ -221,20 +221,36 @@ a:hover {
     color: #0767A8;
 }
 #oaNavigationExtra li {
-    float: left;
     margin: 0 0 0 12px;
 }
 
+.triggerContainer {
+  overflow: auto;
+  text-align: right;
+  max-width: 250px;
+}
+
 .switchTrigger {
+  position: relative;
+  top: -2px;
+  float: right;
+  height: 14px;
+  overflow: hidden;
+  max-width: 130px;
+  /* Fix IE6 bug: max-width not supported, set width */
+  -width: 130px;
+  margin-left: 2px;
+  margin-right: 2px;
+  
   padding: 2px 14px 0px 5px;
   color: #444444;
-  background: url("../images/arrow-d.gif") no-repeat right;
+  background: url("../images/arrow-d.gif") no-repeat right 3px;
+    
   cursor: pointer;
-  margin-right: 2px;
 }
 
 .expanded .switchTrigger {
-  background: url("../images/arrowwh-d.gif") no-repeat right;
+  background: url("../images/arrowwh-d.gif") no-repeat right 3px;
   background-color: #9c9c9c;
   color: white;
   -moz-border-radius-topleft: 3px;
@@ -244,7 +260,7 @@ a:hover {
 }
 
 .hover .switchTrigger {
-  background: url("../images/arrowwh-d.gif") no-repeat right;
+  background: url("../images/arrowwh-d.gif") no-repeat right 3px;
   background-color: #9c9c9c;
   color: white;
   -moz-border-radius: 3px;
@@ -260,6 +276,7 @@ a:hover {
     color: #444444;
     position: absolute;
     right: 0px;
+    top: 14px;
     width: 151px;
     z-index: 100;
 }
