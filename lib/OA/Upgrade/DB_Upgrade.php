@@ -264,6 +264,9 @@ class OA_DB_Upgrade
         }
 
         $this->aDefinitionNew = $this->oTable->aDefinition;
+        $this->aDefinitionNew['prefixedTblNames'] = false; // we got this from the xml so it has no table prefixes
+        $this->aDefinitionNew['prefixedIdxNames'] = false; // we got this from the xml so it has no index prefixes
+        $this->aDefinitionNew['expandedIdxNames'] = true; // we got this from the xml, it has long index names ( + tablename + indexname)
         $this->_logOnly('successfully parsed the schema');
         $this->_logOnly('schema name: '.$this->aDefinitionNew['name']);
         $this->_logOnly('schema version: '.$this->aDefinitionNew['version']);
@@ -2411,6 +2414,9 @@ class OA_DB_Upgrade
         {
             return array();
         }
+        $aDef['prefixedTblNames'] = true; // we got this from the db so it has table prefixes
+        $aDef['prefixedIdxNames'] = true; // we got this from the db so it has index prefixes
+        $aDef['expandedIdxNames'] = true; // we got this from the db so it has long index names ( + tablename + indexname)
         return $this->_stripPrefixesFromDatabaseDefinition($aDef);
     }
 
@@ -2421,41 +2427,55 @@ class OA_DB_Upgrade
      * @param array $aDefinition
      * @return array
      */
+    /**
+     * remove openads prefixes from a definition array
+     * these will commonly be found in table names and index names
+     *
+     * @param array $aDefinition
+     * @return array
+     */
     function _stripPrefixesFromDatabaseDefinition($aDefinition)
     {
+        $prefix = strtolower($this->prefix);
         $aTables = array();
+        $isPrefixedTable = ((!empty($prefix)) && isset($aDefinition['tables'][$prefix.'users']));
+        $isPrefixedIndex = ((!empty($prefix)) && isset($aDefinition['tables'][$prefix.'users']['indexes'][$prefix.'users_username']));
         foreach ($aDefinition['tables'] AS $tablename => $aDef)
         {
-            $tablename = strtolower($tablename);
-            $prefix = strtolower($this->prefix);
-            if ($prefix !== '' && substr($tablename, 0, strlen($prefix)) == $prefix)
+            $strippedname = strtolower($tablename);
+            if ($aDefinition['prefixedTblNames'])
             {
-                $strippedname = substr($tablename, strlen($prefix));
-            }
-            else
-            {
-                $strippedname = $tablename;
+                $strippedname = preg_replace("/^{$prefix}/", '', $strippedname, 1);
             }
             if (isset($aDef['indexes']))
             {
                 foreach ($aDef['indexes'] AS $indexname => $aIndex)
                 {
-                    $strippedidx = '';
+                    $strippedidx = strtolower($indexname);
+                    $iOffset = 63;
                     if (isset($aIndex['primary']))
                     {
-                        $strippedidx = preg_replace("/^{$prefix}/", '', strtolower($indexname));
-                        $strippedidx = substr($strippedidx, 0, 63 - strlen($prefix));
+                        if ($aDefinition['prefixedIdxNames'])
+                        {
+                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
+                            $iOffset-= strlen($prefix);
+                        }
                     }
                     else
                     {
-                        $strippedidx = preg_replace("/^{$tablename}_/", '', strtolower($indexname));
-                        if ($strippedidx == $indexname && $strippedname != $tablename) {
-                            // Try to strip the non-prefixed table name
-                            $strippedidx = preg_replace("/^{$strippedname}_/", '', strtolower($indexname));
+                        $iOffset-= 1;
+                        if ($aDefinition['prefixedIdxNames'])
+                        {
+                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
+                            $iOffset-= strlen($prefix);
                         }
-                        $strippedidx = substr($strippedidx, 0, 63 - 1 - strlen($strippedname) - strlen($prefix));
+                        if ($aDefinition['expandedIdxNames'])
+                        {
+                            $strippedidx = preg_replace("/^{$strippedname}_/", '', $strippedidx, 1);
+                            $iOffset-= strlen($strippedname) ;
+                        }
                     }
-
+                    $strippedidx = substr($strippedidx, 0, $iOffset);
                     if ($strippedidx != $indexname)
                     {
                         if (isset($aIndex['was'])) {
@@ -2470,7 +2490,6 @@ class OA_DB_Upgrade
         }
         unset($aDefinition['tables']);
         $aDefinition['tables'] = $aTables;
-
         return $aDefinition;
     }
 

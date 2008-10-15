@@ -140,6 +140,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDefinition['tables'][$this->prefix.'table1'] = array();
         $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey'] = array();
         $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey']['primary'] = true;
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_index'] = array();
+
+        $aDefinition['prefixedTblNames'] = true;
+        $aDefinition['prefixedIdxNames'] = true;
+        $aDefinition['expandedIdxNames'] = true;
 
         $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
 
@@ -148,12 +153,8 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped indexname found in definition');
         $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped indexname not found in definition');
-
-        $conf['table']['prefix'] =
-            $this->prefix = $defaultPrefix;
-
-        TestEnv::restoreConfig();
-        TestEnv::restoreEnv();
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes']['table1_index']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['index']), 'stripped indexname not found in definition');
 
         // Test 2
         $conf['table']['prefix'] = $this->prefix = 'OAXYZ_';
@@ -163,6 +164,35 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDefinition['tables'][$this->prefix.'table1'] = array();
         $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey'] = array();
         $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey']['primary'] = true;
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_index'] = array();
+
+        $aDefinition['prefixedTblNames'] = true;
+        $aDefinition['prefixedIdxNames'] = true;
+        $aDefinition['expandedIdxNames'] = true;
+
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
+
+        $this->assertFalse(isset($aDefStripped['tables'][$this->prefix.'table1']), 'unstripped tablename found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']), 'stripped tablename not found in definition');
+
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped constraint name found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped constraint name not found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes']['table1_index']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['index']), 'stripped indexname not found in definition');
+
+        // Test 3
+        $conf['table']['prefix'] = $this->prefix = 'table1_';
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $aDefinition = array();
+        $aDefinition['tables']['table1'] = array();
+        $aDefinition['tables']['table1']['indexes']['table1_pkey'] = array();
+        $aDefinition['tables']['table1']['indexes']['table1_pkey']['primary'] = true;
+        $aDefinition['tables']['table1']['indexes']['table1_index'] = array();
+
+        $aDefinition['prefixedTblNames'] = false;
+        $aDefinition['prefixedIdxNames'] = false;
+        $aDefinition['expandedIdxNames'] = true;
 
         $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
 
@@ -171,11 +201,37 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped indexname found in definition');
         $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped indexname not found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes']['table1_index']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['index']), 'stripped indexname not found in definition');
 
-        $conf['table']['prefix'] = $this->prefix = $defaultPrefix;
+        // Test 4
+        // the tablename is my_table1
+        // the prefix is my_
+        // which means the table is my_my_table1
+        $conf['table']['prefix'] = $this->prefix = 'my_';
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $aDefinition = array();
+        $aDefinition['tables']['my_my_table1'] = array();
+        $aDefinition['tables']['my_my_table1']['indexes']['my_my_table1_pkey'] = array();
+        $aDefinition['tables']['my_my_table1']['indexes']['my_my_table1_pkey']['primary'] = true;
+        $aDefinition['tables']['my_my_table1']['indexes']['my_my_table1_index'] = array();
+
+        $aDefinition['prefixedTblNames'] = true;
+        $aDefinition['prefixedIdxNames'] = true;
+        $aDefinition['expandedIdxNames'] = true;
+
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
+
+        $this->assertFalse(isset($aDefStripped['tables']['my_my_table1']), 'unstripped tablename found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['my_table1']['indexes']['my_my_table1_pkey']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['my_table1']['indexes']['my_table1_pkey']), 'stripped indexname not found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['my_table1']['indexes']['my_my_table1_index']), 'unstripped indexname found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['my_table1']['indexes']['my_table1_index']), 'unstripped indexname found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['my_table1']['indexes']['table1_index']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['my_table1']['indexes']['index']), 'stripped indexname not found in definition');
 
         TestEnv::restoreConfig();
-        TestEnv::restoreEnv();
     }
 
     /**
