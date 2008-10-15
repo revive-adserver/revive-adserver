@@ -232,6 +232,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aDefStripped['tables']['my_table1']['indexes']['index']), 'stripped indexname not found in definition');
 
         TestEnv::restoreConfig();
+
+        $this->prefix = $defaultPrefix;
     }
 
     /**

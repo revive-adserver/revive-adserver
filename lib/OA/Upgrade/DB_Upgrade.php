@@ -2452,23 +2452,14 @@ class OA_DB_Upgrade
                 foreach ($aDef['indexes'] AS $indexname => $aIndex)
                 {
                     $strippedidx = strtolower($indexname);
-                    $iOffset = 63;
-                    if (isset($aIndex['primary']))
+                    $iOffset = 63 - strlen($prefix);
+                    if ($aDefinition['prefixedIdxNames'])
                     {
-                        if ($aDefinition['prefixedIdxNames'])
-                        {
-                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
-                            $iOffset-= strlen($prefix);
-                        }
+                        $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
                     }
-                    else
+                    if (!isset($aIndex['primary']))
                     {
                         $iOffset-= 1;
-                        if ($aDefinition['prefixedIdxNames'])
-                        {
-                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
-                            $iOffset-= strlen($prefix);
-                        }
                         if ($aDefinition['expandedIdxNames'])
                         {
                             $strippedidx = preg_replace("/^{$strippedname}_/", '', $strippedidx, 1);
