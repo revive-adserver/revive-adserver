@@ -193,7 +193,7 @@ class Plugins_Authentication extends OX_Component
             $formAction .= '?'.$_SERVER['QUERY_STRING'];
         }
 
-        $appName = !empty($aPref['name']) ? $aPref['name'] : MAX_PRODUCT_NAME;
+        $appName = !empty($aConf['ui']['applicationName']) ? $aConf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
         $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
         $oTpl->assign('formAction', $formAction);
