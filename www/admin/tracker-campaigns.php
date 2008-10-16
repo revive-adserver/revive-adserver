@@ -155,6 +155,35 @@ if ($doTrackers->get($trackerid)) {
 
 $tabindex = 1;
 
+$i = 0;
+$checkedall = true;
+$campaignshidden = 0;
+
+$defaults = array(
+    'viewwindow'  => $conf['logging']['defaultImpressionConnectionWindow'],
+    'clickwindow' => $conf['logging']['defaultClickConnectionWindow'],
+);
+
+if (!empty($trackerid)) {
+    $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
+    $doCampaign_trackers->trackerid = $trackerid;
+    $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'campaignid');
+    $defaults = $tracker;
+}
+
+$doCampaigns = OA_Dal::factoryDO('campaigns');
+$doCampaigns->clientid = $clientid;
+$doCampaigns->find();
+
+
+if ($doCampaigns->getRowCount() != 0) {
+    echo "\t\t\t\t<form name='availablecampaigns' method='post' action='tracker-campaigns.php'>\n";
+    echo "\t\t\t\t<input type='hidden' name='trackerid' value='".$GLOBALS['trackerid']."'>\n";
+    echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
+    echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
+}
+
+
 // Header
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
 echo "\t\t\t\t<tr height='25'>\n";
@@ -203,35 +232,13 @@ echo "\t\t\t\t<tr height='1'>\n";
 echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
-$i = 0;
-$checkedall = true;
-$campaignshidden = 0;
 
-$defaults = array(
-    'viewwindow'  => $conf['logging']['defaultImpressionConnectionWindow'],
-    'clickwindow' => $conf['logging']['defaultClickConnectionWindow'],
-);
-
-if (!empty($trackerid)) {
-    $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
-    $doCampaign_trackers->trackerid = $trackerid;
-    $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'campaignid');
-    $defaults = $tracker;
-}
-
-$doCampaigns = OA_Dal::factoryDO('campaigns');
-$doCampaigns->clientid = $clientid;
-$doCampaigns->find();
 
 if ($doCampaigns->getRowCount() == 0) {
     echo "\t\t\t\t<tr bgcolor='#F6F6F6'>\n";
     echo "\t\t\t\t\t<td colspan='4' height='25'>&nbsp;&nbsp;".$strNoCampaignsToLink."</td>\n";
     echo "\t\t\t\t</tr>\n";
 } else {
-    echo "\t\t\t\t<form name='availablecampaigns' method='post' action='tracker-campaigns.php'>\n";
-    echo "\t\t\t\t<input type='hidden' name='trackerid' value='".$GLOBALS['trackerid']."'>\n";
-    echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
-    echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
     $campaigns = $doCampaigns->getAll(array(), $indexByPrimaryKey = true);
 
     foreach ($campaigns as $campaign) {
@@ -258,7 +265,7 @@ if ($doCampaigns->getRowCount() == 0) {
             // Campaign icon
             if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING) {
                 echo "<img src='" . OX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;";
-            } 
+            }
             else {
                 echo "<img src='" . OX::assetPath() . "/images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
             }
