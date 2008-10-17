@@ -437,6 +437,18 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
             $sizeG['height']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
             $sizeG['height']->setSize(5);
             $form->addGroup($sizeG, 'size', $GLOBALS['strSize'], "&nbsp;", false);
+
+            //validation rules
+            $translation = new OX_Translation();
+            $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
+            $widthPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strWidth'])), 'min', 1);
+            $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
+            $heightPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strHeight'])), 'min', 1);
+            $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
+
+            $form->addGroupRule('size', array(
+                'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
+                'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
         }
         if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
         {
@@ -511,7 +523,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $form->addGroupRule('size', array(
             'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
             'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
-
     }
 
     //html & text banners
