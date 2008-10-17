@@ -37,6 +37,12 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
   <select {oa_form_input_attributes elem=$elem parent=$parent} >
   {html_options options=$elem.options selected=$elem.value}
   </select>
+{elseif $elem.type == 'plugin-custom'}
+    {include file=$pluginBaseDir|cat:$elem.plugin|cat:$pluginTemplateDir|cat:$elem.templateId|cat:'.html'}
+{elseif $elem.type == 'script'}
+    {include file=$oaTemplateDir|cat:'form/script-'|cat:$elem.name|cat:'.html'}
+{elseif $elem.type == 'plugin-script'}
+    {include file=$pluginBaseDir|cat:$elem.plugin|cat:$pluginTemplateDir|cat:$elem.name|cat:'.html' plugin=$elem.plugin pluginWebPath=$adminPluginWebPath|cat:'/'|cat:$elem.plugin}
 {else}
   {$elem.html}
 {/if}
