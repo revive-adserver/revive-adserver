@@ -664,6 +664,10 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                                'value' => $this->aPrefsOld[$set]['default_banner_destination'],
                                                                'level' => OA_ACCOUNT_TRAFFICKER
                                                             ),
+            'auto_alter_html_banners_for_click_tracking' => array(
+                                                                'value' => $this->aPrefsOld[$set]['banner_html_auto'],
+                                                                'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
             'default_banner_weight'                      => array(
                                                                'value' => $this->aPrefsOld[$set]['default_banner_weight'],
                                                                'level' => OA_ACCOUNT_ADVERTISER
