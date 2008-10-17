@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2008-10-15</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade 2.7.26-beta-rc5</description>
+    <versionFrom>2.7.26-beta-rc4</versionFrom>
+    <versionTo>2.7.26-beta-rc5</versionTo>
+
+    <!-- Database Packages -->
+    <!-- No database packages as this is only for existing preference and account_preference_assoc update -->
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>postscript_openads_upgrade_2.7.26-beta-rc5v.php</prescript-->
+    <postscript>postscript_openads_upgrade_2.7.26-beta-rc5.php</postscript>
+
+</upgrade>

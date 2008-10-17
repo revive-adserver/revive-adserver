@@ -742,7 +742,6 @@ class OA_Preferences
         $aPrefs = array(
             'default_banner_image_url'                      => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''),
             'default_banner_destination_url'                => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''),
-            'auto_alter_html_banners_for_click_tracking'    => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
             'default_banner_weight'                         => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
             'default_campaign_weight'                       => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
             'warn_email_admin'                              => array('account_type' => OA_ACCOUNT_ADMIN,        'default' => true),

@@ -58,16 +58,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Default Banners
     $aElements[] = 'default_banner_image_url';
     $aElements[] = 'default_banner_destination_url';
-    // HTML Banner Options
-    $aElements[] = 'auto_alter_html_banners_for_click_tracking';
-    $aCheckboxes['auto_alter_html_banners_for_click_tracking'] = true;
     // Default Weight
     $aElements[] = 'default_banner_weight';
     $aElements[] = 'default_campaign_weight';
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        
+
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
@@ -75,8 +72,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
             array(htmlspecialchars($title)));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
-        
+
+
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
         OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
@@ -118,16 +115,6 @@ $aSettings = array (
                 'text'    => $strDefaultBannerDestination,
                 'size'    => 35,
                 'check'   => 'url'
-            )
-        )
-    ),
-    array (
-        'text'  => $strTypeHtmlSettings,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'auto_alter_html_banners_for_click_tracking',
-                'text'    => $strTypeHtmlAuto
             )
         )
     ),
