@@ -22,7 +22,7 @@ html {
 	background: url(../images/logo-wtag.png) top left no-repeat;
 	text-indent: -2000em;
 	margin: 0 0 0 32px;
-	
+
   /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png');
@@ -160,8 +160,8 @@ html {
 
 .sizePreview {
 	position: relative;
-	background: #b9d669; /* #eee; */
-	border: 1px solid #8cb424; /* #ccc; */
+	background: #66c761; /* #eee; */
+	border: 1px solid #349e3f; /* #ccc; */
 }
 
 .sizePreview span {

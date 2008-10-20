@@ -333,7 +333,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             </p>
 
             <div class='sizePreview " . (count($customClass) ? ' ' . implode(' ', $customClass) : '') . "' style='width: {$width}px; height: {$height}px;'>
-                <img src='" . OX::assetPath() . "/images/watermark.png' alt='' />
+                <img src='" . OX::assetPath() . "/images/watermark.gif' alt='' />
 				<span>{$widthLabel} x {$heightLabel}</span>
             </div>
 
