@@ -138,25 +138,25 @@ class OA_phpAdsNew
 
             // pan has a setting dblocal to indicate a socket connection
             // max v0.1 doesn't, just have to detect if the port is a port number or socket path
-            if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal'])
+            $aResult['database']['host']        = ($phpAds_config['dbhost'] ? $phpAds_config['dbhost'] : 'localhost');
+            $aResult['database']['port']        = ($phpAds_config['dbport'] ? $phpAds_config['dbport'] : ($aResult['database']['type'] == 'mysql' ? '3306' : '5432') );
+            if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal']) // must be pan (mysql/pgsql)
             {
-                if ($aResult['database']['type'] == 'mysql') {
-                    $aResult['database']['host']        = '';
-                    $aResult['database']['port']        = preg_replace('/^:/', '', $phpAds_config['dbhost']);
-                } else {
-                    $aResult['database']['host']        = '';
-                    $aResult['database']['port']        = '';
-                }
                 $aResult['database']['protocol']    = 'unix';
+                $aResult['database']['socket']      = ($aResult['database']['host'] == 'localhost' ? '' : preg_replace('/^:/', '', $phpAds_config['dbhost']));
+                $aResult['database']['host']        = 'localhost';
+            }
+            else if (!is_numeric($phpAds_config['dbport'])) // must be max v0.1 (mysql only)
+            {
+                $aResult['database']['protocol']    = 'unix';
+                $aResult['database']['host']        = 'localhost';
+                $aResult['database']['port']        = '3306';
+                $aResult['database']['socket']      = $phpAds_config['dbport'];
             }
             else
             {
-                $aResult['database']['host']        = $phpAds_config['dbhost'];
-                $aResult['database']['port']        = $phpAds_config['dbport'];
-                if (!is_numeric($phpAds_config['dbport']))
-                {
-                    $aResult['database']['protocol']    = 'unix';
-                }
+                $aResult['database']['protocol']    = 'tcp';
+                $aResult['database']['socket']      = '';
             }
             return $aResult;
         }

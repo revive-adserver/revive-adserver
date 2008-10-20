@@ -58,11 +58,20 @@ function OA_Dal_Delivery_connect($database = 'database') {
         $dbConf = $conf['database'];
     }
     $dbParams   = array();
-    $dbParams[] = 'port='.(isset($dbConf['port']) ? $dbConf['port'] : 5432);
-    $dbParams[] = !empty($dbConf['protocol']) && $dbConf['protocol'] == 'unix' ? '' : 'host='.$dbConf['host'];
-    $dbParams[] = empty($dbConf['username']) ? '' : 'user='.$dbConf['username'];
-    $dbParams[] = empty($dbConf['password']) ? '' : 'password='.$dbConf['password'];
-    $dbParams[] = 'dbname='.$dbConf['name'];
+
+    if ($dbConf['protocol'] == 'unix')
+    {
+        $dbConf['host'] = $dbConf['socket'];
+    }
+    else
+    {
+        $dbConf['port'] = (isset($dbConf['port']) ? $dbConf['port'] : 5432);
+    }
+    $dbParams[] = empty($dbConf['port']     ) ? '' : 'port='.$dbConf['port'];
+    $dbParams[] = empty($dbConf['host']     ) ? '' : 'host='.$dbConf['host'];
+    $dbParams[] = empty($dbConf['username'] ) ? '' : 'user='.$dbConf['username'];
+    $dbParams[] = empty($dbConf['password'] ) ? '' : 'password='.$dbConf['password'];
+    $dbParams[] = empty($dbConf['name']     ) ? '' : 'dbname='.$dbConf['name'];
     if ($dbConf['persistent']) {
         $dbLink = @pg_pconnect(join(' ', $dbParams));
     } else {

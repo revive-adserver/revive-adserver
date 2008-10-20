@@ -253,17 +253,13 @@ class OA_DB
 //            }
 //        }
         $dbType = $aConf['database']['type'];
-        // only pan or mmmv0.1 will have a protocol set to unix
-        // otherwise no protocol is set and therefore defaults to tcp
     	if (isset($aConf['database']['protocol']) && $aConf['database']['protocol']=='unix')
     	{
-            $host = (!empty($aConf['database']['socket']))
-                        ? $aConf['database']['protocol'] . '(' . $aConf['database']['socket'] .')'
-                        : $aConf['database']['protocol'] . '+' . $aConf['database']['host'];
             $dsn = $dbType . '://' .
                 $aConf['database']['username'] . ':' .
                 $aConf['database']['password'] . '@' .
-                $host . '/' .
+                $aConf['database']['protocol'] . '(' .
+                $aConf['database']['socket'] .')' . '/' .
                 $aConf['database']['name'];
     	}
     	else
@@ -681,8 +677,8 @@ class OA_DB
             }
         }
     }
-    
-    
+
+
     /**
      * A method to validate table name
      *
@@ -702,10 +698,10 @@ class OA_DB
         if (PEAR::isError($result)) {
             return $result;
         }
-        
-        return true;        
+
+        return true;
     }
-    
+
 
 }
 

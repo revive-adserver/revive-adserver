@@ -234,6 +234,7 @@ $GLOBALS['strDbNameHint']                            = 'Database will be created
 $GLOBALS['strDatabaseOptimalisations']               = 'Database Optimisation Settings';
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
+$GLOBALS['strCantConnectToDbDelivery']               = 'Can\'t Connect to Database for Delivery';
 $GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
 $GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into ' . MAX_PRODUCT_NAME . ' to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 

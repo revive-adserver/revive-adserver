@@ -75,6 +75,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Test the database connectivity
     phpAds_registerGlobal(
         'database_host',
+        'database_protocol',
+        'database_localsocket',
         'database_socket',
         'database_port',
         'database_username',
@@ -93,12 +95,30 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aDsn['database']['username'] = $database_username;
     $aDsn['database']['password'] = $database_password;
     $aDsn['database']['name']     = $database_name;
-    $database_protocol = (!empty($database_socket)) ? 'unix' : 'tcp';
+    $database_protocol            = ($database_localsocket ? 'unix' : 'tcp');
     $aDsn['database']['protocol'] = $database_protocol;
 
-    $dsn = OA_DB::getDsn($aDsn);
-    $oDbh = OA_DB::singleton($dsn);
-    if (!PEAR::isError($oDbh)) {
+    // first try connecting to database using the connection class
+    $oDbh = OA_DB::singleton(OA_DB::getDsn($aDsn));
+    if (!($connected = (!PEAR::isError($oDbh))))
+    {
+        $aErrormessage[0][] = $strCantConnectToDb;
+    }
+    else
+    {
+        // then try connecting to database using the delivery engine function
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $conf[$database_name] = $aDsn['database'];
+        require_once(MAX_PATH.'/lib/OA/Dal/Delivery/'.$database_type.'.php');
+        if (!($connected = OA_Dal_Delivery_connect($database_name)))
+        {
+            $aErrormessage[0][] = $strCantConnectToDbDelivery;
+        }
+        unset($conf[$database_name]);
+    }
+    // if we managed to connect using both methods, go ahead and save the db connection details
+    if ($connected)
+    {
         // Create a new settings object, and save the settings!
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
@@ -116,8 +136,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Could not write the settings configuration file, store this
         // error message and continue
         $aErrormessage[0][] = $strUnableToWriteConfig;
-    } else {
-        $aErrormessage[0][] = $strCantConnectToDb;
     }
 }
 
@@ -151,6 +169,10 @@ $oSettings = array (
                     'text'    => $strDbLocal,
                     'onclick' => 'toggleSocketInput(this);',
                     'req'     => false,
+            ),
+            array (
+                    'type'    => 'hidden',
+                    'name'    => 'database_protocol',
             ),
             array (
                 'type'       => 'break'
