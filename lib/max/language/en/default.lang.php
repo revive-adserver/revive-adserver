@@ -910,16 +910,15 @@ $GLOBALS['strIab']['IAB_Leaderboard(728x90)']        = 'IAB Leaderboard (728 x 9
 $GLOBALS['strIab']['IAB_Button1(120x90)']            = 'IAB Button 1 (120 x 90)';
 $GLOBALS['strIab']['IAB_Button2(120x60)']            = 'IAB Button 2 (120 x 60)';
 $GLOBALS['strIab']['IAB_HalfBanner(234x60)']         = 'IAB Half Banner (234 x 60)';
-$GLOBALS['strIab']['IAB_LeaderBoard(728x90)*']       = 'IAB Leader Board (728 x 90) *';
 $GLOBALS['strIab']['IAB_MicroBar(88x31)']            = 'IAB Micro Bar (88 x 31)';
 $GLOBALS['strIab']['IAB_SquareButton(125x125)']      = 'IAB Square Button (125 x 125)';
-$GLOBALS['strIab']['IAB_Rectangle(180x150)*']        = 'IAB Rectangle (180 x 150) *';
+$GLOBALS['strIab']['IAB_Rectangle(180x150)*']        = 'IAB Rectangle (180 x 150)';
 $GLOBALS['strIab']['IAB_SquarePop-up(250x250)']      = 'IAB Square Pop-up (250 x 250)';
 $GLOBALS['strIab']['IAB_VerticalBanner(120x240)']    = 'IAB Vertical Banner (120 x 240)';
-$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*']  = 'IAB Medium Rectangle (300 x 250) *';
+$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*']  = 'IAB Medium Rectangle (300 x 250)';
 $GLOBALS['strIab']['IAB_LargeRectangle(336x280)']    = 'IAB Large Rectangle (336 x 280)';
 $GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = 'IAB Vertical Rectangle (240 x 400)';
-$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*']   = 'IAB Wide Skyscraper (160 x 600) *';
+$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*']   = 'IAB Wide Skyscraper (160 x 600)';
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']                    = "Advanced";
