@@ -204,10 +204,10 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
 }
 
 function _sortByChannelName($a, $b) {
-    $a['name'] = strtolower($a['name']);
-    $b['name'] = strtolower($b['name']);
+    $a['channelname'] = strtolower($a['channelname']);
+    $b['channelname'] = strtolower($b['channelname']);
 
-    if ($a['name'] == $b['name']) return 0;
-    return strcmp($a['name'], $b['name']);
+    if ($a['channelname'] == $b['channelname']) return 0;
+    return strcmp($a['channelname'], $b['channelname']);
 }
 ?>
