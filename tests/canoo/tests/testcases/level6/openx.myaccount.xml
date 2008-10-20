@@ -12,7 +12,7 @@
       &config;
       <steps>
       	&login;
-		<clickLink label="Administrator account"/>
+		<clickLink label="Administrator"/>
 		<clickLink label="Configuration"/>
 		<clickLink label="Plugins"/>
 		<clickLink label="Details" href="package=openXInvocationTags"/>
