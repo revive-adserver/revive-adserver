@@ -196,12 +196,17 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
     		$mi->parameters[] = 'lmargin='.$lmargin;
     		$mi->parameters[] = 'rmargin='.$rmargin;
     	}
-        $buffer = "<script language='JavaScript' type='text/javascript' src='http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
+    	$scriptUrl = "http:" . MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
     	if (sizeof($mi->parameters) > 0) {
-    		$buffer .= "?".implode ("&amp;", $mi->parameters);
+    		$scriptUrl .= "?".implode ("&amp;", $mi->parameters);
     	}
-    	$buffer .= "'></script>";
-    	return $buffer;
+    	$buffer = "<script type='text/javascript'><!--//<![CDATA[
+   var ox_u = '{$scriptUrl}';
+   if (document.context) ox_u += '&context=' + escape(document.context);
+   document.write(\"<scr\"+\"ipt type='text/javascript' src='\" + ox_u + \"'></scr\"+\"ipt>\");
+//]]>--></script>";
+
+	   	return $buffer;
     }
 
     /*-------------------------------------------------------*/

@@ -49,6 +49,16 @@ if (file_exists(MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/
     include MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
 }
 
+//Register any script specific input variables
+MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
+
+if (isset($context) && !is_array($context)) {
+    $context = MAX_commonUnpackContext($context);
+}
+if (!is_array($context)) {
+    $context = array();
+}
+
 $limitations = MAX_layerGetLimitations();
 
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
@@ -62,6 +72,29 @@ if ($limitations['compatible']) {
 	}
 	$uniqid = substr(md5(uniqid('', 1)), 0, 8);
 
+	// Block this banner for next invocation
+    if (!empty($block) && !empty($output['bannerid'])) {
+        $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+    }
+
+    // Block this campaign for next invocation
+    if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+        $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+    }
+
+    // Block this campaign for next invocation
+    if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+        $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+    }
+    // Append any data to the context array
+    if (!empty($output['context'])) {
+        foreach ($output['context'] as $id => $contextArray) {
+            if (!in_array($contextArray, $context)) {
+                $context[] = $contextArray;
+            }
+        }
+    }
+
 	// Include the FlashObject script if required
     if ($output['contenttype'] == 'swf') {
         echo MAX_flashGetFlashObjectInline();
@@ -69,6 +102,9 @@ if ($limitations['compatible']) {
 
 	echo MAX_javascriptToHTML(MAX_layerGetHtml($output, $uniqid), "MAX_{$uniqid}");
 	MAX_layerPutJs($output, $uniqid);
+
+    // Set document.context, if required
+    echo (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
 }
 
 ?>

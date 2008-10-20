@@ -155,10 +155,16 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
     		$mi->parameters[] = 'delay='.$delay;
     	}
 
-    	$buffer = "<script type='text/javascript' src='http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
-    	if (sizeof($mi->parameters) > 0)
-    		$buffer .= "?".implode ("&", $mi->parameters);
-    	$buffer .= "'></script>";
+    	$scriptUrl = "http:" . MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
+    	if (sizeof($mi->parameters) > 0) {
+    		$scriptUrl .= "?".implode ("&", $mi->parameters);
+    	}
+
+    	$buffer = "<script type='text/javascript'><!--//<![CDATA[
+   var ox_u = '{$scriptUrl}';
+   if (document.context) ox_u += '&context=' + escape(document.context);
+   document.write(\"<scr\"+\"ipt type='text/javascript' src='\" + ox_u + \"'></scr\"+\"ipt>\");
+//]]>--></script>";
 
     	return $buffer;
     }
