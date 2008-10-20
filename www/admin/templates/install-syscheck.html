@@ -34,6 +34,7 @@
         <tr>
         <?php
             $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
+            $falseButNotErrorImage = "<img src='".$imgPath."images/icon-x-grey.gif' width='10' height='9'>";
             $warnImage = "<img src='".$imgPath."images/icon-warning.gif' width='12' height='12'>";
             $passImage = "<img src='".$imgPath."images/icon-checkmark.gif' width='10' height='9'>";
 
@@ -76,8 +77,13 @@
             $sysinfoarray['actual']['pcre'] = ($sysinfoarray['actual']['pcre'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
-            $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
-            $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            if ($sysinfoarray['actual']['mysql'] == false && $sysinfoarray['actual']['pgsql'] == false) {
+                $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+                $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            } else {
+                $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $falseButNotErrorImage : 'LOADED ' .$passImage);
+                $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $falseButNotErrorImage : 'LOADED ' .$passImage);
+            }
             $halt = (($halt) || ($sysinfoarray['error']));
 
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' PHP - no errors' : $errorImage . ' <span class="red">PHP - errors detected</span>');
