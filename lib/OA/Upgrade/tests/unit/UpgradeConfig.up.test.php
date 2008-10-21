@@ -54,6 +54,117 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertIsA($oUpConfig->oSettings,'OA_Admin_Settings','class mismatch: OA_Admin_Settings');
     }
 
+    function test_setupConfigDatabase()
+    {
+        $oUpConfig = new OA_Upgrade_Config();
+
+        $aConfig['username'] = 'myname';
+        $aConfig['password'] = 'mypass';
+        $aConfig['name'] = 'mydb';
+        $aConfig['persistent'] = '0';
+        $aConfig['mysql4_compatibility'] = '0';
+
+        $aConfig['type'] = 'mysql';
+
+        $aConfig['host'] = 'localhost';
+        $aConfig['socket'] = '';
+        $aConfig['port'] = '3306';
+        $aConfig['protocol'] = 'tcp';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , $aConfig['host']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , $aConfig['port']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+
+        $aConfig['host'] = '';
+        $aConfig['socket'] = '';
+        $aConfig['port'] = '';
+        $aConfig['protocol'] = 'unix';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '3306');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+
+        $aConfig['host'] = '';
+        $aConfig['socket'] = '/var/lib/mysql/mysql.sock';
+        $aConfig['port'] = '';
+        $aConfig['protocol'] = 'unix';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '3306');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+
+        $aConfig['type'] = 'pgsql';
+
+        $aConfig['host'] = 'localhost';
+        $aConfig['socket'] = '';
+        $aConfig['port'] = '5432';
+        $aConfig['protocol'] = 'tcp';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , $aConfig['host']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , $aConfig['port']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+
+        $aConfig['host'] = '';
+        $aConfig['socket'] = '';
+        $aConfig['port'] = '';
+        $aConfig['protocol'] = 'unix';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '5432');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+
+        $aConfig['host'] = '';
+        $aConfig['socket'] = '/tmp/pgsql.sock';
+        $aConfig['port'] = '';
+        $aConfig['protocol'] = 'unix';
+        $oUpConfig->setupConfigDatabase($aConfig);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '5432');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
+    }
+
     function test_getInitialConfig()
     {
         $oUpConfig = new OA_Upgrade_Config();

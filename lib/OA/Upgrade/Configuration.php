@@ -246,8 +246,20 @@ class OA_Upgrade_Config
     function setupConfigDatabase($aConfig)
     {
         $this->setValue('database', 'type',     $aConfig['type']);
-        $this->setValue('database', 'host',     $aConfig['host']);
+        $this->setValue('database', 'host',     ($aConfig['host'] ? $aConfig['host'] : 'localhost'));
         $this->setValue('database', 'socket',   $aConfig['socket']);
+        if (empty($aConfig['port']))
+        {
+            switch ($aConfig['type'])
+            {
+                case 'mysql':
+                    $aConfig['port'] = '3306';
+                    break;
+                case 'pgsql':
+                    $aConfig['port'] = '5432';
+                    break;
+            }
+        }
         $this->setValue('database', 'port',     $aConfig['port']);
         $this->setValue('database', 'username', $aConfig['username']);
         $this->setValue('database', 'password', $aConfig['password']);

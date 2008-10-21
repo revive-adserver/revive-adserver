@@ -541,7 +541,7 @@ class OA_Upgrade
                 $this->oLogger->logError($strProductName.$strDetected);
                 break;
             case OA_STATUS_PAN_DBCONNECT_FAILED:
-                $this->oLogger->logError($strProductName.$strDetected);
+                $this->oLogger->logError($strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_PAN_VERSION_FAILED:
