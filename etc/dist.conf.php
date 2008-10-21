@@ -358,6 +358,8 @@ persistent          = false
 
 [sync]
 checkForUpdates = true
+shareStack      = true
+shareData       = true
 
 [oacSync]
 protocol    = https

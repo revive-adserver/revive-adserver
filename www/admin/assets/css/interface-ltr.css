@@ -238,6 +238,12 @@ fieldset {
     padding: 10px;
 }
 
+form div.checkboxDesc {
+    padding: 1px 0px 3px 19px; 
+    background: url(../images/indent.gif) 0px 0px no-repeat;
+    font-style: italic;
+}
+
 
 /* Custom */
 .install {

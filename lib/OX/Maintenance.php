@@ -292,13 +292,11 @@ class OX_Maintenance
     function _runOpenadsSync()
     {
         OA::debug('  Starting OpenX Sync process.', PEAR_LOG_DEBUG);
-        if ($this->aConf['sync']['checkForUpdates']) {
-            require_once MAX_PATH . '/lib/OA/Sync.php';
-            $oSync = new OA_Sync($this->aConf, $this->aPref);
-            $res = $oSync->checkForUpdates(0);
-            if ($res[0] != 0 && $res[0] != 800) {
-                OA::debug("OpenX Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
-            }
+        require_once MAX_PATH . '/lib/OA/Sync.php';
+        $oSync = new OA_Sync($this->aConf, $this->aPref);
+        $res = $oSync->checkForUpdates(0);
+        if ($res[0] != 0 && $res[0] != 800) {
+            OA::debug("   - OpenX Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
         }
         OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
     }
@@ -319,7 +317,7 @@ class OX_Maintenance
             $oAdNetworks = new OA_Central_AdNetworks();
             $result = $oAdNetworks->getRevenue();
             if (PEAR::isError($result)) {
-                OA::debug("OpenX Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
+                OA::debug("  - OpenX Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
             }
         }
         OA::debug('  Finished OpenX Central process.', PEAR_LOG_DEBUG);

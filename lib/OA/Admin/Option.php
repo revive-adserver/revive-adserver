@@ -118,8 +118,8 @@ class OA_Admin_Option
 
         echo "// -->\n</script>";
     }
-    
-    
+
+
     function getSettingsPreferences($section)
     {
         /**
@@ -129,19 +129,19 @@ class OA_Admin_Option
          */
         if ($this->_optionType == 'account-settings') {
             $aSections = array(
-                'banner-delivery' => array('name' => $GLOBALS['strBannerDelivery'],       'perm' => OA_ACCOUNT_ADMIN),
-                'banner-logging'  => array('name' => $GLOBALS['strBannerLogging'],        'perm' => OA_ACCOUNT_ADMIN),
-                'banner-storage'  => array('name' => $GLOBALS['strBannerStorage'],        'perm' => OA_ACCOUNT_ADMIN),
-                'tracking'        => array('name' => $GLOBALS['strConversionTracking'],   'perm' => OA_ACCOUNT_ADMIN),
-                'database'        => array('name' => $GLOBALS['strDatabaseSettings'],     'perm' => OA_ACCOUNT_ADMIN),
-                'debug'           => array('name' => $GLOBALS['strDebug'],                'perm' => OA_ACCOUNT_ADMIN),
-                'email'           => array('name' => $GLOBALS['strEmailSettings'],        'perm' => OA_ACCOUNT_ADMIN),
-                'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'], 'perm' => OA_ACCOUNT_ADMIN),
-                'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],  'perm' => OA_ACCOUNT_ADMIN),
-                'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],         'perm' => OA_ACCOUNT_ADMIN),
-                'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
+                'banner-delivery' => array('name' => $GLOBALS['strBannerDelivery'],         'perm' => OA_ACCOUNT_ADMIN),
+                'banner-logging'  => array('name' => $GLOBALS['strBannerLogging'],          'perm' => OA_ACCOUNT_ADMIN),
+                'banner-storage'  => array('name' => $GLOBALS['strBannerStorage'],          'perm' => OA_ACCOUNT_ADMIN),
+                'tracking'        => array('name' => $GLOBALS['strConversionTracking'],     'perm' => OA_ACCOUNT_ADMIN),
+                'database'        => array('name' => $GLOBALS['strDatabaseSettings'],       'perm' => OA_ACCOUNT_ADMIN),
+                'debug'           => array('name' => $GLOBALS['strDebug'],                  'perm' => OA_ACCOUNT_ADMIN),
+                'email'           => array('name' => $GLOBALS['strEmailSettings'],          'perm' => OA_ACCOUNT_ADMIN),
+                'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'],   'perm' => OA_ACCOUNT_ADMIN),
+                'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],    'perm' => OA_ACCOUNT_ADMIN),
+                'upgrade-privacy' => array('name' => $GLOBALS['strUpgradePrivacySettings'], 'perm' => OA_ACCOUNT_ADMIN),
+                'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],            'perm' => OA_ACCOUNT_ADMIN),
             );
-        } 
+        }
         elseif ($this->_optionType == 'account-preferences') {
             $aSections = array();
             $aSections['banner'] =
@@ -177,7 +177,7 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
             $this->_mergePluginOptions($aSections);
-        } 
+        }
         elseif ($this->_optionType == 'account-user') {
             $aSections = array();
             $aSections['name-language'] =
@@ -196,7 +196,7 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
         }
-        
+
         foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {
                 $aResult[$k]['name'] = (isset($v['text']) ? $v['text'] : $v['name']);
@@ -205,10 +205,10 @@ class OA_Admin_Option
             }
         }
         setCurrentLeftMenuSubItem($section);
-        
+
         return $aResult;
     }
-    
+
 
     /**
      * Build a menu with all settings or preferences
@@ -241,7 +241,7 @@ class OA_Admin_Option
         phpAds_ShowBreak();
     }
 
-    
+
     function _mergePluginOptions(&$aSections)
     {
 
@@ -252,7 +252,7 @@ class OA_Admin_Option
             $aSections = array_merge($aSections, $aPrefOptions);
         }
     }
-    
+
 
     /**
      * Build and display the settings or preferences user interface
@@ -1008,4 +1008,5 @@ class OA_Admin_Option
     }
 
 }
+
 ?>

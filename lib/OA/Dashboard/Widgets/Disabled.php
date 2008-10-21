@@ -48,7 +48,7 @@ class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
 
         $oDashboard = new OA_Central_Dashboard();
         $oTpl->assign('noSSL', !$oDashboard->oMapper->oRpc->oXml->canUseSSL());
-        $oTpl->assign('settingsUrl', MAX::constructURL(MAX_URL_ADMIN, 'account-settings-synchronisation.php'));
+        $oTpl->assign('settingsUrl', MAX::constructURL(MAX_URL_ADMIN, 'account-settings-upgrade-privacy.php'));
         $oTpl->assign('isAdmin',  OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
 
         $oTpl->display();

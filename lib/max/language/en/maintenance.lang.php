@@ -152,6 +152,16 @@ $GLOBALS['strNoNewVersionAvailable']		= "
 	Your version of ".MAX_PRODUCT_NAME." is up-to-date. There are currently no updates available.
 ";
 
+$GLOBALS['strServerCommunicationError'] = "
+    <b>Communication with the update server timed out, so ".MAX_PRODUCT_NAME." is not
+    able to check if a newer version is available at this stage. Please try again later.</b>";
+
+$GLOBALS['strCheckForUpdatesDisabled'] = "
+    <b>It is not possible to check if a newer version of ".MAX_PRODUCT_NAME." is available, as the
+    <a href='account-settings-upgrade-privacy.php'>Check for Updates</a> setting has been
+    disabled.<br/>Please enable the <a href='account-settings-upgrade-privacy.php'>Check for Updates</a>
+    setting if you would like to check for newer versions of ".MAX_PRODUCT_NAME."<b/>";
+
 $GLOBALS['strNewVersionAvailable']		= "
 	<b>A new version of ".MAX_PRODUCT_NAME." is available.</b><br /> It is recommended to install this update,
 	because it may fix some currently existing problems and will add new features. For more information

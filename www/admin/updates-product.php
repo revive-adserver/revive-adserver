@@ -64,7 +64,7 @@ $connectionId = $connection->getConnectionId();
 $aVersion = $connectionId->getServerVersion();
 $current .= '&nbsp;' . $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
 
-echo "<br />".$current."<br /><br />";
+echo "<br />".$current.".<br /><br />";
 phpAds_ShowBreak();
 
 if (!isset($session['maint_update'])) {
@@ -109,6 +109,21 @@ if (!isset($session['maint_update'])) {
         echo "</td><td valign='top'><b>".$strNoNewVersionAvailable."</b>";
         echo "</td></tr></table><br />";
         phpAds_ShowBreak();
+
+    } elseif ($maint_update[0] == -1) {
+        echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
+        echo "<img src='" . OX::assetPath() . "/images/error.gif'>&nbsp;&nbsp;";
+        echo "</td><td valign='top'><b>".$strServerCommunicationError."</b>";
+        echo "</td></tr></table><br />";
+        phpAds_ShowBreak();
+
+    } elseif ($maint_update[0] == -2) {
+        echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
+        echo "<img src='" . OX::assetPath() . "/images/error.gif'>&nbsp;&nbsp;";
+        echo "</td><td valign='top'><b>".$strCheckForUpdatesDisabled."</b>";
+        echo "</td></tr></table><br />";
+        phpAds_ShowBreak();
+
     } elseif (is_array($maint_update[1])) {
         echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
         if ($maint_update[1]['security_fix'] == 1) {
@@ -152,6 +167,7 @@ if (!isset($session['maint_update'])) {
         }
         echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "</table>";
+
     } else {
         phpAds_Die($strErrorOccurred, $strUpdateServerDown);
     }

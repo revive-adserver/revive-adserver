@@ -41,7 +41,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
-$prefSection = "synchronisation";
+$prefSection = "upgrade-privacy";
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -58,6 +58,14 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'sync' => 'checkForUpdates',
             'bool'    => true
         ),
+        'sync_shareStack' => array(
+            'sync' => 'shareStack',
+            'bool' => true
+        ),
+        'sync_shareData' => array(
+            'sync' => 'shareData',
+            'bool' => true
+        )
     );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -98,7 +106,26 @@ $aSettings = array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'sync_checkForUpdates',
-                'text'    => $strAdminCheckUpdates,
+                'text'    => $strAdminCheckUpdates
+            )
+        )
+    ),
+    array (
+        'text'    => $strPrivacySettings,
+        'items'   => array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'sync_shareStack',
+                'text'    => $strAdminShareStack,
+                'depends' => 'sync_checkForUpdates==1',
+                'desc'    => $strAdminShareStackDesc
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'sync_shareData',
+                'text'    => $strAdminShareData,
+                'depends' => 'sync_checkForUpdates==1',
+                'desc'    => $strAdminShareDataDesc
             )
         )
     )
