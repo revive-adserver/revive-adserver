@@ -34,31 +34,31 @@ require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
  * Don't forget to set plugin enabled in test.conf.php
  * if [delivery] cacheStorePlugin = Extension/Group/Component   (e.g. deliveryCacheStore:oxCacheFile:oxCacheFile)
  * add to [pluginGroupComponents] entry: Group=1        (e.g. oxCacheFile=1)
- *  
- * If you want to run tests for memcached plugin you have to create [oxMemcached] section in test.conf 
+ *
+ * If you want to run tests for memcached plugin you have to create [oxMemcached] section in test.conf
  * and set memcachedServers parameter in this new section
  * e.g.
  * [oxMemcached]
  * memcachedServers = 127.0.0.1:11211  ; If you run memcached server on same host and default port
- * 
+ *
  * @package    OpenXCache
  * @subpackage TestSuite
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  *
  */
 class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
-{   
-    /**     
+{
+    /**
      * An instance of OA_Cache_DeliveryCacheCommon
-     * 
+     *
      * @var OA_Cache_DeliveryCacheCommon
      */
     var $oDeliveryCacheCommon;
-    
+
     function __construct(){
         $this->oDeliveryCacheCommon = new OA_Cache_DeliveryCacheCommon();
     }
-    
+
     function setUp()
     {
         // Make sure that delivery cache is clear for tests
@@ -70,9 +70,9 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         DataGenerator::cleanUp();
         $this->oDeliveryCacheCommon->invalidateAll();
         // Restore cache storage plugin settings
-        $this->aConf['delivery']['cacheStoragePlugin'] = $this->currentCacheStorageSettings; 
+        $this->aConf['delivery']['cacheStoragePlugin'] = $this->currentCacheStorageSettings;
     }
-    
+
     /**
      * Check if tests can be runned
      *
@@ -86,7 +86,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
             "There is no cache storage plugin"
         );
     }
-    
+
     /**
      * Method tests invalidateAll method
      *
@@ -101,12 +101,12 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         }
         $result = $this->oDeliveryCacheCommon->invalidateAll();
         $this->assertTrue($result);
-        
+
         for($i=0; $i<5; $i++) {
             $this->assertFalse(OA_Delivery_Cache_fetch('testname'.$i));
         }
     }
-   
+
     /**
      * Method tests invalidateGetAdCache method
      */
@@ -126,7 +126,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetAd($aIds['banners'][0]), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetAccountTZsCache method
      */
@@ -149,14 +149,14 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         $doAccountPreferenceAssoc->preference_id = $preferencesId;
         $doAccountPreferenceAssoc->value         = 'new value';
         DataGenerator::generateOne($doAccountPreferenceAssoc);
-        
+
         // Expect no changes in cache
         $this->assertEqual(MAX_cacheGetAccountTZs(), $cachedData);
         $this->oDeliveryCacheCommon->invalidateGetAccountTZsCache();
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetAccountTZs(), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateZoneLinkedAdsCache method
      */
@@ -176,7 +176,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $cachedData2 = MAX_cacheGetZoneLinkedAds($aIds['zones'][0]);
         $this->assertNotEqual($cachedData2, $cachedData);
-                
+
         // Change linked banner
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($aIds['banners'][0]);
@@ -188,7 +188,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $cachedData3 = MAX_cacheGetZoneLinkedAds($aIds['zones'][0]);
         $this->assertNotEqual($cachedData3, $cachedData2);
-        
+
         // Unlink banner
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->zone_id = $aIds['zones'][0];
@@ -200,8 +200,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetZoneLinkedAds($aIds['zones'][0]), $cachedData3);
     }
-    
-    
+
+
     /**
      * Method tests invalidateGetZoneInfoCache method
      */
@@ -222,7 +222,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         $cachedData2 = MAX_cacheGetZoneInfo($aIds['zones'][0]);
         $this->assertNotEqual($cachedData2, $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetCreativeCache method
      */
@@ -242,19 +242,19 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetCreative($aIds['images'][0]), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetTrackerCache method
      */
     function test_invalidateGetTrackerCache(){
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
-        
+
         $cachedData = MAX_cacheGetTracker($aIds['tracker'][0]);
         // Do some changes in tracker
         $doTracker = OA_Dal::factoryDO('trackers');
         $doTracker->get($aIds['trackers'][0]);
-        $doTracker->description = 'new description'; 
+        $doTracker->description = 'new description';
         $doTracker->update();
         // Expect no changes in cache
         $this->assertEqual(MAX_cacheGetTracker($aIds['tracker'][0]), $cachedData);
@@ -262,14 +262,14 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetTracker($aIds['trackers'][0]), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetTrackerVariablesCache method
      */
     function test_invalidateGetTrackerVariablesCache(){
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
-        
+
         $cachedData = MAX_cacheGetTrackerVariables($aIds['tracker'][0]);
         // Add new variable to the tracker
         $doVariables = OA_Dal::factoryDO('variables');
@@ -282,37 +282,35 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetTrackerVariables($aIds['trackers'][0]), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateCheckIfMaintenanceShouldRunCache method
      */
     function test_invalidateCheckIfMaintenanceShouldRunCache(){
         $interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-        $delay       = !empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay']) ?
-                       $GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay'] * 60 :
-                       300;
+        $delay       = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 
         // Set value for maintenace_timestamp that maintenace should run now
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()-2*$interval;  
+        $doAppVar->value = MAX_commonGetTimeNow()-2*$interval;
         $doAppVar->insert();
-        
+
         $cachedData = MAX_cacheCheckIfMaintenanceShouldRun();
-        
+
         // Set value for maintenace_timestamp that maintenace shouldn't be run
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()+$delay+1; 
+        $doAppVar->value = MAX_commonGetTimeNow()+$delay+1;
         $doAppVar->update();
-        
+
         // Expect no changes in cache
         $this->assertEqual(MAX_cacheCheckIfMaintenanceShouldRun(), $cachedData);
         $this->oDeliveryCacheCommon->invalidateCheckIfMaintenanceShouldRunCache();
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheCheckIfMaintenanceShouldRun(), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetChannelLimitationsCache method
      */
@@ -321,20 +319,20 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         $this->_createTestCacheFiles($aIds);
 
         $cachedData = MAX_cacheGetChannelLimitations($aIds['channel'][0]);
-        
+
         // Change channel data
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->get($aIds['channel'][0]);
         $doChannel->acl_plugins = 'new value';
         $doChannel->update();
-        
+
         // Expect no changes in cache
         $this->assertEqual(MAX_cacheGetChannelLimitations($aIds['channel'][0]), $cachedData);
         $this->oDeliveryCacheCommon->invalidateGetChannelLimitationsCache($aIds['channel'][0]);
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetChannelLimitations($aIds['channel'][0]), $cachedData);
     }
-    
+
     /**
      * Method tests invalidateGetGoogleJavaScriptCache method
      */
@@ -349,10 +347,10 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         $this->oDeliveryCacheCommon->invalidateGetGoogleJavaScriptCache();
         // Now expect changes in cache
         $this->assertNotEqual(MAX_cacheGetGoogleJavaScript(), $cachedData);
-        
+
         $GLOBALS['_MAX']['CONF']['file']['click'] = $currentClick;
     }
-    
+
     /**
      * Method tests invalidatePublisherZonesCache method
      */
@@ -372,7 +370,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Now expect changes in cache
         $cachedData2 = OA_cacheGetPublisherZones($aIds['affiliates'][0]);
         $this->assertNotEqual($cachedData2, $cachedData);
-                
+
         // Delete zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->zoneid = $aIds['zones'][0];

@@ -180,7 +180,6 @@ blockAdClicksWindow                 = 0      ; window for block clicks logging i
 
 [maintenance]
 autoMaintenance                     = 1
-autoMaintenanceDelay                = 5      ; Delay for automaintenance, should be lesser than opearationInterval
 timeLimitScripts                    = 300    ; Should maintenance scripts be limited to run no longer than
                                              ; this many seconds? Set to 0 for no time limit
 
