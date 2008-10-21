@@ -99,8 +99,7 @@ class OA_Dll_Agency extends OA_Dll
             }
         } else {
             // When adding an agency, check that the required field 'agencyName' is correct.
-            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255) ||
-                !$this->checkStructureRequiredStringField($oAgency, 'password', 64)) {
+            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
                 return false;
             }
 
@@ -119,6 +118,11 @@ class OA_Dll_Agency extends OA_Dll
             !$this->checkEmail($oAgency->UserEmail)) ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'userEmail', 64)) {
 
+            return false;
+        }
+
+        if (isset($oAgency->username) &&
+            !$this->checkStructureRequiredStringField($oAgency, 'password', 64)) {
             return false;
         }
 

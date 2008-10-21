@@ -134,6 +134,28 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $dllAgencyPartialMock->tally();
     }
 
+    function testAddAgencyWithoutUser()
+    {
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+
+        $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 2);
+
+        $oAgencyInfo = new OA_Dll_AgencyInfo();
+
+        $oAgencyInfo->agencyName = 'testAgency';
+        //$oAgencyInfo->contactName = 'Bob';
+        //$oAgencyInfo->userEmail = 'bob@example.com';
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
+                          $dllAgencyPartialMock->getLastError());
+
+        $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo->agencyId));
+
+        $dllAgencyPartialMock->tally();
+
+        DataGenerator::cleanUp(array('agency', 'users'));
+    }
+
     function testAddAgencyWithUser()
     {
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
