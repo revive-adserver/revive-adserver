@@ -1791,13 +1791,7 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 // Default delay is 5 minutes
 $interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-$delay       = !empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay']) ?
-$GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay'] * 60 :
-300;
-// Auto-maintenance is disabled if the delay is lower than the OI
-if ($delay <= 0 || $delay >= $interval) {
-return false;
-}
+$delay       = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 $now         = MAX_commonGetTimeNow();
 $today       = strtotime(date('Y-m-d'), $now);
 $nextRunTime = $today + (floor(($now - $today) / $interval) + 1) * $interval + $delay;
