@@ -1389,12 +1389,14 @@ $loc = $_SERVER['HTTP_REFERER'];
 } else {
 $loc = '';
 }
+$loc = urldecode($loc);
 // Set real referer - Only valid if passed in
 if (!empty($referer)) {
 $_SERVER['HTTP_REFERER'] = stripslashes($referer);
 } else {
 if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 }
+$referer = urldecode($referer);
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
 $GLOBALS['_MAX']['CONF']['var']['blockAd'],
 $GLOBALS['_MAX']['CONF']['var']['capAd'],
