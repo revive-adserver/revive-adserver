@@ -1186,6 +1186,7 @@ $GLOBALS['strGreaterThanZeroField']      = "Must be greater than 0";
 $GLOBALS['strXGreaterThanZeroField']     = "%s must be greater than 0";
 $GLOBALS['strXUniqueField']                     = "%s with this %s already exists";
 $GLOBALS['strXDecimalFieldWithDecimalPlaces']   = "Must be a decimal with maximum %s decimal places";
+$GLOBALS['strInvalidWebsiteURL']                = "Invalid Website URL";
 
 
 // Email

@@ -130,6 +130,7 @@ function buildWebsiteForm($affiliate)
     $translation = new OX_Translation();
     $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWebsiteURL']));
     $form->addRule('website', $urlRequiredMsg, 'required');
+    $form->addRule('website', $GLOBALS['strInvalidWebsiteURL'], 'regex', '#^http(s?)\://.+$#');
     $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     $form->addRule('contact', $contactRequiredMsg, 'required');
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
