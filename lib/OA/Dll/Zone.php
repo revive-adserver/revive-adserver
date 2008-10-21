@@ -58,11 +58,12 @@ class OA_Dll_Zone extends OA_Dll
      */
     function _setZoneDataFromArray(&$oZone, $zoneData)
     {
-        $zoneData['publisherId'] = $zoneData['affiliateid'];
-        $zoneData['zoneId']      = $zoneData['zoneid'];
-        $zoneData['type']        = $zoneData['delivery'];
-        $zoneData['zoneName']    = $zoneData['zonename'];
-
+        $zoneData['publisherId']    = $zoneData['affiliateid'];
+        $zoneData['zoneId']         = $zoneData['zoneid'];
+        $zoneData['type']           = $zoneData['delivery'];
+        $zoneData['zoneName']       = $zoneData['zonename'];
+        $zoneData['sessionCapping'] = $zoneData['sessionCapping'];
+        $zoneData['block']          = $zoneData['block'];
         $oZone->readDataFromArray($zoneData);
         return  true;
     }
@@ -108,7 +109,10 @@ class OA_Dll_Zone extends OA_Dll
         if (!$this->_validateZoneType($oZone->type) ||
             !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 245) ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'width') ||
-            !$this->checkStructureNotRequiredIntegerField($oZone, 'height')) {
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'capping') ||
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'sessionCapping') ||
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'block') ||
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ) {
 
             return false;
         }
@@ -219,11 +223,14 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData = (array) $oZone;
 
         // Name
-        $zoneData['zonename']    = $oZone->zoneName;
-        $zoneData['affiliateid'] = $oZone->publisherId;
-        $zoneData['delivery']    = $oZone->type;
-        $zoneData['width']       = $oZone->width;
-        $zoneData['heitht']      = $oZone->heitht;
+        $zoneData['zonename']       = $oZone->zoneName;
+        $zoneData['affiliateid']    = $oZone->publisherId;
+        $zoneData['delivery']       = $oZone->type;
+        $zoneData['width']          = $oZone->width;
+        $zoneData['height']         = $oZone->height;
+        $zoneData['capping']        = $oZone->capping > 0 ? $oBanner->capping : 0;
+        $zoneData['sessionCapping'] = $oZone->capping > 0 ? $oBanner->sessionCapping : 0;
+        $zoneData['block']          = $oZone->block > 0 ? $oBanner->block : 0;
 
         if ($this->_validate($oZone)) {
             $doZone = OA_Dal::factoryDO('zones');
@@ -686,7 +693,7 @@ class OA_Dll_Zone extends OA_Dll
 
         return false;
     }
-    
+
     /**
      * Returns array of allowed invocation tags
      *

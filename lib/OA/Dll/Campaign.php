@@ -56,15 +56,19 @@ class OA_Dll_Campaign extends OA_Dll
      */
     function _setCampaignDataFromArray(&$oCampaign, $campaignData)
     {
-        $campaignData['campaignId']       = $campaignData['campaignid'];
-        $campaignData['campaignName']     = $campaignData['campaignname'];
-        $campaignData['advertiserId']     = $campaignData['clientid'];
-        $campaignData['startDate']        = $campaignData['activate'];
-        $campaignData['endDate']          = $campaignData['expire'];
-        $campaignData['impressions']      = $campaignData['views'];
-        $campaignData['targetImpressions'] = $campaignData['target_impression'];
-        $campaignData['targetClicks']      = $campaignData['target_click'];
-        $campaignData['targetConversions'] = $campaignData['target_conversion'];
+        $campaignData['campaignId']         = $campaignData['campaignid'];
+        $campaignData['campaignName']       = $campaignData['campaignname'];
+        $campaignData['advertiserId']       = $campaignData['clientid'];
+        $campaignData['startDate']          = $campaignData['activate'];
+        $campaignData['endDate']            = $campaignData['expire'];
+        $campaignData['impressions']        = $campaignData['views'];
+        $campaignData['targetImpressions']  = $campaignData['target_impression'];
+        $campaignData['targetClicks']       = $campaignData['target_click'];
+        $campaignData['targetConversions']  = $campaignData['target_conversion'];
+        $campaignData['capping']            = $campaignData['capping'];
+        $campaignData['sessionCapping']     = $campaignData['session_capping'];
+        $campaignData['block']              = $campaignData['block'];
+
         // Don't send revenue & revenueType if the are null values in DB
         if (!is_numeric($campaignData['revenue'])) {
             unset($campaignData['revenue']);
@@ -73,7 +77,7 @@ class OA_Dll_Campaign extends OA_Dll
         } else {
             $campaignData['revenueType']  = $campaignData['revenue_type'];
         }
-        
+
         $oCampaign->readDataFromArray($campaignData);
         return  true;
     }
@@ -141,14 +145,18 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') ||
             !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType')) {
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block')
+            ) {
             return false;
         } else {
             return true;
         }
 
     }
-    
+
     /**
      * This method performs data validation for statistics methods (campaignId, date).
      *
@@ -251,6 +259,16 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['target_conversion'] = $oCampaign->targetConversions;
 
         $campaignData['revenue_type'] = $oCampaign->revenueType;
+
+        $campaignData['capping']            = $oCampaign->capping > 0
+                                            ? $oCampaign->capping
+                                            : 0;
+        $campaignData['session_capping']    = $oCampaign->sessionCapping > 0
+                                            ? $oCampaign->sessionCapping
+                                            : 0;
+        $campaignData['block']              = $oCampaign->block > 0
+                                            ? $oCampaign->block
+                                            : 0;
 
         if ($this->_validate($oCampaign)) {
             $doCampaign = OA_Dal::factoryDO('campaigns');
@@ -531,11 +549,11 @@ class OA_Dll_Campaign extends OA_Dll
             return false;
         }
     }
-    
+
     /**
      * Checks if a campaign is high priority.
      * High priority is between 1 and 10.
-     * 
+     *
      * @param OA_Dll_CampaignInfo $oCampaign
      * @return boolean true if campaign is a high priority campaign, false otherwise.
      */
@@ -543,7 +561,7 @@ class OA_Dll_Campaign extends OA_Dll
         return isset($oCampaign->priority) &&
             ((1 <= $oCampaign->priority) && ($oCampaign->priority <= 10));
     }
-    
+
     function _hasWeight(&$oCampaign) {
         return isset($oCampaign->weight) && ($oCampaign->weight > 0);
     }

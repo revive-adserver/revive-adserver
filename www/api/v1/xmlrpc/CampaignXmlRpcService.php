@@ -87,7 +87,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 1, array('advertiserId', 'campaignName', 'startDate', 'endDate',
                          'impressions', 'clicks', 'priority', 'weight',
                          'targetImpressions', 'targetClicks', 'targetConversions',
-                         'revenue', 'revenueType'),
+                         'revenue', 'revenueType',
+                         'capping', 'sessionCapping', 'block'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -122,7 +123,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 1, array('advertiserId', 'campaignId', 'campaignName',
                         'startDate', 'endDate', 'impressions', 'clicks',
                         'priority', 'weight', 'targetImpressions', 'targetClicks',
-                        'targetConversions', 'revenue', 'revenueType'),
+                        'targetConversions', 'revenue', 'revenueType',
+                        'capping', 'sessionCapping', 'block'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;

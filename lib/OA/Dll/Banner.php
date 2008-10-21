@@ -66,13 +66,15 @@ class OA_Dll_Banner extends OA_Dll
      */
     function _setBannerDataFromArray(&$oBanner, $bannerData)
     {
-        $bannerData['htmlTemplate'] = $bannerData['htmltemplate'];
-        $bannerData['imageURL']     = $bannerData['imageurl'];
-        $bannerData['storageType']  = $bannerData['storagetype'];
-        $bannerData['bannerName']   = $bannerData['description'];
-        $bannerData['campaignId']   = $bannerData['campaignid'];
-        $bannerData['bannerId']     = $bannerData['bannerid'];
-        $bannerData['bannerText']   = $bannerData['bannertext'];
+        $bannerData['htmlTemplate']     = $bannerData['htmltemplate'];
+        $bannerData['imageURL']         = $bannerData['imageurl'];
+        $bannerData['storageType']      = $bannerData['storagetype'];
+        $bannerData['bannerName']       = $bannerData['description'];
+        $bannerData['campaignId']       = $bannerData['campaignid'];
+        $bannerData['bannerId']         = $bannerData['bannerid'];
+        $bannerData['bannerText']       = $bannerData['bannertext'];
+        $bannerData['sessionCapping']   = $bannerData['session_capping'];
+        $bannerData['block']            = $bannerData['block'];
 
         $oBanner->readDataFromArray($bannerData);
         return  true;
@@ -134,7 +136,7 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkIdExistence('campaigns', $oBanner->campaignId)) {
             return false;
         }
-        
+
         // Prepare list of allowed storage types from allowed banners list
         $aAllowedBanners = $aConf['allowedBanners'];
         $aAllowedBanners['txt'] = $aAllowedBanners['text'];
@@ -144,7 +146,7 @@ class OA_Dll_Banner extends OA_Dll
                 unset($aAllowedBanners[$type]);
             }
         }
-        
+
         // Check that storage type is allowed
         if (!isset($oBanner->bannerId)) {
             if (!isset($oBanner->storageType) || empty($aAllowedBanners[$oBanner->storageType])) {
@@ -196,7 +198,10 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredStringField($oBanner, 'url') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'bannerText') ||
             !$this->checkStructureNotRequiredBooleanField($oBanner, 'active') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')
+            !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'capping') ||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'sessionCapping') ||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'block')
             ) {
             return false;
         }
@@ -292,6 +297,16 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['storagetype']  = $oBanner->storageType;
         $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
+
+        $bannerData['capping']          = $oBanner->capping > 0
+                                        ? $oBanner->capping
+                                        : 0;
+        $bannerData['session_capping']  = $oBanner->sessionCapping > 0
+                                        ? $oBanner->sessionCapping
+                                        : 0;
+        $bannerData['block']            = $oBanner->block > 0
+                                        ? $oBanner->block
+                                        : 0;
 
         if ($this->_validate($oBanner)) {
             $bannerData['storagetype'] = $oBanner->storageType;

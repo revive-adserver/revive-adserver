@@ -86,6 +86,27 @@ class OA_Dll_ZoneInfo extends OA_Info
      */
     var $height;
 
+    /**
+     * Frequency capping: total views per user.
+     *
+     * @var integer $capping
+     */
+    var $capping;
+
+    /**
+     * Frequency capping: total views per period.
+     * (defined in seconds by "block").
+     *
+     * @var integer $sessionCapping
+     */
+    var $sessionCapping;
+
+    /**
+     * Frequency capping: reset period, in seconds.
+     *
+     * @var integer $block
+     */
+    var $block;
 
     /**
      * This method sets all default values when adding a new zone.
@@ -105,6 +126,18 @@ class OA_Dll_ZoneInfo extends OA_Info
         if (is_null($this->height)) {
             $this->height = 0;
         }
+
+        if (is_null($this->capping)) {
+            // Leave null
+        }
+
+        if (is_null($this->sessionCapping)) {
+            // Leave null
+        }
+
+        if (is_null($this->block)) {
+            // Leave null
+        }
     }
 
     /**
@@ -122,7 +155,10 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'zoneName' => 'string',
                     'type' => 'integer',
                     'width' => 'integer',
-                    'height' => 'integer'
+                    'height' => 'integer',
+                    'capping' => 'integer',
+                    'sessionCapping' => 'integer',
+                    'block' => 'integer',
                 );
     }
 }

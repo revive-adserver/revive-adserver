@@ -150,6 +150,28 @@ class OA_Dll_BannerInfo extends OA_Info
     var $transparent;
 
     /**
+     * Frequency capping: total views per user.
+     * 
+     * @var integer $capping
+     */
+    var $capping;
+
+    /**
+     * Frequency capping: total views per period.
+     * (defined in seconds by "block").
+     * 
+     * @var integer $sessionCapping
+     */
+    var $sessionCapping;
+
+    /**
+     * Frequency capping: reset period, in seconds.
+     * 
+     * @var integer $block
+     */
+    var $block;
+
+    /**
      * An array field for SQL/Web banners to contain the image name and binary data
      *
      * Array
@@ -210,6 +232,18 @@ class OA_Dll_BannerInfo extends OA_Info
         if (!isset($this->transparent)) {
             $this->transparent = false;
         }
+
+        if (is_null($this->capping)) {
+            // Leave null
+        }
+
+        if (is_null($this->sessionCapping)) {
+            // Leave null
+        }
+
+        if (is_null($this->block)) {
+            // Leave null
+        }
     }
 
     function encodeImage($aImage)
@@ -258,6 +292,9 @@ class OA_Dll_BannerInfo extends OA_Info
                     'status' => 'integer',
                     'adserver' => 'string',
                     'transparent' => 'integer',
+                    'capping' => 'integer',
+                    'sessionCapping' => 'integer',
+                    'block' => 'integer',
                     'aImage' => 'custom',
                     'aBackupImage' => 'custom'
                 );

@@ -139,6 +139,28 @@ class OA_Dll_CampaignInfo extends OA_Info
     var $revenueType;
 
     /**
+     * Frequency capping: total views per user.
+     * 
+     * @var integer $capping
+     */
+    var $capping;
+
+    /**
+     * Frequency capping: total views per period.
+     * (defined in seconds by "block").
+     * 
+     * @var integer $sessionCapping
+     */
+    var $sessionCapping;
+
+    /**
+     * Frequency capping: reset period, in seconds.
+     * 
+     * @var integer $block
+     */
+    var $block;
+
+    /**
      * This method sets all default values when adding a new campaign.
      *
      * @access public
@@ -190,6 +212,18 @@ class OA_Dll_CampaignInfo extends OA_Info
         if (is_null($this->revenueType)) {
             // Leave null
         }
+
+        if (is_null($this->capping)) {
+            // Leave null
+        }
+
+        if (is_null($this->sessionCapping)) {
+            // Leave null
+        }
+
+        if (is_null($this->block)) {
+            // Leave null
+        }
     }
 
     /**
@@ -215,7 +249,10 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'targetClicks' => 'integer',
                     'targetConversions' => 'integer',
                     'revenue' => 'double',
-                    'revenueType' => 'integer'
+                    'revenueType' => 'integer',
+                    'capping' => 'integer',
+                    'sessionCapping' => 'integer',
+                    'block' => 'integer'
                 );
     }
 }
