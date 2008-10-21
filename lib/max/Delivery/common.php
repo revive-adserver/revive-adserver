@@ -429,6 +429,7 @@ function MAX_commonInitVariables()
     } else {
         $loc = '';
     }
+    $loc = urldecode($loc);
 
     // Set real referer - Only valid if passed in
     if (!empty($referer)) {
@@ -436,6 +437,7 @@ function MAX_commonInitVariables()
     } else {
         if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
     }
+    $referer = urldecode($referer);
 
     $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
         $GLOBALS['_MAX']['CONF']['var']['blockAd'],
