@@ -99,7 +99,11 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         // Parse and return the real configuration .ini file
         if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
             $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf' . $type, true);
-            return mergeConfigFiles($realConfig, $conf);
+            $mergedConf = mergeConfigFiles($realConfig, $conf);
+            // if not multiple levels of configs
+            if (!isset($mergedConf['realConfig'])) {
+                return $mergedConf;
+            }
         }
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
@@ -124,7 +128,11 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         // Parse and return the real configuration .ini file
         if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
             $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf' . $type, true);
-            return mergeConfigFiles($realConfig, $conf);
+            $mergedConf = mergeConfigFiles($realConfig, $conf);
+            // if not multiple levels of configs
+            if (!isset($mergedConf['realConfig'])) {
+                return $mergedConf;
+            }
         }
     }
     // Got all this way, and no configuration file yet found - maybe

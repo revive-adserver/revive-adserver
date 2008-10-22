@@ -656,6 +656,9 @@ class OA_Upgrade
             case OA_STATUS_OAD_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_OAD_CONFINTEG_FAILED:
+                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError($strProductName.' detected');
+                $this->oLogger->logError($strNoUpgrade);
                 return false;
             case OA_STATUS_OAD_VERSION_FAILED:
                 $this->oLogger->log($strProductName.' detected');
@@ -940,12 +943,19 @@ class OA_Upgrade
      */
     function detectOpenads($skipIntegrityCheck = false)
     {
-        if ($GLOBALS['_MAX']['CONF']['openads']['installed'] || file_exists(MAX_PATH.'/var/INSTALLED'))
+        if (file_exists(MAX_PATH.'/var/INSTALLED'))
         {
-            $this->existing_installation_status = OA_STATUS_CONFIG_FOUND;
+
+            $this->existing_installation_status = OA_STATUS_OAD_CONFIG_DETECTED;
+
+            if (empty($GLOBALS['_MAX']['CONF']['openads']['installed']))
+            {
+                $this->existing_installation_status = OA_STATUS_OAD_CONFINTEG_FAILED;
+                return false;
+            }
             if (!$this->initDatabaseConnection())
             {
-                $this->existing_installation_status = OA_STATUS_MAX_DBCONNECT_FAILED;
+                $this->existing_installation_status = OA_STATUS_OAD_DBCONNECT_FAILED;
                 return false;
             }
             $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
@@ -968,7 +978,7 @@ class OA_Upgrade
                     $this->versionInitialSchema['tables_core'] = '12934';
                     if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                     {
-                        $this->existing_installation_status = OA_STATUS_MAX_DBINTEG_FAILED;
+                        $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
                         return false;
                     }
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
@@ -1040,8 +1050,6 @@ class OA_Upgrade
         $this->oLogger->deleteLogFile();
 
         // Always use lower case prefixes for new installs
-
-
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
 
         if ($aConfig['database']['localsocket'] == true) {
@@ -1063,6 +1071,15 @@ class OA_Upgrade
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
+        /**
+         * validate table prefix before creating DB since it does not
+         * make much sense to create a DB and then be unable to add tables
+         */
+        if (PEAR::isError(OA_DB::validateTableName($aConfig['table']['prefix'])))
+        {
+            $this->oLogger->logError('Illegal characters in table prefix '.stripslashes($aConfig['table']['prefix']));
+            return false;
+        }
         if (!$this->checkExistingTables())
         {
             if (!$this->oLogger->errorExists)
@@ -1239,12 +1256,6 @@ class OA_Upgrade
         {
             $GLOBALS['_OA']['CONNECTIONS']  = array();
             $GLOBALS['_MDB2_databases']     = array();
-
-            /**
-             * validate table prefix before creating DB since it does not
-             * make much sense to create a DB and then be unable to add tables
-             */
-            $result = OA_DB::validateTableName($this->aDsn['table']['prefix']);
             if (PEAR::isError($result))
             {
                 $this->oLogger->logError($result->getMessage());
