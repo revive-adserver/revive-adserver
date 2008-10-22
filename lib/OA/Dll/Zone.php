@@ -107,12 +107,14 @@ class OA_Dll_Zone extends OA_Dll
     function _validate(&$oZone)
     {
         if (!$this->_validateZoneType($oZone->type) ||
-            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 245) ||
+            !$this->checkStructureNotRequiredStringField($oZone,  'zoneName', 245) ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'block') ||
-            !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ) {
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ||
+            !$this->checkStructureNotRequiredStringField($oZone,  'comments')
+        ) {
 
             return false;
         }

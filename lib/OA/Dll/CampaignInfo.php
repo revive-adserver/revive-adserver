@@ -104,7 +104,7 @@ class OA_Dll_CampaignInfo extends OA_Info
      * @var integer $weight
      */
     var $weight;
-    
+
     /**
      *
      * @var integer $targetImpressions
@@ -126,21 +126,21 @@ class OA_Dll_CampaignInfo extends OA_Info
     /**
      * Revenue amount, eg 1.55.
      *
-     * @var double $revenue 
+     * @var double $revenue
      */
     var $revenue;
 
     /**
      * Revenue type (CPM, CPA, etc) as defined in constants.php.
      * Eg, define('MAX_FINANCE_CPM',    1);
-     * 
+     *
      * @var integer $revenueType
      */
     var $revenueType;
 
     /**
      * Frequency capping: total views per user.
-     * 
+     *
      * @var integer $capping
      */
     var $capping;
@@ -148,17 +148,24 @@ class OA_Dll_CampaignInfo extends OA_Info
     /**
      * Frequency capping: total views per period.
      * (defined in seconds by "block").
-     * 
+     *
      * @var integer $sessionCapping
      */
     var $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
-     * 
+     *
      * @var integer $block
      */
     var $block;
+
+    /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
 
     /**
      * This method sets all default values when adding a new campaign.
@@ -192,7 +199,7 @@ class OA_Dll_CampaignInfo extends OA_Info
         if (is_null($this->weight)) {
             $this->weight = 1;
         }
-        
+
         if (is_null($this->targetImpressions)) {
             $this->targetImpressions = 0;
         }
@@ -252,7 +259,8 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'revenueType' => 'integer',
                     'capping' => 'integer',
                     'sessionCapping' => 'integer',
-                    'block' => 'integer'
+                    'block' => 'integer',
+                    'comments' => 'string',
                 );
     }
 }

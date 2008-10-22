@@ -111,6 +111,12 @@ class OA_Dll_Publisher extends OA_Dll
             return false;
         }
 
+        if (isset($oPublisher->comments) &&
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'comments')
+        ) {
+            return false;
+        }
+
         // Check that an agencyID exists and that the user has permissions.
         if (!$this->checkAgencyPermissions($oPublisher->agencyId)) {
             return false;

@@ -85,7 +85,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
                 1, array('agencyId', 'publisherName', 'contactName',
-                        'emailAddress', 'username', 'password'),
+                        'emailAddress', 'username', 'password', 'comments'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -118,7 +118,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
                 1, array('publisherId', 'agencyId', 'publisherName',
-                        'contactName', 'emailAddress', 'username', 'password'),
+                        'contactName', 'emailAddress', 'username', 'password', 'comments'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;

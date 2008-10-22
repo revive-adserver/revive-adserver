@@ -86,6 +86,13 @@ class OA_Dll_PublisherInfo extends OA_Info
      */
     var $emailAddress;
 
+    /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
+
     function getFieldsTypes()
     {
         return array(
@@ -94,7 +101,8 @@ class OA_Dll_PublisherInfo extends OA_Info
                     'agencyId' => 'integer',
                     'publisherName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string'
+                    'emailAddress' => 'string',
+                    'comments' => 'string',
                 );
     }
 }

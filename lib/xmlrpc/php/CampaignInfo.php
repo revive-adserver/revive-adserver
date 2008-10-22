@@ -127,21 +127,21 @@ class OA_Dll_CampaignInfo extends OA_Info
     /**
      * Revenue amount, eg 1.55.
      *
-     * @var double $revenue 
+     * @var double $revenue
      */
     var $revenue;
 
     /**
      * Revenue type (CPM, CPA, etc) as defined in constants.php.
      * Eg, define('MAX_FINANCE_CPM',    1);
-     * 
+     *
      * @var integer $revenueType
      */
     var $revenueType;
 
     /**
      * Frequency capping: total views per user.
-     * 
+     *
      * @var integer $capping
      */
     var $capping;
@@ -149,22 +149,30 @@ class OA_Dll_CampaignInfo extends OA_Info
     /**
      * Frequency capping: total views per period.
      * (defined in seconds by "block").
-     * 
+     *
      * @var integer $sessionCapping
      */
     var $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
-     * 
+     *
      * @var integer $block
      */
     var $block;
 
+
+    /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
+
     /**
      * This function sets all default values when adding new campaign.
      *
-     */   
+     */
     function setDefaultForAdd() {
         if (is_null($this->startDate)) {
             $this->startDate = new Date(OA_Dal::noDateValue());
@@ -248,7 +256,8 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'revenueType' => 'integer',
                     'capping' => 'integer',
                     'sessionCapping' => 'integer',
-                    'block' => 'integer'
+                    'block' => 'integer',
+                    'comments' => 'string',
                 );
     }
 }

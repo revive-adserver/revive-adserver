@@ -84,7 +84,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams,
                 1, array('agencyId', 'advertiserName', 'contactName',
-                    'emailAddress', 'username', 'password'), $oResponseWithError)) {
+                    'emailAddress', 'username', 'password', 'comments'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
@@ -117,7 +117,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams,
                 1, array('advertiserId', 'agencyId', 'advertiserName',
-                    'contactName', 'emailAddress', 'username', 'password'),
+                    'contactName', 'emailAddress', 'username', 'password', 'comments'),
                 $oResponseWithError)) {
 
             return $oResponseWithError;

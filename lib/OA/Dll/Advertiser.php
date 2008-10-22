@@ -106,10 +106,16 @@ class OA_Dll_Advertiser extends OA_Dll
             !$this->checkEmail($oAdvertiser->emailAddress) ||
             !$this->checkStructureNotRequiredIntegerField($oAdvertiser, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'contactName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64)) {
+            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64)
+        ) {
             return false;
         }
 
+        if (isset($oAdvertiser->comments) &&
+            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'comments')
+        ) {
+            return false;
+        }
         // Check that an agencyID exists and that the user has permissions.
         if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
             return false;

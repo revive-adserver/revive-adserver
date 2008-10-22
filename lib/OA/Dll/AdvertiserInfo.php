@@ -86,6 +86,13 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $emailAddress;
 
     /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
+
+    /**
      * This method sets all default values when adding a new advertiser.
      *
      */
@@ -110,7 +117,8 @@ class OA_Dll_AdvertiserInfo extends OA_Info
                     'agencyId' => 'integer',
                     'advertiserName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string'
+                    'emailAddress' => 'string',
+                    'comments' => 'string',
                 );
     }
 }

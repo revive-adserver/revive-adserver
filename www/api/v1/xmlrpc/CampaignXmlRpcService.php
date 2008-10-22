@@ -88,7 +88,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                          'impressions', 'clicks', 'priority', 'weight',
                          'targetImpressions', 'targetClicks', 'targetConversions',
                          'revenue', 'revenueType',
-                         'capping', 'sessionCapping', 'block'),
+                         'capping', 'sessionCapping', 'block', 'comments'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -124,7 +124,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                         'startDate', 'endDate', 'impressions', 'clicks',
                         'priority', 'weight', 'targetImpressions', 'targetClicks',
                         'targetConversions', 'revenue', 'revenueType',
-                        'capping', 'sessionCapping', 'block'),
+                        'capping', 'sessionCapping', 'block', 'comments'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;

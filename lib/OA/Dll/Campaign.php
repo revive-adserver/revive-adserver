@@ -136,7 +136,7 @@ class OA_Dll_Campaign extends OA_Dll
             return false;
         }
 
-        if (!$this->checkStructureNotRequiredStringField($oCampaign, 'campaignName', 255) ||
+        if (!$this->checkStructureNotRequiredStringField($oCampaign,  'campaignName', 255) ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'impressions') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'priority') ||
@@ -144,11 +144,12 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetImpressions') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') ||
-            !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') ||
+            !$this->checkStructureNotRequiredDoubleField($oCampaign,  'revenue') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block')
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block') ||
+            !$this->checkStructureNotRequiredStringField($oCampaign,  'comments')
             ) {
             return false;
         } else {

@@ -120,9 +120,9 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var text $url
      */
     var $url;
-    
+
     /**
-     * This field provides the Text value of the text banner. 
+     * This field provides the Text value of the text banner.
      *
      * @var string $bannerText
      */
@@ -151,7 +151,7 @@ class OA_Dll_BannerInfo extends OA_Info
 
     /**
      * Frequency capping: total views per user.
-     * 
+     *
      * @var integer $capping
      */
     var $capping;
@@ -159,14 +159,14 @@ class OA_Dll_BannerInfo extends OA_Info
     /**
      * Frequency capping: total views per period.
      * (defined in seconds by "block").
-     * 
+     *
      * @var integer $sessionCapping
      */
     var $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
-     * 
+     *
      * @var integer $block
      */
     var $block;
@@ -201,6 +201,13 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var array
      */
     var $aBackupImage;
+
+    /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
 
     /**
      * This method sets all default values when adding a new banner.
@@ -296,7 +303,8 @@ class OA_Dll_BannerInfo extends OA_Info
                     'sessionCapping' => 'integer',
                     'block' => 'integer',
                     'aImage' => 'custom',
-                    'aBackupImage' => 'custom'
+                    'aBackupImage' => 'custom',
+                    'comments' => 'string',
                 );
     }
 }

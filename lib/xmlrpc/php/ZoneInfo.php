@@ -110,6 +110,13 @@ class OA_Dll_ZoneInfo extends OA_Info
     var $block;
 
     /**
+     * This field provides any additional comments to be stored.
+     *
+     * @var string $comments
+     */
+    var $comments;
+
+    /**
      * This method sets all default values when adding a new zone.
      *
      * @access public
@@ -159,6 +166,7 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'capping' => 'integer',
                     'sessionCapping' => 'integer',
                     'block' => 'integer',
+                    'comments' => 'string',
                 );
     }
 }

@@ -188,20 +188,21 @@ class OA_Dll_Banner extends OA_Dll
             }
         }
 
-        if (!$this->checkStructureNotRequiredStringField($oBanner, 'bannerName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'imageURL', 255) ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'htmlTemplate') ||
+        if (!$this->checkStructureNotRequiredStringField($oBanner,  'bannerName', 255) ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'imageURL', 255) ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'htmlTemplate') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'height') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'weight') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'target') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'url') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'bannerText') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'target') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'url') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'bannerText') ||
             !$this->checkStructureNotRequiredBooleanField($oBanner, 'active') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'adserver')||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'sessionCapping') ||
-            !$this->checkStructureNotRequiredIntegerField($oBanner, 'block')
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'block') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'comments')
             ) {
             return false;
         }
