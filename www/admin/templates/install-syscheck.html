@@ -38,6 +38,12 @@
             $warnImage = "<img src='".$imgPath."images/icon-warning.gif' width='12' height='12'>";
             $passImage = "<img src='".$imgPath."images/icon-checkmark.gif' width='10' height='9'>";
 
+            $sysinfoarray = $aSysInfo['COOKIES'];
+            $sysinfoarray['actual']['enabled'] = ($sysinfoarray['actual']['enabled'] ? 'OK '.$passImage  : 'DISABLED '.$errorImage );
+            $halt = (($halt) || ($sysinfoarray['error']));
+            $sysinfoheading = (!$sysinfoarray['error']? $passImage . 'Cookies - no errors' : $errorImage . ' <span class="red">'.$sysinfoarray['error']['enabled'].'</span>');
+            include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
+
             // Setup list of all timezones, calculate selected timezone
             require_once('../../lib/OA/Admin/Timezones.php');
             $timezone = OA_Admin_Timezones::getTimezone();

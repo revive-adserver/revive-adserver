@@ -140,6 +140,10 @@ class OA_Upgrade_Login
 
     function _checkLoginOld($tableName, $agencySupport)
     {
+        if (!isset($_COOKIE['sessionID'])) {
+            return new PEAR_Error($GLOBALS['strEnableCookies']);
+        }
+
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
         $oDbh = OA_DB::singleton();

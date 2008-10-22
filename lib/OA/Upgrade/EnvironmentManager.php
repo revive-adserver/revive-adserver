@@ -109,6 +109,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['zlib']                 = true;
         $this->aInfo['PHP']['expected']['mysql']                = true;
         $this->aInfo['PHP']['expected']['timeout']              = false;
+        $this->aInfo['COOKIES']['expected']['enabled']          = true;
 
         $this->aInfo['FILES']['expected'] = array();
     }
@@ -125,7 +126,20 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['actual']     = $this->getPHPInfo();
         $this->aInfo['PERMS']['actual']   = $this->getFilePermissionErrors();
         $this->aInfo['FILES']['actual']   = $this->getFileIntegInfo();
+        $this->aInfo['COOKIES']['actual'] = $this->getCookieInfo();
         return $this->aInfo;
+    }
+
+    function getCookieInfo()
+    {
+        $aResult['enabled'] = true;
+        //$this->aInfo['COOKIES']['error']['enabled'] = false;
+        if (!isset($_COOKIE['sessionID']))
+        {
+                $aResult['enabled'] = false;
+                $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
+        }
+        return $aResult;
     }
 
     function getPHPInfo()
