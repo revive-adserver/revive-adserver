@@ -37,6 +37,9 @@ require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 // Require the Pear::Date class
 require_once MAX_PATH . '/lib/pear/Date.php';
 
+// Require the lib/OA/Dal.php class to deal with DBMS-specific zero-date values
+require_once MAX_PATH . '/lib/OA/Dal.php';
+
 /**
  * XmlRpc methods class description.
  *
@@ -337,6 +340,12 @@ class XmlRpcUtils
         $year     = substr($datetime[0], 0, (strlen($datetime[0]) - 4));
         $month    = substr($datetime[0], -4, 2);
         $day      = substr($datetime[0], -2, 2);
+
+        // Explicitly allow the "zero date" value to be set
+        if (($year == 0) && ($month == 0) && ($day == 0)) {
+            $oResult = new Date(OA_Dal::noDateValue());
+            return true;
+        }
 
         if (($year < 1970) || ($year > 2038)) {
 
