@@ -132,12 +132,13 @@ class OA_Environment_Manager
 
     function getCookieInfo()
     {
-        $aResult['enabled'] = true;
-        //$this->aInfo['COOKIES']['error']['enabled'] = false;
-        if (!isset($_COOKIE['sessionID']))
+        $aResult['enabled'] = false;
+        $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
+
+        if (isset($_COOKIE['sessionID']) || isset($_COOKIE['oat']))
         {
-                $aResult['enabled'] = false;
-                $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
+            $aResult['enabled'] = true;
+            unset($this->aInfo['COOKIES']['error']['enabled']);
         }
         return $aResult;
     }
