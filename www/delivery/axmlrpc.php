@@ -2792,7 +2792,7 @@ $path .= '/';
 // Modify the admin URL for different SSL port if required
 if ($aConf['openads']['sslPort'] != 443) {
 if ($GLOBALS['_MAX']['HTTP'] == 'https://') {
-$path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path);
+$path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path, 1);
 }
 }
 // Return the URL
