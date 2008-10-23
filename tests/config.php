@@ -44,6 +44,7 @@ define('DB_WITH_DATA',   4);
 $GLOBALS['_MAX']['TEST']['directories'] =
     array(
         'etc/changes',
+        'lib',
         'lib/max',
         'lib/OA',
         'lib/OX',
@@ -97,6 +98,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtpdb' => array('Maintenance Priority Engine (DB)',    DB_WITH_TABLES),
         'plg'   => array('Plugins',                             DB_WITH_TABLES),
         'admin' => array('Administrative Interface',            DB_NO_TABLES),
+        'lib'   => array('OpenX - Libraries',                   DB_NO_TABLES),
         'mol'   => array('OpenX - Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
         'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
