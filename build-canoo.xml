@@ -100,23 +100,27 @@ enabled=0]]></replacevalue>
 	
 
 	<!-- changes file permissions on plugins (located in extensions/) created during the installation -->
+<!--
 	<target name="canoo-chmod">	
 		<available property="fileFound" file="${basedir}/target/www/delivery_test/chmod.php" />
 		<if>
 			<istrue value="${fileFound}"/>
 			<then>
-				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!-- /extensions -->
+				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!- /extensions ->
 					<include name="chmod.php"/>
 					<replacetoken>@path</replacetoken>
 				</replace>
+				<get src="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmod.php" dest="/dev/null" ignoreerrors="true"/>
+				<!-	
 				<exec executable="wget">
 					<arg value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmod.php"/>
-					<arg value="--output-document=-" />
+					<arg value="- -output-document=-" />
 				</exec>
+				->
 			</then>
 		</if>
 	</target>
-	
+-->	
 	<!-- Cleans up the old OpenX directory. -->
 	<target name="canoo-prepare-dir">
 		<property name="ec2.openx.dir" value="/var/www/html/${release}"/>

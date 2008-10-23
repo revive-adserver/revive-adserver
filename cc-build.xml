@@ -36,12 +36,12 @@
 	<target name="build" depends="init, clone">
 		<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="simpletest" />
 	</target>
-
+<!--
 	<target name="chmod">
 		<ant antfile="build-canoo.xml" dir="${basedir}" target="canoo-chmod" inheritall="false"/>
 	</target>
-	
-	<target name="test-canoo" depends="clean, chmod, clone">
+	<target name="test-canoo" depends="clean, chmod, clone"> -->	
+	<target name="test-canoo" depends="clean, clone">	
 		<ant antfile="build-canoo.xml" dir="${basedir}/target" output="build.log" target="run-test" />
 	</target>
 
