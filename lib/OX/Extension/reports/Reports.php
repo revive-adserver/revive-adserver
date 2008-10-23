@@ -298,7 +298,15 @@ class Plugins_Reports extends OX_Component
             $this->_endDateString   = $oDaySpan->getEndDateString($date_format);
         } else {
             $oDaySpan               = new OA_Admin_DaySpan();
-            $oStartDate             = new Date('1970-01-01 00:00:00');
+
+            // take as the start date the date when adds were serverd
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $oDbh = OA_DB::singleton();
+            $query = "SELECT MIN(date_time) as min_datetime FROM ". $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true) . " WHERE 1";
+            $startDate = $oDbh->queryRow($query);
+            $startDate = $startDate['min_datetime'];
+            $oStartDate = new Date($startDate);
+
             $oEndDate               = new Date();
             $oDaySpan->setSpanDays($oStartDate, $oEndDate);
             $this->_oDaySpan        = &$oDaySpan;
