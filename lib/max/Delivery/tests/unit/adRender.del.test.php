@@ -405,15 +405,17 @@ class test_DeliveryAdRender extends UnitTestCase
 		$ct0		= '';
 		$logClick	= true;
 		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
 		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, '2__bannerid=9999__zoneid=0__cb={random}__maxdest=http://www.somewhere.com');
+        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http://www.somewhere.com");
 
 		$aBanner	= array('bannerid'=>'9999',
 							'url'=>'http://www.somewhere.com',
 							'contenttype'=>'swf'
 							);
 		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, '2__bannerid=9999__zoneid=0__cb={random}');
+        $this->assertEqual($ret,"2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}");
 	}
 
 	/**
@@ -436,8 +438,10 @@ class test_DeliveryAdRender extends UnitTestCase
 		$ct0		= '';
 		$logClick	= true;
 		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
 		$ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, 'http://'.$GLOBALS['_MAX']['CONF']['webpath']['delivery'].'/ck.php?oaparams=2__bannerid=9999__zoneid=0__cb={random}__maxdest=http://www.somewhere.com');
+        $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http://www.somewhere.com");
 	}
 }
 

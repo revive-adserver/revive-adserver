@@ -56,10 +56,17 @@ function phpAds_getBannerCache($banner)
             // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
             // Replace:<form\1 action="{url_prefix}/{$aConf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
             $target = (!empty($banner['target'])) ? $banner['target'] : "_self";
+
+            // strip out the method from any <forms> these will be changed to GET
+            $buffer = preg_replace(
+                '#<\s*form (.*?)method\s*=\s*[\\\\]?[\'"](.*?)[\'"]#is',
+                "<form $1 method='GET'", $buffer
+            );
+
             $buffer = preg_replace(
                 '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
-                "<form $1 action=\"{url_prefix}\" $3 target='{$target}'>$4<input type='hidden' name='maxparams' value='{clickurlparams}$2'></form>",
-            $buffer
+                "<form $1 action='{url_prefix}/{$aConf['file']['click']}' $3 target='{$target}'>$4<input type='hidden' name='{$aConf['var']['params']}' value='{clickurlparams}$2'></form>",
+                $buffer
             );
 
             //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$aConf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
