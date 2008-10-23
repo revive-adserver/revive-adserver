@@ -531,6 +531,8 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $oComponent->buildForm($form, $row);
     }
 
+    $translation = new OX_Translation();
+
     //common for all banners
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $form->addElement('header', 'header_additional', "Additional data");
@@ -539,7 +541,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $weightElem->setSize(6);
         $form->addElement($weightElem);
         $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
-        $weightPositiveRule =$translation->translate($GLOBALS['strXPositiveWholeNumberField'], array($GLOBALS['strWeight']));
+        $weightPositiveRule = $translation->translate($GLOBALS['strXPositiveWholeNumberField'], array($GLOBALS['strWeight']));
         $form->addRule('weight', $weightPositiveRule, 'numeric');
     }
 
@@ -549,7 +551,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     $form->addElement('submit', 'submit', 'Save changes');
 
     //validation rules
-    $translation = new OX_Translation();
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
