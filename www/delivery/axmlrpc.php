@@ -1153,7 +1153,7 @@ function MAX_commonConstructSecureDeliveryUrl($file)
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['openads']['sslPort'] != 443) {
 // Fix the delivery host
-$path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
+$path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL'], 1);
 } else {
 $path = $conf['webpath']['deliverySSL'];
 }
