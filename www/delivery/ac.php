@@ -2112,15 +2112,15 @@ $logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
 }
 }
 $maxparams = '';
-$channelIds = '';
 if (!empty($aBanner['url']) || $overrideDest) {
 // There is a link
 $del = $conf['delivery']['ctDelimiter'];
 $delnum = strlen($del);
-$random = "{$del}cb={random}";
-$bannerId = !empty($aBanner['bannerid']) ? "{$del}bannerid={$aBanner['bannerid']}" : '';
+$random = "{$del}{$conf['var']['cacheBuster']}={random}";
+$bannerId = !empty($aBanner['bannerid']) ? "{$del}{$conf['var']['adId']}={$aBanner['bannerid']}" : '';
+$zoneId = "{$del}{$conf['var']['zoneId']}={$zoneId}";
 $source = !empty($source) ? "{$del}source=" . urlencode($source) : '';
-$log = $logClick ? '' : "{$del}log=no";
+$log = $logClick ? '' : "{$del}{$conf['var']['logClick']}=no";
 // Determine the destination
 $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
 // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
@@ -2129,16 +2129,10 @@ if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
 // Strip maxdest with SWF banners using clickTAG
 $maxdest = '';
 } else {
-$maxdest = "{$del}maxdest={$ct0}{$dest}";
-}
-if (isset($GLOBALS['_MAX']['CHANNELS']) && ($GLOBALS['_MAX']['CHANNELS'] != $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'])) {
-$channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
-} else {
-$channelIds = '';
+$maxdest = "{$del}{$conf['var']['dest']}={$ct0}{$dest}";
 }
 $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
-$maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
-// hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
+$maxparams = "{$delnum}{$bannerId}{$zoneId}{$source}{$log}{$random}{$maxdest}";
 }
 return $maxparams;
 }
