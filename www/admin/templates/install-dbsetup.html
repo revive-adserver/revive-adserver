@@ -192,7 +192,8 @@ if ($errTz) {
                     'text'      => $strDbName,
                     'disabled'  => $disableForm,
                     'req'       => true,
-                    'value'     => $aDatabase['database']['name']
+                    'value'     => stripslashes($aDatabase['database']['name']),
+                    'decode'    => true,
                 )
             )
         ),
@@ -217,7 +218,8 @@ if ($errTz) {
                     'disabled'  => $disableForm,
                     'req'       => false,
                     'maxlength' => '7',
-                    'value'     => $aDatabase['table']['prefix']
+                    'value'     => stripslashes($aDatabase['table']['prefix']),
+                    'decode'    => true,
                 )
             )
         )

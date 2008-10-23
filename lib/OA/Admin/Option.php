@@ -783,7 +783,15 @@ class OA_Admin_Option
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex++;
-        $aItem['value'] = htmlspecialchars($value);
+        if (isset($aItem['decode']) && $aItem['decode'])
+        {
+            $aItem['value'] = htmlspecialchars_decode($value);
+        }
+        else
+        {
+            $aItem['value'] = htmlspecialchars($value);
+        }
+        $aItem['value'] = $value;
 
         if (!isset($aItem['size'])) {
             $aItem['size'] = 25;

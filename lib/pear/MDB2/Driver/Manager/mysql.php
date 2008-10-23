@@ -1000,7 +1000,68 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
      */
     function validateTableName($name)
     {
-        return $this->_validateEntityName($name, 'Table');
+        // Table name maximum length is 64
+        if (strlen($name) > 64) {
+            return PEAR::raiseError(
+               'MySQL table names are limited to 64 characters in length');
+        }
+        /*$vals = array(
+                        dechex(0),
+                        dechex(32),
+                        dechex(33),
+                        dechex(34),
+                        dechex(35),
+                        dechex(37),
+                        dechex(38),
+                        dechex(39),
+                        dechex(40),
+                        dechex(41),
+                        dechex(42),
+                        dechex(43),
+                        dechex(44),
+                        dechex(45),
+                        dechex(46),
+                        dechex(47),
+                        dechex(58),
+                        dechex(59),
+                        dechex(60),
+                        dechex(61),
+                        dechex(62),
+                        dechex(63),
+                        dechex(64),
+                        dechex(91),
+                        dechex(92),
+                        dechex(93),
+                        dechex(94),
+                        dechex(96),
+                        dechex(123),
+                        dechex(124),
+                        dechex(125),
+                        dechex(126),
+                        dechex(156),
+                        dechex(255),
+                    );
+        $pattern = '\x0'.implode('\x',$vals);
+        if (preg_match( '/(['.$pattern.'])/U', $name))
+        {
+            return PEAR::raiseError(
+                'Illegal character in MySQL table name');
+        }*/
+        //Subsequent characters in an identifier or key word can be letters, underscores,
+        //digits (0-9), or dollar signs ($).
+        if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) ) {
+            return PEAR::raiseError(
+                'Table names must contain only alphabetic characters, digits, underscore or dollar sign');
+        }
+
+        //we disallow quoting at all
+        if (preg_match( '/(\\\\|\/|\"|\\\'| |\(|\)|\:|\;|\`|\[|\]|\^)/', $name)) {
+            return PEAR::raiseError(
+                $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
+        }
+
+
+        return true;
     }
 
 
@@ -1042,7 +1103,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         // No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
-        if (preg_match( '/([\\x00|\\xff])/', $name)) {
+        if (preg_match( '/([\x00\xff])/', $name)) {
             return PEAR::raiseError(
                $entityType.' names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
         }

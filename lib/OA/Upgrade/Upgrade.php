@@ -1060,7 +1060,7 @@ class OA_Upgrade
 
         if (!$this->_createDatabase())
         {
-            $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
+            $this->oLogger->logError('Installation failed to create the database '.stripslashes($this->aDsn['database']['name']));
             return false;
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);

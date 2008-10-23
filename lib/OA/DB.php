@@ -687,8 +687,8 @@ class OA_DB
      */
     function validateTableName($name)
     {
-        $dsn = OA_DB::_getDefaultDsn();
-        $oDbh =& OA_DB::singleton($dsn);
+        //$dsn = OA_DB::_getDefaultDsn();
+        $oDbh =& OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
