@@ -288,37 +288,41 @@ function setupConstants()
     }
 }
 
-/**
- * This function is used to merge two config files
- * Any values in the second array will either overwrite or replace corresponding values in the first
- *
- * @param array $realConfig The base config file
- * @param array $fakeConfig The additional elements to add to the base config array
- * @return array The merged config files
- */
-function mergeConfigFiles($realConfig, $fakeConfig)
+
+if (!function_exists('mergeConfigFiles'))
 {
-    //unset($fakeConfig['realConfig']);
-    foreach ($fakeConfig as $key => $value) {
-        if (is_array($value)) {
-            if (!isset($realConfig[$key])) {
-                $realConfig[$key] = array();
-            }
-            $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
-        } else {
-            if (isset($realConfig[$key]) && is_array($realConfig[$key])) {
-                $realConfig[$key][0] = $value;
-            } else {
-                if (isset($realConfig) && !is_array($realConfig)) {
-                    $temp = $realConfig;
-                    $realConfig = array();
-                    $realConfig[0] = $temp;
+    /**
+     * This function is used to merge two config files
+     * Any values in the second array will either overwrite or replace corresponding values in the first
+     *
+     * @param array $realConfig The base config file
+     * @param array $fakeConfig The additional elements to add to the base config array
+     * @return array The merged config files
+     */
+    function mergeConfigFiles($realConfig, $fakeConfig)
+    {
+        //unset($fakeConfig['realConfig']);
+        foreach ($fakeConfig as $key => $value) {
+            if (is_array($value)) {
+                if (!isset($realConfig[$key])) {
+                    $realConfig[$key] = array();
                 }
-                $realConfig[$key] = $value;
+                $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
+            } else {
+                if (isset($realConfig[$key]) && is_array($realConfig[$key])) {
+                    $realConfig[$key][0] = $value;
+                } else {
+                    if (isset($realConfig) && !is_array($realConfig)) {
+                        $temp = $realConfig;
+                        $realConfig = array();
+                        $realConfig[0] = $temp;
+                    }
+                    $realConfig[$key] = $value;
+                }
             }
         }
+        return $realConfig;
     }
-    return $realConfig;
 }
 
 ?>
