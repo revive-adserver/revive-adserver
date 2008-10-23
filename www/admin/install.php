@@ -388,6 +388,7 @@ else if (array_key_exists('btn_adminsetup_back', $_POST))
 }
 else if (array_key_exists('btn_terms', $_POST))
 {
+    setcookie('oat', OA_UPGRADE_SYSCHECK);
     $action = OA_UPGRADE_TERMS;
 }
 else if (array_key_exists('btn_plugins', $_POST))
