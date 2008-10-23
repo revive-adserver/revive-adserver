@@ -103,21 +103,25 @@ class Migration_531 extends Migration
 	               FROM {$tblPref}
 	               WHERE agencyid = 0";
 	    $instanceId = $this->oDBH->queryOne($query);
-
-	    if (PEAR::isError($instanceId)) {
-	       return $this->_logErrorAndReturnFalse("Could not find instance_id");
+	    if (PEAR::isError($instanceId))
+	    {
+	       $this->_log("Error retrieving instance_id");
+	       $instanceId = '';
 	    }
-
+	    if (empty($instanceId))
+	    {
+	        $this->_log("Empty instance_id, generating new for platform_hash");
+            $instanceId = sha1(uniqid('', true));
+	    }
 	    $query = "INSERT INTO {$tblAVar}
 	               (name, value)
 	               VALUES
 	               ('platform_hash', '{$instanceId}')";
-	    $instanceId = $this->oDBH->queryOne($query);
-
-	    if (PEAR::isError($instanceId)) {
-	       return $this->_logErrorAndReturnFalse("Could not migrate instance_id to platform_hash");
+	    $result = $this->oDBH->exec($query);
+	    if (PEAR::isError($result))
+	    {
+	       $this->_logError("Could not migrate instance_id to platform_hash");
 	    }
-
 	    return true;
 	}
 }
