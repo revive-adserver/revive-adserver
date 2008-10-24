@@ -656,7 +656,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
-    $aVariables['contenttype']     = ($type == 'url')
+    $aVariables['contenttype']     = ($aFields['type'] == 'url')
         ? OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl'])
         : $aVariables['contenttype'];
 
