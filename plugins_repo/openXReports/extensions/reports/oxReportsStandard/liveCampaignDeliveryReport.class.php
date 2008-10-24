@@ -276,7 +276,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 AND
                 b.bannerid = dsah.ad_id
                 AND
-                c.views > 0";
+                c.status = 0";
         if ($spanIsForPlacementDates) {
             $query .= "
                 AND
@@ -445,6 +445,8 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             $aCampaignDisplayData[] = $this->_decodePriority($aCampaignData['campaign_priority']);
             $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_start']);
             $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_end']);
+            if ($aCampaignData['campaign_booked_impressions'] == -1)
+                $aCampaignData['campaign_booked_impressions'] = '-';
             $aCampaignDisplayData[] = $aCampaignData['campaign_booked_impressions'];
             $aCampaignDisplayData[] = $aCampaignData['campaign_impressions'];
             if ($aCampaignData['campaign_priority'] > 0) {
