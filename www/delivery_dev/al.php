@@ -104,7 +104,7 @@ if ($limitations['compatible']) {
 	MAX_layerPutJs($output, $uniqid);
 
     // Set document.context, if required
-    echo (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
+    echo (!empty($context)) ? "\n<scr"+"ipt type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </scr"+"ipt>" : '';
 }
 
 ?>
