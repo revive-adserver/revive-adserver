@@ -687,18 +687,40 @@ class OA_DB
      */
     function validateTableName($name)
     {
-        //$dsn = OA_DB::_getDefaultDsn();
-        $oDbh =& OA_DB::singleton();
-        if (PEAR::isError($oDbh)) {
-            return $oDbh;
+        /*if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) )
+        {
+            $result = false;
         }
+        else if (preg_match( '/(\\\\|\/|\"|\\\'| |\(|\)|\:|\;|\`|\[|\]|\^)/', $name))
+        {
+            $result = false;
+        }*/
+        $result = true;
         OA::disableErrorHandling();
-        $result = $oDbh->manager->validateTableName($name);
-        OA::enableErrorHandling();
-        if (PEAR::isError($result)) {
+        $pattern = '/(?P<found>[\\x00-\\x23]|[\\x25-\\x29]|[\\x2a-\\x2f]|[\\x3a-\\x3f]|[\\x40]|[\\x5b-\\x5e]|[\\x60]|[\\x7b-\\x7e]|[\\x9c]|[\\xff])/U';
+        if (preg_match($pattern, $name, $aMatches))
+        {
+            $msg = 'Illegal character in table name '. $aMatches['found'].' chr('.ord($aMatches['found']).')';
+            $result = PEAR::raiseError($msg);
+        }
+        if (PEAR::isError($result))
+        {
+            OA::enableErrorHandling();
+            $msg = 'Table names may not contain any of ! " # % & \' ( ) * + , - . \/ : ; < = > ? @ [ \\ ] ^ ` { | } ~ £ nor any non-printing characters';
             return $result;
         }
-
+        $oDbh =& OA_DB::singleton();
+        if (PEAR::isError($oDbh))
+        {
+            OA::enableErrorHandling();
+            return $oDbh;
+        }
+        $result = $oDbh->manager->validateTableName($name);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result))
+        {
+            return $result;
+        }
         return true;
     }
 

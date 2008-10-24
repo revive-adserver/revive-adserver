@@ -959,34 +959,17 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return PEAR::raiseError(
                 'Table names are limited to 63 characters in length');
         }
-
         // Database, table, and column names should not end with space characters.
         // Extended for leading and ending spaces
         if ($name != trim($name)) {
             return PEAR::raiseError(
                 'Table names should not start or end with space characters');
         }
-
-        // Test for first character (is alfabetic?)
+        // Test for first character (is alphabetic?)
         if ( !preg_match( '/^([a-zA-z_])/', $name) ) {
             return PEAR::raiseError(
                 'Table names must start with an alphabetic character or underscore');
         }
-
-        //Subsequent characters in an identifier or key word can be letters, underscores,
-        //digits (0-9), or dollar signs ($).
-        if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) ) {
-            return PEAR::raiseError(
-                'Table names must contain only alphabetic characters, digits, underscore or dollar sign');
-        }
-
-        //we disallow quoting at all
-        if (preg_match( '/(\\\\|\/|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
-            return PEAR::raiseError(
-                $entityType.' names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
-        }
-
-
         return true;
     }
 }
