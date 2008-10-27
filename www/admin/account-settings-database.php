@@ -108,13 +108,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     {
         // then try connecting to database using the delivery engine function
         $conf = & $GLOBALS['_MAX']['CONF'];
-        $conf[$database_name] = $aDsn['database'];
+        $conf['TEST_DB_LINK'] = $aDsn['database'];
         require_once(MAX_PATH.'/lib/OA/Dal/Delivery/'.$database_type.'.php');
-        if (!($connected = OA_Dal_Delivery_connect($database_name)))
+        if (!($connected = OA_Dal_Delivery_connect('TEST_DB_LINK')))
         {
             $aErrormessage[0][] = $strCantConnectToDbDelivery;
         }
-        unset($conf[$database_name]);
+        unset($conf['TEST_DB_LINK']);
     }
     // if we managed to connect using both methods, go ahead and save the db connection details
     if ($connected)
