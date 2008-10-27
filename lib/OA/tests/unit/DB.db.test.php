@@ -307,6 +307,15 @@ class Test_OA_DB extends UnitTestCase
             $result = OA_DB::validateTableName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
             $this->assertTrue(PEAR::isError($result));
             $this->assertTrue (OA_DB::validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
+
+            $this->assertTrue(OA_DB::validateTableName('aBcDeFgHiJkLmNoPqRsTuVwXyZ_$1234567890'));
+
+            $result = OA_DB::validateTableName('2_$');
+            $this->assertFalse(PEAR::isError($result));
+            $result = OA_DB::validateTableName('$_2');
+            $this->assertFalse(PEAR::isError($result));
+            $result = OA_DB::validateTableName('_$2');
+            $this->assertFalse(PEAR::isError($result));
         }
 
         if ($aConf['database']['type'] == 'pgsql')
@@ -324,6 +333,13 @@ class Test_OA_DB extends UnitTestCase
             $this->assertTrue(PEAR::isError($result));
 
             $this->assertTrue(OA_DB::validateTableName('aBcDeFgHiJkLmNoPqRsTuVwXyZ_$1234567890'));
+
+            $result = OA_DB::validateTableName('2_$');
+            $this->assertTrue(PEAR::isError($result));
+            $result = OA_DB::validateTableName('$_2');
+            $this->assertTrue(PEAR::isError($result));
+            $result = OA_DB::validateTableName('_$2');
+            $this->assertFalse(PEAR::isError($result));
         }
         OA::enableErrorHandling();
     }

@@ -966,7 +966,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                 'Table names should not start or end with space characters');
         }
         // Test for first character (is alphabetic?)
-        if ( !preg_match( '/^([a-zA-z_])/', $name) ) {
+        if ( !preg_match( '/^([_a-zA-Z])/', $name) ) {
             return PEAR::raiseError(
                 'Table names must start with an alphabetic character or underscore');
         }
