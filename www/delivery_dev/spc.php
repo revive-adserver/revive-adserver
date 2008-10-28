@@ -54,7 +54,7 @@ MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign'
 $source = MAX_commonDeriveSource($source);
 
 $zones = explode('|', $zones);
-$spc_output = '';
+$spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
 foreach ($zones as $thisZone) {
     if (empty($thisZone)) continue;
     // nz is set when "named zones" are being used, this allows a zone to be selected more than once
