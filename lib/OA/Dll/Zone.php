@@ -62,7 +62,7 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['zoneId']         = $zoneData['zoneid'];
         $zoneData['type']           = $zoneData['delivery'];
         $zoneData['zoneName']       = $zoneData['zonename'];
-        $zoneData['sessionCapping'] = $zoneData['sessionCapping'];
+        $zoneData['sessionCapping'] = $zoneData['session_capping'];
         $zoneData['block']          = $zoneData['block'];
         $oZone->readDataFromArray($zoneData);
         return  true;
@@ -230,9 +230,9 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['delivery']       = $oZone->type;
         $zoneData['width']          = $oZone->width;
         $zoneData['height']         = $oZone->height;
-        $zoneData['capping']        = $oZone->capping > 0 ? $oBanner->capping : 0;
-        $zoneData['sessionCapping'] = $oZone->capping > 0 ? $oBanner->sessionCapping : 0;
-        $zoneData['block']          = $oZone->block > 0 ? $oBanner->block : 0;
+        $zoneData['capping']        = $oZone->capping > 0 ? $oZone->capping : 0;
+        $zoneData['session_capping']= $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
+        $zoneData['block']          = $oZone->block > 0 ? $oZone->block : 0;
 
         if ($this->_validate($oZone)) {
             $doZone = OA_Dal::factoryDO('zones');
