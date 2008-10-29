@@ -34,6 +34,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
  */
 class EncodingMigration extends Migration
 {
+    var $extension = false;
 
     /**
      * This maps the existing encoding
@@ -148,7 +149,6 @@ class EncodingMigration extends Migration
 
     function EncodingMigration()
     {
-
     }
 
     function _getEncodingForLanguage($language)
@@ -161,14 +161,37 @@ class EncodingMigration extends Migration
         return !empty($this->aEncodingByAgency[$agencyId]) ? $this->aEncodingByAgency[$agencyId] : 'UTF-8';
     }
 
+    function _setEncodingExtension()
+    {
+        $this->extension = false;
+        if (function_exists('mb_convert_encoding'))
+        {
+            $this->extension = 'mbstring';
+        }
+        else if (function_exists('iconv'))
+        {
+            $this->extension = 'iconv';
+        }
+        else if (function_exists('utf8_encode'))
+        {
+            $this->extension = 'xml';
+        }
+        return $this->extension;
+    }
+
     function convertEncoding()
     {
         if (!$this->init(OA_DB::singleton()))
         {
             return false;
         }
+        if (!$this->_setEncodingExtension())
+        {
+            $this->_log("convertEncoding will be skipped because no extension was found (iconv, mbstring, xml)");
+            return true;
+        }
         $this->_log("Starting convertEncoding");
-
+        $this->_log('Encoding extension set to '.$this->extension);
         $upgradingFrom = $this->getOriginalApplicationVersion();
         if (!empty($upgradingFrom)) {
             switch ($upgradingFrom) {
@@ -181,6 +204,14 @@ class EncodingMigration extends Migration
                 break;
             }
         }
+
+        $tblBanners     = $this->_getQuotedTableName('banners');
+        $tblCampaigns   = $this->_getQuotedTableName('campaigns');
+        $tblClients     = $this->_getQuotedTableName('clients');
+        $tblAgency      = $this->_getQuotedTableName('agency');
+        $tblTrackers    = $this->_getQuotedTableName('trackers');
+        $tblAffiliates  = $this->_getQuotedTableName('affiliates');
+        $tblChannel     = $this->_getQuotedTableName('channel');
 
         // Get admin language
         $query = "
@@ -206,11 +237,11 @@ class EncodingMigration extends Migration
                 agencyid AS id,
                 language AS language
             FROM
-                " . $this->_getQuotedTableName('agency');
+                " . $tblAgency;
         $agencyLang = $this->oDBH->getAssoc($query);
         if (PEAR::isError($agencyLang))
         {
-            $this->_logError("Error while retrieving admin language: ".$agencyLang->getUserInfo());
+            $this->_logError("Error while retrieving agency language: ".$agencyLang->getUserInfo());
             return false;
         }
 
@@ -225,109 +256,124 @@ class EncodingMigration extends Migration
             }
         }
 
-        foreach ($this->aTableFields as $table => $aTableData) {
-
-            $fields = array_merge($aTableData['fields'], $aTableData['idfields']);
-            foreach ($fields as $idx => $field) { $fields[$idx] = $this->_getQuotedTableName($table) . '.' . $field; }
-
-            $where = '';
+        foreach ($this->aTableFields as $table => $aTableData)
+        {
             $quotedTablename = $this->_getQuotedTableName($table);
+            $fields = array_merge($aTableData['fields'], $aTableData['idfields']);
+            foreach ($fields as $idx => $field)
+            {
+                $fields[$idx] = $quotedTablename . '.' . $field;
+            }
+            $where = '';
+
             switch ($aTableData['joinon']) {
                 case 'bannerid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('banners') . " AS b ON b.bannerid={$quotedTablename}.bannerid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('campaigns') . " AS c ON c.campaignid=b.campaignid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('clients') . " AS cl ON c.clientid=cl.clientid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=cl.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblBanners    . " AS b ON b.bannerid={$quotedTablename}.bannerid\n";
+                    $where .= '    LEFT JOIN ' . $tblCampaigns  . " AS c ON c.campaignid=b.campaignid\n";
+                    $where .= '    LEFT JOIN ' . $tblClients    . " AS cl ON c.clientid=cl.clientid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=cl.agencyid\n";
                 break;
                 case 'campaignid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('campaigns') . " AS c ON c.campaignid={$quotedTablename}.campaignid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('clients') . " AS cl ON c.clientid=cl.clientid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=cl.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblCampaigns  . " AS c ON c.campaignid={$quotedTablename}.campaignid\n";
+                    $where .= '    LEFT JOIN ' . $tblClients    . " AS cl ON c.clientid=cl.clientid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=cl.agencyid\n";
                 break;
                 case 'clientid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('clients') . " AS cl ON cl.clientid={$quotedTablename}.clientid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=cl.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblClients    . " AS cl ON cl.clientid={$quotedTablename}.clientid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=cl.agencyid\n";
                 break;
                 case 'trackerid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('trackers') . " AS tr ON tr.trackerid={$quotedTablename}.trackerid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('clients') . " AS cl ON tr.clientid=cl.clientid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=cl.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblTrackers   . " AS tr ON tr.trackerid={$quotedTablename}.trackerid\n";
+                    $where .= '    LEFT JOIN ' . $tblClients    . " AS cl ON tr.clientid=cl.clientid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=cl.agencyid\n";
                 break;
                 case 'tracker_id':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('trackers') . " AS tr ON tr.trackerid={$quotedTablename}.tracker_id\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('clients') . " AS cl ON tr.clientid=cl.clientid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=cl.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblTrackers   . " AS tr ON tr.trackerid={$quotedTablename}.tracker_id\n";
+                    $where .= '    LEFT JOIN ' . $tblClients    . " AS cl ON tr.clientid=cl.clientid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=cl.agencyid\n";
                 break;
                 case 'affiliateid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('affiliates') . " AS af ON af.affiliateid={$quotedTablename}.affiliateid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=af.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblAffiliates . " AS af ON af.affiliateid={$quotedTablename}.affiliateid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=af.agencyid\n";
                 break;
                 case 'channelid':
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('channel') . " AS ch ON ch.channelid={$quotedTablename}.channelid\n";
-                    $where .= '    LEFT JOIN ' . $this->_getQuotedTableName('agency') . " AS ag ON ag.agencyid=ch.agencyid\n";
+                    $where .= '    LEFT JOIN ' . $tblChannel    . " AS ch ON ch.channelid={$quotedTablename}.channelid\n";
+                    $where .= '    LEFT JOIN ' . $tblAgency     . " AS ag ON ag.agencyid=ch.agencyid\n";
                 break;
             }
 
 
             $query = "SELECT\n    ";
-            if ($aTableData['joinon'] != 'adminid' && $aTableData['joinon'] != 'agencyid') { $query .= "ag.agencyid AS agencyid,\n    "; }
+            if ($aTableData['joinon'] != 'adminid' && $aTableData['joinon'] != 'agencyid')
+            {
+                $query .= "ag.agencyid AS agencyid,\n    ";
+            }
             $query .= implode(',' . "\n    ", $fields);
-            $query .= "\nFROM\n    " . $this->_getQuotedTableName($table) . "\n";
+            $query .= "\nFROM\n    " . $quotedTablename . "\n";
             $query .= $where;
-
             $rows = $this->oDBH->queryAll($query);
-
             if (PEAR::isError($rows))
             {
-                $this->_log("Chris Nutting says this is a non-fatal error while retrieving data: ".$rows->getUserInfo());
+                $this->_log("Error while retrieving data: ".$rows->getUserInfo());
             }
             else
             {
-                // For each row
-                foreach ($rows as $idx => $rowFields) {
+                foreach ($rows as $idx => $rowFields)
+                {
                     // Set the agency id (to zero by default for admin language)
                     $agencyId = (isset($rowFields['agencyid'])) ? $rowFields['agencyid'] : 0;
                     // Look up the probable encoding for that agency
                     $fromEncoding = $this->_getEncodingForAgency($agencyId);
 
                     // Don't bother converting language packs which are already UTF-8
-                    if ($fromEncoding == 'UTF-8') { continue; }
-
+                    if ($fromEncoding == 'UTF-8')
+                    {
+                        continue;
+                    }
                     $updateValues = array();
                     // Convert each required field's encoding
-                    foreach ($rowFields as $k => $v) {
-                        $converted = $this->_convertString($v, 'UTF-8', $fromEncoding);
-                        if ($converted !== $v) {
-                            $updateValues[$k] = $converted;
+                    foreach ($rowFields as $k => $v)
+                    {
+                        if (!empty($v))
+                        {
+                            $converted = $this->_convertString($v, 'UTF-8', $fromEncoding);
+                            if ($converted !== $v)
+                            {
+                                $updateValues[$k] = $converted;
+                            }
                         }
                     }
                     // Skip any rows where no fields have actually changed
-                    if (empty($updateValues)) { continue; }
-
+                    if (empty($updateValues))
+                    {
+                        continue;
+                    }
                     // Prepare the update query
-                    $updateQuery = "UPDATE\n    " . $this->_getQuotedTableName($table) . "\nSET\n";
+                    $updateQuery = "UPDATE\n    " . $quotedTablename . "\nSET\n";
 
                     $uFields = array();
-                    foreach ($updateValues as $k => $v) {
+                    foreach ($updateValues as $k => $v)
+                    {
                         $uFields[] = "    {$k} = " . $this->oDBH->quote($v) . "\n";
                     }
-
                     $updateQuery .= implode(', ', $uFields) . " WHERE ";
 
                     $uFields = array();
-                    foreach ($aTableData['idfields'] as $idField) {
+                    foreach ($aTableData['idfields'] as $idField)
+                    {
                         $uFields[] = "    {$idField} = " . $this->oDBH->quote($rowFields[$idField]);
                     }
                     $updateQuery .= implode(' AND ', $uFields);
-                    $this->oDBH->exec($updateQuery);
-                    if (PEAR::isError($rows))
+                    $this->_log('updating from '.$fromEncoding.' to UTF-8 : '.$updateQuery);
+                    $result = $this->oDBH->exec($updateQuery);
+                    if (PEAR::isError($result))
                     {
-                        $this->_log("Chris Nutting says this is a non-fatal error while updating data: ".$rows->getUserInfo());
+                        $this->_log("Error while updating data: ".$rows->getUserInfo());
                     }
                 }
             }
         }
-        $this->_log("Completed convertEncoding");
+        $this->_log('Completed convertEncoding');
         // Do we want fail the upgrade on encoding issues? I think not...
         return true;
     }
@@ -342,10 +388,9 @@ class EncodingMigration extends Migration
      * @param string $fromEncoding The source encoding (if known)
      * @return string The converted string
 	 */
-	function _convertString($string, $toEncoding, $fromEncoding = 'UTF-8', $extension = '')
+	function _convertString($string, $toEncoding, $fromEncoding = 'UTF-8')
 	{
-	    $aExtensions = !empty($extension) ? array($extension) : null;
-	    return MAX_commonConvertEncoding($string, $toEncoding, $fromEncoding, $aExtensions);
+	    return MAX_commonConvertEncoding($string, $toEncoding, $fromEncoding, array($this->extension));
 	}
 
 	function getOriginalApplicationVersion()

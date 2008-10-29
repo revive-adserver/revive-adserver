@@ -2316,6 +2316,8 @@ class OA_Upgrade
      */
      function executePostUpgradeTasks()
     {
+        $oldAudit = $GLOBALS['_MAX']['CONF']['audit']['enabled'];
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = 0;
         if (file_exists($this->postTaskFile))
         {
             $aContent = array_unique(explode(';', trim(file_get_contents($this->postTaskFile))));
@@ -2344,6 +2346,7 @@ class OA_Upgrade
             $this->_pickupPostUpgradeTasksFile();
             return $aResult;
         }
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $oldAudit;
         return true;
     }
 

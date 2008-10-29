@@ -54,6 +54,24 @@ class EncodingMigrationTest extends MigrationTest
         'koi8-r'        => "\xF7\xC5\xD2\xCF\xD1\xD4\xCE\xCF\xD3\xD4\xD8",
     );
 
+    var $oEncodingMigration;
+
+
+    function setUp()
+    {
+
+        Mock::generatePartial(
+            'EncodingMigration',
+            $mockMigration = 'EncodingMigration'.rand(),
+            array('_setEncodingExtension', '_log')
+        );
+        $this->oEncodingMigration = new $mockMigration($this);
+
+        //$this->oEncodingMigration->setReturnValue('_setEncodingExtension', true);
+        //$this->oEncodingMigration->setReturnValue('_log', true);
+
+    }
+
     /**
      * A method to return an hex escaped string so that this file is encoding safe
      *
@@ -71,6 +89,27 @@ class EncodingMigrationTest extends MigrationTest
         return $buf;
     }
 
+    function test_setEncodingExtension()
+    {
+        $this->oEncodingMigration->setReturnValue('_setEncodingExtension', true);
+        $this->oEncodingMigration->_setEncodingExtension();
+        if (function_exists('mb_convert_encoding'))
+        {
+            $this->extension = 'mbstring';
+        }
+        else if (function_exists('iconv'))
+        {
+            $this->extension = 'iconv';
+        }
+        else if (function_exists('utf8_encode'))
+        {
+            $this->extension = 'xml';
+        }
+        return $this->extension;
+    }
+
+
+
     /**
      * A function to test the iconv conversion mechanism
      * NOTE: The this test is only executed if the iconv extension is loaded
@@ -79,6 +118,7 @@ class EncodingMigrationTest extends MigrationTest
     function testIconv()
     {
         if (extension_loaded('iconv')) {
+            $this->oEncodingMigration->extension = 'iconv';
             $this->_testConvertStrings('iconv', array(
                 'big5'          => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
                 'gb2312'        => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
@@ -95,6 +135,7 @@ class EncodingMigrationTest extends MigrationTest
     function testMbstring()
     {
         if ($this->assertTrue(extension_loaded('mbstring'))) {
+            $this->oEncodingMigration->extension = 'mbstring';
             $this->_testConvertStrings('mbstring', array(
                 'big5'          => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
                 'gb2312'        => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
@@ -111,6 +152,7 @@ class EncodingMigrationTest extends MigrationTest
    function testXml()
    {
         if ($this->assertTrue(extension_loaded('xml'))) {
+            $this->oEncodingMigration->extension = 'xml';
             $this->_testConvertStrings('xml', array(
                 'big5'          => "\xAB\x4F\xA6\x73\xA7\xF3\xA7\xEF",
                 'gb2312'        => "\xB1\xA3\xB4\xE6\xB8\xFC\xB8\xC4",
@@ -128,11 +170,10 @@ class EncodingMigrationTest extends MigrationTest
     {
         // I used the following to create the base64 encoded strings
         // base64_encode($oEncodingMigration->_convertString($aStringsInUTF8['windows-1255'], 'windows-1255', 'UTF-8'))
-        $oEncodingMigration = new EncodingMigration();
 
         // Test that the converting of relevant encoded strings is working as expected
         foreach ($this->aOriginalStrings as $encoding => $origString) {
-            $converted = $oEncodingMigration->_convertString($origString, 'UTF-8', $encoding, $extension);
+            $converted = $this->oEncodingMigration->_convertString($origString, 'UTF-8', $encoding, $extension);
             $this->assertEqual($converted, $aStringsInUTF8[$encoding], $encoding . ' string didn\'t convert correctly using ' . $extension. ':
                 expected "'.$this->_toHexString($aStringsInUTF8[$encoding]).'", got "'.$this->_toHexString($converted).'"
             ');
