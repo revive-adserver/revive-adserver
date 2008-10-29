@@ -43,6 +43,11 @@ MAX_commonRegisterGlobalsArray(array('id'));
 // Get JS
 $output = OA_SPCGetJavaScript($id);
 
+###START_STRIP_DELIVERY
+//OA::debug('output... ');
+OA::debug($output);
+###END_STRIP_DELIVERY
+
 // Output JS
 MAX_commonSendContentTypeHeader("application/x-javascript");
 header("Content-Size: ".strlen($output));
@@ -67,7 +72,7 @@ function OA_SPCGetJavaScript($affiliateid)
     foreach ($_GET as $key => $value) {
         if ($key == 'id') { continue; }
         if ($magic_quotes_gpc) { $value = stripslashes($value); }
-        $additionalParams .= htmlspecialchars('&amp;'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
+        $additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
     }
     $script = "
     if (typeof({$varprefix}zones) != 'undefined') {
