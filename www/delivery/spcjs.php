@@ -1935,7 +1935,7 @@ $magic_quotes_gpc = ini_get('magic_quotes_gpc');
 foreach ($_GET as $key => $value) {
 if ($key == 'id') { continue; }
 if ($magic_quotes_gpc) { $value = stripslashes($value); }
-$additionalParams .= htmlspecialchars('&amp;'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
+$additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
 }
 $script = "
 if (typeof({$varprefix}zones) != 'undefined') {
