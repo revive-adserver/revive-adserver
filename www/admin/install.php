@@ -333,10 +333,6 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         session_start();
         $syncEnabled = !empty($_SESSION['checkForUpdates']);
 
-        // Always use the path we're using to install as admin UI path
-        $aConfig = $oUpgrader->getConfig();
-        $_POST['aConfig']['webpath']['admin'] = $aConfig['webpath']['admin'];
-
         // Store the detected timezone of the system, whatever that is
         require_once('../../lib/OA/Admin/Timezones.php');
         $timezone['timezone'] = OA_Admin_Timezones::getTimezone();

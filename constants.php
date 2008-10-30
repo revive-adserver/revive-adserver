@@ -301,7 +301,6 @@ if (!function_exists('mergeConfigFiles'))
      */
     function mergeConfigFiles($realConfig, $fakeConfig)
     {
-        //unset($fakeConfig['realConfig']);
         foreach ($fakeConfig as $key => $value) {
             if (is_array($value)) {
                 if (!isset($realConfig[$key])) {
@@ -321,6 +320,7 @@ if (!function_exists('mergeConfigFiles'))
                 }
             }
         }
+        unset($realConfig['realConfig']);
         return $realConfig;
     }
 }
