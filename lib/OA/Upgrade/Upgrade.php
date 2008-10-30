@@ -1341,16 +1341,13 @@ class OA_Upgrade
     {
         $this->oConfiguration->setupConfigWebPath($aConfig['webpath']);
 
-        // Don't reparse the config file to prevent constants being parsed.
-        $this->oConfiguration->writeConfig(false);
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
         $this->oConfiguration->setupConfigPriority('');
-        // Don't reparse the config file to prevent constants being parsed.
-        return $this->oConfiguration->writeConfig(false);
+        return $this->oConfiguration->writeConfig(true);
     }
 
     /**

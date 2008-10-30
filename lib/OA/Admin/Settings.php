@@ -249,10 +249,16 @@ class OA_Admin_Settings
             }
         }
 
-        // If there are any un-accounted for config files in the var directory, don't write a default.conf.php file
+        // if the main (delivery) conf file changed or
+        // if there are any un-accounted for config files in the var directory, don't write a default.conf.php file
         $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
-        if (empty($aOtherConfigFiles)) {
-            $file = $configPath . '/default' . $configFile . '.conf.php';
+        if (($oldDeliveryHost != $newDeliveryHost) || empty($aOtherConfigFiles))
+        {
+            if (!OA_Admin_Settings::writeDefaultConfigFile($configPath, $configFile, $newDeliveryHost))
+            {
+                return false;
+            }
+            /*$file = $configPath . '/default' . $configFile . '.conf.php';
             if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
@@ -263,9 +269,9 @@ class OA_Admin_Settings
             $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
             if (!$oConfig->writeConfig($file, 'IniCommented')) {
                 return false;
-            }
+            }*/
         } else {
-            //OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
+            OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
         }
         // Re-parse the config file?
         if ($reParse) {
@@ -278,6 +284,20 @@ class OA_Admin_Settings
             $conf = $GLOBALS['_MAX']['CONF'];
         }
         return true;
+    }
+
+    function writeDefaultConfigFile($configPath, $configFile, $newHost)
+    {
+        $file = $configPath . '/default' . $configFile . '.conf.php';
+        if (!OA_Admin_Settings::isConfigWritable($file)) {
+            return false;
+        }
+        $aConfig = array('realConfig' => $newHost);
+        $oConfig = new Config();
+        $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
+        $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+        $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+        return $oConfig->writeConfig($file, 'IniCommented');
     }
 
     /**
@@ -305,14 +325,20 @@ class OA_Admin_Settings
 
             $aFiles = array();
             $CONFIG_DIR = opendir($configPath);
+            if (file_exists($configPath.'/.conf.php'))
+            {
+                @unlink($configPath.'/.conf.php');
+            }
             // Collect any "*.conf.php" files from the configPath folder
             while ($file = readdir($CONFIG_DIR)) {
                 if ( // File is a .conf.php file
                     substr($file, strlen($file) - 9) == '.conf.php' &&
                     // File is not the test config file
                     ($file != 'test.conf.php') &&
+                    ($file != 'default.conf.php') &&
                     // File is not a backup config file
                     (!preg_match('#[0-9]{8}(_[0-9]+)?_old.*conf.php#', $file)) &&
+                    (!preg_match('#(backup[\d\w]+)(\.conf.php)#', $file)) &&
                     // File is not a valid config file for this domain
                     (!in_array($file, $hosts))
                 ) {
