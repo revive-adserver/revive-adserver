@@ -28,7 +28,6 @@ package org.openx.campaign;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.DateUtils;
 import org.openx.utils.ErrorMessage;
@@ -113,6 +112,86 @@ public class TestModifyCampaign extends CampaignTestCase {
 		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
 	}
 
+	/**
+	 * Test method with all required fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testModifyCampaignWithCappingFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+		
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(CAMPAIGN_ID, campaignId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(SESSION_CAPPING, 18);
+		myCampaign.put(CAPPING, 8);
+		myCampaign.put(BLOCK, 4155);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(COMMENTS, "some comments - modify campaign");
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertTrue(result);
+		
+		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
+		final Map<String, Object> campaign = (Map<String, Object>) execute(
+				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+		checkParameter(campaign, ADVERTISER_ID, advertiserId);
+		checkParameter(campaign, CAMPAIGN_ID, campaignId);
+		checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+		checkParameter(campaign, CAPPING, myCampaign.get(CAPPING));
+		checkParameter(campaign, SESSION_CAPPING, myCampaign.get(SESSION_CAPPING));
+		checkParameter(campaign, BLOCK, myCampaign.get(BLOCK));
+		checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+		checkParameter(campaign, COMMENTS, myCampaign.get(COMMENTS));
+	}
+	
+	/**
+	 * Test method with all required fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	/* Not possible to test this kind of modifications with Java XMLRPC client
+	@SuppressWarnings("unchecked")
+	public void testModifyCampaignWithoutBeginAndEnd()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+		
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(CAMPAIGN_ID, campaignId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.ZERO_DATE);
+		myCampaign.put(END_DATE, DateUtils.ZERO_DATE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final boolean result = (Boolean) client.execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertTrue(result);
+		
+		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
+		final Map<String, Object> campaign = (Map<String, Object>) execute(
+				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+		checkParameter(campaign, CAMPAIGN_ID, campaignId);
+		checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+		assertNull(campaign.get(START_DATE));
+		assertNull(campaign.get(END_DATE));
+		checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+	}*/
+	
 	/**
 	 * Test method with all required fields and some optional.
 	 *

@@ -67,6 +67,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
+	@SuppressWarnings("unchecked")
 	public void testAddAdvertiserAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
 		
@@ -75,12 +76,25 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		addAdvertiserParameters.put(AGENCY_ID, agencyId);
 		addAdvertiserParameters.put(ADVERTISER_NAME, "testAdvertiserName");
 		addAdvertiserParameters.put(CONTACT_NAME, "testContactName");
-		Object[] XMLMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
-		final Integer result = (Integer) execute(ADD_ADVERTISER_METHOD,
-				XMLMethodParameters);
+		addAdvertiserParameters.put(COMMENTS, "some comments");
 		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
+		final Integer result = (Integer) execute(ADD_ADVERTISER_METHOD,
+				XMLRPCMethodParameters);
+
 		assertNotNull(result);
-		deleteAdvertiser(result);
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> advertiser = (Map<String, Object>) execute(
+					GET_ADVERTISER_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(advertiser, AGENCY_ID, agencyId);
+			checkParameter(advertiser, ADVERTISER_NAME, addAdvertiserParameters.get(ADVERTISER_NAME));
+			checkParameter(advertiser, CONTACT_NAME, addAdvertiserParameters.get(CONTACT_NAME));
+			checkParameter(advertiser, COMMENTS, addAdvertiserParameters.get(COMMENTS));
+		} finally {
+			deleteAdvertiser(result);
+		}
 	}
 
 	/**

@@ -170,7 +170,6 @@ public class TestAddBanner extends BannerTestCase {
 			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
 			checkParameter(banner, WEIGHT, myBanner.get(WEIGHT));
 			checkParameter(banner, BANNER_TEXT, myBanner.get(BANNER_TEXT));
-			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
 			checkParameter(banner, URL, myBanner.get(URL));
 			checkParameter(banner, STATUS, myBanner.get(STATUS));
 		} finally {
@@ -178,6 +177,62 @@ public class TestAddBanner extends BannerTestCase {
 		}
 	}
 
+	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddBannerWithCappingsField()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(campaignId);
+		Map<String, Object> myBanner = new HashMap<String, Object>();
+		myBanner.put(CAMPAIGN_ID, campaignId);
+		myBanner.put(BANNER_NAME, "testBanner");
+		myBanner.put(STORAGE_TYPE, STORAGE_TYPES[4]);
+		myBanner.put(IMAGE_URL, "http://www.a.com/image.gif");
+		myBanner.put(HTML_TEMPLATE, "<p>I am banner</p>");
+		myBanner.put(BANNER_TEXT, "TextAd: asta");
+		myBanner.put(WIDTH, 0);
+		myBanner.put(HEIGHT, 0);
+		myBanner.put(WEIGHT, 2);
+		myBanner.put(STATUS, 0);
+		myBanner.put(URL, "http://www.a.com/index.html");
+		myBanner.put(CAPPING, 5);
+		myBanner.put(SESSION_CAPPING, 15);
+		myBanner.put(BLOCK, 4210); //in sec
+		myBanner.put(COMMENTS, "Some comments - add banner");
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myBanner };
+		final Integer result = (Integer) execute(ADD_BANNER_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> banner = (Map<String, Object>) execute(
+					GET_BANNER_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(banner, CAMPAIGN_ID, campaignId);
+			checkParameter(banner, BANNER_ID, result);
+			checkParameter(banner, BANNER_NAME, myBanner.get(BANNER_NAME));
+			checkParameter(banner, STORAGE_TYPE, myBanner.get(STORAGE_TYPE));
+			checkParameter(banner, IMAGE_URL, myBanner.get(IMAGE_URL));
+			checkParameter(banner, HTML_TEMPLATE, myBanner.get(HTML_TEMPLATE));
+			checkParameter(banner, WIDTH, myBanner.get(WIDTH));
+			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
+			checkParameter(banner, WEIGHT, myBanner.get(WEIGHT));
+			checkParameter(banner, BANNER_TEXT, myBanner.get(BANNER_TEXT));
+			checkParameter(banner, URL, myBanner.get(URL));
+			checkParameter(banner, STATUS, myBanner.get(STATUS));
+			checkParameter(banner, CAPPING, myBanner.get(CAPPING));
+			checkParameter(banner, SESSION_CAPPING, myBanner.get(SESSION_CAPPING));
+			checkParameter(banner, COMMENTS, myBanner.get(COMMENTS));
+		} finally {
+			deleteBanner(result);
+		}
+	}
+	
 	//TODO: Check addBanner method with other banner types
 	
 	/**

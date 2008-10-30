@@ -48,7 +48,6 @@ public class TestGetUser extends UserTestCase {
 	 *            true error messages
 	 * @throws MalformedURLException
 	 */
-	@SuppressWarnings("unchecked")
 	private void executeGetUserWithError(Object[] params, String errorMsg)
 			throws MalformedURLException {
 

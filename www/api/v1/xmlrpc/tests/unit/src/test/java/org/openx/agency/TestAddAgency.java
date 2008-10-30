@@ -28,7 +28,6 @@ package org.openx.agency;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
@@ -47,12 +46,15 @@ public class TestAddAgency extends AgencyTestCase {
 	 */
 	public void testAddAgencyAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_NAME, "testAgancy");
-		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		Object[] params = new Object[] { sessionId, struct };
+		Map<String, Object> addAgencyParameters = new HashMap<String, Object>();
+		addAgencyParameters.put(AGENCY_NAME, "testAgancy");
+		addAgencyParameters.put(CONTACT_NAME, "test");
+		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
+		addAgencyParameters.put(USER_NAME, "testUserName");
+		//addAgencyParameters.put(PASSWORD, "testPassword");
+		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
-				params);
+				XMLMethodParameters);
 		assertNotNull(result);
 		deleteAgency(result);
 	}
@@ -65,6 +67,7 @@ public class TestAddAgency extends AgencyTestCase {
 	 */
 	public void testAddAgencyAllFields() throws XmlRpcException,
 			MalformedURLException {
+		
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(AGENCY_NAME, "testAgancy");
 		struct.put(CONTACT_NAME, "test");
@@ -76,6 +79,42 @@ public class TestAddAgency extends AgencyTestCase {
 		deleteAgency(result);
 	}
 
+	/**
+	 * Test method with manager user creation.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddAgencyWithManagerUser() throws XmlRpcException,
+			MalformedURLException {
+		
+		Map<String, Object> addAgencyParameters = new HashMap<String, Object>();
+		addAgencyParameters.put(AGENCY_NAME, "testAgancy7");
+		addAgencyParameters.put(CONTACT_NAME, "test");
+		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
+		addAgencyParameters.put(USER_NAME, "user123");//testUserName");
+		addAgencyParameters.put(PASSWORD, "testPassword");
+		addAgencyParameters.put(USER_EMAIL, "user123@mailinator.com");
+		addAgencyParameters.put(LANGUAGE, "de");
+		
+		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
+		final Integer id = (Integer) client.execute(ADD_AGENCY_METHOD,
+				XMLMethodParameters);
+		
+		assertNotNull(id);
+
+		Map<String, Object> agency = (Map<String, Object>) execute(
+				GET_AGENCY_METHOD, new Object[] {sessionId, id});
+		
+		checkParameter(agency, AGENCY_ID, id);
+		checkParameter(agency, AGENCY_NAME, addAgencyParameters.get(AGENCY_NAME));
+		checkParameter(agency, CONTACT_NAME, addAgencyParameters.get(CONTACT_NAME));
+		checkParameter(agency, EMAIL_ADDRESS, addAgencyParameters.get(EMAIL_ADDRESS));
+
+		deleteAgency(id);
+	}
+	
 	/**
 	 * Test method without optional fields (only required).
 	 *

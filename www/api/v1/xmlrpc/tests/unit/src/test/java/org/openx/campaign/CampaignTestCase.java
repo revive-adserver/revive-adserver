@@ -67,6 +67,10 @@ public class CampaignTestCase extends AdvertiserTestCase {
 	protected static final String TARGET_CONVERSIONS = "targetConversions";
 	protected static final String REVENUE = "revenue";
 	protected static final String REVENUE_TYPE = "revenueType";
+	protected static final String CAPPING = "capping";
+	protected static final String SESSION_CAPPING = "sessionCapping";
+	protected static final String BLOCK = "block";
+	protected static final String COMMENTS = "comments";
 	
 
 	protected Integer advertiserId;

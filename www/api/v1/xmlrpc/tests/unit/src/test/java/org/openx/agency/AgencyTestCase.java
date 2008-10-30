@@ -60,7 +60,11 @@ public class AgencyTestCase extends WebServiceTestCase {
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String AGENCY_NAME = "agencyName";
 	protected static final String PUBLISHER_NAME = "publisherName";
-
+	protected static final String USER_NAME = "username";
+	protected static final String PASSWORD = "password";
+	protected static final String USER_EMAIL = "userEmail";
+	protected static final String LANGUAGE = "language";
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -84,6 +88,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 	 */
 	public Integer createAgency(Map<String, Object> params)
 			throws XmlRpcException, MalformedURLException {
+
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
 

@@ -69,6 +69,10 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String IMAGE_FILENAME = "filename";
 	protected static final String IMAGE_CONTENT = "content";
 	protected static final String ALTERNATE_BACKUP_IMAGE = "aBackupImage";
+	protected static final String CAPPING = "capping";
+	protected static final String SESSION_CAPPING = "sessionCapping";
+	protected static final String BLOCK = "block";
+	protected static final String COMMENTS = "comments";
 	protected static final String[] STORAGE_TYPES = {"sql", "web", "url", "html", "txt"};
 
 	protected Integer campaignId = null;

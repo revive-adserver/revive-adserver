@@ -83,6 +83,7 @@ public class TestAddCampaign extends CampaignTestCase {
 		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
 		myCampaign.put(PRIORITY, 7);
 		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(COMMENTS, "some comments");
 
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
 		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
@@ -99,6 +100,104 @@ public class TestAddCampaign extends CampaignTestCase {
 			checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
 			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
 			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+			checkParameter(campaign, COMMENTS, myCampaign.get(COMMENTS));
+		} finally {
+			deleteCampaign(result);
+		}
+	}
+	
+	/**
+	 * Test method with all required fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddCampaignWithCappingFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(SESSION_CAPPING, 19);
+		myCampaign.put(CAPPING, 9);
+		myCampaign.put(BLOCK, 4156);
+		myCampaign.put(COMMENTS, "some comments - add campaign");
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+			checkParameter(campaign, CAPPING, myCampaign.get(CAPPING));
+			checkParameter(campaign, SESSION_CAPPING, myCampaign.get(SESSION_CAPPING));
+			checkParameter(campaign, BLOCK, myCampaign.get(BLOCK));
+			checkParameter(campaign, COMMENTS, myCampaign.get(COMMENTS));
+		} finally {
+			deleteCampaign(result);
+		}
+	}
+	
+	/**
+	 * Test method with all required fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddCampaignWithoutBeginAndEnd()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign unlimited time");
+		myCampaign.put(START_DATE, DateUtils.ZERO_DATE);
+		myCampaign.put(END_DATE, DateUtils.ZERO_DATE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(COMMENTS, "some comments");
+		myCampaign.put(TARGET_IMPRESSIONS, 1000);
+		myCampaign.put(TARGET_CLICKS, 100);
+		myCampaign.put(TARGET_CONVERSIONS, 10);
+		myCampaign.put(REVENUE, 2.33);
+		myCampaign.put(REVENUE_TYPE, 1);
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			assertNull(campaign.get(START_DATE));
+			assertNull(campaign.get(END_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+			checkParameter(campaign, COMMENTS, myCampaign.get(COMMENTS));
 		} finally {
 			deleteCampaign(result);
 		}

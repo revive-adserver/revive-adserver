@@ -94,6 +94,7 @@ public class TestGetAgency extends AgencyTestCase {
 	 */
 	public void testGetAgencyWithoutSomeRequiredFields()
 			throws MalformedURLException {
+		
 		Object[] params = new Object[] { sessionId };
 
 		executeGetAgencyWithError(params, ErrorMessage

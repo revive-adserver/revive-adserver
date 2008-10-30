@@ -54,6 +54,7 @@ public class PublisherTestCase extends BannerTestCase {
 
 	protected static final String PUBLISHER_ID = "publisherId";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
+	protected static final String COMMENTS = "comments"; //there is no comment field in UI
 
 	//protected Integer agencyId = null;
 

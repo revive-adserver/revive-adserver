@@ -49,7 +49,6 @@ public class TestGetUserListByAccountId extends UserTestCase {
 	 *            true error messages
 	 * @throws MalformedURLException
 	 */
-	@SuppressWarnings("unchecked")
 	private void executeGetUserListByAccountIdWithError(Object[] params, String errorMsg)
 			throws MalformedURLException {
 

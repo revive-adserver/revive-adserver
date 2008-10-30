@@ -95,6 +95,44 @@ public class TestModifyBanner extends BannerTestCase {
 	}
 
 	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testModifyBannerWithCappingsField()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(campaignId);
+		Map<String, Object> myBanner = new HashMap<String, Object>();
+		myBanner.put(BANNER_ID, bannerId);
+		myBanner.put(CAMPAIGN_ID, campaignId);
+		myBanner.put(BANNER_NAME, "test Banner Modified");
+		myBanner.put(URL, "http://www.a.com/index.html");
+		myBanner.put(CAPPING, 5);
+		myBanner.put(SESSION_CAPPING, 15);
+		myBanner.put(BLOCK, 4210); //in sec
+		myBanner.put(COMMENTS, "Some comments - modify banner");
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myBanner };
+		final boolean result = (Boolean) execute(MODIFY_BANNER_METHOD, XMLRPCMethodParameters);
+		assertTrue(result);
+
+		XMLRPCMethodParameters = new Object[] { sessionId, bannerId };
+		final Map<String, Object> banner = (Map<String, Object>) execute(
+				GET_BANNER_METHOD, XMLRPCMethodParameters);
+
+		checkParameter(banner, CAMPAIGN_ID, campaignId);
+		checkParameter(banner, BANNER_ID, bannerId);
+		checkParameter(banner, BANNER_NAME, myBanner.get(BANNER_NAME));
+		checkParameter(banner, URL, myBanner.get(URL));
+		checkParameter(banner, CAPPING, myBanner.get(CAPPING));
+		checkParameter(banner, SESSION_CAPPING, myBanner.get(SESSION_CAPPING));
+		checkParameter(banner, COMMENTS, myBanner.get(COMMENTS));
+	}
+	
+	/**
 	 * Test method without some required fields.
 	 *
 	 * @throws MalformedURLException

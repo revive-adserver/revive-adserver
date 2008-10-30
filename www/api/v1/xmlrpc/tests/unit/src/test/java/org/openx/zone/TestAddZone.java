@@ -82,6 +82,47 @@ public class TestAddZone extends ZoneTestCase {
 	}
 
 	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddZoneWithCappingFields()
+			throws XmlRpcException, MalformedURLException {
+		assertNotNull(publisherId);
+
+		Map<String, Object> myZone = new HashMap<String, Object>();
+		myZone.put(PUBLISHER_ID, publisherId);
+		myZone.put(ZONE_NAME, "testZone");
+		myZone.put(CAPPING, 6);
+		myZone.put(SESSION_CAPPING, 16);
+		myZone.put(BLOCK, 4211); //in sec
+		myZone.put(COMMENTS, "some comments");
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myZone };
+
+		final Integer result = (Integer) client
+				.execute(ADD_ZONE_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> zone = (Map<String, Object>) execute(
+					GET_ZONE_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(zone, PUBLISHER_ID, publisherId);
+			checkParameter(zone, ZONE_ID, result);
+			checkParameter(zone, ZONE_NAME, myZone.get(ZONE_NAME));
+			checkParameter(zone, CAPPING, myZone.get(CAPPING));
+			checkParameter(zone, SESSION_CAPPING, myZone.get(SESSION_CAPPING));
+			checkParameter(zone, BLOCK, myZone.get(BLOCK));
+			checkParameter(zone, COMMENTS, myZone.get(COMMENTS));
+		} finally {
+			deleteZone(result);
+		}
+	}
+	
+	/**
 	 * Test method without some required fields.
 	 *
 	 * @throws MalformedURLException

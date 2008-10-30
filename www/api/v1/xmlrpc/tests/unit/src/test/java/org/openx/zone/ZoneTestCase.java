@@ -65,7 +65,10 @@ public class ZoneTestCase extends PublisherTestCase {
 	protected static final String WIDTH = "width";
 	protected static final String TYPE = "type";
 	protected static final String CODE_TYPE = "codeType";
-	
+	protected static final String CAPPING = "capping";
+	protected static final String SESSION_CAPPING = "sessionCapping";
+	protected static final String BLOCK = "block";
+	protected static final String COMMENTS = "comments";
 	protected static final String[] CODE_TYPES = {"adframe", "adjs", "adlayer", "adview", "adviewnocookies", "local", "popup", "spc", "xmlrpc"};
 	
 	protected Integer publisherId = null;

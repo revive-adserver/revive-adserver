@@ -41,6 +41,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
+@SuppressWarnings("unchecked")
 public class TestAddPublisher extends PublisherTestCase {
 	/**
 	 * Test method with all required fields and some optional.
@@ -50,15 +51,30 @@ public class TestAddPublisher extends PublisherTestCase {
 	 */
 	public void testAddPublisherAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(PUBLISHER_NAME, "testPublisherName");
-		struct.put(EMAIL_ADDRESS, "test@gmail.com");
+		Map<String, Object> addPublisherParameters = new HashMap<String, Object>();
+		addPublisherParameters.put(PUBLISHER_NAME, "testPublisherName");
+		addPublisherParameters.put(EMAIL_ADDRESS, "test@gmail.com");
+		addPublisherParameters.put(CONTACT_NAME, "testContactPublisher");
+		addPublisherParameters.put(COMMENTS, "some comments");
 
-		Object[] params = new Object[] { sessionId, struct };
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, addPublisherParameters };
 
-		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
+		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, XMLRPCMethodParameters);
 		assertNotNull(result);
-		deletePublisher(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> publisher = (Map<String, Object>) execute(
+					GET_PUBLISHER_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(publisher, AGENCY_ID, agencyId);
+			checkParameter(publisher, PUBLISHER_NAME, addPublisherParameters.get(PUBLISHER_NAME));
+			checkParameter(publisher, CONTACT_NAME, addPublisherParameters.get(CONTACT_NAME));
+			checkParameter(publisher, EMAIL_ADDRESS, addPublisherParameters.get(EMAIL_ADDRESS));
+			checkParameter(publisher, COMMENTS, addPublisherParameters.get(COMMENTS));
+		} finally {
+			deletePublisher(result);
+		}
 	}
 
 	/**

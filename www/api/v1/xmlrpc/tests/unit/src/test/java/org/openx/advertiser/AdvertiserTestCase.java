@@ -57,6 +57,7 @@ public class AdvertiserTestCase extends AgencyTestCase {
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String ADVERTISER_NAME = "advertiserName";
+	protected static final String COMMENTS = "comments";
 
 	protected Integer agencyId;
 

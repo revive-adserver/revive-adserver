@@ -37,6 +37,8 @@ public class DateUtils {
 	public static final Date MAX_DATE_VALUE;
 	public static final Date DATE_GREATER_THAN_MAX;
 	public static final Date DATE_LESS_THAN_MIN;
+	public static final String ZERO_DATE = "00000000T00:00:00";
+	//public static final Calendar ZERO_DATE;
 
 	static {
 		final Calendar calendar = Calendar.getInstance();
