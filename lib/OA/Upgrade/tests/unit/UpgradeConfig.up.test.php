@@ -37,6 +37,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
  */
 class Test_OA_Upgrade_Config extends UnitTestCase
 {
+
     /**
      * The constructor method.
      */
@@ -51,120 +52,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertIsA($oUpConfig,'OA_Upgrade_Config','class mismatch: OA_Upgrade_Config');
         $this->assertIsA($oUpConfig->aConfig,'array','class mismatch: array');
         $this->assertIsA($oUpConfig->oSettings,'OA_Admin_Settings','class mismatch: OA_Admin_Settings');
-    }
-
-    function test_writeConfig()
-    {
-        TestEnv::restoreConfig();
-
-        // TEST 1
-
-        $hostAdmin      = 'admin.mydomain.net';
-        $hostDelivery   = 'delivery.mydomain.net';
-
-        $fileDefault    = MAX_PATH . '/var/default.conf.php';
-        $fileFake       = MAX_PATH . '/var/'.$hostAdmin.'.conf.php';
-        $fileReal       = MAX_PATH . '/var/'.$hostDelivery.'.conf.php';
-
-        if (file_exists($fileDefault))
-        {
-            @copy($fileDefault, $fileDefault.'.bak');
-            @unlink($fileDefault);
-        }
-
-        @unlink($fileReal);
-        @unlink($fileFake);
-
-        $oConf = new OA_Upgrade_Config();
-
-        // Build the local conf array manually.
-        $aConfig['webpath']['admin']       = $hostAdmin;
-        $aConfig['webpath']['delivery']    = $hostDelivery;
-        $aConfig['webpath']['deliverySSL'] = $hostDelivery;
-
-        $oConf->setupConfigWebPath($aConfig['webpath']);
-
-        $this->assertTrue($oConf->writeConfig(), 'Error writing config file');
-        $this->assertTrue(file_exists($fileReal), 'Real config file does not exist');
-        $this->assertTrue(file_exists($fileFake), 'Fake config file does not exist');
-
-        $aRealConfig = @parse_ini_file($fileReal, true);
-        $this->assertEqual($oConf->aConfig, $aRealConfig, 'Delivery config has incorrect values');
-        $this->assertFalse(isset($aRealConfig['realConfig']));
-        $this->assertTrue(isset($aRealConfig['openads']));
-        $this->assertEqual($aRealConfig['openads']['installed'],1);
-        $this->assertEqual($aRealConfig['webpath']['admin'],$hostAdmin);
-        $this->assertEqual($aRealConfig['webpath']['delivery'],$hostDelivery);
-        $this->assertEqual($aRealConfig['webpath']['deliverySSL'],$hostDelivery);
-
-        $aFakeConfig = @parse_ini_file($fileFake, true);
-        $this->assertTrue(isset($aFakeConfig['realConfig']));
-        $this->assertTrue($aFakeConfig['realConfig'],$hostDelivery);
-
-        // default.conf.php only gets created if no other foreign confs exist
-        if (file_exists($fileDefault))
-        {
-            $aDefConfig = @parse_ini_file($fileDefault, true);
-            $this->assertTrue(isset($aDefConfig['realConfig']));
-            $this->assertTrue($aDefConfig['realConfig'],$hostDelivery);
-            @unlink($fileDefault);
-        }
-        // Clean up
-        @unlink($fileReal);
-        @unlink($fileFake);
-        TestEnv::restoreConfig();
-
-        // TEST 2  : reverse the hosts
-
-        $hostAdmin      = 'admin.mydomain.net';
-        $hostDelivery   = 'delivery.mydomain.net';
-
-        $fileReal       = MAX_PATH . '/var/'.$hostAdmin.'.conf.php';
-        $fileFake       = MAX_PATH . '/var/'.$hostDelivery.'.conf.php';
-
-        @unlink($fileAdmin);
-        @unlink($fileDelivery);
-
-        $oConf = new OA_Upgrade_Config();
-
-        // Build the local conf array manually.
-        $aConfig['webpath']['admin']       = $hostDelivery;
-        $aConfig['webpath']['delivery']    = $hostAdmin;
-        $aConfig['webpath']['deliverySSL'] = $hostAdmin;
-
-        $oConf->setupConfigWebPath($aConfig['webpath']);
-
-        $this->assertTrue($oConf->writeConfig(),  'Error writing config file');
-        $this->assertTrue(file_exists($fileReal), 'Real config file does not exist');
-        $this->assertTrue(file_exists($fileFake), 'Fake config file does not exist');
-
-        $aRealConfig = @parse_ini_file($fileReal, true);
-        $this->assertEqual($oConf->aConfig, $aRealConfig, 'Real config has incorrect values');
-        $this->assertFalse(isset($aRealConfig['realConfig']));
-        $this->assertTrue(isset($aRealConfig['openads']));
-        $this->assertEqual($aRealConfig['openads']['installed'],1);
-        $this->assertEqual($aRealConfig['webpath']['admin'],$hostDelivery);
-        $this->assertEqual($aRealConfig['webpath']['delivery'],$hostAdmin);
-        $this->assertEqual($aRealConfig['webpath']['deliverySSL'],$hostAdmin);
-
-        $aFakeConfig = @parse_ini_file($fileFake, true);
-        $this->assertTrue(isset($aFakeConfig['realConfig']));
-        $this->assertTrue($aFakeConfig['realConfig'],$hostAdmin);
-
-        // default.conf.php only gets created if no other foreign confs exist
-        if (file_exists($fileDefault))
-        {
-            $aDefConfig = @parse_ini_file($fileDefault, true);
-            $this->assertTrue(isset($aDefConfig['realConfig']));
-            $this->assertTrue($aDefConfig['realConfig'],$hostAdmin);
-            @unlink($fileDefault);
-            @copy($fileDefault.'.bak', $fileDefault);
-            @unlink($fileDefault.'.bak');
-        }
-        // Clean up
-        @unlink($fileReal);
-        @unlink($fileFake);
-        TestEnv::restoreConfig();
     }
 
     function test_setupConfigDatabase()
