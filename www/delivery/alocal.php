@@ -99,7 +99,6 @@ if (!function_exists('mergeConfigFiles'))
 {
 function mergeConfigFiles($realConfig, $fakeConfig)
 {
-//unset($fakeConfig['realConfig']);
 foreach ($fakeConfig as $key => $value) {
 if (is_array($value)) {
 if (!isset($realConfig[$key])) {
@@ -119,6 +118,7 @@ $realConfig[$key] = $value;
 }
 }
 }
+unset($realConfig['realConfig']);
 return $realConfig;
 }
 }
@@ -694,7 +694,6 @@ if (!function_exists('mergeConfigFiles'))
 {
 function mergeConfigFiles($realConfig, $fakeConfig)
 {
-//unset($fakeConfig['realConfig']);
 foreach ($fakeConfig as $key => $value) {
 if (is_array($value)) {
 if (!isset($realConfig[$key])) {
@@ -714,6 +713,7 @@ $realConfig[$key] = $value;
 }
 }
 }
+unset($realConfig['realConfig']);
 return $realConfig;
 }
 }
