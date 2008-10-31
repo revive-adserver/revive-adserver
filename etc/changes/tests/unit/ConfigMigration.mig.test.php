@@ -43,6 +43,11 @@ class ConfigMigrationTest extends UnitTestCase
 
     function setUp()
 	{
+        // Tests in this class need to use the "real" configuration
+        // file writing method, not the one reserved for the test
+        // environment...
+        $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+
 	    $this->host = $_SERVER['HTTP_HOST'];
 	    $_SERVER['HTTP_HOST'] = 'test1';
 
@@ -61,6 +66,9 @@ class ConfigMigrationTest extends UnitTestCase
 
 	function tearDown()
 	{
+        // Resume normal service with regards to the configuration file writer...
+        unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+
         if (file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))
         {
             @unlink(MAX_PATH.'/var/'.getHostName().'.conf.php');
