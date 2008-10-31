@@ -166,6 +166,31 @@ class OA_Admin_Settings
         if (!is_null($configFile)) {
             $configFile = '.' . $configFile;
         }
+        if (defined('TEST_ENVIRONMENT_RUNNING')) {
+            // Special case! The test environment is running, so just write the
+            // configuration to the test configuration file...
+            $testConfigFile = $configPath . '/test.conf.php';
+            if (!OA_Admin_Settings::isConfigWritable($testConfigFile)) {
+                return false;
+            }
+            $oConfig = new Config();
+            $oConfigContainer =& $oConfig->parseConfig($this->aConf, 'phpArray');
+            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+            if (!$oConfig->writeConfig($testConfigFile, 'IniCommented')) {
+                return false;
+            }
+            // Re-parse the config file?
+            if ($reParse) {
+                $GLOBALS['_MAX']['CONF'] = @parse_ini_file($testConfigFile, true);
+                $this->aConf = $GLOBALS['_MAX']['CONF'];
+                // Set the global $conf value -- normally set by the init
+                // script -- to be the same as $GLOBALS['_MAX']['CONF']
+                global $conf;
+                $conf = $GLOBALS['_MAX']['CONF'];
+            }
+            return true;
+        }
         // What were the old host names used for the installation?
         $aConf = $GLOBALS['_MAX']['CONF'];
         $url = @parse_url('http://' . $aConf['webpath']['admin']);
@@ -248,9 +273,8 @@ class OA_Admin_Settings
                 @unlink($file);
             }
         }
-
-        // if the main (delivery) conf file changed or
-        // if there are any un-accounted for config files in the var directory, don't write a default.conf.php file
+        // If the main (delivery) conf file changed or if there are any un-accounted for
+        // config files in the var directory, don't write a default.conf.php file
         $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
         if (($oldDeliveryHost != $newDeliveryHost) || empty($aOtherConfigFiles))
         {
@@ -258,18 +282,6 @@ class OA_Admin_Settings
             {
                 return false;
             }
-            /*$file = $configPath . '/default' . $configFile . '.conf.php';
-            if (!OA_Admin_Settings::isConfigWritable($file)) {
-                return false;
-            }
-            $aConfig = array('realConfig' => $newDeliveryHost);
-            $oConfig = new Config();
-            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
-            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-            if (!$oConfig->writeConfig($file, 'IniCommented')) {
-                return false;
-            }*/
         } else {
             OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
         }

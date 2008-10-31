@@ -67,14 +67,6 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     }
     // Is the system running the test environment?
     if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
-        if (isset($_SERVER['SERVER_NAME'])) {
-            // If test runs from web-client first check if host test config exists
-            // This could be used to have different tests for different configurations
-            $testFilePath = $configPath . '/'.$host.'.test.conf' . $type;
-            if (file_exists($testFilePath)) {
-                return @parse_ini_file($testFilePath, $sections);
-            }
-        }
         // Does the test environment config exist?
         $testFilePath = $configPath . '/test.conf' . $type;
         if (file_exists($testFilePath)) {

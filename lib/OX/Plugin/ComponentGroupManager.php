@@ -637,7 +637,7 @@ class OX_Plugin_ComponentGroupManager
         {
             return false;
         }
-        $oSettings->settingChange('pluginGroupComponents',$name,$enabled);
+        $oSettings->settingChange('pluginGroupComponents', $name, $enabled);
         return $oSettings->writeConfigChange();
     }
 
