@@ -36,6 +36,20 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->basePath = MAX_PATH . '/var/cache';
     }
 
+    function setUp()
+    {
+        // Tests in this class need to use the "real" configuration
+        // file writing method, not the one reserved for the test
+        // environment...
+        $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+    }
+
+    function tearDown()
+    {
+        // Resume normal service with regards to the configuration file writer...
+        unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+    }
+
     function testIsConfigWritable()
     {
         $oConf = new OA_Admin_Settings(true);
