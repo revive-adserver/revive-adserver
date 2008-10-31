@@ -53,6 +53,20 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertIsA($oUpConfig->oSettings,'OA_Admin_Settings','class mismatch: OA_Admin_Settings');
     }
 
+    function setUp()
+    {
+        // Tests in this class need to use the "real" configuration
+        // file writing method, not the one reserved for the test
+        // environment...
+        $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+    }
+
+    function tearDown()
+    {
+        // Resume normal service with regards to the configuration file writer...
+        unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+    }
+
     function test_writeConfig()
     {
         TestEnv::restoreConfig();

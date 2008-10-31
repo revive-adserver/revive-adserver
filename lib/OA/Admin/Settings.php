@@ -166,7 +166,7 @@ class OA_Admin_Settings
         if (!is_null($configFile)) {
             $configFile = '.' . $configFile;
         }
-        if (defined('TEST_ENVIRONMENT_RUNNING')) {
+        if (defined('TEST_ENVIRONMENT_RUNNING') && !$GLOBALS['override_TEST_ENVIRONMENT_RUNNING']) {
             // Special case! The test environment is running, so just write the
             // configuration to the test configuration file...
             $testConfigFile = $configPath . '/test.conf.php';
