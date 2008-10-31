@@ -482,7 +482,7 @@ class OA_Admin_UI
         $this->oTpl->assign('strWarningMissingOpening', html_entity_decode($GLOBALS['strWarningMissingOpening']));
         $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
         $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
-		$this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
+		    $this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
     }
 
     function _assignJavascriptandCSS()

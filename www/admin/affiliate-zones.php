@@ -167,6 +167,9 @@ phpAds_SessionDataStore();
 
 $oTpl->display();
 
+phpAds_PageFooter();
+
+
 function buildHeaderModel($websiteId)
 {
     if ($websiteId) {
