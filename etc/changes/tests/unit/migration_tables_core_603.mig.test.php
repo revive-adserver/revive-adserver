@@ -37,6 +37,21 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  */
 class Migration_603Test extends MigrationTest
 {
+
+    function setUp()
+    {
+        // Tests in this class need to use the "real" configuration
+        // file writing method, not the one reserved for the test
+        // environment...
+        $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+    }
+
+    function tearDown()
+    {
+        // Resume normal service with regards to the configuration file writer...
+        unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+    }
+
     function testMigrateGeoSettings()
     {
         $oMigration = new Migration_603();
@@ -153,3 +168,5 @@ class Migration_603Test extends MigrationTest
     }
 
 }
+
+?>
