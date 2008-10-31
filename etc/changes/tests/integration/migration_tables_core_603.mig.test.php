@@ -49,6 +49,11 @@ class Migration_601Test extends MigrationTest
         if (file_exists(MAX_PATH . '/var/' . getHostName() . '.conf.php')) {
             unlink(MAX_PATH . '/var/' . getHostName() . '.conf.php');
         }
+        // Tests in this class need to use the "real" configuration
+        // file writing method, not the one reserved for the test
+        // environment...
+        $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+
 		$this->createConfigIfNotExists();
 	}
 
@@ -59,6 +64,9 @@ class Migration_601Test extends MigrationTest
             @unlink(MAX_PATH.'/var/'.getHostName().'.conf.php');
         }
 	    $_SERVER['HTTP_HOST'] = $this->host;
+
+        // Resume normal service with regards to the configuration file writer...
+        unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
 
         TestEnv::restoreConfig();
 
