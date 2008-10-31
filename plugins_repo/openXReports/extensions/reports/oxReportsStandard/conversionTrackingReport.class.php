@@ -714,7 +714,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $aHeaders[$key] = 'text';
             $key = $this->translate("Ad Name");
             $aHeaders[$key] = 'text';
-            $key = $this->translate("Publisher Name");
+            $key = $this->translate("Website Name");
             $aHeaders[$key] = 'text';
             $key = $this->translate("Zone Name");
             $aHeaders[$key] = 'text';

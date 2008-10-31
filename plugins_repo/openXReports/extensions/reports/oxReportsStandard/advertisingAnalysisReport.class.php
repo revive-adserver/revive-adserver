@@ -91,7 +91,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
     function initInfo()
     {
         $this->_name         = $this->translate("Advertising Analysis Report");
-        $this->_description  = $this->translate("This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.");
+        $this->_description  = $this->translate("This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone.");
         $this->_category     = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
         $this->_author       = 'Rob Hunter';
