@@ -117,8 +117,11 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
             if ($unlinked) {
                 $unlinked_message = $translation->translate ( $GLOBALS['strXZonesUnlinked'], array($unlinked));
             }
-            $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message; 
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            if ($linked || $unlinked) {
+                $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message; 
+                OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+          	}
+          	
             Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
             exit;
         }
