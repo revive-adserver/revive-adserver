@@ -179,7 +179,7 @@ class OA_Preferences
                     return;
                 }
                 $doAgency = OA_Dal::factoryDO('agency');
-                $doAgency->agency_id = $owningAgencyId;
+                $doAgency->agencyid = $owningAgencyId;
                 $doAgency->find();
                 if ($doAgency->getRowCount() == 1) {
                     // The manager account "owning" the advertiser or
