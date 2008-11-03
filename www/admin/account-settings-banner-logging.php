@@ -77,18 +77,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'logging_sniff'               => array(
               'logging'               => 'sniff',
               'bool'                  => 'true'
-         ),
-        'logging_useragent'           => array(
-             'logging'                => 'useragent',
-             'bool'                   => 'true'
-         ),
-        'logging_pageInfo'            => array(
-             'logging'                => 'pageInfo',
-             'bool'                   => 'true'
-         ),
-        'logging_referer'             => array(
-              'logging'               => 'referer',
-              'bool'                  => 'true'
          )
     );
     // Block Banner Logging Window Settings
@@ -140,7 +128,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
             array(htmlspecialchars($title)));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
+
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
         OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
@@ -196,24 +184,6 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_sniff',
                 'text'    => $strSniff
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_useragent',
-                'text'    => $strLoggingUseragent
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_pageInfo',
-                'text'    => $strLoggingPageInfo
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_referer',
-                'text'    => $strLoggingReferer
             )
         )
     ),
