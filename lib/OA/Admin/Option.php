@@ -564,6 +564,7 @@ class OA_Admin_Option
         $this->oTpl->assign('formUrl',          $_SERVER['PHP_SELF']);
         $this->oTpl->assign('checkbuffer',      $checkbuffer);
         $this->oTpl->assign('dependbuffer',     $dependbuffer);
+        $this->oTpl->assign('disableSubmit',    $disableSubmit);
         $this->oTpl->assign('usertypebuffer',   $usertypebuffer);
         $this->oTpl->assign('tabindex',         $tabindex);
         $this->oTpl->assign('section',          $aSettingSection);

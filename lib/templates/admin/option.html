@@ -16,7 +16,11 @@
 {/foreach}
 
 {if $oxInstalled}
-    <br /><br /><input type="submit" name="submitsettings" value="{t str=SaveChanges}" tabindex="{$tabindex++}"></form>
+    {if $disableSubmit}
+        <br /><br /><input type="submit" name="submitsettings" value="{t str=SaveChanges}" tabindex="{$tabindex++}" disabled></form>
+    {else}
+        <br /><br /><input type="submit" name="submitsettings" value="{t str=SaveChanges}" tabindex="{$tabindex++}"></form>
+    {/if}
 {/if}
 
 {literal}

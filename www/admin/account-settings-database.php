@@ -46,8 +46,9 @@ $prefSection = "database";
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
+// FORM IS NOW DISABLED
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+/*if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
@@ -61,7 +62,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'database_username' => array('database' => 'username'),
         'database_password' => array('database' => 'password'),
         'database_name'     => array('database' => 'name'),
-        'database_protocol' => array('database' => 'protocol')
+        'database_protocol' => array('database' => 'protocol'),
+        'table_prefix'      => array('table'    => 'prefix'),
     );
     // Database Optimision Settings
     $aElements += array(
@@ -81,7 +83,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'database_port',
         'database_username',
         'database_password',
-        'database_name'
+        'database_name',
+        'table_prefix'
     );
 
     //  if database socket is null set to empty so it's updated by processSettingsFromForm()
@@ -97,6 +100,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aDsn['database']['name']     = $database_name;
     $database_protocol            = ($database_localsocket ? 'unix' : 'tcp');
     $aDsn['database']['protocol'] = $database_protocol;
+    $aDsn['table']['prefix']      = $table_prefix;
 
     // first try connecting to database using the connection class
     $oDbh = OA_DB::singleton(OA_DB::getDsn($aDsn));
@@ -129,6 +133,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation ();
             $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
                 array(htmlspecialchars($title)));
+            //$GLOBALS['_MAX']['CONF'] = parseIniFile();
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
              // The settings configuration file was written correctly,
             OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
@@ -137,7 +142,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // error message and continue
         $aErrormessage[0][] = $strUnableToWriteConfig;
     }
-}
+}*/
 
 // Set the correct section of the settings pages and display the drop-down menu
 $setPref = $oOptions->getSettingsPreferences($prefSection);
@@ -168,7 +173,7 @@ $oSettings = array (
                     'name'    => 'database_localsocket',
                     'text'    => $strDbLocal,
                     'onclick' => 'toggleSocketInput(this);',
-                    'req'     => false,
+                    'disabled'   => true,
             ),
             array (
                     'type'    => 'hidden',
@@ -181,7 +186,7 @@ $oSettings = array (
                     'type'    => 'text',
                     'name'    => 'database_socket',
                     'text'    => $strDbSocket,
-                    'req'     => false,
+                    'disabled'   => true,
             ),
             array (
                 'type'       => 'break'
@@ -190,7 +195,7 @@ $oSettings = array (
                 'type'       => 'text',
                 'name'       => 'database_host',
                 'text'       => $strDbHost,
-                'req'        => true,
+                'disabled'   => true,
             ),
             array (
                 'type'       => 'break'
@@ -199,8 +204,8 @@ $oSettings = array (
                 'type'       => 'text',
                 'name'       => 'database_port',
                 'text'       => $strDbPort,
-                'req'        => true,
-                'check'      => 'wholeNumber'
+                'check'      => 'wholeNumber',
+                'disabled'   => true,
             ),
             array (
                 'type'       => 'break'
@@ -209,7 +214,7 @@ $oSettings = array (
                 'type'       => 'text',
                 'name'       => 'database_username',
                 'text'       => $strDbUser,
-                'req'        => true,
+                'disabled'   => true,
             ),
             array (
                 'type'       => 'break'
@@ -218,7 +223,7 @@ $oSettings = array (
                 'type'       => 'password',
                 'name'       => 'database_password',
                 'text'       => $strDbPassword,
-                'req'        => false,
+                'disabled'   => true,
             ),
             array (
                 'type'       => 'break'
@@ -227,7 +232,34 @@ $oSettings = array (
                 'type'       => 'text',
                 'name'       => 'database_name',
                 'text'       => $strDbName,
-                'req'        => true,
+                'value'     => stripslashes($GLOBALS['_MAX']['CONF']['database']['name']),
+                'decode'    => true,
+                'disabled'   => true,
+            )
+        )
+    ),
+    array (
+        'text'  => $strAdvancedSettings,
+        'items' => array (
+            array (
+                'type'      => 'select',
+                'name'      => 'table_type',
+                'text'      => $strTablesType,
+                'items'      => array($GLOBALS['_MAX']['CONF']['table']['type'] => $GLOBALS['_MAX']['CONF']['table']['type']),
+                'disabled'   => true,
+
+            ),
+            array (
+                'type'      => 'break'
+            ),
+            array (
+                'type'      => 'text',
+                'name'      => 'table_prefix',
+                'text'      => $strTablesPrefix,
+                'maxlength' => '7',
+                'value'     => stripslashes($GLOBALS['_MAX']['CONF']['table']['prefix']),
+                'decode'    => true,
+                'disabled'   => true,
             )
         )
     ),
@@ -237,12 +269,13 @@ $oSettings = array (
             array (
                 'type'      => 'checkbox',
                 'name'      => 'database_persistent',
-                'text'      => $strPersistentConnections
+                'text'      => $strPersistentConnections,
+                'disabled'   => true,
             )
-        )
-    )
+        ),
+    ),
 );
-$oOptions->show($oSettings, $aErrormessage);
+$oOptions->show($oSettings, $aErrormessage, true);
 
 // Display the page footer
 phpAds_PageFooter();
