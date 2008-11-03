@@ -57,6 +57,31 @@ class OA_UpgradePostscript_2_5_67
         'turkish'               => 'tr'
     );
 
+    var $aContexts = array(
+                            'Account Preference Association'=>'account_preference_assoc',
+                            'Account User Association'=>'account_user_assoc',
+                            'Account User Permission Association'=>'account_user_permission_assoc',
+                            'Account'=>'accounts',
+                            'Delivery Limitation'=>'acls',
+                            'Ad Zone Association'=>'ad_zone_assoc',
+                            'Affiliate'=>'affiliates',
+                            'Affiliate Extra'=>'affiliates_extra',
+                            'Agency'=>'agency',
+                            'Banner'=>'banners',
+                            'Campaign'=>'campaigns',
+                            'Campaign Tracker'=>'campaigns_trackers',
+                            'Category'=>'category',
+                            'Channel'=>'channel',
+                            'Client'=>'clients',
+                            'Image'=>'images',
+                            'Campaign Zone Association'=>'placement_zone_assoc',
+                            'Preference'=>'preferences',
+                            'Tracker'=>'trackers',
+                            'User'=>'users',
+                            'Variable'=>'variables',
+                            'Zone'=>'zones',
+                            );
+
     function OA_UpgradePostscript_2_5_67()
     {
 
@@ -85,40 +110,23 @@ class OA_UpgradePostscript_2_5_67
      */
     function updateAuditContext()
     {
-        $doAudit = OA_Dal::factoryDO('audit');
-        $aTables = OA_DB_Table::listOATablesCaseSensitive($prefix);
-        $prefix = OA_Dal::getTablePrefix();
+        $tblAudit = $this->oUpgrade->oDbh->quoteIdentifier(OA_Dal::getTablePrefix().'audit',true);
+        foreach ($this->aContexts as $contextOld => $contextNew)
+        {
+            $query = 'UPDATE '.$tblAudit
+                    .' SET context = '. $this->oUpgrade->oDbh->quote($contextNew)
+                    .' WHERE context = '. $this->oUpgrade->oDbh->quote($contextOld);
 
-        foreach ($aTables as $prefixedTableName) {
-            $tableName = $doAudit->getTableWithoutPrefix($prefixedTableName);
-            if ($this->checkIfDataObjectExists($tableName)) {
-                $do = OA_Dal::factoryDO($tableName);
-                $context = $do->_quote($do->_getContext());
-                if ($context) {
-                    $sql = "UPDATE {$prefix}audit
-                        SET context = '". $do->getTableWithoutPrefix() ."'
-                        WHERE context = ". $context;
+            $result = $this->oUpgrade->oDbh->exec($query);
 
-                    $ret = $this->oUpgrade->oDbh->exec($sql);
-
-                    if (PEAR::isError($ret) || $ret === false) {
-                        $this->logError(
-                            'Error while updating context for table: '
-                                .$do->getTableWithoutPrefix());
-                        return false;
-                    }
-                }
+            if (PEAR::isError($result) || $result === false)
+            {
+                $this->logError('Error while updating audit context: '.$result->getUserInfo());
+                return false;
             }
         }
-
-        $this->logOnly('audit log updated');
+        $this->logOnly('audit context values updated');
         return true;
-    }
-
-    function checkIfDataObjectExists($table)
-    {
-        $fileName = MAX_PATH . '/lib/max/Dal/DataObjects/'.ucfirst($table).'.php';
-        return file_exists($fileName);
     }
 
     function removeMaxSection()
