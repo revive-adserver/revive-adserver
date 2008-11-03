@@ -138,7 +138,7 @@ class OA_Admin_Option
                 'email'           => array('name' => $GLOBALS['strEmailSettings'],          'perm' => OA_ACCOUNT_ADMIN),
                 'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'],   'perm' => OA_ACCOUNT_ADMIN),
                 'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],    'perm' => OA_ACCOUNT_ADMIN),
-                'upgrade-privacy' => array('name' => $GLOBALS['strUpgradePrivacySettings'], 'perm' => OA_ACCOUNT_ADMIN),
+                'update'          => array('name' => $GLOBALS['strUpdateSettings'],         'perm' => OA_ACCOUNT_ADMIN),
                 'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],            'perm' => OA_ACCOUNT_ADMIN),
             );
         }

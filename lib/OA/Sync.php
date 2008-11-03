@@ -174,9 +174,9 @@ class OA_Sync
 
         // Should this server's aggregate impression and click statistcs
         // be shared with OpenX?
-        $stareStats = false;
+        $shareStats = false;
         if ($this->aConf['sync']['shareData']) {
-            $stareStats = true;
+            $shareStats = true;
         }
 
         // Create the XML-RPC client object
@@ -200,7 +200,7 @@ class OA_Sync
             // this server's aggregate impression and click statistics
             // with OpenX, even if the admin user has elected to do
             // so, to ensure total privacy of the data
-            $stareStats = false;
+            $shareStats = false;
         }
 
         // Prepare the parameters required for the XML-RPC call to
@@ -259,7 +259,7 @@ class OA_Sync
         // so that the total community size can be shown in the
         // Dashboard?
         $aStats = array();
-        if ($stareStats) {
+        if ($shareStats) {
             // Thanks, OpenX admin user! You're a star! Prepare the
             // aggregate impression and click statistics data and
             // add it to the XML-RPC call

@@ -191,17 +191,9 @@ $GLOBALS['strAdminFullName']                         = 'Admin\'s Full Name';
 $GLOBALS['strAdminEmail']                            = 'Admin\'s email Address';
 $GLOBALS['strAdministratorEmail']                    = 'Administrator email Address';
 $GLOBALS['strCompanyName']                           = 'Company Name';
-$GLOBALS['strAdminCheckUpdates']                     = 'Check for Updates';
-$GLOBALS['strAdminShareStack']                       = "Share 'Technology Stack' Information with OpenX";
-$GLOBALS['strAdminShareStackDesc']                   = "Share the Technology Stack information (O/S and version, web server type and version, database type and
-                                                        version and PHP version and module information) with OpenX. This allows OpenX to monitor the different
-                                                        technologies used to run ".MAX_PRODUCT_NAME." and helps ensure that ".MAX_PRODUCT_NAME." can be supported
-                                                        on as many configurations as possible.";
-$GLOBALS['strAdminShareData']                        = "Share Total Impressions and Clicks with OpenX";
-$GLOBALS['strAdminShareDataDesc']                    = "Share the total number of impressions and clicks served with OpenX. This allows OpenX to monitor the
-                                                        different sizes of ".MAX_PRODUCT_NAME." deployments, to ensure that ".MAX_PRODUCT_NAME." can scales
-                                                        appropriately. It also allows the impressions and clicks served to be added to the community statistics
-                                                        widget on the Dashboard.";
+$GLOBALS['strAdminCheckUpdates']                     = "Automatically check for product updates and security alerts (Recommended).";
+$GLOBALS['strAdminShareStack']                       = "Share technical information with the OpenX Team to help with development and testing.";
+$GLOBALS['strAdminShareData']                        = "Share ad volume information anonymously to participate in the community data sharing program.";
 $GLOBALS['strAdminCheckEveryLogin']                  = 'Every Login';
 $GLOBALS['strAdminCheckDaily']                       = 'Daily';
 $GLOBALS['strAdminCheckWeekly']                      = 'Weekly';
@@ -210,7 +202,7 @@ $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strNovice']                                = 'Delete actions require confirmation for safety';
 $GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
-$GLOBALS['strEnableDashboardSyncNotice']             = "The Dashboard requires the <a href='account-settings-upgrade-privacy.php'>Check for Updates</a> setting. Please enable <a href='account-settings-upgrade-privacy.php'>Check for Updates</a> if you would like to use the Dashboard.";
+$GLOBALS['strEnableDashboardSyncNotice']             = "Please enable <a href='account-settings-update.php'>check for updates</a> to use the dashboard.";
 $GLOBALS['strTimezone']                              = "Timezone";
 $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
 $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";

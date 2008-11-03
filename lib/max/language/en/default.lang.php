@@ -74,9 +74,9 @@ $GLOBALS['strOverview']                 = "Overview";
 $GLOBALS['strSearch']                   = "<u>S</u>earch";
 $GLOBALS['strHistory']                  = "History";
 $GLOBALS['strDetails']                  = "Details";
-$GLOBALS['strUpgradePrivacySettings']   = "Upgrade and Privacy Settings";
-$GLOBALS['strUpgradeSettings']          = "Upgrade Settings";
-$GLOBALS['strPrivacySettings']          = "Privacy Settings";
+$GLOBALS['strUpdateSettings']           = "Update Settings";
+$GLOBALS['strCheckForUpdates']          = "Check for updates";
+$GLOBALS['strWhenCheckingForUpdates']   = "When checking for updates";
 $GLOBALS['strCompact']                  = "Compact";
 $GLOBALS['strVerbose']                  = "Verbose";
 $GLOBALS['strUser']                     = "User";
@@ -1345,7 +1345,6 @@ $GLOBALS['strChooseSection']          = 'Choose Section';
 
 // Product Updates
 $GLOBALS['strProductUpdates']         = "Product Updates";
-$GLOBALS['strCheckForUpdates']        = "Check for Updates";
 $GLOBALS['strViewPastUpdates']        = "Manage Past Updates and Backups";
 $GLOBALS['strFromVersion']            = "From Version";
 $GLOBALS['strToVersion']              = "To Version";

@@ -32,16 +32,15 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
-
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
-$prefSection = "upgrade-privacy";
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -56,7 +55,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += array(
         'sync_checkForUpdates' => array(
             'sync' => 'checkForUpdates',
-            'bool'    => true
+            'bool' => true
         ),
         'sync_shareStack' => array(
             'sync' => 'shareStack',
@@ -71,37 +70,27 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-        // Rebuild the menu because if the Check for Updates setting has been changed
-        // the Dashboard has to be disable for managers
-    	OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
-        // Queue confirmation message
-        $setPref = $oOptions->getSettingsPreferences($prefSection);
-        $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-         // The settings configuration file was written correctly,
-        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+        // The settings configuration file was written correctly,
+        // go to the "next" settings page from here
+        MAX_Admin_Redirect::redirect('account-settings-user-interface.php');
     }
     // Could not write the settings configuration file, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
-// Set the correct section of the settings pages and display the drop-down menu
-$setPref = $oOptions->getSettingsPreferences($prefSection);
-$title = $setPref[$prefSection]['name'];
-
 // Display the settings page's header and sections
-$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
-phpAds_PageHeader('account-settings-index', $oHeaderModel);
+phpAds_PageHeader("5.3");
+phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+
+// Set the correct section of the settings pages and display the drop-down menu
+$oOptions->selection("update");
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'    => $strSyncSettings,
+        'text'    => $strCheckForUpdates,
         'items'   => array (
             array (
                 'type'    => 'checkbox',
@@ -111,21 +100,19 @@ $aSettings = array (
         )
     ),
     array (
-        'text'    => $strPrivacySettings,
+        'text'    => $strWhenCheckingForUpdates,
         'items'   => array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'sync_shareStack',
                 'text'    => $strAdminShareStack,
-                'depends' => 'sync_checkForUpdates==1',
-                'desc'    => $strAdminShareStackDesc
+                'depends' => 'sync_checkForUpdates==1'
             ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'sync_shareData',
                 'text'    => $strAdminShareData,
-                'depends' => 'sync_checkForUpdates==1',
-                'desc'    => $strAdminShareDataDesc
+                'depends' => 'sync_checkForUpdates==1'
             )
         )
     )

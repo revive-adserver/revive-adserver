@@ -157,22 +157,21 @@ $GLOBALS['strServerCommunicationError'] = "
     able to check if a newer version is available at this stage. Please try again later.</b>";
 
 $GLOBALS['strCheckForUpdatesDisabled'] = "
-    <b>It is not possible to check if a newer version of ".MAX_PRODUCT_NAME." is available, as the
-    <a href='account-settings-upgrade-privacy.php'>Check for Updates</a> setting has been
-    disabled.<br/>Please enable the <a href='account-settings-upgrade-privacy.php'>Check for Updates</a>
-    setting if you would like to check for newer versions of ".MAX_PRODUCT_NAME."<b/>";
+    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>
+";
 
 $GLOBALS['strNewVersionAvailable']		= "
 	<b>A new version of ".MAX_PRODUCT_NAME." is available.</b><br /> It is recommended to install this update,
 	because it may fix some currently existing problems and will add new features. For more information
-	about upgrading please read the documentation which is included in the files below.
+	about upgrading please read the documentation which is included in the files below.</b>
 ";
 
 $GLOBALS['strSecurityUpdate']			= "
 	<b>It is highly recommended to install this update as soon as possible, because it contains a number
 	of security fixes.</b> The version of ".MAX_PRODUCT_NAME." which you are currently using might
 	be vulnerable to certain attacks and is probably not secure. For more information
-	about upgrading please read the documentation which is included in the files below.
+	about upgrading please read the documentation which is included in the files below.</b>
 ";
 
 $GLOBALS['strNotAbleToCheck']			= "
