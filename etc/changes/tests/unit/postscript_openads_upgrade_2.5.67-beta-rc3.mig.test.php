@@ -71,7 +71,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
 
         foreach ($aContexts as $i => $context)
         {
-            $query = "INSERT INTO {$tblAudit} (actionid, context) VALUES ({$i}, '{$context}')";
+            $query = "INSERT INTO {$tblAudit} (actionid, context, details, userid, usertype, account_id) VALUES ({$i}, '{$context}', 'details', 1, 0, 1)";
             $this->oDbh->exec($query);
         }
         $query = "SELECT actionid, context FROM {$tblAudit}";
