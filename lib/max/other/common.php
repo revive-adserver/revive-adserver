@@ -471,7 +471,7 @@ function MAX_getStoredValue($key, $default, $pageName=null)
     }
 
     $value = $default;
-    if (isset($_REQUEST[$key])) {
+    if (isset($_REQUEST[$key]) && !empty($_REQUEST[$key])) {
         $value = $_REQUEST[$key];
         if (!get_magic_quotes_gpc()) MAX_addslashes($value);
     } elseif (isset($session['prefs']['GLOBALS'][$key])) {
