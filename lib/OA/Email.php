@@ -56,7 +56,7 @@ class OA_Email
         $copiesSent = 0;
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
             foreach ($aLinkedUsers as $aUser) {
-                $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+                $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $aAdvertiser['clientid'], $oStartDate, $oEndDate);
                 if ($aEmail !== false) {
                     if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
                         if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
