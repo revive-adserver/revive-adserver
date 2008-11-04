@@ -35,7 +35,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
-
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
