@@ -2425,9 +2425,7 @@ class OA_DB_Upgrade
         $aDef['expandedIdxNames'] = true; // we got this from the db so it has tablenames in the indexnames
         // creation of indexnames changed after 2.6
         // due ot pgsql, names were prefixed and expanded with tablename for uniqueness
-        if ( version_compare($this->versionInitialApplication, '2.6', '<') &&
-             version_compare($this->versionInitialApplication, '2.3', '>=')
-           )
+        if (version_compare($this->versionInitialApplication, '2.6', '<'))
         {
             $aDef['expandedIdxNames'] = false;
             $aDef['prefixedIdxNames'] = false;
