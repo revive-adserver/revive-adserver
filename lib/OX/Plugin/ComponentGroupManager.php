@@ -1779,7 +1779,11 @@ class OX_Plugin_ComponentGroupManager
 
     function mergeMenu(&$oMenu, $accountType)
     {
-        $aGroups = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+        if (is_array($GLOBALS['_MAX']['CONF']['pluginGroupComponents'])) {
+            $aGroups = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+        } else {
+            $aGroups = array();
+        }
 
         foreach ($aGroups as $name => $enabled)
         {
