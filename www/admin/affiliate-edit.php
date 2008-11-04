@@ -142,7 +142,7 @@ function buildWebsiteForm($affiliate)
     // Get unique affiliate
     // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
     $doAffiliates = OA_Dal::factoryDO('affiliates');
-    // TODO PERM - do we really want unique names here?
+    $doAffiliates->agencyid = OA_Permission::getAgencyId();
     $aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
     $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strAffiliate'], strtolower($GLOBALS['strName'])));
