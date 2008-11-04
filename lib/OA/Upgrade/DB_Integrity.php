@@ -296,6 +296,9 @@ class OA_DB_Integrity
         $this->version                      = $version;
         $this->oDBUpgrader                  =&  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader($aSchema['schemaOld']);
+        // unfortunately, the integrity check needs to know
+        // about some anomalies with index naming in 2.4 :(
+        $this->oDBUpgrader->versionInitialApplication = $this->oUpgrader->versionInitialApplication;
         if (!$this->oDBUpgrader->buildSchemaDefinition())
         {
             return false;

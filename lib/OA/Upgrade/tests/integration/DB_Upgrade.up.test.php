@@ -233,6 +233,36 @@ class Test_DB_Upgrade extends UnitTestCase
 
         TestEnv::restoreConfig();
 
+        // Test 5
+        // the tablename is ad_zone_assoc
+        // the prefix is ad_
+        // which means the table is ad_ad_zone_assoc
+        $conf['table']['prefix'] = $this->prefix = 'ad_';
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $aDefinition = array();
+        $aDefinition['tables']['ad_ad_zone_assoc'] = array();
+        $aDefinition['tables']['ad_ad_zone_assoc']['indexes']['ad_ad_zone_assoc_pkey'] = array();
+        $aDefinition['tables']['ad_ad_zone_assoc']['indexes']['ad_ad_zone_assoc_pkey']['primary'] = true;
+        $aDefinition['tables']['ad_ad_zone_assoc']['indexes']['ad_ad_zone_assoc_index'] = array();
+
+        $aDefinition['prefixedTblNames'] = true;
+        $aDefinition['prefixedIdxNames'] = true;
+        $aDefinition['expandedIdxNames'] = true;
+
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
+
+        $this->assertFalse(isset($aDefStripped['tables']['ad_ad_zone_assoc']), 'unstripped tablename found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['ad_ad_zone_assoc_pkey']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['ad_zone_assoc_pkey']), 'stripped indexname not found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['ad_ad_zone_assoc_index']), 'unstripped indexname found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['ad_zone_assoc_index']), 'unstripped indexname found in definition');
+        $this->assertFalse(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['zone_assoc_index']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['ad_zone_assoc']['indexes']['index']), 'stripped indexname not found in definition');
+
+        TestEnv::restoreConfig();
+
+
         $this->prefix = $defaultPrefix;
     }
 
