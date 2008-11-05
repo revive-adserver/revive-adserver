@@ -70,9 +70,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
     $aElements = array();
     foreach ($aConfig['settings'] as $k => $v)
     {
-        $aElements += array(
-                            $group.'_'.$v['key'] => array($group => $v['key'])
-                            );
+        if (0 == strcmp($v['type'], 'checkbox'))
+        {
+            $aItemSettings = array($group => $v['key'], 'bool' => 'true');
+        }
+        else
+        {
+            $aItemSettings = array($group => $v['key']);
+        }
+        
+        $aElements += array($group.'_'.$v['key'] => $aItemSettings);
 
         // Register the HTML element value
         MAX_commonRegisterGlobalsArray(array($group.'_'.$v['key']));
