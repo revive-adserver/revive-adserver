@@ -99,9 +99,11 @@ $Id$
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
+                {if $isAdvertiser == false}
                 <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
+                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=advertiser-campaigns.php}
                 </th>
@@ -160,14 +162,20 @@ $Id$
     {foreach key=campaignId item=campaign from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
+                {if $isAdvertiser == false}
                 <td class='toggleSelection'>
                     <input type='checkbox' value='{$campaignId}' />
                 </td>
+                {/if}
                 <td>
-                    {if $isAdvertiser && $canEdit == false}
-                      <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
+                    {if $isAdvertiser}
+                        <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
                     {else}
-                      <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                        {if $canEdit == false}
+                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
+                        {else}
+                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                        {/if}
                     {/if}
                 </td>
                 <td>
