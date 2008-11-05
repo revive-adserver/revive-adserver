@@ -1,14 +1,12 @@
 <?php
 
-/*---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -53,8 +51,8 @@ class oxMemcached_processSettings
             $storeSettings['memcachedExpireTime'] = $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'];
             $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'] = $GLOBALS['oxMemcached_memcachedExpireTime'];
         }
-        
-        // Use memcached plugin getStatus function to validate 
+
+        // Use memcached plugin getStatus function to validate
         $oPlgOxMemcached = &OX_Component::factory('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $result = $oPlgOxMemcached->getStatus();
         if ($result !== true) {
@@ -62,11 +60,11 @@ class oxMemcached_processSettings
             $result = false;
         }
 
-        // Restore config values 
+        // Restore config values
         foreach ($storeSettings as $key => $value) {
             $GLOBALS['_MAX']['CONF']['oxMemcached'][$key] = $value;
         }
-        
+
         return $result;
     }
 }

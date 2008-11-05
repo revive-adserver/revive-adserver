@@ -1,11 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -536,12 +537,12 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
     }
-    
-    
+
+
     function testUpdateHighWithNoTargetSet()
     {
         //test for OX-3635
-        $expire = '2020-01-01'; 
+        $expire = '2020-01-01';
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->name = 'Some test campaign';
@@ -552,20 +553,20 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns->priority = 5;
         $doCampaigns->weight = 0;
         $campaignId = DataGenerator::generateOne($doCampaigns);
-        
+
         //get campaign and check if it's inactive (it should be since we have not
         //set target per day nor limit for high campaign
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_INACTIVE);
-        
+
         $doCampaigns->views = 1000;
         $doCampaigns->update();
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
     }
-    
-    
+
+
 }
 
 ?>
