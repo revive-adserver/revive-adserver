@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
@@ -115,7 +115,7 @@ class Test_postscript_2_7_11_dev extends UnitTestCase
         $campaignId6  = DataGenerator::generateOne($doCampaigns);
         $result[$campaignId6] = array('campaignname'=>$doCampaigns->campaignname, 'revenue_type'=>MAX_FINANCE_CPA);
 
-        
+
         $oDbh = OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'campaigns',true);
         $oDbh->exec('UPDATE '.$table.' SET revenue_type = NULL');
