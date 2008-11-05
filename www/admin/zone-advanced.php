@@ -82,7 +82,7 @@ else {
     $aZone['appendtype'] = phpAds_ZoneAppendRaw;
 }
 //extract chainzone
-if (ereg("^zone:([0-9]+)$", $zone['chain'], $regs)) {
+if (ereg("^zone:([0-9]+)$", $aZone['chain'], $regs)) {
     $aZone['chainzone'] = $regs[1];
 }
 else {
@@ -146,7 +146,7 @@ function buildChainSettingsFormSection($form, $aZone)
     $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone),
         _getChainZones($aZone), array('id'=> 'chainzone', 'class' => 'medium'));
     $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select',
-            'class' => $zone['chain']=='' ? 'hide' : '')));
+            'class' => $aZone['chain']=='' ? 'hide' : '')));
 
     $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], array("<BR>", '', ''));
 }
@@ -353,7 +353,7 @@ function _getAppendZones($aZone)
     $doZones = OA_Dal::factoryDO('zones');
 
     $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial || $aZone['delivery'] == phpAds_ZonePopup;
-    if ($zone['width'] != -1 && !$allowothersizes) {
+    if ($aZone['width'] != -1 && !$allowothersizes) {
         $doZones->width = $aZone['width'];
     }
     if ($aZone['height'] != -1 && !$allowothersizes) {
