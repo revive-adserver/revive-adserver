@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Config.php 7436 2007-06-11 14:20:35Z david.keen@openads.org $
+$Id$
 */
 
 /**

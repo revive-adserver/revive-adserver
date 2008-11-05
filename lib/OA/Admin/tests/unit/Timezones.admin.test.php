@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: OA_Admin_Timezones.admin.test.php 6351 2007-05-10 13:55:39Z aj@seagullproject.org $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Timezones.php';

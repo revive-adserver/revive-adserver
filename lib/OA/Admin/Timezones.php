@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
+$Id$
 */
 
 /**

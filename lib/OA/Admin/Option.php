@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: lib-settings.inc.php 12449 2007-11-15 13:40:06Z miguel.correa@openads.org $
+$Id$
 */
 
 // Required files
