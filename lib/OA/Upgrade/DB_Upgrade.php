@@ -265,9 +265,8 @@ class OA_DB_Upgrade
 
         $this->aDefinitionNew = $this->oTable->aDefinition;
         $this->aDefinitionNew['prefixedTblNames'] = false; // we got this from the xml so it has no table prefixes
-        $this->aDefinitionNew['prefixedPkyNames'] = false; // we got this from the xml so it has no primary key prefixes
         $this->aDefinitionNew['prefixedIdxNames'] = false; // we got this from the xml so it has no index prefixes
-        $this->aDefinitionNew['expandedIdxNames'] = false; // we got this from the xml, it has long index names ( + tablename + indexname)
+        $this->aDefinitionNew['expandedIdxNames'] = true; // we got this from the xml, it has long index names ( + tablename + indexname)
         $this->_logOnly('successfully parsed the schema');
         $this->_logOnly('schema name: '.$this->aDefinitionNew['name']);
         $this->_logOnly('schema version: '.$this->aDefinitionNew['version']);
@@ -486,16 +485,12 @@ class OA_DB_Upgrade
         $this->_logOnly('running integrity check');
         $this->_logOnly('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
         // compare the schema and implemented definitions
-        if (version_compare($this->versionInitialApplication, '2.6', '>='))
-        {
-            $this->aDefinitionNew['expandedIdxNames'] = true;
-        }
-        $aDefinitionNew = $this->_stripPrefixesFromDatabaseDefinition($this->aDefinitionNew);
         $aDefinitionOld = $this->_getDefinitionFromDatabase();
         if ($this->_isPearError($aDefinitionOld, 'error getting database definition'))
         {
             return false;
         }
+        $aDefinitionNew = $this->_stripPrefixesFromDatabaseDefinition($this->aDefinitionNew);
         OA_DB::setCaseSensitive();
         $aDiffs = $this->oSchema->compareDefinitions($aDefinitionNew, $aDefinitionOld);
         OA_DB::disableCaseSensitive();
@@ -2420,19 +2415,18 @@ class OA_DB_Upgrade
             return array();
         }
         $aDef['prefixedTblNames'] = true; // we got this from the db so it has table prefixes
-        $aDef['prefixedPkyNames'] = true; // we got this from the db so it has primary key prefixes
         $aDef['prefixedIdxNames'] = true; // we got this from the db so it has index prefixes
-        $aDef['expandedIdxNames'] = true; // we got this from the db so it has tablenames in the indexnames
-        // creation of indexnames changed after 2.6
-        // due ot pgsql, names were prefixed and expanded with tablename for uniqueness
-        if (version_compare($this->versionInitialApplication, '2.6', '<'))
-        {
-            $aDef['expandedIdxNames'] = false;
-            $aDef['prefixedIdxNames'] = false;
-        }
+        $aDef['expandedIdxNames'] = true; // we got this from the db so it has long index names ( + tablename + indexname)
         return $this->_stripPrefixesFromDatabaseDefinition($aDef);
     }
 
+    /**
+     * remove openads prefixes from a definition array
+     * these will commonly be found in table names and index names
+     *
+     * @param array $aDefinition
+     * @return array
+     */
     /**
      * remove openads prefixes from a definition array
      * these will commonly be found in table names and index names
@@ -2459,24 +2453,17 @@ class OA_DB_Upgrade
                 {
                     $strippedidx = strtolower($indexname);
                     $iOffset = 63 - strlen($prefix);
+                    if ($aDefinition['prefixedIdxNames'])
+                    {
+                        $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
+                    }
                     if (!isset($aIndex['primary']))
                     {
-                        if ($aDefinition['prefixedIdxNames'])
-                        {
-                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
-                        }
                         $iOffset-= 1;
                         if ($aDefinition['expandedIdxNames'])
                         {
                             $strippedidx = preg_replace("/^{$strippedname}_/", '', $strippedidx, 1);
                             $iOffset-= strlen($strippedname) ;
-                        }
-                    }
-                    else
-                    {
-                        if ($aDefinition['prefixedPkyNames'])
-                        {
-                            $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
                         }
                     }
                     $strippedidx = substr($strippedidx, 0, $iOffset);
