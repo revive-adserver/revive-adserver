@@ -118,7 +118,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         if ($doPwdRecovery->fetch()) {
             $userId = $doPwdRecovery->user_id;
             
-            $doPlugin = MAX_Plugin::factoryPluginByModuleConfig('authentication');
+            $doPlugin = &OA_Auth::staticGetAuthPlugin();
             $doPlugin->setNewPassword($userId, $password);
 
             $doPwdRecoveryClone->delete();
