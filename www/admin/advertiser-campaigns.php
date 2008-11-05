@@ -190,6 +190,7 @@ $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('showconversions', $conf['logging']['trackerImpressions']);
 $oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
 $oTpl->assign('canEdit', OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
+$oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
 
 
 /*-------------------------------------------------------*/
