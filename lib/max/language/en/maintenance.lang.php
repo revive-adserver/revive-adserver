@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -27,7 +27,7 @@ $Id:maintenance.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 
 // Main strings
 $GLOBALS['strChooseSection']			= "Choose section";
-$GLOBALS['strAppendCodes']              = 'Append codes';
+$GLOBALS['strAppendCodes']              = "Append codes";
 
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun']	   = "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>";
@@ -121,9 +121,9 @@ $GLOBALS['strStorageExplaination']		= "
 
 // Encoding
 $GLOBALS['strEncoding']                 = "Encoding";
-$GLOBALS['strEncodingExplaination']     = MAX_PRODUCT_NAME . ' now stores all data in the database in UTF-8 format.<br />
+$GLOBALS['strEncodingExplaination']     = MAX_PRODUCT_NAME ." now stores all data in the database in UTF-8 format.<br />
     Where possible, your data will have been automatically converted to this encoding.<br />
-    If after upgrading you find corrupt characters, and you know the encoding used, you may use this tool to convert the data from that format to UTF-8';
+    If after upgrading you find corrupt characters, and you know the encoding used, you may use this tool to convert the data from that format to UTF-8";
 $GLOBALS['strEncodingConvertFrom']      = "Convert from this encoding:";
 $GLOBALS['strEncodingConvert']          = "Convert";
 $GLOBALS['strEncodingConvertTest']      = "Test conversion";
@@ -235,14 +235,14 @@ $GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Also, automatic maintenanc
  you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations']      = 'Delivery Limitations';
-$GLOBALS['strAllBannerChannelCompiled'] = 'All banner/channel compiled limitation values have been recompiled';
+$GLOBALS['strDeliveryLimitations']      = "Delivery Limitations";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled limitation values have been recompiled";
 $GLOBALS['strBannerChannelResult']      = "Here are the results of the banner/channel compiled limitation validation";
 $GLOBALS['strChannelCompiledLimitationsValid']  = "All channel compiled limitations are valid";
 $GLOBALS['strBannerCompiledLimitationsValid']   = "All banner compiled limitations are valid";
 $GLOBALS['strErrorsFound']              = "Errors found";
 $GLOBALS['strRepairCompiledLimitations']        = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
-$GLOBALS['strRecompile']                = 'Recompile';
+$GLOBALS['strRecompile']                = "Recompile";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database";
 $GLOBALS['strCheckACLs'] = "Check ACLs";
 

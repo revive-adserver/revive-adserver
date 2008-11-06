@@ -54,7 +54,7 @@ $GLOBALS['strIFrameRefreshAfter']                   = "Refresh after";
 $GLOBALS['strIframeResizeToBanner']                 = "Resize iframe to banner dimensions";
 $GLOBALS['strIframeMakeTransparent']                = "Make the iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4']               = "Include Netscape 4 compatible ilayer";
-$GLOBALS['strIframeGoogleClickTracking']            = 'Include code to track Google AdSense clicks';
+$GLOBALS['strIframeGoogleClickTracking']            = "Include code to track Google AdSense clicks";
 
 
 // PopUp

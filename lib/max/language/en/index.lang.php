@@ -26,7 +26,7 @@ $Id$
 */
 
 // Meta information
-$translation_readable   = "English (International)";
+$translation_readable   = "English";
 $translation_maintainer	= "OpenX Limited";
 $translation_contact	= "http://www.openx.org/community/localisation";
 
