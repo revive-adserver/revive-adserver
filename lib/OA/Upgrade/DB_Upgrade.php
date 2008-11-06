@@ -315,8 +315,8 @@ class OA_DB_Upgrade
     {
         if ($version == '049') {
             // We need to ensure that the XML index definition matches the actual name, which might be truncated
-            foreach ($this->aDefinitionNew['tables'] as $tableName => $aTable) {
-                foreach ($aTable['indexes'] as $indexName => $aIndex) {
+            foreach ($this->aDefinitionNew['tables'] as $tableName => &$aTable) {
+                foreach ($aTable['indexes'] as $indexName => &$aIndex) {
                     $newIndexName = OA_phpAdsNew::phpPgAdsIndexToOpenads($indexName, $tableName, $this->prefix);
                     if (empty($aIndex['primary']) && $indexName != $newIndexName) {
                         $this->_logOnly('phppgads index detected, renaming '.$indexName.' to '.$newIndexName);
@@ -519,21 +519,21 @@ class OA_DB_Upgrade
 
         if (array_key_exists('add',$aChanges['constructive']['tables']))
         {
-            foreach ($aChanges['constructive']['tables']['add'] AS $k => $v)
+            foreach ($aChanges['constructive']['tables']['add'] AS $k => &$v)
             {
                 $this->_logOnly('table is missing: '.$k);
             }
         }
         if (array_key_exists('change', $aChanges['constructive']['tables']))
         {
-            foreach ($aChanges['constructive']['tables']['change'] AS $k => $v)
+            foreach ($aChanges['constructive']['tables']['change'] AS $k => &$v)
             {
                 // empty arrays should not exist
                 if (count($v)>0)
                 {
                     if (isset($v['add']))
                     {
-                        foreach ($v['add']['fields'] AS $column => $bool)
+                        foreach ($v['add']['fields'] AS $column => &$bool)
                         {
                             $this->_logOnly('column missing from table: '.$k.'.'.$column);
                         }
@@ -557,7 +557,7 @@ class OA_DB_Upgrade
         }
         if (array_key_exists('remove',$aChanges['destructive']['tables']))
         {
-            foreach ($aChanges['destructive']['tables']['remove'] AS $k => $v)
+            foreach ($aChanges['destructive']['tables']['remove'] AS $k => &$v)
             {
                 $this->_logOnly('table is not part of schema: '.$k);
             }
@@ -584,7 +584,7 @@ class OA_DB_Upgrade
 	                                                  'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
 	                                                 )
 	                                           );
-	            foreach ($aTables AS $k => $table)
+	            foreach ($aTables AS $k => &$table)
 	            {
 	                if (in_array($this->prefix.$table, $this->aDBTables))
 	                {
@@ -670,15 +670,15 @@ class OA_DB_Upgrade
             // restore backup tables
             if (!empty($this->aRestoreTables))
             {
-                foreach ($this->aRestoreTables AS $schema => $aVersions)
+                foreach ($this->aRestoreTables AS $schema => &$aVersions)
                 {
                     $ok = krsort($aVersions, SORT_NUMERIC);
-                    foreach ($aVersions AS $version => $aTables)
+                    foreach ($aVersions AS $version => &$aTables)
                     {
-                        foreach ($aTables AS $table => $aTimings)
+                        foreach ($aTables AS $table => &$aTimings)
                         {
                             $ok = krsort($aTimings, SORT_NUMERIC);  // destructive first
-                            foreach ($aTimings AS $timing => $aTableRec)
+                            foreach ($aTimings AS $timing => &$aTableRec)
                             {
                                 $this->oAuditor->setKeyParams(array('schema_name'=>$aTableRec['schema_name'],
                                                                     'version'=>$aTableRec['version'],
@@ -734,12 +734,12 @@ class OA_DB_Upgrade
             // drop added tables
             if (!empty($this->aAddedTables))
             {
-                foreach ($this->aAddedTables AS $schema => $aVersions)
+                foreach ($this->aAddedTables AS $schema => &$aVersions)
                 {
                     $ok = krsort($aVersions, SORT_NUMERIC);
-                    foreach ($aVersions AS $version => $aTables)
+                    foreach ($aVersions AS $version => &$aTables)
                     {
-                        foreach ($aTables AS $table => $aTableRec)
+                        foreach ($aTables AS $table => &$aTableRec)
                         {
                             $this->oAuditor->setKeyParams(array('schema_name'=>$aTableRec['schema_name'],
                                                                 'version'=>$aTableRec['version'],
@@ -804,7 +804,7 @@ class OA_DB_Upgrade
         {
             return false;
         }
-        foreach ($aResult as $k => $aAction)
+        foreach ($aResult as $k => &$aAction)
         {
             $this->aRestoreTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']][$aAction['timing']] = $aAction;
             $this->_logOnly("require backup table {$this->prefix}{$aAction['tablename_backup']} to restore {$aAction['schema']}:{$aAction['version']} table: {$this->prefix}{$aAction['tablename']}");
@@ -824,7 +824,7 @@ class OA_DB_Upgrade
         {
             return false;
         }
-        foreach ($aResult as $k => $aAction)
+        foreach ($aResult as $k => &$aAction)
         {
             if (in_array($this->prefix.$aAction['tablename'], $this->aDBTables))
             {
@@ -909,7 +909,7 @@ class OA_DB_Upgrade
         {
             if ($aDiffs['tables']['change'][$table]['change'])
             {
-                foreach ($aDiffs['tables']['change'][$table]['change'] AS $field_name => $aFldDiff)
+                foreach ($aDiffs['tables']['change'][$table]['change'] AS $field_name => &$aFldDiff)
                 {
                     if (array_key_exists('autoincrement',$aFldDiff))
                     {
@@ -1048,7 +1048,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['fields']['add']))
         {
-            foreach ($this->aTaskList['fields']['add'] as $k => $aTask)
+            foreach ($this->aTaskList['fields']['add'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
@@ -1078,7 +1078,7 @@ class OA_DB_Upgrade
         }
         if (isset($this->aTaskList['fields']['remove']))
         {
-            foreach ($this->aTaskList['fields']['remove'] as $k => $aTask)
+            foreach ($this->aTaskList['fields']['remove'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $table, 'alter'));
@@ -1109,7 +1109,7 @@ class OA_DB_Upgrade
         if (isset($this->aTaskList['fields']['change']))
         {
 
-            foreach ($this->aTaskList['fields']['change'] as $k => $aTask)
+            foreach ($this->aTaskList['fields']['change'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
@@ -1140,7 +1140,7 @@ class OA_DB_Upgrade
         if (isset($this->aTaskList['fields']['rename']))
         {
 
-            foreach ($this->aTaskList['fields']['rename'] as $k => $aTask)
+            foreach ($this->aTaskList['fields']['rename'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
@@ -1180,7 +1180,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['tables']['add']))
         {
-            foreach ($this->aTaskList['tables']['add'] as $k => $aTask)
+            foreach ($this->aTaskList['tables']['add'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'create'));
@@ -1231,7 +1231,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['tables']['rename']))
         {
-            foreach ($this->aTaskList['tables']['rename'] as $k => $aTask)
+            foreach ($this->aTaskList['tables']['rename'] as $k => &$aTask)
             {
                 $tbl_new = $this->prefix.$aTask['name'];
                 $tbl_old = $this->prefix.$aTask['cargo']['was'];
@@ -1285,7 +1285,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['tables']['remove']))
         {
-            foreach ($this->aTaskList['tables']['remove'] as $k => $aTask)
+            foreach ($this->aTaskList['tables']['remove'] as $k => &$aTask)
             {
                 $table = $aTask['name'];
                 $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'remove'));
@@ -1331,7 +1331,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['indexes']['add']))
         {
-            foreach ($this->aTaskList['indexes']['add'] as $k => $aTask)
+            foreach ($this->aTaskList['indexes']['add'] as $k => &$aTask)
             {
                 $table = $aTask['table'];
                 $index = $aTask['name'];
@@ -1357,7 +1357,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aTaskList['indexes']['remove']))
         {
-            foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
+            foreach ($this->aTaskList['indexes']['remove'] as $k => &$aTask)
             {
                 $table = $this->prefix.$aTask['table'];
                 $indexOrig = $aTask['name'];
@@ -1474,13 +1474,13 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['indexes']))
                 {
                     $aDBIndexes     = $this->_listIndexes($this->prefix.$table);
                     $aDBConstraints = $this->_listConstraints($this->prefix.$table);
-                    foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
+                    foreach ($aTable_tasks['indexes'] AS $index => &$aIndex_tasks)
                     {
                         // if the index/constraint already exists on the table
                         if ( (in_array($index, $aDBIndexes) || in_array($index, $aDBConstraints) ) )
@@ -1532,13 +1532,13 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['indexes']))
                 {
                     $aDBIndexes     = $this->_listIndexes($this->prefix.$table);
                     $aDBConstraints = $this->_listConstraints($this->prefix.$table);
-                    foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
+                    foreach ($aTable_tasks['indexes'] AS $index => &$aIndex_tasks)
                     {
                         // Matteo - todo fix primary key name
                         $indexName = $this->oTable->_generateIndexName($this->prefix.$table, $index);
@@ -1574,7 +1574,7 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['fields']))
                 {
@@ -1587,7 +1587,7 @@ class OA_DB_Upgrade
                     else
                     {
                         $aDBFields = $this->_listTableFields($table);
-                        foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
+                        foreach ($aTable_tasks['fields'] AS $field => &$aField_tasks)
                         {
                             $this->_logOnly('checking field: '.$this->prefix.$table.' '.$field);
                             if (!in_array($field, $aDBFields))
@@ -1625,7 +1625,7 @@ class OA_DB_Upgrade
                             else
                             {
                                 $this->_logOnly('found field '.$field);
-                                foreach ($aField_tasks AS $task => $method)
+                                foreach ($aField_tasks AS $task => &$method)
                                 {
                                     if ($task != 'rename')
                                     {
@@ -1653,11 +1653,11 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['self']))
                 {
-                    foreach ($aTable_tasks['self'] AS $task => $method)
+                    foreach ($aTable_tasks['self'] AS $task => &$method)
                     {
                         if ($task == 'remove')
                         {
@@ -1692,11 +1692,11 @@ class OA_DB_Upgrade
     {
         if ($this->aChanges['tasks'][$this->timingStr]['tables'])
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['self']))
                 {
-                    foreach ($aTable_tasks['self'] AS $task => $method)
+                    foreach ($aTable_tasks['self'] AS $task => &$method)
                     {
                         if ($task == 'rename')
                         {
@@ -1740,11 +1740,11 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
-            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
+            foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
             {
                 if (isset($aTable_tasks['self']))
                 {
-                    foreach ($aTable_tasks['self'] AS $task => $method)
+                    foreach ($aTable_tasks['self'] AS $task => &$method)
                     {
                         if ($task == 'add')
                         {
@@ -1857,7 +1857,7 @@ class OA_DB_Upgrade
 
         if (isset($aTableDef['indexes']))
         {
-            foreach ($aTableDef['indexes'] AS $index_name=>$aIndex_def)
+            foreach ($aTableDef['indexes'] AS $index_name=>&$aIndex_def)
             {
                 $aTable['indexes'][] = array(
                                                 'table'=>$table,
@@ -2007,7 +2007,7 @@ class OA_DB_Upgrade
     {
         if (isset($aIndex_def['fields']))
         {
-            foreach ($aIndex_def['fields'] as $field => $aDef)
+            foreach ($aIndex_def['fields'] as $field => &$aDef)
             {
                 if (array_key_exists('order', $aDef))
                 {
@@ -2019,7 +2019,7 @@ class OA_DB_Upgrade
         {
             ksort($aIdx_sort);
             reset($aIdx_sort);
-            foreach ($aIdx_sort as $k => $field)
+            foreach ($aIdx_sort as $k => &$field)
             {
                 $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
                 $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
@@ -2440,7 +2440,7 @@ class OA_DB_Upgrade
         $aTables = array();
         $isPrefixedTable = ((!empty($prefix)) && isset($aDefinition['tables'][$prefix.'users']));
         $isPrefixedIndex = ((!empty($prefix)) && isset($aDefinition['tables'][$prefix.'users']['indexes'][$prefix.'users_username']));
-        foreach ($aDefinition['tables'] AS $tablename => $aDef)
+        foreach ($aDefinition['tables'] AS $tablename => &$aDef)
         {
             $strippedname = strtolower($tablename);
             if ($aDefinition['prefixedTblNames'])

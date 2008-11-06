@@ -310,7 +310,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
         $prelen = strlen($prefix);
         krsort($aBakTables);
-        foreach ($aBakTables AS $k => $name)
+        foreach ($aBakTables AS $k => &$name)
         {
             // workaround for mdb2 problem "show table like"
             if (substr($name,0,$prelen)==$prefix)

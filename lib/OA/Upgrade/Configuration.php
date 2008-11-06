@@ -215,9 +215,9 @@ class OA_Upgrade_Config
 
     function setupConfigPan($aConfig)
     {
-        foreach ($aConfig AS $section => $aKey)
+        foreach ($aConfig AS $section => &$aKey)
         {
-            foreach ($aKey AS $name => $value)
+            foreach ($aKey AS $name => &$value)
             {
                 $this->setValue($section, $name, $value);
             }
@@ -309,7 +309,7 @@ class OA_Upgrade_Config
 
     function setGlobals()
     {
-        foreach ($this->aConfig AS $sectionName => $aSection)
+        foreach ($this->aConfig AS $sectionName => &$aSection)
         {
             foreach ($aSection as $k=>$v)
             {
@@ -340,10 +340,10 @@ class OA_Upgrade_Config
         }
 
         // Check for any new keys in dist
-        foreach ($aConfDist as $key => $value) {
+        foreach ($aConfDist as $key => &$value) {
         	if (array_key_exists($key, $this->aConfig)) {
         	    if (is_array($aConfDist[$key])) {
-            	    foreach ($aConfDist[$key] as $subKey => $subValue) {
+            	    foreach ($aConfDist[$key] as $subKey => &$subValue) {
             	    	if (!array_key_exists($subKey, $this->aConfig[$key])) {
                             return true;
             	    	}

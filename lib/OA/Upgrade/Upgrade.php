@@ -922,9 +922,9 @@ class OA_Upgrade
         if (count($this->oIntegrity->aTasksConstructiveAll)>0)
         {
             $this->oLogger->logError('database integrity check detected problems with the database');
-            foreach ($this->oIntegrity->aTasksConstructiveAll AS $elem => $aTasks)
+            foreach ($this->oIntegrity->aTasksConstructiveAll AS $elem => &$aTasks)
             {
-                foreach ($aTasks AS $task => $aItems)
+                foreach ($aTasks AS $task => &$aItems)
                 {
                     $this->oLogger->logError(count($aItems).' '.$elem.' to '.$task);
                 }
@@ -1741,7 +1741,7 @@ class OA_Upgrade
         $aPrefs = $oPreferences->getPreferenceDefaults();
 
         // Insert default prefs
-        foreach ($aPrefs as $prefName => $aPref) {
+        foreach ($aPrefs as $prefName => &$aPref) {
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_name = $prefName;
             $doPreferences->account_type = empty($aPref['account_type']) ? '' : $aPref['account_type'];
@@ -1987,7 +1987,7 @@ class OA_Upgrade
             return false;
         }
         $tablePrefixError = false;
-        foreach ($aExistingTables AS $k => $tablename)
+        foreach ($aExistingTables AS &$tablename)
         {
             if (substr($tablename, 0, strlen($this->aDsn['table']['prefix'])) == $this->aDsn['table']['prefix'])
             {
@@ -2011,7 +2011,7 @@ class OA_Upgrade
      */
     function upgradeSchemas()
     {
-        foreach ($this->aDBPackages as $k=>$aPkg)
+        foreach ($this->aDBPackages as &$aPkg)
         {
             if (!array_key_exists($aPkg['schema'],$this->versionInitialSchema))
             {
@@ -2237,7 +2237,7 @@ class OA_Upgrade
         if (file_exists($this->recoveryFile))
         {
             $aContent = explode(';', file_get_contents($this->recoveryFile));
-            foreach ($aContent as $k => $v)
+            foreach ($aContent as $k => &$v)
             {
                 if (trim($v))
                 {
@@ -2295,7 +2295,7 @@ class OA_Upgrade
         {
             $f = fopen($this->postTaskFile, 'w');
             $this->aToDoList = array_unique($this->aToDoList);
-            foreach ($this->aToDoList AS $k => $v)
+            foreach ($this->aToDoList AS $k => &$v)
             {
                 fwrite($f, "{$v};\r\n");
             }
@@ -2318,7 +2318,7 @@ class OA_Upgrade
         if (file_exists($this->postTaskFile))
         {
             $aContent = array_unique(explode(';', trim(file_get_contents($this->postTaskFile))));
-            foreach ($aContent as $k => $v)
+            foreach ($aContent as $k => &$v)
             {
                 if (trim($v))
                 {

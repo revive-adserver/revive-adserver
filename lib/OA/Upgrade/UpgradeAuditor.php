@@ -230,7 +230,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      */
     function getBackupTableStatus($aTables)
     {
-        foreach ($aTables AS $k => $aRec)
+        foreach ($aTables AS $k => &$aRec)
         {
             $aStatus = $this->oDBAuditor->getTableStatus($aRec['tablename_backup']);
             $aTables[$k]['backup_size']   = $aStatus[0]['data_length']/1024;
@@ -287,7 +287,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $aResult = $this->queryAuditByUpgradeId($upgrade_id);
         $aResultDB = $this->queryAuditBackupTablesByUpgradeId($upgrade_id);
 
-        foreach ($aResultDB AS $k => $aTable)
+        foreach ($aResultDB AS $k => &$aTable)
         {
             $result = $this->oDbh->manager->dropTable($this->prefix.$aTable['tablename_backup']);
             if ($this->isPearError($result,'error dropping backup table'))
@@ -297,7 +297,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
             $this->oDBAuditor->updateAuditBackupDroppedById($aTable['database_action_id'],'cleaned by user');
         }
 
-        foreach ($aResult AS $k => $aRec)
+        foreach ($aResult AS $k => &$aRec)
         {
             if ($aRec['logfile'] && file_exists(MAX_PATH.'/var/'.$aRec['logfile']))
             {
