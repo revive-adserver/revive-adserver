@@ -288,9 +288,11 @@ else if (array_key_exists('btn_upgrade', $_POST))
                 }
 
                 // Clear the menu cache to built a new one with the new settings
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
                 OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADVERTISER);
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_TRAFFICKER);
                 OA_Admin_Menu::singleton();
-            }
         }
     }
 
