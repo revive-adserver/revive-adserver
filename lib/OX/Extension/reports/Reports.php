@@ -302,7 +302,7 @@ class Plugins_Reports extends OX_Component
             // take as the start date the date when adds were serverd
             $aConf = $GLOBALS['_MAX']['CONF'];
             $oDbh = OA_DB::singleton();
-            $query = "SELECT MIN(date_time) as min_datetime FROM ". $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true) . " WHERE 1";
+            $query = "SELECT MIN(date_time) as min_datetime FROM ". $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true) . " WHERE 1=1";
             $startDate = $oDbh->queryRow($query);
             $startDate = $startDate['min_datetime'];
             $oStartDate = new Date($startDate);
