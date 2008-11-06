@@ -47,10 +47,10 @@ $hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] 
 $listorder      = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $aNodes         = MAX_getStoredArray('nodes', array());
-$editStatuses   = MAX_getStoredValue('editStatuses', false);
+$editStatuses   = MAX_getStoredValue('editStatuses', false, null, true);
 $day            = MAX_getStoredValue('day', null, 'stats-conversions.php');
 $howLong        = MAX_getStoredValue('howLong', 'd');
-$hour           = MAX_getStoredValue('hour', null);
+$hour           = MAX_getStoredValue('hour', null, 'stats-conversions.php');
 $setPerPage     = MAX_getStoredValue('setPerPage', 15);
 $pageID         = MAX_getStoredValue('pageID', 1);
 
@@ -265,13 +265,13 @@ $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
 
 $pager->pagerLinks = $pager->pagerLinks['all'];
-$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2', $pager->getPerPageSelectBox(15, 120, 15));
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 id="setPerPageSelect"$2', $pager->getPerPageSelectBox(15, 120, 15));
 
 // Build the conversions array
 if (!empty($aConversions)) {
 
     if($editStatuses) {
-        echo "<form action='connections-modify.php' name='connectionsmodify' id='connectionsmodify' method='POST'>"."\n";
+        echo "<form id='connections-modify' action='connections-modify.php' name='connectionsmodify' id='connectionsmodify' method='POST'>"."\n";
         echo "<input type='hidden' name='clientid' value='$clientId'>"."\n";
         echo "<input type='hidden' name='campaignid' value='$campaignId'>"."\n";
         echo "<input type='hidden' name='bannerid' value='$bannerId'>"."\n";
@@ -287,6 +287,8 @@ if (!empty($aConversions)) {
         }
         echo "<input type='hidden' name='returnurl' value='stats.php'>"."\n";
         echo "<input type='hidden' name='entity' value='conversions'>"."\n";
+        echo "<input type='hidden' name='setPerPage' value='$setPerPage'>"."\n";
+        echo "<input type='hidden' name='pageID' value='$pageID'>"."\n";
     }
 
     echo "
@@ -510,42 +512,64 @@ if (!empty($aConversions)) {
             <td colspan='2' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=all' accesskey='$keyExpandAll'>$strExpandAll</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=none' accesskey='$keyCollapseAll'>$strCollapseAll</a>&nbsp;&nbsp;</td>
 
         </tr>";
-
-
-
-
-    echo "<form method='get' action='stats.php?".$_SERVER['QUERY_STRING']."'>";
-
-    $getValues = split('&', $_SERVER['QUERY_STRING']);
-
-    foreach ($getValues as $record) {
-        $filed = explode('=', $record);
-        echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
-    }
-
-
     echo "<tr>
 
-            <td colspan='4' align='$phpAds_TextAlignLeft' nowrap> $strItemsPerPage $pager->pagerSelect ";
+            <td colspan='4' align='$phpAds_TextAlignLeft' nowrap> ";
+    if($editStatuses) {
+             echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."' onClick='document.connectionsmodify.submit()'>"."\n";
+    }
 
     echo "
-
             </td>
 
-            <td colspan='2' align='$phpAds_TextAlignRight' nowrap> $pager->pagerLinks &nbsp;&nbsp;</td>
+            <td colspan='2' align='$phpAds_TextAlignRight' nowrap> $strItemsPerPage $pager->pagerSelect &nbsp; $pager->pagerLinks &nbsp;&nbsp;</td>
 
         </tr>
 
         </table>
-
         <br /><br />
-        </form>
         ";
 
     if($editStatuses) {
-        echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."' onClick='document.connectionsmodify.submit()'>"."\n";
         echo "</form>"."\n";
     }
+    
+    echo "<form id='setPager' method='get' action='stats.php?".$_SERVER['QUERY_STRING']."'>";
+
+    $getValues = split('&', $_SERVER['QUERY_STRING']);
+    foreach ($getValues as $record) {
+        $filed = explode('=', $record);
+        if ($filed[0] != 'setPerPage' && $filed[0] != 'pageID') {
+            echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
+        }
+    }
+    
+    echo "<input type='hidden' name='pageID'  value='1'>";
+    echo "<input type='hidden' name='setPerPage' id='setPerPage'>";
+    
+    echo "</form>";
+    
+echo '
+<script type=\'text/javascript\'>
+<!--
+      
+$(document).ready(function() {
+    $("#setPerPageSelect").change(updatePerPage);
+});
+
+function updatePerPage()
+{
+    perPage = $("#setPerPageSelect").val();
+    $form = $("#setPager");
+        
+    $("#setPerPage", $form).attr(\'value\', perPage);
+    
+    $form.get(0).submit();
+}
+
+-->
+</script>';
+    
 } else {
     echo "
         <br /><br /><div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>$strNoStats</div>";

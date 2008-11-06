@@ -56,6 +56,8 @@ $howLong       = MAX_getValue('howLong');
 $hour          = MAX_getValue('hour');
 $returnurl     = MAX_getValue('returnurl');
 $statusIds     = MAX_getValue('statusIds');
+$pageID        = MAX_getValue('pageID');
+$setPerPage    = MAX_getValue('setPerPage');
 
 $aParams = array();
 
@@ -152,8 +154,8 @@ if (!empty($aConversions))
                 $oConnectionDate = &new Date($dateTime);
 
                 $optIntID = OA_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
-                $day = $oConnectionDate->format('%Y-%m-%d');
-                $hour = $oConnectionDate->format('%H');
+                $opDay = $oConnectionDate->format('%Y-%m-%d');
+                $opHour = $oConnectionDate->format('%H');
 
                 // Get ad_id, creative_id and zone_id
                 $ad_id = $aConversions[$conversionId]['ad_id'];
@@ -203,12 +205,12 @@ if (!empty($aConversions))
                 $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
                 $dalData_intermediate_ad->addConversion($operation,
                     $basketValue, $numItems, $ad_id,
-                    $creative_id, $zone_id, $day, $hour);
+                    $creative_id, $zone_id, $opDay, $opHour);
 
                 // Update "$data_summary_table" table
                 $dalData_intermediate_ad->addConversion($operation,
                     $basketValue, $numItems, $ad_id,
-                    $creative_id, $zone_id, $day, $hour, $data_summary_table);
+                    $creative_id, $zone_id, $opDay, $opHour, $data_summary_table);
 
                 // Update finance info
                 $oServiceLocator =& OA_ServiceLocator::instance();
@@ -251,6 +253,12 @@ if (!empty($howLong)) {
 }
 if (!empty($hour)) {
     $addUrl .= "&hour={$hour}";
+}
+if (!empty($pageID)) {
+    $addUrl .= "&pageID={$pageID}";
+}
+if (!empty($setPerPage)) {
+    $addUrl .= "&setPerPage={$setPerPage}";
 }
 
 Header ("Location: ".$returnurl."?".$addUrl);
