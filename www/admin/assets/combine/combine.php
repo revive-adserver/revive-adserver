@@ -137,10 +137,6 @@ else {
       }
 	}
 
-	if ($encoding != 'none') {
-		$contents = gzencode($contents, 9, $encoding == 'gzip' ? FORCE_GZIP : FORCE_DEFLATE);
-	}
-
 	if (_STRATEGY_CACHE_ && is_writable($cacheFolder)) {
 		if ($fp = fopen($cacheFile, 'w+b')) {
 			fwrite($fp, $contents);
@@ -149,9 +145,13 @@ else {
 	}
 }
 
+if ($encoding != 'none') {
+    ob_end_clean();
+    ob_start("ob_gzhandler");
+}
+
 header ("Content-Type: text/" . ($type == 'js' ? 'javascript' : $type));
 header ("Content-Encoding: " . $encoding);
-header ('Content-Length: ' . strlen($contents));
 echo $contents;
 
 ?>
