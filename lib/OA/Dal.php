@@ -88,6 +88,30 @@ class OA_Dal
         return false;
     }
 
+    function checkIfDoExists($table)
+    {
+        OA_Dal::_setupDataObjectOptions();
+        global $_DB_DATAOBJECT;
+        if (!is_array($_DB_DATAOBJECT['CONFIG']['class_location']))
+        {
+            $location = $_DB_DATAOBJECT['CONFIG']['class_location'];
+            $fileExists = DB_DataObject::findTableFile($location, $table);
+        }
+        else
+        {
+            foreach ($_DB_DATAOBJECT['CONFIG']['class_location'] as $k => $location)
+            {
+                $fileExists = DB_DataObject::findTableFile($location, $table);
+                if ($fileExists)
+                {
+                    break;
+                }
+            }
+        }
+
+        return $fileExists;
+    }
+
     /**
      * A method to obtain an appropriate DB_DataObject for a given table name, pre-loaded
      * with the desired data, when possible.

@@ -73,6 +73,15 @@ class Test_OA_Dal extends UnitTestCase
         $this->assertFalse($doBanners);
     }
 
+    function testCheckIfDoExists()
+    {
+        // Test when object exists
+        $this->assertTrue(OA_Dal::checkIfDoExists('banners'));
+
+        // Test when object doesn't exist
+        $this->assertFalse(OA_Dal::checkIfDoExists('foo_1234'));
+    }
+
     function testStaticGetDO()
     {
         // create test record

@@ -319,11 +319,12 @@ class OA_Dll_Audit extends OA_Dll
         if (isset($contexts[$tableName])) {
             return $contexts[$tableName];
         }
-        $do = OA_Dal::factoryDO($tableName);
-        if ($do) {
-            $contexts[$tableName] = $do->_getContext();
-        } else {
-            $contexts[$tableName] = $tableName;
+        $contexts[$tableName] = $tableName;
+        if (OA_Dal::checkIfDoExists($tableName)) {
+            $do = OA_Dal::factoryDO($tableName);
+            if ($do) {
+                $contexts[$tableName] = $do->_getContext();
+            }
         }
         return $contexts[$tableName];
     }

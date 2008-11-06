@@ -633,6 +633,12 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $context = $audit->getContextDescription($table = 'campaigns');
         $doCampaigns = OA_Dal::factoryDO($table);
         $this->assertEqual($context, $doCampaigns->_getContext());
+
+        // test https://developer.openx.org/jira/browse/OX-3105
+        // Pear Error when User Log includes records for tables that no longer exist
+        $table = 'foo_123';
+        $context = $audit->getContextDescription($table);
+        $this->assertEqual($context, $table);
     }
 
 }
