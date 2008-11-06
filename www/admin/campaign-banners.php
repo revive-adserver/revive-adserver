@@ -185,7 +185,7 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
     if (isset($banners[$row['bannerid']]['alt']) && $banners[$row['bannerid']]['alt'] != '') {
 		$banners[$row['bannerid']]['description'] = $banners[$row['bannerid']]['alt'];
     }
-	
+
     // mask banner name if anonymous campaign
     $campaign_details = Admin_DA::getPlacement($row['campaignid']);
     $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
@@ -224,13 +224,14 @@ $oTpl->assign('aCount', $aCount);
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
+$oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
 
 $oTpl->assign('canACL', !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
 $oTpl->assign('canEdit', !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
 $oTpl->assign('canActivate', !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE));
 $oTpl->assign('canDeactivate', !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE));
 $oTpl->assign('canDelete', !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
-						   
+
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */
