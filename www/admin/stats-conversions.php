@@ -48,7 +48,7 @@ $listorder      = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $aNodes         = MAX_getStoredArray('nodes', array());
 $editStatuses   = MAX_getStoredValue('editStatuses', false);
-$day            = MAX_getStoredValue('day', null);
+$day            = MAX_getStoredValue('day', null, 'stats-conversions.php');
 $howLong        = MAX_getStoredValue('howLong', 'd');
 $hour           = MAX_getStoredValue('hour', null);
 $setPerPage     = MAX_getStoredValue('setPerPage', 15);
@@ -514,7 +514,7 @@ if (!empty($aConversions)) {
 
 
 
-    echo "<form method='get' action='stats-conversions.php?".$_SERVER['QUERY_STRING']."'>";
+    echo "<form method='get' action='stats.php?".$_SERVER['QUERY_STRING']."'>";
 
     $getValues = split('&', $_SERVER['QUERY_STRING']);
 

@@ -464,10 +464,12 @@ function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
 function MAX_getStoredValue($key, $default, $pageName=null)
 {
     global $session, $pgName;
-    if(isset($pgName)) {
-        $pageName = $pgName;
-    } else {
-        $pageName = basename($_SERVER['PHP_SELF']);
+    if (!isset($pageName)) {
+        if(isset($pgName)) {
+            $pageName = $pgName;
+        } else {
+            $pageName = basename($_SERVER['PHP_SELF']);
+        }
     }
 
     $value = $default;
