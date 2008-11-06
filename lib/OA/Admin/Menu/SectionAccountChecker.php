@@ -38,6 +38,9 @@ class OA_Admin_SectionAccountChecker
 
     function OA_Admin_SectionAccountChecker($aAccountTypes = array())
     {
+        if (!is_array($aAccountTypes)) {
+            $aAccountTypes = array($aAccountTypes);
+        }
         $this->aAccountTypes = $aAccountTypes;
     }
 

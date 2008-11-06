@@ -57,7 +57,12 @@ class Test_OA_Admin_Menu_Section
             $section = $this->generateSectionFromData($data);
             $this->assertEqual(null, $section->getParent());
             $this->assertNotNull($section->getSections());
-            $this->assertNotNull($section->getChecker());
+            if (!empty($data['accPerm'])) {
+                $this->assertNotNull($section->getChecker());
+            }
+            else {
+                $this->assertNull($section->getChecker());
+            }
             $this->assertEqual(array(), $section->getSections());
             $this->checkSectionData($data, $section);
         }

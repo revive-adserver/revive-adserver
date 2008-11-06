@@ -39,6 +39,9 @@ class OA_Admin_SectionPermissionChecker
 
     function OA_Admin_SectionPermissionChecker($aPermissions = array())
     {
+        if (!is_array($aPermissions)) {
+            $aPermissions = array($aPermissions);
+        }
         $this->aPermissions = $aPermissions;
     }
 

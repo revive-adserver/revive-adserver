@@ -72,14 +72,26 @@ class OA_Admin_Menu_Section
 
     
     /**
-     * Enter description here...
+     * Constructs a menu section.
+     * 
+     * Accounts permisions is an array of accountsPermisions tuples, see constructor description for more details
+     *   AccountsPermisions tuple can be:
+     *   1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
+     *   2) an 2 element array key => value
+     *       - KEY stores account(s) and can be:
+     *           * a single account element eg OA_ADMIN_ACCOUNT
+     *           * an array of accounts eg. array(OA_ADMIN_ACCOUNT, OA_MANAGER_ACCOUNT)
+     *       - VALUE stores permissions(s) and can be:
+     *           * a single permission element eg OA_OA_PERM_ZONE_INVOCATION
+     *           * an array of permissions eg. array(OA_PERM_ZONE_INVOCATION, OA_PERM_SUPER_ACCOUNT)
+     *   If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions     *  
      *
      * @param string $id eg campaign-edit
      * @param string $name eg campaign-edit
      * @param string $link link to script with params
      * @param boolean $exclusive whether section should be shown exclusively (no sibling sections) when it's active
      * @param string $helpLink link to help page
-     * @param array $aAccountPermissions 
+     * @param array $aAccountPermissions an array of accountsPermisions tuples, see constructor description for more details 
      * @param float $rank float value used to resove conflicts between the sections, defaults to 1
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
@@ -94,7 +106,7 @@ class OA_Admin_Menu_Section
         $this->exclusive = $exclusive;
         $this->affixed = $affixed;
         $this->aSections = array();
-        $this->oSectionChecker = $this->_createSecurityChecker($aAccountPermissions);
+        $this->oSectionChecker = !empty($aAccountPermissions) ? $this->_createSecurityChecker($aAccountPermissions) : null;
         $this->aSectionsMap = array();
         $this->groupName = $groupName;
     }
@@ -204,23 +216,21 @@ class OA_Admin_Menu_Section
      */
     function &get($sectionId, $checkAccess = true)
     {
-        if (!array_key_exists($sectionId, $this->aSectionsMap)) { //TODO use isset instead of array_key_exists
+        if (!isset($this->aSectionsMap[$sectionId])) { 
             $errMsg = "MenuSection::get() Cannot get section. No such section with id '".$sectionId."'";
             OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
         }
 
-        $oSection = &$this->aSectionsMap[$sectionId];
+        $oChildSection = &$this->aSectionsMap[$sectionId];
 
         if ($checkAccess) {
-            $checker =  &$oSection->getChecker();
-            if (!$checker->check($oSection)) {
-                $oSection =  null;
+            if (!$oChildSection->check()) {
+                $oChildSection =  null;
             }
-
         }
 
-        return $oSection;
+        return $oChildSection;
     }
 
 
@@ -313,11 +323,11 @@ class OA_Admin_Menu_Section
 
     function check()
     {
-        if (empty($this->osSectionChecker)) {
+        if (empty($this->oSectionChecker)) {
              return true;
         }
         
-        return $this->oSectionChecker($this);
+        return $this->oSectionChecker->check($this);
     }
     
     
@@ -330,7 +340,7 @@ class OA_Admin_Menu_Section
     function add(&$section)
     {
         //check if added section is unique in menu
-        if (array_key_exists($section->getId(), $this->aSectionsMap)) {
+        if (isset($this->aSectionsMap[$section->getId()])) {
             $errMsg = "MenuSection::add() Cannot add section '".$section->getId()."': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
@@ -353,13 +363,13 @@ class OA_Admin_Menu_Section
     function insertBefore($existingSectionId, &$newSection)
     {
     	  //check parent
-        if (!array_key_exists($existingSectionId, $this->aSectionsMap)) {
+        if (!isset($this->aSectionsMap[$existingSectionId])) {
             $errMsg = "MenuSection::insertBefore() Cannot insert section '".$newSection->getId()."' before a non existent menu section with id '".$existingSectionId."'";
             return MAX::raiseError($errMsg);
         }
 
         //check if added section is unique in menu
-        if (array_key_exists($newSection->getId(), $this->aSectionsMap)) {
+        if (isset($this->aSectionsMap[$newSection->getId()])) {
             $errMsg = "MenuSection::insertBefore() Cannot insert section '".$newSection->getId()."': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
@@ -382,13 +392,13 @@ class OA_Admin_Menu_Section
      */
     function insertAfter($existingSectionId, &$newSection)
     {
-        if (!array_key_exists($existingSectionId, $this->aSectionsMap)) {
+        if (!isset($this->aSectionsMap[$existingSectionId])) {
             $errMsg = "MenuSection::insertAfter() Cannot insert section '".$newSection->getId()."' after a non existent menu section with id '".$existingSectionId."'";
             return MAX::raiseError($errMsg);
         }
 
         //check if added section is unique in menu
-        if (array_key_exists($newSection->getId(), $this->aSectionsMap)) {
+        if (isset($this->aSectionsMap[$newSection->getId()])) {
             $errMsg = "MenuSection::insertAfter() Cannot insert section '".$newSection->getId()."': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
@@ -434,24 +444,29 @@ class OA_Admin_Menu_Section
     {
     	$checkers = array();
 
-    	for ($pairIdx = 0; $pairIdx < count($aAccountPermissionPairs); $pairIdx++) {
+    	
+    	foreach ($aAccountPermissionPairs as $elem) {
         //$elem can be
         // 1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
-        // 2) an 2 element array
-        //    - elem[0] stores account(s) and can be:
+        // 2) an 2 element array key => value
+        //    - KEY stores account(s) and can be:
         //        * a single account element eg OA_ADMIN_ACCOUNT
         //        * an array of accounts eg. array(OA_ADMIN_ACCOUNT, OA_MANAGER_ACCOUNT)
-        //    - elem[1] stores permissions(s) and can be:
+        //    - VALUE stores permissions(s) and can be:
         //        * a single permission element eg OA_OA_PERM_ZONE_INVOCATION
         //        * an array of permissions eg. array(OA_PERM_ZONE_INVOCATION, OA_PERM_SUPER_ACCOUNT)
-    		// If elem[0] is an array it is assumed that every account from that array should be associated with elem[1] permissions
+        // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
 
-    		$elem =  $aAccountPermissionPairs[$pairIdx];
     		if (is_array($elem)) { //(account,perm) pair
-    			$aPairAccounts = array_make($elem[0]);
-    			$aPairPermissions = array_make($elem[1]);
+    		    
+    		    foreach ($elem as $aPairAccounts => $aPairPermissions) { //a hack to get key=> val
+    		      break;
+    		    }
+    		    
+    			$aPairAccounts = array_make($aPairAccounts);
+    			$aPairPermissions = array_make($aPairPermissions);
 
-            for ($i = 0; $i <  count($aPairAccounts); $i++) {
+                for ($i = 0; $i < count($aPairAccounts); $i++) {
     			  $checkers[] = &new OA_Admin_Menu_Compound_Checker(
     			    array(
     			      new OA_Admin_SectionAccountChecker($aPairAccounts[$i]),

@@ -38,9 +38,7 @@ class OA_Admin_SectionCheckerFilter
 
     function accept($oSection)
     {
-        $checker = $oSection->getChecker();
-
-        return $checker->check($oSection);
+        return $oSection->check();
     }
 }
 ?>

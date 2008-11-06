@@ -260,7 +260,7 @@ function _buildNavigation($accountType)
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-probability', $GLOBALS['strProbability'], 'zone-probability.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/probability"));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', $GLOBALS['strInvocationcode'], 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/invocationCode"));
                 $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', $GLOBALS['strInvocationcode'], 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation"));
-                $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-access', $GLOBALS['strUserAccess'], 'affiliate-access.php?affiliateid={affiliateid}', false, ""));
+                $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-access', $GLOBALS['strUserAccess'], 'affiliate-access.php?affiliateid={affiliateid}', false, "", array(array(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT))));
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php", false, "settings/preferences"));

@@ -55,7 +55,7 @@ class OA_Admin_Menu_Compound_Checker
             $checkOK = $aCheckers[$i]->check($oSection);
             if ($this->mode == 'AND' && !$checkOK) {
                 break;
-            } elseif ($checkOK) {
+            } elseif ($this->mode == 'OR' && $checkOK) {
                 break;
             }
         }
