@@ -293,6 +293,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
                 OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADVERTISER);
                 OA_Admin_Menu::_clearCache(OA_ACCOUNT_TRAFFICKER);
                 OA_Admin_Menu::singleton();
+            }
         }
     }
 
