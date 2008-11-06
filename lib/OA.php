@@ -226,6 +226,39 @@ class OA
         $tempDebugPrefix = $prefix;
     }
 
+    function logMem($msg='', $peak=false)
+    {
+        /*if (isset($aConf['debug']['logmem']) && $aConf['debug']['logmem'])
+        {*/
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $oLogger = &Log::singleton(
+                $aConf['log']['type'],
+                MAX_PATH . '/var/memory.log',
+                $aConf['log']['ident'],
+                array()
+            );
+            $pid = getmypid();
+            //$msg.= ' MEMORY USAGE (% KB PID ): ' . `ps --pid $pid --no-headers -o%mem,rss,pid`;
+            $mem = `ps --pid $pid --no-headers -orss`;
+            $mem = round((memory_get_usage()/1048576),2). ' / ps '.$mem;
+            $msg = '['.rtrim($mem,chr(10)).']('.$msg.')';
+            $aLast = array_pop(debug_backtrace());
+            if ($aLast['function']=='logMem')
+            {
+                $msg.= str_replace(MAX_PATH,'',$aLast['file'].' -> line '.$aLast['line']);
+            }
+            else
+            {
+                $msg.= $aLast['class'] . $aLast['type'] . $aLast['function'] . ': ';
+            }
+            $oLogger->log($msg, PEAR_LOG_INFO);
+            if ($peak)
+            {
+                $peak = memory_get_peak_usage()/1048576;
+                $oLogger->log('PEAK: '.$peak, PEAR_LOG_INFO);
+            }
+        //}
+    }
 
     /**
      * A method to obtain the current date/time, offset if required by the

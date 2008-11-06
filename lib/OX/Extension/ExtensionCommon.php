@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once LIB_PATH . '/Plugin/PluginManager.php';
 
 /**

@@ -283,7 +283,8 @@ class Test_OX_PluginManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_auditStart', true);
-
+        $oManager->aParse['package'] = array('name'=>'foo');
+        $oManager->aParse['plugins'][0] = array('name'=>'bar');
 
         // Test 1 - package file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);
@@ -298,14 +299,14 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // Test 3 - plugin dependency error
         $oManager->setReturnValueAt(2,'_parsePackage', true);
-        $oManager->setReturnValueAt(1,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(1,'_parseComponentGroups', true);
         $oManager->setReturnValueAt(0,'_hasDependencies', true);
 
         $this->assertFalse($oManager->uninstallPackage('test'));
 
         // Test 4 - plugin uninstallation error
         $oManager->setReturnValueAt(3,'_parsePackage', true);
-        $oManager->setReturnValueAt(2,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(2,'_parseComponentGroups', true);
         $oManager->setReturnValueAt(1,'_hasDependencies', false);
         $oManager->setReturnValueAt(0,'_uninstallComponentGroups', false);
 
@@ -313,7 +314,7 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // Test 5 - package/plugin settings remove error
         $oManager->setReturnValueAt(4,'_parsePackage', true);
-        $oManager->setReturnValueAt(3,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(3,'_parseComponentGroups', true);
         $oManager->setReturnValueAt(2,'_hasDependencies', false);
         $oManager->setReturnValueAt(1,'_uninstallComponentGroups', true);
         $oManager->setReturnValueAt(0,'_unregisterPackage', false);
@@ -322,7 +323,7 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // Test 6 - success
         $oManager->setReturnValueAt(5,'_parsePackage', true);
-        $oManager->setReturnValueAt(4,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(4,'_parseComponentGroups', true);
         $oManager->setReturnValueAt(3,'_hasDependencies', false);
         $oManager->setReturnValueAt(2,'_uninstallComponentGroups', true);
         $oManager->setReturnValueAt(1,'_unregisterPackage', true);
@@ -357,43 +358,37 @@ class Test_OX_PluginManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
+        $oManager->aParse['package']['name']     = 'test';
+        $oManager->aParse['package']['install']['contents'] = array(0=>'test1',1=>'test2');
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);
-        $this->assertFalse($oManager->enablePackage('test'));
+        $this->assertFalse($oManager->enablePackage('test', true));
 
         // Test 2 - first plugin installation error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(1,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(1,'_parsePackage', true);
         $oManager->setReturnValueAt(0,'enableComponentGroup', false);
-
-        $this->assertFalse($oManager->enablePackage('test'));
+        $this->assertFalse($oManager->enablePackage('test', true));
 
         // Test 3 - second plugin installation error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(2,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(2,'_parsePackage', true);
         $oManager->setReturnValueAt(1,'enableComponentGroup', true);
         $oManager->setReturnValueAt(2,'enableComponentGroup', false);
-
-        $this->assertFalse($oManager->enablePackage('test'));
+        $this->assertFalse($oManager->enablePackage('test', true));
 
         // Test 4 - write settings error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(3,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(3,'_parsePackage', true);
         $oManager->setReturnValueAt(3,'enableComponentGroup', true);
         $oManager->setReturnValueAt(4,'enableComponentGroup', true);
         $oManager->setReturnValueAt(0,'_setPackage', false);
-
-        $this->assertFalse($oManager->enablePackage('test'));
+        $this->assertFalse($oManager->enablePackage('test', true));
 
         // Test 5 - success
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(4,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(4,'_parsePackage', true);
         $oManager->setReturnValueAt(5,'enableComponentGroup', true);
         $oManager->setReturnValueAt(6,'enableComponentGroup', true);
         $oManager->setReturnValueAt(1,'_setPackage', true);
-
-        $this->assertTrue($oManager->enablePackage('test'));
+        $this->assertTrue($oManager->enablePackage('test', true));
 
         $oManager->expectCallCount('_parsePackage',5);
         $oManager->expectCallCount('enableComponentGroup',7);
@@ -419,29 +414,28 @@ class Test_OX_PluginManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
+        $oManager->aParse['package']['name']     = 'test';
+        $oManager->aParse['package']['install']['contents'] = array(0=>'test1',1=>'test2');
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);
         $this->assertFalse($oManager->disablePackage('test'));
 
         // Test 2 - first plugin installation error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(1,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(1,'_parsePackage', true);
         $oManager->setReturnValueAt(0,'disableComponentGroup', false);
 
         $this->assertFalse($oManager->disablePackage('test'));
 
         // Test 3 - second plugin installation error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(2,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(2,'_parsePackage', true);
         $oManager->setReturnValueAt(1,'disableComponentGroup', true);
         $oManager->setReturnValueAt(2,'disableComponentGroup', false);
 
         $this->assertFalse($oManager->disablePackage('test'));
 
         // Test 4 - write settings error
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(3,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(3,'_parsePackage', true);
         $oManager->setReturnValueAt(3,'disableComponentGroup', true);
         $oManager->setReturnValueAt(4,'disableComponentGroup', true);
         $oManager->setReturnValueAt(0,'_setPackage', false);
@@ -449,8 +443,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertFalse($oManager->disablePackage('test'));
 
         // Test 5 - success
-        $aPackage['install']['contents'] = array(0=>'test1',1=>'test2');
-        $oManager->setReturnValueAt(4,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(4,'_parsePackage', true);
         $oManager->setReturnValueAt(5,'disableComponentGroup', true);
         $oManager->setReturnValueAt(6,'disableComponentGroup', true);
         $oManager->setReturnValueAt(1,'_setPackage', true);
@@ -515,10 +508,10 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(4,'parseXML', array('name'=>'testDepends'));
 
         $result = $oManager->_parseComponentGroups($aContents);
-        $this->assertIsA($result, 'array');
-        $this->assertEqual(count($result),2);
-        $this->assertEqual($result[0]['name'],'testPlugin');
-        $this->assertEqual($result[1]['name'],'testDepends');
+        $this->assertTrue($result);
+        $this->assertEqual(count($oManager->aParse['plugins']),2);
+        $this->assertEqual($oManager->aParse['plugins'][0]['name'],'testPlugin');
+        $this->assertEqual($oManager->aParse['plugins'][1]['name'],'testDepends');
 
         $oManager->expectCallCount('getFilePathToXMLInstall',6);
         $oManager->expectCallCount('parseXML',5);
@@ -673,11 +666,11 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(1,'parseXML', $aPackage);
 
         $result = $oManager->_parsePackage('testPlugin');
-        $this->assertIsA($result,'array');
-        $this->assertTrue(isset($result['install']['contents']));
-        $this->assertEqual(count($result['install']['contents']),2);
-        $this->assertEqual($result['install']['contents'][0],'foo');
-        $this->assertEqual($result['install']['contents'][1],'bar');
+        $this->assertTrue($result,'array');
+        $this->assertTrue(isset($oManager->aParse['package']['install']['contents']));
+        $this->assertEqual(count($oManager->aParse['package']['install']['contents']),2);
+        $this->assertEqual($oManager->aParse['package']['install']['contents'][0],'foo');
+        $this->assertEqual($oManager->aParse['package']['install']['contents'][1],'bar');
 
         $oManager->expectCallCount('parseXML', 2);
 
@@ -778,12 +771,12 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertFalse($oManager->getPackageInfo('test'));
 
         // Test 2 -
-        $aPackage['name'] = 'test';
-        $aPackage['install']['files'] = array(0=>array('name'=>'test.readme.txt','path'=>'{PATHPLUGINS}'));
-        $aPackage['install']['contents'] = array(0=>array('name'=>'foo'), 1=>array('name'=>'bar'));
+        $oManager->aParse['package']['name'] = 'test';
+        $oManager->aParse['package']['install']['files'] = array(0=>array('name'=>'test.readme.txt','path'=>'{PATHPLUGINS}'));
+        $oManager->aParse['package']['install']['contents'] = array(0=>array('name'=>'foo'), 1=>array('name'=>'bar'));
         $aFoo = array('name'=>'foo','version'=>'1','enabled'=>1,'installed'=>1,'package'=>'test');
         $aBar = array('name'=>'bar','version'=>'2','enabled'=>0,'installed'=>1,'package'=>'test');
-        $oManager->setReturnValueAt(1,'_parsePackage', $aPackage);
+        $oManager->setReturnValueAt(1,'_parsePackage', true);
         $oManager->setReturnValueAt(0,'getComponentGroupInfo', $aFoo);
         $oManager->setReturnValueAt(1,'getComponentGroupInfo', $aBar);
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo'] = 1;
@@ -954,7 +947,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->tally();
     }
 
-    function test_upgradePackage()
+    /*function test_upgradePackage()
     {
         Mock::generatePartial(
                                 'OX_Plugin_UpgradeComponentGroup',
@@ -988,6 +981,8 @@ class Test_OX_PluginManager extends UnitTestCase
                                       'disablePackage',
                                       '_canUpgradeComponentGroups',
                                       '_upgradeComponentGroups',
+                                      '_getParsedPackage',
+                                      '_getParsedPlugins',
                                      )
                              );
 
@@ -995,12 +990,21 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->oUpgrader = $oUpgrade;
 
         $oManager->setReturnValue('_auditStart', true);
+        $oManager->setReturnValue('_getParsedPlugins', array(0=>array('name'=>'foo')));
 
         // Test 1 - package file not found
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testNonExistantPackage.xml',
                        'name'=>'testParsePluginFull.xml'
                       );
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
+        $oManager->expectCallCount('_matchPackageFilename', 0);
+        $oManager->expectCallCount('_parsePackage', 0);
+        $oManager->expectCallCount('_parseComponentGroups', 0);
+        //$oManager->expectCallCount('_getParsedPackage', 0);
+        $oManager->expectCallCount('unpackPlugin', 0);
+        $oManager->expectCallCount('_canUpgradeComponentGroups', 0);
+        $oManager->expectCallCount('_upgradeComponentGroups', 0);
+        $oManager->tally();
 
         // Test 2 - package name mismatch
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testParsePluginFull.xml',
@@ -1009,75 +1013,156 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(0,'_matchPackageFilename', false);
         $this->assertFalse($oManager->upgradePackage($aFile, 'foo'));
 
+        $oManager->expectCallCount('_matchPackageFilename', 1);
+        $oManager->expectCallCount('_parsePackage', 0);
+        $oManager->expectCallCount('_parseComponentGroups', 0);
+        //$oManager->expectCallCount('_getParsedPackage', 0);
+        $oManager->expectCallCount('unpackPlugin', 0);
+        $oManager->expectCallCount('_canUpgradeComponentGroups', 0);
+        $oManager->expectCallCount('_upgradeComponentGroups', 0);
+        $oManager->tally();
+
         // Test 3 - package names match but current package parse errors
         $oManager->setReturnValueAt(1,'_matchPackageFilename', true);
         $oManager->setReturnValueAt(0,'_parsePackage', false);
+        $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
+
+        $oManager->expectCallCount('_matchPackageFilename', 2);
+        $oManager->expectCallCount('_parsePackage', 1);
+        $oManager->tally();
+
+        // Test 4 - current plugins parse errors
+        $oManager->setReturnValueAt(2,'_matchPackageFilename', true);
+        $oManager->setReturnValueAt(1,'_parsePackage', true);
         $oManager->setReturnValueAt(0,'_parseComponentGroups', false);
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
-        // Test 4 - package unpack error
-        $oManager->setReturnValueAt(2,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(1,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(1,'_parseComponentGroups', array('name'=>'foo'));
+        $oManager->expectCallCount('_matchPackageFilename', 3);
+        $oManager->expectCallCount('_parsePackage', 2);
+        $oManager->expectCallCount('_parseComponentGroups', 1);
+        $oManager->tally();
+
+        // Test 5 - package unpack error
+        $oManager->setReturnValueAt(3,'_matchPackageFilename', true);
+        $oManager->setReturnValueAt(2,'_parsePackage', true);
+        $oManager->setReturnValueAt(1,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(0,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
         $oManager->setReturnValueAt(0,'unpackPlugin', false);
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
-        // Test 5 - wrong upgrade package (name doesn't match current package)
-        $oManager->setReturnValueAt(3,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(2,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(2,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(1,'unpackPlugin', array('package'=>array('name'=>'bar')));
-        $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
+        $oManager->expectCallCount('_matchPackageFilename', 4);
+        $oManager->expectCallCount('_parsePackage', 3);
+        $oManager->expectCallCount('_parseComponentGroups', 2);
+        //$oManager->expectCallCount('_getParsedPackage', 1);
+        $oManager->expectCallCount('unpackPlugin', 1);
+        $oManager->tally();
 
-        // Test 6 - wrong upgrade package (version is less than version of installed package)
+        // Test 6 - wrong upgrade package (name doesn't match current package)
         $oManager->setReturnValueAt(4,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(3,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(3,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(2,'unpackPlugin', array('package'=>array('name'=>'testParsePlugin','version'=>'0.0.9-beta')));
+        $oManager->setReturnValueAt(3,'_parsePackage', true);
+        $oManager->setReturnValueAt(2,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(1,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(1,'unpackPlugin', true);
+        $oManager->setReturnValueAt(2,'_getParsedPackage', array('name'=>'bar'));
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
-        // Test 7 - wrong upgrade package (version is equal to that of installed package)
+        $oManager->expectCallCount('_matchPackageFilename', 5);
+        $oManager->expectCallCount('_parsePackage', 4);
+        $oManager->expectCallCount('_parseComponentGroups', 3);
+        //$oManager->expectCallCount('_getParsedPackage', 3);
+        $oManager->expectCallCount('unpackPlugin', 2);
+        $oManager->tally();
+
+        // Test 7 - wrong upgrade package (version is less than version of installed package)
         $oManager->setReturnValueAt(5,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(4,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(4,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(3,'unpackPlugin', array('package'=>array('name'=>'testParsePlugin','version'=>'1.0.0')));
+        $oManager->setReturnValueAt(4,'_parsePackage', true);
+        $oManager->setReturnValueAt(3,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(3,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(4,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'0.0.9-beta'));
+        $oManager->setReturnValueAt(2,'unpackPlugin', true);
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
-        // Test 8 - one or more plugins cannot be upgraded
+        $oManager->expectCallCount('_matchPackageFilename', 6);
+        $oManager->expectCallCount('_parsePackage', 5);
+        $oManager->expectCallCount('_parseComponentGroups', 4);
+        //$oManager->expectCallCount('_getParsedPackage', 5);
+        $oManager->expectCallCount('unpackPlugin', 3);
+        $oManager->tally();
+
+        // Test 8 - wrong upgrade package (version is equal to that of installed package)
         $oManager->setReturnValueAt(6,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(5,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(5,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(4,'unpackPlugin', array('package'=>array('name'=>'testParsePlugin','version'=>'2.0.0')));
+        $oManager->setReturnValueAt(5,'_parsePackage', true);
+        $oManager->setReturnValueAt(4,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(5,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(6,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(3,'unpackPlugin', true);
+        $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
+
+        $oManager->expectCallCount('_matchPackageFilename', 7);
+        $oManager->expectCallCount('_parsePackage', 6);
+        $oManager->expectCallCount('_parseComponentGroups', 5);
+        //$oManager->expectCallCount('_getParsedPackage', 7);
+        $oManager->expectCallCount('unpackPlugin', 4);
+        $oManager->tally();
+
+        // Test 9 - one or more plugins cannot be upgraded
+        $oManager->setReturnValueAt(7,'_matchPackageFilename', true);
+        $oManager->setReturnValueAt(6,'_parsePackage', true);
+        $oManager->setReturnValueAt(5,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(7,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(8,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'2.0.0'));
+        $oManager->setReturnValueAt(4,'unpackPlugin', true);
         $oManager->setReturnValueAt(0,'_canUpgradeComponentGroups', false);
         $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
-        // Test 9 - one or more plugins fails upgrade
-        $oManager->setReturnValueAt(7,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(6,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(6,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(5,'unpackPlugin', array('package'=>array('name'=>'testParsePlugin','version'=>'2.0.0')));
-        $oManager->setReturnValueAt(1,'_canUpgradeComponentGroups', true);
-        $oManager->setReturnValueAt(0,'_upgradeComponentGroups', false);
-        $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
+        $oManager->expectCallCount('_matchPackageFilename', 8);
+        $oManager->expectCallCount('_parsePackage', 7);
+        $oManager->expectCallCount('_parseComponentGroups', 6);
+        //$oManager->expectCallCount('_getParsedPackage', 9);
+        $oManager->expectCallCount('unpackPlugin', 5);
+        //$oManager->expectCallCount('_canUpgradeComponentGroups', 1);
+        $oManager->tally();
 
-        // Test 10 - success
-        $oManager->setReturnValueAt(8,'_matchPackageFilename', true);
-        $oManager->setReturnValueAt(7,'_parsePackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
-        $oManager->setReturnValueAt(7,'_parseComponentGroups', array('name'=>'foo'));
-        $oManager->setReturnValueAt(6,'unpackPlugin', array('package'=>array('name'=>'testParsePlugin','version'=>'2.0.0')));
-        $oManager->setReturnValueAt(2,'_canUpgradeComponentGroups', true);
-        $oManager->setReturnValueAt(1,'_upgradeComponentGroups', true);
-        $this->assertTrue($oManager->upgradePackage($aFile, 'testParsePlugin'));
+        // Test 10 - one or more plugins fails upgrade
+        $oManager->setReturnValueAt(8 ,'_matchPackageFilename', true);
+        $oManager->setReturnValueAt(7 ,'_parsePackage', true);
+        $oManager->setReturnValueAt(6 ,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(9 ,'_getParsedPackage' , array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(10,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'2.0.0'));
+        $oManager->setReturnValueAt(5 ,'unpackPlugin', true);
+        $oManager->setReturnValueAt(1 ,'_canUpgradeComponentGroups', true);
+        $oManager->setReturnValueAt(0 ,'_upgradeComponentGroups', false);
+        $this->assertFalse($oManager->upgradePackage($aFile, 'testParsePlugin'));
 
         $oManager->expectCallCount('_matchPackageFilename', 9);
         $oManager->expectCallCount('_parsePackage', 8);
-        $oManager->expectCallCount('_parseComponentGroups', 8);
-        $oManager->expectCallCount('unpackPlugin', 7);
-        $oManager->expectCallCount('_canUpgradeComponentGroups',3);
-        $oManager->expectCallCount('_upgradeComponentGroups',2);
-
+        $oManager->expectCallCount('_parseComponentGroups', 7);
+        //$oManager->expectCallCount('_getParsedPackage', 11);
+        $oManager->expectCallCount('unpackPlugin', 6);
+        //$oManager->expectCallCount('_canUpgradeComponentGroups', 2);
+        //$oManager->expectCallCount('_upgradeComponentGroups', 1);
         $oManager->tally();
-    }
+
+        // Test 11 - success
+        $oManager->setReturnValueAt(9 ,'_matchPackageFilename', true);
+        $oManager->setReturnValueAt(8 ,'_parsePackage', true);
+        $oManager->setReturnValueAt(7 ,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(11,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'1.0.0'));
+        $oManager->setReturnValueAt(12,'_getParsedPackage', array('name'=>'testParsePlugin','version'=>'2.0.0'));
+        $oManager->setReturnValueAt(6 ,'unpackPlugin', true);
+        $oManager->setReturnValueAt(2 ,'_canUpgradeComponentGroups', true);
+        $oManager->setReturnValueAt(1 ,'_upgradeComponentGroups', true);
+        $this->assertTrue($oManager->upgradePackage($aFile, 'testParsePlugin'));
+
+        $oManager->expectCallCount('_matchPackageFilename', 10);
+        $oManager->expectCallCount('_parsePackage', 9);
+        $oManager->expectCallCount('_parseComponentGroups', 8);
+        $oManager->expectCallCount('_getParsedPackage', 13);
+        $oManager->expectCallCount('unpackPlugin', 7);
+        $oManager->expectCallCount('_canUpgradeComponentGroups', 3);
+        $oManager->expectCallCount('_upgradeComponentGroups', 2);
+        $oManager->tally();
+    }*/
 }
 
 ?>

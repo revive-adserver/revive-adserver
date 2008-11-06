@@ -51,6 +51,16 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function setUp()
+    {
+        // try to clean up in case of previous failure
+        $oPkgMgr = new OX_PluginManager();
+        $oPkgMgr->uninstallPackage('testPluginPackage');
+        unset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']);
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
+
+    }
+
     function tearDown()
     {
         TestEnv::clearMenuCache();
@@ -99,11 +109,11 @@ class Test_OX_PluginManager extends UnitTestCase
 
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
         $result = $oPackageManager->_checkPackageContents('testPluginPackage.xml', MAX_PATH.$this->testpathData.'zipGood/testPluginPackage.zip');
-        $this->assertIsA($result, 'array');
-        $this->assertEqual(count($result),2);
-        $this->assertTrue(isset($result['package']));
-        $this->assertTrue(isset($result['plugins']));
-        $this->assertEqual(count($result['plugins']),1);
+        $this->assertTrue($result);
+        $this->assertEqual(count($oPackageManager->aParse),2);
+        $this->assertTrue(isset($oPackageManager->aParse['package']));
+        $this->assertTrue(isset($oPackageManager->aParse['plugins']));
+        $this->assertEqual(count($oPackageManager->aParse['plugins']),1);
         $this->assertEqual($oPackageManager->errcode, OX_PLUGIN_ERROR_PACKAGE_OK);
     }
 
@@ -138,12 +148,6 @@ class Test_OX_PluginManager extends UnitTestCase
         $oPkgMgr = new OX_PluginManager();
         $file = MAX_PATH.$this->testpathData.'zipInstallTest/testPluginPackage.zip';
 
-        unset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']);
-        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
-
-
-        // try to clean up in case of previous failure
-        $oPkgMgr->uninstallPackage('testPluginPackage');
         $oPkgMgr->clearErrors();
 
         //install

@@ -37,9 +37,11 @@ if (is_null($upgradeTaskResult))
 {
     $upgradeTaskResult  = true;
 }
-
+/*if (!defined(MAX_PATH))
+{
+    require_once '../../../init.php';
+}*/
 require_once LIB_PATH.'/Plugin/PluginManager.php';
-$oPluginManager = new OX_PluginManager();
 
 include MAX_PATH.'/etc/default_plugins.php';
 if ($aDefaultPlugins)
@@ -47,7 +49,7 @@ if ($aDefaultPlugins)
     $upgradeTaskError[] = 'Installing OpenX Plugins';
     foreach ($aDefaultPlugins AS $idx => $aPlugin)
     {
-        $oPluginManager->clearErrors();
+        $oPluginManager = new OX_PluginManager();
         if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
         {
             $filename = $aPlugin['name'].'.'.$aPlugin['ext'];
@@ -69,6 +71,7 @@ if ($aDefaultPlugins)
                 $upgradeTaskError[] = $aPlugin['name'].': OK';
             }
         }
+        unset($oPluginManager);
     }
 }
 

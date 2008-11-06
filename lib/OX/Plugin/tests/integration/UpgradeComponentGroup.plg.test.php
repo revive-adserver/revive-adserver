@@ -70,14 +70,14 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
 
         // third param indicates whether pkg mgr is expecting an upgrade
         // this time it expects to install
-        $aPackage = $oPkgMgr->_checkPackageContents($this->packageName.'.xml', $this->aUpload['tmp_name'], false);
-        $aPlugin = $aPackage['plugins'][1];
-        $this->assertEqual($aPlugin['version'],'0.0.1');
+        $this->assertTrue($oPkgMgr->_checkPackageContents($this->packageName.'.xml', $this->aUpload['tmp_name'], false));
+        $this->assertEqual($oPkgMgr->aParse['plugins'][1]['version'],'0.0.1');
 
         // need to have version 1 installed
         $this->assertTrue($oPkgMgr->installPackage($this->aUpload));
 
         // Test 1 : package definition has same version than installation
+        $aPlugin = $oPkgMgr->aParse['plugins'][1];
         $oUpgrader = new OX_Plugin_UpgradeComponentGroup($aPlugin, $oPkgMgr);
         $this->assertFalse($oUpgrader->canUpgrade());
         $this->assertEqual($oUpgrader->existing_installation_status, OA_STATUS_PLUGIN_CURRENT_VERSION);
@@ -107,8 +107,8 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         // put the version 2 package in place
         $this->_switchFiles(2);
 
-        $aPackage = $oPkgMgr->_checkPackageContents($this->packageName.'.xml', $zipFile, true);
-        $aPlugin = $aPackage['plugins'][1];
+        $this->assertTrue($oPkgMgr->_checkPackageContents($this->packageName.'.xml', $zipFile, true));
+        $aPlugin = $oPkgMgr->aParse['plugins'][1];
         $this->assertEqual($aPlugin['version'],'0.0.2');
 
         // Test 1 : upgrade to version 0.0.2 ; this involves 3 upgrade packages and 1 schema package
@@ -142,8 +142,8 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         // put the version 3 package in place
         $this->_switchFiles(3);
 
-        $aPackage = $oPkgMgr->_checkPackageContents($this->packageName.'.xml', $zipFile, true);
-        $aPlugin = $aPackage['plugins'][1];
+        $this->assertTrue($oPkgMgr->_checkPackageContents($this->packageName.'.xml', $zipFile, true));
+        $aPlugin = $oPkgMgr->aParse['plugins'][1];
         $this->assertEqual($aPlugin['version'],'0.0.3');
 
         // Test 2 : upgrade to version 0.0.3 ; this involves 0 upgrade or schema packages, just a version stamp

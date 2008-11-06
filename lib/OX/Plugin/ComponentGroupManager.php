@@ -48,6 +48,7 @@ require_once(MAX_PATH.'/lib/OA/DB/Table.php');
 require_once(MAX_PATH.'/lib/OA/Dal.php');
 require_once(MAX_PATH.'/lib/OA/Cache.php');
 require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
+require_once(MAX_PATH.'/lib/OA/Admin/Menu.php');
 
 class OX_Plugin_ComponentGroupManager
 {
@@ -177,7 +178,7 @@ class OX_Plugin_ComponentGroupManager
         return ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name] ? true : false);
     }
 
-    function &_getOX_Plugin_UpgradeComponentGroup($aGroup, $oSender)
+    function &_getOX_Plugin_UpgradeComponentGroup(&$aGroup, $oSender)
     {
 
         return new OX_Plugin_UpgradeComponentGroup($aGroup, $this);
@@ -214,7 +215,7 @@ class OX_Plugin_ComponentGroupManager
         return $result;
     }
 
-    public function upgradeComponentGroup($aGroup)
+    public function upgradeComponentGroup(&$aGroup)
     {
         $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup($aGroup, $this);
         if ($this->oUpgrader->canUpgrade())
@@ -228,7 +229,7 @@ class OX_Plugin_ComponentGroupManager
         return UPGRADE_ACTION_UPGRADE_SUCCEEDED;
     }
 
-    public function diagnoseComponentGroup($aGroup)
+    public function diagnoseComponentGroup(&$aGroup)
     {
         $aTaskList = $this->getDiagnosticTasks($aGroup);
 
@@ -241,7 +242,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return boolean
      */
-    public function installComponentGroup($aGroup)
+    public function installComponentGroup(&$aGroup)
     {
         $aTaskList = $this->getInstallTasks($aGroup);
 
@@ -256,7 +257,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return boolean
      */
-    public function uninstallComponentGroup($aGroup)
+    public function uninstallComponentGroup(&$aGroup)
     {
         $aTaskList = $this->getRollbackTasks($aGroup);
 
@@ -269,7 +270,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getDiagnosticTasks($aGroup)
+    function getDiagnosticTasks(&$aGroup)
     {
         $aTaskList[] = array(
                             'method' =>'_checkOpenXCompatibility',
@@ -323,7 +324,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getInstallTasks($aGroup)
+    function getInstallTasks(&$aGroup)
     {
         $aTaskList[] = array(
                             'method' =>'_checkOpenXCompatibility',
@@ -424,7 +425,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getRollbackTasks($aGroup)
+    function getRollbackTasks(&$aGroup)
     {
         /*$aTaskList[] = array(
                             'method' =>'_checkDependenciesForUninstallOrDisable',
@@ -483,7 +484,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function parseXML($input_file, $classname='OX_ParserComponentGroup')
     {
-
+        //OA::logMem('enter parseXML');
         if (!file_exists($input_file))
         {
             $this->_logError('file not found '.$input_file);
@@ -509,7 +510,10 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('problem parsing the file: '.$oParser->error);
             return false;
         }
-        return $oParser->aPlugin;
+        $aResult = $oParser->aPlugin;
+        $oParser = null;
+        //OA::logMem('exit parseXML');
+        return $aResult;
     }
 
     /**
@@ -728,7 +732,7 @@ class OX_Plugin_ComponentGroupManager
         if ($aSettings)
         {
             $oSettings  = $this->_instantiateClass('OA_Admin_Settings');
-            foreach ($aSettings AS $aSetting)
+            foreach ($aSettings AS &$aSetting)
             {
                 $oSettings->settingChange($name,$aSetting['key'],$aSetting['value']);
             }
@@ -778,7 +782,7 @@ class OX_Plugin_ComponentGroupManager
         if ($aPreferences)
         {
             $accountId = OA_Permission::getAccountId();
-            foreach ($aPreferences AS $k => $aPreference)
+            foreach ($aPreferences AS $k => &$aPreference)
             {
                 if (!$this->_registerPreferenceOne($name, $aPreference, $accountId))
                 {
@@ -832,7 +836,7 @@ class OX_Plugin_ComponentGroupManager
     {
         if ($aPreferences)
         {
-            foreach ($aPreferences AS $aPreference)
+            foreach ($aPreferences AS &$aPreference)
             {
                 $prefName = $name.'_'.$aPreference['name'];
                 $doPreferences = OA_Dal::factoryDO('preferences');
@@ -875,7 +879,7 @@ class OX_Plugin_ComponentGroupManager
         }
         $version = $oTable->aDefinition['version'];
         $schema   = $oTable->aDefinition['name'];
-        foreach ($oTable->aDefinition['tables'] AS $table => $aDef)
+        foreach ($oTable->aDefinition['tables'] AS $table => &$aDef)
         {
             $this->_auditSetKeys(array( 'schema_name'   => $schema,
                                         'version'       => $version,
@@ -922,7 +926,7 @@ class OX_Plugin_ComponentGroupManager
         }
         $version = $oTable->aDefinition['version'];
         $schema   = $oTable->aDefinition['name'];
-        foreach ($oTable->aDefinition['tables'] AS $table => $aDef)
+        foreach ($oTable->aDefinition['tables'] AS $table => &$aDef)
         {
             $this->_auditSetKeys(array( 'schema_name'   => $schema,
                                         'version'       => $version,
@@ -1017,7 +1021,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to initialise table class for '.$name);
             return false;
         }
-        foreach ($oTable->aDefinition['tables'] AS $table => $aDef)
+        foreach ($oTable->aDefinition['tables'] AS $table => &$aDef)
         {
             $dboTable = OA_Dal::factoryDO($table);
             if (!$dboTable)
@@ -1076,7 +1080,7 @@ class OX_Plugin_ComponentGroupManager
             require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
             $oEnvMgr = $this->_instantiateClass('OA_Environment_Manager');
             $oEnvMgr->aInfo['PHP']['actual'] = $oEnvMgr->getPHPInfo();
-            foreach ($aPhp AS $k => $aItem)
+            foreach ($aPhp AS $k => &$aItem)
             {
                 $oEnvMgr->aInfo['PHP']['expected'][$aItem['name']] = $aItem['value'];
             }
@@ -1109,7 +1113,7 @@ class OX_Plugin_ComponentGroupManager
             $oDbh = OA_DB::singleton();
             $phptype = $oDbh->phptype;
             $supported = false;
-            foreach ($aDbms AS $k => $aItem)
+            foreach ($aDbms AS $k => &$aItem)
             {
                 if ($aItem['name'] == $phptype)
                 {
@@ -1138,7 +1142,7 @@ class OX_Plugin_ComponentGroupManager
         if ($aDepends)
         {
             $aConf = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-            foreach ($aDepends AS $i => $aGroup)
+            foreach ($aDepends AS $i => &$aGroup)
             {
                 if (!isset($aConf[$aGroup['name']]))
                 {
@@ -1176,7 +1180,7 @@ class OX_Plugin_ComponentGroupManager
         if ($aDepends && isset($aDepends[$name]) && isset($aDepends[$name]['isDependedOnBy']) )
         {
             $aConf = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-            foreach ($aDepends[$name]['isDependedOnBy'] AS $i => $group)
+            foreach ($aDepends[$name]['isDependedOnBy'] AS $i => &$group)
             {
                 if (isset($aConf[$group]))
                 {
@@ -1204,7 +1208,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _checkFiles($name, $aFiles=array())
     {
-        foreach ($aFiles AS $aFile)
+        foreach ($aFiles AS &$aFile)
         {
             $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (!file_exists($file))
@@ -1218,7 +1222,7 @@ class OX_Plugin_ComponentGroupManager
 
     function _removeFiles($name, $aFiles)
     {
-        foreach ($aFiles AS $aFile)
+        foreach ($aFiles AS &$aFile)
         {
             $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (file_exists($file))
@@ -1277,7 +1281,7 @@ class OX_Plugin_ComponentGroupManager
         {
             return true;
         }
-        foreach ($aMenus AS $accountType => $aMenu)
+        foreach ($aMenus AS $accountType => &$aMenu)
         {
             if (!$this->aMenuObjects[$accountType])
             {
@@ -1287,7 +1291,7 @@ class OX_Plugin_ComponentGroupManager
             {
                 $oMenu = $this->aMenuObjects[$accountType];
             }
-            foreach ($aMenu as $idx => $aMenu)
+            foreach ($aMenu as $idx => &$aMenu)
             {
                 if (!$this->_addMenuSection($oMenu, $aMenu))
                 {
@@ -1320,7 +1324,7 @@ class OX_Plugin_ComponentGroupManager
      * @param string $name
      * @return boolean
      */
-    public function checkDatabase($name, $aGroup)
+    public function checkDatabase($name, &$aGroup)
     {
         $aResult = array();
         require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
@@ -1337,7 +1341,7 @@ class OX_Plugin_ComponentGroupManager
             }
             $oDBUpgrader->buildSchemaDefinition();
 
-            foreach ($oDBUpgrader->oTable->aDefinition['tables'] AS $table => $aDef)
+            foreach ($oDBUpgrader->oTable->aDefinition['tables'] AS $table => &$aDef)
             {
                 $aParams = array($oDBUpgrader->prefix.$table);
                 OA_DB::setCaseSensitive();
@@ -1374,7 +1378,7 @@ class OX_Plugin_ComponentGroupManager
                 {
                     $aResult[$table]['dataobject']      = 'OK';
                 }
-                foreach ($aObjects[$name]['def']['tables'][$table]['fields'] AS $field => $aField)
+                foreach ($aObjects[$name]['def']['tables'][$table]['fields'] AS $field => &$aField)
                 {
                     if (!property_exists($aObjects[$name]['dbo'],$field))
                     {
@@ -1405,7 +1409,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _runTasks($name, $aTaskList, $aUndoList=array(), $returnOnError=true)
     {
-        foreach ($aTaskList as $aTask)
+        foreach ($aTaskList as &$aTask)
         {
             $this->_logMessage('Executing '.$aTask['method'].' for '.$name);
             $result = call_user_func_array(array($this, $aTask['method']), $aTask['params']);
@@ -1507,7 +1511,7 @@ class OX_Plugin_ComponentGroupManager
             else
             {
                 $aParse = $this->parseXML($file);
-                foreach ($aParse['install']['syscheck']['depends'] AS $aDepends)
+                foreach ($aParse['install']['syscheck']['depends'] AS &$aDepends)
                 {
                     $aResult[$aDepends['name']]['isDependedOnBy'][] = $name;
                     $installed  = (isset($aConf[$aDepends['name']]) ? true : false );
@@ -1724,7 +1728,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Invalid target path for plugin dataobjects '.$pathSource, PEAR_LOG_ERR);
             return false;
         }
-        foreach ($aSchema['dataobjects'] AS $idx => $file)
+        foreach ($aSchema['dataobjects'] AS $idx => &$file)
         {
             if (!file_exists($pathSource.$file))
             {
@@ -1761,7 +1765,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Invalid source path to plugin dataobjects '.$pathTarget.' for '.$name, PEAR_LOG_ERR);
             return false;
         }
-        foreach ($aSchema['dataobjects'] AS $idx => $file)
+        foreach ($aSchema['dataobjects'] AS $idx => &$file)
         {
             if (file_exists($pathTarget.$file))
             {
@@ -1782,7 +1786,7 @@ class OX_Plugin_ComponentGroupManager
             $aGroups = array();
         }
 
-        foreach ($aGroups as $name => $enabled)
+        foreach ($aGroups as $name => &$enabled)
         {
             if ($enabled)
             {
@@ -1794,7 +1798,7 @@ class OX_Plugin_ComponentGroupManager
                 $aParse = $this->parseXML($file);
                 if (isset($aParse['install']['navigation'][$accountType]))
                 {
-                    foreach ($aParse['install']['navigation'][$accountType] as $idx => $aMenu)
+                    foreach ($aParse['install']['navigation'][$accountType] as $idx => &$aMenu)
                     {
                         if (!$this->_addMenuSection($oMenu, $aMenu))
                         {
@@ -1814,7 +1818,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aMenu
      * @return boolean
      */
-    function _addMenuSection(&$oMenu, $aMenu)
+    function _addMenuSection(&$oMenu, &$aMenu)
     {
         if ($aMenu['add'])
         {
@@ -1892,7 +1896,7 @@ class OX_Plugin_ComponentGroupManager
             $aGroups = array_keys($GLOBALS['_MAX']['CONF']['pluginGroupComponents']);
         }
         $aResult = array();
-        foreach ($aGroups as $k => $v)
+        foreach ($aGroups as $k => &$v)
         {
             $aResult[] = $this->getComponentGroupInfo($v);
         }
@@ -1930,12 +1934,12 @@ class OX_Plugin_ComponentGroupManager
             return array();
         }
         $aParse = $this->parseXML($file,'OX_ParserComponentGroup');
-        $aConf = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+        $aConf = &$GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
         $aGroup['installed']   = (isset($aConf[$name]) ? true : false);
         $aGroup['enabled']     = ($aGroup['installed'] && $aConf[$name] ? true : false);
         $aGroup['settings']    = false;
         $aGroup['preferences'] = false;
-        foreach ($aParse AS $k => $v)
+        foreach ($aParse AS $k => &$v)
         {
             if (!is_array($v))
             {
@@ -2009,7 +2013,7 @@ class OX_Plugin_ComponentGroupManager
     {
         require_once LIB_PATH.'/Plugin/Component.php';
         $aComponents = OX_Component::getComponents($extends, $group, false, true, false);
-        foreach ($aComponents as $obj)
+        foreach ($aComponents as &$obj)
         {
             $aResult[] = (array)$obj;
         }

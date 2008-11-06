@@ -63,18 +63,18 @@ class OX_PluginExport
                 return false;
             }
         }
-        $this->aPlugin = $this->oPluginManager->_parsePackage($name);
-        if (!$this->aPlugin)
+        if (!$this->oPluginManager->_parsePackage($name))
         {
             $this->aErrors = $this->oPluginManager->aErrors;
             return false;
         }
-        $this->aGroups = $this->oPluginManager->_parseComponentGroups($this->aPlugin['install']['contents']);
-        if (!$this->aGroups)
+        $this->aPlugin = &$this->oPluginManager->aParse['package'];
+        if (!$this->oPluginManager->_parseComponentGroups($this->aPlugin['install']['contents']))
         {
             $this->aErrors = $this->oPluginManager->aErrors;
             return false;
         }
+        $this->aGroups = &$this->oPluginManager->aParse['plugins'];
         return true;
     }
 

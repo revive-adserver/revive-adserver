@@ -29,7 +29,7 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionAccountChecker.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionCheckerFilter.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionPermissionChecker.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionTypeFilter.php');
-
+require_once(MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php');
 /**
  * Menu section element
  *
@@ -41,8 +41,8 @@ class OA_Admin_Menu_Section
     const TYPE_LEFT_MAIN = 2;
     const TYPE_LEFT_SUB = 3;
     const TYPE_TAB_CONTENT = 4;
-    const TYPE_CONTENT = 5;    
-    
+    const TYPE_CONTENT = 5;
+
     var $id; //eg campaign-edit
     var $name; //eg campaign-edit
     var $link; //link to script with params
@@ -54,10 +54,10 @@ class OA_Admin_Menu_Section
     var $oSectionChecker; //checker used to decide whether this section can be shown to the user
     var $parentSection; //reference to parent section
     var $aSectionsMap; //hash holding id => section
-    
+
     /**
      * A string name that indicates relationship between sections on
-     * the same level - if a couple of sections share the same group name they could 
+     * the same level - if a couple of sections share the same group name they could
      * eg. be displayed with separator added after to separate from other sections
      * @var string
      */
@@ -70,10 +70,10 @@ class OA_Admin_Menu_Section
      */
     var $type = -1;
 
-    
+
     /**
      * Constructs a menu section.
-     * 
+     *
      * Accounts permisions is an array of accountsPermisions tuples, see constructor description for more details
      *   AccountsPermisions tuple can be:
      *   1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
@@ -84,14 +84,14 @@ class OA_Admin_Menu_Section
      *       - VALUE stores permissions(s) and can be:
      *           * a single permission element eg OA_OA_PERM_ZONE_INVOCATION
      *           * an array of permissions eg. array(OA_PERM_ZONE_INVOCATION, OA_PERM_SUPER_ACCOUNT)
-     *   If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions     *  
+     *   If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions     *
      *
      * @param string $id eg campaign-edit
      * @param string $name eg campaign-edit
      * @param string $link link to script with params
      * @param boolean $exclusive whether section should be shown exclusively (no sibling sections) when it's active
      * @param string $helpLink link to help page
-     * @param array $aAccountPermissions an array of accountsPermisions tuples, see constructor description for more details 
+     * @param array $aAccountPermissions an array of accountsPermisions tuples, see constructor description for more details
      * @param float $rank float value used to resove conflicts between the sections, defaults to 1
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
@@ -129,7 +129,7 @@ class OA_Admin_Menu_Section
 	    return $this->setLinkParams($aParams);
 	}
 
-	
+
 	function setLinkParams($aParams)
 	{
         if (strpos($this->link,'?'))
@@ -142,7 +142,7 @@ class OA_Admin_Menu_Section
         return $this->link;
 	}
 
-	
+
 	function getHelpLink()
 	{
 	    return $this->helpLink;
@@ -165,8 +165,8 @@ class OA_Admin_Menu_Section
     {
         return $this->affixed;
     }
-    
-    
+
+
     /**
      * Returns the groupName of this section (if any). Group name is used to
      * express relation between sections on the same level eg. a 10 sections on the same level
@@ -179,7 +179,7 @@ class OA_Admin_Menu_Section
         return $this->groupName;
     }
 
-    
+
     /**
      * @param string $groupName
      */
@@ -188,7 +188,7 @@ class OA_Admin_Menu_Section
         $this->groupName = $groupName;
     }
 
-    
+
     /**
      * @return int section type
      */
@@ -196,8 +196,8 @@ class OA_Admin_Menu_Section
     {
         return $this->type;
     }
-    
-    
+
+
     /**
      * @return int section type
      */
@@ -205,7 +205,7 @@ class OA_Admin_Menu_Section
     {
         return $this->type = $type;
     }
-    
+
 
     /**
      * Returns a child with a given id. If user have no access to this section
@@ -216,7 +216,7 @@ class OA_Admin_Menu_Section
      */
     function &get($sectionId, $checkAccess = true)
     {
-        if (!isset($this->aSectionsMap[$sectionId])) { 
+        if (!isset($this->aSectionsMap[$sectionId])) {
             $errMsg = "MenuSection::get() Cannot get section. No such section with id '".$sectionId."'";
             OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
@@ -246,7 +246,7 @@ class OA_Admin_Menu_Section
 	   if ($checkAccess) {
 	       $aFilteredSections = array();
 	       foreach ($aSections as $oSection) {
-               if ($oSection->check() 
+               if ($oSection->check()
                 && ($type == null || $type == $oSection->getType())) {
                    $aFilteredSections[] = $oSection;
                }
@@ -267,28 +267,28 @@ class OA_Admin_Menu_Section
 	{
 	   return $this->parentSection;
 	}
-	
-	
+
+
 	/**
-	 * Returns parent section of a given type. If current section is of the given 
+	 * Returns parent section of a given type. If current section is of the given
 	 * type it will be returned. If there is no parent of a given type null is returned.
 	 *
 	 * @param int $type OA_Admin_Menu_Section type contant
-	 * @return matching section of null in none matched 
+	 * @return matching section of null in none matched
 	 */
-	function &getParentOrSelf($type) 
+	function &getParentOrSelf($type)
 	{
         if ($this->type == $type) {
             return $this;
-        } 
+        }
         else {
             return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
         }
 	}
-	
+
 	/**
 	 * Returns siblings of this section. If type is given, returns only siblings
-	 * with this type. 
+	 * with this type.
 	 *
 	 * @param int $type
 	 * @return array of OA_Admin_Menu_Section objects
@@ -300,7 +300,7 @@ class OA_Admin_Menu_Section
 	    }
 	    return $this->parentSection->getSections(true, $type);
 	}
-	
+
 
 
 	function setParent(&$section)
@@ -326,11 +326,11 @@ class OA_Admin_Menu_Section
         if (empty($this->oSectionChecker)) {
              return true;
         }
-        
+
         return $this->oSectionChecker->check($this);
     }
-    
-    
+
+
     //BUILDER FUNCTIONS - not secured
     /**
      * Appends new section to the list of subsections. If element cannot be
@@ -444,7 +444,7 @@ class OA_Admin_Menu_Section
     {
     	$checkers = array();
 
-    	
+
     	foreach ($aAccountPermissionPairs as $elem) {
         //$elem can be
         // 1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
@@ -458,11 +458,11 @@ class OA_Admin_Menu_Section
         // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
 
     		if (is_array($elem)) { //(account,perm) pair
-    		    
+
     		    foreach ($elem as $aPairAccounts => $aPairPermissions) { //a hack to get key=> val
     		      break;
     		    }
-    		    
+
     			$aPairAccounts = array_make($aPairAccounts);
     			$aPairPermissions = array_make($aPairPermissions);
 
@@ -488,7 +488,7 @@ class OA_Admin_Menu_Section
         return new OA_Admin_Menu_Compound_Checker($checkers, 'OR');
     }
 }
-    
+
     /**
      * TODO refactor as util
      *

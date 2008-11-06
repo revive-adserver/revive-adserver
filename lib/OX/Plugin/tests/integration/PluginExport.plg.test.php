@@ -95,6 +95,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
         TestEnv::uninstallPluginPackage('testPluginPackage', false);
         TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
     }
 
     function test_makeDirectory()
