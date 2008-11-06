@@ -649,10 +649,10 @@ class Admin_DA
         }
 
         if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
-            $limit = ' LIMIT ' .  $oDbh->quote($aParams['startRecord'], 'text', false) . ', ' . $oDbh->quote($aParams['perPage'], 'text', false);
-        } elseif (!empty($aParams['perPage'])) {
-            $limit = ' LIMIT 0, ' .  $oDbh->quote($aParams['perPage'], 'integer', false);
-        } else {
+            $limit = ' LIMIT ' .  $oDbh->quote($aParams['perPage'], 'text', false) . ' OFFSET ' . $oDbh->quote($aParams['startRecord'], 'text', false);
+        } elseif (!empty($aParams['perPage'])) {    
+            $limit = ' LIMIT ' .  $oDbh->quote($aParams['perPage'], 'integer', false) . ' OFFSET 0';
+        } else { 
             $limit = '';
         }
 
