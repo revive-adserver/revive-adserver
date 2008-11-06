@@ -131,8 +131,7 @@ class OA_Admin_Menu
         $oSection = &$this->aAllSections[$sectionId];
 
         if ($checkAccess) {
-            $checker =  &$oSection->getChecker();
-            if (!$checker->check($oSection)) {
+            if (!$oSection->check()) {
                 $oSection = null;
             }
         }
@@ -212,9 +211,8 @@ class OA_Admin_Menu
         }
 
         $oSection = &$this->aAllSections[$sectionId];
-        $checker = &$oSection->getChecker();
 
-        if ($checkAccess && !$checker->check($oSection)) {
+        if ($checkAccess && !$oSection->check()) {
             return $aParents;
         }
 
@@ -260,8 +258,7 @@ class OA_Admin_Menu
         }
 
         $oSection = &$this->aAllSections[$sectionId];
-        $checker = &$oSection->getChecker();
-        if ($checkAccess && !$checker->check($oSection)) {
+        if ($checkAccess && !$oSection->check()) {
             return $level;
         }
 
