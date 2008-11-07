@@ -738,6 +738,7 @@ class OA_Admin_UI
             'js/ox.util.js',
             'js/ox.multicheckbox.js',
             'js/ox.dropdown.js',
+            'js/ox.navigator.js',
             'js/ox.table.js',
             'js/jquery.tablesorter.js',
             'js/ox.tablesorter.extensions.js',

@@ -723,7 +723,7 @@ body.hasGradient #firstLevelContent {
 }
 
 #thirdLevelHeader div.breadcrumb {
-  margin: 16px 0 0 18px;
+  margin: 16px 180px 0 18px;
   padding: 0px 0px 0 3px;  
   
   min-height: 50px;
@@ -1041,6 +1041,9 @@ select.switcher optgroup {
 
 div.breadcrumb {
     font-size: 10px;
+    
+    position: relative;
+    z-index: 2000;
 }
 
 
@@ -1052,11 +1055,11 @@ div.breadcrumb h3 {
 }
 
 div.breadcrumb h3 span.label {
-  color: #333333;
+  	color: #333333;
 }
 
-div.hasIcon h3.noBreadcrumb {
-  padding-top: 13px;
+h3.noBreadcrumb {
+ 	 	padding-top: 13px;
 }
 
 
@@ -1769,4 +1772,172 @@ table.data td.graph .percentage {
 .form-message-error {
     background-color: pink;
     background-image: url("../images/errormessage.gif");
+}
+
+
+
+
+
+div.dropDown div.panel div {
+		overflow: hidden;
+		padding: 0 8px;
+}
+div.dropDown div.panel div div.column {
+		float: left;
+		border: none;
+		padding: 8px 0;
+}
+
+
+
+.entityList .column strong {
+		line-height: 22px;
+}
+.entityList .column ul {
+		width: 260px;
+		height: 300px;
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		border-top: 1px solid #bbb;
+		border-right: 1px solid #969a9d;
+		border-bottom: 1px solid #969a9d;
+		background: #fff;
+}
+.entityList .column.first ul {
+		border-left: 1px solid #bbb;
+}
+.entityList .column .loading {
+		background-image: url(../images/indicator-blue-small.gif);
+		background-repeat: no-repeat;
+		background-position: 8px 8px;
+}
+.entityList .column li {
+		cursor: pointer;
+		font-size: 1.1em;
+		padding: 0;
+}
+.entityList .column li a {
+		display: block;
+		position: static;
+		text-decoration: none;
+		color: #444;
+		padding: 1px 4px 1px 24px;
+		background-position: 5px 3px;
+		width: 100%;
+		overflow: hidden;
+}
+.entityList .column .selected {
+		background-color: #ddd;
+		background-image: url(../images/message-background.png);
+		background-position: 0 -2px;
+		background-repeat: repeat-x;
+		-background-image: none;
+}
+.entityList .column .active .selected {
+  	background-color: #0767A8;
+}
+.entityList .column .active .selected a {
+		color: #fff;
+}
+
+
+
+
+
+.breadcrumb ul,
+.breadcrumb ul li {
+		margin: 0;
+		padding: 0;
+}
+
+.breadcrumb .dropDown {
+    display: block;
+    position: relative;
+    
+    top: 3px;
+    left: 0;
+    
+    white-space: nowrap;
+}
+.breadcrumb .dropDown span {
+    cursor: pointer;
+    position: relative;
+    
+    height: 18px;
+    line-height: 18px;
+    
+    -width: 0%;
+    
+    display: inline;
+    padding: 4px 0;
+}
+.breadcrumb .dropDown.active span {
+	  z-index: 2002;
+		left: -3px;
+		-left: -1px;
+		*left: -1px;
+		
+		background-color: #e5f0f8;
+		background-image: url(../images/message-background.png);
+		background-position: left -2px;
+		background-repeat: repeat-x;
+		-background-image: none;
+		
+		border-left: 1px solid #e4e5e4;
+		border-right: 1px solid #aac0d8;
+		border-bottom: 1px solid #e5f0f8;
+		border-top: 1px solid #e4e5e4;
+		
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+
+		padding: 5px 2px;
+		-padding: 0;
+		*padding: 0;
+}
+.breadcrumb .dropDown span span,
+.breadcrumb .dropDown.active span span {
+    position: static;
+    
+    background: transparent url(../images/arrow-d.gif) right center no-repeat;
+    color: #444;
+    padding: 4px 12px 4px 0;
+    border: none;
+}
+
+.breadcrumb .dropDown span span ul,
+.breadcrumb .dropDown span span ul li {
+		display: inline;
+		margin: 0 4px 0 0;
+		border: none;
+}
+.breadcrumb .dropDown div.panel {
+    background: #e5f0f8;
+    display: none;
+    position: absolute;
+    top: 22px;
+    -top: 25px;
+		*top: 25px;
+    left: -3px;
+    -left: -1px;
+    *left: -1px;
+    margin: 0;
+    padding: 0;
+    z-index: 2001;
+
+		border-top: 1px solid #e4e5e4;
+		border-left: 1px solid #e4e5e4;
+    border-right: 1px solid #d5d5d5;
+    border-bottom: 1px solid #d5d5d5;
+		
+		-moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-bottom-top-left-radius: 5px;
+    -webkit-bottom-top-right-radius: 5px;
+}
+.breadcrumb .dropDown.active div.panel {
+    display: block;
 }

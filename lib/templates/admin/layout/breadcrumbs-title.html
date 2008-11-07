@@ -42,32 +42,77 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                 </span>
             {/if} 
         </h3>
-        
+              
         {if $headerModel->hasEntityList()}
-        <form>
-        {/if}
-        
-        {section name=breadcrumbIndex loop=$breadcrumbs}
-            {if $breadcrumbs[breadcrumbIndex]->getEntityMap()}
-                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}:            
-                  <select name="{$breadcrumbs[breadcrumbIndex]->getHtmlName()}" onChange="this.form.submit();">
-                  {foreach from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}
-                    <option value='{$itemId}' {if $itemId == $breadcrumbs[breadcrumbIndex]->getEntityId()}selected{/if}>{$aEntity.name|escape}</option>";
-                  {/foreach}
-                  </select>
+        <div class='dropDown entityList'>
+            <span>
+                <span>
+                    <ul>
+                    {section name=breadcrumbIndex loop=$breadcrumbs}
+                        <li class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</li>
+                        {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
+                        <li class='sep'>&gt;</li>
+                        {/if}
+                    {/section}
+                    </ul>
                 </span>
-            {elseif $breadcrumbs[breadcrumbIndex]->getUrl()}
-                <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</a>
-            {else}
-                <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</span>
-            {/if}
+            </span>
+            <div class='panel'><div></div></div>
+            <div class='mask'></div>
+        </div>
+        
+        <script type='text/javascript'>{literal}
+        <!--
+          
+          var entityList = [
+            {/literal}{section name=breadcrumbIndex loop=$breadcrumbs}{literal}
+              {
+                'label': '{/literal}{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}{literal}',
+                'name': '{/literal}{$breadcrumbs[breadcrumbIndex]->getHtmlName()}{literal}',
+                'className': '{/literal}{$breadcrumbs[breadcrumbIndex]->getCssClass()}{literal}',
+                'id':    {/literal}{$breadcrumbs[breadcrumbIndex]->getEntityId()}{literal}
+              }{/literal}{if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1},{/if}{literal}
+            {/literal}{/section}{literal}
+          ];
+
+
+          var itemTree = {};
+
+          {/literal}
+              {section name=breadcrumbIndex loop=$breadcrumbs}
+          {literal}
+
+          itemTree{/literal}{$smarty.capture.ids}{literal} = {
+                  {/literal}{foreach name=items from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}{literal}
+              {/literal}{$itemId}{literal}:     {
+                      'name': '{/literal}{$aEntity.name|escape}{literal}'{/literal}
+                    }{/literal}{if $smarty.foreach.items.last eq false},{/if}{literal}
+                  {/literal}{/foreach}{literal}
+          };
             
-            {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
-                <span class='sep'>&gt;</span>
-            {/if}
-        {/section}
-        {if $headerModel->hasEntityList()}
-        </form>
+          {/literal}
+              {capture name=ids}{if $smarty.capture.ids}{$smarty.capture.ids}{/if}[{$breadcrumbs[breadcrumbIndex]->getEntityId()}]['items']{/capture}
+              {/section}
+          {literal}
+
+
+          $('.entityList').activateNavigator(entityList, itemTree);
+        
+        
+        //-->
+        {/literal}</script>
+        {else}
+            {section name=breadcrumbIndex loop=$breadcrumbs}
+                {if $breadcrumbs[breadcrumbIndex]->getUrl()}
+                    <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</a>
+                {else}
+                    <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</span>
+                {/if}
+            
+                {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
+                    <span class='sep'>&gt;</span>
+                {/if}
+            {/section}
         {/if}
     </div>
 {/if}
