@@ -173,4 +173,32 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION oxp_backup_table_copy(tbl_new text, tbl_old text) RETURNS void AS $$
+DECLARE
+  r record;
+  c text;
+  t_old text;
+  t_new text;
+  s_old text;
+  s_new text;
+  q text;
+BEGIN
+  t_old := quote_ident(tbl_old);
+  t_new := quote_ident(tbl_new);
+  EXECUTE 'CREATE TABLE ' || t_new || ' (LIKE ' || t_old || ' INCLUDING DEFAULTS)';
+  FOR r IN SELECT column_name, column_default FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = tbl_old AND column_default LIKE 'nextval(%' LOOP
+    s_old := quote_ident(substring(r.column_default from '^[^'']+''([^'']+)'''));
+    s_new := quote_ident(tbl_new || '_' || r.column_name || '_seq');
+    c := quote_ident(r.column_name);
+    EXECUTE 'ALTER SEQUENCE ' || s_old || ' OWNED BY NONE';
+    EXECUTE 'ALTER SEQUENCE ' || s_old || ' OWNED BY ' || t_old || '.' || c;
+    EXECUTE 'CREATE SEQUENCE ' || s_new;
+    EXECUTE 'SELECT setval(''' || s_new || ''', last_value) FROM ' || s_old;
+    EXECUTE 'ALTER TABLE ' || t_new || ' ALTER ' || c || ' SET DEFAULT nextval(''' || s_new || ''')';
+  END LOOP;
+  EXECUTE 'INSERT INTO ' || t_new || ' SELECT * FROM ' || t_old;
+END;
+$$ LANGUAGE plpgsql STRICT;";
+
 ?>

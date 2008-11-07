@@ -2180,8 +2180,8 @@ class OA_DB_Upgrade
                 break;
             case 'pgsql':
                 // Defaults disabled, they give issues with sequence dependencies
-                // $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
-                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s"); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                //$this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s"); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_copy']     = "SELECT oxp_backup_table_copy('%s', '%s')";
                 $this->aSQLStatements['table_move']     = 'INSERT INTO "%s" SELECT * FROM "%s"';
                 $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
                 break;
