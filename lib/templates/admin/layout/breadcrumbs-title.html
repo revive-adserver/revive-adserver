@@ -84,8 +84,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
           itemTree{/literal}{$smarty.capture.ids}{literal} = {
                   {/literal}{foreach name=items from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}{literal}
-              {/literal}{$itemId}{literal}:     {
-                      'name': '{/literal}{$aEntity.name|escape}{literal}'{/literal}
+              			{/literal}{$itemId}{literal}:     {
+                      'name': '{/literal}{$aEntity.name|escape}{literal}'
                     }{/literal}{if $smarty.foreach.items.last eq false},{/if}{literal}
                   {/literal}{/foreach}{literal}
           };
