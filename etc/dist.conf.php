@@ -154,7 +154,6 @@ adClicks                            = true
 trackerImpressions                  = true
 reverseLookup                       = false
 proxyLookup                         = true
-sniff                               = false
 defaultImpressionConnectionWindow   =
 defaultClickConnectionWindow        =
 ignoreHosts                         =         ; Comma separated list of hosts
