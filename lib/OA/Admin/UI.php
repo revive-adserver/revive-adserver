@@ -157,8 +157,7 @@ class OA_Admin_UI
             //update page title
             $oCurrentSection = $oMenu->get($ID);
             if ($oCurrentSection == null) {
-                OA::debug($GLOBALS['strErrorOccurred'], 'Menu system error: ' . OA_Permission::getAccountType(true) . '::' . $ID . ' not found for the current user', PEAR_LOG_WARNING);
-                OX_Admin_Redirect::redirect(null, true);
+                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
             }
 
             if ($oHeaderModel == null) {
