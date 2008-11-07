@@ -30,6 +30,9 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionCheckerFilter.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionPermissionChecker.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/SectionTypeFilter.php');
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php');
+require_once(LIB_PATH . '/Translation.php');
+
+
 /**
  * Menu section element
  *
@@ -44,7 +47,7 @@ class OA_Admin_Menu_Section
     const TYPE_CONTENT = 5;
 
     var $id; //eg campaign-edit
-    var $name; //eg campaign-edit
+    var $nameKey; //Translation key without 'str'
     var $link; //link to script with params
     var $helpLink; //link to help page
     var $rank; //float value used to resove conflicts between the sections, defaults to 1
@@ -72,6 +75,14 @@ class OA_Admin_Menu_Section
 
 
     /**
+     * OXP translation class
+     *
+     * @var OX_Translation
+     */
+    var $oTranslation;
+    
+    
+    /**
      * Constructs a menu section.
      *
      * Accounts permisions is an array of accountsPermisions tuples, see constructor description for more details
@@ -96,10 +107,10 @@ class OA_Admin_Menu_Section
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
-    function OA_Admin_Menu_Section($id, $name, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
+    function OA_Admin_Menu_Section($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->nameKey = $nameKey;
         $this->link = $link;
         $this->helpLink = $helpLink;
         $this->rank = $rank;
@@ -109,6 +120,8 @@ class OA_Admin_Menu_Section
         $this->oSectionChecker = !empty($aAccountPermissions) ? $this->_createSecurityChecker($aAccountPermissions) : null;
         $this->aSectionsMap = array();
         $this->groupName = $groupName;
+        //Create instance of tran
+        $this->oTranslation = new OX_Translation();
     }
 
 
@@ -118,9 +131,14 @@ class OA_Admin_Menu_Section
 	}
 
 
+	/**
+	 * Returns a translated name of this section
+	 *
+	 * @return unknown
+	 */
 	function getName()
 	{
-	    return $this->name;
+	   return $this->oTranslation->translate($this->nameKey);   
 	}
 
 
