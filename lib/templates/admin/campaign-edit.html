@@ -49,17 +49,17 @@ $Id$
     var MODEL_CPM = {$MODEL_CPM};
     var MODEL_CPC = {$MODEL_CPC};
     var MODEL_CPA = {$MODEL_CPA};
-    
-    {if $MODEL_MT != ''}    
+
+    {if $MODEL_MT != ''}
         var MODEL_MT = {$MODEL_MT};
     {/if}
-    
-    var calendarBeginOfWeek = {$calendarBeginOfWeek};    
-    
+
+    var calendarBeginOfWeek = {$calendarBeginOfWeek};
+
     var impressions_delivered = {$impressionsDelivered};
     var clicks_delivered = {$clicksDelivered};
     var conversions_delivered = {$conversionsDelivered};
-    
+
     var strCampaignWarningNoTargetMessage = '{$strCampaignWarningNoTargetMessage}';
     var strCampaignWarningRemnantNoWeight ='{$strCampaignWarningRemnantNoWeight}';
     var strCampaignWarningExclusiveNoWeight ='{$strCampaignWarningExclusiveNoWeight}';
@@ -73,7 +73,7 @@ $Id$
 
     var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE
     var centralClicksRemaining = 600; //REAL DATA GOES HERE
-    
+
     $(document).ready(function() {
         initCampaignStatus();
     });
@@ -101,7 +101,7 @@ $Id$
             $remainingCentralHelpLink.hide();
         }
     }
-{/literal}    
+{/literal}
 {/if}
 
 {literal}
@@ -109,11 +109,17 @@ function updateCampaignPricingSectionNotes(field, unlimitedField)
 {
     var name = field.name;
     var isUnlimited = unlimitedField != undefined && unlimitedField.checked;
-    
+
     // Update remaining impressions/click/conversions note
     var $remainingNoteSpan = $('#' +  name + '_remaining_span');
-    if (!isUnlimited && max_formattedNumberStringToFloat(field.value) >= 0) {
-        var remaining = max_formattedNumberStringToFloat(field.value) - impressions_delivered;
+    var deliveredName = field.name + '_delivered';
+    var delivered = this[deliveredName];
+    var booked = field.value;
+    if (booked == '-') {
+        booked = 0;
+    }
+    if (!isUnlimited && max_formattedNumberStringToFloat(booked) >= 0) {
+        var remaining = max_formattedNumberStringToFloat(booked) - delivered;
         $('#' +  name + '_remaining_count').html(max_formatNumberIgnoreDecimals(remaining));
 {/literal}
 {if $adDirectEnabled}
@@ -137,15 +143,15 @@ function campaignFormUnlimitedUpdate(unlimitedField, limitField, focus, remainin
 
 {/literal}
    {if $adDirectEnabled}
-       {literal}            
+       {literal}
        //remove any "insufficient" error indicators
            if (remainingCentralId != undefined && remainingCentralId != "") {
              markInsufficient(false, remainingCentralId);
            }
-       {/literal}                    
+       {/literal}
    {/if}
-{literal}                                
-    } 
+{literal}
+    }
     else {
         if (limitField.value == '-') {
             limitField.value = "";
@@ -158,5 +164,5 @@ function campaignFormUnlimitedUpdate(unlimitedField, limitField, focus, remainin
 }
 
 {/literal}
-//-->  
+//-->
 </script>

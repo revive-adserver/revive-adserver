@@ -409,36 +409,36 @@ function initAccoutSwitcher()
 {
   $switcher = $("#oaNavigationExtra .accountSwitcher");
   //$("#oaNavigation").append("<div class='accountSwitcherOverlay'>&nbsp;</div>");
-  
-  
+
+
   $(".switchTrigger").hover(function() {
       $(".triggerContainer").addClass("hover");
     }, function() {
       $(".triggerContainer").removeClass("hover");
   });
-  
-  
+
+
   $(".switchTrigger", $switcher).click(function() {
     $switcher.toggleClass("expanded");
     $(".accountSwitcherOverlay").toggle();
   });
-  
+
   $(".accountsPanel li").hover(function() {
       $this = $(this);
-      if (!$this.is(".opt")) { 
+      if (!$this.is(".opt")) {
         $this.addClass("hover");
       }
     }, function() {
       $(this).removeClass("hover");
   });
-  
+
   $(document).click(function(event) {
     if ($(event.target).parents(".expanded").length == 0) {
       $switcher.removeClass("expanded");
       $(".accountSwitcherOverlay").hide();
     }
   });
-  
+
   $(document).keydown(function(event) {
     if ($(".expanded").length > 0 && event.keyCode == 27) {
       $switcher.removeClass("expanded");
@@ -493,7 +493,7 @@ function initCampaignForm(formId)
         firstDay   : calendarBeginOfWeek,
         electric   : false
     });
-    
+
     Calendar.setup({
        inputField : 'end',
        ifFormat : '%d %B %Y',
@@ -508,13 +508,13 @@ function initCampaignForm(formId)
     //listeners
     var $impressionsField = $("#impressions");
     var $impressionsUnlimitedField = $("#impr_unlimited");
-    
+
     var $clicksField = $("#clicks");
     var $clicksUnlimitedField = $("#click_unlimited");
-    
+
     var $conversionsField =  $("#conversions");
     var $conversionsUnlimitedField = $("#conv_unlimited");
-    
+
     $("#priority-h, #priority-e, #priority-l")
         .click(function() {
               var infoId = 'info-' + this.id;
@@ -522,57 +522,57 @@ function initCampaignForm(formId)
               $('#' + infoId).slideFadeIn('slow');
               updateCampaignTypeForm();
          });
-         
-     $('#weight').keypress(maskNonNumeric);    
-    
+
+     $('#weight').keypress(maskNonNumeric);
+
     $("#pricing_revenue_type").change(function() {
         updateCampaignPricingSection();
         updateCampaignDateAndLimitsAndType();
     });
-    
-	
+
+
 	initCampaignBookedInput($impressionsField, $impressionsUnlimitedField, 'openadsRemainingImpressions');
 	initCampaignBookedInput($clicksField, $clicksUnlimitedField,  'openadsRemainingClicks');
 	initCampaignBookedInput($conversionsField, $conversionsUnlimitedField);
-	
+
     $("#priority-e, #endSet_immediate, #endSet_specific, #impr_unlimited, #click_unlimited, #conv_unlimited").click(function() {
         updateCampaignDateAndLimitsAndType();
         updateCampaignPrioritySection();
     });
-        
+
 
     $("#startSet_immediate, #startSet_specific, #endSet_immediate, #endSet_specific")
         .click(updateCampaignDateSection);
-    
-    
+
+
     $("#startSet_immediate").click(function() {
-        campaignFormDateReset('start');    
+        campaignFormDateReset('start');
     });
-    
+
     $("#endSet_immediate").click(function() {
         campaignFormDateReset('end');
     });
-    
+
     $("#start")
         .change(function() {
             campaignFormDateCheck('start');
         });
-    
+
     $("#end")
         .change(function() {
             campaignFormDateCheck('end');
             updateCampaignPrioritySection();
         });
-     
+
      $("#" + formId).submit(function() {
              formUnFormat(this.impressions);
              formUnFormat(this.clicks);
              formUnFormat(this.conversions);
-         
-             return campaignFormPriorityCheck(this) 
+
+             return campaignFormPriorityCheck(this)
                  &&  campaignFormDatesRangeCheck(this);
      });
-     
+
     //update fields states to reflect current values
     formFormat($impressionsField.get(0));
     formFormat($clicksField.get(0));
@@ -588,35 +588,35 @@ function updateCampaignDateAndLimitsAndType()
 {
     var campaignType = getCampaignType();
 
-    var $limitFields = $("#impressions, #clicks, #conversions"); 
+    var $limitFields = $("#impressions, #clicks, #conversions");
     var $unlimitedCheckboxes = $("#impr_unlimited, #click_unlimited, #conv_unlimited");
-    
+
     var dateSet = $("#endSet_specific").attr('checked');
     var limitClicked = false;
-	
+
 	$unlimitedCheckboxes.each(function() {
 	   if (this.checked == false) {
 	       limitClicked = true;
 	       return false; //break the loop
 	   }
-	}); 
+	});
 
 	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 	     $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
-	     
+
 	     if (dateSet == true) {
 			$limitFields.val("").attr("disabled", "true");
-			$unlimitedCheckboxes.attr({ 
+			$unlimitedCheckboxes.attr({
 			  checked: true,
 			  disabled : true
 			});
-	            
-	        showHideLimitDisabledNotes();    
+
+	        showHideLimitDisabledNotes();
 	     }
 	     else {
 	          $unlimitedCheckboxes.attr("disabled", false);
 	          $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
-	         
+
 		     if (limitClicked) {
 		        $("#endSet_specific").attr("disabled", true);
 		        $("#date-section-limit-date-set").show();
@@ -627,13 +627,13 @@ function updateCampaignDateAndLimitsAndType()
 		     }
 	     }
 	}
-    else { //no type or high 
+    else { //no type or high
         //clear all remnant/exclusive warnings
         $unlimitedCheckboxes.attr("disabled", false);
         $("#endSet_specific").attr("disabled", false);
         $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
         $("#date-section-limit-date-set").hide();
-        
+
         //check if both date and limit is set and disable exclusive
         if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL && dateSet && limitClicked) {
             $("#excl-limit-date-both-set, #low-limit-date-both-set").show();
@@ -685,7 +685,7 @@ function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
 	      updateCampaignPricingSectionNotes(this);
 	      updateCampaignPrioritySection();
 	    });
-    
+
     $unlimitedField.click(function() {
         campaignFormUnlimitedUpdate(this, $input.get(0), true, centralRemainingId);
         updateCampaignPricingSectionNotes($input.get(0), this);
@@ -697,21 +697,21 @@ function updateCampaignTypeForm()
 {
     var $allSectionsButPriority = $("#sect_date, #sect_pricing, #sect_cap, #sect_misc");
     var campaignType = getCampaignType();
-    
-    updateCampaignDateAndLimitsAndType();    
+
+    updateCampaignDateAndLimitsAndType();
 
     if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
         $allSectionsButPriority.show();
         updateCampaignDateSection();
         updateCampaignPricingSection();
-        updateCampaignPrioritySection();                     
+        updateCampaignPrioritySection();
     }
     else if (campaignType == CAMPAIGN_TYPE_REMNANT) {
         $allSectionsButPriority.show();
         updateCampaignDateSection();
         updateCampaignPricingSection();
-        updateCampaignPrioritySection();                     
-    } 
+        updateCampaignPrioritySection();
+    }
     else {
         //hide all form sections
         $allSectionsButPriority.hide();
@@ -727,10 +727,10 @@ function updateTypeNotes(fast)
     $("#priority-h, #priority-e, #priority-l").each(function() {
         if (this.checked == true) {
             infoId = 'info-' + this.id;
-            return false; 
+            return false;
         }
     });
-    
+
     if (infoId) {
         if (fast == true) {
 		    $("div[id^='info-priority']").not('#' + infoId).hide();
@@ -748,14 +748,14 @@ function updateCampaignDateSection()
 {
     var $startDateSpan = $("#specificStartDateSpan");
     var $endDateSpan = $("#specificEndDateSpan");
-    
+
     if ($("#startSet_immediate").attr("checked") == true) {
         $startDateSpan.hide();
     }
     else {
         $startDateSpan.show();
     }
-    
+
     if ($("#endSet_immediate").attr("checked") == true) {
         $endDateSpan.hide();
     }
@@ -777,18 +777,18 @@ function updateCampaignPricingSection()
     imprRows.hide();
     clickRows.hide();
     convRows.hide();
-     
+
     if ('' == pricing) {
         revenueRows.hide();
     }
     else if (MODEL_CPM == pricing) {
         var impressionsField = $("#impressions").get(0);
         var impressionsUnlimitedField = $("#impr_unlimited").get(0);
-    
+
 	    //now set proper state of booked fields
-	    campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
-	    updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
-        
+	    campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);
+	    updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);
+
         revenueRows.show();
         imprRows.show();
     }
@@ -798,9 +798,9 @@ function updateCampaignPricingSection()
 	    var clicksField = $("#clicks").get(0);
 	    var clicksUnlimitedField = $("#click_unlimited").get(0);
 
-        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
+        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);
         campaignFormUnlimitedUpdate(clicksUnlimitedField, clicksField);
-        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
+        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);
         updateCampaignPricingSectionNotes(clicksField, clicksUnlimitedField);
 
         revenueRows.show();
@@ -813,14 +813,15 @@ function updateCampaignPricingSection()
         var clicksField = $("#clicks").get(0);
         var clicksUnlimitedField = $("#click_unlimited").get(0);
         var conversionsField =  $("#conversions").get(0);
-        var conversionsUnlimitedField = $("#conv_unlimited").get(0);        
+        var conversionsUnlimitedField = $("#conv_unlimited").get(0);
 
-        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
+        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);
         campaignFormUnlimitedUpdate(clicksUnlimitedField, clicksField, false);
         campaignFormUnlimitedUpdate(conversionsUnlimitedField, conversionsField, false);
-        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
+
+        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);
         updateCampaignPricingSectionNotes(clicksField, clicksUnlimitedField);
-        updateCampaignPricingSectionNotes(conversionsField, conversionsField);
+        updateCampaignPricingSectionNotes(conversionsField, conversionsUnlimitedField);
 
         revenueRows.show();
         convRows.show();
@@ -838,7 +839,7 @@ function updateCampaignPrioritySection()
     var $highPrioritySection = $("#sect_priority_high");
     var $lowExclPrioritySection = $("#sect_priority_low_excl");
     var campaignType = getCampaignType();
-    
+
     if (campaignType == CAMPAIGN_TYPE_REMNANT) {
         $highPrioritySection.hide();
         $lowExclPrioritySection.show();
@@ -852,7 +853,7 @@ function updateCampaignPrioritySection()
 	   else { //high
 	        $lowExclPrioritySection.hide();
 	        // date and limit set distribution will be automatic
-	        if ($("#endSet_specific").attr("checked") == true 
+	        if ($("#endSet_specific").attr("checked") == true
 	           && campaignHasAnyLimitSet()) {
                 $("#high_distribution_span").hide();
 	        }
@@ -883,9 +884,9 @@ function campaignHasAnyLimitSet()
         var impressionsUnlimitedField = $("#impr_unlimited").get(0);
         var clicksField = $("#clicks").get(0);
         var clicksUnlimitedField = $("#click_unlimited").get(0);
-        
-        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField) 
-            || campaignLimitIsSet(clicksField, clicksUnlimitedField); 
+
+        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField)
+            || campaignLimitIsSet(clicksField, clicksUnlimitedField);
     }
     else if (MODEL_CPA == pricing) {
         var impressionsField = $("#impressions").get(0);
@@ -893,10 +894,10 @@ function campaignHasAnyLimitSet()
         var clicksField = $("#clicks").get(0);
         var clicksUnlimitedField = $("#click_unlimited").get(0);
         var conversionsField =  $("#conversions").get(0);
-        var conversionsUnlimitedField = $("#conv_unlimited").get(0);        
+        var conversionsUnlimitedField = $("#conv_unlimited").get(0);
 
-        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField) 
-            || campaignLimitIsSet(clicksField, clicksUnlimitedField) 
+        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField)
+            || campaignLimitIsSet(clicksField, clicksUnlimitedField)
             || campaignLimitIsSet(conversionsField, conversionsUnlimitedField);
     }
     else if (MODEL_MT == pricing) {
@@ -907,7 +908,7 @@ function campaignHasAnyLimitSet()
 
 function campaignLimitIsSet(input, unlimitedInput)
 {
-    return unlimitedInput.checked == false 
+    return unlimitedInput.checked == false
             && input.value != '' && input.value != '-'
 }
 
@@ -917,21 +918,21 @@ function campaignFormPriorityCheck(form)
     var campaignType = getCampaignType();
 
     if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
-	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {  
+	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {
 	        return confirm (strCampaignWarningExclusiveNoWeight);
 	    }
-	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL 
-	       && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet()) 
+	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL
+	       && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet())
             && !parseInt($("#target_value").val()) ) {
-        return confirm (strCampaignWarningNoTargetMessage);	    
+        return confirm (strCampaignWarningNoTargetMessage);
 	    }
     }
     else {
-        if (!parseInt($("#weight").val())) {  
+        if (!parseInt($("#weight").val())) {
             return confirm (strCampaignWarningRemnantNoWeight);
         }
     }
-    
+
     return true;
 }
 
@@ -939,10 +940,10 @@ function campaignFormPriorityCheck(form)
 function getCampaignType()
 {
     //TODO get type from hidden if no checkboxes visible
-    if( $("#priority-h, #priority-e, #priority-l").length > 0) { 
+    if( $("#priority-h, #priority-e, #priority-l").length > 0) {
 
 	    if ($("#priority-h").attr("checked") == true) {
-	        return CAMPAIGN_TYPE_CONTRACT_NORMAL; 
+	        return CAMPAIGN_TYPE_CONTRACT_NORMAL;
 	    }
 	    else if ($("#priority-e").attr("checked") == true) {
 	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
@@ -950,7 +951,7 @@ function getCampaignType()
 	    else if ($("#priority-l").attr("checked") == true) {
 	        return CAMPAIGN_TYPE_REMNANT;
 	    }
-	    
+
 	    return null;
 	}
 	else {
@@ -997,11 +998,11 @@ function campaignFormDateCheck(elemName)
     var date = $("#" + elemName).val();
     if (date == '') {
         $("[@name='" + elemName + "Set']").get(0).checked = true;
-    } 
+    }
     else {
         $("[@name='" + elemName + "Set']").get(1).checked = true;
     }
-    updateCampaignDateSection();    
+    updateCampaignDateSection();
 }
 
 
@@ -1026,7 +1027,7 @@ function formUnFormat(field)
 {
 	if (field.value != '-' && field.value != '') {
 	    field.value = max_formattedNumberStringToFloat(field.value);
-	} 
+	}
 	else {
 	    field.value = '';
 	}
@@ -1039,23 +1040,23 @@ function formUnFormat(field)
             hookClass: "more-less",
             moreContainerClass: "moreContainer"
         };
-        
+
         var $container = $(this);
         var $moreContainer = $('.' + o.moreContainerClass, $container);
         var $hook = $('.' + o.hookClass, $container);
-        
-        
+
+
         //hide more content until requested
         $moreContainer.hide();
         $hook.show();
 
         $container.find("li a.hasForm").click(showForm);
-    
-        //bind listeners        
+
+        //bind listeners
         $hook.toggle(expand, collapse);
         //$container.hover(expand, collapse);
-        
-        
+
+
         function showForm()
         {
 			if (jQuery.browser.msie && parseInt(jQuery.browser.version) == 6) {
@@ -1064,10 +1065,10 @@ function formUnFormat(field)
 			else {
                 $(this).siblings('.form').show('normal');
             }
-            $(this).parent('li').addClass('expanded');    
+            $(this).parent('li').addClass('expanded');
         }
-        
-        function expand() 
+
+        function expand()
         {
                 if (jQuery.browser.msie && parseInt(jQuery.browser.version) == 6) {
                     $moreContainer.stop().show();
@@ -1075,10 +1076,10 @@ function formUnFormat(field)
                 else {
                     $moreContainer.stop().slideFadeIn('normal');
                 }
-                
+
                 $hook.addClass('expanded');
         }
-        
+
         function collapse()
         {
                 $container.find("li .form").hide('normal');
@@ -1090,7 +1091,7 @@ function formUnFormat(field)
                 }
                 $hook.removeClass('expanded');
         }
-        
+
     });
   };
 })(jQuery);
@@ -1098,11 +1099,11 @@ function formUnFormat(field)
 (function($) {
   $.fn.selectText = function() {
     return this.each(function() {
-        
+
         $(this).bind('mousedown', selectText)
                 .bind('click', selectText)
                 .bind('mousemove', selectText);
-        
+
 		function selectText()
 		{
 		    $(this).select();
