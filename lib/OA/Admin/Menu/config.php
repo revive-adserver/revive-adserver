@@ -298,13 +298,14 @@ function _buildNavigation($accountType)
             $oMenu->add(new OA_Admin_Menu_Section("inventory", 'Adminstration', "advertiser-campaigns.php?clientid={clientid}", false, "inventory/advertisersAndCampaigns/campaigns"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-campaigns", 'Campaigns', "advertiser-campaigns.php?clientid={clientid}", false, "inventory/advertisersAndCampaigns/campaigns"));
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", 'Banners', "campaign-banners.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/banners"));
-                        $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", 'BannerProperties', "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/editBanner"));
-                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", 'UserAccess', "advertiser-access.php?clientid={clientid}"));
-                    $oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", 'UserProperties', "advertiser-user.php?userid={userid}&clientid={clientid}"));
+                        $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", 'BannerProperties', "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/editBanner", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_BANNER_EDIT))));
+                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", 'UserAccess', "advertiser-access.php?clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
+                    $oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", 'UserProperties', "advertiser-user.php?userid={userid}&clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
+                                                       
             $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, ""));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/prefrences"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_USER_LOG_ACCESS))));
         break;
         default:
             // If the user is not logged in then $accountType will be null
