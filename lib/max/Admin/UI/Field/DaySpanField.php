@@ -268,7 +268,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
           }
 
           if ((start != undefined && end != undefined) && (start.getTime() > end.getTime())) {
-            alert('".$GLOBALS['strFieldStartDateBeforeEnd']."');
+            alert('".addslashes($GLOBALS['strFieldStartDateBeforeEnd'])."');
             return false;
           }
           return true;
