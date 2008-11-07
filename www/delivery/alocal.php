@@ -554,7 +554,7 @@ function MAX_remotehostSetInfo($run = false)
 if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xml-rpc')) {
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
+//MAX_remotehostSetClientInfo();  // now moved into plugin
 MAX_remotehostSetGeoInfo();
 }
 }
