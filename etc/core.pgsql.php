@@ -189,8 +189,20 @@ BEGIN
   EXECUTE 'CREATE TABLE ' || t_new || ' (LIKE ' || t_old || ' INCLUDING DEFAULTS)';
   FOR r IN SELECT column_name, column_default FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = tbl_old AND column_default LIKE 'nextval(%' LOOP
     s_old := quote_ident(substring(r.column_default from '^[^'']+''([^'']+)'''));
-    s_new := quote_ident(tbl_new || '_' || r.column_name || '_seq');
-    c := quote_ident(r.column_name);
+    c := r.column_name;
+    IF LENGTH(tbl_new) + LENGTH(c) > 58 THEN
+      IF LENGTH(c) < 29 THEN
+        s_new := substring(tbl_new from 0 for 58 - LENGTH(c)) || '_' || c;
+      ELSIF LENGTH(tbl_new) < 29 THEN
+        s_new := tbl_new || '_' || substring(c from 0 for 58 - LENGTH(tbl_new));
+      ELSE
+        s_new := substring(tbl_new from 0 for 29) || '_' || substring(c from 0 for 29);
+      END IF;
+    ELSE
+      s_new := tbl_new || '_' || c;
+    END IF;
+    s_new := quote_ident(s_new || '_seq');
+    c := quote_ident(c);
     EXECUTE 'ALTER SEQUENCE ' || s_old || ' OWNED BY NONE';
     EXECUTE 'ALTER SEQUENCE ' || s_old || ' OWNED BY ' || t_old || '.' || c;
     EXECUTE 'CREATE SEQUENCE ' || s_new;
