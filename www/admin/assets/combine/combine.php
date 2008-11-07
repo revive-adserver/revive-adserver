@@ -146,12 +146,14 @@ else {
 }
 
 if ($encoding != 'none') {
-    ob_end_clean();
+    if (ob_list_handlers()) {
+        ob_end_clean();
+    }
     ob_start("ob_gzhandler");
+    header ("Content-Encoding: " . $encoding);
 }
 
 header ("Content-Type: text/" . ($type == 'js' ? 'javascript' : $type));
-header ("Content-Encoding: " . $encoding);
 echo $contents;
 
 ?>
