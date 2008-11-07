@@ -424,7 +424,6 @@ $GLOBALS['strLogAdClicks']                           = 'Protoklliere einen Ad Cl
 $GLOBALS['strLogTrackerImpressions']                 = 'Protokolliere eine Tracker Impression, wenn ein Nutzer eine Seite mit Tracker-Code vollständig lädt.';
 $GLOBALS['strReverseLookup']                         = 'Führe fallls notwendig einen Reverse lookup der IP Adresse durch, um Hostname zu erhalten (kann den Ad-Server stark verzögern!)';
 $GLOBALS['strProxyLookup']                           = 'Versuche die echte IP Adresse eines Proxy Besuchers zu ermitteln.';
-$GLOBALS['strSniff']                                 = 'Ermittele das Betriebsystem und den Browser des Besuchers mit phpSniff.';
 $GLOBALS['strPreventLogging']			= "Protokollieren verhindern";
 $GLOBALS['strIgnoreHosts']				= "AdViews und AdClicks für Besucher mit folgenden IP-Adressen oder Hostnamen bleiben in den Statistiken unberücksichtigt";
 $GLOBALS['strBlockAdViews']				= "Reloadsperre (Zeitraum in Sek.)";

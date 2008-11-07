@@ -7,18 +7,18 @@
     <author>Monique Szpak</author>
     <authorEmail>monique.szpak@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
+    <license>GNU General Public License</license>
     <description>OpenX Delivery Limitations Plugins for OpenX</description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <type>package</type>
 
     <install>
 
         <contents>
-            <group name="Client"       >1</group>
-            <group name="Geo"          >2</group>
-            <group name="Site"         >3</group>
-            <group name="Time"         >4</group>
+            <group name="Client">1</group>
+            <group name="Geo"   >2</group>
+            <group name="Site"  >3</group>
+            <group name="Time"  >4</group>
         </contents>
 
 

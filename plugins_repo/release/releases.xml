@@ -19,7 +19,7 @@
         <description>Basic Banner Type Plugins for OpenX</description>
         <version>0.0.1-alpha</version>
         <oxminver>2.7.5-dev</oxminver>
-        <oxmaxver>2.7.8-dev</oxmaxver>
+        <oxmaxver></oxmaxver>
         <!--downloadUrl>http://plugins.openx.org/download/openXBannerTypes</downloadUrl-->
         <downloadUrl>{local}/download/openXBannerTypes.zip</downloadUrl>
     </package>
@@ -32,9 +32,9 @@
         <authorUrl>http://www.openx.org</authorUrl>
         <license>license.txt</license>
         <description>OpenX Delivery Limitations Plugins for OpenX</description>
-        <version>0.0.1-alpha</version>
-        <oxminver>2.7.5-dev</oxminver>
-        <oxmaxver>2.7.8-dev</oxmaxver>
+        <version>1.0.1</version>
+        <oxminver>2.7.27-beta-rc5</oxminver>
+        <oxmaxver></oxmaxver>
         <!--downloadUrl>http://plugins.openx.org/download/openXDeliveryLimitations</downloadUrl-->
         <downloadUrl>{local}/download/openXDeliveryLimitations.zip</downloadUrl>
     </package>
@@ -63,7 +63,7 @@
         <description>Demo Extension for OpenX</description>
         <version>0.0.2-beta</version>
         <oxminver>2.7.5-dev</oxminver>
-        <oxmaxver>2.7.13-dev</oxmaxver>
+        <oxmaxver></oxmaxver>
         <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
     </package>
 
@@ -77,7 +77,7 @@
         <description>Standard OpenX File and memcached Based Delivery Cache</description>
         <version>1.0.1</version>
         <oxminver>2.7.13-dev</oxminver>
-        <oxmaxver>2.7.13-dev</oxmaxver>
+        <oxmaxver></oxmaxver>
         <downloadUrl>{local}/download/openXDeliveryCacheStore.zip</downloadUrl>
     </package>
 
@@ -91,7 +91,7 @@
         <description>Reports for OpenX</description>
         <version>1.0.0</version>
         <oxminver>2.7.16-dev</oxminver>
-        <oxmaxver>2.7.16-dev</oxmaxver>
+        <oxmaxver></oxmaxver>
         <downloadUrl>{local}/download/openXReports.zip</downloadUrl>
     </package>
 

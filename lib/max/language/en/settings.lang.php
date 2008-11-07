@@ -443,7 +443,6 @@ $GLOBALS['strLogAdClicks']                           = "Log a click every time a
 $GLOBALS['strLogTrackerImpressions']                 = "Log a tracker impression every time a tracker beacon is viewed";
 $GLOBALS['strReverseLookup']                         = "Reverse lookup the hostnames of viewers when not supplied";
 $GLOBALS['strProxyLookup']                           = "Try to determine the real IP address of viewers behind a proxy server";
-$GLOBALS['strSniff']                                 = "Extract the viewer's operating system and web browser information using phpSniff";
 $GLOBALS['strPreventLogging']                        = "Block Banner Logging Settings";
 $GLOBALS['strIgnoreHosts']                           = "Don't log any statistics for viewers using any of the following IP addresses or hostnames";
 $GLOBALS['strIgnoreUserAgents']                      = "<b>Don't</b> log statistics from clients with any of the following strings in their user-agent (one-per-line)";

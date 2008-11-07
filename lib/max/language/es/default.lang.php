@@ -1021,7 +1021,6 @@ $GLOBALS['strLogAdRequests'] = "Grabar una petici&oacute;n (Ad Request) cada vez
 $GLOBALS['strLogAdImpressions'] = "Grabar una impresi&oacute;n (Ad Impression) cada vez que se vea un banner";
 $GLOBALS['strLogAdClicks'] = "Grabar un clic (Ad Click) cada vez que un visitante haga clic en un banner";
 $GLOBALS['strLogTrackerImpressions'] = "Grabar una impresi&oacute;n de tracker (Tracker Impression) cada vez que se vea un puntero de un tracker";
-$GLOBALS['strSniff'] = "Extraer informaci&oacute;n sobre sistema operativo y navegador del visitante usando phpSniff";
 $GLOBALS['strPreventLogging'] = "Opciones de prevenci&oacute;n de grabado de estad&iacute;sticas";
 $GLOBALS['strBlockAdViews'] = "No contar impresiones si el visitante ha visto el mismo par de anuncios/zonas en un rango de tiempo espec&iacute;fico (segundos)";
 $GLOBALS['strBlockAdViewsError'] = "El valor de bloqueo de una Ad Impression debe ser un n&uacute;mero entero positivo";

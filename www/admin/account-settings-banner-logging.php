@@ -74,10 +74,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
              'logging'                => 'proxyLookup',
              'bool'                   => 'true'
          ),
-        'logging_sniff'               => array(
+/*        'logging_sniff'               => array(
               'logging'               => 'sniff',
               'bool'                  => 'true'
-         )
+         )*/
     );
     // Block Banner Logging Window Settings
     $aElements += array(
@@ -180,11 +180,11 @@ $aSettings = array (
                 'name'    => 'logging_proxyLookup',
                 'text'    => $strProxyLookup
             ),
-            array (
+/*            array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_sniff',
                 'text'    => $strSniff
-            )
+            )*/
         )
     ),
     array (

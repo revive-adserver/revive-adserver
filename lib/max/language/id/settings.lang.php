@@ -422,7 +422,6 @@ $GLOBALS['strLogAdClicks']                           = 'Log an Ad Click every ti
 $GLOBALS['strLogTrackerImpressions']                 = 'Log a Tracker Impression every time a tracker beacon viewed';
 $GLOBALS['strReverseLookup']                         = 'Reverse lookup the hostnames of viewers when not supplied';
 $GLOBALS['strProxyLookup']                           = 'Try to determine the real IP address of viewers behind a proxy server';
-$GLOBALS['strSniff']                                 = 'Extract the viewer\'s O/S and web browser using phpSniff';
 $GLOBALS['strPreventLogging']                        = 'Global Prevent Statistics Logging Settings';
 $GLOBALS['strIgnoreHosts']                           = 'Don\'t store statistics for viewers using one of the following IP addresses or hostnames';
 $GLOBALS['strBlockAdViews']                          = 'Don\'t log an Ad Impression if the viewer has seen the same ad within the specified time (seconds)';

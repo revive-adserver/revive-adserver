@@ -508,7 +508,6 @@ $GLOBALS['strLogAdRequests'] = "广告的每次请求都需要记录";
 $GLOBALS['strLogAdImpressions'] = "广告的每次浏览都需要记录";
 $GLOBALS['strLogAdClicks'] = "广告的每次点击都需要记录";
 $GLOBALS['strLogTrackerImpressions'] = "广告每次的跟踪曝光都需要记录";
-$GLOBALS['strSniff'] = "使用phpSniff提取用户操作系统及浏览器信息";
 $GLOBALS['strBlockAdViews'] = "如果浏览者在在指定时间（秒）内浏览同一个广告，不计算广告曝光量";
 $GLOBALS['strBlockAdViewsError'] = "广告曝光块值必须非负整数";
 $GLOBALS['strBlockAdClicks'] = "如果浏览者在在指定时间（秒）内点击同一个广告，不计算广告点击数";

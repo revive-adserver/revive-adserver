@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -24,44 +25,34 @@
 $Id$
 */
 
-/**
- * @package    OpenXPlugin
- * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
- */
-
-require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+$className = 'postscript_install_Client';
 
 /**
- * Check to see if this impression contains the valid browser.
+ * Migrates the old [logging][sniff] conf setting
  *
- * @param string $limitation The browser (or comma list of browsers) limitation
- * @param string $op The operator ('==', '!=', '=~', '!~')
- * @param array $aParams An array of additional parameters to be checked
- * @return boolean Whether this impression's browser passes this limitation's test.
+ * @package    Plugin
+ * @subpackage openxDeliveryLimitations
  */
-function MAX_checkClient_Browser($limitation, $op, $aParams = array())
+class postscript_install_Client
 {
-    return MAX_limitationsMatchArray('browser', $limitation, $op, $aParams);
-}
 
-/**
- * A function to set the viewer's useragent information in the
- * $GLOBALS['_MAX']['CLIENT'] global variable, if the option to use
- * phpSniff to extract useragent information is set in the
- * configuration file.
- */
-function MAX_remotehostSetClientInfo()
-{
-    if ($GLOBALS['_MAX']['CONF']['Client']['sniff'] && isset($_SERVER['HTTP_USER_AGENT'])) {
-        if (!class_exists('phpSniff')) {
-            include MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'/deliveryLimitations/Client/lib/phpSniff/phpSniff.class.php';
+    /**
+     *
+     * @return boolean True
+     */
+    function execute()
+    {
+        if (isset($GLOBALS['_MAX']['CONF']['logging']['sniff']))
+        {
+            $value = $GLOBALS['_MAX']['CONF']['logging']['sniff'];
+            unset($GLOBALS['_MAX']['CONF']['logging']['sniff']);
+
+            $oSettings  = new OA_Admin_Settings();
+            $oSettings->settingChange('Client','sniff',$value);
+            $oSettings->writeConfigChange();
         }
-        $client = new phpSniff($_SERVER['HTTP_USER_AGENT']);
-        $GLOBALS['_MAX']['CLIENT'] = $client->_browser_info;
+        return true;
     }
 }
-
 
 ?>

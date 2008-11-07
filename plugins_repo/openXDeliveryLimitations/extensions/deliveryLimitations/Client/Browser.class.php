@@ -27,7 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
+require_once MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'/deliveryLimitations/Client/lib/phpSniff/phpSniff.class.php';
 
 /**
  * A Client delivery limitation plugin, for filtering delivery of ads on the

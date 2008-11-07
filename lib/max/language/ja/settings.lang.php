@@ -431,7 +431,6 @@ $GLOBALS['strLogAdClicks']                           = "バナークリック毎
 $GLOBALS['strLogTrackerImpressions']                 = "追跡用ビーコン参照毎に'追跡インプレッション'として記録する";
 $GLOBALS['strReverseLookup']                         = 'ホスト情報が得られない場合、ホスト情報を逆引きする';
 $GLOBALS['strProxyLookup']                           = 'プロキシサーバ経由の場合、実IPアドレスを探索する';
-$GLOBALS['strSniff']                                 = 'phpShiffを使用して、OSやブラウザの情報を解析する';
 $GLOBALS['strPreventLogging']                        = 'バナー記録制限設定';
 $GLOBALS['strIgnoreHosts']                           = '指定IPアドレスや指定ホストからのアクセス結果を記録しない';
 $GLOBALS['strIgnoreUserAgents']                      = 'ユーザエージェント内に指定キーワード（1行内）がある場合記録しない';

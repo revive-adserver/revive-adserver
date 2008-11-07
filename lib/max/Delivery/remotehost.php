@@ -155,24 +155,6 @@ function MAX_remotehostReverseLookup()
         }
     }
 }
-
-/**
- * A function to set the viewer's useragent information in the
- * $GLOBALS['_MAX']['CLIENT'] global variable, if the option to use
- * phpSniff to extract useragent information is set in the
- * configuration file.
- */
-function MAX_remotehostSetClientInfo()
-{
-    if ($GLOBALS['_MAX']['CONF']['logging']['sniff'] && isset($_SERVER['HTTP_USER_AGENT'])) {
-        if (!class_exists('phpSniff')) {
-            include MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
-        }
-        $client = new phpSniff($_SERVER['HTTP_USER_AGENT']);
-        $GLOBALS['_MAX']['CLIENT'] = $client->_browser_info;
-    }
-}
-
 /**
  * A function to set the viewer's geotargeting information in the
  * $GLOBALS['_MAX']['CLIENT_GEO'] global variable, if a plugin for

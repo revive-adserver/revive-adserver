@@ -37,7 +37,7 @@ if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
 // Initialize the client info to enable client targeting options
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
+//MAX_remotehostSetClientInfo();  // moved to plugin
 MAX_remotehostSetGeoInfo();
 
 /**
@@ -327,10 +327,10 @@ function MAX_AclValidate($page, $aParams) {
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
         return true;
-    } 
+    }
     elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
-    } 
+    }
     else {
         return false;
     }
@@ -532,9 +532,9 @@ function modifyTableName($table)
 
 /**
  * Do check on all ACL inputs values
- * 
+ *
  * @param array $aAcls
- * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct 
+ * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct
  */
 function OX_AclCheckInputsFields($aAcls, $page){
     $aErrors = array();
@@ -542,7 +542,7 @@ function OX_AclCheckInputsFields($aAcls, $page){
         if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
             $deliveryLimitationPlugin->init($acl);
             if ($deliveryLimitationPlugin->isAllowed($page)) {
-                $checkResult = $deliveryLimitationPlugin->checkInputData($acl);     
+                $checkResult = $deliveryLimitationPlugin->checkInputData($acl);
                 if ($checkResult !== true) {
                     $aErrors[] = $checkResult;
                 }

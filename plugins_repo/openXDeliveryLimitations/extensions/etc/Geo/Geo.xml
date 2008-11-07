@@ -7,8 +7,8 @@
     <author>Monique Szpak</author>
     <authorEmail>monique.szpak@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>Geotargeting Delivery Limitiations for OpenX</description>
+    <license>GNU General Public License</license>
+    <description>Geotargeting Delivery Limitations for OpenX</description>
     <version>1.0.0</version>
     <oxversion>2.7.5-dev</oxversion>
     <extends>deliveryLimitations</extends>
