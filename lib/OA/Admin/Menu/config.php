@@ -254,17 +254,17 @@ function _buildNavigation($accountType)
 
             $oMenu->add(new OA_Admin_Menu_Section("inventory", 'Adminstration', "affiliate-zones.php?affiliateid={affiliateid}", false, "inventory/publishersAndZones/zones"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("affiliate-zones", 'Zones', "affiliate-zones.php?affiliateid={affiliateid}", false, "inventory/publishersAndZones/zones"));
-                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit_new', 'AddNewZone', 'zone-edit.php?affiliateid={affiliateid}', true, "inventory/publishersAndZones/zones/addZone"));
-                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit', 'ZoneProperties', 'zone-edit.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone"));
-                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-include', 'IncludedBanners', 'zone-include.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners"));
+                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit_new', 'AddNewZone', 'zone-edit.php?affiliateid={affiliateid}', true, "inventory/publishersAndZones/zones/addZone", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_ADD))));
+                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit', 'ZoneProperties', 'zone-edit.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_EDIT))));
+                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-include', 'IncludedBanners', 'zone-include.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_LINK))));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-probability', 'Probability', 'zone-probability.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/probability"));
-                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', 'Invocationcode', 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/invocationCode"));
-                $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation"));
+                    $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', 'Invocationcode', 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/invocationCode", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
+                $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
                 $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-access', 'UserAccess', 'affiliate-access.php?affiliateid={affiliateid}', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_SUPER_ACCOUNT))));
             $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/preferences"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_USER_LOG_ACCESS))));
         break;
         case OA_ACCOUNT_ADVERTISER:
             // Note: The stats screens haven't been updated to use the new menuing names...
