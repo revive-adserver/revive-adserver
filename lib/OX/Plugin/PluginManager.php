@@ -512,13 +512,17 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     function _parsePackageFilename($file)
     {
-        $pattern = '(?P<name>[\w\d]+)_?(?P<version>[\d]+\.[\d]+\.[\d]+[-\w\d]+)?\.(?P<ext>[\w]{3,4})';
-        if (!preg_match('/'.$pattern.'/U',$file,$aMatch))
+        $aFile = pathinfo($file);
+        $aResult['version'] = '';
+        $aResult['name']    = $aFile['filename'];
+        $aResult['ext']     = $aFile['extension'];
+        $pattern = '_(?P<version>[\d]+\.[\d\w\W]+)';
+        if (preg_match('/'.$pattern.'/', $aFile['filename'], $aMatch))
         {
-            $this->_logError('Filename not parsed '.$file);
-            return false;
+            $aResult['version'] = $aMatch['version'];
+            $aResult['name']    = substr($aFile['filename'], 0, strpos($aFile['filename'], $aResult['version'])-1);
         }
-        return array('version'=>$aMatch['version'],'name'=>$aMatch['name'],'ext'=>$aMatch['ext']);
+        return $aResult;
     }
 
     /**

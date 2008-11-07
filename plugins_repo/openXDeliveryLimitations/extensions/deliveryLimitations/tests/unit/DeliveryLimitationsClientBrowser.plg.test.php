@@ -78,6 +78,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestC
      */
     function test_MAX_remotehostSetClientInfo()
     {
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = str_replace(MAX_PATH,'',dirname(dirname(dirname(dirname(__FILE__))))).'/';
         $GLOBALS['_MAX']['CONF']['logging']['sniff'] = true;
         $http_user_agent = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.8)' .
                            ' Gecko/20061109 CentOS/1.5.0.8-0.1.el4.centos4 Firefox/1.5.0.8 pango-text';

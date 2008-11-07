@@ -76,13 +76,14 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
         $strProductName    = $this->aComponentGroup['name'];
         $this->oLogger->logClear();
         $this->oLogger->logOnly('Compiling details of currently installed '.$this->aComponentGroup['name']);
-        if ($this->aComponentGroup['install']['schema']['mdb2schema'])
+        $skipIntegrityCheck = true;
+        if ( !empty($this->aComponentGroup['install']['schema']['mdb2schema']))
         {
             // if a schema is declared but no previous schema version found
             // its a new schema so don't bother with integrity check
             if (!$this->oComponentGroupManager->getSchemaInfo($this->aComponentGroup['install']['schema']['mdb2schema']))
             {
-                $skipIntegrityCheck = true;
+                $skipIntegrityCheck = false;
             }
         }
         $this->detectComponentGroup($skipIntegrityCheck);
