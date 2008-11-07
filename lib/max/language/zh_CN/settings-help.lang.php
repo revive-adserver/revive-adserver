@@ -32,9 +32,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 		
 $GLOBALS['phpAds_hlp_dbport'] = "
         ��ָ����Ҫl�ӵ�".$phpAds_dbmsname."��ݿ������Ķ˿ں�. 
-		".$phpAds_dbmsname."�������ȱʡ�˿ں���<i>".
-		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
-		";
+		".$phpAds_dbmsname."�������ȱʡ�˿ں���<i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.";
 		
 $GLOBALS['phpAds_hlp_dbuser'] = "
         ��ָ��".$phpAds_productname."��4��ȡ".$phpAds_dbmsname."��ݿ��������û���.
