@@ -101,44 +101,67 @@ $oTpl = new OA_Admin_Template('advertiser-index.html');
 $dalClients = OA_Dal::factoryDAL('clients');
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $dalBanners = OA_Dal::factoryDAL('banners');
+
+$campaigns = array();
+$banners = array();
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
+    if ($hideinactive) {
+        $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
+        $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
+    }
 } 
 elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
-}
-
-// Build Tree
-$clientshidden = 0;
-
-if (!empty($clients)) {
-    foreach ($clients as $key => $client) {
-        if (!isset($client['campaigns'])) {
-            $client['campaigns'] = array();
+    if ($hideinactive) {
+        $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, 
+            $orderdirection);
+        $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, 
+            $orderdirection);
+        foreach ($banners as &$banner) {
+            $banner['status'] = $banner['active'];
         }
     }
 }
 
-$aOacAdvertisers = array();
 $aCount = array(
-    'advertisers'        => 0,
+    'advertisers'        => count($clients),
     'advertisers_hidden' => 0,
 );
 
-foreach (array_keys($clients) as $clientid) {
-    $client = &$clients[$clientid];
+if ($hideinactive && !empty($clients) && !empty($campaigns) && 
+    !empty($banners)) {
 
-    $aCount['advertisers']++;
-    if ($hideinactive && !count($client['campaigns'])) {
-        unset($clients[$clientid]);
-        $aCount['advertisers_hidden']++;
-    } 
-    elseif ($isOac) {
-        unset($clients[$clientid]);
-        $aOacAdvertisers[$clientid] = $client;
+    // Build Tree
+    foreach ($banners as $bkey => $banner) {
+        if (_isBannerAssignedToCampaign($banner) && 
+            (OA_ENTITY_STATUS_RUNNING == $banner['status'])) {
+
+            $campaigns[$banner['campaignid']]['has_active_banners'] = true; 
+        }
+    }
+            
+    foreach ($campaigns as $ckey => $campaign) {
+        if ((OA_ENTITY_STATUS_RUNNING == $campaign['status']) && 
+            array_key_exists('has_active_banners', $campaign)) {
+                
+            $clients[$campaign['clientid']]['has_active_campaigns'] = 
+                true;
+        }
+    }
+    
+    foreach (array_keys($clients) as $clientid) {
+        $client = &$clients[$clientid];
+    
+        if (!array_key_exists('has_active_campaigns', $client)) {
+            unset($clients[$clientid]);
+            $aCount['advertisers_hidden']++;
+        } 
     }
 }
+
+
 
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
