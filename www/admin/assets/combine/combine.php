@@ -145,12 +145,11 @@ else {
 	}
 }
 
-if ($encoding != 'none') {
-    if (ob_list_handlers()) {
-        ob_end_clean();
+if ($encoding != 'none' && !ob_list_handlers()) {
+    if ($encoding == 'gzip') {
+        ob_start("ob_gzhandler");
+        header ("Content-Encoding: " . $encoding);
     }
-    ob_start("ob_gzhandler");
-    header ("Content-Encoding: " . $encoding);
 }
 
 header ("Content-Type: text/" . ($type == 'js' ? 'javascript' : $type));
