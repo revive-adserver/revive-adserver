@@ -2,15 +2,15 @@
 
 div.messagePlaceholder {
   position: relative;
-  top: -30px;
-  height: 0px;
+  top: 0;
+  height: 0;
 
   overflow: visible;
   line-height: 0px;
 
   /* Fix IE bug: box is expanded while height is set and overflow is visible */
-  -height: 36px;
-  -margin-bottom: -36px;
+  -height: 33px;
+  -margin-bottom: -33px;
   -overflow: hidden;
 }
 
@@ -19,15 +19,11 @@ div.message div.panel {
   font-size: 1em;
   line-height: 135%;
 
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   text-align: left;
 
-  background: url("../images/message-background.png") top left repeat-x;
-
-  /* Fix IE bug: transparent PNG support */
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/message-background.png', sizingMethod='scale');
+  background: transparent;
 }
 div.message div.panel div.icon {
   position: absolute;
@@ -73,7 +69,7 @@ div.message div.bottomright {
   -right: 0px;
 }
 div.message div.panel p {
-  padding: 7px 5px 5px 32px;
+  padding: 5px 5px 4px 28px;
   margin: 0;
 }
 div.message div.panel.hasClose p {
@@ -184,7 +180,7 @@ div.message div.error div.bottomright {
 div.message div.close {
   position: absolute;
   right: 6px;
-  bottom: 6px;
+  bottom: 5px;
   width: 14px;
   height: 14px;
   background: url("../images/message.gif") -96px 0px no-repeat;
@@ -206,6 +202,9 @@ div.localMessage div.panel {
 div.formMessage {
   overflow: hidden;
 }
+div.formMessage div.panel {
+  width: 550px;
+}
 
 
 div.globalMessage {
@@ -222,6 +221,7 @@ div.globalMessage {
 div.globalMessage div.panel {
   width: 400px;
   border-top: none;
+  margin: 0 auto;
 }
 div.globalMessage div.panel div.topleft,
 div.globalMessage div.panel div.topright {

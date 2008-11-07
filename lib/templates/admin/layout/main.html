@@ -26,8 +26,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 -->*}
 {if $uiPart == 'header'}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
-<head>
+<html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}><head>
 <title>{$pageTitle}</title>
 <meta name="generator" content="{$metaGenerator}" >
 <meta name="robots" content="noindex, nofollow" >
@@ -37,6 +36,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if $customBranding}
 {literal}
+
 <style type="text/css">
 {/literal}
 {if $headerForegroundColor}
@@ -89,7 +89,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/foreach}
 
 </head>
-<body class="hasInterface {if $showMainNav}hasGradient{/if} {if $showSidebar} hasSidebar{/if}" onload="initPage();">
+<body class="hasInterface {if $showContentFrame || $showSidebar }hasGradient{/if} {if $showSidebar}hasSidebar{/if}" onload="initPage();">
 
 
 {* Using insert to prevent caching *}
@@ -134,7 +134,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 </div>
 
 <div id="oaNavigation">
-{if $showMainNav}
+{if $showMainNavigation}
 {include file=layout/navigation.html}
 {/if}
 
@@ -189,42 +189,20 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     {include file=layout/sidebar.html}
 {/if}
 
-{if $aShortcuts|@count || $aTools|@count}
-<div id="contextContainer">
-{if $aShortcuts|@count}
-    {capture assign=linksTitle}{t str=Shortcuts}{/capture}
-    {include file=layout/links-container.html aLinks=$aShortcuts title=$linksTitle cssClass=shortcuts}
-{/if}
-
-{if $aTools|@count}
-    {capture assign=linksTitle}{t str=Actions}{/capture}
-    {include file=layout/links-container.html aLinks=$aTools title=$linksTitle cssClass=tools}
-{/if}
-</div>    
-
-<script type='text/javascript'>
-{literal}
-  <!--
-  $(document).ready(function() {
-    $('div.contextLinks').expandableContainer();
-  });
-  -->
-{/literal}  
-</script>    
-{/if}
-
 
 <div id="secondLevelContent">
   {include file=layout/content-header.html}    
-  {include file=layout/section-navigation.html}  
-  <div id="thirdLevelContent" {if !empty($aSectionNav)}class="thirdLevelHasTabs"{/if} >
+    
+
+ 
 {* Footer *}
 {else}
 
 
 {* Using insert to prevent caching *}
 {insert name=OA_Admin_UI_CustomFooter}
-        </div>
+
+  {include file=layout/content-footer.html}    
     </div>
 </div>
 

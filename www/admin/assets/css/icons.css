@@ -1,16 +1,3 @@
-#thirdLevelHeader .hasIcon {
-  /*padding: 0px 0px 0px 55px;*/
-  padding: 0px 0px 35px 55px;
-  background-position: left top;
-  background-repeat: no-repeat;
-}
-
-#thirdLevelHeader .hasIcon .titleIcon {
-    display: inline;
-    background-position: left top;
-    background-repeat: no-repeat;
-    padding: 0px 0px 55px 55px;
-}
 
 div.breadcrumb .inlineIcon {
   padding: 2px 0 2px 20px;

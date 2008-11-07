@@ -133,11 +133,11 @@ class OA_Admin_UI
      * @param OA_Admin_UI_Model_PageHeaderModel $headerModel
      * @param int $imgPath A relative path to Images, CSS files. Used if calling function
      *                     from anything other than admin folder
-     * @param bool $showSidebar Set to false if you do not wish to show the grey sidebar
-     * @param bool $showMainNav Set to false if you do not wish to show the main navigation
-     * @param bool $showSidePlugins Set to false if you do not wish to show the plugins sidebar
+     * @param bool $showSidebar Set to false if you do not wish to show the sidebar navigation
+     * @param bool $showContentFrame Set to false if you do not wish to show the content frame
+     * @param bool $showMainNavigation Set to false if you do not wish to show the main navigation
      */
-    function showHeader($ID = null, $oHeaderModel = null, $imgPath="", $showSidebar=true, $showMainNav=true)
+    function showHeader($ID = null, $oHeaderModel = null, $imgPath="", $showSidebar=true, $showContentFrame=true, $showMainNavigation=true)
     {
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -200,6 +200,8 @@ class OA_Admin_UI
                     'selected' => true
                 );
             }
+			
+			$showContentFrame=false; 
         }
 
         //html header
@@ -208,8 +210,9 @@ class OA_Admin_UI
 
         //layout stuff
         $this->oTpl->assign('uiPart', 'header');
-        $this->oTpl->assign('showMainNav', $showMainNav);
+        $this->oTpl->assign('showContentFrame', $showContentFrame);
         $this->oTpl->assign('showSidebar', $showSidebar);
+        $this->oTpl->assign('showMainNavigation', $showMainNavigation);
 
         //top
         $this->_assignBranding($conf['ui']);

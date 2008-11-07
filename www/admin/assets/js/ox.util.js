@@ -134,3 +134,23 @@ jQuery.fn.toggleContent = function(checkedContentSelector, uncheckedContentSelec
     }
   }).end();
 };
+
+/**
+ * Make the height of the content box at least as high as the inner height of the window
+ */
+$(document).ready(function () {
+							
+  function resizeContentBox() {
+	$("#thirdLevelContent").each(function() {
+		var offset = document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
+		offset -= $(this).offset().top;
+		offset -= parseInt($(this).css('paddingTop'));
+		offset -= parseInt($(this).css('paddingBottom'));
+	  	$(this).css(jQuery.browser == 'msie' && jQuery.browser.version < 7 ? 'height' : 'minHeight', offset + 'px');
+   	});
+  }
+  
+  resizeContentBox();
+  window.setInterval(resizeContentBox, 300);
+});
+	

@@ -399,12 +399,11 @@ a:hover {
 /* First level content */
 #firstLevelContent {
     margin-top: -24px;
-    /*position: relative; this is causing IE to create stacking context...*/
 }
 
 body.hasGradient #firstLevelContent {
-    background:#FFFFFF url(../images/background-gradient.gif) repeat-x scroll left -16px;
-    -zoom: 1;   /*trigger hasLayout for IE6*/
+    background: #fff url(../images/background-gradient.gif) left -16px repeat-x;
+    -zoom: 1;
 }
 
 
@@ -417,7 +416,7 @@ body.hasGradient #firstLevelContent {
 }
 
 
-/** second level navigation */
+/* Second level navigation */
 
 #secondLevelNavigation {
     position: absolute;
@@ -601,20 +600,27 @@ body.hasGradient #firstLevelContent {
 }
 
 
+
+
 /* Second level content */
 #secondLevelContent {
-    margin: 0;
+  margin: 0;
 }
 
 .hasSidebar #secondLevelContent {
-  margin: 0 0 0 186px;
-  padding: 6px 0 0;
+  margin: 0 0 0 184px;
 }
+.hasGradient #secondLevelContent {
+  padding: 24px 20px 0;
+}
+
+
 
 /* Third level navigation */
 
 #thirdLevelNavigation {
-  padding: 6px 0 0 15px;
+	position: absolute;
+	margin: -21px 0 0 15px;
 }
 #thirdLevelNavigation .navigation {
   margin: 0;
@@ -623,10 +629,8 @@ body.hasGradient #firstLevelContent {
   white-space: nowrap;
   overflow: hidden;
 
-  background: #fff url(../images/section-body.gif) left -80px repeat-x;
   height: 21px;
   line-height: 21px;
-  width: 100%;
 }
 #thirdLevelNavigation li {
   float: left;
@@ -683,26 +687,261 @@ body.hasGradient #firstLevelContent {
 /* Third level header */
 #thirdLevelHeader
 {
-  padding: 0px 20px 0px 15px;
-  min-height: 40px;
-}
+  position: relative;
+  height: 80px;
+  margin: 0;
   
+  border: 1px solid #ddd;
+  background: #fff url(../images/header-background.gif) left top repeat-x;
+}
+#thirdLevelHeader.hasTabs {
+  height: 100px;
+}
+
+#thirdLevelHeader .corner {
+  position: absolute;
+  overflow: hidden;
+  font-size: 0;
+    
+  height: 8px;
+  width: 8px;
+
+  background-image: url("../images/header-corners.png");
+  background-repeat: no-repeat;
+}
+#thirdLevelHeader .left {
+  left: -1px;
+  top: -1px;
+  background-position: top left;
+}
+#thirdLevelHeader .right {
+  right: -1px;
+  top: -1px;
+  background-position: top right;
+    
+  -right: -2px;
+}
+
+#thirdLevelHeader div.breadcrumb {
+  margin: 16px 0 0 18px;
+  padding: 0px 0px 0 3px;  
+  
+  min-height: 50px;
+  -height: 50px;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon {
+  padding-left: 64px;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon .titleIcon {
+  display: inline;
+  background-position: left top;
+  background-repeat: no-repeat;
+  padding: 0px 0px 55px 55px;
+}
+
+
+
 
 /* Third level content */
 
 #thirdLevelContent {
-  margin: 0 20px 20px 20px;
-  min-height: 350px;
-
-  /* Fix IE bug: min-height not supported, IE6 will expand container anyway if it's bigger than given height*/
-  -height: 350px;
+  margin: 0;
+  padding: 12px 20px;
+  
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
-.thirdLevelHasTabs {
-  background: url(../images/line-gradient.gif) top left no-repeat;
-  padding-left: 20px;
-  padding-top: 30px;
+
+
+/* Third level tools */
+
+#thirdLevelTools {
+	position: relative;
+
+	min-height: 38px;
+	-height: 38px;
 }
+#thirdLevelTools ul {
+	list-style-type: none;
+    line-height: 26px;
+	margin: 0;
+	padding: 0;
+}
+#thirdLevelTools ul li {
+	float: right;
+	padding: 0;
+    margin: 0 0 0 10px;
+}
+
+
+
+
+
+
+#thirdLevelTools a.buttonLink {
+    display: block;
+    background: url(../images/header-dropdown-background.png) left -128px no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 0;
+    padding: 0 0 4px;
+    
+    height: 26px;
+    line-height: 26px;
+    
+    -width: 0%;
+}
+#thirdLevelTools a.buttonLink span {
+    display: block;
+    background: url(../images/header-dropdown-background.png) right -160px no-repeat;
+    padding: 0 8px;
+
+    position: relative;
+    top: 0;
+	
+	font-weight: bold;
+	color: #255792;
+}
+
+
+
+
+
+#thirdLevelTools .dropDown {
+    display: block;
+    float: left;
+    position: relative;
+    
+    top: 0;
+    left: 0;
+    
+    white-space: nowrap;
+    margin: 0;
+}
+#thirdLevelTools .dropDown span {
+    display: block;
+    background: url(../images/header-dropdown-background.png) left top no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 0;
+    padding: 0 0 4px;
+    
+    height: 32px;
+    line-height: 26px;
+    
+    -width: 0%;
+}
+#thirdLevelTools .dropDown span span {
+    display: block;
+    background-position: right -32px;
+    padding: 0 26px 0 8px;
+
+    position: relative;
+    top: 0;
+	
+	font-weight: bold;
+	color: #255792;
+}
+#thirdLevelTools .dropDown.active span {
+    background-position: left -64px;
+	z-index: 1002;
+}
+#thirdLevelTools .dropDown.active span span {
+    background-position: right -96px;
+}
+#thirdLevelTools .dropDown div.panel {
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 25px;
+    margin: 0;
+    padding: 0 6px 0 0;
+    z-index: 1001;
+
+    background: url(../images/header-dropdown-right.gif) right bottom no-repeat;
+	border: none;
+    border-top: 1px solid #e4e5e4;
+
+    /* Unfortunately we need a fixed width for IE6 */
+    -width: 160px;
+}
+#thirdLevelTools .alignRight .dropDown div.panel {
+	left: auto;
+	right: 0;
+	margin-top: 6px;
+}
+
+
+#thirdLevelTools .dropDown.active div.panel {
+    display: block;
+}
+#thirdLevelTools .dropDown div.panel div {
+    background: url(../images/header-dropdown-left.gif) left bottom no-repeat;
+	border: 0;
+}
+#thirdLevelTools .dropDown div.panel div div {
+	background: none;
+}
+#thirdLevelTools .dropDown ul {
+    display: block;
+    padding: 6px 0;
+}
+#thirdLevelTools .dropDown ul li {
+	float: none;
+    display: block;
+    line-height: 22px;
+	padding: 0;
+	margin: 0;
+}
+#thirdLevelTools .dropDown ul li a {
+    display: block;
+    color: #255792;
+    padding: 0 4px 0 8px;
+    
+    -zoom: 1;
+}
+#thirdLevelTools .dropDown ul li label {
+	display: block;
+    color: #888;
+    padding: 0 40px 0 8px;
+}
+#thirdLevelTools .dropDown ul li .inlineIcon {
+	padding-left: 30px;
+    background-position: 8px center;
+}
+#thirdLevelTools .dropDown ul li form {
+	padding: 0 6px 0 30px;
+}
+#thirdLevelTools .dropDown ul li form select {
+	width: 100px;
+	margin: 0 2px 0 0;
+}
+#thirdLevelTools .dropDown .mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    
+    background-color: transparent;
+    
+    z-index: 1000;
+}
+#thirdLevelTools .dropDown.active div.mask {
+    display: block;
+}
+
+
+
+
+
+
 
 
 
@@ -801,8 +1040,6 @@ select.switcher optgroup {
 }
 
 div.breadcrumb {
-    padding: 0px 0px 35px 3px;  
-    margin-top: 14px;
     font-size: 10px;
 }
 

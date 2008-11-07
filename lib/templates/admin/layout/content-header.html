@@ -24,9 +24,45 @@
 $Id$
 
 -->*}
-{if ($headerModel && $headerModel->getTitle() != '') || $breadcrumbsExtra}
-<div id="thirdLevelHeader">
-  {include file=layout/breadcrumbs-title.html}
+
+{if $showContentFrame}
+<div id="thirdLevelHeader"{if !empty($aSectionNav)} class="hasTabs"{/if}>
+  {if ($headerModel && $headerModel->getTitle() != '')}
+    {include file=layout/breadcrumbs-title.html}
+  {/if}
+
+    <div class='corner left'></div>
+    <div class='corner right'></div>
 </div>
+
+{include file=layout/section-navigation.html}
+ 
+<div id="thirdLevelContent">
+   <div id="thirdLevelTools">
+      <div class='messagePlaceholder'></div>
+
+      <ul class='contextContainer'>
+          {if $helpLink}
+          <li>
+              <a class='buttonLink' target='_blank' href='{$helpLink|escape}'>
+                  <span>{t str=Help}</span>
+              </a>
+          </li>
+          {/if}
+          {if $aTools|@count}
+          <li class='alignRight'>
+              {capture assign=linksTitle}{t str=Actions}{/capture}
+              {include file=layout/links-container.html aLinks=$aTools title=$linksTitle cssClass=tools}
+          </li>
+          {/if}
+          {if $aShortcuts|@count}
+          <li class='alignRight'>
+              {capture assign=linksTitle}{t str=Shortcuts}{/capture}
+              {include file=layout/links-container.html aLinks=$aShortcuts title=$linksTitle cssClass=shortcuts}
+          </li>
+          {/if}
+      </ul>
+  </div>  
 {/if}
-<div class='messagePlaceholder'></div>
+
+{$breadcrumbsExtra}

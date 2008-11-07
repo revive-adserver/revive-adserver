@@ -20,11 +20,15 @@
                 });
             }
 
+			function preventClose(event) {
+				event.stopPropagation();
+			}
 
             this.construct = function(settings) {
                 return this.each(function() {
                     $(this).children('span').bind('click', onToggle);
                     $(this).children('div.mask').bind('click', onToggle);
+                    $(this).children('div.panel').children().bind('click', preventClose);
                     $('body').bind('click', onClose);
                 });
             };

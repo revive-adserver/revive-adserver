@@ -541,7 +541,7 @@ foreach ($activeNav as $val) {
 }
 
 // display header and navigation, with proper 'active page' marked using $activeNav[$action]
-phpAds_PageHeader($activeNav[$action], new OA_Admin_UI_Model_PageHeaderModel(), $imgPath, false, false);
+phpAds_PageHeader($activeNav[$action], new OA_Admin_UI_Model_PageHeaderModel(), $imgPath, false, true, false);
 // calculate percentage complete
 $currSection = $oMenu->get($currentSectionID);
 $showSections = $currSection->getSections();

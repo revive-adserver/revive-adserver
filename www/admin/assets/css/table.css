@@ -190,7 +190,7 @@
 }
 
 
-.dropDown {
+.tableWrapper .dropDown {
     display: block;
     float: left;
     position: relative;
@@ -201,7 +201,7 @@
     white-space: nowrap;
     margin: 0 0 0 4px;
 }
-.dropDown span {
+.tableWrapper .dropDown span {
     display: block;
     background: url(../images/dropdown-background.png) left top no-repeat;
     cursor: pointer;
@@ -215,7 +215,7 @@
     
     -width: 0%;
 }
-.dropDown span span {
+.tableWrapper .dropDown span span {
     display: block;
     background-position: right -25px;
     padding: 0 26px 0 8px;
@@ -225,14 +225,14 @@
 	
 	color: #444;
 }
-.dropDown.active span {
+.tableWrapper .dropDown.active span {
     background-position: left -50px;
 }
-.dropDown.active span span {
+.tableWrapper .dropDown.active span span {
     background-position: right -75px;
     color: #fff;
 }
-.dropDown div.panel {
+.tableWrapper .dropDown div.panel {
     background: #fff;
     display: none;
     position: absolute;
@@ -251,38 +251,40 @@
     /* Non transparent version for IE */
     -background: url(../images/dropdown-right.gif) right bottom no-repeat;
 }
-.alignRight .dropDown div.panel {
+.tableWrapper .alignRight .dropDown div.panel {
 	left: auto;
 	right: -2px;
 }
 
 
-.dropDown.active div.panel {
+.tableWrapper .dropDown.active div.panel {
     display: block;
 }
-.dropDown div.panel div {
+.tableWrapper .dropDown div.panel div {
     background: url(../images/dropdown-left.png) left bottom no-repeat;
     padding: 0 0 8px;
 
     /* Non transparent version for IE */
     -background: url(../images/dropdown-left.gif) left bottom no-repeat;
 }
-.dropDown ul {
+.tableWrapper .dropDown ul {
     display: block;
     
     border-top: 1px solid #ccc;
     padding: 6px 0 0;
     margin: 0 -3px 0 3px;
 }
-.dropDown ul li {
+.tableWrapper .dropDown ul li {
+	float: none;
     display: block;
     line-height: 22px;
+	padding: 0;
 }
-.tableWrapper .tableFilters .dropDown li {
+.tableWrapper .tableWrapper .tableFilters .dropDown li {
     float: none;
     padding: 0;
 }
-.dropDown ul li a {
+.tableWrapper .dropDown ul li a {
     display: block;
     color: 0767a8;
     padding: 0 40px 0 8px;
@@ -290,12 +292,12 @@
     -zoom: 1;
 }
 
-.dropDown ul li a:hover {
+.tableWrapper .dropDown ul li a:hover {
     background-color: #0767a8;
     color: #fff;
     text-decoration: none;
 }
-.dropDown .mask {
+.tableWrapper .dropDown .mask {
     display: none;
     position: fixed;
     left: 0;
@@ -307,7 +309,7 @@
     
     z-index: 1000;
 }
-.dropDown.active div.mask {
+.tableWrapper .dropDown.active div.mask {
     display: block;
 }
 

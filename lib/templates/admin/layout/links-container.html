@@ -24,37 +24,28 @@
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
-<div class='contextLinks {$cssClass}'>
-    <h4>{$title}</h4>
-    <ul>
-    {section name=linkLoop loop=$aLinks}
-        {if $smarty.section.linkLoop.iteration == 4}
-            </ul>
-            <ul class="moreContainer">
-        {/if} 
-        <li>
-        {if $aLinks[linkLoop].type == 'link'}
-            {if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
-            <a href='{$aLinks[linkLoop].url}' {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if} {if $aLinks[linkLoop].accesskey}accesskey='{$aLinks[linkLoop].accesskey}'{/if} {$aLinks[linkLoop].extraAttr}>{$aLinks[linkLoop].title}</a>
-        {elseif $aLinks[linkLoop].type == 'form'}
-            {if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
-            <a href='#' {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass} hasForm'{/if}">{$aLinks[linkLoop].title}</a>
-            <div class="form">
-                {$aLinks[linkLoop].form}
-            </div>
-        {/if}
-        </li>
-        {if $smarty.section.linkLoop.last && $smarty.section.linkLoop.total > 3}
-            </ul>
-        {/if} 
-    {/section}
-    {if $aLinks|@count <= 3}
-    	</ul>
-    {/if}
 
-    {if $aLinks|@count > 3}        
-        <a class="more-less" href="#"><span class="more">{t str=More}</span><span class="less">{t str=Less}</span></a>
-    {/if}
-    <span class="corner bottom-left"></span>
-    <span class="corner bottom-right"></span>
+<div class='dropDown {$cssClass}'>
+    <span><span>{$title}</span></span>
+
+    <div class='panel'>
+        <div>
+            <ul>
+    		{section name=linkLoop loop=$aLinks}
+        		<li>
+        			{if $aLinks[linkLoop].type == 'link'}
+            			{if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
+            			<a href='{$aLinks[linkLoop].url}' {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if} {if $aLinks[linkLoop].accesskey}accesskey='{$aLinks[linkLoop].accesskey}'{/if} {$aLinks[linkLoop].extraAttr}>{$aLinks[linkLoop].title}</a>
+        			{elseif $aLinks[linkLoop].type == 'form'}
+            			{if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
+            			<label {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if}>{$aLinks[linkLoop].title}</label>
+               			{$aLinks[linkLoop].form}
+        			{/if}
+        		</li>
+    		{/section}
+            </ul>
+        </div>
+    </div>
+    
+    <div class='mask'></div>
 </div>

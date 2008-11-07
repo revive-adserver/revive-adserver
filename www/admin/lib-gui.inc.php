@@ -158,13 +158,14 @@ function addPageShortcut($title, $url, $iconClass, $accesskey = null)
  * @param string ID If not passed in (or null) the page filename is used as the ID
  * @param string Extra
  * @param string imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
- * @param boolean set to false if you do not wish to show the grey sidebar
- * @param boolean set to false if you do not wish to show the main navigation
+ * @param bool $showSidebar Set to false if you do not wish to show the sidebar navigation
+ * @param bool $showContentFrame Set to false if you do not wish to show the content frame
+ * @param bool $showMainNavigation Set to false if you do not wish to show the main navigation
  */
-function phpAds_PageHeader($ID = null, $headerModel = null, $imgPath="", $showSidebar=true, $showMainNav=true)
+function phpAds_PageHeader($ID = null, $headerModel = null, $imgPath="", $showSidebar=true, $showContentFrame=true, $showMainNavigation=true)
 {
     $GLOBALS['_MAX']['ADMIN_UI'] = OA_Admin_UI::getInstance();
-    $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $headerModel, $imgPath, $showSidebar, $showMainNav);
+    $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $headerModel, $imgPath, $showSidebar, $showContentFrame, $showMainNavigation);
     $GLOBALS['phpAds_GUIDone'] = true;
 }
 
