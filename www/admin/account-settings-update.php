@@ -32,7 +32,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OX/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
