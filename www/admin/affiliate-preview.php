@@ -36,6 +36,7 @@ if ((empty($_GET['affiliateid'])) || (empty($_GET['codetype']))) {
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
@@ -44,8 +45,11 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 
 phpAds_registerGlobal('affiliateid', 'codetype');
 
-//OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-//OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
+}
 
 Language_Loader::load('default');
 
