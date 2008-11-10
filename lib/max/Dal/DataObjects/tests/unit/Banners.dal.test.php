@@ -52,6 +52,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
 
     function testDuplicate()
     {
+        $GLOBALS['strCopyOf'] = 'Copy of ';
         $filename = 'test.gif';
 
         $doBanners = OA_Dal::factoryDO('banners');
