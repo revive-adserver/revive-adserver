@@ -53,14 +53,14 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
     }
 	$aLimitations = MAX_cacheGetChannelLimitations($limitation);
 
-	$pathPlugins = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 
     // Include required deliveryLimitation files...
     if(strlen($aLimitations['acl_plugins'])) {
         $acl_plugins = explode(',', $aLimitations['acl_plugins']);
         foreach ($acl_plugins as $acl_plugin) {
-            list($package, $name) = explode(':', $acl_plugin);
-            $pluginName = MAX_PATH . $pathPlugins. "/deliveryLimitations/{$package}/{$name}.delivery.php";
+            list($extension, $package, $name) = explode(':', $acl_plugin);
+            $pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "{$extension}/{$package}/{$name}.delivery.php";
             if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
                 require($pluginName);
                 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
