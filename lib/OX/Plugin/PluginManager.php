@@ -513,6 +513,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function _parsePackageFilename($file)
     {
         $aFile = pathinfo($file);
+        $aFile['filename'] = basename($aFile['basename'],'.'.$aFile['extension']);
         $aResult['version'] = '';
         $aResult['name']    = $aFile['filename'];
         $aResult['ext']     = $aFile['extension'];
