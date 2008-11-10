@@ -75,6 +75,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
 
     function testDuplicate()
     {
+        $GLOBALS['strCopyOf'] = 'Copy of ';
         //  create test channel
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';

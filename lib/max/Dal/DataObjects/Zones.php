@@ -157,7 +157,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     function duplicate()
     {
         // Get unique name
-        $this->zonename = $this->getUniqueNameForDuplication('zonename');
+        $this->zonename = $GLOBALS['strCopyOf'] . ' ' . $this->zonename;
 
         $this->zoneid = null;
         $newZoneid = $this->insert();

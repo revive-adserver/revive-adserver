@@ -344,7 +344,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
     	// Duplicate campaign
         $old_campaignId = $this->campaignid;
-        $this->campaignname = 'Copy of ' . $this->campaignname;
+        $this->campaignname = $GLOBALS['strCopyOf'] . ' ' . $this->campaignname;
         unset($this->campaignid);
         $new_campaignId = $this->insert();
 

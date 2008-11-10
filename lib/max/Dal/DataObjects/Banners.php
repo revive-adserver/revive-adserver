@@ -172,7 +172,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
         $old_adId = $this->bannerid;
         unset($this->bannerid);
 
-        $this->description = 'Copy of ' . $this->description;
+        $this->description = $GLOBALS['strCopyOf'] . ' ' . $this->description;
         if ($new_campaignId != null) {
         	$this->campaignid = $new_campaignId;
         }

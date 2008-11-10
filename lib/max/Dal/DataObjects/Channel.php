@@ -132,7 +132,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
         $this->get($channelId);
 
         // Prepare a new name for the channel
-        $this->name = $this->getUniqueNameForDuplication('name');
+        $this->name = $GLOBALS['strCopyOf'] . ' ' . $this->name;
 
         // Duplicate channel
         $this->channelid = null;

@@ -83,6 +83,7 @@ $GLOBALS['strUser']                     = "User";
 $GLOBALS['strEdit']                     = "Edit";
 $GLOBALS['strCreate']                   = "Create";
 $GLOBALS['strDuplicate']                = "Duplicate";
+$GLOBALS['strCopyOf']                   = "Copy of";
 $GLOBALS['strMoveTo']                   = "Move to";
 $GLOBALS['strDelete']                   = "Delete";
 $GLOBALS['strActivate']                 = "Activate";
