@@ -549,11 +549,11 @@ class OA_statisticsFieldsDelivery
         }
         else
         {
-           foreach ($aResult AS $k => $row) {
-                unset($aResult[$k]);
-                $aResult[$row['day_and_hour']] = $row;
-            }
-            if ($method != 'getEntitiesStats') {
+           if ($method != 'getEntitiesStats') {
+                foreach ($aResult AS $k => $row) {
+                    unset($aResult[$k]);
+                    $aResult[$row['day_and_hour']] = $row;
+                }
                 $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
             }
             foreach ($aResult AS $k => $row) {
