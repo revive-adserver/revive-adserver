@@ -305,15 +305,6 @@ function buildZoneForm($zone)
     $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('zonename', $urlRequiredMsg, 'required');
 
-    // Get unique affiliate
-    $doZones = OA_Dal::factoryDO('zones');
-    $doZones->affiliateid = $zone['affiliateid'];
-    $aUnique_names = $doZones->getUniqueValuesFromColumn('zonename',
-        empty($zone['zoneid'])? '': $zone['zonename']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strZone'], strtolower($GLOBALS['strName'])));
-    $form->addRule('zonename', $nameUniqueMsg, 'unique', $aUnique_names);
-
 
     /*
     TODO

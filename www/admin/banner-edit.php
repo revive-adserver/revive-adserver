@@ -555,15 +555,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
-    //unique name
-    $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->campaignid = $row['campaignid'];
-    $aUnique_names = $doBanners->getUniqueValuesFromColumn('description',
-        empty($row['bannerid'])? '': $row['description']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strBanner'], strtolower($GLOBALS['strName'])));
-    $form->addRule('description', $nameUniqueMsg, 'unique', $aUnique_names);
-
 
     //set banner values
     $form->setDefaults($row);

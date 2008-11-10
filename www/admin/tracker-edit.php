@@ -151,16 +151,6 @@ function buildTrackerForm($tracker)
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('trackername', $nameRequiredMsg, 'required');
 
-    // Get unique trackers
-    $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->clientid = $tracker['clientid'];
-    $aUnique_names = $doTrackers->getUniqueValuesFromColumn('trackername',
-         empty($tracker['trackerid'])? '': $tracker['trackername']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strTracker'], strtolower($GLOBALS['strName'])));
-    $form->addRule('trackername', $nameUniqueMsg, 'unique', $aUnique_names);
-
-
     return $form;
 }
 

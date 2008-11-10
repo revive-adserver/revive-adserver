@@ -136,14 +136,6 @@ function buildAdvertiserForm($aAdvertiser)
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('clientname', $nameRequiredMsg, 'required');
-        // Get unique clientname
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->agencyid = OA_Permission::getAgencyId();
-        $aUnique_names = $doClients->getUniqueValuesFromColumn('clientname',
-            empty($aAdvertiser['clientid'])? '' : $aAdvertiser['clientname']);
-        $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-            array($GLOBALS['strClient'], strtolower($GLOBALS['strName'])));
-        $form->addRule('clientname', $nameUniqueMsg, 'unique', $aUnique_names);
     }
 
 

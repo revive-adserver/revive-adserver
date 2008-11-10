@@ -118,12 +118,6 @@ function buildAgencyForm($aAgency)
     $translation = new OX_Translation();
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('name', $nameRequiredMsg, 'required');
-    // Get unique agencyname
-    $doAgency = OA_Dal::factoryDO('agency');
-    $aUnique_names = $doAgency->getUniqueValuesFromColumn('name', $aAgency['name']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strAgency'], strtolower($GLOBALS['strName'])));
-    $form->addRule('name', $nameUniqueMsg, 'unique', $aUnique_names);
 
     $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     $form->addRule('contact', $contactRequiredMsg, 'required');

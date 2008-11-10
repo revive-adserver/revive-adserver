@@ -139,17 +139,6 @@ function buildWebsiteForm($affiliate)
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
 
-    // Get unique affiliate
-    // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->agencyid = OA_Permission::getAgencyId();
-    $aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strAffiliate'], strtolower($GLOBALS['strName'])));
-    $form->addRule('name', $nameUniqueMsg, 'unique', $aUniqueNames);
-
-
-
     //set form  values
     $form->setDefaults($affiliate);
     $form->setDefaults(

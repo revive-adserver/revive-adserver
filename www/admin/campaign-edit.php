@@ -328,13 +328,6 @@ function buildCampaignForm($campaign, &$oComponent = null)
     $typeRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strPricingModel'] ) );
     $form->addRule ( 'revenue_type', $typeRequiredMsg, 'required' );
 
-    // Get unique campaignname
-    $doCampaigns = OA_Dal::factoryDO ( 'campaigns' );
-    $doCampaigns->clientid = $campaign ['clientid'];
-    $aUnique_names = $doCampaigns->getUniqueValuesFromColumn ( 'campaignname', empty ( $campaign ['campaignid'] ) ? '' : $campaign ['campaignname'] );
-    $nameUniqueMsg = $translation->translate ( $GLOBALS ['strXUniqueField'], array ($GLOBALS ['strCampaign'], strtolower ( $GLOBALS ['strName'] ) ) );
-    $form->addRule ( 'campaignname', $nameUniqueMsg, 'unique', $aUnique_names );
-
     //  $form->addRule('impressions', 'TODO message', 'formattedNumber');
     //  $form->addRule('clicks', 'TODO message', 'formattedNumber');
     //    if ($conf['logging']['trackerImpressions']) {

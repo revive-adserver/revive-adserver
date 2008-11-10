@@ -104,19 +104,6 @@ function buildChannelForm($channel)
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('name', $nameRequiredMsg, 'required');
 
-    // Get unique affiliate
-    $doChannels = OA_Dal::factoryDO('channel');
-    if (!empty($channel['affiliateid'])) {
-        $doChannels->affiliateid = $channel['affiliateid'];
-    }
-    else {
-        $doChannels->agencyid = OA_Permission::getAgencyId();
-    }
-    $aUnique_names = $doChannels->getUniqueValuesFromColumn('name',
-        empty($channel['channelid'])? '': $channel['name']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
-        array($GLOBALS['strChannel'], strtolower($GLOBALS['strName'])));
-    $form->addRule('name', $nameUniqueMsg, 'unique', $aUnique_names);
     return $form;
 
 }
