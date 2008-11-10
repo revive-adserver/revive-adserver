@@ -27121,7 +27121,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Source</value>
+     <value>deliveryLimitations:Site:Source</value>
     </field>
 
     <field>
@@ -30844,7 +30844,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Channel</value>
+     <value>deliveryLimitations:Site:Channel</value>
     </field>
 
     <field>
@@ -31282,7 +31282,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Time:Day,Time:Hour</value>
+     <value>deliveryLimitations:Time:Day,deliveryLimitations:Time:Hour</value>
     </field>
 
     <field>
@@ -31720,7 +31720,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Time:Date</value>
+     <value>deliveryLimitations:Time:Date</value>
     </field>
 
     <field>
@@ -32815,7 +32815,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Time:Day,Time:Hour,Time:Date,Client:Ip,Client:Domain,Client:Useragent,Site:Referingpage,Site:Source,Site:Channel</value>
+     <value>deliveryLimitations:Time:Day,deliveryLimitations:Time:Hour,deliveryLimitations:Time:Date,deliveryLimitations:Client:Ip,deliveryLimitations:Client:Domain,deliveryLimitations:Client:Useragent,deliveryLimitations:Site:Referingpage,deliveryLimitations:Site:Source,deliveryLimitations:Site:Channel</value>
     </field>
 
     <field>
@@ -33034,7 +33034,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Client:Domain,Client:Ip,Client:Useragent,Site:Channel,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date,Time:Day,Time:Hour</value>
+     <value>deliveryLimitations:Client:Domain,deliveryLimitations:Client:Ip,deliveryLimitations:Client:Useragent,deliveryLimitations:Site:Channel,deliveryLimitations:Site:Pageurl,deliveryLimitations:Site:Referingpage,deliveryLimitations:Site:Source,deliveryLimitations:Time:Date,deliveryLimitations:Time:Day,deliveryLimitations:Time:Hour</value>
     </field>
 
     <field>
@@ -35224,7 +35224,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -38071,7 +38071,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -38290,7 +38290,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -38947,7 +38947,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -39166,7 +39166,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -39823,7 +39823,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -40042,7 +40042,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
@@ -40261,7 +40261,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Aalocation</value>
+     <value>deliveryLimitations:Site:Aalocation</value>
     </field>
 
     <field>
@@ -45079,7 +45079,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Homepage</value>
+     <value>deliveryLimitations:Site:Homepage</value>
     </field>
 
     <field>
@@ -59533,7 +59533,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Client:Browser,Client:Domain,Client:Ip,Client:Os,Client:Useragent,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date</value>
+     <value>deliveryLimitations:Client:Browser,deliveryLimitations:Client:Domain,deliveryLimitations:Client:Ip,deliveryLimitations:Client:Os,deliveryLimitations:Client:Useragent,deliveryLimitations:Site:Pageurl,deliveryLimitations:Site:Referingpage,deliveryLimitations:Site:Source,deliveryLimitations:Time:Date</value>
     </field>
 
     <field>
@@ -59752,7 +59752,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Channel</value>
+     <value>deliveryLimitations:Site:Channel</value>
     </field>
 
     <field>
@@ -60628,7 +60628,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Channel</value>
+     <value>deliveryLimitations:Site:Channel</value>
     </field>
 
     <field>
@@ -60847,7 +60847,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Client:Ip,Site:Channel</value>
+     <value>deliveryLimitations:Client:Ip,deliveryLimitations:Site:Channel</value>
     </field>
 
     <field>
@@ -61066,7 +61066,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Client:Ip</value>
+     <value>deliveryLimitations:Client:Ip</value>
     </field>
 
     <field>
@@ -87945,7 +87945,7 @@
 
     <field>
      <name>acl_plugins</name>
-     <value>Site:Pageurl</value>
+     <value>deliveryLimitations:Site:Pageurl</value>
     </field>
 
     <field>
