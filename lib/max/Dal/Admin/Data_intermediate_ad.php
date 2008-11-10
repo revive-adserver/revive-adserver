@@ -66,7 +66,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         if (!is_null($oDate)) {
             $query .= "
                 AND
-                dia.interval_end <= '" . $oDate->format('%Y-%m-%d %H:%m:%s') . "'";
+                dia.interval_end <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'";
         }
         return DBC::FindRecord($query);
     }
