@@ -919,6 +919,7 @@ body.hasGradient #firstLevelContent {
 }
 #thirdLevelTools .dropDown ul li form {
 	padding: 0 6px 0 30px;
+	margin: 0;
 }
 #thirdLevelTools .dropDown ul li form select {
 	width: 100px;
