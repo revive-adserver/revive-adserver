@@ -688,6 +688,7 @@ body.hasGradient #firstLevelContent {
 #thirdLevelHeader
 {
   position: relative;
+  z-index: 1;
   height: 80px;
   margin: 0;
   
@@ -752,6 +753,7 @@ body.hasGradient #firstLevelContent {
   
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  position: relative;
 }
 
 
