@@ -1912,6 +1912,7 @@ div.dropDown div.panel div div.column {
     border: none;
 
 	  padding: 1px 12px 1px 0;
+	  *padding: 1px 12px 2px 0;
 	  -padding: 3px 12px 3px 0;
 }
 
