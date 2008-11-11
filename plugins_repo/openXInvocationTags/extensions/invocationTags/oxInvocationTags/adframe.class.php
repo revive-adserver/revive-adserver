@@ -80,6 +80,12 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         }
     }
 
+    function getOrder()
+    {
+        parent::getOrder();
+        return 2;
+    }
+
     /**
      * Return list of options
      *

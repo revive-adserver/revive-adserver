@@ -80,6 +80,12 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
         }
     }
 
+    function getOrder()
+    {
+        parent::getOrder();
+        return 4;
+    }
+
     /**
      * Return list of options
      *
@@ -106,8 +112,8 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
     function generateInvocationCode()
     {
         $aComments = array(
-            'Third Party Comment'  => '', 
-            'SSL Backup Comment'   => '', 
+            'Third Party Comment'  => '',
+            'SSL Backup Comment'   => '',
             'Comment'              => $this->translate("
   * This tag only shows image banners. There is no width or height in
   * these banners, so if you want these tags to allocate space for the

@@ -52,6 +52,13 @@ class Plugins_InvocationTags extends OX_Component
     var $maxInvocation;
 
     /**
+     * Order in which the plugins should be displayed
+     *
+     * @var Integer
+     */
+    static $order = 1;
+
+    /**
      * Return name of plugin
      *
      * @abstract
@@ -111,6 +118,11 @@ class Plugins_InvocationTags extends OX_Component
         return isset($aConf[$this->group][$settingString]) ? $aConf[$this->group][$settingString] : false;
     }
 
+    public function getOrder()
+    {
+        return self::$order++;
+    }
+
     /**
      * Inject invocation - required for generateInvocationCode()
      * and for custom options methods
@@ -135,9 +147,9 @@ class Plugins_InvocationTags extends OX_Component
     /**
      * Prepare data before generating the invocation code
      *
-     * @param array $aComments Array of comments allowed keys: 'Cache Buster Comment', 'Third Party Comment', 
+     * @param array $aComments Array of comments allowed keys: 'Cache Buster Comment', 'Third Party Comment',
      *                                     'SSL Delivery Comment', 'SSL Backup Comment', 'Comment'
-     * 
+     *
      */
     function prepareCommonInvocationData($aComments)
     {

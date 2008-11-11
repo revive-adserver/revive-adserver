@@ -76,6 +76,12 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         return $isAllowed;
     }
 
+    function getOrder()
+    {
+        parent::getOrder();
+        return 1;
+    }
+
     /**
      * Return list of options
      *
@@ -111,7 +117,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
      */
     function generateInvocationCode()
     {
-        $aComments = array( 
+        $aComments = array(
             'SSL Delivery Comment' => '',
             'Comment'              => $this->translate("
   * This noscript section of this tag only shows image banners. There

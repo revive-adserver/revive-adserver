@@ -289,13 +289,25 @@ class MAX_Admin_Invocation {
 
             $allowed = array();
             foreach($invocationTags as $pluginKey => $invocationTag) {
-                $allowed[$pluginKey] = $invocationTag->isAllowed($extra, $server_same);
+                if ($invocationTag->isAllowed($extra, $server_same)) {
+                    $aOrderedComponents[$invocationTag->getOrder()] =
+                        array(
+                            'pluginKey' => $pluginKey,
+                            'isAllowed' => $invocationTag->isAllowed($extra, $server_same),
+                            'name' => $invocationTag->getName()
+                        );
+                }
+            }
+
+            ksort($aOrderedComponents);
+            foreach ($aOrderedComponents as $order => $aComponent) {
+                $allowed[$aComponent['pluginKey']] = $aComponent['isAllowed'];
             }
 
             if (!isset($codetype) || $allowed[$codetype] == false) {
-                reset($allowed);
-                while (list($k,$v) = each($allowed))
-                    if ($v) $codetype = $k;
+                foreach ($allowed as $codetype => $isAllowed) {
+                    break;
+                }
             }
 
             if (!isset($codetype)) {
@@ -315,13 +327,9 @@ class MAX_Admin_Invocation {
             $buffer .= "<select name='codetype' onChange=\"disableTextarea();this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
             $invocationTagsNames = array();
-            foreach($invocationTags as $pluginKey => $invocationTag) {
-                if($allowed[$pluginKey]) {
-                    $invocationTagsNames[$pluginKey] = $invocationTag->getName();
-                }
+            foreach ($aOrderedComponents as $order => $aComponent) {
+                $invocationTagsNames[$aComponent['pluginKey']] = $aComponent['name'];
             }
-            // sort by name
-            asort($invocationTagsNames);
             foreach($invocationTagsNames as $pluginKey => $invocationTagName) {
                 $buffer .= "<option value='".$pluginKey."'".($codetype == $pluginKey ? ' selected' : '').">".$invocationTagName."</option>";
             }
@@ -390,7 +398,7 @@ class MAX_Admin_Invocation {
                     $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
                     $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
                     $buffer .= "</textarea>";
-                    
+
                     $buffer .= "
                         <script type='text/javascript'>
                         <!--
@@ -398,8 +406,8 @@ class MAX_Admin_Invocation {
                             $('#bannercode').selectText();
                         });
                         //-->
-                        </script>";                
-                } 
+                        </script>";
+                }
                 else {
                     $buffer .= $this->generateInvocationCode($invocationTag);
                 }
@@ -407,7 +415,7 @@ class MAX_Admin_Invocation {
                 $buffer .= "</table><br />";
                 $buffer .= phpAds_ShowBreak($print = false);
                 $buffer .= "<br />";
-                
+
 
                 $generated = true;
             }

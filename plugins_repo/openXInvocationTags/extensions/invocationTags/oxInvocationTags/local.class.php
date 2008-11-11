@@ -73,6 +73,12 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
         return parent::isAllowed($extra);
     }
 
+    function getOrder()
+    {
+        parent::getOrder();
+        return 3;
+    }
+
     /**
      * Return list of options
      *
@@ -105,9 +111,9 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
     {
         $aComments = array(
             'Cache Buster Comment' => '',
-            'Third Party Comment'  => '', 
+            'Third Party Comment'  => '',
             'SSL Delivery Comment' => '',
-            'SSL Backup Comment'   => '', 
+            'SSL Backup Comment'   => '',
             'Comment'              => '',
             );
         parent::prepareCommonInvocationData($aComments);
