@@ -33,8 +33,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 
 $GLOBALS['phpAds_hlp_dbport'] = "
         Írja be a ".$phpAds_dbmsname." adatbázis kiszolgáló portját, melyhez kapcsolódni
-		kíván. A ".$phpAds_dbmsname." adatbázis alapértelmezett port száma <i>".
-		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
+		kíván. A ".$phpAds_dbmsname." adatbázis alapértelmezett port száma <i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 
 $GLOBALS['phpAds_hlp_dbuser'] = "

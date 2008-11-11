@@ -34,8 +34,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 
 $GLOBALS['phpAds_hlp_dbport'] = "
         Specify the number of the port of the ".$phpAds_dbmsname." database server to which you are trying to
-		connect. The default port number for a ".$phpAds_dbmsname." database is <i>".
-		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
+		connect. The default port number for a ".$phpAds_dbmsname." database is <i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 
 $GLOBALS['phpAds_hlp_dbuser'] = "

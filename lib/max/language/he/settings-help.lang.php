@@ -30,8 +30,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
         ציין את השרת המארח את בסיס הנתונים של ".$phpAds_dbmsname." שאיליו אתה מנסה להתחבר";
 
 $GLOBALS['phpAds_hlp_dbport'] = "
-        ציין את מספר המבוא (port) של בסיס הנתונים ".$phpAds_dbmsname." שאליו אתה מנסה להתחבר. ברירת המחדל של מאגר ".$phpAds_dbmsname." היא <i>".
-		($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
+        ציין את מספר המבוא (port) של בסיס הנתונים ".$phpAds_dbmsname." שאליו אתה מנסה להתחבר. ברירת המחדל של מאגר ".$phpAds_dbmsname." היא <i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.
 		";
 				
 $GLOBALS['phpAds_hlp_dbuser'] = "
