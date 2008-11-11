@@ -885,6 +885,7 @@ body.hasGradient #firstLevelContent {
 #thirdLevelTools .dropDown div.panel div {
     background: url(../images/header-dropdown-left.gif) left bottom no-repeat;
 	border: 0;
+	overflow: visible;
 }
 #thirdLevelTools .dropDown div.panel div div {
 	background: none;

@@ -263,6 +263,7 @@
 .tableWrapper .dropDown div.panel div {
     background: url(../images/dropdown-left.png) left bottom no-repeat;
     padding: 0 0 8px;
+    overflow: visible;
 
     /* Non transparent version for IE */
     -background: url(../images/dropdown-left.gif) left bottom no-repeat;
