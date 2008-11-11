@@ -22,6 +22,10 @@
  font-weight: bold;
 }
 
+.disabled-button {
+    color: #888888;
+}
+
 .smallbutton {
  font-family: Arial, Helvetica, sans-serif;
  font-size: 10px;
@@ -539,3 +543,29 @@ td.required-explanation {
 	color: #606060;
 	padding-bottom: 5px;
 }
+
+/** plugin installation **/
+#jobs table td {
+  vertical-align: top;
+}
+
+#jobs table td.jobName {
+   width: 270px;
+}
+
+#jobs table td .status {
+  font-weight: bold;
+}
+
+#jobs table td .status-installing {
+  background: url(../images/indicator-blue-small.gif) center left no-repeat;
+  padding-left: 20px;
+}
+
+#jobs table td ul.errors {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+

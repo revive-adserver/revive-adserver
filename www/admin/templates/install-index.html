@@ -44,6 +44,7 @@ function changePage(page) {
             case OA_UPGRADE_CONFIGSETUP         : include MAX_PATH . '/www/admin/templates/install-configsetup.html'; break;
             case OA_UPGRADE_ADMINSETUP          : include MAX_PATH . '/www/admin/templates/install-adminsetup.html';  break;
             case OA_UPGRADE_PLUGINS             : include MAX_PATH . '/www/admin/templates/install-plugins.html';     break;
+            case OA_UPGRADE_POST                : include MAX_PATH . '/www/admin/templates/install-post.html';        break;
             case OA_UPGRADE_FINISH              : include MAX_PATH . '/www/admin/templates/install-finish.html';      break;
             default                             : include MAX_PATH . '/www/admin/templates/install-welcome.html';     break;
         }

@@ -13,59 +13,40 @@
     </table>
     <br />
     <br />
-    
+    <?php $pluginOperationName = ($_COOKIE['oat'] == OA_UPGRADE_INSTALL ? 'Installing' : 'Checking'); ?>
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
-        <tbody>    
+        <tbody>
         <tr>
             <td>&nbsp;</td>
-            <td height='25' colspan='2' class='underline'><b>Installing OpenX plugins<!-- echo $heading --></b></td>
+            <td height='25' colspan='2' class='underline'><b><?php echo $pluginOperationName; ?> OpenX plugins</b></td>
         </tr>
         <tr>
             <td> </td>
-            <td align="center" colspan="2">
-    <?php
-        if (is_array($aPostTasks) && count($aPostTasks))
-        {
-            foreach ($aPostTasks AS $k => $aItem)
-            {
-                if (is_array($aItem['error']) && count($aItem['error']))
-                {
-    ?>
-                <table border='0' width='100%' cellpadding='0' cellspacing='0' class='sysinfotable'>
-    <?php
-                    foreach ($aItem['error'] AS $i => $error)
-                    {
-    ?>
-                    <tr>
-                        <td>
-                        <?php echo $error; ?>
-                        </td>
-                    </tr>
-                    
-                    <!-- NOTE in order for it to look as in mockup we need to split error in two parts
-                    as in system check tab
-                    <tr>
-                      <td class='check'>{$k}</td>
-                      <td class='check-res'>{$v}</td>
-                    </tr>
-                     -->
-                    
-    <?php
-                    }
-                }
-                ?>
-                </table>
-              </td>
+            <td> 
+                <div id="jobs"></div>
+            </td>
           </tr>
         </tbody>
-      </table>  
-                  
-                
-                <?php
-            }
-        }
-    ?>
+      </table>
+
 <form id="frmOpenads" name="frmOpenads" method="POST" action="install.php">
-    <input type="hidden" name="aAdminPost" id="aAdminPost" value="<?php echo htmlspecialchars(stripslashes($_POST['aAdminPost'])); ?>">
-    <input type="submit"  class="button" id="btn_finish" name="btn_finish" value="<?php echo $strBtnContinue; ?>" tabindex="1" />
+    <?php
+    $id = ($_COOKIE['oat'] == OA_UPGRADE_INSTALL ? 'btn_finish' : 'btn_post');
+    ?>
+    <input type="hidden" name="aAdminPlugins" id="aAdminPlugins" value="<?php echo htmlspecialchars(stripslashes($_POST['aAdminPlugins'])); ?>">
+    <input type="submit"  class="button" id="<?php echo $id; ?>" name="<?php echo $id; ?>" value="<?php echo $strBtnContinue; ?>" tabindex="1" />
 </form>
+
+    <script type="text/javascript" src="<?php echo $imgPath; ?>/js/ox.jobs.js"></script>
+    <script type='text/javascript'>
+      <!--
+        $(document).ready(function() {
+            $("div#jobs").pluginJobs({
+                startText: '<?php echo $pluginOperationName; ?>...',
+                continueButtonId: '<?php echo $id; ?>',
+                jobs: <?php echo $jsonJobs ?>,
+                requestTimeout: 30000 //in milis 30sec
+                });
+        });
+      -->
+    </script>
