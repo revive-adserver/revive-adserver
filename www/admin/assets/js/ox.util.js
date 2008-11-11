@@ -141,16 +141,16 @@ jQuery.fn.toggleContent = function(checkedContentSelector, uncheckedContentSelec
 $(document).ready(function () {
 							
   function resizeContentBox() {
-	$("#thirdLevelContent").each(function() {
-		var offset = document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
-		offset -= $(this).offset().top;
-		offset -= parseInt($(this).css('paddingTop'));
-		offset -= parseInt($(this).css('paddingBottom'));
-	  	$(this).css(jQuery.browser == 'msie' && jQuery.browser.version < 7 ? 'height' : 'minHeight', offset + 'px');
+	  $("#thirdLevelContent").each(function() {
+		  var offset = document.documentElement.clientHeight;
+		  offset -= $(this).offset().top;
+		  offset -= parseInt($(this).css('paddingTop'));
+		  offset -= parseInt($(this).css('paddingBottom'));
+	  	$(this).css(jQuery.browser.msie && jQuery.browser.version < 7 ? 'height' : 'minHeight', offset + 'px');
    	});
   }
   
   resizeContentBox();
-  window.setInterval(resizeContentBox, 300);
+  //window.setInterval(resizeContentBox, 300);
 });
 	
