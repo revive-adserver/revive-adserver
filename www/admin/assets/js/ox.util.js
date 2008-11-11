@@ -151,6 +151,6 @@ $(document).ready(function () {
   }
   
   resizeContentBox();
-  //window.setInterval(resizeContentBox, 300);
+  window.setInterval(resizeContentBox, 300);
 });
 	
