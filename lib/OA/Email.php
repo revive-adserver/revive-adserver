@@ -55,11 +55,13 @@ class OA_Email
         $aLinkedUsers = $this->_addAdvertiser($aAdvertiser, $aLinkedUsers);
         $copiesSent = 0;
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            if ($aConf['email']['useManagerDetails'])
+                $aFromDetails = $this->_getAgencyFromDetails($aAdvertiser['agencyid']);
             foreach ($aLinkedUsers as $aUser) {
                 $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $aAdvertiser['clientid'], $oStartDate, $oEndDate);
                 if ($aEmail !== false) {
                     if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
-                        if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                        if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                             $copiesSent++;
                             if ($aConf['email']['logOutgoing']) {
                                 phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -452,6 +454,7 @@ class OA_Email
             $adminPrefsNames, OA_ACCOUNT_ADMIN);
 
         // Create the linked special user preferences from the admin preferences
+        // the special user is the client that doesn't have preferences in the database
         $aPrefs['special'] = $aPrefs['admin'];
         $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'];
         $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'];
@@ -459,6 +462,13 @@ class OA_Email
 
         $copiesSent = 0;
         foreach ($aLinkedUsers as $accountType => $aUsers) {
+            if ($accountType == 'special' || $accountType == 'advertiser') {
+                // Get the agency details and use them for emailing advertisers
+                $aFromDetails = $this->_getAgencyFromDetails($doAgency->agencyid);
+            } else {
+                // Use the Admin details
+                $aFromDetails = '';
+            }
             if ($aPrefs[$accountType]['warn_email_' . $accountType]) {
                 // Does the account type want warnings when the impressions are low?
                 if ($aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'] > 0 && $aCampaign['views'] > 0) {
@@ -485,7 +495,7 @@ class OA_Email
                                 );
 
                                 if ($aEmail !== false) {
-                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                                         $copiesSent++;
                                         if ($aConf['email']['logOutgoing']) {
                                             phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -529,7 +539,7 @@ class OA_Email
                                     $accountType
                                 );
                                 if ($aEmail !== false) {
-                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                                         $copiesSent++;
                                         if ($aConf['email']['logOutgoing']) {
                                             phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -655,10 +665,10 @@ class OA_Email
         $email .= "$emailBody\n";
 
         // Prepare the final email - add the "regards" signature
-        if ($type == 'admin') {
-            $email .= $this->_prepareRegards(0);
-        } else {
+        if ($type == 'special' || $type == 'advertiser') {
             $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
+        } else {
+            $email .= $this->_prepareRegards(0);
         }
 
         // Return the emails to be sent
@@ -734,10 +744,12 @@ class OA_Email
         $copiesSent = 0;
 
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            if ($aConf['email']['useManagerDetails'])
+                $aFromDetails = $this->_getAgencyFromDetails($aAdvertiser['agencyid']);
             foreach ($aLinkedUsers as $aUser) {
                 $aEmail = $this->prepareCampaignActivatedDeactivatedEmail($aUser, $doCampaigns->campaignid, $reason);
                 if ($aEmail !== false) {
-                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                         $copiesSent++;
                         if ($aConf['email']['logOutgoing']) {
                             phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -1014,11 +1026,11 @@ class OA_Email
         $aPref = $this->_loadPrefs();
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        global $strMailFooter, $strDefaultMailFooter;
+        global $strMailFooter;
 
         $regards   = '';
         $useAgency = false;
-        if ($agencyId != 0) {
+        if ($agencyId != 0 && $aConf['email']['useManagerDetails']) {
             // Send regards of the owning agency
             $aAgency = $this->_loadAgency($agencyId);
             if ($aAgency !== false) {
@@ -1038,7 +1050,7 @@ class OA_Email
                 $useAgency = true;
             }
         }
-        if ($agencyId == 0 || $useAgency) {
+        if ($agencyId == 0 || !$aConf['email']['useManagerDetails'] || $useAgency) {
             // Send regards of the admin user
             if (!empty($aConf['email']['fromName'])) {
                 $regards .= $aConf['email']['fromName'];
@@ -1053,7 +1065,7 @@ class OA_Email
         if (!empty($regards)) {
             $result = str_replace("{adminfullname}", $regards, $strMailFooter);
         } else {
-            $result = $strDefaultMailFooter;
+            return;
         }
         return $result;
     }
@@ -1090,7 +1102,7 @@ class OA_Email
      * @param string $userName  The readable name of the user. Optional.
      * @return boolean True if the mail was send, false otherwise.
      */
-    function sendMail($subject, $contents, $userEmail, $userName = null)
+    function sendMail($subject, $contents, $userEmail, $userName = null, $fromDetails = null)
     {
         if (defined('DISABLE_ALL_EMAILS')) {
             return true;
@@ -1098,7 +1110,13 @@ class OA_Email
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-    	global $phpAds_CharSet;
+        global $phpAds_CharSet;
+
+        // If not Agency details send email using Administrator's details
+        if (empty($fromDetails)) {
+            $fromDetails['name'] = $aConf['email']['fromName'];
+            $fromDetails['emailAddress'] = $aConf['email']['fromAddress'];
+        }
 
     	// For the time being we're sending plain text emails only, so decode any HTML entities
     	$contents = html_entity_decode($contents, ENT_QUOTES);
@@ -1118,7 +1136,7 @@ class OA_Email
     	if (get_cfg_var('SMTP')) {
     		$headersParam .= 'To: "' . $userName . '" <' . $userEmail . ">\r\n";
     	}
-    	$headersParam .= 'From: "' . $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>' . "\r\n";
+    	$headersParam .= 'From: "' . $fromDetails['name'] . '" <' . $fromDetails['emailAddress'] . '>' . "\r\n";
     	// Use only \n as header separator when qmail is used
     	if ($aConf['email']['qmailPatch']) {
     		$headersParam = str_replace("\r", '', $headersParam);
@@ -1207,6 +1225,19 @@ class OA_Email
             $aLinkedUsersToEmail['special']['advertiser'] = $aLinkedUsers['special']['advertiser'];
 
         return $aLinkedUsersToEmail;
+    }
+
+    function _getAgencyFromDetails($agencyId)
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->get($agencyId);
+        $aAgency = $doAgency->toArray();
+        if (!empty($aAgency['email'])) {
+            $aFromDetails['emailAddress'] = $aAgency['email'];
+            $aFromDetails['name'] = $aAgency['name'];
+            return $aFromDetails;
+        }
+        return;
     }
 
 }

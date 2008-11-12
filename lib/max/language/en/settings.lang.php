@@ -246,6 +246,7 @@ $GLOBALS['strEmailAddresses']                        = "Email 'From' Address";
 $GLOBALS['strEmailFromName']                         = "Email 'From' Name";
 $GLOBALS['strEmailFromAddress']                      = "Email 'From' Email Address";
 $GLOBALS['strEmailFromCompany']                      = "Email 'From' Company";
+$GLOBALS['strUseManagerDetails']                     = 'Use the owning account\'s Contact, Email and Name instead of the above Name, Email Address and Company when emailing reports to Advertiser or Website accounts.';
 $GLOBALS['strQmailPatch']                            = "qmail patch";
 $GLOBALS['strEnableQmailPatch']                      = "Enable qmail patch";
 $GLOBALS['strEmailHeader']                           = "Email headers";

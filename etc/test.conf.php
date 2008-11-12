@@ -273,6 +273,7 @@ qmailPatch                               = false
 fromName                                 =
 fromAddress                              =
 fromCompany                              =
+useManagerDetails                        =
 
 ;------------------------------------------------------------------------------------------;
 ; Debugging/Error Logging Details                                                          ;
