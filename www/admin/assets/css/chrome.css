@@ -50,12 +50,12 @@ a:hover {
 
 .brandingName {
     height: 48px;
-    padding: 0 0 0 52px;
+    padding: 0 0 0 22px;
     line-height: 48px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    color: #0fa64b;
-    word-spacing: -0.4em;
+    color: #888;
+    word-spacing: -0.2em;
 
 }
 .brandingName div {
@@ -69,6 +69,13 @@ a:hover {
     /* Fix IE bug: transparent PNG support */
     -background: none;
     -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/logo-s.png');
+}
+.brandingAdServer {
+  width: 270px;
+  height: 32px;
+  background: url(../images/logo-adserver.png) no-repeat;
+  margin: 5px 0px 0px 8px;
+  text-indent: -1000px;
 }
 
 
@@ -142,7 +149,7 @@ a:hover {
 #oaNavigationTabs {
     position: absolute;
     top: 1px;
-    left: 175px;
+    left: 16px;
     line-height: 26px;
     height: 29px;
     min-width: 300px;
