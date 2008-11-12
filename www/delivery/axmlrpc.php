@@ -2669,6 +2669,10 @@ $oLogger->log('PEAK: '.$peak, PEAR_LOG_INFO);
 }
 //}
 }
+function logMemPeak($msg='')
+{
+OA::logMem($msg, true);
+}
 function getNow($format = null)
 {
 if (is_null($format)) {
