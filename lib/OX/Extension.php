@@ -44,11 +44,9 @@ class OX_Extension
     function runTasksForEvent($event)
     {
         $result = true;
-        array_unique($this->aExtensions);
+        $this->aExtensions = array_unique($this->aExtensions);
         foreach ($this->aExtensions as $extension)
         {
-            //$aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
-//            $path = MAX_PATH.(isset($aConf[$extension]) ? $aConf[$extension] : $aConf['extensions'].$extension.'/' );
             $path = LIB_PATH.'/Extension/';
             $file = $extension.'.php';
             if (file_exists($path.$file))

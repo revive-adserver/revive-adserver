@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Setup.php 25359 2008-09-08 12:55:14Z andrew.hill $
+$Id$
 */
 
 require_once LIB_PATH . '/Plugin/Component.php';
@@ -285,9 +285,15 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      */
     function installComponents($extension, $aComponentGroups)
     {
-        foreach ($aComponentGroups as $group) {
+        require_once MAX_PATH.'/lib/OA.php';
+        //OA::logMem('enter deliveryLog/Setup::installComponents');
+        foreach ($aComponentGroups as $group)
+        {
+            //OA::logMem('installing group '.$group);
             $aComponents = $this->_getComponents($extension, $group);
-            foreach ($aComponents as $oComponent) {
+            foreach ($aComponents as $oComponent)
+            {
+                //OA::logMem('installing component '.$oComponent->component);
                 if (!$oComponent->onInstall()) {
                     $this->_logError('Error when installing component: ' . get_class($oComponent));
                     $this->recoverUninstallComponents();
@@ -296,6 +302,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
                 $this->markComponentAsInstalled($oComponent);
             }
         }
+        //OA::logMemPeak('exit installComponents');
         return true;
     }
 

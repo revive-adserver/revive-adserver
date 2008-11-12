@@ -103,6 +103,13 @@ class OX_Extension_Common
         return $oCache->save($aHooks);
     }
 
+    function getCachedComponentHooks()
+    {
+        require_once(MAX_PATH.'/lib/OA/Cache.php');
+        $oCache = new OA_Cache('Plugins', 'ComponentHooks');
+        $oCache->setFileNameProtection(false);
+        return $oCache->load(true);
+    }
     /**
      * caches hooks for enabled plugins only
      * indexed by group name

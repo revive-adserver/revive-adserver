@@ -260,6 +260,11 @@ class OA
         //}
     }
 
+    function logMemPeak($msg='')
+    {
+        OA::logMem($msg, true);
+    }
+
     /**
      * A method to obtain the current date/time, offset if required by the
      * user configured timezone.
