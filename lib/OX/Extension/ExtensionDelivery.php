@@ -54,13 +54,13 @@ class OX_Extension_Delivery extends OX_Extension_Common
     function runTasksAfterPluginEnable()
     {
         parent::runTasksAfterPluginEnable();
-        return $this->_cacheDeliveryHooks();
+        //return $this->_cacheDeliveryHooks();
     }
 
     function runTasksAfterPluginDisable()
     {
         parent::runTasksAfterPluginDisable();
-        return $this->_cacheDeliveryHooks();
+        //return $this->_cacheDeliveryHooks();
     }
 
     /**
@@ -76,7 +76,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
 
     function _cacheDeliveryHooks()
     {
-        require_once MAX_PATH.'/lib/OA.php';
+        //require_once MAX_PATH.'/lib/OA.php';
         //OA::logMem('enter _cacheDeliveryHooks()');
         $aHooks = $this->getCachedComponentHooks();
         $this->_saveComponentHooks($aHooks);
@@ -99,7 +99,8 @@ class OX_Extension_Delivery extends OX_Extension_Common
         }
         // Clear out any existing hooks
         $oSettings->aConf['deliveryHooks'] = array();
-        foreach ($aHooks as $hookName => $aComponentIdentifiers) {
+        foreach ($aHooks as $hookName => &$aComponentIdentifiers)
+        {
             $aComponentIdentifiers = $this->orderDependencyComponents($hookName, $aComponentIdentifiers, $aHooks);
             $oSettings->settingChange('deliveryHooks', $hookName, implode('|', $aComponentIdentifiers));
         }

@@ -49,6 +49,9 @@ error_reporting(E_ERROR);
 
 require_once '../../init.php';
 
+//require_once MAX_PATH.'/lib/OA.php';
+//OA::logMem('start installer');
+
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
     require_once LIB_PATH . '/Admin/Redirect.php';
@@ -610,7 +613,7 @@ include 'templates/install-index.html';
 // Do not remove. This is a marker that AJAX response parsers look for to
 // determine whether the response did not redirect to the installer.
 echo "<!-- install -->";
-
+//OA::logMem('end installer');
 // display footer
 phpAds_PageFooter($imgPath);
 

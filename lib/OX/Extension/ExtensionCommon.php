@@ -163,7 +163,7 @@ class OX_Extension_Common
                     $aResult['errors'][] = $name.': '.$msg;
                 }
             }
-            foreach ($aGroups as $i => $aGroup)
+            foreach ($aGroups as $i => &$aGroup)
             {
                 if (array_key_exists($aGroup['name'],$aComponentGroups))
                 {

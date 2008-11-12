@@ -75,6 +75,8 @@ function installPlugin($pluginName)
     // make sure this is a legitimate bundled plugin request
     if ($aPlugin = getPlugin($pluginName))
     {
+        require_once MAX_PATH.'/lib/OA.php';
+        //OA::logMem('start deliveryLog/installPlugin');
         require_once LIB_PATH.'/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
         if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
@@ -103,6 +105,7 @@ function installPlugin($pluginName)
             $aErrors[] = 'Could not be installed because previous installation (whole or partial) was found';
         }
         unset($oPluginManager);
+        //OA::logMem('stop deliveryLog/installPlugin');
     }
     else
     {

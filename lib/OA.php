@@ -25,6 +25,7 @@
 $Id$
 */
 
+###START_STRIP_DELIVERY
 require_once MAX_PATH . '/lib/pear/Log.php';
 require_once MAX_PATH . '/lib/pear/PEAR.php';
 
@@ -226,6 +227,7 @@ class OA
         $tempDebugPrefix = $prefix;
     }
 
+
     function logMem($msg='', $peak=false)
     {
         /*if (isset($aConf['debug']['logmem']) && $aConf['debug']['logmem'])
@@ -381,5 +383,6 @@ class OA
         return $default;
     }
 }
+###END_STRIP_DELIVERY
 
 ?>

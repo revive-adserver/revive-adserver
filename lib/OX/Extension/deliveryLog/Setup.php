@@ -123,7 +123,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
     function filterDeliveryHooks($aAllComponentsIds)
     {
         $aDeliveryHooksComponents = array();
-        foreach ($aAllComponentsIds as $hook => $aComponents) {
+        foreach ($aAllComponentsIds as $hook => &$aComponents) {
             if (in_array($hook, $this->aDeliveryLogHooks)) {
                 $aDeliveryHooksComponents[$hook] = $aComponents;
             }
@@ -218,7 +218,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
     {
         $componentsFiles = array();
         $mergedDelivery = '';
-        foreach ($aComponentsByHooks as $hookName => $hookComponents) {
+        foreach ($aComponentsByHooks as $hookName => &$hookComponents) {
             foreach ($hookComponents as $componentId) {
                 list($extension, $group, $componentName)
                     = $this->getExtensionGroupComponentFromId($componentId);
@@ -285,13 +285,13 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      */
     function installComponents($extension, $aComponentGroups)
     {
-        require_once MAX_PATH.'/lib/OA.php';
-        //OA::logMem('enter deliveryLog/Setup::installComponents');
+        /*require_once MAX_PATH.'/lib/OA.php';
+        OA::logMem('enter deliveryLog/Setup::installComponents');*/
         foreach ($aComponentGroups as $group)
         {
             //OA::logMem('installing group '.$group);
             $aComponents = $this->_getComponents($extension, $group);
-            foreach ($aComponents as $oComponent)
+            foreach ($aComponents as &$oComponent)
             {
                 //OA::logMem('installing component '.$oComponent->component);
                 if (!$oComponent->onInstall()) {
