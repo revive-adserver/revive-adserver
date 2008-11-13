@@ -38,7 +38,6 @@
     <include name="plugins/**"/>
     <include name="extensions/**"/>
     <include name="scripts/maintenance/**"/>
-    <exclude name="scripts/plugins/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/cache"/>
@@ -76,6 +75,7 @@
     <include name="lib/simpletest/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/delivery/**"/>
+    <include name="scripts/plugins/**"/>
     <include name="scripts/upgrade/**"/>
     <include name="scripts/updateDocs.sh"/>
     <include name="scripts/translations/**"/>
