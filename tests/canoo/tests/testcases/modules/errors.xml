@@ -4,4 +4,5 @@
     <verifyText description="Check errors" text="Fatal error" />
     <verifyText description="Check notices" text="Notice" />
     <verifyText description="Check warnings" text="Warning" />
+    <verifyText description="Check if OpenX is installed" text="OpenX has not been installed yet" />
 </not>

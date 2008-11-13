@@ -14,6 +14,7 @@
 		<clickbutton 
 			label="Login"
 			description="login submit" />
+		<clickLink label="Home"/>
 		<verifytitle description="Successful login test"
 			text="${page.title}" />
 		<verifytext description="Successful login test"
