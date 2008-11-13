@@ -49,6 +49,8 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String ADD_BANNER_METHOD = "addBanner";
 	protected static final String DELETE_BANNER_METHOD = "deleteBanner";
 	protected static final String MODIFY_BANNER_METHOD = "modifyBanner";
+        protected static final String GET_BANNER_TARGETING = "getBannerTargeting";
+	protected static final String SET_BANNER_TARGETING = "setBannerTargeting";
 	protected static final String BANNER_DAILY_STATISTICS_METHOD = "bannerDailyStatistics";
 	protected static final String BANNER_PUBLISHER_STATISTICS_METHOD = "bannerPublisherStatistics";
 	protected static final String BANNER_ZONE_STATISTICS_METHOD = "bannerZoneStatistics";
@@ -74,6 +76,11 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String BLOCK = "block";
 	protected static final String COMMENTS = "comments";
 	protected static final String[] STORAGE_TYPES = {"sql", "web", "url", "html", "txt"};
+
+	protected static final String TARGETING_LOGICAL = "logical";
+        protected static final String TARGETING_TYPE = "type";
+        protected static final String TARGETING_COMPATISON = "comparison";
+        protected static final String TARGETING_DATA = "data";
 
 	protected Integer campaignId = null;
 

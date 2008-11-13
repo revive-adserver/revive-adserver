@@ -603,6 +603,42 @@ class XmlRpcUtils
         }
         return true;
     }
+    
+    /**
+     * Gets array of Structures
+     *
+     * @access public
+     *
+     * @param array &$aStructures  to return data
+     * @param string $className class name for entity
+     * @param XML_RPC_Message &$oParams
+     * @param integer $idxParam
+     * @param array $aFieldNames
+     * @param XML_RPC_Response &$oResponseWithError
+     *
+     * @return boolean  shows true if method was executed successfully
+     */
+    function getArrayOfStructuresScalarFields(&$aStructures, $className, 
+        &$oParams, $idxParam, $aFieldNames, &$oResponseWithError)
+    {
+        $oArrayParam = $oParams->getParam($idxParam);
+        $count = $oArrayParam->arraysize();
+        
+        for ($i = 0; $i < $count; $i++) {
+            $oStructure = new $className();
+            foreach ($aFieldNames as $fieldName) {
+                if (!XmlRpcUtils::_getStructureScalarField($oStructure, 
+                    $oArrayParam->arraymem($i), $fieldName, 
+                    $oResponseWithError)) {
+
+                    return false;
+                }
+            }
+        	$aStructures[] = $oStructure;
+        }
+        return true;
+    }
+    
 
     /**
      * Gets Structure Scalar and non-Scalar fields

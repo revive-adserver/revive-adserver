@@ -162,6 +162,70 @@ class BannerXmlRpcService extends BaseBannerService
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
     }
+    
+    /**
+     * This method return targeting limitations for banner.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return generated result (array or error)
+     */
+    function getBannerTargeting(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$bannerId),
+            array(true, true), $oParams, $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        $aTargeting = null;
+        if ($this->_oBannerServiceImp->getBannerTargeting($sessionId, 
+            $bannerId, $aTargeting)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * This method sets targeting limitations for banner.
+     * It overrides existing limitations.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return generated result (boolean or error)
+     */
+    function setBannerTargeting(&$oParams)
+    {
+        $oResponseWithError = null;
+        $aTargeting = array();
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$bannerId),
+            array(true, true), $oParams, $oResponseWithError) || 
+            !XmlRpcUtils::getArrayOfStructuresScalarFields($aTargeting, 
+                'OA_Dll_TargetingInfo', $oParams, 2, array('logical', 'type', 
+                    'comparison', 'data'), $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oBannerServiceImp->setBannerTargeting($sessionId, 
+            $bannerId, $aTargeting)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+        }
+    }
 
     /**
      * The bannerDailyStatistics method returns daily statistics for a banner
@@ -367,7 +431,23 @@ $server = new XML_RPC_Server(
             ),
             'docstring' => 'Delete banner'
         ),
-
+        
+        'getBannerTargeting' => array(
+            'function'  => array($oBannerInfoXmlRpcService, 'getBannerTargeting'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get banner targeting limitations array'
+        ),
+        
+        'setBannerTargeting' => array(
+            'function'  => array($oBannerInfoXmlRpcService, 'setBannerTargeting'),
+            'signature' => array(
+                array('boolean', 'string', 'int', 'array')
+            ),
+            'docstring' => 'Set banner targeting limitations array'
+        ),
+        
         'bannerDailyStatistics' => array(
             'function'  => array($oBannerInfoXmlRpcService, 'bannerDailyStatistics'),
             'signature' => array(

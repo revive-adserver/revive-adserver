@@ -165,6 +165,51 @@ class BannerServiceImpl extends BaseServiceImpl
             return false;
         }
     }
+    
+    /**
+     * This method return targeting limitations for banner
+     * or returns an error message,.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $bannerId
+     * @param array &$aTargeting
+     *
+     * @return boolean
+     */
+    function getBannerTargeting($sessionId, $bannerId, &$aTargeting)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllBanner->getBannerTargeting(
+                $bannerId, $aTargeting));
+        } else {
+            return false;
+        }
+    }
+
+            
+    /**
+     * This method set targeting limitations for banner
+     * or returns an error message.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $bannerId
+     * @param array &$aTargeting
+     *
+     * @return boolean
+     */
+    function setBannerTargeting($sessionId, $bannerId, &$aTargeting)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllBanner->setBannerTargeting(
+                $bannerId, $aTargeting));
+        } else {
+            return false;
+        }
+    }
 
     /**
      * The getBannerDailyStatistics method returns daily statistics for a

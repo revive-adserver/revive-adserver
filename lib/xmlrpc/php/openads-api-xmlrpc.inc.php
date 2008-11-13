@@ -37,6 +37,7 @@ require_once('AgencyInfo.php');
 require_once('BannerInfo.php');
 require_once('CampaignInfo.php');
 require_once('PublisherInfo.php');
+require_once('TargetingInfo.php');
 require_once('UserInfo.php');
 require_once('ZoneInfo.php');
 
@@ -717,7 +718,46 @@ class OA_Api_Xmlrpc
 
         return $oBannerInfo;
     }
+    
+    /**
+     * This method returns TargetingInfo for a specified banner.
+     *
+     * @param int $bannerId
+     *
+     * @return OA_Dll_TargetingInfo
+     */
+    function getBannerTargeting($bannerId)
+    {
+        $dataBannerTargetingList = $this->_sendWithSession('BannerXmlRpcService.php',
+                                                'getBannerTargeting', array((int) $bannerId));
+        $returnData = array();
+        foreach ($dataBannerTargetingList as $dataBannerTargeting) {
+            $oBannerTargetingInfo = new OA_Dll_TargetingInfo();
+            $oBannerTargetingInfo->readDataFromArray($dataBannerTargeting);
+            $returnData[] = $oBannerTargetingInfo;
+        }
+        return $returnData;
+    }
 
+    /**
+     * This method takes an array of targeting info objects and a banner id
+     * and sets the targeting for the banner to the values passed in
+     *
+     * @param integer $bannerId
+     * @param array $aTargeting
+     */
+    function setBannerTargeting($bannerId, &$aTargeting)
+    {
+        $aTargetingInfoObjects = array();
+        foreach ($aTargeting as $aTargetingArray) {
+            $oTargetingInfo = new OA_Dll_TargetingInfo();
+            $oTargetingInfo->readDataFromArray($aTargetingArray);
+            $aTargetingInfoObjects[] = $oTargetingInfo;
+        }
+        return (bool) $this->_sendWithSession('BannerXmlRpcService.php',
+                                              'setBannerTargeting', array((int) $bannerId, $aTargetingInfoObjects));
+    }
+    
     /**
      * This method returns a list of banners for a specified campaign.
      *

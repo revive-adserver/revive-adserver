@@ -34,6 +34,7 @@ $Id$
 // Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/BannerInfo.php';
+require_once MAX_PATH . '/lib/OA/Dll/TargetingInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 require_once MAX_PATH . '/lib/OA/Creative/File.php';
 
@@ -432,6 +433,117 @@ class OA_Dll_Banner extends OA_Dll
         }
     }
 
+    
+    function getBannerTargeting($bannerId, &$aBannerList)
+    {
+        if ($this->checkIdExistence('banners', $bannerId)) {
+            if (!$this->checkPermissions(null, 'banners', $bannerId)) {
+                return false;
+            }
+            $aTargetingList = array();
+            
+            $doBannerTargeting = OA_Dal::factoryDO('acls');
+            $doBannerTargeting->bannerId = $bannerId;
+            $doBannerTargeting->find();
+            
+            while ($doBannerTargeting->fetch()) {
+                $bannerTargetingData = $doBannerTargeting->toArray();
+    
+                $oBannerTargeting = new OA_Dll_TargetingInfo();
+                $this->_setBannerDataFromArray($oBannerTargeting, $bannerTargetingData);
+    
+                $aBannerList[$bannerTargetingData['executionorder']] = $oBannerTargeting;
+            }
+
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown bannerId Error');
+            return false;
+        }        
+    }
+    
+    function _validateTargeting($oTargeting)
+    {
+        if (!isset($oTargeting->data)) {
+            $this->raiseError('Field \'data\' in structure does not exists');
+            return false;
+        }
+        
+        if (!$this->checkStructureRequiredStringField($oTargeting,  'logical', 255) ||
+            !$this->checkStructureRequiredStringField($oTargeting,  'type', 255) ||
+            !$this->checkStructureRequiredStringField($oTargeting,  'comparison', 255) ||
+            !$this->checkStructureNotRequiredStringField($oTargeting,  'data', 255)) {
+                
+            return false;
+        }
+        
+        // Check that each of the specified targeting plugins are available
+        $oPlugin = OX_Component::factoryByComponentIdentifier($oTargeting->type);
+        if ($oPlugin === false) {
+            $this->raiseError('Unknown targeting plugin: ' . $oTargeting->type);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function setBannerTargeting($bannerId, &$aTargeting)
+    {
+        if ($this->checkIdExistence('banners', $bannerId)) {
+            if (!$this->checkPermissions(null, 'banners', $bannerId)) {
+                return false;
+            }
+            
+            foreach ($aTargeting as $executionOrder => $oTargeting) {
+                
+                // Prepend "deliveryLimitations:" to any component-identifiers 
+                // (for 2.6 backwards compatibility)
+                if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {
+                    $aTargeting[$executionOrder]->type = 'deliveryLimitations:' . 
+                        $aTargeting[$executionOrder]->type;
+                }
+                
+                if (!$this->_validateTargeting($oTargeting)) {
+                    return false;
+                }
+            }
+             
+            $doBannerTargeting = OA_Dal::factoryDO('acls');
+            $doBannerTargeting->bannerid = $bannerId;
+            $doBannerTargeting->find();
+            $doBannerTargeting->delete();
+
+            // Create the new targeting options
+            $executionOrder = 0;
+            $aAcls = array();
+            foreach ($aTargeting as $oTargeting) {
+                $bannerTargetingData = $oTargeting->toArray();
+                $doAcl = OA_Dal::factoryDO('acls');
+                $doAcl->setFrom($bannerTargetingData);
+                $doAcl->bannerid = $bannerId;
+                $doAcl->executionorder = $executionOrder;
+                $doAcl->insert();
+                $aAcls[$executionOrder] = $doAcl->toArray();
+                $executionOrder++;
+            }
+            
+            // Recompile the banner's compiledlimitations
+            $doBanner = OA_Dal::factoryDO('banners');
+            $doBanner->get($bannerId);
+            $doBanner->compiledlimitation = OA_aclGetSLimitationFromAAcls($aAcls);
+            $doBanner->acl_plugins = MAX_AclGetPlugins($aAcls);
+            $doBanner->acls_updated = gmdate(OA_DATETIME_FORMAT);
+            $doBanner->update();
+            
+            return true;
+        } else {
+            $this->raiseError('Unknown bannerId Error');
+            return false;
+        }  
+    }
+    
     /**
      * This method returns a list of banners for a specified campaign.
      *
