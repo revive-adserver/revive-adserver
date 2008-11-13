@@ -80,8 +80,8 @@ class OA_Admin_Menu_Section
      * @var OX_Translation
      */
     var $oTranslation;
-    
-    
+
+
     /**
      * Constructs a menu section.
      *
@@ -120,7 +120,7 @@ class OA_Admin_Menu_Section
         $this->oSectionChecker = !empty($aAccountPermissions) ? $this->_createSecurityChecker($aAccountPermissions) : null;
         $this->aSectionsMap = array();
         $this->groupName = $groupName;
-        //Create instance of tran
+        // Create instance of OX_Translation
         $this->oTranslation = new OX_Translation();
     }
 
@@ -138,7 +138,7 @@ class OA_Admin_Menu_Section
 	 */
 	function getName()
 	{
-	   return $this->oTranslation->translate($this->nameKey);   
+	   return $this->oTranslation->translate($this->nameKey);
 	}
 
 
@@ -357,7 +357,7 @@ class OA_Admin_Menu_Section
      */
     function add(&$section)
     {
-        //check if added section is unique in menu
+        // Check if added section is unique in menu
         if (isset($this->aSectionsMap[$section->getId()])) {
             $errMsg = "MenuSection::add() Cannot add section '".$section->getId()."': section with given id already exists";
             return MAX::raiseError($errMsg);
@@ -380,7 +380,7 @@ class OA_Admin_Menu_Section
      */
     function insertBefore($existingSectionId, &$newSection)
     {
-    	  //check parent
+    	// Check parent
         if (!isset($this->aSectionsMap[$existingSectionId])) {
             $errMsg = "MenuSection::insertBefore() Cannot insert section '".$newSection->getId()."' before a non existent menu section with id '".$existingSectionId."'";
             return MAX::raiseError($errMsg);
