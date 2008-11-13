@@ -77,8 +77,12 @@ while (list(,$element) = each($elements)) {
 }
 
 // Determine supported compression methods
-$encoding = strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? 'gzip' :
+if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+	$encoding = strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? 'gzip' :
 			(strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate') ? 'deflate' : 'none');
+} else {
+	$encoding = 'none';
+}
 
 if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Opera') &&
 	preg_match('/^Mozilla\/4\.0 \(compatible; MSIE ([0-9]\.[0-9])/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
