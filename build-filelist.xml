@@ -38,6 +38,7 @@
     <include name="plugins/**"/>
     <include name="extensions/**"/>
     <include name="scripts/maintenance/**"/>
+    <exclude name="scripts/plugins/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/cache"/>
