@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/pear/PEAR.php';
+require_once OX_PATH . '/lib/pear/PEAR.php';
 
 /**
  * The main OpenX class.
