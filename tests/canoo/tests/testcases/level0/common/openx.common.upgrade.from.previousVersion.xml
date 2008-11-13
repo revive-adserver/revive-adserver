@@ -36,26 +36,11 @@
 					<clickButton label="Continue »"/>
 					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
 					<clickButton label="Continue »"/>
-					
-<!--
-					<ifStep description="version tests">
-						<condition>
-							<verifyProperty description="Verify version no."
-						    	name="upgrade.version"
-						    	text="2.3.31-alpha"
-						    	regex="false"
-								propertyType="ant"/>
-						</condition>
-						<then>
-							<setInputField name="username" value="${admin.login}"/>
-							<setInputField name="password" value="${admin.pass}"/>
-							<clickButton label="Continue »"/>
-						</then>					
-					</ifStep>
--->
-									
+					<verifyText description="Check text on page: Checking OpenX plugins" text="Checking OpenX plugins" />	
+					<sleep seconds="15" />				
 					<clickButton label="Continue »"/>
 					<verifyText description="Check text on page:100%" text="100%" />
+					
 					<clickButton label="Continue »"/>
 			</steps>
 		</webtest>
