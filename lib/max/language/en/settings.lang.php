@@ -514,6 +514,10 @@ $GLOBALS['strPublisherInterface']                    = "Website interface";
 $GLOBALS['strPublisherAgreementEnabled']             = "Enable login control for websites who haven't accepted Terms and Conditions";
 $GLOBALS['strPublisherAgreementText']                = "Login text (HTML tags allowed)";
 
+// Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate']                = "Platform Hash Regenerate";
+$GLOBALS['strNewPlatformHash']                       = "Your new Platform Hash is:";
+$GLOBALS['strPlatformHashInsertingError']            = "Error inserting Platform Hash into database";
 
 /*-------------------------------------------------------*/
 /* Unknown (unused?) translations                        */

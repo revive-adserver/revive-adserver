@@ -148,6 +148,19 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
         $result = OA_Dal_ApplicationVariables::delete('foo');
         $this->assertFalse($result);
     }
+    
+    /**
+     * Test generatin platform hash
+     * 
+     */
+    function testGeneratePlatformHash()
+    {
+        $hash1 = OA_Dal_ApplicationVariables::generatePlatformHash();
+        $hash2 = OA_Dal_ApplicationVariables::generatePlatformHash();
+        $this->assertEqual(strlen($hash1), 40);
+        $this->assertEqual(strlen($hash2), 40);
+        $this->assertNotEqual($hash1, $hash2);
+    }
 }
 
 ?>

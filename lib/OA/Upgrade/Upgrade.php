@@ -1793,7 +1793,7 @@ class OA_Upgrade
 
         // Generate a new Platform Hash if empty
         $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
-        if (empty($platformHash) && !OA_Dal_ApplicationVariables::set('platform_hash', sha1(uniqid('', true))))
+        if (empty($platformHash) && !OA_Dal_ApplicationVariables::set('platform_hash', OA_Dal_ApplicationVariables::generatePlatformHash()))
         {
             $this->oLogger->logError('Error inserting Platform Hash into database');
             return false;

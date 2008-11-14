@@ -146,6 +146,16 @@ class OA_Dal_ApplicationVariables
 
         return $aVars;
     }
+    
+    /**
+     * Generates unique platform hash
+     * 
+     * @return string 40-chars hexadecimal number as unique platform hash
+     */
+    function generatePlatformHash()
+    {
+        return sha1(uniqid(rand(), true));
+    }
 }
 
 ?>
