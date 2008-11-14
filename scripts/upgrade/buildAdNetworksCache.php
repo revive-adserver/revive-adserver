@@ -26,6 +26,7 @@ $Id$
 */
 
 define('MAX_PATH', dirname(__FILE__) . '/../..');
+define('OX_PATH', dirname(__FILE__) . '/../..');
 error_reporting(E_ALL);
 
 // setup environment - do not require config file
