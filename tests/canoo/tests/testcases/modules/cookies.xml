@@ -1,4 +1,15 @@
-<storeCookie name="${viewerId}" property="cookie_viewerId" />
+    <ifStep>
+		<condition>
+			<verifyProperty description="if upgrade.version=2.3.31-alpha" name="upgrade.version" propertyType="ant" text="2.3.31-alpha" />
+		</condition>
+		<then>	
+			<storeCookie name="MAXID" property="cookie_viewerId" />
+		</then>    
+		<else>
+			<storeCookie name="${viewerId}" property="cookie_viewerId" />
+		</else>
+   	</ifStep>
+
 <ifStep description="Check cookie cookie_viewerId">
 	<condition>
 		<verifyProperty description="Check that is Marketplace enabled" propertyType="ant" name="marketplace.enabled" text="true" />
