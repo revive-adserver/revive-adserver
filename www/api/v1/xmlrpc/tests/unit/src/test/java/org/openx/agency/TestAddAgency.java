@@ -51,7 +51,7 @@ public class TestAddAgency extends AgencyTestCase {
 		addAgencyParameters.put(CONTACT_NAME, "test");
 		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
 		addAgencyParameters.put(USER_NAME, "testUserName");
-		//addAgencyParameters.put(PASSWORD, "testPassword");
+		addAgencyParameters.put(PASSWORD, "testPassword");
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
 				XMLMethodParameters);
