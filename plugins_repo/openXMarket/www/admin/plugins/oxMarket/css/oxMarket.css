@@ -1,0 +1,101 @@
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+/* quasi form */
+ul.form {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.form li.line {
+    clear: both;
+    padding-bottom: 15px;
+    overflow: hidden;
+}
+
+ul.form li.line p {
+  margin: 0px 0px 6px 0px;
+}
+
+ul.form ctrl-buttons {
+    margin-top: 20px;
+}
+
+/* creative types and attributes */
+.checkbox-list {
+    float: left;
+}
+
+#creative-attrs {
+    margin-left: 30px;
+}
+
+
+.checkbox-list h4 {
+    color: #444444; 
+    font-weight: bold;
+    margin: 0px 0px 10px 0px;
+}
+
+ul.column {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    width: 155px;
+    float: left;
+}
+
+ul.column li {
+    margin: 0px 1px 1px 0px;
+    clear: both;
+}
+
+ul.column label {
+    line-height: 1.5em;
+}
+
+ul.column li input {
+    margin-right: 7px;
+    vertical-align: middle;
+    float: left;    
+}
+
+ul.column li.accepted {
+    background-color: #d0eadd;
+}
+
+ul.column li.rejected {
+    background-color: #fe9797;
+}
+
+
+
+
+
+ 

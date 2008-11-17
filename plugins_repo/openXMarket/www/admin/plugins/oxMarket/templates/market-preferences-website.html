@@ -1,0 +1,63 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<link rel='stylesheet' type='text/css' href='css/market.css'>
+
+<div class="section">
+  <div class="title"><h2>{t str='Select which creative types, attributes and ad categories from the OpenX Market that this website does NOT accept'}</h2></div>
+  <div class="content">
+    <form method="POST">
+    <hidden name='affiliateid' value='{$affiliateId}' />
+    <ul class="form">
+  
+      {include file=creative-preferences-table.html}
+    
+      <li class="line ctr-buttons">
+        <input type="submit" value="{t str=Update}" name="update_website_mkt_preferences"></li>
+      </li>
+    </ul>
+    </form>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="js/oxMarket.js" ></script>
+<script type="text/javascript">
+<!--
+{literal}
+$(document).ready(function() {
+  $("#creative-types input[type=checkbox], #creative-attrs input[type=checkbox], #ad-categories input[type=checkbox]")
+      .updateSelection({selectedClass: "rejected"});
+});
+{/literal}    
+
+
+//-->
+</script>
