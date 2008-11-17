@@ -96,9 +96,9 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oDupeAgencyInfo->password = $oAgencyInfo->password;
         $oDupeAgencyInfo->contactName = $oAgencyInfo->contactName;
 
-        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
-            $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
-            $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
+        $this->assertTrue(($dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
+            $dllAgencyPartialMock->getLastError() != $this->duplicateAgencyNameError),
+            !$this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
 
 
         // Modify
@@ -111,9 +111,9 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertTrue($dllAgencyPartialMock->modify($oDupeAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
         $oDupeAgencyInfo->agencyName = 'modified Agency';
-        $this->assertTrue((!$dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
-            $dllAgencyPartialMock->getLastError() == $this->duplicateAgencyNameError),
-            $this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
+        $this->assertTrue(($dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
+            $dllAgencyPartialMock->getLastError() != $this->duplicateAgencyNameError),
+            !$this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
 
         // Delete (both of the agencies)
         $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo->agencyId),
