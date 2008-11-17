@@ -1843,7 +1843,7 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Parent menu does not exist for '.$aMenu['addto']);
                     return false;
                 }
-                $oMenu->addTo($aMenu['addto'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], null, explode('|',$aMenu['permission'])));
+                $oMenu->addTo($aMenu['addto'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
             }
             else if ($aMenu['insertafter'])
             {
@@ -1852,7 +1852,7 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Sibling menu does not exist '.$aMenu['insertafter']);
                     return false;
                 }
-                $oMenu->insertAfter($aMenu['insertafter'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], null, explode('|',$aMenu['permission'])));
+                $oMenu->insertAfter($aMenu['insertafter'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
             }
             else if ($aMenu['insertbefore'])
             {
@@ -1861,7 +1861,7 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Sibling menu does not exist '.$aMenu['insertbefore']);
                     return false;
                 }
-                $oMenu->insertBefore($aMenu['insertbefore'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], null, explode('|',$aMenu['permission'])));
+                $oMenu->insertBefore($aMenu['insertbefore'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
             }
         }
         return true;
