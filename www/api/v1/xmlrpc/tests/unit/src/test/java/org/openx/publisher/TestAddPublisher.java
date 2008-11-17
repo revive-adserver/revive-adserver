@@ -161,8 +161,8 @@ public class TestAddPublisher extends PublisherTestCase {
 	public void testAddPublisherMinValues() throws XmlRpcException,
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(PUBLISHER_NAME, "");
-		struct.put(CONTACT_NAME, "");
+		struct.put(PUBLISHER_NAME, "a");
+		struct.put(CONTACT_NAME, "a");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
@@ -202,7 +202,7 @@ public class TestAddPublisher extends PublisherTestCase {
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
 
 		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(PUBLISHER_NAME, "");
+		struct.put(PUBLISHER_NAME, "a");
 		struct.put(AGENCY_ID, id);
 		Object[] params = new Object[] { sessionId, struct };
 
@@ -227,7 +227,7 @@ public class TestAddPublisher extends PublisherTestCase {
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
-		struct.put(PUBLISHER_NAME, "");
+		struct.put(PUBLISHER_NAME, "a");
 
 		struct.put(AGENCY_ID, TextUtils.NOT_INTEGER);
 		executeAddPublisherWithError(params, ErrorMessage.getMessage(

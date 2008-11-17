@@ -145,7 +145,7 @@ public class TestModifyPublisher extends PublisherTestCase {
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(PUBLISHER_NAME, "");
+		struct.put(PUBLISHER_NAME, "a");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
 		Object[] params = new Object[] { sessionId, struct };

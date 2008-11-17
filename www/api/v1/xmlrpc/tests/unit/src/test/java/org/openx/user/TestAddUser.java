@@ -201,10 +201,10 @@ public class TestAddUser extends UserTestCase {
 		
 		Map<String, Object> addUserParameters = new HashMap<String, Object>();
 		addUserParameters.put(USER_NAME, "");
-		addUserParameters.put(CONTACT_NAME, "");
-		addUserParameters.put(EMAIL_ADDRESS, "");
-		addUserParameters.put(LOGIN, "");
-		addUserParameters.put(PASSWORD, "");
+		addUserParameters.put(CONTACT_NAME, "a");
+		addUserParameters.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
+		addUserParameters.put(LOGIN, "a");
+		addUserParameters.put(PASSWORD, "a");
 		addUserParameters.put(DEFAULT_ACCOUNT_ID, 1);
 		addUserParameters.put(ACTIVE, "1");
 		

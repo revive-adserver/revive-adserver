@@ -141,8 +141,8 @@ public class TestAddAgency extends AgencyTestCase {
 	public void testAddAgencyMinValues() throws XmlRpcException,
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_NAME, "");
-		struct.put(CONTACT_NAME, "");
+		struct.put(AGENCY_NAME, "a");
+		struct.put(CONTACT_NAME, "a");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,

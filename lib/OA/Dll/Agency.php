@@ -131,10 +131,6 @@ class OA_Dll_Agency extends OA_Dll
             return false;
         }
 
-        if (!$this->_validateAgencyName($oAgency->agencyName)) {
-            return false;
-        }
-
         return true;
     }
 
