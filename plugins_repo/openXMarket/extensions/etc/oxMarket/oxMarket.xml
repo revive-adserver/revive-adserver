@@ -71,8 +71,8 @@
 	        <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">0.10</setting>
             
             <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="255" visible="0">https://login.openx.org/account/account/signup</setting>
-            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="255" visible="0">localhost/pubconsole/market/terms-conditions</setting>
-            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="255" visible="0">localhost/pubconsole/market/data-privacy</setting>
+            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="255" visible="0">http://localhost/pubconsole/market/terms-conditions</setting>
+            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="255" visible="0">http://localhost/pubconsole/market/data-privacy</setting>
         </configuration>
 
         <schema>

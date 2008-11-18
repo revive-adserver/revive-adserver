@@ -64,7 +64,8 @@ function buildSignupForm($oMarketComponent)
     $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Create an OpenX Market publisher account'));
     $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX Account username'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
-    $oForm->addElement('advcheckbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='$termsLink'>terms and conditions</a> and <a href='$privacyLink'>data privacy policy</a>."), null, array("f", "t"));
+    $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='$termsLink'>terms and conditions</a> and <a href='$privacyLink'>data privacy policy</a>."));
+    //$oForm->addElement('advcheckbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='$termsLink'>terms and conditions</a> and <a href='$privacyLink'>data privacy policy</a>."), null, array("f", "t"));
     $oForm->addElement('controls', 'form-controls');
     $oForm->addElement('submit', 'save', $oMarketComponent->translate('Sign up'));
     
@@ -75,6 +76,8 @@ function buildSignupForm($oMarketComponent)
     $passwordRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('Password')));
     $oForm->addRule('m_password', $passwordRequired, 'required');
     
+    $agreeWithTerms = $oMarketComponent->translate("Please agree with OpenX Market terms and conditions and data privacy policy");
+    $oForm->addRule('terms_agree', $agreeWithTerms, 'required');
 
     return $oForm;
 }
