@@ -24,16 +24,21 @@
         <files>
             <file path="{ADMINPATH}/css/">oxMarket.css</file>
             <file path="{ADMINPATH}/js/">oxMarket.js</file>
+            <file path="{ADMINPATH}/templates/">campaign-script.html</file>
+            <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/templates/">market-confirm.html</file>
             <file path="{ADMINPATH}/templates/">market-info.html</file> 
             <file path="{ADMINPATH}/templates/">market-preferences-website.html</file>
+            <file path="{ADMINPATH}/templates/">market-signup.html</file>            
             <file path="{ADMINPATH}/templates/">market-stats-website.html</file>
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
-            <file path="{ADMINPATH}/templates/">campaign-script.html</file>
-            <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>            
             <file path="{ADMINPATH}/">market-common.php</file>
-            <file path="{ADMINPATH}/">market-preferences-website.php</file>
-            <file path="{ADMINPATH}/">market-stats.php</file>
+            <file path="{ADMINPATH}/">market-confirm.php</file>
+            <file path="{ADMINPATH}/">market-index.php</file>
             <file path="{ADMINPATH}/">market-info.php</file>
+            <file path="{ADMINPATH}/">market-preferences-website.php</file>
+            <file path="{ADMINPATH}/">market-signup.php</file>
+            <file path="{ADMINPATH}/">market-stats.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
@@ -50,7 +55,7 @@
         <navigation>
 
             <admin>
-                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-info.php">OpenX Market Beta</menu>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market Beta</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php">OpenX Market Beta</menu>
             </admin>
 
@@ -64,6 +69,10 @@
             <!-- todo - set proper hosts before final release and set visible ="0" -->
             <setting key="marketHost" type="text" label="Market host" required="1" size="32" visible="0">www.to-be-defined.com</setting>
 	        <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">0.10</setting>
+            
+            <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="255" visible="0">https://login.openx.org/account/account/signup</setting>
+            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="255" visible="0">localhost/pubconsole/market/terms-conditions</setting>
+            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="255" visible="0">localhost/pubconsole/market/data-privacy</setting>
         </configuration>
 
         <schema>

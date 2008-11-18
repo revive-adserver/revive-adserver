@@ -278,27 +278,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function afterLogin()
     {
         // Only splash for Manager accounts
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !$this->_accountHasSeenSplash()) {
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-overview.php');
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !$this->splashAlreadyShown()) {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
         }
     }
 
     
-    function _accountHasSeenSplash()
+    function splashAlreadyShown()
     {
-        $oAccountMap = &OA_Dal::factoryDO('ext_market_account_mapping');
-        if ($oAccountMap->get(OA_Permission::getAgencyId())) {
-            // Account-mapping record found, check the value of the shown_splash property
-            if ($oAccountMap->shown_splash == 0) {
-                // Splash hasn't been shown, set shown_splash=1 and return false
-                $oAccountMap->shown_splash = 1;
-                $oAccountMap->update();
-                return false;
-            }
-        }
-        // No account record found for this account, do not splash
-        return true;
+        //TODO get info about splash from DB
+        return false;
     }
 
 
@@ -357,6 +347,24 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
 
         return $aData;
+    }
+    
+    
+    function getConfigValue($configKey)
+    {
+        return $GLOBALS['_MAX']['CONF']['oxMarket'][$configKey];
+    }
+    
+    
+    //UI actions
+    function indexAction()
+    {
+        if ($this->splashAlreadyShown()) {
+      
+        }
+        else {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
+        }
     }
 }
 

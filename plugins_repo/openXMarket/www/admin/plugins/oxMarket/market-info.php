@@ -31,23 +31,26 @@ require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
+
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+
+
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
-    // menu
-    $obj = OX_Component::factory('admin', 'oxMarket');
-    $obj->setCurrentMenuItem('market-market-info');
-    $obj->addSubMenu();
+    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-info.html','openXMarket');
-
+    //TODO get pubconsole welcome screen URL somehow
+    $oTpl->assign('welcomeURL', 'http://85.221.229.114:8000/pubconsole/publisher/home/market-welcome');
     $oTpl->display();
-
+    
     //footer
     phpAds_PageFooter();
 ?>

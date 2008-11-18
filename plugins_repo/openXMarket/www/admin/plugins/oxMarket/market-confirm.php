@@ -1,7 +1,7 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -24,30 +24,31 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: market-info.html 22819 2008-07-17 12:04:36Z chris.nutting@openx.org $
+$Id: market-account-edit.php 24004 2008-08-11 15:34:24Z radek.maciaszek@openx.org $
+*/
 
--->*}
+require_once 'market-common.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
-<div class="content">
-    <iframe id="welcome-frame" src="{$welcomeURL}" width="100%" frameborder="0" marginwidth="0" marginheight="0"></iframe>
-     
-    <h2>Get Started!</h2>
+
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+
+
+/*-------------------------------------------------------*/
+/* Display page                                          */
+/*-------------------------------------------------------*/
+
+    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+
+    //header
+    phpAds_PageHeader("openx-market",'','../../');
+
+    //get template and display form
+    $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
+    $oTpl->display();
     
-    <p>To get started, you need to signup for OpenX Market Publisher account using your existing OpenX account. If you do not have OpenX account yet, you'll need to create one.
-    <form action="market-signup.php" method="get">
-        <input type="submit" value="Join now!" />
-    </form>
-    </p>
-    
-</div>
-
-<script type="text/javascript" src="js/oxMarket.js" ></script>
-<script type="text/javascript">
-<!--
-{literal}
-$(document).ready(function() {
-  $("#welcome-frame").updateWelcome();
-});
-{/literal}    
-//-->
-</script>
+    //footer
+    phpAds_PageFooter();
+?>
