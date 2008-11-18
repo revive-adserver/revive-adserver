@@ -252,6 +252,12 @@ if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXThorium'] )
     $oComponent = &OX_Component::factory ( 'admin', 'oxThorium', 'oxThorium' );
 }
 
+if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
+    && $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket']) {
+    $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );
+}
+
+
 $campaignForm = buildCampaignForm ( $campaign, $oComponent );
 $statusForm = null;
 if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
