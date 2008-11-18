@@ -1259,7 +1259,7 @@ td.required-explanation {
 form.flat {
   margin-bottom: 20px;
 }
-form.flat select, form.flat textarea, form.flat input[type=text] {
+form.flat select, form.flat textarea, form.flat input[type=text], form.flat input[type=password] {
     border: 1px solid #888888;
     padding-left: 3px;
 }
