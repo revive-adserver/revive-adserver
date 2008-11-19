@@ -34,6 +34,7 @@ public class TextUtils {
 	public static final String NOT_INTEGER = "10";
 	public static final String NOT_DATE = "bla bla bla";
 	public static final String MIN_ALLOWED_EMAIL = "a@a.aa";
+	public static final String MIN_ALLOWED_STRING = "a";
 
 	public static String generateUniqueName(String prefix) {
 
