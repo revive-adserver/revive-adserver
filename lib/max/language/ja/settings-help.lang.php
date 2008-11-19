@@ -40,10 +40,8 @@ $GLOBALS['phpAds_hlp_dbpassword'] = "
                 アクセスしたい".MAX_PRODUCT_NAME."用".phpAds_dbmsname."データベースサーバのパスワードを入力してください。
 		";
 
-$GLOBALS['phpAds_hlp_dbname'] = 
-        MAX_PRODUCT_NAME."がデータ保存用に使用するデータベース名を入力してください。
-		データベースサーバ上にあらかじめデータベースを作成してください。" 
-		.MAX_PRODUCT_NAME."は、指定したデータベースが存在しない場合、データベースを<b>自動作成しません</b>。
+$GLOBALS['phpAds_hlp_dbname'] = "" . MAX_PRODUCT_NAME."がデータ保存用に使用するデータベース名を入力してください。
+		データベースサーバ上にあらかじめデータベースを作成してください。"  .MAX_PRODUCT_NAME."は、指定したデータベースが存在しない場合、データベースを<b>自動作成しません</b>。
 		";
 
 $GLOBALS['phpAds_hlp_persistent_connections'] = "
