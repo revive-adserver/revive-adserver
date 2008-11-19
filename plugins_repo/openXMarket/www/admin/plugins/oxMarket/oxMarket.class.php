@@ -285,13 +285,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
     
-    function splashAlreadyShown()
-    {
-        //TODO get info about splash from DB
-        return false;
-    }
-
-
     function storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
         //  first remove all existing settings for $affiliateId
@@ -349,11 +342,26 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $aData;
     }
     
+    
+    function isRegistered()
+    {
+        return true;    
+    }
+    
+    
     function isActive()
     {
         //TODO get that from DB
         return true;
     }
+    
+    
+    function splashAlreadyShown()
+    {
+        //TODO get info about splash from DB
+        return false;
+    }
+    
     
     function getInactiveStatus()
     {
@@ -382,20 +390,25 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function indexAction()
     {
         //TODO check activation status
+        $registered = $this->isRegistered();
         $active = $this->isActive();
         
-        if ($active) {
-            if ($this->splashAlreadyShown()) {
+        if ($registered) {
+            if ($active) {
                 OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-include.php');
+            }
+            else {
+                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-inactive.php');
+            }
+        }
+        else {
+            if ($this->splashAlreadyShown()) {
+                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-signup.php');
             }
             else {
                 OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             }
         }
-        else {
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-inactive.php');
-        }
-        
     }
 }
 
