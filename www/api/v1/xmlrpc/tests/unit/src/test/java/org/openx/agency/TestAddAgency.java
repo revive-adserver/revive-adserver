@@ -35,9 +35,10 @@ import org.openx.utils.TextUtils;
 /**
  * Verify Add Agency method
  *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>, Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestAddAgency extends AgencyTestCase {
+	
 	/**
 	 * Test method with all required fields and some optional.
 	 *
@@ -50,8 +51,6 @@ public class TestAddAgency extends AgencyTestCase {
 		addAgencyParameters.put(AGENCY_NAME, "testAgancy");
 		addAgencyParameters.put(CONTACT_NAME, "test");
 		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
-		addAgencyParameters.put(USER_NAME, "testUserName");
-		addAgencyParameters.put(PASSWORD, "testPassword");
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
 				XMLMethodParameters);
@@ -80,6 +79,27 @@ public class TestAddAgency extends AgencyTestCase {
 	}
 
 	/**
+	 * Test method with all required and all optional fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public void testAddAgencyUserFieldWithoutPassword() throws XmlRpcException,
+			MalformedURLException {
+		
+		Map<String, Object> addAgencyParameters = new HashMap<String, Object>();
+		addAgencyParameters.put(AGENCY_NAME, "testAgancy");
+		addAgencyParameters.put(CONTACT_NAME, "test");
+		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
+		addAgencyParameters.put(USER_NAME, "testUserName");
+		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
+		
+		executeAddAgencyWithError(XMLMethodParameters, ErrorMessage.getMessage(
+				ErrorMessage.FIELD_IN_STRUCTURE_DOES_NOT_EXISTS, PASSWORD));
+		
+	}
+
+	/**
 	 * Test method with manager user creation.
 	 *
 	 * @throws XmlRpcException
@@ -93,7 +113,7 @@ public class TestAddAgency extends AgencyTestCase {
 		addAgencyParameters.put(AGENCY_NAME, "testAgancy7");
 		addAgencyParameters.put(CONTACT_NAME, "test");
 		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
-		addAgencyParameters.put(USER_NAME, "user123");//testUserName");
+		addAgencyParameters.put(USER_NAME, "testUserName");
 		addAgencyParameters.put(PASSWORD, "testPassword");
 		addAgencyParameters.put(USER_EMAIL, "user123@mailinator.com");
 		addAgencyParameters.put(LANGUAGE, "de");
@@ -141,8 +161,8 @@ public class TestAddAgency extends AgencyTestCase {
 	public void testAddAgencyMinValues() throws XmlRpcException,
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_NAME, "a");
-		struct.put(CONTACT_NAME, "a");
+		struct.put(AGENCY_NAME, TextUtils.MIN_ALLOWED_STRING);
+		struct.put(CONTACT_NAME, TextUtils.MIN_ALLOWED_STRING);
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
