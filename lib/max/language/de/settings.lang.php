@@ -49,7 +49,7 @@ $GLOBALS['strBtnAgree']                     = "Ich stimme zu »";
 $GLOBALS['strBtnDontAgree']                 = "« Ich stimme nicht zu";
 $GLOBALS['strBtnRetry']                     = "Wiederholen";
 $GLOBALS['strUpdateDatabaseError']	= "Aus unbekannten Gründen war die Aktualisierung der Datenbankstruktur nicht erfolgreich. Es wird empfohlen, zu versuchen, mit <b>Wiederhole Update</b> das Problem zu beheben. Sollte der Fehler - Ihrer Meinung nach - die Funktionalitä von ".MAX_PRODUCT_NAME." nicht berühren, können Sie durch <b>Fehler ignorieren</b> fortfahren. Das Ignorieren des Fehlers wird nicht empfohlen!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." ist bereits auf diesem System installiert. Zur Konfiguration nutzen Sie das <a href='settings-index.php'>Konfigurationsmenü</a>";
+$GLOBALS['strAlreadyInstalled']			= "" . MAX_PRODUCT_NAME." ist bereits auf diesem System installiert. Zur Konfiguration nutzen Sie das <a href='settings-index.php'>Konfigurationsmenü</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Verbindung zur Datenbank war nicht möglich. Bitte vorgenommene Einstellung prüfen.";
 $GLOBALS['strCreateTableTestFailed']		= "Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbankstruktur anlegen zu können. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strUpdateTableTestFailed']		= " Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbank zu aktualisieren. Wenden Sie sich an den Systemverwalter.";
@@ -57,21 +57,21 @@ $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabell
 $GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von ".MAX_PRODUCT_NAME.", genutzt. Verwenden Sie einen anderes Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
 $GLOBALS['strNoVersionInfo']                = "Konnte Datenbankversion nicht rausfinden.";
 $GLOBALS['strInvalidVersionInfo']           = "Konnte Datenbankversion nicht rausfinden.";
-$GLOBALS['strInvalidMySqlVersion']          = MAX_PRODUCT_NAME." benötigt MySQL 4.0 oder höher, um korrekt zu arbeiten. Bitte wählen Sie einen anderen Datenbankserver.";
+$GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." benötigt MySQL 4.0 oder höher, um korrekt zu arbeiten. Bitte wählen Sie einen anderen Datenbankserver.";
 $GLOBALS['strTableWrongType']		= "Der gewählte Tabellentype wird bei der Installation von ".$phpAds_dbmsname." nicht unterstützt";
 $GLOBALS['strMayNotFunction']			= "Folgende Probleme sind zu beheben, um fortzufahren";
 $GLOBALS['strFixProblemsBefore']		= "Folgende Teile müssen korrigiert werden, bevor der Installationsprozeß von ".MAX_PRODUCT_NAME." fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
 $GLOBALS['strFixProblemsAfter']			= "Sollten Sie die oben aufgeführten Fehler nicht selbst heben können, nehmen Sie Kontakt mit der Systemadministration Ihres Servers auf. Diese wird Ihnen weiterhelfen können.";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
 $GLOBALS['strWarningDBavailable']		= "Die eingesetzte PHP-Version unterstützt nicht die Verbindung zum ".$phpAds_dbmsname." Datenbankserver. Die PHP- ".$phpAds_dbmsname."-Erweiterung wird benötigt.";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." benötigt PHP 4.0 oder höher, um korrekt genutzt werden zu können. Sie nutzten {php_version}.";
+$GLOBALS['strWarningPHPversion']		= "" . MAX_PRODUCT_NAME." benötigt PHP 4.0 oder höher, um korrekt genutzt werden zu können. Sie nutzten {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "Die PHP-Konfigurationsvaribable <i>register_globals</i> muß gesetzt werden.";
 $GLOBALS['strWarningMagicQuotesGPC']		= " Die PHP-Konfigurationsvaribable <i> magic_quotes_gpc</i> muß gesetzt werden.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= " Die PHP-Konfigurationsvaribable <i> magic_quotes_runtime</i> muß deaktiviert werden.";
 $GLOBALS['strWarningFileUploads']		= " Die PHP-Konfigurationsvaribable <i> file_uploads</i> muß gesetzt werden.";
 $GLOBALS['strWarningTrackVars']			= " Die PHP-Konfigurationsvaribable <i> track_vars</i> muß gesetzt werden.";
 $GLOBALS['strWarningPREG']				= "Die verwendete PHP-Version unterstützt nicht PERL-kompatible Ausdrücke. Um fortfahren zu können wird die PHP-Erweiterung <i>PREG</i> benötigt.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." hat erkannt, daß die Datei <b>config.inc.php</b> schreibgeschützt ist.<br /> Die Installation kann aber ohne Schreibberechtigung nicht fortgesetzt werden. <br />Weitere Informationen finden sich im Handbuch.";
+$GLOBALS['strConfigLockedDetected']		= "" . MAX_PRODUCT_NAME." hat erkannt, daß die Datei <b>config.inc.php</b> schreibgeschützt ist.<br /> Die Installation kann aber ohne Schreibberechtigung nicht fortgesetzt werden. <br />Weitere Informationen finden sich im Handbuch.";
 
 $GLOBALS['strCantUpdateDB']  			= "Ein Update der Datenbank ist derzeit nicht möglich. Wenn Sie die Installation fortsetzen, werden alle existierende Banner, Statistiken und Werbetreibenden gelöscht. ";
 $GLOBALS['strIgnoreErrors']			= "Fehler ignorieren";
@@ -87,11 +87,11 @@ $GLOBALS['strInstallIntro']                 = "Willkommen zu <a href='http://".M
 <p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem " . MAX_PRODUCT_NAME . " <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
 <p>Vielen Dank, dass Sie sich für " . MAX_PRODUCT_NAME . " entschieden haben.</p>";
 $GLOBALS['strTermsTitle']               = "Lizenz Information";
-$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " ist ein freier, open source Adserver, vertrieben unter der GPL Lizenz. Bitte lesen Sie diese und stimmen Sie dieser zu, um die Installation fort zu fahren.";
+$GLOBALS['strTermsIntro']               = "" . MAX_PRODUCT_NAME . " ist ein freier, open source Adserver, vertrieben unter der GPL Lizenz. Bitte lesen Sie diese und stimmen Sie dieser zu, um die Installation fort zu fahren.";
 $GLOBALS['strPolicyTitle']               = "Datenschutzvereinbarung";
 $GLOBALS['strPolicyIntro']               = "Bitte lesen Sie unsere Datenschutzvereinbarung genau durch, bevor Sie mit der Installation weiter machen.";
 $GLOBALS['strDbSetupTitle']               = "Datenbank Setup";
-$GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " verwendet den MySQL oder PostgreSQL Datenbankserver, um Daten zu speichern. Bitte tragen Sie die Daten Ihres Datenbankservers nachfolgend ein.  Wenn Sie sich nicht sicher sind, welche Daten hier einzutragen sind, fragen Sie bitte Ihren Serveradministrator.";
+$GLOBALS['strDbSetupIntro']               = "" . MAX_PRODUCT_NAME . " verwendet den MySQL oder PostgreSQL Datenbankserver, um Daten zu speichern. Bitte tragen Sie die Daten Ihres Datenbankservers nachfolgend ein.  Wenn Sie sich nicht sicher sind, welche Daten hier einzutragen sind, fragen Sie bitte Ihren Serveradministrator.";
 $GLOBALS['strDbUpgradeIntro']             = "Nachfolgend können Sie die Daten Ihres Datenbankservers einsehen und korrigieren, falls diese falsch sind. Wenn Sie jetzt auf Weiter klicken, wird " . MAX_PRODUCT_NAME . " mit der Installation bzw. dem Upgrade der Datenbankdaten fortfahren. Bitte vergewissern Sie sich, dass Sie ein aktuelles und gültiges Backup Ihrer Daten erstellt haben.";
 
 $GLOBALS['strOaUpToDate']               = "Ihre " . MAX_PRODUCT_NAME . " Datenbank und Dateien verwenden bereits die neueste Version von ".MAX_PRODUCT_NAME." und muss daher zum jetztigen Zeitpunkt nicht aktualisiert werden. Bitte klicken Sie auf Weiter, um zur Administrationsoberfläche fortzufahren.";
@@ -119,7 +119,7 @@ Klicken Sie nun auf Weiter, um mit der Konfiguration fortzufahren.";
 $GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von ".MAX_PRODUCT_NAME." war nicht erfolgreich</b><br /><br />
 Teile des Installationsprozesses wurden nicht beendet. Das Problem ist möglicherweise nur temporär. In diesem Fall drücken Sie <b> Weiter</b> und beginnen Sie den Installationsprozeß von Neuem. Näheres zu Fehlermeldungen und -behebung findet sich im Handbuch.";
 $GLOBALS['strSystemCheck']                  = "System �berpr�fung";
-$GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " setzt einige Dinge voraus, welche nun geprüft werden. Sie erhalten eine Meldung, sollte etwas nicht stimmen.";
+$GLOBALS['strSystemCheckIntro']             = "" . MAX_PRODUCT_NAME . " setzt einige Dinge voraus, welche nun geprüft werden. Sie erhalten eine Meldung, sollte etwas nicht stimmen.";
 $GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte drücken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu tätigen.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte drücken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu tätigen.";
 $GLOBALS['strErrorOccured']			= "Der folgende Fehler ist aufgetreten:";
@@ -204,9 +204,9 @@ $GLOBALS['strConfigSettingsIntro']                    = "Bitte überprüfen Sie 
 $GLOBALS['strEnableAutoMaintenance']	             = "Das Wartungsmodul wird automatisch während der Bannerauslieferung gestartet, sofern das Wartungsmodul nicht über Cron (oder ähnliches) eingebunden ist";
 
 // OpenX ID Settings
-$GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Benutzername";
-$GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Passwort";
-$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " E-Mail";
+$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " Benutzername";
+$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " Passwort";
+$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . " E-Mail";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Bannereinstellungen';
