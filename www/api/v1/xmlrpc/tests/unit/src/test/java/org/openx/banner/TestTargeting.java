@@ -72,10 +72,13 @@ public class TestTargeting extends BannerTestCase {
 			assertTrue(result);
 
 			XMLRPCMethodParameters = new Object[] { sessionId, bannerId };
-			final Map<String, Object> targetingResult = (Map<String, Object>) execute(
-					GET_BANNER_TARGETING, XMLRPCMethodParameters);
+			final Object XMLRPCResult[] = (Object[]) execute(
+							GET_BANNER_TARGETING, XMLRPCMethodParameters);
 			
-			assertEquals(targetingResult.size(), 1);
+			assertEquals(XMLRPCResult.length, 1);
+			
+			Map<String, Object> targetingResult = (Map<String, Object>) XMLRPCResult[0];
+			
 			checkParameter(targetingResult, targetingInfo1, TARGETING_LOGICAL);
 			checkParameter(targetingResult, targetingInfo1, TARGETING_TYPE);
 			checkParameter(targetingResult, targetingInfo1, TARGETING_COMPATISON);
