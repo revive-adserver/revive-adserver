@@ -1,19 +1,17 @@
 				&universal;
+				<storeCookie name="PHPSESSID" property="sessid" />
 				<verifyText description="Check text on page" 
 					text="System check" />
+				<verifyText description="Cookies errors check"
+					text="Cookies - no errors" />					
 				<verifyText description="'timezone' string check"
-					text="timezone" /> 
-				<!-- TODO: Error support -->
-
+					text="timezone" />		
+				<!-- Error support -->
+				<not>
+					<verifyText description="'timezone' string check"
+					text="NOT writeable" />
+					<verifyText description="check if errors occured"
+					text="Please fix all errors before continuing." />					
+				</not>
 				<clickButton description="Click 'Continue »' button"
 					label="Continue »" />
-					
-					
-				<!--  
-				<clickElement description="Click 'Continue »' button"
-				htmlId="btn_dbsetup" />
-				<clickElement description="click on Continue button" 
-					xpath="//input[1]"/>
-				<verifyText description="'timezone' string check"
-					text="Database Type" /> 
-				-->

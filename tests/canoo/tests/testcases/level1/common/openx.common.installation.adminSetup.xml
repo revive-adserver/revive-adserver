@@ -4,7 +4,3 @@
 				<setInputField description="Set password field aAdmin[pword2]: openx" htmlId="aAdmin[pword2]" value="${admin.pass}" />
 				<setInputField htmlId="aAdmin[email]" value="test@openx.test"/>
 				<clickButton label="Continue »"/>
-				<!--  
-				<clickButton description="Click 'Continue »' button"
-					name="btn_datasetup" />
-				 -->

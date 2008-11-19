@@ -6,6 +6,8 @@
 	<!ENTITY welcome  SYSTEM "../../level1/common/openx.common.installation.welcome.xml">
 	<!ENTITY terms  SYSTEM "../../level1/common/openx.common.installation.terms.xml">	
 	<!ENTITY systemCheck  SYSTEM "../../level1/common/openx.common.installation.systemCheck.xml">
+	<!ENTITY finished SYSTEM "../../common/openx.common.installation.finished.xml">
+	<!ENTITY plugins SYSTEM "../../level1/common/openx.common.installation.plugins.xml">
 ]>
 
 <project name="OpenX upgrade from ${upgrade.version}" basedir="." default="main">
@@ -21,26 +23,35 @@
 					    <arg value="-R"/>
 					    <arg value="a+rw"/>
 					    <arg value="${basedir}/../../../var"/>
-				 	</exec>
-								
+				 	</exec>					
 					&terms;
 					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
 					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
+					<!-- <storeCookie name="PHPSESSID" property="sessid" /> -->
 					&systemCheck;
 					<setInputField name="username" value="${admin.login}"/>
 					<setInputField name="password" value="${admin.pass}"/>
 					<clickButton label="Continue »"/>
+				
 					<verifyText description="Check text on page: Database Settings" text="Database Settings" />
 					<clickButton label="Continue »"/>
+				
 					<verifyText description="Check text on page: Congratulations, you have finished upgrading OpenX" text="Congratulations, you have finished upgrading OpenX" />	
 					<clickButton label="Continue »"/>
+				
 					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
 					<clickButton label="Continue »"/>
-					<verifyText description="Check text on page: Checking OpenX plugins" text="Checking OpenX plugins" />	
+
+					&plugins;					
+<!--					<verifyText description="Check text on page: Checking OpenX plugins" text="Checking OpenX plugins" />	
 					<sleep seconds="15" />				
+					<clickElement htmlId="graph_container" saveResponse="true" />
 					<clickButton label="Continue »"/>
+				
 					<verifyText description="Check text on page:100%" text="100%" />
 					<clickButton label="Continue »"/>
+-->
+					&finished;
 			</steps>
 		</webtest>
 	</target>

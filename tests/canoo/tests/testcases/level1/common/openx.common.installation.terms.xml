@@ -1,26 +1,5 @@
 				&universal;
 				<verifyText description="Check text on page" 
 					text="Terms and Conditions of Use" />
-				<testInfo type="error" info="OX-2275" description="the related issue number in Jira" />
-<!-- htmunit bug -->
-			<!-- 
-				<ifStep decription="OX-2275 test">
-					<condition>
-						<not>
-							<verifyXPath  description="simple match with value"
-						        xpath="/html/body/div[3]/div/table[2]/tbody/tr/td[2]/div/form/table/tbody/tr/td[2]/span[2]/div/div[2]/div/div[2]/a[2]//@href"
-						        text="https?://hosted.openx.org/?"
-								regex="true" />
-						</not>
-					</condition>
-					<then>
-						
-					</then>
-				</ifStep>
-			-->
 				<clickButton description="Click 'I Agree »' button" 
 					name="btn_syscheck" />
-
-					<!-- 
-					text="*hosted.openx.org*"
-					-->

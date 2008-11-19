@@ -1,0 +1,15 @@
+&universal;
+<verifyText description="Check text on page"
+	text="Installing OpenX plugins" />
+<sleep seconds="15" />
+<!-- TODO add Groovy method -->
+<!-- check plugins list -->
+<verifyText text="openXBannerTypes" />
+<verifyText text="openXDeliveryLimitations" />
+<verifyText text="openX3rdPartyServers" />
+<verifyText text="openXReports" />
+<verifyText text="openXDeliveryCacheStore" />
+<verifyText text="openXMaxMindGeoIP" />
+<verifyText text="openXInvocationTags" />
+<verifyText text="openXDeliveryLog" />
+<clickButton label="Continue »"/>

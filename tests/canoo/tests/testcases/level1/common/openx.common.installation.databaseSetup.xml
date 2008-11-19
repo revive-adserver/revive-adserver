@@ -25,10 +25,10 @@
 				<ifStep description="if mysql">
 					<condition>
 						<verifyProperty description="if mysql"
-											name="db.type"
-											propertyType="ant"
-											text="mysql"
-											regex="false" />
+							name="db.type"
+							propertyType="ant"
+							text="mysql"
+							regex="false" />
 					</condition>
 					<then>
 						<setSelectField name="aConfig[database][type]" text="MySQL"/>

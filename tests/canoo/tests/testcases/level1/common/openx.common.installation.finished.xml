@@ -1,6 +1,4 @@
-				&universal;
-				<clickButton label="Continue »"/>
-				<!--
-				<clickButton description="Click 'Continue »' button"
-					name="btn_openads" />
-				 -->
+&universal;
+<verifyText description="Check text on page"
+	text="100%" />				
+<clickButton label="Continue »"/>

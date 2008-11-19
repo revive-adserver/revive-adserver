@@ -8,10 +8,5 @@
 					<verifyText description="Check if 'Help' exists" 
 						text="Help" />
 					<verifyText description="Check is 'Start over' exists" 
-						text="Start over" />				
-					<!-- 
-					<verifyElementText description="Check if help exists"
-						type="topLink"
-						text="Help"/>
-					 -->
+						text="Start over" />
 				</group>

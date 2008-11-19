@@ -21,8 +21,24 @@
         <invoke description="Invoke delivery file al.php" url="/delivery/al.php?what=bannerid:2" />
         &checkForErrors;
         &verifyHeaders;
-        <verifyText description="Check that it contains JavaScript" text="document.write" />
-        <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />
+	<!--
+		 <ifStep description="if plugin is istalled">
+		 	<condition>
+		        <not description="if plugin is not istalled">
+					<verifyText description="Check if plugin error msg returned" text="Check if openXInvocationTags plugin is installed" />
+		        </not>
+	 		</condition>
+			<then>	 	
+		      	<verifyText description="Check that it contains JavaScript" text="document.write" />
+				<verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />
+			</then>
+		 	<else>
+				<verifyText description="Check if plugin error msg returned" text="Check if openXInvocationTags plugin is installed" />
+			</else>
+		</ifStep>
+	-->
+      	<verifyText description="Check that it contains JavaScript" text="document.write" />
+		<verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />
       </steps>
     </webtest>
   </target>
