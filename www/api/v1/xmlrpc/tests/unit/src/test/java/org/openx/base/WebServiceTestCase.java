@@ -88,27 +88,33 @@ public class WebServiceTestCase extends TestCase {
 		super.tearDown();
 	}
 
-	public void checkParameter(Map<String, Object> params, String param,
+	public void checkParameter(Map<String, Object> referencedObject, String parameter,
 			Object correctValue) {
 
 		if (correctValue instanceof Integer) {
 			Integer value = (Integer) correctValue;
-			assertEquals(param + " fields should be equal", value, 
-					(Integer) params.get(param));
+			assertEquals(parameter + " fields should be equal", value, 
+					(Integer) referencedObject.get(parameter));
 		} else if (correctValue instanceof String) {
 			String value = (String) correctValue;
-			assertEquals(param + " fields should be equal", value, 
-					(String) params.get(param));
+			assertEquals(parameter + " fields should be equal", value, 
+					(String) referencedObject.get(parameter));
 		} else if (correctValue instanceof Date) {
 			String value = ((Date) correctValue).toString();
-			assertEquals(param + " fields should be equal", value,
-					((Date) params.get(param)).toString());
+			assertEquals(parameter + " fields should be equal", value,
+					((Date) referencedObject.get(parameter)).toString());
 		} else if (correctValue instanceof Double) {
 			Double value = (Double) correctValue;
-			assertEquals(param + " fields should be equal", value, 
-					(Double) params.get(param));			
+			assertEquals(parameter + " fields should be equal", value, 
+					(Double) referencedObject.get(parameter));			
 		} else {
-			fail(param + " fields should be equal");
+			fail(parameter + " fields should be equal");
 		}
+	}
+	
+	public void checkParameter(Map<String, Object> referencedObject, 
+			Map<String, Object> testObject, String parameter) {
+		
+		checkParameter(referencedObject, parameter, testObject.get(parameter));
 	}
 }
