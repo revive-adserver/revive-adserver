@@ -30,10 +30,7 @@ $GLOBALS['phpAds_hlp_dbhost'] = "
 　　　　　　　 接続したい".phpAds_dbmsname."データベースサーバのホスト名を入力してください。
 		";
 
-$GLOBALS['phpAds_hlp_dbport'] = "
-                接続したい".phpAds_dbmsname."データベースサーバのポートNoを入力してください。
-		デフォルトの".phpAds_dbmsname."データベースサーバのポートNoは、<i>" . (phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>です。
-		";
+$GLOBALS['phpAds_hlp_dbport'] = "                接続したい".phpAds_dbmsname."データベースサーバのポートNoを入力してください。		デフォルトの".phpAds_dbmsname."データベースサーバのポートNoは、<i>" . (phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>です。		";
 
 $GLOBALS['phpAds_hlp_dbuser'] = "
                 アクセスしたい".MAX_PRODUCT_NAME."用".phpAds_dbmsname."データベースサーバのユーザ名を入力してください。 
