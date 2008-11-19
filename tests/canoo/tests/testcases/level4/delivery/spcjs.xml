@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
   <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY checkDeliveryCookies SYSTEM "../../modules/cookies.xml">
   <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
   <!ENTITY verifyHeaders SYSTEM    "../../modules/headers.xml">
 ]
@@ -16,30 +17,32 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
+	    <ifStep>
+			<condition>
+				<verifyProperty description="if upgrade.version=2.3.31-alpha" name="upgrade.version" propertyType="ant" text="2.3.31-alpha" />
+			</condition>
+			<then>	
+				<replace file="${basedir}/../../../www/delivery_test/spcjs.html" token="OA_" value="MAX_"/>
+			</then>    
+	   	</ifStep>
 		<invoke description="Invoke delivery file spcjs.html" url="/delivery_test/spcjs.html" />
 		&checkForErrors;
-		
+      	&checkDeliveryCookies;
 		<verifyElement text="spcjs" type="BODY"/>
-      	
-      	<!--
-      	description="check that gif and/or html banner is displayed"
-			<verifyXPath 
-				description="html test banner"
-				xpath="/html/body/div/a/text()"
-				text="html test banner" />
-	    -->
-      	<verifyXPath description="Check that the gif is displayed"
-      		xpath="/html/body/div[@id='2']/a/img/@src"
-      		regex="true"
-      		text=".*contenttype=gif"/>
-      	
+		<verifyXPath 
+			xpath="/html/body/div/a/text()"
+			text="html test banner" />
+
       	<!--	this banner shouldn't be displayed	-->
       	<not>
-			<verifyXPath
-				description="Test HTML Banner!\n" 
-				xpath="/html/body/div[@id='2']/text()[2]"
-				text="Test HTML Banner!\n"
-				regex="true" />
+          	<verifyXPath description="Check that the gif is displayed"
+          		xpath="/html/body/div[@id='2']/a/img/@src"
+          		regex="true"
+          		text=".*contenttype=gif"/>	
+    		<verifyXPath 
+    			xpath="/html/body/div[@id='2']/text()[2]"
+    			text="Test HTML Banner!\n"
+    			regex="true" />
 		</not>
       </steps>
     </webtest>

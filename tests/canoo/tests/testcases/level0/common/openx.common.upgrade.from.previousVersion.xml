@@ -40,7 +40,6 @@
 					<sleep seconds="15" />				
 					<clickButton label="Continue »"/>
 					<verifyText description="Check text on page:100%" text="100%" />
-					
 					<clickButton label="Continue »"/>
 			</steps>
 		</webtest>
