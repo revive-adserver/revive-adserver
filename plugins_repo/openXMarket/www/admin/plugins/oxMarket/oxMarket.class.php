@@ -359,8 +359,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     //UI actions
     function indexAction()
     {
-        if ($this->splashAlreadyShown()) {
-      
+        //TODO check activation status
+        $active = false;
+        
+        if ($this->splashAlreadyShown() && $active) {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-include.php');
         }
         else {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');

@@ -29,7 +29,21 @@ $Id: market-info.html 22819 2008-07-17 12:04:36Z chris.nutting@openx.org $
 -->*}
 
 <div class="content">
-  <p>To start using OpenX Market you need to have an OpenX account. Please <a href="{$ssoSignupUrl}" target="_blank">create OpenX Account</a> if you do not have one.</p>
+  <div class='form-message form-message-error' id="server-errors" {if $error}{else}style="display:none"{/if}>
+    <div>{t str='OpenX Market Signup failed'}</div>
+    <ul>
+    {if $aErrorMessages}
+      {foreach item=errorMessage from=$aErrorMessages}
+          <li>{$errorMessage}</li>
+      {/foreach}
+    {else}
+      <li>{t str='Please double check that the OpenX Account name and password is correct.'}</li>
+      <li>{t str='Double check that if you have recently signed up for a new OpenX Account, that you have checked your email, and activated your OpenX Account.'}</li>
+    {/if}
+    </ul>
+  </div>
+
+
   {*signup form*}
   {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
   {*/singup form*}

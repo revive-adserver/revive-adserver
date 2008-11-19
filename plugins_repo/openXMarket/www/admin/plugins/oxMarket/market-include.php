@@ -31,7 +31,6 @@ require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
-
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
@@ -46,10 +45,11 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     phpAds_PageHeader("openx-market",'','../../');
 
     //get template and display form
-    $oTpl = new OA_Plugin_Template('market-info.html','openXMarket');
-    $oTpl->assign('welcomeURL', $oMarketComponent->getConfigValue('marketWelcomeUrl')); 
+    $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
+    $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost')); 
     $oTpl->display();
     
     //footer
     phpAds_PageFooter();
+
 ?>

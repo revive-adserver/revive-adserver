@@ -42,9 +42,14 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 $paymentForm = buildSignupForm($oMarketComponent);
 
-if ($paymentForm->validate()) {
+$isFormValid = $paymentForm->validate();
+
+if ($isFormValid) {
     //process submitted values
-    processForm($paymentForm, $oMarketComponent);
+    $processingErrors = processForm($paymentForm, $oMarketComponent);
+    if (!empty($processingErrors)) {
+        displayPage($paymentForm, $oMarketComponent, $processingErrors);
+    }
 }
 else { //either validation failed or form was not submitted, display the form
     displayPage($paymentForm, $oMarketComponent);
@@ -57,20 +62,21 @@ function buildSignupForm($oMarketComponent)
 {
     $termsLink = $oMarketComponent->getConfigValue('marketTermsUrl');
     $privacyLink = $oMarketComponent->getConfigValue('marketPrivacyUrl');
+    $ssoSignupUrl = $oMarketComponent->getConfigValue('ssoSignupUrl');
     
     $oForm = new OA_Admin_UI_Component_Form("market-signup-form", "POST", $_SERVER['PHP_SELF']);
     $oForm->forceClientValidation(true);
 
     $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Create an OpenX Market publisher account'));
-    $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX Account username'));
+    $oForm->addElement('html', 'info', $oMarketComponent->translate("To start using OpenX Market you need to have OpenX account. Please <a href='%s' target='_blank'>create OpenX Account</a> if you do not have one.", array($ssoSignupUrl)));
+    $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX Account name'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
-    $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='$termsLink'>terms and conditions</a> and <a href='$privacyLink'>data privacy policy</a>."));
-    //$oForm->addElement('advcheckbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='$termsLink'>terms and conditions</a> and <a href='$privacyLink'>data privacy policy</a>."), null, array("f", "t"));
+    $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='%s'>terms and conditions</a> and <a href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
     $oForm->addElement('submit', 'save', $oMarketComponent->translate('Sign up'));
     
     //Form validation rules
-    $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account username')));
+    $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account name')));
     $oForm->addRule('m_username', $usernameRequired, 'required');
 
     $passwordRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('Password')));
@@ -89,15 +95,17 @@ function processForm($oForm, $oMarketComponent)
 {
     $aFields = $oForm->exportValues();
 
-    //OA_Admin_UI::queueMessage($oTrans->translate('Signup details have been updated', 'local', 'confirm', 0));
 
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
+    
+    //return array("error" => true, "errorMessages" => "Comunication error occured");
+    
 }
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($oForm, $oMarketComponent)
+function displayPage($oForm, $oMarketComponent, $aProcessingErrors = null)
 {
     //header
     phpAds_PageHeader("openx-market",'','../../');
@@ -105,10 +113,10 @@ function displayPage($oForm, $oMarketComponent)
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-signup.html','openXMarket');
     $oTpl->assign('form', $oForm->serialize());
-    $oTpl->assign('oMarketComponent', $oForm->serialize());
-    $ssoSignupUrl = $oMarketComponent->getConfigValue('ssoSignupUrl');
-    $oTpl->assign('ssoSignupUrl', $ssoSignupUrl);
 
+    $oTpl->assign('error', !empty($aProcessingErrors));
+    $oTpl->assign('aErrorMessages', $aProcessingErrors['errorMessages']);
+    
     $oTpl->display();
 
     //footer
