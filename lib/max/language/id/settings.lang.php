@@ -52,7 +52,7 @@ $GLOBALS['strBtnAgree']                     	= "Saya setuju &raquo;";
 $GLOBALS['strBtnDontAgree']                 	= "&laquo; Saya tidak setuju";
 $GLOBALS['strBtnRetry']                     	= "Coba kembali";
 $GLOBALS['strUpdateDatabaseError']		= "Disebabkan oleh masalah yang tidak jelas update dari struktur database tidak berhasil. Disarankan untuk klick <b>Retry updating</b> untuk mencoba membenarkan masalah ini. Bila Anda yakin bahwa masalah ini tidak akan berpengaruh fungsi-fungsi dari ".$phpAds_productname.", silakan klick <b>Ignore errors</b> untuk melanjutkan. Abaikan masalah ini mampuh untuk mengakibatkan masalah yang serius dan maka dengan itu tidak disarankan!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." telah terinstal di sistem ini. Bila Anda ingin mengubah konfigurasi silakan pindah ke <a href='settings-index.php'>Halaman Konfigurasi</a>";
+$GLOBALS['strAlreadyInstalled']			= "" . MAX_PRODUCT_NAME." telah terinstal di sistem ini. Bila Anda ingin mengubah konfigurasi silakan pindah ke <a href='settings-index.php'>Halaman Konfigurasi</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Koneksi ke database gagal. Mohon periksa ulang penyetelan yang telah dilakukan";
 $GLOBALS['strCreateTableTestFailed']		= "Pengguna yang ditentukan oleh Anda tidak memiliki hak untuk membuat atau update struktur dari database. Mohon hubungi administrator database.";
 $GLOBALS['strUpdateTableTestFailed']		= "Pengguna yang ditentukan oleh Anda tidak memiliki hak untuk membuat atau update struktur dari database. Mohon hubungi administrator database.";
@@ -60,7 +60,7 @@ $GLOBALS['strTablePrefixInvalid']		= "Prefix dari tabel mengandung karakter yang
 $GLOBALS['strTableInUse']			= "Database yang dipilih oleh Anda telah digunakan untuk ".$phpAds_productname.". Mohon gunakan prefix tabel yang berbeda atau bacalah buku pemandu untuk mengetahui instruksi Upgrade.";
 $GLOBALS['strNoVersionInfo']                	= "Tidak dapat memilih versi database";
 $GLOBALS['strInvalidVersionInfo']           	= "Versi database tidak dapat diketahui";
-$GLOBALS['strInvalidMySqlVersion']          	= MAX_PRODUCT_NAME." butuh versi MySQL 4.0 atau versi yang lebih baru untuk berfungsi dengan baik. Mohon pilih server database yang lain.";
+$GLOBALS['strInvalidMySqlVersion']          	= "" . MAX_PRODUCT_NAME." butuh versi MySQL 4.0 atau versi yang lebih baru untuk berfungsi dengan baik. Mohon pilih server database yang lain.";
 $GLOBALS['strTableWrongType']			= "Jenis tabel yang dipilih tidak didukung oleh instalasi Anda dari ".$phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']			= "Sebelum Anda lanjut mohon perbaiki masalah berikut:";
 $GLOBALS['strFixProblemsBefore']            	= "Masalah berikut ini perlu diatasi terlebih dulu sebelum ".MAX_PRODUCT_NAME." dapat di-instal. Bila ada pertanyaan tentang Error Message ini silakan belajari dokumentasi <i>Administrator Guide</i> yang Anda telah ikut download dengan program ini.";
@@ -69,7 +69,7 @@ $GLOBALS['strIgnoreWarnings']			= "Abaikan Peringatan";
 $GLOBALS['strFixErrorsBeforeContinuing']    	= "Mohon perbaiki semua kesalahan sebelum Anda lanjut.";
 $GLOBALS['strWarningDBavailable']		= "Versi PHP yang digunakan oleh Anda tidak mendukung koneksi ke database server ".$phpAds_dbmsname.". Anda perlu mengaktifkan ekstensi PHP ".$phpAds_dbmsname." sebelum melanjutkan.";
 
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." membutuhkan PHP versi PHP 4.0 atau lebih tinggi untuk berfungsi dengan baik. Pada saat ini Anda mengunakan {php_version}.";
+$GLOBALS['strWarningPHPversion']		= "" . MAX_PRODUCT_NAME." membutuhkan PHP versi PHP 4.0 atau lebih tinggi untuk berfungsi dengan baik. Pada saat ini Anda mengunakan {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "Variabel register_globals dalam konfigurasi PHP perlu diubah ke posisi ON.";
 $GLOBALS['strWarningRegisterArgcArv']       	= "Variabel register_argc_argv dalam konfigurasi PHP harus berada dalam posisi ON untuk jalankan pemeliharaan dari Command Line.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "Variabel magic_quotes_gpc dalam konfigurasi perlu diubah ke posisi ON.";
@@ -77,7 +77,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']	= "Variabel magic_quotes_runtime dalam 
 $GLOBALS['strWarningFileUploads']		= "Variabel file_uploads dalam konfigurasi perlu diubah ke posisi ON.";
 $GLOBALS['strWarningTrackVars']			= "Variabel track_vars dalam konfigurasi perlu diubah ke posisi ON.";
 $GLOBALS['strWarningPREG']			= "Versi PHP yang digunakan oleh Anda tidak mendukung PERL compatible regular expressions. Anda perlu mengaktifkan ekstensi PREG sebelum melanjutkan.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." telah deteksi bahwa file <b>config.inc.php</b> tidak bisa ditulis oleh server.<br> Anda tidak bisa melanjutkan sebelum hak terhadap file tersebut belum diubah. <br>Silakan belajari dokumentasi yang berkaitan bila Anda belum memahaminya.";
+$GLOBALS['strConfigLockedDetected']		= "" . MAX_PRODUCT_NAME." telah deteksi bahwa file <b>config.inc.php</b> tidak bisa ditulis oleh server.<br> Anda tidak bisa melanjutkan sebelum hak terhadap file tersebut belum diubah. <br>Silakan belajari dokumentasi yang berkaitan bila Anda belum memahaminya.";
 $GLOBALS['strCantUpdateDB']  			= "Pada saat ini update database tidak bisa dilakukan. Bila Anda tetap memutuskan untuk melanjutkan, seluruh banner, statistik dan pemasang iklan akan terhapus.";
 $GLOBALS['strIgnoreErrors']			= "Abaikan Error";
 $GLOBALS['strRetryUpdate']			= "Coba ulang meng-update";
@@ -94,11 +94,11 @@ $GLOBALS['strInstallIntro']                 	= "Selamat Datang di <a href='http:
 $GLOBALS['strRecoveryRequiredTitle']    	= "Proses upgrade semula mengalami sebuah Error";
 $GLOBALS['strRecoveryRequired']         	= "Telah terjadi sebuah Error pada saat memproses upgrade yang sebelumnya dan Openads perlu membangkitkan proses upgrade terlebih dahulu. Mohon klik tombol Bangkitkan dibawah.";
 $GLOBALS['strTermsTitle']               	= "Informasi Lisensi";
-$GLOBALS['strTermsIntro']               	= MAX_PRODUCT_NAME . " adalah sebuah open source adserver yang bebas dan didistribusikan dibawah lisensi GPL. Mohon lisensi tsb. dibelajari dan disetujui sebelum melanjutkan instalasi.";
+$GLOBALS['strTermsIntro']               	= "" . MAX_PRODUCT_NAME . " adalah sebuah open source adserver yang bebas dan didistribusikan dibawah lisensi GPL. Mohon lisensi tsb. dibelajari dan disetujui sebelum melanjutkan instalasi.";
 $GLOBALS['strPolicyTitle']               	= "Ketentuan privasi dan pengunaan data";
 $GLOBALS['strPolicyIntro']               	= "Mohon belajari Ketentuan privasi dan pengunaan data sebelum disetujui dan melanjut instalasi.";
 $GLOBALS['strDbSetupTitle']               	= "Setup Database";
-$GLOBALS['strDbSetupIntro']               	= MAX_PRODUCT_NAME . " gunakan database MySQL untuk menyimpan semua data.  Mohon isi alamat dari server Anda berikut nama dari database, nama pengguna dan kata sandi. Bila Anda tidak hapal tentang data yang dibutuhkan disini mohon menghubungi Administrator dari server Anda.";
+$GLOBALS['strDbSetupIntro']               	= "" . MAX_PRODUCT_NAME . " gunakan database MySQL untuk menyimpan semua data.  Mohon isi alamat dari server Anda berikut nama dari database, nama pengguna dan kata sandi. Bila Anda tidak hapal tentang data yang dibutuhkan disini mohon menghubungi Administrator dari server Anda.";
 $GLOBALS['strDbUpgradeIntro']             	= "Dibawah ini dicantumkan perincian dari database yang terdeteksi untuk instalasi " . MAX_PRODUCT_NAME . ". Mohon diyakini kebenaran dari perincian tsb. terlebih dahulu sebelum melanjut. Setelah Anda klik Lanjut, " . MAX_PRODUCT_NAME . " akan melanjut dan melakukan upgrade terhadap data Anda. Mohon dipastikan bahwa Anda sudah memiliki backup dari seluruh data Anda sebelum melanjut.";
 
 $GLOBALS['strOaUpToDate']               	= "Database dan struktur file dari Openads sudah menggunakan versi yang terbaru. Maka dengan itu upgrade untuk sementara waktu tidak diperlukan. Mohon klik Lanjut untuk diantar ke panel administrasi dari Openads.";
@@ -120,7 +120,7 @@ $GLOBALS['strInstallNotSuccessful']         	= "<b>Instalasi ".MAX_PRODUCT_NAME.
                                                 langka pertama dari proses instalasi. Bila Anda ingin mengetahui secara lebih mendalam tentang Error Message dibawah ini dan caranya untuk mengatasi masalah ini,
                                                 silakan belajari kembali pedoman aplikasi yang disediakan.";
 $GLOBALS['strSystemCheck']                  	= "Periksa sistem";
-$GLOBALS['strSystemCheckIntro']             	= MAX_PRODUCT_NAME . " memerlukan berberapa persyaratan dasar yang harus dipenuhi terlebih dahulu dan hal ini akan diperiksa segera. Kami akan memberitahukan kepada Anda bila ada penyetelan yang harus diubah.";
+$GLOBALS['strSystemCheckIntro']             	= "" . MAX_PRODUCT_NAME . " memerlukan berberapa persyaratan dasar yang harus dipenuhi terlebih dahulu dan hal ini akan diperiksa segera. Kami akan memberitahukan kepada Anda bila ada penyetelan yang harus diubah.";
 $GLOBALS['strDbSuccessIntro']               	= "Database untuk ".MAX_PRODUCT_NAME ." berhasil dibuat. Silakan klik tombol 'Lanjut' untuk mengatur konfigurasi Administrator dari Openads dan penyetelan penyampaian iklan.";
 $GLOBALS['strDbSuccessIntroUpgrade']        	= "Database untuk ".MAX_PRODUCT_NAME ." berhasil di-update. Silakan klik tombol 'Lanjut' untuk me-review " . MAX_PRODUCT_NAME . " Penyetelan Administrator dan Penyampaian iklan.";
 $GLOBALS['strErrorOccured']                 	= "Error yang dialami sbb.:";
@@ -204,9 +204,9 @@ $GLOBALS['strConfigSettingsIntro']                   = "Silakan periksa kembali 
 $GLOBALS['strEnableAutoMaintenance']	             = "Bila jadwal untuk pemeliharaan tidak di-set pada Cron, jalankan pemeliharaan dengan cara otomatis pada saat penyampaian iklan";
 
 // Openads ID Settings
-$GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Nama Pengguna";
-$GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Kata Sandi";
-$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " Alamat E-Mail";
+$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " Nama Pengguna";
+$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " Kata Sandi";
+$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . " Alamat E-Mail";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Penyetelan Banner';

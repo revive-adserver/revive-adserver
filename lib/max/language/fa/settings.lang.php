@@ -52,7 +52,7 @@ $GLOBALS['strTablePrefixInvalid']		= "پیشوند جدول ها دارای کا
 $GLOBALS['strTableInUse']			= "بانک اطلاعاتی تعیین شده قبلا برای ".$phpAds_productname." ایجاد شده و مورد استفاده است, لطفا یک پیشوند متفاوت را برای جدول ها انتخاب نمایید, یا راهنما را برای انجام پردازش های بروزرسانی مطالعه نمایید.";
 $GLOBALS['strNoVersionInfo']                = "Unable to select the database version";
 $GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database version";
-$GLOBALS['strInvalidMySqlVersion']          = MAX_PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
+$GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
 $GLOBALS['strTableWrongType']		= "نوع جدول انتخاب شده توسط برنامه نصب کننده ".$phpAds_dbmsname." پشتیبانی نمی شود";
 $GLOBALS['strMayNotFunction']			= "قبل از ادامه این مشکل جدی را اصلاح نمایید:";
 $GLOBALS['strFixProblemsBefore']		= "قبل از ادامه نصب".$phpAds_productname."باید گزینه های زیر را اصلاح نمایید. اگر شما سوالی در مورد این پیام های خطا دارید, راهنمای مدیریت را که با بسته برنامه دانلود کرده اید را مطالعه فرمایید.";
@@ -85,11 +85,11 @@ $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "License information";
-$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
+$GLOBALS['strTermsIntro']               = "" . MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
-$GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
+$GLOBALS['strDbSetupIntro']               = "" . MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
 
 $GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
@@ -111,7 +111,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "چک کردن سیستم";
-$GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
+$GLOBALS['strSystemCheckIntro']             = "" . MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
 $GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring Openads Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "The " . MAX_PRODUCT_NAME . " database has now been updated.  Please click the 'Continue' button to proceed with reviewing the " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
@@ -196,9 +196,9 @@ $GLOBALS['strConfigSettingsIntro']                    = "Please review the follo
 $GLOBALS['strEnableAutoMaintenance']	             = "نگهداری به صورت اتوماتیک تا زمان تحویل ";
 
 // Openads ID Settings
-$GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " نام کاربری";
-$GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " پسورد";
-$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . "ایمیل";
+$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " نام کاربری";
+$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " پسورد";
+$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . "ایمیل";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'تنظیمات بنر';

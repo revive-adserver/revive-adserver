@@ -35,7 +35,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "高優先キャンペーン";
 $GLOBALS['strAdViewsAssigned']				= "割当ビュー数";
 $GLOBALS['strLowPriorityCampaigns']			= "低優先キャンペーン";
 $GLOBALS['strPredictedAdViews']				= "予測ビュー数";
-$GLOBALS['strPriorityDaysRunning']			= MAX_PRODUCT_NAME."が日別予測の算出に利用可能な{days}日間の統計データがあります。";
+$GLOBALS['strPriorityDaysRunning']			= "" . MAX_PRODUCT_NAME."が日別予測の算出に利用可能な{days}日間の統計データがあります。";
 $GLOBALS['strPriorityBasedLastWeek']		= "今週と先週のデータを使用して日別推移を予測しています。";
 $GLOBALS['strPriorityBasedLastDays']		= "数日間のデータを使用して日別推移を予測しています。";
 $GLOBALS['strPriorityBasedYesterday']		= "昨日のデータを使用して日別推移を予測しています。";
@@ -86,7 +86,7 @@ $GLOBALS['strStorageExplaination']			= "
 
 // Encoding
 $GLOBALS['strEncoding']                 	= "エンコード形式";
-$GLOBALS['strEncodingExplaination']     	= MAX_PRODUCT_NAME . 'は、UTF-8形式でデータベースに保存します。<br />
+$GLOBALS['strEncodingExplaination']     	= "" . MAX_PRODUCT_NAME . 'は、UTF-8形式でデータベースに保存します。<br />
     　　また、データは可能な限りUTF-8形式に自動変換されます。<br />
     　　バージョンアップ後に文字化けが生じた場合、変換前のエンコード形式を指定することで、UTF-8形式に強制的に変換できます。';
 $GLOBALS['strEncodingConvertFrom']      	= "変換元エンコード形式:";
@@ -108,8 +108,8 @@ $GLOBALS['strAvailableUpdates']				= "アップデートを有効にする";
 $GLOBALS['strDownloadZip']					= "ダウンロードする(.zip)";
 $GLOBALS['strDownloadGZip']					= "ダウンロードする(.tar.gz)";
 
-$GLOBALS['strUpdateAlert']					= MAX_PRODUCT_NAME."の新しいバージョンが利用可能です。                 \\n\\nアップデートに関する詳しい情報を入手しますか？";
-$GLOBALS['strUpdateAlertSecurity']			= MAX_PRODUCT_NAME."の新しいバージョンが利用可能です。                 \\n\\nできるだけ早くアップデートしてください。\\nいくつかのセキュリティフィックスがあります。";
+$GLOBALS['strUpdateAlert']					= "" . MAX_PRODUCT_NAME."の新しいバージョンが利用可能です。                 \\n\\nアップデートに関する詳しい情報を入手しますか？";
+$GLOBALS['strUpdateAlertSecurity']			= "" . MAX_PRODUCT_NAME."の新しいバージョンが利用可能です。                 \\n\\nできるだけ早くアップデートしてください。\\nいくつかのセキュリティフィックスがあります。";
 
 $GLOBALS['strUpdateServerDown']				= "未知の理由によって、アップデート情報の照会ができません。<br>しばらくしてから再度アップデートを実行してください。";
 
@@ -139,7 +139,7 @@ $GLOBALS['strForUpdatesLookOnWebsite']		= "
 	新バージョンが利用可能か確認したい場合、".MAX_PRODUCT_NAME."のサイトを訪問してください。
 ";
 
-$GLOBALS['strClickToVisitWebsite']			= MAX_PRODUCT_NAME."のサイトを訪問するにはここをクリック";
+$GLOBALS['strClickToVisitWebsite']			= "" . MAX_PRODUCT_NAME."のサイトを訪問するにはここをクリック";
 $GLOBALS['strCurrentlyUsing'] 				= "使用中のバージョン：";
 $GLOBALS['strRunningOn']					= "動作環境";
 $GLOBALS['strAndPlain']						= "および";

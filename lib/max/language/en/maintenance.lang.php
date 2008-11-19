@@ -121,7 +121,7 @@ $GLOBALS['strStorageExplaination']		= "
 
 // Encoding
 $GLOBALS['strEncoding']                 = "Encoding";
-$GLOBALS['strEncodingExplaination']     = MAX_PRODUCT_NAME ." now stores all data in the database in UTF-8 format.<br />
+$GLOBALS['strEncodingExplaination']     = "" . MAX_PRODUCT_NAME ." now stores all data in the database in UTF-8 format.<br />
     Where possible, your data will have been automatically converted to this encoding.<br />
     If after upgrading you find corrupt characters, and you know the encoding used, you may use this tool to convert the data from that format to UTF-8";
 $GLOBALS['strEncodingConvertFrom']      = "Convert from this encoding:";
