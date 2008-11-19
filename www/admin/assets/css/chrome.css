@@ -1785,8 +1785,10 @@ table.data td.graph .percentage {
     background-image: url("../images/errormessage.gif");
 }
 
-
-
+.form-message-error ul {
+  padding-left: 15px;
+  margin: 5px;
+}
 
 
 div.dropDown div.panel div {
@@ -1951,4 +1953,30 @@ div.dropDown div.panel div div.column {
 }
 .breadcrumb .dropDown.active div.panel {
     display: block;
+}
+
+/** some simple text structuring styles **/
+h2.section {
+    border-bottom:1px solid #DDDDDD;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:17px;
+    padding:4px 0px;
+}
+
+h3.section {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom:14px;
+    padding-bottom: 4px;
+}
+
+
+h1, h2, h3, h4 {
+    color:#444444;
+}
+
+p {
+    margin:0pt 0pt 0.7em;
+    line-height: 150%;
 }
