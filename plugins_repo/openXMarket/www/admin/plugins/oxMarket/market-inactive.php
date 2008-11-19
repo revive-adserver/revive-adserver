@@ -27,9 +27,36 @@
 $Id$
 */
 
-require_once '../../../../init.php';
-require_once '../../config.php';
+require_once 'market-common.php';
+require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
-require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
-require_once 'oxMarket.class.php';
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+
+
+/*-------------------------------------------------------*/
+/* Display page                                          */
+/*-------------------------------------------------------*/
+
+    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    //check if you can see this page (pluigin should be inactive in this case)
+    $oMarketComponent->checkActive(false);
+    
+    //header
+    phpAds_PageHeader("openx-market",'','../../');
+
+    //get template and display form
+    $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
+    
+    $aDeactivationStatus = $oMarketComponent->getInactiveStatus();
+    $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
+    $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
+    
+    $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
+    
+    $oTpl->display();
+    
+    //footer
+    phpAds_PageFooter();
+
 ?>

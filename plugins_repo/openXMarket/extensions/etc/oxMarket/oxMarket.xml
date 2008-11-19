@@ -27,6 +27,7 @@
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
+            <file path="{ADMINPATH}/templates/">market-inactive.html</file> 
             <file path="{ADMINPATH}/templates/">market-info.html</file>
             <file path="{ADMINPATH}/templates/">market-include.html</file> 
             <file path="{ADMINPATH}/templates/">market-preferences-website.html</file>
@@ -35,6 +36,7 @@
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
+            <file path="{ADMINPATH}/">market-inactive.php</file>
             <file path="{ADMINPATH}/">market-include.php</file>
             <file path="{ADMINPATH}/">market-index.php</file>
             <file path="{ADMINPATH}/">market-info.php</file>
@@ -74,6 +76,7 @@
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="1">http://localhost/pubconsole/publisher/home/market-welcome</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="1">http://localhost/pubconsole/market/terms-conditions</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="1">http://localhost/pubconsole/market/data-privacy</setting>
+            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="1" size="100" visible="1">publisher-support@to-be-defined.com</setting>
             <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="1">https://login.openx.org/account/account/signup</setting>
         </configuration>
 

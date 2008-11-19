@@ -1,5 +1,5 @@
-<?php
-/*
+{*<!--
+
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -24,12 +24,28 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
-*/
+$Id: market-info.html 22819 2008-07-17 12:04:36Z chris.nutting@openx.org $
 
-require_once '../../../../init.php';
-require_once '../../config.php';
+-->*}
 
-require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
-require_once 'oxMarket.class.php';
-?>
+<div class="content">
+<h2 class="section">{t str="We're sorry your OpenX Market Publisher account is disabled"}</h2>
+<p>
+{t str='Your OpenX Market Publisher account for this OpenX Ad Server has been disabled.'}
+</p>
+<p>
+{t str='Deactivation reason:'}<br>
+<b>
+{if $deactivationStatusMessage}
+    {$deactivationStatusMessage}
+{else}
+ TODO here goes a switch for possible agreed reasons from publisher API
+{/if}
+</b>
+</p>
+{if $publisherSupportEmail != ''}
+  <p>
+  If you think it is incorrect or have further questions please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a>.
+  </p>
+{/if}
+</div>

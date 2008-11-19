@@ -24,7 +24,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: market-account-edit.php 24004 2008-08-11 15:34:24Z radek.maciaszek@openx.org $
+$Id$
 */
 
 require_once 'market-common.php';
@@ -34,14 +34,15 @@ require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
-
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-$paymentForm = buildSignupForm($oMarketComponent);
+//check if you can see this page
+$oMarketComponent->checkActive();
 
+$paymentForm = buildSignupForm($oMarketComponent);
 $isFormValid = $paymentForm->validate();
 
 if ($isFormValid) {

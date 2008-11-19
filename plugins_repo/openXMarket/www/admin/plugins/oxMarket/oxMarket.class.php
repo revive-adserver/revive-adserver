@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: oxMarket.class.php 27745 2008-10-22 10:43:04Z lukasz.wikierski $
+$Id$
 */
 
 require_once LIB_PATH.'/Plugin/Component.php';
@@ -349,6 +349,20 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $aData;
     }
     
+    function isActive()
+    {
+        //TODO get that from DB
+        return true;
+    }
+    
+    function getInactiveStatus()
+    {
+        //TODO get from DB
+        //TODO do we need a message returned from server as well?
+        return array('code' => 0, 'message' => 
+            'Account disabled due to a breach of OpenX Market terms and conditions');    
+    }
+    
     
     function getConfigValue($configKey)
     {
@@ -356,18 +370,32 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
     
+    function checkActive($desiredStatus = true)
+    {
+        if ($desiredStatus != $this->isActive()) {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-index.php');
+        }
+    }
+    
+    
     //UI actions
     function indexAction()
     {
         //TODO check activation status
-        $active = false;
+        $active = $this->isActive();
         
-        if ($this->splashAlreadyShown() && $active) {
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-include.php');
+        if ($active) {
+            if ($this->splashAlreadyShown()) {
+                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-include.php');
+            }
+            else {
+                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
+            }
         }
         else {
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-inactive.php');
         }
+        
     }
 }
 
