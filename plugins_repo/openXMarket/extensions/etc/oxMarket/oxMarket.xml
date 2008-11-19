@@ -84,12 +84,11 @@
             <mdb2schema>tables_oxMarket</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
-            <dataobject>Ext_market_account_mapping.php</dataobject>
-            <dataobject>Ext_market_ad_size.php</dataobject>
-            <dataobject>Ext_market_campaign_pref.php</dataobject>
-            <dataobject>Ext_market_market_setting.php</dataobject>
-            <dataobject>Ext_market_publisher_reporting.php</dataobject>
-            <dataobject>Ext_market_website_pref.php</dataobject>
+            <dataobject>Ext_market_assoc_data.php</dataobject>
+			<dataobject>Ext_market_campaign_pref.php</dataobject>
+			<dataobject>Ext_market_setting.php</dataobject>
+			<dataobject>Ext_market_web_stats.php</dataobject>
+			<dataobject>Ext_market_website_pref.php</dataobject>
         </schema>
 
     </install>

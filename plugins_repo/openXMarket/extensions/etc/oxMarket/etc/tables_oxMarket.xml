@@ -5,98 +5,30 @@
  <name>oxMarket</name>
  <create>false</create>
  <overwrite>false</overwrite>
- <version>002</version>
+ <version>001</version>
  <status>final</status>
 
  <table>
 
-  <name>ext_market_account_mapping</name>
+  <name>ext_market_assoc_data</name>
 
   <declaration>
 
    <field>
-    <name>agencyid</name>
-    <type>openads_mediumint</type>
-    <length>9</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>account_id</name>
-    <type>openads_char</type>
+    <type>openads_varchar</type>
     <length>36</length>
     <notnull>true</notnull>
     <default></default>
    </field>
 
    <field>
-    <name>shown_splash</name>
+    <name>status</name>
     <type>openads_tinyint</type>
-    <length>1</length>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
-
-   <index>
-    <name>ext_market_account_mapping_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>agencyid</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>ext_market_ad_size</name>
-
-  <declaration>
-
-   <field>
-    <name>ad_size_id</name>
-    <type>openads_mediumint</type>
-    <length>9</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>length</name>
-    <type>openads_smallint</type>
-    <length>5</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>width</name>
-    <type>openads_smallint</type>
-    <length>5</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>description</name>
-    <type>openads_char</type>
-    <length>62</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>ext_market_ad_size_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>ad_size_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
 
   </declaration>
 
@@ -147,7 +79,7 @@
 
  <table>
 
-  <name>ext_market_market_setting</name>
+  <name>ext_market_setting</name>
 
   <declaration>
 
@@ -189,29 +121,14 @@
 
  <table>
 
-  <name>ext_market_publisher_reporting</name>
+  <name>ext_market_web_stats</name>
 
   <declaration>
-
-   <field>
-    <name>p_account_id</name>
-    <type>openads_char</type>
-    <length>36</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
 
    <field>
     <name>p_website_id</name>
     <type>openads_char</type>
     <length>36</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>day</name>
-    <type>openads_date</type>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -225,49 +142,68 @@
    </field>
 
    <field>
+    <name>day_time</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>revenue</name>
     <type>openads_decimal</type>
-    <length>8,2</length>
-    <notnull>true</notnull>
+    <length>10,4</length>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
     <name>ecpm</name>
     <type>openads_decimal</type>
-    <length>8,2</length>
-    <notnull>true</notnull>
+    <length>10,4</length>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
    <field>
-    <name>ad_size_id</name>
-    <type>openads_int</type>
-    <length>10</length>
-    <notnull>true</notnull>
+    <name>width</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
    <index>
-    <name>publisher_reporting_account_id</name>
+    <name>ext_market_web_stats_website_id</name>
     <field>
-     <name>p_account_id</name>
+     <name>p_website_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>
 
    <index>
-    <name>publisher_reporting_ad_size_id</name>
+    <name>ext_market_web_stats_day_time</name>
     <field>
-     <name>ad_size_id</name>
+     <name>day_time</name>
      <sorting>ascending</sorting>
     </field>
    </index>
 
    <index>
-    <name>publisher_reporting_day</name>
+    <name>ext_market_web_stats_ad_size</name>
     <field>
-     <name>day</name>
+     <name>width</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>height</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -296,6 +232,14 @@
     <length>36</length>
     <notnull>true</notnull>
     <default></default>
+   </field>
+
+   <field>
+    <name>is_url_synchronized</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>false</notnull>
+    <default>t</default>
    </field>
 
    <index>

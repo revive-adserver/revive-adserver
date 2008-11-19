@@ -1,31 +1,36 @@
 <?php
 /**
- * Table Definition for ext_market_publisher_reporting
+ * Table Definition for ext_market_web_stats
  */
 require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
-class DataObjects_Ext_market_publisher_reporting extends DB_DataObjectCommon
+class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon 
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'ext_market_publisher_reporting';    // table name
-    public $p_account_id;                    // MEDIUMINT(9) => openads_mediumint => 129
-    public $p_website_id;                    // MEDIUMINT(9) => openads_mediumint => 129
-    public $day;                             // DATETIME() => openads_datetime => 14
-    public $impressions;                     // MEDIUMINT(9) => openads_mediumint => 129
-    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1
-    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1
-    public $ad_size_id;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $__table = 'ext_market_web_stats';            // table name
+    public $p_website_id;                    // CHAR(36) => openads_char => 130 
+    public $impressions;                     // INT(10) => openads_int => 129 
+    public $day_time;                        // DATETIME() => openads_datetime => 14 
+    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1 
+    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1 
+    public $width;                           // SMALLINT(6) => openads_smallint => 1 
+    public $height;                          // SMALLINT(6) => openads_smallint => 1 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ext_market_publisher_reporting',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ext_market_web_stats',$k,$v); }
+
+    var $defaultValues = array(
+                'p_website_id' => '',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
     function getWebsiteStatsByAgencyId($aOption)
     {
+		//TODO change to use new object
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
         if (empty($aOption['listorder'])) {
@@ -72,6 +77,7 @@ class DataObjects_Ext_market_publisher_reporting extends DB_DataObjectCommon
 
     function getZoneStatsByAffiliateId($aOption)
     {
+		//TODO change to use new object
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
         if (empty($aOption['listorder'])) {
