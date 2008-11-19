@@ -6,7 +6,7 @@
 	<!ENTITY welcome  SYSTEM "../../level1/common/openx.common.installation.welcome.xml">
 	<!ENTITY terms  SYSTEM "../../level1/common/openx.common.installation.terms.xml">	
 	<!ENTITY systemCheck  SYSTEM "../../level1/common/openx.common.installation.systemCheck.xml">
-	<!ENTITY finished SYSTEM "../../common/openx.common.installation.finished.xml">
+	<!ENTITY finished SYSTEM "../../level1/common/openx.common.installation.finished.xml">
 	<!ENTITY plugins SYSTEM "../../level1/common/openx.common.installation.plugins.xml">
 ]>
 
