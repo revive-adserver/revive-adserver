@@ -772,7 +772,8 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // Test 2 -
         $oManager->aParse['package']['name'] = 'test';
-        $oManager->aParse['package']['install']['files'] = array(0=>array('name'=>'test.readme.txt','path'=>'{PATHPLUGINS}'));
+        $oManager->aParse['package']['install']['files'] = array(0=>array('name'=>'test.readme.txt','path'=>'{PATHPLUGINS}'),
+                                                                 1=>array('name'=>'test.uninstall.txt','path'=>'{PATHPLUGINS}'));
         $oManager->aParse['package']['install']['contents'] = array(0=>array('name'=>'foo'), 1=>array('name'=>'bar'));
         $aFoo = array('name'=>'foo','version'=>'1','enabled'=>1,'installed'=>1,'package'=>'test');
         $aBar = array('name'=>'bar','version'=>'2','enabled'=>0,'installed'=>1,'package'=>'test');
@@ -785,7 +786,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $result = $oManager->getPackageInfo('test');
 
         $this->assertIsA($result,'array');
-        $this->assertEqual(count($result),4);
+        $this->assertEqual(count($result),5);
         $this->assertEqual($result['name'],'test');
 
         $this->assertEqual($result['contents'][0]['name'],'foo');
@@ -801,6 +802,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertEqual($result['contents'][1]['version'],'2');
 
         $this->assertEqual($result['readme'],MAX_PATH.$oManager->pathPackages.'test.readme.txt');
+        $this->assertEqual($result['uninstallReadme'],MAX_PATH.$oManager->pathPackages.'test.uninstall.txt');
 
 
         $oManager->expectCallCount('disablePackage',1);
