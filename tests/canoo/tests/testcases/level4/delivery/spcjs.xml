@@ -32,10 +32,12 @@
 		<verifyXPath 
 			xpath="/html/body/div/a/text()"
 			text="html test banner" />
+      	<!--
 		<verifyXPath description="Check that the gif is displayed"
 	   		xpath="/html/body/div[@id='2']/a/img/@src"
 	        regex="true"
 	        text=".*contenttype=gif"/>
+	    -->
       	<!--	this banner shouldn't be displayed	
       	<not>
           		
