@@ -62,13 +62,10 @@ $Id$
 {$form.JQueryMethods}
 
 $(document).ready(function() {ldelim}
-    $("#{$form.id}").validate({ldelim}
-        event: "keyup",
-        focusInvalid: true,
-        errorContainer: '#errors'{if !empty($form.JQueryRules)},{/if}
+    $("#{$form.id}").initForm({ldelim}
         {$form.JQueryRules}
     {rdelim});
 {rdelim});
-//-->
+
 </script>
 

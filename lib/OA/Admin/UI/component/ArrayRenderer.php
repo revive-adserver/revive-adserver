@@ -146,6 +146,11 @@ class OA_Admin_UI_Component_ArrayRenderer
     {
         $ret = parent::_elementToArray($element, $required, $error);
         
+        //add id if any
+        $elemId = $element->getAttribute('id');
+        if (!empty($elemId)) {
+            $ret['id'] = $elemId;
+        }
         $type = $ret['type'];
         //add options from select
         if('select' == $type) {

@@ -94,7 +94,7 @@ $Id$
 	                    {if $groupItem.labelPlacement == "after"}
 	                       {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if}
 	                    {else}
-	                        {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</font>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
+	                        {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</label>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
 	                    {/if}
                     {/if}
                     {if $groupItem.decorators}
@@ -105,7 +105,7 @@ $Id$
                 {/if}
             {/foreach}
     {if !$_e.parent}
-        {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}    
+        {if $_e.error}<br><label class="error">{$_e.error}</label>{/if}    
         </td>
     </tr>
     {/if}
@@ -116,7 +116,7 @@ $Id$
     <tr>
         <td width='30'>&nbsp;</td><td width='170'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
         <td width='100%'>
-           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e} {if $_e.error}<font color="red">{$_e.error}</font>{/if}
+           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e} {if $_e.error}<label class="error" for="{$_e.id|default:$_e.name|escape}">{$_e.error}</font>{/if}
         </td>
     </tr>
 {/if}
@@ -128,12 +128,12 @@ $Id$
             <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
 	        <td width='100%'>
 	            {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
-                {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}
+                {if $_e.error}<br><label class="error" for="{$_e.id|default:$_e.name|escape}">{$_e.error}</label>{/if}
 	        </td>
         {else}
             <td colspan="2">
                 {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
-                {if $_e.error}<br><font color="red">{$_e.error}</font>{/if}
+                {if $_e.error}<br><label class="error" for="{$_e.id|default:$_e.name|escape}">{$_e.error}</label>{/if}
             </td>
         {/if}
     </tr>

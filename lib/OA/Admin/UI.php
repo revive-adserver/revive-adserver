@@ -734,6 +734,7 @@ class OA_Admin_UI
             'js/ox.message.js',
             'js/ox.usernamecheck.js',
             'js/ox.addirect.js',
+            'js/ox.form.js',
             'js/ox.help.js',
             'js/ox.util.js',
             'js/ox.multicheckbox.js',
@@ -743,6 +744,7 @@ class OA_Admin_UI
             'js/jquery.tablesorter.js',
             'js/ox.tablesorter.extensions.js',
             'js/formValidation.js'
+            
         );
     }
 
