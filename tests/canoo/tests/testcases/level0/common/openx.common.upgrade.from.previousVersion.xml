@@ -27,7 +27,7 @@
 					&terms;
 					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
 					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
-					<!-- <storeCookie name="PHPSESSID" property="sessid" /> -->
+					<!-- <storeCookie name="PHPSESSID" property="sessid" /> oat finished sessionID -->
 					&systemCheck;
 					<setInputField name="username" value="${admin.login}"/>
 					<setInputField name="password" value="${admin.pass}"/>

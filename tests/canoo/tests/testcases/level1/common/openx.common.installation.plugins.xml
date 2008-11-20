@@ -12,4 +12,11 @@
 <verifyText text="openXMaxMindGeoIP" />
 <verifyText text="openXInvocationTags" />
 <verifyText text="openXDeliveryLog" />
+<!-- <verifyXPath xpath="/html/body/div[3]/div/div[3]/div[2]/table[2]/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/ul/li" text="Cookie not found" /> -->
+<not>
+	<verifyText text="Cookie not found" />
+	<verifyText text="Invalid Request" />
+	<verifyText text="Failed" />
+</not>
+<verifyElementText htmlId="job_status_7" text="OK" />
 <clickButton label="Continue »"/>

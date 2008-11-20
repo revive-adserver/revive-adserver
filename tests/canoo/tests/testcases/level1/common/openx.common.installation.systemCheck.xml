@@ -1,5 +1,7 @@
 				&universal;
-				<storeCookie name="PHPSESSID" property="sessid" />
+				<storeCookie name="oat" property="sessid" />
+				<storeCookie name="PHPSESSID" property="sessid2" />				
+<!-- works only when upgrading				<storeCookie name="sessionID" property="sessid3" /> -->
 				<verifyText description="Check text on page" 
 					text="System check" />
 				<verifyText description="Cookies errors check"
