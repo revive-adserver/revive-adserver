@@ -1,0 +1,73 @@
+<project name="openx-plugins-repo" default="help" basedir=".">
+
+	<target name="process-settings">
+		<!-- some basic checks -->
+		<fail unless="dir" message="dir property is not given via -Ddir=[folder] e.g. -Ddir=openXTests"/>
+		<fail message="directory provided by -Ddir=${dir} does not exist">
+			<condition>
+				<not>
+					<available file="${dir}"/>
+				</not>
+			</condition>
+		</fail>
+
+		<echo>processing of ${dir} started</echo>
+
+		<copy todir="${basedir}/${dir}" verbose="true" overwrite="true">
+			<fileset dir="${basedir}/${dir}">
+				<include name="**/*.template.xml"/>
+			</fileset>
+			<mapper type="glob" from="*.template.xml" to="*.temp.xml"/>
+			<filterset onmissingfiltersfile="ignore">
+				<filtersfile file="${basedir}/${dir}/extensions/etc/override.properties"/>
+			</filterset>
+		</copy>
+
+		<copy todir="${basedir}/${dir}" verbose="true" overwrite="true">
+			<fileset dir="${basedir}/${dir}">
+				<include name="**/*.temp.xml"/>
+			</fileset>
+			<mapper type="glob" from="*.temp.xml" to="*.xml"/>
+			<filterset onmissingfiltersfile="warn">
+				<filtersfile file="${basedir}/${dir}/extensions/etc/default.properties"/>
+			</filterset>
+		</copy>
+
+		<delete verbose="true">
+			<fileset dir="${basedir}/${dir}">
+				<include name="**/*.temp.xml"/>
+			</fileset>
+		</delete>
+
+		<echo>processing of ${dir} finished</echo>
+
+	</target>
+
+	<target name="package" depends="process-settings">
+	
+		<echo>packaging of ${dir} started</echo>
+		
+		<delete file="${basedir}/${dir}.zip"/>
+		<zip destfile="${basedir}/${dir}.zip" basedir="${basedir}/${dir}" level="9"
+			excludes="**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties"/>
+		
+		<echo>packaging of ${dir} finished</echo>
+		
+	</target>
+	
+	<target name="release" depends="package">
+		<copy file="${basedir}/${dir}.zip" tofile="${basedir}/release/${dir}.zip" verbose="true" overwrite="true"/>
+	</target>
+
+	<target name="bundle" depends="package">
+		<copy file="${basedir}/${dir}.zip" tofile="${basedir}/../etc/plugins/${dir}.zip" verbose="true" overwrite="true"/>
+	</target>
+	
+	<target name="help">
+		<echo>Usage: ant [release|bundle|package] -Ddir=[FOLDER]</echo>
+		<echo>- Release (copy file to release folder) When releasing a new plugin you will need to edit releases/release.xml</echo>
+		<echo>- Bundle (copy file to etc/plugins folder) When bundling a new plugin you will need to edit etc/default_plugins.php</echo>
+		<echo>- Package (just processing settings and creating zip file) You will need to commit the file to source code repository</echo>
+	</target>
+
+</project>
