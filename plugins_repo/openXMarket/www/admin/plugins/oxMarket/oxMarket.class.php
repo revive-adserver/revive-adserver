@@ -338,14 +338,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function isRegistered()
     {
-        return true;    
+        return false;    
     }
     
     
     function isActive()
     {
         //TODO get that from DB
-        return true;
+        return false;
     }
     
     
@@ -368,6 +368,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function getConfigValue($configKey)
     {
         return $GLOBALS['_MAX']['CONF']['oxMarket'][$configKey];
+    }
+
+    
+    function checkRegistered($desiredStatus = true)
+    {
+        if ($desiredStatus != $this->isRegistered()) {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-index.php');
+        }
     }
     
     

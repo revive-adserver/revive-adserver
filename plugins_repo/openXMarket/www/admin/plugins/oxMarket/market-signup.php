@@ -40,7 +40,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
-$oMarketComponent->checkActive();
+$oMarketComponent->checkRegistered(false);
 
 $paymentForm = buildSignupForm($oMarketComponent);
 $isFormValid = $paymentForm->validate();

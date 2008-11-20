@@ -71,45 +71,6 @@
   };
 })(jQuery);
 
-(function($) {
-    $.fn.updateWelcome = function(options) {
-        var defaults = {
-            useTimeout: false,
-            method: 'hash'
-        };
-        var settings = $.extend({}, defaults, options);
-    
-        return this.each(function() {
-            var $this = $(this);
-            
-	        $(window).load(function () {
-	            //this should not be necessary, but just in case delay reading size a bit
-	            if (settings.useTimeout) {
-	               setTimeout(updateWelcomeSize, 50);
-	            }
-	            else {
-	               updateWelcomeSize();
-	            }
-	        });            
-            
-            
-            function updateWelcomeSize()
-            {
-              //find the height of the internal iframe
-              var welcomeHeight = document.location.hash;
-              document.location.hash = '#';
-              
-              if (welcomeHeight !== '') {
-                    welcomeHeight = welcomeHeight.replace('#', ''); 
-                    welcomeHeight = parseInt(welcomeHeight);
-              }
-              //change the height of the iframe and enclosing stuff
-              $this.height(welcomeHeight);
-            }
-        });
-    };
-})(jQuery);
-
 
 (function($) {
     $.fn.updateSelection = function(options) {
