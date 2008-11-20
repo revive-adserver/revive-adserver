@@ -51,6 +51,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost')); 
+    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
     $oTpl->display();
     
     //footer
