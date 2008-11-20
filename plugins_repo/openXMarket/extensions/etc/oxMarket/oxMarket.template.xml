@@ -23,7 +23,7 @@
 
         <files>
             <file path="{ADMINPATH}/css/">oxMarket.css</file>
-            <file path="{ADMINPATH}/js/">oxMarket.js</file>
+            <file path="{ADMINPATH}/js/">ox.market.js</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
