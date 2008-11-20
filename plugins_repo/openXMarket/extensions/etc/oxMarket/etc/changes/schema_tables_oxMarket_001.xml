@@ -13,7 +13,7 @@
   <name>ext_market_assoc_data</name>
 
   <declaration>
-
+  
    <field>
     <name>account_id</name>
     <type>openads_mediumint</type>

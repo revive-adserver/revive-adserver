@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxMarket</name>
+  <version>001</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>oxMarket</name>
+      <version>001</version>
+      <add>
+        <table>
+        <name>ext_market_assoc_data</name>
+        <was>ext_market_assoc_data</was>
+      </table>
+        <table>
+        <name>ext_market_campaign_pref</name>
+        <was>ext_market_campaign_pref</was>
+      </table>
+        <table>
+        <name>ext_market_setting</name>
+        <was>ext_market_setting</was>
+      </table>
+        <table>
+        <name>ext_market_web_stats</name>
+        <was>ext_market_web_stats</was>
+      </table>
+        <table>
+        <name>ext_market_website_pref</name>
+        <was>ext_market_website_pref</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>oxMarket</name>
+    <version>001</version>
+  </changeset>
+</destructive>
+</instructionset>

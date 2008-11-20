@@ -200,20 +200,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
 
     /**
-     * Retrieve the current users account id for market
-     * @param int $agencyId agencyid for current user. if not specificed
+     * Retrieve the account id for market from associate  data
      */
-    function getAccountId($agencyId = null)
+    function getAccountId()
     {
-        if (is_null($agencyId)) {
-            $agencyId = OA_Permission::getAgencyId();
-        }
-        if (!empty($agencyId)) {
-            $oAccountMapping = & OA_Dal::factoryDO('ext_market_account_mapping');
-            $oAccountMapping->get($agencyId);
-            return $oAccountMapping->account_id;
-        }
-        return null;
+        $oAccountAssocData = & OA_Dal::factoryDO('ext_market_assoc_data');
+        $oAccountAssocData->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
+        return $oAccountAssocData->publisher_account_id;
     }
     
 
@@ -226,7 +219,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oWebsite = & OA_Dal::factoryDO('affiliates');
             $oWebsite->get($affiliateId);
 
-            $websiteId = $this->generateWebsiteId($this->getAccountId(OA_Permission::getAgencyId()), $oWebsite->website);
+            $websiteId = $this->generateWebsiteId($this->getAccountId(), $oWebsite->website);
             if (!empty($websiteId)) {
                 $this->setWebsiteId($affiliateId, $websiteId);
             } else {
@@ -246,11 +239,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
 
-    function setAccountId($agencyId, $accountId)
+    function setAccountId($publisherAccountId)
     {
-        $oAccountMapping = & OA_Dal::factoryDO('ext_market_account_mapping');
-        $oAccountMapping->get($agencyId);
-        $oAccountMapping->account_id = $accountId;
+        $oAccountMapping = & OA_Dal::factoryDO('ext_market_assoc_data');
+        $oAccountAssocData->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
+        $oAccountMapping->publisher_account_id = $publisherAccountId;
         $oAccountMapping->save();
     }
     
@@ -300,7 +293,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 continue;
             }
             foreach ($aValue as $id) {
-                $oMarketSetting = &OA_Dal::factoryDO('ext_market_market_setting');
+                $oMarketSetting = &OA_Dal::factoryDO('ext_market_setting');
                 $oMarketSetting->market_setting_id = $id;
                 $oMarketSetting->market_setting_type_id = $settingTypeId;
                 $oMarketSetting->owner_type_id = OWNER_TYPE_AFFILIATE;
@@ -314,7 +307,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function removeWebsiteRestrictions($affiliateId)
     {
-        $oMarketSetting = &OA_Dal::factoryDO('ext_market_market_setting');
+        $oMarketSetting = &OA_Dal::factoryDO('ext_market_setting');
         $oMarketSetting->owner_type_id = OWNER_TYPE_AFFILIATE;
         $oMarketSetting->owner_id = $affiliateId;
         $oMarketSetting->delete();
@@ -330,7 +323,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function getWebsiteRestrictions($affiliateId)
     {
-        $oMarketSetting = &OA_Dal::factoryDO('ext_market_market_setting');
+        $oMarketSetting = &OA_Dal::factoryDO('ext_market_setting');
         $oMarketSetting->owner_type_id = OWNER_TYPE_AFFILIATE;
         $oMarketSetting->owner_id = $affiliateId;
         $aMarketSetting = $oMarketSetting->getAll();
