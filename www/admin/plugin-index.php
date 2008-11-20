@@ -241,6 +241,22 @@ else if (array_key_exists('backup',$_POST))
 //actions
 else if ('uninstall' == $action)
 {
+    $oTpl = new OA_Admin_Template('plugin-uninstall.html');
+    $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
+    $aComponents = $aPackageInfo['contents'];
+    unset($aPackageInfo['contents']);
+    if ($aPackageInfo['uninstallReadme'])
+    {
+        $uninstallReadme = file_get_contents($aPackageInfo['uninstallReadme']);
+    }
+    $aPackageInfo['package'] = true;
+    $oTpl->assign('aPackage',$aPackageInfo);
+    $oTpl->assign('aPlugins',$aComponents);
+    $oTpl->assign('uninstallReadme',$uninstallReadme);
+    $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?selection=packages"));
+}
+else if (array_key_exists('uninstallConfirmed',$_POST))
+{
     $oPluginManager->uninstallPackage($plugin);
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {

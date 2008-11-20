@@ -876,12 +876,16 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $aPackage = &$this->aParse['package'];
-        $aPkgInfo = array('extensions'=>array(),'contents'=>array(),'readme'=>'');
+        $aPkgInfo = array('extensions'=>array(),'contents'=>array(),'readme'=>'', 'uninstallReadme'=>'');
         foreach ($aPackage['install']['files'] as $idx => &$aFile)
         {
             if (preg_match('/'.$name.'\.readme\.txt/',$aFile['name']))
             {
                 $aPkgInfo['readme'] = MAX_PATH.$this->pathPackages.$aFile['name'];
+            }
+            if (preg_match('/'.$name.'\.uninstall\.txt/',$aFile['name']))
+            {
+                $aPkgInfo['uninstallReadme'] = MAX_PATH.$this->pathPackages.$aFile['name'];
             }
         }
         foreach ($aPackage AS $k => &$v)

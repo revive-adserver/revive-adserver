@@ -16,6 +16,7 @@
 
         <files>
             <file path="{PLUGINPATH}">demoExtension.readme.txt</file>
+            <file path="{PLUGINPATH}">demoExtension.uninstall.txt</file>
         </files>
 
         <contents>
