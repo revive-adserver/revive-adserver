@@ -338,14 +338,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function isRegistered()
     {
-        return false;    
+        //TODO get that from DB
+        return true;    
     }
     
     
     function isActive()
     {
         //TODO get that from DB
-        return false;
+        return true;
     }
     
     

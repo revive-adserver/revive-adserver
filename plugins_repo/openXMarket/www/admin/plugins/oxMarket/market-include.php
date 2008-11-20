@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -50,8 +50,10 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
-    $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost')); 
-    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
+    $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost'));
+    //TODO use plugin code when it returns anything meaningful 
+    $oTpl->assign('pubconsoleAccountId', 23);///$oMarketComponent->getAccountId());
+    $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
     $oTpl->display();
     
     //footer
