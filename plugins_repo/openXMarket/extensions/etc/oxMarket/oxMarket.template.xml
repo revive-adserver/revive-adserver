@@ -22,6 +22,8 @@
         </syscheck>
 
         <files>
+            <file path="{MODULEPATH}deliveryAdRender/oxMarket/">oxMarket.delivery.php</file>
+            
             <file path="{ADMINPATH}/css/">oxMarket.css</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
@@ -85,10 +87,10 @@
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Ext_market_assoc_data.php</dataobject>
-			<dataobject>Ext_market_campaign_pref.php</dataobject>
-			<dataobject>Ext_market_setting.php</dataobject>
-			<dataobject>Ext_market_web_stats.php</dataobject>
-			<dataobject>Ext_market_website_pref.php</dataobject>
+            <dataobject>Ext_market_campaign_pref.php</dataobject>
+            <dataobject>Ext_market_setting.php</dataobject>
+            <dataobject>Ext_market_web_stats.php</dataobject>
+            <dataobject>Ext_market_website_pref.php</dataobject>
         </schema>
 
     </install>
