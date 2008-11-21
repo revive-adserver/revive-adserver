@@ -38,6 +38,8 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseFinal.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/ManageCampaigns.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/LogCompletion.php';
 
+require_once LIB_PATH . '/Plugin/Component.php';
+
 /**
  * A class for preparing the tasks that need to be run as part of the
  * Maintenance Statistics Engine process.
@@ -194,6 +196,16 @@ class OX_Maintenance_Statistics
         // Add the task to log the completion of the task
         $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
         $this->oTaskRunner->addTask($oLogCompletion);
+        
+        // addMaintenanceStatisticsTask hook
+        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenanceStatisticsTask');
+        foreach ($aPlugins as $i => $id)
+        {
+            if ($obj = OX_Component::factoryByComponentIdentifier($id))
+            {
+                $this->oTaskRunner->addTask($obj->addMaintenanceStatisticsTask());
+            }
+        }
 
         // Run the MSE process tasks
         $this->oTaskRunner->runTasks();
