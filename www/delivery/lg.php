@@ -1945,12 +1945,8 @@ $destQuery = explode('&', $destParams['query']);
 if (!empty($destQuery)) {
 foreach ($destQuery as $destPair) {
 list($destName, $destValue) = explode('=', $destPair);
-$aValidVariables[] = $destName;
-// variables names in $_GET are automatically converted to valid PHP names, so dots in names are converted to an underscores,
-// we have to mark this new possible variables as valid
-if (strpos($destName, '.') !== false) {
-$aValidVariables[] = str_replace('.','_',$destName);
-}
+// http://php.net/parse_str#76978 dots and spaces are auto-replaced by underscores
+$aValidVariables[] = str_replace(array('.', ' '), '_', $destName);
 }
 }
 }
