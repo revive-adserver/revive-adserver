@@ -169,6 +169,11 @@ function MAX_querystringGetDestinationUrl($adId = null)
             foreach ($destQuery as $destPair) {
                 list($destName, $destValue) = explode('=', $destPair);
                 $aValidVariables[] = $destName;
+                // variables names in $_GET are automatically converted to valid PHP names, so dots in names are converted to an underscores,
+                // we have to mark this new possible variables as valid
+                if (strpos($destName, '.') !== false) { 
+                    $aValidVariables[] = str_replace('.','_',$destName);
+                }
             }
         }
     }
