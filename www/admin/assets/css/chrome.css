@@ -628,6 +628,7 @@ body.hasGradient #firstLevelContent {
 #thirdLevelNavigation {
 	position: absolute;
 	margin: -21px 0 0 15px;
+	*z-index: 2;
 }
 #thirdLevelNavigation .navigation {
   margin: 0;
@@ -947,13 +948,6 @@ body.hasGradient #firstLevelContent {
 #thirdLevelTools .dropDown.active div.mask {
     display: block;
 }
-
-
-
-
-
-
-
 
 
 #oaSection {
