@@ -78,7 +78,7 @@ class Test_OA_Email extends UnitTestCase
      * Tests that an e-mail reporting on placement delivery is able to be
      * generated correctly.
      */
-    function notestPrepareCampaignDeliveryEmail()
+    function testPrepareCampaignDeliveryEmail()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
@@ -402,7 +402,7 @@ class Test_OA_Email extends UnitTestCase
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
 
-    function notestSendCampaignDeliveryEmail()
+    function testSendCampaignDeliveryEmail()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
@@ -581,7 +581,7 @@ class Test_OA_Email extends UnitTestCase
      * Tests that an e-mail reporting on impending campaign expiration
      * is able to be generated correctly.
      */
-    function notestSendAndPrepareCampaignImpendingExpiryEmail()
+    function testSendAndPrepareCampaignImpendingExpiryEmail()
     {
         $adminContact  = 'Andrew Hill';
         $adminName     = 'OpenX Limited';
