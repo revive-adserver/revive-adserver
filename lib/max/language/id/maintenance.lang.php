@@ -54,43 +54,24 @@ $GLOBALS['strBannerCacheDifferencesFound'] 	= "The database banner cache check h
 $GLOBALS['strBannerCacheFixed'] 			= "The database banner cache rebuild was successfully completed. Your database cache is now up to date.";
 $GLOBALS['strBannerCacheRebuildButton'] 	= "Bangun ulang";
 $GLOBALS['strRebuildDeliveryCache']			= "Bangun ulang database banner cache";
-$GLOBALS['strBannerCacheExplaination']		= "
-    The database banner cache is used to speed up delivery of banners during delivery<br />
-    Cache ini perlu dibangun ulang bilamana:
-    <ul>
-        <li>Versi dari OpenAds di-upgrade</li>
-        <li>Instalasi OpenAds dipindahkan ke server lain</li>
-    </ul>
-";
+$GLOBALS['strBannerCacheExplaination']		= "\nCache ini perlu dibangun ulang bilamana:<br />\n<ul>\n<li>Versi dari OpenX di-upgrade</li>\n<li>Instalasi OpenX dipindahkan ke server lain</li>\n</ul>\n\n";
 
 // Cache
 $GLOBALS['strCache']						= "Cache penyampaian";
 $GLOBALS['strAge']							= "Umur";
-$GLOBALS['strDeliveryCacheSharedMem']		= "
-	Shared memory is currently being used for storing the delivery cache.
-";
-$GLOBALS['strDeliveryCacheDatabase']		= "
-	Database pada saat ini digunakan untuk menyimpan cache penyampaian.
-";
-$GLOBALS['strDeliveryCacheFiles']			= "
-	Cache penyampaian pada saat ini disimpan pada berberapa file yang berbeda di server Anda.
-";
+$GLOBALS['strDeliveryCacheSharedMem']		= "\nDatabase pada saat ini digunakan untuk menyimpan cache penyampaian.\n\n";
+$GLOBALS['strDeliveryCacheDatabase']		= "\nDatabase pada saat ini digunakan untuk menyimpan cache penyampaian.\n\n";
+$GLOBALS['strDeliveryCacheFiles']			= "\nCache penyampaian pada saat ini disimpan pada berberapa file yang berbeda di server Anda.\n\n";
 
 
 // Storage
 $GLOBALS['strStorage']						= "Tempat Penampungan";
 $GLOBALS['strMoveToDirectory']				= "Pindahkan gambar yang ditampung dalam database kedalam direktori";
-$GLOBALS['strStorageExplaination']			= "
-	Gambar-gambar yang digunakan oleh banner lokal tertampung pada database atau dalam direktori. Bila Anda menampung gambar
-	dalam sebuah direktori, beban pada database berkurang yang mengakibatkan kecepatan yang lebih tinggi.
-";
+$GLOBALS['strStorageExplaination']			= "\nGambar-gambar yang digunakan oleh banner lokal tertampung pada database atau dalam direktori. Bila Anda menampung gambar\ndalam sebuah direktori, beban pada database berkurang yang mengakibatkan kecepatan yang lebih tinggi.\n\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "
-	Anda telah aktifkan <i>Statistik Kompak</i> tetapi statistik yang lama masih dalam format Verbose (terperinci).
-	Apakah Anda ingin merubah statistik verbose ke dalam format kompak?
-";
+$GLOBALS['strStatisticsExplaination']		= "\nAnda telah aktifkan <i>Statistik Kompak</i> tetapi statistik yang lama masih dalam format Verbose (terperinci).\nApakah Anda ingin merubah statistik verbose ke dalam format kompak?\n\n";
 
 
 // Product Updates
@@ -99,39 +80,20 @@ $GLOBALS['strAvailableUpdates']				= "Update yang tersedia";
 $GLOBALS['strDownloadZip']					= "Download (.zip)";
 $GLOBALS['strDownloadGZip']					= "Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']					= "Tersedia versi baru dari ".MAX_PRODUCT_NAME.".                 \\n\\nApakah Anda inginkan informasi yang lebih lanjut \\ntentang Update yang tersedia?";
-$GLOBALS['strUpdateAlertSecurity']			= "Tersedia versi baru dari ".MAX_PRODUCT_NAME.".                 \\n\\nKami sarankan untuk meng-update \\nsecepat mungkin \\nsehubungan versi baru ini mengandung berberapa peningkatan dalam segi keamanan.";
+$GLOBALS['strUpdateAlert']					= "Tersedia versi baru dari .                 \n\nApakah Anda inginkan informasi yang lebih lanjut \ntentang Update yang tersedia?";
+$GLOBALS['strUpdateAlertSecurity']			= "Tersedia versi baru dari .                 \n\nKami sarankan untuk meng-update \nsecepat mungkin \nsehubungan versi baru ini mengandung berberapa peningkatan dalam segi keamanan.";
 
-$GLOBALS['strUpdateServerDown']				= "
-	Berdasarkan alasan yang tidak jelas pada saat ini pengecheckan tentang<br>
-	adanya Update gagal dilakukan. Silakan coba kembali pada lain waktu.
-";
+$GLOBALS['strUpdateServerDown']				= "\nBerdasarkan alasan yang tidak jelas pada saat ini pengecheckan tentang<br>\nadanya Update gagal dilakukan. Silakan coba kembali pada lain waktu.\n\n";
 
-$GLOBALS['strNoNewVersionAvailable']		= "
-	Anda telah menggunakan versi ".MAX_PRODUCT_NAME." yang terbaru. Pada saat ini belum ada Update untuk versi ini.
-";
+$GLOBALS['strNoNewVersionAvailable']		= "\nAnda telah menggunakan versi ". MAX_PRODUCT_NAME ." yang terbaru. Pada saat ini belum ada Update untuk versi ini.\n\n";
 
-$GLOBALS['strNewVersionAvailable']			= "
-	<b>Ada versi baru untuk ".MAX_PRODUCT_NAME.".</b><br> Disarankan untuk meng-update sehubungan
-	update tersebut memperbaiki berberapa masalah dan membawa fasilitas baru. Untuk informasi lebih lanjut
-	bacalah	dokumentasi yang tersedia dalam file dibawah ini.
-";
+$GLOBALS['strNewVersionAvailable']			= "\n<b>Ada versi baru untuk ". MAX_PRODUCT_NAME .".</b><br> Disarankan untuk meng-update sehubungan\nupdate tersebut memperbaiki berberapa masalah dan membawa fasilitas baru. Untuk informasi lebih lanjut\nbacalah	dokumentasi yang tersedia dalam file dibawah ini.\n\n";
 
-$GLOBALS['strSecurityUpdate']				= "
-	<b>Disarankan untuk meng-update secepat mungkin sehubungan dalam update ini ada berberapa perbaikan
-	dalam segi keamanan.</b> Ada kemungkinan bahwa versi dari ".MAX_PRODUCT_NAME." yang digunakan
-	oleh Anda mudah diserang dan sudah tidak aman lagi. Untuk informasi lebih lanjut bacalah dokumentasi
-	tentang caranya meng-update yang tersedia dalam file dibawah ini.
-";
+$GLOBALS['strSecurityUpdate']				= "\n	<b>Disarankan untuk meng-update secepat mungkin sehubungan dalam update ini ada berberapa perbaikan\n	dalam segi keamanan.</b> Ada kemungkinan bahwa versi dari ". MAX_PRODUCT_NAME ." yang digunakan\noleh Anda mudah diserang dan sudah tidak aman lagi. Untuk informasi lebih lanjut bacalah dokumentasi\n	tentang caranya meng-update yang tersedia dalam file dibawah ini.\n\n";
 
-$GLOBALS['strNotAbleToCheck']				= "
-	<b>Sehubungan ekstensi XML tidak tersedia pada server Anda, maka ".MAX_PRODUCT_NAME." tidak sanggup
-	untuk mencari ketersediaan versi baru.</b>
-";
+$GLOBALS['strNotAbleToCheck']				= "\n<b>Sehubungan ekstensi XML tidak tersedia pada server Anda, maka ". MAX_PRODUCT_NAME ." tidak sanggup\nuntuk mencari ketersediaan versi baru.</b>\n\n";
 
-$GLOBALS['strForUpdatesLookOnWebsite']		= "
-	Bila Anda ingin tahu apakah telah tersedia versi yang lebih baru silakan kunjungi website kami.
-";
+$GLOBALS['strForUpdatesLookOnWebsite']		= "\n	Bila Anda ingin tahu apakah telah tersedia versi yang lebih baru silakan kunjungi website kami.\n\n";
 
 $GLOBALS['strClickToVisitWebsite']			= "Klik disini untuk kunjungi website kami";
 $GLOBALS['strCurrentlyUsing'] 				= "Anda gunakan";
@@ -148,26 +110,14 @@ $GLOBALS['strConvertAdConversions']			= "AdConversions converted...";
 $GLOBALS['strConvertNothing']				= "Tidak ada yang perlu ditukarkan...";
 $GLOBALS['strConvertFinished']				= "Selesai...";
 
-$GLOBALS['strConvertExplaination']			= "
-	Pada saat ini Anda menggunakan format kompak untuk menyimpan statistik Anda. Tetapi <br>
-	tetap masih ada statistik dalam format verbose (terperinci). Selama statistik verbose <br>
-	tidak diubah menjadi format kompak, statistik tersebut tidak digunakan untuk tampilan
-	di halaman-halaman tersebut.  <br>
-	Sebelum mengubah statistik Anda disarankan untuk meng-backup database Anda!  <br>
-	Apakah Anda ingin mengubah statistik Anda kedalam format kompak yang baru? <br>
-";
+$GLOBALS['strConvertExplaination']			= "\n	Pada saat ini Anda menggunakan format kompak untuk menyimpan statistik Anda. Tetapi <br>\n	tetap masih ada statistik dalam format verbose (terperinci). Selama statistik verbose <br>\n	tidak diubah menjadi format kompak, statistik tersebut tidak digunakan untuk tampilan\n	di halaman-halaman tersebut.  <br>\n	Sebelum mengubah statistik Anda disarankan untuk meng-backup database Anda!  <br>\n	Apakah Anda ingin mengubah statistik Anda kedalam format kompak yang baru? <br>\n";
 
-$GLOBALS['strConvertingExplaination']		= "
-	Seluruh statistik verbose (terperinci) yang tersisa akan diubah kedalam format kompak. <br>
-	Tergantung pada jumlah Impression yang tersimpan dalam format verbose, pengolahan ini  <br>
-	butuh waktu berberapa menit. Mohon tunggu sampai perubahaan ini selesai sebelum halaman <br>
-	lain dikunjungi. Dibawah ini akan tertampil seluruh perubahan yang dilakukan dalam database. <br>
-";
+$GLOBALS['strConvertingExplaination']		= "\n	Seluruh statistik verbose (terperinci) yang tersisa akan diubah kedalam format kompak. <br>\n	Tergantung pada jumlah Impression yang tersimpan dalam format verbose, pengolahan ini  <br>\n	butuh waktu berberapa menit. Mohon tunggu sampai perubahaan ini selesai sebelum halaman <br>\n	lain dikunjungi. Dibawah ini akan tertampil seluruh perubahan yang dilakukan dalam database. <br>\n";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "
-	Perubahan dari statistik verbose telah selesai dengan sukses dan data-data bisa <br>
-	dipakai kembali seperti biasa. Dibawah ini akan tertampil seluruh perubahan yang <br>
-	dilakukan dalam	database. <br>
-";
+$GLOBALS['strConvertFinishedExplaination']  	= "\n	Perubahan dari statistik verbose telah selesai dengan sukses dan data-data bisa <br>\n	dipakai kembali seperti biasa. Dibawah ini akan tertampil seluruh perubahan yang <br>\n	dilakukan dalam	database. <br>\n";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strEncodingConvert'] = "Tukarkan";
 ?>

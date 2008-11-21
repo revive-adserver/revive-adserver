@@ -60,19 +60,9 @@ $GLOBALS['strTablesType']			= "테이블 종류";
 
 $GLOBALS['strInstallWelcome']			= "환영합니다. ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
-						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can
-						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
-						   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesfull.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
-						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file
-						   to prevent security breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".$phpAds_productname." was not succesful</b><br><br>Some portions of the install process could not be completed.
-						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,
-						   please consult the supplied documentation.";
+$GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need\n						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can\n						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security\n						   breaches.";
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesfull.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need\n						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file\n						   to prevent security breaches.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".$phpAds_productname." was not succesful</b><br><br>Some portions of the install process could not be completed.\n						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n						   please consult the supplied documentation.";
 $GLOBALS['strErrorOccured']			= "다음 오류가 발생했습니다:";
 $GLOBALS['strErrorInstallDatabase']		= "데이터베이스 구조가 생성되지 않았습니다.";
 $GLOBALS['strErrorInstallConfig']		= "설정 파일 또는 데이터베이스를 업데이트할 수 없습니다.";
@@ -104,11 +94,16 @@ $GLOBALS['strConfigNotWritable']		= "config.inc.php 파일에 쓰기를 할 수 
 
 // Global
 $GLOBALS['strChooseSection']			= "영역 선택";
-$GLOBALS['strDayFullNames'] 			= array("일요일","월요일","화요일","수요일","목요일","금요일","토요일");
-$GLOBALS['strEditConfigNotPossible']   		= "보안상 설정 파일이 잠겨있기 때문이 설정을 변경할 수 없습니다. ".
-										  "설정을 변경하려면 config.inc.php 파일의 잠금을 해제하십시오.";
-$GLOBALS['strEditConfigPossible']		= "설정 파일이 잠겨있지 않기 때문에 모든 설정을 편집하는 것이 가능하지만, 이로인해 보안 문제가 발생할 수 있습니다.".
-										  "시스템을 안전하게 하려면 config.inc.php 파일에 잠금을 설정해야 합니다.";
+$GLOBALS['strDayFullNames'][0] = "일요일";
+$GLOBALS['strDayFullNames'][1] = "월요일";
+$GLOBALS['strDayFullNames'][2] = "화요일";
+$GLOBALS['strDayFullNames'][3] = "수요일";
+$GLOBALS['strDayFullNames'][4] = "목요일";
+$GLOBALS['strDayFullNames'][5] = "금요일";
+$GLOBALS['strDayFullNames'][6] = "토요일";
+
+$GLOBALS['strEditConfigNotPossible']   		= "보안상 설정 파일이 잠겨있기 때문이 설정을 변경할 수 없습니다. \n설정을 변경하려면 config.inc.php 파일의 잠금을 해제하십시오.\n";
+$GLOBALS['strEditConfigPossible']		= "설정 파일이 잠겨있지 않기 때문에 모든 설정을 편집하는 것이 가능하지만, 이로인해 보안 문제가 발생할 수 있습니다.\n시스템을 안전하게 하려면 config.inc.php 파일에 잠금을 설정해야 합니다.\n";
 
 
 
@@ -316,4 +311,17 @@ $GLOBALS['strMainBackColor']			= "주 배경 색상";
 $GLOBALS['strOverrideGD']			= "GD 이미지 포맷을 무시합니다.";
 $GLOBALS['strTimeZone']				= "시간 영역";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strDbSetupTitle'] = "데이터베이스 설정";
+$GLOBALS['strDeliveryUrlPrefix'] = "전달유지 엔진";
+$GLOBALS['strDeliveryUrlPrefixSSL'] = "전달유지 엔진";
+$GLOBALS['strDbType'] = "데이터베이스 이름";
+$GLOBALS['strDeliveryPath'] = "전달유지 캐시";
+$GLOBALS['strDeliverySslPath'] = "전달유지 캐시";
+$GLOBALS['strGeotargetingSettings'] = "지역 정보 중심(Geotargeting)";
+$GLOBALS['strWarnAgency'] = "광고주에게 경고를 알립니다.";
+$GLOBALS['strEnableQmailPatch'] = "qmail 패치를 사용합니다.(qmail을 사용하는 경우)";
+$GLOBALS['strEmailSettings'] = "설정";
 ?>

@@ -34,4 +34,10 @@ $GLOBALS['strPluginZone'] 		= "Gera um histï¿œrico descritivo do zona selecio
 
 
 // Note: new translatiosn not found in original lang files but found in CSV
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisherHistoryDescription'] = "Relatório de distribuição por sites de um anunciante";
+$GLOBALS['strPublisherZoneHistoryDescription'] = "Relatório de distribuição por sites e zonas de um anunciante";
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = "Este relatório apresenta detalhes de toda atividade de rastreamento de conversões de um site (afiliado)";
 ?>

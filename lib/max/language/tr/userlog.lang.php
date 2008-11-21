@@ -32,16 +32,23 @@ $GLOBALS['strMaintenance']					= "Bakım";
 $GLOBALS['strAdministrator']				= "Yönetici";
 
 
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "{id} reklamcıya e-mail yolu ile rapor gönder",
-	phpAds_actionPublisherReportMailed 		=> "{id} yayıncıya e-mail yolu ile rapor gönder",
-	phpAds_actionWarningMailed				=> "{id} e-mail yolu ile kampanyalar için pasif etme uyarısı gönder",
-	phpAds_actionDeactivationMailed			=> "{id} e-mail yolu ile kampanyalar için pasif etme bildirisi gönder",
-	phpAds_actionPriorityCalculation		=> "Öncelikler tekrar hesaplandı",
-	phpAds_actionPriorityAutoTargeting		=> "Kampanya hedefleri tekrar hesaplandı",
-	phpAds_actionDeactiveCampaign			=> "{id} kampanya pasif edildi",
-	phpAds_actionActiveCampaign				=> "{id} kampanya aktif edildi",
-	phpAds_actionAutoClean					=> "Veritabanını otomatik temizle"
-);
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "{id} reklamcıya e-mail yolu ile rapor gönder";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "{id} yayıncıya e-mail yolu ile rapor gönder";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "{id} e-mail yolu ile kampanyalar için pasif etme uyarısı gönder";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "{id} e-mail yolu ile kampanyalar için pasif etme bildirisi gönder";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Öncelikler tekrar hesaplandı";
+$GLOBALS['strUserlog'][phpAds_actionPriorityAutoTargeting] = "Kampanya hedefleri tekrar hesaplandı";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "{id} kampanya pasif edildi";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "{id} kampanya aktif edildi";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Veritabanını otomatik temizle";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strAdvertiser'] = "Reklamveren";
+$GLOBALS['strPublisher'] = "Web sitesi";
+$GLOBALS['strType'] = "Tip";
+$GLOBALS['strDeleted'] = "Sil";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "{id} e-mail yolu ile kampanyalar için pasif etme bildirisi gönder";
 ?>

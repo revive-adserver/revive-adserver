@@ -41,26 +41,26 @@ $GLOBALS['strCopyToClipboard']			= "Kopiuj do schowka";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']			= "px";
-$GLOBALS['strAbbrSeconds']			= "sec";
+$GLOBALS['strAbbrPixels']			= "piks";
+$GLOBALS['strAbbrSeconds']			= "sek";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Wybór bannera";
+$GLOBALS['strInvocationWhat']			= "Wybór banera";
 $GLOBALS['strInvocationClientID']		= "Reklamodawca lub kampania";
-$GLOBALS['strInvocationTarget']			= "Docelowa ramka";
+$GLOBALS['strInvocationTarget']			= "Ramka docelowa";
 $GLOBALS['strInvocationSource']			= "Źródło";
-$GLOBALS['strInvocationWithText']		= "Pokaż tekst pod bannerem";
-$GLOBALS['strInvocationDontShowAgain']		= "Nie pokazuj bannera drugi raz na tej samej stronie";
-$GLOBALS['strInvocationDontShowAgainCampaign']	= "Nie pokazuj bannera z tej samej kampanii po raz drugi na tej samej stronie";
-$GLOBALS['strInvocationTemplate'] 		= "Zapisz ten banner w zmiennej, aby mógł być wkorzystany w szablonie";
+$GLOBALS['strInvocationWithText']		= "Pokaż tekst pod banerem";
+$GLOBALS['strInvocationDontShowAgain']		= "Nie pokazuj banera drugi raz na tej samej stronie";
+$GLOBALS['strInvocationDontShowAgainCampaign']	= "Nie pokazuj banera z tej samej kampanii po raz drugi na tej samej stronie";
+$GLOBALS['strInvocationTemplate'] 		= "Zapisz ten baner w zmiennej, aby mógł być wkorzystany w szablonie";
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Odśwież po";
-$GLOBALS['strIframeResizeToBanner']		= "Przeskaluj iframe do rozmiarów bannera";
+$GLOBALS['strIframeResizeToBanner']		= "Przeskaluj iframe do rozmiarów banera";
 $GLOBALS['strIframeMakeTransparent']		= "Zrób przezroczystą iframe";
-$GLOBALS['strIframeIncludeNetscape4']		= "Dodaj warstwę zgodną z Netscape 4";
+$GLOBALS['strIframeIncludeNetscape4']		= "Dodaj warstwę kompatybilną z Netscape 4";
 
 
 // PopUp
@@ -112,7 +112,7 @@ $GLOBALS['strRightToLeft']			= "Prawa do lewej";
 $GLOBALS['strLooping']				= "Pętle";
 $GLOBALS['strAlwaysActive']			= "Zawsze aktywny";
 $GLOBALS['strSpeed']				= "Prędkość";
-$GLOBALS['strPause']				= "Pauza";
+$GLOBALS['strPause']				= "Przerwij";
 $GLOBALS['strLimited']				= "Ograniczony";
 $GLOBALS['strLeftMargin']			= "Lewy margines";
 $GLOBALS['strRightMargin']			= "Prawy margines";
@@ -124,11 +124,24 @@ $GLOBALS['strHideDelay']			= "Opóźnienie przed ukryciem bannera";
 $GLOBALS['strHideTransparancy']			= "Przezroczystość ukrytego bannera";
 
 
-$GLOBALS['strAdLayerStyleName']				= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Prosty",
-	'cursor'		=> "Kursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Prosty";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Kursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Kampania";
+$GLOBALS['strCopy'] = "kopiuj";
+$GLOBALS['strInvocationBannerID'] = "ID banera";
+$GLOBALS['strInvocationComments'] = "Dołącz komentarze";
+$GLOBALS['str3rdPartyTrack'] = "Obsługa śledzenia kliknięć dla niezależnego serwera";
+$GLOBALS['strCacheBuster'] = "Wstaw kod Cache-Busting";
+$GLOBALS['strImgWithAppendWarning'] = "Do trackera załączony jest kod, który funkcjonuje <strong>wyłącznie</strong> ze znacznikami JavaScript";
+$GLOBALS['strIframeGoogleClickTracking'] = "Dołącz kod do śledzenia kliknięć Google AdSense";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'> <strong> Ostrzeżenie: </strong> Lokalny tryb inwokacji będzie działać tylko w miejscu wywołania kodu na tej samej maszynie fizycznej co AdServer </span> <br /> Sprawdź, czy MAX_PATH określony w poniższym kodzie wskazuje na główną kategorię twojej instalacji MAX.<br />, oraz że masz plik config dla domeny strony, która pokazuje reklamy (w MAX_PATH / var)";
+$GLOBALS['strChooseTypeOfInvocation'] = "Wybierz typ kodu wywołującego";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Wybierz typ kodu wywołującego baner";
 ?>

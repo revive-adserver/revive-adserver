@@ -49,7 +49,7 @@ $GLOBALS['strAbbrSeconds']			= "vteřin";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Volba banneru";
 $GLOBALS['strInvocationClientID']		= "Inzerent";
-$GLOBALS['strInvocationCampaignID']			= "Kampaň";
+$GLOBALS['strInvocationCampaignID']			= "Skrytá kampaň";
 $GLOBALS['strInvocationTarget']			= "Cílový frame";
 $GLOBALS['strInvocationSource']			= "Zdroj";
 $GLOBALS['strInvocationWithText']		= "Zobrazit text pod bannerem";
@@ -134,14 +134,18 @@ $GLOBALS['strHideDelay']			= "Prodleva před skrytím banneru";
 $GLOBALS['strHideTransparancy']		= "Průhlednost skrytého banneru";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Jednoduchý",
-	'cursor'		=> "Kursor",
-	'floater'		=> "Plovoucí"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "GeocitiesJednoduchýKursorPlovoucí";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Jednoduchý";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Kursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Plovoucí";
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		= "Podpora pro sledování kliknutí serverů 3tích stran";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strChooseTypeOfInvocation'] = "Prosím zvolte typ volání banneru";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Prosím zvolte typ volání banneru";
 ?>

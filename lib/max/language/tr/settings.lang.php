@@ -57,16 +57,9 @@ $GLOBALS['strTablesType']			= "Tablo tipleri";
 
 $GLOBALS['strInstallWelcome']			= "Hoşgeldiniz ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= $phpAds_productname." programı kullnmaya başlamadan önce ayarlanması ve <br> veritabanının oluşturulması gerekiyor. Devam etmek için <b>İlerleye</b> tıklayınyz.";
-$GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname." kurulumu tamamlandı.</b><br><br>".$phpAds_productname." programının düzgün çalışması için bakım programının
-						   her saat çalışması gerekmektedir. Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.
-						   <br><br>Ayarlama sayfasına gitmek için <b>İleri</b>yi tıklayınız. <br>
-						   Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
-$GLOBALS['strUpdateSuccess']			= "<b> ".$phpAds_productname." güncellemeleri başarıyla yüklendi.</b><br><br>".$phpAds_productname." programının düzenli olarak çalışması için
-						   her saat bakım programını çalıştırınız (Daha önceki sürümlerde bu günde bir defa idi). Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.
-						   <br><br>Yönetici paneline gitmek için <b>İleri</b>yi tıklayınız. Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>".$phpAds_productname." kurulumu gerçekleştirilemedi.</b><br><br>Kurulum sürecinin bazı bölümleri çalışamadı.
-						   Bu problemler geçici olabilir, kurulumun ilk adımına dönmek için <b>İleri</b>yi tıklayınız. Aşağıdaki hataların ne manaya geldiğini öğrenmek ve çözmek istiyorsanız,
-						   dökümanlara başvurunuz.";
+$GLOBALS['strInstallSuccess']			= "<b>".$phpAds_productname." kurulumu tamamlandı.</b><br><br>".$phpAds_productname." programının düzgün çalışması için bakım programının\n						   her saat çalışması gerekmektedir. Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.\n						   <br><br>Ayarlama sayfasına gitmek için <b>İleri</b>yi tıklayınız. <br>\n						   Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
+$GLOBALS['strUpdateSuccess']			= "<b> ".$phpAds_productname." güncellemeleri başarıyla yüklendi.</b><br><br>".$phpAds_productname." programının düzenli olarak çalışması için\n						   her saat bakım programını çalıştırınız (Daha önceki sürümlerde bu günde bir defa idi). Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.\n						   <br><br>Yönetici paneline gitmek için <b>İleri</b>yi tıklayınız. Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>". MAX_PRODUCT_NAME ." kurulumu gerçekleştirilemedi.</b><br /><br />Kurulum sürecinin bazı bölümleri çalışamadı.\n";
 $GLOBALS['strErrorOccured']			= "Aşağıdaki hatalar oluştu:";
 $GLOBALS['strErrorInstallDatabase']		= "Veritabanı yapısı oluşturulamıyor.";
 $GLOBALS['strErrorInstallConfig']		= "Ayar dosyası veya veritabanı düzenlenemiyor.";
@@ -76,7 +69,7 @@ $GLOBALS['strUrlPrefix']			= "URL Önadı";
 
 $GLOBALS['strProceed']				= "İleri >";
 $GLOBALS['strRepeatPassword']			= "Parola Tekrarı";
-$GLOBALS['strNotSamePasswords']			= "Parolalar uyuşmuyor";
+$GLOBALS['strNotSamePasswords']			= "İki farklı alana yazdığınız parolalar birbirini tutmuyor.";
 $GLOBALS['strInvalidUserPwd']			= "Geçersiz kullanıcı adı veya parolası";
 
 $GLOBALS['strUpgrade']				= "Güncelle";
@@ -98,11 +91,16 @@ $GLOBALS['strConfigNotWritable']		= "config.inc.php dosyası yazılamıyor";
 
 // Global
 $GLOBALS['strChooseSection']			= "Bölüm Seçiniz";
-$GLOBALS['strDayFullNames'] 			= array("Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi");
-$GLOBALS['strEditConfigNotPossible']   		= "Ayarları düzenleyemiyorsunuz. çünkü ayar dosyanız güvenlik nedeniyle kilitlenmiş.<br> ".
-										  "Düzenleme yapmanız için, config.inc.php dosyasının kilidini açınız.";
-$GLOBALS['strEditConfigPossible']		= "Tüm düzenleme işlemlerini yapabilirsiniz çünkü ayar dosyası kilitli değil, ama bu güvenlik açıklıklarına sebep olabilir.<br> ".
-										  "Sisteminizi korumak istiyorsanız, config.inc.php dosyasını kilitleyiniz.";
+$GLOBALS['strDayFullNames'][0] = "Pazar";
+$GLOBALS['strDayFullNames'][1] = "Pazartesi";
+$GLOBALS['strDayFullNames'][2] = "Salı";
+$GLOBALS['strDayFullNames'][3] = "Çarşamba";
+$GLOBALS['strDayFullNames'][4] = "Perşembe";
+$GLOBALS['strDayFullNames'][5] = "Cuma";
+$GLOBALS['strDayFullNames'][6] = "Cumartesi";
+
+$GLOBALS['strEditConfigNotPossible']   		= "Ayarları düzenleyemiyorsunuz. çünkü ayar dosyanız güvenlik nedeniyle kilitlenmiş.";
+$GLOBALS['strEditConfigPossible']		= "Tüm düzenleme işlemlerini yapabilirsiniz çünkü ayar dosyası kilitli değil, ama bu güvenlik açıklıklarına sebep olabilir.";
 
 
 
@@ -232,7 +230,7 @@ $GLOBALS['strAdminUsername']			= "Yönetici ismi";
 $GLOBALS['strOldPassword']			= "Eski Parola";
 $GLOBALS['strNewPassword']			= "Yeni Parola";
 $GLOBALS['strInvalidUsername']			= "Geçersiz Kullanıcı Adı";
-$GLOBALS['strInvalidPassword']			= "Geçersiz Parola";
+$GLOBALS['strInvalidPassword']			= "Girdiğiniz yeni parola geçersizdir. Lütfen başka bir parola kullanınız.";
 
 $GLOBALS['strBasicInformation']			= "Temel Bilgiler";
 $GLOBALS['strAdminFullName']			= "Yönetici Tam ismi";
@@ -257,7 +255,7 @@ $GLOBALS['strGuiSettings']			= "Kullanıcı arabirimi ayarları";
 
 $GLOBALS['strGeneralSettings']			= "Genel Ayarlar";
 $GLOBALS['strAppName']				= "Uygulama Adı";
-$GLOBALS['strMyHeader']				= "Başlık";
+$GLOBALS['strMyHeader']				= "Altbilgi";
 $GLOBALS['strMyFooter']				= "Altbilgi";
 $GLOBALS['strGzipContentCompression']		= "Sıkıştırma için GZIP içeriğini kullan";
 
@@ -276,7 +274,7 @@ $GLOBALS['strShowBannerInfo']			= "<i>Banner önizleme</i> sayfasında ekstra ba
 $GLOBALS['strShowCampaignPreview']		= "<i>Banner önizleme</i> sayfasında tüm bannerları göster";
 $GLOBALS['strShowBannerHTML']			= "HTML banner önizlemede düz HTML kodlu bannerlar haricindeki asıl bannerları göster";
 $GLOBALS['strShowBannerPreview']		= "Sayfanın en üstünde uyan banner önizlemeyi göster";
-$GLOBALS['strHideInactive']			= "Tüm önizleme sayfalarında pasif bileşenleri gizle";
+$GLOBALS['strHideInactive']			= "Etkin olmayanları gizle";
 $GLOBALS['strGUIShowMatchingBanners']		= "<i>İlişkili Bannerlar</i> sayfalarında uyan bannerları göster";
 $GLOBALS['strGUIShowParentCampaigns']		= "<i>ilişkili Bannerlar</i> sayfasında ebeveyn bannerları göster";
 $GLOBALS['strGUILinkCompactLimit']		= "<i>İlişkili Bannerlar</i> sayfasında ilişkilendirilmemiş kampanyalar veya bannerları ....dan fazla ise gizle";
@@ -301,4 +299,19 @@ $GLOBALS['strMainBackColor']			= "Ana Zemin Rengi";
 $GLOBALS['strOverrideGD']			= "Override GD Imageformat";
 $GLOBALS['strTimeZone']				= "Zaman Alanı";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strHasTaxID'] = "Vergi numarası";
+$GLOBALS['strSpecifySyncSettings'] = "Senkronizasyon Ayarları";
+$GLOBALS['strDeliveryUrlPrefix'] = "Teslimat Motoru";
+$GLOBALS['strDeliveryUrlPrefixSSL'] = "Teslimat Motoru";
+$GLOBALS['strDbType'] = "Veritabanı adı";
+$GLOBALS['strModesOfPayment'] = "Ödeme tipi";
+$GLOBALS['strHelpFiles'] = "Yardım dosyası";
+$GLOBALS['strWarnAgency'] = "Reklamcıya uyarı";
+$GLOBALS['strEnableQmailPatch'] = "qmail patchini kullanın";
+$GLOBALS['strEmailSettings'] = "Ana Ayarlar";
+$GLOBALS['strDefaultConversionStatus'] = "Varsayılan dönüştürme kuralları";
+$GLOBALS['strDefaultConversionType'] = "Varsayılan dönüştürme kuralları";
 ?>

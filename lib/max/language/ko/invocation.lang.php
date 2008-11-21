@@ -125,11 +125,15 @@ $GLOBALS['strHideDelay']			= "Delay before banner is hidden";
 $GLOBALS['strHideTransparancy']		= "Transparancy of the hidden banner";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Simple",
-	'cursor'		=> "Cursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Simple";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strChooseTypeOfInvocation'] = "호출할 배너 종류를 선택하세요.";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "호출할 배너 종류를 선택하세요.";
 ?>

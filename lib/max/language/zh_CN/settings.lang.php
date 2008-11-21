@@ -67,21 +67,9 @@ $GLOBALS['strTablesType']			= "表格类型";
 
 $GLOBALS['strInstallWelcome']			= "��ӭʹ��".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "����ʹ��".$phpAds_productname."֮ǰ,��Ҫ����ϵͳ��<br />������ݿ�.��<b>��һ��</b>����.";
-$GLOBALS['strInstallSuccess']			= "<strong>恭喜！您已成功安装" . MAX_PRODUCT_NAME . "</strong>
-<p>欢迎您加入" . MAX_PRODUCT_NAME . "大家庭! 为了获得最佳的" . MAX_PRODUCT_NAME . ", 以下两个步骤是必不可少。/p>
-
-<p><strong>管理</strong><br>
-" . MAX_PRODUCT_NAME . "的默认配置内包括一些每小时自动运行的管理任务。为了提升服务器性能，你可以通过配置管理文件以优化这些任务。虽然这些并不是必须的，但是强烈建议您这样做。如果需要更多信息，请参阅<a href='http://MAX_PRODUCT_DOCSURL' target='_blank'><strong>相关文档</strong></a>.</p>
-
-<p><strong>安全</strong><br>
-在安装" . MAX_PRODUCT_NAME . "时，需要将服务器上的一些配置文件设为可写。但当您完成配置之后，强烈建议您将它们设为只读。如果需要更多信息，请参阅 <a href='http://MAX_PRODUCT_DOCSURL' target='_blank'><strong>文档</strong></a>.</p>
-
-<p>现在您已经可以开始使用" . MAX_PRODUCT_NAME . "了。</p>
-<p>在开始使用之前，我们建议您花点时间设定以下“配置”标签下的选项。
-";
+$GLOBALS['strInstallSuccess']			= "点击确定登入您的广告服务器.	<p><strong>下一步？</strong></p>	<div class='psub'>	  <p><b>登入以获取更新</b><br>	    <a href='". OX_PRODUCT_DOCSURL ."/wizard/join' target='_blank'>加入". MAX_PRODUCT_NAME ."邮件列表</a> 以获得最新的更新通知和安全性警告.	  </p>	  <p><b>开始你的第一个广告</b><br>	    查看我们的 <a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-firstcampaign' target='_blank'>快速入门指南</a>.	  </p>	</div>	<p><strong>可选的安装步骤</strong></p>	<div class='psub'>	  <p><b>锁定你的配置文件</b><br>	    这对你的系统安全是一个额外的帮助.  <a href='". OX_PRODUCT_DOCSURL ."/wizard/lock-config' target='_blank'>查看更多</a>.	  </p>	  <p><b>设定一个维护任务（重要）</b><br>	    维护任务可以定时统计你的任务报表及广告投放计划.  <a href='". OX_PRODUCT_DOCSURL ."/wizard/setup-cron' target='_blank'>查看更多</a>	  </p>	  <p><b>查看你的系统设置</b><br>	    在时使用 ". MAX_PRODUCT_NAME ."之前，我们建议你重新确定你的系统设置（在“设置”选项卡内）.	  </p>	</div>";
 $GLOBALS['strUpdateSuccess']			= "<b>".$phpAds_productname."��ɹ�.</b><br /><br />Ϊ��".$phpAds_productname."����ʹ��,����Ҫȷ��ά���ļ�ÿСʱ����һ��,�йص���Ϣ���Բο�����ĵ�.<br /><br />��<b>��һ��</b>��������ҳ��,����Խ��и�������.��������ɺ��벻Ҫ�����config.inc.php�Ա�֤��ȫ.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>.\"".MAX_PRODUCT_NAME.".\" 的安装并不成功!</b><br /><br />其中某些安装过程无法完成.
-                                                可能这些问题只是暂时性的, 如果确实如此您只需点击 <b>继续</b> 并返回整个安装流程的第一步, 如果您希望了解下列错误信息的详情以及解决方法, 请自行阅读随机文档.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>". MAX_PRODUCT_NAME ."  的安装并不成功!</b><br /><br />其中某些安装过程无法完成.\n                                                可能这些问题只是暂时性的, 如果确实如此您只需点击 <b>继续</b> 并返回整个安装流程的第一步, 如果您希望了解下列错误信息的详情以及解决方法, 请自行阅读随机文档.";
 $GLOBALS['strErrorOccured']			= "�����������:";
 $GLOBALS['strErrorInstallDatabase']		= "���ܴ�����ݿ�.";
 $GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
@@ -111,7 +99,7 @@ $GLOBALS['strConfigNotWritable']		= "��������ļ�config.inc.php
 /*-------------------------------------------------------*/
 
 // Global
-$GLOBALS['strChooseSection'] = "选择部分";
+$GLOBALS['strChooseSection'] = "选择章节";
 $GLOBALS['strDayFullNames'][0] = "星期天";
 $GLOBALS['strDayFullNames'][1] = "星期一";
 $GLOBALS['strDayFullNames'][2] = "星期二";
@@ -128,7 +116,7 @@ $GLOBALS['strEditConfigPossible']		= "由于配置文件已经解锁，所以所
 // Database
 $GLOBALS['strDatabaseSettings']			= "��ݿ�����";
 $GLOBALS['strDatabaseServer']			= "全局数据库服务器设置";
-$GLOBALS['strDbLocal']				= "ʹ���׽���l�ӱ��ط�����"; //Pgר��
+$GLOBALS['strDbLocal']				= "使用本地套接字连接"; //Pgר��
 $GLOBALS['strDbHost']				= "数据库主机名";
 $GLOBALS['strDbPort']				= "数据库端口号";
 $GLOBALS['strDbUser']				= "数据库用户名";
@@ -227,7 +215,7 @@ $GLOBALS['strRemoteHost']			= "Զ�����";
 $GLOBALS['strReverseLookup']			= "反向查找浏览者的主机名";
 $GLOBALS['strProxyLookup']			= "尝试查找通过代理服务器访问的访问者的真是IP地址";
 
-$GLOBALS['strGeotargeting']			= "全局地理定位设置";
+$GLOBALS['strGeotargeting']			= "地理定位设置";
 $GLOBALS['strGeotrackingType']			= "������ݿ�����";
 $GLOBALS['strGeotrackingLocation'] 		= "������ݿ�λ��";
 $GLOBALS['strGeotrackingLocationError'] 	= "����ָ����λ��û���ҵ�������ݿ�λ��";
@@ -292,7 +280,7 @@ $GLOBALS['strAdminCheckWeekly']			= "ÿ��";
 $GLOBALS['strAdminCheckMonthly']		= "ÿ��";
 $GLOBALS['strAdminCheckNever']			= "�Ӳ�";
 
-$GLOBALS['strAdminNovice']			= "����Ա��ɾ�������Ҫȷ���Ա�֤��ȫ";
+$GLOBALS['strAdminNovice']			= "出于安全，Admin的删除权限需要确认";
 $GLOBALS['strUserlogEmail']			= "记录所有发出邮件信息";
 $GLOBALS['strUserlogPriority']			= "��¼ÿСʱ�����ȼ�����";
 $GLOBALS['strUserlogAutoClean']			= "��¼��ݿ���Զ�����";
@@ -319,12 +307,12 @@ $GLOBALS['strClientWelcomeText']		= "欢迎辞";
 $GLOBALS['strInterfaceDefaults']		= "界面默认值";
 
 $GLOBALS['strInventory']			= "系统管理";
-$GLOBALS['strShowCampaignInfo']			= "在 <i>项目概览</i> 页中显示更多项目信息";
-$GLOBALS['strShowBannerInfo']			= "在 <i>广告概览</i> 页中显示更多广告信息";
-$GLOBALS['strShowCampaignPreview']		= "在 <i>广告概览</i> 页中预览所有广告";
+$GLOBALS['strShowCampaignInfo']			= "在 <i>项目</i> 页中显示更多项目信息";
+$GLOBALS['strShowBannerInfo']			= "在 <i>广告</i> 页中显示更多广告信息";
+$GLOBALS['strShowCampaignPreview']		= "在 <i>广告</i> 页中预览所有广告";
 $GLOBALS['strShowBannerHTML']			= "实际显示广告，以代替plain html代码的广告预览";
 $GLOBALS['strShowBannerPreview']		= "在页首显示广告预览";
-$GLOBALS['strHideInactive']			= "隐藏所有总览页面中停用的项目";
+$GLOBALS['strHideInactive']			= "隐藏不活动内容";
 $GLOBALS['strGUIShowMatchingBanners']		= "显示符合 <i>Linked banner</i> 的广告";
 $GLOBALS['strGUIShowParentCampaigns']		= "显示<i>Linked banner</i> 的父项目";
 $GLOBALS['strGUILinkCompactLimit']		= "��<i>l�ӹ��</i>ҳ������û��l�ӵ���Ŀ���棬����Ŀ����";
@@ -354,7 +342,7 @@ $GLOBALS['strTimeZone']				= "ʱ��";
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strAdminAccount'] = "管理员帐号";
 $GLOBALS['strSpecifySyncSettings'] = "同步设置";
-$GLOBALS['strOpenadsIdYour'] = "您的".MAX_PRODUCT_NAME." ID";
+$GLOBALS['strOpenadsIdYour'] = "您的OpenX ID";
 $GLOBALS['strBtnContinue'] = "继续》";
 $GLOBALS['strBtnRecover'] = "恢复》";
 $GLOBALS['strBtnStartAgain'] = "开始升级》";
@@ -364,25 +352,25 @@ $GLOBALS['strBtnDontAgree'] = "《我拒绝";
 $GLOBALS['strBtnRetry'] = "重试";
 $GLOBALS['strFixErrorsBeforeContinuing'] = "在继续之前请修复所有错误";
 $GLOBALS['strWarningRegisterArgcArv'] = "如许运行维护脚本，您需要开启PHP配置变量中的register_argc_argv";
-$GLOBALS['strInstallIntro'] = "欢迎来到 <a href='http://MAX_PRODUCT_URL' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! 您将参与到全球最大的网络广告网络.\n<p>我们尽量让整个安装和更新过程简单容易。请跟随屏幕的指示安装。如果您需要其他帮助，可参考<a href='http://MAX_PRODUCT_DOCSURL' target='_blank'><strong>文档</strong></a>中更详细的介绍。</p>";
+$GLOBALS['strInstallIntro'] = "谢谢您选择<a href='http://". MAX_PRODUCT_URL ."' target='_blank'><strong>". MAX_PRODUCT_NAME ."</strong></a><p>向导会指导您完成". MAX_PRODUCT_NAME ." 广告服务器的安装/升级流程。</p><p>为了帮助您完成安装过程，我们准备了<a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>快速安装指南</a>来帮助您安装并启动服务。关于". MAX_PRODUCT_NAME ."的安装和配置，如需更详细的信息，请访问<a href='". OX_PRODUCT_DOCSURL ."/wizard/admin-guide' target='_blank'>管理员指南</a>。";
 $GLOBALS['strRecoveryRequiredTitle'] = "你以前尝试升级遇到一个错误";
-$GLOBALS['strRecoveryRequired'] = "你之前升级".MAX_PRODUCT_NAME."中出现了一个错误，请点击恢复按钮恢复到错误产生之前的状态。";
-$GLOBALS['strTermsTitle'] = "许可证信息";
-$GLOBALS['strPolicyTitle'] = "隐私和数据使用政策";
-$GLOBALS['strPolicyIntro'] = "请审查隐私和数据使用政策，才答应继续安装。";
+$GLOBALS['strRecoveryRequired'] = "你之前升级". MAX_PRODUCT_NAME ."中出现了一个错误，请点击恢复按钮恢复到错误产生之前的状态。";
+$GLOBALS['strTermsTitle'] = "团队使用隐私策略";
+$GLOBALS['strPolicyTitle'] = "隐私权政策";
+$GLOBALS['strPolicyIntro'] = "请审阅并同意下列文档后再继续安装过程。";
 $GLOBALS['strDbSetupTitle'] = "数据库设置";
-$GLOBALS['strDbUpgradeIntro'] = "以下是检测到你希望安装".MAX_PRODUCT_NAME." 数据库信息。请确保这些信息正确。由于一旦点击继续，".MAX_PRODUCT_NAME." 将数据进行下一步操作，所以请在继续前做好数据备份的工作。";
-$GLOBALS['strOaUpToDate'] = "您的".MAX_PRODUCT_NAME."和数据库都使用的都是最新的版本，没有需要更新的。请点击继续进入管理员面板。";
+$GLOBALS['strDbUpgradeIntro'] = "为安装". MAX_PRODUCT_NAME ."，系统为您检测出下列数据库信息。请检查并确认这些信息是正确的.<p>下一步将为您升级数据库。点击[继续]来升级您的系统。</p>";
+$GLOBALS['strOaUpToDate'] = "您的". MAX_PRODUCT_NAME ."和数据库都使用的都是最新的版本，没有需要更新的。请点击继续进入管理员面板。";
 $GLOBALS['strOaUpToDateCantRemove'] = "警告: 升级文件仍在var目录。因为权限不够，我们无法移除此档案。请先手动删除该文件吧。";
 $GLOBALS['strRemoveUpgradeFile'] = "你需要删除删除var文件夹下的升级文件";
 $GLOBALS['strSystemCheck'] = "系统检查";
-$GLOBALS['strDbSuccessIntro'] = "The ".MAX_PRODUCT_NAME." 数据已经创建，请点击“继续”按钮进入管理员与发布设定。";
-$GLOBALS['strDbSuccessIntroUpgrade'] = "".MAX_PRODUCT_NAME." 数据库已经更新。请点击“继续”按钮进入管理员与发布设定。";
+$GLOBALS['strDbSuccessIntro'] = "". MAX_PRODUCT_NAME ." 数据库已经更新。请点击“继续”按钮进入管理员与发布设定。";
+$GLOBALS['strDbSuccessIntroUpgrade'] = "您的系统已被成功更新。后面的页面将帮助您升级新建广告服务器的配置。";
 $GLOBALS['strErrorWritePermissions'] = "文件权限错误。\n<br />在Linux下修正这个错误，请输入以下命令:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "文件权限错误。您必须先修正这个错误才可继续下一步。";
-$GLOBALS['strCheckDocumentation'] = "需要帮助，请参阅 <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " 文档<a/>.";
+$GLOBALS['strCheckDocumentation'] = "需要帮助，请参阅 <a href='". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ."  文档<a/>.";
 $GLOBALS['strAdminUrlPrefix'] = "管理员界面路径";
 $GLOBALS['strDeliveryUrlPrefix'] = "发布引擎路径";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "发布引擎路径（SSL）";
@@ -391,7 +379,7 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "图片存储路径（SSL）";
 $GLOBALS['strUnableToWriteConfig'] = "无法修改配置文件";
 $GLOBALS['strUnableToWritePrefs'] = "无法向数据库提交属性更改";
 $GLOBALS['strImageDirLockedDetected'] = "<b>图片文件夹</b>不可写<br>在修改文件夹权限之前无法修改或创建相关文件夹。\n";
-$GLOBALS['strConfigurationSetup'] = "配置设置";
+$GLOBALS['strConfigurationSetup'] = "配置检查表";
 $GLOBALS['strConfigurationSettings'] = "配置设置";
 $GLOBALS['strAdminPassword'] = "管理员密码";
 $GLOBALS['strAdministratorEmail'] = "管理员邮件地址";
@@ -399,24 +387,24 @@ $GLOBALS['strTimezoneInformation'] = "时区信息（时区的修改将影响统
 $GLOBALS['strTimezone'] = "时区";
 $GLOBALS['strTimezoneEstimated'] = "预计时区";
 $GLOBALS['strTimezoneGuessedValue'] = "在PHP设定中的时区不正确";
-$GLOBALS['strTimezoneSeeDocs'] = "关于如何设置这个PHP变量, 请参见%DOCS% .";
+$GLOBALS['strTimezoneSeeDocs'] = "请参阅 %DOCS% 了解在PHP中设定这个变量的方法。";
 $GLOBALS['strTimezoneDocumentation'] = "文档";
 $GLOBALS['strLoginSettingsTitle'] = "管理员登录";
-$GLOBALS['strLoginSettingsIntro'] = "为了继续升级，请输入您".MAX_PRODUCT_NAME." 管理员登录信息。您必须以管理员身份登录，以继续安装。";
-$GLOBALS['strAdminSettingsTitle'] = "您的管理员帐号";
-$GLOBALS['strAdminSettingsIntro'] = "管理员帐号被用作登录".MAX_PRODUCT_NAME."界面以进行系统管理，查看统计数据，创建标签。请属于管理员的用户名、密码和邮件地址。";
+$GLOBALS['strLoginSettingsIntro'] = "为了继续升级，请输入您". MAX_PRODUCT_NAME ." 管理员登录信息。您必须以管理员身份登录，以继续安装。";
+$GLOBALS['strAdminSettingsTitle'] = "创建管理员账号";
+$GLOBALS['strAdminSettingsIntro'] = "请完成这个表格来创建您的广告服务器管理员账号。";
 $GLOBALS['strEnableAutoMaintenance'] = "运行期间的自动维护还未设定";
 $GLOBALS['strDefaultBannerDestination'] = "默认链接地址";
 $GLOBALS['strDbType'] = "数据库类型";
 $GLOBALS['strDemoDataInstall'] = "安装演示数据";
-$GLOBALS['strDemoDataIntro'] = "默认的设置数据可以被载入".MAX_PRODUCT_NAME.", 以便于您更方便地启动在线广告服务. 其中包含了最常见的广告类型以及一些初始广告项目, 您可以加载并预设这些内容. 我们强烈推荐安装新系统时也安装默认数据.";
-$GLOBALS['strDebugSettings'] = "除错登录";
-$GLOBALS['strDebug'] = "全局除错登录设置";
+$GLOBALS['strDemoDataIntro'] = "将默认安装数据加载到 ". MAX_PRODUCT_NAME ." 中，可以帮助您初次启动在线广告服务。最常见的广告类型和一些初始广告项目会被加载并被预先配置。我们强烈推荐新安装的系统都这么做。";
+$GLOBALS['strDebugSettings'] = "调试日志";
+$GLOBALS['strDebug'] = "调试日志设置";
 $GLOBALS['strProduction'] = "产品服务器";
-$GLOBALS['strEnableDebug'] = "启用除错登录";
-$GLOBALS['strDebugMethodNames'] = "在除错日志中包括方法名";
-$GLOBALS['strDebugLineNumbers'] = "在除错日志中包括方线程号码";
-$GLOBALS['strDebugType'] = "除错日志类型";
+$GLOBALS['strEnableDebug'] = "启用调试日志";
+$GLOBALS['strDebugMethodNames'] = "在调试日志中包括方法名";
+$GLOBALS['strDebugLineNumbers'] = "在调试日志中包括方线程号码";
+$GLOBALS['strDebugType'] = "调试日志类型";
 $GLOBALS['strDebugTypeFile'] = "文件";
 $GLOBALS['strDebugTypeMcal'] = "mCal";
 $GLOBALS['strDebugTypeSql'] = "SQL数据库";
@@ -434,7 +422,7 @@ $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - 最少信息";
 $GLOBALS['strDebugIdent'] = "调试鉴定弦";
 $GLOBALS['strDebugUsername'] = "mCal, SQL 服务器用户名";
 $GLOBALS['strDebugPassword'] = "mCal, SQL 服务器密码";
-$GLOBALS['strWebPath'] = "发布设置";
+$GLOBALS['strWebPath'] = "". MAX_PRODUCT_NAME ." 服务器路径";
 $GLOBALS['strWebPathSimple'] = "页面路径";
 $GLOBALS['strDeliveryPath'] = "发布路径";
 $GLOBALS['strImagePath'] = "图片路径";
@@ -515,11 +503,11 @@ $GLOBALS['strBlockAdClicksError'] = "阻挡广告点击值应该为非负整数"
 $GLOBALS['strMaintenaceSettings'] = "全球管理设置";
 $GLOBALS['strMaintenanceOI'] = "管理运行间隔（分钟）";
 $GLOBALS['strMaintenanceOIError'] = "维护操作间隔设定不合法 - 请阅读文档中关于合法时间的定义";
-$GLOBALS['strMaintenanceCompactStats'] = "处理后是否删除原始统计数据?";
+$GLOBALS['strMaintenanceCompactStats'] = "处理后是否删除原始统计数据";
 $GLOBALS['strMaintenanceCompactStatsGrace'] = "删除原始统计前的宽限时间(秒)";
 $GLOBALS['strPrioritySettings'] = "全局优先权设定";
 $GLOBALS['strPriorityInstantUpdate'] = "修改后广告优先级立即生效";
-$GLOBALS['strWarnCompactStatsGrace'] = "紧缩统计格式的宽限事件必须是正整数";
+$GLOBALS['strWarnCompactStatsGrace'] = "紧缩统计格式的宽限时间必须是正整数";
 $GLOBALS['strDefaultImpConWindow'] = "默认广告曝光链接窗口（秒）";
 $GLOBALS['strDefaultImpConWindowError'] = "默认广告曝光链接窗口数应该为正整数";
 $GLOBALS['strDefaultCliConWindow'] = "默认广告点击链接窗口（秒）";
@@ -535,7 +523,7 @@ $GLOBALS['strGuiHeaderForegroundColor'] = "页眉前景颜色";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "页眉背景颜色";
 $GLOBALS['strGuiActiveTabColor'] = "激活标签的颜色";
 $GLOBALS['strGuiHeaderTextColor'] = "页眉文本的颜色";
-$GLOBALS['strColorError'] = "请使用RGB格式输入颜色信息，如\"0066CC“";
+$GLOBALS['strColorError'] = "请使用RGB格式输入颜色信息，如'0066CC'";
 $GLOBALS['strReportsInterface'] = "报告界面";
 $GLOBALS['strPublisherAgreementText'] = "登录文本(支持HTML标签)";
 $GLOBALS['requireSSL'] = "强制使用SSL访问用户界面(UI)";
@@ -543,4 +531,39 @@ $GLOBALS['sslPort'] = "Web服务器使用的SSL端口";
 $GLOBALS['strEmailAddress'] = "电子邮件地址";
 $GLOBALS['strAllowEmail'] = "全局允许发送电子邮件";
 $GLOBALS['strEmailAddressName'] = "发送停止活动电子邮件的公司或者人名";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." 在遵守Open Source license, the GNU General Public License的情况下可以被自由分发使用，请查看以下文档并确认以继续安装过程";
+$GLOBALS['strDbSetupIntro'] = "请输入详细信息连接到数据库。如果你不确定这些信息，请联系您的系统管理员。<p>下一步将为您创建数据库，请点击[继续]进入下一步</p>";
+$GLOBALS['strSystemCheckIntro'] = "安装向导正在检查您的Web服务器设置以便保证安装过程已经成功完成。	<p>请检查被高亮的问题来结束安装过程.</p>";
+$GLOBALS['strConfigSettingsIntro'] = "请检查以下设定，进行必需的修改，如果您不确定，请使用默认选项";
+$GLOBALS['strOpenadsUsername'] = "". MAX_PRODUCT_NAME ." 用户名";
+$GLOBALS['strOpenadsPassword'] = "". MAX_PRODUCT_NAME ." 密码";
+$GLOBALS['uiEnabled'] = "启用用户界面";
+$GLOBALS['strGeotargetingGeoipCountryLocation'] = "MaxMind GeoIP 国家数据库<br />(如果不填则使用免费数据库)";
+$GLOBALS['strPublisherDefaults'] = "网站默认设置";
+$GLOBALS['strPublisherInterface'] = "网站界面";
+$GLOBALS['strPublisherAgreementEnabled'] = "允许对没有接受协议的网站进行登录控制";
+$GLOBALS['strAuditTrailSettings'] = "审计追踪设置";
+$GLOBALS['strDbSocket'] = "数据库套接字";
+$GLOBALS['strEmailAddresses'] = "电子邮件\"From\"地址";
+$GLOBALS['strEmailFromName'] = "电子邮件\"From\"姓名";
+$GLOBALS['strEmailFromAddress'] = "电子邮件\"From\"邮件地址";
+$GLOBALS['strEmailFromCompany'] = "电子邮件\"From\"公司";
+$GLOBALS['strIgnoreUserAgents'] = "<b>不</b> 记录在用户代理中包括下列字符串的客户端统计信息（一个一行）";
+$GLOBALS['strEnforceUserAgents'] = "<b>只</b> 记录在用户代理中包括下列字符串的客户端统计信息（一个一行）";
+$GLOBALS['strConversionTracking'] = "转化跟踪器设置";
+$GLOBALS['strEnableConversionTracking'] = "启用转化跟踪";
+$GLOBALS['strDbNameHint'] = "如果没有发现数据库，它将被创建";
+$GLOBALS['strProductionSystem'] = "生产系统";
+$GLOBALS['strTypeFTPErrorUpload'] = "不能将文件上传到你的FTP服务器，请检查权限";
+$GLOBALS['strBannerLogging'] = "图片日志设定";
+$GLOBALS['strBannerDelivery'] = "广告发布设定";
+$GLOBALS['strEnableDashboardSyncNotice'] = "如果您希望使用面板，请开启  <a href='account-settings-update.php'>检查更新</a>";
+$GLOBALS['strDashboardSettings'] = "面板设置";
+$GLOBALS['strGlobalDefaultBannerUrl'] = "全局默认广告图片URL";
+$GLOBALS['strCantConnectToDbDelivery'] = "无法连接数据来发布信息";
+$GLOBALS['strDefaultConversionStatus'] = "默认转化规则";
+$GLOBALS['strDefaultConversionType'] = "默认转化规则";
 ?>

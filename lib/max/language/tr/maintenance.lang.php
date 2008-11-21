@@ -46,38 +46,24 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Bugün toplanan görüntilenmeler y�
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Banner hafızasını tekrar oluştur";
-$GLOBALS['strBannerCacheExplaination']		= "
-	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML
-	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası ".$phpAds_productname." programının direk adresini(URL)
-	ve bannerı bünyesinde bulundurur.
-";
+$GLOBALS['strBannerCacheExplaination']		= "\n	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML\n	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası ".$phpAds_productname." programının direk adresini(URL)\n	ve bannerı bünyesinde bulundurur.\n";
 
 
 // Zone cache
 $GLOBALS['strZoneCache']			= "Alan Hafızası";
 $GLOBALS['strAge']				= "Yaş";
 $GLOBALS['strRebuildZoneCache']			= "Alan Hafızasını tekrar oluştur";
-$GLOBALS['strZoneCacheExplaination']		= "
-	Alan hafızası o alana ait bannerların hızlı açılmasını sağlar. Alan hafızası üzerinde bulunan tüm bannerların kodlarını içermektedir.
-	Hafıza alan güncelleştirildiğinde veya banner eklendiğinde değişmektedir, bu yüzden hafıza geçerliliğini kaybeder.
-	Bu yüzden hafıza her {seconds} dakikada tekrar oluşturulmaktadır, ama bu hafıza elle de yapılabilmektedir.
-";
+$GLOBALS['strZoneCacheExplaination']		= "\n	Alan hafızası o alana ait bannerların hızlı açılmasını sağlar. Alan hafızası üzerinde bulunan tüm bannerların kodlarını içermektedir.\n	Hafıza alan güncelleştirildiğinde veya banner eklendiğinde değişmektedir, bu yüzden hafıza geçerliliğini kaybeder.\n	Bu yüzden hafıza her {seconds} dakikada tekrar oluşturulmaktadır, ama bu hafıza elle de yapılabilmektedir.\n";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Depolama";
 $GLOBALS['strMoveToDirectory']			= "Veritabanında depolanan resimleri bir dizine taşı";
-$GLOBALS['strStorageExplaination']		= "
-	Yerel bannerların resimleri veritabanında veya bir klasör altında tutulabilir. Eğer resimleri
-	bir klasörde tutarsanız bu veritabanının yükünü azaltır ama sistemi yavaşlatır.
-";
+$GLOBALS['strStorageExplaination']		= "\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "
-	<i>Yoğunlaştırılmış istatistikleri</i> aktif ettiniz, fakat eski istatistiklerinizin yapısı gereksiz bilgileri de içeriyor.
-	Eski istatistiklerinizi düzenlemek ister misiniz?
-";
+$GLOBALS['strStatisticsExplaination']		= "\n";
 
 
 // Product Updates
@@ -89,26 +75,15 @@ $GLOBALS['strDownloadGZip']			= "İndir (.tar.gz)";
 $GLOBALS['strUpdateAlert']			= $phpAds_productname." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
 $GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
 
-$GLOBALS['strUpdateServerDown']			= "
-    Tanımlanamayan bir nedenden dolayı mevcut olan ürün <br>
-	güncellemelerine ulaşılamıyor. Lütfen daha sonra tekrar deneyiniz.
-";
+$GLOBALS['strUpdateServerDown']			= "\n";
 
 $GLOBALS['strNoNewVersionAvailable']		=
 	$phpAds_productname." sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.
 ";
 
-$GLOBALS['strNewVersionAvailable']		= "
-	<b>".$phpAds_productname." yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.
-	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için
-	aşağıdaki dosyada bulunan dökümanları okuyunuz.
-";
+$GLOBALS['strNewVersionAvailable']		= "\n	<b>".$phpAds_productname." yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.\n	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
 
-$GLOBALS['strSecurityUpdate']			= "
-	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.
-	.</b> Kullanmış olduğunuz ".$phpAds_productname." sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için
-	aşağıdaki dosyada bulunan dökümanları okuyunuz.
-";
+$GLOBALS['strSecurityUpdate']			= "\n	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.\n	.</b> Kullanmış olduğunuz ".$phpAds_productname." sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
 
 
 // Stats conversion
@@ -120,25 +95,15 @@ $GLOBALS['strConvertAdClicks']			= "Tıklanma dönüştürlüyor...";
 $GLOBALS['strConvertNothing']			= "Hiçbir şey dönüştürülmedi...";
 $GLOBALS['strConvertFinished']			= "Bitti...";
 
-$GLOBALS['strConvertExplaination']		= "
-	Şu anda istatistiklerinizi depolamak için yoğunlaştırılmış biçimi kullanıyorsunuz. Ama <br>
-	hala gereksiz içerikli istatistikleriniz bulunmakta. Bu gereksiz içerikli istatistikleriniz<br>
-	yoğunlaştırılmış istatistiklere dönüştürülmeden bu sayfaları göremezsiniz. <br>
-	İstatistiklerinizi dönüstürmden veritabanınızı yedekleyiniz ! <br>
-	Gereksiz içerikli istatistiklerinizi yoğunlaştırılmış istatistik biçimine dönüştürmek istermisiniz?<br>
-";
+$GLOBALS['strConvertExplaination']		= "\n	Şu anda istatistiklerinizi depolamak için yoğunlaştırılmış biçimi kullanıyorsunuz. Ama <br>\n	hala gereksiz içerikli istatistikleriniz bulunmakta. Bu gereksiz içerikli istatistikleriniz<br>\n	yoğunlaştırılmış istatistiklere dönüştürülmeden bu sayfaları göremezsiniz. <br>\n	İstatistiklerinizi dönüstürmden veritabanınızı yedekleyiniz ! <br>\n	Gereksiz içerikli istatistiklerinizi yoğunlaştırılmış istatistik biçimine dönüştürmek istermisiniz?<br>\n";
 
-$GLOBALS['strConvertingExplaination']		= "
-	Kalan tüm gereksiz içerikli istatistikleriniz yoğunlaştırılmış istatistiklere çevrildi.<br>
-	Tüm kayıtların dönüştürülmesi biraz süre alacaktır. İBu süre içerisinde lütfen başka sayfaları
-	gezmeyiniz. İşlem sonunda size veritabanı üzerinde yapılan değişikler ile ilgili rapor sunulacaktır.
-";
+$GLOBALS['strConvertingExplaination']		= "\n	Kalan tüm gereksiz içerikli istatistikleriniz yoğunlaştırılmış istatistiklere çevrildi.<br>\n	Tüm kayıtların dönüştürülmesi biraz süre alacaktır. İBu süre içerisinde lütfen başka sayfaları\n	gezmeyiniz. İşlem sonunda size veritabanı üzerinde yapılan değişikler ile ilgili rapor sunulacaktır.\n";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "
-	Yoğunlaştırılmış istatistiklere dönüştürme işlemi başarıyla gerçekleştirildi, <br>
-	şu anda veriler tekrar kullanılabilir halde. Aşağıda veritabanında yapılan tüm<br>
-	değişiklikleri görebilirsiniz.<br>
-";
+$GLOBALS['strConvertFinishedExplaination']  	= "\n	Yoğunlaştırılmış istatistiklere dönüştürme işlemi başarıyla gerçekleştirildi, <br>\n	şu anda veriler tekrar kullanılabilir halde. Aşağıda veritabanında yapılan tüm<br>\n	değişiklikleri görebilirsiniz.<br>\n";
 
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strEncodingConvert'] = "Dönüştür";
 ?>

@@ -31,4 +31,10 @@ $GLOBALS['strPluginClient'] 		= "Genera un resoconto per l'inserzionista selezio
 $GLOBALS['strPluginGlobal'] 		= "Genera un resoconto storico globale. Il rapporto sarà esportato in formato CSV per l'utilizzo in un foglio elettronico.";
 $GLOBALS['strPluginZone'] 			= "Genera un resoconto per la zona selezionata. Il rapporto sarà esportato in formato CSV per l'utilizzo in un foglio elettronico.";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisherHistoryDescription'] = "Rapporto distribuzione di un editore per un inserzionista";
+$GLOBALS['strPublisherZoneHistoryDescription'] = "Rapporto della distribuzione su zone e editori per un inserzionista.";
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = "Questo rapporto mostra una scomposizione del tracciamento delle conversioni per un particolare editore (affiliato).";
 ?>

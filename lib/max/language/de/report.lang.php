@@ -67,11 +67,11 @@ $GLOBALS['strPublisherRequestViewsAnalysisDescription'] = 'Diese Tabelle zeigt e
 $GLOBALS['strPublisherZoneAnalysisReport'] = 'Zonen-Bericht';
 $GLOBALS['strPublisherZoneAnalysisDescription'] = 'Dieser Report zeigt die gesamte Werbeaktivit�t heruntergebrochen auf die einzelne Zone.';
 $GLOBALS['strPublisherHistoryReport'] = 'Verlauf-Bericht';
-$GLOBALS['strPublisherHistoryDescription'] = 'Bericht �ber die Werbeträger Verteilung eines Werbetreibenden.';
+$GLOBALS['strPublisherHistoryDescription'] = 'Bericht über die Bannerauslieferung verteilt auf Webseiten eines Werbetreibenden';
 $GLOBALS['strPublisherZoneHistoryReport'] = 'Verlaufsbericht einer Zone';
-$GLOBALS['strPublisherZoneHistoryDescription'] = 'Bericht �ber die Werbeträger und Zonen Verteilung eines Werbetreibenden.';
+$GLOBALS['strPublisherZoneHistoryDescription'] = 'Bericht über die Bannerauslieferung verteilt nach Webseiten und Zonen eines Werbetreibenden';
 $GLOBALS['strPublisherConversionTrackingAnalysisReport'] = 'Konversionen Tracking Analyse';
-$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'Dieser Report zeigt die Konversionen Aktivit�t eines bestimmten Werbetreibenden';
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'Dieser Bericht zeigt Details über alle Konversionen und Tracker für eine bestimmte Webseite auf';
 
 $GLOBALS['strAgencyCampaignDeliveryReport'] = 'Kampagnen Auslieferungsbericht';
 $GLOBALS['strAgencyCampaignDeliveryDescription'] = 'Der Bericht zeigt die gesamte Kampagnenleistung eines bestimmten Tages mit der Angabe wie gut die Ziele erreicht wurden';
@@ -82,4 +82,9 @@ $GLOBALS['strAgencyHistoryDescription']  = 'Die gesamte Werbeleistung herunterge
 $GLOBALS['strCampaignPredictedFullDeliveryMessage']  = 'Ziel wird wahrscheinlich erreicht';
 $GLOBALS['strStatsAnalysisReport']  = 'Statistik Bericht';
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strReportErrorMissingSheets'] = "Für diesen Bericht wurde kein Arbeitsblatt ausgewählt";
+$GLOBALS['strReportErrorUnknownCode'] = "Unbekannter Fehler Nr. #";
 ?>

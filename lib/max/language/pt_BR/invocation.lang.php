@@ -104,7 +104,7 @@ $GLOBALS['strRightToLeft']				= "Direita para esquerda";
 $GLOBALS['strLooping']					= "Rotaï¿œï¿œo";
 $GLOBALS['strAlwaysActive']				= "Sempre activa";
 $GLOBALS['strSpeed']					= "Velocidade";
-$GLOBALS['strPause']					= "Pausa";
+$GLOBALS['strPause']					= "Pausar";
 $GLOBALS['strLimited']					= "Limitada";
 $GLOBALS['strLeftMargin']				= "Margem esquerda";
 $GLOBALS['strRightMargin']				= "Margem direita";
@@ -128,4 +128,11 @@ $GLOBALS['strInvocationComments'] = "Incluir comentários";
 $GLOBALS['str3rdPartyTrack'] = "Suporte para rastreamento de cliques de terceiros";
 $GLOBALS['strCacheBuster'] = "Inserir código anti-cache";
 $GLOBALS['strImgWithAppendWarning'] = "Este rastreador tem código anexado, código anexado funcionará <strong>apenas</strong> com tags JavaScript";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strIframeGoogleClickTracking'] = "Incluir código para rastrear cliques do Google Adsense";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Atenção:</strong>O código de inserção local SOMENTE funcionará se o site que estiver incluindo o código estiver fisicamente na mesma máquina que o servidor de anúncios</span><br />Verifique que o MAX_PATH definido no código abaixo aponta para o diretório raiz de sua instalação MAX<br />e que você possui um arquivo de configuração para o domínio do site que mostra os anúncios (em MAX_PATH/Var)";
+$GLOBALS['strChooseTypeOfInvocation'] = "Por favor escolha o tipo de inserção";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Por favor escolha o tipo de inserção de banner";
 ?>

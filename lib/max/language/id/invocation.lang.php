@@ -111,7 +111,7 @@ $GLOBALS['strRightToLeft']						= "Dari kanan ke kiri";
 $GLOBALS['strLooping']							= "Memutar";
 $GLOBALS['strAlwaysActive']						= "Selalu aktif";
 $GLOBALS['strSpeed']							= "Kecepatan";
-$GLOBALS['strPause']							= "Pause";
+$GLOBALS['strPause']							= "Istirahat";
 $GLOBALS['strLimited']							= "Terbatas";
 $GLOBALS['strLeftMargin']						= "Pinggiran kiri";
 $GLOBALS['strRightMargin']						= "Pinggiran kanan";
@@ -123,12 +123,11 @@ $GLOBALS['strHideDelay']						= "Menunda sebelum banner disembunyikan";
 $GLOBALS['strHideTransparancy']					= "Tingkat transparansi dari banner yang tersembunyi";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Simple",
-	'cursor'		=> "Cursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "GeocitiesSimpleCursorFloater";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Simple";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		 			= "Dukungan untuk pelacakan klik dari Server pihak ketiga";
@@ -144,8 +143,7 @@ $GLOBALS['strNonImgWarning']        			= "Perhatian: Banner ini tidak dapat difu
 $GLOBALS['strUnknHtmlWarning']      			= "Perhatian: Banner ini adalah dalam format HTML yang tidak dikenal.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     			= "Perhatian: Banner ini harus di-download dan Anda perlu beritahukan kepada kami tentang URL yang diminta untuk banner ini.
-<br /> 1) Download the banner:";
+$GLOBALS['strWebBannerWarning']     			= "Perhatian: Banner ini harus di-download dan Anda perlu beritahukan kepada kami tentang URL yang diminta untuk banner ini.\n<br /> 1) Download the banner:";
 $GLOBALS['strDwnldWebBanner']       			= "Klik kanan disini dan kemudian pilihlah Save Target As";
 $GLOBALS['strWebBannerWarning2']    			= "<br /> 2) Silakan Upload banner ke Webserver Anda and tuliskan lokasinya disini: ";
 
@@ -153,4 +151,9 @@ $GLOBALS['strWebBannerWarning2']    			= "<br /> 2) Silakan Upload banner ke Web
 $GLOBALS['strWarning'] 							= "Perhatian";
 $GLOBALS['strImgWithAppendWarning'] 			= "Pelacak ini mengandung kode tempelan. Kode tempelan <strong>hanya</strong> berfungsi dengan JavaScript tags";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strChooseTypeOfInvocation'] = "Silakan pilih jenis invokasi banner";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Silakan pilih jenis invokasi banner";
 ?>

@@ -46,49 +46,27 @@ $GLOBALS['strPriorityNotEnoughAdViews']			= "Het is niet zeker dat er vandaag ge
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']			= "Banner cache opnieuw aanmaken";
-$GLOBALS['strBannerCacheExplaination']			= "
-	De banner cache bevat een kopie van de HTML code welke gebruikt wordt om de banner tonen. Door het gebruik van de banner cache wordt
-	de banner sneller afgeleverd omdat de HTML code niet elke keer opnieuw gegenereerd te worden. Omdat de banner cache vast URLs bevat
-	naar de locatie van ".$phpAds_productname." en de banners, moet de banner cache opnieuwe aangemaakt worden wanneer de locatie van ".$phpAds_productname." op de
-	server veranderd.
-";
+$GLOBALS['strBannerCacheExplaination']			= "\nDe banner cache bevat een kopie van de HTML code welke gebruikt wordt om de banner tonen. Door het gebruik van de banner cache wordt<br />\nde banner sneller afgeleverd omdat de HTML code niet elke keer opnieuw gegenereerd te worden. Omdat de banner cache vast URLs bevat\n    <ul>\n        <li>naar de locatie van OpenX en de banners,</li>\n    <li>moet de banner cache opnieuwe aangemaakt worden wanneer de locatie van OpenX op de</li>\nserver veranderd.\n    </ul>\n";
 
 
 // Cache
 $GLOBALS['strCache']			= "Leveringscache";
 $GLOBALS['strAge']				= "Leeftijd";
 $GLOBALS['strRebuildDeliveryCache']			= "Leveringscache opnieuw aanmaken";
-$GLOBALS['strDeliveryCacheExplaination']		= "
-	De leveringscache wordt gebruikt om de aflevering van banners te versnellen. De cache bevat een kopie van alle banners welke
-	gekoppeld zijn aan een zone, wat de aflevering versneld omdat de banners niet iedere keer opgehaald hoeven te worden. De cache
-	wordt iedere keer bijgewerkt als de zone of een van de gekoppelde banners gewijzigd wordt. het is echter mogelijk dat de cache
-	soms oude gegevens bevat. Hierom wordt de cache automatisch elk uur bijgewerkt, maar het is ook mogelijk om de cache handmatig bij te werken.
-";
-$GLOBALS['strDeliveryCacheSharedMem']		= "
-	Momenteel wordt de cache opgeslagen in gedeeld geheugen.
-";
-$GLOBALS['strDeliveryCacheDatabase']		= "
-	Momenteel wordt de cache opgeslagen in de database.
-";
-$GLOBALS['strDeliveryCacheFiles']		= "
-	Momenteel wordt de cache opgeslagen in bestanden op de server.
-";
+$GLOBALS['strDeliveryCacheExplaination']		= "\n	De leveringscache wordt gebruikt om de aflevering van banners te versnellen. De cache bevat een kopie van alle banners welke\n	gekoppeld zijn aan een zone, wat de aflevering versneld omdat de banners niet iedere keer opgehaald hoeven te worden. De cache\n	wordt iedere keer bijgewerkt als de zone of een van de gekoppelde banners gewijzigd wordt. het is echter mogelijk dat de cache\n	soms oude gegevens bevat. Hierom wordt de cache automatisch elk uur bijgewerkt, maar het is ook mogelijk om de cache handmatig bij te werken.\n";
+$GLOBALS['strDeliveryCacheSharedMem']		= "\n	Momenteel wordt de cache opgeslagen in gedeeld geheugen.\n";
+$GLOBALS['strDeliveryCacheDatabase']		= "\n	Momenteel wordt de cache opgeslagen in de database.\n";
+$GLOBALS['strDeliveryCacheFiles']		= "\n	Momenteel wordt de cache opgeslagen in bestanden op de server.\n";
 
 
 // Storage
 $GLOBALS['strStorage']					= "Opslag methoden";
 $GLOBALS['strMoveToDirectory']				= "Verplaats afbeeldingen van de database naar een directory";
-$GLOBALS['strStorageExplaination']			= "
-	De afbeeldingen welke gebruikt worden door lokale banners worden, of in de database, of in een directory opgeslagen. 
-	Indien de afbeeldingen in een directory worden opgeslagen wordt de database minder belast.
-";
+$GLOBALS['strStorageExplaination']			= "\n	De afbeeldingen welke gebruikt worden door lokale banners worden, of in de database, of in een directory opgeslagen. \n	Indien de afbeeldingen in een directory worden opgeslagen wordt de database minder belast.\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']			= "
-	U heeft <i>compacte statistieken</i> ingeschakeld, maar er zijn nog enkele oude statistieken beschikbaar
-	in het uitgebreide formaat. Wilt u de oude statistieken converteren naar het compacte formaat?
-";
+$GLOBALS['strStatisticsExplaination']			= "\n	U heeft <i>compacte statistieken</i> ingeschakeld, maar er zijn nog enkele oude statistieken beschikbaar\n	in het uitgebreide formaat. Wilt u de oude statistieken converteren naar het compacte formaat?\n";
 
 
 
@@ -98,40 +76,20 @@ $GLOBALS['strAvailableUpdates']				= "Beschikbare update";
 $GLOBALS['strDownloadZip']				= "Downloaden (.zip)";
 $GLOBALS['strDownloadGZip']				= "Downloaden (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']				= "A nieuwe versie van ".$phpAds_productname." is beschikbaar.                 \\n\\nWilt u meer informatie over deze\\nupdate?";
-$GLOBALS['strUpdateAlertSecurity']			= "A nieuwe versie van ".$phpAds_productname." is beschikbaar.                 \\n\\nHet wordt aangeraden om uw versie\\n bij te werken naar de nieuwste versie omdat \\ndeze een of meerdere beveiligingsproblemen oplost.";
+$GLOBALS['strUpdateAlert']				= "A nieuwe versie van ". MAX_PRODUCT_NAME ." is beschikbaar.                 \n\nWilt u meer informatie over deze\nupdate?";
+$GLOBALS['strUpdateAlertSecurity']			= "A nieuwe versie van ". MAX_PRODUCT_NAME ." is beschikbaar.                 \n\nHet wordt aangeraden om uw versie\n bij te werken naar de nieuwste versie omdat \ndeze een of meerdere beveiligingsproblemen oplost.";
 
-$GLOBALS['strUpdateServerDown']				= "
-    Vanwege een onbekende reden is het momenteel niet mogelijk<br />
-    om informatie op te halen over mogelijke updates. Probeer<br />
-    het later nog eens.
-";
+$GLOBALS['strUpdateServerDown']				= "\n    Vanwege een onbekende reden is het momenteel niet mogelijk<br />\n    om informatie op te halen over mogelijke updates. Probeer<br />\n    het later nog eens.\n";
 
-$GLOBALS['strNoNewVersionAvailable']			= "
-	Uw versie van ".$phpAds_productname." is up-to-date. Er zijn momenteel geen nieuwere versies beschikbaar.
-";
+$GLOBALS['strNoNewVersionAvailable']			= "\n	Uw versie van ". MAX_PRODUCT_NAME ." is up-to-date. Er zijn momenteel geen nieuwere versies beschikbaar.\n";
 
-$GLOBALS['strNewVersionAvailable']			= "
-	<b>Een nieuwe versie van ".$phpAds_productname." is beschikbaar.</b><br /> Het wordt aangeraden om de nieuwe
-	versie te installeren omdat deze update bestaande problemen mogelijk zal oplossen. Voor meer informatie
-	over het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.
-";
+$GLOBALS['strNewVersionAvailable']			= "\n	<b>Een nieuwe versie van ". MAX_PRODUCT_NAME ." is beschikbaar.</b><br /> Het wordt aangeraden om de nieuwe\n	versie te installeren omdat deze update bestaande problemen mogelijk zal oplossen. Voor meer informatie\n	over het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.\n";
 
-$GLOBALS['strSecurityUpdate']				= "
-	<b>Het wordt ten zeerste aangeraden om deze nieuwe versie zo snel mogelijk te installeren, omdat deze
-	een aantal veiligheidsproblemen oplost.</b> De versie van ".$phpAds_productname." die u momenteel gebruikt
-	is mogelijk vatbaar voor aanvallen en is waarschijnlijk niet geheel veilig. Voor meer informatie over
-	het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.
-";
+$GLOBALS['strSecurityUpdate']				= "\n	<b>Het wordt ten zeerste aangeraden om deze nieuwe versie zo snel mogelijk te installeren, omdat deze\n	een aantal veiligheidsproblemen oplost.</b> De versie van ". MAX_PRODUCT_NAME ." die u momenteel gebruikt\n	is mogelijk vatbaar voor aanvallen en is waarschijnlijk niet geheel veilig. Voor meer informatie over\n	het bijwerken van uw versie kunt het beste de documentatie lezen, welke bijgeleverd is bij de nieuwe versie.\n";
 
-$GLOBALS['strNotAbleToCheck']			= "
-	<b>Omdat de XML extentie niet aanwezig is op uw server, kan ".$phpAds_productname." niet controleren of
-	er een nieuwere versie beschikbaar is.</b>
-";
+$GLOBALS['strNotAbleToCheck']			= "\n	<b>Omdat de XML extentie niet aanwezig is op uw server, kan ". MAX_PRODUCT_NAME ." niet controleren of\ner een nieuwere versie beschikbaar is.</b>\n";
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "
-	Indien u wilt weten of er een nieuwere versie beschikbaar is, kijk dan op onze website.
-";
+$GLOBALS['strForUpdatesLookOnWebsite']	= "\n	Indien u wilt weten of er een nieuwere versie beschikbaar is, kijk dan op onze website.\n";
 
 $GLOBALS['strClickToVisitWebsite']			= "Klik hier om onze website te bezoeken";
 $GLOBALS['strCurrentlyUsing'] 				= "U gebruikt momenteel";
@@ -149,26 +107,19 @@ $GLOBALS['strConvertAdClicks']				= "AdClicks geconverteerd...";
 $GLOBALS['strConvertNothing']				= "Er zijn geen statistieken aanwezig om te converteren...";
 $GLOBALS['strConvertFinished']				= "Klaar...";
 
-$GLOBALS['strConvertExplaination']			= "
-	U gebruikt momenteel het compacte formaat om uw statistieken te bewaren, maar er zijn<br />
-	nog steeds statistieken aanwezig in het uitgebreide formaat. Zolang deze uitgebreide<br />
-	statistieken niet geconverteerd zijn naar het compacte formaat zullen deze niet getoond<br />
-	worden binnen op de overzichtspagina's. Voordat u uw statistieken gaat converteren, maak<br />
-	eerst een backup van de database! Wilt u de uitgebreide statistieken converteren? <br />
-";
+$GLOBALS['strConvertExplaination']			= "\n	U gebruikt momenteel het compacte formaat om uw statistieken te bewaren, maar er zijn<br />\n	nog steeds statistieken aanwezig in het uitgebreide formaat. Zolang deze uitgebreide<br />\n	statistieken niet geconverteerd zijn naar het compacte formaat zullen deze niet getoond<br />\n	worden binnen op de overzichtspagina's. Voordat u uw statistieken gaat converteren, maak<br />\n	eerst een backup van de database! Wilt u de uitgebreide statistieken converteren? <br />\n";
 
-$GLOBALS['strConvertingExplaination']			= "
-	Alle uitgebreide statistieken worden nu geconverteerd naar het compate formaat.<br />
-	Afhankelijk van de grootte van de statistieken kan dit enige minuten duren.<br />
-	Wacht tot de gehele conversie klaar is voordat u andere pagina's gaat bekijken.<br />
-	Hieronder ziet een een lijst met alle veranderingen welke gemaakt zijn in de database.<br />
-";
+$GLOBALS['strConvertingExplaination']			= "\n	Alle uitgebreide statistieken worden nu geconverteerd naar het compate formaat.<br />\n	Afhankelijk van de grootte van de statistieken kan dit enige minuten duren.<br />\n	Wacht tot de gehele conversie klaar is voordat u andere pagina's gaat bekijken.<br />\n	Hieronder ziet een een lijst met alle veranderingen welke gemaakt zijn in de database.<br />\n";
 
-$GLOBALS['strConvertFinishedExplaination']  		= "
-	De conversie van de uitgebreide statistieken is succesvol afgerond en de gegevens<br />
-	zouden nu beschikbaar moeten zijn in alle overzichten. Hieronder vindt u een lijst<br />
-	met alle veranderingen welke gemaakt zijn in de database.<br />
-";
+$GLOBALS['strConvertFinishedExplaination']  		= "\n	De conversie van de uitgebreide statistieken is succesvol afgerond en de gegevens<br />\n	zouden nu beschikbaar moeten zijn in alle overzichten. Hieronder vindt u een lijst<br />\n	met alle veranderingen welke gemaakt zijn in de database.<br />\n";
 
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strCheckBannerCache'] = "Controleer banner cache";
+$GLOBALS['strBannerCacheErrorsFound'] = "De database banner chase controle heeft geen fouten gevonden. De banners zullen niet werken totdat je ze manueel gerepareerd hebt.";
+$GLOBALS['strBannerCacheOK'] = "Er zijn geen fouten gevonden. De database banner cache is up to date";
+$GLOBALS['strEncodingConvert'] = "Converteer";
+$GLOBALS['strErrorsFound'] = "Fouten gevonden";
 ?>

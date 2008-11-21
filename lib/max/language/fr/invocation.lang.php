@@ -39,30 +39,30 @@ $GLOBALS['strInvocationLocal']			= 'Mode local';
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= 'Copier dans le presse-papiers';
+$GLOBALS['strCopyToClipboard']			= 'Copier dans le presse-papier';
 
 
 // Measures
-$GLOBALS['strAbbrPixels']			= 'pixels';
-$GLOBALS['strAbbrSeconds']			= 'secondes';
+$GLOBALS['strAbbrPixels']			= 'px';
+$GLOBALS['strAbbrSeconds']			= 'sec';
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= '<br>Sélection de la bannière';
+$GLOBALS['strInvocationWhat']			= 'Sélection de bannières';
 $GLOBALS['strInvocationClientID']		= 'Annonceur ou campagne';
-$GLOBALS['strInvocationTarget']			= 'Frame de destination';
-$GLOBALS['strInvocationSource']			= 'Origine';
-$GLOBALS['strInvocationWithText']		= 'Montrer du texte sous la bannière';
-$GLOBALS['strInvocationDontShowAgain']		= 'Ne pas remontrer la même bannière deux fois sur la même page';
-$GLOBALS['strInvocationDontShowAgainCampaign']	= 'Ne pas montrer deux bannières d\'une même campagne sur une même page';
-$GLOBALS['strInvocationTemplate'] 		= 'Stocker la bannière dans une variable afin de l\'utiliser dans un template';
+$GLOBALS['strInvocationTarget']			= 'Cadre cible';
+$GLOBALS['strInvocationSource']			= 'Source';
+$GLOBALS['strInvocationWithText']		= 'Afficher du texte sous la bannière';
+$GLOBALS['strInvocationDontShowAgain']		= 'Ne pas afficher la bannière à nouveau sur la même page';
+$GLOBALS['strInvocationDontShowAgainCampaign']	= 'Ne pas afficher une bannière de la même campagne à nouveau sur la même page';
+$GLOBALS['strInvocationTemplate'] 		= 'Stocker la bannière dans une variable afin de pouvoir l\'utiliser dans un modèle';
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= 'Rafraîchir après';
-$GLOBALS['strIframeResizeToBanner']		= 'Redimensionner l\'iframe à la taille de la bannière';
+$GLOBALS['strIFrameRefreshAfter']		= 'Actualiser après';
+$GLOBALS['strIframeResizeToBanner']		= 'Redimensionner l\'iframe aux dimensions de la bannière';
 $GLOBALS['strIframeMakeTransparent']		= 'Rendre l\'iframe transparente';
-$GLOBALS['strIframeIncludeNetscape4']		= 'Inclure l\'ilayer compatible Netscape 4';
+$GLOBALS['strIframeIncludeNetscape4']		= 'Inclure un ilayer compatible Netscape 4';
 
 
 // PopUp
@@ -114,7 +114,7 @@ $GLOBALS['strRightToLeft']			= 'De droite à gauche';
 $GLOBALS['strLooping']				= 'Nombre de passages';
 $GLOBALS['strAlwaysActive']			= 'Toujours actif';
 $GLOBALS['strSpeed']				= 'Vitesse';
-$GLOBALS['strPause']				= 'Pause entre chaque passage';
+$GLOBALS['strPause']				= 'Mettre en pause';
 $GLOBALS['strLimited']				= 'Limité';
 $GLOBALS['strLeftMargin']			= 'Marge gauche';
 $GLOBALS['strRightMargin']			= 'Marge droite';
@@ -126,11 +126,24 @@ $GLOBALS['strHideDelay']			= 'Délai avant que la bannière ne soit cachée';
 $GLOBALS['strHideTransparancy']			= 'Transparence de la bannière cachée';
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> 'Type Geocities',
-	'simple'		=> 'Simple',
-	'cursor'		=> 'Curseur',
-	'floater'		=> 'Flottant'
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Simple";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Curseur";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Flottant";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Campagne";
+$GLOBALS['strCopy'] = "copier";
+$GLOBALS['strInvocationBannerID'] = "ID de la bannière";
+$GLOBALS['strInvocationComments'] = "Inclure les commentaires";
+$GLOBALS['str3rdPartyTrack'] = "Supporter le suivi des clics par un serveur tiers";
+$GLOBALS['strCacheBuster'] = "Insérer un code empêchant la mise en cache";
+$GLOBALS['strImgWithAppendWarning'] = "Ce suiveur contient du code ajouté qui fonctionnera <strong>uniquement</strong> avec des balises JavaScript";
+$GLOBALS['strIframeGoogleClickTracking'] = "Inclure le code de suivi des clics Google AdSense";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Attention :</strong> Le mode d'invocation local ne fonctionnera QUE si le site appelant le code est sur la même machine physique que le serveur publicitaire</span><br />Vérifiez que le MAX_PATH défini dans le code ci-dessous pointe vers le répertoire de base de votre installation MAX<br />et que vous avez un fichier de configuration pour le domaine du site affichant les publicités (dans MAX_PATH/var)";
+$GLOBALS['strChooseTypeOfInvocation'] = "Veuillez choisir le type d'invocation";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Veuillez choisir le type d'invocation de bannières";
 ?>

@@ -31,4 +31,10 @@ $GLOBALS['strPluginClient'] 		= "Utwórz przegląd historii dla wybranego reklam
 $GLOBALS['strPluginGlobal'] 		= "Utwórz przegląd globalnej historii. Raport jest tworzony w formacie CSV do przeglądania w arkuszu kalkulacyjnym.";
 $GLOBALS['strPluginZone'] 		= "Utwórz przegląd historii dla wybranej strefy. Raport jest tworzony w formacie CSV do przeglądania w arkuszu kalkulacyjnym.";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisherHistoryDescription'] = "Raport dystrybucji Stron dla reklamodawcy";
+$GLOBALS['strPublisherZoneHistoryDescription'] = "Raport dystrybucji Stron i Strefy dla reklamodawcy";
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = "Ten raport pokazuje szczegóły z zakresu śledzenia konwersji dla wybranej Strony (affiliate).";
 ?>

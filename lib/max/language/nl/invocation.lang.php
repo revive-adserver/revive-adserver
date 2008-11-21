@@ -119,7 +119,7 @@ $GLOBALS['strRightToLeft']			= "Van rechts naar links";
 $GLOBALS['strLooping']				= "Herhalend";
 $GLOBALS['strAlwaysActive']			= "Altijd actief";
 $GLOBALS['strSpeed']				= "Snelheid";
-$GLOBALS['strPause']				= "Pauze";
+$GLOBALS['strPause']				= "Pauze ";
 $GLOBALS['strLimited']				= "Gelimiteerd";
 $GLOBALS['strLeftMargin']			= "Linker marge";
 $GLOBALS['strRightMargin']			= "Rechter marge";
@@ -131,11 +131,17 @@ $GLOBALS['strHideDelay']			= "Tijd voordat de banner verborgen wordt";
 $GLOBALS['strHideTransparancy']		= "Transparantie van de verborgen banner";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Simpel",
-	'cursor'		=> "Muiscursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Simpel";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Muiscursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Campagne";
+$GLOBALS['strCopy'] = "Kopieer";
+$GLOBALS['strChooseTypeOfInvocation'] = "Kies het type banner invocatie";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Kies het type banner invocatie";
 ?>

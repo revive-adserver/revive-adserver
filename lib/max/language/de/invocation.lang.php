@@ -47,7 +47,7 @@ $GLOBALS['strInvocationDontShowAgain']		= "Werbemittel auf derselben Seite nicht
 $GLOBALS['strInvocationDontShowAgainCampaign']		= "Werbemittel derselben Kampagne nicht mehrfach auf derselben Seite anzeigen";
 $GLOBALS['strInvocationTemplate'] 		= "Um Templates nutzen zu können, Werbemittel in einer Variablen speichern";
 $GLOBALS['strInvocationBannerID']					= "Werbemittel-ID";
-$GLOBALS['strInvocationComments']                   = "Kommentare hinzufügen";
+$GLOBALS['strInvocationComments']                   = "Kommentare einfügen";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Erneuern (refresh) nach ";
@@ -113,7 +113,7 @@ $GLOBALS['strRightToLeft']			= "Rechts nach links";
 $GLOBALS['strLooping']				= "Schleifen";
 $GLOBALS['strAlwaysActive']			= "Immer aktiv";
 $GLOBALS['strSpeed']				= "Geschwindigkeit";
-$GLOBALS['strPause']				= "Pause";
+$GLOBALS['strPause']				= "Pausieren";
 $GLOBALS['strLimited']				= "Limitiert";
 $GLOBALS['strLeftMargin']			= "Linker Rand";
 $GLOBALS['strRightMargin']			= "Rechter Rand";
@@ -125,12 +125,11 @@ $GLOBALS['strHideDelay']			= "Verzögerung bis zum Verbergen des Banners";
 $GLOBALS['strHideTransparancy']		= "Transparenz des verborgenen Banners";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Einfach",
-	'cursor'		=> "Cursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Einfach";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		= "3rd Party Server Klick-Tracking unterstützen";
@@ -146,8 +145,7 @@ $GLOBALS['strNonImgWarning']        = "Warnung: Dieser Ad-Tag wird nicht ausgeli
 $GLOBALS['strUnknHtmlWarning']      = "Warnung: Dieses Werbemittel verwendet ein unbekanntes HTML-Ad Format.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     = "Warnung: Dieses Werbemittel muß heruntergeladen werden und Sie müssen uns die korrekte Klick-URL für dieses Werbemittel senden.
-<br /> 1) Banner-Download:";
+$GLOBALS['strWebBannerWarning']     = "Warnung: Dieses Werbemittel muß heruntergeladen werden und Sie müssen uns die korrekte Klick-URL für dieses Werbemittel senden.\n<br /> 1) Banner-Download:";
 $GLOBALS['strDwnldWebBanner']       = "Mit der rechten Maustaste klicken und Ziel speichern als auswählen";
 $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Laden Sie das Banner auf Ihren Web-Server und geben Sie die URL hier an: ";
 
@@ -155,4 +153,11 @@ $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Laden Sie das Banner auf Ihren 
 $GLOBALS['strWarning'] = "Warnung";
 $GLOBALS['strImgWithAppendWarning'] = "Dieser Tracker hat angehängten Code.<br />Angehängter Code kann nur über JavaScript-Tags ausgeführt werden";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strIframeGoogleClickTracking'] = "Code anfügen um Google AdSense-Klicks zu zählen";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Hinweis:</strong>Der Local mode Bannercode kann nur verwendet werden, wenn die Webseite die diesen Code ausführt auf der gleichen physikalischen Maschine wie der AdServer liegt.</span><br />Überprüfen Sie das MAX_PATH in dem unten stehenden Code definiert ist und das Hauptverzeichnis der MAX Installation benennt. Außerdem benötigen Sie eine Konfigurationsdatei für die Webseite, die die Werbebanner anzeigt (in MAX_PATH/var).";
+$GLOBALS['strChooseTypeOfInvocation'] = "Bitte wählen Sie die Auslieferungsart";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Bitte wählen Sie die Auslieferungsart für die Werbemittel";
 ?>

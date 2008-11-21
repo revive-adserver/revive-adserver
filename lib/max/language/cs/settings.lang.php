@@ -30,8 +30,8 @@ $Id$
 $GLOBALS['strInstall']				= "Instalace";
 $GLOBALS['strChooseInstallLanguage']		= "Vyberte si jazyk pro instalcni proceduru";
 $GLOBALS['strLanguageSelection']		= "Vyber jazyka";
-$GLOBALS['strDatabaseSettings']			= "Nastaveni databaze";
-$GLOBALS['strAdminSettings']			= "Nastaveni administratora";
+$GLOBALS['strDatabaseSettings']			= "Nastavení databáze";
+$GLOBALS['strAdminSettings']			= "Nastavení administrátora";
 $GLOBALS['strAdvancedSettings']			= "Rozsirena nastaveni databaze";
 $GLOBALS['strOtherSettings']			= "Ostatni nastaveni";
 
@@ -68,19 +68,9 @@ $GLOBALS['strTablesType']			= "Typ tabulky";
 
 $GLOBALS['strInstallWelcome']			= "Welcome to ".$phpAds_productname;
 $GLOBALS['strInstallMessage']			= "Before you can use ".$phpAds_productname." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
-						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can
-						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
-						   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesful.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need
-						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
-						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file
-						   to prevent security breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".$phpAds_productname." was not succesful</b><br><br>Some portions of the install process could not be completed.
-						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,
-						   please consult the supplied documentation.";
+$GLOBALS['strInstallSuccess']			= "<b>The installation of ".$phpAds_productname." is now complete.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need\n						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can\n						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security\n						   breaches.";
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".$phpAds_productname." was succesful.</b><br><br>In order for ".$phpAds_productname." to function correctly you also need\n						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file\n						   to prevent security breaches.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".$phpAds_productname." was not succesful</b><br><br>Some portions of the install process could not be completed.\n						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n						   please consult the supplied documentation.";
 $GLOBALS['strErrorOccured']			= "Nastala tato chyba:";
 $GLOBALS['strErrorInstallDatabase']		= "Databázová struktura nemohla být vytvořena.";
 $GLOBALS['strErrorUpgrade'] 			= "Databáze současné instalace nemohla být aktualizována";
@@ -110,11 +100,16 @@ $GLOBALS['strConfigNotWritable']		= "Your config.inc.php file is not writable";
 
 // Global
 $GLOBALS['strChooseSection']			= "Vyberte sekci";
-$GLOBALS['strDayFullNames'] 			= array("Neděle","Pondělí","Úterý","Středa","Čtvrtek","Pátek","Sobota");
-$GLOBALS['strEditConfigNotPossible']   		= "Není možné upravit tato nastavení, neboť konfigurační soubor je z bezpečnostních důvodů uzamčen. ".
-										  "Pokud chcete provádět zmeny, musíte nejprve odemknout soubor config.inc.php.";
-$GLOBALS['strEditConfigPossible']		= "Je možné provádět změny v nastavení, neboť konfigurační soubor není uzamčen. Toto ale může způsobit bezpečnostní problémy. ".
-										  "Pokud chcete zabezpečit váš systém, musíte uzamknout soubor config.inc.php.";
+$GLOBALS['strDayFullNames'][0] = "Neděle";
+$GLOBALS['strDayFullNames'][1] = "Pondělí";
+$GLOBALS['strDayFullNames'][2] = "Úterý";
+$GLOBALS['strDayFullNames'][3] = "Středa";
+$GLOBALS['strDayFullNames'][4] = "Čtvrtek";
+$GLOBALS['strDayFullNames'][5] = "Pátek";
+$GLOBALS['strDayFullNames'][6] = "Sobota";
+
+$GLOBALS['strEditConfigNotPossible']   		= "Není možné upravit tato nastavení, neboť konfigurační soubor je z bezpečnostních důvodů uzamčen.";
+$GLOBALS['strEditConfigPossible']		= "Je možné provádět změny v nastavení, neboť konfigurační soubor není uzamčen. Toto ale může způsobit bezpečnostní problémy.";
 
 
 
@@ -200,7 +195,7 @@ $GLOBALS['strTypeWebUrl']			= "Veřejné URL";
 $GLOBALS['strTypeWebSslUrl']			= "Veřejné URL (SSL)";
 $GLOBALS['strTypeFTPHost']			= "Server FTP";
 $GLOBALS['strTypeFTPDirectory']			= "Adresář serveru";
-$GLOBALS['strTypeFTPUsername']			= "Jméno";
+$GLOBALS['strTypeFTPUsername']			= "Přihlásit";
 $GLOBALS['strTypeFTPPassword']			= "Heslo";
 $GLOBALS['strTypeFTPErrorDir']			= "Adresář serveru neexistuje";
 $GLOBALS['strTypeFTPErrorConnect']		= "Nemohu se přihlásit k FTP serveru. Uživatelské jméno a heslo nejsou správné";
@@ -356,4 +351,20 @@ $GLOBALS['strMainBackColor']			= "Základní barva pozadí";
 $GLOBALS['strOverrideGD']			= "Anulovat formát obrázku GD";
 $GLOBALS['strTimeZone']				= "Časové pásmo";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strDbSetupTitle'] = "Nastavení databáze";
+$GLOBALS['strDeliveryUrlPrefix'] = "Doručovací engine";
+$GLOBALS['strDeliveryUrlPrefixSSL'] = "Doručovací engine";
+$GLOBALS['strDbType'] = "Jméno databáze";
+$GLOBALS['strDebugTypeFile'] = "Soubory";
+$GLOBALS['strDeliveryPath'] = "Cache doručování";
+$GLOBALS['strDeliverySslPath'] = "Cache doručování";
+$GLOBALS['strGeotargetingSettings'] = "Geocílení";
+$GLOBALS['strEnableQmailPatch'] = "Zapnout qmail patch";
+$GLOBALS['strEmailSettings'] = "Základní nastavení";
+$GLOBALS['strBannerLogging'] = "Zamezit logování";
+$GLOBALS['strDefaultConversionStatus'] = "Implicitní pravidla prodeje";
+$GLOBALS['strDefaultConversionType'] = "Implicitní pravidla prodeje";
 ?>

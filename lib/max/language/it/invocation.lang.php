@@ -48,9 +48,9 @@ $GLOBALS['strAbbrSeconds']				= "sec";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Selezione banner";
 $GLOBALS['strInvocationClientID']		= "Inserzionista o campagna";
-$GLOBALS['strInvocationTarget']			= "Frame destinazione";
-$GLOBALS['strInvocationSource']			= "Sorgente";
-$GLOBALS['strInvocationWithText']		= "Link testuale sotto il Banner";
+$GLOBALS['strInvocationTarget']			= "Frame di destinazione";
+$GLOBALS['strInvocationSource']			= "Risorsa";
+$GLOBALS['strInvocationWithText']		= "Mostra testo sotto il Banner";
 $GLOBALS['strInvocationDontShowAgain']	= "Non mostrare banner duplicati nella stessa pagina";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Non mostrare banner della stessa campagna nella pagina";
 $GLOBALS['strInvocationTemplate'] 		= "Assegna il banner a una variabile per utilizzarla in un template";
@@ -131,11 +131,24 @@ $GLOBALS['strHideDelay']				= "Nascondi dopo";
 $GLOBALS['strHideTransparancy']			= "Trasparenza del banner nascosto";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Semplice",
-	'cursor'		=> "Puntatore",
-	'floater'		=> "Banner volante"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Semplice";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursore";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Flottante";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Campagna";
+$GLOBALS['strCopy'] = "copia";
+$GLOBALS['strInvocationBannerID'] = "Banner ID";
+$GLOBALS['strInvocationComments'] = "Includi commenti";
+$GLOBALS['str3rdPartyTrack'] = "Supporta server di tracciamento dei click di terze parti";
+$GLOBALS['strCacheBuster'] = "Inserisci codice di Cache-Busting";
+$GLOBALS['strImgWithAppendWarning'] = "Questo tracker ha aggiunto il codice, il codice aggiunto funzionerà <strong>solo</strong> con tag JavaScript";
+$GLOBALS['strIframeGoogleClickTracking'] = "Includi il codice per monitorare i click AdSense di Google";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Attenzione:</strong> L'invocazione in modalità locale funzionerà soltanto se il sito che richiama il codice è fisicamente posizionato sulla stessa macchina dell'ad server.</span><br />Controlla che il valore MAX_PATH definito nel codice sottostante indichi effettivamente la directory di base del prodotto<br /> e di avere un file di configurazione per il dominio che mostra i banner (nella directory MAX_PATH/var)";
+$GLOBALS['strChooseTypeOfInvocation'] = "Seleziona il tipo di invocazione";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Seleziona il tipo di invocazione banner";
 ?>

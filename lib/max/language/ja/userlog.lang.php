@@ -61,17 +61,20 @@ $GLOBALS['strAuditResultsNotFound']         = "指定条件にマッチするイ
 $GLOBALS['strCollectedAllEvents']           = "全てのイベント";
 $GLOBALS['strClear']                        = "クリア";
 
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "電子メールでアドバタイザ: {id} の報告を送信する",
-	phpAds_actionActiveCampaign				=> "キャンペーン: {id} をアクティブにしました",
-	phpAds_actionAutoClean					=> "データベース自動クリーニング",
-	phpAds_actionBatchStatistics			=> "統計情報をコンパイルしました",
-	phpAds_actionDeactivationMailed			=> "キャンペーン: {id} の非アクティブ通知を電子メールにて送信する",
-	phpAds_actionDeactiveCampaign			=> "キャンペーン: {id} を非アクティブにしました",
-	phpAds_actionInventoryCalculation		=> "インベントリの配信プランを構成しました",
-	phpAds_actionPriorityCalculation		=> "優先度を再計算しました",
-	phpAds_actionPublisherReportMailed 		=> "電子メールでパブリッシャ: {id} のレポートを送信する",
-	phpAds_actionWarningMailed				=> "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する",
-);
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "電子メールでアドバタイザ: {id} の報告を送信する";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "キャンペーン: {id} をアクティブにしました";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "データベース自動クリーニング";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "統計情報をコンパイルしました";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "キャンペーン: {id} の非アクティブ通知を電子メールにて送信する";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "キャンペーン: {id} を非アクティブにしました";
+$GLOBALS['strUserlog'][phpAds_actionInventoryCalculation] = "インベントリの配信プランを構成しました";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "優先度を再計算しました";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "電子メールでパブリッシャ: {id} のレポートを送信する";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "キャンペーン: {id} の非アクティブ通知を電子メールにて送信する";
 ?>

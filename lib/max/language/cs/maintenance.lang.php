@@ -47,49 +47,27 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Není jisté že bude k dispozici do
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Aktualizovat cache bannerů";
-$GLOBALS['strBannerCacheExplaination']		= "
-	Cache bannerů obsahuje kopii HTML kódu který se používá pro zobrazení banneru. Použitím chache bannerů je možné docílit zrychlení
-	doručování bannerů protože se HTML kód nemusí generovat pokaždé když má být banner doručen. Protože cache bannerů obsahuje pevné
-	okdazy na URL kde je umístěno ".$phpAds_productname." a jeho bannery, cache musí být aktualizována pokaždé, když dojde k přesunu
-	".$phpAds_productname." do jiného umístění na webserveru.
-";
+$GLOBALS['strBannerCacheExplaination']		= "\n	Cache bannerů obsahuje kopii HTML kódu který se používá pro zobrazení banneru. Použitím chache bannerů je možné docílit zrychlení\n	doručování bannerů protože se HTML kód nemusí generovat pokaždé když má být banner doručen. Protože cache bannerů obsahuje pevné\n	okdazy na URL kde je umístěno ".$phpAds_productname." a jeho bannery, cache musí být aktualizována pokaždé, když dojde k přesunu\n	".$phpAds_productname." do jiného umístění na webserveru.\n";
 
 
 // Cache
 $GLOBALS['strCache']			= "Cache doručování";
 $GLOBALS['strAge']				= "Stáří";
 $GLOBALS['strRebuildDeliveryCache']			= "Aktualizovat cache doručování";
-$GLOBALS['strDeliveryCacheExplaination']		= "
-	Cache doručováné je používána pro urychlení doručování bannerů. Cache obsahuje kopii všech bannerů
-	které jsou připojené k zóně což ušetří několik databázových dotazů a bannery jsou přímo doručovány uživateli. Cache
-	je normálně znovu vytvářena při každé změně zóny nebo bannerů zóny a pokud je to možné je cache aktualizována. Z tohoto
-	důvodu se cache automaticky aktualizuje každou hodinu, ale je možné ji aktualizovat i ručně.
-";
-$GLOBALS['strDeliveryCacheSharedMem']		= "
-	V tuto chvíli se pro ukládání cache doručování využívá sdílená paměť.
-";
-$GLOBALS['strDeliveryCacheDatabase']		= "
-	V tuto chvíli se pro ukládání cache doručování využívá databáze.
-";
-$GLOBALS['strDeliveryCacheFiles']		= "
-	V tuto chvíli se pro ukládání cache doručování využívá vícero souborů na disku.
-";
+$GLOBALS['strDeliveryCacheExplaination']		= "\n	Cache doručováné je používána pro urychlení doručování bannerů. Cache obsahuje kopii všech bannerů\n	které jsou připojené k zóně což ušetří několik databázových dotazů a bannery jsou přímo doručovány uživateli. Cache\n	je normálně znovu vytvářena při každé změně zóny nebo bannerů zóny a pokud je to možné je cache aktualizována. Z tohoto\n	důvodu se cache automaticky aktualizuje každou hodinu, ale je možné ji aktualizovat i ručně.\n";
+$GLOBALS['strDeliveryCacheSharedMem']		= "\n	V tuto chvíli se pro ukládání cache doručování využívá sdílená paměť.\n";
+$GLOBALS['strDeliveryCacheDatabase']		= "\n	V tuto chvíli se pro ukládání cache doručování využívá databáze.\n";
+$GLOBALS['strDeliveryCacheFiles']		= "\n	V tuto chvíli se pro ukládání cache doručování využívá vícero souborů na disku.\n";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Ukládání";
 $GLOBALS['strMoveToDirectory']			= "Přesunout obrázky uložené v databázi do adresáře";
-$GLOBALS['strStorageExplaination']		= "
-	Obrázky lokálních bannerů jsou uloženy v databázi nebo v adresáři. Pokud uložíte soubory do adresáře
-	zátěž databáze výrazně poklesne a zvýší se rychlost doručování.
-";
+$GLOBALS['strStorageExplaination']		= "\n	Obrázky lokálních bannerů jsou uloženy v databázi nebo v adresáři. Pokud uložíte soubory do adresáře\n	zátěž databáze výrazně poklesne a zvýší se rychlost doručování.\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "
-	Zapnul jste formát <i>kompaktních statistik</i>, ale vaše staré statistiky jsou stále v detailním formátu.
-	Přejete si převést vaše detailní statistiky do kompaktního formátu?
-";
+$GLOBALS['strStatisticsExplaination']		= "\n";
 
 
 // Product Updates
@@ -98,39 +76,20 @@ $GLOBALS['strAvailableUpdates']			= "Dostupné aktualizace";
 $GLOBALS['strDownloadZip']			= "Download (.zip)";
 $GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "Je k dispozici nová verze ".$phpAds_productname." .                 \\n\\nPřejete si více informací o tété \\naktualizaci?";
-$GLOBALS['strUpdateAlertSecurity']		= "Je k dispozici nová verze ".$phpAds_productname." .                 \\n\\nDůrazně doporučujeme provést aktualizaci \\nco nejdříve, neboť tato verze obsahuje \\njednu nebo více bezpečnostních oprav.";
+$GLOBALS['strUpdateAlert']			= "Je k dispozici nová verze ". MAX_PRODUCT_NAME ." .                 \n\nPřejete si více informací o tété \naktualizaci?";
+$GLOBALS['strUpdateAlertSecurity']		= "Je k dispozici nová verze ". MAX_PRODUCT_NAME ." .                 \n\nDůrazně doporučujeme provést aktualizaci \nco nejdříve, neboť tato verze obsahuje \njednu nebo více bezpečnostních oprav.";
 
-$GLOBALS['strUpdateServerDown']			= "
-    Z neznámého důvodu nebylo možné získat <br>
-	informace o aktualizacích. Prosím zkuste to znovu později.
-";
+$GLOBALS['strUpdateServerDown']			= "\n    Z neznámého důvodu nebylo možné získat <br>\n	informace o aktualizacích. Prosím zkuste to znovu později.\n";
 
-$GLOBALS['strNoNewVersionAvailable']		= "
-	Vaše verze ".$phpAds_productname." je aktuální. V tuto chvíli nejsou k dispozici žádné aktualizace.
-";
+$GLOBALS['strNoNewVersionAvailable']		= "\n	Vaše verze ".$phpAds_productname." je aktuální. V tuto chvíli nejsou k dispozici žádné aktualizace.\n";
 
-$GLOBALS['strNewVersionAvailable']		= "
-	<b>Novější verze ".$phpAds_productname." je k dispozici.</b><br> Doporučujeme nainstalovat tuto aktualizaci,
-	protože může obsahovat opravy některých chyb a obsahovat nové funkce. Pro více informací o tom jak provést
-	aktualizaci si prosím přečtěte dokumentaci která je v níže uvedených souborech.
-";
+$GLOBALS['strNewVersionAvailable']		= "\n	<b>Novější verze ".$phpAds_productname." je k dispozici.</b><br> Doporučujeme nainstalovat tuto aktualizaci,\n	protože může obsahovat opravy některých chyb a obsahovat nové funkce. Pro více informací o tom jak provést\n	aktualizaci si prosím přečtěte dokumentaci která je v níže uvedených souborech.\n";
 
-$GLOBALS['strSecurityUpdate']			= "
-	<b>Důrazně doporučujeme nainstalovat tuto aktualizaci co nejdříve, protože obsahuje několik oprav
-	bezpečnostních chyb.</b> Verze ".$phpAds_productname." kterou používáte může být citlivá ná různé
-	druhy útoků a zřejmě není bezpečná. Pro více informací o tom jak provést aktualizaci si prosím
-	přečtěte dokumentaci která je v níže uvedených souborech.
-";
+$GLOBALS['strSecurityUpdate']			= "\n	<b>Důrazně doporučujeme nainstalovat tuto aktualizaci co nejdříve, protože obsahuje několik oprav\n	bezpečnostních chyb.</b> Verze ".$phpAds_productname." kterou používáte může být citlivá ná různé\n	druhy útoků a zřejmě není bezpečná. Pro více informací o tom jak provést aktualizaci si prosím\n	přečtěte dokumentaci která je v níže uvedených souborech.\n";
 
-$GLOBALS['strNotAbleToCheck']			= "
-	<b>Protože XML doplněk není instalován na vašem serveru, ".$phpAds_productname." není
-    schopen ověřit zda jsou k dispozici aktualizace.</b>
-";
+$GLOBALS['strNotAbleToCheck']			= "\n	<b>Protože XML doplněk není instalován na vašem serveru, ".$phpAds_productname." není\n    schopen ověřit zda jsou k dispozici aktualizace.</b>\n";
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "
-	Pokud chcete vědět jestli je k dispozici novější verze tak navštivte naše stránky.
-";
+$GLOBALS['strForUpdatesLookOnWebsite']	= "\n	Pokud chcete vědět jestli je k dispozici novější verze tak navštivte naše stránky.\n";
 
 $GLOBALS['strClickToVisitWebsite']		= "Klikněte zde pro naše webové stránky";
 $GLOBALS['strCurrentlyUsing'] 			= "V tuto chvíli používáte";
@@ -148,25 +107,15 @@ $GLOBALS['strConvertAdConversions']			= "Převedených prodejů...";
 $GLOBALS['strConvertNothing']			= "Není nic k převodu...";
 $GLOBALS['strConvertFinished']			= "Dokončeno...";
 
-$GLOBALS['strConvertExplaination']		= "
-	V tuto chvíli používáte kompaktní formát statistik, ale stále máte některé statsitiky <br>
-	v datailním formátu. Dokud nebudou deatilní statistiky převedny do kompaktního formátu <br>
-	nebudou zobrazovány při prohlížení této stránky.  <br>
-	Před převodem statistiky si zazálohujte databázi!  <br>
-	Chcete převést deatilní statistiky do kompaktního formátu? <br>
-";
+$GLOBALS['strConvertExplaination']		= "\n	V tuto chvíli používáte kompaktní formát statistik, ale stále máte některé statsitiky <br>\n	v datailním formátu. Dokud nebudou deatilní statistiky převedny do kompaktního formátu <br>\n	nebudou zobrazovány při prohlížení této stránky.  <br>\n	Před převodem statistiky si zazálohujte databázi!  <br>\n	Chcete převést deatilní statistiky do kompaktního formátu? <br>\n";
 
-$GLOBALS['strConvertingExplaination']		= "
-	Všechny zbývající detailní statistiky jsou převáděny do kompaktního formátu. <br>
-	V závislosti na počtu impresí uložených v detailním formátu tato akce může trvat  <br>
-	až několik minut. Prosím vyčkejte na ukončení převodu než navšívíte jiné stráky. <br>
-	Níže máte seznam všech úprav provedených na databázi. <br>
-";
+$GLOBALS['strConvertingExplaination']		= "\n	Všechny zbývající detailní statistiky jsou převáděny do kompaktního formátu. <br>\n	V závislosti na počtu impresí uložených v detailním formátu tato akce může trvat  <br>\n	až několik minut. Prosím vyčkejte na ukončení převodu než navšívíte jiné stráky. <br>\n	Níže máte seznam všech úprav provedených na databázi. <br>\n";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "
-	Převod zbývajících detailních statistik byl úspěšný a data by nyní měla být <br>
-	znovu použitelná. Níže máte seznam všech úprav provedených na databázi. <br>
-";
+$GLOBALS['strConvertFinishedExplaination']  	= "\n	Převod zbývajících detailních statistik byl úspěšný a data by nyní měla být <br>\n	znovu použitelná. Níže máte seznam všech úprav provedených na databázi. <br>\n";
 
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strEncodingConvert'] = "Konvertovat";
 ?>

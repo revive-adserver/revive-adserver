@@ -42,26 +42,26 @@ $GLOBALS['strCopyToClipboard']			= "Vágólapra másolás";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']			= "kp.";
-$GLOBALS['strAbbrSeconds']			= "mp.";
+$GLOBALS['strAbbrPixels']			= "px";
+$GLOBALS['strAbbrSeconds']			= "mp";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Reklám kiválasztása";
+$GLOBALS['strInvocationWhat']			= "Banner választás";
 $GLOBALS['strInvocationClientID']		= "Hirdető vagy kampány";
-$GLOBALS['strInvocationTarget']			= "Célkeret";
+$GLOBALS['strInvocationTarget']			= "Cél keret";
 $GLOBALS['strInvocationSource']			= "Forrás";
-$GLOBALS['strInvocationWithText']		= "Szöveg megjelenítése a reklám alatt";
-$GLOBALS['strInvocationDontShowAgain']		= "Nem jelenik meg a reklám ugyanazon az oldalon";
-$GLOBALS['strInvocationDontShowAgainCampaign']		= "Azonos kampányból nem jelenik meg reklám ugyanazon az oldalon";
-$GLOBALS['strInvocationTemplate'] 		= "A reklám tárolása változóban, így sablonban felhasználható";
+$GLOBALS['strInvocationWithText']		= "Szöveg megjelenítése a banner alatt";
+$GLOBALS['strInvocationDontShowAgain']		= "Ne mutasd újra a bannert ugyanazon az oldalon";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "Ne mutass bannert újra ugyanabból a kampányból ugyanazon az oldalon";
+$GLOBALS['strInvocationTemplate'] 		= "Banner tárolása változóban, hogy a mintában lehessen használni";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Frissítés utána";
-$GLOBALS['strIframeResizeToBanner']		= "Az információkeret átméretezése a reklám méretei alapján";
-$GLOBALS['strIframeMakeTransparent']		= "Az információkeret átlátszóvá tétele";
-$GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 kompatibilis információréteget tartalmaz";
+$GLOBALS['strIFrameRefreshAfter']		= "Újratöltés ideje";
+$GLOBALS['strIframeResizeToBanner']		= "Iframe átméretezése a banner mérete után";
+$GLOBALS['strIframeMakeTransparent']		= "Átlátszó iframe";
+$GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 kompatibilis ilayer hozzáadása";
 
 
 // PopUp
@@ -89,7 +89,7 @@ $GLOBALS['strXmlRpcLanguage']			= "Állomás nyelve";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']			= "Stílus";
+$GLOBALS['strAdLayerStyle']			= "Stílusok";
 
 $GLOBALS['strAlignment']			= "Igazítás";
 $GLOBALS['strHAlignment']			= "Vízszintes igazítás";
@@ -132,11 +132,20 @@ $GLOBALS['strHideDelay']			= "A reklám elrejtésének késleltetése";
 $GLOBALS['strHideTransparancy']		= "Az elrejtett reklám átlátszósága";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Egyszerű",
-	'cursor'		=> "Kurzor",
-	'floater'		=> "Lebegő"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Egyszerű";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Kurzor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Lebegő";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Kampány";
+$GLOBALS['strCopy'] = "másolás";
+$GLOBALS['strInvocationBannerID'] = "Banner azonosító";
+$GLOBALS['strInvocationComments'] = "Kommentek beágyazása";
+$GLOBALS['str3rdPartyTrack'] = "Harmadik fél által készített Kattintás követő szerver támogatása";
+$GLOBALS['strCacheBuster'] = "Gyorsítótárazás elkerülését szolgáló kód hozzáadása";
+$GLOBALS['strImgWithAppendWarning'] = "Ez a követő hozzáadott kóddal van ellátva, a hozzáadott kód <strong>csak</strong> JavaScript tagekkel fog működni";
 ?>

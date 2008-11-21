@@ -36,12 +36,12 @@ $GLOBALS['strOpenadsIdSettings']            = "تنظیمات آی دی اپن �
 $GLOBALS['strWarning']                      = "اخطار";
 $GLOBALS['strFatalError']			= "  یک خطای مهم رخ داده است";
 $GLOBALS['strUpdateError']			= "یک خطا در طی بروزرسانی برنامه رخ داده است";
-$GLOBALS['strBtnContinue']                  = "ادامه دادن &raquo;";
-$GLOBALS['strBtnRecover']                   = "دوباره &raquo;";
+$GLOBALS['strBtnContinue']                  = "ادامه دادن »";
+$GLOBALS['strBtnRecover']                   = "دوباره »";
 $GLOBALS['strBtnStartAgain']                   = "شروع به روزرسانی مجدد";
-$GLOBALS['strBtnGoBack']                    = "&laquo; بازگشت";
-$GLOBALS['strBtnAgree']                     = "من موافقم &raquo;";
-$GLOBALS['strBtnDontAgree']                 = "&laquo; من موافق نیستم";
+$GLOBALS['strBtnGoBack']                    = "« بازگشت";
+$GLOBALS['strBtnAgree']                     = "من موافقم »";
+$GLOBALS['strBtnDontAgree']                 = "« من موافق نیستم";
 $GLOBALS['strBtnRetry']                     = "مجدد";
 $GLOBALS['strUpdateDatabaseError']	= "به دلایل ناشناخته ساختار بانک اطلاعاتی بروزرسانی نشد. برای پردازش دوباره توصیه میشود که <b>تلاش دوباره</b> برای رفع این مشکل انجام دهید.اگر شما می دانید که این خطا از وظایف و توابع".$phpAds_productname." می باشد شما می توانید بر روی <b>نادیده گرفتن خطا</b>برای ادامه کلیک نمایید. نادیده گرفتن این خطاها ممکن است بعدا باعث مشکلات جدی در بانک اطلاعات و نحوه کارکرد سیستم برنامه شود!";
 $GLOBALS['strAlreadyInstalled']			= $phpAds_productname." قبلا بر روی این سیستم نصب شده است. اگر می خواهید برنامه را پیکر بندی نمایید بر روی گزینه <a href='settings-index.php'>تنظیمات</a> کلیک نمایید";
@@ -78,38 +78,22 @@ $GLOBALS['strTablesType']			= "نوع جدول";
 
 $GLOBALS['strInstallWelcome']               = "خوش آمدید به ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.
-<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
-<p>Thank you for choosing Openads.</p>";
+$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.\n<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>\n<p>Thank you for choosing Openads.</p>";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "License information";
 $GLOBALS['strTermsIntro']               = "" . MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
-$GLOBALS['strDbSetupTitle']               = "Database Setup";
+$GLOBALS['strDbSetupTitle']               = "تنظیمات دیتابیس";
 $GLOBALS['strDbSetupIntro']               = "" . MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
 
 $GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
-$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>
-<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
-
-<p><strong>Maintenance</strong><br>
-Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-
-<p><strong>Security</strong><br>
-The Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-
-<p>You are now ready to start using Openads. Clicking continue will take you to your newly installed/upgraded version.</p>
-<p>Before you start using Openads we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
-$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
-                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,
-                                                please consult the supplied documentation.";
+$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>\n<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>\n\n<p><strong>Maintenance</strong><br>\nOpenads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n\n<p><strong>Security</strong><br>\nThe Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n\n<p>You are now ready to start using Openads. Clicking continue will take you to your newly installed/upgraded version.</p>\n<p>Before you start using Openads we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
+$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.\n                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n                                                please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "چک کردن سیستم";
 $GLOBALS['strSystemCheckIntro']             = "" . MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
 $GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring Openads Administrator and Delivery settings.";
@@ -148,10 +132,8 @@ $GLOBALS['strServiceUnavalable']            = "The service is temporarily unavai
 
 // Global
 $GLOBALS['strChooseSection']                         = 'انتخاب بخش';
-$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا فایل پیکریندی به دلایل امنیتی قفل شده است. ".
-										  "اگر مایل به ایجاد تغییرات هستید باید فایل config.inc.php را ازحالت قفل درآورید.";
-$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا فایل پیکربندی قفل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود. ".
-										  "اگر مایلید که انتیت سیستم بالا برود باید فایل config.inc.php را قفل کنید.";
+$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا فایل پیکریندی به دلایل امنیتی قفل شده است. \nاگر مایل به ایجاد تغییرات هستید باید فایل config.inc.php را ازحالت قفل درآورید.\n";
+$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا فایل پیکربندی قفل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود. \nاگر مایلید که انتیت سیستم بالا برود باید فایل config.inc.php را قفل کنید.\n";
 $GLOBALS['strUnableToWriteConfig']                   = 'Unable to write changes to the config file';
 $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit preferences to the database';
 $GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
@@ -274,8 +256,8 @@ $GLOBALS['strTypeWebModeFtp']                        = 'External FTP Server';
 $GLOBALS['strTypeWebDir']                            = 'لوکال دایرکتوری';
 $GLOBALS['strTypeFTPHost']                           = 'اف ت پی هاست';
 $GLOBALS['strTypeFTPDirectory']                      = 'هاست دایرکتوری';
-$GLOBALS['strTypeFTPUsername']                       = 'ورود';
-$GLOBALS['strTypeFTPPassword']                       = 'پسورد';
+$GLOBALS['strTypeFTPUsername']                       = 'ورود به سیستم';
+$GLOBALS['strTypeFTPPassword']                       = 'رمز ';
 $GLOBALS['strTypeFTPPassive']                        = 'استفاده اف تی پی غیرفعال';
 $GLOBALS['strTypeFTPErrorDir']                       = 'The FTP Host Directory does not exist';
 $GLOBALS['strTypeFTPErrorConnect']                   = 'Could not connect to the FTP Server, the Login or Password is not correct';
@@ -376,10 +358,10 @@ $GLOBALS['strDefaultBannerWErr']                     = 'Default banner weight sh
 $GLOBALS['strDefaultCampaignWErr']                   = 'Default campaign weight should be a positive integer';
 
 $GLOBALS['strPublisherDefaults']                     = 'ناشر پیش فرض';
-$GLOBALS['strModesOfPayment']                        = 'نحوه پرداخت';
+$GLOBALS['strModesOfPayment']                        = 'نحوه پرداخت وجه';
 $GLOBALS['strCurrencies']                            = 'پول رایج';
 $GLOBALS['strCategories']                            = 'مجموعه ها';
-$GLOBALS['strHelpFiles']                             = 'فایلهای راهنما';
+$GLOBALS['strHelpFiles']                             = 'فایل راهنما';
 $GLOBALS['strHasTaxID']                              = 'Tax ID';
 $GLOBALS['strDefaultApproved']                       = 'چک کردن بسته تایید شده ها';
 
@@ -388,8 +370,8 @@ $GLOBALS['strChooseAdvertiser']                      = 'Choose Advertiser';
 $GLOBALS['strChooseCampaign']                        = 'Choose Campaign';
 $GLOBALS['strChooseCampaignBanner']                  = 'Choose Banner';
 $GLOBALS['strChooseTracker']                         = 'Choose Tracker';
-$GLOBALS['strDefaultConversionStatus']               = 'Default Conversion Status';
-$GLOBALS['strDefaultConversionType']                 = 'Default Conversion Type';
+$GLOBALS['strDefaultConversionStatus']               = 'عملکرد تغییرات پیش فرض';
+$GLOBALS['strDefaultConversionType']                 = 'عملکرد تغییرات پیش فرض';
 $GLOBALS['strCSVTemplateSettings']                   = 'CSV Template Settings';
 $GLOBALS['strIncludeCountryInfo']                    = 'Include Country Info';
 $GLOBALS['strIncludeBrowserInfo']                    = 'Include Browser Info';
@@ -502,4 +484,8 @@ $GLOBALS['strMainBackColor']                = "Main Back Color";
 $GLOBALS['strOverrideGD']                   = "Override GD Imageformat";
 $GLOBALS['strTimeZone']                     = "Time Zone";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strEmailSettings'] = "تنظیمات اصلی";
 ?>

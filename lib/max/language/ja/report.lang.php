@@ -67,11 +67,11 @@ $GLOBALS['strPublisherRequestViewsAnalysisDescription'] 		= 'サイトオーナ�
 $GLOBALS['strPublisherZoneAnalysisReport'] 						= 'ゾーン別明細報告書';
 $GLOBALS['strPublisherZoneAnalysisDescription'] 				= 'サイトオーナー用のキャンペーンゾーン別明細報告書です。';
 $GLOBALS['strPublisherHistoryReport'] 							= 'Webサイト配信状況報告書';
-$GLOBALS['strPublisherHistoryDescription'] 						= 'サイトオーナー用のWebサイト配信状況報告書です。';
+$GLOBALS['strPublisherHistoryDescription'] 						= '広告主用の、Webサイトの流通レポートです';
 $GLOBALS['strPublisherZoneHistoryReport'] 						= 'ゾーン別活動概要報告書';
-$GLOBALS['strPublisherZoneHistoryDescription'] 					= 'サイトオーナー用のゾーン別活動概要報告書です。';
+$GLOBALS['strPublisherZoneHistoryDescription'] 					= '広告主用の、Webサイト及び広告枠の流通レポートです';
 $GLOBALS['strPublisherConversionTrackingAnalysisReport'] 		= 'コンバージョン追跡明細報告書';
-$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] 	= 'サイトオーナー用のコンバージョン追跡明細報告書です。';
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] 	= 'このレポートには特定サイト（またはアフィリエイト）に関する全てのコンバージョン内容が表示されています';
 
 $GLOBALS['strAgencyCampaignDeliveryReport'] 					= 'キャンペーン配信状況報告書';
 $GLOBALS['strAgencyCampaignDeliveryDescription'] 				= "指定日のキャンペーンのターゲット到達状況を含む代理店用キャンペーントラヒックレポートです。";

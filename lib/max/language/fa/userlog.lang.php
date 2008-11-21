@@ -21,21 +21,27 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "موتور تحو&#1740;ل";
+$GLOBALS['strDeliveryEngine']				= "موتور تحویل";
 $GLOBALS['strMaintenance']					= "نگهدار&#1740;";
-$GLOBALS['strAdministrator']				= "مد&#1740;ر&#1740;ت";
+$GLOBALS['strAdministrator']				= "مدیریت";
 
 
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "گزارش برا&#1740; تبل&#1740;غ کننده {id} و ارسال توسط ا&#1740;م&#1740;ل",
-	phpAds_actionActiveCampaign				=> "Campaign {id} فعال شده است",
-	phpAds_actionAutoClean					=> "پاکساز&#1740; اتومات&#1740;ک بانک اطلاعات&#1740;",
-	phpAds_actionBatchStatistics			=> "Statistics compiled",
-	phpAds_actionDeactivationMailed			=> "غ&#1740;ر فعالساز&#1740; اخطارها برا&#1740; campaign {id} و ارسال توسط ا&#1740;م&#1740;ل",
-	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
-	phpAds_actionPriorityCalculation		=> "اولو&#1740;ت مجددا محاسبه شده است",
-	phpAds_actionPublisherReportMailed 		=> "گزارش برا&#1740; ناشر {id} و ارسال توسط ا&#1740;م&#1740;ل",
-	phpAds_actionWarningMailed				=>  "غ&#1740;ر فعال کردن هشدارها برا&#1740; campaign {id} و ارسال توسط ا&#1740;م&#1740;ل"
-);
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "گزارش برای تبلیغ کننده {id} و ارسال توسط ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaign {id} فعال شده است";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "پاکسازی اتوماتیک بانک اطلاعای";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistics compiled";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "غیر فعالسازی اخطارها برای campaign {id} و ارسال توسط ای;میل";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campaign {id} فعال شده است";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "اولویت مجددا محاسبه شده است";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "گزارش برای ناشر {id} و ارسال توسط ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strAdvertiser'] = "آگهی دهنده";
+$GLOBALS['strPublisher'] = "ناشر";
+$GLOBALS['strDeleted'] = "حذف";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "غیر فعالسازی اخطارها برای campaign {id} و ارسال توسط ای;میل";
 ?>

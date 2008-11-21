@@ -91,12 +91,7 @@ $GLOBALS['phpAds_hlp_my_footer'] = '
 	Ils ne doivent donc en aucun cas contenir des balises telles que <body>, <html> ou <head>.
 ';
 
-$GLOBALS['phpAds_hlp_content_gzip_compression'] = '
-	L\'option GZip permet au serveur Web, et à la machine des clients de compresser les données qu\'ils s\'échangent. Cette option augmenté légerement le temps
-	d\'éxécution des pages, mais diminue notablement le temps de chargement des pages, ainsi que la quantité de données envoyées par le serveur.
-	Pour activer cette option, vous devez avoir PHP 4.0.5 (ou plus), avec l\'option GZip installée.<br>
-	Cette option peut vous intéresser si votre hébergeur vous facture la quantité dedonnées envoyées.
-';
+$GLOBALS['phpAds_hlp_content_gzip_compression'] = 'En permettant la compression de contenu GZIP vous obtiendrez une diminution du volume de données envoyées au navigateur chaque fois que qu\'un écran administrateur est affiché. Pour autoriser cette fonctionnalité vous devez avoir l\'extension GZIP installée.';
 
 $GLOBALS['phpAds_hlp_language'] = '
 	La langue choisie ici sera celle par défaut pour l\'interfaçe d\'administration. Notez que vous pouvez spécifié une langue différente pour chaque utilisateur.
@@ -107,9 +102,7 @@ $GLOBALS['phpAds_hlp_name'] = '
 	Si vous laissez ce champ vide (par défaut), un logo '.$phpAds_productname.' sera affiché à la place.
 ';
 
-$GLOBALS['phpAds_hlp_company_name'] = '
-	Ce nom est utilisé dans les emails envoyés par '.$phpAds_productname.'.
-';
+$GLOBALS['phpAds_hlp_company_name'] = 'Ce nom est déjà utilisé dans l\'e-mail envoyé par \". '.MAX_PRODUCT_NAME.' .\". ';
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = '
 	Normalement, '.$phpAds_productname.' détecte automatiquement la présence, et les formats supportés par la librairie GD. Néanmoins, il se peut que la détection
@@ -206,19 +199,13 @@ $GLOBALS['phpAds_hlp_warn_admin'] = '
 	restants. Cette option est activée par défaut.
 ';
 
-$GLOBALS['phpAds_hlp_warn_client'] = '
-	'.$phpAds_productname.' peut envoyer à l\'annonceur un email si une de ses campagnes n\'a plus qu\'un nombre limité de clics
-	ou d\'affichages restants. Cette option est activée par défaut.
-';
+$GLOBALS['phpAds_hlp_warn_client'] = '\". '.MAX_PRODUCT_NAME.' .\" peut envoyer un e-mail à l\'annonceur si l\'une de ses campagnes a seulement un';
 
-$GLOBALS['phpAds_hlp_qmail_patch'] = '
-	Certaines versions de qmail sont affectées par un bogue, qui affiche les entêtes du mail dans le corps des messages que '.$phpAds_productname.'envoie.
-	Activez cette option si votre version de qmail est bogué.
-';
+$GLOBALS['phpAds_hlp_qmail_patch'] = 'Certaines versions de qmail sont affectées par un bug faisant que les e-mails envoyés par 
+". '.MAX_PRODUCT_NAME.' ." affichent les en-têtes dans le corps des e-mails. Si vous activez 
+ce paramètre, ". '.MAX_PRODUCT_NAME.' ." enverra les e-mails dans un format compatible avec qmail.';
 
-$GLOBALS['phpAds_hlp_warn_limit'] = '
-	La limite en dessous de laquelle '.$phpAds_productname.' envoyedes messages d\'avertissement (à l\'administrateur et/ou à l\'annonceur). La valeur est de 100 par défaut.
-';
+$GLOBALS['phpAds_hlp_warn_limit'] = 'La limite à partir de laquelle \". '.MAX_PRODUCT_NAME.' .\" commence à envoyer des e-mails d\'alerte. Il s\'agit de 100';
 
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] =
 $GLOBALS['phpAds_hlp_allow_invocation_js'] =
@@ -361,19 +348,13 @@ $GLOBALS['phpAds_hlp_admin_fullname'] = '
 	statistiques envoyées par email.
 ';
 
-$GLOBALS['phpAds_hlp_admin_email'] = '
-	L\'adresse email de l\'administrateur. Ce paramètre est utilisé comme \'from-address\'
-	dans les emails de statistiques.
-';
+$GLOBALS['phpAds_hlp_admin_email'] = 'L\'adresse e-mail de l\'administrateur. Elle est utilisée en tant qu\'adresse d\'expédition quand';
 
 $GLOBALS['phpAds_hlp_admin_email_headers'] = '
 	Vous pouvez ajouter des en-têtes email que '.$phpAds_productname.' ajoutera à tout mail sortant.
 ';
 
-$GLOBALS['phpAds_hlp_admin_novice'] = '
-	Si vous souhaitez recevoir un avertissement lors de l\'effacement d\'annonceurs, de campagnes, ou
-	de bannières. Il est très vivement conseillé de laisser cette option activée.
-';
+$GLOBALS['phpAds_hlp_admin_novice'] = 'Si vous voulez recevoir une alerte avant la suppression des annonceurs, campagnes, bannières, sites web et zones, cette option doit être vraie.';
 
 $GLOBALS['phpAds_hlp_client_welcome'] =
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = '
@@ -412,24 +393,11 @@ $GLOBALS['phpAds_hlp_default_campaign_weight'] = '
 	spécifier ici le poids désiré.
 ';
 
-$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = '
-	Si cette option est activée, des informations supplémentaires à propos de chaque campagne seront
-	montrées sur la page <i>Aperçu de la campagne</i>. Les informations supplémentaires incluent le nombre
-	d\'affichages restants, de nombre de clics restants, la date d\'activation, la date d\'expiration, et
-	les paramètres de priorité.
-';
+$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = 'Si cette option est activée, des informations supplémentaires sur chaque campagne seront affichées sur la page <i>Campagnes</i>. Les informations supplémentaires comprennent le nombre d\'affichages restants, le nombre de clics restants, le nombre de conversions restantes, la date d\'activation, la date d\'expiration et les paramètres de priorité.';
 
-$GLOBALS['phpAds_hlp_gui_show_banner_info'] = '
-	Si cette option est activée, des informations supplémentaires à propos de chaque bannière seront
-	montrées sur la page <i>Aperçu de la bannière</i>.Les informations supplémentaires incluent l\'Url
-	de destination, les mots clés, la taille, et le poids de la bannière.
-';
+$GLOBALS['phpAds_hlp_gui_show_banner_info'] = 'Si cette option est activée, des informations supplémentaires sur chaque bannière seront affichées sur la page <i>Bannières</i>. Les informations supplémentaires comprennent l\'URL de destination, les mots-clés, la taille et le poids de la bannière.';
 
-$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = '
-	Si cette option est activée, un aperçu de toutes les bannières sera montré sur la page <i>Aperçu des
-	bannières</i>. Si cette option est désactivée, il est toujours possible de voir un aperçu de chaque bannière
-	en cliquant sur le triangle proche de chaque bannière sur la page <i>Aperçu des bannières</i>.
-';
+$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = 'Si cette option est activée, un aperçu de toutes les bannières sera affiché sur la page <i>Bannières</i>. Si cette option est désactivée, il est tout de même possible d\'afficher un aperçu de chaque bannière en cliquant sur le triangle à côté de chacune d\'elles sur la page <i>Bannières</i>.';
 
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = '
 	Si cette option est activée, la bannière HTML actuelle sera montrée, à la place du code HTML brut.
@@ -444,10 +412,6 @@ $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = '
 	possible de voir la bannière, en cliquant sur le <i>Montrer la bannière</i>, en haut de ces pages.
 ';
 
-$GLOBALS['phpAds_hlp_gui_hide_inactive'] = '
-	Si cette option est activée, tous les annonceurs, bannières, et campagnes inactifs seront cachés des pages
-	<i>Annonceurs et Campagnes</i>, et <i>Aperçu de la campagne</i>. Si cette option est activée, il est toujours
-	possible de voir les éléments cachés, en cliquant sur <i>Montrer tout</i> en bas de ces pages.
-';
+$GLOBALS['phpAds_hlp_gui_hide_inactive'] = 'Si cette option est activée, toutes les bannières, campagnes et annonceurs seront masqués des pages <i>Annonceurs & Campagnes</i> et <i>Campagnes</i>. Si cette option est activée, il est tout de même possible d\'afficher les objets masqués en cliquant sur le bouton <i>Afficher tout</i> au bas de la page.';
 
 ?>

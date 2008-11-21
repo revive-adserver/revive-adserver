@@ -47,87 +47,49 @@ $GLOBALS['strBannerCacheDifferencesFound'] = "The database banner cache check ha
 $GLOBALS['strBannerCacheFixed'] = "The database banner cache rebuild was successfully completed. Your database cache is now up to date.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Rebuild";
 $GLOBALS['strRebuildDeliveryCache']			= "Rebuild database banner cache";
-$GLOBALS['strBannerCacheExplaination']		= "
-    The database banner cache is used to speed up delivery of banners during delivery<br />
-    This cache needs to be updated when:
-    <ul>
-        <li>You upgrade your version of Openads</li>
-        <li>You move your openads installation to a different server</li>
-    </ul>
-";
+$GLOBALS['strBannerCacheExplaination']		= "\n    The database banner cache is used to speed up delivery of banners during delivery<br />\n    This cache needs to be updated when:\n    <ul>\n        <li>You upgrade your version of Openads</li>\n        <li>You move your openads installation to a different server</li>\n    </ul>\n";
 
 // Cache
 $GLOBALS['strCache']			= "Delivery cache";
 $GLOBALS['strAge']				= "Age";
-$GLOBALS['strDeliveryCacheSharedMem']		= "
-	حافظه تقس&#1740;م شده در حال حاضر برا&#1740; تحو&#1740;ل cache استفاده م&#1740; شود.
-";
-$GLOBALS['strDeliveryCacheDatabase']		= "
-	بانک اطلاعات&#1740; در حال حاضر در حال استفاده تحو&#1740;ل cache م&#1740; باشد.
-";
-$GLOBALS['strDeliveryCacheFiles']		= "
-cache تحو&#1740;ل در حال حاضر درون فا&#1740;ل ها&#1740; چندگانه بر رو&#1740; سرور شما ذخ&#1740;ره شده است.
-";
+$GLOBALS['strDeliveryCacheSharedMem']		= "\nحافظه تقسیم شده در حال حاضر برای تحویل cache استفاده می شود.\n\n";
+$GLOBALS['strDeliveryCacheDatabase']		= "\nبانک اطلاعای در حال حاضر در حال استفاده تحیل cache می باشد.\n\n";
+$GLOBALS['strDeliveryCacheFiles']		= "\ncache تحویل در حال حاضر درون فایل های چندگانه بر روی سرور شما ذخیره شده است.\n\n";
 
 
 // Storage
-$GLOBALS['strStorage']				= "ذخ&#1740;ره ساز&#1740;";
-$GLOBALS['strMoveToDirectory']			= "انتقال تصاو&#1740;ر ذخ&#1740;ره شده درون بانک اطلاعات&#1740; به &#1740;ک دا&#1740;رکتور&#1740;";
-$GLOBALS['strStorageExplaination']		= "
-	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside
-	a directory the load on the database will be reduced and this will lead to an increase in speed.
-";
+$GLOBALS['strStorage']				= "ذخیره سازی";
+$GLOBALS['strMoveToDirectory']			= "انتقال تصاویر ذخیره شده درون بانک اطلاعای بهیک دایرکتوری";
+$GLOBALS['strStorageExplaination']		= "\n	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside\n	a directory the load on the database will be reduced and this will lead to an increase in speed.\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "
-	You have enabled the <i>compact statistics</i>, but your old statistics are still in verbose format.
-	Do you want to convert your verbose statistics to the new compact format?
-";
+$GLOBALS['strStatisticsExplaination']		= "\n	You have enabled the <i>compact statistics</i>, but your old statistics are still in verbose format.\n	Do you want to convert your verbose statistics to the new compact format?\n";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "جستجو برا&#1740; بروزرسان&#1740;. منتظر بمان&#1740;د....";
-$GLOBALS['strAvailableUpdates']			= "به روزرسان&#1740; ها&#1740; در دسترس";
+$GLOBALS['strSearchingUpdates']			= "جستجو برای بروزرسانی. منتظر بمانید....";
+$GLOBALS['strAvailableUpdates']			= "به روزرسانی های در دسترس";
 $GLOBALS['strDownloadZip']			= "دانلود (.zip)";
 $GLOBALS['strDownloadGZip']			= "دانلود (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "&#1740;ک نسخه جد&#1740;د از ".$phpAds_productname." موجود م&#1740; باشد.                 \\n\\nآ&#1740;ا م&#1740;خواه&#1740;د اطلاعات ب&#1740;شتر&#1740; در مورد ا&#1740;ن نسخه کسب نما&#1740;&#1740;د؟ \\nabout this update?";
-$GLOBALS['strUpdateAlertSecurity']		= "&#1740;ک نسخه جد&#1740;د از ".$phpAds_productname." موجود م&#1740; باشد.                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
+$GLOBALS['strUpdateAlert']			= "یک نسخه جدید از  موجود می باشد.                 \n\nآیا میخواهید اطلاعات یشتری در مورد این نسخه کسب نمایید؟ \nabout this update?";
+$GLOBALS['strUpdateAlertSecurity']		= "یک نسخه جدید از  موجود می باشد.                 \.";
 
-$GLOBALS['strUpdateServerDown']			= "
-    به دل&#1740;ل &#1740;ک مشکل ناسناخته امکان باز&#1740;اب&#1740; وجود ندارد. <br>
-اطلاعات در باره بروزرسان&#1740; ها&#1740; ممکن.لطفا دوباره تلاش نما&#1740;&#1740;د.
-";
-$GLOBALS['strNoNewVersionAvailable']		= "
-	نسخه ".$phpAds_productname." به روز رسان&#1740; شد. درحال حاضر ه&#1740;چ گونه بروزرسان&#1740; موجود نم&#1740; باشد.
-";
+$GLOBALS['strUpdateServerDown']			= "\nبه دلیل یک مشکل ناسناخته امکان بازیابی وجود ندارد. <br>\nاطلاعات در باره بروزرسای هی ممکن.لطفا دوباره تلاش نمید.\n\n";
+$GLOBALS['strNoNewVersionAvailable']		= "\nنسخه ".$phpAds_productname." به روز رسانی شد. درحال حاضر هیچ گونه بروزرسانی موجود نمی باشد.\n\n";
 
-$GLOBALS['strNewVersionAvailable']		= "
-	<b>A new version of ".MAX_PRODUCT_NAME." is available.</b><br /> It is recommended to install this update,
-	because it may fix some currently existing problems and will add new features. For more information
-	about upgrading please read the documentation which is included in the files below.
-";
+$GLOBALS['strNewVersionAvailable']		= "\n	<b>A new version of ".MAX_PRODUCT_NAME." is available.</b><br /> It is recommended to install this update,\n	because it may fix some currently existing problems and will add new features. For more information\n	about upgrading please read the documentation which is included in the files below.\n";
 
-$GLOBALS['strSecurityUpdate']			= "
-	<b>It is highly recommended to install this update as soon as possible, because it contains a number
-	of security fixes.</b> The version of ".MAX_PRODUCT_NAME." which you are currently using might
-	be vulnerable to certain attacks and is probably not secure. For more information
-	about upgrading please read the documentation which is included in the files below.
-";
+$GLOBALS['strSecurityUpdate']			= "\n	<b>It is highly recommended to install this update as soon as possible, because it contains a number\n	of security fixes.</b> The version of ".MAX_PRODUCT_NAME." which you are currently using might\n	be vulnerable to certain attacks and is probably not secure. For more information\n	about upgrading please read the documentation which is included in the files below.\n";
 
-$GLOBALS['strNotAbleToCheck']			= "
-	<b>Because the XML extention isn't available on your server, ".MAX_PRODUCT_NAME." is not
-    able to check if a newer version is available.</b>
-";
+$GLOBALS['strNotAbleToCheck']			= "\n	<b>Because the XML extention isn't available on your server, ".MAX_PRODUCT_NAME." is not\n    able to check if a newer version is available.</b>\n";
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "
-	If you want to know if there is a newer version available, please take a look at our website.
-";
+$GLOBALS['strForUpdatesLookOnWebsite']	= "\n	If you want to know if there is a newer version available, please take a look at our website.\n";
 
-$GLOBALS['strClickToVisitWebsite']		= "برا&#1740; د&#1740;دن وب سا&#1740;ت ما ا&#1740;نجا کل&#1740;ک نما&#1740;&#1740;د";
-$GLOBALS['strCurrentlyUsing'] 			= "شما در حال استفاده هست&#1740;د.";
-$GLOBALS['strRunningOn']				= "اجرا رو&#1740;";
+$GLOBALS['strClickToVisitWebsite']		= "برای دیدن وب سایت ما اینجا کلیک نمایید";
+$GLOBALS['strCurrentlyUsing'] 			= "شما در حال استفاده هستید.";
+$GLOBALS['strRunningOn']				= "اجرا روی";
 $GLOBALS['strAndPlain']					= "و";
 
 
@@ -141,25 +103,14 @@ $GLOBALS['strConvertAdConversions']			= "AdConversions converted...";
 $GLOBALS['strConvertNothing']			= "چ&#1740;ز&#1740; برا&#1740; برگرداندن ن&#1740;ست...";
 $GLOBALS['strConvertFinished']			= "پا&#1740;ان &#1740;افت ...";
 
-$GLOBALS['strConvertExplaination']		= "
-	You are currently using the compact format to store your statistics, but there are <br />
-	still some statistics in verbose format. As long as the verbose statistics aren't  <br />
-	converted to compact format they will not be used while viewing these pages.  <br />
-	Before converting your statistics, make a backup of the database!  <br />
-	Do you want to convert your verbose statistics to the new compact format? <br />
-";
+$GLOBALS['strConvertExplaination']		= "\n	You are currently using the compact format to store your statistics, but there are <br />\n	still some statistics in verbose format. As long as the verbose statistics aren't  <br />\n	converted to compact format they will not be used while viewing these pages.  <br />\n	Before converting your statistics, make a backup of the database!  <br />\n	Do you want to convert your verbose statistics to the new compact format? <br />\n";
 
-$GLOBALS['strConvertingExplaination']		= "
-	All remaining verbose statistics are now being converted to the compact format. <br />
-	Depending on how many impressions are stored in verbose format this may take a  <br />
-	couple of minutes. Please wait until the conversion is finished before you visit other <br />
-	pages. Below you will see a log of all modification made to the database. <br />
-";
+$GLOBALS['strConvertingExplaination']		= "\n	All remaining verbose statistics are now being converted to the compact format. <br />\n	Depending on how many impressions are stored in verbose format this may take a  <br />\n	couple of minutes. Please wait until the conversion is finished before you visit other <br />\n	pages. Below you will see a log of all modification made to the database. <br />\n";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "
-	The conversion of the remaining verbose statistics was succesful and the data <br />
-	should now be usable again. Below you will see a log of all modification made <br />
-	to the database.<br />
-";
+$GLOBALS['strConvertFinishedExplaination']  	= "\n	The conversion of the remaining verbose statistics was succesful and the data <br />\n	should now be usable again. Below you will see a log of all modification made <br />\n	to the database.<br />\n";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strEncodingConvert'] = "تبدیل";
 ?>

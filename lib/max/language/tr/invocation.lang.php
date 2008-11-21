@@ -37,7 +37,7 @@ $GLOBALS['strInvocationLocal']			= "Yerel kip";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= "Panoya Kopyala";
+$GLOBALS['strCopyToClipboard']			= "Panoya kopyala";
 
 
 // Measures
@@ -48,17 +48,17 @@ $GLOBALS['strAbbrSeconds']			= "sec";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Banner seçimi";
 $GLOBALS['strInvocationClientID']		= "Reklamcılar veya Kampanyalar";
-$GLOBALS['strInvocationTarget']			= "Hedef frame";
+$GLOBALS['strInvocationTarget']			= "Hedef çerçeve";
 $GLOBALS['strInvocationSource']			= "Kaynak";
 $GLOBALS['strInvocationWithText']		= "Banner altında yazı göster";
 $GLOBALS['strInvocationDontShowAgain']		= "Aynı sayfada bannerı tekrar gösterme";
-$GLOBALS['strInvocationTemplate'] 		= "Şablon içerisinde kullanım için Bannerı bir değişken içinde sakla.";
+$GLOBALS['strInvocationTemplate'] 		= "Şablon içerisinde kullanım için bannerı bir değişken içinde sakla.";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Refresh sonra";
-$GLOBALS['strIframeResizeToBanner']		= "iframe banner ölçülerine göre düzenle";
-$GLOBALS['strIframeMakeTransparent']		= "iframe i transparan yap";
+$GLOBALS['strIFrameRefreshAfter']		= "Şu zaman sonunda yenile";
+$GLOBALS['strIframeResizeToBanner']		= "Çerçeveyi banner ölçüsüne göre yeniden boyutlandır";
+$GLOBALS['strIframeMakeTransparent']		= "Çerçeveyi şeffaf yap";
 $GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 uyumlu ilayer kullan";
 
 
@@ -111,18 +111,27 @@ $GLOBALS['strRightToLeft']			= "Right to left";
 $GLOBALS['strLooping']				= "Döngü";
 $GLOBALS['strAlwaysActive']			= "Herzaman Aktif";
 $GLOBALS['strSpeed']				= "Hız";
-$GLOBALS['strPause']				= "Durdurulmuş";
+$GLOBALS['strPause']				= "Duraklat";
 $GLOBALS['strLimited']				= "sınırlanmış";
 $GLOBALS['strLeftMargin']			= "Left margin";
 $GLOBALS['strRightMargin']			= "Right margin";
 $GLOBALS['strTransparentBackground']		= "Transparan zemin";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Basit",
-	'cursor'		=> "Gelişigüzel",
-	'floater'		=> "Yüzen"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "GeocitiesBasitGelişigüzelYüzen";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Basit";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Gelişigüzel";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Yüzen";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strInvocationCampaignID'] = "Kampanya";
+$GLOBALS['strCopy'] = "kopyala";
+$GLOBALS['strInvocationDontShowAgainCampaign'] = "Aynı sayfada aynı kampanyadan başka bir banner gösterme";
+$GLOBALS['strInvocationBannerID'] = "Banner ID";
+$GLOBALS['strInvocationComments'] = "Yorumlarla birlikte";
+$GLOBALS['strChooseTypeOfInvocation'] = "Lütfen banner çağırma tipini seçiniz";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Lütfen banner çağırma tipini seçiniz";
 ?>

@@ -47,4 +47,11 @@ $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Авто-очистка БД";
 
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strUserlog']['hpAds_actionBatchStatistic'] = "Статистика обработана";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisher'] = "Вебсайт";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Статистика обработана";
+$GLOBALS['strHas'] = "содержит";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
 ?>

@@ -34,4 +34,10 @@ $GLOBALS['strPluginZone'] 		= "Сгенерировать обозрение и�
 
 
 // Note: new translatiosn not found in original lang files but found in CSV
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisherHistoryDescription'] = "Отправлять отчеты об распределении по сайтам клиенту";
+$GLOBALS['strPublisherZoneHistoryDescription'] = "Отправлять отчеты об распределении по сайтам и зонам клиенту";
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = "Этот отчет показывает распределение конверсии для отдельного сайта (партнера)";
 ?>

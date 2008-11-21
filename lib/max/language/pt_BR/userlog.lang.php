@@ -45,4 +45,10 @@ $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Auto-limpeza da base de dados"
 
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strUserlog']['hpAds_actionBatchStatistic'] = "Estatísticas compiladas";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisher'] = "Site";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Estatísticas compiladas";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notificação de desativação para a campanha {id} enviada por e-mail";
 ?>

@@ -36,7 +36,7 @@ $GLOBALS['strInvocationTarget']                     = "نحوه نمایش";
 $GLOBALS['strInvocationSource']                     = "منشا";
 $GLOBALS['strInvocationWithText']                   = "نمایش متن در زیر بنر";
 $GLOBALS['strInvocationDontShowAgain']              = "نمایش ندادن مجدد بنر در صورتی که یکسان باشد در صفحه";
-$GLOBALS['strInvocationDontShowAgainCampaign']		= "عدم نمایش بنر از campaign در صفحه مشابه";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "عدم نمایش بنر از  در صفحه مشابه";
 $GLOBALS['strInvocationTemplate'] 		= "ذخیره بنر درون یک متغیر که قابل استفاده در قالب صفحه باشد.";
 $GLOBALS['strInvocationBannerID']                   = "آی دی بنر";
 $GLOBALS['strInvocationComments']                   = "قراردادن توضیحات";
@@ -118,12 +118,11 @@ $GLOBALS['strHideDelay']			= "تاخیر قبل از مخفی شدن بنر";
 $GLOBALS['strHideTransparancy']		= "شفافیت بنر مخفی شده";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "ساده",
-	'cursor'		=> "مکان نما",
-	'floater'		=> "شناور"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocitiesسادهمکان نماشناور";
+$GLOBALS['strAdLayerStyleName']['simple'] = "ساده";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "مکان نما";
+$GLOBALS['strAdLayerStyleName']['floater'] = "شناور";
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		 = "Support 3rd Party Server Clicktracking";
@@ -139,8 +138,7 @@ $GLOBALS['strNonImgWarning']        = "Warning: This tag will not work because t
 $GLOBALS['strUnknHtmlWarning']      = "Warning: This banner is an unkown HTML ad format.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.
-<br /> 1) Download the banner:";
+$GLOBALS['strWebBannerWarning']     = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.\n<br /> 1) Download the banner:";
 $GLOBALS['strDwnldWebBanner']       = "Right-click here and choose Save Target As";
 $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Upload the banner to your webserver and write its location here: ";
 
@@ -148,4 +146,9 @@ $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Upload the banner to your webse
 $GLOBALS['strWarning'] = "Warning";
 $GLOBALS['strImgWithAppendWarning'] = "This tracker has appended code, appended code will <strong>only</strong> work with JavaScript tags";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strChooseTypeOfInvocation'] = "لطفا پسوند خروجی را انتخاب کنید";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا پسوند خروجی را انتخاب کنید";
 ?>

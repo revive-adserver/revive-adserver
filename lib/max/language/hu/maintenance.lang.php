@@ -47,97 +47,54 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Nem világos, hogy elegendő letölt
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Reklám gyorsítótár újraépítése";
-$GLOBALS['strBannerCacheExplaination']		= "
-	A reklám gyorsítótár a reklámot megjelenítő HTML-kód másolatát tartalmazza. A reklám gyorsítótár használatával fel lehet
-	gyorsítani a reklámok továbbítását, mert a HTML-kódot nem kell a reklám minden továbbításakor generálni. Mivel a reklám
-	gyorsítótár a ".$phpAds_productname."-ra és reklámaira mutató nehezen módosítható hivatkozásokat tartalmaz, a gyorsítótárat
-	a ".$phpAds_productname." minden áthelyezésekor a webkiszolgáló egy másik helyére történő áthelyezésekor frissíteni kell.
-";
+$GLOBALS['strBannerCacheExplaination']		= "\n    Az adatbázis banner gyorsítótára a bannerek kiszolgálásának meggyorsítására szolgál<br />\n    Ez a gyorsítótár újraépítésre szorul amikor:\n    <ul>\n        <li>Az OpenX rendszer frissítésre kerül</li>\n        <li>Új szerverre kerül az OpenX rendszer</li>\n    </ul>\n";
 
 
 // Cache
-$GLOBALS['strCache']			= "Továbbítás gyorsítótár";
+$GLOBALS['strCache']			= "Kiszolgáló gyorsítótár";
 $GLOBALS['strAge']				= "Kor";
-$GLOBALS['strRebuildDeliveryCache']			= "Továbbítás gyorsítótár újraépítése";
-$GLOBALS['strDeliveryCacheExplaination']		= "
-	A továbbítás gyorsítótárral növelhető a reklámok továbbításának sebessége. A gyorsítótár tartalmazza mindazon
-	reklámok másolatát, melyek kapcsolva vannak ahhoz a zónához, amelyik menti az adatbázis lekérdezések számát,
-	mikor éppen továbbítja őket a felhasználónak. A gyorsítótár újraépítése minden olyan alkalommal megtörténik,
-	mikor változtatás történik a zónában vagy annak reklámaiban, s lehet, hogy a gyorsítótár elavulttá válik.
-	Emiatt a gyorsítótár újraépítése óránként automatikusan történik, de lehetőség van a kézi újraépítésre is.
-";
-$GLOBALS['strDeliveryCacheSharedMem']		= "
-	Jelenleg az osztott memóriában történik a továbbítás gyorsítótár tárolása.
-";
-$GLOBALS['strDeliveryCacheDatabase']		= "
-	Jelenleg az adatbázisban történik a továbbítás gyorsítótár tárolása.
-";
-$GLOBALS['strDeliveryCacheFiles']		= "
-	A továbbítás gyorsítótár tárolása jelenleg több fájlban történik a kiszolgálón.
-";
+$GLOBALS['strRebuildDeliveryCache']			= "Az adatbázis banner gyorsítótár újraépítése";
+$GLOBALS['strDeliveryCacheExplaination']		= "\n	A továbbítás gyorsítótárral növelhető a reklámok továbbításának sebessége. A gyorsítótár tartalmazza mindazon\n	reklámok másolatát, melyek kapcsolva vannak ahhoz a zónához, amelyik menti az adatbázis lekérdezések számát,\n	mikor éppen továbbítja őket a felhasználónak. A gyorsítótár újraépítése minden olyan alkalommal megtörténik,\n	mikor változtatás történik a zónában vagy annak reklámaiban, s lehet, hogy a gyorsítótár elavulttá válik.\n	Emiatt a gyorsítótár újraépítése óránként automatikusan történik, de lehetőség van a kézi újraépítésre is.\n";
+$GLOBALS['strDeliveryCacheSharedMem']		= "\n	Jelenleg a megosztott memóriában tárolódik a kiszolgáló gyorsítótár.\n";
+$GLOBALS['strDeliveryCacheDatabase']		= "\n	Jelenleg az adatbázisban tárolódik a kiszolgáló gyorsítótár.\n";
+$GLOBALS['strDeliveryCacheFiles']		= "\n	Jelenleg a szerver több különböző fájljában tárolódik a kiszolgáló gyorsítótár.\n";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Tárolás";
-$GLOBALS['strMoveToDirectory']			= "Az adatbázisban tárolt képek áthelyezése egy könyvtárba";
-$GLOBALS['strStorageExplaination']		= "
-	A helyi reklámok által használt képek tárolása az adatbázisban vagy egy könyvtárban történik.
-	Ha könyvtárban tárolja a képeket, akkor az adatbázis terhelése csökken, ami a sebesség megnövekedését
-	jelenti.
-";
+$GLOBALS['strMoveToDirectory']			= "Mozgassa az adatbázisban tárolt képeket egy könyvtárba";
+$GLOBALS['strStorageExplaination']		= "\n	A helyi bannerek által használt képek az adatbázisban vagy helyi könyvtárban tárolódnak. Ha könyvtárban tárolja a képeket,\n	akkor csökken az adatbázis terhelése és gyorsulást eredményez a kiszolgálásban.\n";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "
-	Ön engedélyezte a <i>tömör statisztikát</i>, viszont a régi statisztika még részletes formában
-	létezik. Átalakítja az új tömörített formátumba a részletes statisztikát?
-";
+$GLOBALS['strStatisticsExplaination']		= "\n	Ön engedélyezte a <i>tömör statisztikát</i>, viszont a régi statisztika még részletes formában\n	létezik. Átalakítja az új tömörített formátumba a részletes statisztikát?\n";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "Frissítés keresése. Kis türelmet...";
-$GLOBALS['strAvailableUpdates']			= "Létező frissítések";
+$GLOBALS['strSearchingUpdates']			= "Frissítések ellenőrzése folyamatban, kérjük várjon...";
+$GLOBALS['strAvailableUpdates']			= "Elérhető frissítések";
 $GLOBALS['strDownloadZip']			= "Letöltés (.zip)";
 $GLOBALS['strDownloadGZip']			= "Letöltés (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "Megjelent a ".$phpAds_productname." új verziója.                 \\n\\nSzeretne több információt megtudni \\nerről a frissítésről?";
-$GLOBALS['strUpdateAlertSecurity']		= "Megjelent a ".$phpAds_productname." új verziója.                 \\n\\nMielőbbi frissítése erősen ajánlott, \\nmert ez a verzió egy vagy több \\nbiztonsági javítást tartalmaz.";
+$GLOBALS['strUpdateAlert']			= "". MAX_PRODUCT_NAME ." egy új verziója elérhető.                      \n\nSzeretnél több információt kapni\nerről a frissítésről?";
+$GLOBALS['strUpdateAlertSecurity']		= "". MAX_PRODUCT_NAME ." egy új verziója elérhető.                 \n\nA frissítés mielőbbi végrehajtása erősen ajánlott, \nmert az új verzió egy vagy több biztonsági javítást is tartalmaz.";
 
-$GLOBALS['strUpdateServerDown']			= "
-    Ismeretlen okból kifolyólag nem lehet információhoz <br>
-		jutni a lehetséges frissítésekről. Próbálkozzon később.
-";
+$GLOBALS['strUpdateServerDown']			= "Valamilyen ismertlen okból nem sikerült ellenőrizni<br>az elérhető frissítéseket. Kérjük próbálja újra később!";
 
-$GLOBALS['strNoNewVersionAvailable']		= "
-	Ön a ".$phpAds_productname." legújabb verzióját használja. Frissítés jelenleg nem áll rendelkezésre.
-";
+$GLOBALS['strNoNewVersionAvailable']		= "\n	". MAX_PRODUCT_NAME ." a legfrissebb verzióban fut. Jelenleg nincs elérhető frissítés.\n";
 
-$GLOBALS['strNewVersionAvailable']		= "
-	<b>Megjelent a ".$phpAds_productname." új verziója.</b><br> Ezt a frissítést érdemes telepíteni,
-	mert kijavítottunk benne néhány jelenleg létező problémát, s új funkciókkal is bővítettük. A frissítésről
-	az alábbi fájlokban közreadott dokumentációból tudhat meg többet.
-";
+$GLOBALS['strNewVersionAvailable']		= "\n	<b>". MAX_PRODUCT_NAME ." egy újabb verziója már elérhető.</b><br /> Az új verzió telepítése erősen ajánlott,\n	mert kijavíthat néhány meglévő hibát és új funkciókat is tartalmaz. Ha több információt\n	szeretne a frissítésről, akkor kérjük olvassa el dokumentációt, amit megtalál az alábbi fájlok között.\n";
 
-$GLOBALS['strSecurityUpdate']			= "
-	<b>A frissítés mielőbbi telepítése erősen ajánlott, mert számos biztonsági javítást tartalmaz.</b>
-	A ".$phpAds_productname." ön által jelenleg használt verziója bizonyos támadásokkal sebezhető, és
-	lehet, hogy nem biztonságos. A frissítésről	az alábbi fájlokban közreadott dokumentációból tudhat
-	meg többet.
-";
+$GLOBALS['strSecurityUpdate']			= "\n	<b>Az új verzió mielőbbi telepítése erősen ajánlott, mert az tartalmaz néhány\n	biztonsági javítást.</b> Az ". MAX_PRODUCT_NAME ." Ön által használt verziója\n	bizonyos támadásokkal szemben védtelen lehet és ezért nem biztonságos.\n	Ha szeretne több információt a frissítésről, kérjük olvassa el a dokumentációt, amit megtalál az alábbi fájlok között.\n";
 
-$GLOBALS['strNotAbleToCheck']			= "
-	<b>Mivel az XML bővítmény nem elérhető a kiszolgálón, a ".$phpAds_productname." nem tudja
-	ellenőrizni, hogy jelent-e meg újabb verzió.</b>
-";
+$GLOBALS['strNotAbleToCheck']			= "\n	<b>Mivel az XML kiterjesztés nem elérhető a szerveren, az ". MAX_PRODUCT_NAME ." nem tudja\n   ellenőrizni, hogy elérhető-e újabb verzió.</b>\n";
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "
-	Ha szeretné megtudni, hogy jelent-e meg újabb verzió, kérjük, hogy látogasson el webhelyünkre.
-";
+$GLOBALS['strForUpdatesLookOnWebsite']	= "\n	Ha szeretné megtudni, hogy van-e elérhető frissítés, kérjük látogassa meg a honlapunkat.\n";
 
-$GLOBALS['strClickToVisitWebsite']		= "Kattintson ide a webhelyünk felkereséséhez";
-$GLOBALS['strCurrentlyUsing'] 			= "Az ön által jelenleg használt verzió:";
-$GLOBALS['strRunningOn']				= "rendszer:";
-$GLOBALS['strAndPlain']					= "és";
+$GLOBALS['strClickToVisitWebsite']		= "Kattintson ide a honlapunk meglátogatásához!";
+$GLOBALS['strCurrentlyUsing'] 			= "A jelenleg következőt használja:";
+$GLOBALS['strRunningOn']				= "Futtatási környezet: ";
+$GLOBALS['strAndPlain']					= ", ";
 
 
 // Stats conversion
@@ -149,26 +106,20 @@ $GLOBALS['strConvertAdClicks']			= "Letöltések konvertálva...";
 $GLOBALS['strConvertNothing']			= "Nincs mit konvertálni...";
 $GLOBALS['strConvertFinished']			= "Befejezve...";
 
-$GLOBALS['strConvertExplaination']		= "
-	Ön jelenleg a statisztika tárolásának tömörített formátumát használja, de még van <br>
-	néhány részletes formátumú statisztika. Amíg nem alakítja át a részletes statisztikát <br>
-	tömör formátumba, addig nem használhatja ezeknek az oldalaknak a megtekintésekor. <br>
-	A statisztika konvertálása előtt készítsen biztonsági másolatot az adatbázisról! <br>
-	Kívánja a részletes statisztikát az új, tömör formátumba konvertálni? <br>
-";
+$GLOBALS['strConvertExplaination']		= "\n	Ön jelenleg a statisztika tárolásának tömörített formátumát használja, de még van <br>\n	néhány részletes formátumú statisztika. Amíg nem alakítja át a részletes statisztikát <br>\n	tömör formátumba, addig nem használhatja ezeknek az oldalaknak a megtekintésekor. <br>\n	A statisztika konvertálása előtt készítsen biztonsági másolatot az adatbázisról! <br>\n	Kívánja a részletes statisztikát az új, tömör formátumba konvertálni? <br>\n";
 
-$GLOBALS['strConvertingExplaination']		= "
-	Minden maradék részletes statisztika most átalakításra kerül az új, tömör formátumba. <br>
-	Attól függően, hogy hány lenyomat tárolása történik részletes formátumban, ez eltarthat <br>
-	pár percig. Más oldalak felkeresése előtt várja meg a konertálás befejezését. <br>
-	Alább megtekintheti az adatbázisban történt módosítások naplóját. <br>
-";
+$GLOBALS['strConvertingExplaination']		= "\n	Minden maradék részletes statisztika most átalakításra kerül az új, tömör formátumba. <br>\n	Attól függően, hogy hány lenyomat tárolása történik részletes formátumban, ez eltarthat <br>\n	pár percig. Más oldalak felkeresése előtt várja meg a konertálás befejezését. <br>\n	Alább megtekintheti az adatbázisban történt módosítások naplóját. <br>\n";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "
-	A maradék részletes statisztika konvertálása sikerült, és az adatok mostmár <br>
-	újra használhatóak. Alább megtekintheti az adatbázisban történt módosítások <br>
-	naplóját.<br>
-";
+$GLOBALS['strConvertFinishedExplaination']  	= "\n	A maradék részletes statisztika konvertálása sikerült, és az adatok mostmár <br>\n	újra használhatóak. Alább megtekintheti az adatbázisban történt módosítások <br>\n	naplóját.<br>\n";
 
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strCheckBannerCache'] = "A banner gyorsítótár ellenőrzése";
+$GLOBALS['strBannerCacheErrorsFound'] = "Az adatbázis banner gyorsítótár hibát talált. A hibás bannerek nem lesznek elérhetőek amíg manuálisan helyre nem állítják őket.";
+$GLOBALS['strBannerCacheOK'] = "Az ellenőrzés nem talált hibát, az adatbázis banner gyorsítótár nem igényel frissítést.";
+$GLOBALS['strBannerCacheDifferencesFound'] = "Az adatbázis banner gyorsítótár elavult és újraépítést igényel. Kattintson ide az automatikus frissítéshez.";
+$GLOBALS['strBannerCacheRebuildButton'] = "Újraépítés";
+$GLOBALS['strEncodingConvert'] = "Konvertál";
 ?>

@@ -32,15 +32,28 @@ $GLOBALS['strMaintenance']			= "Onderhoud";
 $GLOBALS['strAdministrator']			= "Beheerder";
 
 
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Rapport voor adverteerder {id} verzonden per e-mail",
-	phpAds_actionPublisherReportMailed 	=> "Rapport voor uitgever {id} verzonden per e-mail",
-	phpAds_actionWarningMailed		=> "Deactivatie waarschuwing voor campagne {id} verzonden per e-mail",
-	phpAds_actionDeactivationMailed		=> "Deactivatie bevestiging voor campagne {id} verzonden per e-mail",
-	phpAds_actionPriorityCalculation	=> "Prioriteit berekend",
-	phpAds_actionPriorityAutoTargeting	=> "Campagne doelstellingen berekend",
-	phpAds_actionDeactiveCampaign		=> "Campagne {id} gedeactiveerd",
-	phpAds_actionActiveCampaign		=> "Campagne {id} geactiveerd"
-);
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Rapport voor adverteerder {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Rapport voor uitgever {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Deactivatie waarschuwing voor campagne {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Deactivatie bevestiging voor campagne {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioriteit berekend";
+$GLOBALS['strUserlog'][phpAds_actionPriorityAutoTargeting] = "Campagne doelstellingen berekend";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campagne {id} gedeactiveerd";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campagne {id} geactiveerd";
 
+
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strAdvertiser'] = "Adverteerder";
+$GLOBALS['strPublisher'] = "Website";
+$GLOBALS['strDeleted'] = "Verwijder";
+$GLOBALS['strUpdated'] = "Geupdate";
+$GLOBALS['strInsert'] = "voeg in";
+$GLOBALS['strUpdate'] = "Update";
+$GLOBALS['strFilters'] = "Filters";
+$GLOBALS['strParameter'] = "parameter ";
+$GLOBALS['strValue'] = "Waarde";
+$GLOBALS['strDetailedView'] = "bekijk gedetailleerd ";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Activatie bevestiging voor campagne {id} verzonden per e-mail";
 ?>

@@ -112,7 +112,7 @@ $GLOBALS['strRightToLeft']							= "右から左";
 $GLOBALS['strLooping']								= "ループ状";
 $GLOBALS['strAlwaysActive']							= "常にアクティブ";
 $GLOBALS['strSpeed']								= "スピード";
-$GLOBALS['strPause']								= "一時停止";
+$GLOBALS['strPause']								= "中断";
 $GLOBALS['strLimited']								= "制限条件";
 $GLOBALS['strLeftMargin']							= "左マージン";
 $GLOBALS['strRightMargin']							= "右マージン";
@@ -124,12 +124,11 @@ $GLOBALS['strHideDelay']							= "バナー消滅までの遅延時間";
 $GLOBALS['strHideTransparancy']						= "消滅バナーの透過度";
 
 
-$GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "ジオシティーズ",
-	'simple'		=> "シンプル",
-	'cursor'		=> "カーソル",
-	'floater'		=> "フローター"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "ジオシティーズシンプルカーソルフローター";
+$GLOBALS['strAdLayerStyleName']['simple'] = "シンプル";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "カーソル";
+$GLOBALS['strAdLayerStyleName']['floater'] = "フローター";
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		 				= "他社クリック追跡をサポートする";
@@ -145,8 +144,7 @@ $GLOBALS['strNonImgWarning']        				= "警告：このタグは非画像バ�
 $GLOBALS['strUnknHtmlWarning']      				= "警告：このバナーは未知のHTML広告フォーマットです。";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     				= "警告：指定したバナーはダウンロード可能となっていません。正しいURLを入力してください。
-<br /> 1) バナーがダウンロード可能かテストしてください:";
+$GLOBALS['strWebBannerWarning']     				= "警告：指定したバナーはダウンロード可能となっていません。正しいURLを入力してください。\n<br /> 1) バナーがダウンロード可能かテストしてください:";
 $GLOBALS['strDwnldWebBanner']       				= "ここを右クリックして、保存先URLを選んでください：";
 $GLOBALS['strWebBannerWarning2']    				= "<br /> 2) Webサイト上の正しいバナーURLを入力してください：";
 
@@ -154,4 +152,11 @@ $GLOBALS['strWebBannerWarning2']    				= "<br /> 2) Webサイト上の正しい
 $GLOBALS['strWarning'] 								= "警告";
 $GLOBALS['strImgWithAppendWarning'] 				= "トラッカーコードを追加しました。追加コードは、<strong>Javescriptタグ</strong>で動作します。";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strIframeGoogleClickTracking'] = "AdSenseのクリックを追跡するコードを含める";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>注意</strong> ローカルバナーの生成は、広告を呼び出すサーバと、呼び出される広告のコードが、同じサーバ上にある場合にのみ、動作します。</span><br />MAX_PATHがベースディレクトリをさしているか、確認してください。<br />そして、広告を表示しているサーバの設定ファイルがMAX_PATH/varにあることを確認してください。";
+$GLOBALS['strChooseTypeOfInvocation'] = "バナーの呼出方法を選択してください";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "バナーの呼出方法を選択してください";
 ?>

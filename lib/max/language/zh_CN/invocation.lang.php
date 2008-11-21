@@ -119,7 +119,7 @@ $GLOBALS['strRightToLeft']			= "���ҵ���";
 $GLOBALS['strLooping']				= "ѭ��";
 $GLOBALS['strAlwaysActive']			= "��������";
 $GLOBALS['strSpeed']				= "�ٶ�";
-$GLOBALS['strPause']				= "��ͣ";
+$GLOBALS['strPause']				= "暂停";
 $GLOBALS['strLimited']				= "����";
 $GLOBALS['strLeftMargin']			= "��߽�";
 $GLOBALS['strRightMargin']			= "�ұ߽�";
@@ -147,4 +147,11 @@ $GLOBALS['strInvocationComments'] = "包括注释";
 $GLOBALS['str3rdPartyTrack'] = "支持第三方广告跟踪服务器";
 $GLOBALS['strCacheBuster'] = "插入Icache-Busitng代码";
 $GLOBALS['strImgWithAppendWarning'] = "跟踪器带有附加代码，这些附加代码必须在JavaScript标签中才可运行。";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strIframeGoogleClickTracking'] = "插入一段代码，统计Google AdSense点击";
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>警告:</strong>本地模式中，系统将只会返回这台服务器的广告请求</span><br />请检查代码内的 MAX_PATH <br />，你将会在MAX_PATH/var 内有一个以你域名为文件名的配置文件";
+$GLOBALS['strChooseTypeOfInvocation'] = "请选择生成的公告形式";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "请选择生成的公告形式";
 ?>

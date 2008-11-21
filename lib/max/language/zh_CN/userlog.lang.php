@@ -47,4 +47,11 @@ $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "自动清除数据库";
 
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strUserlog']['hpAds_actionBatchStatistic'] = "统计信息编纂完成";
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strPublisher'] = "网站";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "统计信息编纂完成";
+$GLOBALS['strHas'] = "具备";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "项目{id}停用通知邮件";
 ?>

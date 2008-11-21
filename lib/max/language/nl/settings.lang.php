@@ -30,7 +30,7 @@ $GLOBALS['strInstall']				= "Installatie";
 $GLOBALS['strChooseInstallLanguage']		= "Kies een taal voor de installatie procedure";
 $GLOBALS['strLanguageSelection']		= "Taal selectie";
 $GLOBALS['strDatabaseSettings']			= "Database instellingen";
-$GLOBALS['strAdminSettings']			= "Beheer instellingen";
+$GLOBALS['strAdminSettings']			= "Administrator instellingen";
 $GLOBALS['strAdvancedSettings']			= "Geavanceerde instellingen";
 $GLOBALS['strOtherSettings']			= "Andere instellingen";
 
@@ -65,21 +65,11 @@ $GLOBALS['strTableNames']			= "Tabelnamen";
 $GLOBALS['strTablesPrefix']			= "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType']			= "Tabeltype";
 
-$GLOBALS['strInstallWelcome']			= "Welkom bij ".$phpAds_productname."";
+$GLOBALS['strInstallWelcome']			= "Welkom op ". MAX_PRODUCT_NAME ."";
 $GLOBALS['strInstallMessage']			= "Voordat u ".$phpAds_productname." kunt gebruiken moet het eerst geconfigureerd <br /> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
-$GLOBALS['strInstallSuccess']			= "<b>De installatie van ".$phpAds_productname." is nu compleet.</b><br /><br />Om goed te functioneren moet de onderhouds bestand elk uur
-						   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.
-						   <br /><br />Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer
-						   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
-						   potentiele veiligheid problemen kan veroorzaken.";
-$GLOBALS['strUpdateSuccess']			= "<b>Het bijwerken van ".$phpAds_productname." is succesvol afgerond.</b><br /><br />Om goed te functioneren moet de maintenance functie elk uur gedraaid
-						   worden (voorheen was dit elke dag). Meer informatie over dit onderwerp kunt u vinden in de documentatie.
-						   <br /><br />Klik op <b>Verder ></b> om naar de administratie interface te gaan. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
-						   potentiele veiligheid problemen kan veroorzaken.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van ".$phpAds_productname." was niet succesvol</b><br /><br />Sommige onderdelen van het installatie proces konden niet succesvol.
-						   afgesloten worden. Het is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw
-						   beginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de 
-						   bijgesloten documentatie.";
+$GLOBALS['strInstallSuccess']			= "<b>De installatie van ".$phpAds_productname." is nu compleet.</b><br /><br />Om goed te functioneren moet de onderhouds bestand elk uur\n						   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.\n						   <br /><br />Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer\n						   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit\n						   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strUpdateSuccess']			= "<b>Het bijwerken van ".$phpAds_productname." is succesvol afgerond.</b><br /><br />Om goed te functioneren moet de maintenance functie elk uur gedraaid\n						   worden (voorheen was dit elke dag). Meer informatie over dit onderwerp kunt u vinden in de documentatie.\n						   <br /><br />Klik op <b>Verder ></b> om naar de administratie interface te gaan. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit\n						   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van ". MAX_PRODUCT_NAME ." was niet succesvol</b><br /><br />Sommige onderdelen van het installatie proces konden niet succesvol afgesloten worden.\nHet is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw\nbeginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de \nbijgesloten documentatie.";
 $GLOBALS['strErrorOccured']			= "De volgende fouten zijn opgetreden:";
 $GLOBALS['strErrorInstallDatabase']		= "De database kon niet worden aangemaakt.";
 $GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
@@ -88,7 +78,7 @@ $GLOBALS['strErrorInstallDbConnect']		= "Het was niet mogelijk om een connectie 
 
 $GLOBALS['strUrlPrefix']			= "Locatie van ".$phpAds_productname."";
 
-$GLOBALS['strProceed']				= "Verder >";
+$GLOBALS['strProceed']				= "Ga verder >";
 $GLOBALS['strInvalidUserPwd']			= "Ongeldige gebruikersnaam of wachtwoord";
 
 $GLOBALS['strUpgrade']				= "Upgrade";
@@ -110,11 +100,16 @@ $GLOBALS['strConfigNotWritable']		= "Uw config.inc.php is niet te wijzigen";
 
 // Global
 $GLOBALS['strChooseSection']			= "Kies sectie";
-$GLOBALS['strDayFullNames'] 			= array("zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag");
-$GLOBALS['strEditConfigNotPossible']    	= "Het is niet mogelijk om deze instellingen te wijzigen, omdat het configuratiebestand vanwege veiligheidsredenen op slot staat. ".
-										  "Indien u veranderingen wilt maken dient u eerst het bestand config.inc.php schrijfbaar maken.";
-$GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wijzigen, omdat het configuratiebestand niet op slot staat, maar dit zou kunnen lijden tot een veiligheidslek. ".
-										  "Indien u uw systeem wilt behouden voor eventuele veiligheidsproblemen, dan moet u het bestand config.inc.php op slot zetten.";
+$GLOBALS['strDayFullNames'][0] = "Zondag";
+$GLOBALS['strDayFullNames'][1] = "Maandag";
+$GLOBALS['strDayFullNames'][2] = "Dinsdag";
+$GLOBALS['strDayFullNames'][3] = "Woensdag";
+$GLOBALS['strDayFullNames'][4] = "donderdag";
+$GLOBALS['strDayFullNames'][5] = "vrijdag";
+$GLOBALS['strDayFullNames'][6] = "Zaterdag";
+
+$GLOBALS['strEditConfigNotPossible']    	= "Het is niet mogelijk om deze instellingen te wijzigen, omdat het configuratiebestand vanwege veiligheidsredenen op slot staat. Indien u veranderingen wilt maken dient u eerst het bestand config.inc.php schrijfbaar maken.";
+$GLOBALS['strEditConfigPossible']		= "Het is mogelijk om alle instellingen te wijzigen, omdat het configuratiebestand niet op slot staat, maar dit zou kunnen lijden tot een veiligheidslek. Indien u uw systeem wilt behouden voor eventuele veiligheidsproblemen, dan moet u het bestand config.inc.php op slot zetten.";
 
 
 
@@ -136,7 +131,7 @@ $GLOBALS['strCantConnectToDb']			= "Kan geen connectie maken met de database";
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']		= "Aanroep en aflevering instellingen";
+$GLOBALS['strInvocationAndDelivery']		= "aanroep instellingen";
 
 $GLOBALS['strAllowedInvocationTypes']		= "Toegestande aanroeptypes";
 $GLOBALS['strAllowRemoteInvocation']		= "Gebruik Remote Invocation";
@@ -180,12 +175,12 @@ $GLOBALS['strP3PPolicyLocation']		= "P3P Policy Locatie";
 // Banner Settings
 $GLOBALS['strBannerSettings']			= "Banner instellingen";
 
-$GLOBALS['strAllowedBannerTypes']		= "Toegestane banner types";
+$GLOBALS['strAllowedBannerTypes']		= "Toegestane bannertypes";
 $GLOBALS['strTypeSqlAllow']			= "Sta lokale banners toe (SQL)";
 $GLOBALS['strTypeWebAllow']			= "Sta lokale banners toe (Webserver)";
-$GLOBALS['strTypeUrlAllow']			= "Sta externe banners toe";
-$GLOBALS['strTypeHtmlAllow']			= "Sta HTML banners toe";
-$GLOBALS['strTypeTxtAllow']			= "Sta Tekst advertenties toe";
+$GLOBALS['strTypeUrlAllow']			= "Laat externe banners toe";
+$GLOBALS['strTypeHtmlAllow']			= "Laat HTML banners toe";
+$GLOBALS['strTypeTxtAllow']			= "Laat tekst advertenties toe";
 
 $GLOBALS['strTypeWebSettings']			= "Lokale banner (Webserver) instellingen";
 $GLOBALS['strTypeWebMode']			= "Opslag methode";
@@ -197,15 +192,15 @@ $GLOBALS['strTypeWebUrl']			= "Publieke URL";
 $GLOBALS['strTypeWebSslUrl']			= "Publieke URL (SSL)";
 $GLOBALS['strTypeFTPHost']			= "FTP server";
 $GLOBALS['strTypeFTPDirectory']			= "Server map";
-$GLOBALS['strTypeFTPUsername']			= "Gebruikersnaam";
+$GLOBALS['strTypeFTPUsername']			= "Aanmelden";
 $GLOBALS['strTypeFTPPassword']			= "Wachtwoord";
 $GLOBALS['strTypeFTPErrorDir']			= "De server map bestaat niet";
 $GLOBALS['strTypeFTPErrorConnect']		= "De verbinding met de FTP server kon niet worden opgebouwd, de gebruikersnaam of het wachtwoord zijn niet correct";
 $GLOBALS['strTypeFTPErrorHost']			= "De hostname van de FTP server is niet correct";
 $GLOBALS['strTypeDirError']				= "De lokale map bestaat niet";
 
-$GLOBALS['strDefaultBanners']			= "Standaard banner";
-$GLOBALS['strDefaultBannerUrl']			= "Standaard banner afbeelding";
+$GLOBALS['strDefaultBanners']			= "Standaard banners";
+$GLOBALS['strDefaultBannerUrl']			= "Standaard afbeelding URL";
 $GLOBALS['strDefaultBannerTarget']		= "Standaard banner doellocatie";
 
 $GLOBALS['strTypeHtmlSettings']			= "HTML banner opties";
@@ -248,7 +243,7 @@ $GLOBALS['strBlockAdviews']				= "Sla geen AdViews op als de gebruiker dezelfde 
 $GLOBALS['strBlockAdclicks']			= "Sla geen AdClicks op als de gebruiker al eerder op dezelfde banner geklikt heeft binnen het gespecificeerde aantal seconden";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
-$GLOBALS['strAdminEmailHeaders']		= "Voeg de volgende headers toe aan elk door ".$phpAds_productname." verzonden e-mail";
+$GLOBALS['strAdminEmailHeaders']		= "Voeg de volgende header toe aan elke e-mail bericht verzonden door ". MAX_PRODUCT_NAME ."";
 $GLOBALS['strWarnLimit']			= "Stuur een waarschuwing als de resterende impressies minder zijn dan hier gespecificeerd";
 $GLOBALS['strWarnLimitErr']			= "Waarschuwings limiet moet een positief nummer zijn";
 $GLOBALS['strWarnAdmin']			= "Stuur een waarschuwing naar de beheerder wanneer er voor een campagne bijna geen impressies meer over zijn";
@@ -266,13 +261,13 @@ $GLOBALS['strAutoCleanVacuum']			= "VACUUM ANALYZE tabellen elke nacht"; // only
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']		= "Beheerder instellingen";
+$GLOBALS['strAdministratorSettings']		= "Administrator instellingen";
 
 $GLOBALS['strLoginCredentials']			= "Inlog gegevens";
 $GLOBALS['strAdminUsername']			= "Gebruikersnaam van de beheerder";
 $GLOBALS['strInvalidUsername']			= "Ongeldige gebruikersnaam";
 
-$GLOBALS['strBasicInformation']			= "Basis informatie";
+$GLOBALS['strBasicInformation']			= "Basisinformatie";
 $GLOBALS['strAdminFullName']			= "Volledige naam van de beheerder";
 $GLOBALS['strAdminEmail']			= "E-mail adres van de beheerder";
 $GLOBALS['strCompanyName']			= "Bedrijfsnaam";
@@ -310,13 +305,13 @@ $GLOBALS['strClientWelcomeText']		= "Welkomstbericht<br />(HTML is toegestaan)";
 // Interface defaults
 $GLOBALS['strInterfaceDefaults']		= "Interface standaardwaarden";
 
-$GLOBALS['strInventory']			= "Vooraad";
-$GLOBALS['strShowCampaignInfo']			= "Toon extra campagne informatie op de <i>Campagne overzicht</i> pagina";
-$GLOBALS['strShowBannerInfo']			= "Toon extra banner informatie op de <i>Banner overzicht</i> pagina";
-$GLOBALS['strShowCampaignPreview']		= "Toon voorvertooning van alle banners op de <i>Banner overzicht</i> pagina";
+$GLOBALS['strInventory']			= "Inventaris";
+$GLOBALS['strShowCampaignInfo']			= "Toon extra campagne informatie op de <i>Campagne</i> pagina";
+$GLOBALS['strShowBannerInfo']			= "Toon extra banner informatie op de <i>Banners</i> pagina";
+$GLOBALS['strShowCampaignPreview']		= "Toon voorvertooning van alle banners op de <i>Banners</i> pagina";
 $GLOBALS['strShowBannerHTML']			= "Toon werkelijke banner in plaats van HTML code voor de voorvertoning van HTML banners";
 $GLOBALS['strShowBannerPreview']		= "Toon voorvertoning bovenaan alle pagina's welke betrekking hebben op banners";
-$GLOBALS['strHideInactive']			= "Verberg niet actieve items van de overzichtspagina's";
+$GLOBALS['strHideInactive']			= "Verberg inactiviteit ";
 $GLOBALS['strGUIShowMatchingBanners']		= "Toon geschikte banners op de <i>Gekoppelde banners</i> paginas";
 $GLOBALS['strGUIShowParentCampaigns']		= "Toon bovenliggende campagnes op de <i>Gekoppelde banners</i> pagina";
 $GLOBALS['strGUILinkCompactLimit']		= "Verberg niet-gekoppelde campagnes of banners op de<i>Gekoppelde banners</i> paginas wanneer er meer zijn dan";
@@ -341,4 +336,84 @@ $GLOBALS['strMainBackColor']			= "Globale achtergrond kleur";
 $GLOBALS['strOverrideGD']			= "Override GD Imageformat";
 $GLOBALS['strTimeZone']				= "Tijdzone";
 
+
+
+// Note: New translations not found in original lang files but found in CSV
+$GLOBALS['strHasTaxID'] = "Tax ID";
+$GLOBALS['strSpecifySyncSettings'] = "Synchronisatie instellingen";
+$GLOBALS['strOpenadsIdYour'] = "Uw OpenX iD";
+$GLOBALS['strOpenadsIdSettings'] = "OpenX ID instellingen";
+$GLOBALS['strBtnContinue'] = "Ga verder »";
+$GLOBALS['strBtnGoBack'] = "« Ga terug";
+$GLOBALS['strBtnAgree'] = "Ik ga akkoord »";
+$GLOBALS['strBtnDontAgree'] = "« Ik ga niet akkoord";
+$GLOBALS['strInstallIntro'] = "Dank om te kiezen voor <a href='http://". MAX_PRODUCT_URL ."' target='_blank'><strong>". MAX_PRODUCT_NAME ."</strong></a><p>Deze wizard zal je gidsen door het installatie proces / upgrade van de ". MAX_PRODUCT_NAME ." advertentie server.</p><p>Om je te helpen doorheen het installatie proces hebben we een <a href='http://". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>Snelle startgids voor installatie</a> gemaakt om doorheen het proces te geraken om alles werkend te krijgen. Voor een meer gedetailleerde gids om alles te installeren en in te stellen van ". MAX_PRODUCT_NAME ." bezoek de <a href='http://". OX_PRODUCT_DOCSURL ."/wizard/admin-guide'target='_blank'>Administrator gids</a>.";
+$GLOBALS['strTermsTitle'] = "Gebruikovereenkomst, privacy beleid";
+$GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." s vrij verschenen onder een Open Source licentie, de GNU generale publieke licentie. Gelieve volgende documentatie na te kijken en goed te keuren om verder te gaan met de installatie.";
+$GLOBALS['strPolicyTitle'] = "Privacy beleid";
+$GLOBALS['strPolicyIntro'] = "Gelieve volgende documenten na te kijken en goed te keuren om verder te gaan met installatie";
+$GLOBALS['strDbSetupTitle'] = "Database instellingen";
+$GLOBALS['strDbSetupIntro'] = "Gelieve de details in te geven om een connectie aan te maken met jouw database. Indien u niet zeker bent over deze details, gelieve uw systeem administrator te contacteren. <p>De volgende stap zal uw database aanmaken . Druk op 'Ga verder' om verder te gaan.</p>";
+$GLOBALS['strDbUpgradeIntro'] = "Onderdaan vind u de gevonden database detials van uw installatie van ". MAX_PRODUCT_NAME .".Gelieve deze te te kijken om er zeker van te zijn dat ze juist zijn.<p>De volgende stap zal uw database bijwerken. Klik op 'Ga verder' om uw systeem bij te werken.</p>";
+$GLOBALS['strOaUpToDate'] = "Jouw ". MAX_PRODUCT_NAME ." database en bestandstructuur gebruiken beide de meest recente versie en moeten daardoor niet worden bijgewerkt op dit ogenblik. Gelieve op ga verder te drukken om verder te gaan naar het ". MAX_PRODUCT_NAME ." administratie paneel.";
+$GLOBALS['strOaUpToDateCantRemove'] = "Waarschuwing: het UPGRADE bestand is nog steeds te vinden in jouw var map. We kunnen dit bestand niet verwijderen omwille van ontbrekende rechten. Gelieve dit bestand zelf te verwijderen. ";
+$GLOBALS['strRemoveUpgradeFile'] = "Je moet het UPGRADE bestand verwijderen in de map var";
+$GLOBALS['strSystemCheckIntro'] = "De installatie wizard is uw webserver instellingen aan het controleren om er zeker van te zijn dat de installatie succesvol kan verlopen.	<p>Gelieve de aangeduide zaken na te kijken om het installatieproces af te ronden.</p>";
+$GLOBALS['strDbSuccessIntro'] = "De ". MAX_PRODUCT_NAME ." database is nu aangemaakt. Gelieve op de  'ga verder' knop te drukken om verder te gaan met het instellen van ". MAX_PRODUCT_NAME ." administrator en aanlever instellingen.";
+$GLOBALS['strDbSuccessIntroUpgrade'] = "Uw systeem is met succes bijgewerkt. De volgende schermen zullen je helpen met het updaten van de configuratie van uw nieuwe advertentie server.";
+$GLOBALS['strErrorWritePermissions'] = "Bestandsrechten errors zijn gedetecteerd, en moeten worden opgelost om te kunnen verdergaan.<br />Om de errors onder Linux op te lossen, probeer eens volgende commando(s) in te geven:";
+$GLOBALS['strErrorWritePermissionsWin'] = "Bestandsrechten errors zijn gedetecteerd, en moeten worden opgelost om te kunnen verdergaan.";
+$GLOBALS['strCheckDocumentation'] = "Voor meer hulp, gelieve de <a href='http://". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." documentatie na te kijken</a>.";
+$GLOBALS['strAdminUrlPrefix'] = "Admin interface URL";
+$GLOBALS['strDeliveryUrlPrefix'] = "Bezorger";
+$GLOBALS['strDeliveryUrlPrefixSSL'] = "Bezorger";
+$GLOBALS['strAdministratorEmail'] = "E-mail adres administrator";
+$GLOBALS['strTimezone'] = "Tijdzone";
+$GLOBALS['strTimezoneEstimated'] = "Geschatte tijdzone";
+$GLOBALS['strTimezoneGuessedValue'] = "De tijdzone van de server is niet correct ingesteld in PHP";
+$GLOBALS['strTimezoneSeeDocs'] = "Gelieve de  %DOCS% na te kijken over de instellingen van deze variabele voor PHP in te stellen.";
+$GLOBALS['strTimezoneDocumentation'] = "documentatie";
+$GLOBALS['strLoginSettingsTitle'] = "Administrator login";
+$GLOBALS['strLoginSettingsIntro'] = "Om verder te kunnen gaan met het upgrade proces, gelieve uw ". MAX_PRODUCT_NAME ." administrator gebruiker login details in te geven. U moet inloggen als de administrator gebruiker om verder te kunnen gaan met het upgrade proces. ";
+$GLOBALS['strAdminSettingsTitle'] = "Maak een administrator account";
+$GLOBALS['strAdminSettingsIntro'] = "Gelieve de velden te vervolledigen om jouw ad server administrator account aan te maken ";
+$GLOBALS['strOpenadsUsername'] = "". MAX_PRODUCT_NAME ." Gebruikersnaam";
+$GLOBALS['strOpenadsPassword'] = "". MAX_PRODUCT_NAME ." Wachtwoord ";
+$GLOBALS['strOpenadsEmail'] = "". MAX_PRODUCT_NAME ." E-mail";
+$GLOBALS['strDbType'] = "Database naam";
+$GLOBALS['strDeliveryPath'] = "Leveringscache";
+$GLOBALS['strDeliverySslPath'] = "Leveringscache";
+$GLOBALS['strDeliveryFilenamesAdClick'] = "Ad Klik";
+$GLOBALS['strDeliveryFilenamesAdContent'] = "Ad content ";
+$GLOBALS['strDeliveryFilenamesAdFrame'] = "Ad frame";
+$GLOBALS['strDeliveryFilenamesAdImage'] = "Ad afbeelding";
+$GLOBALS['strDeliveryFilenamesAdJS'] = "Ad (javascript)";
+$GLOBALS['strDeliveryFilenamesAdLayer'] = "Ad layer";
+$GLOBALS['strDeliveryFilenamesAdLog'] = "Ad log";
+$GLOBALS['strDeliveryFilenamesAdPopup'] = "Ad popup";
+$GLOBALS['strDeliveryCaching'] = "Banner afleveringsinstellingen";
+$GLOBALS['strGeotargetingSettings'] = "Geotargeting";
+$GLOBALS['strGeotargetingGeoipCountryLocation'] = "MaxMind GeoIP Land Database locatie";
+$GLOBALS['strGeotargetingGeoipRegionLocation'] = "MaxMind GeoIP Regio Database Locatie";
+$GLOBALS['strGeotargetingGeoipCityLocation'] = "MaxMind GeoIP Stad Database Locatie";
+$GLOBALS['strGeotargetingGeoipAreaLocation'] = "MaxMind GeoIP Gebied Database Locatie";
+$GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP ISP Database Locatie";
+$GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP Organisatie Database Locatie";
+$GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP Database Locatie";
+$GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP Stad Database Locatie";
+$GLOBALS['strCategories'] = "Categorieën";
+$GLOBALS['strHelpFiles'] = "Help bestanden";
+$GLOBALS['strWarnAgency'] = "Stuur een waarschuwing naar de adverteerder wanneer er voor een campagne bijna geen impressies meer over zijn";
+$GLOBALS['strMyLogoError'] = "Het logo bestand bestaat niet in de admin/images map";
+$GLOBALS['strGuiHeaderForegroundColor'] = "Kleur van de header voorgrond";
+$GLOBALS['strGuiHeaderBackgroundColor'] = "Kleur van de header achtergrond";
+$GLOBALS['strGuiActiveTabColor'] = "Kleur van een actieve tab";
+$GLOBALS['strGuiHeaderTextColor'] = "Kleur van headertekst";
+$GLOBALS['strColorError'] = "Gelieve kleuren in het RGB formaat in te geven, zoals '0066CC'";
+$GLOBALS['strReportsInterface'] = "Raporteer interface";
+$GLOBALS['strEmailSettings'] = "Hoofd instellingen";
+$GLOBALS['strAlreadyInstalled'] = "". MAX_PRODUCT_NAME ." is alreeds geïnstalleerd op dit systeem. Als je dit wilt configureren ga dan naar de  <a href='account-index.php'>instellingen interface</a>.";
+$GLOBALS['strInvocationDefaults'] = "aanroep standaards";
+$GLOBALS['strBannerDelivery'] = "Banner afleveringsinstellingen";
+$GLOBALS['strDashboardSettings'] = "Dashboard instellingen";
 ?>

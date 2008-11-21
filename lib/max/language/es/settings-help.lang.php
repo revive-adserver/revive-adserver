@@ -53,7 +53,7 @@ $GLOBALS['phpAds_hlp_language'] = "\n        Especifique el idioma predeterminad
 		
 $GLOBALS['phpAds_hlp_name'] = "\n        Especifique el nombre que desea usar para esta aplicación. El nombre se mostrará\n        en todas las páginas en la interface de administración y del anunciante. Si deja esta opción\n        incompleta, aparecerá un logo de ".$phpAds_productname." en su lugar.\n		";
 		
-$GLOBALS['phpAds_hlp_company_name'] = "Este nombre se usa en el e-mail enviado por \".MAX_PRODUCT_NAME.\". ";
+$GLOBALS['phpAds_hlp_company_name'] = "Este nombre se usa en el e-mail enviado por ". MAX_PRODUCT_NAME .".";
 		
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "\n        ".$phpAds_productname." detecta normalmente si la librería GS se encuentra instalada y que\n        formato de imagenes soporta la versión instalada. También es posible\n        que la detección automática falle, ya que algunas versiones de PHP no soportan\n        la autodetección. Si ".$phpAds_productname." falla, puede ingresar lso formatos de imagenes soportados\n        manualmente. Los valroes posibles son: none, png, jpeg, gif.\n		";
 		
@@ -85,11 +85,11 @@ $GLOBALS['phpAds_hlp_percentage_decimals'] = "\n        Especifica cuantos decim
 		
 $GLOBALS['phpAds_hlp_warn_admin'] = "\n        ".$phpAds_productname." puede enviarle un e-mail si una campaña tiene solo un número limitado\n        de Clicks o Impresiones disponibles. Esta opción se encuentra habilitada por defecto.\n		";
 		
-$GLOBALS['phpAds_hlp_warn_client'] = ".".MAX_PRODUCT_NAME.". puede enviar un e-mail a un anunciante si una de sus campa&ntilde;as tiene s&oacute;lo un ";
+$GLOBALS['phpAds_hlp_warn_client'] = "". MAX_PRODUCT_NAME ." puede enviar un e-mail a un anunciante si una de sus campañas tiene sólo un ";
 		
-$GLOBALS['phpAds_hlp_qmail_patch'] = "Algunas versiones de qmail est&aacute;n afectadas por un bug, que hace que los e-mails enviados por \".MAX_PRODUCT_NAME.\" muestren las cabeceras dentro del cuerpo del mensaje. Si activa esta opci&oacute;n, \".MAX_PRODUCT_NAME.\"  enviar&aacute; los e-mails en un formato compatible con qmail.";
+$GLOBALS['phpAds_hlp_qmail_patch'] = "Algunas versiones de qmail están afectadas por un bug, que hace que los e-mails enviados por ". MAX_PRODUCT_NAME ." muestren las cabeceras dentro del cuerpo del mensaje. Si activa esta opción, ". MAX_PRODUCT_NAME ."  enviará los e-mails en un formato compatible con qmail.";
 		
-$GLOBALS['phpAds_hlp_warn_limit'] = "El l&iacute;mite en el cual \".MAX_PRODUCT_NAME.\" empieza a enviar e-mails de alerta. Dicho l&iacute;mite es 100";
+$GLOBALS['phpAds_hlp_warn_limit'] = "El límite en el cual ". MAX_PRODUCT_NAME ." empieza a enviar e-mails de alerta. Dicho límite es 100";
 		
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_js'] = 
@@ -148,7 +148,7 @@ $GLOBALS['phpAds_hlp_admin_email'] = "El e-mail del administrador. Se usa como r
 		
 $GLOBALS['phpAds_hlp_admin_email_headers'] = "\n        Puede alterar los encabezados de los e-mails enviados por ".$phpAds_productname.".\n		";
 		
-$GLOBALS['phpAds_hlp_admin_novice'] = "Si quiere recibir un aviso antes de borrar anunciantes, campa&ntilde;as, banners, p&aacute;ginas web y zonas, marque esta opci&oacute;n.";
+$GLOBALS['phpAds_hlp_admin_novice'] = "Para ver campañas que hayan empezado o terminado en el espacio de tiempos eleccionado, Audit Trail debe estar activado";
 		
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = "\n       Si activa esta opción se mostrará un mensaje de bienvenida en la\n        primera página que verá el anunciante luego de loguearse. Puede personalizar este mensaje\n        editando el archivo 'welcome.html' ubicado en el directorio 'admin/templates'. Quizás quiera\n        incluir datos como : Nombre de la Compañía, Información de Contacto, Logo de la Compañía, etc..\n		";
@@ -163,16 +163,16 @@ $GLOBALS['phpAds_hlp_default_banner_weight'] = "\n        Si desea utilizar un n
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "\n        Si desea utilizar un número de peso de campaña mayor por defecto, insertelo aquí.\n        Esta opción es 1 por defecto..\n		";
 		
-$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "\n        Si esta opción se encuentra habilitada, se mostrará información extra sobre cada campaña en\n        la página <i>Resumen de Capaña</i>. La información extra incluye el número de Impresiones restantes,\n        el número de Clicks restantes, la fecha de activación, la fecha de expiración y la configuración de\n        prioridades.\n		";
+$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "Si esta opción es activada, la información extra acerca de cada campaña será mostrada en la página de <i>Campañas</i>. La información extra incluye número de vistas del anuncio que quedan pendientes, el número de clics al anuncio que quedan pendientes, fecha de activación, fecha de finalización y configuraciones de prioridad.";
 		
-$GLOBALS['phpAds_hlp_gui_show_banner_info'] = "\n        Si esta opción se encuentra habilitada, se mostrará información extra sobre cada banner en\n        la página <i>Resumen de Banner</i>. La información extra incluye la URL de destino, palabras claves y\n        tamaño y peso del banner.\n		";
+$GLOBALS['phpAds_hlp_gui_show_banner_info'] = "Si esta opción es activada, la información extra acerca de cada banner será mostrada en la página de <i>Banners</i>. La información extra incluye el URL de destino, palabras clave, tamaño y peso del banner.";
 		
-$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "\n        Si esta opción se encuentra habilitada, se mostrará una vista previa del banner en la página\n        <i>Resumen de Banner</i>. Si esta opción se encuentra deshabilitada aún es posible obtener una vista previa\n        de cada banner clickeando en el triángulo contiguo a cada banner en la página <i>Resumen de Banner</i>.\n		";
+$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "Si esta opción es activada, una vista previa de todos los banners será mostrada en la página de <i>Banners</i>. Si esta opción es desactivada, todavía es posible ver una vista previa de cada banner haciendo clic en el triángulo al lado de cada banner en la página de <i>Banners</i>.";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "\n        Si esta opción se encuentra habilitada se verá el banner HTML en lugar del código HTML.\n        Esta opción se encuentra habilitada por defecto.\n        Si esta opción se encuentra deshabilitada aún es posible obtener una vista previa\n        de cada banner clickeando en el botón <i>Mostrar Banner</i>.\n		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "\n        Si esta opción se encuentra habilitada, se mostrará una vista previa al principio de las\n        páginas <i>Propiedades de Banner</i>, <i>Opciones de Entrega</i> y <i>Zonas Relacionadas</i>.\n        Si esta opción se encuentra deshabilitada aún es posible obtener una vista previa\n        de cada banner clickeando en el botón <i>Mostrar Banner</i>.\n		";
 		
-$GLOBALS['phpAds_hlp_gui_hide_inactive'] = "\n        Si esta opción se encuentra habilitada, todos los banners inactivos, campañas y anunciantes serán ocultados\n        en las páginas <i>Anunciantes & Campañas</i> y <i>Resumen de Campaña</i>. Si esta opción se encuentra\n        habilitada aún es posible ver los items ocultos clickeando en el botón <i>Ver todo</i> al final de la página.\n		";
+$GLOBALS['phpAds_hlp_gui_hide_inactive'] = "Si esta opción es activada, todos los banners, campañas y anunciantes inactivos pueden ser escondidos de las páginas de <i>Anunciantes & Campañas</i> y <i>Campañas</i>. Si esta opción está desactivada, todavía es posible ver los ítems escondidos haciendo clic en el botón de <i>Mostrar Todo</i> al final de la página.";
 		
 ?>
