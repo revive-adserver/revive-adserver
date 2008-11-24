@@ -808,7 +808,10 @@ class Migration_108 extends Migration
 	    elseif (file_exists($dir)) {
 	        return true;
 	    }
-	    return mkdir($dir, 0700);
+	    $old_umask = umask(0);
+        $result = mkdir($dir, 0777);
+        umask($old_umask);
+        return $result;
 	}
 
 	/**
