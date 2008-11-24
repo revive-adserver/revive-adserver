@@ -94,7 +94,7 @@ $Id$
 	                    {if $groupItem.labelPlacement == "after"}
 	                       {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if}
 	                    {else}
-	                        {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</label>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
+	                        {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</font>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
 	                    {/if}
                     {/if}
                     {if $groupItem.decorators}
