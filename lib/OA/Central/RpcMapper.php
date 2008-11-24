@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/Rpc.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/M2M.php';
-
+require_once 'Cache/Lite.php';
 
 /**
  * OAP binding to the OAC APIs
@@ -145,7 +145,21 @@ class OA_Central_RpcMapper
 
         return $result;
     }
-
+	
+    
+    /**
+     * A method to retrieve currency FX feed from central.
+     *
+     */
+    function getFXFeed()
+    {
+        OA::debug("EXECUTING!");
+    	$result = $this->oRpc->callM2M('getFXFeed');
+        OA::debug($result);
+        return PEAR::isError($result) ? false : $result;
+    }
+    
+    
     /**
      * A method to retrieve the localised list of countries
      *

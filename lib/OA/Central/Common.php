@@ -35,6 +35,7 @@ require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 require_once MAX_PATH . '/lib/OA/PermanentCache.php';
 
 require_once 'Cache/Lite/Function.php';
+require_once('SimpleFunctionCache.php');
 
 
 /**
@@ -120,7 +121,20 @@ class OA_Central_Common
         $oCache = new OA_PermanentCache();
         return $oCache->get($cacheName);
     }
-
+	
+    
+    public function createSimpleFunctionCache($object, $method,  $lifeTime, $groupId = null, $cacheId = null)
+    {
+        $cacheId = ($cacheId == null) ? $method : $cacheId;
+        $groupId = ($groupId == null) ? get_class($this) : $groupId;
+    	$oCache = new Cache_Lite(array(
+            'cacheDir'                      => MAX_PATH . '/var/cache/',
+            'lifeTime'                      => $lifeTime,
+            'defaultGroup'                  => $groupId,
+            'dontCacheWhenTheResultIsFalse' => true
+        ));
+        return new SimpleFunctionCache($oCache, new OA_PermanentCache(), $object, $method, $groupId, $cacheId);
+    }
 }
 
 ?>

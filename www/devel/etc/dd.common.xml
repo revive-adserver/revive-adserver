@@ -276,14 +276,14 @@
 	<field>
 		<name>openads_currency_symbol</name>
 		<type>text</type>
-		<length>64</length>
+		<length>3</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
 		<name>openads_currency_value</name>
 		<type>decimal</type>
-		<length>10</length>
+		<length>14</length>
 		<scale>4</scale>
 		<notnull>false</notnull>
 		<default></default>
