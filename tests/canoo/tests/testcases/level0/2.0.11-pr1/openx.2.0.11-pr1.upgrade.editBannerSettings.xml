@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "../../../../dtd/Project.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+
+]>
+
+<project name="OpenX upgrade from ${upgrade.version}" basedir="." default="main">
+	<target name="main">
+		<webtest name="Level0 - Setup test - edit banner settings after upgrade from ${upgrade.version}">
+			&config;
+			<steps>
+				&login;
+				<invoke url="/" />
+				<clickLink label="Inventory" />
+				<clickLink label="Banners"/>
+				<setSelectField name="campaignid" text="test campaign"/>
+				<clickLink label="test banner"/>
+				<setSelectField name="adserver" text="Rich Media - OpenX"/>
+				<clickButton label="Save changes"/>
+			</steps>
+		</webtest>
+	</target>
+</project>
