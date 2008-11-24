@@ -27,6 +27,8 @@ $Id$
 
 require_once LIB_PATH.'/Plugin/Component.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
+
+require_once MAX_PATH. '/lib/JSON/JSON.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
@@ -339,14 +341,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function isRegistered()
     {
         //TODO get that from DB
-        return false;    
+        return true;    
     }
     
     
     function isActive()
     {
         //TODO get that from DB
-        return false;
+        return true;
     }
     
     
@@ -385,6 +387,59 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if ($desiredStatus != $this->isActive()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-index.php');
         }
+    }
+    
+    
+    function createMenuForPubconsolePage($sectionId)
+    {
+        
+        if (!$this->isRegistered() || !$this->isActive()) {
+            return null;
+        }
+        
+        $url = $GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'];
+        //add / if missing
+        $url = (strrpos($url, "/") === strlen($url) - 1) ? $url : $url."/";
+        $url.= "market/index/menu/?";
+        if (!empty($sectionId)) {
+            $id = urlencode($sectionId); //encode id for special characters eg. spaces    
+            $url.= "id=$sectionId&";           
+        }
+        $pubAccountId = 23;///TODO $this->getAccountId());
+        $url.= $this->getConfigValue('marketAccountIdParamName')."=".$pubAccountId;
+        
+        $result = @file_get_contents($url);
+        if (false === $result) {
+            //TODO log error in file (no menu)
+            return;
+        }
+        
+        $oJson = new Services_JSON();
+        $pubconsoleNav = $oJson->decode($result);
+        
+        if ($pubconsoleNav === null) {
+            return null;
+        }
+        
+        $pageName = $pubconsoleNav->pageName;
+        $leftMenu = $pubconsoleNav->leftMenu;
+        
+        if ($leftMenu && is_array($leftMenu)) {
+            $page = 'plugins/' . $this->group . '/market-include.php';
+            foreach ($leftMenu as $entry) {
+                $id = $entry->id;
+                $name = $entry->name;
+                $url = $entry->url;
+                $isActive = $entry->active; 
+                
+                addLeftMenuSubItem($id, $name, "$page?id=$url");
+                if ($isActive) {
+                    setCurrentLeftMenuSubItem($id);            
+                }
+            }
+        }
+        
+        return $pageName; //might be null we do not care
     }
     
     

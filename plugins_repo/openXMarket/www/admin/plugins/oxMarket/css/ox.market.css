@@ -1,4 +1,3 @@
-<?php
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                           |
@@ -26,51 +25,81 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+/* mplace icon */
+.iconMarketLarge {
+  background-image: url("../images/icon-marketplace-large.png");
+}
 
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+/* quasi form */
+ul.form {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+ul.form li.line {
+    clear: both;
+    padding-bottom: 15px;
+    overflow: hidden;
+}
 
-phpAds_registerGlobalUnslashed('purl');
+ul.form li.line p {
+  margin: 0px 0px 6px 0px;
+}
 
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
+ul.form ctrl-buttons {
+    margin-top: 20px;
+}
 
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    
-    
-    //retrieve menu from 
-    $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($purl);
-    
-    //header
-    $pageId = "openx-market";
-    if (!empty($pubconsolePageName)) {
-        $oMenu = OA_Admin_Menu::singleton();
-        //update page title
-        $oCurrentSection = $oMenu->get($pageId);
-        phpAds_PageHeader($pageId, new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName().': '.$pubconsolePageName, "iconMarketLarge"), '../../');
-    }
-    else {
-        phpAds_PageHeader($pageId, null,'../../');
-    }
+/* creative types and attributes */
+.checkbox-list {
+    float: left;
+}
 
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
-    $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
-    $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost'));
-    //TODO use plugin code when it returns anything meaningful 
-    $oTpl->assign('pubconsoleAccountId', 23);///$oMarketComponent->getAccountId());
-    $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
-    $oTpl->assign('pubconsolePageId', $purl);
-    $oTpl->display();
-    
-    //footer
-    phpAds_PageFooter();
+#creative-attrs {
+    margin-left: 30px;
+}
 
-?>
+
+.checkbox-list h4 {
+    color: #444444; 
+    font-weight: bold;
+    margin: 0px 0px 10px 0px;
+}
+
+ul.column {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    width: 155px;
+    float: left;
+}
+
+ul.column li {
+    margin: 0px 1px 1px 0px;
+    clear: both;
+}
+
+ul.column label {
+    line-height: 1.5em;
+}
+
+ul.column li input {
+    margin-right: 7px;
+    vertical-align: middle;
+    float: left;    
+}
+
+ul.column li.accepted {
+    background-color: #d0eadd;
+}
+
+ul.column li.rejected {
+    background-color: #fe9797;
+}
+
+
+
+
+
+ 
