@@ -686,7 +686,7 @@ CREATE TABLE `ox_clients` (
   UNIQUE KEY `ox_clients_account_id` (`account_id`),
   KEY `ox_clients_agencyid` (`agencyid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-INSERT INTO `ox_clients` VALUES  (1,2,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4,0);
+INSERT INTO `ox_clients` VALUES  (1,1,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4,0);
 CREATE TABLE `ox_data_intermediate_ad` (
   `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
   `date_time` datetime NOT NULL,
