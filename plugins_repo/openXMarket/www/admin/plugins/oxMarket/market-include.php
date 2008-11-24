@@ -34,7 +34,7 @@ require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
-phpAds_registerGlobalUnslashed('purl');
+phpAds_registerGlobalUnslashed('p_url');
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
@@ -67,7 +67,7 @@ phpAds_registerGlobalUnslashed('purl');
     //TODO use plugin code when it returns anything meaningful 
     $oTpl->assign('pubconsoleAccountId', 23);///$oMarketComponent->getAccountId());
     $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
-    $oTpl->assign('pubconsolePageId', $purl);
+    $oTpl->assign('pubconsolePageId', $p_url);
     $oTpl->display();
     
     //footer

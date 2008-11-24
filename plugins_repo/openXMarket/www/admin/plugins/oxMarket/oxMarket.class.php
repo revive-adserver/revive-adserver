@@ -432,7 +432,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 $url = $entry->url;
                 $isActive = $entry->active; 
                 
-                addLeftMenuSubItem($id, $name, "$page?id=$url");
+                addLeftMenuSubItem($id, $name, "$page?p_url=$url");
                 if ($isActive) {
                     setCurrentLeftMenuSubItem($id);            
                 }
