@@ -53,10 +53,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function __construct() {
         // Set market publisher client
-        //NO LIBRARY YET $this->oMarketPublisherClient = new OX_Marketplace_MarketPublisherClient( "http://".$GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'] );
+        //TODO
+        //TODO NO LIBRARY YET $this->oMarketPublisherClient = new OX_Marketplace_MarketPublisherClient( "http://".$GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'] );
         
         // Reorginize default restrictions for html forms 
-        //NO LIBRARY YET $aDefRestr = $this->oMarketPublisherClient->getDefaultRestrictions();
+        //TODO NO LIBRARY YET $aDefRestr = $this->oMarketPublisherClient->getDefaultRestrictions();
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_ATTRIB] = $aDefRestr['attribute']; 
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_CATEGORY] = $aDefRestr['category'];
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_TYPE] = $aDefRestr['type'];
@@ -83,8 +84,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             );
         }
 
-        $marketInfoUrl = MAX::constructURL(MAX_URL_ADMIN, '') . 'plugins/' . $this->group . '/market-market-info.php';
-        $form->addElement ( 'header', 'h_marketplace', $this->translate("OpenX Market (<a href='%s'>What is this?</a>)", array($marketInfoUrl)));
+        $marketInfoUrl = MAX::constructURL(MAX_URL_ADMIN, '') . 'plugins/' . $this->group . '/market-info.php';
+        
+        if (OA_Permission::isUserLinkedToAdmin()) {
+            $infoLink = $this->translate("(<a href='%s'>What is this?</a>)", array($marketInfoUrl));
+        }
+        $form->addElement ( 'header', 'h_marketplace', "OpenX Market " . $infoLink);
 
         //TODO externalize intro strings
         $form->addElement('static', 'enableIntro', null, $this->translate("Earn more money by participating in the OpenX Market"));
