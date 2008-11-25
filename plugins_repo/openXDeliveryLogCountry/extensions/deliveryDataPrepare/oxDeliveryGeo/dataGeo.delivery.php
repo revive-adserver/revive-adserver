@@ -30,7 +30,7 @@ $Id$
  * @subpackage openxDeliveryLogCountry
  */
 
-function Plugins_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
 {
     // prevent from running twice
     static $executed;
@@ -56,19 +56,19 @@ function Plugins_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
     }
 }
 
-function Plugins_deliveryDataPrepare_dataGeo_Delivery_logRequest()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logRequest()
 {
-    Plugins_deliveryDataPrepare_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
 }
 
-function Plugin_deliveryDataPrepare_dataGeo_Delivery_logImpression()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logImpression()
 {
-    Plugins_deliveryDataPrepare_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
 }
 
-function Plugins_deliveryDataPrepare_dataGeo_Delivery_logClick()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logClick()
 {
-    Plugins_deliveryDataPrepare_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
 }
 
 ?>
