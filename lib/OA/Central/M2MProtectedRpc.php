@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -25,37 +24,17 @@
 $Id$
 */
 
-class OX_M2M_ZendXmlRpcExecutor
-	implements OX_M2M_XmlRpcExecutor 
+class OA_Central_M2MProtectedRpc
+	extends OX_M2M_M2MProtectedRpc 
 {
 	/**
-	 * @var Zend_XmlRpc_Client
+	 * @param OX_M2M_XmlRpcExecutor $serviceExecutor
+	 * @param OX_M2M_M2MTicketProvider $m2mTicketProvider
 	 */
-	private $rpcClient;
-	private $prefix = "";
-	
-	public function getPrefix()
-	{
-		return $this->prefix;
-	}
-	
-	
-	public function setPrefix($prefix)
-	{
-		$this->prefix = $prefix;
-	}
-	
-	
-	function __construct($server, $prefix = "")
-	{
-		$this->rpcClient = new Zend_XmlRpc_Client($server);
-		$this->prefix = $prefix;
-	}
-	
-	
-	function call($methodName, $params)
-	{
-		return $this->rpcClient->call($this->getPrefix() . $methodName, $params);	
+	function __construct(&$serviceExecutor, &$m2mTicketProvider = null)
+    {
+    	parent::__construct($serviceExecutor, 
+    		$m2mTicketProvider ? $m2mTicketProvider : new OA_Central_M2MTicketProviderImpl());
 	}
 }
 

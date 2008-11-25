@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -25,37 +24,40 @@
 $Id$
 */
 
-class OX_M2M_ZendXmlRpcExecutor
-	implements OX_M2M_XmlRpcExecutor 
+require (dirname ( __FILE__ ) . "../../../OX/M2M/M2MTicketProvider.php");
+
+class OA_Central_M2MTicketProviderImpl 
+	implements OX_M2M_M2MTicketProvider
 {
 	/**
-	 * @var Zend_XmlRpc_Client
+	 * @var OA_Dal_Central_M2M
 	 */
-	private $rpcClient;
-	private $prefix = "";
+	private $m2mDal;
 	
-	public function getPrefix()
+	/**
+	 * @var OA_Central_M2M
+	 */
+	private $m2mService;
+	
+	
+	/**
+	 * @param OA_Dal_Central_M2M $m2mDal
+	 * @param OA_Central_M2M $m2mService
+	 */
+	function __construct(&$m2mDal = null, &$m2mService = null)
 	{
-		return $this->prefix;
+		$this->m2mDal = $m2mDal ? $m2mDal : new OA_Dal_Central_M2M ( );
+		$this->m2mService = $m2mService ? $m2mService : new OA_Central_M2M ( );
 	}
 	
 	
-	public function setPrefix($prefix)
+	function getTicket($force)
 	{
-		$this->prefix = $prefix;
-	}
-	
-	
-	function __construct($server, $prefix = "")
-	{
-		$this->rpcClient = new Zend_XmlRpc_Client($server);
-		$this->prefix = $prefix;
-	}
-	
-	
-	function call($methodName, $params)
-	{
-		return $this->rpcClient->call($this->getPrefix() . $methodName, $params);	
+		if ($force) {
+			return $this->m2mService->getM2MTicket();
+		}
+		$ticket = $this->m2mDal->getM2MTicket($this->m2mService->accountId);
+		return $ticket ? $ticket : $this->getTicket(true);
 	}
 }
 

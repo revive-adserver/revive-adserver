@@ -57,7 +57,8 @@ class OX_M2M_M2MProtectedRpc
     	try {
     		OX_M2M_M2MProtectedRpc::dumpCall($this->serviceExecutor, $methodName, $params);
     		
-    		$result = $this->serviceExecutor->call($methodName, $this->createParams($params));
+    		$fullParams = $this->addCredentials($params);
+    		$result = $this->serviceExecutor->call($methodName, $fullParams);
     		
     		OX_M2M_M2MProtectedRpc::dumpResult($this->serviceExecutor, $methodName, $params, $result);
     		
@@ -67,20 +68,36 @@ class OX_M2M_M2MProtectedRpc
     		//echo "<BR><BR>" . $e->getTraceAsString() . "<BR><BR>";
     		if ($e->getCode() == OX_M2M_XmlRpcErrorCodes::$TICKET_EXPIRED) {
     			$this->m2mTicketProvider->getTicket(true);
+    			return $this->call($methodName, $params);
     		}
-    		else {
-    			throw $e;
-    		}
-    		return $this->call($methodName, $params);
+			throw $e;
     	}
     }
 	
-    
-    public function createParams($params)
+    /**
+     * Adds credenials to parameters array. Should not modify array passed as parameter. 
+     * @param array $params parameters of RPC function call
+     * @return unknown
+     */
+    public function addCredentials($params)
     {
     	$credentials = array("m2mTicket" => $this->m2mTicketProvider->getTicket(false));
     	return array_merge(array($credentials), $params);
     }
+    
+	
+	function setParam(&$arr, $name, $value)
+	{
+		if ($value !== null) {
+			$arr[$name] = $value;
+		}
+	}
+	
+	
+	function getM2MService()
+	{
+		return $this->m2mService;
+	}
 	
 	static function dumpCall($this_, $methodName, $params, $pre = "Calling ", $post = "")
 	{
