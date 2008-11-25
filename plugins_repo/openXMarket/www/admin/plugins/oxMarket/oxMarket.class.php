@@ -180,19 +180,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
     }
     
-
-    function setCurrentMenuItem($item)
-    {
-        
-    }
-
-
-    function addSubMenu()
-    {
-        
-    }
-
-
+    
     function getAgencyDetails($agencyId = null)
     {
         if (is_null($agencyId)) {
@@ -211,9 +199,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     function getAccountId()
     {
+        /* TODO enable this
         $oAccountAssocData = & OA_Dal::factoryDO('ext_market_assoc_data');
         $oAccountAssocData->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
         return $oAccountAssocData->publisher_account_id;
+        */
+        return 2;
     }
     
 
@@ -346,7 +337,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function isRegistered()
     {
         //TODO get that from DB
-        return false;    
+        return true;    
     }
     
     
@@ -410,7 +401,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $id = urlencode($sectionId); //encode id for special characters eg. spaces    
             $url.= "id=$sectionId&";           
         }
-        $pubAccountId = 23;///TODO $this->getAccountId());
+        $pubAccountId = $this->getAccountId();
         $url.= $this->getConfigValue('marketAccountIdParamName')."=".$pubAccountId;
         
         $result = @file_get_contents($url);

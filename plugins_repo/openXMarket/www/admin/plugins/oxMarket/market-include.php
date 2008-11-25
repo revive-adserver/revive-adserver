@@ -46,7 +46,7 @@ phpAds_registerGlobalUnslashed('p_url');
     
     
     //retrieve menu from 
-    $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($purl);
+    $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($p_url);
     
     //header
     $pageId = "openx-market";
@@ -64,8 +64,7 @@ phpAds_registerGlobalUnslashed('p_url');
     $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost'));
-    //TODO use plugin code when it returns anything meaningful 
-    $oTpl->assign('pubconsoleAccountId', 23);///$oMarketComponent->getAccountId());
+    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
     $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
     $oTpl->assign('pubconsolePageId', $p_url);
     $oTpl->display();
