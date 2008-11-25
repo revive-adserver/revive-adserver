@@ -140,7 +140,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignBanners extends OA_Admin_S
 
 
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true), null, true);
         $this->showHideInactive = true;
 
         $this->startLevel = 0;

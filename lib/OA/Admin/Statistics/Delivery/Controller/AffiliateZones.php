@@ -133,7 +133,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
 
 
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true), null, true);
         $this->showHideInactive = true;
 
         $this->startLevel = 0;

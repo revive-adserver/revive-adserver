@@ -144,10 +144,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->entityLinks['c'] = 'stats.php?entity=zone&breakdown=campaign-history';
         $this->entityLinks['b'] = 'stats.php?entity=zone&breakdown=banner-history';
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true), null, true);
         $this->showHideInactive = true;
 
-        $this->startLevel = MAX_getStoredValue('startlevel', 0);
+        $this->startLevel = MAX_getStoredValue('startlevel', 0, null, true);
 
         // Init nodes
         $this->aNodes   = MAX_getStoredArray('nodes', array());

@@ -43,14 +43,14 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 
 // Get input variables
 $pref = $GLOBALS['_MAX']['PREF'];
-$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true));
+$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
 $listorder      = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $aNodes         = MAX_getStoredArray('nodes', array());
 $editStatuses   = MAX_getStoredValue('editStatuses', false, null, true);
 $day            = MAX_getStoredValue('day', null, 'stats-conversions.php');
 $howLong        = MAX_getStoredValue('howLong', 'd');
-$hour           = MAX_getStoredValue('hour', null, 'stats-conversions.php');
+$hour           = MAX_getStoredValue('hour', null, 'stats-conversions.php', true);
 $setPerPage     = MAX_getStoredValue('setPerPage', 15);
 $pageID         = MAX_getStoredValue('pageID', 1);
 
