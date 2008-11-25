@@ -38,7 +38,9 @@ $Id$
 <!--
 {literal}
 $(document).ready(function() {
-  $("#content-frame").updateFrameSize();
+  if ($.fn.updateFrameSize) {
+    $("#content-frame").updateFrameSize();
+  }
 });
 {/literal}    
 //-->
