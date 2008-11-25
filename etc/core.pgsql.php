@@ -32,6 +32,7 @@ $Id$
  */
 
 $aCustomFunctions = array();
+$aBackupFunctions = array();
 
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION DATE_ADD(timestamptz, interval) RETURNS timestamptz AS $$
@@ -173,7 +174,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
-$aCustomFunctions[] = "
+$aBackupFunctions[] = $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION oxp_backup_table_copy(tbl_new text, tbl_old text) RETURNS void AS $$
 DECLARE
   r record;

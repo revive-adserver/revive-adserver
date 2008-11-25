@@ -584,6 +584,21 @@ class OA_DB_Upgrade
 	                                                  'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
 	                                                 )
 	                                           );
+
+                // Create backup SQL functions if needed
+                $result = OA_DB::createFunctions(true);
+                if ($this->_isPearError($result, 'error creating backup SQL functions'))
+                {
+                    $this->_halt();
+                    $this->oAuditor->logAuditAction(array('info1'=>'BACKUP FAILED',
+                                                          'info2'=>'creating backup SQL functions',
+                                                          'action'=>DB_UPGRADE_ACTION_BACKUP_FAILED,
+                                                         )
+                                                   );
+                    return false;
+                }
+
+                // Backup tables
 	            foreach ($aTables AS $k => &$table)
 	            {
 	                if (in_array($this->prefix.$table, $this->aDBTables))

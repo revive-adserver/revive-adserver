@@ -348,9 +348,10 @@ class OA_DB
     /**
      * This sets up all the required PL/SQL functions for the database.
      *
+     * @param  boolean Install only backup related functions
      * @return mixed True on success, PEAR_Error otherwise.
      */
-    function createFunctions()
+    function createFunctions($onlyBackup = false)
     {
         $oDbh =& OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
@@ -367,7 +368,8 @@ class OA_DB
             include $functionsFile;
             OA_DB::disconnectAll();
             $oDbh =& OA_DB::singleton();
-            foreach ($aCustomFunctions as $customFunction) {
+            $aFunctions = $onlyBackup ? $aBackupFunctions : $aCustomFunctions;
+            foreach ($aFunctions as $customFunction) {
                 $rows = $oDbh->exec($customFunction);
                 if (PEAR::isError($rows)) {
                     return $rows;
