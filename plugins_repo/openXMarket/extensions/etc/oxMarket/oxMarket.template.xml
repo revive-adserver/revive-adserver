@@ -37,6 +37,7 @@
             <file path="{ADMINPATH}/templates/">market-signup.html</file>            
             <file path="{ADMINPATH}/templates/">market-stats-website.html</file>
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
+            <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>

@@ -34,11 +34,13 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
-OA_Permission::enforceAccessToObject('agency', OA_Permission::getAgencyId());
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    OA_Permission::enforceAccessToObject('agency', OA_Permission::getAgencyId());
+}
 
 $oComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
-$oMarketComponent->checkActive();
+//$oMarketComponent->checkActive();
 
 displayPage($oComponent);
 
@@ -53,9 +55,10 @@ function displayPage($oComponent)
     $pageName = basename($_SERVER['PHP_SELF']);
 
     $affiliateId    = MAX_getStoredValue('affiliateid', null);
-    if (!is_null($affiliateId)) {
-        OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
-    }
+    //TODO uncomment that after dao is ready
+    //    if (!is_null($affiliateId)) {
+//        OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
+//    }
 
     $orderdirection = MAX_getStoredValue('orderdirection', '');
     $listorder      = MAX_getStoredValue('listorder', '');
@@ -85,18 +88,36 @@ function displayPage($oComponent)
 
     $tmpl = (is_null($affiliateId)) ? 'market-stats-website.html' : 'market-stats-zone.html';
     $oTpl = new OA_Plugin_Template($tmpl, 'openXMarket');
-    $oReport = OA_Dal::factoryDO('ext_market_publisher_reporting');
+    $oReport = OA_Dal::factoryDO('ext_market_web_stats');
     if (!is_null($affiliateId)) {
-        $aReportData = $oReport->getZoneStatsByAffiliateId($aOption);
+        $aReportData = $oReport->getSizeStatsByAffiliateId($aOption);
         $oTpl->assign('url', "market-stats.php?affiliateid=$affiliateId");
         $oTpl->assign('affiliateid', $affiliateId);
-    } else {
-        $aReportData = $oReport->getWebsiteStatsByAgencyId($aOption);
+    } 
+    else {
+        $aReportData['websites'] = $oReport->getWebsiteStatsByAgencyId($aOption);
+        
+        // Init nodes
+        $aNodes   = MAX_getStoredArray('nodes', array());
+        $expand   = MAX_getValue('expand', '');
+        $collapse = MAX_getValue('collapse');
+
+        // Adjust which nodes are opened closed...
+        MAX_adjustNodes($aNodes, $expand, $collapse);        
+        
+        foreach ($aReportData['websites'] as $aWebsiteStats) {
+            $websiteId = $aWebsiteStats['id'];
+            if (in_array($websiteId, $aNodes)) {
+                $aOption['affiliateid'] = $websiteId;
+                $oReport = OA_Dal::factoryDO('ext_market_web_stats');
+                $aReportData['zones'][$websiteId] = $oReport->getSizeStatsByAffiliateId($aOption);
+            }    
+        }
+        unset($aOption['affiliateid']);
     }
 
     $oTpl->assign('aReportData',    $aReportData);
     $oTpl->assign('daySpan',        $oDaySpan);
-    $oTpl->assign('assetPath',      OX::assetPath());
     $oTpl->assign('listorder',      $listorder);
     $oTpl->assign('orderdirection', $orderdirection);
     $oTpl->display();
@@ -106,6 +127,7 @@ function displayPage($oComponent)
 
     $session['prefs'][$pageName]['listorder'] = $listorder;
     $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
+    $session['prefs'][$pageName]['nodes'] = implode (",", $aNodes);
     $session['prefs']['GLOBALS']['period_start'] = $startDate;
     $session['prefs']['GLOBALS']['period_end'] = $endDate;
     $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;

@@ -46,7 +46,7 @@ $Id$
                         </th>
                         <th height='25' width="20%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=Impressions item=impressions order=down url=$url}</th>
                         <th height='25' width="13%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=Revenue item=revenue order=down url=$url}</th>
-                        <th height='25' width="13%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=ECMP item=ecpm order=down url=$url}</th>
+                        <th height='25' width="13%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=ECPM item=ecpm order=down url=$url}</th>
                     </tr>
                 </thead>
                 {if !$aReportData|@count}
@@ -60,30 +60,7 @@ $Id$
                     {foreach key=key item=zone from=$aReportData}
                         {cycle name=bgcolor assign=bgColor}
                     <tbody class="{$bgColor}">
-                        <tr height="25">
-                            <td height='25'>
-                              <div style="float:left;padding-right: 5px;">
-                                <img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16' align='absmiddle'>
-                                <img src='{$assetPath|escape}/images/icon-zone.gif' align='absmiddle'>&nbsp;
-                              </div>
-                              <div>
-                                {$zone.description|escape:html}&nbsp;{$zone.width}x{$zone.length}
-                              </div>
-                            </td>
-                
-                            <td height='25' class='aright'>
-                               {$zone.impressions}
-                            </td>
-                
-                            <td height='25' class='aright'>
-                                {$zone.revenue}
-                            </td>
-                
-                            <td height='25' class='aright'>
-                                {$zone.ecpm}
-                            </td>
-                            
-                        </tr>
+                        {include file='stats-zone-row.html' zone=$zone} 
                     </tbody>
                     {/foreach}
                 {/if}

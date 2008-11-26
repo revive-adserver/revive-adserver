@@ -42,9 +42,8 @@ define('SETTING_TYPE_CREATIVE_CATEGORY', 2);
  *
  * @package    openXMarket
  * @subpackage oxMarket
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
+ * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  * @author     Bernard Lange <bernard.lange@openx.org>
- * @abstract
  */
 class Plugins_admin_oxMarket_oxMarket extends OX_Component
 {

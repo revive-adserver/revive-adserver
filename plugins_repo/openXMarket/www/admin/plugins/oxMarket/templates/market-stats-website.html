@@ -24,7 +24,6 @@
 $Id$
 
 -->*}
-
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td>
@@ -56,17 +55,22 @@ $Id$
                   </tbody>
                 {else}
                     {cycle name=bgcolor values="odd,even" assign=bgColor reset=1}
-                    {foreach key=affiliateId item=affiliate from=$aReportData}
+                    {foreach item=affiliate from=$aReportData.websites}
+                        {assign var=affiliateId value=$affiliate.id}
                         {cycle name=bgcolor assign=bgColor}
                     <tbody class="{$bgColor}">
                         <tr height="25">
                             <td height='25'>
                           <div style="float:left;padding-right: 5px;">
-                            <img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16' align='absmiddle'>
+                          {if $aReportData.zones.$affiliateId}
+                            <a href="market-stats.php?collapse={$affiliateId}"><img src="{$assetPath}/images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
+                          {else}
+                            <a href="market-stats.php?expand={$affiliateId}"><img src="{$assetPath}/images/{$phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>                            
+                          {/if}
                             <img src='{$assetPath|escape}/images/icon-affiliate.gif' align='absmiddle'>&nbsp;
                           </div>
                           <div>
-                            <a href='market-stats.php?affiliateid={$affiliate.id}'>{$affiliate.name|escape:html}</a>
+                            <a href='market-stats.php?affiliateid={$affiliateId}'>{$affiliate.name|escape:html}</a>
                           </div>
                             </td>
                 
@@ -83,6 +87,11 @@ $Id$
                             </td>
                             
                         </tr>
+                        {if $aReportData.zones.$affiliateId}
+                          {foreach item=zone from=$aReportData.zones.$affiliateId}
+                              {include file='stats-zone-row.html' zone=$zone level=2}
+                          {/foreach}
+                        {/if}
                     </tbody>
                     {/foreach}
                 {/if}
