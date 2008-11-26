@@ -71,17 +71,21 @@
                 if (settings.start) {
                     settings.start(currentIndex, url);
                 }            
-                            
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    cache: false,
-                    timeout: settings.requestTimeout,
-                    dataType: settings.responseDataType,
-                    success: handleSuccess,
-                    error: handleError,
-                    complete: handleRequestCompleted
-                });                               
+                try {            
+                  $.ajax({
+                      type: 'GET',
+                      url: url,
+                      cache: false,
+                      timeout: settings.requestTimeout,
+                      dataType: settings.responseDataType,
+                      success: handleSuccess,
+                      error: handleError,
+                      complete: handleRequestCompleted
+                  });
+                }
+                catch(e) {
+                  handleRequestException(url, e);
+                }                               
             }
             
             
@@ -131,6 +135,26 @@
                 currentIndex++;
                 nextJob();
             }
+            
+            
+            /**
+             *  A function to handle exceptions thrown by .ajax call, usually security exceptions
+             * It will call external handler if any, and start next job after that
+             */
+            function handleRequestException(url, e)
+            {
+               if (settings.exception) {
+                    try {
+                        settings.exception(currentIndex, url, e);
+                    }
+                    catch(e) {
+                        //intentionally left blank - do not want external code to break the flow
+                    }
+               }
+               currentIndex++;
+               nextJob();                           
+            }
+            
             
             
             /* A function to be called if the request fails. The function gets passed
@@ -203,6 +227,7 @@
 		                start: onStart,
 		                success: onSuccess,
 		                error: onError,
+                        exception: onException,
 		                complete: onComplete,
 		                allComplete: onAllComplete,
                         debug: settings.debug,
@@ -292,7 +317,15 @@
 	        
 	            $("#job_status_" + jobIndex, $this).text("Failed " + errorMessage)
 	               .removeClass('status-installing').addClass('status-failed');
-	        }        
+	        }
+          
+          
+            function onException(jobIndex, url, e)
+            {
+                  errorMessage = e;
+                  $("#job_status_" + jobIndex, $this).text("Failed (" + errorMessage + ")")
+                     .removeClass('status-installing').addClass('status-failed');
+            }        
 	
 	        
 	        function onComplete(jobIndex, url, textStatus)
