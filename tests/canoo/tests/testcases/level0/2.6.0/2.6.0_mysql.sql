@@ -164,9 +164,10 @@ CREATE TABLE `ox_accounts` (
   `m2m_ticket` varchar(32) default NULL,
   PRIMARY KEY  (`account_id`),
   KEY `ox_accounts_account_type` (`account_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 INSERT INTO `ox_accounts` VALUES  (1,'ADMIN','Administrator account','LJC%mMlvp8wgE*ZR2@c7ft4ah','wBwcT&(hlg2WKD4j3bGdGn80(1)$6q'),
- (2,'MANAGER','Default manager','WxGm(FETNsO!^Eh2I!$ZYC2$m','wBwbgw7^@dhabbsFHTTIWE=DISUWNo');
+ (2,'MANAGER','Default manager','WxGm(FETNsO!^Eh2I!$ZYC2$m','wBwbgw7^@dhabbsFHTTIWE=DISUWNo'),
+ (3,'ADVERTISER','Advertiser 1',NULL,NULL);
 CREATE TABLE `ox_acls` (
   `bannerid` mediumint(9) NOT NULL default '0',
   `logical` varchar(3) NOT NULL default 'and',
@@ -686,7 +687,7 @@ CREATE TABLE `ox_clients` (
   UNIQUE KEY `ox_clients_account_id` (`account_id`),
   KEY `ox_clients_agencyid` (`agencyid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-INSERT INTO `ox_clients` VALUES  (1,1,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4,0);
+INSERT INTO `ox_clients` VALUES  (1,1,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,3,0);
 CREATE TABLE `ox_data_intermediate_ad` (
   `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
   `date_time` datetime NOT NULL,
