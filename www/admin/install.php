@@ -413,12 +413,17 @@ else if (array_key_exists('btn_plugins', $_POST))
             // Save admim account preference for timezone
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
         }
+        
+        // Use current url as base path for calling install-plugin
+        $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
+        $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
+        
         if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
         {
             foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
             {
                 $aUrls[] = array('name' => $name,
-                    'url' => MAX::constructURL(MAX_URL_ADMIN, 'install-plugin.php?status=1&plugin='.$name));
+                    'url' => $baseInstalUrl.'install-plugin.php?status=1&plugin='.$name);
             }
         }
 
@@ -431,7 +436,7 @@ else if (array_key_exists('btn_plugins', $_POST))
                 if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
                 {
                     $aUrls[] = array('name' => $aPlugin['name'],
-                    'url' => MAX::constructURL(MAX_URL_ADMIN, 'install-plugin.php?status=0&plugin='.$aPlugin['name']));
+                    'url' => $baseInstalUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name']);
                 }
             }
         }
