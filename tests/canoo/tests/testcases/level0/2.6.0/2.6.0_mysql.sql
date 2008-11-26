@@ -234,7 +234,7 @@ CREATE TABLE `ox_affiliates` (
   UNIQUE KEY `ox_affiliates_account_id` (`account_id`),
   KEY `ox_affiliates_agencyid` (`agencyid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-INSERT INTO `ox_affiliates` VALUES  (2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net','2008-05-15 13:41:40',NULL,'',NULL,NULL,NULL,6);
+INSERT INTO `ox_affiliates` VALUES  (2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net','2008-05-15 13:41:40',NULL,'',NULL,NULL,NULL,3);
 CREATE TABLE `ox_affiliates_extra` (
   `affiliateid` mediumint(9) NOT NULL,
   `address` text,
