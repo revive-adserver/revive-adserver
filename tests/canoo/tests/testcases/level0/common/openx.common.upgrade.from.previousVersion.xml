@@ -24,33 +24,35 @@
 					    <arg value="a+rw"/>
 					    <arg value="${basedir}/../../../var"/>
 				 	</exec>					
+					
+					<storeCookie name="oat" property="sessid" />
 					&terms;
+				
 					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
 					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
-					<!-- <storeCookie name="PHPSESSID" property="sessid" /> oat finished sessionID -->
+					<storeCookie name="oat" property="sessid" />
 					&systemCheck;
+				
 					<setInputField name="username" value="${admin.login}"/>
 					<setInputField name="password" value="${admin.pass}"/>
+					<storeCookie name="oat" property="sessid" />
 					<clickButton label="Continue »"/>
 				
 					<verifyText description="Check text on page: Database Settings" text="Database Settings" />
+					<storeCookie name="oat" property="sessid" />
 					<clickButton label="Continue »"/>
 				
 					<verifyText description="Check text on page: Congratulations, you have finished upgrading OpenX" text="Congratulations, you have finished upgrading OpenX" />	
+					<storeCookie name="oat" property="sessid" />
 					<clickButton label="Continue »"/>
 				
 					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
-					<clickButton label="Continue »"/>
-
-					&plugins;					
-<!--					<verifyText description="Check text on page: Checking OpenX plugins" text="Checking OpenX plugins" />	
-					<sleep seconds="15" />				
-					<clickElement htmlId="graph_container" saveResponse="true" />
+					<storeCookie name="oat" property="sessid" />
+					<storeCookie name="PHPSESSID" property="sessid2" />
 					<clickButton label="Continue »"/>
 				
-					<verifyText description="Check text on page:100%" text="100%" />
-					<clickButton label="Continue »"/>
--->
+					<storeCookie name="oat" property="sessid" />
+					&plugins;					
 					&finished;
 			</steps>
 		</webtest>

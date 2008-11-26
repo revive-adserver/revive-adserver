@@ -7,7 +7,6 @@
         	<filelist dir="${testcase.dir}/level0/common">
         		<file name="./openx.common.upgrade.dbsetup.xml" />
         		<file name="./openx.common.upgrade.copyfiles.xml" />
-        		<!-- <file name="./${upgrade.version}/openx.common.upgrade.from.${upgrade.version}.xml" /> -->
         		<file name="./openx.common.upgrade.from.previousVersion.xml" />
 			</filelist>
 		</subant>

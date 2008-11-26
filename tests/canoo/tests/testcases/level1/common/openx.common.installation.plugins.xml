@@ -4,19 +4,19 @@
 <sleep seconds="15" />
 <!-- TODO add Groovy method -->
 <!-- check plugins list -->
-<verifyText text="openXBannerTypes" />
-<verifyText text="openXDeliveryLimitations" />
-<verifyText text="openX3rdPartyServers" />
-<verifyText text="openXReports" />
-<verifyText text="openXDeliveryCacheStore" />
-<verifyText text="openXMaxMindGeoIP" />
-<verifyText text="openXInvocationTags" />
-<verifyText text="openXDeliveryLog" />
+<verifyText text="openXBannerTypes" description="openXBannerTypes"/>
+<verifyText text="openXDeliveryLimitations" description="openXDeliveryLimitations" />
+<verifyText text="openX3rdPartyServers" description="openX3rdPartyServers" />
+<verifyText text="openXReports" description="openXReports" />
+<verifyText text="openXDeliveryCacheStore" description="openXDeliveryCacheStore" />
+<verifyText text="openXMaxMindGeoIP" description="openXMaxMindGeoIP" />
+<verifyText text="openXInvocationTags" description="openXInvocationTags" />
+<verifyText text="openXDeliveryLog" description="openXDeliveryLog" />
 <!-- <verifyXPath xpath="/html/body/div[3]/div/div[3]/div[2]/table[2]/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/ul/li" text="Cookie not found" /> -->
 <not>
-	<verifyText text="Cookie not found" />
-	<verifyText text="Invalid Request" />
-	<verifyText text="Failed" />
+	<verifyText text="Cookie not found" description="check: Cookie not found" />
+	<verifyText text="Invalid Request" description="check: Invalid Request" />
+	<verifyText text="Failed" description="check:Failed" />
 </not>
 <verifyElementText htmlId="job_status_7" text="OK" />
 <clickButton label="Continue »"/>
