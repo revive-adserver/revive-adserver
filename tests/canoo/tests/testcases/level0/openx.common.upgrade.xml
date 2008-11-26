@@ -8,6 +8,7 @@
         		<file name="./openx.common.upgrade.dbsetup.xml" />
         		<file name="./openx.common.upgrade.copyfiles.xml" />
         		<file name="./openx.common.upgrade.from.previousVersion.xml" />
+        		<file name="./openx.common.upgrade.editBannerSettings.xml" /> 
 			</filelist>
 		</subant>
 		<echo>basedir in level0: ${basedir}</echo>
@@ -19,15 +20,5 @@
 			<arg value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmodgeo.php"/>
 			<arg value="--output-document=-" />
 		</exec>
-		<if>
-			<equals arg1="${upgrade.version}" arg2="2.0.11-pr1" />
-			<then>
-				<subant inheritall="true">
-					<filelist dir="${testcase.dir}/level0/${upgrade.version}">
-						<file name="openx.2.0.11-pr1.upgrade.editBannerSettings.xml" /> 
-					</filelist>
-				</subant>
-			</then>
-		</if>
 	</target>
 </project>
