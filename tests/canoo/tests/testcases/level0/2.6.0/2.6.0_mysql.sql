@@ -178,7 +178,6 @@ CREATE TABLE `ox_acls` (
   UNIQUE KEY `ox_acls_bannerid_executionorder` (`bannerid`,`executionorder`),
   KEY `ox_acls_bannerid` (`bannerid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-INSERT INTO `ox_acls` VALUES  (1,'and','Site:Channel','=~','7',0);
 CREATE TABLE `ox_acls_channel` (
   `channelid` mediumint(9) NOT NULL default '0',
   `logical` varchar(3) NOT NULL default 'and',
