@@ -32,7 +32,7 @@ $Id$
     <iframe id="welcome-frame" src="{$welcomeURL}" width="100%" frameborder="0" marginwidth="0" marginheight="0"></iframe>
      
     <form action="market-signup.php" method="get">
-        <input type="submit" value="{t str='Join now!'}" />
+        <input type="submit" value="{if $isRegistered}{t str='Continue'}{else}{t str='Join now!'}{/if}" />
     </form>
     
 </div>

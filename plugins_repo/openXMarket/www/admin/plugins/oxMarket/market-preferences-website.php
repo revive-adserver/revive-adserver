@@ -35,13 +35,20 @@ phpAds_registerGlobalUnslashed(
     'update_website_mkt_preferences'
 );
 
-$oComponent = OX_Component::factory('admin', 'oxMarket');
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
-if (isset($update_website_mkt_preferences)) {
-    processMarketplacePreferences($affiliateid, $types, $attributes, $categories, $oComponent);
+
+$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+//check if you can see this page
+if (!$oMarketComponent->isActive()) {
+    displayInactivePage($oMarketComponent);
+}
+else if (isset($update_website_mkt_preferences)) {
+    processMarketplacePreferences($affiliateid, $types, $attributes, $categories, $oMarketComponent);
 }
 else {
-    displayPage($affiliateid, $oComponent);
+    displayPage($affiliateid, $oMarketComponent);
 }
 
 
@@ -99,6 +106,27 @@ function displayPage($affiliateid, &$oComponent)
 
     $oTpl->display();
 
+    phpAds_PageFooter();
+}
+
+
+function displayInactivePage($oMarketComponent)
+{
+    //header
+    phpAds_PageHeader("market-preferences-website",'','../../');
+
+    //get template and display form
+    $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
+    
+    $aDeactivationStatus = $oMarketComponent->getInactiveStatus();
+    $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
+    $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
+    
+    $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
+    
+    $oTpl->display();
+    
+    //footer
     phpAds_PageFooter();
 }
 

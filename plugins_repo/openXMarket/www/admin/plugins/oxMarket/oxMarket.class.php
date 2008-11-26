@@ -66,6 +66,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
+        if (!$this->isActive()) {
+            return;
+        }
+        
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
@@ -118,6 +122,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function processCampaignForm(&$aFields)
     {
+        if (!$this->isActive()) {
+            return;
+        }
+        
+        
         $oExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
         $oExt_market_campaign_pref->campaignid = $aFields['campaignid'];
         $recordExist = false;
@@ -152,6 +161,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function processAffiliateForm(&$aFields)
     {
+        if (!$this->isActive()) {
+            return;
+        }
+        
         $affiliateId = $aFields['affiliateid'];
         $websiteUrl = $aFields['website'];
         if ($accountId = $this->getAccountId()) {
@@ -268,9 +281,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterLogin()
     {
+        if (!$this->isActive()) {
+            return;
+        }
+        
         // Only splash for Manager accounts
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !$this->splashAlreadyShown()) {
+        if (OA_Permission::isUserLinkedToAdmin() && !$this->splashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
+            //TODO set splash shown
             exit;
         }
     }
@@ -278,6 +296,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
+        if (!$this->isActive()) {
+            return;
+        }
+        
         //  first remove all existing settings for $affiliateId
         $this->removeWebsiteRestrictions($affiliateId);
         $aData = array(
@@ -351,7 +373,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function splashAlreadyShown()
     {
         //TODO get info about splash from DB
-        return false;
+        return true;
     }
     
     
@@ -360,7 +382,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         //TODO get from DB
         //TODO do we need a message returned from server as well?
         return array('code' => 0, 'message' => 
-            'Account disabled due to a breach of OpenX Market terms and conditions');    
+            'TODO: This is sample message! Account disabled due to a breach of OpenX Market terms and conditions');    
     }
     
     

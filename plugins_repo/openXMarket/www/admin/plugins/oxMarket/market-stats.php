@@ -33,10 +33,12 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
-$oComponent = OX_Component::factory('admin', 'oxMarket');
-
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
 OA_Permission::enforceAccessToObject('agency', OA_Permission::getAgencyId());
+
+$oComponent = OX_Component::factory('admin', 'oxMarket');
+//check if you can see this page
+$oMarketComponent->checkActive();
 
 displayPage($oComponent);
 

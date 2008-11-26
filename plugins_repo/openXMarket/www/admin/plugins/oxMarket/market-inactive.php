@@ -40,6 +40,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
     $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
     //check if you can see this page (pluigin should be inactive in this case)
+    $oMarketComponent->checkRegistered();
     $oMarketComponent->checkActive(false);
     
     //header
