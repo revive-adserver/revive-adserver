@@ -144,7 +144,7 @@
    <field>
     <name>impressions</name>
     <type>openads_int</type>
-    <length>10</length>
+    <length>11</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -159,7 +159,7 @@
    <field>
     <name>revenue</name>
     <type>openads_decimal</type>
-    <length>10,4</length>
+    <length>17,5</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -167,7 +167,7 @@
    <field>
     <name>ecpm</name>
     <type>openads_decimal</type>
-    <length>10,4</length>
+    <length>17,5</length>
     <notnull>false</notnull>
     <default></default>
    </field>

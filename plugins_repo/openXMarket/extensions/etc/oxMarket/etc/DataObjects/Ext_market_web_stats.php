@@ -11,10 +11,10 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
 
     public $__table = 'ext_market_web_stats';            // table name
     public $p_website_id;                    // CHAR(36) => openads_char => 130 
-    public $impressions;                     // INT(10) => openads_int => 129 
+    public $impressions;                     // INT(11) => openads_int => 129 
     public $day_time;                        // DATETIME() => openads_datetime => 14 
-    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1 
-    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1 
+    public $revenue;                         // DECIMAL(17,5) => openads_decimal => 1 
+    public $ecpm;                            // DECIMAL(17,5) => openads_decimal => 1 
     public $width;                           // SMALLINT(6) => openads_smallint => 1 
     public $height;                          // SMALLINT(6) => openads_smallint => 1 
 
