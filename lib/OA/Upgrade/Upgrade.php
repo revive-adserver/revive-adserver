@@ -1468,8 +1468,8 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        /*$this->addPostUpgradeTask('Check_Plugins');
-        $this->_writePostUpgradeTasksFile();*/
+        //$this->addPostUpgradeTask('Check_Plugins');
+        $this->_writePostUpgradeTasksFile();
         $this->_pickupRecoveryFile();
         return true;
     }
