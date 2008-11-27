@@ -130,7 +130,7 @@ class Test_OX_PluginExport extends UnitTestCase
         $oExport    = new OX_PluginExport();
         $oExport->_compileContents('testPluginPackage');
         $this->assertIsA($oExport->aFileList,'array');
-        $this->assertEqual(count($oExport->aFileList),17);
+        $this->assertEqual(count($oExport->aFileList),18);
         $this->assertTrue(in_array($pathPackages.'testPluginPackage.xml', $oExport->aFileList));
         $this->assertTrue(in_array($pathPackages.'testPluginPackage.readme.txt', $oExport->aFileList));
         $this->assertTrue(in_array($pathPackages.'testPlugin/testPlugin.xml', $oExport->aFileList));
