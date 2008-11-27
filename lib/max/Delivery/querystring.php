@@ -169,7 +169,7 @@ function MAX_querystringGetDestinationUrl($adId = null)
             foreach ($destQuery as $destPair) {
                 list($destName, $destValue) = explode('=', $destPair);
                 // http://php.net/parse_str#76978 dots and spaces are auto-replaced by underscores
-                $aValidVariables[] = str_replace(array('.', ' '), '_', $destName);
+                $aValidVariables[] = str_replace(array('.', ' '), '_', ltrim($destName));
             }
         }
     }
