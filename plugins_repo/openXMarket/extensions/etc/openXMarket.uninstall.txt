@@ -1,0 +1,1 @@
+Warning! Uninstalling this plugin will delete all local information relating to your use of the OpenX Market to date, including which campaigns participate in the OpenX Market, website content exclusions and all OpenX Market delivery statistics. Please ensure that you perform a full backup of the plugin data, should you require one, before uninstalling this plugin.

@@ -16,6 +16,7 @@
 
         <files>
             <file path="{PLUGINPATH}">openXMarket.readme.txt</file>
+            <file path="{PLUGINPATH}">openXMarket.uninstall.txt</file>
         </files>
 
         <contents>
