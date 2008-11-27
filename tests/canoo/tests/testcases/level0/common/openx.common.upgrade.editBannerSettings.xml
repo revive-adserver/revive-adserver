@@ -12,9 +12,15 @@
 			<steps>
 				<ifStep description="production tests">
 			        <condition>
+			        	<!-- http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html
+			        		Quotation
+							\ 	Nothing, but quotes the following character
+							\Q 	Nothing, but quotes all characters until \E
+							\E 	Nothing, but ends quoting started by \Q			        	
+			        	 -->
 			        	<verifyProperty description="Check version no."
 			        	      name="${upgrade.version}"
-			        	      text="2.0.11-pr1|2.1.29-rc|2.3.31-alpha" regex="true" />
+			        	      text="\Q2.0.11-pr1\E|\Q2.1.29-rc\E|\Q2.3.31-alpha\E" regex="true" />
 		        	</condition>
         	        <then>
         				&login;
