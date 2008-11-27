@@ -30,6 +30,9 @@ $Id$
 require_once 'market-common.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 
+// No cache
+MAX_commonSetNoCacheHeaders();
+
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
