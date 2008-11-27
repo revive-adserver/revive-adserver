@@ -118,5 +118,66 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
 
         return $aResult;
     }
+    
+    
+    function getSizeStatsForAffiliates($aOption)
+    {   
+        //aOption is almost the same as in getSizeStatsByAffiliateId
+        //the only difference is that instead of affiliateId parameter
+        //there is aAffiliateids which is an array of id's
+        //if aAffiliateids does not exist or is an empty array, return size stats for all websites visible to current user
+
+        //TODO change to use new object
+        $tableName = $this->tableName();
+        $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
+        if (empty($aOption['listorder'])) {
+            $orderClause = 'width, height';
+        } else {
+            $orderClause = ($aOption['listorder'] == 'name') ? 'width, height' : $aOption['listorder'];
+        }
+        $orderClause .= " $orderDir";
+
+        //$oAdSize = & OA_Dal::factoryDO('ext_market_ad_size');
+        //$oWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
+
+        $this->selectAdd();
+        $this->selectAdd('p_website_id AS id');
+        $this->selectAdd('CONCAT(width,height) AS name');
+        $this->selectAdd('width AS width');
+        $this->selectAdd('height AS height');
+        $this->selectAdd('SUM(impressions) AS impressions');
+        $this->selectAdd('SUM(revenue) AS revenue');
+        $this->selectAdd('FORMAT(SUM(revenue) * 1000 / SUM(impressions), 2) AS ecpm');
+        //$this->joinAdd($oWebsitePref);
+        
+        
+        if (!empty($aOption['aAffiliateids']) && !empty($aOption['aAffiliateids'])) {
+            $this->whereAdd("p_website_id in (".implode(",", $aOption['aAffiliateids']).")");
+        }
+        
+//        if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
+//            $this->whereAdd("$tableName.day >= '{$aOption['period_start']}' AND $tableName.day <= '{$aOption['period_end']}'");
+//        } else if (!empty($aOption['period_start']) || !empty($aOption['period_end'])) {
+//            $date = (!empty($aOption['period_start'])) ? $aOption['period_start'] : $aOption['period_end'];
+//            $this->whereAdd("$tableName.day = '$date'");
+//        }
+        
+        $this->groupBy($tableName.'.width, '.$tableName.'.height');
+        if (!empty($orderClause)) {
+            $this->orderBy($orderClause);
+        }
+        $this->find();
+        while ($this->fetch()) {
+            $aData[] = $this->toArray();
+        }
+        $aResult = array();
+        foreach ($aData as $row) {
+            $aResult[$row['id']][] = $row;
+        }
+        
+
+        //expected result is an associative array indexed with afiiliate id
+        return $aResult;        
+    }
 }
 ?>

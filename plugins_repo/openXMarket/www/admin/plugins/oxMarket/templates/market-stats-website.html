@@ -1,8 +1,8 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -63,9 +63,9 @@ $Id$
                             <td height='25'>
                           <div style="float:left;padding-right: 5px;">
                           {if $aReportData.zones.$affiliateId}
-                            <a href="market-stats.php?collapse={$affiliateId}"><img src="{$assetPath}/images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
+                            <a href="market-stats.php??period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&collapse={$affiliateId}"><img src="{$assetPath}/images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
                           {else}
-                            <a href="market-stats.php?expand={$affiliateId}"><img src="{$assetPath}/images/{$phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>                            
+                            <a href="market-stats.php??period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand={$affiliateId}"><img src="{$assetPath}/images/{$phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>                            
                           {/if}
                             <img src='{$assetPath|escape}/images/icon-affiliate.gif' align='absmiddle'>&nbsp;
                           </div>
@@ -99,3 +99,8 @@ $Id$
         </td>
     </tr>
 </table>
+<div style="float: right;">
+    <img border="0" align="absmiddle" src="{$assetPath}/images/triangle-d.gif"/> <a accesskey="e" href="market-stats.php?period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand=all"><u>E</u>xpand all</a>
+          |  
+    <img border="0" align="absmiddle" src="{$assetPath}/images/ltr/triangle-l.gif"/> <a accesskey="c" href="market-stats.php?period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand=none"><u>C</u>ollapse all</a>
+</div>

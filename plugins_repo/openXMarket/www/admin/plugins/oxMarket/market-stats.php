@@ -58,10 +58,9 @@ function displayPage($oComponent)
     $pageName = basename($_SERVER['PHP_SELF']);
 
     $affiliateId    = MAX_getStoredValue('affiliateid', null);
-    //TODO uncomment that after dao is ready
-    //    if (!is_null($affiliateId)) {
-//        OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
-//    }
+    if (!is_null($affiliateId)) {
+        OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
+    }
 
     $orderdirection = MAX_getStoredValue('orderdirection', '');
     $listorder      = MAX_getStoredValue('listorder', '');
@@ -72,9 +71,9 @@ function displayPage($oComponent)
     $periodPreset   = MAX_getStoredValue('period_preset', null);
 
     $aOption = array(
-        'affiliateid' => $affiliateId,
-        'orderdirection' => $orderdirection,
-        'listorder' => $listorder,
+        'affiliateid'       => $affiliateId,
+        'orderdirection'    => $orderdirection,
+        'listorder'         => $listorder,
         'period_preset'     => $periodPreset,
         'period_start'      => $startDate,
         'period_end'        => $endDate
@@ -102,25 +101,38 @@ function displayPage($oComponent)
         
         // Init nodes
         $aNodes   = MAX_getStoredArray('nodes', array());
+        if (count($aNodes) == 1 && empty($aNodes[0])) {
+            $aNodes = array();
+        }
         $expand   = MAX_getValue('expand', '');
         $collapse = MAX_getValue('collapse');
 
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($aNodes, $expand, $collapse);        
-        
         foreach ($aReportData['websites'] as $aWebsiteStats) {
             $websiteId = $aWebsiteStats['id'];
-            if (in_array($websiteId, $aNodes)) {
-                $aOption['affiliateid'] = $websiteId;
-                $oReport = OA_Dal::factoryDO('ext_market_web_stats');
-                $aReportData['zones'][$websiteId] = $oReport->getSizeStatsByAffiliateId($aOption);
-            }    
+            MAX_isExpanded($websiteId, $expand, $aNodes, ''); //this updates aNodes if necessary
         }
-        unset($aOption['affiliateid']);
+        $aReportData['zones'] = array();
+        if ($expand === "all") {
+            $oReport = OA_Dal::factoryDO('ext_market_web_stats');
+            $aReportData['zones'] = $oReport->getSizeStatsForAffiliates($aOption);
+        }
+        else {
+            if (!empty($aNodes)) {
+                $aOption['aAffiliateids'] = $aNodes;
+                $oReport = OA_Dal::factoryDO('ext_market_web_stats');
+                $aReportData['zones'] = $oReport->getSizeStatsForAffiliates($aOption);
+                unset($aOption['aAffiliateids']);
+            }
+        }                
     }
 
     $oTpl->assign('aReportData',    $aReportData);
     $oTpl->assign('daySpan',        $oDaySpan);
+    $oTpl->assign('period_start', MAX_getStoredValue('period_start', null));
+    $oTpl->assign('period_end', MAX_getStoredValue('period_end', null));
+    $oTpl->assign('period_preset', MAX_getStoredValue('period_preset', null));
     $oTpl->assign('listorder',      $listorder);
     $oTpl->assign('orderdirection', $orderdirection);
     $oTpl->display();
