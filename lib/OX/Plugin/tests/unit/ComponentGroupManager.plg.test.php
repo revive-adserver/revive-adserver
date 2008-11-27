@@ -337,6 +337,48 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             }
         }
     }
+    
+    function test_checkNavigationCheckers()
+    {
+        $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/navigation/','name'=>'testPluginChecker.php');
+                
+        $aCheckers = array();
+        $name = 'testPlugin';
+        
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $oManager->aErrors            = array();
+        $oManager->pathPackages       = $this->testpathPackages;
+        $oManager->pathPluginsAdmin   = $this->testpathPluginsAdmin;
+        
+        // No checkers return true
+        $this->assertTrue($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
+        
+        // File not found
+        $oManager->aErrors = array();
+        $aCheckers         = array();
+        $aCheckers[]       = array('class' => 'Plugins_Admin_TestPlugin_TestPluginChecker2', 'include' => 'testPluginChecker2.php');
+        $this->assertFalse($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
+        
+        // Class not found
+        $oManager->aErrors = array();
+        $aCheckers         = array();
+        $aCheckers[] = array('class' => 'Plugins_Admin_TestPlugin_TestPluginChecker2', 'include' => 'testPluginChecker.php');
+        $this->assertFalse($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
+                
+        // Checker found
+        $oManager->aErrors = array();
+        $aCheckers         = array();
+        $aCheckers[] = array('class' => 'Plugins_Admin_TestPlugin_TestPluginChecker', 'include' => 'testPluginChecker.php');
+        $this->assertTrue($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
+
+        if ($oManager->countErrors())
+        {
+            foreach ($oManager->aErrors as $msg)
+            {
+                $this->assertTrue(false, $msg);
+            }
+        }
+    }
 
     function test_getVersionController()
     {

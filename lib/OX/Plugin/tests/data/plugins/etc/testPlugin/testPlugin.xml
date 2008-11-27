@@ -46,9 +46,13 @@
             <file path="{ADMINPATH}/">testPlugin-common.php</file>
             <file path="{ADMINPATH}/">testPlugin-index.php</file>
             <file path="{ADMINPATH}/">testPlugin-page.php</file>
+            <file path="{ADMINPATH}/navigation">testPluginChecker.php</file>
         </files>
 
         <navigation>
+            <checkers>
+                <checker class="Plugins_Admin_TestPlugin_TestPluginChecker" include="testPluginChecker.php" />
+            </checkers>
             <admin>
                 <menu add="test-menu-admin" index="test-menu-admin" link="path_to_test_plugin/index.php">Test Menu Index Admin</menu>
                 <menu addto="test-menu-admin" index="test-menu-admin-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Admin</menu>

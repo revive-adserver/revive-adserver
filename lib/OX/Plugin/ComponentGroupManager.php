@@ -314,6 +314,14 @@ class OX_Plugin_ComponentGroupManager
                                               $aGroup['install']['schema']
                                              ),
                             );
+        $aTaskList[] = array(
+                            'method' =>'_checkNavigationCheckers',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['install']['navigation']['checkers'],
+                                              $aGroup['install']['files']
+                                             ),
+                            );
         // settings, preferences
         return $aTaskList;
     }
@@ -407,6 +415,14 @@ class OX_Plugin_ComponentGroupManager
                             'params' => array(
                                               $aGroup['name'],
                                               $aGroup['version']
+                                             ),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'_checkNavigationCheckers',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['install']['navigation']['checkers'],
+                                              $aGroup['install']['files']
                                              ),
                             );
         $aTaskList[] = array(
@@ -1215,6 +1231,53 @@ class OX_Plugin_ComponentGroupManager
             {
                 $this->_logError('File check failed to find '.$file);
                 return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Check UI Menu checkers 
+     *  - declared file exists
+     *  - declared class exists
+     *  - class implements OA_Admin_Menu_IChecker
+     *
+     * @param string $name
+     * @param array $aCheckersList List of checkers
+     * @param array $aFiles
+     * @return boolean
+     */
+    function _checkNavigationCheckers($name, $aCheckersList=array(), $aFiles=array())
+    {
+        if (is_array($aCheckersList) && !empty($aCheckersList)) 
+        {
+            foreach ($aCheckersList as &$aChecker) {
+                $result = false;
+                foreach ($aFiles AS &$aFile)
+                {
+                    if ($aFile['name'] == $aChecker['include']) {
+                        if ($result == true) {
+                            $this->_logError('Navigation check found ambigious file name '.$aChecker['name'].', at least two files have the same name declared');
+                            return false;
+                        }
+                        $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+                        if (file_exists($file) && @include_once $file) {
+                            if (!class_exists($aChecker['class'])){
+                                $this->_logError('Navigation check failed to find class '.$aChecker['class']);
+                                return false;
+                            }
+                            if(!in_array('OA_Admin_Menu_IChecker', class_implements($aChecker['class']))) {
+                                $this->_logError('Navigation check: Class '.$aChecker['class'].' doesn\'t implement OA_Admin_Menu_IChecker interface');
+                                return false;
+                            }
+                            $result = true;
+                        }
+                    }
+                }
+                if ($result == false) {
+                    $this->_logError('Navigation check failed to find file '.$aChecker['include']);
+                    return false;
+                }
             }
         }
         return true;

@@ -40,6 +40,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
                          OA_ACCOUNT_MANAGER => array(),
                          OA_ACCOUNT_ADVERTISER => array(),
                          OA_ACCOUNT_TRAFFICKER => array(),
+                         'checkers' => array(),
                          );
     var $aSchema = array(
                           'mdb2schema'  => '',
@@ -75,27 +76,12 @@ class OX_ParserComponentGroup extends OX_ParserBase
 
                 break;
             case 'plugin-install-navigation-admin-menu':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
-                }
-                break;
             case 'plugin-install-navigation-manager-menu':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
-                }
-                break;
             case 'plugin-install-navigation-advertiser-menu':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
-                }
-                break;
             case 'plugin-install-navigation-trafficker-menu':
+            case 'plugin-install-navigation-checkers-checker':
+            case 'plugin-install-configuration-setting':
+            case 'plugin-install-configuration-preference':
                 $this->aData = array();
                 foreach ($attribs AS $k => $v)
                 {
@@ -108,20 +94,6 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 if (isset($attribs[strtoupper('option')]))
                 {
                     $this->aConf['option'] = $attribs[strtoupper('option')];
-                }
-                break;
-            case 'plugin-install-configuration-setting':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
-                }
-                break;
-            case 'plugin-install-configuration-preference':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
                 }
                 break;
             case 'plugin-install-components-component':
@@ -152,6 +124,8 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-navigation-trafficker-menu':
                 $this->aNav[OA_ACCOUNT_TRAFFICKER][] = $this->aData;
                 break;
+            case 'plugin-install-navigation-checkers-checker':
+                $this->aNav['checkers'][] = $this->aData;
             case 'plugin':
                 $this->aInstall['navigation'] = $this->aNav;
                 $this->aInstall['schema']     = $this->aSchema;
@@ -182,6 +156,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-navigation-manager-menu':
             case 'plugin-install-navigation-advertiser-menu':
             case 'plugin-install-navigation-trafficker-menu':
+            case 'plugin-install-navigation-checkers-checker':
                 $this->aData['value'] = $data;
                 break;
             case 'plugin-install-schema-mdb2schema':

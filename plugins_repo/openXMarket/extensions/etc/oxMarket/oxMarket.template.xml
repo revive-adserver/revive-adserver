@@ -48,6 +48,7 @@
             <file path="{ADMINPATH}/">market-signup.php</file>
             <file path="{ADMINPATH}/">market-stats.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketChecker.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
@@ -61,6 +62,9 @@
         </components>
 
         <navigation>
+            <checkers>
+                <checker class="Plugins_admin_oxMarket_oxMarketChecker" include="oxMarketChecker.php" />
+            </checkers>
 
             <admin>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market Beta</menu>
@@ -68,7 +72,7 @@
             </admin>
 
             <manager>
-                <menu addto="website-index" index="market-preferences-website"   link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}">OpenX Market Beta</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="OX_Market_Checker">OpenX Market Beta</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php">OpenX Market Beta</menu>
             </manager>
         </navigation>
