@@ -134,7 +134,10 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $doZones->affiliateid = $mi->affiliateid;
         $doZones->find();
         while ($doZones->fetch() && $row = $doZones->toArray()) {
-            $aZones[] = $row;
+            // Email/Newsletter zones are not included in SPC
+            if ($row['delivery'] != 4) {
+                $aZones[] = $row;
+            }
         }
 
         if(count($aZones) == 0) {
