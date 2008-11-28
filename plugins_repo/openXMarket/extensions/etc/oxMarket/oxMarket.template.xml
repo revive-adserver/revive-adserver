@@ -68,12 +68,12 @@
 
             <admin>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market Beta</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php">OpenX Market Beta</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
             </admin>
 
             <manager>
                 <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php">OpenX Market Beta</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
             </manager>
         </navigation>
 

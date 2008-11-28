@@ -42,7 +42,8 @@ class Plugins_admin_oxMarket_oxMarketChecker
      */
     public function check($oSection) 
     {
-        return false;
+        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+        return $oMarketComponent->isActive();
     }
 }
 
