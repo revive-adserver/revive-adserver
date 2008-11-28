@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
     <version>0.0.1-dev</version>
-    <oxversion>2.7.27-beta-rc10</oxversion>
+    <oxversion>2.7.27-beta-rc12</oxversion>
     <extends>admin</extends>
 
     <install>
