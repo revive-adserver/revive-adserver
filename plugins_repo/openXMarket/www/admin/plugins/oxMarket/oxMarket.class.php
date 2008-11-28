@@ -372,7 +372,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function splashAlreadyShown()
     {
         //TODO get info about splash from DB
-        return true;
+        return false;
     }
     
     

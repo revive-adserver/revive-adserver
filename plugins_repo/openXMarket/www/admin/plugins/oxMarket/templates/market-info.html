@@ -31,10 +31,11 @@ $Id$
 <div class="content">
     <iframe id="welcome-frame" src="{$welcomeURL}" width="100%" frameborder="0" marginwidth="0" marginheight="0"></iframe>
      
+    <h2 class="section">{t str='Get Started!'}</h2>
+    <p>{t str="To get started, you need to signup for OpenX Market Publisher account using your existing OpenX account. If you do not have an OpenX account yet, you'll need to create one."}</p>     
     <form action="market-signup.php" method="get">
         <input type="submit" value="{if $isRegistered}{t str='Continue'}{else}{t str='Join now!'}{/if}" />
     </form>
-    
 </div>
 
 <script type="text/javascript" src="{$pubconsoleHost}/assets/pc/js/ox.pc.frame.js" ></script>
