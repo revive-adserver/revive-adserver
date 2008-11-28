@@ -31,10 +31,10 @@ $Id$
         <ul class='tableActions'>
             {if $isManager}
             <li>
-                {if $clientId != -1 || $campaignId != -1}
-                <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
-                {else}
+                {if $clientId == -1 || $campaignId == -1}
                 <span class='inlineIcon iconBannerAddDisabled'>{t str=AddBanner}</span>
+                {else}
+                <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
                 {/if}
             </li>
             {/if}
