@@ -1147,9 +1147,6 @@ class OA_Upgrade
                                                )
                                          );
 
-        /*$this->addPostUpgradeTask('Install_Plugins');
-        $this->_writePostUpgradeTasksFile();*/
-
         if ($this->upgrading_from_milestone_version)
         {
             if ( ! $this->removeUpgradeTriggerFile())
@@ -1468,7 +1465,7 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        //$this->addPostUpgradeTask('Check_Plugins');
+
         $this->_writePostUpgradeTasksFile();
         $this->_pickupRecoveryFile();
         return true;
