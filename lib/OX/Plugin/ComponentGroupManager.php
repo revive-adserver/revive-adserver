@@ -377,10 +377,19 @@ class OX_Plugin_ComponentGroupManager
                                              ),
                             );
         $aTaskList[] = array(
+                            'method' =>'_checkNavigationCheckers',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['install']['navigation']['checkers'],
+                                              $aGroup['install']['files']
+                                             ),
+                            );
+        $aTaskList[] = array(
                             'method' =>'_checkMenus',
                             'params' => array(
                                               $aGroup['name'],
-                                              $aGroup['install']['navigation']
+                                              $aGroup['install']['navigation'],
+                                              $aGroup['install']['files']
                                              ),
                             );
         $aTaskList[] = array(
@@ -415,14 +424,6 @@ class OX_Plugin_ComponentGroupManager
                             'params' => array(
                                               $aGroup['name'],
                                               $aGroup['version']
-                                             ),
-                            );
-        $aTaskList[] = array(
-                            'method' =>'_checkNavigationCheckers',
-                            'params' => array(
-                                              $aGroup['name'],
-                                              $aGroup['install']['navigation']['checkers'],
-                                              $aGroup['install']['files']
                                              ),
                             );
         $aTaskList[] = array(
@@ -1336,14 +1337,17 @@ class OX_Plugin_ComponentGroupManager
      * @todo if we do manu caching, merge core menu with plugin menu and store
      *
      * @param string $name
+     * @param array $aMenus menu section from xml file
+     * @param array $aFiles file section from xml file
      * @return boolean
      */
-    function _checkMenus($name, $aMenus=null)
+    function _checkMenus($name, $aMenus=null, $aFiles=null)
     {
         if (!$aMenus)
         {
             return true;
         }
+        $aCheckers = $this->_prepareMenuCheckers($name, $aMenus['checkers'], $aFiles);
         foreach ($aMenus AS $accountType => &$aMenu)
         {
             if (!$this->aMenuObjects[$accountType])
@@ -1356,7 +1360,7 @@ class OX_Plugin_ComponentGroupManager
             }
             foreach ($aMenu as $idx => &$aMenu)
             {
-                if (!$this->_addMenuSection($oMenu, $aMenu))
+                if (!$this->_addMenuSection($oMenu, $aMenu, $aCheckers))
                 {
                     return false;
                 }
@@ -1366,6 +1370,33 @@ class OX_Plugin_ComponentGroupManager
         }
     }
 
+    /**
+     * add full include path to checkers files for Menu Checkers
+     * set array keys to checkers classes names
+     *
+     * @param string $name
+     * @param array $aMenuCheckers
+     * @param array $aFiles
+     * @return array Menu checkers 
+     */
+    function _prepareMenuCheckers($name, $aMenuCheckers = null, $aFiles = null)
+    {
+        $aCheckers = array();
+        if ($aMenuCheckers && $aFiles) {
+            foreach($aMenuCheckers as &$aChecker) {
+                foreach ($aFiles as &$aFile)
+                {
+                    if ($aFile['name'] == $aChecker['include']) {
+                        $aChecker['fullPath'] = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+                        break;
+                    }
+                }
+                $aCheckers[$aChecker['class']] = $aChecker;
+            }
+        }
+        return $aCheckers;
+    }
+    
     /**
      * return an instance of the core version control class
      *
@@ -1861,9 +1892,10 @@ class OX_Plugin_ComponentGroupManager
                 $aParse = $this->parseXML($file);
                 if (isset($aParse['install']['navigation'][$accountType]))
                 {
+                    $aCheckers = $this->_prepareMenuCheckers($name, $aParse['install']['navigation']['checkers'], $aParse['install']['files']);
                     foreach ($aParse['install']['navigation'][$accountType] as $idx => &$aMenu)
                     {
-                        if (!$this->_addMenuSection($oMenu, $aMenu))
+                        if (!$this->_addMenuSection($oMenu, $aMenu, $aCheckers))
                         {
                             return false;
                         }
@@ -1879,9 +1911,10 @@ class OX_Plugin_ComponentGroupManager
      *
      * @param object of type OA_Admin_Menu $oMenu
      * @param array $aMenu
+     * @param array $aCheckers
      * @return boolean
      */
-    function _addMenuSection(&$oMenu, &$aMenu)
+    function _addMenuSection(&$oMenu, &$aMenu, &$aCheckers)
     {
         if ($aMenu['add'])
         {
@@ -1890,7 +1923,8 @@ class OX_Plugin_ComponentGroupManager
                 // menu already exists
                 return false;
             }
-            $oMenu->add(new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], null, explode('|',$aMenu['permission'])));
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link']);
+            $oMenu->add($oMenuSection);
         }
         else
         {
@@ -1899,6 +1933,7 @@ class OX_Plugin_ComponentGroupManager
                 $this->_logError('Menu already exists for '.$aMenu['index']);
                 return false;
             }
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']);
             if ($aMenu['addto'])
             {
                 if (!$oMenu->get($aMenu['addto'],false))
@@ -1906,7 +1941,7 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Parent menu does not exist for '.$aMenu['addto']);
                     return false;
                 }
-                $oMenu->addTo($aMenu['addto'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
+                $oMenu->addTo($aMenu['addto'], $oMenuSection);
             }
             else if ($aMenu['insertafter'])
             {
@@ -1915,7 +1950,7 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Sibling menu does not exist '.$aMenu['insertafter']);
                     return false;
                 }
-                $oMenu->insertAfter($aMenu['insertafter'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
+                $oMenu->insertAfter($aMenu['insertafter'], $oMenuSection);
             }
             else if ($aMenu['insertbefore'])
             {
@@ -1924,7 +1959,19 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Sibling menu does not exist '.$aMenu['insertbefore']);
                     return false;
                 }
-                $oMenu->insertBefore($aMenu['insertbefore'], new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']));
+                $oMenu->insertBefore($aMenu['insertbefore'], $oMenuSection);
+            }
+        }
+        if ($aMenu['checker'])
+        {
+            $checkerClassName = $aMenu['checker'];
+            @include_once( $aCheckers[$checkerClassName]['fullPath'] );
+            if (class_exists($checkerClassName)) 
+            {
+                $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['fullPath']);
+                $oChecker = new $checkerClassName;
+                $oMenuSection->setChecker($oChecker);
+                
             }
         }
         return true;

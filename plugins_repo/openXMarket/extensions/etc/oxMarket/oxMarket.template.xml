@@ -72,7 +72,7 @@
             </admin>
 
             <manager>
-                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="OX_Market_Checker">OpenX Market Beta</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php">OpenX Market Beta</menu>
             </manager>
         </navigation>

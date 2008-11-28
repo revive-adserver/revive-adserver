@@ -40,6 +40,13 @@ class OA_Admin_Menu
     var $rootSection;
     var $aAllSections;
     var $aLinkParams;
+    
+    /**
+     * Array of included checker path
+     *
+     * @var array
+     */
+    var $aCheckerIncludePaths;
 
     /**
      * Returns the instance of menu. Subsequent calls return the same object.
@@ -85,7 +92,16 @@ class OA_Admin_Menu
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
-        return $oCache->load(true);
+        $aMenu = $oCache->load(true);
+        if (!is_array($aMenu)) {
+            return false;
+        }
+        if ($aMenu['checkerPaths']) {
+            foreach ($aMenu['checkerPaths'] as $path) {
+                 @include_once $path;
+            }
+        }
+        return unserialize($aMenu['oMenu']);
     }
 
 
@@ -93,7 +109,7 @@ class OA_Admin_Menu
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
-        return $oCache->save($this);
+        return $oCache->save(array( 'checkerPaths' => $this->aCheckerIncludePaths, 'oMenu' => serialize($this)));
     }
 
 
@@ -481,6 +497,17 @@ class OA_Admin_Menu
               $agencyid == $doAgency->agencyid
             );
         }
+    }
+    
+    /**
+     * Store checker include path
+     *
+     * @param string $checkerClassName
+     * @param string $fullPath
+     */
+    function addCheckerIncludePath($checkerClassName, $fullPath)
+    {
+        $this->aCheckerIncludePaths[$checkerClassName] = $fullPath;
     }
 }
 /**
