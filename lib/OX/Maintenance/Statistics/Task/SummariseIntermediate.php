@@ -118,8 +118,8 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $message = "  to the '$statisticsTable' table, for operation interval range";
                         OA::debug($message, PEAR_LOG_DEBUG);
-                        $message = '  ' . $aDates['start']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
-                                   ' to ' . $aDates['end']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
+                        $message = '  ' . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
+                                   ' to ' . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $result = $oDal->summariseBucketsRaw($statisticsTable, $aMigrationDetails, $aDates);
                         if (PEAR::isError($result)) {
@@ -146,8 +146,8 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $message = "  to the '$statisticsTable' table, for operation interval range";
                         OA::debug($message, PEAR_LOG_DEBUG);
-                        $message = '  ' . $aDates['start']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
-                                   ' to ' . $aDates['end']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
+                        $message = '  ' . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
+                                   ' to ' . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $result = $oDal->summariseBucketsRawSupplementary($statisticsTable, $aMigrationDetails, $aDates);
                         if (PEAR::isError($result)) {
