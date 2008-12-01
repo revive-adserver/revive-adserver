@@ -150,7 +150,7 @@
    </field>
 
    <field>
-    <name>day_time</name>
+    <name>date_time</name>
     <type>openads_datetime</type>
     <notnull>false</notnull>
     <default></default>
@@ -158,14 +158,6 @@
 
    <field>
     <name>revenue</name>
-    <type>openads_decimal</type>
-    <length>17,5</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ecpm</name>
     <type>openads_decimal</type>
     <length>17,5</length>
     <notnull>false</notnull>
@@ -197,9 +189,9 @@
    </index>
 
    <index>
-    <name>ext_market_web_stats_day_time</name>
+    <name>ext_market_web_stats_date_time</name>
     <field>
-     <name>day_time</name>
+     <name>date_time</name>
      <sorting>ascending</sorting>
     </field>
    </index>

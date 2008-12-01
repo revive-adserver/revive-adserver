@@ -58,17 +58,26 @@ function displayPage($oComponent)
     $pageName = basename($_SERVER['PHP_SELF']);
 
     $affiliateId    = MAX_getStoredValue('affiliateid', null);
-    if (!is_null($affiliateId)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
     }
 
     $orderdirection = MAX_getStoredValue('orderdirection', '');
     $listorder      = MAX_getStoredValue('listorder', '');
-    $startDate      = MAX_getStoredValue('period_start', null);
-    $startDate      = (!empty($startDate)) ? date('Y-m-d', strtotime($startDate)) : '';
-    $endDate        = MAX_getStoredValue('period_end', null);
-    $endDate        = (!empty($endDate)) ? date('Y-m-d', strtotime($endDate)) : null;
     $periodPreset   = MAX_getStoredValue('period_preset', null);
+    if ($periodPreset == 'all_stats') {
+        unset($session['prefs']['GLOBALS']['period_start']);
+        unset($session['prefs']['GLOBALS']['period_end']);
+        $_REQUEST['period_preset'] = $periodPreset;
+        $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
+    } else {
+        $startDate      = MAX_getStoredValue('period_start', null);
+        $endDate        = MAX_getStoredValue('period_end', null);
+    }
+    $startDate      = (!empty($startDate)) ? date('Y-m-d', strtotime($startDate)) : '';
+    $endDate        = (!empty($endDate)) ? date('Y-m-d', strtotime($endDate)) : null;
+    
+    
 
     $aOption = array(
         'affiliateid'       => $affiliateId,
