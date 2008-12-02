@@ -1416,7 +1416,7 @@ SELECT pg_catalog.setval('ox_ad_zone_assoc_ad_zone_assoc_id_seq', 7, true);
 --
 
 CREATE SEQUENCE ox_affiliates_affiliateid_seq
-    START WITH 1
+--    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1438,7 +1438,7 @@ ALTER SEQUENCE ox_affiliates_affiliateid_seq OWNED BY ox_affiliates.affiliateid;
 -- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, false);
+SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, true); -- false);
 
 
 --

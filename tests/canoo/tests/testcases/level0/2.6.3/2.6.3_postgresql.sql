@@ -1438,7 +1438,7 @@ ALTER SEQUENCE ox_affiliates_affiliateid_seq OWNED BY ox_affiliates.affiliateid;
 -- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, false);
+SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, true); --false);
 
 
 --
