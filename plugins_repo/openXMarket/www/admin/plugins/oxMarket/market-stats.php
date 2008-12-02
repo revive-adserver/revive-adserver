@@ -58,7 +58,7 @@ function displayPage($oComponent)
     $pageName = basename($_SERVER['PHP_SELF']);
 
     $affiliateId    = MAX_getStoredValue('affiliateid', null);
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && isset($affiliateId)) {
         OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
     }
 
