@@ -59,6 +59,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     var $oExtensionManager;
 
     var $aParse = array('package'=>array(), 'plugins'=>array());
+    
+    var $pluginLogSwitchCounter = 0;
 
     function __construct()
     {
@@ -124,82 +126,81 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     function upgradePackage($aFile, $name)
     {
-        OA::switchLogFile('plugins');
-        if (!@file_exists ($aFile['tmp_name']))
-        {
-            $this->_logError('Failed to read the uploaded file');
-            return false;
-        }
-        if (!$this->_matchPackageFilename($name, $aFile['name']))
-        {
-            $this->_logError('Package filename mismatch, the file must contain the package name '.$aPackage['name']);
-            return false;
-        }
-        if (!$this->_parsePackage($name))
-        {
-            $this->_logError('Failed to parse the current package '.$name);
-            return false;
-        }
-        $aPackageOld = $this->_getParsedPackage();
-        if (!$this->_parseComponentGroups($aPackageOld['install']['contents']))
-        {
-            $this->_logError('Failed to parse the current plugins in package '.$name);
-            return false;
-        }
-        $aPluginsOld = $this->_getParsedPlugins();
-        $this->aParse = array();
-
-        $this->disablePackage($name);
-
-        if (!$this->unpackPlugin($aFile, true))
-        {
-            return false;
-        }
-        $aPackageNew = $this->_getParsedPackage();
-        if ($name != $aPackageNew['name'])
-        {
-            $this->_logError('Upgrade package name '.$aPackageNew['name'].'" does not match the package you are upgrading '.$name);
-            return false;
-        }
-        if (version_compare($aPackageOld['version'],$aPackageNew['version'],'>='))
-        {
-            $this->_logError('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not greater than that of the package you have installed');
-            return false;
-        }
-        $aPluginsNew = $this->_getParsedPlugins();
-        $this->_runExtensionTasks('BeforePluginInstall');
-        $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
-                                    'version_to'=>$aPackageNew['version'],
-                                    'version_from'=>$aPackageOld['version'],
-                                    'logfile'=>'plugins.log'
-                                    )
-                             );
-        $auditId = $this->_auditStart(array('description'=>'PACKAGE UPGRADE FAILED',
-                                            'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
-                                           )
-                                     );
-        if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld))
-        {
-            if ($this->oUpgrader)
+        $this->_switchToPluginLog();
+        try {
+            if (!@file_exists ($aFile['tmp_name']))
             {
-                $this->aErrors = $this->oUpgrader->getErrors();
-                $this->aWarning = $this->oUpgrader->getMessages();
+                throw new Exception('Failed to read the uploaded file');
             }
-            $this->_logError('One or more plugins cannot be upgraded');
-            return false;
+            if (!$this->_matchPackageFilename($name, $aFile['name']))
+            {
+                throw new Exception('Package filename mismatch, the file must contain the package name '.$aPackage['name']);
+            }
+            if (!$this->_parsePackage($name))
+            {
+                throw new Exception('Failed to parse the current package '.$name);
+            }
+            $aPackageOld = $this->_getParsedPackage();
+            if (!$this->_parseComponentGroups($aPackageOld['install']['contents']))
+            {
+                throw new Exception('Failed to parse the current plugins in package '.$name);
+            }
+            $aPluginsOld = $this->_getParsedPlugins();
+            $this->aParse = array();
+    
+            $this->disablePackage($name);
+    
+            if (!$this->unpackPlugin($aFile, true))
+            {
+                throw new Exception();
+            }
+            $aPackageNew = $this->_getParsedPackage();
+            if ($name != $aPackageNew['name'])
+            {
+                throw new Exception('Upgrade package name '.$aPackageNew['name'].'" does not match the package you are upgrading '.$name);
+            }
+            if (version_compare($aPackageOld['version'],$aPackageNew['version'],'>='))
+            {
+                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not greater than that of the package you have installed');
+            }
+            $aPluginsNew = $this->_getParsedPlugins();
+            $this->_runExtensionTasks('BeforePluginInstall');
+            $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
+                                        'version_to'=>$aPackageNew['version'],
+                                        'version_from'=>$aPackageOld['version'],
+                                        'logfile'=>'plugins.log'
+                                        )
+                                 );
+            $auditId = $this->_auditStart(array('description'=>'PACKAGE UPGRADE FAILED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                               )
+                                         );
+            if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld))
+            {
+                if ($this->oUpgrader)
+                {
+                    $this->aErrors = $this->oUpgrader->getErrors();
+                    $this->aWarning = $this->oUpgrader->getMessages();
+                }
+                throw new Exception('One or more plugins cannot be upgraded');
+            }
+            if (!$this->_upgradeComponentGroups($aPluginsNew, $aPluginsOld))
+            {
+                throw new Exception('Failed to install plugins for package '.$name);
+            }
+            $this->_auditUpdate(array('description'=>'UPGRADE COMPLETE',
+                                      'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                      'id' => $auditId,
+                                     )
+                               );
+            $this->_runExtensionTasks('AfterPluginInstall');
+            $result = true;
+        } catch (Exception $e) {
+            $this->_logError($e->getMessage());
+            $result = false;
         }
-        if (!$this->_upgradeComponentGroups($aPluginsNew, $aPluginsOld))
-        {
-            $this->_logError('Failed to install plugins for package '.$name);
-            return false;
-        }
-        $this->_auditUpdate(array('description'=>'UPGRADE COMPLETE',
-                                  'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                  'id' => $auditId,
-                                 )
-                           );
-        $this->_runExtensionTasks('AfterPluginInstall');
-        return true;
+        $this->_switchToDefaultLog();
+        return $result;
     }
 
     /**
@@ -213,19 +214,24 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function unpackPlugin($aFile, $overwrite=false)
     {
         //OA::logMem('enter unpackPlugin');
-        OA::switchLogFile('plugins');
-        if (!@file_exists ($aFile['tmp_name']))
-        {
-            $this->_logError('Failed to read the uploaded file');
-            return false;
-        }
-        if (!$this->_unpack($aFile, $overwrite))
-        {
-            $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
-            return false;
+        $this->_switchToPluginLog();
+        try {
+            if (!@file_exists ($aFile['tmp_name']))
+            {
+                throw new Exception('Failed to read the uploaded file');
+            }
+            if (!$this->_unpack($aFile, $overwrite))
+            {
+                throw new Exception('The uploaded file '.$aFile['name'] .' was not unpacked');
+            }
+            $result = true;
+        } catch (Exception $e) {
+            $this->_logError($e->getMessage());
+            $result = false;
         }
         //OA::logMem('exit unpackPlugin');
-        return true;
+        $this->_switchToDefaultLog();
+        return $result;
     }
 
     function installPackageCodeOnly($aFile)
@@ -234,25 +240,31 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             return false;
         }
-        foreach ($this->aParse['plugins'] as &$aGroup)
-        {
-            if (!empty($aGroup['install']['schema']['dataobjects']))
+        $this->_switchToPluginLog();
+        try {
+            foreach ($this->aParse['plugins'] as &$aGroup)
             {
-                $aSchema = $aGroup['install']['schema'];
-                $name    = $aGroup['name'];
-                if (!$this->_putDataObjects($name, $aSchema))
+                if (!empty($aGroup['install']['schema']['dataobjects']))
                 {
-                    $this->_logError('Failed to copy dataobject classes for '.$name);
-                    return false;
-                }
-                if (!$this->_cacheDataObjects($name, $aSchema))
-                {
-                    $this->_logError('Failed to merge dataobject schema for '.$name);
-                    return false;
+                    $aSchema = $aGroup['install']['schema'];
+                    $name    = $aGroup['name'];
+                    if (!$this->_putDataObjects($name, $aSchema))
+                    {
+                        throw new Exception('Failed to copy dataobject classes for '.$name);
+                    }
+                    if (!$this->_cacheDataObjects($name, $aSchema))
+                    {
+                        throw new Exception('Failed to merge dataobject schema for '.$name);
+                    }
                 }
             }
+            $result = true;
+        } catch (Exception $e) {
+            $this->_logError($e->getMessage());
+            $result = false;
         }
-        return true;
+        $this->_switchToDefaultLog();
+        return $result;
     }
 
     /**
@@ -271,38 +283,46 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             return false;
         }
-        $aPackage = &$this->aParse['package'];
-        $aPlugins = &$this->aParse['plugins'];
-        $this->_runExtensionTasks('BeforePluginInstall');
-        $this->_auditSetKeys( array('upgrade_name'=>'install_'.$aPackage['name'],
-                                    'version_to'=>$aPackage['version'],
-                                    'version_from'=>0,
-                                    'logfile'=>'plugins.log'
-                                    )
-                             );
-        $auditId = $this->_auditStart(array('description'=>'PACKAGE INSTALL FAILED',
-                                            'action'=>UPGRADE_ACTION_INSTALL_FAILED,
-                                            )
-                                      );
-        if (!$this->_installComponentGroups($aPlugins))
-        {
-            $this->_logError('Failed to install plugins for package '.$aPackage['name']);
-            $this->_uninstallComponentGroups($aPlugins);
-            return false;
+        $this->_switchToPluginLog();
+        try {
+            $aPackage = &$this->aParse['package'];
+            $aPlugins = &$this->aParse['plugins'];
+            $this->_runExtensionTasks('BeforePluginInstall');
+            $this->_auditSetKeys( array('upgrade_name'=>'install_'.$aPackage['name'],
+                                        'version_to'=>$aPackage['version'],
+                                        'version_from'=>0,
+                                        'logfile'=>'plugins.log'
+                                        )
+                                 );
+            $auditId = $this->_auditStart(array('description'=>'PACKAGE INSTALL FAILED',
+                                                'action'=>UPGRADE_ACTION_INSTALL_FAILED,
+                                                )
+                                          );
+            if (!$this->_installComponentGroups($aPlugins))
+            {
+                $this->_logError('Failed to install plugins for package '.$aPackage['name']);
+                $this->_uninstallComponentGroups($aPlugins);
+                throw new Exception();
+            }
+            // this sets up conf but leaves package disabled
+            if (!$this->_registerPackage($aPackage['name']))
+            {
+                throw new Exception();
+            }
+            $this->_auditUpdate(array('description'=>'PACKAGE INSTALL COMPLETE',
+                                      'action'=>UPGRADE_ACTION_INSTALL_SUCCEEDED,
+                                      'id' => $auditId,
+                                     )
+                               );
+            $this->_runExtensionTasks('AfterPluginInstall');
+            $result = true;
+        } catch (Exception $e) {
+            $this->_logError($e->getMessage());
+            $result = false;
         }
-        // this sets up conf but leaves package disabled
-        if (!$this->_registerPackage($aPackage['name']))
-        {
-            return false;
-        }
-        $this->_auditUpdate(array('description'=>'PACKAGE INSTALL COMPLETE',
-                                  'action'=>UPGRADE_ACTION_INSTALL_SUCCEEDED,
-                                  'id' => $auditId,
-                                 )
-                           );
-        $this->_runExtensionTasks('AfterPluginInstall');
         //OA::logMem('exit installPackage');
-        return true;
+        $this->_switchToDefaultLog();
+        return $result;
     }
 
     /**
@@ -316,69 +336,71 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function uninstallPackage($name)
     {
-        OA::switchLogFile('plugins');
-        if (!$this->_parsePackage($name))
-        {
-            $this->_logError('Failed to parse the package definition for '.$name);
-            return false;
+        $this->_switchToPluginLog();
+        try {
+            if (!$this->_parsePackage($name))
+            {
+                throw new Exception('Failed to parse the package definition for '.$name);
+            }
+            $aPackage = &$this->aParse['package'];
+            if (!$this->_parseComponentGroups($aPackage['install']['contents']))
+            {
+                throw new Exception('Failed to parse the plugin definitions contained in package '.$name);
+            }
+            $aGroups = &$this->aParse['plugins'];
+            if (!is_array($aGroups))
+            {
+                throw new Exception('No component groups found in package '.$name);
+            }
+            krsort($aGroups);
+            if (!$this->_canUninstallPlugin($aGroups))
+            {
+                throw new Exception('You may not uninstall this plugin at this time');
+            }
+            $this->_runExtensionTasks('BeforePluginUninstall');
+            $this->_auditSetKeys( array('upgrade_name'=>'uninstall_'.$aPackage['name'],
+                                        'version_to'=>0,
+                                        'version_from'=>$aPackage['version'],
+                                        'logfile'=>'plugins.log'
+                                        )
+                                 );
+            $auditId = $this->_auditStart(array('description'=>'PACKAGE UNINSTALL FAILED',
+                                                'action'=>UPGRADE_ACTION_UNINSTALL_FAILED,
+                                               )
+                                         );
+            // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
+            $this->disablePackage($name);
+            if (!$this->_uninstallComponentGroups($aGroups))
+            {
+                throw new Exception('Failed to uninstall package '.$name);
+            }
+            if (!$this->_unregisterPackage($name))
+            {
+                throw new Exception('Failed to unregister package '.$name);
+            }
+            if (!$this->_removeFiles('', $aPackage['allfiles']))
+            {
+                $this->_logError('Failed to remove some files belonging to '.$name);
+            }
+            $pkgDefinition = MAX_PATH.$this->pathPackages.$name.'.xml';
+            if (file_exists($pkgDefinition))
+            {
+                @unlink($pkgDefinition);
+            }
+            $this->_auditUpdate(array('description'=>'PACKAGE UNINSTALL COMPLETE',
+                                      'action'=>UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
+                                      'id' => $auditId,
+                                     )
+                               );
+            $this->_runExtensionTasks('AfterPluginUninstall');
+            $result = true;
+        } catch (Exception $e) {
+            $this->_logError($e->getMessage());
+            $result = false;
         }
-        $aPackage = &$this->aParse['package'];
-        if (!$this->_parseComponentGroups($aPackage['install']['contents']))
-        {
-            $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
-            return false;
-        }
-        $aGroups = &$this->aParse['plugins'];
-        if (!is_array($aGroups))
-        {
-            $this->_logError('No component groups found in package '.$name);
-            return false;
-        }
-        krsort($aGroups);
-        if (!$this->_canUninstallPlugin($aGroups))
-        {
-            $this->_logError('You may not uninstall this plugin at this time');
-            return false;
-        }
-        $this->_runExtensionTasks('BeforePluginUninstall');
-        $this->_auditSetKeys( array('upgrade_name'=>'uninstall_'.$aPackage['name'],
-                                    'version_to'=>0,
-                                    'version_from'=>$aPackage['version'],
-                                    'logfile'=>'plugins.log'
-                                    )
-                             );
-        $auditId = $this->_auditStart(array('description'=>'PACKAGE UNINSTALL FAILED',
-                                            'action'=>UPGRADE_ACTION_UNINSTALL_FAILED,
-                                           )
-                                     );
-        // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
-        $this->disablePackage($name);
-        if (!$this->_uninstallComponentGroups($aGroups))
-        {
-            $this->_logError('Failed to uninstall package '.$name);
-            return false;
-        }
-        if (!$this->_unregisterPackage($name))
-        {
-            $this->_logError('Failed to unregister package '.$name);
-            return false;
-        }
-        if (!$this->_removeFiles('', $aPackage['allfiles']))
-        {
-            $this->_logError('Failed to remove some files belonging to '.$name);
-        }
-        $pkgDefinition = MAX_PATH.$this->pathPackages.$name.'.xml';
-        if (file_exists($pkgDefinition))
-        {
-            @unlink($pkgDefinition);
-        }
-        $this->_auditUpdate(array('description'=>'PACKAGE UNINSTALL COMPLETE',
-                                  'action'=>UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
-                                  'id' => $auditId,
-                                 )
-                           );
-        $this->_runExtensionTasks('AfterPluginUninstall');
-        return true;
+        //OA::logMem('exit unpackPlugin');
+        $this->_switchToDefaultLog();
+        return $result;
     }
 
     function _canUninstallPlugin(&$aGroups)
@@ -1394,6 +1416,19 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
     }
 
+    function _switchToPluginLog() {
+        if ($this->pluginLogSwitchCounter == 0) {
+            OA::switchLogFile('plugins');
+        }
+        $this->pluginLogSwitchCounter++;
+    }
+    
+    function _switchToDefaultLog() {
+        $this->pluginLogSwitchCounter--;
+        if ($this->pluginLogSwitchCounter == 0) {
+            OA::switchLogFile();    
+        }
+    }
 }
 
 ?>

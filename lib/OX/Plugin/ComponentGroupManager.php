@@ -114,8 +114,10 @@ class OX_Plugin_ComponentGroupManager
 
     function _logError($msg)
     {
-        $this->aErrors[] = $msg;
-        $this->_logMessage($msg, PEAR_LOG_ERR);
+        if (!empty($msg)) {
+            $this->aErrors[] = $msg;
+            $this->_logMessage($msg, PEAR_LOG_ERR);
+        }
     }
 
     /**

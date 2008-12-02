@@ -72,7 +72,9 @@ function MAX_remotehostProxyLookup()
     // Should proxy lookup conversion be performed?
     if ($conf['logging']['proxyLookup']) {
         ###START_STRIP_DELIVERY
-        OA::debug('checking remote host proxy');
+        if ($conf['deliveryLog']['enabled']) {
+            OA::debug('checking remote host proxy');
+        }
         ###END_STRIP_DELIVERY
         // Determine if the viewer has come via an HTTP proxy
         $proxy = false;
@@ -94,7 +96,9 @@ function MAX_remotehostProxyLookup()
         // Has the viewer come via an HTTP proxy?
         if ($proxy) {
             ###START_STRIP_DELIVERY
-            OA::debug('proxy detected');
+            if ($conf['deliveryLog']['enabled']) {
+                OA::debug('proxy detected');
+            }
             ###END_STRIP_DELIVERY
 
             // Try to find the "real" IP address the viewer has come from
@@ -126,7 +130,9 @@ function MAX_remotehostProxyLookup()
                     $_SERVER['REMOTE_HOST'] = '';
                     $_SERVER['HTTP_VIA']    = '';
                     ###START_STRIP_DELIVERY
-                    OA::debug('real address set to '.$ip);
+                    if ($conf['deliveryLog']['enabled']) {
+                        OA::debug('real address set to '.$ip);
+                    }
                     ###END_STRIP_DELIVERY
                 }
             }
