@@ -33,7 +33,6 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      * aOption:
      *  - orderdirection  - order direction 'up' or 'down'
      *  - listorder       - colum name to order by
-     *  - affiliateid     - affiliate id
      *  - period_preset   - special defined periods (e.g. all_stats)
      *  - period_start    - start date of period
      *  - period_end      - end date of period
@@ -70,7 +69,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $this->selectAdd('affiliates.name AS name');
         $this->selectAdd('SUM(impressions) AS impressions');
         $this->selectAdd('SUM(revenue) AS revenue');
-        $this->selectAdd('FORMAT(SUM(revenue) * 1000 / SUM(impressions), 5) AS ecpm');
+        $this->selectAdd('(SUM(revenue) * 1000 / SUM(impressions)) AS ecpm');
         $this->joinAdd($oWebsitePref);
             
         if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
@@ -79,11 +78,12 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
             $date = (!empty($aOption['period_start'])) ? $aOption['period_start'] : $aOption['period_end'];
             $this->whereAdd("$tableName.date_time >= '{$date}' AND $tableName.date_time <= '{$date} 23:59:59'");
         }
-        $this->groupBy('affiliates.affiliateid');
+        $this->groupBy('affiliates.affiliateid, affiliates.name');
         if (!empty($orderClause)) {
             $this->orderBy($orderClause);
         }
         $this->find();
+        $aResult = array();
         while ($this->fetch()) {
             $aResult[] = $this->toArray();
         }
@@ -109,7 +109,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
     function getSizeStatsByAffiliateId($aOption)
     {
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            if (!OA_Permission::hasAccessToObject('affiliates', $aOption['affiliateid'])) {
+            if (empty($aOption['affiliateid']) || !OA_Permission::hasAccessToObject('affiliates', $aOption['affiliateid'])) {
                 return array();
             }
         }
@@ -126,12 +126,12 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $oWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
 
         $this->selectAdd();
-        $this->selectAdd('CONCAT(width,\'x\',height) AS name');
+        //$this->selectAdd('concat(width,\'x\'height) AS name'); not compatible with postgres
         $this->selectAdd('width AS width');
         $this->selectAdd('height AS height');
         $this->selectAdd('SUM(impressions) AS impressions');
         $this->selectAdd('SUM(revenue) AS revenue');
-        $this->selectAdd('FORMAT(SUM(revenue) * 1000 / SUM(impressions), 5) AS ecpm');
+        $this->selectAdd('(SUM(revenue) * 1000 / SUM(impressions)) AS ecpm');
         $this->joinAdd($oWebsitePref);
         $this->whereAdd($oWebsitePref->tableName() .".affiliateid = '".$this->escape($aOption['affiliateid'])."'");
         if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
@@ -145,8 +145,11 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
             $this->orderBy($orderClause);
         }
         $this->find();
+        $aResult = array();
         while ($this->fetch()) {
-            $aResult[] = $this->toArray();
+            $aRow = $this->toArray();
+            $aRow['name'] = $aRow['width'].'x'.$aRow['height'];
+            $aResult[] = $aRow;
         }
 
         return $aResult;
@@ -191,12 +194,12 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
 
         $this->selectAdd();
         $this->selectAdd($oWebsitePref->tableName().'.affiliateid AS id');
-        $this->selectAdd('CONCAT(width,\'x\',height) AS name');
+        //$this->selectAdd('concat(width,\'x\'height) AS name'); not compatible with postgres
         $this->selectAdd('width AS width');
         $this->selectAdd('height AS height');
         $this->selectAdd('SUM(impressions) AS impressions');
         $this->selectAdd('SUM(revenue) AS revenue');
-        $this->selectAdd('FORMAT(SUM(revenue) * 1000 / SUM(impressions), 5) AS ecpm');
+        $this->selectAdd('(SUM(revenue) * 1000 / SUM(impressions)) AS ecpm');
         $this->joinAdd($oWebsitePref);
         
         if (!empty($aOption['aAffiliateids'])) {
@@ -219,11 +222,13 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
             $this->orderBy($orderClause);
         }
         $this->find();
+        $aData = array();
         while ($this->fetch()) {
             $aData[] = $this->toArray();
         }
         $aResult = array();
         foreach ($aData as $row) {
+            $row['name'] = $row['width'].'x'.$row['height'];
             $aResult[$row['id']][] = $row;
         }
         
