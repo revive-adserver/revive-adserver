@@ -49,6 +49,7 @@
     <include name="var/UPGRADE"/>
     <include name="www/**"/>
 
+    <exclude name="www/admin/assets/js/jscalendar/test.php"/>
     <exclude name="www/devel**"/>
     <exclude name="www/delivery_dev**"/>
 
