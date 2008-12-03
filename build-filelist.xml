@@ -89,6 +89,7 @@
     <include name="var/cache/test_api_*"/>
     <include name="var/templates_compiled/**"/>
     <include name="var/plugins/config/**"/>
+    <include name="www/admin/assets/js/jscalendar/test.php"/>
     <include name="www/devel/**"/>
     <include name="www/delivery_dev/**"/>
     <include name="plugins_repo/**"/>
