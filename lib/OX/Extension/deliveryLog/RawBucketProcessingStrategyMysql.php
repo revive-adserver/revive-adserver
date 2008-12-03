@@ -22,11 +22,12 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: RawBucketProcessingStrategyMysql.php 25575 2008-09-11 13:01:40Z andrew.hill $
+$Id$
 */
 
 require_once LIB_PATH . '/Extension/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 /**
@@ -61,10 +62,18 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql implements OX_Ex
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
-        OA::debug('  - Processing the ' . $sTableName . ' table for data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
+        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
+
+        // As this is raw data being processed, data will not be logged based on the operation interval,
+        // but based on the time the raw data was collected. Adjust the $oEnd value accordingly...
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
+
+        OA::debug('    - The ' . $sTableName . ' table is a raw data table. Data logged in real-time, not operation intervals.', PEAR_LOG_INFO);
+        OA::debug('    - Accordingly, processing of the ' . $sTableName . ' table will be performed based on data that has a logged date equal to', PEAR_LOG_INFO);
+        OA::debug('      or before ' . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName(), PEAR_LOG_INFO);
 
         // Select all rows with interval_start <= previous OI start.
-        $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
+        $rsData =& $this->getBucketTableContent($sTableName, $aDates['end']);
         $count = $rsData->getRowCount();
 
         OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
@@ -108,11 +117,10 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql implements OX_Ex
                     }
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
-                            if (PEAR::isError($result)) {
-                                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                            }
+                        if (PEAR::isError($result)) {
+                            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        }
                     }
-
                     $aExecQueries = array();
                 }
             }
@@ -131,19 +139,36 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql implements OX_Ex
     {
         $sTableName = $oBucket->getBucketTableName();
         if (!is_null($oStart)) {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for data between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for data with operation interval start between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         } else {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for all data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for all data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         }
+
+        // As this is raw data being processed, data will not be logged based on the operation interval,
+        // but based on the time the raw data was collected. Adjust the $oEnd value accordingly...
+        if (!is_null($oStart)) {
+            $aStartDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        }
+        $aEndDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
+
+        OA::debug('    - The ' . $sTableName . ' table is a raw data table. Data logged in real-time, not operation intervals.', PEAR_LOG_INFO);
+        if (!is_null($oStart)) {
+            OA::debug('    - Accordingly, pruning of the ' . $sTableName . ' table will be performed based on data that has a logged date between ', PEAR_LOG_INFO);
+            OA::debug('      ' . $aStartDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aStartDates['start']->tz->getShortName() . ' and ' . $aEndDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aEndDates['end']->tz->getShortName(), PEAR_LOG_INFO);
+        } else {
+            OA::debug('    - Accordingly, pruning of the ' . $sTableName . ' table will be performed based on data that has a logged date equal to', PEAR_LOG_INFO);
+            OA::debug('      or before ' . $aEndDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aEndDates['end']->tz->getShortName(), PEAR_LOG_INFO);
+        }
+
         $query = "
             DELETE FROM
                 {$sTableName}
             WHERE
-                date_time <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
+                date_time <= " . DBC::makeLiteral($aEndDates['end']->format('%Y-%m-%d %H:%M:%S'));
         if (!is_null($oStart)) {
             $query .= "
                 AND
-                date_time >= " . DBC::makeLiteral($oStart->format('%Y-%m-%d %H:%M:%S'));
+                date_time >= " . DBC::makeLiteral($aStartDates['start']->format('%Y-%m-%d %H:%M:%S'));
         }
         $oDbh = OA_DB::singleton();
         return $oDbh->exec($query);

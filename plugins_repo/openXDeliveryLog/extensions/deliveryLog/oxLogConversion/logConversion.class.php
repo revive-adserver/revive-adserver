@@ -37,7 +37,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
 
     function __construct()
     {
-        // Conversion are NOT aggregate
+        // Conversions are NOT aggregate
         $this->type = 'raw';
         parent::__construct();
     }
