@@ -61,7 +61,7 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
-        OA::debug('  - Processing the ' . $sTableName . ' table for data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
+        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() , PEAR_LOG_INFO);
 
         // Select all rows with interval_start <= previous OI start.
         $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
@@ -120,9 +120,9 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
     {
         $sTableName = $oBucket->getBucketTableName();
         if (!is_null($oStart)) {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for data between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for data with operation interval start between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() . ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         } else {
-            OA::debug('  - Pruning the ' . $sTableName . ' table for all data equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
+            OA::debug('  - Pruning the ' . $sTableName . ' table for all data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_DEBUG);
         }
         $query = "
             DELETE FROM
