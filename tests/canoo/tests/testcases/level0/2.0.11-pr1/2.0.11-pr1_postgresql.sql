@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Started on 2008-08-13 12:02:10 CEST
+-- Started on 2008-12-04 12:45:26 CET
 
 -- SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
@@ -322,7 +322,7 @@ CREATE TABLE ox_config (
     auto_clean_userlog boolean DEFAULT false NOT NULL,
     auto_clean_userlog_interval smallint DEFAULT 5 NOT NULL,
     auto_clean_tables_vacuum boolean DEFAULT true NOT NULL,
-    autotarget_factor double precision DEFAULT -1 NOT NULL,
+    autotarget_factor double precision DEFAULT (-1) NOT NULL,
     maintenance_timestamp integer DEFAULT 0 NOT NULL,
     maintenance_cron_timestamp integer DEFAULT 0 NOT NULL
 );
@@ -461,7 +461,7 @@ CREATE TABLE ox_zones (
 --
 
 CREATE FUNCTION date_format(timestamp with time zone, text) RETURNS text
-    AS 'SELECT CASE WHEN $1 = NULL THEN '''' ELSE to_char($1, $2) END'
+    AS $_$SELECT CASE WHEN $1 = NULL THEN '' ELSE to_char($1, $2) END$_$
     LANGUAGE sql;
 
 
@@ -472,7 +472,7 @@ CREATE FUNCTION date_format(timestamp with time zone, text) RETURNS text
 --
 
 CREATE FUNCTION dayofmonth(timestamp with time zone) RETURNS smallint
-    AS 'SELECT date_part(''day'', $1)::int2'
+    AS $_$SELECT date_part('day', $1)::int2$_$
     LANGUAGE sql;
 
 
@@ -483,7 +483,7 @@ CREATE FUNCTION dayofmonth(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION from_unixtime(integer) RETURNS timestamp without time zone
-    AS 'SELECT (''epoch''::timestamp with time zone + ($1 || '' sec'')::interval)::timestamp'
+    AS $_$SELECT ('epoch'::timestamp with time zone + ($1 || ' sec')::interval)::timestamp$_$
     LANGUAGE sql;
 
 
@@ -494,7 +494,7 @@ CREATE FUNCTION from_unixtime(integer) RETURNS timestamp without time zone
 --
 
 CREATE FUNCTION hour(timestamp with time zone) RETURNS smallint
-    AS 'SELECT date_part(''hour'', $1)::int2'
+    AS $_$SELECT date_part('hour', $1)::int2$_$
     LANGUAGE sql;
 
 
@@ -505,7 +505,7 @@ CREATE FUNCTION hour(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION if(boolean, character varying, character varying) RETURNS character varying
-    AS 'SELECT CASE WHEN $1 THEN $2 ELSE $3 END'
+    AS $_$SELECT CASE WHEN $1 THEN $2 ELSE $3 END$_$
     LANGUAGE sql;
 
 
@@ -516,7 +516,7 @@ CREATE FUNCTION if(boolean, character varying, character varying) RETURNS charac
 --
 
 CREATE FUNCTION month(timestamp with time zone) RETURNS smallint
-    AS 'SELECT date_part(''month'', $1)::int2'
+    AS $_$SELECT date_part('month', $1)::int2$_$
     LANGUAGE sql;
 
 
@@ -527,7 +527,7 @@ CREATE FUNCTION month(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION to_days(timestamp with time zone) RETURNS bigint
-    AS 'SELECT CASE WHEN $1 = NULL THEN NULL ELSE floor(unix_timestamp($1)/86400)::int8 END'
+    AS $_$SELECT CASE WHEN $1 = NULL THEN NULL ELSE floor(unix_timestamp($1)/86400)::int8 END$_$
     LANGUAGE sql;
 
 
@@ -538,7 +538,7 @@ CREATE FUNCTION to_days(timestamp with time zone) RETURNS bigint
 --
 
 CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS bigint
-    AS 'SELECT (CASE WHEN $1 = NULL THEN 0 ELSE date_part(''epoch'', $1) END)::int8'
+    AS $_$SELECT (CASE WHEN $1 = NULL THEN 0 ELSE date_part('epoch', $1) END)::int8$_$
     LANGUAGE sql;
 
 
@@ -549,7 +549,7 @@ CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS bigint
 --
 
 CREATE FUNCTION week(timestamp with time zone) RETURNS smallint
-    AS 'SELECT date_part(''week'', $1)::int2'
+    AS $_$SELECT date_part('week', $1)::int2$_$
     LANGUAGE sql;
 
 
@@ -560,7 +560,7 @@ CREATE FUNCTION week(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION year(timestamp with time zone) RETURNS integer
-    AS 'SELECT date_part(''year'', $1)::int4'
+    AS $_$SELECT date_part('year', $1)::int4$_$
     LANGUAGE sql;
 
 
@@ -660,7 +660,8 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 -- Data for Name: ox_session; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('1aeee8fb6bbcc34c59a9be6f23e0cd60', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:15:"maint_update_js";b:1;s:5:"prefs";a:4:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}s:17:"campaign-zone.php";a:2:{s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";}s:19:"affiliate-index.php";a:3:{s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:1:"1";}s:16:"zone-include.php";a:3:{s:12:"hideinactive";b:0;s:11:"showbanners";b:1;s:13:"showcampaigns";b:0;}}}', '2008-08-13 12:01:47+02');
+INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('1aeee8fb6bbcc34c59a9be6f23e0cd60', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:5:"prefs";a:1:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}}s:15:"maint_update_js";b:1;}', '2008-08-13 13:09:31+02');
+INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('357155f1330534ff9e413373df1fd002', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:5:"prefs";a:1:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}}s:15:"maint_update_js";b:1;}', '2008-08-13 19:19:42+02');
 
 
 --
@@ -975,220 +976,4 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
-
-
---
--- TOC entry 2013 (class 0 OID 0)
--- Dependencies: 1527
--- Name: ox_acls; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_acls FROM PUBLIC;
-REVOKE ALL ON TABLE ox_acls FROM openx;
-GRANT ALL ON TABLE ox_acls TO openx;
-
-
---
--- TOC entry 2014 (class 0 OID 0)
--- Dependencies: 1525
--- Name: ox_adclicks; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_adclicks FROM PUBLIC;
-REVOKE ALL ON TABLE ox_adclicks FROM openx;
-GRANT ALL ON TABLE ox_adclicks TO openx;
-
-
---
--- TOC entry 2015 (class 0 OID 0)
--- Dependencies: 1528
--- Name: ox_adstats; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_adstats FROM PUBLIC;
-REVOKE ALL ON TABLE ox_adstats FROM openx;
-GRANT ALL ON TABLE ox_adstats TO openx;
-
-
---
--- TOC entry 2016 (class 0 OID 0)
--- Dependencies: 1526
--- Name: ox_adviews; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_adviews FROM PUBLIC;
-REVOKE ALL ON TABLE ox_adviews FROM openx;
-GRANT ALL ON TABLE ox_adviews TO openx;
-
-
---
--- TOC entry 2018 (class 0 OID 0)
--- Dependencies: 1521
--- Name: ox_affiliates_affiliateid_seq; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON SEQUENCE ox_affiliates_affiliateid_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE ox_affiliates_affiliateid_seq FROM openx;
-GRANT ALL ON SEQUENCE ox_affiliates_affiliateid_seq TO openx;
-
-
---
--- TOC entry 2019 (class 0 OID 0)
--- Dependencies: 1522
--- Name: ox_affiliates; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_affiliates FROM PUBLIC;
-REVOKE ALL ON TABLE ox_affiliates FROM openx;
-GRANT ALL ON TABLE ox_affiliates TO openx;
-
-
---
--- TOC entry 2021 (class 0 OID 0)
--- Dependencies: 1519
--- Name: ox_banners_bannerid_seq; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON SEQUENCE ox_banners_bannerid_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE ox_banners_bannerid_seq FROM openx;
-GRANT ALL ON SEQUENCE ox_banners_bannerid_seq TO openx;
-
-
---
--- TOC entry 2022 (class 0 OID 0)
--- Dependencies: 1520
--- Name: ox_banners; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_banners FROM PUBLIC;
-REVOKE ALL ON TABLE ox_banners FROM openx;
-GRANT ALL ON TABLE ox_banners TO openx;
-
-
---
--- TOC entry 2023 (class 0 OID 0)
--- Dependencies: 1513
--- Name: ox_cache; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_cache FROM PUBLIC;
-REVOKE ALL ON TABLE ox_cache FROM openx;
-GRANT ALL ON TABLE ox_cache TO openx;
-
-
---
--- TOC entry 2025 (class 0 OID 0)
--- Dependencies: 1516
--- Name: ox_clients_clientid_seq; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON SEQUENCE ox_clients_clientid_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE ox_clients_clientid_seq FROM openx;
-GRANT ALL ON SEQUENCE ox_clients_clientid_seq TO openx;
-
-
---
--- TOC entry 2026 (class 0 OID 0)
--- Dependencies: 1517
--- Name: ox_clients; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_clients FROM PUBLIC;
-REVOKE ALL ON TABLE ox_clients FROM openx;
-GRANT ALL ON TABLE ox_clients TO openx;
-
-
---
--- TOC entry 2027 (class 0 OID 0)
--- Dependencies: 1531
--- Name: ox_config; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_config FROM PUBLIC;
-REVOKE ALL ON TABLE ox_config FROM openx;
-GRANT ALL ON TABLE ox_config TO openx;
-
-
---
--- TOC entry 2028 (class 0 OID 0)
--- Dependencies: 1518
--- Name: ox_images; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_images FROM PUBLIC;
-REVOKE ALL ON TABLE ox_images FROM openx;
-GRANT ALL ON TABLE ox_images TO openx;
-
-
---
--- TOC entry 2029 (class 0 OID 0)
--- Dependencies: 1529
--- Name: ox_session; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_session FROM PUBLIC;
-REVOKE ALL ON TABLE ox_session FROM openx;
-GRANT ALL ON TABLE ox_session TO openx;
-
-
---
--- TOC entry 2030 (class 0 OID 0)
--- Dependencies: 1530
--- Name: ox_targetstats; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_targetstats FROM PUBLIC;
-REVOKE ALL ON TABLE ox_targetstats FROM openx;
-GRANT ALL ON TABLE ox_targetstats TO openx;
-
-
---
--- TOC entry 2032 (class 0 OID 0)
--- Dependencies: 1514
--- Name: ox_userlog_userlogid_seq; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON SEQUENCE ox_userlog_userlogid_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE ox_userlog_userlogid_seq FROM openx;
-GRANT ALL ON SEQUENCE ox_userlog_userlogid_seq TO openx;
-
-
---
--- TOC entry 2033 (class 0 OID 0)
--- Dependencies: 1515
--- Name: ox_userlog; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_userlog FROM PUBLIC;
-REVOKE ALL ON TABLE ox_userlog FROM openx;
-GRANT ALL ON TABLE ox_userlog TO openx;
-
-
---
--- TOC entry 2035 (class 0 OID 0)
--- Dependencies: 1523
--- Name: ox_zones_zoneid_seq; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON SEQUENCE ox_zones_zoneid_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE ox_zones_zoneid_seq FROM openx;
-GRANT ALL ON SEQUENCE ox_zones_zoneid_seq TO openx;
-
-
---
--- TOC entry 2036 (class 0 OID 0)
--- Dependencies: 1524
--- Name: ox_zones; Type: ACL; Schema: public; Owner: -
---
-
-REVOKE ALL ON TABLE ox_zones FROM PUBLIC;
-REVOKE ALL ON TABLE ox_zones FROM openx;
-GRANT ALL ON TABLE ox_zones TO openx;
-
-
--- Completed on 2008-08-13 12:02:10 CEST
-
---
--- PostgreSQL database dump complete
---
 
