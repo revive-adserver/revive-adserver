@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project SYSTEM "../../../../dtd/Project.dtd"[
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
 	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
 	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
 

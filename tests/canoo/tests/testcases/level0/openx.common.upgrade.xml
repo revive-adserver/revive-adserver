@@ -8,7 +8,7 @@
         		<file name="./openx.common.upgrade.dbsetup.xml" />
         		<file name="./openx.common.upgrade.copyfiles.xml" />
         		<file name="./openx.common.upgrade.from.previousVersion.xml" />
-        		<file name="./openx.common.upgrade.editBannerSettings.xml" /> 
+        		<file name="./openx.common.upgrade.editBannerSettings.xml" />
 			</filelist>
 		</subant>
 		<echo>basedir in level0: ${basedir}</echo>
