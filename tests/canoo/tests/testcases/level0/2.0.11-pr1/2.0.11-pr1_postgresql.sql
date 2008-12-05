@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Started on 2008-12-04 12:45:26 CET
+-- Started on 2008-08-13 12:02:10 CEST
 
 -- SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
@@ -322,7 +322,7 @@ CREATE TABLE ox_config (
     auto_clean_userlog boolean DEFAULT false NOT NULL,
     auto_clean_userlog_interval smallint DEFAULT 5 NOT NULL,
     auto_clean_tables_vacuum boolean DEFAULT true NOT NULL,
-    autotarget_factor double precision DEFAULT (-1) NOT NULL,
+    autotarget_factor double precision DEFAULT -1 NOT NULL,
     maintenance_timestamp integer DEFAULT 0 NOT NULL,
     maintenance_cron_timestamp integer DEFAULT 0 NOT NULL
 );
@@ -461,7 +461,7 @@ CREATE TABLE ox_zones (
 --
 
 CREATE FUNCTION date_format(timestamp with time zone, text) RETURNS text
-    AS $_$SELECT CASE WHEN $1 = NULL THEN '' ELSE to_char($1, $2) END$_$
+    AS 'SELECT CASE WHEN $1 = NULL THEN '''' ELSE to_char($1, $2) END'
     LANGUAGE sql;
 
 
@@ -472,7 +472,7 @@ CREATE FUNCTION date_format(timestamp with time zone, text) RETURNS text
 --
 
 CREATE FUNCTION dayofmonth(timestamp with time zone) RETURNS smallint
-    AS $_$SELECT date_part('day', $1)::int2$_$
+    AS 'SELECT date_part(''day'', $1)::int2'
     LANGUAGE sql;
 
 
@@ -483,7 +483,7 @@ CREATE FUNCTION dayofmonth(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION from_unixtime(integer) RETURNS timestamp without time zone
-    AS $_$SELECT ('epoch'::timestamp with time zone + ($1 || ' sec')::interval)::timestamp$_$
+    AS 'SELECT (''epoch''::timestamp with time zone + ($1 || '' sec'')::interval)::timestamp'
     LANGUAGE sql;
 
 
@@ -494,7 +494,7 @@ CREATE FUNCTION from_unixtime(integer) RETURNS timestamp without time zone
 --
 
 CREATE FUNCTION hour(timestamp with time zone) RETURNS smallint
-    AS $_$SELECT date_part('hour', $1)::int2$_$
+    AS 'SELECT date_part(''hour'', $1)::int2'
     LANGUAGE sql;
 
 
@@ -505,7 +505,7 @@ CREATE FUNCTION hour(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION if(boolean, character varying, character varying) RETURNS character varying
-    AS $_$SELECT CASE WHEN $1 THEN $2 ELSE $3 END$_$
+    AS 'SELECT CASE WHEN $1 THEN $2 ELSE $3 END'
     LANGUAGE sql;
 
 
@@ -516,7 +516,7 @@ CREATE FUNCTION if(boolean, character varying, character varying) RETURNS charac
 --
 
 CREATE FUNCTION month(timestamp with time zone) RETURNS smallint
-    AS $_$SELECT date_part('month', $1)::int2$_$
+    AS 'SELECT date_part(''month'', $1)::int2'
     LANGUAGE sql;
 
 
@@ -527,7 +527,7 @@ CREATE FUNCTION month(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION to_days(timestamp with time zone) RETURNS bigint
-    AS $_$SELECT CASE WHEN $1 = NULL THEN NULL ELSE floor(unix_timestamp($1)/86400)::int8 END$_$
+    AS 'SELECT CASE WHEN $1 = NULL THEN NULL ELSE floor(unix_timestamp($1)/86400)::int8 END'
     LANGUAGE sql;
 
 
@@ -538,7 +538,7 @@ CREATE FUNCTION to_days(timestamp with time zone) RETURNS bigint
 --
 
 CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS bigint
-    AS $_$SELECT (CASE WHEN $1 = NULL THEN 0 ELSE date_part('epoch', $1) END)::int8$_$
+    AS 'SELECT (CASE WHEN $1 = NULL THEN 0 ELSE date_part(''epoch'', $1) END)::int8'
     LANGUAGE sql;
 
 
@@ -549,7 +549,7 @@ CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS bigint
 --
 
 CREATE FUNCTION week(timestamp with time zone) RETURNS smallint
-    AS $_$SELECT date_part('week', $1)::int2$_$
+    AS 'SELECT date_part(''week'', $1)::int2'
     LANGUAGE sql;
 
 
@@ -560,7 +560,7 @@ CREATE FUNCTION week(timestamp with time zone) RETURNS smallint
 --
 
 CREATE FUNCTION year(timestamp with time zone) RETURNS integer
-    AS $_$SELECT date_part('year', $1)::int4$_$
+    AS 'SELECT date_part(''year'', $1)::int4'
     LANGUAGE sql;
 
 
@@ -660,8 +660,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 -- Data for Name: ox_session; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('1aeee8fb6bbcc34c59a9be6f23e0cd60', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:5:"prefs";a:1:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}}s:15:"maint_update_js";b:1;}', '2008-08-13 13:09:31+02');
-INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('357155f1330534ff9e413373df1fd002', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:5:"prefs";a:1:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}}s:15:"maint_update_js";b:1;}', '2008-08-13 19:19:42+02');
+INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('1aeee8fb6bbcc34c59a9be6f23e0cd60', 'a:5:{s:8:"usertype";i:1;s:8:"loggedin";s:1:"t";s:8:"username";s:5:"openx";s:15:"maint_update_js";b:1;s:5:"prefs";a:4:{s:16:"client-index.php";a:4:{s:12:"hideinactive";b:0;s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:7:"1,2,4,3";}s:17:"campaign-zone.php";a:2:{s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";}s:19:"affiliate-index.php";a:3:{s:9:"listorder";s:0:"";s:14:"orderdirection";s:0:"";s:5:"nodes";s:1:"1";}s:16:"zone-include.php";a:3:{s:12:"hideinactive";b:0;s:11:"showbanners";b:1;s:13:"showcampaigns";b:0;}}}', '2008-08-13 12:01:47+02');
 
 
 --
@@ -964,16 +963,4 @@ ALTER TABLE ONLY ox_clients
 
 ALTER TABLE ONLY ox_zones
     ADD CONSTRAINT ox_zones_affiliateid_fk FOREIGN KEY (affiliateid) REFERENCES ox_affiliates(affiliateid) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- TOC entry 2012 (class 0 OID 0)
--- Dependencies: 3
--- Name: public; Type: ACL; Schema: -; Owner: -
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
