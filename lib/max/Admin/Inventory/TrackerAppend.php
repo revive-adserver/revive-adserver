@@ -65,7 +65,6 @@ class MAX_Admin_Inventory_TrackerAppend
         $this->tracker_id    = MAX_getValue('trackerid', 0);
         $this->assetPath 	 = OX::assetPath();
         $this->showReminder  = false;
-        $this->codes = array();
     }
 
     /**
