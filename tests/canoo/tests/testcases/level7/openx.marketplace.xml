@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+  <!ENTITY config  SYSTEM "../modules/config_openx.xml">
+  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+  <!ENTITY common_verification  SYSTEM "../modules/common_pages.xml">
+]>
+
+<project name="OpenX Level7 - Marketplace plugin test" basedir="." default="main">
+	<target name="main">
+		<webtest name="OpenX Level7 - Marketplace plugin test">
+			&config;
+			<steps>				
+				<ifStep description="production tests">
+			        <condition>
+			        	<verifyProperty description="Check if marketplace plugin should be enabled" name="marketplace.enabled" propertyType="ant" text="true" />
+		        	</condition>
+        	        <then>        	        	
+						&login;
+        	        	<!-- &common_verification; -->
+						<clickLink label="Administrator"/>
+						<clickLink label="Configuration"/>
+						<clickLink label="Plugins"/>
+						<setFileField description="Set upload file filename" fileName="${testcase.dir}/../../../../plugins_repo/openXMarket.zip" name="filename"/>
+						<clickButton label="Install"/>
+						<clickLink label="Enable" href="package=openXMarket"/>
+						<clickLink label="Default manager"/>
+						<clickLink label="Inventory"/>
+           	        </then>
+			    </ifStep>
+			<enableJavaScript enable="${wt.enableJS}" />		
+			</steps>
+		</webtest>
+	</target>
+</project>
