@@ -45,12 +45,14 @@ MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
 if (empty($trackerid)) $trackerid = 0;
 
 $conversionsid = NULL;
-$variables_script = '';
+$variablesScript = '';
 
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 
 // Log the tracker impression
 $logVars = false;
+$aConversion = $aConversionInfo = array();
+
 if (($conf['logging']['trackerImpressions'])) {
     // Only log and gather variable data if this conversion connects back
     $aConversion = MAX_trackerCheckForValidAction($trackerid);
@@ -71,5 +73,8 @@ MAX_cookieFlush();
 if ($logVars) {
     echo "$variablesScript";
 }
+
+// Post tracker render hook
+OX_Delivery_Common_hook('postTrackerRender', array(&$aConversion, &$aConversionInfo, &$trackerid, &$inherit));
 
 ?>
