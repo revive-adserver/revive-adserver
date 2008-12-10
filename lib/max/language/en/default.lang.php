@@ -158,13 +158,8 @@ $GLOBALS['strDashboardDashboard']       = "Dashboard";
 $GLOBALS['strDashboardForum']           = "OpenX Forum";
 $GLOBALS['strDashboardDocs']            = "OpenX Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
-$GLOBALS['strNoSslSupport']             = "The dashboard cannot be displayed because your installation does not support SSL.";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
 $GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php'>check for updates</a> setting on the<br/><a href='account-settings-update.php'>update settings</a> page.";
-$GLOBALS['strSslAccessCentralSys']      = "To access the dashboard, your ad server must be able to log on securely to our central
- system, using secure socket layer (SSL).";
-$GLOBALS['strInstallSslExtension']      = "It is necessary to install a PHP extension to communicate with SSL, either openssl or
- SSL-enabled curl. For more information contact your system administrator.";
 $GLOBALS['strChoosenDisableHomePage']   = "You have choosen to disable your Home page.";
 $GLOBALS['strAccessHomePage']           = "Click here to access your Home page";
 $GLOBALS['strEditSyncSettings']         = "and edit your synchronization settings";

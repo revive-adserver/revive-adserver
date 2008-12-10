@@ -367,7 +367,8 @@ httpsPort   = 443
 [oacXmlRpc]
 protocol    = https
 host        = oxc.openx.org
-port        = 443
+httpPort    = 80
+httpsPort   = 443
 path        = /oxc/xmlrpc
 captcha     = /oxc/captcha
 signUpUrl   = /oxc/advertiser/signup

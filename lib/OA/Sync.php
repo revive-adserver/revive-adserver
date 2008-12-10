@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
-require_once MAX_PATH . '/lib/OA/XmlRpcClient.php';
+require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -180,28 +180,7 @@ class OA_Sync
         }
 
         // Create the XML-RPC client object
-        if ($this->_conf['protocol'] == 'https') {
-            $client = new OA_XML_RPC_Client(
-                $this->_conf['path'],
-                "https://{$this->_conf['host']}",
-                $this->_conf['httpsPort']
-            );
-        }
-
-        // Can the XML-RPC client talk to the OpenX server via SSL?
-        if ($this->_conf['protocol'] != 'https' || !$client->canUseSSL()) {
-            // No, so fall back to using plain HTTP for the connection
-            $client = new OA_XML_RPC_Client(
-                $this->_conf['path'],
-                "http://{$this->_conf['host']}",
-                $this->_conf['httpPort']
-            );
-            // As the connection is not over SSL, do not ever share
-            // this server's aggregate impression and click statistics
-            // with OpenX, even if the admin user has elected to do
-            // so, to ensure total privacy of the data
-            $shareStats = false;
-        }
+        $client = OA_Central::getXmlRpcClient($this->_conf);
 
         // Prepare the parameters required for the XML-RPC call to
         // obtain if an update is available for this OpenX installation

@@ -105,11 +105,8 @@ class OA_Dal_Central_Rpc
             $this->_conf = $aConf;
         }
 
-        $this->oXml = new OA_XML_RPC_Client(
-            $this->_conf['path'],
-            "{$this->_conf['protocol']}://{$this->_conf['host']}",
-            $this->_conf['port']
-        );
+        // Create the XML-RPC client object
+        $this->oXml = OA_Central::getXmlRpcClient($this->_conf);
 
         // Store the caller object, if is or extends OA_Central_M2M
         if (is_a($oCentral, 'OA_Central_M2M')) {
@@ -148,7 +145,7 @@ class OA_Dal_Central_Rpc
             $aHeader['accountId'] = (int)$this->oCentral->accountId;
             $aHeader['m2mPassword'] = OA_Dal_Central_M2M::getM2MPassword($this->oCentral->accountId);
 
-            if (empty($aHeader['m2mPassword']) || 
+            if (empty($aHeader['m2mPassword']) ||
                 isset($GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId]) &&
                 $GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId] == true) {
                 // No password stored, connect!
@@ -207,7 +204,7 @@ class OA_Dal_Central_Rpc
 
                     case OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID:
                         // OAP was asked to connect the account to get a password
-                        // Set clear the password and retry (old password is in DB in case of problems with receiving new one)  
+                        // Set clear the password and retry (old password is in DB in case of problems with receiving new one)
                         $GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId] = true;
                         return $this->call($methodName, $authType, $aParams, ++$recursionLevel, true);
 

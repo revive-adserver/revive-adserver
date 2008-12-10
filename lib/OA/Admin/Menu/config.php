@@ -113,7 +113,7 @@ function _buildNavigation($accountType)
 
         break;
         case OA_ACCOUNT_MANAGER:
-            if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled'] && $aConf['sync']['checkForUpdates'] && OA::getAvailableSSLExtensions()) {
+            if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled'] && $aConf['sync']['checkForUpdates']) {
                 $oMenu->add(new OA_Admin_Menu_Section("dashboard", 'Home', "dashboard.php", false, "dashboard"));
             }
 

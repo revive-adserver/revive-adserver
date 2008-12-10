@@ -53,7 +53,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !$GLOBALS['_MAX']['CONF']['u
     OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
     OX_Admin_Redirect::redirect('advertiser-index.php');
 }
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && (!$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions())) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']) {
     OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
     OX_Admin_Redirect::redirect('advertiser-index.php');
 }

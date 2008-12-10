@@ -43,14 +43,8 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent" style="text-align: center">
                 <h1 style="margin-top: 70px">{t str=DashboardCantBeDisplayed}</h1>
-  {if $noSSL}
-                <p style="color: red">{t str=NoSslSupport}</p>
-                <p>{t str=SslAccessCentralSys}</p>
-                <p>{t str=InstallSslExtension}</p>
-  {else}
                 <p style="color: red">{t str=NoCheckForUpdates}</p>
                 <p>{t str=EnableCheckForUpdates}</p>
-  {/if}
             </div>
         </div>
         <div class="widgetOverlayLeft">&nbsp;</div>

@@ -47,7 +47,6 @@ class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
         $oTpl = new OA_Admin_Template('dashboard/disabled.html');
 
         $oDashboard = new OA_Central_Dashboard();
-        $oTpl->assign('noSSL', !$oDashboard->oMapper->oRpc->oXml->canUseSSL());
         $oTpl->assign('isAdmin',  OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
 
         $oTpl->display();
