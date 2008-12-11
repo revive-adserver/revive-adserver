@@ -203,7 +203,7 @@ class OA_Admin_ExcelWriter
         $this->_currentRow[$name] = $row;
     }
 
-    function createReportSection($name, $reportDataTitle, $aReportDataHeaders, $aReportData, $colSize = 25, $addFormat)
+    function createReportSection($name, $reportDataTitle, $aReportDataHeaders, $aReportData, $colSize = 25, $addFormat = null)
     {
         // Get the worksheet
         $aSearch = array('{row}','{column0}','{column1}','{column2}','{column3}','{column4}','{column5}','{column6}','{column7}','{column8}','{column9}','{column10}','{column11}','{column12}','{column13}','{column14}','{column15}','{column16}','{column17}','{column18}','{column19}','{column20}','{column21}','{column22}','{column23}','{column24}');

@@ -474,9 +474,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric') && ($aTrackerVariable['tracker_variable_is_unique'] == 0)) {
                         // Don't display if the user is a publisher and the variable is hidden
                         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
-                            $key = $GLOBALS['strTotal'];
+                            $key = $variableName . ' - ' . $GLOBALS['strTotal'];
                             $aHeaders[$key] = 'numeric';
-                            $key = $GLOBALS['strAverage'];
+                            $key = $variableName . ' - ' . $GLOBALS['strAverage'];
                             $aHeaders[$key] = 'decimal';
                         }
                     }
