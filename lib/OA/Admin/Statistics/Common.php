@@ -330,10 +330,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function __construct($aParams)
     {
         // Set the parameters
-        foreach ($aParams as $k => $v) {
-            $this->$k = $v;
+        if (is_array($aParams)) {
+            foreach ($aParams as $k => $v) {
+                $this->$k = $v;
+            }
         }
-
+        
         // Ensure that the entity/breakdown values are set
         if (empty($this->entity)) {
             $this->entity = 'entity';
