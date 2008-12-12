@@ -50,10 +50,7 @@ if (array_key_exists('clear_cookies', $_POST))
 else if ( array_key_exists('xml_file', $_REQUEST) && (!empty($_REQUEST['xml_file'])) )
 {
     $schemaPath = dirname($_REQUEST['xml_file']);
-    if (!empty($schemaPath))
-    {
-        $schemaPath.= DIRECTORY_SEPARATOR;
-    }
+    
     $schemaFile = basename($_REQUEST['xml_file']);
     if ($schemaFile==$_COOKIE['schemaFile'])
     {
@@ -71,6 +68,15 @@ if (empty($schemaPath) || empty($schemaFile))
     $schemaPath = ''; //OX_CORE;
     $schemaFile = 'tables_core.xml';
 }
+
+// ensure correct directory format. $schemaPath requires trailing '/'. Using trailing DIRECTORY_SEPARATOR fails on Windows for reasons unknown
+if (isset($schemaPath) && $schemaPath!='')
+{
+    
+    $schemaPath=OX::realPathRelative(urldecode($schemaPath)) ;
+    $schemaPath.='/' ; 
+}
+
 setcookie('schemaPath', $schemaPath);
 setcookie('schemaFile', $schemaFile);
 
@@ -222,8 +228,11 @@ else if (array_key_exists('btn_table_edit', $_POST))
 
 if (!$table)
 {
+     
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
+    
     readfile($oaSchema->working_file_schema);
+    // echo $before.' - '.$after ;
     exit();
 }
 else
