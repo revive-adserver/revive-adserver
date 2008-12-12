@@ -112,7 +112,15 @@ class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
         $oLogger->setReturnValue('logError', true);
         $oLogger->setReturnValue('log', true);
 
-        $mockUpgrade = new StdClass();
+        Mock::generatePartial(
+            'OA_Upgrade',
+            $mockUpgrade = 'OA_Upgrade'.rand(),
+            array('addPostUpgradeTask')
+        );
+        
+        
+        $mockUpgrade = new $mockUpgrade($this);
+        $mockUpgrade->setReturnValue('addPostUpgradeTask', true);
         $mockUpgrade->oLogger = $oLogger;
         $mockUpgrade->oDBUpgrader = new OA_DB_Upgrade($oLogger);
         $mockUpgrade->oDBUpgrader->oTable = &$this->oaTable;
