@@ -59,7 +59,10 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-
+        
+        // Recompile the delivery limitations to update the compiled limitations as well
+        $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
+        
         $this->oDbh = &OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
