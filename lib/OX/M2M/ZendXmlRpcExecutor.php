@@ -25,6 +25,14 @@
 $Id$
 */
 
+//hack to fix LIB_PATH inconsistency among projects
+if (!LIB_PATH_) {
+	define("LIB_PATH_", preg_replace("/OX$/", "", LIB_PATH));
+}
+
+require_once(LIB_PATH_ . '/Zend/Http/Client.php');
+require_once(LIB_PATH_ . '/Zend/XmlRpc/Client.php');
+
 class OX_M2M_ZendXmlRpcExecutor
 	implements OX_M2M_XmlRpcExecutor 
 {

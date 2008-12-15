@@ -53,7 +53,6 @@ class OX_M2M_M2MServiceImpl
 	{
 		$ticket = $this->call_("getM2MTicket", array(), $accountId, $accountType,
 			$this->getFullCredentials($accountId, $accountType));
-		echo "setting ticket " . $accountId . " => " . $ticket . "<BR>";
 		$this->m2mDataProvider->setM2MTicket($accountId, $ticket);
 		return $ticket;
 	}

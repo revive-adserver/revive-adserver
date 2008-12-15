@@ -1289,6 +1289,9 @@ class XML_RPC_Message extends XML_RPC_Base
         $this->payload .= "<params>\n";
         for ($i = 0; $i < sizeof($this->params); $i++) {
             $p = $this->params[$i];
+            echo "PARAM = ";
+            var_dump($p);
+            echo "<BR>\n";
             $this->payload .= "<param>\n" . $p->serialize() . "</param>\n";
         }
         $this->payload .= "</params>\n";

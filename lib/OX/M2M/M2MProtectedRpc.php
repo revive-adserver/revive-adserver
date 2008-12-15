@@ -101,9 +101,9 @@ class OX_M2M_M2MProtectedRpc
 	
 	static function dumpCall($this_, $methodName, $params, $pre = "Calling ", $post = "")
 	{
-    	echo $pre . get_class($this_) . "." . $methodName . "( "; 
-    	var_dump($params);
-    	echo ")" . $post ."<BR>";
+//    	echo $pre . get_class($this_) . "." . $methodName . "( "; 
+//    	var_dump($params);
+//    	echo ")" . $post ."<BR>";
 	}
 	
 	static function dumpResult($this_, $methodName, $params, $result)
