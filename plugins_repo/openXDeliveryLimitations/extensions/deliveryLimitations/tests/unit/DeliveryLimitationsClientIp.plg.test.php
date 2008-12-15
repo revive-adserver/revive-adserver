@@ -42,6 +42,8 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip extends UnitTestCase
     function testMAX_checkClient_Ip()
     {
         $_SERVER['REMOTE_ADDR'] = '150.254.149.189';
+        
+        // Test sta
         $this->assertTrue(MAX_checkClient_Ip('150.254.149.189', '=='));
         $this->assertFalse(MAX_checkClient_Ip('150.254.149.190', '=='));
         $this->assertTrue(MAX_checkClient_Ip('150.254.149.189', '=='));
@@ -50,6 +52,16 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip extends UnitTestCase
         $this->assertFalse(MAX_checkClient_Ip('150.254.148.*', '=='));
         $this->assertFalse(MAX_checkClient_Ip('150.254.149.*', '!='));
         $this->assertTrue(MAX_checkClient_Ip('150.254.148.*', '!='));
+        
+        // Test netmasks
+        $this->assertTrue(MAX_checkClient_Ip('150.254.149.189/255.255.255.255', '=='));
+        $this->assertFalse(MAX_checkClient_Ip('150.254.149.190/255.255.255.255', '=='));
+        $this->assertTrue(MAX_checkClient_Ip('150.254.149.0/255.255.255.0', '=='));
+        $this->assertFalse(MAX_checkClient_Ip('150.254.149.0/255.255.255.0', '!='));
+        $this->assertTrue(MAX_checkClient_Ip('150.254.0.0/255.255.0.0', '=='));
+        $this->assertFalse(MAX_checkClient_Ip('150.253.0.0/255.255.0.0', '=='));
+        $this->assertFalse(MAX_checkClient_Ip('150.254.0.0/255.255.0.0', '!='));
+        $this->assertTrue(MAX_checkClient_Ip('150.253.0.0/255.255.0.0', '!='));
     }
 }
 

@@ -52,14 +52,35 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = array())
     }
     $ip = $aParams['REMOTE_ADDR'];
 
-    if (MAX_ipContainsStar($limitation)) {
-        $ip = MAX_ipWithLastComponentReplacedByStar($ip);
-    }
-
-    if ($op == '==') {
-        return $limitation == $ip;
-    } else {
-        return $limitation != $ip;
-    }
+    if ($limitation == '')
+		return (true);
+	
+	if (!strpos($limitation, '/')) {
+		$net = explode('.', $limitation);
+		
+		for ($i=0;$i<sizeof($net);$i++) {
+			if ($net[$i] == '*') {
+				$net[$i] = 0;
+				$mask[$i] = 0;
+			} else {
+				$mask[$i] = 255;
+			}
+		}
+		$pnet 	= pack('C4', $net[0], $net[1], $net[2], $net[3]);
+		$pmask 	= pack('C4', $mask[0], $mask[1], $mask[2], $mask[3]);
+	} else {
+		list ($net, $mask) = explode('/', $limitation);
+		$net 	= explode('.', $net);
+		$pnet 	= pack('C4', $net[0], $net[1], $net[2], $net[3]);
+		$mask 	= explode('.', $mask);
+		$pmask 	= pack('C4', $mask[0], $mask[1], $mask[2], $mask[3]);
+	}
+	
+	$ip 	= explode('.', $ip);
+	$phost 	= pack('C4', $ip[0], $ip[1], $ip[2], $ip[3]);
+	
+	$expression = ($limitation == "*" || ($phost & $pmask) == $pnet);
+	$op   = $op == '==';
+	return ($expression == $op);
 }
 ?>
