@@ -36,7 +36,33 @@ class OA_Central_M2M extends OA_Central_Common
 {
     var $accountId;
     var $accountType;
-
+	
+	/**
+	 * @return unknown
+	 */
+	public function getAccountType() {
+		return $this->accountType;
+	}
+	
+	/**
+	 * @param unknown_type $accountType
+	 */
+	public function setAccountType($accountType) {
+		$this->accountType = $accountType;
+	}
+	/**
+	 * @return unknown
+	 */
+	public function getAccountId() {
+		return $this->accountId;
+	}
+	
+	/**
+	 * @param unknown_type $accountId
+	 */
+	public function setAccountId($accountId) {
+		$this->accountId = $accountId;
+	}
     /**
      * Class constructor
      *

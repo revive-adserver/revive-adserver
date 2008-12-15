@@ -41,7 +41,19 @@ class OX_M2M_M2MProtectedRpc
 	 */
     protected $m2mTicketProvider;
 	
-    
+	/**
+	 * @return OX_M2M_M2MTicketProvider
+	 */
+	public function getM2mTicketProvider() {
+		return $this->m2mTicketProvider;
+	}
+	
+	/**
+	 * @param OX_M2M_M2MTicketProvider $m2mTicketProvider
+	 */
+	public function setM2mTicketProvider($m2mTicketProvider) {
+		$this->m2mTicketProvider = $m2mTicketProvider;
+	}
 	/**
 	 * @param OX_M2M_XmlRpcExecutor $serviceExecutor
 	 * @param OX_M2M_M2MTicketProvider $m2mTicketProvider
@@ -93,11 +105,6 @@ class OX_M2M_M2MProtectedRpc
 		}
 	}
 	
-	
-	function getM2MService()
-	{
-		return $this->m2mService;
-	}
 	
 	static function dumpCall($this_, $methodName, $params, $pre = "Calling ", $post = "")
 	{

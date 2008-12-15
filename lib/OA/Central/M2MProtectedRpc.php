@@ -24,6 +24,8 @@
 $Id$
 */
 
+require_once (dirname(__FILE__) . '/M2MTicketProviderImpl.php');
+
 class OA_Central_M2MProtectedRpc
 	extends OX_M2M_M2MProtectedRpc 
 {
@@ -33,8 +35,26 @@ class OA_Central_M2MProtectedRpc
 	 */
 	function __construct(&$serviceExecutor, &$m2mTicketProvider = null)
     {
-    	parent::__construct($serviceExecutor, 
-    		$m2mTicketProvider ? $m2mTicketProvider : new OA_Central_M2MTicketProviderImpl());
+    	if ($m2mTicketProvider == null) {
+    		$m2mTicketProvider = new OA_Central_M2MTicketProviderImpl();
+    	}
+    	parent::__construct($serviceExecutor, $m2mTicketProvider);
+	}
+	
+	function setAccountId($accountId)
+	{
+		$this->getM2mTicketProvider()->getM2mService()->setAccountId($accountId);
+	}
+	
+	function setAccountType($accountType)
+	{
+		$this->getM2mTicketProvider()->getM2mService()->setAccountType($accountType);
+	}
+	
+	function setAccountIdAndType($accountId, $accountType)
+	{
+		$this->getM2mTicketProvider()->getM2mService()->setAccountId($accountId);
+		$this->getM2mTicketProvider()->getM2mService()->setAccountType($accountType);
 	}
 }
 
