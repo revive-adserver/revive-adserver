@@ -42,7 +42,8 @@
             <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
-
+            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientFactory.php</file>
+            
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>

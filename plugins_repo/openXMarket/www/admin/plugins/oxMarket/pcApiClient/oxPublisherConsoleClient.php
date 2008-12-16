@@ -36,7 +36,7 @@ require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-class Plugins_extensions_deliveryAdRender_oxMarket_Public
+class Plugins_admin_oxMarket_PublisherConsoleClient
 {
     /**
      * @var OX_M2M_M2MProtectedRpc
@@ -51,7 +51,7 @@ class Plugins_extensions_deliveryAdRender_oxMarket_Public
     private function ensurePublisherAccountIdIsSet()
     {
         if (!isset($this->publisher_account_id)) {
-            throw new Plugins_extensions_deliveryAdRender_oxMarket_PublisherConsoleClientException(
+            throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
                 'publisher_account_id can not be null');
         }
     }
@@ -61,8 +61,7 @@ class Plugins_extensions_deliveryAdRender_oxMarket_Public
         $this->ensurePublisherAccountIdIsSet();
         $paramsWithPCAccount = array_merge(
             array($this->publisher_account_id), $params);
-        $result = $this->xml_rpc_client->call($function, $paramsWithPCAccount);
-        return $result; 
+        return $this->xml_rpc_client->call($function, $paramsWithPCAccount); 
     }
     
     /**

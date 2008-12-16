@@ -22,18 +22,30 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: oxPublisherConsoleClientException.php 29196 2008-11-20 14:16:53Z apetlyovanyy $
+$Id: oxPublisherConsoleClientFactory.php 29196 2008-11-20 14:16:53Z apetlyovanyy $
 */
 
+require_once dirname(__FILE__) . '/oxPublisherConsoleClient.php';
+
 /**
- *  OpenX Market plugin - Publisher Console API client exception
+ *  OpenX Market plugin - Publisher Console API client factory
  *
  * @package    OpenXPlugin
  * @subpackage openXMarket
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-class Plugins_admin_oxMarket_PublisherConsoleClientException 
-    extends Exception 
+class Plugins_admin_oxMarket_PublisherConsoleClientFactory
 {
+    
+    /**
+     * Create instance of the PC API client
+     * 
+     * @return Plugins_admin_oxMarket_PublisherConsoleClient 
+     */
+    public static function createInstance()
+    {
+        //TODO: Implement this method
+        return null;    
+    }    
 }
