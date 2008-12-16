@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.0.1-dev</version>
+    <version>0.0.2-dev</version>
     <oxversion>2.7.27-beta-rc12</oxversion>
     <extends>admin</extends>
 
@@ -40,6 +40,9 @@
             <file path="{ADMINPATH}/templates/">market-stats-website.html</file>
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
             <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
+            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
+            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
+
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>
