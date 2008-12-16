@@ -26,7 +26,7 @@ $Id$
 */
 
 //hack to fix LIB_PATH inconsistency among projects
-if (!LIB_PATH_) {
+if (!defined(LIB_PATH_)) {
 	define("LIB_PATH_", preg_replace("/OX$/", "", LIB_PATH));
 }
 

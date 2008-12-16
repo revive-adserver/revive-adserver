@@ -29,6 +29,9 @@ $Id$
  * OAP to OAC communication class
  *
  */
+
+require_once (dirname(__FILE__) . "/XmlRpcErrorCodes.php");
+
 class OX_M2M_M2MProtectedRpc
 {
 	/**
