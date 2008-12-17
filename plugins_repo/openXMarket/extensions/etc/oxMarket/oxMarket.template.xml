@@ -23,8 +23,6 @@
 
         <files>
             <file path="{MODULEPATH}deliveryAdRender/oxMarket/">oxMarket.delivery.php</file>
-            <file path="{MODULEPATH}deliveryAdRender/oxMarket/">oxPublisherConsoleClient.php</file>
-            <file path="{MODULEPATH}deliveryAdRender/oxMarket/">oxPublisherConsoleClientException.php</file>
             
             <file path="{ADMINPATH}/css/">ox.market.css</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>
