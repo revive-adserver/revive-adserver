@@ -92,7 +92,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     public function linkOxp($username, $password)
     {
         return $this->xml_rpc_client->call('linkOxp', 
-            array($username, $password));
+            array($username, md5($password)));
     }
     
     /**
@@ -121,11 +121,12 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      * @param array $att_ex
      * @param array $cat_ex
      * @param array $typ_ex
-     */
+     * @return integer website id
+     *      */
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
         $cat_ex, $typ_ex)    
     {
-        $this->callXmlRpcFunctionWithPCAccount('updateWebsite', 
+        return $this->callXmlRpcFunctionWithPCAccount('updateWebsite', 
             array($websiteId, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
     }
 }

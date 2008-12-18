@@ -40,7 +40,7 @@
             <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
-            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientFactory.php</file>
+            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
             
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
@@ -84,7 +84,8 @@
         <configuration option="Market API">
             <!-- todo - set proper hosts before final release and set visible ="0" -->
             <setting key="marketHost" type="text" label="Market host" required="1" size="32" visible="1">@marketHost@</setting>
-	        <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="1">@defaultFloorPrice@</setting>
+            <setting key="marketPcApiUrl" type="text" label="Market PC API URL" required="1" size="100" visible="1">@marketPcApiUrl@</setting>
+	    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="1">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="1">@marketAccountIdParamName@</setting>
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="1">@marketWelcomeUrl@</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="1">@marketTermsUrl@</setting>
