@@ -62,7 +62,7 @@ class OA_Creative_File_Swf extends OA_Creative_File
         // The standard check can fail with compressed SWF files and zlib not statically compiled in,
         // so we need to be more relaxed here and accept all matching files
         if (!phpAds_SWFVersion($this->content)) {
-            return new PEAR_Error('Unsupported SWF image format');
+            return new PEAR_Error('Unrecognized image file format');
         }
 
         $this->contentType = 'swf';
