@@ -155,18 +155,11 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
                 'There is already publisher_account_id on the OXP');
         } 
         else {
-            $doApplicationVariables = OA_DAL::factoryDO(
-                'application_variable');
-            $doApplicationVariables->name = 'admin_account_id';
-            $doApplicationVariables->find();
-            if (0 == $doApplicationVariables->getRowCount()) {
+            $account_id = DataObjects_Accounts::getAdminAccountId();
+            if (!isset($account_id)) {
                 throw 
                     new Plugins_admin_oxMarket_PublisherConsoleClientException(
                         'There is no admin account id in database');
-            }
-            else {
-                $aApplVariablesRecords = $doApplicationVariables->getAll();
-                $account_id = $aApplVariablesRecords[0]['value'];
             }
             $doExtMarket->account_id = $account_id;
             $doExtMarket->publisher_account_id = $publisher_account_id;
