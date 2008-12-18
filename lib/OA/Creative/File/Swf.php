@@ -45,7 +45,7 @@ class OA_Creative_File_Swf extends OA_Creative_File
             return $result;
         }
 
-        // Fix any wrong-case cli
+        // Fix any wrong-case clickTAG
         if (phpAds_SWFCompressed($this->content)) {
             $buffer = phpAds_SWFDecompress($this->content);
             $buffer = preg_replace('/clickTAG/i', 'clickTAG', $buffer);
@@ -59,15 +59,13 @@ class OA_Creative_File_Swf extends OA_Creative_File
 
     function readCreativeDetails($fileName)
     {
-        $aTypes = array(
-            IMAGETYPE_SWC  => 'swf',
-            IMAGETYPE_SWF  => 'swf',
-        );
-
-        $result = parent::readCreativeDetails($fileName, $aTypes);
-        if (PEAR::isError($result)) {
-            return $result;
+        // The standard check can fail with compressed SWF files and zlib not statically compiled in,
+        // so we need to be more relaxed here and accept all matching files
+        if (!phpAds_SWFVersion($this->content)) {
+            return new PEAR_Error('Unsupported SWF image format');
         }
+
+        $this->contentType = 'swf';
 
         list($this->width, $this->height) = phpAds_SWFDimensions($this->content);
 
