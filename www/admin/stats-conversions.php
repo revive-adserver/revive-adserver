@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -82,12 +82,8 @@ $zoneId         = MAX_getValue('zoneid');
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $clientId = $clientid = OA_Permission::getEntityId();
-    // Rebuild navigation
-    MMM_buildNavigation();
 } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     $affiliateId = $affiliateid = OA_Permission::getEntityId();
-    // Rebuild navigation
-    MMM_buildNavigation();
 }
 
 // Build $addUrl variable which will be added to any required link on this page, eg: expand, collapse, editStatuses
