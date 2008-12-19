@@ -567,6 +567,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         return (!isset($error)) ? true : $error;
     }
+
+    function runTasksAfterPluginEnable()
+    {
+        parent::runTasksAfterPluginEnable();
+        $this->updateAllWebsites();
+    }
 }
 
 ?>
