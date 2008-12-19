@@ -32,6 +32,8 @@ require_once MAX_PATH. '/lib/JSON/JSON.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
+require_once dirname(__FILE__) . '/pcApiClient/oxPublisherConsoleMarketPluginClient.php';
+
 define('OWNER_TYPE_AFFILIATE',  0);
 define('OWNER_TYPE_CAMPAIGN',   1);
 define('SETTING_TYPE_CREATIVE_TYPE',    0);
@@ -48,15 +50,17 @@ define('SETTING_TYPE_CREATIVE_CATEGORY', 2);
 class Plugins_admin_oxMarket_oxMarket extends OX_Component
 {
     public $aDefaultRestrictions; 
+    
+    /**
+     * @var Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
+     */
     public $oMarketPublisherClient;
     
     function __construct() {
-        // Set market publisher client
-        //TODO
-        //TODO NO LIBRARY YET $this->oMarketPublisherClient = new OX_Marketplace_MarketPublisherClient( "http://".$GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'] );
         
-        // Reorginize default restrictions for html forms 
-        //TODO NO LIBRARY YET $aDefRestr = $this->oMarketPublisherClient->getDefaultRestrictions();
+        $this->oMarketPublisherClient = 
+            new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
+        $aDefRestr = $this->oMarketPublisherClient->getDefaultRestrictions();
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_ATTRIB] = $aDefRestr['attribute']; 
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_CATEGORY] = $aDefRestr['category'];
         $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_TYPE] = $aDefRestr['type'];
@@ -166,13 +170,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         
         $affiliateId = $aFields['affiliateid'];
         $websiteUrl = $aFields['website'];
-        if ($accountId = $this->getAccountId()) {
+        if ($this->getAccountId()) {
             //get current market website id if any, do not autogenerate
             $websiteId = $this->getWebsiteId($affiliateId, false);
             
             //genereate new id if it does not exist
             if (empty($websiteId)) {
-                if ($websiteId = $this->generateWebsiteId($accountId, $websiteUrl)) {
+                if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
                     $this->setWebsiteId($affiliateId, $websiteId);
                     $restricted = $this->insertDefaultRestrictions($affiliateId);
                     $message =  'Website has been registered in OpenX Market';
@@ -211,12 +215,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     function getAccountId()
     {
-        /* TODO enable this
-        $oAccountAssocData = & OA_Dal::factoryDO('ext_market_assoc_data');
-        $oAccountAssocData->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
-        return $oAccountAssocData->publisher_account_id;
-        */
-        return 2;
+        return $this->oMarketPublisherClient->getPcAccountId();
     }
     
 
@@ -229,7 +228,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oWebsite = & OA_Dal::factoryDO('affiliates');
             $oWebsite->get($affiliateId);
 
-            $websiteId = $this->generateWebsiteId($this->getAccountId(), $oWebsite->website);
+            $websiteId = $this->generateWebsiteId($oWebsite->website);
             if (!empty($websiteId)) {
                 $this->setWebsiteId($affiliateId, $websiteId);
             } else {
@@ -243,16 +242,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
 
-    function generateWebsiteId($accountId, $websiteUrl)
+    function generateWebsiteId($websiteUrl)
     {
-        return $this->oMarketPublisherClient->generateWebsiteId($accountId, $websiteUrl);
+        return $this->oMarketPublisherClient->newWebsite($websiteUrl);
     }
     
 
     function setAccountId($publisherAccountId)
     {
         $oAccountMapping = & OA_Dal::factoryDO('ext_market_assoc_data');
-        $oAccountAssocData->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
+        $oAccountMapping->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
         $oAccountMapping->publisher_account_id = $publisherAccountId;
         $oAccountMapping->save();
     }
@@ -336,7 +335,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
         $websiteId = $this->getWebsiteId($affiliateId);
-        return $this->oMarketPublisherClient->updateWebsiteRestrictions($websiteId, $aType, $aAttribute, $aCategory);
+        return $this->oMarketPublisherClient->updateWebsite(
+            $websiteId, $aAttribute, $aCategory, $aType);
     }
     
 

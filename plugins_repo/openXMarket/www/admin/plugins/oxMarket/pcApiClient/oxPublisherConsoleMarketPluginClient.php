@@ -87,16 +87,11 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     private function getAssociatedPcAccountIdAndStatus(&$publisher_account_id, 
         &$association_status)
     {
-        $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
-        $aRecords = $doExtMarket->getAll();
-        if (count($aRecords) > 0) {
-            $publisher_account_id = $aRecords[0]['publisher_account_id'];
-            $association_status   = $aRecords[0]['status'];                    
-        }
-        else {
-            $publisher_account_id = null;
-            $association_status   = null;
-        }
+        $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+        $oAccountAssocData->get('account_id', 
+            DataObjects_Accounts::getAdminAccountId());
+        $publisher_account_id = $oAccountAssocData->publisher_account_id;
+        $association_status   = $oAccountAssocData->status; 
     }
     
     public function __construct()
@@ -122,6 +117,20 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
             $account_status);
         return isset($publisher_account_id); 
+    }
+    
+    /**
+     * Return publisher account id for OXP admin account
+     *
+     * @return integer or null 
+     */
+    public function getPcAccountId()
+    {
+        $publisher_account_id = null;
+        $account_status = null;
+        $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
+            $account_status);
+        return $publisher_account_id; 
     }
     
     /**
@@ -206,5 +215,107 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $this->ensureStatusAndUpdatePcAccountId();
         return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl, 
             $att_ex, $cat_ex, $typ_ex);
+    }
+    
+    /**
+     * Returns default restrictions.
+     * 
+     * XXX hardcoded for now
+     * @return array default settings
+     */
+    public function getDefaultRestrictions()
+    {
+        return array(
+            'attribute' => array(),
+            'category'  => array(1, 10, 26),
+            'type'      => array()
+        );
+    }
+    
+    /**
+     * Returns array of Ad Categories used in marketplace
+     *
+     * XXX hardcoded for now
+     * @return array array of categories names where array keys are ids
+     */
+    public function getAdCategories() {
+        return array(
+                '1' => 'Adult Entertainment',
+                '2' => 'Arts and Entertainment',
+                '3' => 'Automotive',
+                '4' => 'Business',
+                '5' => 'Careers and Jobs',
+                '6' => 'Clothing and Apparel',
+                '7' => 'Consumer Electronics',
+                '8' => 'Dating and Relationships',
+                '9' => 'Family and Parenting',
+               '10' => 'Firearms and Weapons',
+               '11' => 'Food and Drink',
+               '12' => 'Gambling',
+               '13' => 'Government',
+               '14' => 'Health',
+               '15' => 'Hobbies and Interests',
+               '16' => 'Holidays',
+               '17' => 'Home and Garden',
+               '18' => 'Humanities and Social Sciences',
+               '19' => 'Internet',
+               '20' => 'Pets',
+               '30' => 'Personal Finance',
+               '21' => 'Property and Real Estate',
+               '22' => 'Religion and Spirituality',
+               '23' => 'Research and Education',
+               '24' => 'Science and Engineering',
+               '25' => 'Sports and Recreation',
+               '26' => 'Tobacco and Smoking',
+               '27' => 'Toys and Games',
+               '28' => 'Travel and Tourism',
+               '29' => 'Weather'
+            );
+    }
+    
+    /**
+     * Returns array of Creative Types used in marketplace
+     *
+     * XXX hardcoded for now
+     * @return array array of types names where array keys are ids
+     */
+    function getCreativeTypes()
+    {
+        return array(
+            '1' => 'Image',
+            '2' => 'Flash',
+            '3' => 'Text',
+            '4' => 'Video',
+            '5' => 'DHTML',
+            '6' => 'Expandable',
+            '7' => 'Audio'
+        );
+    }
+
+    /**
+     * Returns array of Creative Attributes used in marketplace
+     *
+     * XXX hardcoded for now
+     * @return array array of attributes names where array keys are ids
+     */
+    function getCreativeAttributes()
+    {
+        return array(
+           '1' => 'Alcohol',
+           '2' => 'Audio/Video',
+           '3' => 'Dating/Romance',
+           '4' => 'Download',
+           '5' => 'English',
+           '6' => 'Error Box',
+           '7' => 'Excessive Animation',
+           '8' => 'Gambling',
+           '9' => 'Holiday',
+           '10' => 'Incentivized',
+           '11' => 'Male Health',
+           '12' => 'Membership Club',
+           '13' => 'Political',
+           '14' => 'Suggestive',
+           '15' => 'Tobacco'
+        );
     }
 }
