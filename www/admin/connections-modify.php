@@ -151,6 +151,7 @@ if (!empty($aConversions))
                 // Get day, $hour and operation interval
                 $dateTime = $aConversions[$conversionId]['date_time'];
                 $oConnectionDate = &new Date($dateTime);
+                $oConnectionDate->toUTC();
 
                 $optIntID = OA_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
                 $opDay = $oConnectionDate->format('%Y-%m-%d');
