@@ -461,9 +461,7 @@ class OA_statisticsFieldsDelivery
                         " AND diac.connection_action = ".MAX_CONNECTION_AD_ARRIVAL.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_ARRIVAL;
         $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
                         " AND diac.connection_action = ".MAX_CONNECTION_MANUAL.",1,0)) AS sum_conversions_".MAX_CONNECTION_MANUAL;
-        if ($method != 'getEntitiesStats') { // Turn off this field for method getEntriesStats (it's doubled) see OX-3549
-            $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.",1,0)) AS sum_conversions";
-        }
+        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.",1,0)) AS sum_conversions";
         $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_PENDING.",1,0)) AS sum_conversions_pending";
 
         if (!empty($aParams['day_begin']) && !empty($aParams['day_end'])) {
