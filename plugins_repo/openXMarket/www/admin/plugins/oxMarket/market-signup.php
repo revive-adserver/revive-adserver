@@ -95,11 +95,16 @@ function buildSignupForm($oMarketComponent)
 function processForm($oForm, $oMarketComponent)
 {
     $aFields = $oForm->exportValues();
-
-
+    try {
+        $oApiClient = $oMarketComponent->getPublisherConsoleApiClient();
+        if ($oApiClient->linkOxp($aFields['m_username'],$aFields['m_password'])) {
+            // perform activation actions
+            $oMarketComponent->updateAllWebsites();
+        }
+    } catch (Exception $e) {
+        return array("error" => true, "errorMessages" => $e->getMessage());
+    }
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
-    
-    //return array("error" => true, "errorMessages" => "Comunication error occured");
     
 }
 

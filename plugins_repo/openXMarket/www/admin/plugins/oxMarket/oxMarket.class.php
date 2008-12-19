@@ -54,7 +54,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     /**
      * @var Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
-    public $oMarketPublisherClient;
+    public $oMarketPublisherClient; 
     
     function __construct() {
         
@@ -121,7 +121,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $form->setDefaults($aFields);
     }
-    
 
     function processCampaignForm(&$aFields)
     {
@@ -346,6 +345,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oMarketSetting->owner_type_id = OWNER_TYPE_AFFILIATE;
         $oMarketSetting->owner_id = $affiliateId;
         $aMarketSetting = $oMarketSetting->getAll();
+        $aData = array(
+                    SETTING_TYPE_CREATIVE_TYPE=>array(), 
+                    SETTING_TYPE_CREATIVE_ATTRIB=>array(), 
+                    SETTING_TYPE_CREATIVE_CATEGORY=>array()
+                 );
 
         foreach ($aMarketSetting as $aValue) {
             $aData[$aValue['market_setting_type_id']][$aValue['market_setting_id']] = $aValue['market_setting_id'];
@@ -357,15 +361,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function isRegistered()
     {
-        //TODO get that from DB
-        return false;    
+        return $this->oMarketPublisherClient->hasAssociationWithPc();
     }
     
     
     function isActive()
     {
-        //TODO get that from DB
-        return $this->isRegistered() && true;
+        return $this->isRegistered() && 
+               ($this->oMarketPublisherClient->getAssociationWithPcStatus() == 
+                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS);
     }
     
     
@@ -483,6 +487,85 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             }
         }
+    }
+    
+    /**
+     * Returns Publisher Console API Client
+     *
+     * @return Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
+     */
+    function getPublisherConsoleApiClient() 
+    {
+        if (empty($this->oPubConsoleApiClient)) 
+        { 
+            $this->oPubConsoleApiClient = new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
+        }
+        return $this->oPubConsoleApiClient;
+    }
+    
+    /**
+     * Update or register all websites
+     * Silent skip problems (will try again in maintenance)
+     *
+     */
+    function updateAllWebsites()
+    {
+        if (!$this->isRegistered() || !$this->isActive()) {
+            return;
+        }
+        
+        $oWebsite = & OA_Dal::factoryDO('affiliates');
+        $oWebsite->find();
+        while($oWebsite->fetch()) {
+            try {
+                $affiliateId = $oWebsite->affiliateid;
+                $websiteId = $this->getWebsiteId($affiliateId, false);
+                $websiteUrl = $oWebsite->website;
+                if (empty($websiteId)) {
+                    if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
+                        $this->setWebsiteId($affiliateId, $websiteId);
+                        $restricted = $this->insertDefaultRestrictions($affiliateId);
+                    }
+                } else {
+                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl);
+                    if ($result!==true) {
+                        throw new Exception($result);
+                    }
+                }
+            } catch (Exception $e) {
+                OA::debug('openXMarket: Error during updating website #'.$affiliateId.' : '.$e->getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Updates website url on PubConsole
+     *
+     * @param int $affiliateId Affiliate Id
+     * @param string $url New website url
+     * @return boolean|string true or error message
+     */
+    function updateWebsiteUrl($affiliateId, $url) {
+        $doWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
+        $doWebsitePref->get($affiliateId);
+        
+        if (empty($doWebsitePref->website_id)) {
+            $error = 'website not regisetered';
+        } else {
+            try {
+                $aRestrictions = $this->getWebsiteRestrictions($affiliateId);
+                $this->oMarketPublisherClient->
+                    updateWebsite($doWebsitePref->website_id, $url, 
+                                  $aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB],
+                                  $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY],
+                                  $aRestrictions[SETTING_TYPE_CREATIVE_TYPE]);
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+            }
+            $doWebsitePref->is_url_synchronized = (!isset($error)) ? 't' : 'f';
+            $doWebsitePref->update();  
+        }
+        return (!isset($error)) ? true : $error;
     }
 }
 

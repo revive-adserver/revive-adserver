@@ -283,7 +283,6 @@ class Zend_XmlRpc_Client
 
         if ($this->_lastResponse->isFault()) {
             $fault = $this->_lastResponse->getFault();
-			echo "ERROR CODE = " . $fault->getCode() . "<BR>";
             throw new Zend_XmlRpc_Client_FaultException($fault->getMessage(),
                                                         $fault->getCode());
         }
