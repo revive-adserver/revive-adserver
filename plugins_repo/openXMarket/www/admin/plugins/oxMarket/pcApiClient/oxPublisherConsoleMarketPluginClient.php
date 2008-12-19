@@ -28,6 +28,7 @@ $Id: oxPublisherConsoleMarketPluginClient.php 29196 2008-11-20 14:16:53Z apetlyo
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OX/M2M/XmlRpcExecutor.php';
 require_once MAX_PATH . '/lib/Zend/Http/Exception.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Accounts.php';
 require_once MAX_PATH . '/lib/OX/M2M/ZendXmlRpcExecutor.php';
 require_once MAX_PATH . '/lib/OX/M2M/M2MProtectedRpc.php';
 require_once MAX_PATH . '/lib/OA/Central/M2MProtectedRpc.php';
