@@ -39,7 +39,7 @@ require_once 'Pager/Pager.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Get input variables
 $pref = $GLOBALS['_MAX']['PREF'];
@@ -117,14 +117,14 @@ if (!empty($day)) {
 // Adjust which nodes are opened closed...
 MAX_adjustNodes($aNodes, $expand, $collapse);
 
-if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+if (!OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // editing statuses is allowed only for admin and agency
     $editStatuses = false;
-} 
+}
 else {
     if($editStatuses) {
         addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&'.$addUrl, 'iconZoom');
-    } 
+    }
     else {
         addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&'.$addUrl, 'iconEdit');
     }
@@ -212,9 +212,7 @@ if(!empty($period_preset)) {
 phpAds_ShowBreak();
 
 $aParams = array();
-if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $aParams['agency_id'] = OA_Permission::getAgencyId();
-}
+$aParams['agency_id'] = OA_Permission::getAgencyId();
 
 $aParams['clientid']    = $clientId;
 $aParams['campaignid']  = $campaignId;
@@ -363,55 +361,11 @@ if (!empty($aConversions)) {
             );
 
             echo "{$conversion['date_time']}</td>";
-            if($editStatuses) {
+            if ($editStatuses) {
+                // Only managers can edit statuses. No constraint to the type of changes since OX-4138.
                 echo "<td align='center' style='padding: 0 4px'><nobr>";
-                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    // Ignore(1) is always disabled for agencies
-                    $disabledStatuses = array(MAX_CONNECTION_STATUS_IGNORE);
-                    // final statuses: Ignore(1), Approved(4) and Disapproved(5)
-                    $finalAgencyStatuses = array(
-                        MAX_CONNECTION_STATUS_IGNORE,
-                        MAX_CONNECTION_STATUS_APPROVED,
-                        MAX_CONNECTION_STATUS_DISAPPROVED
-                    );
-                    if(in_array($conversion['connection_status'], $finalAgencyStatuses)) {
-                        // Do not allow to modify status, disable others statuses
-                        $disabledStatuses = array_diff($aConversionStatuses, array($conversion['connection_status']));
-                    }
-                    if($conversion['connection_status'] == MAX_CONNECTION_STATUS_PENDING) {
-                        // Pending - could change to: Pending(2), OnHold (3), Approved (4), Disapproved (5)
-                        $disabledStatuses = array_diff($aConversionStatuses,
-                            array(
-                                MAX_CONNECTION_STATUS_PENDING,
-                                MAX_CONNECTION_STATUS_ONHOLD,
-                                MAX_CONNECTION_STATUS_APPROVED,
-                                MAX_CONNECTION_STATUS_DISAPPROVED)
-                        );
-                    }
-                    if($conversion['connection_status'] == MAX_CONNECTION_STATUS_ONHOLD) {
-                        // OnHold - could change to: OnHold(3), Approved (4), Disapproved (5)
-                        $disabledStatuses = array_diff($aConversionStatuses,
-                            array(
-                                MAX_CONNECTION_STATUS_ONHOLD,
-                                MAX_CONNECTION_STATUS_APPROVED,
-                                MAX_CONNECTION_STATUS_DISAPPROVED
-                            )
-                        );
-                    }
-                    foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
-                        $disabled = '';
-                        $color = '';
-                        if(in_array($statusId, $disabledStatuses)) {
-                            $color = 'grey';
-                            $disabled = ' disabled';
-                        }
-                        echo "<label style='color: $color;'>&nbsp;<input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."' $disabled>{$GLOBALS[$statusStr]}</label>";
-                    }
-                } elseif(OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-                    // If admin - everything
-                    foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
-                        echo "&nbsp;<label><input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."'>{$GLOBALS[$statusStr]}</label>";
-                    }
+                foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
+                    echo "&nbsp;<label><input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."'>{$GLOBALS[$statusStr]}</label>";
                 }
                 echo "</nobr></td>";
             } else {
@@ -529,7 +483,7 @@ if (!empty($aConversions)) {
     if($editStatuses) {
         echo "</form>"."\n";
     }
-    
+
     echo "<form id='setPager' method='get' action='stats.php?".$_SERVER['QUERY_STRING']."'>";
 
     $getValues = split('&', $_SERVER['QUERY_STRING']);
@@ -539,16 +493,16 @@ if (!empty($aConversions)) {
             echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
         }
     }
-    
+
     echo "<input type='hidden' name='pageID'  value='1'>";
     echo "<input type='hidden' name='setPerPage' id='setPerPage'>";
-    
+
     echo "</form>";
-    
+
 echo '
 <script type=\'text/javascript\'>
 <!--
-      
+
 $(document).ready(function() {
     $("#setPerPageSelect").change(updatePerPage);
 });
@@ -557,15 +511,15 @@ function updatePerPage()
 {
     perPage = $("#setPerPageSelect").val();
     $form = $("#setPager");
-        
+
     $("#setPerPage", $form).attr(\'value\', perPage);
-    
+
     $form.get(0).submit();
 }
 
 -->
 </script>';
-    
+
 } else {
     echo "
         <br /><br /><div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>$strNoStats</div>";

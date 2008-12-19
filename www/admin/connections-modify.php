@@ -66,7 +66,7 @@ $aParams['campaignid'] = $campaignId;
 $aParams['bannerid']   = $bannerId;
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 if (!empty($day)) {
     // Reset period
@@ -108,9 +108,8 @@ if(!empty($period_preset)) {
     }
 }
 
-if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $aParams['agency_id'] = OA_Permission::getAgencyId();
-}
+// Restrict to the current manager ID
+$aParams['agency_id'] = OA_Permission::getAgencyId();
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
