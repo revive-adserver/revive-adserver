@@ -39,7 +39,8 @@ class OA_Central_M2MProtectedRpc
     		$m2mTicketProvider = new OA_Central_M2MTicketProviderImpl();
     	}
     	parent::__construct($serviceExecutor, $m2mTicketProvider);
-	}
+    	$this->setAccountIdAndType(0, OA_ACCOUNT_ADMIN);
+    }
 	
 	function setAccountId($accountId)
 	{
