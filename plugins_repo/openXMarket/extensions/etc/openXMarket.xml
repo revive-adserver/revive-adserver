@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download)</description>
-    <version>0.0.2-dev</version>
+    <version>0.0.3-dev</version>
     <type>extension</type>
 
     <install>
@@ -22,6 +22,7 @@
         <contents>
             <group name="oxMarket">1</group>
             <group name="oxMarketMaintenance">2</group>
+            <group name="oxMarketDelivery">3</group>
         </contents>
 
     </install>
