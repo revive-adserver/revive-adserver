@@ -25,7 +25,7 @@
 $Id: oxPublisherConsoleClient.php 29196 2008-11-20 14:16:53Z apetlyovanyy $
 */
 
-require_once MAX_PATH . ' /lib/OX/M2M/M2MProtectedRpc.php';
+require_once MAX_PATH . '/lib/OX/M2M/M2MProtectedRpc.php';
 require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
 
 /**
