@@ -56,6 +56,20 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     private $pc_api_client;
     
+    /**
+     * @param array $array
+     * return empty array if argument is null
+     */
+    private function putEmptyArrayIfNull($array)
+    {
+        if (isset($array)) {
+            return $array;
+        }
+        else {
+            return array();
+        }
+    }
+    
     private function ensureStatusAndUpdatePcAccountId()
     {
         $publisher_account_id = null;
@@ -214,8 +228,10 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $cat_ex, $typ_ex)    
     {
         $this->ensureStatusAndUpdatePcAccountId();
-        return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl, 
-            $att_ex, $cat_ex, $typ_ex);
+        return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl,
+            $this->putEmptyArrayIfNull($att_ex), 
+            $this->putEmptyArrayIfNull($cat_ex), 
+            $this->putEmptyArrayIfNull($typ_ex));
     }
     
     /**

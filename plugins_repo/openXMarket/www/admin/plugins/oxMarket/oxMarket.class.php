@@ -56,8 +56,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     public $oMarketPublisherClient; 
     
-    function __construct() {
-        
+    function __construct() 
+    {
         $this->oMarketPublisherClient = 
             new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
         $aDefRestr = $this->oMarketPublisherClient->getDefaultRestrictions();
@@ -217,6 +217,25 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $this->oMarketPublisherClient->getPcAccountId();
     }
     
+    function getWebsiteIdAndUrl($affiliateId, $autoGenerate = true, &$websiteId, 
+        &$websiteUrl)
+    {
+        $oWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
+        $oWebsitePref->get($affiliateId);
+        
+        $oWebsite = & OA_Dal::factoryDO('affiliates');
+        $oWebsite->get($affiliateId);
+
+        if (empty($oWebsitePref->website_id) && $autoGenerate) {
+            $websiteId = $this->generateWebsiteId($oWebsite->website);
+            if (!empty($websiteId)) {
+                $this->setWebsiteId($affiliateId, $websiteId);
+            }
+        } else {
+            $websiteId = $oWebsitePref->website_id;
+        }
+        $websiteUrl = $oWebsite->website; 
+    }
 
     function getWebsiteId($affiliateId, $autoGenerate = true)
     {
@@ -333,9 +352,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
-        $websiteId = $this->getWebsiteId($affiliateId);
-        return $this->oMarketPublisherClient->updateWebsite(
-            $websiteId, $aAttribute, $aCategory, $aType);
+        $websiteId = null; 
+        $websiteUrl = null;
+        $this->getWebsiteIdAndUrl($affiliateId, true, $websiteId, $websiteUrl);
+        return $this->oMarketPublisherClient->updateWebsite($websiteId, 
+            $websiteUrl, array_values($aAttribute), array_values($aCategory), 
+            array_values($aType));
     }
     
 
