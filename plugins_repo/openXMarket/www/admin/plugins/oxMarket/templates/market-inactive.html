@@ -37,9 +37,9 @@ $Id$
 {t str='Deactivation reason:'}<br>
 <b>
 {if $deactivationStatusMessage}
-   {$deactivationStatusMessage}
+   {$deactivationStatusMessage} {if $deactivationStatus !== '' && $deactivationStatus !== null}(code: {$deactivationStatus}){/if}
 {else}
- TODO here goes a switch for possible agreed reasons from publisher API
+ {*TODO here goes a switch for possible agreed reasons from publisher API*}
 {/if}
 </b>
 </p>

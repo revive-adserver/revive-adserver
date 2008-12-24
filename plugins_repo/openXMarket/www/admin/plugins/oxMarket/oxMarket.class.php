@@ -217,6 +217,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $this->oMarketPublisherClient->getPcAccountId();
     }
     
+    
     function getWebsiteIdAndUrl($affiliateId, $autoGenerate = true, &$websiteId, 
         &$websiteUrl)
     {
@@ -236,6 +237,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         $websiteUrl = $oWebsite->website; 
     }
+    
 
     function getWebsiteId($affiliateId, $autoGenerate = true)
     {
@@ -301,7 +303,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return;
         }
         
-        // Only splash for Manager accounts
+        // Only splash for Admin accounts
         if (OA_Permission::isUserLinkedToAdmin() && !$this->splashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             //TODO set splash shown
@@ -404,12 +406,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function getInactiveStatus()
     {
-        //TODO get from DB
-        //TODO do we need a message returned from server as well?
-        return array('code' => 0, 'message' => 
-            'TODO: This is sample message! Account disabled due to a breach of OpenX Market terms and conditions');    
+        if ($this->isActive()) {
+            return null;
+        }
+        
+        $status = $this->oMarketPublisherClient->getAssociationWithPcStatus();
+        $message = "OpenX Market publisher account is not properly associated with your ad server";
+        
+        return array('code' => $status, 'message' => $message);   
     }
-    
+        
     
     function getConfigValue($configKey)
     {
