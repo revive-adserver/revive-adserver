@@ -193,6 +193,22 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     OA_Admin_UI::queueMessage('Unable to register website in OpenX Market.', 'local', 'error', 0);
                 }
             }
+            else {
+                $oWebsite = & OA_Dal::factoryDO('affiliates');
+                $oWebsite->get($affiliateId);
+                $currentWebsiteUrl = $oWebsite->website;
+                if ($currentWebsiteUrl != $websiteUrl) { //url changed
+                    try {
+                        $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl);
+                        if ($result!== true) {
+                            throw new Exception($result);
+                        }
+                    }
+                    catch (Exception $e) {
+                        OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
+                    }
+                }
+            }
         }
     }
     
@@ -598,6 +614,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         return (!isset($error)) ? true : $error;
     }
+    
 
     function runTasksAfterPluginEnable()
     {

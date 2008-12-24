@@ -181,15 +181,15 @@ function buildWebsiteForm($affiliate)
     // $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
     $oPublisher->advSignup  =   ($aFields['advsignup'] == '1') ? true : false;
 
+    //  process form data for oxThorium
+    if ($oComponent)
+    {
+        $aFields['affiliateid'] = $oPublisher->publisherId;
+        $oComponent->processAffiliateForm($aFields);
+    }    
+    
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-        //  process form data for oxThorium
-        if ($oComponent)
-        {
-            $aFields['affiliateid'] = $oPublisher->publisherId;
-            $oComponent->processAffiliateForm($aFields);
-        }
-
         // Queue confirmation message
         $translation = new OX_Translation ();
         if ($newWebsite) {
