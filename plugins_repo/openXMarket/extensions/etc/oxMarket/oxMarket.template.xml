@@ -81,15 +81,15 @@
 
         <configuration option="Market API">
             <!-- todo - set proper hosts before final release and set visible ="0" -->
-            <setting key="marketHost" type="text" label="Market host" required="1" size="32" visible="1">@marketHost@</setting>
-            <setting key="marketPcApiUrl" type="text" label="Market PC API URL" required="1" size="100" visible="1">@marketPcApiUrl@</setting>
-	    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="1">@defaultFloorPrice@</setting>
-            <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="1">@marketAccountIdParamName@</setting>
-            <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="1">@marketWelcomeUrl@</setting>
-            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="1">@marketTermsUrl@</setting>
-            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="1">@marketPrivacyUrl@</setting>
-            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="1" size="100" visible="1">@publisherSupportEmail@</setting>
-            <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="1">@ssoSignupUrl@</setting>
+            <setting key="marketHost" type="text" label="Market host" required="1" size="32" visible="0">@marketHost@</setting>
+            <setting key="marketPcApiUrl" type="text" label="Market PC API URL" required="1" size="100" visible="0">@marketPcApiUrl@</setting>
+	    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
+            <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
+            <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
+            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
+            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
+            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="1">@publisherSupportEmail@</setting>
+            <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="0">@ssoSignupUrl@</setting>
         </configuration>
 
         <schema>
