@@ -90,6 +90,7 @@
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
             <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="1">@publisherSupportEmail@</setting>
             <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="0">@ssoSignupUrl@</setting>
+            <setting key="splashAlreadyShown" type="checkbox" label="OpenX Market splash shown" required="1"  visible="0">0</setting>
         </configuration>
 
         <schema>

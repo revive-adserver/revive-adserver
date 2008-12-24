@@ -121,6 +121,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $form->setDefaults($aFields);
     }
+    
 
     function processCampaignForm(&$aFields)
     {
@@ -144,7 +145,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oExt_market_campaign_pref->insert();
         }
         // invalidate campaign-market delivery cache
-        //MAX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
+        MAX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }
     
 
@@ -303,14 +304,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return;
         }
         
-        // Only splash for Admin accounts
+        // Only splash for Manager accounts
         if (OA_Permission::isUserLinkedToAdmin() && !$this->splashAlreadyShown()) {
+            $oSettings = new OA_Admin_Settings();
+            $oSettings->settingChange('oxMarket', 'splashAlreadyShown', 1);
+            $oSettings->writeConfigChange();
+        
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
-            //TODO set splash shown
             exit;
         }
     }
-
+    
     
     function storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
@@ -399,8 +403,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     function splashAlreadyShown()
     {
-        //TODO get info about splash from DB
-        return false;
+        return $GLOBALS['_MAX']['CONF']['oxMarket']['splashAlreadyShown'] == 1;
     }
     
     
@@ -421,7 +424,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         return $GLOBALS['_MAX']['CONF']['oxMarket'][$configKey];
     }
-
+    
     
     function checkRegistered($desiredStatus = true)
     {
