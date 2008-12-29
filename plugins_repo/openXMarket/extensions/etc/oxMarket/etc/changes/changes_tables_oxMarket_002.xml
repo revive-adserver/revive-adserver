@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxMarket</name>
+  <version>002</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>oxMarket</name>
+      <version>002</version>
+      <add>
+        <table>
+        <name>ext_market_general_pref</name>
+        <was>ext_market_general_pref</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>oxMarket</name>
+    <version>002</version>
+  </changeset>
+</destructive>
+</instructionset>

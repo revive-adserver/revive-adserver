@@ -102,6 +102,7 @@
             <dataobject>Ext_market_setting.php</dataobject>
             <dataobject>Ext_market_web_stats.php</dataobject>
             <dataobject>Ext_market_website_pref.php</dataobject>
+            <dataobject>Ext_market_general_pref.php</dataobject>
         </schema>
 
     </install>
