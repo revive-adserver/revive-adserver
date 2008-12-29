@@ -145,7 +145,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oExt_market_campaign_pref->insert();
         }
         // invalidate campaign-market delivery cache
-        MAX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
+        OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }
     
 
