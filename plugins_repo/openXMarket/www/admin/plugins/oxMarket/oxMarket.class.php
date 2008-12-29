@@ -601,11 +601,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         } else {
             try {
                 $aRestrictions = $this->getWebsiteRestrictions($affiliateId);
-                $this->oMarketPublisherClient->
-                    updateWebsite($doWebsitePref->website_id, $url, 
-                                  $aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB],
-                                  $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY],
-                                  $aRestrictions[SETTING_TYPE_CREATIVE_TYPE]);
+                $this->oMarketPublisherClient->updateWebsite(
+                    $doWebsitePref->website_id, $url, 
+                    array_values($aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB]),
+                    array_values(
+                        $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]),
+                    array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]));
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }
