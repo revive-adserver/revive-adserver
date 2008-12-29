@@ -68,19 +68,19 @@ function _marketNeeded($scriptFile, $code, $aAd) {
     }
     
     // Check that this OXP platform is connected to the publisher console
-    $aPlatformMarketInfo = MAX_cacheGetPlatformMarketInfo();
+    $aPlatformMarketInfo = OX_cacheGetPlatformMarketInfo();
     if (empty($aPlatformMarketInfo)) {
         return false;
     }
     
     // Check if this campaign has the market enabled
-    $aCampaignMarketInfo = MAX_cacheGetCampaignMarketInfo($aAd['campaignid']);
+    $aCampaignMarketInfo = OX_cacheGetCampaignMarketInfo($aAd['campaignid']);
     if (empty($aCampaignMarketInfo['is_enabled'])) {
         return false;
     }
     
     // Check if this website is market enabled
-    $aWebsiteMarketInfo = MAX_cacheGetWebsiteMarketInfo($aAd['affiliate_id']);
+    $aWebsiteMarketInfo = OX_cacheGetWebsiteMarketInfo($aAd['affiliate_id']);
     if (empty($aWebsiteMarketInfo['website_id'])) {
         return false;
     }
@@ -117,7 +117,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
 
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
 
-        $baseUrl = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://' . $aConf['oxMarketDelivery']['brokerHost'];
+        $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://' . $aConf['oxMarketDelivery']['brokerHost'];
         $urlParams = array(
             'pid=' . $aWebsiteMarketInfo['website_id'],
             'tag_type=1',
@@ -167,7 +167,7 @@ function OX_marketLogGetIds()
     return $aAdIds;
 }
 
-function MAX_cacheGetCampaignMarketInfo($campaignId, $cached = true)
+function OX_cacheGetCampaignMarketInfo($campaignId, $cached = true)
 {
     if (!function_exists('OA_Delivery_Cache_getName')) {
         require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
@@ -175,14 +175,14 @@ function MAX_cacheGetCampaignMarketInfo($campaignId, $cached = true)
     $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $campaignId);
     if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRow = MAX_Dal_Delivery_getCampaignMarketInfo($campaignId);
+        $aRow = OX_Dal_Delivery_getCampaignMarketInfo($campaignId);
         $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
     }
 
     return $aRow;
 }
 
-function MAX_Dal_Delivery_getCampaignMarketInfo($campaignId)
+function OX_Dal_Delivery_getCampaignMarketInfo($campaignId)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $query = "
@@ -201,27 +201,27 @@ function MAX_Dal_Delivery_getCampaignMarketInfo($campaignId)
     return OA_Dal_Delivery_fetchAssoc($res);
 }
 
-function MAX_cacheInvalidateGetCampaignMarketInfo($campaignId)
+function OX_cacheInvalidateGetCampaignMarketInfo($campaignId)
 {
     require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
     $oCache = new OA_Cache_DeliveryCacheCommon();
-    $sName  = OA_Delivery_Cache_getName('MAX_cacheGetCampaignMarketInfo', $campaignId);
+    $sName  = OA_Delivery_Cache_getName('OX_cacheGetCampaignMarketInfo', $campaignId);
     return $oCache->invalidateFile($sName);
 }
 
-function MAX_cacheGetWebsiteMarketInfo($websiteId, $cached = true)
+function OX_cacheGetWebsiteMarketInfo($websiteId, $cached = true)
 {
     $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $websiteId);
     if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRow = MAX_Dal_Delivery_getWebsiteMarketInfo($websiteId);
+        $aRow = OX_Dal_Delivery_getWebsiteMarketInfo($websiteId);
         $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
     }
 
     return $aRow;
 }
 
-function MAX_Dal_Delivery_getWebsiteMarketInfo($websiteId)
+function OX_Dal_Delivery_getWebsiteMarketInfo($websiteId)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $query = "
@@ -239,16 +239,16 @@ function MAX_Dal_Delivery_getWebsiteMarketInfo($websiteId)
     return OA_Dal_Delivery_fetchAssoc($res);
 }
 
-function MAX_cacheInvalidateGetWebsiteMarketInfo($websiteId)
+function OX_cacheInvalidateGetWebsiteMarketInfo($websiteId)
 {
     require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
     $oCache = new OA_Cache_DeliveryCacheCommon();
-    $sName  = OA_Delivery_Cache_getName('MAX_cacheGetWebsiteMarketInfo', $websiteId);
+    $sName  = OA_Delivery_Cache_getName('OX_cacheGetWebsiteMarketInfo', $websiteId);
     return $oCache->invalidateFile($sName);
 }
 
 
-function MAX_cacheGetPlatformMarketInfo($cached = true)
+function OX_cacheGetPlatformMarketInfo($cached = true)
 {
     if (!function_exists('OA_Delivery_Cache_getName')) {
         require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
@@ -256,7 +256,7 @@ function MAX_cacheGetPlatformMarketInfo($cached = true)
     $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
     if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRow = MAX_Dal_Delivery_getPlatformMarketInfo();
+        $aRow = OX_Dal_Delivery_getPlatformMarketInfo();
         $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
     }
 
@@ -269,10 +269,45 @@ function MAX_cacheGetPlatformMarketInfo($cached = true)
  * @return boolean true if this platform is connected to the publisher console, false otherwise
  * @todo    Make this work :)
  */
-function MAX_Dal_Delivery_getPlatformMarketInfo()
+function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
 {
-    return true;
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (is_null($account_id)) {
+        $query = "
+            SELECT
+                value
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['application_variable']}
+            WHERE
+                name = 'admin_account_id'
+        ";
+        $res = OA_Dal_Delivery_query($query);
     
+        if (is_resource($res) && mysql_num_rows($res)) {
+            $account_id = (int)mysql_result($res, 0, 0);
+        } else {
+            return false;
+        }
+    }
+    
+    $query = "
+        SELECT
+            status
+        FROM
+            {$aConf['table']['prefix']}ext_market_assoc_data
+        WHERE
+            account_id = {$account_id}    
+    ";
+    
+    $res = OA_Dal_Delivery_query($query);
+    if (is_resource($res) && mysql_num_rows($res) == 1) {
+        $result = (int)mysql_result($res, 0, 0);
+        // Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS === 0
+        return ($result === 0);
+    } else {
+        return false;
+    }
+    return true;
 }
 
 ?>
