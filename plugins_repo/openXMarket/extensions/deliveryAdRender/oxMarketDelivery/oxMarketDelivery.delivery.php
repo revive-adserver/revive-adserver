@@ -267,7 +267,6 @@ function OX_cacheGetPlatformMarketInfo($cached = true)
  * This function returns a boolean if this OXP is connected to the publisher console
  *
  * @return boolean true if this platform is connected to the publisher console, false otherwise
- * @todo    Make this work :)
  */
 function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
 {
