@@ -129,6 +129,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return;
         }
         
+        $aConf = $GLOBALS['_MAX']['CONF'];
         
         $oExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
         $oExt_market_campaign_pref->campaignid = $aFields['campaignid'];
@@ -145,6 +146,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oExt_market_campaign_pref->insert();
         }
         // invalidate campaign-market delivery cache
+        if (!function_exists('OX_cacheInvalidateGetCampaignMarketInfo')) {
+            require_once MAX_PATH . $aConf['pluginPaths']['extensions'] . 'deliveryAdRender/oxMarketDelivery/oxMarketDelivery.delivery.php';
+        }
         OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }
     
