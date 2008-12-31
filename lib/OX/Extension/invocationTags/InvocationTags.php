@@ -120,7 +120,8 @@ class Plugins_InvocationTags extends OX_Component
 
     public function getOrder()
     {
-        return self::$order++;
+        self::$order += 1;
+        return self::$order;
     }
 
     /**
