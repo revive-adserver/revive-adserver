@@ -33,6 +33,10 @@ require_once '../../init.php';
 define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
 
+// Load session data (required for login check)
+require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
+phpAds_SessionDataFetch();
+
 $aErrors = array();
 $result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
 if (validRequest($result))
