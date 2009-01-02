@@ -242,9 +242,21 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertEqual(count($aHooks),1);
         $this->assertEqual($aHooks[0],'admin:testPlugin:testPlugin');
 
-        //re-cache the hooks
-        $oExtension = new OX_Extension_Common();
-        $oExtension->cacheComponentHooks();
+        //remove cache 
+        unset($GLOBALS['_MAX']['ComponentHooks']);
+        $oCache = new OA_Cache('Plugins', 'ComponentHooks');
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        
+        //should auto regenerate cache
+        $aHooks = OX_Component::getListOfRegisteredComponentsForHook('duringTest');
+        $this->assertIsA($aHooks, 'array');
+        $this->assertEqual(count($aHooks),1);
+        $this->assertEqual($aHooks[0],'admin:testPlugin:testPlugin');
+  
+        //cache file should be regenerated
+        $aAllHooks = $oCache->load();
+        $this->assertEqual($aHooks, $aAllHooks['duringTest']);
 
         TestEnv::restoreConfig();
     }
@@ -346,7 +358,6 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertFalse($oHandler->enabled);
         $this->assertEqual($oHandler->extension,'tests');
     }
-
 
 }
 

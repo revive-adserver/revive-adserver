@@ -435,6 +435,13 @@ class OX_Component
             $oCache = new OA_Cache('Plugins', 'ComponentHooks');
             $oCache->setFileNameProtection(false);
             $GLOBALS['_MAX']['ComponentHooks'] = $oCache->load(true);
+            if ($GLOBALS['_MAX']['ComponentHooks'] === false) 
+            {
+                require_once LIB_PATH . '/Plugin/PluginManager.php';        
+                $oPluginManager = new OX_PluginManager();
+                $GLOBALS['_MAX']['ComponentHooks'] = $oPluginManager->getComponentHooks();
+                $oCache->save($GLOBALS['_MAX']['ComponentHooks']);
+            }
         }
         return $GLOBALS['_MAX']['ComponentHooks'];
     }
