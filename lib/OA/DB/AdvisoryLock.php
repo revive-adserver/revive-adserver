@@ -89,16 +89,35 @@ class OA_DB_AdvisoryLock
     function &factory($sType = null)
     {
         if (is_null($sType)) {
-            $oDbh  =& OA_DB::singleton();
+
+            $oDbh =& OA_DB::singleton();
+
+            if (PEAR::isError($oDbh)) {
+                OA::debug('Error connecting to database to obtain locking object. Native error follows:', PEAR_LOG_ERR);
+                OA::debug($oDbh, PEAR_LOG_ERR);
+                OA::debug('Will re-try connection...', PEAR_LOG_ERR);
+                $retryCount = 0;
+                while (PEAR::isError($oDbh) && $retryCount < 6) {
+                    $retryCount++;
+                    sleep(10);
+                    OA::debug('Re-try connection attempt #' . $retryCount, PEAR_LOG_ERR);
+                    $oDbh =& OA_DB::singleton();
+                }
+                if (PEAR::isError($oDbh)) {
+                    OA::debug('Failed in re-try attempts to connect to database. Aborting.', PEAR_LOG_CRIT);
+                    exit();
+                }
+            }
 
             $aDsn  = MDB2::parseDSN($oDbh->getDSN());
             $sType = $aDsn['phptype'];
+
         }
 
         include_once(MAX_PATH.'/lib/OA/DB/AdvisoryLock/'.$sType.'.php');
         $sClass = "OA_DB_AdvisoryLock_".$sType;
 
-        $oLock =& new $sClass();
+        $oLock = new $sClass();
 
         if (!$oLock->_isLockingSupported()) {
             // Fallback to file based locking if the current class won't work
