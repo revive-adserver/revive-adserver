@@ -259,6 +259,7 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertEqual($aHooks, $aAllHooks['duringTest']);
 
         TestEnv::restoreConfig();
+        $oCache->clear();
     }
 
     function test_factory()

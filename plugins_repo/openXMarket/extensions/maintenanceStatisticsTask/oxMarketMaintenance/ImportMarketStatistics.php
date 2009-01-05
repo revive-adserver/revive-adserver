@@ -47,26 +47,30 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMaintenanceStat
     }
 
     /**
-     * The implementation of the OA_Task::run() method that performs
-     * the required task of activating/deactivating campaigns.
+     * The implementation of the OA_Task::run() method that 
+     * downloads statistics from publisher console
      */
     function run()
     {
         OA::debug('Started oxMarket_ImportMaintenanceStatistic');
-        $oDB = OA_DB::singleton();
-        $supports_transactions = $oDB->supports('transactions');
-        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-        $oPublisherConsoleApiClient = 
-            $oMarketComponent->getPublisherConsoleApiClient();
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
-        if (isset($oPluginSettings->value)) {
-            $last_update = intval($oPluginSettings->value);
+        try {
+            $oDB = OA_DB::singleton();
+            $supports_transactions = $oDB->supports('transactions');
+            $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+            $oPublisherConsoleApiClient = 
+                $oMarketComponent->getPublisherConsoleApiClient();
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
+            if (isset($oPluginSettings->value)) {
+                $last_update = intval($oPluginSettings->value);
+            }
+            else {
+                $last_update = 0;
+            }
+            $data = $oPublisherConsoleApiClient->oxmStatistics($last_update);
+        } catch (Exception $e) {
+            OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
-        else {
-            $last_update = 0;
-        }
-        $data = $oPublisherConsoleApiClient->oxmStatistics($last_update);
         if (!empty($data)) {
             if ($supports_transactions) {
                 $oDB->beginTransaction();

@@ -27,7 +27,9 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
+if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
+    require_once MAX_PATH . '/lib/max/Delivery/common.php';
+}
 require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
