@@ -768,8 +768,7 @@ function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
             OA::debug('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
             ###END_STRIP_DELIVERY
             unset($aAds[$adId]);
-        }
-        else {
+        } else {
             ###START_STRIP_DELIVERY
             OA::debug('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
             ###END_STRIP_DELIVERY
