@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.0.2-dev</version>
-    <oxversion>2.7.28-beta-rc1</oxversion>
+    <version>0.1.2-dev</version>
+    <oxversion>2.7.28-beta-rc2</oxversion>
     <extends>admin</extends>
 
     <install>

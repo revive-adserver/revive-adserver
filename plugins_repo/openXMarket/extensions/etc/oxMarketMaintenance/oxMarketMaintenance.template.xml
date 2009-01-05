@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Maintenace Statistics Tasks</description>
-    <version>0.0.1-dev</version>
-    <oxversion>2.7.27-beta-rc12</oxversion>
+    <version>0.1.1-dev</version>
+    <oxversion>2.7.28-beta-rc2</oxversion>
     <extends>maintenanceStatisticsTask</extends>
 
     <install>
