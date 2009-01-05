@@ -49,6 +49,7 @@ if (php_sapi_name() != 'cli') {
 // Note we may change this to require(../../init.php) which would give access to installed $conf
 // Which could be used to compile in the delivery engine Dal for this installation?
 define('MAX_PATH', dirname(dirname(dirname(__FILE__))));
+define('OX_PATH', dirname(dirname(dirname(__FILE__))));
 define('LIB_PATH', MAX_PATH.'/lib/OX');
 
 $ignored_files = array('template.php');
