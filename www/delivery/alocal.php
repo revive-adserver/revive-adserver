@@ -2882,8 +2882,7 @@ function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
 foreach ($aAds as $adId => $aAd) {
 if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
 unset($aAds[$adId]);
-}
-else {
+} else {
 }
 }
 return $aAds;
