@@ -42,18 +42,18 @@ $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
 $oMarketComponent->checkRegistered(false);
 
-$paymentForm = buildSignupForm($oMarketComponent);
-$isFormValid = $paymentForm->validate();
+$signupForm = buildSignupForm($oMarketComponent);
+$isFormValid = $signupForm->validate();
 
 if ($isFormValid) {
     //process submitted values
-    $processingErrors = processForm($paymentForm, $oMarketComponent);
+    $processingErrors = processForm($signupForm, $oMarketComponent);
     if (!empty($processingErrors)) {
-        displayPage($paymentForm, $oMarketComponent, $processingErrors);
+        displayPage($signupForm, $oMarketComponent, $processingErrors);
     }
 }
 else { //either validation failed or form was not submitted, display the form
-    displayPage($paymentForm, $oMarketComponent);
+    displayPage($signupForm, $oMarketComponent);
 }
 
 /*-------------------------------------------------------*/

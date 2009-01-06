@@ -41,6 +41,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
     $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    $oMarketComponent->setSplashAlreadyShown();
+    
 
     //header
     phpAds_PageHeader("openx-market",'','../../');

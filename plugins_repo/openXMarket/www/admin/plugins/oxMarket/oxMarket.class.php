@@ -320,16 +320,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterLogin()
     {
-        if (!$this->isActive()) {
+        if ($this->isRegistered()) { //show only to unregistered users
             return;
         }
         
         // Only splash for Manager accounts
-        if (OA_Permission::isUserLinkedToAdmin() && !$this->splashAlreadyShown()) {
-            $oSettings = new OA_Admin_Settings();
-            $oSettings->settingChange('oxMarket', 'splashAlreadyShown', 1);
-            $oSettings->writeConfigChange();
-        
+        if (OA_Permission::isUserLinkedToAdmin() && !$this->isSplashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
         }
@@ -421,10 +417,18 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
     
-    function splashAlreadyShown()
+    function isSplashAlreadyShown()
     {
         return $GLOBALS['_MAX']['CONF']['oxMarket']['splashAlreadyShown'] == 1;
     }
+    
+    
+    function setSplashAlreadyShown()
+    {
+            $oSettings = new OA_Admin_Settings();
+            $oSettings->settingChange('oxMarket', 'splashAlreadyShown', 1);
+            $oSettings->writeConfigChange();
+    }    
     
     
     function getInactiveStatus()
@@ -518,7 +522,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     //UI actions
     function indexAction()
     {
-        //TODO check activation status
         $registered = $this->isRegistered();
         $active = $this->isActive();
         
@@ -531,7 +534,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         }
         else {
-            if ($this->splashAlreadyShown()) {
+            if ($this->isSplashAlreadyShown()) {
                 OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-signup.php');
             }
             else {
