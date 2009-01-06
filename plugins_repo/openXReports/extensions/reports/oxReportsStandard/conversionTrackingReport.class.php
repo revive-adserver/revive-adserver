@@ -1202,7 +1202,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 t.trackerid = ". DBC::makeLiteral($trackerId, 'integer');
         $rsTracker = DBC::NewRecordSet($query);
         $rsTracker->find();
-        if ($rsTracker->fetch()) {
+        if (!$rsTracker->fetch()) {
             // Unknown if anonymous or not! Return true to prevent
             // accidental information leakage...
             return true;

@@ -9,7 +9,7 @@
     <authorUrl>www.openx.org</authorUrl>
     <license>GPL</license>
     <description>Basic Reports for OpenX</description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <oxversion>2.7.16-dev</oxversion>
     <type>package</type>
 
