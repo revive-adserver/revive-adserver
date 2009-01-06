@@ -147,7 +147,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
             } else if ($key == 'affiliateid') {
                 $string = $strAffiliate;
                 $doAffiliates = OA_Dal::factoryDO('affiliates');
-                $doBanners->affiliateid = $value;
+                $doAffiliates->affiliateid = $value;
                 $doAffiliates->find();
                 if ($doAffiliates->fetch()) {
                     $aPublisher = $doAffiliates->toArray();
