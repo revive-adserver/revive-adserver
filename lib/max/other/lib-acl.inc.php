@@ -400,7 +400,7 @@ function &OA_aclGetComponentFromType($type)
     }
     list($extension, $group, $name) = $aComponentIdentifier;
 
-    return OX_Component::factory($extension, ucfirst($group), ucfirst($name));
+    return OX_Component::factory($extension, $group, $name);
 }
 
 /**
