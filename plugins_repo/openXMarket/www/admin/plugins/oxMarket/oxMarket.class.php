@@ -152,7 +152,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }
     
-
+    /**
+     * Set default restriction to given website
+     * 
+     * @param int $affiliateId
+     * @return boolean
+     */
     function insertDefaultRestrictions($affiliateId)
     {
         return $this->updateWebsiteRestrictions($affiliateId, 
@@ -180,7 +185,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             
             //genereate new id if it does not exist
             if (empty($websiteId)) {
-                if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
+                try {
+                    $websiteId = $this->generateWebsiteId($websiteUrl);
                     $this->setWebsiteId($affiliateId, $websiteId);
                     $restricted = $this->insertDefaultRestrictions($affiliateId);
                     $message =  'Website has been registered in OpenX Market';
@@ -192,8 +198,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     }
                     
                     OA_Admin_UI::queueMessage($message, 'local', $restricted ?'confirm' : 'error', $restricted ? 5000 : 0);
-                } 
-                else {
+                } catch (Exception $e) {
+                    OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
                     OA_Admin_UI::queueMessage('Unable to register website in OpenX Market.', 'local', 'error', 0);
                 }
             }
@@ -210,6 +216,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     }
                     catch (Exception $e) {
                         OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
+                        OA_Admin_UI::queueMessage('There was an error during updating website url in OpenX Market.', 'local', 'error', 0);
                     }
                 }
             }
@@ -249,14 +256,18 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oWebsite->get($affiliateId);
 
         if (empty($oWebsitePref->website_id) && $autoGenerate) {
-            $websiteId = $this->generateWebsiteId($oWebsite->website);
-            if (!empty($websiteId)) {
-                $this->setWebsiteId($affiliateId, $websiteId);
+            try {
+                $websiteId = $this->generateWebsiteId($oWebsite->website);
+                if (!empty($websiteId)) {
+                    $this->setWebsiteId($affiliateId, $websiteId);
+                }
+            } catch (Exception $e) {
+                OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
             }
         } else {
             $websiteId = $oWebsitePref->website_id;
         }
-        $websiteUrl = $oWebsite->website; 
+        $websiteUrl = $oWebsite->website;
     }
     
 
@@ -269,7 +280,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oWebsite = & OA_Dal::factoryDO('affiliates');
             $oWebsite->get($affiliateId);
 
-            $websiteId = $this->generateWebsiteId($oWebsite->website);
+            try {
+                $websiteId = $this->generateWebsiteId($oWebsite->website);
+            } catch (Exception $e) {
+                OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
+            }
             if (!empty($websiteId)) {
                 $this->setWebsiteId($affiliateId, $websiteId);
             } else {
@@ -282,7 +297,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $websiteId;
     }
     
-
+    /**
+     * generate website_id (singup website to market)
+     *
+     * @param string $websiteUrl
+     * @return string website_id
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
+     * @throws Zend_Http_Client_FaultException
+     */
     function generateWebsiteId($websiteUrl)
     {
         return $this->oMarketPublisherClient->newWebsite($websiteUrl);
@@ -371,15 +393,32 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oMarketSetting->delete();
     }
     
-
+    /**
+     * update website restrictions in OpenX Market
+     *
+     * @param int $affiliateId
+     * @param array $aType
+     * @param array $aAttribute
+     * @param array $aCategory
+     * @return boolean
+     */
     function updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
-        $websiteId = null; 
+        $aType      = (is_array($aType)) ? array_values($aType) : array();
+        $aAttribute = (is_array($aAttribute)) ? array_values($aAttribute) : array();
+        $aCategory  = (is_array($aCategory)) ? array_values($aCategory) : array();
+        $websiteId  = null;
         $websiteUrl = null;
         $this->getWebsiteIdAndUrl($affiliateId, true, $websiteId, $websiteUrl);
-        return $this->oMarketPublisherClient->updateWebsite($websiteId, 
-            $websiteUrl, array_values($aAttribute), array_values($aCategory), 
-            array_values($aType));
+        try {
+            $result = $this->oMarketPublisherClient->updateWebsite($websiteId, 
+                $websiteUrl, array_values($aAttribute), array_values($aCategory), 
+                array_values($aType));
+        } catch (Exception $e) {
+            OA::debug('openXMarket: Error during updating website restriction in OpenX Market : '.$e->getMessage());
+            return false;
+        }
+        return (bool) $result;
     }
     
 
@@ -578,7 +617,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 if (empty($websiteId)) {
                     if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
                         $this->setWebsiteId($affiliateId, $websiteId);
-                        $restricted = $this->insertDefaultRestrictions($affiliateId);
+                        $this->insertDefaultRestrictions($affiliateId);
                     }
                 } else {
                     $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl);

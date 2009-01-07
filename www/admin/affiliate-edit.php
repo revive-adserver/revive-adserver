@@ -87,7 +87,10 @@ $websiteForm = buildWebsiteForm($affiliate);
 
 if ($websiteForm->validate()) {
     //process submitted values
-    processForm($affiliateid, $websiteForm, $oComponent);
+    $oPublisherDll = processForm($affiliateid, $websiteForm, $oComponent);
+    if ($oPublisherDll->_errorMessage || $oPublisherDll->_noticeMessage) {
+        displayPage($affiliateid, $websiteForm, $oPublisherDll);
+    }
 }
 else { //either validation failed or form was not submitted, display the form
     displayPage($affiliateid, $websiteForm);
@@ -180,19 +183,26 @@ function buildWebsiteForm($affiliate)
     // Do I need to handle this?
     // $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
     $oPublisher->advSignup  =   ($aFields['advsignup'] == '1') ? true : false;
-
-    //  process form data for oxThorium
-    if ($oComponent)
+    
+    // process form data for oxThorium if this is edit existing website
+    if (!$newWebsite && $oComponent)
     {
         $aFields['affiliateid'] = $oPublisher->publisherId;
         $oComponent->processAffiliateForm($aFields);
-    }    
-    
+    }
+
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
+        
         // Queue confirmation message
         $translation = new OX_Translation ();
         if ($newWebsite) {
+            //process form data for oxThorium for new website
+            if ($oComponent)
+            {
+                $aFields['affiliateid'] = $oPublisher->publisherId;
+                $oComponent->processAffiliateForm($aFields);
+            }
             $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId),
                 htmlspecialchars($oPublisher->publisherName),
@@ -212,12 +222,13 @@ function buildWebsiteForm($affiliate)
         OX_Admin_Redirect::redirect($redirectURL);
 
     }
+    return $oPublisherDll;
 }
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($affiliateid, $form)
+function displayPage($affiliateid, $form, $oPublisherDll = null)
 {
     //header and breadcrumbs
     $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);
@@ -235,9 +246,10 @@ function displayPage($affiliateid, $form)
     $oTpl->assign('affiliateid', $affiliateid);
     $oTpl->assign('form', $form->serialize());
 
-    $oTpl->assign('error',  $oPublisherDll->_errorMessage);
-    $oTpl->assign('notice', $oPublisherDll->_noticeMessage);
-
+    if (isset($oPublisherDll)) {
+        $oTpl->assign('error',  $oPublisherDll->_errorMessage);
+        $oTpl->assign('notice', $oPublisherDll->_noticeMessage);
+    }
 
     $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
     $oTpl->assign('keyAddNew', $keyAddNew);
