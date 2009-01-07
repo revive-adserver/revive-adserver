@@ -1921,23 +1921,8 @@ $dest = $aAd['url'];
 if (empty($dest)) {
 return;
 }
-//if (empty($dest)) {
-//    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
-//}
 $aVariables = array();
-$aValidVariables = array(
-$conf['var']['adId'],
-$conf['var']['cacheBuster'],
-$conf['var']['channel'],
-$conf['var']['dest'],
-$conf['var']['logClick'],
-$conf['var']['n'],
-$conf['var']['zoneId'],
-$conf['var']['params'],
-$conf['var']['cookieTest'],
-$conf['var']['lastClick'],
-'channel_ids'
-);
+$aValidVariables = array_values($conf['var']);
 // We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);
 if (!empty($destParams['query'])) {
@@ -2010,9 +1995,6 @@ $creativeId[$i] = intval($creativeId[$i]);
 $creativeId[$i] = 0;
 }
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
-if (isset($_REQUEST['channel_ids'])) {
-$GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
-}
 if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
 if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
 MAX_Delivery_log_setClickBlocked($i, $adId);

@@ -1921,23 +1921,8 @@ $dest = $aAd['url'];
 if (empty($dest)) {
 return;
 }
-//if (empty($dest)) {
-//    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
-//}
 $aVariables = array();
-$aValidVariables = array(
-$conf['var']['adId'],
-$conf['var']['cacheBuster'],
-$conf['var']['channel'],
-$conf['var']['dest'],
-$conf['var']['logClick'],
-$conf['var']['n'],
-$conf['var']['zoneId'],
-$conf['var']['params'],
-$conf['var']['cookieTest'],
-$conf['var']['lastClick'],
-'channel_ids'
-);
+$aValidVariables = array_values($conf['var']);
 // We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);
 if (!empty($destParams['query'])) {
@@ -2001,13 +1986,6 @@ $aCapZone['block']               = MAX_Delivery_log_getArrGetVariable('blockZone
 $aCapZone['capping']             = MAX_Delivery_log_getArrGetVariable('capZone');
 $aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
 $aSetLastSeen                    = MAX_Delivery_log_getArrGetVariable('lastView');
-if (isset($_REQUEST['channel_ids'])) {
-$GLOBALS['_MAX']['CHANNELS'] = str_replace(
-$GLOBALS['_MAX']['CONF']['delivery']['chDelimiter'],
-$GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'],
-$_REQUEST['channel_ids']
-);
-}
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
 // and log each ad, and th  en set any capping cookies required
 $countAdIds = count($aAdIds);

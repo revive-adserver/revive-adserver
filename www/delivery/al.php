@@ -1868,20 +1868,11 @@ $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
 }
 }
 }
-$GLOBALS['_MAX']['CHANNELS'] = '';
 // Set the ad's own timezone as preference, because some limitations require to be TZ aware
 $GLOBALS['_MAX']['PREF']['timezone'] = $row['timezone'];
 @eval('$result = (' . $row['compiledlimitation'] . ');');
 // Reset timezone
 unset($GLOBALS['_MAX']['PREF']['timezone']);
-if (!$result)
-{
-unset($GLOBALS['_MAX']['CHANNELS']);
-}
-else
-{
-$GLOBALS['_MAX']['CHANNELS'] .= $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
-}
 return $result;
 } else {
 return true;
@@ -2300,9 +2291,6 @@ $url .= "?bannerid=" . $aBanner['ad_id'];
 $url .= $amp . "campaignid=" . $aBanner['placement_id'];
 $url .= $amp . "zoneid=" . $zoneId;
 if (!empty($source)) $url .= $amp . "source=" . $source;
-if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-$url .= $amp . "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
-}
 if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
 if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
 if (!empty($aBanner['session_cap_ad'])) $url .= $amp . $conf['var']['sessionCapAd'] . "=" . $aBanner['session_cap_ad'];
