@@ -47,9 +47,6 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
     if (!empty($pageInfo['scheme'])) {
         $pageInfo['scheme'] = ($pageInfo['scheme'] == 'https') ? 1 : 0;
     }
-    if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-        $pageInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
-    }
     $GLOBALS['_MAX']['deliveryData']['pageInfo'] = $pageInfo;
 }
 

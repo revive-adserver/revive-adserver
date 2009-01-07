@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GNU General Public License</license>
     <description>Site Delivery Limitations for OpenX</description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <oxversion>2.7.5-dev</oxversion>
     <extends>deliveryLimitations</extends>
 

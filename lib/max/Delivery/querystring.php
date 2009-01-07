@@ -132,34 +132,8 @@ function MAX_querystringGetDestinationUrl($adId = null)
     if (empty($dest)) {
         return;
     }
-    /**
-     * @TODO Remove code below, as the default banner target needs to go into the
-     * cached entity retrieval above!
-     */
-    //if (empty($dest)) {
-    //    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
-    //}
     $aVariables = array();
-    /**
-     * @todo Perhaps the list below should simply be $conf['var']...
-     */
-    $aValidVariables = array(
-        $conf['var']['adId'],
-        $conf['var']['cacheBuster'],
-        $conf['var']['channel'],
-        $conf['var']['dest'],
-        $conf['var']['logClick'],
-        $conf['var']['n'],
-        $conf['var']['zoneId'],
-        $conf['var']['params'],
-        $conf['var']['cookieTest'],
-        $conf['var']['lastClick'],
-
-        /**
-         * @todo This variable below needs to be config-file driven, all occurences need to be changed to $conf['var']['channel_ids']
-         */
-        'channel_ids'
-    );
+    $aValidVariables = array_values($conf['var']);
 
     // We also need to ensure that any variables already present in the dest are not duplicated...
     $destParams = parse_url($dest);

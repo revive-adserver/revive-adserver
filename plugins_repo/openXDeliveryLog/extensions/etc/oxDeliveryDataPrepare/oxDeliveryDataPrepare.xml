@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Delivery data preparation component of the standard logging plugin for OpenX</description>
-    <version>1.0.1-beta</version>
+    <version>1.0.2-beta</version>
     <oxversion>2.7.23-beta</oxversion>
     <extends>deliveryDataPrepare</extends>
 
