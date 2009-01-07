@@ -573,12 +573,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         }
         else {
-            if ($this->isSplashAlreadyShown()) {
-                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-signup.php');
-            }
-            else {
-                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
-            }
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
         }
     }
     
