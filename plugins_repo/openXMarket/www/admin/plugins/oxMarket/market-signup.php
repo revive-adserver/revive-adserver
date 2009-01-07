@@ -72,7 +72,7 @@ function buildSignupForm($oMarketComponent)
     $oForm->addElement('html', 'info', $oMarketComponent->translate("To start using the OpenX Market you need to have an OpenX account. Please <a href='%s' target='_blank'>create OpenX Account</a> if you do not have one.", array($ssoSignupUrl)));
     $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX Account name'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
-    $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a href='%s'>terms and conditions</a> and <a href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
+    $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
     $oForm->addElement('submit', 'save', $oMarketComponent->translate('Sign up'));
     
