@@ -1626,6 +1626,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             if ($aCampaign['status'] == OA_ENTITY_STATUS_RUNNING) {
                 // The campaign is currently running, look at the campaign
                 $disableReason = 0;
+                $canExpire = false;
                 if (($aCampaign['targetimpressions'] > 0) ||
                     ($aCampaign['targetclicks'] > 0) ||
                     ($aCampaign['targetconversions'] > 0)) {
@@ -1699,6 +1700,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
                         }
                     }
+                    $canExpire = true;
                 }
                 // Does the campaign need to be disabled due to the date?
                 if ($aCampaign['end'] != OA_Dal::noDateValue()) {
@@ -1732,6 +1734,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         phpAds_userlogSetUser(phpAds_userMaintenance);
                         phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
                     }
+                    $canExpire = true;
                 }
                 if ($disableReason) {
                     // The campaign was disabled, so send the appropriate
@@ -1761,7 +1764,7 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
                         $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id'], $disableReason);
                     }
-                } else {
+                } elseif ($canExpire) {
                     // The campaign has NOT been deactivated - test to see if it will
                     // be deactivated soon, and send email(s) warning of this as required
                     $oEmail->sendCampaignImpendingExpiryEmail($oDate, $aCampaign['campaign_id']);
