@@ -875,6 +875,9 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
+        // Clear cache
+        $oEmail->clearCache();
+
         Language_Loader::load('default', $aAdminUser['language']);
         $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
@@ -1128,6 +1131,9 @@ class Test_OA_Email extends UnitTestCase
         $doAccount_Preference_Assoc->value = 1;
         $doAccount_Preference_Assoc->update();
 
+        // Clear cache
+        $oEmail->clearCache();
+
         // So should now send 1 admin and 2 advertiser emails
         $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 3);
@@ -1163,6 +1169,9 @@ class Test_OA_Email extends UnitTestCase
         $doUserLog->action = phpAds_actionWarningMailed;
         $aUserLog = $doUserLog->getAll();
         $this->assertEqual(count($aUserLog), 6);
+
+        // Clear cache
+        $oEmail->clearCache();
 
         // Enable the warn_email_manager preference and retest
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');

@@ -46,6 +46,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OA_Email
 {
+    // Cache variables
+    var $aAdminCache;
+    var $aClientCache;
+    var $aAgencyCache;
 
     function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate) {
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -413,14 +417,9 @@ class OA_Email
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
 
-        // Static cache variables
-        static $aAdminCache;
-        static $aClientCache;
-        static $aAgencyCache;
-
         $oPreference = new OA_Preferences();
 
-        if (!isset($aAdminCache)) {
+        if (!isset($this->aAdminCache)) {
             // Get admin account ID
             $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
 
@@ -433,10 +432,10 @@ class OA_Email
             $aAdminUsers = $this->getAdminUsersLinkedToAccount();
 
             // Store admin cache
-            $aAdminCache = array($aAdminPrefs, $aAdminUsers);
+            $this->aAdminCache = array($aAdminPrefs, $aAdminUsers);
         } else {
             // Retrieve admin cache
-            list($aAdminPrefs, $aAdminUsers) = $aAdminCache;
+            list($aAdminPrefs, $aAdminUsers) = $this->aAdminCache;
         }
 
         $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -445,7 +444,7 @@ class OA_Email
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $aCampaign = $doCampaigns->toArray();
 
-        if (!isset($aClientCache[$aCampaign['clientid']])) {
+        if (!isset($this->aClientCache[$aCampaign['clientid']])) {
             $doClients = OA_Dal::staticGetDO('clients', $aCampaign['clientid']);
 
             // Add advertiser linked users
@@ -470,11 +469,12 @@ class OA_Email
                 $aAgencyFromDetails = $this->_getAgencyFromDetails($doAgency->agencyid);
 
                 // Store in the agency cache
-                $aAgencyCache = array();
-                $aAgencyCache[$doClients->agencyid] = array($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails);
+                $this->aAgencyCache = array(
+                    $doClients->agencyid => array($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails)
+                );
             } else {
                 // Retrieve agency cache
-                list($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails) = $aAgencyCache[$doClients->agencyid];
+                list($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails) = $this->aAgencyCache[$doClients->agencyid];
             }
 
             // Add admin linked users and preferences
@@ -500,11 +500,12 @@ class OA_Email
             $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'];
 
             // Store in the client cache
-            $aClientCache = array();
-            $aClientCache[$aCampaign['clientid']] = array($aLinkedUsers, $aPrefs, $aAgencyFromDetails);
+            $this->aClientCache = array(
+                $aCampaign['clientid'] => array($aLinkedUsers, $aPrefs, $aAgencyFromDetails)
+            );
         } else {
             // Retrieve client cache
-            list($aLinkedUsers, $aPrefs, $aAgencyFromDetails) = $aClientCache[$aCampaign['clientid']];
+            list($aLinkedUsers, $aPrefs, $aAgencyFromDetails) = $this->aClientCache[$aCampaign['clientid']];
         }
 
         $copiesSent = 0;
@@ -1285,6 +1286,13 @@ class OA_Email
             return $aFromDetails;
         }
         return;
+    }
+
+    function clearCache()
+    {
+        unset($this->aAdminCache);
+        unset($this->aAdminCache);
+        unset($this->aClientCache);
     }
 
 }
