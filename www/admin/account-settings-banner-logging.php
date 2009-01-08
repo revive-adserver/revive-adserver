@@ -193,7 +193,7 @@ $aSettings = array (
             array (
                 'type'    => 'text',
                 'name'    => 'logging_blockAdClicksWindow',
-                'text'    => $strBlockAdClicksWindow,
+                'text'    => $strBlockAdClicks,
                 'check'   => 'wholeNumber',
             ),
             array (
