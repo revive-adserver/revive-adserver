@@ -43,6 +43,8 @@ define('STATE_STD',             1);     # normal, copy input to output
 define('STATE_REQUIRE',         2);     # require found, wait to complete filename
 define('STATE_REQUIRE_ONCE',    3);     # require_once found, wait ...
 
+require_once MAX_PATH . '/lib/OX.php';
+
 /**
  * This code munger reads files which are included by PHP and merge them into one final
  * folder. The reason why this is done is performance, for more information see:
@@ -171,7 +173,7 @@ class OX_Util_CodeMunger
     public function finalCleanup($code)
     {
         // Replace the initial <?php with the licence header
-        $code = preg_replace('#^\<\?php\n+#is', $this->header, $code);
+        $code = preg_replace('#^\<\?php[\n\r]+#is', $this->header, $code);
 
         // Modify the MAX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
         // from: define('MAX_PATH', dirname(__FILE__));
@@ -197,7 +199,8 @@ class OX_Util_CodeMunger
     public function parseFile($filename)
     {
         // Track included files to allow require_once/include_once to work correctly
-        $this->onlyOnce[getcwd() . '/' . $filename] = true;
+        $thisFile = OX::realPathRelative(getcwd() . '/' . $filename);
+        $this->onlyOnce[$thisFile] = true;
 
         // Read the file
         $source = file_get_contents($filename);
@@ -243,7 +246,8 @@ class OX_Util_CodeMunger
                         switch($state) {
                             case STATE_REQUIRE_ONCE:
                                 // if we have done this file, don't slurp it again
-                                if (array_key_exists($cur, $this->onlyOnce))
+                                $thisfile = OX::realPathRelative($cur);
+                                if (array_key_exists($thisfile, $this->onlyOnce))
                                     break;
                                 //fall through
                             case STATE_REQUIRE:
