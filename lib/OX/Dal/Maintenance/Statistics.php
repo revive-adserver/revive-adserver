@@ -1613,7 +1613,10 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)." AS ca,
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)." AS cl
             WHERE
-                ca.clientid = cl.clientid";
+                ca.clientid = cl.clientid
+            ORDER BY
+                advertiser_id
+            ";
         OA::debug('- Selecting all campaigns', PEAR_LOG_DEBUG);
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
