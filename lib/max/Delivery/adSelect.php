@@ -256,6 +256,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             if ($row['block_zone'] > 0 || $row['cap_zone'] > 0 || $row['session_cap_zone'] > 0) {
                 MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row['cap_zone'], $row['session_cap_zone']);
             }
+            // Store the last view action event om the cookie as well (if required)
+            MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
         }
         return $output;
     } else {
