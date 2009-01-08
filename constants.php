@@ -212,6 +212,7 @@ function setupConstants()
     // define minimum amount of required memory
     $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
         'PHP5' => 25165824,  // 24MB in bytes - required by >PHP5.2
+        'PLUGINS' => 67108864,  // 64MB in bytes - Since we can't really know how much memory intalling a plugin may take
         'MAINTENANCE' => 134217728  // 128MB - try to set this value inside all maintenance scripts
     );
 

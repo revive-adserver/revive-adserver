@@ -79,6 +79,8 @@ class OX_Plugin_ComponentGroupManager
         $this->pathExtensions   = $aConf['pluginPaths']['extensions'];
         $this->pathPluginsAdmin = $aConf['pluginPaths']['admin'];
         $this->pathDataObjects  = $aConf['pluginPaths']['var'] . 'DataObjects/';
+        // Attempt to increase the memory limit when using the plugin manager
+        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['PLUGINS']);
     }
 
     function countErrors()
