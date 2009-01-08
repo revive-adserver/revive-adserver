@@ -44,6 +44,7 @@ define('OA_ENV_ERROR_PHP_PCRE',                      -9);
 define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
+define('OA_ENV_WARNING_MEMORY',                     -13);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -376,6 +377,11 @@ class OA_Environment_Manager
     {
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
         $expected = getMinimumRequiredMemory();
+        // Warn (not error) if the memory limit can't be increased
+        if  (!$this->_checkMemoryCanBeSet())
+        {
+            $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY] = "The <a href='http://php.net/ini.core#ini.memory-limit' target='_blank'>memory_limit</a> cannot be set by PHP, some parts of the product may not function correctly";
+        }
         if ($memlim != OA_MEMORY_UNLIMITED && ($memlim > 0) && ($memlim < $expected))
         {
             return false;
@@ -538,6 +544,21 @@ class OA_Environment_Manager
         return true;
     }
 
+    function _checkMemoryCanBeSet()
+    {
+        $memoryLimit = getMemorySizeInBytes();
+        // Unlimited memory, no need to check if it can be set
+        if ($memoryLimit == -1) {
+            return true;
+        }
+        increaseMemoryLimit($memoryLimit + 1);
+        $newMemoryLimit = getMemorySizeInBytes();
+        $memoryCanBeSet = ($memoryLimit != $newMemoryLimit);
+        
+        // Restore previous limit
+        @ini_set('memory_limit', $memoryLimit);
+        return $memoryCanBeSet;
+    }
 }
 
 ?>
