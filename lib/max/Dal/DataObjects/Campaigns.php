@@ -136,12 +136,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         if ($this->status == OA_ENTITY_STATUS_EXPIRED || $this->status == OA_ENTITY_STATUS_AWAITING) {
             if (isset($oldDoCampaigns)) {
                 if ($oldDoCampaigns->status == OA_ENTITY_STATUS_EXPIRED || $oldDoCampaigns->status == OA_ENTITY_STATUS_AWAITING) {
-                    $this->status = OA_ENTITY_RUNNING;
+                    $this->status = OA_ENTITY_STATUS_RUNNING;
                 } else {
                     $this->status = $oldDoCampaigns->status;
                 }
             } else {
-                $this->status = OA_ENTITY_RUNNING;
+                $this->status = OA_ENTITY_STATUS_RUNNING;
             }
         }
 
