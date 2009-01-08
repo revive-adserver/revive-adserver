@@ -52,8 +52,7 @@ $Id$
 						});
 						
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteTrackers}{literal}")) {
-							alert ('tracker-delete.php?clientid={/literal}{$clientId}{literal}&trackerid=' + ids.join(','));
-    						window.location = 'tracker-delete.php?clientid={/literal}{$clientId}{literal}&trackerid=' + ids.join(',');
+							window.location = 'tracker-delete.php?clientid={/literal}{$clientId}{literal}&trackerid=' + ids.join(',');
 						}
 					}
                 });
