@@ -413,58 +413,105 @@ class OA_Email
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
 
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $aCampaign = $doCampaigns->toArray();
+        // Static cache variables
+        static $aAdminCache;
+        static $aClientCache;
+        static $aAgencyCache;
+
+        $oPreference = new OA_Preferences();
+
+        if (!isset($aAdminCache)) {
+            // Get admin account ID
+            $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+
+            // Get admin prefs
+            $adminPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADMIN);
+            $aAdminPrefs = $oPreference->loadAccountPreferences($adminAccountId,
+                $adminPrefsNames, OA_ACCOUNT_ADMIN);
+
+            // Get admin users
+            $aAdminUsers = $this->getAdminUsersLinkedToAccount();
+
+            // Store admin cache
+            $aAdminCache = array($aAdminPrefs, $aAdminUsers);
+        } else {
+            // Retrieve admin cache
+            list($aAdminPrefs, $aAdminUsers) = $aAdminCache;
+        }
 
         $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aPreviousOIDates['start']);
 
-        $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aCampaign['clientid']);
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+        $aCampaign = $doCampaigns->toArray();
 
-        $doClients = OA_Dal::staticGetDO('clients', $aCampaign['clientid']);
-        $doAgency = OA_Dal::staticGetDO('agency', $doClients->agencyid);
+        if (!isset($aClientCache[$aCampaign['clientid']])) {
+            $doClients = OA_Dal::staticGetDO('clients', $aCampaign['clientid']);
 
-        $aLinkedUsers['manager']    = $this->getUsersLinkedToAccount('agency',  $doClients->agencyid);
-        $aLinkedUsers['admin']      = $this->getAdminUsersLinkedToAccount();
+            // Add advertiser linked users
+            $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aCampaign['clientid']);
 
-        // Create a linked user 'special' for the advertiser that will take the admin preferences for advertiser
-        $aLinkedUsers['special']['advertiser'] = $doClients->toArray();
-        $aLinkedUsers['special']['advertiser']['contact_name']  = $aLinkedUsers['special']['advertiser']['contact'];
-        $aLinkedUsers['special']['advertiser']['email_address'] = $aLinkedUsers['special']['advertiser']['email'];
-        $aLinkedUsers['special']['advertiser']['language']      = '';
-        $aLinkedUsers['special']['advertiser']['user_id']       = 0;
+            // Add advertiser prefs
+            $advertiserPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADVERTISER);
+            $aPrefs['advertiser'] = $oPreference->loadAccountPreferences($doClients->account_id,
+                $advertiserPrefsNames, OA_ACCOUNT_ADVERTISER);
 
-        // Check that every user is not going to receive more than one email if they
-        // are linked to more than one account
-        $aLinkedUsers = $this->_deleteDuplicatedUser($aLinkedUsers);
+            if (!isset($aAgencyCache[$doClients->agencyid])) {
+                // Add manager linked users
+                $doAgency = OA_Dal::staticGetDO('agency', $doClients->agencyid);
+                $aLinkedUsers['manager']    = $this->getUsersLinkedToAccount('agency',  $doClients->agencyid);
 
-        $oPreference = new OA_Preferences();
+                // Add manager preferences
+                $managerPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_MANAGER);
+                $aPrefs['manager'] = $oPreference->loadAccountPreferences($doAgency->account_id,
+                    $managerPrefsNames, OA_ACCOUNT_MANAGER);
 
-        $advertiserPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADVERTISER);
-        $aPrefs['advertiser'] = $oPreference->loadAccountPreferences($doClients->account_id,
-            $advertiserPrefsNames, OA_ACCOUNT_ADVERTISER);
+                // Get agency "From" details
+                $aAgencyFromDetails = $this->_getAgencyFromDetails($doAgency->agencyid);
 
-        $managerPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_MANAGER);
-        $aPrefs['manager'] = $oPreference->loadAccountPreferences($doAgency->account_id,
-            $managerPrefsNames, OA_ACCOUNT_MANAGER);
+                // Store in the agency cache
+                $aAgencyCache = array();
+                $aAgencyCache[$doClients->agencyid] = array($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails);
+            } else {
+                // Retrieve agency cache
+                list($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails) = $aAgencyCache[$doClients->agencyid];
+            }
 
-        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
-        $adminPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADMIN);
-        $aPrefs['admin'] = $oPreference->loadAccountPreferences($adminAccountId,
-            $adminPrefsNames, OA_ACCOUNT_ADMIN);
+            // Add admin linked users and preferences
+            $aLinkedUsers['admin'] = $aAdminUsers;
+            $aPrefs['admin']       = $aAdminPrefs;
 
-        // Create the linked special user preferences from the admin preferences
-        // the special user is the client that doesn't have preferences in the database
-        $aPrefs['special'] = $aPrefs['admin'];
-        $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'];
-        $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'];
-        $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'];
+            // Create a linked user 'special' for the advertiser that will take the admin preferences for advertiser
+            $aLinkedUsers['special']['advertiser'] = $doClients->toArray();
+            $aLinkedUsers['special']['advertiser']['contact_name']  = $aLinkedUsers['special']['advertiser']['contact'];
+            $aLinkedUsers['special']['advertiser']['email_address'] = $aLinkedUsers['special']['advertiser']['email'];
+            $aLinkedUsers['special']['advertiser']['language']      = '';
+            $aLinkedUsers['special']['advertiser']['user_id']       = 0;
+
+            // Check that every user is not going to receive more than one email if they
+            // are linked to more than one account
+            $aLinkedUsers = $this->_deleteDuplicatedUser($aLinkedUsers);
+
+            // Create the linked special user preferences from the admin preferences
+            // the special user is the client that doesn't have preferences in the database
+            $aPrefs['special'] = $aPrefs['admin'];
+            $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'];
+            $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'];
+            $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'];
+
+            // Store in the client cache
+            $aClientCache = array();
+            $aClientCache[$aCampaign['clientid']] = array($aLinkedUsers, $aPrefs, $aAgencyFromDetails);
+        } else {
+            // Retrieve client cache
+            list($aLinkedUsers, $aPrefs, $aAgencyFromDetails) = $aClientCache[$aCampaign['clientid']];
+        }
 
         $copiesSent = 0;
         foreach ($aLinkedUsers as $accountType => $aUsers) {
             if ($accountType == 'special' || $accountType == 'advertiser') {
                 // Get the agency details and use them for emailing advertisers
-                $aFromDetails = $this->_getAgencyFromDetails($doAgency->agencyid);
+                $aFromDetails = $aAgencyFromDetails;
             } else {
                 // Use the Admin details
                 $aFromDetails = '';
