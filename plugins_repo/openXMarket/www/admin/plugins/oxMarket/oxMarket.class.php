@@ -595,13 +595,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * Update or register all websites
      * Silent skip problems (will try again in maintenance)
      *
+     * @param boolean $skip_synchonized In maintenace skip updating websites marked as url synchronized with marketplace
+     *                                  other cases (e.g. reinstalling plugin and re-linking to market) should updates all websites 
      */
-    function updateAllWebsites()
+    function updateAllWebsites($skip_synchonized = false)
     {
         if (!$this->isRegistered() || !$this->isActive()) {
             return;
         }
-        
+
         $oWebsite = & OA_Dal::factoryDO('affiliates');
         $oWebsite->find();
         while($oWebsite->fetch()) {
@@ -615,7 +617,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                         $this->insertDefaultRestrictions($affiliateId);
                     }
                 } else {
-                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl);
+                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl, $skip_synchonized);
                     if ($result!==true) {
                         throw new Exception($result);
                     }
@@ -631,28 +633,31 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      *
      * @param int $affiliateId Affiliate Id
      * @param string $url New website url
+     * @param boolean $skip_synchonized Skip updating if url is synchronized
      * @return boolean|string true or error message
      */
-    function updateWebsiteUrl($affiliateId, $url) {
+    function updateWebsiteUrl($affiliateId, $url, $skip_synchonized = true) {
         $doWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
         $doWebsitePref->get($affiliateId);
         
         if (empty($doWebsitePref->website_id)) {
             $error = 'website not regisetered';
         } else {
-            try {
-                $aRestrictions = $this->getWebsiteRestrictions($affiliateId);
-                $this->oMarketPublisherClient->updateWebsite(
-                    $doWebsitePref->website_id, $url, 
-                    array_values($aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB]),
-                    array_values(
-                        $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]),
-                    array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]));
-            } catch (Exception $e) {
-                $error = $e->getMessage();
+            if (!$skip_synchonized || $doWebsitePref->is_url_synchronized !== 't') {
+                try {
+                        $aRestrictions = $this->getWebsiteRestrictions($affiliateId);
+                        $this->oMarketPublisherClient->updateWebsite(
+                            $doWebsitePref->website_id, $url, 
+                            array_values($aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB]),
+                            array_values(
+                                $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]),
+                            array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]));
+                } catch (Exception $e) {
+                    $error = $e->getMessage();
+                }
+                $doWebsitePref->is_url_synchronized = (!isset($error)) ? 't' : 'f';
+                $doWebsitePref->update();  
             }
-            $doWebsitePref->is_url_synchronized = (!isset($error)) ? 't' : 'f';
-            $doWebsitePref->update();  
         }
         return (!isset($error)) ? true : $error;
     }

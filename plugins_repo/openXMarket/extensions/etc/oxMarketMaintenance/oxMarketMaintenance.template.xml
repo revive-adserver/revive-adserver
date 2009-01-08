@@ -27,11 +27,17 @@
         <files>
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenance.class.php</file>
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">ImportMarketStatistics.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenanceUpdateWebsites.class.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">UpdateWebsites.php</file>
         </files>
 
         <components>
            <component>
                 <name>oxMarketMaintenance</name>
+                <hook>addMaintenanceStatisticsTask</hook>
+           </component>
+           <component>
+                <name>oxMarketMaintenanceUpdateWebsites</name>
                 <hook>addMaintenanceStatisticsTask</hook>
            </component>
         </components>

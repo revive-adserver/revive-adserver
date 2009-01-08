@@ -34,7 +34,7 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
  * @subpackage oxMarket
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMaintenanceStatistics extends OX_Maintenance_Statistics_Task
+class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics extends OX_Maintenance_Statistics_Task
 {
     const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version';
         
@@ -52,7 +52,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMaintenanceStat
      */
     function run()
     {
-        OA::debug('Started oxMarket_ImportMaintenanceStatistic');
+        OA::debug('Started oxMarket_ImportMarketStatistics');
         try {
             $oDB = OA_DB::singleton();
             $supports_transactions = $oDB->supports('transactions');
@@ -114,7 +114,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMaintenanceStat
                 OA::debug('Following exception occured ' . $e->getMessage());
             }
         }
-        OA::debug('Finished oxMarket_ImportMaintenanceStatistic');
+        OA::debug('Finished oxMarket_ImportMarketStatistics');
     }
 
 }

@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once LIB_PATH . '/Extension/maintenanceStatisticsTask/MaintenanceStatisticsTask.php';
-require_once 'ImportMarketStatistics.php';
+require_once 'UpdateWebsites.php';
 
 /**
  * Class implementing addMaintenanceStatisticsTask hook for oxMarket statistics
@@ -35,7 +35,7 @@ require_once 'ImportMarketStatistics.php';
  * @subpackage oxMarket
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_MaintenanceStatisticsTask_oxMarketMaintenance_oxMarketMaintenance extends Plugins_MaintenanceStatisticsTask
+class Plugins_MaintenanceStatisticsTask_oxMarketMaintenance_oxMarketMaintenanceUpdateWebsites extends Plugins_MaintenanceStatisticsTask
 {
     /**
      * Method returns OX_Maintenance_Statistics_Task 
@@ -46,7 +46,7 @@ class Plugins_MaintenanceStatisticsTask_oxMarketMaintenance_oxMarketMaintenance 
      */
     function addMaintenanceStatisticsTask()
     {
-        return new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics();
+        return new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_UpdateWebsites();
     }
 }
 ?>

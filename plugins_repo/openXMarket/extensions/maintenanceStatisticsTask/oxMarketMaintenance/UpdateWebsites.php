@@ -24,29 +24,42 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-
-require_once LIB_PATH . '/Extension/maintenanceStatisticsTask/MaintenanceStatisticsTask.php';
-require_once 'ImportMarketStatistics.php';
+require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
 
 /**
- * Class implementing addMaintenanceStatisticsTask hook for oxMarket statistics
+ * The MSE process task class that update websites data on OpenX Market
  *
  * @package    OpenXPlugin
  * @subpackage oxMarket
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_MaintenanceStatisticsTask_oxMarketMaintenance_oxMarketMaintenance extends Plugins_MaintenanceStatisticsTask
+class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_UpdateWebsites extends OX_Maintenance_Statistics_Task
 {
+    
     /**
-     * Method returns OX_Maintenance_Statistics_Task 
-     * to run in the Maintenance Statistics Engine
-     * Implements hook 'addMaintenanceStatisticsTask'
-     * 
-     * @return OX_Maintenance_Statistics_Task
+     * The constructor method.
      */
-    function addMaintenanceStatisticsTask()
+    function __construct()
     {
-        return new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics();
+        parent::OX_Maintenance_Statistics_Task();
     }
+
+    /**
+     * The implementation of the OA_Task::run() method that 
+     * run update websites
+     */
+    function run()
+    {
+        OA::debug('Started oxMarket_UpdateWebsites');
+        try {
+            $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+            $oMarketComponent->updateAllWebsites(true); //updateAllWebsites skip synchronized
+        } catch (Exception $e) {
+            OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
+        }
+        OA::debug('Finished oxMarket_UpdateWebsites');
+    }
+
 }
+
 ?>
