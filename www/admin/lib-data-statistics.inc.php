@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2001 by TOMO <groove@spencernetwork.org>                    |

@@ -5,7 +5,7 @@
 | OpenX v2.7                                                                |
 | ==========                                                                |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
