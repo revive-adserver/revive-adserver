@@ -1,4 +1,4 @@
-All OpenX code is Copyright (c) 1999 - 2008 by the original authors.
+All OpenX code is Copyright (c) 1999 - 2009 by the original authors.
 
     - Based on phpAdsNew 2 created by:
       Niels Leenheer, Matteo Beccati,
