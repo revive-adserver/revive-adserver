@@ -81,7 +81,7 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
-   | OpenX 2.8                           | All previous versions |
+   | OpenX 2.7 beta                      | All previous versions |
    ---------------------------------------------------------------
    | OpenX 2.6                           | All versions          |
    ---------------------------------------------------------------
@@ -119,29 +119,30 @@ Known Issues
 This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Please
 read this before reporting any new bugs.
 
+ * During the upgrade process, OpenX ${RELEASE_VERSION} does NOT yet handle any 
+   raw data that has been logged, but has not yet been summarised by the
+   maintenance script. It is recommended that you do NOT use this release
+   of OpenX to upgrade a production environment - however, new installations
+   and upgrades in staging environments will be fine.
+
  * The upgrade process may time out with very large databases. See the FAQ
    [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/faq/large-db] for more information if you
    have a large database.
 
- * Geotargeting based on a city name with non-latin character (e.g. Köln)
-   will result in no banner being delivered. See
-   [https://developer.openx.org/jira/browse/OX-3866].
+ * OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5. If you are using PHP 4, you will need to
+   update your web server to use PHP 5 before upgrading.
 
- * PostgreSQL socket-based connections are not supported in this release,
-   please use TCP/IP based connections instead. See
-   [https://developer.openx.org/jira/browse/OX-3587].
+ * If you want to run OpenX with MySQL, please note that OpenX ${RELEASE_MAJOR_MINOR} requires
+   MySQL 4.1 or higher. If you are using an older version of MySQL, you will
+   need to update you database software before upgrading.
 
- * OpenX ${RELEASE_VERSION} does NOT work with MySQL 3.x or MySQL 4.0. If you
-   are running Openads 2.0 on one of these very old version of MySQL, do NOT
-   attempt to upgrade, as your installation will no longer work correctly.
-
- * OpenX ${RELEASE_VERSION} does NOT work with PostgreSQL 8.0 or earlier. If you are
-   running Openads 2.0 for PostgreSQL on this very old version of
-   PostgreSQL, do NOT attempt to upgrade, as your installation will no
-   longer work correctly.
+ * If you want to run OpenX with PostgreSQL, please note that OpenX ${RELEASE_MAJOR_MINOR}
+   requires PostgreSQL 8.1 of higher. If you are using an older version of
+   PostgreSQL, you will need to update your database software before
+   upgrading.
 
  * Some of the PEAR libraries used are not compatible with database prefix
-   names with double "_" characters (e.g. "oa__"). You should NOT install
+   names with double "_" characters (e.g. "ox__"). You should NOT install
    OpenX with a prefix of this format.
 
  * Some users have reported issues of being logged out when viewing
@@ -169,10 +170,18 @@ FAQ
     first upgrade to the latest version of Openads 2.0 before using the OpenX
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
+    However, please note that OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
+    version of MySQL or PostgreSQL than phpAdsNew did. Please see the Known
+    Issues section above for more details.
+
  3. Can I upgrade from Openads?
 
     Yes. Openads was rebranded as OpenX. You will be able to upgrade from any
     version of Openads.
+
+    However, please note that OpenX  ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
+    version of MySQL or PostgreSQL than previous versions of Openads did.
+    Please see the Known Issues section above for more details.
 
  4. Does OpenX ${RELEASE_VERSION} support PostgreSQL?
 
