@@ -35,11 +35,6 @@ $Id$
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
-// If maintenance is run in CLI PHP, ensure cache files are created with permissions for everyone
-if (PHP_SAPI == 'cli') {
-    umask(0);
-}
-
 // Set the current path
 // Done this way so that it works in CLI PHP
 $path = dirname(__FILE__);
