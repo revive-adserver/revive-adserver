@@ -43,6 +43,133 @@ class OX_Dal_Maintenance_Statistics_Mysql extends OX_Dal_Maintenance_Statistics
 {
 
     /**
+     * A local store for keeping the default MySQL sort_buffer_size
+     * session variable value, so that it can be restored after
+     * changing it to another value.
+     *
+     * @var integer
+     */
+    var $sortBufferSize;
+
+    /**
+     * The constructor method.
+     *
+     * @uses OX_Dal_Maintenance_Statistics::OX_Dal_Maintenance_Statistics()
+     */
+    function OX_Dal_Maintenance_Statistics_Mysql()
+    {
+        parent::OX_Dal_Maintenance_Statistics();
+        // Store the original MySQL sort_buffer_size value
+        $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+        $aRow = $rc->fetchRow();
+        if (is_array($aRow) && (count($aRow) == 2) && (isset($aRow['Value']))) {
+            $this->sortBufferSize = $aRow['Value'];
+        }
+    }
+
+    /**
+     * A method to set the MySQL sort_buffer_size session variable,
+     * if appropriate.
+     *
+     * @access private
+     */
+    private function setSortBufferSize()
+    {
+        // Only set if the original sort_buffer_size is stored, and
+        // if a specified value for the sort_buffer_size has been
+        // defined by the user in the configuration
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
+            is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
+            $query = 'SET SESSION sort_buffer_size='.$aConf['databaseMysql']['statisticsSortBufferSize'];
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            }
+        }
+    }
+
+    /**
+     * A method to restore the MySQL sort_buffer_size session variable,
+     * if appropriate.
+     *
+     * @access private
+     */
+    private function restoreSortBufferSize()
+    {
+        // Only restore if the original sort_buffer_size is stored,
+        // and if a specified value for the sort_buffer_size has
+        // been defined by the user in the configuration
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
+            is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
+            $query = 'SET SESSION sort_buffer_size='.$aConf->sortBufferSize;
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            }
+        }
+    }
+
+    /**
+     * A method to migrate any old style raw requests into new style, bucket-based
+     * requests, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawRequests($oStart, $oEnd)
+    {
+        // Set the MySQL sort buffer size
+        $this->setSortBufferSize();
+        // Call the parent method
+        parent::migrateRawRequests($oStart, $oEnd);
+        // Restore the MySQL sort buffer size
+        $this->restoreSortBufferSize();
+    }
+
+    /**
+     * A method to migrate any old style raw impressions into new style, bucket-based
+     * impressions, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawImpressions($oStart, $oEnd)
+    {
+        // Set the MySQL sort buffer size
+        $this->setSortBufferSize();
+        // Perform the default action for migration of raw impressions...
+        parent::migrateRawImpressions($oStart, $oEnd);
+        // Restore the MySQL sort buffer size
+        $this->restoreSortBufferSize();
+    }
+
+    /**
+     * A method to migrate any old style raw clicks into new style, bucket-based
+     * clicks, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawClicks($oStart, $oEnd)
+    {
+        // Set the MySQL sort buffer size
+        $this->setSortBufferSize();
+        // Perform the default action for migration of raw clicks...
+        parent::migrateRawClicks($oStart, $oEnd);
+        // Restore the MySQL sort buffer size
+        $this->restoreSortBufferSize();
+    }
+
+    /**
      * A method to de-duplicate conversions which have associated unique variables,
      * between the supplied operation interval start and end dates.
      *

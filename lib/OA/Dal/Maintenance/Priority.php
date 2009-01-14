@@ -153,7 +153,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         while ($doCampaigns->fetch()) {
             $aCampaignObjects[] = new OX_Maintenance_Priority_Campaign($doCampaigns->toArray());
         }
-        
+
         return $aCampaignObjects;
     }
 
@@ -172,23 +172,23 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $doBanners = OA_Dal::factoryDO('banners');
         $doCampaigns->campaignid = $id;
         $doCampaigns->joinAdd($doBanners);
-        
+
         $doCampaigns->selectAdd();
-        $doCampaigns->selectAdd('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' . 
+        $doCampaigns->selectAdd('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' .
             $doCampaigns->tableName() . '.status');
-        
-        $doCampaigns->groupBy('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' . 
+
+        $doCampaigns->groupBy('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' .
             $doCampaigns->tableName() . '.status');
-        
+
         $doCampaigns->find(true);
-        
+
         $aData = array(
             'advertiser_id' => $doCampaigns->clientid,
             'placement_id' => $doCampaigns->campaignid,
             'name' => $doCampaigns->campaignname,
             'status' => $doCampaigns->status,
             'num_children' => $doBanners->count('bannerid'));
-        
+
         return $aData;
     }
 
@@ -1471,7 +1471,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * operation interval, for a given range of operation interval IDs (by date).
      *
      * The average is calculated from the values in the same operation interval
-     * IDs from previous weeks to the operatin interval range supplied,
+     * IDs from previous weeks to the operation interval range supplied,
      * over the supplied number of weeks.
      *
      * If the zone does not have sufficient data to calculate the average over
@@ -2181,8 +2181,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
         // Table tmp_ad_required_impression might not exist
         // It happens if there isn't any campaign for which required impressions should be calculated
-        // This situation is equal to empty table, so just return empty array 
-        if ( !isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {    
+        // This situation is equal to empty table, so just return empty array
+        if ( !isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {
             return array();
         }
 

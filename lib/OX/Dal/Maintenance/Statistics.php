@@ -570,6 +570,106 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     }
 
     /**
+     * A method to migrate any old style raw requests into new style, bucket-based
+     * requests, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawRequests($oStart, $oEnd)
+    {
+        // Perform the default action for migration of raw requests...
+        return $this->_migrateRawData($oStart, $oEnd, 'request');
+    }
+
+    /**
+     * A method to migrate any old style raw impressions into new style, bucket-based
+     * impressions, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawImpressions($oStart, $oEnd)
+    {
+        // Perform the default action for migration of raw impressions...
+        return $this->_migrateRawData($oStart, $oEnd, 'impression');
+    }
+
+    /**
+     * A method to migrate any old style raw clicks into new style, bucket-based
+     * clicks, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function migrateRawClicks($oStart, $oEnd)
+    {
+        // Perform the default action for migration of raw clicks...
+        return $this->_migrateRawData($oStart, $oEnd, 'click');
+    }
+
+    /**
+     * A private method to migrate any old style raw data into new style, bucket-based
+     * data, in the event of the requirement to process any such data on upgrade
+     * to (or beyond) OpenX 2.8.
+     *
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     * @param string $type The type of raw data to migration; one of "request",
+     *                     "impression" or "click".
+     */
+    private function _migrateRawData($oStart, $oEnd, $type)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Prepare the raw data table name
+        $rawTable = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_' . $type];
+        // Prepare the bucket table name
+        $bucketTable = $aConf['table']['prefix'] . 'data_bkt_';
+        if ($type == 'request') {
+            $bucketTable .= 'r';
+        } else if ($type == 'impression') {
+            $bucketTable .= 'm';
+        } else if ($type == 'click') {
+            $bucketTable .= 'c';
+        } else {
+            // Invalid call!
+            MAX::raiseError('   - Invalid call to raw to bucket data migration! Aborting', MAX_ERROR_INVALIDCALL, PEAR_ERROR_DIE);
+        }
+        // Select the summarised raw data from the table, and insert it
+        // into the data bucket table
+        $query = "
+            INSERT INTO
+                " . $this->oDbh->quoteIdentifier($bucketTable, true) . "
+                (
+                    interval_start,
+                    creative_id,
+                    zone_id,
+                    count
+                )
+            SELECT
+                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . " AS interval_start,
+                ad_id AS creative_id,
+                zone_id AS zone_id,
+                1 AS count
+            FROM
+                " . $this->oDbh->quoteIdentifier($rawTable, true) . "
+            WHERE
+                date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                AND
+                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+            ON DUPLICATE KEY UPDATE
+                count = count + 1
+        ";
+        $rsResult = $this->oDbh->query($query);
+        if (PEAR::isError($rsResult)) {
+            return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+    }
+
+    /**
      * A method to manage the migration of conversions from the final conversion
      * tables to the old-style intermediate table.
      *

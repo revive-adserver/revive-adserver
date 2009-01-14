@@ -41,6 +41,21 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
 {
 
     /**
+     * An array to store packages (plugins) which have been installed in OpenX.
+     *
+     * @var array
+     */
+    var $aPackages;
+
+    /**
+     * An array to store start/end dates of the operation intervals that need
+     * to have logged data migrated.
+     *
+     * @var array
+     */
+    var $aRunDates;
+
+    /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_MigrateBucketData
@@ -60,6 +75,10 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($this->oController->updateIntermediate) {
+
+            // Locate all plugins (packages) that have been installed
+            $oPluginManager = new OX_PluginManager();
+            $this->aPackages = $oPluginManager->getPackagesList();
 
             // Locate all plugin components which may require bucket data to be
             // migrated from bucket tables to statistics tables
@@ -85,7 +104,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             }
 
             // Prepare an array of possible start and end dates for the migration
-            $aRunDates = array();
+            $this->aRunDates = array();
             $oStartDate = new Date();
             $oStartDate->copy($this->oController->oLastDateIntermediate);
             $oStartDate->addSeconds(1);
@@ -99,7 +118,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 $oStoreStartDate->copy($oStartDate);
                 $oStoreEndDate = new Date();
                 $oStoreEndDate->copy($oEndDate);
-                $aRunDates[] = array(
+                $this->aRunDates[] = array(
                     'start' => $oStoreStartDate,
                     'end'   => $oStoreEndDate
                 );
@@ -108,12 +127,20 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 $oStartDate->addSeconds(1);
             }
 
+            // Check to see if any historical raw data needs to be migrated,
+            // post-upgrade, and if so, migrate the data; requires that the
+            // default openXDeliveryLog plugin is installed, so the migration
+            // will not be called if it is not
+            if (key_exists('openXDeliveryLog', $this->aPackages)) {
+                $this->_postUpgrade();
+            }
+
             // Prepare arrays of all of the migration maps of raw migrations
             $aRunComponents = $this->_prepareMaps($aSummariseComponents, 'raw');
             // Run each migration map separately, even if it's for the same table
             foreach ($aRunComponents as $statisticsTable => $aMaps) {
                 foreach ($aMaps as $componentClassName => $aMigrationDetails) {
-                    foreach ($aRunDates as $aDates) {
+                    foreach ($this->aRunDates as $aDates) {
                         $message = "- Migrating raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table";
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $message = "  to the '$statisticsTable' table, for operation interval range";
@@ -141,7 +168,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             // Run each migration map separately, even if it's for the same table
             foreach ($aRunComponents as $statisticsTable => $aMaps) {
                 foreach ($aMaps as $componentClassName => $aMigrationDetails) {
-                    foreach ($aRunDates as $aDates) {
+                    foreach ($this->aRunDates as $aDates) {
                         $message = "- Migrating supplementary raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table";
                         OA::debug($message, PEAR_LOG_DEBUG);
                         $message = "  to the '$statisticsTable' table, for operation interval range";
@@ -172,7 +199,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 foreach ($aMaps as $aMap) {
                     $aBucketTables[] = $aMap['bucketTable'];
                 }
-                foreach ($aRunDates as $aDates) {
+                foreach ($this->aRunDates as $aDates) {
                     $aExtras = array();
                     // Is this the data_intermeidate_ad statistics table? It's special!
                     if ($statisticsTable == $aConf['table']['prefix'] . 'data_intermediate_ad') {
@@ -226,9 +253,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     function _locateComponents()
     {
         $aSummariseComponents = array();
-        $oPluginManager = new OX_PluginManager();
-        $aPlugins = $oPluginManager->getPackagesList();
-        foreach ($aPlugins as $aPluginInfo) {
+        foreach ($this->aPackages as $aPluginInfo) {
             foreach ($aPluginInfo['contents'] as $aContents) {
                 if ($aContents['extends'] == 'deliveryLog') {
                     foreach ($aContents['components'] as $aComponent) {
@@ -250,6 +275,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      * method, and convert it into an array of migration maps suitable for the
      * required migration type.
      *
+     * @access private
      * @param array $aSummariseComponents An array of components from the
      *                                    OX_Maintenance_Statistics_Task_MigrateBucketData::_locateComponents()
      *                                    method.
@@ -257,7 +283,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      *                     "rawSupplementary" or "aggregate".
      * @return array An array of migration maps.
      */
-    function _prepareMaps($aSummariseComponents, $type)
+    private function _prepareMaps($aSummariseComponents, $type)
     {
         $aRunComponents = array();
         if ($type == 'raw' || $type == 'rawSupplementary') {
@@ -295,6 +321,118 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         }
         return $aRunComponents;
     }
+
+    /**
+     * A private method to address the migration of any old raw data that
+     * exists following an upgrade to (or beyond) OpenX 2.8.
+     *
+     * @access private
+     */
+    private function _postUpgrade()
+    {
+        // Check to see if the "mse_process_raw" application variable
+        // flag has been set
+        $doApplication_variable = OA_Dal::factoryDO('application_variable');
+        $doApplication_variable->name  = 'mse_process_raw';
+        $doApplication_variable->value = '1';
+        $doApplication_variable->find();
+        if ($doApplication_variable->getRowCount() > 0) {
+
+            // The "mse_process_raw" application variable flag has been set
+            $message = "- The " . MAX_PRODUCT_NAME . " maintenance process has detected that it is running immediately after";
+            OA::debug($message, PEAR_LOG_INFO);
+            $message = "  an upgrade from " . MAX_PRODUCT_NAME . " with version less than 2.8. As a result, there may be old";
+            OA::debug($message, PEAR_LOG_INFO);
+            $message = "  format raw data logged that needs to be processed. This data will now be processed...";
+            OA::debug($message, PEAR_LOG_INFO);
+
+            // Migrate the raw data from the old tables, into the bucket tables
+            // Note that conversions are not handled; this is simply not feasible,
+            // due to the major alteration of the way conversion tracking is
+            // handled in OpenX between <= OpenX 2.6 and >= OpenX 2.8.
+            foreach ($this->aRunDates as $aDates) {
+                $this->_migrateRawRequests($aDates['start'], $aDates['end']);
+                $this->_migrateRawImpressions($aDates['start'], $aDates['end']);
+                $this->_migrateRawClicks($aDates['start'], $aDates['end']);
+            }
+
+            // Unset the "mse_process_raw" application variable flag
+            $message = "- Deleting the 'mse_process_raw' application variable flag.";
+            OA::debug($message, PEAR_LOG_DEBUG);
+            $doApplication_variable->delete();
+
+        }
+    }
+
+    /**
+     * A private function to migrate raw format requests into bucket format
+     * requests, post-upgrade to (or beyond) OpenX 2.8.
+     *
+     * @access private
+     * @param PEAR::Date $oStart The start date of the operation interval
+     *                           to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to
+     *                         migrate.
+     */
+    private function _migrateRawRequests($oStart, $oEnd)
+    {
+        $message = "   - Migrating raw requests into the new bucket table, for the operation interval";
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = "     starting " . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
+                   " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
+        OA::debug($message, PEAR_LOG_DEBUG);
+
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal->migrateRawRequests($oStart, $oEnd);
+    }
+
+    /**
+     * A private function to migrate raw format impressions into bucket format
+     * impressions, post-upgrade to (or beyond) OpenX 2.8.
+     *
+     * @access private
+     * @param PEAR::Date $oStart The start date of the operation interval
+     *                           to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to
+     *                         migrate.
+     */
+    private function _migrateRawImpressions($oStart, $oEnd)
+    {
+        $message = "   - Migrating raw impressions into the new bucket table, for the operation interval";
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = "     starting " . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
+                   " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
+        OA::debug($message, PEAR_LOG_DEBUG);
+
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal->migrateRawImpressions($oStart, $oEnd);
+    }
+
+    /**
+     * A private function to migrate raw format clicks into bucket format
+     * clicks, post-upgrade to (or beyond) OpenX 2.8.
+     *
+     * @access private
+     * @param PEAR::Date $oStart The start date of the operation interval
+     *                           to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to
+     *                         migrate.
+     */
+    private function _migrateRawClicks($oStart, $oEnd)
+    {
+        $message = "   - Migrating raw clicks into the new bucket table, for the operation interval";
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = "     starting " . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
+                   " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
+        OA::debug($message, PEAR_LOG_DEBUG);
+
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal->migrateRawClicks($oStart, $oEnd);
+    }
+
 }
 
 ?>

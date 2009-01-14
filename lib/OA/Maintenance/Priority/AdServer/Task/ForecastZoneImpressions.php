@@ -791,7 +791,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      * operation interval, for a given range of operation interval IDs.
      *
      * The average is calculated from the values in the same operation interval
-     * IDs from previous weeks to the operatin interval range supplied,
+     * IDs from previous weeks to the operation interval range supplied,
      * over ZONE_FORECAST_BASELINE_WEEKS weeks.
      *
      * If the zone does not have sufficient data to calculate the average over
