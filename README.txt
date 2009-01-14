@@ -20,7 +20,7 @@
 
 
     Version ${RELEASE_VERSION}
-    Copyright (c) 2003-2008 OpenX Limited
+    Copyright (c) 2003-2009 OpenX Limited
     ------------------------------------------------------------------------
 
     This program is free software; you can redistribute it and/or modify
