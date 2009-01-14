@@ -119,12 +119,6 @@ Known Issues
 This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Please
 read this before reporting any new bugs.
 
- * During the upgrade process, OpenX ${RELEASE_VERSION} does NOT yet handle any 
-   raw data that has been logged, but has not yet been summarised by the
-   maintenance script. It is recommended that you do NOT use this release
-   of OpenX to upgrade a production environment - however, new installations
-   and upgrades in staging environments will be fine.
-
  * The upgrade process may time out with very large databases. See the FAQ
    [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/faq/large-db] for more information if you
    have a large database.
