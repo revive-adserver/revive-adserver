@@ -182,7 +182,7 @@ function buildZoneForm($zone)
     }
     $zoneTypes[] = $form->createElement('radio', 'delivery', '',
         "<img src='".OX::assetPath()."/images/icon-textzone.gif' align='absmiddle'>&nbsp;".$GLOBALS['strTextAdZone'],
-        phpAds_ZoneText, array('id' => 'delivery-t', 'onClick' => 'phpAds_formEnableSize();',
+        phpAds_ZoneText, array('id' => 'delivery-t', 'onClick' => 'phpAds_formDisableSize();',
             'onChange' => 'oa_hide("warning_change_zone_type");'));
     $zoneTypes[] = $form->createElement('radio', 'delivery', '',
         "<img src='".OX::assetPath()."/images/icon-zone-email.gif' align='absmiddle'>&nbsp;".$GLOBALS['strEmailAdZone'],
