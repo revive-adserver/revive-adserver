@@ -523,6 +523,8 @@ elseif ($installStatus !== 'unknown')
 
 // Used to detmine which page is active in nav
 $activeNav = array (
+                    OA_UPGRADE_RECOVERY_INFORM=>      '10',
+                    OA_UPGRADE_RECOVERY       =>      '10',
                     OA_UPGRADE_WELCOME        =>      '10',
                     OA_UPGRADE_TERMS          =>      '20',
                     OA_UPGRADE_SYSCHECK       =>      '30',
