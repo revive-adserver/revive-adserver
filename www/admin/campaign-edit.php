@@ -972,7 +972,9 @@ function getCampaignInactiveReasons($aCampaign)
     if (($aCampaign ['priority'] == 0 || $aCampaign ['priority'] == - 1) && $aCampaign ['weight'] == 0) {
         $aReasons [] = $GLOBALS ['strWeightIsNull'];
     }
-    if ($aCampaign ['priority'] > 0 && $aCampaign ['target_value'] == 0) {
+    if (($aCampaign['priority'] > 0) && ($aCampaign['target_value'] == 0 || $aCampaign['target_value'] == '-') &&
+        ($aCampaign['impressions'] == -1) && ($aCampaign['clicks'] == -1) && ($aCampaign['conversions'] == -1)
+    ) {
         $aReasons [] = $GLOBALS ['strTargetIsNull'];
     }
 
