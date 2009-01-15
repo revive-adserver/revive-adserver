@@ -283,7 +283,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
     {
         $aParams = array();
         if ($this->_advertiserName !== false) {
-            $key = $GLOBALS['strAdvertiser'];
+            $key = $GLOBALS['strClient'];
             $aParams[$key] = $this->_advertiserName;
         }
         if ($this->_placementName !== false) {
