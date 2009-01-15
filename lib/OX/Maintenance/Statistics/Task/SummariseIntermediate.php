@@ -63,6 +63,11 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     function OX_Maintenance_Statistics_Task_MigrateBucketData()
     {
         parent::OX_Maintenance_Statistics_Task();
+
+        // Locate all plugins (packages) that have been installed
+        $oPluginManager = new OX_PluginManager();
+        $this->aPackages = $oPluginManager->getPackagesList();
+
     }
 
     /**
@@ -75,10 +80,6 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($this->oController->updateIntermediate) {
-
-            // Locate all plugins (packages) that have been installed
-            $oPluginManager = new OX_PluginManager();
-            $this->aPackages = $oPluginManager->getPackagesList();
 
             // Locate all plugin components which may require bucket data to be
             // migrated from bucket tables to statistics tables

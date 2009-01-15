@@ -55,11 +55,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        // Prepare the OX_Maintenance_Statistics_Task_MigrateBucketData class to test with
-        $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
-
         // Test 1: There are no deliveryLog group plugins installed, test that
         //         an empty array is returned
+        $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $aComponents = $oSummariseIntermediate->_locateComponents();
         $this->assertTrue(is_array($aComponents));
         $this->assertTrue(empty($aComponents));
@@ -68,6 +66,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         TestEnv::installPluginPackage('openXDeliveryLog', false);
 
         // Test 2: Test with the default OpenX delivery logging plugin installed
+        $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $aComponents = $oSummariseIntermediate->_locateComponents();
         $this->assertTrue(is_array($aComponents));
         $this->assertEqual(count($aComponents), 3);
