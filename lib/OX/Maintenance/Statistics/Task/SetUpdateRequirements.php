@@ -244,13 +244,14 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
                         'data_intermediate_ad_variable_value',
                         'log_maintenance_statistics',
                         );
-        foreach ($aTables as $table)
-        {
-            if (!OA_DB_Table::checkTable($table))
-            {
-                return false;
-            }
-        }
+/* Commenting the check tables method out until a more efficient mechanism can be written */
+//        foreach ($aTables as $table)
+//        {
+//            if (!OA_DB_Table::checkTable($table))
+//            {
+//                return false;
+//            }
+//        }
         return true;
     }
 
