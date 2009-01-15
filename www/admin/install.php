@@ -585,7 +585,7 @@ $oMenu->addTo($firstLevelNavID, new OA_Admin_Menu_Section($secondLevelNavID,  ''
 $currentSectionID = $secondLevelNavID;
 
 foreach ($activeNav as $val) {
-    if ($oMenu->get($val) == null) {
+    if (!array_key_exists($val, $oMenu->aAllSections)) {
         $oMenu->addTo($secondLevelNavID, $aInstallerSections[$val]);
 //        $oMenu->addTo($firstLevelNavID, $aInstallerSections[$val]);
 	}
