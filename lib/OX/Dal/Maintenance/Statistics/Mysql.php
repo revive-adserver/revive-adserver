@@ -170,6 +170,45 @@ class OX_Dal_Maintenance_Statistics_Mysql extends OX_Dal_Maintenance_Statistics
     }
 
     /**
+     * A private method to return the SQL code required to migrate any old style raw
+     * data into new style, bucket-based data, in the event of the requirement to
+     * process any such data on upgrade to (or beyond) OpenX 2.8.
+     *
+     * @access private
+     * @param string $bucketTable The bucket table to migrate the data into.
+     * @param string $rawTable The raw table to migrate the data from.
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
+    {
+        $query = "
+            INSERT INTO
+                " . $this->oDbh->quoteIdentifier($bucketTable, true) . "
+                (
+                    interval_start,
+                    creative_id,
+                    zone_id,
+                    count
+                )
+            SELECT
+                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . " AS interval_start,
+                ad_id AS creative_id,
+                zone_id AS zone_id,
+                1 AS count
+            FROM
+                " . $this->oDbh->quoteIdentifier($rawTable, true) . "
+            WHERE
+                date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                AND
+                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+            ON DUPLICATE KEY UPDATE
+                count = count + 1
+        ";
+        return $query;
+    }
+
+    /**
      * A method to de-duplicate conversions which have associated unique variables,
      * between the supplied operation interval start and end dates.
      *

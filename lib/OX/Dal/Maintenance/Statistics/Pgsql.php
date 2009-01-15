@@ -54,6 +54,39 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
     }
 
     /**
+     * A private method to return the SQL code required to migrate any old style raw
+     * data into new style, bucket-based data, in the event of the requirement to
+     * process any such data on upgrade to (or beyond) OpenX 2.8.
+     *
+     * Note that this method uses a custom PostgreSQL function defined in the
+     * openXDeliveryLog plugin, but this is okay, as this code has a pre-call
+     * condition that is enforced in the OX_Maintenance_Statistics_Task_MigrateBucketData
+     * class that this plugin must be installed.
+     *
+     * @param string $bucketTable The bucket table to migrate the data into.
+     * @param string $rawTable The raw table to migrate the data from.
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
+    {
+        $query = "
+            SELECT bucket_update_{$bucketTable}
+            (
+                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . ",
+                ad_id AS creative_id,
+                zone_id AS zone_id
+            )
+            FROM
+                " . $this->oDbh->quoteIdentifier($rawTable, true) . "
+            WHERE
+                date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                AND
+                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+        return $query;
+    }
+
+    /**
      * A method to de-duplicate conversions which have associated unique variables,
      * between the supplied operation interval start and end dates.
      *

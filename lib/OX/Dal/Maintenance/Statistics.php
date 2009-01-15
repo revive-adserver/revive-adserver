@@ -39,14 +39,18 @@ define('OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR', 1);
 define('OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH', 2);
 
 /**
- * The non-DB specific Data Abstraction Layer (DAL) class for the
- * Maintenance Statistics Engine (MSE).
+ * The base Data Abstraction Layer (DAL) class for the Maintenance
+ * Statistics Engine (MSE), containing all non-database specific
+ * code. Database specific code for this DAL needs to be implemented
+ * in a final class that extends this class, specific to the
+ * appropriate database. As a result, always instantiate this class
+ * via the factory class.
  *
  * @package    OpenXDal
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
+abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 {
 
     /**
@@ -640,34 +644,26 @@ class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         }
         // Select the summarised raw data from the table, and insert it
         // into the data bucket table
-        $query = "
-            INSERT INTO
-                " . $this->oDbh->quoteIdentifier($bucketTable, true) . "
-                (
-                    interval_start,
-                    creative_id,
-                    zone_id,
-                    count
-                )
-            SELECT
-                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . " AS interval_start,
-                ad_id AS creative_id,
-                zone_id AS zone_id,
-                1 AS count
-            FROM
-                " . $this->oDbh->quoteIdentifier($rawTable, true) . "
-            WHERE
-                date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
-                AND
-                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
-            ON DUPLICATE KEY UPDATE
-                count = count + 1
-        ";
+        $query = $this->_getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd);
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
+
+    /**
+     * A private, abstract method that must be implemented by each database-specific
+     * child class to return the SQL code required to migrate any old style raw data
+     * into new style, bucket-based data, in the event of the requirement to process
+     * any such data on upgrade to (or beyond) OpenX 2.8.
+     *
+     * @abstract
+     * @param string $bucketTable The bucket table to migrate the data into.
+     * @param string $rawTable The raw table to migrate the data from.
+     * @param PEAR::Date $oStart The start date of the operation interval to migrate.
+     * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
+     */
+    abstract function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd);
 
     /**
      * A method to manage the migration of conversions from the final conversion
