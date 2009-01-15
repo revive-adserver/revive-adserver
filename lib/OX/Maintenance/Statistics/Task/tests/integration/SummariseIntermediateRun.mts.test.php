@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once LIB_PATH . '/Dal/Maintenance/Statistics.php';
+require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 require_once LIB_PATH . '/Maintenance/Statistics.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseIntermediate.php';
 
@@ -57,6 +57,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $aConf['maintenance']['operationInterval'] = 60;
         $oServiceLocator =& OA_ServiceLocator::instance();
 
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatsticsClassName = $oFactory->deriveClassName();
+
         // Test 1: Run, with the migration required but with no plugins installed
         $oNowDate = new Date('2008-08-28 09:01:00');
         $oServiceLocator->register('now', $oNowDate);
@@ -67,7 +70,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oMaintenanceStatistics->oUpdateIntermediateToDate = new Date('2008-08-28 08:59:59');
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_1',
             array(
                 'summariseBucketsRaw',
@@ -112,7 +115,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_2',
             array(
                 'summariseBucketsRaw',
@@ -153,7 +156,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_3',
             array(
                 'summariseBucketsRaw',
@@ -261,7 +264,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_4',
             array(
                 'summariseBucketsRaw',
@@ -390,7 +393,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_5',
             array(
                 'summariseBucketsRaw',
@@ -616,7 +619,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
 
         Mock::generatePartial(
-            'OX_Dal_Maintenance_Statistics',
+            $oDalMaintenanceStatsticsClassName,
             'MockOX_Dal_Maintenance_Statistics_Test_6',
             array(
                 'summariseBucketsRaw',

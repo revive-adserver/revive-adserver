@@ -48,17 +48,16 @@ class OX_Dal_Maintenance_Statistics_Factory
     function factory()
     {
         // Instantiate the class
-        $classname = $this->_deriveClassName();
+        $classname = $this->deriveClassName();
         return new $classname();
     }
 
     /**
-     * A private method to derive the class name to instantiate.
+     * A method to derive the class name to instantiate.
      *
-     * @access private
      * @return string The name of the class object to create.
      */
-    function _deriveClassName()
+    function deriveClassName()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $filename  = ucfirst(strtolower($aConf['database']['type']));
