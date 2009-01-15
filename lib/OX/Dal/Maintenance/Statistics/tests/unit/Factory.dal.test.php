@@ -61,7 +61,7 @@ class Test_OX_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     function testCreate()
     {
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
-        $classname = $oFactory->_deriveClassName();
+        $classname = $oFactory->deriveClassName();
         $this->assertEqual($classname, 'OX_Dal_Maintenance_Statistics_' . ucfirst(strtolower($this->dbType)));
     }
 
