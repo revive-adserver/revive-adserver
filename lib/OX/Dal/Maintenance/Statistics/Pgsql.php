@@ -74,8 +74,8 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
             SELECT bucket_update_{$bucketTable}
             (
                 " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . ",
-                ad_id AS creative_id,
-                zone_id AS zone_id
+                ad_id,
+                zone_id
             )
             FROM
                 " . $this->oDbh->quoteIdentifier($rawTable, true) . "
