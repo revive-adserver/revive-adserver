@@ -40,6 +40,9 @@ phpAds_registerGlobal (
     'variablemethod'
 );
 
+// Since there may be an unknown number of variables posted (which are accessed by $_POST directly in the code below),
+// clean the whole $_POST array
+MAX_commonRemoveSpecialChars($_POST);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
@@ -126,6 +129,7 @@ if (!empty($trackerid))
         for ($f=0; $f < sizeof($variables)+1; $f++)
         if (isset($_POST['name'.$f]))
         {
+            
             $variables[$f]['name'] = $_POST['name'.$f];
             $variables[$f]['description'] = $_POST['description'.$f];
             $variables[$f]['datatype'] = $_POST['datatype'.$f];
