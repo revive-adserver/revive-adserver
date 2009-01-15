@@ -554,7 +554,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2005-12-07 10:01:00'));
 
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatistics = $oFactory->factory();
 
         // Insert the timezone preference value
         $timezonePreferenceId = $this->_createPreference('timezone', OA_ACCOUNT_MANAGER);
@@ -701,7 +702,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date();
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
@@ -761,7 +763,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date();
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
@@ -836,7 +839,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
@@ -857,7 +861,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
@@ -879,7 +883,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
@@ -908,7 +912,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
-        $oDalMaintenanceStatistics = new OX_Dal_Maintenance_Statistics();
+        $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
         $oEmailMock->tally();
 
