@@ -129,12 +129,14 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestC
                     (
                         date_time,
                         ad_id,
+                        creative_id,
                         zone_id
                     )
                 VALUES
                     (
                         '2009-01-09 12:30:00',
                         1,
+                        0,
                         1
                     )";
             $this->oDbh->exec($query);

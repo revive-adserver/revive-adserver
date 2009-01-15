@@ -129,12 +129,14 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Complex extends UnitTest
                     (
                         date_time,
                         ad_id,
+                        creative_id,
                         zone_id
                     )
                 VALUES
                     (
                         '2009-01-09 11:30:00',
                         1,
+                        0,
                         1
                     )";
             $this->oDbh->exec($query);
@@ -164,12 +166,14 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Complex extends UnitTest
                     (
                         date_time,
                         ad_id,
+                        creative_id,
                         zone_id
                     )
                 VALUES
                     (
                         '2009-01-09 12:30:00',
                         1,
+                        0,
                         1
                     )";
             $this->oDbh->exec($query);
@@ -179,12 +183,14 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Complex extends UnitTest
                     (
                         date_time,
                         ad_id,
+                        creative_id,
                         zone_id
                     )
                 VALUES
                     (
                         '2009-01-09 12:31:00',
                         1,
+                        0,
                         1
                     )";
             $this->oDbh->exec($query);
@@ -194,12 +200,14 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Complex extends UnitTest
                     (
                         date_time,
                         ad_id,
+                        creative_id,
                         zone_id
                     )
                 VALUES
                     (
                         '2009-01-09 12:32:00',
                         2,
+                        0,
                         3
                     )";
             $this->oDbh->exec($query);
