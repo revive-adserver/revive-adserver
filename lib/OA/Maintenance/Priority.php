@@ -54,7 +54,7 @@ class OA_Maintenance_Priority
      */
     function run($alwaysRun = false)
     {
-        OA::switchLogFile('maintenance');
+        OA::switchLogIdent('maintenance');
 
         // Get the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -123,7 +123,7 @@ class OA_Maintenance_Priority
 
         // Log the end of the process
         OA::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);
-        OA::switchLogFile();
+        OA::switchLogIdent();
         return true;
     }
 

@@ -72,7 +72,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 ###START_STRIP_DELIVERY
 require_once MAX_PATH . '/lib/OA.php';
-OA::switchLogFile($conf['deliveryLog']['name']);
+OA::switchLogIdent('delivery');
 ###END_STRIP_DELIVERY
 
 // Set the viewer's remote information used in logging

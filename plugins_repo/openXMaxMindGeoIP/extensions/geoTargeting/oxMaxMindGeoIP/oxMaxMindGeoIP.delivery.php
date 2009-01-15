@@ -50,7 +50,7 @@ function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($
     if ($conf['deliveryLog']['enabled'])
     {
         require_once MAX_PATH . '/lib/OA.php';
-        OA::switchLogFile($conf['deliveryLog']['name']);
+        OA::switchLogIdent('delivery');
     }
 
     // Try and read the data from the geo cookie...

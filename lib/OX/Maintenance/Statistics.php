@@ -124,7 +124,7 @@ class OX_Maintenance_Statistics
      */
     function run()
     {
-        OA::switchLogFile('maintenance');
+        OA::switchLogIdent('maintenance');
 
         // Get the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -215,7 +215,7 @@ class OX_Maintenance_Statistics
 
         // Log the end of the process
         OA::debug('Maintenance Statistics Engine Completed', PEAR_LOG_INFO);
-        OA::switchLogFile();
+        OA::switchLogIdent();
     }
 
 }

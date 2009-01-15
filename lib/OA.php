@@ -139,10 +139,17 @@ class OA
         } else if ($aConf['log']['type'] == 'file') {
             $aLoggerConf['lineFormat'] = '%1$s %2$s [%3$9s]  %4$s';
         }
+        $ident = (!empty($GLOBALS['_MAX']['LOG_IDENT'])) ? $GLOBALS['_MAX']['LOG_IDENT'] : $aConf['log']['ident'];
+        if (($ident == $aConf['log']['ident'] . '-delivery') && empty($aConf['deliveryLog']['enabled'])) {
+            unset($GLOBALS['tempDebugPrefix']);
+            return true;
+        }
+        $logFile = ($ident == $aConf['log']['ident'] . '-delivery') ? $aConf['deliveryLog']['name'] : $aConf['log']['name'];
+
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
-            MAX_PATH . '/var/' . $aConf['log']['name'],
-            $aConf['log']['ident'],
+            MAX_PATH . '/var/' . $logFile,
+            $ident,
             $aLoggerConf
         );
         // If log message is an error object, extract info
@@ -197,20 +204,13 @@ class OA
         return $result;
     }
 
-    function switchLogFile($name='debug')
+    function switchLogIdent($name = 'debug')
     {
-        $newLog = $name.'.log';
-/*        if ($name <> 'debug')
-        {
-            $newLog = $name.OA::getNow('Y_m_d_h_i_s').'.log';
+        if ($name == 'debug') {
+            $GLOBALS['_MAX']['LOG_IDENT'] = $GLOBALS['_MAX']['CONF']['log']['ident'];
+        } else {
+            $GLOBALS['_MAX']['LOG_IDENT'] = $GLOBALS['_MAX']['CONF']['log']['ident'] . '-' . $name;
         }
-*/        $oldLog = $GLOBALS['_MAX']['CONF']['log']['name'];
-        if ($newLog != $oldLog)
-        {
-            OA::debug('Switching to logfile '.$newLog, PEAR_LOG_INFO);
-            $GLOBALS['_MAX']['CONF']['log']['name'] = $newLog;
-        }
-        return $oldLog;
     }
 
     /**

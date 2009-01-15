@@ -94,7 +94,7 @@ class OX_Maintenance
         $oLock =& OA_DB_AdvisoryLock::factory();
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
         {
-            OA::switchLogFile('maintenance');
+            OA::switchLogIdent('maintenance');
 
             OA::debug();
             OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
@@ -134,7 +134,7 @@ class OX_Maintenance
 
             OA::debug('Maintenance tasks completed', PEAR_LOG_INFO);
 
-            OA::switchLogFile();
+            OA::switchLogIdent();
         }
         else {
 			OA::debug('Maintenance tasks not run: could not acquire lock', PEAR_LOG_INFO);

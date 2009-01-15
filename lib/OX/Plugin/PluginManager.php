@@ -1418,7 +1418,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     function _switchToPluginLog() {
         if ($this->pluginLogSwitchCounter == 0) {
-            OA::switchLogFile('plugins');
+            OA::switchLogIdent('plugins');
         }
         $this->pluginLogSwitchCounter++;
     }
@@ -1426,7 +1426,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function _switchToDefaultLog() {
         $this->pluginLogSwitchCounter--;
         if ($this->pluginLogSwitchCounter == 0) {
-            OA::switchLogFile();    
+            OA::switchLogIdent();    
         }
     }
 }

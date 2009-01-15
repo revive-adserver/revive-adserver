@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>OpenX MaxMind GeoIP Geotargeting component</description>
-    <version>1.0.0-dev</version>
+    <version>1.0.1</version>
     <oxversion>2.7.14-dev</oxversion>
     <extends>geoTargeting</extends>
 
