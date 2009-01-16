@@ -681,7 +681,7 @@ function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
 	      updateCampaignPrioritySection();
 	      })
 	    .blur(function() {
-	      formFormat(this);
+	      formFormat(this, true);
 	      updateCampaignPricingSectionNotes(this);
 	      updateCampaignPrioritySection();
 	    });
