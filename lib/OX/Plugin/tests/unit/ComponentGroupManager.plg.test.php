@@ -808,7 +808,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $aComponentGroup2 = array(
                         '1'=>'foo',
                         '2'=>'bar',
-                        'install'=>array('conf'=>array('settings'=>array(0,1,2),'preferences'=>array(0,1,2))),
+                        'install'=>array('conf'=>array('settings'=>array(array('visible' => 1,1,2)),'preferences'=>array(0,1,2))),
                         );
         $oManager->setReturnValueAt(1,'parseXML', $aComponentGroup2);
         $oManager->setReturnValueAt(1,'getSchemaInfo', false);
