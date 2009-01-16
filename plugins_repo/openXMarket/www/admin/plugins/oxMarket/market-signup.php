@@ -1,14 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -64,7 +62,7 @@ function buildSignupForm($oMarketComponent)
     $termsLink = $oMarketComponent->getConfigValue('marketTermsUrl');
     $privacyLink = $oMarketComponent->getConfigValue('marketPrivacyUrl');
     $ssoSignupUrl = $oMarketComponent->getConfigValue('ssoSignupUrl');
-    
+
     $oForm = new OA_Admin_UI_Component_Form("market-signup-form", "POST", $_SERVER['PHP_SELF']);
     $oForm->forceClientValidation(true);
 
@@ -75,14 +73,14 @@ function buildSignupForm($oMarketComponent)
     $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
     $oForm->addElement('submit', 'save', $oMarketComponent->translate('Sign up'));
-    
+
     //Form validation rules
     $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account name')));
     $oForm->addRule('m_username', $usernameRequired, 'required');
 
     $passwordRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('Password')));
     $oForm->addRule('m_password', $passwordRequired, 'required');
-    
+
     $agreeWithTerms = $oMarketComponent->translate("Please agree with OpenX Market terms and conditions and data privacy policy");
     $oForm->addRule('terms_agree', $agreeWithTerms, 'required');
 
@@ -105,7 +103,7 @@ function processForm($oForm, $oMarketComponent)
         return array("error" => true, "errorMessages" => $e->getMessage());
     }
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
-    
+
 }
 
 /*-------------------------------------------------------*/
@@ -122,7 +120,7 @@ function displayPage($oForm, $oMarketComponent, $aProcessingErrors = null)
 
     $oTpl->assign('error', !empty($aProcessingErrors));
     $oTpl->assign('aErrorMessages', $aProcessingErrors['errorMessages']);
-    
+
     $oTpl->display();
 
     //footer

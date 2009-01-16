@@ -1,14 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -76,8 +74,8 @@ function displayPage($oComponent)
     }
     $startDate      = (!empty($startDate)) ? date('Y-m-d', strtotime($startDate)) : '';
     $endDate        = (!empty($endDate)) ? date('Y-m-d', strtotime($endDate)) : null;
-    
-    
+
+
 
     $aOption = array(
         'affiliateid'       => $affiliateId,
@@ -104,10 +102,10 @@ function displayPage($oComponent)
         $aReportData = $oReport->getSizeStatsByAffiliateId($aOption);
         $oTpl->assign('url', "market-stats.php?affiliateid=$affiliateId");
         $oTpl->assign('affiliateid', $affiliateId);
-    } 
+    }
     else {
         $aReportData['websites'] = $oReport->getWebsiteStatsByAgencyId($aOption);
-        
+
         // Init nodes
         $aNodes   = MAX_getStoredArray('nodes', array());
         if (count($aNodes) == 1 && empty($aNodes[0])) {
@@ -117,7 +115,7 @@ function displayPage($oComponent)
         $collapse = MAX_getValue('collapse');
 
         // Adjust which nodes are opened closed...
-        MAX_adjustNodes($aNodes, $expand, $collapse);        
+        MAX_adjustNodes($aNodes, $expand, $collapse);
         foreach ($aReportData['websites'] as $aWebsiteStats) {
             $websiteId = $aWebsiteStats['id'];
             MAX_isExpanded($websiteId, $expand, $aNodes, ''); //this updates aNodes if necessary
@@ -134,7 +132,7 @@ function displayPage($oComponent)
                 $aReportData['zones'] = $oReport->getSizeStatsForAffiliates($aOption);
                 unset($aOption['aAffiliateids']);
             }
-        }                
+        }
     }
 
     $oTpl->assign('aReportData',    $aReportData);

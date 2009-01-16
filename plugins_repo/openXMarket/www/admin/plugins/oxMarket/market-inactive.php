@@ -1,14 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -42,21 +40,21 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     //check if you can see this page (pluigin should be inactive in this case)
     $oMarketComponent->checkRegistered();
     $oMarketComponent->checkActive(false);
-    
+
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
-    
+
     $aDeactivationStatus = $oMarketComponent->getInactiveStatus();
     $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
     $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
-    
+
     $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
-    
+
     $oTpl->display();
-    
+
     //footer
     phpAds_PageFooter();
 
