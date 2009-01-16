@@ -61,6 +61,10 @@ if (!empty($row['html'])) {
     if (!empty($source)) {
     	$cookie[$conf['var']['channel']] = $source;
     }
+    if (!empty($row['clickwindow'])) {
+       $cookie[$conf['var']['lastClick']] = 1;
+    }
+
     // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)
     global $cookie_random;
     $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);

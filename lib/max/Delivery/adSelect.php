@@ -243,6 +243,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             'aSearch'       => $row['aSearch'],
             'aReplace'      => $row['aReplace'],
             'bannerContent' => $row['bannerContent'],
+            'clickwindow'   => $row['clickwindow'],
             'context'       => _adSelectBuildContext($row, $context)
         );
         // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
