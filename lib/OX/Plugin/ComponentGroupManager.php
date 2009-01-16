@@ -2063,7 +2063,11 @@ class OX_Plugin_ComponentGroupManager
             {
                 if (count($v['conf']['settings'])>0)
                 {
-                    $aGroup['settings'] = true;
+                    foreach ($v['conf']['settings'] as $setting) {
+                        if (!empty($setting['visible'])) {
+                            $aGroup['settings'] = true;
+                        }
+                    }
                 }
                 if (count($v['conf']['preferences'])>0)
                 {
@@ -2121,6 +2125,27 @@ class OX_Plugin_ComponentGroupManager
         }
         $aGroup = $this->parseXML($file);
         return $aGroup['install']['conf'];
+    }
+    
+    /**
+     *
+     * @param string $name The name of the group
+     * @param bolean $visibleOnly Should only visible settings be returned?
+     * 
+     * @return array The array of settings for this component group
+     */
+    function getComponentGroupSettings($name, $visibleOnly = false)
+    {
+        $aGroup = $this->_getComponentGroupConfiguration($name);
+        $aSettings = $aGroup['settings'];
+        if ($visibleOnly) {
+            foreach ($aSettings as $k => $v) {
+                if (empty($v['visible'])) {
+                    unset($aSettings[$k]);
+                }
+            }
+        }
+        return $aSettings;;
     }
 
     function getComponentGroupObjectsInfo($extends, $group)

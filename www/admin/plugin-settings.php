@@ -59,7 +59,7 @@ else {
 
 // get the settings for this plugin
 $oManager   = & new OX_Plugin_ComponentGroupManager();
-$aConfig    = $oManager->_getComponentGroupConfiguration($group);
+$aComponentSettings    = $oManager->getComponentGroupSettings($group, true);
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
@@ -68,7 +68,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
     // location to save the values in the settings configuration
     // file
     $aElements = array();
-    foreach ($aConfig['settings'] as $k => $v)
+    foreach ($aComponentSettings as $k => $v)
     {
         if (0 == strcmp($v['type'], 'checkbox'))
         {
@@ -127,9 +127,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
 // output using the $oOption object
 $aSettings[0]['text'] = $group.' '.$strConfigurationSettings;
 
-$count = count($aConfig['settings']);
+$count = count($aComponentSettings);
 $i = 0;
-foreach ($aConfig['settings'] as $k => $v)
+foreach ($aComponentSettings as $k => $v)
 {
     $aSettings[0]['items'][] = array(
                                      'type'    => $v['type'],
