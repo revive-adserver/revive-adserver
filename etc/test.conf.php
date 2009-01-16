@@ -48,7 +48,7 @@ headerTextColor                     =
 gzipCompression                     = true
 combineAssets                       = true
 dashboardEnabled                    = true
-directSelectionScreensHidden        =
+
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
 ;------------------------------------------------------------------------------------------;

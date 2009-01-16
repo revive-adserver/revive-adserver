@@ -95,7 +95,9 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-edit_new", 'AddAgency', "agency-edit.php", true, "settings/agencyManagement/addagency"));
                 $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-edit", 'AgencyProperties', "agency-edit.php?agencyid={agencyid}", false, "settings/agencyManagement/editagency"));
                 $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-access", 'UserAccess', "agency-access.php?agencyid={agencyid}", false, "inventory/directSelection"));
-                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", 'GenerateBannercode', "admin-generate.php"));
+                if (empty($aConf['ui']['disableDirectSelection'])) {
+                    $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", 'GenerateBannercode', "admin-generate.php"));
+                }
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-access", 'AdminAccess', "admin-access.php"));
                 $oMenu->addTo("admin-access", new OA_Admin_Menu_Section("admin-user", 'AdminAccess', "admin-user.php?userid={userid}"));
 
@@ -202,10 +204,8 @@ function _buildNavigation($accountType)
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("website-index", 'Affiliates', "website-index.php", false, "inventory/publishersAndZones", null, 1, false, 'g_website'));
                 $oMenu->addTo("website-index", new OA_Admin_Menu_Section("affiliate-edit_new", 'AddNewAffiliate', "affiliate-edit.php", true, "inventory/publishersAndZones/addPublisher"));
                 $oMenu->addTo("website-index", new OA_Admin_Menu_Section("affiliate-edit", 'AffiliateProperties', "affiliate-edit.php?affiliateid={affiliateid}", false, "inventory/publishersAndZones/editPublisher"));
-                if (!$GLOBALS['_MAX']['CONF']['ui']['directSelectionScreensHidden']) {
-                    $oMenu->addTo('website-index', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation"));
-                        $oMenu->addTo('affiliate-invocation', new OA_Admin_Menu_Section('affiliate-preview', 'InvocationcodePreview', 'affiliate-preview.php'));
-                }
+                $oMenu->addTo('website-index', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation"));
+                    $oMenu->addTo('affiliate-invocation', new OA_Admin_Menu_Section('affiliate-preview', 'InvocationcodePreview', 'affiliate-preview.php'));
                 $oMenu->addTo('website-index', new OA_Admin_Menu_Section('affiliate-access', 'UserAccess', 'affiliate-access.php?affiliateid={affiliateid}'));
 
             $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-zones', 'Zones', 'affiliate-zones.php', false, "inventory/publishersAndZones/zones", null, 1, false, 'g_website'));
@@ -222,7 +222,9 @@ function _buildNavigation($accountType)
                 $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-affiliate-acl', 'ChannelLimitations', 'channel-acl.php?affiliateid={affiliateid}&channelid={channelid}', false, "inventory/publishersAndZones/channels/editChannel/deliveryOptions"));
 
 
-            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", 'GenerateBannercode', "admin-generate.php", false, ""));
+            if (empty($aConf['ui']['disableDirectSelection'])) {
+                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", 'GenerateBannercode', "admin-generate.php", false, ""));
+            }
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", 'UserAccess', "agency-access.php?agencyid={agencyid}", false, ""));
                 $oMenu->addTo("agency-access", new OA_Admin_Menu_Section("agency-user", 'UserProperties', "agency-user.php?userid={userid}&agencyid={agencyid}", false, ""));
 
@@ -262,10 +264,8 @@ function _buildNavigation($accountType)
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-include', 'IncludedBanners', 'zone-include.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_LINK))));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-probability', 'Probability', 'zone-probability.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/probability"));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', 'Invocationcode', 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/linkedBanners/invocationCode", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
-                if (!$GLOBALS['_MAX']['CONF']['ui']['directSelectionScreensHidden']) {
-                    $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
-                        $oMenu->addTo('affiliate-invocation', new OA_Admin_Menu_Section('affiliate-preview', 'InvocationcodePreview', 'affiliate-preview.php', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
-                }
+                $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
+                    $oMenu->addTo('affiliate-invocation', new OA_Admin_Menu_Section('affiliate-preview', 'InvocationcodePreview', 'affiliate-preview.php', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
                 $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-access', 'UserAccess', 'affiliate-access.php?affiliateid={affiliateid}', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_SUPER_ACCOUNT))));
             $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, "settings/preferences"));

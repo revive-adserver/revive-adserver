@@ -45,14 +45,6 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 
 phpAds_registerGlobal('affiliateid', 'codetype');
 
-// If the direct selection tag generation screens are hidden redirect
-// display an error message
-if ($GLOBALS['_MAX']['CONF']['ui']['directSelectionScreensHidden']) {
-    // Redirect
-    echo "Error: Direct Selection is not available";
-    exit;
-}
-
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {

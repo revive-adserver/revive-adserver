@@ -43,19 +43,6 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
-// If the direct selection tag generation screens are hidden redirect
-// the manager user to the Website Properties page or the trafficker user
-// to the Zones page
-if ($GLOBALS['_MAX']['CONF']['ui']['directSelectionScreensHidden']) {
-    require_once LIB_PATH . '/Admin/Redirect.php';
-    OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
-    OA_Admin_Menu::_clearCache(OA_ACCOUNT_TRAFFICKER);
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        OX_Admin_Redirect::redirect('affiliate-zones.php');;
-    }
-    OX_Admin_Redirect::redirect('website-index.php');
-}
-
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
 }
