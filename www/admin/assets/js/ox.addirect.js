@@ -574,9 +574,9 @@ function initCampaignForm(formId)
      });
 
     //update fields states to reflect current values
-    formFormat($impressionsField.get(0));
-    formFormat($clicksField.get(0));
-    formFormat($conversionsField.get(0));
+    formFormat($impressionsField.get(0), true);
+    formFormat($clicksField.get(0), true);
+    formFormat($conversionsField.get(0), true);
 
     //show hide sections
     updateCampaignTypeForm();
@@ -1012,9 +1012,10 @@ function campaignFormDateReset(elemToReset)
 }
 
 
-function formFormat(field)
+function formFormat(field, allowzero)
 {
-        if ((field.value == '') || (field.value == 0)) {
+        if (typeof(allowzero) == 'undefined') { allowzero = false; }
+        if ((field.value == '') || (field.value == 0 && allowzero == false)) {
             field.value = '-';
         }
         if (field.value != '-') {

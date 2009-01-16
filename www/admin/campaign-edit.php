@@ -114,7 +114,7 @@ if ($campaignid != "") {
     $campaign ['conversionsRemaining'] = '';
 
     // Get the campagin data from the data_intermediate_ad table, and store in $campaign
-    if (($campaign ['impressions'] >= 0) || ($campaign ['clicks'] >= 0) || ($campaign ['conversions'] >= 0)) {
+    if (($campaign ['impressions'] > 0) || ($campaign ['clicks'] > 0) || ($campaign ['conversions'] > 0)) {
         $dalData_intermediate_ad = OA_Dal::factoryDAL ( 'data_intermediate_ad' );
         $record = $dalData_intermediate_ad->getDeliveredByCampaign ( $campaignid );
         $data = $record->toArray ();
@@ -140,13 +140,13 @@ if ($campaignid != "") {
     }
 
     // Get the value to be used in the target_value field
-    if ($campaign ['target_impression'] > 0) {
+    if ($campaign ['target_impression'] >= 0) {
         $campaign ['target_value'] = $campaign ['target_impression'];
         $campaign ['target_type'] = 'target_impression';
-    } elseif ($campaign ['target_click'] > 0) {
+    } elseif ($campaign ['target_click'] >= 0) {
         $campaign ['target_value'] = $campaign ['target_click'];
         $campaign ['target_type'] = 'target_click';
-    } elseif ($campaign ['target_conversion'] > 0) {
+    } elseif ($campaign ['target_conversion'] >= 0) {
         $campaign ['target_value'] = $campaign ['target_conversion'];
         $campaign ['target_type'] = 'target_conversion';
     } else {
@@ -154,7 +154,7 @@ if ($campaignid != "") {
         $campaign ['target_type'] = 'target_impression';
     }
 
-    if ($campaign ['target_value'] > 0) {
+    if ($campaign ['target_value'] >= 0) {
         $campaign ['weight'] = '-';
     } else {
         $campaign ['target_value'] = '-';
@@ -206,9 +206,9 @@ if ($campaignid != "") {
     }
 
     $campaign ["campaignname"] .= $strDefault . " " . $strCampaign;
-    $campaign ["impressions"] = '';
-    $campaign ["clicks"] = '';
-    $campaign ["conversions"] = '';
+    $campaign ["impressions"] = -1;
+    $campaign ["clicks"] = -1;
+    $campaign ["conversions"] = -1;
     $campaign ["status"] = ( int ) $status;
     $campaign ["expire"] = '';
     $campaign ["activate"] = '';
@@ -359,7 +359,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
     }
     $endDateStr = is_null ( $oEndDate ) ? '' : $oEndDate->format ( '%d %B %Y ' );
 
-    $form->setDefaults ( array ('campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType ( $campaign ['priority'] ), 'impr_unlimited' => (! empty ( $campaign ["impressions"] ) && $campaign ["impressions"] >= 0 ? 'f' : 't'), 'click_unlimited' => (! empty ( $campaign ["clicks"] ) && $campaign ["clicks"] >= 0 ? 'f' : 't'), 'conv_unlimited' => (! empty ( $campaign ["conversions"] ) && $campaign ["conversions"] >= 0 ? 'f' : 't'), 'startSet' => $startDateSet, 'endSet' => $endDateSet, 'start' => $startDateStr, 'end' => $endDateStr, 'priority' => ($campaign ['priority'] > '0' && $campaign ['campaignid'] != '') ? 2 : $campaign ['priority'], 'high_priority_value' => $campaign ['priority'] > '0' ? $campaign ['priority'] : 5, 'target_value' => ! empty ( $campaign ['target_value'] ) ? $campaign ['target_value'] : '-', 'weight' => isset ( $campaign ["weight"] ) ? $campaign ["weight"] : $pref ['default_campaign_weight'], 'revenue_type' => isset ( $campaign ["revenue_type"] ) ? $campaign ["revenue_type"] : MAX_FINANCE_CPM ) );
+    $form->setDefaults ( array('campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType ( $campaign ['priority'] ), 'impr_unlimited' => (isset($campaign ["impressions"]) && $campaign["impressions"] >= 0 ? 'f' : 't'), 'click_unlimited' => (! empty ( $campaign ["clicks"] ) && $campaign ["clicks"] >= 0 ? 'f' : 't'), 'conv_unlimited' => (! empty ( $campaign ["conversions"] ) && $campaign ["conversions"] >= 0 ? 'f' : 't'), 'startSet' => $startDateSet, 'endSet' => $endDateSet, 'start' => $startDateStr, 'end' => $endDateStr, 'priority' => ($campaign ['priority'] > '0' && $campaign ['campaignid'] != '') ? 2 : $campaign ['priority'], 'high_priority_value' => $campaign ['priority'] > '0' ? $campaign ['priority'] : 5, 'target_value' => ! empty ( $campaign ['target_value'] ) ? $campaign ['target_value'] : '-', 'weight' => isset ( $campaign ["weight"] ) ? $campaign ["weight"] : $pref ['default_campaign_weight'], 'revenue_type' => isset ( $campaign ["revenue_type"] ) ? $campaign ["revenue_type"] : MAX_FINANCE_CPM ) );
 
     return $form;
 }
