@@ -27,8 +27,9 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+
+require_once LIB_PATH . '/OperationInterval.php';
 
 /**
  * A class for testing the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions class.
@@ -213,7 +214,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $intervals = OA_OperationInterval::operationIntervalsPerWeek();
+        $intervals = OX_OperationInterval::operationIntervalsPerWeek();
 
         // Test 1
         $oDate = new Date('2006-10-07 23:07:01');
@@ -285,7 +286,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oServiceLocator->register('now', $oDate);
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->oPriorityUpdatedToDate = new Date('2006-10-08 00:59:59');
-        $oTask->oPriorityUpdatedToDate->addSeconds(23 * OA_OperationInterval::secondsPerOperationInterval());
+        $oTask->oPriorityUpdatedToDate->addSeconds(23 * OX_OperationInterval::secondsPerOperationInterval());
         $type = array(23, 56);
         $result = $oTask->_getOperationIntervalRanges($type);
         $this->assertTrue(is_array($result));
@@ -307,7 +308,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oServiceLocator->register('now', $oDate);
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->oPriorityUpdatedToDate = new Date('2006-10-01 00:59:59');
-        $oTask->oPriorityUpdatedToDate->addSeconds(112 * OA_OperationInterval::secondsPerOperationInterval());
+        $oTask->oPriorityUpdatedToDate->addSeconds(112 * OX_OperationInterval::secondsPerOperationInterval());
         $type = array(112, 23);
         $result = $oTask->_getOperationIntervalRanges($type);
         $this->assertTrue(is_array($result));

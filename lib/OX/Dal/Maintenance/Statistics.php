@@ -27,9 +27,10 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * Definitions of class constants.
@@ -140,7 +141,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
         }
-        if (!OA_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
+        if (!OX_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
             $message = "OX_Dal_Maintenance_Statistics::summariseBucketsAggregate() called with invalid start/end date parameters -- not operation interval bounds.";
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
@@ -327,7 +328,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
         }
-        if (!OA_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
+        if (!OX_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
             $message = "OX_Dal_Maintenance_Statistics::summariseBucketsRaw() called with invalid start/end date parameters -- not operation interval bounds.";
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
@@ -448,7 +449,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
         }
-        if (!OA_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
+        if (!OX_OperationInterval::checkIntervalDates($aDates['start'], $aDates['end'])) {
             $message = "OX_Dal_Maintenance_Statistics::summariseBucketsRawSupplementary() called with invalid start/end date parameters -- not operation interval bounds.";
             $oError = new PEAR_Error($message, MAX_ERROR_INVALIDARGS);
             return $oError;
@@ -748,8 +749,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             if ($rsUpdateResult == 0) {
                 // Could not perform the update - try an insert instead
                 $oDate = new Date($aRow['date_f']);
-                $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+                $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                 $query = "
                     INSERT INTO
                         " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_intermediate_ad', true) . "

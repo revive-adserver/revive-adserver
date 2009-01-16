@@ -31,11 +31,10 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-
-require_once LIB_PATH . '/Plugin/Component.php';
 
 require_once OX_PATH . '/lib/OX.php';
+require_once LIB_PATH . '/OperationInterval.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
 
@@ -89,7 +88,7 @@ class OX_Maintenance_Distributed
         // Copy buckets' records with "interval_start" up to and including previous OI start,
         // and then prune the data processed
         $aPreviousOperationIntervalDates =
-            OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
+            OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
         OA::debug(' - Will process data for all operation intervals before and up to start', PEAR_LOG_DEBUG);
         OA::debug('   time of ' . $aPreviousOperationIntervalDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aPreviousOperationIntervalDates['start']->tz->getShortName(), PEAR_LOG_DEBUG);
         foreach ($aBuckets as $sBucketName => $oBucketClass) {

@@ -97,7 +97,7 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator =& OA_ServiceLocator::instance();
 
         // Discover the number of operation intervals per week
-        $this->intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $this->intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
     }
 
     /**
@@ -316,7 +316,7 @@ class Test_Priority extends UnitTestCase
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -506,7 +506,7 @@ class Test_Priority extends UnitTestCase
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -821,8 +821,8 @@ class Test_Priority extends UnitTestCase
      */
     function _validateDszihRowsRange($oStartDate, $oEndDate)
     {
-        $startOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oStartDate);
-        $endOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oEndDate);
+        $startOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oStartDate);
+        $endOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oEndDate);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $tableName = $aConf['table']['prefix'] . 'data_summary_zone_impression_history';
         $table = $this->oDbh->quoteIdentifier($tableName, true);
@@ -855,15 +855,15 @@ class Test_Priority extends UnitTestCase
                 }
                 $aRow = $rc->fetchRow();
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
-                $this->assertEqual($aRow['operation_interval_id'], OA_OperationInterval::convertDateToOperationIntervalID($oTestStartDate));
+                $this->assertEqual($aRow['operation_interval_id'], OX_OperationInterval::convertDateToOperationIntervalID($oTestStartDate));
                 $this->assertEqual($aRow['interval_start'], $oTestStartDate->format('%Y-%m-%d %H:%M:%S'));
                 $this->assertEqual($aRow['interval_end'], $oTestEndDate->format('%Y-%m-%d %H:%M:%S'));
                 $this->assertEqual($aRow['zone_id'], $zoneID);
                 $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
                 $this->assertNull($aRow['actual_impressions']);
             }
-            $oTestStartDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-            $oTestEndDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
+            $oTestStartDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
+            $oTestEndDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
         }
     }
 

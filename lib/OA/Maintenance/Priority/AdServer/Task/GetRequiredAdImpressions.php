@@ -150,7 +150,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     {
         return $this->oDal->getCampaigns($where);
     }
-    
+
 
 
     /**
@@ -302,7 +302,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         $aRequiredAdImpressions = array();
         // Get the current operation interval start/end dates
         $aCurrentOperationIntervalDates =
-            OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
+            OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
         // For each campaign
         foreach ($aCampaigns as $oCampaign) {
             OA::debug('  - Distributing impression inventory requirements for campaign ID: ' . $oCampaign->id, PEAR_LOG_DEBUG);
@@ -358,7 +358,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             $message = "  - Calculating campaign remaining operation intervals.";
             OA::debug($message, PEAR_LOG_DEBUG);
             $campaignRemainingOperationIntervals =
-                OA_OperationInterval::getIntervalsRemaining(
+                OX_OperationInterval::getIntervalsRemaining(
                     $aCurrentOperationIntervalDates['start'],
                     $oCampaignExpiryDate
                 );
@@ -457,7 +457,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // Save the required impressions into the temporary database table
         OA::setTempDebugPrefix('- ');
         // Check if table exists
-        if (!isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {    
+        if (!isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {
             if ($this->oTable->createTable('tmp_ad_required_impression', null, true) !== false) {
                 // Remember that table was created
                 $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
@@ -518,7 +518,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             return 0;
         }
         // Get the current operation interval ID
-        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         // Scale the total required impressions for the ad over its lifetime
         // into the current operation interval forecast, relative to the total
         // zone-pattern based forecast for the remaining lifetime of the ad
@@ -561,7 +561,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             return false;
         }
         // Initialise the results array with the number operation intervals in a week
-        $aResults = array_fill(0, OA_OperationInterval::operationIntervalsPerWeek(), 0);
+        $aResults = array_fill(0, OX_OperationInterval::operationIntervalsPerWeek(), 0);
         // Get the forcast impressions for the previous week
         if (!empty($aAdZones)) {
             foreach ($aAdZones as $aZone) {

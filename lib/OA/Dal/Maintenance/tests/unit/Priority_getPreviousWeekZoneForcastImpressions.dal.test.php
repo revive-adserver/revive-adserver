@@ -81,8 +81,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $oServiceLocator->register('now', $oDate);
         $aResult = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), OA_OperationInterval::operationIntervalsPerWeek());
-        for ($operationIntervalID = 0; $operationIntervalID < OA_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
+        $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
+        for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
             $this->assertTrue(is_array($aResult[$operationIntervalID]));
             $this->assertEqual(count($aResult[$operationIntervalID]), 3);
             $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);
@@ -93,8 +93,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         // Test 4
 
         // Insert forcast for this operation interval
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $firstIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $firstIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
         $doHist = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doHist->zone_id = 1;
@@ -106,8 +106,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $idHist = DataGenerator::generateOne($doHist);
 
         // Insert forcast for the previous operation interval
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $secondIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $secondIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
         $doHist->zone_id = 1;
         $doHist->forecast_impressions = 5000;
@@ -122,8 +122,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(SECONDS_PER_WEEK);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNewDate);
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNewDate);
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
         $doHist->zone_id = 1;
         $doHist->forecast_impressions = 1000;
@@ -135,8 +135,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
 
         $aResult = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), OA_OperationInterval::operationIntervalsPerWeek());
-        for ($operationIntervalID = 0; $operationIntervalID < OA_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
+        $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
+        for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
             $this->assertTrue(is_array($aResult[$operationIntervalID]));
             $this->assertEqual(count($aResult[$operationIntervalID]), 3);
             $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);

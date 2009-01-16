@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class that implements function used in Regenerate Ad Server Statistics script
@@ -44,9 +45,9 @@ class OA_Maintenance_Regenerate
      * make sure we update all the operation intervals in the hour, and if
      * the operation interval > 60, must be the start/end of an operation
      * interval, to make sure we update all the hours in the operation interval.
-     * 
-     * @static 
-     * @param Date $oStartDate 
+     *
+     * @static
+     * @param Date $oStartDate
      * @param Date $oEndDate
      * @return boolean
      */
@@ -55,7 +56,7 @@ class OA_Maintenance_Regenerate
         $operationInterval = $aConf['maintenance']['operation_interval'];
         if ($operationInterval <= 60) {
             // Must ensure that only one hour is being summarised
-            if (!OA_OperationInterval::checkDatesInSameHour($oStartDate, $oEndDate)) {
+            if (!OX_OperationInterval::checkDatesInSameHour($oStartDate, $oEndDate)) {
                 return false;
             }
             // Now check that the start and end dates are match the start and
@@ -83,14 +84,14 @@ class OA_Maintenance_Regenerate
         } else {
             // Must ensure that only one operation interval is being summarised
             $operationIntervalID =
-                OA_OperationInterval::convertDaySpanToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
+                OX_OperationInterval::convertDaySpanToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
             if (is_bool($operationIntervalID) && !$operationIntervalID) {
                 return false;
             }
             // Now check that the start and end dates match the start and end
             // of the operation interval
             list($oOperationIntervalStart, $oOperationIntervalEnd) =
-                OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate, $operationInterval);
+                OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate, $operationInterval);
             if (!$oStartDate->equals($oOperationIntervalStart)) {
                 return false;
             }
@@ -100,9 +101,9 @@ class OA_Maintenance_Regenerate
         }
         return true;
     }
-    
+
    /**
-    * Clears intermediate abd summary statistics in selected date range from tables: 
+    * Clears intermediate abd summary statistics in selected date range from tables:
     *  - data_intermediate_ad_connection
     *  - data_intermediate_ad_variable_value
     *  - data_intermediate_ad
@@ -110,16 +111,16 @@ class OA_Maintenance_Regenerate
     *  - data_summary_zone_impression_history
     *  - data_summary_ad_zone_assoc
     *
-    * @static 
+    * @static
     * @param Date $oStartDate
     * @param Date $oEndDate
     */
     function clearIntermediateAndSummaryTables($oStartDate, $oEndDate) {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
+
         // Create a Data Access Layer object
         $oDbh = &OA_DB::singleton();
-        
+
         // Find the connections (if any) in the data_intermediate_ad_connection table
         $query = "
             SELECT
@@ -130,7 +131,7 @@ class OA_Maintenance_Regenerate
                 tracker_date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND tracker_date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rc = $oDbh->query($query);
-        
+
         // Delete any variable values that are attached to these connections
         while ($row = $rc->fetchRow()) {
             $query = "
@@ -140,7 +141,7 @@ class OA_Maintenance_Regenerate
                     data_intermediate_ad_connection_id = {$row['data_intermediate_ad_connection_id']}";
             $rows = $oDbh->exec($query);
         }
-        
+
         // Delete any connections in the data_intermediate_ad_connection table
         $query = "
             DELETE FROM
@@ -149,7 +150,7 @@ class OA_Maintenance_Regenerate
                 tracker_date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND tracker_date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rows = $oDbh->exec($query);
-        
+
         // Delete any summary rows from the data_intermediate_ad table
         $query = "
             DELETE FROM
@@ -158,7 +159,7 @@ class OA_Maintenance_Regenerate
                 interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rows = $oDbh->exec($query);
-        
+
         // Delete any summary rows from the data_summary_ad_hourly table
         $query = "
             DELETE FROM
@@ -167,7 +168,7 @@ class OA_Maintenance_Regenerate
                 date_time >= '" . $oStartDate->format('%Y-%m-%d %H:00:00') . "'
                 AND date_time <= '" . $oEndDate->format('%Y-%m-%d %H:00:00') . "'";
         $rows = $oDbh->exec($query);
-        
+
         // Delete any impression history data from the data_summary_zone_impression_history table
         $query = "
             DELETE FROM
@@ -176,7 +177,7 @@ class OA_Maintenance_Regenerate
                 interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rows = $oDbh->exec($query);
-        
+
         // Delete any impression history data from the data_summary_ad_zone_assoc table
         $query = "
             DELETE FROM

@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Factory.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once LIB_PATH . '/OperationInterval.php';
 
 /**
  * A class for managing a group of delivery limitations associated with an
@@ -221,10 +221,10 @@ class OA_Maintenance_Priority_DeliveryLimitation
                 // also store the start/end dates of the blocked
                 // interval for later use
                 $blockedIntervals++;
-                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oLoopDate);
+                $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oLoopDate);
                 $this->aBlockedOperationIntervalDates[$aDates['start']->format('%Y-%m-%d %H:%M:%S')] = $aDates;
             }
-            $oLoopDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
+            $oLoopDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
         }
         return $blockedIntervals;
     }
@@ -295,7 +295,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
         // Test the parameters, if invalid, return zero
         if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast) ||
-            (count($aCumulativeZoneForecast) != OA_OperationInterval::operationIntervalsPerWeek())) {
+            (count($aCumulativeZoneForecast) != OX_OperationInterval::operationIntervalsPerWeek())) {
             return $totalAdLifetimeZoneImpressionsRemaining;
         }
 
@@ -312,7 +312,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         ksort($aCumulativeZoneForecast);
 
         // Step 1: Calculate the sum of the ZIF values from "now" until the end of "today"
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
         $oEndOfToday = new Date();
         $oEndOfToday->copy($aDates['start']);
         $oEndOfToday->setHour(23);
@@ -321,7 +321,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $oStart = $aDates['start'];
         while ($oStart->before($oEndOfToday)) {
             // Find the Operation Interval ID for this Operation Interval
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oStart);
+            $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oStart);
             // As iteration over every OI is required anyway, test to see if
             // the ad is blocked in this OI; if not, add the ZIF values to the
             // running total
@@ -329,7 +329,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
                 $totalAdLifetimeZoneImpressionsRemaining += $aCumulativeZoneForecast[$operationIntervalID];
             }
             // Go to the next operation interval in "today"
-            $oStart = OA_OperationInterval::addOperationIntervalTimeSpan($oStart);
+            $oStart = OX_OperationInterval::addOperationIntervalTimeSpan($oStart);
         }
 
         // Step 2: Calculate how many times each day of the week occurs between the end of
@@ -340,29 +340,29 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $oStartOfTomorrow->addSeconds(1);
         $oTempDate = new Date();
         $oTempDate->copy($oStartOfTomorrow);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
         while ($aDates['start']->before($oEndDateCopy)) {
             // Increase the count for this day of the week
             $aDays[$aDates['start']->getDayOfWeek()]++;
             // Go to the next day
             $oTempDate->addSeconds(SECONDS_PER_DAY);
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
         }
 
         // Step 3: For every possible day of the week (assuming that day of the week is in the
         //         ad's remaining lifetime), calculate the sum of the ZIF values for every
         //         operation interval in that day
         if (!empty($aDays)) {
-            $operationIntervalsPerDay = OA_OperationInterval::operationIntervalsPerDay();
+            $operationIntervalsPerDay = OX_OperationInterval::operationIntervalsPerDay();
             $oTempDate = new Date();
             $oTempDate->copy($oStartOfTomorrow);
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
             for ($counter = 0; $counter < 7; $counter++) {
                 // Are there any instances of this day in the campaign?
                 if ($aDays[$oTempDate->getDayOfWeek()] > 0) {
                     // Calculate the sum of the zone forecasts for this day of week
-                    $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
-                    $dayStartOperationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+                    $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+                    $dayStartOperationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
                     $aDayCumulativeZoneForecast = array_slice($aCumulativeZoneForecast, $dayStartOperationIntervalId, $operationIntervalsPerDay);
                     $forecastSum = array_sum($aDayCumulativeZoneForecast);
                     // Multiply this day's forecast sum value by the number of times this
@@ -380,7 +380,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             OA::debug("      - Subtracting {$this->blockedOperationIntervalCount} blocked intervals", PEAR_LOG_DEBUG);
             // Iterate over the blocked interval dates, exclude those that are "today",
             // and use these to subtract the required ZIF values from the running total
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
             $oEndOfToday = new Date();
             $oEndOfToday->copy($aDates['start']);
             $oEndOfToday->setHour(23);
@@ -388,7 +388,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             $oEndOfToday->setSecond(59);
             foreach ($this->aBlockedOperationIntervalDates as $aDates) {
                 if ($aDates['start']->after($oEndOfToday)) {
-                    $blockedOperationInvervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+                    $blockedOperationInvervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
                     $totalAdLifetimeZoneImpressionsRemaining -= $aCumulativeZoneForecast[$blockedOperationInvervalID];
                 }
             }

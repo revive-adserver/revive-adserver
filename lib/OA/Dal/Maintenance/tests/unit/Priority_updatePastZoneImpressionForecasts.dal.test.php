@@ -63,12 +63,12 @@ class Test_OA_Dal_Maintenance_Priority_updatePastZoneImpressionForecasts extends
         $oDateNow = new Date('2007-09-16 12:00:00');
         $oStartDate = new Date();
         $oStartDate->copy($oDateNow);
-        $oStartDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
+        $oStartDate->subtractSeconds(SECONDS_PER_WEEK - OX_OperationInterval::secondsPerOperationInterval());
 
         // Insert a very old default ZIF value
         $oDate = new Date('2007-01-01 12:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -83,8 +83,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePastZoneImpressionForecasts extends
 
         // Insert a recent default ZIF value
         $oDate = new Date('2007-09-15 11:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -97,8 +97,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePastZoneImpressionForecasts extends
 
         // Insert another recent default ZIF value
         $oDate = new Date('2007-09-16 09:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -111,8 +111,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePastZoneImpressionForecasts extends
 
         // Insert a recent non-default ZIF value
         $oDate = new Date('2007-09-16 11:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -125,8 +125,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePastZoneImpressionForecasts extends
 
         // Insert a recent default ZIF value for a different zone
         $oDate = new Date('2007-09-16 08:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;

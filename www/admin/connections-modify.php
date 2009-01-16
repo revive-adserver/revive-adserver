@@ -37,10 +37,10 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
+require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
 $clientId      = MAX_getValue('clientid');
@@ -153,7 +153,7 @@ if (!empty($aConversions))
                 $oConnectionDate = &new Date($dateTime);
                 $oConnectionDate->toUTC();
 
-                $optIntID = OA_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
+                $optIntID = OX_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
                 $opDay = $oConnectionDate->format('%Y-%m-%d');
                 $opHour = $oConnectionDate->format('%H');
 

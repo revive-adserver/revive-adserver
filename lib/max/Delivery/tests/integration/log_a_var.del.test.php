@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once LIB_PATH . '/OperationInterval.php';
 
 /**
  * A class for performing end-to-end integration testing of the delivery logging

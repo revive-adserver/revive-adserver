@@ -63,7 +63,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         }
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->doHist->operation_interval = $conf['maintenance']['operationInterval'];
-        $this->doHist->operation_interval_id = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $this->doHist->operation_interval_id = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $this->doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->zone_id = $idZone;
@@ -124,15 +124,15 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 42, 0);
 
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 37, 0);
 
         $result =& $oMaxDalMaintenance->getAllZonesImpInv();
@@ -144,16 +144,16 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
 
         // Test 4
         $oDate =& $oServiceLocator->get('now');
-        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory(1, $aDates, 42, 0);
         $this->_generateTestHistory(2, $aDates, 1, 2);
 
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 37, 11);
         $this->_generateTestHistory(2, $aDates, 3, 4);
         $this->_generateTestHistory(3, $aDates, 5, 6);
@@ -161,8 +161,8 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 10, 9);
 
         $result =& $oMaxDalMaintenance->getAllZonesImpInv();
@@ -180,8 +180,8 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
 
         // Test 5
         $oDate =& $oServiceLocator->get('now');
-        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
 
         $aZones = $this->_generateTestZones(3);
@@ -192,8 +192,8 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 37, 11);
         $this->_generateTestHistory(2, $aDates, 3, 4);
         $this->_generateTestHistory(3, $aDates, 5, 6);
@@ -201,8 +201,8 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 10, 9);
 
         $result =& $oMaxDalMaintenance->getAllZonesImpInv();

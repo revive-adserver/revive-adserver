@@ -106,7 +106,7 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
 
         // Test 4
         $aZoneIds = $this->_generateTestZones(2);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory($aZoneIds[0], $aDates, 20);
         $this->_generateTestHistory($aZoneIds[1], $aDates, 40);
 
@@ -122,7 +122,7 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
 
         // Test 5
         $aZoneIds = $this->_generateTestZones(2);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory($aZoneIds[0], $aDates, -1);
         $this->_generateTestHistory($aZoneIds[1], $aDates, 40);
 
@@ -138,10 +138,10 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
 
         // Test 6
         $aZoneIds = $this->_generateTestZones(3);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory($aZoneIds[0], $aDates, -1);
         $this->_generateTestHistory($aZoneIds[1], $aDates, 40);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory($aZoneIds[0], $aDates, 100);
         $this->_generateTestHistory($aZoneIds[1], $aDates, 100);
 
@@ -184,7 +184,7 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         }
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->doHist->operation_interval = $conf['maintenance']['operationInterval'];
-        $this->doHist->operation_interval_id = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $this->doHist->operation_interval_id = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $this->doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->zone_id = $idZone;

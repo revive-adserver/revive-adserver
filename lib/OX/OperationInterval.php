@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_OperationInterval
+class OX_OperationInterval
 {
 
     /**
@@ -84,7 +84,7 @@ class OA_OperationInterval
     function convertDateRangeToOperationIntervalID($oStart, $oEnd, $operationInterval = 0)
     {
         if ($operationInterval < 1) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         $oStartCopy = new Date($oStart);
         $oStartCopy->toUTC();
@@ -98,9 +98,9 @@ class OA_OperationInterval
             return false;
         }
         // Find the operation interval ID of the start date
-        $startID = OA_OperationInterval::convertDateToOperationIntervalID($oStartCopy, $operationInterval);
+        $startID = OX_OperationInterval::convertDateToOperationIntervalID($oStartCopy, $operationInterval);
         // Find the operation interval ID of the end date
-        $endID = OA_OperationInterval::convertDateToOperationIntervalID($oEndCopy, $operationInterval);
+        $endID = OX_OperationInterval::convertDateToOperationIntervalID($oEndCopy, $operationInterval);
         // Compare the two IDs
         if ($startID != $endID) {
             return false;
@@ -127,7 +127,7 @@ class OA_OperationInterval
     function convertDateToOperationIntervalID($oDate, $operationInterval = 0)
     {
         if ($operationInterval < 1) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         // Convert to UTC
         $oDateCopy = new Date($oDate);
@@ -158,7 +158,7 @@ class OA_OperationInterval
     {
         $oDateCopy = new Date($oDate);
         if (is_null($operationInterval)) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         $oDateCopy->addSeconds($operationInterval * 60);
         return $oDateCopy;
@@ -195,13 +195,13 @@ class OA_OperationInterval
                 );
         }
         if ($operationInterval < 1) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         // Get the date representing the start of the week
         $oStartOfWeek = new Date(Date_Calc::beginOfWeek($oDateCopy->getDay(), $oDateCopy->getMonth(), $oDateCopy->getYear(), '%Y-%m-%d 00:00:00'));
         $oStartOfWeek->setTZbyID('UTC');
         // Get the operation interval ID of the date
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDateCopy, $operationInterval);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDateCopy, $operationInterval);
         // The start of the operation interval is the start of the week plus the
         // operation interval ID multiplied by the operation interval
         $oStart = new Date();
@@ -239,13 +239,13 @@ class OA_OperationInterval
     {
         // Get the start and end Dates of the operation interval that
         // contains the current date
-        $aResult = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval);
+        $aResult = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval);
         // Subtract one second from the start Date
         $oNewDate = new Date();
         $oNewDate->copy($aResult['start']);
         $oNewDate->subtractSeconds(1);
         // Return the result from the new date
-        return OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate, $operationInterval);
+        return OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate, $operationInterval);
     }
 
     /**
@@ -264,13 +264,13 @@ class OA_OperationInterval
     {
         // Get the start and end Dates of the operation interval that
         // contains the current date
-        $aResult = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval);
+        $aResult = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval);
         // Subtract one second from the start Date
         $oNewDate = new Date();
         $oNewDate->copy($aResult['end']);
         $oNewDate->addSeconds(1);
         // Return the result from the new date
-        return OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate, $operationInterval);
+        return OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate, $operationInterval);
     }
 
     /**
@@ -288,7 +288,7 @@ class OA_OperationInterval
     {
         // Set the operation interval length, if required
         if (is_null($operationInterval)) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         // Go backward the required number of intervals
         $newOperationIntervalID = $operationIntervalID - $intervals;
@@ -315,7 +315,7 @@ class OA_OperationInterval
     {
         // Set the operation interval length, if required
         if (is_null($operationInterval)) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         // Go forward the required number of intervals
         $newOperationIntervalID = $operationIntervalID + $intervals;
@@ -367,17 +367,17 @@ class OA_OperationInterval
     function checkIntervalDates($oStart, $oEnd, $operationInterval = 0)
     {
         if ($operationInterval < 1) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
+            $operationInterval = OX_OperationInterval::getOperationInterval();
         }
         if ($operationInterval <= 60) {
             // Must ensure that only one operation interval is being summarised
-            $operationIntervalID = OA_OperationInterval::convertDateRangeToOperationIntervalID($oStart, $oEnd, $operationInterval);
+            $operationIntervalID = OX_OperationInterval::convertDateRangeToOperationIntervalID($oStart, $oEnd, $operationInterval);
             if (is_bool($operationIntervalID) && !$operationIntervalID) {
                 return false;
             }
             // Now check that the start and end dates match the start and end
             // of the operation interval
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
             if (!$oStart->equals($aDates['start'])) {
                 return false;
             }
@@ -386,7 +386,7 @@ class OA_OperationInterval
             }
         } else {
             // Must ensure that only one hour is being summarised
-            if (!OA_OperationInterval::checkDatesInSameHour($oStart, $oEnd)) {
+            if (!OX_OperationInterval::checkDatesInSameHour($oStart, $oEnd)) {
                 return false;
             }
             // Now check that the start and end dates are match the start and
@@ -428,7 +428,7 @@ class OA_OperationInterval
      */
     function secondsPerOperationInterval()
     {
-        return (60 * OA_OperationInterval::getOperationInterval());
+        return (60 * OX_OperationInterval::getOperationInterval());
     }
 
     /**
@@ -440,7 +440,7 @@ class OA_OperationInterval
      */
     function operationIntervalsPerDay()
     {
-        return (SECONDS_PER_DAY / OA_OperationInterval::secondsPerOperationInterval());
+        return (SECONDS_PER_DAY / OX_OperationInterval::secondsPerOperationInterval());
     }
 
     /**
@@ -452,7 +452,7 @@ class OA_OperationInterval
      */
     function operationIntervalsPerWeek()
     {
-        return (7 * OA_OperationInterval::operationIntervalsPerDay());
+        return (7 * OX_OperationInterval::operationIntervalsPerDay());
     }
 
     /**
@@ -466,7 +466,7 @@ class OA_OperationInterval
      */
     function getIntervalsRemaining($oStartDate, $oEndDate)
     {
-        $operationIntervalSeconds = (OA_OperationInterval::getOperationInterval() * 60);
+        $operationIntervalSeconds = (OX_OperationInterval::getOperationInterval() * 60);
 
         // Convert to UTC
         $oStartCopy = new Date($oStartDate);

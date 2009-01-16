@@ -25,10 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/OA/OperationInterval.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
-require_once MAX_PATH.'/lib/wact/db/db.inc.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/phpAdsNew.php';
+
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/wact/db/db.inc.php';
 
 class StatMigration extends Migration
 {
@@ -181,10 +182,10 @@ class StatMigration extends Migration
     function _getOperationIntervalInfo(&$operationIntervalId, &$operationInterval, &$dateStart, &$dateEnd)
     {
 	    $date = new Date();
-	    $operationInterval = new OA_OperationInterval();
+	    $operationInterval = new OX_OperationInterval();
 	    $operationIntervalId = $operationInterval->convertDateToOperationIntervalID($date);
-	    $operationInterval = OA_OperationInterval::getOperationInterval();
-	    $aOperationIntervalDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date);
+	    $operationInterval = OX_OperationInterval::getOperationInterval();
+	    $aOperationIntervalDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date);
 	    $dateStart = DBC::makeLiteral($aOperationIntervalDates['start']->format(TIMESTAMP_FORMAT));
 	    $dateEnd = DBC::makeLiteral($aOperationIntervalDates['end']->format(TIMESTAMP_FORMAT));
     }

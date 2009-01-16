@@ -65,7 +65,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
 
         // As this is raw data being processed, data will not be logged based on the operation interval,
         // but based on the time the raw data was collected. Adjust the $oEnd value accordingly...
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
 
         OA::debug('    - The ' . $sTableName . ' table is a raw data table. Data logged in real-time, not operation intervals.', PEAR_LOG_INFO);
         OA::debug('    - Accordingly, processing of the ' . $sTableName . ' table will be performed based on data that has a logged date equal to', PEAR_LOG_INFO);
@@ -147,9 +147,9 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
         // As this is raw data being processed, data will not be logged based on the operation interval,
         // but based on the time the raw data was collected. Adjust the $oEnd value accordingly...
         if (!is_null($oStart)) {
-            $aStartDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+            $aStartDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
         }
-        $aEndDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
+        $aEndDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oEnd);
 
         OA::debug('    - The ' . $sTableName . ' table is a raw data table. Data logged in real-time, not operation intervals.', PEAR_LOG_INFO);
         if (!is_null($oStart)) {

@@ -700,12 +700,12 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, $aCumulativeZoneForecast);
         $this->assertEqual($result, 1);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $aCumulativeZoneForecast[$operationIntervalID] = 50;
-        $previousOperationIntervalId = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalId = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aCumulativeZoneForecast[$previousOperationIntervalId] = 5;
-        $nextOperationIntervalId = OA_OperationInterval::nextOperationIntervalID($operationIntervalID);
+        $nextOperationIntervalId = OX_OperationInterval::nextOperationIntervalID($operationIntervalID);
         $aCumulativeZoneForecast[$nextOperationIntervalId] = 7;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, $aCumulativeZoneForecast);
@@ -716,19 +716,19 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oEndDate = new Date('2006-02-15 23:59:59');
 
         $aCumulativeZoneForecast = array();
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 10:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 10:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 10;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 100;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 10000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 100000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1000000;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
 
@@ -740,21 +740,21 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oEndDate = new Date('2006-02-20 23:59:59');
 
         $aCumulativeZoneForecast = array();
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 21:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 21:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 10;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 23:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 23:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 100;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 00:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 00:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 01:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 01:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 10000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 02:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 02:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 100000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 03:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 03:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1000000;
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 04:00:01'));
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 04:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 10000000;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
 
@@ -818,7 +818,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      */
     function _fillForecastArray($aArray)
     {
-        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
             if (empty($aArray[$counter])) {
                 $aArray[$counter] = 1;

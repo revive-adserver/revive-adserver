@@ -43,11 +43,11 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Pruning.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 require_once LIB_PATH . '/Maintenance/Statistics.php';
+require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -112,7 +112,7 @@ class OX_Maintenance
             $oServiceLocator =& OA_ServiceLocator::instance();
             $oServiceLocator->register('now', $oDate);
             // Check the operation interval is valid
-            $result = OA_OperationInterval::checkOperationIntervalValue($this->aConf['maintenance']['operationInterval']);
+            $result = OX_OperationInterval::checkOperationIntervalValue($this->aConf['maintenance']['operationInterval']);
             if (PEAR::isError($result)) {
                 // Unable to continue!
                 $oLock->release();

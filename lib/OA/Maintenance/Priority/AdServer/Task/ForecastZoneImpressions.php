@@ -190,7 +190,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         $this->oDateNow = $this->getDateNow();
         // Set the date to update ZIF values until - that is, the end of the
         // current operation interval
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
         $this->oUpdateToDate = $aDates['end'];
         // Obtain the information about the last MSE run
         $aData = $this->oDal->getMaintenanceStatisticsLastRunInfo();
@@ -342,10 +342,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         // Update any "past" ZIF data for recently created zones that has been calculated
         if (!empty($this->aPastForecastResults)) {
             // Calcuate the date from which to update the "past" ZIF values
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
             $oPastStartDate = new Date();
             $oPastStartDate->copy($aDates['start']);
-            $oPastStartDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
+            $oPastStartDate->subtractSeconds(SECONDS_PER_WEEK - OX_OperationInterval::secondsPerOperationInterval());
             $this->oDal->updatePastZoneImpressionForecasts($this->aPastForecastResults, $oPastStartDate);
         }
     }
@@ -382,7 +382,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             // default zone forecast value) so that this new installation of OpenX can ran: return true
             OA::debug('  - No previous maintenance priority run, so update all OIs required', PEAR_LOG_DEBUG);
             $return = true;
-        } elseif (OA_OperationInterval::getOperationInterval() != $this->priorityOperationInterval) {
+        } elseif (OX_OperationInterval::getOperationInterval() != $this->priorityOperationInterval) {
             // The operation interval has changed since the last run, force an update all: return true
             OA::debug('  - OPERATION INTERVAL LENGTH CHANGE SINCE LAST RUN', PEAR_LOG_DEBUG);
             OA::debug('  - Update of all OIs required', PEAR_LOG_DEBUG);
@@ -405,10 +405,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                     $return = true;
                 } else {
                     // Get the operation intervals for each run
-                    $statsOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->oStatisticsUpdatedToDate);
-                    $priorityOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->oPriorityUpdatedToDate);
+                    $statsOpIntId = OX_OperationInterval::convertDateToOperationIntervalID($this->oStatisticsUpdatedToDate);
+                    $priorityOpIntId = OX_OperationInterval::convertDateToOperationIntervalID($this->oPriorityUpdatedToDate);
                     // Always predict one interval ahead of the statistics engine
-                    $statsOpIntId = OA_OperationInterval::nextOperationIntervalID($statsOpIntId, 1);
+                    $statsOpIntId = OX_OperationInterval::nextOperationIntervalID($statsOpIntId);
                     // As long as the operation intervals are not in the same interval, priority should be run
                     if ($statsOpIntId != $priorityOpIntId) {
                         OA::debug('  - Found OI range to update', PEAR_LOG_DEBUG);
@@ -450,12 +450,12 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 // of the operation interval *after* the one that statistics have been updated
                 // to, as we need to predict one interval ahead of now
                 $oStatsDates =
-                    OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oDateNow);
+                    OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oDateNow);
                 $oStartDate = new Date();
                 $oStartDate->copy($oStatsDates['start']);
                 $oStartDate->subtractSeconds(SECONDS_PER_WEEK);
-                $startId = OA_OperationInterval::convertDateToOperationIntervalID($oStartDate);
-                $totalIntervals = OA_OperationInterval::operationIntervalsPerWeek();
+                $startId = OX_OperationInterval::convertDateToOperationIntervalID($oStartDate);
+                $totalIntervals = OX_OperationInterval::operationIntervalsPerWeek();
                 break;
 
             case is_array($type) && ($type[0] < $type[1]):
@@ -463,9 +463,9 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 // ID is the lower bound, and the second operation interval ID is the upper
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
+                $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
                 $oStartDate = $aDates['start'];
-                $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
+                $startId = OX_OperationInterval::nextOperationIntervalID($type[0], 1);
                 $totalIntervals = $type[1] - $type[0];
                 break;
 
@@ -475,10 +475,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 // lower bound in the proceeding week
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
+                $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
                 $oStartDate = $aDates['start'];
-                $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
-                $totalIntervals = (OA_OperationInterval::operationIntervalsPerWeek() - $type[0]) +  $type[1];
+                $startId = OX_OperationInterval::nextOperationIntervalID($type[0], 1);
+                $totalIntervals = (OX_OperationInterval::operationIntervalsPerWeek() - $type[0]) +  $type[1];
                 break;
 
             default:
@@ -491,7 +491,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         }
         // Build the update range array
         $aRange = array();
-        $totalIntervalPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $totalIntervalPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
         for ($x = $startId, $y = 0; $y < $totalIntervals; $x++, $y++) {
             if ($x == $totalIntervalPerWeek) {
                $x = 0;
@@ -500,11 +500,11 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             $aDates['start'] = new Date($oStartDate); //->format('%Y-%m-%d %H:%M:%S');
             $oEndDate = new Date();
             $oEndDate->copy($oStartDate);
-            $oEndDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval() - 1);
+            $oEndDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval() - 1);
             $aDates['end'] = $oEndDate; //->format('%Y-%m-%d %H:%M:%S');
             unset($oEndDate);
             $aRange[$x] = $aDates;
-            $oStartDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
+            $oStartDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
         }
         // Is the update range array a contiguous (inter-weeek) range?
         if (array_key_exists($totalIntervalPerWeek - 1, $aRange) &&
@@ -602,7 +602,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                     // for longer than ZONE_FORECAST_BASELINE_WEEKS - as a result, either
                     // forecast the value based on the past operation interval's data, or
                     // use the default value
-                    $previousIntervalID = OA_OperationInterval::previousOperationIntervalID($intervalId);
+                    $previousIntervalID = OX_OperationInterval::previousOperationIntervalID($intervalId);
                     if (isset($aZoneForecastAndImpressionHistory[$previousIntervalID]['actual_impressions']) &&
                         ($aZoneForecastAndImpressionHistory[$previousIntervalID]['actual_impressions'] > 0)) {
                         // Use the previous operation interval's actual impressions value as the
@@ -635,7 +635,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 } else {
                     // Get the lower bound operation interval ID of the trend calculation
                     // range required for this operation interval ID
-                    $offetOperationId = OA_OperationInterval::previousOperationIntervalID($intervalId, null, $this->_getTrendOperationIntervalStartOffset());
+                    $offetOperationId = OX_OperationInterval::previousOperationIntervalID($intervalId, null, $this->_getTrendOperationIntervalStartOffset());
                     // Set the initial forecast and actual impressions values
                     $forecastImpressions = 0;
                     $actualImpressions   = 0;
@@ -662,7 +662,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                         }
                         $forecastImpressions += $aZoneForecastAndImpressionHistory[$offetOperationId]['forecast_impressions'];
                         // Go to the next operation ID in the trend range
-                        $offetOperationId = OA_OperationInterval::nextOperationIntervalID($offetOperationId);
+                        $offetOperationId = OX_OperationInterval::nextOperationIntervalID($offetOperationId);
                     }
                     unset($forecastAverage);
                     if ($forecastImpressions !== false) {
@@ -747,7 +747,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      */
     function _getTrendLowerDate($oDate)
     {
-        $seconds = $this->_getTrendOperationIntervalStartOffset() * OA_OperationInterval::secondsPerOperationInterval();
+        $seconds = $this->_getTrendOperationIntervalStartOffset() * OX_OperationInterval::secondsPerOperationInterval();
         $oDate->subtractSeconds($seconds);
         return $oDate;
     }
@@ -767,7 +767,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      */
     function _getTrendUpperDate($oDate)
     {
-        $seconds = ZONE_FORECAST_TREND_OFFSET * OA_OperationInterval::secondsPerOperationInterval();
+        $seconds = ZONE_FORECAST_TREND_OFFSET * OX_OperationInterval::secondsPerOperationInterval();
         $oDate->subtractSeconds($seconds);
         return $oDate;
     }

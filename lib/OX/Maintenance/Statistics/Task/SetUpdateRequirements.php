@@ -117,7 +117,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             // Does the last update date found occur on the end of an operation interval?
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oController->oLastDateIntermediate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oController->oLastDateIntermediate);
             if (Date::compare($this->oController->oLastDateIntermediate, $aDates['end']) != 0) {
                 $message = '- Last intermediate table updated to date of ' .
                            $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S') . ' ' .
@@ -148,7 +148,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
             if (Date::compare($oNowDate, $oRequiredDate) > 0) {
                 $this->oController->updateIntermediate = true;
                 // Update intermediate tables to the end of the previous (not current) operation interval
-                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+                $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
                 $this->oController->oUpdateIntermediateToDate = new Date();
                 $this->oController->oUpdateIntermediateToDate->copy($aDates['start']);
                 $this->oController->oUpdateIntermediateToDate->subtractSeconds(1);
@@ -393,9 +393,9 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         // end of the previous operation interval, or the end of the previous
         // hour, depending on the required type
         if ($type == OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI) {
-            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+            $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         } else {
-            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate, 60);
+            $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate, 60);
         }
 
         // Return the date

@@ -29,13 +29,13 @@ require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
-require_once MAX_PATH . '/lib/pear/Date.php';
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class to provide support for sending of email-based reports and
@@ -438,8 +438,8 @@ class OA_Email
             list($aAdminPrefs, $aAdminUsers) = $this->aAdminCache;
         }
 
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aPreviousOIDates['start']);
+        $aPreviousOIDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aPreviousOIDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aPreviousOIDates['start']);
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $aCampaign = $doCampaigns->toArray();

@@ -95,7 +95,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doData_summary_zone_impression_history->orderBy('interval_start');
         $doData_summary_zone_impression_history->find();
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
-        $expectedForecasts = OA_OperationInterval::operationIntervalsPerWeek() * 1;
+        $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 1;
         $this->assertEqual($storedForecasts, $expectedForecasts);
         // For the Zone ID 0 zone...
         for ($zoneId = 0; $zoneId < 1; $zoneId++) {
@@ -104,10 +104,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // operation interval starting at "2007-09-18 14:00:00" (ID 62),
             // that is, from "2007-09-11 15:00:00" (ID 63).
             $oStartDate = new Date('2007-09-11 15:00:00');
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
             $operationIntervalId = 63;
             // For each operation interval in the week...
-            for ($counter = 0; $counter < OA_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
+            for ($counter = 0; $counter < OX_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
                 // Get the data row from the database
                 $doData_summary_zone_impression_history->fetch();
                 $aRow = $doData_summary_zone_impression_history->toArray();
@@ -120,8 +120,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
                 $this->assertEqual($aRow['actual_impressions'], '');
                 // Move on to the next operation interval start date and ID
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
-                $operationIntervalId = OA_OperationInterval::nextOperationIntervalID($operationIntervalId);
+                $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
+                $operationIntervalId = OX_OperationInterval::nextOperationIntervalID($operationIntervalId);
             }
         }
 
@@ -174,7 +174,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doData_summary_zone_impression_history->whereAdd("interval_start >= '2007-09-11 16:00:00'");
         $doData_summary_zone_impression_history->find();
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
-        $expectedForecasts = OA_OperationInterval::operationIntervalsPerWeek() * 3;
+        $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 3;
 //        echo "<pre>";
 //        var_dump($storedForecasts);
 //        var_dump($expectedForecasts);
@@ -186,10 +186,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // operation interval starting at "2007-09-18 15:00:00" (ID 63),
             // that is, from "2007-09-11 16:00:00" (ID 64).
             $oStartDate = new Date('2007-09-11 16:00:00');
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
             $operationIntervalId = 64;
             // For each operation interval in the week...
-            for ($counter = 0; $counter < OA_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
+            for ($counter = 0; $counter < OX_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
                 // Get the data row from the database
                 $doData_summary_zone_impression_history->fetch();
                 $aRow = $doData_summary_zone_impression_history->toArray();
@@ -202,8 +202,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
                 $this->assertEqual($aRow['actual_impressions'], '');
                 // Move on to the next operation interval start date and ID
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
-                $operationIntervalId = OA_OperationInterval::nextOperationIntervalID($operationIntervalId);
+                $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
+                $operationIntervalId = OX_OperationInterval::nextOperationIntervalID($operationIntervalId);
             }
         }
 
@@ -215,8 +215,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
 
         // Get the operation interval ID and start/end dates from the "previous"
         // operation interval where the statistics is to be placed
-        $operationInterval = OA_OperationInterval::convertDateToOperationIntervalID($oNowDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+        $operationInterval = OX_OperationInterval::convertDateToOperationIntervalID($oNowDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
 
         // Insert the impressions actually delivered for the First Zone
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
@@ -257,7 +257,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doData_summary_zone_impression_history->whereAdd("interval_start >= '2007-09-11 17:00:00'");
         $doData_summary_zone_impression_history->find();
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
-        $expectedForecasts = OA_OperationInterval::operationIntervalsPerWeek() * 3;
+        $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 3;
         $this->assertEqual($storedForecasts, $expectedForecasts);
         // For the Zone ID 0 zone and the two "real" zones...
         for ($zoneId = 0; $zoneId < 3; $zoneId++) {
@@ -266,10 +266,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // operation interval starting at "2007-09-18 16:00:00" (ID 63),
             // that is, from "2007-09-11 17:00:00" (ID 65).
             $oStartDate = new Date('2007-09-11 17:00:00');
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
             $operationIntervalId = 65;
             // For each operation interval in the week...
-            for ($counter = 0; $counter < OA_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
+            for ($counter = 0; $counter < OX_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
                 // Get the data row from the database
                 $doData_summary_zone_impression_history->fetch();
                 $aRow = $doData_summary_zone_impression_history->toArray();
@@ -290,8 +290,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                     $this->assertEqual($aRow['actual_impressions'], '');
                 }
                 // Move on to the next operation interval start date and ID
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
-                $operationIntervalId = OA_OperationInterval::nextOperationIntervalID($operationIntervalId);
+                $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
+                $operationIntervalId = OX_OperationInterval::nextOperationIntervalID($operationIntervalId);
             }
         }
 
@@ -319,7 +319,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         for ($zoneId = 0; $zoneId < 1; $zoneId++) {
             // Use the same date and ID values as for the NUMBER 1 test above
             $oStartDate = new Date('2007-09-11 15:00:00');
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
             $operationIntervalId = 63;
             // Get the data row from the database
             $doData_summary_zone_impression_history->fetch();
@@ -356,7 +356,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         for ($zoneId = 0; $zoneId < 3; $zoneId++) {
             // Use the same date and ID values as for the NUMBER 2 test above
             $oStartDate = new Date('2007-09-11 16:00:00');
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
             $operationIntervalId = 64;
             // Get the data row from the database
             $doData_summary_zone_impression_history->fetch();

@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once LIB_PATH . '/OperationInterval.php';
 
 /**
  * A class for performing end-to-end integration testing of the delivery logging
@@ -57,7 +57,7 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
 
         $GLOBALS['_MAX']['NOW'] = time();
         $oNowDate = new Date($GLOBALS['_MAX']['NOW']);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
         $intervalStart = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
 
         $oConversionDate = new Date();

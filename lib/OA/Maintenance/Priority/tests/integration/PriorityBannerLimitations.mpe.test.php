@@ -157,8 +157,8 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         // distribution will work
         $oZoneHistoryDate = new Date('2008-02-19 00:00:01');
         for ($counter = 1; $counter <= (7 + 2) * 24; $counter++) { // 7 days for first week, then 2 days for test range
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oZoneHistoryDate);
-            $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oZoneHistoryDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oZoneHistoryDate);
+            $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oZoneHistoryDate);
             $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
             $doData_summary_zone_impression_history->zone_id               = $zoneId;
             $doData_summary_zone_impression_history->forecast_impressions  = 1000;
@@ -206,8 +206,8 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
             // Insert the required impressions for the banner into the
             // data_intermediate_ad table, as if the delivery has occured,
             // so that the next hour's test is based on delivery having happened
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
-            $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oNowDate);
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+            $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oNowDate);
             $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
             $doData_intermediate_ad->day                   = $aDates['start']->format('%Y-%m-%d');
             $doData_intermediate_ad->hour                  = $aDates['start']->format('%H');

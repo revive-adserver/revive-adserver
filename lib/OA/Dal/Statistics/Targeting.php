@@ -29,9 +29,9 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 require_once OX_PATH . '/lib/OX.php';
+require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -574,7 +574,7 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
         $oEndOfDayDate->setMinute(59);
         $oEndOfDayDate->setSecond(59);
         // Get the first operation interval of the day
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
         // Get dates to be used in date comparisons
         $oCompareDate = new Date();
         $oCompareDate->copy($aDates['start']);
@@ -582,14 +582,14 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
         $oCompareEndDate->copy($oEndOfDayDate);
         while ($oCompareDate->before($oEndOfDayDate)) {
             // Get the operation interval ID
-            $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+            $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
             // Get the results for this operation interval
             $aResult[$operationIntervalId] = $this->getOperationIntervalTargetingStatistics($aAdIds, $type, $aDates['start'], $aDates['end']);
             if ($aResult[$operationIntervalId] === false) {
                 return false;
             }
             // Get the next operation interval dates
-            $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
+            $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
             // Update the comparison dates
             $oCompareDate = new Date();
             $oCompareDate->copy($aDates['start']);
@@ -668,7 +668,7 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
             return false;
         }
         // Ensure that the date range specified is indeed an operation interval
-        if (!OA_OperationInterval::checkIntervalDates($oStartDate, $oEndDate)) {
+        if (!OX_OperationInterval::checkIntervalDates($oStartDate, $oEndDate)) {
             return false;
         }
         // Obtain the targeting statistcs for this operation interval
@@ -1100,7 +1100,7 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
             return false;
         }
         // Ensure that the date range specified is indeed an operation interval
-        if (!OA_OperationInterval::checkIntervalDates($oStartDate, $oEndDate)) {
+        if (!OX_OperationInterval::checkIntervalDates($oStartDate, $oEndDate)) {
             return false;
         }
         return true;

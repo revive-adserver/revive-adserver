@@ -138,8 +138,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                 ad_id = {$this->aIds['ad']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -230,8 +230,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                 AND expired IS NOT NULL";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oOldDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oOldDate);
+        $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oOldDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oOldDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -273,8 +273,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                 AND expired IS NULL";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -315,8 +315,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                 ad_id = ".($this->aIds['ad']+1);
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));

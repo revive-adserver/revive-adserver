@@ -208,8 +208,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
         $aData = array(
             $conf['maintenance']['operationInterval'],
@@ -233,9 +233,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -265,11 +265,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 5, 5a
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -294,8 +294,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 6
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -320,9 +320,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 7
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -354,11 +354,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 8, 8a
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -392,8 +392,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 9
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -408,8 +408,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -434,8 +434,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 10
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -450,9 +450,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -484,8 +484,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 11, 11a
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -500,11 +500,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -538,11 +538,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 12
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -557,8 +557,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -583,11 +583,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 13
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -602,9 +602,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -636,11 +636,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 14, 14a
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -655,11 +655,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -693,9 +693,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 15
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -710,8 +710,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -743,9 +743,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 16
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -760,9 +760,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -794,9 +794,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 17, 17a
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -811,11 +811,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -856,9 +856,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 18
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -929,11 +929,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1018,9 +1018,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -1123,11 +1123,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -1236,9 +1236,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1309,11 +1309,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1412,14 +1412,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+            $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         }
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+            $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
         $aData = array(
             $conf['maintenance']['operationInterval'],
@@ -1435,9 +1435,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -1540,11 +1540,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -1598,14 +1598,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+            $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         }
-        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+            $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);

@@ -145,7 +145,7 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $oNowDate = new Date();
         $aExtras = array(
             'operation_interval'    => $aConf['maintenance']['operationInterval'],
-            'operation_interval_id' => OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
+            'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
             'interval_start'        => $oDalMaintenanceStatistics->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
             'interval_end'          => $oDalMaintenanceStatistics->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
             'creative_id'           => 0,
@@ -321,7 +321,7 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $oData_intermediate_ad->fetch();
         $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
-        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
+        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
         $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
         $this->assertEqual($oData_intermediate_ad->ad_id,                 1);
@@ -395,7 +395,7 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $oData_intermediate_ad->fetch();
         $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
-        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
+        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
         $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
         $this->assertEqual($oData_intermediate_ad->ad_id,                 1);
@@ -413,7 +413,7 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $oData_intermediate_ad->fetch();
         $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
-        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
+        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
         $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
         $this->assertEqual($oData_intermediate_ad->ad_id,                 2);
@@ -431,7 +431,7 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $oData_intermediate_ad->fetch();
         $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
-        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
+        $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
         $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
         $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
         $this->assertEqual($oData_intermediate_ad->ad_id,                 11);

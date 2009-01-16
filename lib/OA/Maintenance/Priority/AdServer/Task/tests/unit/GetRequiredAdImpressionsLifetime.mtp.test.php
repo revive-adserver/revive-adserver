@@ -647,7 +647,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $oGetRequiredAdImpressionsLifetime->setReturnValue(
@@ -656,7 +656,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $remainingOIs = OX_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
         $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
@@ -691,29 +691,29 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $oGetRequiredAdImpressionsLifetime->setReturnValue(
@@ -722,7 +722,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $remainingOIs = OX_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
         $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
@@ -757,29 +757,29 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 20;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 30;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 40;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 60;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 40;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 30;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 20;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
-        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
+        $intervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $oGetRequiredAdImpressionsLifetime->setReturnValue(
@@ -788,7 +788,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $remainingOIs = OX_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
         $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
@@ -812,7 +812,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function _fillForecastArray($aArray)
     {
-        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
             if (empty($aArray[$counter])) {
                 $aArray[$counter] = 0;

@@ -96,8 +96,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
 
         // Test with two weeks worth of data that is too old to be used
         $oDate = new Date('2007-08-19 12:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -109,8 +109,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
         $id = DataGenerator::generateOne($doData_summary_zone_impression_history);
 
         $oDate = new Date('2007-08-26 12:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -127,8 +127,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
 
         // Test with one weeks worth of data that is in the range
         $oDate = new Date('2007-09-02 12:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -145,8 +145,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
 
         // Test with a second weeks worth of data that is in the range
         $oDate = new Date('2007-09-09 12:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -164,8 +164,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
 
         // Test with another valid set of dates
         $oDate = new Date('2007-09-02 15:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;
@@ -177,8 +177,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonePastImpressionAverageByOI extends 
         $id = DataGenerator::generateOne($doData_summary_zone_impression_history);
 
         $oDate = new Date('2007-09-09 15:00:00');
-        $operationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
 
         $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
         $doData_summary_zone_impression_history->operation_interval = 60;

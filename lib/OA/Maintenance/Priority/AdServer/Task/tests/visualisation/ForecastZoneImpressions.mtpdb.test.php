@@ -33,9 +33,10 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/tests/visualisation/OA_Dal_Maintenance_Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
-require_once MAX_PATH . '/lib/pear/Image/Graph.php';
+
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/pear/Image/Canvas.php';
+require_once OX_PATH . '/lib/pear/Image/Graph.php';
 
 set_time_limit(900);
 
@@ -204,7 +205,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -220,7 +221,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OX_OperationInterval::previousOperationIntervalID(OX_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];
@@ -452,7 +453,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -468,7 +469,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OX_OperationInterval::previousOperationIntervalID(OX_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];
@@ -714,7 +715,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -730,7 +731,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OX_OperationInterval::previousOperationIntervalID(OX_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];

@@ -111,7 +111,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             $oStartDate->addSeconds(1);
             while (Date::compare($oStartDate, $this->oController->oUpdateIntermediateToDate) < 0) {
                 // Calcuate the end of the operation interval
-                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+                $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
                 $oEndDate = new Date();
                 $oEndDate->copy($aDates['end']);
                 // Store the dates
@@ -206,7 +206,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     if ($statisticsTable == $aConf['table']['prefix'] . 'data_intermediate_ad') {
                         $aExtras = array(
                             'operation_interval'    => $aConf['maintenance']['operationInterval'],
-                            'operation_interval_id' => OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
+                            'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
                             'interval_start'        => $oDal->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
                             'interval_end'          => $oDal->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
                             'creative_id'           => 0,
