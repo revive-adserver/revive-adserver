@@ -2524,6 +2524,7 @@ $output = array(
 'aSearch'       => $row['aSearch'],
 'aReplace'      => $row['aReplace'],
 'bannerContent' => $row['bannerContent'],
+'clickwindow'   => $row['clickwindow'],
 'context'       => _adSelectBuildContext($row, $context)
 );
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
@@ -2898,6 +2899,9 @@ $cookie[$conf['var']['zoneId']] = $zoneid;
 // Send source headers
 if (!empty($source)) {
 $cookie[$conf['var']['channel']] = $source;
+}
+if (!empty($row['clickwindow'])) {
+$cookie[$conf['var']['lastClick']] = 1;
 }
 // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)
 global $cookie_random;
