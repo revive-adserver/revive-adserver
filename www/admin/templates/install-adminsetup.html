@@ -18,12 +18,12 @@
 
 <?php
             // Setup list of all timezones, calculate selected timezone
-            require_once('../../lib/OA/Admin/Timezones.php');
-            $aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
+            require_once('../../lib/OX/Admin/Timezones.php');
+            $aTimezones = OX_Admin_Timezones::AvailableTimezones(true);
             if ($_POST['aPrefs']['timezone']) {
                 $selTimezone = $_POST['aPrefs']['timezone'];
             } else {
-                $selTimezone = OA_Admin_Timezones::getTimezone();
+                $selTimezone = OX_Admin_Timezones::getTimezone();
             }
 
             $strTimezoneToDisplay = $strTimezone;

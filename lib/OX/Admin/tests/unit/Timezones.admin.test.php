@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -25,39 +25,39 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Timezones.php';
+require_once MAX_PATH . '/lib/OX/Admin/Timezones.php';
 
 /**
- * A class for testing the OA_Admin_Timezones class.
+ * A class for testing the OX_Admin_Timezones class.
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
  */
-class Test_OA_Admin_Timezones extends UnitTestCase
+class Test_OX_Admin_Timezones extends UnitTestCase
 {
 
     function testAvailableTimezones()
     {
         global $_DATE_TIMEZONE_DATA;
 
-        //  get time zones
-        $aTimezone = OA_Admin_Timezones::availableTimezones(true);
+        // Get time zones
+        $aTimezone = OX_Admin_Timezones::availableTimezones(true);
 
-        //  test that it is an array, not empty and contains 448 items (447 + a blank)
+        // Test that it is an array, not empty and contains 449 items (448 + a blank)
         $this->assertTrue(is_array($aTimezone));
         $this->assertFalse(empty($aTimezone));
-        $this->assertEqual(count($aTimezone), 448);
+        $this->assertEqual(count($aTimezone), 449);
 
-        //  remove blank element
+        // Remove blank element
         array_shift($aTimezone);
 
-        //  check returned data against global array from PEAR::Date
+        // Check returned data against global array from PEAR::Date
         foreach ($aTimezone as $key => $value) {
             $this->assertTrue(array_key_exists($key, $_DATE_TIMEZONE_DATA));
 
-            //  check label to ensure it was created properly
-            $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
+            // Check label to ensure it was created properly
+            $offset = OX_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
             $offset = ($_DATE_TIMEZONE_DATA[$key]['offset'] >=0) ? 'GMT+'. $offset : 'GMT-'. $offset;
             $this->assertEqual($value, "($offset) $key");
         }
@@ -65,9 +65,9 @@ class Test_OA_Admin_Timezones extends UnitTestCase
 
     function testGetTimezone()
     {
-        //  set environment variable
+        // Set environment variable
         date_default_timezone_set('America/Detroit');
-        $timezone = OA_Admin_Timezones::getTimezone();
+        $timezone = OX_Admin_Timezones::getTimezone();
         $this->assertEqual('America/Detroit', $timezone);
     }
 
@@ -84,7 +84,7 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         );
 
         foreach ($aConfigTimezone as $tz => $aTimezone) {
-            $this->assertEqual(OA_Admin_Timezones::getConfigTimezoneValue($tz, $aTimezone), $aResult[$tz]);
+            $this->assertEqual(OX_Admin_Timezones::getConfigTimezoneValue($tz, $aTimezone), $aResult[$tz]);
         }
     }
 
@@ -98,7 +98,7 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         );
 
         foreach ($aOffset as $offset => $result) {
-            $this->assertEqual(OA_Admin_Timezones::_convertOffset($offset), $result);
+            $this->assertEqual(OX_Admin_Timezones::_convertOffset($offset), $result);
         }
     }
 }

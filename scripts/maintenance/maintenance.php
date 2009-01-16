@@ -42,8 +42,8 @@ $path = dirname(__FILE__);
 // Require the timezone class, and get the system timezone,
 // storing in a global variable
 global $serverTimezone;
-require_once $path . '/../../lib/OA/Admin/Timezones.php';
-$serverTimezone = OA_Admin_Timezones::getTimezone();
+require_once $path . '/../../lib/OX/Admin/Timezones.php';
+$serverTimezone = OX_Admin_Timezones::getTimezone();
 
 // Require the initialisation file
 require_once $path . '/../../init.php';

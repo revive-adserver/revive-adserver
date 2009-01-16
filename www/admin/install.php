@@ -340,8 +340,8 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         $syncEnabled = !empty($_SESSION['checkForUpdates']);
 
         // Store the detected timezone of the system, whatever that is
-        require_once('../../lib/OA/Admin/Timezones.php');
-        $timezone['timezone'] = OA_Admin_Timezones::getTimezone();
+        require_once('../../lib/OX/Admin/Timezones.php');
+        $timezone['timezone'] = OX_Admin_Timezones::getTimezone();
 
         if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled) && $oUpgrader->putTimezoneAccountPreference($aTimezone, true))
         {
@@ -413,11 +413,11 @@ else if (array_key_exists('btn_plugins', $_POST))
             // Save admim account preference for timezone
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
         }
-        
+
         // Use current url as base path for calling install-plugin
         $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
         $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
-        
+
         if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
         {
             foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)

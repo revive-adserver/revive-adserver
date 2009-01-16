@@ -28,14 +28,13 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Admin/Menu/tests/unit/MenuTestCase.php';
 
 /**
- * A class for testing the OA_Admin_Timezones class.
+ * A class for testing the OA_Admin_Menu class.
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
  * @author     Bernard Lange <bernard@openx.org>
  */
-class Test_OA_Admin_Menu
-    extends Test_OA_Admin_MenuTestCase
+class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 {
     function setUp()
     {
@@ -255,8 +254,8 @@ class Test_OA_Admin_Menu
         $next = $menu->getNextSection('my-section5');
         $this->assertSectionsEqual($next, $sections[0]);
     }
-    
-    
+
+
     function testIsRootSection()
     {
         $menu = &new OA_Admin_Menu();
@@ -357,7 +356,7 @@ class Test_OA_Admin_Menu
             $this->assertSectionListsEqual($expectedParents, $parents);
         }
     }
-    
+
     function testGetLevel()
     {
         $menu = &new OA_Admin_Menu();

@@ -29,8 +29,8 @@ $Id$
 // called, to ensure that the timezone information from the server is
 // not affected by any calls to date_default_timezone_set() or
 // putenv("TZ=...") to set the timezone manually
-require_once '../../lib/OA/Admin/Timezones.php';
-$timezone = OA_Admin_Timezones::getTimezone();
+require_once '../../lib/OX/Admin/Timezones.php';
+$timezone = OX_Admin_Timezones::getTimezone();
 
 // Require the initialisation file
 require_once '../../init.php';
@@ -74,7 +74,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation ();
         $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
             array(htmlspecialchars($title)));
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);        
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
     }
     // Could not write the preferences to the database, store this
@@ -91,7 +91,7 @@ $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 // Get timezone dropdown information
-$aTimezones = OA_Admin_Timezones::availableTimezones(true);
+$aTimezones = OX_Admin_Timezones::availableTimezones(true);
 $oConfigTimezone = trim($GLOBALS['_MAX']['PREF']['timezone']);
 
 if (empty($oConfigTimezone)) {

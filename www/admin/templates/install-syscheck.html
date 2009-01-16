@@ -45,8 +45,8 @@
             include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
 
             // Setup list of all timezones, calculate selected timezone
-            require_once('../../lib/OA/Admin/Timezones.php');
-            $timezone = OA_Admin_Timezones::getTimezone();
+            require_once('../../lib/OX/Admin/Timezones.php');
+            $timezone = OX_Admin_Timezones::getTimezone();
 
             $sysinfoarray = $aSysInfo['PHP'];
 

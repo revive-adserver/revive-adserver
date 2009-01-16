@@ -26,15 +26,15 @@ $Id$
 */
 
 /**
- * A class for testing the OA_Admin_Timezones class.
+ * A class for testing the OA_Admin_Menu_Section class.
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
  * @author     Bernard Lange <bernard@openx.org>
  */
-class Test_OA_Admin_MenuTestCase
-    extends UnitTestCase
+class Test_OA_Admin_MenuTestCase extends UnitTestCase
 {
+
     function setUp()
     {
         OA::disableErrorHandling();
@@ -44,7 +44,6 @@ class Test_OA_Admin_MenuTestCase
     {
         OA::enableErrorHandling();
     }
-
 
     /**
      * Need to do checks manually, PHP fails on circular references between

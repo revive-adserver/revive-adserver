@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -33,7 +33,7 @@ $Id$
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
- class OA_Admin_Timezones
+ class OX_Admin_Timezones
  {
 
     /**
@@ -77,17 +77,19 @@ $Id$
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
         if (!defined('MAX_PATH')) {
-            $tz = OA_Admin_Timezones::getTimezone();
+            $tz = OX_Admin_Timezones::getTimezone();
         } else {
             $tz = $GLOBALS['_MAX']['PREF']['timezone'];
+            if (is_null($tz)) {
+                $tz = OX_Admin_Timezones::getTimezone();
+            }
         }
 
         foreach ($aTimezoneKey as $key) {
-            if ((in_array($tz, $_aTimezoneBcData) && $key == $tz)
-                 || !in_array($key, $_aTimezoneBcData)) {
-                //  calculate timezone offset
-                $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
-                //  build arrays used for sorting time zones
+            if ((in_array($tz, $_aTimezoneBcData) && $key == $tz) || !in_array($key, $_aTimezoneBcData)) {
+                // Calculate the timezone offset
+                $offset = OX_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
+                // Build the arrays used for sorting time zones
                 $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
                 $key = (!empty($GLOBALS['strTimezoneList'][$key])) ? $GLOBALS['strTimezoneList'][$key] : $key;
                 if ($origOffset >= 0) {
@@ -98,16 +100,18 @@ $Id$
             }
         }
 
-        //  sort timezones with positive offset desc and negative offests asc
-        // Add empty key/value pair
+        // Sort timezones with positive offsets descending, and negative
+        // offests ascending.
+
+        // Add initial empty key/value pair
         if ($addBlank) {
             $aResult[] = '';
         }
 
-        //  sort time zones
+        // Sort time zones
         asort($aNegTimezone);
 
-        //  reverse array element order while preserving alphabetical order
+        // Reverse array element order while preserving alphabetical order
         $hasRun       = false;
         foreach ($aTimezone as $offset => $aValue) {
             if ($hasRun == false) {
@@ -118,7 +122,7 @@ $Id$
             }
         }
 
-        //  build result array
+        // Build the result array
         foreach($aRevTimezone as $aValue) {
             foreach ($aValue as $k => $v) {
                 $aResult[$k] = $v;
@@ -159,7 +163,7 @@ $Id$
      * @static
      * @param string $tz        The user selected timezone value.
      * @param array  $aTimezone The result of a call to the
-     *                          {@link OA_Admin_Timezones::getTimezone()}
+     *                          {@link OX_Admin_Timezones::getTimezone()}
      *                          method.
      * @return string The timezone value to write to the
      *                configuration file.
@@ -182,12 +186,11 @@ $Id$
     }
 
     /**
-     * Convert an offset in milliseconds into human readable form (hours and minutes)
+     * Convert an offset in milliseconds into human readable form (hours and minutes).
      *
      * @access private
-     *
      * @param float $offset A float in hours of the time zone offset (i.e. 9.5, 10.75)
-     * @return string       Human read able timezone offset
+     * @return string Human read able timezone offset
      */
     function _convertOffset($offset)
     {

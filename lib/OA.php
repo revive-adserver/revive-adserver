@@ -82,7 +82,7 @@ class OA
      * A method to log debugging messages to the location configured by the user.
      *
      * Note: If the global variable $currentTimezone is set, where the array
-     * is the result of OA_Admin_Timezones::getTimezone(), called BEFORE any
+     * is the result of OX_Admin_Timezones::getTimezone(), called BEFORE any
      * timezone information has been set (i.e. before the init script has been
      * called), then this method will ensure that all debug messages are logged
      * in the SERVER TIME ZONE, rather than the time zone that the software
@@ -186,7 +186,7 @@ class OA
         // Log messages in the local server timezone, if possible
         global $serverTimezone;
         if (!empty($serverTimezone)) {
-            $currentTimezone = OA_Admin_Timezones::getTimezone();
+            $currentTimezone = OX_Admin_Timezones::getTimezone();
             OA_setTimeZone($serverTimezone);
         }
         // Log the message
