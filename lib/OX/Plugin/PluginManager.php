@@ -457,7 +457,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $this->_runExtensionTasks('BeforePluginEnable');
         foreach ($aPackage['install']['contents'] AS $k => &$plugin)
         {
-            if (!$this->enableComponentGroup($plugin['name']))
+            if (!$this->enableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
             {
                 $this->_logError('Failed to enable plugin '.$plugin['name'].' for package '.$name);
                 $this->disablePackage($name);
@@ -507,7 +507,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $this->_runExtensionTasks('BeforePluginDisable');
         foreach ($aPackage['install']['contents'] AS $k => &$plugin)
         {
-            if (!$this->disableComponentGroup($plugin['name']))
+            if (!$this->disableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
             {
                 $this->_logError('Failed to disable plugin '.$plugin['name'].' for package '.$name);
                 return false;

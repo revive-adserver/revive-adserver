@@ -489,6 +489,26 @@ class OX_Component
     {
         return $this->oTrans->translate($string, $aValues, $pluralVar);
     }
+    
+    /**
+     * This method is executed when this component is enabled
+     *
+     * @return boolean The result of the attempt to enable this component
+     */
+    function onEnable()
+    {
+        return true;
+    }
+    
+    /**
+     * This method is executed when this component is enabled
+     *
+     * @return boolean The result of the attempt to disable this component
+     */
+    function onDisable()
+    {
+        return true;
+    }
 }
 
 ?>

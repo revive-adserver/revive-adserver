@@ -720,8 +720,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->setReturnValueAt(1,'_setPlugin', false);
         $oManager->expectCallCount('_setPlugin',2);
 
-        $this->assertTrue($oManager->enableComponentGroup('test'));
-        $this->assertFalse($oManager->enableComponentGroup('test'));
+        $this->assertTrue($oManager->enableComponentGroup('test', 'test'));
+        $this->assertFalse($oManager->enableComponentGroup('test', 'test'));
         $oManager->tally();
     }
 
@@ -739,8 +739,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->setReturnValueAt(1,'_setPlugin', false);
         $oManager->expectCallCount('_setPlugin',2);
 
-        $this->assertTrue($oManager->disableComponentGroup('test'));
-        $this->assertFalse($oManager->disableComponentGroup('test'));
+        $this->assertTrue($oManager->disableComponentGroup('test', 'test'));
+        $this->assertFalse($oManager->disableComponentGroup('test', 'test'));
         $oManager->tally();
     }
 

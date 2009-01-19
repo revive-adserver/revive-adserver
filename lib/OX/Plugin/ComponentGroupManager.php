@@ -48,6 +48,7 @@ require_once(MAX_PATH.'/lib/OA/DB/Table.php');
 require_once(MAX_PATH.'/lib/OA/Dal.php');
 require_once(MAX_PATH.'/lib/OA/Cache.php');
 require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
+require_once LIB_PATH.'/Plugin/Component.php';
 require_once(MAX_PATH.'/lib/OA/Admin/Menu.php');
 
 class OX_Plugin_ComponentGroupManager
@@ -420,7 +421,8 @@ class OX_Plugin_ComponentGroupManager
         $aTaskList[] = array(
                             'method' =>'disableComponentGroup',
                             'params' => array(
-                                              $aGroup['name']
+                                              $aGroup['name'],
+                                              $aGroup['extends']
                                              ),
                             );
         $aTaskList[] = array(
@@ -628,8 +630,16 @@ class OX_Plugin_ComponentGroupManager
      * @param string $name
      * @return boolean
      */
-    public function enableComponentGroup($name)
+    public function enableComponentGroup($name, $extends)
     {
+        $aComponents = OX_Component::getComponents($extends, $name, true, false);
+        $aResult = OX_Component::callOnComponents($aComponents, 'onEnable');
+        foreach ($aResult as $componentIdentifier => $value) {
+            if (!$value) {
+                // Should I call onDisable for those components that were sucessfully enabled?
+                return false;
+            }
+        }
         $result = $this->_setPlugin($name, 1);
         return $result;
     }
@@ -640,8 +650,16 @@ class OX_Plugin_ComponentGroupManager
      * @param string $name
      * @return boolean
      */
-    public function disableComponentGroup($name)
+    public function disableComponentGroup($name, $extends)
     {
+        $aComponents = OX_Component::getComponents($extends, $name, true, false);
+        $aResult = OX_Component::callOnComponents($aComponents, 'onDisable');
+        foreach ($aResult as $componentIdentifier => $value) {
+            if (!$value) {
+                // Should I call onEnable for those components that were sucessfully disabled?
+                return false;
+            }
+        }
         return $this->_setPlugin($name, 0);
     }
 
@@ -1435,7 +1453,7 @@ class OX_Plugin_ComponentGroupManager
             $enabled = $this->isEnabled($name);
             if (!$enabled)
             {
-                $this->enableComponentGroup($name);
+                $this->enableComponentGroup($name, $aGroup['extends']);
             }
             $oDBUpgrader->buildSchemaDefinition();
 
@@ -1489,7 +1507,7 @@ class OX_Plugin_ComponentGroupManager
             }
             if (!$enabled)
             {
-                $this->disableComponentGroup($name);
+                $this->disableComponentGroup($name, $aGroup['extends']);
             }
         }
         return $aResult;
