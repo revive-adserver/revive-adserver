@@ -31,8 +31,10 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 
+phpAds_registerGlobalUnslashed('campaignid', 'status', 'category', 'text', 'category-text');
+
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
-OA_Permission::enforceAccessToObject ( 'campaigns', $_GET['campaignid'] );
+OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -42,17 +44,17 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $agencyId = OA_Permission::getAgencyId();
 $oDalZones = OA_Dal::factoryDAL('zones');
-$linked = ($_GET['status'] == "linked");
-$websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_GET['category'], $_GET['campaignid'], $linked, $_GET['text']);
+$linked = ($status == "linked");
+$websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignid, $linked, $text);
 $aZonesCounts = array (
-    'all'     => $oDalZones->countZones($agencyId, null, $_GET['campaignid'], $linked),
-    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category'], $_GET['campaignid'], $linked, $_REQUEST['text'])
+    'all'     => $oDalZones->countZones($agencyId, null, $campaignid, $linked),
+    'showing' => $oDalZones->countZones($agencyId, $category, $campaignid, $linked, $text)
   );
 
 $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
 $oTpl->assign('websites', $websites);
-$oTpl->assign('category', $_GET['category-text']);
-$oTpl->assign('text', $_GET['text']);
+$oTpl->assign('category', $category-text);
+$oTpl->assign('text', $text);
 $oTpl->assign('zonescounts', $aZonesCounts);
 
 if ($linked) {
