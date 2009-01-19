@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
     <version>0.1.2-dev</version>
-    <oxversion>2.7.28-beta-rc2</oxversion>
+    <oxversion>2.7.29-beta-rc2</oxversion>
     <extends>admin</extends>
 
     <install>
@@ -69,13 +69,13 @@
             </checkers>
 
             <admin>
-                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market Beta</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
             </admin>
 
             <manager>
-                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market Beta</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
             </manager>
         </navigation>
 
@@ -88,7 +88,7 @@
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
-            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="1">@publisherSupportEmail@</setting>
+            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
             <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="0">@ssoSignupUrl@</setting>
             <setting key="splashAlreadyShown" type="checkbox" label="OpenX Market splash shown" required="1"  visible="0">0</setting>
         </configuration>
