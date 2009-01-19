@@ -75,6 +75,9 @@ if (!isset($session['maint_update'])) {
         echo "<img src='" . OX::assetPath() . "/images/install-busy.gif' width='16' height='16'>";
         echo "</td><td class='install'>".$strSearchingUpdates."</td></tr></table>";
         // Send the output to the browser
+        if (false !== ob_get_contents()) {
+          ob_flush();
+        } 
         flush();
 
         // Get updates info and store them into a session var
