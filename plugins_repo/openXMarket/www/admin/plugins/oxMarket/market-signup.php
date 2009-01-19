@@ -66,14 +66,15 @@ function buildSignupForm($oMarketComponent)
     $oForm = new OA_Admin_UI_Component_Form("market-signup-form", "POST", $_SERVER['PHP_SELF']);
     $oForm->forceClientValidation(true);
 
-    $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Create an OpenX Market publisher account'));
-    $oForm->addElement('html', 'info', $oMarketComponent->translate("To start using the OpenX Market you need to have an OpenX account. Please <a href='%s' target='_blank'>create OpenX Account</a> if you do not have one.", array($ssoSignupUrl)));
-    $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX Account name'));
+    $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Associate an OpenX account'));
+    $oForm->addElement('html', 'info', $oMarketComponent->translate("To activate OpenX Market, please provide your existing OpenX account information."));
+    $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX User name'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
     $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
-    $oForm->addElement('submit', 'save', $oMarketComponent->translate('Sign up'));
-
+    $oForm->addElement('submit', 'save', $oMarketComponent->translate('Associate with OpenX Market'));
+    $oForm->addElement('html', 'new_account_info', $oMarketComponent->translate("<div style='margin-top:15px'>Don't have an OpenX account? <a href='%s' target='_blank'>Create an account</a> and associate it above.</div>", array($ssoSignupUrl)));
+    
     //Form validation rules
     $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account name')));
     $oForm->addRule('m_username', $usernameRequired, 'required');
