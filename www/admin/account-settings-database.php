@@ -275,6 +275,7 @@ $oSettings = array (
         ),
     ),
 );
+$oOptions->oTpl->assign('formIsDisabled', true);
 $oOptions->show($oSettings, $aErrormessage, true);
 
 // Display the page footer
