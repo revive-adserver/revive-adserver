@@ -39,13 +39,13 @@ class Plugins_TestOfPlugins_openXMarket extends UnitTestCase
     function setUp()
     {
         $oPkgMgr = new OX_PluginManager();
-        TestEnv::uninstallPluginPackage('openXMarket');
-        TestEnv::installPluginPackage('openXMarket');
+        TestEnv::uninstallPluginPackage('openXMarket',false);
+        TestEnv::installPluginPackage('openXMarket',false);
     }
 
     function tearDown()
     {
-        TestEnv::uninstallPluginPackage('openXMarket');
+        TestEnv::uninstallPluginPackage('openXMarket',false);
     }
 
     function test_oxMarketMaintenance_class()

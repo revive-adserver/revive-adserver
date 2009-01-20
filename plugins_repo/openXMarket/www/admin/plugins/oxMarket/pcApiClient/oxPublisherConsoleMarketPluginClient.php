@@ -103,10 +103,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         &$association_status)
     {
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-        $oAccountAssocData->get('account_id', 
-            DataObjects_Accounts::getAdminAccountId());
-        $publisher_account_id = $oAccountAssocData->publisher_account_id;
-        $association_status   = $oAccountAssocData->status; 
+        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
+        if (isset($adminAccountId)) {
+            $oAccountAssocData->get('account_id', $adminAccountId);
+            $publisher_account_id = $oAccountAssocData->publisher_account_id;
+            $association_status   = $oAccountAssocData->status; 
+        }
     }
     
     public function __construct()
