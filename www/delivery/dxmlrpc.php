@@ -1845,6 +1845,8 @@ MAX_commonInitVariables();
 MAX_cookieLoad();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
+// Run any plugins which have registered themselves at postInit
+OX_Delivery_Common_hook('postInit');
 // Require the DAL file for the delivery engine
 require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 // Require the XMLRPC classes

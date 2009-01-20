@@ -1605,6 +1605,8 @@ MAX_commonInitVariables();
 MAX_cookieLoad();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
+// Run any plugins which have registered themselves at postInit
+OX_Delivery_Common_hook('postInit');
 // Include required files
 function MAX_limitationsCheckAcl($row, $source = '')
 {
