@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Impression logging component of the standard delivery logging plugin for OpenX</description>
-    <version>1.0.1-beta</version>
+    <version>1.0.2-beta</version>
     <oxversion>2.7.23-beta</oxversion>
     <extends>deliveryLog</extends>
 
@@ -17,8 +17,6 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.class.php</file>
-            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.class.php</file>
         </files>
 
         <postscript>postscript_install_oxLogImpression.php</postscript>
@@ -26,10 +24,6 @@
         <components>
            <component>
                 <name>logImpression</name>
-                <hook>logImpression</hook>
-           </component>
-           <component>
-                <name>logImpressionBackup</name>
                 <hook>logImpression</hook>
            </component>
         </components>
