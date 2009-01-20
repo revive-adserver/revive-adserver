@@ -297,7 +297,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
 		$aContentsNew = $aContents;
 
-		$oZip = new PclZip(MAX_PATH.'/plugins_repo/openXTests.zip');
+		$oZip = new PclZip(MAX_PATH.'/plugins_repo/release/openXTests.zip');
 		$aContentsOld = $oZip->listContent();
 		foreach ($aContentsOld as $i => $aItemOld)
 		{
