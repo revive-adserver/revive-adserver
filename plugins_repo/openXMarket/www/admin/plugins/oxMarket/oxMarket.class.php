@@ -663,10 +663,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function runTasksAfterPluginEnable()
+    function onEnable()
     {
-        parent::runTasksAfterPluginEnable();
-        $this->updateAllWebsites();
+        try {
+            $this->updateAllWebsites();
+        } catch (Exception $e) {
+            OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
+        }
+        return true; // we allow to enable plugin
     }
 }
 
