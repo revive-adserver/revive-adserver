@@ -72,7 +72,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $this->assertEqual(count($aComponents), 3);
         $dia = $aConf['table']['prefix'] . 'data_intermediate_ad';
         $this->assertTrue(is_array($aComponents[$dia]));
-        $this->assertEqual(count($aComponents[$dia]), 4);
+        $this->assertEqual(count($aComponents[$dia]), 3);
         $aComponentClasses = array();
         foreach ($aComponents[$dia] as $oComponent) {
             $aComponentClasses[] = get_class($oComponent);
@@ -80,8 +80,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogRequest_LogRequest', $aComponentClasses));
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_LogImpression', $aComponentClasses));
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogClick_LogClick', $aComponentClasses));
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_logImpressionBackup', $aComponentClasses));
-
+        
         $diac = $aConf['table']['prefix'] . 'data_intermediate_ad_connection';
         $this->assertTrue(is_array($aComponents[$diac]));
         $this->assertEqual(count($aComponents[$diac]), 1);
