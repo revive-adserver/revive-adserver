@@ -148,7 +148,8 @@ class OX_Maintenance
      */
     function _runMSE()
     {
-        OX_Maintenance_Statistics::run();
+        $oMaintenanceStatisitcs = new OX_Maintenance_Statistics();
+        $oMaintenanceStatisitcs->run();
     }
 
     /**
