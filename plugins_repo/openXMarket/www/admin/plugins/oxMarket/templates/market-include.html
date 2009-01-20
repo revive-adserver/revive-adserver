@@ -39,7 +39,7 @@ $Id$
 {literal}
 $(document).ready(function() {
   if ($.fn.updateFrameSize) {
-    $("#content-frame").updateFrameSize();
+    $("#content-frame").updateFrameSize({'msie' : 650, 'name': 'market-include'});
   }
 });
 {/literal}    
