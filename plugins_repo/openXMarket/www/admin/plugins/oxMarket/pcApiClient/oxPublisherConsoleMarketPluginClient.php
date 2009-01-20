@@ -114,8 +114,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function __construct()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceExecutor = new OX_M2M_ZendXmlRpcExecutor(
-            $aConf['oxMarket']['marketPcApiUrl']);
+        
+        $apiUrl = $aConf['oxMarket']['marketHost'] .'/'. $aConf['oxMarket']['marketPcApiUrl'];
+        $oServiceExecutor = new OX_M2M_ZendXmlRpcExecutor($apiUrl);
         $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oServiceExecutor);
         $this->pc_api_client = 
             new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc);    
