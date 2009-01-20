@@ -53,8 +53,11 @@ class OA_Task_Runner
      */
     function runTasks()
     {
-        foreach ($this->aTasks as $oTask) {
+        // Remove tasks from the queue and unset them when done to prevent
+        // useless memory consumption
+        while ($oTask = array_shift($this->aTasks)) {
             $oTask->run();
+            unset($oTask);
         }
     }
 
