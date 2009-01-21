@@ -45,9 +45,9 @@ $isFormValid = $signupForm->validate();
 
 if ($isFormValid) {
     //process submitted values
-    $processingErrors = processForm($signupForm, $oMarketComponent);
-    if (!empty($processingErrors)) {
-        displayPage($signupForm, $oMarketComponent, $processingErrors);
+    $processingError = processForm($signupForm, $oMarketComponent);
+    if (!empty($processingError)) {
+        displayPage($signupForm, $oMarketComponent, $processingError);
     }
 }
 else { //either validation failed or form was not submitted, display the form
@@ -66,14 +66,13 @@ function buildSignupForm($oMarketComponent)
     $oForm = new OA_Admin_UI_Component_Form("market-signup-form", "POST", $_SERVER['PHP_SELF']);
     $oForm->forceClientValidation(true);
 
-    $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Associate an OpenX account'));
-    $oForm->addElement('html', 'info', $oMarketComponent->translate("To activate OpenX Market, please provide your existing OpenX account information."));
+    $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Associate an existing OpenX account'));
+    $oForm->addElement('html', 'info', "<div style='line-height: 170%;'>".$oMarketComponent->translate("To activate OpenX Market, please provide your existing OpenX account information. <br>Don't have an OpenX account? <a href='%s' target='_blank'>Sign up for a new account first</a> and then associate it below.</div>", array($ssoSignupUrl))); 
     $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX User name'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
     $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
-    $oForm->addElement('submit', 'save', $oMarketComponent->translate('Associate with OpenX Market'));
-    $oForm->addElement('html', 'new_account_info', $oMarketComponent->translate("<div style='margin-top:15px'>Don't have an OpenX account? <a href='%s' target='_blank'>Create an account</a> and associate it above.</div>", array($ssoSignupUrl)));
+    $oForm->addElement('submit', 'save', $oMarketComponent->translate('Submit'));
     
     //Form validation rules
     $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account name')));
@@ -100,8 +99,8 @@ function processForm($oForm, $oMarketComponent)
             // perform activation actions
             $oMarketComponent->updateAllWebsites();
         }
-    } catch (Exception $e) {
-        return array("error" => true, "errorMessages" => $e->getMessage());
+    } catch (Exception $exc) {
+        return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
 
@@ -110,7 +109,7 @@ function processForm($oForm, $oMarketComponent)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($oForm, $oMarketComponent, $aProcessingErrors = null)
+function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
 {
     //header
     phpAds_PageHeader("openx-market",'','../../');
@@ -119,9 +118,13 @@ function displayPage($oForm, $oMarketComponent, $aProcessingErrors = null)
     $oTpl = new OA_Plugin_Template('market-signup.html','openXMarket');
     $oTpl->assign('form', $oForm->serialize());
 
-    $oTpl->assign('error', !empty($aProcessingErrors));
-    $oTpl->assign('aErrorMessages', $aProcessingErrors['errorMessages']);
+    $oTpl->assign('hasError', !empty($aProcessingError));
+    $oTpl->assign('error', $aProcessingError);
+    $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
 
+    $oTpl->assign('aSsoErrors', array(701, 702));
+    $oTpl->assign('aLinkOxpErrors', array(901, 902)); //, 903, 904, 905, 906, 907, 908));
+    
     $oTpl->display();
 
     //footer
