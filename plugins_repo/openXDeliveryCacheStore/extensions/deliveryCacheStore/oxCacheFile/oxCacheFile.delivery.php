@@ -104,7 +104,7 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
             // most likely the user running it is not the webserver user.
             // Chmod 777 to prevent issues when the webserver tries to
             // access the file
-            @chmod(, 0777);
+            @chmod($filename, 0777);
         }
         return true;
     }

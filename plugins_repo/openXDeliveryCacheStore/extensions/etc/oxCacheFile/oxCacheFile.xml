@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>File based Cache Store plugins for OpenX</description>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <oxversion>2.7.10-dev</oxversion>
     <extends>deliveryCacheStore</extends>
 
