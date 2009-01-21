@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Targeting/StatisticsFieldsTargeting.php';
 
 /**
  * The default targeting statistics fields plugin.
@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsDelivery
+class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
 {
 
     /**
