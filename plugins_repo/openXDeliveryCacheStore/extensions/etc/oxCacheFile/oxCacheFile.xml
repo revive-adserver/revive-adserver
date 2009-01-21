@@ -4,12 +4,12 @@
 <plugin>
     <name>oxCacheFile</name>
     <creationDate>2008-07-21</creationDate>
-    <author>≈Åukasz Wikierski</author>
+    <author>≈?ukasz Wikierski</author>
     <authorEmail>lukasz.wikierski@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>File based Cache Store plugins for OpenX</description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <oxversion>2.7.10-dev</oxversion>
     <extends>deliveryCacheStore</extends>
 

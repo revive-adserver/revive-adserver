@@ -99,6 +99,13 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
                 @unlink($tmp_filename);
             }
         }
+        if (PHP_SAPI == 'cli') {
+            // If delivery cache is used during maintenance with php-cli,
+            // most likely the user running it is not the webserver user.
+            // Chmod 777 to prevent issues when the webserver tries to
+            // access the file
+            @chmod(, 0777);
+        }
         return true;
     }
     return false;
