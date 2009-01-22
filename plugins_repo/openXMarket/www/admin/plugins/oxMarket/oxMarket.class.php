@@ -584,11 +584,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     function getPublisherConsoleApiClient()
     {
-        if (empty($this->oPubConsoleApiClient))
-        {
-            $this->oPubConsoleApiClient = new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
-        }
-        return $this->oPubConsoleApiClient;
+        return $this->oMarketPublisherClient;
     }
 
     /**
