@@ -228,3 +228,6 @@ div.globalMessage div.panel div.topright {
   display: none;
 }
 
+div.notificationPlaceholder div.message div.panel {
+  margin-bottom: 5px;
+}
