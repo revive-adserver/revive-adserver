@@ -68,6 +68,24 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     </ul>
     {/if}      
   {/section}
+
+{if $aNotificationQueue}
+  <div class="notificationPlaceholder">
+    <div class="message">
+    {foreach from=$aNotificationQueue item=notification}
+      <div class="panel {$notification.type}">
+        <div class='icon'></div>
+        <p>
+          {$notification.text}
+        </p>
+        <div class='topleft'></div><div class='topright'></div><div class='bottomleft'></div><div class='bottomright'></div>    
+      </div>
+    {/foreach}
+    </div>
+  </div>
+{/if}
+  
+  
 </div>
 {/if}
 

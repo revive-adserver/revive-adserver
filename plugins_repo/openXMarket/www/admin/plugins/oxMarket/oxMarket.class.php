@@ -31,6 +31,7 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 require_once MAX_PATH. '/lib/JSON/JSON.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 
 require_once dirname(__FILE__) . '/pcApiClient/oxPublisherConsoleMarketPluginClient.php';
 
@@ -342,12 +343,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterLogin()
     {
-        if ($this->isRegistered()) { //show only to unregistered users
+        //show only to unregistered users and those who are linked to admin
+        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) { 
             return;
         }
-
-        // Only splash for Manager accounts
-        if (OA_Permission::isUserLinkedToAdmin() && !$this->isSplashAlreadyShown()) {
+        
+        $this->scheduleRegisterNotification();
+                
+        // Only splash if not shown already 
+        if (!$this->isSplashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
         }
@@ -661,13 +665,44 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function onEnable()
     {
+        if (!$this->isRegistered()) {
+            $this->scheduleRegisterNotification();
+        }
+        
         try {
             $this->updateAllWebsites();
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
+        
         return true; // we allow to enable plugin
     }
+    
+    
+    function onDisable()
+    {
+        $this->removeRegisterNotification();
+        
+        return true;
+    }
+    
+
+    function scheduleRegisterNotification()
+    {
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
+        OA_Admin_UI::getInstance()->getNotificationManager()->queueNotification(
+            'Earn more revenue by activating OpenX Market for your adserver.<br>
+            <a href="'.$url.'">Get started now &raquo;</a>', 'info', 'oxMarketRegister');
+    }
+    
+    
+    function removeRegisterNotification()
+    {
+        //clean up the bugging info message
+        OA_Admin_UI::getInstance()->getNotificationManager()
+            ->removeNotifications('oxMarketRegister');
+    }
+    
 }
 
 ?>

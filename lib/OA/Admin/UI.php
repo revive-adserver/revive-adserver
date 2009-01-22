@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 
@@ -52,6 +53,7 @@ class OA_Admin_UI
      * @var OA_Admin_Template
      */
     var $oTpl;
+    var $notificationManager;
     var $aLinkParams;
     /** holds the id of the page being currently displayed **/
     var $currentSectionId;
@@ -74,6 +76,7 @@ class OA_Admin_UI
     private function __construct()
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
+        $this->notificationManager = new OA_Admin_UI_NotificationManager();
         $this->otherCSSFiles = array();
         $this->setLinkParams();
         $this->aTools = array();
@@ -124,7 +127,18 @@ class OA_Admin_UI
     {
         return $this->currentSectionId;
     }
+    
 
+    /**
+     * Return manager for accessing notifications shown in UI
+     *
+     * @return OA_Admin_UI_NotificationManager
+     */
+    public function getNotificationManager()
+    {
+        return $this->notificationManager;
+    }
+    
 
     /**
      * Show page header
@@ -237,7 +251,7 @@ class OA_Admin_UI
         $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
         $this->_assignAlertMPE(); //mpe xajax
         $this->_assignInstalling(); //install indicator
-        $this->_assignMessages(); //messaging system
+        $this->_assignMessagesAndNotifications(); //messaging system
 
 
 
@@ -554,8 +568,9 @@ class OA_Admin_UI
             }
         }
     }
+    
 
-    function _assignMessages()
+    function _assignMessagesAndNotifications()
     {
         global $session;
 
@@ -566,7 +581,13 @@ class OA_Admin_UI
             // Force session storage
             phpAds_SessionDataStore();
         }
+        
+        $aNotifications = $this->getNotificationManager()->getNotifications();
+        if (count($aNotifications)) {
+            $this->oTpl->assign('aNotificationQueue', $aNotifications);
+        }
     }
+    
 
     function showFooter()
     {
