@@ -138,7 +138,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
             'autotarget_factor'                 => 0.69,
             'maintenance_timestamp'             => 1199354707,
             'compact_stats'                     => 't',
-            'statslastday'                      => 1199354707,
+            'statslastday'                      => '2008-01-01',
             'statslasthour'                     => 0,
             'default_tracker_status'            => 1,
             'default_tracker_type'              => 1,
