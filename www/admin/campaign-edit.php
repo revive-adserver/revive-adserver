@@ -69,128 +69,128 @@ if ($campaignid != "") {
     $doCampaigns->get ( $ID );
     $data = $doCampaigns->toArray ();
 
-    $campaign ['campaignname'] = $data ['campaignname'];
-    $campaign ['impressions'] = $data ['impressions'];
-    $campaign ['clicks'] = $data ['clicks'];
-    $campaign ['conversions'] = $data ['conversions'];
-    $campaign ['expire'] = $data ['expire'];
+    $campaign['campaignname'] = $data ['campaignname'];
+    $campaign['impressions'] = $data ['impressions'];
+    $campaign['clicks'] = $data ['clicks'];
+    $campaign['conversions'] = $data ['conversions'];
+    $campaign['expire'] = $data ['expire'];
     if (OA_Dal::isValidDate ( $data ['expire'] )) {
         $oExpireDate = new Date ( $data ['expire'] );
-        $campaign ['expire_f'] = $oExpireDate->format ( $date_format );
-        $campaign ['expire_dayofmonth'] = $oExpireDate->format ( '%d' );
-        $campaign ['expire_month'] = $oExpireDate->format ( '%m' );
-        $campaign ['expire_year'] = $oExpireDate->format ( '%Y' );
+        $campaign['expire_f'] = $oExpireDate->format ( $date_format );
+        $campaign['expire_dayofmonth'] = $oExpireDate->format ( '%d' );
+        $campaign['expire_month'] = $oExpireDate->format ( '%m' );
+        $campaign['expire_year'] = $oExpireDate->format ( '%Y' );
     }
-    $campaign ['status'] = $doCampaigns->status;
-    $campaign ['an_status'] = $doCampaigns->an_status;
-    $campaign ['as_reject_reason'] = $doCampaigns->as_reject_reason;
+    $campaign['status'] = $doCampaigns->status;
+    $campaign['an_status'] = $doCampaigns->an_status;
+    $campaign['as_reject_reason'] = $doCampaigns->as_reject_reason;
 
     if (OA_Dal::isValidDate ( $data ['activate'] )) {
         $oActivateDate = new Date ( $data ['activate'] );
-        $campaign ['activate_f'] = $oActivateDate->format ( $date_format );
-        $campaign ['activate_dayofmonth'] = $oActivateDate->format ( '%d' );
-        $campaign ['activate_month'] = $oActivateDate->format ( '%m' );
-        $campaign ['activate_year'] = $oActivateDate->format ( '%Y' );
+        $campaign['activate_f'] = $oActivateDate->format ( $date_format );
+        $campaign['activate_dayofmonth'] = $oActivateDate->format ( '%d' );
+        $campaign['activate_month'] = $oActivateDate->format ( '%m' );
+        $campaign['activate_year'] = $oActivateDate->format ( '%Y' );
     }
-    $campaign ['priority'] = $data ['priority'];
-    $campaign ['weight'] = $data ['weight'];
-    $campaign ['target_impression'] = $data ['target_impression'];
-    $campaign ['target_click'] = $data ['target_click'];
-    $campaign ['target_conversion'] = $data ['target_conversion'];
-    $campaign ['anonymous'] = $data ['anonymous'];
-    $campaign ['companion'] = $data ['companion'];
-    $campaign ['comments'] = $data ['comments'];
-    $campaign ['revenue'] = OA_Admin_NumberFormat::formatNumber ( $data ['revenue'], 4 );
-    $campaign ['revenue_type'] = $data ['revenue_type'];
-    $campaign ['block'] = $data ['block'];
-    $campaign ['capping'] = $data ['capping'];
-    $campaign ['session_capping'] = $data ['session_capping'];
-    $campaign ['impressionsRemaining'] = '';
-    $campaign ['clicksRemaining'] = '';
-    $campaign ['conversionsRemaining'] = '';
+    $campaign['priority'] = $data ['priority'];
+    $campaign['weight'] = $data ['weight'];
+    $campaign['target_impression'] = $data ['target_impression'];
+    $campaign['target_click'] = $data ['target_click'];
+    $campaign['target_conversion'] = $data ['target_conversion'];
+    $campaign['anonymous'] = $data ['anonymous'];
+    $campaign['companion'] = $data ['companion'];
+    $campaign['comments'] = $data ['comments'];
+    $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber ( $data ['revenue'], 4 );
+    $campaign['revenue_type'] = $data ['revenue_type'];
+    $campaign['block'] = $data ['block'];
+    $campaign['capping'] = $data ['capping'];
+    $campaign['session_capping'] = $data ['session_capping'];
+    $campaign['impressionsRemaining'] = '';
+    $campaign['clicksRemaining'] = '';
+    $campaign['conversionsRemaining'] = '';
 
-    $campaign ['impressionsRemaining'] = '';
-    $campaign ['clicksRemaining'] = '';
-    $campaign ['conversionsRemaining'] = '';
+    $campaign['impressionsRemaining'] = '';
+    $campaign['clicksRemaining'] = '';
+    $campaign['conversionsRemaining'] = '';
 
     // Get the campagin data from the data_intermediate_ad table, and store in $campaign
-    if (($campaign ['impressions'] > 0) || ($campaign ['clicks'] > 0) || ($campaign ['conversions'] > 0)) {
+    if (($campaign['impressions'] > 0) || ($campaign['clicks'] > 0) || ($campaign['conversions'] > 0)) {
         $dalData_intermediate_ad = OA_Dal::factoryDAL ( 'data_intermediate_ad' );
         $record = $dalData_intermediate_ad->getDeliveredByCampaign ( $campaignid );
         $data = $record->toArray ();
 
-        if ($campaign ['impressions'] != -1) {
-            $campaign ['impressionsRemaining'] = $campaign ['impressions'] - $data ['impressions_delivered'];
+        if ($campaign['impressions'] != -1) {
+            $campaign['impressionsRemaining'] = $campaign['impressions'] - $data ['impressions_delivered'];
         } else {
-            $campaign ['impressionsRemaining'] = '';
+            $campaign['impressionsRemaining'] = '';
         }
-        if ($campaign ['clicks'] != -1) {
-            $campaign ['clicksRemaining'] = $campaign ['clicks'] - $data ['clicks_delivered'];
+        if ($campaign['clicks'] != -1) {
+            $campaign['clicksRemaining'] = $campaign['clicks'] - $data ['clicks_delivered'];
         } else {
-            $campaign ['clicksRemaining'] = '';
+            $campaign['clicksRemaining'] = '';
         }
-        if ($campaign ['conversions'] != -1) {
-            $campaign ['conversionsRemaining'] = $campaign ['conversions'] - $data ['conversions_delivered'];
+        if ($campaign['conversions'] != -1) {
+            $campaign['conversionsRemaining'] = $campaign['conversions'] - $data ['conversions_delivered'];
         } else {
-            $campaign ['conversionsRemaining'] = '';
+            $campaign['conversionsRemaining'] = '';
         }
-        $campaign ['impressions_delivered'] = $data ['impressions_delivered'];
-        $campaign ['clicks_delivered'] = $data ['clicks_delivered'];
-        $campaign ['conversions_delivered'] = $data ['conversions_delivered'];
+        $campaign['impressions_delivered'] = $data ['impressions_delivered'];
+        $campaign['clicks_delivered'] = $data ['clicks_delivered'];
+        $campaign['conversions_delivered'] = $data ['conversions_delivered'];
     }
 
     // Get the value to be used in the target_value field
-    if ($campaign ['target_impression'] >= 0) {
-        $campaign ['target_value'] = $campaign ['target_impression'];
-        $campaign ['target_type'] = 'target_impression';
-    } elseif ($campaign ['target_click'] >= 0) {
-        $campaign ['target_value'] = $campaign ['target_click'];
-        $campaign ['target_type'] = 'target_click';
-    } elseif ($campaign ['target_conversion'] >= 0) {
-        $campaign ['target_value'] = $campaign ['target_conversion'];
-        $campaign ['target_type'] = 'target_conversion';
+    if ($campaign['target_impression'] >= 0) {
+        $campaign['target_value'] = $campaign['target_impression'];
+        $campaign['target_type'] = 'target_impression';
+    } elseif ($campaign['target_click'] >= 0) {
+        $campaign['target_value'] = $campaign['target_click'];
+        $campaign['target_type'] = 'target_click';
+    } elseif ($campaign['target_conversion'] >= 0) {
+        $campaign['target_value'] = $campaign['target_conversion'];
+        $campaign['target_type'] = 'target_conversion';
     } else {
-        $campaign ['target_value'] = '-';
-        $campaign ['target_type'] = 'target_impression';
+        $campaign['target_value'] = '-';
+        $campaign['target_type'] = 'target_impression';
     }
 
-    if ($campaign ['target_value'] >= 0) {
-        $campaign ['weight'] = '-';
+    if ($campaign['target_value'] > 0) {
+        $campaign['weight'] = '-';
     } else {
-        $campaign ['target_value'] = '-';
+        $campaign['target_value'] = '-';
     }
 
     // Set default activation settings
-    if (! isset ( $campaign ["activate_dayofmonth"] )) {
-        $campaign ["activate_dayofmonth"] = 0;
+    if (! isset ( $campaign["activate_dayofmonth"] )) {
+        $campaign["activate_dayofmonth"] = 0;
     }
-    if (! isset ( $campaign ["activate_month"] )) {
-        $campaign ["activate_month"] = 0;
+    if (! isset ( $campaign["activate_month"] )) {
+        $campaign["activate_month"] = 0;
     }
-    if (! isset ( $campaign ["activate_year"] )) {
-        $campaign ["activate_year"] = 0;
+    if (! isset ( $campaign["activate_year"] )) {
+        $campaign["activate_year"] = 0;
     }
-    if (! isset ( $campaign ["activate_f"] )) {
-        $campaign ["activate_f"] = "-";
+    if (! isset ( $campaign["activate_f"] )) {
+        $campaign["activate_f"] = "-";
     }
 
     // Set default expiration settings
-    if (! isset ( $campaign ["expire_dayofmonth"] )) {
-        $campaign ["expire_dayofmonth"] = 0;
+    if (! isset ( $campaign["expire_dayofmonth"] )) {
+        $campaign["expire_dayofmonth"] = 0;
     }
-    if (! isset ( $campaign ["expire_month"] )) {
-        $campaign ["expire_month"] = 0;
+    if (! isset ( $campaign["expire_month"] )) {
+        $campaign["expire_month"] = 0;
     }
-    if (! isset ( $campaign ["expire_year"] )) {
-        $campaign ["expire_year"] = 0;
+    if (! isset ( $campaign["expire_year"] )) {
+        $campaign["expire_year"] = 0;
     }
-    if (! isset ( $campaign ["expire_f"] )) {
-        $campaign ["expire_f"] = "-";
+    if (! isset ( $campaign["expire_f"] )) {
+        $campaign["expire_f"] = "-";
     }
 
     // Set the default financial information
-    if (! isset ( $campaign ['revenue'] )) {
-        $campaign ['revenue'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
+    if (! isset ( $campaign['revenue'] )) {
+        $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
     }
 
 } else {
@@ -200,44 +200,44 @@ if ($campaignid != "") {
     $client = $doClients->toArray ();
 
     if ($doClients->find () && $doClients->fetch () && $client = $doClients->toArray ()) {
-        $campaign ['campaignname'] = $client ['clientname'] . ' - ';
+        $campaign['campaignname'] = $client ['clientname'] . ' - ';
     } else {
-        $campaign ["campaignname"] = '';
+        $campaign["campaignname"] = '';
     }
 
-    $campaign ["campaignname"] .= $strDefault . " " . $strCampaign;
-    $campaign ["impressions"] = -1;
-    $campaign ["clicks"] = -1;
-    $campaign ["conversions"] = -1;
-    $campaign ["status"] = ( int ) $status;
-    $campaign ["expire"] = '';
-    $campaign ["activate"] = '';
-    $campaign ["priority"] = 0;
-    $campaign ["anonymous"] = ($pref ['gui_campaign_anonymous'] == 't') ? 't' : '';
-    $campaign ['revenue'] = '';
-    $campaign ['revenue_type'] = null;
-    $campaign ['target_value'] = '-';
-    $campaign ['impressionsRemaining'] = null;
-    $campaign ['clicksRemaining'] = null;
-    $campaign ['conversionsRemaining'] = null;
-    $campaign ['companion'] = null;
-    $campaign ['block'] = null;
-    $campaign ['capping'] = null;
-    $campaign ['session_capping'] = null;
-    $campaign ['comments'] = null;
-    $campaign ['target_type'] = null;
+    $campaign["campaignname"] .= $strDefault . " " . $strCampaign;
+    $campaign["impressions"] = -1;
+    $campaign["clicks"] = -1;
+    $campaign["conversions"] = -1;
+    $campaign["status"] = ( int ) $status;
+    $campaign["expire"] = '';
+    $campaign["activate"] = '';
+    $campaign["priority"] = 0;
+    $campaign["anonymous"] = ($pref ['gui_campaign_anonymous'] == 't') ? 't' : '';
+    $campaign['revenue'] = '';
+    $campaign['revenue_type'] = null;
+    $campaign['target_value'] = '-';
+    $campaign['impressionsRemaining'] = null;
+    $campaign['clicksRemaining'] = null;
+    $campaign['conversionsRemaining'] = null;
+    $campaign['companion'] = null;
+    $campaign['block'] = null;
+    $campaign['capping'] = null;
+    $campaign['session_capping'] = null;
+    $campaign['comments'] = null;
+    $campaign['target_type'] = null;
 }
 
-if ($campaign ['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate ( $campaign ['expire'] ) && $campaign ['impressions'] > 0) {
-    $campaign ['delivery'] = 'auto';
-} elseif ($campaign ['target_value'] > 0) {
-    $campaign ['delivery'] = 'manual';
+if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate ( $campaign['expire'] ) && $campaign['impressions'] > 0) {
+    $campaign['delivery'] = 'auto';
+} elseif ($campaign['target_value'] > 0) {
+    $campaign['delivery'] = 'manual';
 } else {
-    $campaign ['delivery'] = 'none';
+    $campaign['delivery'] = 'none';
 }
 
-$campaign ['clientid'] = $clientid;
-$campaign ['campaignid'] = $campaignid;
+$campaign['clientid'] = $clientid;
+$campaign['campaignid'] = $campaignid;
 
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
@@ -260,7 +260,7 @@ if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
 
 $campaignForm = buildCampaignForm ( $campaign, $oComponent );
 $statusForm = null;
-if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
+if (! empty ( $campaign['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
     //campaign status form
     $statusForm = buildStatusForm ( $campaign );
 }
@@ -272,7 +272,7 @@ if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
         displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
 }
-else if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
+else if (! empty ( $campaign['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true && $statusForm->isSubmitted () && $statusForm->validate ()) {
     processStatusForm ( $statusForm );
 }
 else { //either validation failed or no form was not submitted, display the page
@@ -288,28 +288,28 @@ function buildCampaignForm($campaign, &$oComponent = null)
 
     $form = new OA_Admin_UI_Component_Form ( "campaignform", "POST", $_SERVER ['PHP_SELF'] );
     $form->forceClientValidation ( true );
-    $form->addElement ( 'hidden', 'campaignid', $campaign ['campaignid'] );
-    $form->addElement ( 'hidden', 'clientid', $campaign ['clientid'] );
-    $form->addElement ( 'hidden', 'expire', $campaign ['expire'] );
-    $form->addElement ( 'hidden', 'target_old', isset ( $campaign ['target_value'] ) ? ( int ) $campaign ['target_value'] : 0 );
-    $form->addElement ( 'hidden', 'target_type_old', isset ( $campaign ['target_type'] ) ? $campaign ['target_type'] : '' );
-    $form->addElement ( 'hidden', 'weight_old', isset ( $campaign ['weight'] ) ? ( int ) $campaign ['weight'] : 0 );
-    $form->addElement ( 'hidden', 'status_old', isset ( $campaign ['status'] ) ? ( int ) $campaign ['status'] : 1 );
-    $form->addElement ( 'hidden', 'previousweight', isset ( $campaign ["weight"] ) ? $campaign ["weight"] : '' );
-    $form->addElement ( 'hidden', 'previoustarget', isset ( $campaign ["target"] ) ? $campaign ["target"] : '' );
-    $form->addElement ( 'hidden', 'previousactive', isset ( $campaign ["active"] ) ? $campaign ["active"] : '' );
-    $form->addElement ( 'hidden', 'previousimpressions', isset ( $campaign ["impressions"] ) ? $campaign ["impressions"] : '' );
-    $form->addElement ( 'hidden', 'previousclicks', isset ( $campaign ["clicks"] ) ? $campaign ["clicks"] : '' );
-    $form->addElement ( 'hidden', 'previousconversions', isset ( $campaign ["conversions"] ) ? $campaign ["conversions"] : '' );
+    $form->addElement ( 'hidden', 'campaignid', $campaign['campaignid'] );
+    $form->addElement ( 'hidden', 'clientid', $campaign['clientid'] );
+    $form->addElement ( 'hidden', 'expire', $campaign['expire'] );
+    $form->addElement ( 'hidden', 'target_old', isset ( $campaign['target_value'] ) ? ( int ) $campaign['target_value'] : 0 );
+    $form->addElement ( 'hidden', 'target_type_old', isset ( $campaign['target_type'] ) ? $campaign['target_type'] : '' );
+    $form->addElement ( 'hidden', 'weight_old', isset ( $campaign['weight'] ) ? ( int ) $campaign['weight'] : 0 );
+    $form->addElement ( 'hidden', 'status_old', isset ( $campaign['status'] ) ? ( int ) $campaign['status'] : 1 );
+    $form->addElement ( 'hidden', 'previousweight', isset ( $campaign["weight"] ) ? $campaign["weight"] : '' );
+    $form->addElement ( 'hidden', 'previoustarget', isset ( $campaign["target"] ) ? $campaign["target"] : '' );
+    $form->addElement ( 'hidden', 'previousactive', isset ( $campaign["active"] ) ? $campaign["active"] : '' );
+    $form->addElement ( 'hidden', 'previousimpressions', isset ( $campaign["impressions"] ) ? $campaign["impressions"] : '' );
+    $form->addElement ( 'hidden', 'previousclicks', isset ( $campaign["clicks"] ) ? $campaign["clicks"] : '' );
+    $form->addElement ( 'hidden', 'previousconversions', isset ( $campaign["conversions"] ) ? $campaign["conversions"] : '' );
 
     //campaign inactive note (if any)
-    if (isset ( $campaign ['status'] ) && $campaign ['status'] != OA_ENTITY_STATUS_RUNNING) {
+    if (isset ( $campaign['status'] ) && $campaign['status'] != OA_ENTITY_STATUS_RUNNING) {
         $aReasons = getCampaignInactiveReasons ( $campaign );
         $form->addElement ( 'custom', 'campaign-inactive-note', null, array ('inactiveReason' => $aReasons ), false );
     }
 
     //form sections
-    $newCampaign = empty ( $campaign ['campaignid'] );
+    $newCampaign = empty ( $campaign['campaignid'] );
 
     buildBasicInformationFormSection ( $form, $campaign, $newCampaign );
     buildDateFormSection ( $form, $campaign, $newCampaign );
@@ -344,22 +344,40 @@ function buildCampaignForm($campaign, &$oComponent = null)
 
 
     //set form values
-    $form->setDefaults ( $campaign );
-    $form->setDefaults ( array ('impressions' => ! isset ( $campaign ['impressions'] ) || $campaign ['impressions'] == '' || $campaign ['impressions'] < 0 ? '-' : $campaign ['impressions'], 'clicks' => ! isset ( $campaign ['clicks'] ) || $campaign ['clicks'] == '' || $campaign ['clicks'] < 0 ? '-' : $campaign ['clicks'], 'conversions' => ! isset ( $campaign ['conversions'] ) || $campaign ['conversions'] == '' || $campaign ['conversions'] < 0 ? '-' : $campaign ['conversions'] ) );
+    $form->setDefaults($campaign);
+    $form->setDefaults (array(
+    	'impressions' => !isset($campaign['impressions']) || $campaign['impressions'] == '' || $campaign['impressions'] < 0 ? '-' : $campaign['impressions'],
+    	'clicks' => !isset($campaign['clicks']) || $campaign['clicks'] == '' || $campaign['clicks'] < 0 ? '-' : $campaign['clicks'],
+    	'conversions' => !isset($campaign['conversions']) || $campaign['conversions'] == '' || $campaign['conversions'] < 0 ? '-' : $campaign['conversions']
+	));
 
-    $startDateSet = ($campaign ["activate_dayofmonth"] == 0 && $campaign ["activate_month"] == 0 && $campaign ["activate_year"] == 0) ? 'f' : 't';
-    $endDateSet = ($campaign ["expire_dayofmonth"] == 0 && $campaign ["expire_month"] == 0 && $campaign ["expire_year"] == 0) ? 'f' : 't';
+    $startDateSet = ($campaign["activate_dayofmonth"] == 0 && $campaign["activate_month"] == 0 && $campaign["activate_year"] == 0) ? 'f' : 't';
+    $endDateSet = ($campaign["expire_dayofmonth"] == 0 && $campaign["expire_month"] == 0 && $campaign["expire_year"] == 0) ? 'f' : 't';
 
     if ($startDateSet == "t") {
-        $oStartDate = new Date ( $campaign ["activate_year"] . '-' . $campaign ["activate_month"] . '-' . $campaign ["activate_dayofmonth"] );
+        $oStartDate = new Date($campaign["activate_year"] . '-' . $campaign["activate_month"] . '-' . $campaign["activate_dayofmonth"]);
     }
-    $startDateStr = is_null ( $oStartDate ) ? '' : $oStartDate->format ( '%d %B %Y ' );
+    $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%d %B %Y ');
     if ($endDateSet == "t") {
-        $oEndDate = new Date ( $campaign ["expire_year"] . '-' . $campaign ["expire_month"] . '-' . $campaign ["expire_dayofmonth"] );
+        $oEndDate = new Date($campaign["expire_year"] . '-' . $campaign["expire_month"] . '-' . $campaign["expire_dayofmonth"]);
     }
-    $endDateStr = is_null ( $oEndDate ) ? '' : $oEndDate->format ( '%d %B %Y ' );
+    $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%d %B %Y ');
 
-    $form->setDefaults ( array('campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType ( $campaign ['priority'] ), 'impr_unlimited' => (isset($campaign ["impressions"]) && $campaign["impressions"] >= 0 ? 'f' : 't'), 'click_unlimited' => (! empty ( $campaign ["clicks"] ) && $campaign ["clicks"] >= 0 ? 'f' : 't'), 'conv_unlimited' => (! empty ( $campaign ["conversions"] ) && $campaign ["conversions"] >= 0 ? 'f' : 't'), 'startSet' => $startDateSet, 'endSet' => $endDateSet, 'start' => $startDateStr, 'end' => $endDateStr, 'priority' => ($campaign ['priority'] > '0' && $campaign ['campaignid'] != '') ? 2 : $campaign ['priority'], 'high_priority_value' => $campaign ['priority'] > '0' ? $campaign ['priority'] : 5, 'target_value' => ! empty ( $campaign ['target_value'] ) ? $campaign ['target_value'] : '-', 'weight' => isset ( $campaign ["weight"] ) ? $campaign ["weight"] : $pref ['default_campaign_weight'], 'revenue_type' => isset ( $campaign ["revenue_type"] ) ? $campaign ["revenue_type"] : MAX_FINANCE_CPM ) );
+    $form->setDefaults(array(
+    	'campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType($campaign['priority']),
+    	'impr_unlimited' => (isset($campaign["impressions"]) && $campaign["impressions"] >= 0 ? 'f' : 't'),
+    	'click_unlimited' => (isset($campaign["clicks"]) && $campaign["clicks"] >= 0 ? 'f' : 't'),
+    	'conv_unlimited' => (isset($campaign["conversions"]) && $campaign["conversions"] >= 0 ? 'f' : 't'),
+    	'startSet' => $startDateSet,
+    	'endSet' => $endDateSet,
+    	'start' => $startDateStr,
+    	'end' => $endDateStr,
+    	'priority' => ($campaign['priority'] > '0' && $campaign['campaignid'] != '') ? 2 : $campaign['priority'],
+    	'high_priority_value' => $campaign['priority'] > '0' ? $campaign['priority'] : 5,
+    	'target_value' => !empty($campaign['target_value']) ? $campaign['target_value'] : '-',
+    	'weight' => isset($campaign["weight"]) ? $campaign["weight"] : $pref ['default_campaign_weight'],
+    	'revenue_type' => isset($campaign["revenue_type"]) ? $campaign["revenue_type"] : MAX_FINANCE_CPM
+	));
 
     return $form;
 }
@@ -479,7 +497,7 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
         $convCount ['checkbox'] = $form->createElement ( 'advcheckbox', 'conv_unlimited', null, $GLOBALS ['strUnlimited'], array ('id' => 'conv_unlimited' ), array ("f", "t" ) );
         $convCount ['disablednote'] = $form->createElement ( 'custom', array ('conv-campaign-date-limit-set-note', 'pricing-campaign-date-limit-set-note' ), null, array ('type' => 'conv' ), false );
         $form->addDecorator ( 'conv-campaign-date-limit-set-note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'conv-disabled-note', 'class' => 'hide' ) ) );
-        $convCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-conv', null, array ('conversionsRemaining' => $campaign ['conversionsRemaining'] ), false );
+        $convCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-conv', null, array ('conversionsRemaining' => $campaign['conversionsRemaining'] ), false );
         $form->addGroup ( $convCount, 'g_conv_booked', $GLOBALS ['strConversions'] );
         //decorator - to allow hiding until model is set
         $form->addDecorator ( 'g_conv_booked', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'pricing_conv_booked{numCall}', 'class' => 'hide' ) ) );
@@ -490,7 +508,7 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
     $clickCount ['checkbox'] = $form->createElement ( 'advcheckbox', 'click_unlimited', null, $GLOBALS ['strUnlimited'], array ('id' => 'click_unlimited' ), array ("f", "t" ) );
     $clickCount ['disablednote'] = $form->createElement ( 'custom', array ('click-campaign-date-limit-set-note', 'pricing-campaign-date-limit-set-note' ), null, array ('type' => 'click' ), false );
     $form->addDecorator ( 'click-campaign-date-limit-set-note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'click-disabled-note', 'class' => 'hide' ) ) );
-    $clickCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-click', null, array ('clicksRemaining' => $campaign ['clicksRemaining'] ), false );
+    $clickCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-click', null, array ('clicksRemaining' => $campaign['clicksRemaining'] ), false );
     $form->addGroup ( $clickCount, 'g_click_booked', $GLOBALS ['strClicks'] );
     //decorator - to allow hiding until model is set
     $form->addDecorator ( 'g_click_booked', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'pricing_click_booked{numCall}', 'class' => 'hide' ) ) );
@@ -500,7 +518,7 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
     $imprCount ['checkbox'] = $form->createElement ( 'advcheckbox', 'impr_unlimited', null, $GLOBALS ['strUnlimited'], array ('id' => 'impr_unlimited' ), array ("f", "t" ) );
     $imprCount ['disablednote'] = $form->createElement ( 'custom', array ('impr-campaign-date-limit-set-note', 'pricing-campaign-date-limit-set-note' ), null, array ('type' => 'impr' ), false );
     $form->addDecorator ( 'impr-campaign-date-limit-set-note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'impr-disabled-note', 'class' => 'hide' ) ) );
-    $imprCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-impr', null, array ('impressionsRemaining' => $campaign ['impressionsRemaining'] ), false );
+    $imprCount ['note'] = $form->createElement ( 'custom', 'campaign-remaining-impr', null, array ('impressionsRemaining' => $campaign['impressionsRemaining'] ), false );
 
     $form->addGroup ( $imprCount, 'g_impr_booked', $GLOBALS ['strImpressions'] );
     //decorator - to allow hiding until model is set
@@ -609,20 +627,20 @@ function processCampaignForm($form, &$oComponent = null)
 {
     $aFields = $form->exportValues ();
 
-    $expire = ! empty ( $aFields ['end'] ) ? date ( 'Y-m-d', strtotime ( $aFields ['end'] ) ) : OA_Dal::noDateValue ();
-    $activate = ! empty ( $aFields ['start'] ) ? date ( 'Y-m-d', strtotime ( $aFields ['start'] ) ) : OA_Dal::noDateValue ();
+    $expire = ! empty ( $aFields['end'] ) ? date ( 'Y-m-d', strtotime ( $aFields['end'] ) ) : OA_Dal::noDateValue ();
+    $activate = ! empty ( $aFields['start'] ) ? date ( 'Y-m-d', strtotime ( $aFields['start'] ) ) : OA_Dal::noDateValue ();
 
     // If ID is not set, it should be a null-value for the auto_increment
-    if (empty ( $aFields ['campaignid'] )) {
-        $aFields ['campaignid'] = "null";
+    if (empty ( $aFields['campaignid'] )) {
+        $aFields['campaignid'] = "null";
     } else {
         require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-        $oldCampaignAdZoneAssocs = Admin_DA::getAdZones ( array ('placement_id' => $aFields ['campaignid'] ) );
+        $oldCampaignAdZoneAssocs = Admin_DA::getAdZones ( array ('placement_id' => $aFields['campaignid'] ) );
         $errors = array ();
         foreach ( $oldCampaignAdZoneAssocs as $adZoneAssocId => $adZoneAssoc ) {
             $aZone = Admin_DA::getZone ( $adZoneAssoc ['zone_id'] );
             if ($aZone ['type'] == MAX_ZoneEmail) {
-                $thisLink = Admin_DA::_checkEmailZoneAdAssoc ( $aZone, $aFields ['campaignid'], $activate, $expire );
+                $thisLink = Admin_DA::_checkEmailZoneAdAssoc ( $aZone, $aFields['campaignid'], $activate, $expire );
                 if (PEAR::isError ( $thisLink )) {
                     $errors [] = $thisLink;
                     break;
@@ -634,145 +652,151 @@ function processCampaignForm($form, &$oComponent = null)
     //correct and check revenue
     //correction revenue from other formats (23234,34 or 23 234,34 or 23.234,34)
     //to format acceptable by is_numeric (23234.34)
-    $corrected_revenue = OA_Admin_NumberFormat::unformatNumber ( $aFields ['revenue'] );
+    $corrected_revenue = OA_Admin_NumberFormat::unformatNumber ( $aFields['revenue'] );
     if ($corrected_revenue !== false) {
-        $aFields ['revenue'] = $corrected_revenue;
+        $aFields['revenue'] = $corrected_revenue;
         unset ( $corrected_revenue );
     }
-    if (! empty ( $aFields ['revenue'] ) && ! (is_numeric ( $aFields ['revenue'] ))) {
+    if (! empty ( $aFields['revenue'] ) && ! (is_numeric ( $aFields['revenue'] ))) {
         // Suppress PEAR error handling to show this error only on top of HTML form
         PEAR::pushErrorHandling ( null );
         $errors [] = PEAR::raiseError ( $GLOBALS ['strErrorEditingCampaignRevenue'] );
         PEAR::popErrorHandling ();
     }
 
-    if (empty ( $errors )) {
+    if (empty($errors)) {
         //check booked limits values
-        if (! empty ( $aFields ['impr_unlimited'] ) && $aFields ['impr_unlimited'] == 't') {
-            $aFields ['impressions'] = - 1;
-        } else if (empty ( $aFields ['impressions'] ) || $aFields ['impressions'] == '-') {
-            $aFields ['impressions'] = 0;
+        
+        // If this is a remnant or exclusive campaign with an expiry date, set the target's to unlimited
+        if (OA_Dal::isValidDate($expire) && 
+            ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
+        ) {
+            $aFields['impressions'] = $aFields['clicks'] = $aFields['conversions'] = -1;
+        } else {
+            if ((!empty($aFields['impr_unlimited']) && $aFields['impr_unlimited'] == 't')) {
+                $aFields['impressions'] = - 1;
+            } else if (empty($aFields['impressions']) || $aFields['impressions'] == '-') {
+                $aFields['impressions'] = 0;
+            }
+    
+            if (!empty($aFields['click_unlimited']) && $aFields['click_unlimited'] == 't') {
+                $aFields['clicks'] = - 1;
+            } else if (empty($aFields['clicks']) || $aFields['clicks'] == '-') {
+                $aFields['clicks'] = 0;
+            }
+    
+            if (!empty($aFields['conv_unlimited']) && $aFields['conv_unlimited'] == 't') {
+                $aFields['conversions'] = - 1;
+            } else if (empty( $aFields['conversions']) || $aFields['conversions'] == '-') {
+                $aFields['conversions'] = 0;
+            }
         }
-
-        if (! empty ( $aFields ['click_unlimited'] ) && $aFields ['click_unlimited'] == 't') {
-            $aFields ['clicks'] = - 1;
-        } else if (empty ( $aFields ['clicks'] ) || $aFields ['clicks'] == '-') {
-            $aFields ['clicks'] = 0;
-        }
-
-        if (! empty ( $aFields ['conv_unlimited'] ) && $aFields ['conv_unlimited'] == 't') {
-            $aFields ['conversions'] = - 1;
-        } else if (empty ( $aFields ['conversions'] ) || $aFields ['conversions'] == '-') {
-            $aFields ['conversions'] = 0;
-        }
-
+        
         //pricing model - reset fields not applicable to model to 0,
         //note that in new flow MAX_FINANCE_CPA allows all limits to be set
-        if ($aFields ['revenue_type'] == MAX_FINANCE_CPM) {
-            $aFields ['clicks'] = - 1;
-            $aFields ['conversions'] = - 1;
-        } else if ($aFields ['revenue_type'] == MAX_FINANCE_CPC) {
-            $aFields ['conversions'] = - 1;
-        } else if ($aFields ['revenue_type'] == MAX_FINANCE_MT) {
-            $aFields ['impressions'] = - 1;
-            $aFields ['clicks'] = - 1;
-            $aFields ['conversions'] = - 1;
+        if ($aFields['revenue_type'] == MAX_FINANCE_CPM) {
+            $aFields['clicks'] = - 1;
+            $aFields['conversions'] = - 1;
+        } else if ($aFields['revenue_type'] == MAX_FINANCE_CPC) {
+            $aFields['conversions'] = - 1;
+        } else if ($aFields['revenue_type'] == MAX_FINANCE_MT) {
+            $aFields['impressions'] = - 1;
+            $aFields['clicks'] = - 1;
+            $aFields['conversions'] = - 1;
         }
 
         //check type and set priority
-        if ($aFields ['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT) {
-            $aFields ['priority'] = 0; //low
-        } else if ($aFields ['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
-            $aFields ['priority'] = (isset ( $aFields ['high_priority_value'] ) ? $aFields ['high_priority_value'] : 5); //high
+        if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT) {
+            $aFields['priority'] = 0; //low
+        } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+            $aFields['priority'] = (isset($aFields['high_priority_value']) ? $aFields['high_priority_value'] : 5); //high
         }
-        if ($aFields ['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
-            $aFields ['priority'] = - 1; //exclusive
+        if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+            $aFields['priority'] = - 1; //exclusive
         }
 
-        if ($aFields ['priority'] > 0) {
+        if ($aFields['priority'] > 0) {
             // Set target
             $target_impression = 0;
             $target_click = 0;
             $target_conversion = 0;
-            if ((isset ( $aFields ['target_value'] )) && ($aFields ['target_value'] != '-')) {
-                switch ( $aFields ['target_type']) {
-                    case 'target_impression' :
-                        $target_impression = $aFields ['target_value'];
+            if ((isset ( $aFields['target_value'])) && ($aFields['target_value'] != '-')) {
+                switch ( $aFields['target_type']) {
+                    case 'target_impression':
+                        $target_impression = $aFields['target_value'];
                         break;
 
-                    case 'target_click' :
-                        $target_click = $aFields ['target_value'];
+                    case 'target_click':
+                        $target_click = $aFields['target_value'];
                         break;
 
-                    case 'target_conversion' :
-                        $target_conversion = $aFields ['target_value'];
+                    case 'target_conversion':
+                        $target_conversion = $aFields['target_value'];
                         break;
                 }
             }
-            $aFields ['weight'] = 0;
+            $aFields['weight'] = 0;
         } else {
             // Set weight
-            if (! isset ( $aFields ['weight'] ) || $aFields ['weight'] == '-' || $aFields ['weight'] == '') {
-                $aFields ['weight'] = 0;
+            if (!isset($aFields['weight']) || $aFields['weight'] == '-' || $aFields['weight'] == '') {
+                $aFields['weight'] = 0;
             }
             $target_impression = 0;
             $target_click = 0;
             $target_conversion = 0;
         }
 
-        if ($aFields ['anonymous'] != 't') {
-            $aFields ['anonymous'] = 'f';
+        if ($aFields['anonymous'] != 't') {
+            $aFields['anonymous'] = 'f';
         }
-        if ($aFields ['companion'] != 1) {
-            $aFields ['companion'] = 0;
+        if ($aFields['companion'] != 1) {
+            $aFields['companion'] = 0;
         }
-        $new_campaign = $aFields ['campaignid'] == 'null';
+        $new_campaign = $aFields['campaignid'] == 'null';
 
-        if (empty ( $aFields ['revenue'] ) || ($aFields ['revenue'] <= 0)) {
+        if (empty($aFields['revenue']) || ($aFields['revenue'] <= 0)) {
             // No revenue information, set to null
-            $aFields ['revenue'] = 'NULL';
+            $aFields['revenue'] = 'NULL';
         }
 
         // Get the capping variables
-        $block = _initCappingVariables ( $aFields ['time'], $aFields ['capping'], $aFields ['session_capping'] );
+        $block = _initCappingVariables($aFields['time'], $aFields['capping'], $aFields['session_capping']);
 
-        $noDateValue = OA_Dal::noDateValue ();
-        if (! isset ( $noDateValue )) {
+        $noDateValue = OA_Dal::noDateValue();
+        if (!isset($noDateValue)) {
             $noDateValue = 0;
         }
 
-        $doCampaigns = OA_Dal::factoryDO ( 'campaigns' );
-        $doCampaigns->campaignname = $aFields ['campaignname'];
-        $doCampaigns->clientid = $aFields ['clientid'];
-        $doCampaigns->views = $aFields ['impressions'];
-        $doCampaigns->clicks = $aFields ['clicks'];
-        $doCampaigns->conversions = $aFields ['conversions'];
-        $doCampaigns->expire = OA_Dal::isValidDate ( $expire ) ? $expire : $noDateValue;
-        $doCampaigns->activate = OA_Dal::isValidDate ( $activate ) ? $activate : $noDateValue;
-        $doCampaigns->priority = $aFields ['priority'];
-        $doCampaigns->weight = $aFields ['weight'];
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = $aFields['campaignname'];
+        $doCampaigns->clientid = $aFields['clientid'];
+        $doCampaigns->views = $aFields['impressions'];
+        $doCampaigns->clicks = $aFields['clicks'];
+        $doCampaigns->conversions = $aFields['conversions'];
+        $doCampaigns->expire = OA_Dal::isValidDate($expire) ? $expire : $noDateValue;
+        $doCampaigns->activate = OA_Dal::isValidDate($activate) ? $activate : $noDateValue;
+        $doCampaigns->priority = $aFields['priority'];
+        $doCampaigns->weight = $aFields['weight'];
         $doCampaigns->target_impression = $target_impression;
         $doCampaigns->target_click = $target_click;
         $doCampaigns->target_conversion = $target_conversion;
-        $doCampaigns->anonymous = $aFields ['anonymous'];
-        $doCampaigns->companion = $aFields ['companion'];
-        $doCampaigns->comments = $aFields ['comments'];
-        $doCampaigns->revenue = $aFields ['revenue'];
-        $doCampaigns->revenue_type = $aFields ['revenue_type'];
+        $doCampaigns->anonymous = $aFields['anonymous'];
+        $doCampaigns->companion = $aFields['companion'];
+        $doCampaigns->comments = $aFields['comments'];
+        $doCampaigns->revenue = $aFields['revenue'];
+        $doCampaigns->revenue_type = $aFields['revenue_type'];
         $doCampaigns->block = $block;
-        $doCampaigns->capping = $aFields ['capping'];
-        $doCampaigns->session_capping = $aFields ['session_capping'];
+        $doCampaigns->capping = $aFields['capping'];
+        $doCampaigns->session_capping = $aFields['session_capping'];
 
-        $doCampaigns->updated = OA::getNow ();
-
-        if (! empty ( $aFields ['campaignid'] ) && $aFields ['campaignid'] != "null") {
-            $doCampaigns->campaignid = $aFields ['campaignid'];
-            $doCampaigns->update ();
+        if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
+            $doCampaigns->campaignid = $aFields['campaignid'];
+            $doCampaigns->update();
         } else {
-            $aFields ['campaignid'] = $doCampaigns->insert ();
+            $aFields['campaignid'] = $doCampaigns->insert();
         }
         if ($oComponent) {
-            $oComponent->processCampaignForm ( $aFields );
+            $oComponent->processCampaignForm($aFields);
         }
 
         // Recalculate priority only when editing a campaign
@@ -781,17 +805,17 @@ function processCampaignForm($form, &$oComponent = null)
         // - campaign changes status (activated or deactivated) or
         // - the campaign is active and target/weight are changed
         //
-        if (! $new_campaign) {
-            $doCampaigns = OA_Dal::staticGetDO ( 'campaigns', $aFields ['campaignid'] );
+        if (!$new_campaign) {
+            $doCampaigns = OA_Dal::staticGetDO('campaigns', $aFields['campaignid']);
             $status = $doCampaigns->status;
-            switch ( true) {
-                case (( bool ) $status != ( bool ) $aFields ['status_old']) :
+            switch (true) {
+                case ((bool) $status != (bool) $aFields['status_old']) :
                     // Run the Maintenance Priority Engine process
-                    OA_Maintenance_Priority::scheduleRun ();
+                    OA_Maintenance_Priority::scheduleRun();
                     break;
 
                 case ($status == OA_ENTITY_STATUS_RUNNING) :
-                    if ((! empty ( $aFields ['target_type'] ) && ${$aFields ['target_type']} != $aFields ['target_old']) || (! empty ( $aFields ['target_type'] ) && $aFields ['target_type_old'] != $aFields ['target_type']) || $aFields ['weight'] != $aFields ['weight_old'] || $aFields ['clicks'] != $aFields ['previousclicks'] || $aFields ['conversions'] != $aFields ['previousconversions'] || $aFields ['impressions'] != $aFields ['previousimpressions']) {
+                    if ((!empty($aFields['target_type']) && ${$aFields['target_type']} != $aFields['target_old']) || (!empty($aFields['target_type']) && $aFields['target_type_old'] != $aFields['target_type']) || $aFields['weight'] != $aFields['weight_old'] || $aFields['clicks'] != $aFields['previousclicks'] || $aFields['conversions'] != $aFields['previousconversions'] || $aFields['impressions'] != $aFields['previousimpressions']) {
                         // Run the Maintenance Priority Engine process
                         OA_Maintenance_Priority::scheduleRun ();
                     }
@@ -808,23 +832,23 @@ function processCampaignForm($form, &$oComponent = null)
         include_once 'Cache/Lite.php';
         $options = array ('cacheDir' => MAX_CACHE );
         $cache = new Cache_Lite ( $options );
-        $group = 'campaign_' . $aFields ['campaignid'];
+        $group = 'campaign_' . $aFields['campaignid'];
         $cache->clean ( $group );
 
         $translation = new OX_Translation();
         if ($new_campaign) {
             // Queue confirmation message
-            $translated_message = $translation->translate ( $GLOBALS ['strCampaignHasBeenAdded'], array (MAX::constructURL ( MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ), htmlspecialchars ( $aFields ['campaignname'] ), MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ) ) );
+            $translated_message = $translation->translate ( $GLOBALS ['strCampaignHasBeenAdded'], array (MAX::constructURL ( MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] ), htmlspecialchars ( $aFields['campaignname'] ), MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] ) ) );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-            OX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=" . $aFields ['clientid']);
+            OX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=" . $aFields['clientid']);
         }
         else {
             $translated_message = $translation->translate ($GLOBALS ['strCampaignHasBeenUpdated'], array (
-                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields ['clientid'] . '&campaignid=' . $aFields ['campaignid'] ),
-                htmlspecialchars ( $aFields ['campaignname'] )
+                MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] ),
+                htmlspecialchars ( $aFields['campaignname'] )
                 ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-            OX_Admin_Redirect::redirect("campaign-edit.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
+            OX_Admin_Redirect::redirect("campaign-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] );
         }
     }
 
@@ -836,21 +860,21 @@ function processStatusForm($form)
 {
     $aFields = $form->exportValues ();
 
-    if (empty ( $aFields ['campaignid'] )) {
+    if (empty ( $aFields['campaignid'] )) {
         return;
     }
 
     //update status for existing campaign
     $doCampaigns = OA_Dal::factoryDO ( 'campaigns' );
-    $doCampaigns->campaignid = $aFields ['campaignid'];
-    $doCampaigns->as_reject_reason = $aFields ['as_reject_reason'];
-    $doCampaigns->status = $aFields ['status'];
+    $doCampaigns->campaignid = $aFields['campaignid'];
+    $doCampaigns->as_reject_reason = $aFields['as_reject_reason'];
+    $doCampaigns->status = $aFields['status'];
     $doCampaigns->update ();
 
     // Run the Maintenance Priority Engine process
     OA_Maintenance_Priority::scheduleRun ();
 
-    OX_Admin_Redirect::redirect ( "campaign-edit.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
+    OX_Admin_Redirect::redirect ( "campaign-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] );
 }
 
 /*-------------------------------------------------------*/
@@ -861,20 +885,20 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     global $conf;
 
     //header and breadcrumbs
-    if ($campaign ['campaignid'] != "") { //edit campaign
+    if ($campaign['campaignid'] != "") { //edit campaign
         // Initialise some parameters
         $tabindex = 1;
         $agencyId = OA_Permission::getAgencyId ();
-        $aEntities = array ('clientid' => $campaign ['clientid'], 'campaignid' => $campaign ['campaignid'] );
+        $aEntities = array ('clientid' => $campaign['clientid'], 'campaignid' => $campaign['campaignid'] );
 
         // Display navigation
         $aOtherAdvertisers = Admin_DA::getAdvertisers ( array ('agency_id' => $agencyId ) );
-        $aOtherCampaigns = Admin_DA::getPlacements ( array ('advertiser_id' => $campaign ['clientid'] ) );
-        MAX_displayNavigationCampaign ( $campaign ['campaignid'], $aOtherAdvertisers, $aOtherCampaigns, $aEntities );
+        $aOtherCampaigns = Admin_DA::getPlacements ( array ('advertiser_id' => $campaign['clientid'] ) );
+        MAX_displayNavigationCampaign ( $campaign['campaignid'], $aOtherAdvertisers, $aOtherCampaigns, $aEntities );
     } else { //new campaign
-        $advertiser = phpAds_getClientDetails ( $campaign ['clientid'] );
+        $advertiser = phpAds_getClientDetails ( $campaign['clientid'] );
         $advertiserName = $advertiser ['clientname'];
-        $advertiserEditUrl = "advertiser-edit.php?clientid=" . $campaign ['clientid'];
+        $advertiserEditUrl = "advertiser-edit.php?clientid=" . $campaign['clientid'];
 
         // New campaign
         $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder ( );
@@ -884,16 +908,16 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
 
     //get template and display form
     $oTpl = new OA_Admin_Template ( 'campaign-edit.html' );
-    $oTpl->assign ( 'clientid', $campaign ['clientid'] );
-    $oTpl->assign ( 'campaignid', $campaign ['campaignid'] );
+    $oTpl->assign ( 'clientid', $campaign['clientid'] );
+    $oTpl->assign ( 'campaignid', $campaign['campaignid'] );
     $oTpl->assign ( 'calendarBeginOfWeek', $GLOBALS ['pref'] ['begin_of_week'] ? 1 : 0 );
     $oTpl->assign ( 'language', $GLOBALS ['_MAX'] ['PREF'] ['language'] );
     $oTpl->assign ( 'conversionsEnabled', $conf ['logging'] ['trackerImpressions'] );
     $oTpl->assign ( 'adDirectEnabled', defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true );
 
-    $oTpl->assign ( 'impressionsDelivered', isset ( $campaign ['impressions_delivered'] ) ? $campaign ['impressions_delivered'] : 0 );
-    $oTpl->assign ( 'clicksDelivered', isset ( $campaign ['clicks_delivered'] ) ? $campaign ['clicks_delivered'] : 0 );
-    $oTpl->assign ( 'conversionsDelivered', isset ( $campaign ['conversions_delivered'] ) ? $campaign ['conversions_delivered'] : 0 );
+    $oTpl->assign ( 'impressionsDelivered', isset ( $campaign['impressions_delivered'] ) ? $campaign['impressions_delivered'] : 0 );
+    $oTpl->assign ( 'clicksDelivered', isset ( $campaign['clicks_delivered'] ) ? $campaign['clicks_delivered'] : 0 );
+    $oTpl->assign ( 'conversionsDelivered', isset ( $campaign['conversions_delivered'] ) ? $campaign['conversions_delivered'] : 0 );
 
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
     $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
@@ -913,7 +937,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
 
     $oTpl->assign ( 'campaignFormId', $campaignForm->getId () );
     $oTpl->assign ( 'campaignForm', $campaignForm->serialize () );
-    if (! empty ( $campaign ['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
+    if (! empty ( $campaign['campaignid'] ) && defined ( 'OA_AD_DIRECT_ENABLED' ) && OA_AD_DIRECT_ENABLED === true) {
         $oTpl->assign ( 'statusForm', $statusForm->serialize () );
     }
     $oTpl->display ();
