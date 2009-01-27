@@ -114,7 +114,6 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		bannerParams.put(STORAGE_TYPE, STORAGE_TYPES[4]);
 		bannerParams.put(CAMPAIGN_ID, campaignId);
 		int bannerId = createBanner(bannerParams);
-		System.out.println(zoneId + " :" + bannerId + " "+ publisherId );
 		
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getZoneServiceUrl()));
