@@ -97,11 +97,14 @@ function processForm($oForm, $oMarketComponent)
         $oApiClient = $oMarketComponent->getPublisherConsoleApiClient();
         if ($oApiClient->linkOxp($aFields['m_username'],$aFields['m_password'])) {
             // perform activation actions
+            $oMarketComponent->removeRegisterNotification();
             $oMarketComponent->updateAllWebsites();
         }
-    } catch (Exception $exc) {
+    } 
+    catch (Exception $exc) {
         return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
+    
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
 
 }
