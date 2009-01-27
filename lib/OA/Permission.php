@@ -208,6 +208,9 @@ class OA_Permission
         if (!$allowNewEntity) {
             OA_Permission::enforceTrue(!empty($entityId));
         }
+        // Verify that the ID is numeric
+        OA_Permission::enforceTrue(preg_match('/^\d*$/D', $entityId));
+        $entityId = (int)$entityId;
         $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
         if (!$hasAccess) {
             if(!OA_Permission::isManualAccountSwitch()) {
