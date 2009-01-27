@@ -26,7 +26,12 @@ $Id: TestAddZone.java 20704 2008-05-28 13:28:08Z pawel.dachterski@openx.org $
 package org.openx.zone;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
+
 import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.openx.config.GlobalSettings;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 
@@ -84,6 +89,35 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
+		final Boolean result = (Boolean) client
+				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
+		
+		assertTrue(result);
+	}
+	
+	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public void testLinkBannerTxtWithZoneTxt()
+			throws XmlRpcException, MalformedURLException {
+		
+		Map<String, Object> zoneParams = getZoneParams("txt");
+		zoneParams.put(TYPE, 3);
+		zoneParams.put(PUBLISHER_ID, publisherId);
+		int zoneId = createZone(zoneParams);
+		Map<String, Object> bannerParams = getBannerParams("txt");
+		bannerParams.put(STORAGE_TYPE, STORAGE_TYPES[4]);
+		bannerParams.put(CAMPAIGN_ID, campaignId);
+		int bannerId = createBanner(bannerParams);
+		System.out.println(zoneId + " :" + bannerId + " "+ publisherId );
+		
+		((XmlRpcClientConfigImpl) client.getClientConfig())
+				.setServerURL(new URL(GlobalSettings.getZoneServiceUrl()));
 		
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		final Boolean result = (Boolean) client
