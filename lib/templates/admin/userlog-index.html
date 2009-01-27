@@ -2,7 +2,7 @@
 <input type='hidden' name='listorder' value='{$listorder}'>
 <input type='hidden' name='orderdirection' value='{$orderdirection}'>
 <input type='hidden' name='origAdvertiserId' value='{$advertiserId}'>
-<input type='hidden' name='origPublisherId' value='{$publisherId}'>
+<input type='hidden' name='origPublisherId' value='{$publisherId|escape}'>
 
 <fieldset id="auditFilter">
     <legend>{t str=Filters}</legend>
