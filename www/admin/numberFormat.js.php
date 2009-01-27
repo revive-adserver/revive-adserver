@@ -59,7 +59,8 @@ setupConstants();
 //Always load the English language, in case of incomplete translations
 include '../../lib/max/language/en/default.lang.php';
 
-$lang = $_GET['lang'];
+$lang = str_replace(array('../', "\0"), '', $_GET['lang']);
+
 if (isset($lang) && $lang != "en") {
     //if selected directory exist, read language file
     if ( is_readable("../../lib/max/language/".$lang."/default.lang.php")) {
