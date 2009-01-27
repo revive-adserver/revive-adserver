@@ -283,6 +283,10 @@ class OA_Permission
             // when a new object is created
             return true;
         }
+        // Verify that the ID is numeric
+        if (!preg_match('/^\d*$/D', $entityId)) {
+            return false;
+        }
         $do = OA_Dal::factoryDO($entityTable);
         if (!$do) {
             return false;
