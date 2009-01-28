@@ -56,6 +56,8 @@ if (!empty($channelid)) {
 else {
     //for new channels set affiliate id (if any)
     if (!empty($affiliateid)) {
+        OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+
         $channel['affiliateid'] = $affiliateid;
     }
 }
@@ -129,19 +131,19 @@ function processForm($form)
 
         // Queue confirmation message
         $translation = new OX_Translation();
-        $channelURL = "channel-edit.php?".(empty($aFields['affiliateid']) ? "agencyid=".$aFields['agencyid']."&channelid=".$aFields['channelid'] 
+        $channelURL = "channel-edit.php?".(empty($aFields['affiliateid']) ? "agencyid=".$aFields['agencyid']."&channelid=".$aFields['channelid']
             :   "affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
-        
+
         $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenUpdated'],
             array(
             MAX::constructURL(MAX_URL_ADMIN, $channelURL),
             htmlspecialchars($aFields['name'])
             ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
+
         if (!empty($aFields['affiliateid'])) {
             header("Location: channel-edit.php?affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
-        } 
+        }
         else {
             header("Location: channel-edit.php?agencyid=".$aFields['agencyid']."&channelid=".$aFields['channelid']);
         }

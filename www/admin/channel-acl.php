@@ -50,6 +50,8 @@ $agencyId = OA_Permission::getAgencyId();
 $tabindex = 1;
 
 if (!empty($affiliateid)) {
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+
     $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
 } else {
@@ -64,7 +66,7 @@ if (!empty($affiliateid)) {
 if (!empty($action)) {
     if (empty($acl)) $acl = array();
     $acl = MAX_AclAdjust($acl, $action);
-} 
+}
 elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();
     // Only save when inputs are valid
