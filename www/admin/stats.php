@@ -91,6 +91,15 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'tempPeriodPreset', 'GraphFile', 'graphFilter','graphFields',
                       'listorder', 'orderdirection'
                      );
+$listorder      = htmlspecialchars($listorder);
+$orderdirection = htmlspecialchars($orderdirection);
+if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+    if (stristr($orderdirection, 'down')) {
+        $orderdirection = 'down';
+    } else {
+        $orderdirection = 'up';
+    }
+}
 
 if (isset($graphFilter) && is_array($graphFilter)) {
     // Remove old filter fileds from link
@@ -137,11 +146,13 @@ if (!isset($breakdown)) {
 }
 
 // Add all manipulated values to globals
-$_REQUEST['zoneid']      = $zoneid;
-$_REQUEST['affiliateid'] = $affiliateid;
-$_REQUEST['bannerid']    = $bannerid;
-$_REQUEST['campaignid']  = $campaignid;
-$_REQUEST['clientid']    = $clientid;
+$_REQUEST['zoneid']         = $zoneid;
+$_REQUEST['affiliateid']    = $affiliateid;
+$_REQUEST['bannerid']       = $bannerid;
+$_REQUEST['campaignid']     = $campaignid;
+$_REQUEST['clientid']       = $clientid;
+$_REQUEST['listorder']      = $listorder;
+$_REQUEST['orderdirection'] = $orderdirection;
 
 // If displaying conversion statistics, hand over control to a different file
 if ($entity == 'conversions') {
