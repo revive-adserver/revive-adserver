@@ -63,6 +63,10 @@ class OA_Admin_UI_UserAccess
             'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
             'email_address', 'permissions', 'submit', 'language'
         );
+        // Sanitize userid
+        if (!empty($this->request['userid'])) {
+            $this->request['userid'] = (int)$this->request['userid'];
+        }
         $this->userid = $this->request['userid'];
         if (isset($this->request['permissions'])) {
             $this->aPermissions = $this->request['permissions'];
