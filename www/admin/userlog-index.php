@@ -74,8 +74,15 @@ $endDate        = MAX_getStoredValue('period_end', null);
 $periodPreset   = MAX_getValue('period_preset', 'all_events');
 
 //  paging related input variables
-$listorder      = MAX_getStoredValue('listorder',       'updated');
-$orderdirection = MAX_getStoredValue('orderdirection',  'up');
+$listorder      = htmlspecialchars(MAX_getStoredValue('listorder', 'updated'));
+$orderdirection = htmlspecialchars(MAX_getStoredValue('orderdirection', 'up'));
+if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+    if (stristr($orderdirection, 'down')) {
+        $orderdirection = 'down';
+    } else {
+        $orderdirection = 'up';
+    }
+}
 $setPerPage     = MAX_getStoredValue('setPerPage',      10);
 $pageID         = MAX_getStoredValue('pageID',          1);
 
