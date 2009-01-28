@@ -73,8 +73,15 @@ $startDate      = MAX_getStoredValue('period_start', null);
 $endDate        = MAX_getStoredValue('period_end', null);
 $periodPreset   = MAX_getValue('period_preset', 'all_events');
 
-//  paging related input variables
+// Paging related input variables
 $listorder      = htmlspecialchars(MAX_getStoredValue('listorder', 'updated'));
+$oAudit = &OA_Dal::factoryDO('audit');
+$aAuditColumns = $oAudit->table();
+$aColumnNamesFound = array_keys($aAuditColumns, $listorder);
+if (empty($aColumnNamesFound)) {
+    // Invalid column name to order by, set to default
+    $listorder = 'updated';
+}
 $orderdirection = htmlspecialchars(MAX_getStoredValue('orderdirection', 'up'));
 if (!($orderdirection == 'up' || $orderdirection == 'down')) {
     if (stristr($orderdirection, 'down')) {
@@ -86,7 +93,7 @@ if (!($orderdirection == 'up' || $orderdirection == 'down')) {
 $setPerPage     = MAX_getStoredValue('setPerPage',      10);
 $pageID         = MAX_getStoredValue('pageID',          1);
 
-//  setup date selector
+// Setup date selector
 $aPeriod = array(
     'period_preset'     => $periodPreset,
     'period_start'      => $startDate,
@@ -96,19 +103,19 @@ $daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
 $daySpan->setValueFromArray($aPeriod);
 $daySpan->enableAutoSubmit();
 
-//  initialize parameters
+// Initialize parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 
-//  load template
+// Load template
 $oTpl = new OA_Admin_Template('userlog-index.html');
 
-//  get advertisers & publishers for filters
+// Get advertisers & publishers for filters
 $showAdvertisers = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
 $showPublishers = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
 
 $agencyId = OA_Permission::getAgencyId();
 
-//get advertisers if we show them
+// Get advertisers if we show them
 $aAdvertiser = $aPublisher = array();
 if ($showAdvertisers) {
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -131,7 +138,7 @@ if ($showAdvertisers) {
     }
 }
 
-//get publishers if we show them
+// Get publishers if we show them
 if ($showPublishers) {
     if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $tempPublisherId    = OA_Permission::getEntityId();
@@ -163,7 +170,7 @@ $aParams = array(
     'nextImg'       => $oTrans->translate('Next') . ' >>'
 );
 
-//only pass advertiser or website props if we show related checkboxes
+// Only pass advertiser or website props if we show related checkboxes
 if ($showAdvertisers) {
     $aParams['advertiser_id']= $advertiserId;
     $aParams['campaign_id'] = $campaignId;
@@ -202,7 +209,7 @@ if ($aParams['startRecord'] > $aParams['totalItems']) {
 
 $aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
 
-//  retrieve audit details
+// Retrieve audit details
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
 $pager = & Pager::factory($aParams);
@@ -213,7 +220,7 @@ $pager->pagerLinks = $pager->getLinks();
 $pager->pagerLinks = $pager->pagerLinks['all'];
 $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
 
-//  build column header link params
+// Build column header link params
 $aAllowdParams = array('advertiserId', 'campaignId', 'publisherId', 'zoneId');
 foreach ($aAllowdParams as $key) {
     if (!empty($$key)) {
@@ -226,7 +233,7 @@ $aUrlParam['$orderdirection']   = ($orderdirection == 'down') ? "orderdirection=
 
 $urlParam = implode('&', $aUrlParam);
 
-//  replace context with translation
+// Replace context with translation
 foreach ($aAuditData as $key => $aValue) {
     $k = 'str'. str_replace(' ', '', $aValue['context']);
     if (!empty($GLOBALS[$k])) {
@@ -234,7 +241,7 @@ foreach ($aAuditData as $key => $aValue) {
     }
 }
 
-//  assign vars to template
+// Assign vars to template
 $oTpl->assign('showAdvertisers', $showAdvertisers);
 $oTpl->assign('showPublishers',  $showPublishers);
 
@@ -262,13 +269,13 @@ $oTpl->assign('setPerPage',         $setPerPage);
 $oTpl->assign('pager',              $pager);
 $oTpl->assign('daySpan',            $daySpan);
 
-//  display page
+// Display page
 $oTpl->display();
 
 //  display footer
 phpAds_PageFooter();
 
-//  store filter variables in session
+// Store filter variables in session
 $session['prefs'][$pageName]['advertiserId']    = $advertiserId;
 $session['prefs'][$pageName]['campaignId']      = $campaignId;
 $session['prefs'][$pageName]['publisherId']     = $publisherId;
@@ -279,4 +286,5 @@ $session['prefs'][$pageName]['listorder']       = $listorder;
 $session['prefs'][$pageName]['orderdirection']  = $orderdirection;
 
 phpAds_SessionDataStore();
+
 ?>
