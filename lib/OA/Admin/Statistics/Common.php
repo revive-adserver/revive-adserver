@@ -1210,7 +1210,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Add new params from $_GET/session
         foreach ($aVarArray as $k => $v) {
-            $this->aPageParams[$v] = MAX_getStoredValue($v, '');
+            $this->aPageParams[$v] = htmlspecialchars(MAX_getStoredValue($v, ''));
         }
 
         // Ensure the setPerPage value is set
@@ -1245,7 +1245,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _loadPeriodPresetParam()
     {
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
         $this->statsBreakdown = $this->aPageParams['statsBreakdown'];
     }
 

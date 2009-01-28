@@ -193,7 +193,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         if ($use_pager) {
             $params = array(
                 'itemData' => $stats,
-                'perPage' => MAX_getStoredValue('setPerPage', $per_page),
+                'perPage' => htmlspecialchars(MAX_getStoredValue('setPerPage', $per_page)),
                 'delta' => 8,
                 'append' => true,
                 'clearIfVoid' => false,

@@ -114,7 +114,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
 
         // Add module page parameters
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
 
         $this->_loadParams();
 

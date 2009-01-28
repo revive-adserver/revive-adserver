@@ -157,9 +157,9 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
 
         // Location params
         $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
-        $this->aPageParams['period_start']   = MAX_getStoredValue('period_start', date('Y-m-d'));
-        $this->aPageParams['period_end']     = MAX_getStoredValue('period_end', date('Y-m-d'));
+        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
+        $this->aPageParams['period_start']   = htmlspecialchars(MAX_getStoredValue('period_start', date('Y-m-d')));
+        $this->aPageParams['period_end']     = htmlspecialchars(MAX_getStoredValue('period_end', date('Y-m-d')));
         $this->_loadParams();
 
         unset($this->aPageParams['expand']);
