@@ -1648,9 +1648,10 @@ return 'PEAR';
 function errorObjToString($oError, $additionalInfo = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
-$message = $oError->getMessage();
-$debugInfo = $oError->getDebugInfo();
-$backtrace = $oError->getBacktrace();
+$message = htmlspecialchars($oError->getMessage());
+$debugInfo = htmlspecialchars($oError->getDebugInfo());
+$backtrace = htmlspecialchars($oError->getBacktrace());
+$additionalInfo = htmlspecialchars($additionalInfo);
 $level = $oError->getCode();
 $errorType = MAX::errorConstantToString($level);
 $img = MAX::constructURL(MAX_URL_IMAGE, 'errormessage.gif');
