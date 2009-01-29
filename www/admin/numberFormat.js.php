@@ -61,7 +61,7 @@ include '../../lib/max/language/en/default.lang.php';
 
 $lang = str_replace(array('../', "\0"), '', $_GET['lang']);
 
-if (isset($lang) && $lang != "en") {
+if (isset($lang) && $lang != "en" && preg_match('/^[a-zA-Z_-]+$/D', $lang)) {
     //if selected directory exist, read language file
     if ( is_readable("../../lib/max/language/".$lang."/default.lang.php")) {
         include '../../lib/max/language/'.$lang.'/default.lang.php';
