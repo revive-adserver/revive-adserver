@@ -210,7 +210,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 $currentWebsiteUrl = $oWebsite->website;
                 if ($currentWebsiteUrl != $websiteUrl) { //url changed
                     try {
-                        $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl);
+                        $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl, false);
                         if ($result!== true) {
                             throw new Exception($result);
                         }
@@ -636,7 +636,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @param boolean $skip_synchonized Skip updating if url is synchronized
      * @return boolean|string true or error message
      */
-    function updateWebsiteUrl($affiliateId, $url, $skip_synchonized = true) {
+    function updateWebsiteUrl($affiliateId, $url, $skip_synchonized = false) {
         $doWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
         $doWebsitePref->get($affiliateId);
 
