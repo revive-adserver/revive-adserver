@@ -149,7 +149,9 @@ function displayPage($oComponent)
 
     $session['prefs'][$pageName]['listorder'] = $listorder;
     $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
-    $session['prefs'][$pageName]['nodes'] = implode (",", $aNodes);
+    if (is_array($aNodes)) {
+        $session['prefs'][$pageName]['nodes'] =  implode (",", $aNodes);
+    }
     $session['prefs']['GLOBALS']['period_start'] = $startDate;
     $session['prefs']['GLOBALS']['period_end'] = $endDate;
     $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
