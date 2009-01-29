@@ -50,10 +50,10 @@ exit(1);
 // Require the initialisation file
 include_once '../../init-delivery.php';
 // Strip out any '../' from the passed in script value to try and prevent directory traversal attacks
-$script = str_replace('../', '', $_GET['script']);
+$script = str_replace("\0", '', $_GET['script']);
 $aPluginId = explode(':', $script);
 $scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
-if (!is_readable($scriptFileName) || !is_file($scriptFileName)) {
+if (stristr($scriptFileName, '../') || !is_readable($scriptFileName) || !is_file($scriptFileName)) {
 if (empty($conf['debug']['production'])) {
 echo "Unable to find delivery script ({$scriptFileName}) for specified plugin-component-identifier: {$script}";
 }
