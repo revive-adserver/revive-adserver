@@ -1,6 +1,6 @@
 {if $aItem.items}
     <tr><td>&nbsp;</td>
-        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}
+        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text|escape}
         {if $aItem.req}<span class="required">*</span>{/if}
         </td>
         <td width='100%'>
