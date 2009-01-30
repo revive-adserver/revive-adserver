@@ -202,7 +202,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 } catch (Exception $e) {
                     OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
                     $message = 'Unable to register website in OpenX Market.';
-                    if ($e->getCode()==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
+                    $aError = split(':',$e->getMessage());
+                    if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
                         $message .= " Market account is blocked.";
                     }
                     OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
@@ -222,7 +223,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     catch (Exception $e) {
                         OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
                         $message = 'There was an error during updating website url in OpenX Market.';
-                        if ($e->getCode()==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
+                        $aError = split(':',$e->getMessage());
+                        if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
                             $message .= " Market account is blocked.";
                         }
                         OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
@@ -661,7 +663,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                                 $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]),
                             array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]));
                 } catch (Exception $e) {
-                    $error = $e->getMessage();
+                    $error = $e->getCode().':'.$e->getMessage();
                 }
                 $doWebsitePref->is_url_synchronized = (!isset($error)) ? 't' : 'f';
                 $doWebsitePref->update();
@@ -714,6 +716,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             ->removeNotifications('oxMarketRegister');
     }
     
+    /**
+     * Synchronize status with market and return new status
+     *
+     * @return int|bool status code, or false if client isn't registered
+     */
+    function updateAccountStatus()
+    {
+        if ($this->isRegistered()) {
+            return $this->oMarketPublisherClient->updateAccountStatus();
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>

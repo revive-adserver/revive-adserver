@@ -129,4 +129,15 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
         return $this->callXmlRpcFunctionWithPCAccount('updateWebsite', 
             array($websiteId, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
     }
+    
+    /**
+     * Get Publisher Console account status
+     *
+     * @return integer account status
+     */
+    public function getAccountStatus()
+    {
+        return $this->callXmlRpcFunctionWithPCAccount('getAccountStatus', 
+            array());
+    }
 }

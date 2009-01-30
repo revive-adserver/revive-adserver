@@ -257,6 +257,33 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     }
     
     /**
+     * Synchronize status with market and return new status
+     *
+     * @return int
+     */
+    public function updateAccountStatus()    
+    {
+        $publisher_account_id = null;
+        $currentStatus = null;
+        
+        $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
+        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
+        if (isset($adminAccountId)) {
+            $doExtMarket->get('account_id', $adminAccountId);
+            $publisher_account_id = $doExtMarket->publisher_account_id;
+            $currentStatus        = $doExtMarket->status; 
+        }
+        
+        $this->pc_api_client->setPublisherAccountId($publisher_account_id);
+        $newStatus = $this->pc_api_client->getAccountStatus();
+        if ($newStatus != $currentStatus) {
+            $doExtMarket->status = $newStatus;
+            $doExtMarket->update();
+        }
+        return $newStatus;
+    }
+    
+    /**
      * Set status to account disabled if exception code is one of account disabling codes
      *
      * @param Exception $exception
