@@ -340,7 +340,7 @@ class OA_Permission
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate ( $GLOBALS['strYouAreNowWorkingAsX'], array( htmlspecialchars($oUser->aAccount['account_name']) ));
-        OA_Admin_UI::queueMessage($translated_message, 'global', 'info', null, 'switchAccount');
+        OA_Admin_UI::queueMessage($translated_message, 'global', 'info', 5000, 'switchAccount');
     }
 
     /**
