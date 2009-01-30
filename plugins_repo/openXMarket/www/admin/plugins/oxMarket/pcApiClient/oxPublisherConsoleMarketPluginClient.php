@@ -47,9 +47,16 @@ require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
 class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
 {
     /**
-     * ext_market_assoc_data statuses
+     * ext_market_assoc_data statuses - same values as Publisher Console account statuses
      */
     const LINK_IS_VALID_STATUS = 0;
+    
+    const ACCOUNT_DISABLED_STATUS = 1;
+    
+    /**
+     * Error codes that change link status
+     */
+    const XML_ERR_ACCOUNT_BLOCKED = 909;
     
     /**
      * @var Plugins_admin_oxMarket_PublisherConsoleClient
@@ -206,8 +213,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function oxmStatistics($lastUpdate)
     {
-        $this->ensureStatusAndUpdatePcAccountId();
-        return $this->pc_api_client->oxmStatistics($lastUpdate);
+        try {
+            $this->ensureStatusAndUpdatePcAccountId();
+            return $this->pc_api_client->oxmStatistics($lastUpdate);
+        } catch (Exception $e) {
+            $this->setStatusByException($e);
+        }
     }
     
     /**
@@ -216,8 +227,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function newWebsite($websiteUrl)
     {
-        $this->ensureStatusAndUpdatePcAccountId();
-        return $this->pc_api_client->newWebsite($websiteUrl);
+        try {
+            $this->ensureStatusAndUpdatePcAccountId();
+            return $this->pc_api_client->newWebsite($websiteUrl);
+        } catch (Exception $e) {
+            $this->setStatusByException($e);
+        }
     }
     
     /**
@@ -230,11 +245,35 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
         $cat_ex, $typ_ex)    
     {
-        $this->ensureStatusAndUpdatePcAccountId();
-        return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl,
-            $this->putEmptyArrayIfNull($att_ex), 
-            $this->putEmptyArrayIfNull($cat_ex), 
-            $this->putEmptyArrayIfNull($typ_ex));
+        try {
+            $this->ensureStatusAndUpdatePcAccountId();
+            return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl,
+                $this->putEmptyArrayIfNull($att_ex), 
+                $this->putEmptyArrayIfNull($cat_ex), 
+                $this->putEmptyArrayIfNull($typ_ex));
+        } catch (Exception $e) {
+            $this->setStatusByException($e);
+        }
+    }
+    
+    /**
+     * Set status to account disabled if exception code is one of account disabling codes
+     *
+     * @param Exception $exception
+     * @throws Exception rethrows given exception
+     */
+    protected function setStatusByException(Exception $exception) 
+    {
+        if ($exception->getCode() == self::XML_ERR_ACCOUNT_BLOCKED) {
+            $adminAccountId = DataObjects_Accounts::getAdminAccountId();
+            if (isset($adminAccountId)) {
+                $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+                $doExtMarket->get($adminAccountId);
+                $doExtMarket->status = self::ACCOUNT_DISABLED_STATUS;;
+                $doExtMarket->update();
+            }
+        }
+        throw $exception;
     }
     
     /**

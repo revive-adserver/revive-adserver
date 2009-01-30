@@ -201,7 +201,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     OA_Admin_UI::queueMessage($message, 'local', $restricted ?'confirm' : 'error', $restricted ? 5000 : 0);
                 } catch (Exception $e) {
                     OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
-                    OA_Admin_UI::queueMessage('Unable to register website in OpenX Market.', 'local', 'error', 0);
+                    $message = 'Unable to register website in OpenX Market.';
+                    if ($e->getCode()==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
+                        $message .= " Market account is blocked.";
+                    }
+                    OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
                 }
             }
             else {
@@ -217,7 +221,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     }
                     catch (Exception $e) {
                         OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
-                        OA_Admin_UI::queueMessage('There was an error during updating website url in OpenX Market.', 'local', 'error', 0);
+                        $message = 'There was an error during updating website url in OpenX Market.';
+                        if ($e->getCode()==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
+                            $message .= " Market account is blocked.";
+                        }
+                        OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
                     }
                 }
             }

@@ -37,6 +37,15 @@
     <notnull>true</notnull>
     <default>0</default>
    </field>
+   
+   <index>
+    <name>ext_market_assoc_data_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>account_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
