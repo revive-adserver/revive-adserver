@@ -53,6 +53,12 @@ class OA_Admin_UI
      * @var OA_Admin_Template
      */
     var $oTpl;
+    
+    /**
+     * left side notifications manager
+     *
+     * @var OA_Admin_UI_NotificationManager
+     */
     var $notificationManager;
     var $aLinkParams;
     /** holds the id of the page being currently displayed **/
