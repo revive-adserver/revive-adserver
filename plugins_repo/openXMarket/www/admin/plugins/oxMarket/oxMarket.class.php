@@ -697,12 +697,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function scheduleRegisterNotification()
     {
+        $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
+        $oNotificationManager->removeNotifications('oxMarketRegister'); //avoid duplicates
+        
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
-        OA_Admin_UI::getInstance()->getNotificationManager()->queueNotification(
+        $oNotificationManager->queueNotification(
             'Earn more revenue by activating OpenX Market for your adserver.<br>
             <a href="'.$url.'">Get started now &raquo;</a>', 'info', 'oxMarketRegister');
     }
-    
+        
     
     function removeRegisterNotification()
     {
