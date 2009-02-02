@@ -374,7 +374,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             '4' => 'Video',
             '5' => 'DHTML',
             '6' => 'Expandable',
-            '7' => 'Audio'
+            '7' => 'Audio',
+            '8' => 'Pop-Up',
+            '9' => 'Pop-Under'
         );
     }
 
