@@ -102,6 +102,7 @@ function processForm($oForm, $oMarketComponent)
         }
     } 
     catch (Exception $exc) {
+        OA::debug('Error during Market signup: ('.$exc->getCode().')'.$exc->getMessage());
         return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
     
