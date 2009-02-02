@@ -27,7 +27,7 @@ $Id$
 
 /**
  * @package    OpenX
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * A file to set up the environment constants for Openads.
  */
