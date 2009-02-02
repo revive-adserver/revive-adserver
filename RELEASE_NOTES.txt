@@ -173,7 +173,7 @@ FAQ
     Yes. Openads was rebranded as OpenX. You will be able to upgrade from any
     version of Openads.
 
-    However, please note that OpenX  ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
+    However, please note that OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
     version of MySQL or PostgreSQL than previous versions of Openads did.
     Please see the Known Issues section above for more details.
 
