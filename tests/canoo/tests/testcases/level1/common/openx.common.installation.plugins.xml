@@ -1,7 +1,7 @@
 &universal;
 <verifyText description="Check text on page"
 	text="OpenX plugins" />
-<sleep seconds="15" />
+<sleep seconds="30" />
 <!-- TODO add Groovy method -->
 <!-- check plugins list -->
 <verifyText text="openXBannerTypes" description="openXBannerTypes"/>
