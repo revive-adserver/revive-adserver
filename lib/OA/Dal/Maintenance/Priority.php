@@ -1656,285 +1656,231 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *      "forecast_impressions" => The forecast number of impressions for the zone/operation interval;
      *      "interval_start"       => A string representing the start date of the operation interval;
      *      "interval_end"         => A string representing the end date of the operation interval;
+     *      "new_zone"             => A boolean representing if the zone is considered to be "new" or not;
      *      "est"                  => Value 1 if the forecast is the default value, 0 otherwise.
      * @return void
      */
     function saveZoneImpressionForecasts($aForecasts)
     {
         OA::debug('- Saving zone impression forecasts', PEAR_LOG_DEBUG);
+
         // Check the parameter
         if (!is_array($aForecasts) || !count($aForecasts)) {
             OA::debug('     - No forecasts to save', PEAR_LOG_DEBUG);
             return;
         }
+
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // Prepare arrays for storing interval start and end dates
-        $aIntervalStartCompare = array(
-            'min' => 0,
-            'max' => 0
-        );
-        $aIntervalStart = array();
-        $aIntervalEndCompare = array(
-            'min' => 0,
-            'max' => 0
-        );
-        $aIntervalEnd = array();
-        // Loop through forecasts array to find min/max start/end intervals
-        OA::debug('  - Locating the min/max start/end interval values in the forecasts', PEAR_LOG_DEBUG);
-        reset($aForecasts);
-        while (list(,$aOperationIntervals) = each($aForecasts)) {
-            reset($aOperationIntervals);
-            while (list( ,$aValues) = each($aOperationIntervals)) {
-                // Convert the start of the interval to a number, and compare
-                $iInterval = strtotime($aValues['interval_start']);
-                if (($iInterval > 0) && (($iInterval < $aIntervalStartCompare['min']) || (!$aIntervalStartCompare['min'])))
-                {
-                    // This is the smallest interval start (so far)
-                    $aIntervalStartCompare['min'] = $iInterval;
-                    $aIntervalStart['min'] = $aValues['interval_start'];
-                }
-                if (($iInterval > 0) && (($iInterval > $aIntervalStartCompare['max']) || (!$aIntervalStartCompare['max'])))
-                {
-                    // This is the biggest interval start (so far)
-                    $aIntervalStartCompare['max'] = $iInterval;
-                    $aIntervalStart['max'] = $aValues['interval_start'];
-                }
-                // Convert the end of the interval to a number, and compare
-                $iInterval = strtotime($aValues['interval_end']);
-                if (($iInterval > 0) && (($iInterval < $aIntervalEndCompare['min']) || (!$aIntervalEndCompare['min'])))
-                {
-                    // This is the smallest interval start (so far)
-                    $aIntervalEndCompare['min'] = $iInterval;
-                    $aIntervalEnd['min'] = $aValues['interval_end'];
-                }
-                if (($iInterval > 0) && (($iInterval > $aIntervalEndCompare['max']) || (!$aIntervalEndCompare['max'])))
-                {
-                    // This is the biggest interval end (so far)
-                    $aIntervalEndCompare['max'] = $iInterval;
-                    $aIntervalEnd['max'] = $aValues['interval_end'];
-                }
-            }
-        }
-        // Return if at least one of endpoints for dates hasn't been set
-        if (
-               !$aIntervalStartCompare['min'] ||
-               !$aIntervalStartCompare['max'] ||
-               !$aIntervalEndCompare['min'] ||
-               !$aIntervalEndCompare['max']
-            )
-        {
-            OA::debug('  - Unable to locate all four min/max start/end interval values in the forecasts', PEAR_LOG_DEBUG);
-            return;
-        }
-        // Obtain past zone impression forecasts, so that they can be updated with the
-        // actual impressions that happened, if possible
-        OA::debug('  - Getting past zone impression forecast rows so actual impressions and past forecasts can be looked at', PEAR_LOG_DEBUG);
-        $table = $this->_getTablename('data_summary_zone_impression_history');
-        $sSelectQuery = "
-	        SELECT
-	            zone_id,
-	            operation_interval,
-                operation_interval_id,
-                interval_start,
-                interval_end,
-                forecast_impressions,
-                actual_impressions
+
+        // Prepare a SQL statement to select existing forecast data
+        $query = "
+            SELECT
+                COUNT(*) AS count
             FROM
-                {$table}
+                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_summary_zone_impression_history', true) . "
             WHERE
-                zone_id in (" . join(',', array_keys($aForecasts)) . ")
-                AND operation_interval = {$aConf['maintenance']['operationInterval']}
-               	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
-               	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'";
-        $rc = $this->oDbh->query($sSelectQuery);
-        if (PEAR::isError($rc)) {
-            OA::debug('  - Error getting past zone impression forecast rows', PEAR_LOG_DEBUG);
-            return $rc;
-        }
-        if ($rc->numRows() > 0) {
-            while ($aRow = $rc->fetchRow()) {
-                // Skip row if there's no data for it in the array
-                if (
-                    !empty($aForecasts[$aRow['zone_id']]) &&
-                    !empty($aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]) &&
-                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['interval_start'] == $aRow['interval_start']  &&
-                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['interval_end'] == $aRow['interval_end']
+                zone_id = ?
+                AND
+                operation_interval = ?
+                AND
+                operation_interval_id = ?
+                AND
+                interval_start = ?
+                AND
+                interval_end = ?";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp'
+        );
+        $stSelectForecast = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_RESULT);
+
+        // Prepare a SQL statement to perform an update of existing forecast data
+        $query = "
+            UPDATE
+                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_summary_zone_impression_history', true) . "
+            SET
+                forecast_impressions = ?,
+                est = ?
+            WHERE
+                zone_id = ?
+                AND
+                operation_interval = ?
+                AND
+                operation_interval_id = ?
+                AND
+                interval_start = ?
+                AND
+                interval_end = ?";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp'
+        );
+        $stUpdateForecast = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+
+        // Prepare a SQL statement to perform an insert of new forecast data
+        $query = "
+            INSERT INTO
+                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_summary_zone_impression_history', true) . "
+                (
+                    zone_id,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    forecast_impressions,
+                    est
                 )
-                {
-	                // Merge impresions
-	                if (!empty($aRow['actual_impressions']))
-	                {
-	                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['actual_impressions'] = $aRow['actual_impressions'];
-	                }
-	                // Save forecast_impressions from the database only if there is no newer value in the parameter array already
-	                if (empty($aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['forecast_impressions']))
-	                {
-	                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['forecast_impressions'] = $aRow['forecast_impressions'];
-	                }
-                }
-            }
-        }
-        $rc->free();
+            VALUES
+                (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?
+                )";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer'
+        );
+        $stInsertForecast = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
 
-        // Get table name
-        $table = $this->_getTablename('data_summary_zone_impression_history');
-
-        // Does the database in use support transactions?
-        if (
-               strcasecmp($aConf['database']['type'], 'mysql') === 0
-               &&
-               strcasecmp($aConf['table']['type'], 'myisam') === 0
-           )
-        {
-            // Oh noz! No transaction support? How tragic!
-            // Try to insert the new zone impression forecasts
-            OA::debug('    - Inserting new zone impression forecasts WITHOUT transaction support', PEAR_LOG_DEBUG);
-            // For each forecast in the array
-            reset($aForecasts);
-            while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
-                reset($aOperationIntervals);
-                while (list($id, $aValues) = each($aOperationIntervals)) {
-                    // Does the row already exist?
-                    $where = "zone_id = ".$this->oDbh->quote($zoneId)." AND
-                            operation_interval = ".$this->oDbh->quote($aConf['maintenance']['operationInterval'])." AND
-                            operation_interval_id = ".$this->oDbh->quote($id)." AND
-                            interval_start = ".$this->oDbh->quote($aValues['interval_start'])." AND
-                            interval_end = ".$this->oDbh->quote($aValues['interval_end'])."
-                    ";
-
-                    $query = "
-                        SELECT
-                            data_summary_zone_impression_history_id
-                        FROM
-                            {$table}
-                        WHERE
-                            {$where}";
-
-                	$rc = $this->oDbh->query($query);
-
-                    if ($rc->numRows() > 0) {
-                        // Try to update the data
-                        $query = "
-                            UPDATE
-                                {$table}
-                            SET
-                                forecast_impressions = ".$this->oDbh->quote($aValues['forecast_impressions']).",
-                                est = ".$this->oDbh->quote($aValues['est'])."
-                            WHERE
-                                {$where}";
-
-                    	$rows = $this->oDbh->exec($query);
-                        if (PEAR::isError($rows)) {
-                            OA::debug('   - Error trying to update forecast', PEAR_LOG_DEBUG);
-                            return;
+        // Iterate over all of the forecasts, and insert/update the data in
+        // the data_summary_zone_impression_history table as required
+        reset($aForecasts);
+        while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
+            $inTransaction = false;
+            reset($aOperationIntervals);
+            $operationIntervals = count($aOperationIntervals);
+            $count = 1;
+            while (list($operationIntervalId, $aValues) = each($aOperationIntervals)) {
+                // Is the zone considered to be new?
+                if ($aValues['new_zone']) {
+                    // Attempt to speed up the insertion of all of the new zone's
+                    // forecast information by performing the insert inside a
+                    // single transaction, when this is supported
+                    if ($this->oDbh->supports('transactions') && !$inTransaction) {
+                        // Start a new transaction (ignore failure of starting
+                        // transaction, only exists to provide a moderate performance
+                        // boost, rathern than a requirement for integrity)
+                        $inTransaction = $this->oDbh->beginTransaction();
+                    }
+                    // Simply insert the new zone data
+                    $aData = array(
+                        $zoneId,
+                        $aConf['maintenance']['operationInterval'],
+                        $operationIntervalId,
+                        $aValues['interval_start'],
+                        $aValues['interval_end'],
+                        $aValues['forecast_impressions'],
+                        $aValues['est']
+                    );
+                    $rows = $stInsertForecast->execute($aData);
+                    if (PEAR::isError($rows)) {
+                        // Failed to insert
+                        $message  = "Failed to insert ZIF for zone ID $zoneId, operation interval starting ";
+                        $message .= "'{$aValues['interval_start']}'. Proceeding with MPE run...";
+                        OA::debug($message, PEAR_LOG_ERR);
+                    }
+                    // End the transaction if this is last item to insert
+                    // has just been inserted
+                    if ($count == $operationIntervals && $inTransaction) {
+                        $result = $this->oDbh->commit();
+                        if (PEAR::isError($result)) {
+                            // Could not complete transaction, abort
+                            $message  = "Failed to commit transaction for new zone ID $zoneId. Aborting MPE run!";
+                            OA::debug($message, PEAR_LOG_CRIT);
+                            exit;
                         }
                     } else {
-                        // Try to insert the data
-                        $query = "
-                            INSERT INTO {$table} (
-                                zone_id,
-                                operation_interval,
-                                operation_interval_id,
-                                interval_start,
-                                interval_end,
-                                forecast_impressions,
-                                est
-                            ) VALUES (
-                                ".$this->oDbh->quote($zoneId).",
-                                ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
-                                ".$this->oDbh->quote($id).",
-                                ".$this->oDbh->quote($aValues['interval_start']).",
-                                ".$this->oDbh->quote($aValues['interval_end']).",
-                                ".$this->oDbh->quote($aValues['forecast_impressions']).",
-                                ".$this->oDbh->quote($aValues['est'])."
-                            )
-                        ";
-
-                		$rows = $this->oDbh->exec($query);
+                        $count++;
+                    }
+                } else {
+                    // Try to select the data
+                    $aData = array(
+                        $zoneId,
+                        $aConf['maintenance']['operationInterval'],
+                        $operationIntervalId,
+                        $aValues['interval_start'],
+                        $aValues['interval_end']
+                    );
+                    $rsResult = $stSelectForecast->execute($aData);
+                    if (PEAR::isError($rsResult)) {
+                        // Could not select
+                        $message  = "Unable to select for past ZIF for zone ID $zoneId, operation interval ";
+                        $message .= "starting '{$aValues['interval_start']}'. Skipping zone, and proceeding ";
+                        $message .= "with MPE run...";
+                        OA::debug($message, PEAR_LOG_ERR);
+                        continue;
+                    }
+                    $aRow = $rsResult->fetchRow();
+                    if (!is_array($aRow)) {
+                        // Could not select
+                        $message  = "Unable to select for past ZIF for zone ID $zoneId, operation interval ";
+                        $message .= "starting '{$aValues['interval_start']}'. Skipping zone, and proceeding ";
+                        $message .= "with MPE run...";
+                        OA::debug($message, PEAR_LOG_ERR);
+                        continue;
+                    }
+                    if ($aRow['count'] == 0) {
+                        // Insert the data
+                        $aData = array(
+                            $zoneId,
+                            $aConf['maintenance']['operationInterval'],
+                            $operationIntervalId,
+                            $aValues['interval_start'],
+                            $aValues['interval_end'],
+                            $aValues['forecast_impressions'],
+                            $aValues['est']
+                        );
+                        $rows = $stInsertForecast->execute($aData);
                         if (PEAR::isError($rows)) {
-                            OA::debug('   - Error trying to insert new forecast', PEAR_LOG_DEBUG);
-                            return;
+                            // Failed to insert
+                            $message  = "Failed to insert ZIF for zone ID $zoneId, operation interval starting ";
+                            $message .= "'{$aValues['interval_start']}'. Proceeding with MPE run...";
+                            OA::debug($message, PEAR_LOG_ERR);
+                        }
+                    } else {
+                        // Update the data
+                        $aData = array(
+                            $aValues['forecast_impressions'],
+                            $aValues['est'],
+                            $zoneId,
+                            $aConf['maintenance']['operationInterval'],
+                            $operationIntervalId,
+                            $aValues['interval_start'],
+                            $aValues['interval_end']
+                        );
+                        $rows = $stUpdateForecast->execute($aData);
+                        if (PEAR::isError($rows)) {
+                            // Failed to update
+                            $message  = "Failed to update ZIF for zone ID $zoneId, operation interval starting ";
+                            $message .= "'{$aValues['interval_start']}'. Proceeding with MPE run...";
+                            OA::debug($message, PEAR_LOG_ERR);
                         }
                     }
                 }
             }
-
         }
-        else
-        {
-            // Oh yeah, baby, none of that ACID-less MyISAM for me!
-            OA::debug('  - Saving zone impression forecasts WITH transaction support', PEAR_LOG_DEBUG);
-            // Start a transaction
-            OA::debug('    - Starting transaction', PEAR_LOG_DEBUG);
-            $oRes = $this->oDbh->beginTransaction();
-            if (PEAR::isError($oRes)) {
-                // Cannot start transaction
-                OA::debug('    - Error: Could not start transaction', PEAR_LOG_DEBUG);
-                return $oRes;
-            }
-            // Delete all the past zone impression forecast records
-            OA::debug('  - Deleting past zone impression forecasts', PEAR_LOG_DEBUG);
-            $table = $this->_getTablename('data_summary_zone_impression_history');
-            $sDeleteQuery =  "
-                DELETE FROM
-                    {$table}
-                WHERE
-                	zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ")
-                	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
-                	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'
-                	AND operation_interval = {$aConf['maintenance']['operationInterval']}";
-            // Run query and check for results
-            $rc = $this->oDbh->query($sDeleteQuery);
-            if (PEAR::isError($rc)) {
-                OA::debug('    - Error: Rolling back transaction', PEAR_LOG_DEBUG);
-                $this->oDbh->rollback();
-                return $rc;
-            }
-            // Insert the new zone impression forecasts
-            OA::debug('    - Inserting new zone impression forecasts', PEAR_LOG_DEBUG);
-            // For each forecast in the array
-            reset($aForecasts);
-            while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
-                reset($aOperationIntervals);
-                while (list($id, $aValues) = each($aOperationIntervals)) {
-                    // Insert the forecast
-                    $query = "
-                        INSERT INTO {$table} (
-                            zone_id,
-                            operation_interval,
-                            operation_interval_id,
-                            interval_start,
-                            interval_end,
-                            actual_impressions,
-                            forecast_impressions,
-                            est
-                        ) VALUES (
-                            ".$this->oDbh->quote($zoneId).",
-                            ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
-                            ".$this->oDbh->quote($id).",
-                            ".$this->oDbh->quote($aValues['interval_start']).",
-                            ".$this->oDbh->quote($aValues['interval_end']).",
-                            ".$this->oDbh->quote($aValues['actual_impressions']).",
-                            ".$this->oDbh->quote($aValues['forecast_impressions']).",
-                            ".$this->oDbh->quote($aValues['est'])."
-                        )
-                    ";
 
-                    $rows = $this->oDbh->exec($query);
-                    if (PEAR::isError($rows)) {
-                        OA::debug('    - Error: Rolling back transaction', PEAR_LOG_DEBUG);
-                        $this->oDbh->rollback();
-                        return $rows;
-                    }
-                }
-            }
-            // Commit the transaction
-            $oRes = $this->oDbh->commit();
-            if (PEAR::isError($oRes)) {
-                OA::debug('    - Error: Could not commit the transaction', PEAR_LOG_DEBUG);
-                return $oRes;
-            }
-        }
+        // Free the prepared statements
+        $stSelectForecast->free();
+        $stUpdateForecast->free();
+        $stInsertForecast->free();
     }
 
     /**

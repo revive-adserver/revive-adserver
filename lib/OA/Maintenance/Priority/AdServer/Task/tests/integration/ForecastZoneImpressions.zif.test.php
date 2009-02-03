@@ -175,9 +175,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doData_summary_zone_impression_history->find();
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
         $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 3;
-//        echo "<pre>";
-//        var_dump($storedForecasts);
-//        var_dump($expectedForecasts);
         $this->assertEqual($storedForecasts, $expectedForecasts);
         // For the Zone ID 0 zone and the two "real" zones...
         for ($zoneId = 0; $zoneId < 3; $zoneId++) {
@@ -239,6 +236,24 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oLogCompletion->oController->oUpdateFinalToDate        = $aDates['end'];
         $oLogCompletion->run($oNowDate);
 
+        // Add a third zone, which will demonstrate OX-4754, in combination
+        // with the "exit" statement later on...
+        $doZones = OA_Dal::factoryDO('zones');
+        $oNow = new Date();
+        $doZones->zonename = 'Third Zone';
+        $doZones->zonetype = 3;
+        $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $idZoneThird = DataGenerator::generateOne($doZones, true);
+
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->ad_id = $idBanner;
+        $doAdZone->zone_id = $idZoneThird;
+        $doAdZone->priority = 0;
+        $doAdZone->link_type = 1;
+        $doAdZone->priority_factor = 1;
+        $doAdZone->to_be_delivered = 1;
+        $idAdZone = DataGenerator::generateOne($doAdZone);
+
         // NUMBER 3: Run the ZIF task
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->run();
@@ -257,10 +272,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doData_summary_zone_impression_history->whereAdd("interval_start >= '2007-09-11 17:00:00'");
         $doData_summary_zone_impression_history->find();
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
-        $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 3;
+        $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 4;
         $this->assertEqual($storedForecasts, $expectedForecasts);
         // For the Zone ID 0 zone and the two "real" zones...
-        for ($zoneId = 0; $zoneId < 3; $zoneId++) {
+        for ($zoneId = 0; $zoneId < 4; $zoneId++) {
             // Set the start date and start operation interval ID based on the
             // fact that it should have forecast for the week up to the
             // operation interval starting at "2007-09-18 16:00:00" (ID 63),

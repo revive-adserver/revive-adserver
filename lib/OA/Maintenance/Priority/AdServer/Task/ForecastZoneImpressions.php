@@ -185,16 +185,22 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
     function OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions()
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
+
         // Store the configuration array
         $this->aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Store the current date/time
         $this->oDateNow = $this->getDateNow();
+
         // Set the date to update ZIF values until - that is, the end of the
         // current operation interval
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
         $this->oUpdateToDate = $aDates['end'];
+
         // Obtain the information about the last MSE run
         $aData = $this->oDal->getMaintenanceStatisticsLastRunInfo();
         $this->oStatisticsUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
+
         // Obtain the information about the last MPE run
         $aData = $this->oDal->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
         $this->oPriorityUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
@@ -202,9 +208,11 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
 
         // Prepare the list of all active zones in the system
         $this->aActiveZoneIDs = $this->_getActiveZonesIDs();
+
         // Set other zone ID arrays to empty arrays
         $this->aNewZoneIDs = array();
         $this->aRecentZoneIDs = array();
+
         // Set the results arrays to an empty arrays
         $this->aForecastResults = array();
         $this->aPastForecastResults = array();
@@ -270,9 +278,11 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      */
     function run()
     {
+        // Initial debugging output and task start date
         OA::debug('Running Maintenance Priority Engine: Zone Impression Forecast Update', PEAR_LOG_DEBUG);
         $oStartDate = new Date();
 
+        // Perform the zone forecasting
         $this->forecast();
 
         // Record the completion of the task in the database
@@ -308,7 +318,9 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             // If there are new zones found, then the "complete last week" range of
             // operation intervals will be needed for these zones - prepare this
             // range now, in advance of it being needed
-            $this->aFullWeekRanges = $this->_getOperationIntervalRanges(true);
+            if (!empty($this->aNewZoneIDs)) {
+                $this->aFullWeekRanges = $this->_getOperationIntervalRanges(true);
+            }
         }
         // Convert the required update type into an array of operation interval ID
         // ranges, being the operation interval IDs where all zones require their
@@ -319,17 +331,19 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             // ... calculate that zone's ZIF data as required
             OA::debug("- Calculating the ZIF data for Zone ID $zoneId", PEAR_LOG_DEBUG);
             // Is this a new zone?
+            $newZone = false;
             if (in_array($zoneId, $this->aNewZoneIDs)) {
                 // Calculate the ZIF values for the complete last week, as this
                 // new zone won't have any ZIF information, even if the MPE has
                 // previously been run
                 OA::debug("  - Found as new zone, updating for complete week", PEAR_LOG_DEBUG);
+                $newZone = true;
                 $aUseRanges =& $this->aFullWeekRanges;
             } else {
                 // Calculate the ZIF values for just the required ranges, if present
                 $aUseRanges =& $aRanges;
             }
-            $this->_calculateZoneImpressionForecastValues($zoneId, $aUseRanges);
+            $this->_calculateZoneImpressionForecastValues($zoneId, $aUseRanges, $newZone);
             // ... and also calculate the zone's new "past" ZIF update data, if required
             if (in_array($zoneId, $this->aRecentZoneIDs)) {
                 $this->_calculatePastZoneImpressionForecastValues($zoneId);
@@ -337,7 +351,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         }
         // Save any ZIF data that has been calculated
         if (!empty($this->aForecastResults)) {
-            $this->oDal->saveZoneImpressionForecasts($this->aForecastResults);
+            $this->oDal->saveZoneImpressionForecasts($this->aForecastResults); // Update to ensure additional info passed in about how to save...
         }
         // Update any "past" ZIF data for recently created zones that has been calculated
         if (!empty($this->aPastForecastResults)) {
@@ -562,9 +576,12 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      * @param array   $aRanges An array of arrays, containing ranges of operation
      *                         intervals that the zone will need its ZIF values
      *                         updated for.
+     * @param boolean $newZone The zone is considered to be "new"; store this
+     *                         information along with the forecasts.
+     *
      * @return void
      */
-    function _calculateZoneImpressionForecastValues($zoneId, $aRanges)
+    function _calculateZoneImpressionForecastValues($zoneId, $aRanges, $newZone)
     {
         // Check the parameters
         if (!is_integer($zoneId) || $zoneId < 0) {
@@ -615,7 +632,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                             $zoneId,
                             $intervalId,
                             $aInterval,
-                            $aZoneForecastAndImpressionHistory[$previousIntervalID]['actual_impressions']
+                            $aZoneForecastAndImpressionHistory[$previousIntervalID]['actual_impressions'],
+                            $newZone
                         );
                     } else {
                         // Use the default value as the new forecast, and note that the forecast
@@ -629,6 +647,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                             $intervalId,
                             $aInterval,
                             $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                            $newZone,
                             true
                         );
                     }
@@ -687,7 +706,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                             $zoneId,
                             $intervalId,
                             $aInterval,
-                            $aZoneImpressionAverages[$intervalId] * $trendValue
+                            $aZoneImpressionAverages[$intervalId] * $trendValue,
+                            $newZone
                         );
                     } else {
                         // The trend data could not be calculated, so simply use the past average as the
@@ -700,7 +720,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                             $zoneId,
                             $intervalId,
                             $aInterval,
-                            $aZoneImpressionAverages[$intervalId]
+                            $aZoneImpressionAverages[$intervalId],
+                            $newZone
                         );
                     }
                 }
@@ -848,15 +869,17 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      *                                  the start and end dates of the operation interval,
      *                                  respectively.
      * @param integer $forecast         The forecast value for the zone/operation interval.
+     * @param boolean $newZone          Is the zone considered to be a "new" zone, or not?
      * @param boolean $estimated        True if the forecast is based on the default, false otherwise.
      * @return void
      */
-    function _storeForecast(&$aForecastResults, &$aZFAIH, $zoneId, $intervalId, $aInterval, $forecast, $estimated = false)
+    function _storeForecast(&$aForecastResults, &$aZFAIH, $zoneId, $intervalId, $aInterval, $forecast, $newZone, $estimated = false)
     {
         $aForecastResults[$zoneId][$intervalId] = array(
             'forecast_impressions' => $forecast,
             'interval_start'       => $aInterval['start']->format('%Y-%m-%d %H:%M:%S'),
             'interval_end'         => $aInterval['end']->format('%Y-%m-%d %H:%M:%S'),
+            'new_zone'             => $newZone,
             'est'                  => $estimated ? 1 : 0
         );
         $aZFAIH[$intervalId]['forecast_impressions'] = $forecast;
