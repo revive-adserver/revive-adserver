@@ -131,7 +131,7 @@ read this before reporting any new bugs.
    need to update you database software before upgrading.
 
  * If you want to run OpenX with PostgreSQL, please note that OpenX ${RELEASE_MAJOR_MINOR}
-   requires PostgreSQL 8.1 of higher. If you are using an older version of
+   requires PostgreSQL 8.1 or higher. If you are using an older version of
    PostgreSQL, you will need to update your database software before
    upgrading.
 
