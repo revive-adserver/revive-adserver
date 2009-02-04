@@ -704,7 +704,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
         $oNotificationManager->queueNotification(
-            'Earn more revenue by activating OpenX Market for your adserver.<br>
+            'Earn more revenue by activating OpenX Market for your ad server.<br>
             <a href="'.$url.'">Get started now &raquo;</a>', 'info', 'oxMarketRegister');
     }
         
