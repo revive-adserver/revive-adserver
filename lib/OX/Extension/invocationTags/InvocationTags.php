@@ -171,13 +171,14 @@ class Plugins_InvocationTags extends OX_Component
             'clickurl'  => 'INSERT_CLICKURL_HERE',
         );
         if (!empty($mi->thirdpartytrack) && ($mi->thirdpartytrack != 'generic')) {
-            $thirdpartyserver = OX_Component::factoryByComponentIdentifier($mi->thirdpartytrack);
-            $thirdpartyname = $thirdpartyserver->getName();
-            if (!empty($thirdpartyserver->clickurlMacro)) {
-                $mi->macros['clickurl'] = $thirdpartyserver->clickurlMacro;
-            }
-            if (!empty($thirdpartyserver->cachebusterMacro)) {
-                $mi->macros['cachebuster'] = $thirdpartyserver->cachebusterMacro;
+            if ($thirdpartyserver = OX_Component::factoryByComponentIdentifier($mi->thirdpartytrack)) {
+                $thirdpartyname = $thirdpartyserver->getName();
+                if (!empty($thirdpartyserver->clickurlMacro)) {
+                    $mi->macros['clickurl'] = $thirdpartyserver->clickurlMacro;
+                }
+                if (!empty($thirdpartyserver->cachebusterMacro)) {
+                    $mi->macros['cachebuster'] = $thirdpartyserver->cachebusterMacro;
+                }
             }
         }
         $mi->parameters = array();
