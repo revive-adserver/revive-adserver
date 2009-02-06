@@ -62,11 +62,11 @@ class OA_Admin_Statistics_Factory
     {
         if (!@include_once $file)
         {
-            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Failed to acquire file ".$file;
+            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Unable to locate " . basename($file);
             return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
         }
         if (!class_exists($class)) {
-            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Class ".$class." doesn't exists";
+            $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Class {$class} doesn't exist";
             return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
         }
         $oController = new $class($aParams);
