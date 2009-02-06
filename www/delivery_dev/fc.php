@@ -53,7 +53,7 @@ $aPluginId = explode(':', $script);
 
 $scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
 
-if (stristr($scriptFileName, '../') || !is_readable($scriptFileName) || !is_file($scriptFileName)) {
+if (stristr($scriptFileName, '../') || stristr($scriptFileName, '..\\') || !is_readable($scriptFileName) || !is_file($scriptFileName)) {
     if (empty($conf['debug']['production'])) {
         echo "Unable to find delivery script ({$scriptFileName}) for specified plugin-component-identifier: {$script}";
     }
