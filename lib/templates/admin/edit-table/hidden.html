@@ -26,5 +26,5 @@ $Id$
 -->
 
 *}{foreach item=s from=$from}
-<input type="hidden" name="{$s.name}" value="{$s.value}" />
+<input type="hidden" name="{$s.name}" value="{$s.value|escape}" />
 {/foreach}
