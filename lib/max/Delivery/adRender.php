@@ -632,6 +632,14 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     if (!empty($loc)) $url .= $amp . "loc=" . urlencode($loc);
     if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
     $url .= $amp . "cb={random}";
+
+    // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
+    $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+    foreach ($componentParams as $params) {
+        foreach ($params as $key => $value) {
+            $url .= $amp . urlencode($key) . '=' . urlencode($value);
+        }
+    }
     return $url;
 }
 
@@ -711,7 +719,16 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
             $maxdest = "{$del}{$conf['var']['dest']}={$ct0}{$dest}";
         }
         $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
-        $maxparams = "{$delnum}{$bannerId}{$zoneId}{$source}{$log}{$random}{$maxdest}";
+        
+        $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
+        // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
+        $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+        foreach ($componentParams as $params) {
+            foreach ($params as $key => $value) {
+                $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+            }
+        }
+        $maxparams .= $maxdest;
     }
     return $maxparams;
 }
