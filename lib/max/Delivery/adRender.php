@@ -164,11 +164,13 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     }
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
-    foreach ($componentParams as $params) {
-        if (!empty($params) && is_array($params)) {
-            foreach ($params as $key => $value) {
-                $search[]  = '{' . $key . '}';
-                $replace[] = urlencode($value);
+    if (!empty($componentParams) && is_array($componentParams)) {
+        foreach ($componentParams as $params) {
+            if (!empty($params) && is_array($params)) {
+                foreach ($params as $key => $value) {
+                    $search[]  = '{' . $key . '}';
+                    $replace[] = urlencode($value);
+                }
             }
         }
     }
@@ -644,10 +646,12 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
 
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
-    foreach ($componentParams as $params) {
-        if (!empty($params) && is_array($params)) {
-            foreach ($params as $key => $value) {
-                $url .= $amp . urlencode($key) . '=' . urlencode($value);
+    if (!empty($componentParams) && is_array($componentParams)) {
+        foreach ($componentParams as $params) {
+            if (!empty($params) && is_array($params)) {
+                foreach ($params as $key => $value) {
+                    $url .= $amp . urlencode($key) . '=' . urlencode($value);
+                }
             }
         }
     }
@@ -734,10 +738,12 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
         // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
         $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
-        foreach ($componentParams as $params) {
-            if (!empty($params) && is_array($params)) {
-                foreach ($params as $key => $value) {
-                    $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+        if (!empty($componentParams) && is_array($componentParams)) {
+            foreach ($componentParams as $params) {
+                if (!empty($params) && is_array($params)) {
+                    foreach ($params as $key => $value) {
+                        $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+                    }
                 }
             }
         }

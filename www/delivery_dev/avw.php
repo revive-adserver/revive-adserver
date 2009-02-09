@@ -66,10 +66,12 @@ if (!empty($row['html'])) {
     }
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($row));
-    foreach ($componentParams as $params) {
-        if (!empty($params) && is_array($params)) {
-            foreach ($params as $key => $value) {
-                $cookie[$key] = $value;
+    if (!empty($componentParams) && is_array($componentParams)) {
+        foreach ($componentParams as $params) {
+            if (!empty($params) && is_array($params)) {
+                foreach ($params as $key => $value) {
+                    $cookie[$key] = $value;
+                }
             }
         }
     }
