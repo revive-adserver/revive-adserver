@@ -1760,6 +1760,16 @@ $search[] = $macros[0][$i];
 $replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : stripslashes($_REQUEST[$macros[1][$i]]);
 }
 }
+// addUrlParams hook for plugins to add key=value pairs to the log/click URLs
+$componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+foreach ($componentParams as $params) {
+if (!empty($params) && is_array($params)) {
+foreach ($params as $key => $value) {
+$search[]  = '{' . $key . '}';
+$replace[] = urlencode($value);
+}
+}
+}
 $code = str_replace($search, $replace, $code);
 $clickUrl = str_replace($search, $replace, $clickUrl);
 $aBanner['clickUrl'] = $clickUrl;
