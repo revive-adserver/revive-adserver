@@ -2068,8 +2068,10 @@ $url .= $amp . "cb={random}";
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
 foreach ($componentParams as $params) {
+if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $url .= $amp . urlencode($key) . '=' . urlencode($value);
+}
 }
 }
 return $url;
@@ -2125,8 +2127,10 @@ $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
 foreach ($componentParams as $params) {
+if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+}
 }
 }
 $maxparams .= $maxdest;
