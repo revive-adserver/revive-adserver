@@ -1762,11 +1762,13 @@ $replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros
 }
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $search[]  = '{' . $key . '}';
 $replace[] = urlencode($value);
+}
 }
 }
 }
@@ -2077,10 +2079,12 @@ if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
 $url .= $amp . "cb={random}";
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $url .= $amp . urlencode($key) . '=' . urlencode($value);
+}
 }
 }
 }
@@ -2136,10 +2140,12 @@ $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logL
 $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+}
 }
 }
 }

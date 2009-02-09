@@ -1927,10 +1927,12 @@ $aVariables = array();
 $aValidVariables = array_values($conf['var']);
 // See if any plugin-components have added items to the click url...
 $componentParams =  OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
+if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
 $aValidVariables[] = $key;
+}
 }
 }
 }
