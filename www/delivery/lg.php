@@ -1925,6 +1925,13 @@ return;
 }
 $aVariables = array();
 $aValidVariables = array_values($conf['var']);
+// See if any plugin-components have added items to the click url...
+$componentParams =  OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
+foreach ($componentParams as $params) {
+foreach ($params as $key => $value) {
+$aValidVariables[] = $key;
+}
+}
 // We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);
 if (!empty($destParams['query'])) {
