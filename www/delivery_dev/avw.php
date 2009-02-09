@@ -67,8 +67,10 @@ if (!empty($row['html'])) {
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($row));
     foreach ($componentParams as $params) {
-        foreach ($params as $key => $value) {
-            $cookie[$key] = $value;
+        if (!empty($params) && is_array($params)) {
+            foreach ($params as $key => $value) {
+                $cookie[$key] = $value;
+            }
         }
     }
     // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)

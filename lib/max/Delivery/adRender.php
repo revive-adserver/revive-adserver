@@ -636,8 +636,10 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
     foreach ($componentParams as $params) {
-        foreach ($params as $key => $value) {
-            $url .= $amp . urlencode($key) . '=' . urlencode($value);
+        if (!empty($params) && is_array($params)) {
+            foreach ($params as $key => $value) {
+                $url .= $amp . urlencode($key) . '=' . urlencode($value);
+            }
         }
     }
     return $url;
@@ -724,8 +726,10 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
         $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
         foreach ($componentParams as $params) {
-            foreach ($params as $key => $value) {
-                $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+            if (!empty($params) && is_array($params)) {
+                foreach ($params as $key => $value) {
+                    $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
+                }
             }
         }
         $maxparams .= $maxdest;

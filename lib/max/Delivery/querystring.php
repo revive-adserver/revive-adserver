@@ -138,8 +138,10 @@ function MAX_querystringGetDestinationUrl($adId = null)
     // See if any plugin-components have added items to the click url...
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
     foreach ($componentParams as $params) {
-        foreach ($params as $key => $value) {
-            $aValidVariables[] = $key;
+        if (!empty($params) && is_array($params)) {
+            foreach ($params as $key => $value) {
+                $aValidVariables[] = $key;
+            }
         }
     }
     
