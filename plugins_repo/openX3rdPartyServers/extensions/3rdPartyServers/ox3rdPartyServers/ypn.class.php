@@ -63,18 +63,27 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_ypn extends Plugins_3rdPartyServ
         $conf = $GLOBALS['_MAX']['CONF'];
         if (preg_match('/<script.*?src=".*?ypn-js\.overture\.com/is', $buffer))
         {
-            $buffer = "<span>".
+            $new_buffer = "<span>".
                       "<script type='text/javascript'><!--// <![CDATA[\n".
-                      "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
+            "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} ";
+            // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
+            $componentParams =  OX_Delivery_Common_hook('addUrlParams', array());
+            foreach ($componentParams as $params) {
+                if (!empty($params) && is_array($params)) {
+                    foreach ($params as $key => $value) {
+                        $new_buffer .= urlencode($key) . '={' . urlencode($key) . '} ';
+                    }
+                }
+            }
+            $new_buffer .= "*/\n".
                       "// ]]> --></script>".
                       $buffer.
                       "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
                       "</span>";
+            return $new_buffer;
         }
-
         return $buffer;
     }
-
 }
 
 ?>

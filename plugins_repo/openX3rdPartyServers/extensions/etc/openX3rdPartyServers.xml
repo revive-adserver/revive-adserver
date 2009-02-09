@@ -4,12 +4,12 @@
 <plugin>
     <name>openX3rdPartyServers</name>
     <creationDate>2008-08-01</creationDate>
-    <author>Chris Nutting</author>
-    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>hello@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>3rd Party Server plugins for OpenX</description>
-    <version>1.0.0-dev</version>
+    <version>1.0.1</version>
     <type>package</type>
 
     <install>
