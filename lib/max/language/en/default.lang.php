@@ -629,9 +629,9 @@ $GLOBALS['strBannerNoStats']                 = "There are no statistics availabl
 $GLOBALS['strNoBanners']                     = "There are currently no banners defined for this campaign.";
 $GLOBALS['strNoBannersAddCampaign']          = "There are currently no banners defined, because there are no campaigns. To create a banner, <a href='campaign-edit.php?clientid=%s'>add a new campaign</a> first.";
 $GLOBALS['strNoBannersAddAdvertiser']        = "There are currently no banners defined, because there are no advertisers. To create a banner, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
-$GLOBALS['strConfirmDeleteBanner']           = "Do you really want to delete this banner?";
-$GLOBALS['strConfirmDeleteBanners']          = "Do you really want to delete the selected banners?";
-$GLOBALS['strConfirmDeleteAllBanners']       = "Do you really want to delete all banners which are owned by this campaign?";
+$GLOBALS['strConfirmDeleteBanner']           = "Deleting this banner will also remove its statistics.\\nDo you really want to delete this banner?";
+$GLOBALS['strConfirmDeleteBanners']          = "Deleting these banners will also remove their statistics.\\nDo you really want to delete the selected banners?";
+$GLOBALS['strConfirmDeleteAllBanners']       = "Deleting the banners will also remove their statistics.\\nDo you really want to delete all banners which are owned by this campaign?";
 $GLOBALS['strConfirmResetBannerStats']       = "Do you really want to delete all existing statistics for this banner?";
 $GLOBALS['strShowParentCampaigns']           = "Show parent campaigns";
 $GLOBALS['strHideParentCampaigns']           = "Hide parent campaigns";
