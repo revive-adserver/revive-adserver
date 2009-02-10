@@ -2562,6 +2562,7 @@ $output = array(
 'aReplace'      => $row['aReplace'],
 'bannerContent' => $row['bannerContent'],
 'clickwindow'   => $row['clickwindow'],
+'aRow'          => $row,
 'context'       => _adSelectBuildContext($row, $context)
 );
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
