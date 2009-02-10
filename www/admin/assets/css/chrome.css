@@ -1871,7 +1871,9 @@ div.dropDown div.panel div div.column {
     position: relative;
     display: block;
     float: left;
-	  z-index: 2002;
+    z-index: 2002;
+    
+    background: transparent url(../images/dropdown-background.png) repeat scroll left 2px;
     
     line-height: 20px;
     padding: 0;
@@ -1910,13 +1912,18 @@ div.dropDown div.panel div div.column {
     position: static;
     float: none;
     
-    background: transparent url(../images/arrow-d.gif) right center no-repeat;
+    background-position: right -23px;
+    background-repeat: no-repeat;
     color: #444;
     border: none;
 
 	  padding: 1px 12px 1px 0;
 	  *padding: 1px 12px 2px 0;
 	  -padding: 3px 12px 3px 0;
+}
+
+.breadcrumb .dropDown.active span span {
+    background: transparent url(../images/message-arrow-d.gif) right center no-repeat;
 }
 
 .breadcrumb .dropDown span span ul,
