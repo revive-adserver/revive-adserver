@@ -2967,7 +2967,7 @@ $aResponse[$key] = $value;
 }
 }
 $aResponse['creativeUrl'] = _adRenderBuildFileUrl($banner['aRow']);
-$outputXml = "<?xml version='1.0' encoding='{$charset}' \n<ad version='1.0'>\n";
+$outputXml = "<?xml version='1.0' encoding='{$charset}' ?".">\n<ad version='1.0'>\n";
 buildXmlTree($aResponse, $outputXml);
 $outputXml .= "</ad>";
 echo $outputXml;
