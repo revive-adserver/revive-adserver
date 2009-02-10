@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
     <oxversion>2.7.29-beta-rc3</oxversion>
     <extends>admin</extends>
 
@@ -27,6 +27,7 @@
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/templates/">market-callout.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
             <file path="{ADMINPATH}/templates/">market-inactive.html</file> 
             <file path="{ADMINPATH}/templates/">market-info.html</file>

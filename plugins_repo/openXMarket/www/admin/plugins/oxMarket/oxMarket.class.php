@@ -97,17 +97,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (OA_Permission::isUserLinkedToAdmin()) {
             $infoLink = $this->translate("(<a href='%s'>What is this?</a>)", array($marketInfoUrl));
         }
-        $form->addElement ( 'header', 'h_marketplace', "OpenX Market " . $infoLink);
+        $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
 
-        //TODO externalize intro strings
-        $form->addElement('static', 'enableIntro', null, $this->translate("Earn more money by participating in the OpenX Market"));
-        $form->addElement('advcheckbox', 'mkt_is_enabled', null, $this->translate("Yes, serve a campaign from the OpenX Market if it beats my floor price."), array('id' => 'enable_mktplace'), array("f", "t"));
-        $form->addElement('static', 'priceIntro', null, $this->translate("Set the floor price.  If an advertiser in the Market cannot beat it, your original ad will be shown."));
-
+        $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->translate("Allow OpenX Market to show ads for this campaign if it beats the CPM below (RECOMMENDED)"), array('id' => 'enable_mktplace'), array("f", "t"));
+        $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
+        $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price'));
-        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', '<span class="hint">', $this->translate("Note: Floor price is in USD"));
-        $form->addGroup($aFloorPrice, 'floor_price_group', $this->translate("Set campaign floor price"));
+        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
+        $form->addGroup($aFloorPrice, 'floor_price_group', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM"));
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
+        
+        
 
 
         //Form validation rules
