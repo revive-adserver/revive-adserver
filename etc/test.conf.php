@@ -94,6 +94,7 @@ local                               = alocal.php
 frontcontroller                     = fc.php
 singlepagecall                      = spc.php
 spcjs                               = spcjs.php
+xmlrest                             = ax.php
 
 [store]
 mode                                =
