@@ -12,6 +12,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement
     private $vars;
     private $pluginName;
     private $templateId;
+    private $visible;    
     
     
    /**
@@ -20,7 +21,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement
     * @param mixed $elementName    custom element name or if its array then first element
     * is element name and the second one is template name
     */
-    function OA_Admin_UI_Component_CustomPluginFormElement($elementName = null, $pluginName = null, $elementLabel = null, $vars = null)
+    function OA_Admin_UI_Component_CustomPluginFormElement($elementName = null, $pluginName = null, $elementLabel = null, $vars = null, $visible = true)
     {
         if (is_array($elementName)) {
             $name = $elementName[0];
@@ -36,6 +37,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement
         $this->pluginName = $pluginName;
         $this->templateId = $templateId; 
         $this->vars = $vars;
+        $this->visible = true;
     }
     
     
@@ -68,6 +70,15 @@ class OA_Admin_UI_Component_CustomPluginFormElement
     function getPluginName()
     {
         return $this->pluginName;
+    }
+    
+
+    /**
+     * Returns if this element is visible and thus should generate a break
+     */
+    function isVisible()
+    {
+        return $this->visible;
     }    
     
    
