@@ -786,6 +786,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oManager = new $oMockManager($this);
+        $oManager->__construct();
         $oManager->pathPackages      = $this->testpathPackages;
         $oManager->pathPluginsAdmin = $this->testpathPluginsAdmin;
 

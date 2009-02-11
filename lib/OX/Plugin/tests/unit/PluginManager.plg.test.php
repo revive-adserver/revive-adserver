@@ -763,6 +763,7 @@ class Test_OX_PluginManager extends UnitTestCase
                                      )
                              );
         $oManager = new $oMockManager($this);
+        $oManager->__construct();
         $oManager->pathPackages = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
 
         // Test 1 - parse failure
