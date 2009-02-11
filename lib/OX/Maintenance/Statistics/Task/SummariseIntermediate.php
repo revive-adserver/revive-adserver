@@ -153,12 +153,30 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         if (PEAR::isError($result)) {
                             // Oh noz! The bucket data could not be migrated
                             // Tell the user all about it, but then just keep on truckin'...
-                            $message = "   ERROR: Could not migrate raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table.";
+                            $message = "   ERROR: Could not migrate raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table";
                             OA::debug($message, PEAR_LOG_ERR);
-                            $message = "   Error message was: {$result->message}.";
+                            $message = "   Error message was: {$result->message}";
                             OA::debug($message, PEAR_LOG_ERR);
                         } else {
-                            $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            $message = "  - Migrated $result row(s)";
+                            OA::debug($message, PEAR_LOG_DEBUG);
+                            $pruneResult = $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            if (PEAR::isError($pruneResult)) {
+                                // Oh noz! The bucket data could not be pruned, and this is
+                                // critical - if we can't prune the data, we'll end up double
+                                // counting, so exit with a critical error...
+                                $message = "   ERROR: Could not prune aggregate bucket data from the '" .
+                                           $aSummariseComponents[$statisticsTable][$componentClassName]->getBucketName() . "' bucket table";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Error message was: {$pruneResult->message}";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Aborting maintenance execution";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                exit();
+                            } else {
+                                $message = "  - Pruned $pruneResult row(s)";
+                                OA::debug($message, PEAR_LOG_DEBUG);
+                            }
                         }
                     }
                 }
@@ -181,12 +199,30 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         if (PEAR::isError($result)) {
                             // Oh noz! The bucket data could not be migrated
                             // Tell the user all about it, but then just keep on truckin'...
-                            $message = "   ERROR: Could not migrate supplementary raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table.";
+                            $message = "   ERROR: Could not migrate supplementary raw bucket data from the '{$aMigrationDetails['bucketTable']}' bucket table";
                             OA::debug($message, PEAR_LOG_ERR);
-                            $message = "   Error message was: {$result->message}.";
+                            $message = "   Error message was: {$result->message}";
                             OA::debug($message, PEAR_LOG_ERR);
                         } else {
-                            $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            $message = "  - Migrated $result row(s)";
+                            OA::debug($message, PEAR_LOG_DEBUG);
+                            $pruneResult = $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            if (PEAR::isError($pruneResult)) {
+                                // Oh noz! The bucket data could not be pruned, and this is
+                                // critical - if we can't prune the data, we'll end up double
+                                // counting, so exit with a critical error...
+                                $message = "   ERROR: Could not prune aggregate bucket data from the '" .
+                                           $aSummariseComponents[$statisticsTable][$componentClassName]->getBucketName() . "' bucket table";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Error message was: {$pruneResult->message}";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Aborting maintenance execution";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                exit();
+                            } else {
+                                $message = "  - Pruned $pruneResult row(s)";
+                                OA::debug($message, PEAR_LOG_DEBUG);
+                            }
                         }
                     }
                 }
@@ -217,8 +253,8 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     OA::debug($message, PEAR_LOG_DEBUG);
                     $message = "  to the '$statisticsTable' table, for operation interval range";
                     OA::debug($message, PEAR_LOG_DEBUG);
-                    $message = '  ' . $aDates['start']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
-                               ' to ' . $aDates['end']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
+                    $message = '  ' . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
+                               ' to ' . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
                     OA::debug($message, PEAR_LOG_DEBUG);
                     $result = $oDal->summariseBucketsAggregate($statisticsTable, $aMaps, $aDates, $aExtras);
                     if (PEAR::isError($result)) {
@@ -226,11 +262,29 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         // Tell the user all about it, but then just keep on truckin'...
                         $message = "   ERROR: Could not migrate aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
                         OA::debug($message, PEAR_LOG_ERR);
-                        $message = "   Error message was: {$result->message}.";
+                        $message = "   Error message was: {$result->message}";
                         OA::debug($message, PEAR_LOG_ERR);
                     } else {
+                        $message = "  - Migrated $result row(s)";
+                        OA::debug($message, PEAR_LOG_DEBUG);
                         foreach ($aMaps as $componentClassName => $aMap) {
-                            $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            $pruneResult = $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+                            if (PEAR::isError($pruneResult)) {
+                                // Oh noz! The bucket data could not be pruned, and this is
+                                // critical - if we can't prune the data, we'll end up double
+                                // counting, so exit with a critical error...
+                                $message = "   ERROR: Could not prune aggregate bucket data from the '" .
+                                           $aSummariseComponents[$statisticsTable][$componentClassName]->getBucketName() . "' bucket table";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Error message was: {$pruneResult->message}";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                $message = "   Aborting maintenance execution";
+                                OA::debug($message, PEAR_LOG_CRIT);
+                                exit();
+                            } else {
+                                $message = "  - Pruned $pruneResult row(s)";
+                                OA::debug($message, PEAR_LOG_DEBUG);
+                            }
                         }
                     }
                 }
