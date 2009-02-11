@@ -765,11 +765,14 @@ abstract class Plugins_DeliveryLog extends OX_Component
      * A method to delegate the pruning of the bucket to the appropriate
      * strategy object.
      *
-     * @param Date $intervalStart Prune to this interval_start date/time (inclusive).
+     * @param Date $oEnd   Prune until this interval_start (inclusive).
+     * @param Date $oStart Only prune before this interval_start date (inclusive)
+     *                     as well. Optional.
+     * @return mixed Either the number of rows pruned, or an MDB2_Error objet.
      */
-    public function pruneBucket($oEnd)
+    public function pruneBucket($oEnd, $oStart = null)
     {
-        $this->oProcessingStrategy->pruneBucket($this, $oEnd);
+        return $this->oProcessingStrategy->pruneBucket($this, $oEnd, $oStart);
     }
 
 }

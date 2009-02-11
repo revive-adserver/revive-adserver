@@ -36,7 +36,16 @@ interface OX_Extension_DeliveryLog_BucketProcessingStrategy {
 
     public function processBucket($oBucket, $oEnd);
 
-    public function pruneBucket($oBucket, $oEnd);
+     /**
+     * A method to prune a bucket of all records up to and
+     * including the time given.
+     *
+     * @param Date $oEnd   Prune until this interval_start (inclusive).
+     * @param Date $oStart Only prune before this interval_start date (inclusive)
+     *                     as well. Optional.
+     * @return mixed Either the number of rows pruned, or an MDB2_Error objet.
+     */
+    public function pruneBucket($oBucket, $oEnd, $oStart = null);
 
 }
 
