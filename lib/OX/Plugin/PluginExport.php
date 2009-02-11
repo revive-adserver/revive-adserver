@@ -46,6 +46,7 @@ class OX_PluginExport
 
     function __construct()
     {
+        $this->basePath = MAX_PATH;
     }
 
     function init($name)
@@ -54,7 +55,7 @@ class OX_PluginExport
 
         $this->oPluginManager   = new OX_PluginManager();
 
-        $this->outputDir        = MAX_PATH.'/var/plugins/export/';
+        $this->outputDir        = $this->basePath.'/var/plugins/export/';
         if (!file_exists($this->outputDir))
         {
             if (!$this->_makeDirectory($this->outputDir))
@@ -172,7 +173,7 @@ class OX_PluginExport
             foreach ($aSchemas as $group => $file)
             {
                 $oTable = new OA_DB_Table();
-                if ($oTable->init(MAX_PATH.$file, false))
+                if ($oTable->init($this->basePath.$file, false))
                 {
                     foreach ($oTable->aDefinition['tables'] as $table => $aTable)
                     {
@@ -209,7 +210,7 @@ class OX_PluginExport
         $target = $this->outputDir.$name.'.zip';
 		$oZip = new PclZip($target);
 
-		$result = $oZip->create($this->aFileList, PCLZIP_OPT_REMOVE_PATH, MAX_PATH);
+		$result = $oZip->create($this->aFileList, PCLZIP_OPT_REMOVE_PATH, $this->basePath);
 		if($oZip->errorCode())
 		{
 		    $this->aErrors[] = 'compression error: '.$oZip->errorName(true);
@@ -285,9 +286,9 @@ class OX_PluginExport
     function _getChangesetFiles($aGroup)
     {
         $changesDir    = $this->pathPackages.$aGroup['name'].'/etc/changes/';
-        if (file_exists(MAX_PATH.$changesDir))
+        if (file_exists($this->basePath.$changesDir))
         {
-            $dh = opendir(MAX_PATH.$changesDir);
+            $dh = opendir($this->basePath.$changesDir);
             if ($dh)
             {
                 while (false !== ($file = readdir($dh)))
@@ -316,7 +317,7 @@ class OX_PluginExport
         {
             $file = DIRECTORY_SEPARATOR.$file;
         }
-        $this->aFileList[] = MAX_PATH.$file;
+        $this->aFileList[] = $this->basePath.$file;
         //$this->aDirList[] = dirname($file);
     }
 

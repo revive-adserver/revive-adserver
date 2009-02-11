@@ -33,7 +33,7 @@ if ($errMessage) {
 
         if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
         {
-            $options->show(array (
+            $fields = array(
                 array (
                     'text'  => $strConfigurationSettings,
                     'items' => array (
@@ -99,10 +99,28 @@ if ($errMessage) {
                             'req'   => true,
                             'size'  => '50',
                             'value' => $aConfig['store']['webDir']
-                        )
+                        ),
                     )
                 )
-            ), $errormessage, 0, $imgPath);
+            );
+            if ($prevPathRequired) {
+            	$prevPath = array (
+            		'text' => 'Previous install',
+            		'items' => array(
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'previousPath',
+                            'text'  => $strPathToPrevious,
+                            'req'   => true,
+                            'size'  => '50',
+                            'value' => $prevPath,
+                            'hint'  => $strPathToPreviousHint,
+                        )
+            		)
+        		);
+                array_unshift($fields, $prevPath);
+            }
+            $options->show($fields, $errormessage, 0, $imgPath);
     }
     else
     {

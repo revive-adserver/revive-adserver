@@ -74,7 +74,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function getPathToPackages()
     {
-        return MAX_PATH.$this->pathPackages;
+        return $this->basePath.$this->pathPackages;
     }
 
     /**
@@ -382,7 +382,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 $this->_logError('Failed to remove some files belonging to '.$name);
             }
-            $pkgDefinition = MAX_PATH.$this->pathPackages.$name.'.xml';
+            $pkgDefinition = $this->basePath.$this->pathPackages.$name.'.xml';
             if (file_exists($pkgDefinition))
             {
                 @unlink($pkgDefinition);
@@ -903,11 +903,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             if (preg_match('/'.$name.'\.readme\.txt/',$aFile['name']))
             {
-                $aPkgInfo['readme'] = MAX_PATH.$this->pathPackages.$aFile['name'];
+                $aPkgInfo['readme'] = $this->basePath.$this->pathPackages.$aFile['name'];
             }
             if (preg_match('/'.$name.'\.uninstall\.txt/',$aFile['name']))
             {
-                $aPkgInfo['uninstallReadme'] = MAX_PATH.$this->pathPackages.$aFile['name'];
+                $aPkgInfo['uninstallReadme'] = $this->basePath.$this->pathPackages.$aFile['name'];
             }
         }
         foreach ($aPackage AS $k => &$v)
@@ -1063,7 +1063,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                     $this->_logError('The uploaded file did not pass security check');
                     return false;
                 }
-                if (!$this->_decompressFile($aFile['tmp_name'], MAX_PATH, $overwrite))
+                if (!$this->_decompressFile($aFile['tmp_name'], $this->basePath, $overwrite))
                 {
                     $this->_logError('Failed to decompress the uploaded file');
                     return false;
@@ -1155,7 +1155,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	        return false;
 	    }
 	    // extract the plugin package definition file to var/tmp folder
-        $aResult = $oZip->extractByIndex($aPkgFile['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
+        $aResult = $oZip->extractByIndex($aPkgFile['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, $this->basePath.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
 		if ((!is_array($aResult)) || ($aResult[0]['status'] != 'ok'))
 		{
 	        $this->_logError('Error extracting plugin definition file: '.$aResult[0]['status'].' : '.$aResult[0]['stored_filename']);
@@ -1164,15 +1164,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		}
 		// parse the plugin package definition file
 		$pathPackages = '/var/tmp'.$this->pathPackages;
-        if (!$this->_parsePackage(MAX_PATH.$pathPackages.$pkgFile))
+        if (!$this->_parsePackage($this->basePath.$pathPackages.$pkgFile))
         {
             $this->_logError('Failed to parse the plugin definition '.$pkgFile);
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_PARSE_FAILED;
-            @unlink(MAX_PATH.$pathPackages.$pkgFile);
+            @unlink($this->basePath.$pathPackages.$pkgFile);
             return false;
         }
 	    $aPackage = &$this->aParse['package'];
-        @unlink(MAX_PATH.$pathPackages.$pkgFile);
+        @unlink($this->basePath.$pathPackages.$pkgFile);
         // check that plugin is not already installed
         if (!($overwrite) && array_key_exists($aPackage['name'],$GLOBALS['_MAX']['CONF']['plugins']))
         {
@@ -1210,7 +1210,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->errcode = OX_PLUGIN_ERROR_PACKAGE_CONTENTS_MISMATCH;
                 return false;
             }
-            $aResult = $oZip->extractByIndex($aXMLFiles[$aItem['name'].'.xml']['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, MAX_PATH.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
+            $aResult = $oZip->extractByIndex($aXMLFiles[$aItem['name'].'.xml']['storedinfo']['index'], PCLZIP_OPT_ADD_PATH, $this->basePath.'/var/tmp', PCLZIP_OPT_SET_CHMOD, OX_PLUGIN_DIR_WRITE_MODE, PCLZIP_OPT_REPLACE_NEWER);
     		if ((!is_array($aResult)) || ($aResult[0]['status'] != 'ok'))
     		{
     	        $this->_logError('Error extracting group definition file: '.$aResult[0]['status'].' : '.$aResult[0]['stored_filename']);
@@ -1225,8 +1225,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             foreach ($aXMLFiles AS $i => &$aFile)
             {
-                @unlink(MAX_PATH.'/var/tmp/'.$aFile['storedinfo']['filename']);
-                @rmdir(dirname(MAX_PATH.'/var/tmp/'.$aFile['storedinfo']['filename']));
+                @unlink($this->basePath.'/var/tmp/'.$aFile['storedinfo']['filename']);
+                @rmdir(dirname($this->basePath.'/var/tmp/'.$aFile['storedinfo']['filename']));
             }
 	        $this->pathPackages = $pathPackagesOld;
             $this->_logError('Failed to parse the component groups in package '.$pkgFile);
@@ -1235,8 +1235,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         foreach ($aXMLFiles AS $i => &$aFile)
         {
-            @unlink(MAX_PATH.'/var/tmp/'.$aFile['storedinfo']['filename']);
-            @rmdir(dirname(MAX_PATH.'/var/tmp/'.$aFile['storedinfo']['filename']));
+            @unlink($this->basePath.'/var/tmp/'.$aFile['storedinfo']['filename']);
+            @rmdir(dirname($this->basePath.'/var/tmp/'.$aFile['storedinfo']['filename']));
         }
 	    $this->pathPackages = $pathPackagesOld;
         $aPlugins = &$this->aParse['plugins'];

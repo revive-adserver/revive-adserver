@@ -82,6 +82,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradePluginImport.php';
 
 //  load translations for installer
 Language_Loader::load('installer');
@@ -325,6 +326,24 @@ else if (array_key_exists('btn_configsetup', $_POST))
     {
         $aConfig = $oUpgrader->getConfig();
     }
+    $prevPathRequired = false;
+    $prevPath = '';
+    if (!empty($GLOBALS['_MAX']['CONF']['plugins'])) {
+        $oPluginImporter = new OX_UpgradePluginImport();
+        if (!$oPluginImporter->verifyAll($GLOBALS['_MAX']['CONF']['plugins'])) {
+            $prevPathRequired = true;
+            // See if we can figure out the previous path
+            if (!empty($GLOBALS['_MAX']['CONF']['store']['webDir'])){
+                $possPath = dirname(dirname($GLOBALS['_MAX']['CONF']['store']['webDir']));
+                $oPluginVerifier = new OX_UpgradePluginImport();
+                $oPluginVerifier->basePath = $possPath;
+                $oPluginVerifier->destPath = $possPath;
+                if ($oPluginVerifier->verifyAll($GLOBALS['_MAX']['CONF']['plugins'], false)) {
+                    $prevPath = $possPath;
+                }
+            }
+        }                
+    }
     $action = OA_UPGRADE_CONFIGSETUP;
 }
 else if (array_key_exists('btn_adminsetup', $_POST))
@@ -414,38 +433,73 @@ else if (array_key_exists('btn_plugins', $_POST))
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
         }
 
-        // Use current url as base path for calling install-plugin
-        $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-        $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
-
-        if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
-        {
-            foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
-            {
-                $aUrls[] = array('name' => $name,
-                    'url' => $baseInstalUrl.'install-plugin.php?status=1&plugin='.$name);
-            }
-        }
-
-        // get the list of bundled plugins, retain order
-        include MAX_PATH.'/etc/default_plugins.php';
-        if ($aDefaultPlugins)
-        {
-            foreach ($aDefaultPlugins AS $idx => $aPlugin)
-            {
-                if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
-                {
-                    $aUrls[] = array('name' => $aPlugin['name'],
-                    'url' => $baseInstalUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name']);
+        $importErrors = false;
+        // Import any plugins present from the previous install
+        if (isset($_POST['previousPath']) && ($_POST['previousPath'] != MAX_PATH)) {
+            // Prevent directory traversal and other nasty tricks:
+            $path = str_replace("\0", '', $_POST['previousPath']);
+            if (!stristr($path, '../') && !stristr($path, '..\\')) {
+                $oPluginImporter = new OX_UpgradePluginImport();
+                $oPluginImporter->basePath = $path;
+                if ($oPluginImporter->verifyAll($GLOBALS['_MAX']['CONF']['plugins'], false)) {
+                    // For each plugin that's claimed to be installed... (ex|im)port it into the new codebase
+                    foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $plugin => $enabled) {
+                        $oPluginImporter->import($plugin);
+                    }
+                    // Plugins may also have placed files in the MAX_PATH . /var/plugins folder,
+                    // but these files aren't declared in the XML, for now, copy all files in there up
+                    $DO_DIR = opendir($path . '/var/plugins/DataObjects/');
+                    while ($file = readdir($DO_DIR)) {
+                        if (!is_file($path . '/var/plugins/DataObjects/' . $file)) {
+                            continue;
+                        }
+                        @copy($path . '/var/plugins/DataObjects/' . $file, MAX_PATH . '/var/plugins/DataObjects/' . $file);
+                    }
+                } else {
+                    $importErrors = true;
                 }
             }
         }
 
-        $json = new Services_JSON();
-        $jsonJobs = $json->encode($aUrls);
-
-        $message = $strPlugins;
-        $action = OA_UPGRADE_PLUGINS;
+        if (!$importErrors) {
+            // Use current url as base path for calling install-plugin
+            $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
+            $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
+    
+            if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
+            {
+                foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
+                {
+                    $aUrls[] = array('name' => $name,
+                        'url' => $baseInstalUrl.'install-plugin.php?status=1&plugin='.$name);
+                }
+            }
+    
+            // get the list of bundled plugins, retain order
+            include MAX_PATH.'/etc/default_plugins.php';
+            if ($aDefaultPlugins)
+            {
+                foreach ($aDefaultPlugins AS $idx => $aPlugin)
+                {
+                    if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
+                    {
+                        $aUrls[] = array('name' => $aPlugin['name'],
+                        'url' => $baseInstalUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name']);
+                    }
+                }
+            }
+    
+            $json = new Services_JSON();
+            $jsonJobs = $json->encode($aUrls);
+    
+            $message = $strPlugins;
+            $action = OA_UPGRADE_PLUGINS;
+        } else {
+            $aConfig = $oUpgrader->getConfig();
+            $prevPathRequired = true;
+            $errMessage = $strPathToPreviousError;
+            $action = OA_UPGRADE_CONFIGSETUP;
+        }
     }
 }
 else if (array_key_exists('btn_post', $_POST))

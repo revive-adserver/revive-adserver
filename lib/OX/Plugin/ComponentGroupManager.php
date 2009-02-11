@@ -82,6 +82,7 @@ class OX_Plugin_ComponentGroupManager
         $this->pathDataObjects  = $aConf['pluginPaths']['var'] . 'DataObjects/';
         // Attempt to increase the memory limit when using the plugin manager
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['PLUGINS']);
+        $this->basePath = MAX_PATH;
     }
 
     function countErrors()
@@ -621,7 +622,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function getPathToComponentGroup($plugin)
     {
-        return MAX_PATH.$this->pathPackages.$plugin.'/';
+        return $this->basePath.$this->pathPackages.$plugin.'/';
     }
 
     /**
@@ -1249,7 +1250,7 @@ class OX_Plugin_ComponentGroupManager
     {
         foreach ($aFiles AS &$aFile)
         {
-            $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+            $file = $this->basePath.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (!file_exists($file))
             {
                 $this->_logError('File check failed to find '.$file);
@@ -1283,7 +1284,7 @@ class OX_Plugin_ComponentGroupManager
                             $this->_logError('Navigation check found ambigious file name '.$aChecker['name'].', at least two files have the same name declared');
                             return false;
                         }
-                        $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+                        $file = $this->basePath.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
                         if (file_exists($file) && @include_once $file) {
                             if (!class_exists($aChecker['class'])){
                                 $this->_logError('Navigation check failed to find class '.$aChecker['class']);
@@ -1310,16 +1311,16 @@ class OX_Plugin_ComponentGroupManager
     {
         foreach ($aFiles AS &$aFile)
         {
-            $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+            $file = $this->basePath.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (file_exists($file))
             {
                 @unlink($file);
                 $folder = dirname($file);
                 if ($name) // its a group (no name = plugin package)
                 {
-                    if ( ($folder !=  MAX_PATH.rtrim($this->pathPackages,'/')) &&
-                         ($folder !=  MAX_PATH.rtrim($this->pathExtensions,'/')) &&
-                         ($folder !=  MAX_PATH.rtrim($this->pathPluginsAdmin,'/')) )
+                    if ( ($folder !=  $this->basePath.rtrim($this->pathPackages,'/')) &&
+                         ($folder !=  $this->basePath.rtrim($this->pathExtensions,'/')) &&
+                         ($folder !=  $this->basePath.rtrim($this->pathPluginsAdmin,'/')) )
                      {
                         @rmdir($folder);
                      }
@@ -1330,7 +1331,7 @@ class OX_Plugin_ComponentGroupManager
         {
             return true;
         }
-        $pathPlugin = MAX_PATH.$this->pathPackages.$name;
+        $pathPlugin = $this->basePath.$this->pathPackages.$name;
         $pathEtc = $pathPlugin.'/etc/';
 
         // upgrade files : files in etc/changes are not declared in definition xml, just delete everything in folder
@@ -1409,7 +1410,7 @@ class OX_Plugin_ComponentGroupManager
                 foreach ($aFiles as &$aFile)
                 {
                     if ($aFile['name'] == $aChecker['include']) {
-                        $aChecker['fullPath'] = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+                        $aChecker['fullPath'] = $this->basePath.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
                         break;
                     }
                 }
@@ -1709,7 +1710,7 @@ class OX_Plugin_ComponentGroupManager
     function _cacheDataObjects($newPluginName=null, $aNewSchema=null, $pathOutput=null)
     {
         $aReturn    = array();
-        $pathOutput = (is_null($pathOutput) ? MAX_PATH.$this->pathDataObjects : $pathOutput);
+        $pathOutput = (is_null($pathOutput) ? $this->basePath.$this->pathDataObjects : $pathOutput);
         $aConf      = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
 
         $oConfigSchema = $this->_instantiateClass('Config');
@@ -1832,7 +1833,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('No dataobjects defined for '.$name, PEAR_LOG_ERR);
             return false;
         }
-        $pathTarget = (is_null($pathTarget) ? MAX_PATH.$this->pathDataObjects : $pathTarget);
+        $pathTarget = (is_null($pathTarget) ? $this->basePath.$this->pathDataObjects : $pathTarget);
         if (!file_exists($pathTarget))
         {
             $this->_logError('Invalid source path to plugin dataobjects '.$pathTarget, PEAR_LOG_ERR);
@@ -1875,7 +1876,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('No dataobjects defined for '.$name, PEAR_LOG_ERR);
             return false;
         }
-        $pathTarget = (is_null($pathTarget) ? MAX_PATH.$this->pathDataObjects : $pathTarget);
+        $pathTarget = (is_null($pathTarget) ? $this->basePath.$this->pathDataObjects : $pathTarget);
         if (!file_exists($pathTarget))
         {
             $this->_logError('Invalid source path to plugin dataobjects '.$pathTarget.' for '.$name, PEAR_LOG_ERR);

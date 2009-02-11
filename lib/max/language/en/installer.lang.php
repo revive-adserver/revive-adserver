@@ -34,4 +34,8 @@ $GLOBALS['strInstallComplete']                  = "Your OpenX installation is no
 $GLOBALS['strUpgradeComplete']                  = "Congratulations, you have finished upgrading ". MAX_PRODUCT_NAME;
 $GLOBALS['strUnableCreateConfFile']             = "We are unable to create your configuration file. Please re-check the permissions of the ". MAX_PRODUCT_NAME ." var folder.";
 $GLOBALS['strUnableUpdateConfFile']             = "We are unable to update your configuration file. Please re-check the permissions of the ". MAX_PRODUCT_NAME ." var folder, and also check the permissions of the previous install's config file that you copied into this folder.";
+$GLOBALS['strPathToPrevious']                   = "Path to previous OpenX installation";
+$GLOBALS['strPathToPreviousHint']               = "Plugin files must be copied from the path based on your previous install";
+$GLOBALS['strPathToPreviousError']              = "One or more plugin files couln't be located, check the install.log file for more information";
+
 ?>
