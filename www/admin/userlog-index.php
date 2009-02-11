@@ -44,6 +44,28 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_USER_LOG_ACCESS);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_USER_LOG_ACCESS);
 
+// Register input variables
+$advertiserId   = MAX_getValue('advertiserId',    0);
+$campaignId     = MAX_getValue('campaignId',      0);
+$publisherId    = MAX_getValue('publisherId',     0);
+$zoneId         = MAX_getValue('zoneId',          0);
+$startDate      = MAX_getStoredValue('period_start', null);
+$endDate        = MAX_getStoredValue('period_end', null);
+$periodPreset   = MAX_getValue('period_preset', 'all_events');
+
+if (!empty($advertiserId)) {
+    OA_Permission::enforceAccessToObject('clients', $advertiserId);
+}
+if (!empty($campaignId)) {
+    OA_Permission::enforceAccessToObject('campaigns', $campaignId);
+}
+if (!empty($publisherId)) {
+    OA_Permission::enforceAccessToObject('affiliates', $publisherId);
+}
+if (!empty($zoneId)) {
+    OA_Permission::enforceAccessToObject('zones', $zoneId);
+}
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -63,15 +85,6 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAcc
     phpAds_ShowSections(array("5.1", "5.2", "5.4"));
 }
 
-
-// Register input variables
-$advertiserId   = MAX_getValue('advertiserId',    0);
-$campaignId     = MAX_getValue('campaignId',      0);
-$publisherId    = MAX_getValue('publisherId',     0);
-$zoneId         = MAX_getValue('zoneId',          0);
-$startDate      = MAX_getStoredValue('period_start', null);
-$endDate        = MAX_getStoredValue('period_end', null);
-$periodPreset   = MAX_getValue('period_preset', 'all_events');
 
 // Paging related input variables
 $listorder      = htmlspecialchars(MAX_getStoredValue('listorder', 'updated'));
