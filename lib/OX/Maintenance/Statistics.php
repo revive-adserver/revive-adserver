@@ -189,14 +189,14 @@ class OX_Maintenance_Statistics
         $oSummariseFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
         $this->oTaskRunner->addTask($oSummariseFinal);
 
+        // Add the task to log the completion of the task
+        $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
+        $this->oTaskRunner->addTask($oLogCompletion);
+
         // Add the task to manage (enable/disable) campaigns
         $oManageCampaigns = new OX_Maintenance_Statistics_Task_ManageCampaigns();
         $this->oTaskRunner->addTask($oManageCampaigns);
 
-        // Add the task to log the completion of the task
-        $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
-        $this->oTaskRunner->addTask($oLogCompletion);
-        
         // addMaintenanceStatisticsTask hook
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenanceStatisticsTask');
         foreach ($aPlugins as $i => $id)
