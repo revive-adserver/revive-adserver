@@ -31,18 +31,18 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
     <div class="breadcrumb {if $headerModel->getIconClass()}hasIcon {$headerModel->getIconClass()}{/if}">
         <h3 {if $breadcrumbCount == 0}class="noBreadcrumb"{/if}>
-            <span class='label'>{$headerModel->getTitle()}</span>{if $headerModel->getPageType() == "edit"}:{/if} 
+            <span class='label'>{$headerModel->getTitle()}</span>{if $headerModel->getPageType() == "edit"}:{/if}
             {$headerModel->getEntityName()|escape}
             {if $headerModel->getNewTargetName()}
                 <span class='target'>
-                    {$headerModel->getNewTargetTitle()} 
+                    {$headerModel->getNewTargetTitle()}
                     {if $headerModel->getNewTargetLink()}<a href="{$headerModel->getNewTargetLink()}">{/if}
                     {$headerModel->getNewTargetName()|escape}
                     {if $headerModel->getNewTargetLink()}</a>{/if}
                 </span>
-            {/if} 
+            {/if}
         </h3>
-              
+
         {if $headerModel->hasEntityList()}
         <div class='dropDown entityList'>
             <span>
@@ -60,17 +60,17 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
             <div class='panel'><div></div></div>
             <div class='mask'></div>
         </div>
-        
+
         <script type='text/javascript'>{literal}
         <!--
-          
+
           var entityList = [
             {/literal}{section name=breadcrumbIndex loop=$breadcrumbs}{literal}
               {
                 'label': '{/literal}{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}{literal}',
                 'name': '{/literal}{$breadcrumbs[breadcrumbIndex]->getHtmlName()}{literal}',
                 'className': '{/literal}{$breadcrumbs[breadcrumbIndex]->getCssClass()}{literal}',
-                'id':    {/literal}{$breadcrumbs[breadcrumbIndex]->getEntityId()}{literal}
+                'id': '{/literal}{$breadcrumbs[breadcrumbIndex]->getEntityId()}{literal}'
               }{/literal}{if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1},{/if}{literal}
             {/literal}{/section}{literal}
           ];
@@ -89,7 +89,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                     }{/literal}{if $smarty.foreach.items.last eq false},{/if}{literal}
                   {/literal}{/foreach}{literal}
           };
-            
+
           {/literal}
               {capture name=ids}{if $smarty.capture.ids}{$smarty.capture.ids}{/if}[{$breadcrumbs[breadcrumbIndex]->getEntityId()}]['items']{/capture}
               {/section}
@@ -97,8 +97,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 
           $('.entityList').activateNavigator(entityList, itemTree);
-        
-        
+
+
         //-->
         {/literal}</script>
         {else}
@@ -108,7 +108,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                 {else}
                     <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</span>
                 {/if}
-            
+
                 {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
                     <span class='sep'>&gt;</span>
                 {/if}
