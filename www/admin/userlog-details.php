@@ -36,6 +36,10 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
+// Get userlog data and enforce it exists
+$doUserLog = OA_Dal::staticGetDO('userlog', $userlogid);
+OA_Permission::enforceTrue($doUserLog);
+
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
@@ -50,11 +54,8 @@ Language_Loader::load('userlog');
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doUserLog = OA_Dal::factoryDO('userlog');
-
-if ($doUserLog->get($userlogid))
+if ($row = $doUserLog->toArray())
 {
-    $row = $doUserLog->toArray();
 	echo "<br />";
 	echo "<table cellpadding='0' cellspacing='0' border='0'>";
 
