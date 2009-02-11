@@ -211,10 +211,14 @@ class OA_Permission
         // Verify that the ID is numeric
         OA_Permission::enforceTrue(preg_match('/^\d*$/D', $entityId));
         $entityId = (int)$entityId;
-        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
+        $isAdmin =
+        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId);
         if (!$hasAccess) {
             if(!OA_Permission::isManualAccountSwitch()) {
-                $hasAccess = OA_Permission::isUserLinkedToAdmin();
+                if (OA_Permission::isUserLinkedToAdmin()) {
+                    // Check object existence
+                    OA_Permission::enforceTrue(OA_Permission::getAccountIdForEntity($entityTable, $entityId));
+                }
                 // if has access switch to the manager account that owns this object
                 if ($hasAccess) {
                     if (OA_Permission::switchToManagerAccount($entityTable, $entityId)) {
@@ -626,7 +630,7 @@ class OA_Permission
      */
     function isUserLinkedToAdmin($userId = null)
     {
-        if (is_null($userId) || $userId == OA_Permission::getUserId()) {
+        if (!isset($userId) || $userId == OA_Permission::getUserId()) {
             $oUser = OA_Permission::getCurrentUser();
         } else {
             $doUsers = OA_Dal::staticGetDO('users', $userId);
