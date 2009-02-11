@@ -45,6 +45,7 @@ define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
 define('OA_ENV_WARNING_MEMORY',                     -13);
+define('OA_ENV_WARNING_PHP_CTYPE',                  -14);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -162,6 +163,7 @@ class OA_Environment_Manager
         $aResult['xml']                  = extension_loaded('xml');
         $aResult['pcre']                 = extension_loaded('pcre');
         $aResult['zlib']                 = extension_loaded('zlib');
+        $aResult['ctype']                = extension_loaded('ctype');
         // some users have the mysqli extension and not the mysql, some have both
         // only a problem if they don't have mysql extension (until we handle mysqli)
         $aResult['mysql']                = extension_loaded('mysql');
@@ -485,6 +487,9 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'The zlib extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['ctype']) {
+            $this->aInfo['PHP']['warning'][OA_ENV_WARNING_PHP_CTYPE] = 'Some plugins may require the ctype extension to be loaded';
         }
         if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['pgsql'])) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL] = 'Either the mysql or the pgsql extension must be loaded';

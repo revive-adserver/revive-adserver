@@ -83,6 +83,7 @@
             $sysinfoarray['actual']['pcre'] = ($sysinfoarray['actual']['pcre'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['ctype'] = ($sysinfoarray['actual']['ctype'] == false ? 'NOT LOADED ' . $warnImage : 'LOADED ' .$passImage);
             if ($sysinfoarray['actual']['mysql'] == false && $sysinfoarray['actual']['pgsql'] == false) {
                 $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
                 $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
