@@ -2,14 +2,14 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-        <name>openXAuthCAS</name>
+    <name>openXAuthCAS</name>
     <creationDate>2008-09-02</creationDate>
-    <author>Chris nutting</author>
-    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>hello@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>OpenX CAS authentication</description>
-    <version>0.0.1-dev</version>
+    <version>0.0.1</version>
     <oxversion>2.7.15-dev</oxversion>
     <type>package</type>
 

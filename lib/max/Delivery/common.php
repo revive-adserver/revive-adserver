@@ -222,7 +222,9 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
 function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
 {
     $header = 'Content-type: ' . $type;
-    if (!empty($charset)) { $header .= '; charset=' . $charset; }
+    if (!empty($charset) && preg_match('/^[a-zA-Z0-9_-]+$/D', $charset)) {
+        $header .= '; charset=' . $charset;
+    }
 
     MAX_header($header);
 }

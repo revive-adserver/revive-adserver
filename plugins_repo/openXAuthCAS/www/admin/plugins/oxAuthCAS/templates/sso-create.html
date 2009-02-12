@@ -56,7 +56,7 @@ $Id$
 
   <form id="sso-create-form" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
     <input type="hidden" name="action" value="create" />
-    <input type="hidden" name="email" value="{$email}" />
+    <input type="hidden" name="email" value="{$email|escape}" />
     <input type="hidden" name="vh" value="{$vh}" />
 
     {include file=edit-table/create.html from=$fields}

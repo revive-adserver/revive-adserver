@@ -1471,7 +1471,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 {
-    array_map('mysql_escape_string', $aQuery);
+    array_map('mysql_real_escape_string', $aQuery);
     $aQuery[$counter] = 1;
     $query = "
         INSERT INTO {$tableName}
@@ -1484,7 +1484,7 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 
 function OX_escapeString($string)
 {
-    return mysql_escape_string($string);
+    return mysql_real_escape_string($string);
 }
 
 ?>
