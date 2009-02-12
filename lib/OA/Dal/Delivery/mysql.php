@@ -526,8 +526,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.viewwindow AS viewwindow,
             m.advertiser_limitation AS advertiser_limitation,
             a.account_id AS account_id,
-            z.affiliateid AS affiliate_id,
-            a.agencyid as agencyid
+            z.affiliateid AS affiliate_id 
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']} AS d JOIN
             {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id) JOIN
@@ -1472,7 +1471,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 {
-    array_map('mysql_escape_string', $aQuery);
+    array_map('mysql_real_escape_string', $aQuery);
     $aQuery[$counter] = 1;
     $query = "
         INSERT INTO {$tableName}
@@ -1485,7 +1484,7 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 
 function OX_escapeString($string)
 {
-    return mysql_escape_string($string);
+    return mysql_real_escape_string($string);
 }
 
 ?>
