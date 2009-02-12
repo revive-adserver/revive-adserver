@@ -58,8 +58,7 @@ $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILEN
     @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }*/
 
-// Disable all notices and warnings, as some PAN code still
-// generates PHP warnings in places
+// Disable all notices and warnings, as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {
