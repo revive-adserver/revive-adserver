@@ -63,7 +63,7 @@ switch (OA_Permission::getAccountType()) {
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {
-            echo $doUsers->user_id . '|' . $doUsers->email_address . '|' . $doUsers->username."\n";
+            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username)."\n";
         }
         break;
 
@@ -172,7 +172,7 @@ switch (OA_Permission::getAccountType()) {
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {
-            echo $doUsers->user_id . '|' . $doUsers->email_address . '|' . $doUsers->username."\n";
+            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username)."\n";
         }
         break;
 
