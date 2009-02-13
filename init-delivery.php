@@ -69,8 +69,7 @@ require_once MAX_PATH . '/lib/OA.php';
 OA::switchLogIdent('delivery');
 ###END_STRIP_DELIVERY
 
-// Set the viewer's remote information used in logging
-// and delivery limitation evaluation
+// Set the viewer's remote information used in logging and delivery limitation evaluation
 MAX_remotehostSetInfo();
 
 // Set common delivery parameters in the global scope
