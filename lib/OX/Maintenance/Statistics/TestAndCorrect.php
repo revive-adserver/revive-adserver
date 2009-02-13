@@ -1,0 +1,258 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+require_once LIB_PATH . '/OperationInterval.php';
+require_once OX_PATH . '/lib/OA/Dal.php';
+
+/**
+ * A class that implements the functions used by the statistics test and
+ * correct script.
+ *
+ * @package    OpenXMaintenance
+ * @subpackage Tools
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ */
+class OX_Maintenance_Statistics_TestAndCorrect
+{
+
+    /**
+     * Connection to the database.
+     *
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
+
+    function __construct()
+    {
+        // Get a connection to the datbase
+        $this->oDbh =& OA_DB::singleton();
+    }
+
+    /**
+     * A mathod to quickly check the data in the database for the date
+     * range given, to ensure that the range being tested & corrected
+     * seems reasonable.
+     *
+     * @param Date $oStartDate The start date/time of the range to test & correct.
+     * @param Date $oEndDate   The end date/time of the range to test & correct.
+     * @return boolean True if the date range seems okay, false otherwise.
+     */
+    function checkRangeData($oStartDate, $oEndDate) {
+
+        // Test that there are no rows in the data_intermediate_ad table where the
+        // operation interval value does not match that in the configuration file
+        $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
+        $doData_intermediate_ad->whereAdd('date_time >= ' . $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+        $doData_intermediate_ad->whereAdd('date_time <= ' . $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+        $doData_intermediate_ad->whereAdd('operation_interval != ' . $this->oDbh->quote(OX_OperationInterval::getOperationInterval(), 'integer'));
+        $doData_intermediate_ad->find();
+        $rows = $doData_intermediate_ad->getRowCount();
+        if ($rows > 0) {
+            return false;
+        }
+
+        // Test that all of the date/time values in the data_summary_ad_hourly
+        // table align with the start of operation intervals
+        $doData_summary_ad_hourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doData_summary_ad_hourly->selectAdd();
+        $doData_summary_ad_hourly->selectAdd('DISTINCT date_time');
+        $doData_summary_ad_hourly->whereAdd('date_time >= ' . $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+        $doData_summary_ad_hourly->whereAdd('date_time <= ' . $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+        $doData_summary_ad_hourly->find();
+        while ($doData_summary_ad_hourly->fetch()) {
+            $oDate = new Date($doData_summary_ad_hourly->date_time);
+            $result = OX_OperationInterval::checkDateIsStartDate($oDate);
+            if (!$result) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function issueOne($oStartDate, $oEndDate)
+    {
+        // Search for aligned hours in the data_intermediate_ad and data_summary_ad_hourly tables where
+        // the number of requests, impressions, clicks or conversions do not agree with each other
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $query = "
+            SELECT
+                t1.hour_date_time AS date_time,
+                t1.requests AS intermediate_requests,
+                t2.requests AS summary_requests,
+                t1.impressions AS intermediate_impressions,
+                t2.impressions AS summary_impressions,
+                t1.clicks AS intermediate_clicks,
+                t2.clicks AS summary_clicks,
+                t1.conversions AS intermediate_conversions,
+                t2.conversions AS summary_conversions
+            FROM
+                (
+                    SELECT
+                        DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS hour_date_time,
+                        SUM(requests) AS requests,
+                        SUM(impressions) AS impressions,
+                        SUM(clicks) AS clicks,
+                        SUM(conversions) AS conversions
+                    FROM
+                        {$aConf['table']['prefix']}data_intermediate_ad
+                    WHERE
+                        date_time >= " . $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                        AND
+                        date_time <= " . $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                    GROUP BY
+                        hour_date_time
+                ) AS t1,
+                (
+                    SELECT
+                        DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS hour_date_time,
+                        SUM(requests) AS requests,
+                        SUM(impressions) AS impressions,
+                        SUM(clicks) AS clicks,
+                        SUM(conversions) AS conversions
+                    FROM
+                        {$aConf['table']['prefix']}data_summary_ad_hourly
+                    WHERE
+                        date_time >= " . $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                        AND
+                        date_time <= " . $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                    GROUP BY
+                        hour_date_time
+                ) AS t2
+            WHERE
+                t1.hour_date_time = t2.hour_date_time
+            HAVING
+                intermediate_requests != summary_requests
+                OR
+                intermediate_impressions != summary_impressions
+                OR
+                intermediate_clicks != summary_clicks
+                OR
+                intermediate_conversions != summary_conversions
+            ORDER BY
+                date_time";
+        $rsResult = $this->oDbh->query($query);
+        if (PEAR::isError($rsResult)) {
+            $message = "\n    Database error while searching for invalid data:\n    " . $rsResult->getMessage() . "\n    Cannot detect issues, so will not attepmt any corrections.\n";
+            echo $message;
+            return;
+        }
+        $rows = $rsResult->numRows();
+        if ($rows == 0) {
+            $message = "\n    Did not detect any issues; no statistics data correction required.\n";
+            echo $message;
+            return;
+        }
+        $message = "\n    Detected $rows operation intervals that need further inspection...\n";
+        echo $message;
+        while ($aRow = $rsResult->fetchRow()) {
+            $message = "        Inspecting operation interval {$aRow['date_time']}...\n";
+            echo $message;
+            $requestRemainder    = $aRow['summary_requests'] % $aRow['intermediate_requests'];
+            $impressionRemainder = $aRow['summary_impressions'] % $aRow['intermediate_impressions'];
+            $clickRemainder      = $aRow['summary_clicks'] % $aRow['intermediate_clicks'];
+            $conversionRemainder = $aRow['summary_conversions'] % $aRow['intermediate_conversions'];
+            if (!($requestRemainder == 0 && $impressionRemainder == 0 && $clickRemainder == 0 && $conversionRemainder == 0)) {
+                $message = "            Operation interval's data discrepancy is not a result of multiple summarisation of\n            data_intermediate_ad into data_summary_ad_hourly. Cannot correct this operation\n            interval automatically - you will need to inspect the data manually once this script\n            has completed running!\n";
+                echo $message;
+            } else {
+                $message = "            Correcting...\n";
+                echo $message;
+                // Deal with the duplicate rows in the data_summary_ad_hourly table for
+                // this operation interval
+                $sInnerQuery = "
+                    SELECT DISTINCT
+                        COUNT(*) AS rows,
+                        ad_id,
+                        creative_id,
+                        zone_id,
+                        requests,
+                        impressions,
+                        clicks,
+                        conversions
+                    FROM
+                        {$aConf['table']['prefix']}data_summary_ad_hourly
+                    WHERE
+                        date_time = " . $this->oDbh->quote($aRow['date_time'], 'timestamp') . "
+                    GROUP BY
+                        ad_id,
+                        creative_id,
+                        zone_id,
+                        requests,
+                        impressions,
+                        clicks,
+                        conversions";
+                $rsInnerResult = $this->oDbh->query($sInnerQuery);
+                if (PEAR::isError($rsInnerResult)) {
+                    $message = "                Error while fixing, please re-run script later.\n";
+                    echo $message;
+                    continue;
+                }
+                while ($aInnerRow = $rsInnerResult->fetchRow()) {
+                    if ($aInnerRow['rows'] > 1) {
+                        $sDeleteQuery = "
+                            DELETE FROM
+                                {$aConf['table']['prefix']}data_summary_ad_hourly
+                            WHERE
+                                date_time = " . $this->oDbh->quote($aRow['date_time'], 'timestamp') . "
+                                AND
+                                ad_id = " . $this->oDbh->quote($aInnerRow['ad_id'], 'integer') . "
+                                AND
+                                creative_id = " . $this->oDbh->quote($aInnerRow['creative_id'], 'integer') . "
+                                AND
+                                zone_id = " . $this->oDbh->quote($aInnerRow['zone_id'], 'integer') . "
+                                AND
+                                requests = " . $this->oDbh->quote($aInnerRow['requests'], 'integer') . "
+                                AND
+                                impressions = " . $this->oDbh->quote($aInnerRow['impressions'], 'integer') . "
+                                AND
+                                clicks = " . $this->oDbh->quote($aInnerRow['clicks'], 'integer') . "
+                                AND
+                                conversions = " . $this->oDbh->quote($aInnerRow['conversions'], 'integer') . "
+                            LIMIT " . $this->oDbh->quote(($aInnerRow['rows'] - 1), 'integer');
+                    }
+                    $rsDeleteResult = $this->oDbh->exec($sDeleteQuery);
+                    if (PEAR::isError($rsDeleteResult)) {
+                        $message = "                Error while deleting duplicate row, please re-run script later.\n";
+                        echo $message;
+                        continue;
+                    }
+                    $message = "                Deleted duplicate row!\n";
+                    echo $message;
+                }
+            }
+        }
+    }
+
+    function issueTwo()
+    {
+
+    }
+
+}
+
+?>

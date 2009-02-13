@@ -328,6 +328,66 @@ class OX_OperationInterval
     }
 
     /**
+     * A method to check that a Date represents the start of an operation
+     * interval.
+     *
+     * @static
+     * @param Date    $oDate             The date to test.
+     * @param integer $operationInterval Optional length of the operation interval
+     *                                   in minutes. If not given, will use the
+     *                                   currently defined operation interval.
+     * @return bool Returns true if the date is an operation interval start date,
+     *              false otherwise.
+     */
+    function checkDateIsStartDate($oDate, $operationInterval = null)
+    {
+        // Set the operation interval length, if required
+        if (is_null($operationInterval)) {
+            $operationInterval = OX_OperationInterval::getOperationInterval();
+        }
+        // Get the start/end dates for the operation interval the supplied
+        // date is in
+        $oDateCopy = new Date();
+        $oDateCopy->copy($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDateCopy, $operationInterval);
+        // Do the start dates match?
+        if ($oDate->equals($aDates['start'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * A method to check that a Date represents the end of an operation
+     * interval.
+     *
+     * @static
+     * @param Date    $oDate             The date to test.
+     * @param integer $operationInterval Optional length of the operation interval
+     *                                   in minutes. If not given, will use the
+     *                                   currently defined operation interval.
+     * @return bool Returns true if the date is an operation interval end date,
+     *              false otherwise.
+     */
+    function checkDateIsEndDate($oDate, $operationInterval = null)
+    {
+        // Set the operation interval length, if required
+        if (is_null($operationInterval)) {
+            $operationInterval = OX_OperationInterval::getOperationInterval();
+        }
+        // Get the start/end dates for the operation interval the supplied
+        // date is in
+        $oDateCopy = new Date();
+        $oDateCopy->copy($oDate);
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDateCopy, $operationInterval);
+        // Do the start dates match?
+        if ($oDate->equals($aDates['end'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * A method to ensure that a Date range is in the same hour.
      *
      * @static
