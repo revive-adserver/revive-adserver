@@ -271,8 +271,7 @@ setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 // Set the log file
-// Disable all notices and warnings, as some PAN code still
-// generates PHP warnings in places
+// Disable all notices and warnings, as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {
@@ -917,11 +916,11 @@ function _getTrackerTypes()
 {
 return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
 }
-function MAX_Delivery_log_logAdRequest($adId, $zoneId)
+function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
 if (_viewersHostOkayToLog()) {
 // Call all registered plugins that use the "logRequest" hook
-OX_Delivery_Common_hook('logRequest', array($adId, $zoneId));
+OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd));
 }
 }
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
@@ -1230,7 +1229,9 @@ return $converted ? $converted : $content;
 function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
 {
 $header = 'Content-type: ' . $type;
-if (!empty($charset)) { $header .= '; charset=' . $charset; }
+if (!empty($charset) && preg_match('/^[a-zA-Z0-9_-]+$/D', $charset)) {
+$header .= '; charset=' . $charset;
+}
 MAX_header($header);
 }
 function MAX_commonSetNoCacheHeaders()
