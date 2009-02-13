@@ -269,8 +269,8 @@ return $size;
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
+// Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
-// Set the log file
 // Disable all notices and warnings, as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -1838,8 +1838,7 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
-// Set the viewer's remote information used in logging
-// and delivery limitation evaluation
+// Set the viewer's remote information used in logging and delivery limitation evaluation
 MAX_remotehostSetInfo();
 // Set common delivery parameters in the global scope
 MAX_commonInitVariables();
