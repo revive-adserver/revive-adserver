@@ -106,8 +106,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
         $form->addGroup($aFloorPrice, 'floor_price_group', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM"));
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
-        
-        
 
 
         //Form validation rules
@@ -715,6 +713,71 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         OA_Admin_UI::getInstance()->getNotificationManager()
             ->removeNotifications('oxMarketRegister');
     }
+    
+    
+    function retrieveCustomContent($pageName)
+    {
+        require_once MAX_PATH.'/lib/Zend/Http/Client.php';
+
+        //connect to pubconsole and get the custom content for that page
+        $pubconsoleLink = $this->getConfigValue('marketHost');
+        $customContentUrl = $pubconsoleLink.'/market/content/custom';
+        //echo $customContentUrl.'<br>';
+        
+        $client = new Zend_Http_Client($customContentUrl, array(
+            'maxredirects' => 5,
+            'timeout'      => 30));
+        
+        $client = new Zend_Http_Client();
+        $client->setUri($customContentUrl);
+        $client->setParameterGet(array(
+            'pageName'  => urlencode($pageName),
+            'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, ''))
+        ));        
+        $client->setConfig(array(
+            'maxredirects' => 0,
+            'timeout'      => 30));        
+        
+        
+        $response = $client->request();
+        if ($response->isSuccessful()) {
+            $responseText = $response->getBody();
+            $result = $this->parseCustomContent($responseText);   
+        }
+        else {
+            $result = false;
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Returns an array with key to value for custom content
+     *
+     * @param string $responseText
+     * @return an array key=>value when parsing ok, false otherwise
+     */
+    function parseCustomContent($responseText)
+    {
+        require_once dirname(__FILE__) . '/XMLToArray.php';
+        
+        $xml2a = new XMLToArray();
+        $aRoot = $xml2a->parse($responseText);
+        $aContentStrings = array_shift($aRoot["_ELEMENTS"]); 
+
+        if ($aContentStrings['_NAME'] != 'contentStrings') {
+            return false;
+        }
+        
+        $aKeys = array();
+        foreach ($aContentStrings["_ELEMENTS"] as $aContentString) {
+             $aKeys[$aContentString['_NAME']] = $aContentString['_DATA']; 
+        }
+        
+        return $aKeys;
+    }
+    
+    
     
     /**
      * Synchronize status with market and return new status

@@ -45,8 +45,21 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
+    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
+    if (!$aContentKeys) {
+        $aContentKeys = array();
+    }
+    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
+        ? $aContentKeys['tracker-iframe'] 
+        : '';
+    
+    $content = $aContentKeys['content']; 
+    
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
+    $oTpl->assign('content', $content);
+    $oTpl->assign('trackerFrame', $trackerFrame);
+    
     $oTpl->display();
 
     //footer

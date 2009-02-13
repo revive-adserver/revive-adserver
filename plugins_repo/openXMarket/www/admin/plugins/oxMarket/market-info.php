@@ -39,7 +39,9 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
     $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    $oMarketComponent->setSplashAlreadyShown();
+    if (!$oMarketComponent->isSplashAlreadyShown()) {
+        $oMarketComponent->setSplashAlreadyShown();
+    }
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
     $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
@@ -47,12 +49,34 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
+    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-info');
+    if (!$aContentKeys) {
+        $aContentKeys = array();
+    }
+    
+    $iframeHeight = isset($aContentKeys['iframe-height']) 
+        ? $aContentKeys['iframe-height'] 
+        : 380;
+    $submitLabel = isset($aContentKeys['submit-field-label']) 
+        ? $aContentKeys['submit-field-label'] 
+        : 'Get Started';
+    $submitLabelRegistered = isset($aContentKeys['submit-field-label']) 
+        ? $aContentKeys['submit-field-label-registered'] 
+        : 'Continue';
+    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
+        ? $aContentKeys['tracker-iframe'] 
+        : '';
+    
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-info.html','openXMarket');
     $oTpl->assign('welcomeURL', $oMarketComponent->getConfigValue('marketWelcomeUrl'));
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('isRegistered', $oMarketComponent->isRegistered());
     $oTpl->assign('pageUrl', urlencode($pageUrl));
+    $oTpl->assign('submitLabel', $submitLabel);
+    $oTpl->assign('submitLabelRegistered', $submitLabelRegistered);
+    $oTpl->assign('iframeHeight', $iframeHeight);
+    $oTpl->assign('trackerFrame', $trackerFrame);
         
     $oTpl->display();
 

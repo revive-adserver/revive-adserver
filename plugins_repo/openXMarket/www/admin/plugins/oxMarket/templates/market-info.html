@@ -29,10 +29,10 @@ $Id$
 -->*}
 
 <div class="content">
-    <iframe id="welcome-frame" src="{$pubconsoleHost}/{$welcomeURL}?src={$pageUrl}" width="100%" height="380" frameborder="0" marginwidth="0" marginheight="0"></iframe>
+    <iframe id="welcome-frame" src="{$pubconsoleHost}/{$welcomeURL}?src={$pageUrl}" width="100%" height="{$iframeHeight}" frameborder="0" marginwidth="0" marginheight="0"></iframe>
      
     <form action="market-signup.php" method="get">
-        <input type="submit" value="{if $isRegistered}{t str='Continue'}{else}{t str='Get started with OpenX Market'}{/if}" />
+        <input type="submit" value="{if $isRegistered}{$submitLabelRegistered}{else}{$submitLabel}{/if}" />
     </form>
 </div>
 
@@ -41,8 +41,12 @@ $Id$
 <!--
 {literal}
 $(document).ready(function() {
-  $("#welcome-frame").updateFrameSize({'msie' : 390, 'name': 'market-include'});
+{/literal}
+  $("#welcome-frame").updateFrameSize({ldelim}'msie' : {$iframeHeight} + 10, 'name': 'market-include'{rdelim});
+{literal}  
 });
 {/literal}    
 //-->
 </script>
+
+{$trackerFrame}

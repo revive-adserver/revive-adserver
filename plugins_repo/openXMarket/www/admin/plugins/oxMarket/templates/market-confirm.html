@@ -27,17 +27,36 @@
 $Id$
 
 -->*}
-<link rel='stylesheet' type='text/css' href='css/ox.market.css'>
 
-<div class="content">
-<h2 class="section">{t str='Your account has been successfully associated!'}</h2>
-<p class="wide">
-{t str='You may now earn more revenue by enabling your campaigns to participate in OpenX Market.'}<br>
-<a href="{$adminWebPath}advertiser-index.php">{t str='Manage your campaigns'} &raquo;</a>
-</p>
+{if $content}
+ {$content}
+{else}
+    <link rel='stylesheet' type='text/css' href='css/ox.market.css'>
+    
+    <div class="content">
+      <h2 class="section">Your Ad Server is now connected to OpenX Market!</h2>
+      <p class="wide">
+          You are now ready to maximize ad revenue through OpenX Market. Recommended next steps:
+      </p>
+      <ul style="margin: 0px; padding-left: 15px">
+          <li style="margin-bottom: 20px;line-height: 150%;">
+              <a href="{$adminWebUrl}advertiser-index.php">Enable OpenX Market for your campaigns &raquo;</a>
+              <div>
+              Go to <b>Inventory</b> tab to create Advertisers and Campaigns. In the Add new campaign screen, 
+              you will be able to let OpenX Market compete to serve ads in the campaign.
+              </div>
+          </li>
+          
+          <li style="margin-bottom: 20px;line-height: 150%;">
+              <a href="market-include.php">Enter payment information &raquo;</a>
+              <div>
+              Go to <b>My Account > OpenX Market</b>. You will be prompted to login with your OpenX.org account.
+              Enter your payment details in the Payment Information screen and OpenX will send you a payment
+              once you have accrued US $100.
+              </div>
+          </li>
+      </ul>
+    </div>
+{/if}
 
-<p class="wide">
-{t str='You may also login with your OpenX account to view and manage your OpenX Market payment information.'}<br>
-<a href="market-include.php">{t str='Login to manage your payment information'} &raquo;</a>
-</p>
-</div>
+{$trackerFrame}

@@ -51,6 +51,7 @@
             <file path="{ADMINPATH}/">market-signup.php</file>
             <file path="{ADMINPATH}/">market-stats.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
+            <file path="{ADMINPATH}/">XMLToArray.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketChecker.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
