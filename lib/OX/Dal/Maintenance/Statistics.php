@@ -1019,7 +1019,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     updated
                 )
             SELECT
-                DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS hour_date_time,
+                DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS hour_date_time,
                 ad_id AS ad_id,
                 creative_id AS creative_id,
                 zone_id AS zone_id,";
