@@ -1019,7 +1019,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     updated
                 )
             SELECT
-                date_time,
+                DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS hour_date_time,
                 ad_id AS ad_id,
                 creative_id AS creative_id,
                 zone_id AS zone_id,";
@@ -1038,7 +1038,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
                 AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'))."
             GROUP BY
-                date_time, ad_id, creative_id, zone_id";
+                hour_date_time, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
         $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
         $message .= " from the $finalFromTable table";
