@@ -16,9 +16,7 @@
 				&login;
 				<invoke description="First page - login page" url="/" save="${screens}\start_"/>
 				<clickLink label="Home"/>
-				<verifyTitle description="Page title"
-					text="${page.title}" />	
-
+				<verifyTitle description="Page title" text="${page.title}" />
 				<verifyText description="Check text on page" text="${page.text}" />
 				&common_verification;
 			</steps>

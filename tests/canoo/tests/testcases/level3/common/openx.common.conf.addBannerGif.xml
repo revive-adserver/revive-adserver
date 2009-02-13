@@ -39,7 +39,7 @@
 				<clickLink label="sample gif banner"/>
 				<setRadioButton description="Check radio button replaceimage: t" name="replaceimage" value="t"/>
 <!-- TODO: modify path!!! -->
-				<setFileField description="Set upload file upload" fileName="C:\Documents and Settings\lukasz\My Documents\temp\468x60.gif" name="upload"/> <!--  value="C:\Documents and Settings\lukasz\My Documents\temp\468x60.gif" -->
+				<setFileField description="Set upload file upload" fileName="${testcase.dir}/level3/resources/468x60.gif" name="upload"/> <!--  value="C:\Documents and Settings\lukasz\My Documents\temp\468x60.gif" -->
 				<clickButton label="Save Changes"/>
 			</steps>
 	 	</webtest>

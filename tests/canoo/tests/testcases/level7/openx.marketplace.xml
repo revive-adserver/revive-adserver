@@ -8,7 +8,7 @@
 
 <project name="OpenX Level7 - Marketplace plugin test" basedir="." default="main">
 	<target name="main">
-		<webtest name="OpenX Level7 - Marketplace plugin test">
+		<webtest name="OpenX Level7 - Marketplace plugin test if requested">
 			&config;
 			<steps>				
 				<ifStep description="production tests">
@@ -24,11 +24,22 @@
 						<setFileField description="Set upload file filename" fileName="${testcase.dir}/../../../../plugins_repo/openXMarket.zip" name="filename"/>
 						<clickButton label="Install"/>
 						<clickLink label="Enable" href="package=openXMarket"/>
+        	        	<clickLink label="My Account"/>
+        	        	<clickLink label="OpenX Market Beta"/>
+						<not>
+							<verifyText text="Not Found" />
+							<verifyText text="was not found on this server" />
+						</not>
+        	        	<clickButton label="Get started"/>
+        	        	<setCheckbox name="terms_agree"/>
+        	        	<clickButton label="Sign up"/>
 						<clickLink label="Default manager"/>
 						<clickLink label="Inventory"/>
+        	        	<groovy>
+        	        		
+       	        		</groovy>
            	        </then>
-			    </ifStep>
-			<enableJavaScript enable="${wt.enableJS}" />		
+			    </ifStep>		
 			</steps>
 		</webtest>
 	</target>
