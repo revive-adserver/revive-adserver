@@ -3126,6 +3126,19 @@ $absolutes[] = $part;
 }
 return implode(DIRECTORY_SEPARATOR, $absolutes);
 }
+function disableErrorHandling()
+{
+PEAR::pushErrorHandling(null);
+}
+function enableErrorHandling()
+{
+// Ensure this method only acts when a null error handler exists
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+list($mode, $options) = $stack[sizeof($stack) - 1];
+if (is_null($mode) && is_null($options)) {
+PEAR::popErrorHandling();
+}
+}
 }
 require_once 'XML/RPC/Server.php';
 // Set a global variable to let the other functions know
