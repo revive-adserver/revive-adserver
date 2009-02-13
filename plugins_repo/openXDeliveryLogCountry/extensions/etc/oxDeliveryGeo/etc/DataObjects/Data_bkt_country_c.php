@@ -25,41 +25,36 @@
 $Id$
 */
 
-$className = 'postscript_install_oxDeliveryGeo';
-
-require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
+require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 /**
- * Installs any additional data after the plugins are installed
- * (before they are enabled)
+ * DB_DataObject for data_bkt_country_c
  *
  * @package    Plugin
  * @subpackage openxDeliveryLogCountry
  */
-class postscript_install_oxDeliveryGeo
+class DataObjects_Data_bkt_country_c extends DB_DataObjectCommon
 {
-    const DELIVERY_LOG_EXTENSION = 'deliveryLog';
+    ###START_AUTOCODE
+    /* the code below is auto generated do not remove the above tag */
 
-    /**
-     * Names of component groups which performs additional actions
-     * when installing.
-     *
-     * @var array
-     */
-    private $aGroups = array(
-        'oxLogCountry',
-    );
+    public $__table = 'data_bkt_country_c';              // table name
+    public $interval_start;                  // DATETIME() => openads_datetime => 142 
+    public $creative_id;                     // MEDIUMINT(20) => openads_mediumint => 129 
+    public $zone_id;                         // MEDIUMINT(20) => openads_mediumint => 129 
+    public $country;                         // CHAR(3) => openads_char => 130 
+    public $count;                           // INT(11) => openads_int => 129 
 
-    /**
-     * Calls onInstall method on every component from installed groups.
-     * If for any reason the installation failed perform uninstall of already installed
-     * components.
-     *
-     * @return boolean  True on success, else false
-     */
-    function execute()
-    {
-        $oSetup = new OX_Extension_DeliveryLog_Setup();
-        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
-    }
+    /* Static get */
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_bkt_country_c',$k,$v); }
+
+    var $defaultValues = array(
+                'interval_start' => '%NO_DATE_TIME%',
+                'country' => '',
+                'count' => 0,
+                );
+
+    /* the code above is auto generated do not remove the tag below */
+    ###END_AUTOCODE
 }
+?>

@@ -10,8 +10,8 @@
       <version>001</version>
       <add>
         <table>
-        <name>data_bkt_m_country</name>
-        <was>data_bkt_m_country</was>
+        <name>data_bkt_country_m</name>
+        <was>data_bkt_country_m</was>
       </table>
     </add>
   </changeset>

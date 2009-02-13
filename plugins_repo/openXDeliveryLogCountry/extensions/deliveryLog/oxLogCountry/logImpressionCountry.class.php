@@ -52,7 +52,7 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
      */
     function getBucketName()
     {
-        return 'data_bkt_m_country';
+        return 'data_bkt_country_m';
     }
 
     /**
@@ -98,31 +98,29 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
     public function getStatisticsMigration()
     {
         $aMap = array(
-            'method'      => 'aggregate',
-            'table'       => $this->getBucketTableName(),
-            'source'      => array(
+            'method'           => 'aggregate',
+            'bucketTable'      => $this->getBucketTableName(),
+            'dateTimeColumn'   => 'interval_start',
+            'groupSource'      => array(
                 0 => 'interval_start',
                 1 => 'creative_id',
                 2 => 'zone_id',
-                3 => 'country',
-                4 => 'count'
+                3 => 'country'
             ),
-            'destination' => array(
+            'groupDestination' => array(
                 0 => 'date_time',
-                1 => 'ad_id',
+                1 => 'creative_id',
                 2 => 'zone_id',
-                3 => 'country',
-                4 => 'impressions'
+                3 => 'country'
             ),
-            'type'        => array(
-                0 => 'group',
-                1 => 'group',
-                2 => 'group',
-                3 => 'group',
-                4 => 'sum'
+            'sumSource'        => array(
+                0 => 'count'
             ),
-            'defaults'    => array(
-                4 => 0
+            'sumDestination'   => array(
+                0 => 'impressions'
+            ),
+            'sumDefault'       => array(
+                0 => 0
             )
         );
         return $aMap;

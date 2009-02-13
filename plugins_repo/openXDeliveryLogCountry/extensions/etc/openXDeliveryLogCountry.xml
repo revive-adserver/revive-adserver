@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
     <name>openXDeliveryLogCountry</name>
     <creationDate>2008-06-10</creationDate>
-    <author>Radek Maciaszek</author>
-    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>hello@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>OpenX Delivery Logging Plugins for OpenX</description>
+    <license>GPL</license>
+    <description>Delivery Log Country Plugin</description>
     <version>1.0.1-dev</version>
     <type>extension</type>
 
     <install>
 
-        <!--files>
-            <file path="{PLUGINPATH}">openXDeliveryLog.readme.txt</file>
-        </files-->
+        <files>
+            <file path="{PLUGINPATH}">openXDeliveryLogCountry.readme.txt</file>
+        </files>
 
         <contents>
             <group name="oxDeliveryGeo">1</group>
@@ -24,9 +23,5 @@
         </contents>
 
     </install>
-
-    <readme>
-
-    </readme>
 
 </plugin>

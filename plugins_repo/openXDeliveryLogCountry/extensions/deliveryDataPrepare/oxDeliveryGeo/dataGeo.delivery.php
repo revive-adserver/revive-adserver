@@ -30,12 +30,13 @@ $Id$
  * @subpackage openxDeliveryLogCountry
  */
 
-function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId)
 {
-    // prevent from running twice
-    static $executed;
-    if ($executed) return;
-    $executed = true;
+    // Prevent the function from running twice
+    if ($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo']) {
+        return;
+    }
+    $GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo'] = true;
 
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
@@ -56,19 +57,19 @@ function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
     }
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logRequest()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logRequest($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logImpression()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logImpression($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logClick()
+function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logClick($adId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo();
+    Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId);
 }
 
 ?>

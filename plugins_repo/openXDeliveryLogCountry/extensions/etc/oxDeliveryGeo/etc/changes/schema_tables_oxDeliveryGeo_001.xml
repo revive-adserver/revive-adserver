@@ -10,7 +10,7 @@
 
  <table>
 
-  <name>data_bkt_m_country</name>
+  <name>data_bkt_country_m</name>
 
   <declaration>
 
@@ -55,7 +55,7 @@
    </field>
 
    <index>
-    <name>data_bkt_m_country_pkey</name>
+    <name>data_bkt_country_m_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>
@@ -80,7 +80,7 @@
  </table>
  <table>
 
-  <name>data_bkt_c_country</name>
+  <name>data_bkt_country_c</name>
 
   <declaration>
 
@@ -125,7 +125,7 @@
    </field>
 
    <index>
-    <name>data_bkt_c_country_pkey</name>
+    <name>data_bkt_country_c_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>
