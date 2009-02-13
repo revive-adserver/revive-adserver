@@ -103,10 +103,10 @@ class OA_Dashboard_Widget extends OA_Central
         if (empty($url)) {
             $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
         }
-        $url .= strpos($url, '?') === false ? '?' : '&';
+        $url .= strpos($url, '?') === false ? '?' : '&amp;';
         $url .= 'ticket='.urlencode($m2mTicket);
-        $url .= '&oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
-        $url .= '&lang=' . $GLOBALS['_MAX']['PREF']['language'];
+        $url .= '&amp;oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
+        $url .= '&amp;lang=' . $GLOBALS['_MAX']['PREF']['language'];
 
         return $url;
     }
