@@ -50,12 +50,13 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
  *
  * @param integer $adId The advertisement ID (was bannerid).
  * @param integer $zoneId The zone ID.
+ * @param array   $aAd The ad-array (see page DocBlock); contains ad_id, zone_id, and all other available fields
  */
-function MAX_Delivery_log_logAdRequest($adId, $zoneId)
+function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
     if (_viewersHostOkayToLog()) {
         // Call all registered plugins that use the "logRequest" hook
-        OX_Delivery_Common_hook('logRequest', array($adId, $zoneId));
+        OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd));
     }
 }
 
