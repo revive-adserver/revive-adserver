@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Conversion tracking component of the standard delivery logging plugin for OpenX</description>
-    <version>1.0.1-beta</version>
+    <version>1.0.2</version>
     <oxversion>2.7.23-beta</oxversion>
     <extends>deliveryLog</extends>
 

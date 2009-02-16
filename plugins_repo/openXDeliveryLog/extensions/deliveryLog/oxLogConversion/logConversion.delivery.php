@@ -43,6 +43,9 @@ MAX_Dal_Delivery_Include();
  */
 function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion)
 {
+    // Initiate the connection to the database (before using mysql_real_escape_string) 
+ 	OA_Dal_Delivery_connect('rawDatabase');
+ 	
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a';
 
     if (empty($GLOBALS['_MAX']['NOW'])) {

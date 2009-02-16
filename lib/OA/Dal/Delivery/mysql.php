@@ -1474,6 +1474,9 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 {
+    // Initiate the connection to the database (before using mysql_real_escape_string) 
+ 	OA_Dal_Delivery_connect('rawDatabase');
+ 	
     array_map('mysql_real_escape_string', $aQuery);
     $aQuery[$counter] = 1;
     $query = "

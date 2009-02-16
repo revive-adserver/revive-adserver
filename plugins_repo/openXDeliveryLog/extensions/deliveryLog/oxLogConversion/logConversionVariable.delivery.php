@@ -43,7 +43,10 @@ MAX_Dal_Delivery_Include();
  */
 function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logConversionVariable($aVariables, $trackerId, $serverConvId, $serverRawIp)
 {
-    $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
+    // Initiate the connection to the database (before using mysql_real_escape_string) 
+ 	OA_Dal_Delivery_connect('rawDatabase');
+ 	
+ 	$table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
 
     if (empty($GLOBALS['_MAX']['NOW'])) {
         $GLOBALS['_MAX']['NOW'] = time();
