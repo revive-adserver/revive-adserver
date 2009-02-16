@@ -52,14 +52,22 @@ require_once '../../init.php';
 //require_once MAX_PATH.'/lib/OA.php';
 //OA::logMem('start installer');
 
+require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
+
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
+    OA_Upgrade_Login::autoLogin();
+    // Execute any components which have registered at the afterLogin hook
+    $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
+    foreach ($aPlugins as $i => $id) {
+        if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
+            $obj->afterLogin();
+        }
+    }
     require_once LIB_PATH . '/Admin/Redirect.php';
     OX_Admin_Redirect::redirect('advertiser-index.php');
 }
-
-require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
 // setup oUpgrader, determine whether they are installing or that they can Upgrade
 $oUpgrader = new OA_Upgrade();
@@ -551,8 +559,6 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
-    OA_Upgrade_Login::autoLogin();
-
     // Delete the cookie
     setcookie('oat', '');
     $oUpgrader->setOpenadsInstalledOn();
