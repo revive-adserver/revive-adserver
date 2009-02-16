@@ -1490,6 +1490,12 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 
 function OX_escapeString($string)
 {
+    // Initiate the connection to the database (before using mysql_real_escape_string) 
+    static $connected;
+    if (!isset($connected)) {
+        $connected = true;
+        OA_Dal_Delivery_connect('rawDatabase');
+    }
     return mysql_real_escape_string($string);
 }
 
