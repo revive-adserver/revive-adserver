@@ -46,6 +46,7 @@ phpAds_registerGlobalUnslashed(
      'alink'
     ,'alink_chosen'
     ,'alt'
+    ,'alt_imageurl'
     ,'asource'
     ,'atar'
     ,'adserver'
@@ -336,7 +337,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     $form->addElement('hidden', 'type', $type);
     $form->addElement('hidden', 'status', $row['status']);
 
-    if ($row['contenttype'] == 'swf' && empty($row['alt_contenttype'])) {
+    if ($row['contenttype'] == 'swf' && empty($row['alt_contenttype']) && empty($row['alt_imageurl'])) {
         $form->addElement('custom', 'banner-backup-note', null, null);
     }
 
@@ -347,8 +348,6 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     else {
         $form->addElement('static', 'description', $GLOBALS['strName'], $row['description']);
     }
-
-
 
     //local banners
     if ($type == 'sql' || $type == 'web') {
@@ -470,18 +469,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
             $altImageName = _getContentTypeIconImageName($row['alt_contenttype']);
             $altSize = _getBannerSizeText($type, $row['alt_filename']);
 
-            addUploadGroup($form, $row,
-                array(
-                    'uploadName' => 'uploadalt',
-                    'radioName' => 'replacealtimage',
-                    'imageName'  => $altImageName,
-                    'fileSize'  => $altSize,
-                    'fileName'  => $row['alt_filename'],
-                    'newLabel'  => $GLOBALS['strNewBannerFileAlt'],
-                    'updateLabel'  => $GLOBALS['strUploadOrKeep'],
-                    'handleSWF' => false
-                  )
-            );
+            $form->addElement('text', 'alt_imageurl', $GLOBALS['strNewBannerFileAlt']);
         }
 
         $form->addElement('header', 'header_b_links', "Banner link");
@@ -654,6 +642,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     $aVariables['contenttype']     = ($aFields['type'] == 'txt') ? 'txt' : $aVariables['contenttype'];
     $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
+    $aVariables['alt_imageurl']    = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
 
     if (isset($aFields['keyword']) && $aFields['keyword'] != '') {
         $keywordArray = split('[ ,]+', $aFields['keyword']);

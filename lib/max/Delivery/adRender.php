@@ -308,7 +308,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
     // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
-    $altImageAdCode = !empty($aBanner['alt_filename'])
+    $altImageAdCode = (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl']))
         ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false)
         // An empty image is required because the javascript is parsed before the DOM tree
         : "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
@@ -550,7 +550,7 @@ function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
     $conf = $GLOBALS['_MAX']['CONF'];
     $fileUrl = '';
     if ($aBanner['type'] == 'url') {
-        $fileUrl = $aBanner['imageurl'];
+        $fileUrl = $useAlt ? $aBanner['alt_imageurl'] : $aBanner['imageurl'];
         if (!empty($params)) {
             $fileUrl .= "?{$params}";
         }
