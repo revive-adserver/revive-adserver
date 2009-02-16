@@ -232,7 +232,7 @@ function _viewersHostOkayToLog()
     // Check if this IP address has been blocked
     if (!empty($aConf['logging']['ignoreHosts'])) {
         $hosts = str_replace(',', '|', $aConf['logging']['ignoreHosts']);
-        $hosts = '#('.$hosts.')$#i';
+        $hosts = '#^('.$hosts.')$#i';
 
         // Format the hosts to ignore in a PCRE format
         $hosts = str_replace('.', '\.', $hosts);

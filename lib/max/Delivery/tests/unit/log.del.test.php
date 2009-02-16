@@ -103,6 +103,11 @@ class Delivery_TestOfLog extends UnitTestCase
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
 
+        // Test that 24.24.24.24 doesn't permit 124.24.24.24
+        $conf['logging']['ignoreHosts'] = '24.24.24.24';
+        $_SERVER['REMOTE_ADDR'] = '124.24.24.24';
+        $this->assertTrue(_viewersHostOkayToLog());
+        
         // Reset the configuration
         TestEnv::restoreConfig();
 
