@@ -535,7 +535,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $paidAds = ($adArrayVar == 'ads') || ($adArrayVar == 'cAds');
+    $paidAds = ($adArrayVar == 'ads') || (empty($aContext) && $adArrayVar == 'cAds');
 
     if ($paidAds) {
         // Paid campaigns have a sum of priorities of unity, so pick
