@@ -2516,7 +2516,7 @@ $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
 global $n;
 mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (double)microtime()));
 $conf = $GLOBALS['_MAX']['CONF'];
-$paidAds = ($adArrayVar == 'ads') || ($adArrayVar == 'cAds');
+$paidAds = ($adArrayVar == 'ads') || (empty($aContext) && $adArrayVar == 'cAds');
 if ($paidAds) {
 // Paid campaigns have a sum of priorities of unity, so pick
 // a float random number between 0 and 1, inclusive.
