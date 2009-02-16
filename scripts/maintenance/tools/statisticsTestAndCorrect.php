@@ -91,9 +91,11 @@ $Id$
  * then all of the data between "2009-02-10 12:00:00" and
  * "2009-02-11 10:59:59" will be inspected and corrected as required.
  *
+ * The define statements below will need to be un-commented for the script
+ * to be able to be run!
  */
-define('INTERVAL_START', '2009-02-12 00:00:00');
-define('INTERVAL_END',   '2009-02-13 23:59:59');
+//define('INTERVAL_START', '2009-02-16 00:00:00');
+//define('INTERVAL_END',   '2009-02-16 23:59:59');
 
 /***************************************************************************/
 
@@ -108,6 +110,22 @@ require_once OX_PATH . '/lib/pear/Date.php';
 
 // Standard messages
 $haltMessage = "\nThe statisticsTestAndCorrect.php script will NOT be run.\n\n";
+
+/***************************************************************************/
+
+if (!defined('INTERVAL_START') || !defined('INTERVAL_END')) {
+    echo "
+Please ensure that you have read the comments in the statisticsTestAndCorrect.php script, to ensure that
+you fully understand the types of issues with data that the script will address - this script is NOT a
+general panacea for every possible kind of data problem!
+
+You will also find out how to make this script work by reading the comments. :-)
+";
+    echo $haltMessage;
+    exit;
+}
+
+/***************************************************************************/
 
 // Initialise the script
 OX::disableErrorHandling();
@@ -196,7 +214,7 @@ echo "
 Testing for any instances of statistics rows in the data_intermediate_ad table that have not been fully
 summarised into the data_summary_ad_hourly table. Please be patient while this process runs!
 ";
-$oTestAndCorrect->issueTwo();
+$oTestAndCorrect->issueTwo($oStartDate, $oEndDate);
 
 /***************************************************************************/
 
