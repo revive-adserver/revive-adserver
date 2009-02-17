@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>605</version>
+  <comments>Increased the size of the banners.adserver field</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>605</version>
+      <change>
+        <table>
+          <name>banners</name>
+        <change>
+          <field>
+            <name>adserver</name>
+            <length>255</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>605</version>
+  </changeset>
+</destructive>
+</instructionset>
