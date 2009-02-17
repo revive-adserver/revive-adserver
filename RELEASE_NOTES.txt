@@ -144,6 +144,11 @@ read this before reporting any new bugs.
    correctly set in PHP
    [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/timezone-settings].
 
+ * Viewing, editing and updating Payment Details and Payment History when using
+   OpenX Market Plugin currently doesn't work on the Safari browsers with
+   default cookie settings. Please see more details here:
+   https://developer.openx.org/jira/browse/OXPL-126
+
  * See [https://developer.openx.org/jira/] for the latest bug reports.
 
 
