@@ -281,6 +281,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                             echo $message;
                         }
                     }
+                    if (defined('DEBUG_ONLY')) {
+                        sleep(1);
+                    }
                 }
             }
         }
@@ -506,6 +509,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                     }
                     $message = "                Updated {$rsUpdateResult} incomplete row.\n";
                     echo $message;
+                }
+                if (defined('DEBUG_ONLY')) {
+                    sleep(1);
                 }
             }
         }
