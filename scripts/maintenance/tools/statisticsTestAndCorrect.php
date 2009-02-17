@@ -94,8 +94,13 @@ $Id$
  * The define statements below will need to be un-commented for the script
  * to be able to be run!
  */
-//define('INTERVAL_START', '2009-02-16 00:00:00');
-//define('INTERVAL_END',   '2009-02-16 23:59:59');
+//define('INTERVAL_START', '2009-02-01 00:00:00');
+//define('INTERVAL_END',   '2009-02-01 23:59:59');
+
+/**
+ * Comment the following line out to disable the debug-only mode
+ */
+define('DEBUG_ONLY', true);
 
 /***************************************************************************/
 
