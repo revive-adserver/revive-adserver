@@ -350,7 +350,7 @@ else if (array_key_exists('btn_configsetup', $_POST))
                     $prevPath = $possPath;
                 }
             }
-        }                
+        }
     }
     $action = OA_UPGRADE_CONFIGSETUP;
 }
@@ -385,7 +385,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 else
                 {
                     $message = $strUpgradeComplete;
-                    $action = OA_UPGRADE_PLUGINS;;
+                    $action = OA_UPGRADE_PLUGINS;
                 }
             }
         }
@@ -473,7 +473,7 @@ else if (array_key_exists('btn_plugins', $_POST))
             // Use current url as base path for calling install-plugin
             $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
             $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
-    
+
             if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
             {
                 foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
@@ -482,7 +482,7 @@ else if (array_key_exists('btn_plugins', $_POST))
                         'url' => $baseInstalUrl.'install-plugin.php?status=1&plugin='.$name);
                 }
             }
-    
+
             // get the list of bundled plugins, retain order
             include MAX_PATH.'/etc/default_plugins.php';
             if ($aDefaultPlugins)
@@ -496,11 +496,11 @@ else if (array_key_exists('btn_plugins', $_POST))
                     }
                 }
             }
-    
+
             $json = new Services_JSON();
             $jsonJobs = $json->encode($aUrls);
-    
-            $message = $strPlugins;
+
+            $message = $strPluginsDefault;
             $action = OA_UPGRADE_PLUGINS;
         } else {
             $aConfig = $oUpgrader->getConfig();
@@ -536,7 +536,11 @@ else if (array_key_exists('btn_finish', $_POST))
     }
     else
     {
-        $message = $strUpgradeComplete;
+        if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE) {
+            $message = $strUpgradeComplete;
+        } else {
+            $message = $strInstallComplete;
+        }
     }
     $action = OA_UPGRADE_FINISH;
 }
