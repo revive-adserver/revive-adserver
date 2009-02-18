@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: template.php 30820 2009-01-13 19:02:17Z andrew.hill $
+$Id: template.php 32546 2009-02-18 11:13:48Z chris.nutting $
 */
 
 /**
@@ -39,7 +39,7 @@ $Id: template.php 30820 2009-01-13 19:02:17Z andrew.hill $
  *
  * For more information on ant generator or if you want to check why we do this
  * check out the documentation wiki page:
- * https://developer.openx.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
+ * https://developer.openx.org/wiki/display/COMM/Using+Ant#UsingAnt-Generatingoptimizeddelivery
  *
  */
 
@@ -271,7 +271,8 @@ setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 // Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
-// Disable all notices and warnings, as some PAN code still generates PHP warnings in places
+// Disable all notices and warnings,
+// as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {

@@ -39,7 +39,7 @@ $Id$
  *
  * For more information on ant generator or if you want to check why we do this
  * check out the documentation wiki page:
- * https://developer.openx.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
+ * https://developer.openx.org/wiki/display/COMM/Using+Ant#UsingAnt-Generatingoptimizeddelivery
  *
  */
 
