@@ -79,7 +79,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         // Skip this tests if bundled plugin has older version than 0.2.0-dev
         $plgManager = new OX_PluginManager();
         $info = $plgManager->getPackageInfo('openXMarket');
-        if (version_compare($info['version'],'0.2.0-dev','<'))
+        if (version_compare($info['version'],'0.1.3-beta-rc1','<'))
         {
             return;
         }
