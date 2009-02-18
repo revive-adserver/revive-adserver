@@ -63,6 +63,47 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 
+    function getWebsitesAndZonesByAgencyId($agencyId = null)
+    {
+        if (is_null($agencyId)) {
+            $agencyId = OA_Permission::getAgencyId();
+        }
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableW     = $oDbh->quoteIdentifier($prefix.$this->table,true);
+        $tableZ     = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $query = "
+        SELECT
+            w.affiliateid AS website_id,
+            w.website     AS website_url,
+            w.name        AS website_name,
+            z.zoneid      AS zone_id,
+            z.zonename    AS zone_name,
+            z.width       AS zone_width,
+            z.height      AS zone_height
+        FROM
+            {$tableW} AS w,
+            {$tableZ} AS z
+        WHERE
+            z.affiliateid = w.affiliateid
+          AND w.agencyid = " . DBC::makeLiteral($agencyId);
+        
+        $aWebsitesAndZones = array();
+        $rsAffiliates = DBC::NewRecordSet($query);
+        $rsAffiliates->find();
+        while ($rsAffiliates->fetch()) {
+            $aWebsiteZone = $rsAffiliates->toArray();
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'][$aWebsiteZone['zone_id']] = array(
+                'name'   => $aWebsiteZone['zone_name'],
+                'width'  => $aWebsiteZone['zone_width'],
+                'height' => $aWebsiteZone['zone_height'],
+            );
+        }
+        return $aWebsitesAndZones;
+    }
+    
     function getPublishersByTracker($trackerid)
     {
         $prefix = $this->getTablePrefix();
