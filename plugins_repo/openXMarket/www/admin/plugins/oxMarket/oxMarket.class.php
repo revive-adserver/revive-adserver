@@ -359,7 +359,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $this->scheduleRegisterNotification();
                 
         // Only splash if not shown already 
-        if (!$this->isSplashAlreadyShown()) {
+        if (empty($GLOBALS['installing']) && !$this->isSplashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
         }
