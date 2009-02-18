@@ -54,7 +54,8 @@ $conf = $GLOBALS['_MAX']['CONF'];
 // Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 
-// Disable all notices and warnings, as some PAN code still generates PHP warnings in places
+// Disable all notices and warnings, 
+// as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {
