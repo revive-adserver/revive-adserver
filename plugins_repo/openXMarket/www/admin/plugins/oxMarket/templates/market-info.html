@@ -29,8 +29,11 @@ $Id$
 -->*}
 
 <div class="content">
-    <iframe id="welcome-frame" src="{$pubconsoleHost}/{$welcomeURL}?src={$pageUrl}" width="100%" height="{$iframeHeight}" frameborder="0" marginwidth="0" marginheight="0"></iframe>
-     
+    {if $content}
+        {$content}
+    {else}
+        <iframe id="welcome-frame" src="{$pubconsoleHost}/{$welcomeURL}?src={$pageUrl}" width="100%" height="{$iframeHeight}" frameborder="0" marginwidth="0" marginheight="0"></iframe>
+    {/if}        
     <form action="market-signup.php" method="get">
         <input type="submit" value="{if $isRegistered}{$submitLabelRegistered}{else}{$submitLabel}{/if}" />
     </form>

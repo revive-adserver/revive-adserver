@@ -53,7 +53,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     if (!$aContentKeys) {
         $aContentKeys = array();
     }
-    
+    $content = $aContentKeys['content']; 
     $iframeHeight = isset($aContentKeys['iframe-height']) 
         ? $aContentKeys['iframe-height'] 
         : 380;
@@ -77,7 +77,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $oTpl->assign('submitLabelRegistered', $submitLabelRegistered);
     $oTpl->assign('iframeHeight', $iframeHeight);
     $oTpl->assign('trackerFrame', $trackerFrame);
-        
+    $oTpl->assign('content', $content);
+    
     $oTpl->display();
 
     //footer
