@@ -313,33 +313,20 @@ class OX_PluginExport
 
     function _addToFileList($file)
     {
-        if (substr($file, 0, 1) != DIRECTORY_SEPARATOR)
-        {
-            $file = DIRECTORY_SEPARATOR.$file;
-        }
+        $file = DIRECTORY_SEPARATOR . ltrim($file, '\\/');
         $this->aFileList[] = $this->basePath.$file;
         //$this->aDirList[] = dirname($file);
     }
 
+    /**
+     * This is a little redundent now that mkdir has the "recursive" flag...
+     *
+     * @param string $dir The path to be created
+     * @return boolean true if the path was created, false otherwise
+     */
     function _makeDirectory($dir)
     {
-        if (@mkdir($dir))
-        {
-            return true;
-        }
-        $aDir = explode('/',$dir);
-        $try = '/';
-        for ($i=1;$i<(count($aDir)-1);$i++)
-        {
-            $try.= $aDir[$i].'/';
-            $result = @mkdir($try);
-        }
-        if (file_exists($dir))
-        {
-            return true;
-        }
-        if (@mkdir($dir))
-        {
+        if (@mkdir($dir, null, true)) {
             return true;
         }
         return false;

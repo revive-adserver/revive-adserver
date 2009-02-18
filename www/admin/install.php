@@ -445,7 +445,7 @@ else if (array_key_exists('btn_plugins', $_POST))
         // Import any plugins present from the previous install
         if (isset($_POST['previousPath']) && ($_POST['previousPath'] != MAX_PATH)) {
             // Prevent directory traversal and other nasty tricks:
-            $path = str_replace("\0", '', $_POST['previousPath']);
+            $path = rtrim(str_replace("\0", '', $_POST['previousPath']), '\\/');
             if (!stristr($path, '../') && !stristr($path, '..\\')) {
                 $oPluginImporter = new OX_UpgradePluginImport();
                 $oPluginImporter->basePath = $path;
