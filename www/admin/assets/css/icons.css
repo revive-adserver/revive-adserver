@@ -140,6 +140,9 @@ div.breadcrumb .inlineIcon {
 .iconWebsite {
   background-image: url("../images/icon-website.png ");
 }
+.iconWebsiteShortcut {
+  background-image: url("../images/icon-shortcut-website.png");
+}
 .iconWebsiteLarge {
   background-image: url("../images/icon-website-large.png ");
 }
@@ -157,6 +160,9 @@ div.breadcrumb .inlineIcon {
 }
 .iconZone {
   background-image: url("../images/icon-zone.png ");  
+}
+.iconZoneShortcut {
+  background-image: url("../images/icon-shortcut-zone.png");  
 }
 .iconZoneDisabled {
   background-image: url("../images/icon-zone-disabled.png ");  
