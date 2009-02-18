@@ -86,11 +86,6 @@
         event.stopPropagation();
       });
     });
-    
-    function updateParent()
-    {
-        alert('updateParent');
-    }
   };
 
 
@@ -127,23 +122,46 @@
     });
   };
 
+
+
   /**
    * Installs parent-child handler on an element (e.g. table) that contains
    * all the checkboxes and uses event delegation to handle individual clicks.
    * Optionally, if checkboxes are contained in table rows, clicking anywhere
    * in the row can change the state of the checkbox -- see the options object
    * for more details. 
+   * Allows use of custom functions to find parent/child relationships
    */
   $.fn.multicheckboxes = function(settings) {
     return this.each(function() {
       var defaults = {
-        handleTableRowClicks: true,   // if true, row clicks will check checkboxes
-        updateTableRowClasses: true,  // if true, css classes will be added to table rows (see below)
+        id: Math.random(),
+        clickElement: null,
+        updateElement: null,
+        containerClicked: fold,
+        checkboxClicked: null,
+        updateChildren: synchronizeChildrenWithParent,
+        updateParent: synchronizeParentWithChildren,
         selectedClass: "selected",    // style to apply to rows with selected checkboxes
         unselectedClass: "unselected",// style to apply to rows with unselected checkboxes 
         toSelectClass: "to-select",   // style to apply to rows with originally unselected checkboxes, but now selected
         toUselectClass: "to-unselect",// style to apply to rows with originally selected checkboxes, but now unselected
-        selectAllSelector: "#select-all" // if provided, all checkboxes within the container will be selected/unselected according to this selector's checkbox
+        selectAllSelector: "#select-all", // if provided, all checkboxes within the container will be selected/unselected according to this selector's checkbox
+        isMultiCheckbox : function ($checkbox) { 
+            return $checkbox.attr("id");
+        },
+        /**
+        * Returns children checkboxes for a parent checkbox. Currently, the
+        * formula for parent-child relationship is hardcoded.
+        */ 
+        getChildCheckboxes: function($parentCheckbox) {
+            return $("[@id^='" + $parentCheckbox.attr("id") + "_']");
+        },
+        
+        getParentCheckbox: function($childCheckbox) {
+            var checkboxId = $childCheckbox.attr("id");
+            return $("#" + checkboxId.substring(0, checkboxId.indexOf("_")));
+        }
       };
       
       var options = $.extend({ }, defaults, settings); 
@@ -158,72 +176,150 @@
         $container.trigger("multichange");
       });
       
+      $container.bind('stateUpdate', function(event, internalId, $checkboxes) {
+        if (internalId == options.id) {
+            //console.log(options.id + " ignoring change " +  $checkboxes);
+        }
+        else {
+            //console.log(options.id + " observed change " +  $checkboxes);
+            $checkboxes.each(function() {
+                handleCheckboxStateChange($(this));
+            });
+        }
+      });
+
       $container.click(function(event) {
         var $target = $(event.target);
-        
+
+        if (options.containerClicked) {
+          options.containerClicked.call($target);
+        }
+
         // Check the element to which the event applies
         var ie6 = $.browser.msie && (parseInt($.browser.version) == 6);
         var $checkbox;
         if ($target.is(":checkbox")) {
           $checkbox = $target;
-        } else if (options.handleTableRowClicks && ($target.is("td") || (ie6 && $target.is("label")))) {
+        } 
+		else if (options.clickElement && ($target.is(options.clickElement) || (ie6 && $target.is("label")))) {
           $checkbox = $target.parent().find(":checkbox");
           if (!$checkbox.get(0)) {
             return;
           }
           $checkbox.get(0).checked = !$checkbox.get(0).checked; 
-        } else {
+        } 
+        else {
           return;
         }
-        
-        if ($checkbox.size() != 0 && $checkbox.attr("id")) {  
-          var checkboxId = $checkbox.attr("id");
-          
-          $children = getChildCheckboxes($checkbox);
+
+        handleCheckboxStateChange($checkbox, $target);
+      });
+      
+      
+      function handleCheckboxStateChange($checkbox, $target)
+      {
+        if ($checkbox.size() != 0 && options.isMultiCheckbox($checkbox)) {
+          if (options.checkboxClicked) {
+            options.checkboxClicked.call($checkbox);
+          }
+          $children = options.getChildCheckboxes($checkbox);
           if ($children.size() != 0) {
             // found children, so $parent is probably a parent
-            $children.attr("checked", $checkbox.get(0).checked);
+            options.updateChildren.call($target, $children, $checkbox.get(0).checked); 
             updateTableRow($children, options);
-	          updateTableRow($checkbox, options);
+            updateTableRow($checkbox, options);
+          
+            //in multidimensional multicheckbox cases - like one checkbox has many parents, we
+            //need to inform checkbox of state change so that it could inform it's other parents
+            //console.log(options.id + ' triggered parent state update');             
+            $container.trigger('stateUpdate', [options.id, $children]);
           }
           else {
             // didn't find children, so a child checkbox has been clicked
-			      var $parent = $("#" + checkboxId.substring(0, checkboxId.indexOf("_")));
-			      if ($parent.size() == 0) {
-			        return;
-			      }
-            updateParentCheckbox($parent);			
+            var $parent = options.getParentCheckbox($checkbox);
+            if ($parent.size() == 0) {
+             return;
+            }
+            options.updateParent.call($target, $parent, options.getChildCheckboxes($parent));          
             updateTableRow($checkbox, options);
-	          updateTableRow($parent, options);
+            updateTableRow($parent, options);
           }
           $container.trigger("multichange");
-        }
-      });
+        }      
+      }
     });
   };
+
   
   $.fn.updatestate = function() {
      return this.find(":checkbox").each(function() {
        $(this).data("state", this.checked);
      });
   }; 
+
   
   /**
-   * Returns children checkboxes for a parent checkbox. Currently, the
-   * formula for parent-child relationship is hardcoded.
-   */ 
-  function getChildCheckboxes($parentCheckbox) {
-    return $("[@id^='" + $parentCheckbox.attr("id") + "_']");
+   * Updates the style of the table row
+   */
+  function updateTableRow($checkboxes, options) {
+    if (options.updateElement) {
+      $checkboxes.each(function () {
+        var $checkbox = $(this);
+        var $row = $checkbox.parents(options.updateElement).eq(0);
+        if ($row.size() == 0) {
+          return true;
+        }
+      
+        var originalState = $checkbox.data("state");
+        var newState = $checkbox.get(0).checked;
+         
+        $row.removeClass(options.selectedClass + " " + options.unselectedClass + " " + options.toSelectClass + " " + options.toUselectClass);
+        if (originalState && newState && options.selectedClass) {
+          $row.addClass(options.selectedClass);
+        }
+        else if (!originalState && !newState && options.unselectedClass) {
+          $row.addClass(options.unselectedClass);
+        }      
+        else if (originalState && !newState && options.toUselectClass) {
+          $row.addClass(options.toUselectClass);
+        }      
+        else if (!originalState && newState && options.toSelectClass) {
+          $row.addClass(options.toSelectClass);
+        }
+      });
+    }
   }
+
+  
+  function fold()
+  {
+    if (this.is("td.handle") || this.is("span")) {
+      this.parents("tr:eq(0)").find("table").toggle();
+    }
+  }
+
+  
+  function synchronizeChildrenWithParent($children, parentChecked)
+  {
+    $children.attr("checked", parentChecked);
+  }
+  
+  function clearChildrenIfParentChecked($children, parentChecked)
+  {
+    if (parentChecked) {
+      $children.attr("checked", false);
+    }
+  }
+
   
   /**
    * Updates the state of the parent checkbox after the child checkboxes
    * have been checked/unchecked.
    */
-  function updateParentCheckbox($parentCheckbox) {
+  function synchronizeParentWithChildren($parentCheckbox, $children) {
     var allChecked = true;
     
-    $("[@id^='" + $parentCheckbox.attr("id") + "_']").each(function() {
+    $children.each(function() {
       if (!this.checked) {
         allChecked = false;
         return false;
@@ -232,36 +328,28 @@
      
     $parentCheckbox.attr("checked", allChecked);
   }
+
   
-  /**
-   * Updates the style of the table row
-   */
-  function updateTableRow($checkboxes, options) {
-    if (options.updateTableRowClasses) {
-	    $checkboxes.each(function () {
-	      var $checkbox = $(this);
-	      var $row = $checkbox.parents("tr").eq(0);
-	      if ($row.size() == 0) {
-	        return true;
-	      }
-	    
-	      var originalState = $checkbox.data("state");
-	      var newState = $checkbox.get(0).checked;
-	       
-		    $row.removeClass(options.selectedClass + " " + options.unselectedClass + " " + options.toSelectClass + " " + options.toUselectClass);
-		    if (originalState && newState && options.selectedClass) {
-		      $row.addClass(options.selectedClass);
-		    }
-		    else if (!originalState && !newState && options.unselectedClass) {
-		      $row.addClass(options.unselectedClass);
-		    }      
-		    else if (originalState && !newState && options.toUselectClass) {
-		      $row.addClass(options.toUselectClass);
-		    }      
-		    else if (!originalState && newState && options.toSelectClass) {
-		      $row.addClass(options.toSelectClass);
-		    }
-		  });
-		}
+  function clearParentIfAnyChildChecked($parentCheckbox, $children) {
+    var anyChecked = true;
+    
+    $children.each(function() {
+      if (!this.checked) {
+        anyChecked = true;
+        return false;
+      }
+    });
+    
+    if (anyChecked) {
+      $parentCheckbox.attr("checked", false);
+    }
+  }
+
+  
+  $.multicheckbox = {
+    synchronizeChildrenWithParent: synchronizeChildrenWithParent,
+    synchronizeParentWithChildren: synchronizeParentWithChildren,
+    clearChildrenIfParentChecked: clearChildrenIfParentChecked,
+    clearParentIfAnyChildChecked: clearParentIfAnyChildChecked
   }
 })(jQuery);
