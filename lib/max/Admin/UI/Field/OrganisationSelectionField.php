@@ -258,7 +258,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
             foreach ($aAdvertisers as $advertiserId=>$aAdvertiser) {
                 $selected = $advertiserId == $oScope->_advertiserId ? " selected='selected'" : '';
                 echo "
-            <option value='$advertiserId'$selected>{$aAdvertiser['name']}</option>";
+            <option value='$advertiserId'$selected>" . htmlspecialchars($aAdvertiser['name']) . "</option>";
             }
             echo "
         </select>";
@@ -285,7 +285,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
             foreach ($aPublishers as $publisherId=>$aPublisher) {
                 $selected = $publisherId == $oScope->_publisherId ? " selected='selected'" : '';
                 echo "
-            <option value='$publisherId'$selected>{$aPublisher['name']}</option>";
+            <option value='$publisherId'$selected>" . htmlspecialchars($aPublisher['name']) . "</option>";
             }
             echo "
         </select>";
