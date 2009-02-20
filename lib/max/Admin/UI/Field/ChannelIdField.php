@@ -112,7 +112,7 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
 
         $aChannelArray = array();
         foreach ($aChannels as $channelId => $aChannel) {
-            $aChannelArray[$channelId] = "[$channelId]" . $aChannel['name'];
+            $aChannelArray[$channelId] = phpAds_buildName($channelId, $aChannel['name']);
         }
         return $aChannelArray;
     }

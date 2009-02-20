@@ -85,7 +85,7 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
         foreach ($aPublishers as $publisherId => $aPublisher) {
             foreach ($aZones as $zoneId => $aZone) {
                 if ($aZone['publisher_id'] == $publisherId) {
-                    $aZoneArray[$zoneId] = "[$publisherId]" . MAX_getPublisherName($aPublisher['name']) . " - [$zoneId]" . MAX_getZoneName($aZone['name']);
+                    $aZoneArray[$zoneId] = phpads_buildName($publisherId, MAX_getPublisherName($aPublisher['name'])) . " - " . phpAds_buildName($zoneId, MAX_getZoneName($aZone['name']));
                 }
             }
         }

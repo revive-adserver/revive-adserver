@@ -51,7 +51,7 @@ class Admin_UI_CampaignSelectionField extends Admin_UI_Field
             $selected = $aPlacement['placement_id'] == $this->getValue() ? " selected='selected'" : '';
             $name = MAX_getPlacementName($aPlacement);
             echo "
-            <option value='$aPlacement[placement_id]'$selected>$name</option>";
+            <option value='$aPlacement[placement_id]'$selected>" . htmlspecialchars($name) . "</option>";
         }
         echo "
         </select>";
