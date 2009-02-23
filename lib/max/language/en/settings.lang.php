@@ -452,6 +452,12 @@ $GLOBALS['strEnforceUserAgents']                     = "<b>Only</b> log statisti
 // Banner Storage Settings
 $GLOBALS['strBannerStorage']                         = "Banner Storage Settings";
 
+// Campaign ECPM settings
+$GLOBALS['strEnableECPM']                            = "Use eCPM optimized priorities instead of remnant-weighted priorities";
+$GLOBALS['strEnableECPMfromRemnant']                 = "(If you enable this feature all your remnant campaigns will be deactivated, you will have to update them manually to reactivate them)";
+$GLOBALS['strEnableECPMfromECPM']                    = "(If you disable this feature all your eCPM campaigns will be deactivated, you will have to update them manually to reactivate them)";
+$GLOBALS['strInactivatedCampaigns']                  = "List of campaigns which became inactive due to the changes in preferences:";
+
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings']                   = "Maintenance Settings";
 $GLOBALS['strConversionTracking']                    = "Conversion Tracking Settings";

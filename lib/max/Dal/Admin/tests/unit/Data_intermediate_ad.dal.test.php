@@ -40,6 +40,9 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 
     var $dalData_intermediate_ad;
 
+    private $aIds;
+    private $aIds2;
+
     /**
      * The constructor method.
      */
@@ -78,6 +81,21 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         $this->assertEqual($aDelivered['impressions_delivered'], $howMany * $impressions);
         $this->assertEqual($aDelivered['clicks_delivered'], $howMany * $clicks);
         $this->assertEqual($aDelivered['conversions_delivered'], $howMany * $conversions);
+    }
+
+    function testGetDeliveredEcpmCampainImpressionsByAgency()
+    {
+        $this->aIds2 = TestEnv::loadData('data_intermediate_ad_002');
+        
+        $impressions    = 123;
+        $agencyId       = $this->aIds2['agency'][0];
+        $campaignId     = $this->aIds2['campaigns'][0];
+        $day            = '2007-04-04';
+        $oDate = new Date($day . '00:00:00');
+
+        $aDelivered = $this->dalData_intermediate_ad->getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate);
+        $howMany = 2;
+        $this->assertEqual($aDelivered[$campaignId], $howMany * $impressions);
     }
 
     function testAddConversion()

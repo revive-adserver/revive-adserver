@@ -44,6 +44,38 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     );
 
     /**
+     * Changes priority in campaigns belonging to a given agency.
+     *
+     * @param integer $agencyId
+     * @param integer $priorityUpdateFrom
+     * @param integer $priorityUpdateTo
+     * @return array  Array of campaigns which priority was changed
+     */
+    function updateCampaignsPriorityByAgency($agencyId, $priorityUpdateFrom, $priorityUpdateTo)
+    {
+        $aUpdatedCampaigns = array();
+        $aCampaigns = $this->getAllCampaignsUnderAgency($agencyId, 'name', 'up');
+        foreach ($aCampaigns as $campaignId => $aCampaign) {
+            $aCampaign['status_changed'] = false;
+            if ($aCampaign['priority'] != $priorityUpdateFrom
+                || $aCampaign['priority'] == $priorityUpdateTo)
+            {
+                continue;
+            }
+            $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+            if ($doCampaigns) {
+                $oldStatus = $doCampaigns->status;
+                $doCampaigns->priority = $priorityUpdateTo;
+                $doCampaigns->update();
+                $aCampaign['status_changed'] = ($doCampaigns->status != $oldStatus);
+                $aCampaign['status'] = $doCampaigns->status;
+                $aUpdatedCampaigns[$campaignId] = $aCampaign;
+            }
+        }
+        return $aUpdatedCampaigns;
+    }
+
+    /**
      * A method to determine if a campaign is targeted - that is, if the
      * campaign as any child ads that have delivery limitations.
      *

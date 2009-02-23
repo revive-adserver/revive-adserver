@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
@@ -46,6 +47,7 @@ define('MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT', MINUTES_PER_WEEK);
  */
 define('DAL_PRIORITY_UPDATE_ZIF',                   0);
 define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
+define('DAL_PRIORITY_UPDATE_ECPM', 2);
 
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the
@@ -121,6 +123,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_ZIF . ')';
             } elseif ($type == DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION) {
                 $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION . ')';
+            } elseif ($type == DAL_PRIORITY_UPDATE_ECPM) {
+                $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_ECPM . ')';
             } else {
                 OA::debug('Invalid run_type value ' . $type, PEAR_LOG_ERR);
                 OA::debug('Aborting script execution', PEAR_LOG_ERR);
@@ -1158,6 +1162,64 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
+    }
+
+    /**
+     * Updates the existing ad-zones priorities. MPE calculated these priorities
+     * already so eCPM task has an easier job as its enough to simply update
+     * the existing priorities.
+     *
+     * @param array $aData
+     * @return boolean  True on success, otherwise false
+     */
+    public function updateEcpmPriorities(&$aData)
+    {
+        OA::debug('- Updating ECPM priorities', PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $dbHasTransactionSupport = !(strcasecmp($aConf['database']['type'], 'mysql') === 0
+            && strcasecmp($aConf['table']['type'], 'myisam') === 0);
+        if ($dbHasTransactionSupport) {
+            $oRes = $this->oDbh->beginTransaction();
+            if (PEAR::isError($oRes)) {
+                // Cannot start transaction
+                OA::debug('    - Error: Could not start transaction', PEAR_LOG_DEBUG);
+                return false;
+            }
+        }
+        if (is_array($aData) && !empty($aData)) {
+            $table = $this->_getTablename('ad_zone_assoc');
+            foreach($aData as $adId => $aZone) {
+                foreach($aZone as $zoneId => $priority) {
+                    $query = "
+                        UPDATE
+                            {$table}
+                        SET
+                            priority = {$priority},
+                            priority_factor = 1
+                        WHERE
+                            ad_id = {$adId}
+                            AND
+                            zone_id = {$zoneId}";
+                    $rows = $this->oDbh->exec($query);
+                    if (PEAR::isError($rows)) {
+                        OA::debug("    - Error updating ecpm priority, ad ID {$adId}, zone ID {$zoneId} pair priority to {$priority}.", PEAR_LOG_DEBUG);
+                        if ($dbHasTransactionSupport) {
+                            OA::debug('     - Error: Rolling back transaction', PEAR_LOG_DEBUG);
+                            $this->oDbh->rollback();
+                        }
+                        return false;
+                    }
+                }
+            }
+            if ($dbHasTransactionSupport) {
+                $oRes = $this->oDbh->commit();
+                if (PEAR::isError($oRes)) {
+                    OA::debug('    - Error: Could not commit the transaction', PEAR_LOG_DEBUG);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -2433,6 +2495,187 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         return $this->oLock->release();
+    }
+
+    /**
+     * Returns an array of agencies (managers) IDs which has any
+     * ecpm campaigns running.
+     *
+     * @return array  Array with IDs of agencies IDs
+     */
+    public function getEcpmAgenciesIds()
+    {
+        $query = "SELECT
+                    distinct(cl.agencyid) agencyid
+                  FROM
+                    {$this->_getTablename('campaigns')} c,
+                    {$this->_getTablename('clients')} cl
+                  WHERE
+                    cl.clientid = c.clientid
+                    AND c.priority = " . DataObjects_Campaigns::PRIORITY_ECPM;
+        $rc = $this->oDbh->query($query);
+        $aResult = array();
+        if (PEAR::isError($rc)) {
+            OA::debug('  - Error getting agencies IDs from database', PEAR_LOG_DEBUG);
+            return $aResult;
+        }
+        while ($aRow = $rc->fetchRow()) {
+            if (PEAR::isError($aRow)) {
+                OA::debug('  - Error retreiving agency record from database', PEAR_LOG_DEBUG);
+            } else {
+                $aResult[] = $aRow['agencyid'];
+            }
+        }
+        return $aResult;
+    }
+
+    /**
+     * Retreives the list of all active eCPM campaigns for a given agency ID
+     * (manager)
+     *
+     * This function is executed after other tasks in MPE, therefore we can
+     * assume that most of work is already done for us. One thing we can rely
+     * on is that ad_zone_assoc was already created by previous MPE tasks.
+     *
+     * @param integer $agencyId  Agency (manager) ID
+     * @return array  Array of campaigns, zones and
+     *                ads which are linked to each other for given agency.
+     *                Format:
+     *                array(
+     *                   campaignid (integer) => array(
+     *                       self::IDX_ECPM => (float),
+     *                       self::IDX_MIN_IMPRESSIONS => (integer)
+     *                       self::IDX_ADS => array(
+     *                         adid (integer) => array(
+     *                           self::IDX_WEIGHT => (integer)
+     *                           self::IDX_ZONES => array(zoneid (integer), ...)
+     *                         )
+     *                       ),...
+     *                   ),...
+     */
+    public function getCampaignsInfoByAgencyId($agencyId)
+    {
+        $query = "SELECT
+                      c.campaignid,
+                      c.ecpm,
+                      c.min_impressions,
+                      b.bannerid,
+                      b.weight,
+                      aza.zone_id
+                  FROM
+                      {$this->_getTablename('clients')} cl,
+                      {$this->_getTablename('campaigns')} c,
+                      {$this->_getTablename('banners')} b,
+                      {$this->_getTablename('ad_zone_assoc')} aza
+                  WHERE
+                      b.campaignid = c.campaignid
+                      AND aza.ad_id = b.bannerid
+                      AND cl.clientid = c.clientid
+                      AND c.status = ".OA_ENTITY_STATUS_RUNNING."
+                      AND b.status = ".OA_ENTITY_STATUS_RUNNING."
+                      AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
+                      AND aza.zone_id != 0
+                      AND cl.agencyid = " . $agencyId;
+        $rc = $this->oDbh->query($query);
+        $aResult = array();
+        if (PEAR::isError($rc)) {
+            OA::debug('  - Error getting campaigns from database', PEAR_LOG_DEBUG);
+            return $aResult;
+        }
+
+        require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPM.php';
+        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
+        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
+        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
+        $idxEcpm = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ECPM;
+        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
+
+        // Format output into desired structure (see comments in a phpdoc above)
+        while ($aRow = $rc->fetchRow()) {
+            if (PEAR::isError($aRow)) {
+                OA::debug('  - Error retreiving campaign record from database', PEAR_LOG_DEBUG);
+                continue;
+            }
+            if (!isset($aResult[$aRow['campaignid']])) {
+                $aResult[$aRow['campaignid']] = array(
+                    $idxEcpm => $aRow['ecpm'],
+                    $idxImpr => $aRow['min_impressions'],
+                    $idxAds => array(),
+                );
+            }
+            if (!isset($aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']])) {
+                $aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']][$idxWeight] = $aRow['weight'];
+                $aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']][$idxZones] = array();
+            }
+            $aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']][$idxZones][$aRow['zone_id']]
+                = $aRow['zone_id'];
+        }
+        return $aResult;
+    }
+
+    // get all zones contracts by agency
+    public function getZonesForecastsByAgency($agencyId, $intervalStart, $intervalEnd)
+    {
+        $query = "SELECT
+                      h.zone_id zone_id,
+                      h.forecast_impressions forecast_impressions
+                  FROM
+                      {$this->_getTablename('affiliates')} a,
+                      {$this->_getTablename('zones')} z,
+                      {$this->_getTablename('data_summary_zone_impression_history')} h
+                  WHERE
+                      a.agencyid = {$agencyId}
+                      AND z.affiliateid = a.affiliateid
+                      AND h.zone_id = z.zoneid
+                      AND h.interval_start = '{$intervalStart}'
+                      AND h.interval_end = '{$intervalEnd}'";
+        $rc = $this->oDbh->query($query);
+        $aResult = array();
+        if (PEAR::isError($rc)) {
+            OA::debug('  - Error getting zones allocations from database', PEAR_LOG_DEBUG);
+            return false;
+        }
+        while ($aRow = $rc->fetchRow()) {
+            if (PEAR::isError($aRow)) {
+                OA::debug('  - Error retreiving zone forecast record from database', PEAR_LOG_DEBUG);
+                continue;
+            }
+            $aResult[$aRow['zone_id']] = $aRow['forecast_impressions'];
+        }
+        return $aResult;
+    }
+
+    // get all zones allocations
+    public function getZonesAllocationsByAgency($agencyId)
+    {
+        $query = "SELECT
+                      t.zone_id,
+                      SUM(t.required_impressions) sum_required_impressions
+                  FROM
+                      {$this->_getTablename('affiliates')} a,
+                      {$this->_getTablename('zones')} z,
+                      tmp_ad_zone_impression t
+                  WHERE
+                      a.agencyid = {$agencyId}
+                      AND z.affiliateid = a.affiliateid
+                      AND z.zoneid = t.zone_id
+                      AND t.to_be_delivered = 1
+                  GROUP BY
+                      t.zone_id";
+        $rc = $this->oDbh->query($query);
+        $aResult = array();
+        if (PEAR::isError($rc)) {
+            OA::debug('  - Error getting zone allocations from database', PEAR_LOG_DEBUG);
+            return false;
+        }
+        while ($aRow = $rc->fetchRow()) {
+            if (PEAR::isError($aRow)) {
+                OA::debug('  - Error retreiving zone contract record from database', PEAR_LOG_DEBUG);
+                continue;
+            }
+            $aResult[$aRow['zone_id']] = $aRow['sum_required_impressions'];
+        }
+        return $aResult;
     }
 
 }

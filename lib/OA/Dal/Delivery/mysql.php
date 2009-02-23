@@ -462,6 +462,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     $aRows['clAds'] = array();
     $aRows['ads']   = array();
     $aRows['lAds']  = array();
+    $aRows['eAds']  = array();
     $aRows['count_active'] = 0;
     $aRows['zone_companion'] = false;
     $aRows['count_active'] = 0;
@@ -580,6 +581,10 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             $aRows['lAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
             $totals['lAds'] += $aAd['priority'];
+        } elseif ($aAd['campaign_priority'] == -2) {
+            // Ad is in a low priority eCPM placement
+            $aRows['eAds'][$aAd['ad_id']] = $aAd;
+            $aRows['count_active']++;
         } else {
             // Ad is in a paid placement
             $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
@@ -600,10 +605,13 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
         }
     }
-    // If there are paid ads, prepare array of priority totals
+    // If there are paid ads (or eCPM ads), prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (is_array($aRows['ads'])) {
         $totals['ads'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
+    }
+    if (is_array($aRows['eAds'])) {
+        $totals['eAds'] = _mysqlGetTotalPrioritiesByCP($aRows['eAds']);
     }
     // If there are low priority ads, sort by priority
     if (is_array($aRows['lAds'])) {

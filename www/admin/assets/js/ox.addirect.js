@@ -601,8 +601,10 @@ function updateCampaignDateAndLimitsAndType()
 	   }
 	});
 
-	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
-	     $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
+	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM
+        || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
+    {
+	     $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").hide();
 
 	     if (dateSet == true) {
 			$limitFields.val("").attr("disabled", "true");
@@ -636,11 +638,11 @@ function updateCampaignDateAndLimitsAndType()
 
         //check if both date and limit is set and disable exclusive
         if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL && dateSet && limitClicked) {
-            $("#excl-limit-date-both-set, #low-limit-date-both-set").show();
+            $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").show();
             $("#priority-e, #priority-l").attr("disabled", true);
         }
         else {
-            $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
+            $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").hide();
             $("#priority-e, #priority-l").attr("disabled", false);
         }
     }
@@ -706,7 +708,7 @@ function updateCampaignTypeForm()
         updateCampaignPricingSection();
         updateCampaignPrioritySection();
     }
-    else if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+    else if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM) {
         $allSectionsButPriority.show();
         updateCampaignDateSection();
         updateCampaignPricingSection();
@@ -716,6 +718,12 @@ function updateCampaignTypeForm()
         //hide all form sections
         $allSectionsButPriority.hide();
         $("#sect_priority_low_excl, #sect_priority_high").hide();
+    }
+    if(campaignType == CAMPAIGN_TYPE_ECPM) {
+        $("#sect_priority_low_excl").hide();
+        $("#sect_priority_ecpm").show();
+    } else {
+        $("#sect_priority_ecpm").hide();
     }
 }
 
@@ -840,7 +848,7 @@ function updateCampaignPrioritySection()
     var $lowExclPrioritySection = $("#sect_priority_low_excl");
     var campaignType = getCampaignType();
 
-    if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+    if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM) {
         $highPrioritySection.hide();
         $lowExclPrioritySection.show();
     }
@@ -927,9 +935,13 @@ function campaignFormPriorityCheck(form)
         return confirm (strCampaignWarningNoTargetMessage);
 	    }
     }
-    else {
+    else if (campaignType == CAMPAIGN_TYPE_REMNANT) {
         if (!parseInt($("#weight").val())) {
             return confirm (strCampaignWarningRemnantNoWeight);
+        }
+    } else if (campaignType == CAMPAIGN_TYPE_ECPM) {
+        if (!parseFloat($("#ecpm").val()) || parseFloat($("#ecpm").val()) <= 0) {
+            return confirm (strCampaignWarningECPMNoECPM);
         }
     }
 
@@ -949,7 +961,11 @@ function getCampaignType()
 	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
 	    }
 	    else if ($("#priority-l").attr("checked") == true) {
-	        return CAMPAIGN_TYPE_REMNANT;
+            if ($("[@name=ecpm_enabled]").val() == 1) {
+                return CAMPAIGN_TYPE_ECPM;
+            } else {
+                return CAMPAIGN_TYPE_REMNANT;
+            }
 	    }
 
 	    return null;

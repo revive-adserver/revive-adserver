@@ -38,7 +38,7 @@
             //for existing campaigns do not touch it
             campaignId = $("input[name='campaignid']", $form).val();
             if (campaignId == '') {
-                if (CAMPAIGN_TYPE_REMNANT == campaignType) {
+                if (CAMPAIGN_TYPE_REMNANT == campaignType || CAMPAIGN_TYPE_ECPM == campaignType) {
                     $enableMarketChbx.attr("checked", true);
                     $enableMarketChbx.trigger("enableMarketplaceClick");
                 }

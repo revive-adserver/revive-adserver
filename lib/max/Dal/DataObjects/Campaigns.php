@@ -35,6 +35,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $onDeleteCascade = true;
     var $dalModelName = 'Campaigns';
     var $refreshUpdatedFieldIfExists = true;
+
+    const PRIORITY_REMNANT = 0;
+    const PRIORITY_ECPM = -2;
+
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -49,9 +53,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $activate;                        // DATE() => openads_date => 6 
     public $priority;                        // INT(11) => openads_int => 129 
     public $weight;                          // TINYINT(4) => openads_tinyint => 129 
-    public $target_impression;               // INT(11) => openads_int => 129 
+    public $target_impression;               // INT(11) => openads_int => 129
     public $target_click;                    // INT(11) => openads_int => 129 
     public $target_conversion;               // INT(11) => openads_int => 129 
+    public $min_impressions;                  // INT(11) => openads_int => 129
+    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1
     public $anonymous;                       // ENUM('t','f') => openads_enum => 130 
     public $companion;                       // SMALLINT(1) => openads_smallint => 17 
     public $comments;                        // TEXT() => openads_text => 34 
@@ -87,6 +93,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'target_impression' => 0,
                 'target_click' => 0,
                 'target_conversion' => 0,
+                'min_impressions' => 0,
                 'anonymous' => 'f',
                 'companion' => 0,
                 'updated' => '%DATE_TIME%',
@@ -145,16 +152,26 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             }
         }
 
-        // Set campaign inactive if weight and target are both null and autotargeting is disabled
-        $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
-        $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
-        $weightOk     = $this->weight > 0;
-        $autotargeted = OA_Dal::isValidDate($this->expire) && ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
-        if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
-            $this->status = OA_ENTITY_STATUS_INACTIVE;
-        } 
-        elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
-            $this->status = OA_ENTITY_STATUS_RUNNING;
+        if ($this->priority == self::PRIORITY_ECPM) {
+            $ecpmOk = floatval($this->ecpm) > 0;
+            if ($this->status == OA_ENTITY_STATUS_RUNNING && !$ecpmOk) {
+                $this->status = OA_ENTITY_STATUS_INACTIVE;
+            }
+            elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && $ecpmOk) {
+                $this->status = OA_ENTITY_STATUS_RUNNING;
+            }
+        } else {
+            // Set campaign inactive if weight and target are both null and autotargeting is disabled
+            $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
+            $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
+            $weightOk     = $this->weight > 0;
+            $autotargeted = OA_Dal::isValidDate($this->expire) && ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
+            if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
+                $this->status = OA_ENTITY_STATUS_INACTIVE;
+            }
+            elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
+                $this->status = OA_ENTITY_STATUS_RUNNING;
+            }
         }
     }
 

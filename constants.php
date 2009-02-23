@@ -58,6 +58,7 @@ function setupConstants()
     define('OX_CAMPAIGN_TYPE_REMNANT', 1);
     define('OX_CAMPAIGN_TYPE_CONTRACT_NORMAL', 2);
     define('OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', 3);
+    define('OX_CAMPAIGN_TYPE_ECPM', 4);
 
 
 

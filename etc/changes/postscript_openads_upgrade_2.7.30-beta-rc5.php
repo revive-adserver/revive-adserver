@@ -22,44 +22,72 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: postscript_openads_upgrade_2.7.26-beta-rc5.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
 
-require_once(MAX_PATH . '/lib/OX/Util/Utils.php');
+$className = 'OA_UpgradePostscript_2_7_30_beta_rc5';
 
-class OX_Util_UtilsTest 
-    extends UnitTestCase
+require_once MAX_PATH . '/lib/OA/DB/Table.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
+
+class OA_UpgradePostscript_2_7_30_beta_rc5
 {
-    function testGetCampaignType()
+    /**
+     * @var OA_Upgrade
+     */
+    var $oUpgrade;
+
+    /**
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
+
+    /**
+     * DB table prefix
+     *
+     * @var string
+     */
+    var $prefix;
+    var $tblPreferences;
+
+    function OA_UpgradePostscript_2_7_30_beta_rc5()
     {
-        $aTestValues = array(
-            -2 => OX_CAMPAIGN_TYPE_ECPM,
-            -1 => OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE,
-            0 => OX_CAMPAIGN_TYPE_REMNANT
-        );
-        for ($i = 1; $i <= 10; $i++) {
-            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL; 
-        }
-        
-        foreach ($aTestValues as $priority => $expectedResult) {
-            $result = OX_Util_Utils::getCampaignType($priority);
-            $this->assertEqual($expectedResult, $result);            
-        }
+
     }
-    
-    
-    function testGetCampaignTranslationKey()
+
+    function execute($aParams)
     {
-        $aTestValues = array(-1 => 'strExclusiveContract', 0 => 'strRemnant');
-        for ($i = 1; $i <= 10; $i++) {
-            $aTestValues[$i] = 'strStandardContract'; 
-        }
+        $this->oUpgrade = & $aParams[0];
         
-        foreach ($aTestValues as $priority => $expectedResult) {
-            $result = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
-            $this->assertEqual($expectedResult, $result);            
+        $this->oDbh = &OA_DB::singleton();
+        $aConf = $GLOBALS['_MAX']['CONF']['table'];
+        $this->prefix = $aConf['prefix'];
+        $this->tblPreferences = $aConf['prefix'].($aConf['preferences'] ? $aConf['preferences'] : 'preferences');
+
+        $query = "INSERT INTO ".$this->oDbh->quoteIdentifier($this->tblPreferences,true)."
+                  (preference_name, account_type)
+                 VALUES('campaign_ecpm_enabled', 'MANAGER')";
+        $ret = $this->oDbh->query($query);
+        //check for error
+        if (PEAR::isError($ret))
+        {
+            $this->logError($ret->getUserInfo());
+            return false;
         }
+
+        $this->logOnly("Added 'campaign_ecpm_enabled' preference to 'MANAGER' account");
+        return true;
     }
-    
+
+    function logOnly($msg)
+    {
+        $this->oUpgrade->oLogger->logOnly($msg);
+    }
+
+
+    function logError($msg)
+    {
+        $this->oUpgrade->oLogger->logError($msg);
+    }
+
 }
-?>

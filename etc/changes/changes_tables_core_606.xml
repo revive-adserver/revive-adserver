@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>606</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>606</version>
+      <change>
+        <table>
+          <name>campaigns</name>
+          <add>
+            <field>
+              <name>ecpm</name>
+              <type>openads_decimal</type>
+              <length>10,4</length>
+              <notnull>false</notnull>
+              <default></default>
+              <was>ecpm</was>
+            </field>
+              <field>
+                <name>min_impressions</name>
+                <type>openads_int</type>
+                <length>11</length>
+                <notnull></notnull>
+                <was>min_impressions</was>
+                <default></default>
+              </field>
+            </add>
+          </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>606</version>
+      </changeset>
+    </destructive>
+  </instructionset>

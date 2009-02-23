@@ -150,6 +150,12 @@ class OA_Admin_Option
                     'value' => $this->_optionType.'-banner.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
+            $aSections['campaign'] =
+                array(
+                    'name' => $GLOBALS['strCampaignPreferences'],
+                    'value' => $this->_optionType.'-campaign.php',
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)
+                );
             $aSections['campaign-email-reports'] =
                 array(
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],

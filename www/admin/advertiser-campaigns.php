@@ -153,6 +153,8 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
     }
     if ($row_campaigns['priority'] == -1) {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strExclusive;
+    } elseif ($row_campaigns['priority'] == -2) {
+        $campaigns[$row_campaigns['campaignid']]['priority'] = $strCampaignECPM;
     } elseif ($row_campaigns['priority'] == 0) {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strLow;
     } else {

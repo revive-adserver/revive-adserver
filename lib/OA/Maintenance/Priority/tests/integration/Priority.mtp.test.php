@@ -32,6 +32,7 @@ $Id$
 define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 10);
 
 require_once MAX_PATH . '/variables.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
@@ -482,7 +483,7 @@ class Test_Priority extends UnitTestCase
         );
 
         $this->_assertLogMaintenance(
-            3,
+            4,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -490,7 +491,7 @@ class Test_Priority extends UnitTestCase
             '2005-06-15 14:59:59'
         );
         $this->_assertLogMaintenance(
-            4,
+            5,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -682,7 +683,7 @@ class Test_Priority extends UnitTestCase
             DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
         );
         $this->_assertLogMaintenance(
-            3,
+            4,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -690,14 +691,14 @@ class Test_Priority extends UnitTestCase
             '2005-06-15 14:59:59'
         );
         $this->_assertLogMaintenance(
-            4,
+            5,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
             DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
         );
         $this->_assertLogMaintenance(
-            5,
+            7,
             $oTest3BeforeUpdateDate,
             $oTest3AfterUpdateDate,
             60,
@@ -705,7 +706,7 @@ class Test_Priority extends UnitTestCase
             '2005-06-19 00:59:59'
         );
         $this->_assertLogMaintenance(
-            6,
+            8,
             $oTest3BeforeUpdateDate,
             $oTest3AfterUpdateDate,
             60,

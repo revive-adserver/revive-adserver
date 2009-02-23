@@ -485,7 +485,7 @@ echo "
 <script type='text/javascript'>
 <!--// <![CDATA[
   $(document).ready(function() {
-    $(\"#session_capping,#cap\")
+    $(\"#session_capping,#cap,#min_impressions\")
       .keypress(maskNonNumeric)
       .focus(prepareForText)
       .blur(enableResetCounterConditionally);

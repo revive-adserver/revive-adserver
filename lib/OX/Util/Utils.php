@@ -42,6 +42,8 @@ class OX_Util_Utils
      *      1-10 (High) OX_CAMPAIGN_TYPE_CONTRACT_NORMAL
      *  - Remnant (OX_CAMPAIGN_TYPE_REMNANT):
      *      0 (Low)
+     *  - eCPM (OX_CAMPAIGN_TYPE_ECPM):
+     *      -2 (Low)
      *
      * @param int $priority
      * @return unknown
@@ -57,6 +59,9 @@ class OX_Util_Utils
        }
        else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
            return OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
+       }
+       else if ($priority == -2) { //Low priority - ($priority = -2 (eCPM)
+           return OX_CAMPAIGN_TYPE_ECPM;
        }
        else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
            return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
@@ -91,6 +96,9 @@ class OX_Util_Utils
        else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) { //Contract - from 1 to 10 (High/Normal)
            return 'strStandardContract';
        }
+       else if ($type == OX_CAMPAIGN_TYPE_ECPM) { //eCPM - Low priority
+           return 'strECPM';
+       }
 
        //no type yet no key, sorry
        return null;
@@ -122,6 +130,9 @@ class OX_Util_Utils
        }
        else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) { //Contract - from 1 to 10 (High/Normal)
            return 'strStandardContractInfo';
+       }
+       else if ($type == OX_CAMPAIGN_TYPE_ECPM) { //Remnant - Low priority ($priority = -2)
+           return 'strECPMInfo';
        }
 
        //no type yet no key, sorry

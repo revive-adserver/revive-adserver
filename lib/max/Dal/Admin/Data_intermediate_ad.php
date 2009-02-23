@@ -72,6 +72,50 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
     }
 
     /**
+     * A method to determine the number of impressions, clicks and conversions
+     * delivered by a given ecpm campaign to date.
+     *
+     * Can also determine the delivery information up to a given operation
+     * interval end date.
+     *
+     * @param integer    $agencyId The agency ID.
+     * @param PEAR::Date $oDate      Limits delivery information to that which is
+     *                               after this date.
+     * @return array
+     */
+	function getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate)
+    {
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $query = "
+            SELECT
+                c.campaignid,
+                SUM(dia.impressions) AS impressions_delivered
+            FROM
+                {$oDbh->quoteIdentifier($prefix.'clients',true)} AS cl,
+                {$oDbh->quoteIdentifier($prefix.'campaigns',true)} AS c,
+                {$oDbh->quoteIdentifier($prefix.'banners',true)} AS b,
+                {$oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true)} AS dia
+            WHERE
+                cl.agencyid = " . DBC::makeLiteral($agencyId) . "
+                AND c.status = ".OA_ENTITY_STATUS_RUNNING."
+                AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
+                AND cl.clientid = c.clientid
+                AND b.bannerid = dia.ad_id
+                AND b.campaignid = c.campaignid
+                AND dia.interval_end >= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+            GROUP BY
+                c.campaignid";
+        $rs = DBC::NewRecordSet($query);
+        if (PEAR::isError($rs)) {
+            return false;
+        }
+        // while fetch()?
+
+        return $rs->getAll(array(), 'campaignid');
+    }
+
+    /**
      * TODO: Should we refactor this method in more general one?
      * (maybe by creating common abstract class for all summary tables?)
      *

@@ -812,6 +812,33 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($this->oDalCampaigns->getAdImpressionsLeft($campaignId), $expected);
     }
 
+    function testUpdateCampaignsPriorityByAgency()
+    {
+        // Add test campaigns
+        $numCampaign1 = 3;
+        $dg = new DataGenerator();
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_REMNANT;
+        $doCampaigns->ecpm = 0;
+        $doCampaigns->min_impressions = 0;
+        $aCampaignsId1 = $aCampaigns1 = $dg->generate($doCampaigns, $numCampaign1, true);
+        $agencyId1 = DataGenerator::getReferenceId('agency');
+
+        foreach($aCampaignsId1 as $campaignId1) {
+            $doCheck = OA_Dal::staticGetDo('campaigns', $campaignId1);
+            $this->assertEqual(OA_ENTITY_STATUS_RUNNING, $doCheck->status);
+        }
+
+        $aRet = $this->oDalCampaigns->updateCampaignsPriorityByAgency($agencyId1,
+            DataObjects_Campaigns::PRIORITY_REMNANT,
+            DataObjects_Campaigns::PRIORITY_ECPM);
+        foreach($aRet as $checkCampaignId => $aCampaign) {
+            // test that statuses should change
+            $doCheck = OA_Dal::staticGetDo('campaigns', $checkCampaignId);
+            $this->assertEqual(OA_ENTITY_STATUS_INACTIVE, $doCheck->status);
+        }
+    }
+
     function testGetAllCampaignsUnderAgency()
     {
         // Test it doesn't return any data if no records are added

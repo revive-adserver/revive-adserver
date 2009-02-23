@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2009-02-18</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade 2.7.30-beta-rc5</description>
+    <versionFrom>2.7.30-beta-rc4</versionFrom>
+    <versionTo>2.7.30-beta-rc5</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>606</version>
+            <stamp>606</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_606.xml</file>
+            <file>changes_tables_core_606.xml</file>
+            <file>migration_tables_core_606.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>postscript_openads_upgrade_2.7.30-beta-rc5.php</prescript-->
+    <postscript>postscript_openads_upgrade_2.7.30-beta-rc5.php</postscript>
+
+</upgrade>

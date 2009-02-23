@@ -42,6 +42,7 @@ require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 require_once MAX_PATH . '/lib/OX/Util/Utils.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 
 // Register input variables
@@ -97,6 +98,8 @@ if ($campaignid != "") {
     $campaign['target_impression'] = $data ['target_impression'];
     $campaign['target_click'] = $data ['target_click'];
     $campaign['target_conversion'] = $data ['target_conversion'];
+    $campaign['min_impressions'] = $data ['min_impressions'];
+    $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber ( $data ['ecpm'], 4 );
     $campaign['anonymous'] = $data ['anonymous'];
     $campaign['companion'] = $data ['companion'];
     $campaign['comments'] = $data ['comments'];
@@ -193,6 +196,11 @@ if ($campaignid != "") {
         $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
     }
 
+    // Set the default eCPM prioritization settings
+    if (! isset ( $campaign['ecpm'] )) {
+        $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
+    }
+
 } else {
     // New campaign
     $doClients = OA_Dal::factoryDO ( 'clients' );
@@ -226,6 +234,7 @@ if ($campaignid != "") {
     $campaign['session_capping'] = null;
     $campaign['comments'] = null;
     $campaign['target_type'] = null;
+    $campaign['min_impressions'] = 100;
 }
 
 if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate ( $campaign['expire'] ) && $campaign['impressions'] > 0) {
@@ -311,12 +320,14 @@ function buildCampaignForm($campaign, &$oComponent = null)
     //form sections
     $newCampaign = empty ( $campaign['campaignid'] );
 
-    buildBasicInformationFormSection ( $form, $campaign, $newCampaign );
+    $ecpmEnabled = !empty($pref['campaign_ecpm_enabled']);
+    buildBasicInformationFormSection ( $form, $campaign, $newCampaign, $ecpmEnabled );
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection ( $form, $campaign, $newCampaign );
     buildPluggableFormSection ( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign );
     buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
     buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
+    buildECPMFormSection($form, $campaign, $newCampaign, $ecpmEnabled);
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, false, $newCampaign );
     buildMiscFormSection ( $form, $campaign, $newCampaign );
 
@@ -389,7 +400,7 @@ function buildPluggableFormSection(&$oComponent, $method, &$form, $campaign, $ne
     }
 }
 
-function buildBasicInformationFormSection(&$form, $campaign, $newCampaign)
+function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
 {
     $form->addElement ( 'header', 'h_basic_info', $GLOBALS ['strBasicInformation'] );
 
@@ -403,11 +414,20 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
     $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
 
-    $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
-    $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
-    $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
-
-    $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
+    if ($ecpmEnabled) {
+        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strCampaignECPM'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
+        $priority_l [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+        $form->addDecorator ( 'ecpm-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ) ) );
+        $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
+        $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
+    } else {
+        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
+        $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+        $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
+        $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
+        $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
+        $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
+    }
 
     $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
     $typeG [] = $form->createElement ( 'group', 'g_priority_e', null, $priority_e, null, false );
@@ -476,13 +496,15 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'h_pricing', 'tag', array ('attributes' => array ('id' => 'sect_pricing', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
     //pricing model
-    $aRevenueTypes = array ('' => $GLOBALS ['strSelectPricingModel'], MAX_FINANCE_CPM => $GLOBALS ['strFinanceCPM'], MAX_FINANCE_CPC => $GLOBALS ['strFinanceCPC'] );
+    $aRevenueTypes = array ('' => $GLOBALS ['strSelectPricingModel'], MAX_FINANCE_CPM => $GLOBALS ['strFinanceCPM'] );
+    $aRevenueTypes[MAX_FINANCE_CPC] = $GLOBALS ['strFinanceCPC'];
     // Conditionally display CPA model
     if ($conf ['logging'] ['trackerImpressions']) {
         $aRevenueTypes [MAX_FINANCE_CPA] = $GLOBALS ['strFinanceCPA'];
     }
     $aRevenueTypes [MAX_FINANCE_MT] = $GLOBALS ['strFinanceMT'];
     $form->addElement ( 'select', 'revenue_type', $GLOBALS ['strPricingModel'], $aRevenueTypes, array ('id' => 'pricing_revenue_type' ) );
+    $form->addElement ( 'hidden', 'min_impressions', $campaign ['min_impressions'] );
 
     //pricing model groups
     //rate price - common
@@ -557,6 +579,28 @@ function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
     $form->addGroup ( $highPriorityGroup, 'g_high_priority', $GLOBALS ['strPriorityLevel'], null, false );
 }
 
+function buildECPMFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
+{
+    if ($ecpmEnabled) {
+        //priority section
+        $form->addElement ( 'header', 'h_ecpm_priority', $GLOBALS ['strECPMInformation'] );
+        //section decorator to allow hiding of the section
+        $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
+
+        $ecpmGroup ['ecpm'] = $form->createElement ( 'text', 'ecpm', null, array ('id' => 'ecpm' ) );
+        $form->addGroup ( $ecpmGroup, 'ecpm_group', $GLOBALS ['strECPM'], null, false );
+
+        //minimum number of requires impressions
+        $minimumImpr = array(
+            'field' => $form->createElement ( 'text', 'min_impressions', null )
+        );
+        $form->addGroup ( $minimumImpr, 'g_min_impressions', $GLOBALS ['strMinimumImpressions'] );
+    } else {
+        $form->addElement ( 'hidden', 'ecpm', $campaign ['ecpm'] );
+        $form->addElement ( 'hidden', 'min_impressions', $campaign ['min_impressions'] );
+    }
+}
+
 function buildLowAndExclusivePriorityFormSection(&$form, $campaign, $newCampaign)
 {
     global $conf;
@@ -614,6 +658,30 @@ function buildStatusForm($aCampaign)
     return $form;
 }
 
+/**
+ *
+ * Correction revenue from other formats (23234,34 or 23 234,34 or 23.234,34)
+ * to format acceptable by is_numeric (23234.34)
+ *
+ * @param array $aFields  Array of exported form fields
+ * @param array $errors  Array of pear errors
+ * @param String $field  Numeric field which will be checked and converted
+ * @param String $errrorString     Error string used in case format of the field is not correct
+ */
+function correctAdnCheckNumericFormField($aFields, $errors, $field, $errrorString)
+{
+    $corrected = OA_Admin_NumberFormat::unformatNumber ( $aFields[$field] );
+    if ($corrected !== false) {
+        $aFields[$field] = $corrected;
+    }
+    if (! empty ( $aFields[$field] ) && ! (is_numeric ( $aFields[$field] ))) {
+        // Suppress PEAR error handling to show this error only on top of HTML form
+        PEAR::pushErrorHandling ( null );
+        $errors [] = PEAR::raiseError ( $GLOBALS [$errrorString] );
+        PEAR::popErrorHandling ();
+    }
+}
+
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
@@ -649,27 +717,18 @@ function processCampaignForm($form, &$oComponent = null)
         }
     }
 
-    //correct and check revenue
-    //correction revenue from other formats (23234,34 or 23 234,34 or 23.234,34)
-    //to format acceptable by is_numeric (23234.34)
-    $corrected_revenue = OA_Admin_NumberFormat::unformatNumber ( $aFields['revenue'] );
-    if ($corrected_revenue !== false) {
-        $aFields['revenue'] = $corrected_revenue;
-        unset ( $corrected_revenue );
-    }
-    if (! empty ( $aFields['revenue'] ) && ! (is_numeric ( $aFields['revenue'] ))) {
-        // Suppress PEAR error handling to show this error only on top of HTML form
-        PEAR::pushErrorHandling ( null );
-        $errors [] = PEAR::raiseError ( $GLOBALS ['strErrorEditingCampaignRevenue'] );
-        PEAR::popErrorHandling ();
-    }
+    //correct and check revenue and ecpm
+    correctAdnCheckNumericFormField($aFields, $errors, 'revenue', $GLOBALS ['strErrorEditingCampaignRevenue']);
+    correctAdnCheckNumericFormField($aFields, $errors, 'ecpm', $GLOBALS ['strErrorEditingCampaignECPM']);
 
     if (empty($errors)) {
         //check booked limits values
         
-        // If this is a remnant or exclusive campaign with an expiry date, set the target's to unlimited
+        // If this is a remnant, ecpm or exclusive campaign with an expiry date, set the target's to unlimited
         if (OA_Dal::isValidDate($expire) && 
-            ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
+            ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT
+                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM
+                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
         ) {
             $aFields['impressions'] = $aFields['clicks'] = $aFields['conversions'] = -1;
         } else {
@@ -710,9 +769,10 @@ function processCampaignForm($form, &$oComponent = null)
             $aFields['priority'] = 0; //low
         } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
             $aFields['priority'] = (isset($aFields['high_priority_value']) ? $aFields['high_priority_value'] : 5); //high
-        }
-        if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+        } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
             $aFields['priority'] = - 1; //exclusive
+        } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
+            $aFields['priority'] = - 2; //ecpm
         }
 
         if ($aFields['priority'] > 0) {
@@ -758,6 +818,10 @@ function processCampaignForm($form, &$oComponent = null)
             // No revenue information, set to null
             $aFields['revenue'] = 'NULL';
         }
+        if (empty($aFields['ecpm']) || ($aFields['ecpm'] <= 0)) {
+            // No ecpm information, set to null
+            $aFields['ecpm'] = 'NULL';
+        }
 
         // Get the capping variables
         $block = _initCappingVariables($aFields['time'], $aFields['capping'], $aFields['session_capping']);
@@ -780,6 +844,8 @@ function processCampaignForm($form, &$oComponent = null)
         $doCampaigns->target_impression = $target_impression;
         $doCampaigns->target_click = $target_click;
         $doCampaigns->target_conversion = $target_conversion;
+        $doCampaigns->min_impressions = $aFields['min_impressions'];
+        $doCampaigns->ecpm = $aFields['ecpm'];
         $doCampaigns->anonymous = $aFields['anonymous'];
         $doCampaigns->companion = $aFields['companion'];
         $doCampaigns->comments = $aFields['comments'];
@@ -921,6 +987,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
 
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
     $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
+    $oTpl->assign ( 'strCampaignWarningECPMNoECPM', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningECPMNoECPM'] ) ) );
     $oTpl->assign ( 'strCampaignWarningExclusiveNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningExclusiveNoWeight'] ) ) );
 
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
@@ -928,6 +995,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'CAMPAIGN_TYPE_REMNANT', OX_CAMPAIGN_TYPE_REMNANT );
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_NORMAL', OX_CAMPAIGN_TYPE_CONTRACT_NORMAL );
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE );
+    $oTpl->assign ( 'CAMPAIGN_TYPE_ECPM', OX_CAMPAIGN_TYPE_ECPM );
     $oTpl->assign ( 'MODEL_CPM', MAX_FINANCE_CPM );
     $oTpl->assign ( 'MODEL_CPC', MAX_FINANCE_CPC );
     $oTpl->assign ( 'MODEL_CPA', MAX_FINANCE_CPA );
@@ -1001,6 +1069,10 @@ function getCampaignInactiveReasons($aCampaign)
     ) {
         $aReasons [] = $GLOBALS ['strTargetIsNull'];
     }
+    if ($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM && $aCampaign['ecpm'] <= 0) {
+        $aReasons [] = $GLOBALS ['strECPMIsNull'];
+    }
+
 
     return $aReasons;
 }

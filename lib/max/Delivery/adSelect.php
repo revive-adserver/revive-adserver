@@ -465,6 +465,10 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
             // Select one of the low-priority ads
             $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'lAds');
         }
+        if (!is_array($aLinkedAd)) {
+            // Select one of the low-priority ads
+            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'eAds', -2);
+        }
         if (is_array($aLinkedAd)) {
             return $aLinkedAd;
         }
@@ -521,11 +525,17 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
         }
 
         if ($total_priority) {
-            foreach ($aAds as $key => $ad) {
-                $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
-                    $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
+            if ($adArrayVar == 'eAds') {
+                foreach ($aAds as $key => $ad) {
+                    $aAds[$key]['priority'] = $ad['priority']
+                        * $ad['priority_factor'] / $total_priority;
+                }
+            } else {
+                foreach ($aAds as $key => $ad) {
+                    $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
+                        $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
+                }
             }
-
         }
     }
 
@@ -535,7 +545,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $paidAds = ($adArrayVar == 'ads') || (empty($aContext) && $adArrayVar == 'cAds');
+    $paidAds = ($adArrayVar == 'ads') || (empty($aContext) && $adArrayVar == 'cAds') || ($adArrayVar == 'eAds');
 
     if ($paidAds) {
         // Paid campaigns have a sum of priorities of unity, so pick
