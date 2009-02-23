@@ -737,15 +737,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $client->setConfig(array(
             'maxredirects' => 0,
             'timeout'      => 30));        
-        
-        
-        $response = $client->request();
-        if ($response->isSuccessful()) {
-            $responseText = $response->getBody();
-            $result = $this->parseCustomContent($responseText);   
+
+        $result = false;
+        try {
+            $response = $client->request();
+            if ($response->isSuccessful()) {
+                $responseText = $response->getBody();
+                $result = $this->parseCustomContent($responseText);   
+            }
         }
-        else {
-            $result = false;
+        catch(Exception $exc) {
+            OA::debug('Error during retrieving custom content: ('.$exc->getCode().')'.$exc->getMessage());
         }
         
         return $result;
