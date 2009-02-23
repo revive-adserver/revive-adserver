@@ -1,7 +1,11 @@
 &universal;
 <verifyText description="Check text on page"
 	text="OpenX plugins" />
-<sleep seconds="30" />
+<sleep seconds="5" />
+<retry description="retry nested steps until plugins installed" maxcount="20">
+	<sleep seconds="5" />
+	<verifyElementText htmlId="job_status_8" text="OK" />
+</retry>
 <!-- TODO add Groovy method -->
 <!-- check plugins list -->
 <verifyText text="openXBannerTypes" description="openXBannerTypes"/>
@@ -19,5 +23,5 @@
 	<verifyText text="Invalid Request" description="check: Invalid Request" />
 	<verifyText text="Failed" description="check:Failed" />
 </not>
-<verifyElementText htmlId="job_status_8" text="OK" />
+
 <clickButton label="Continue »"/>

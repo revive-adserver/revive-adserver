@@ -4,6 +4,7 @@
   <!ENTITY config  SYSTEM "../modules/config_openx.xml">
   <!ENTITY login  SYSTEM "../modules/login_admin.xml">
   <!ENTITY common_verification  SYSTEM "../modules/common_pages.xml">
+  <!ENTITY checkForErrors SYSTEM  "../modules/errors.xml">
 ]>
 
 <project name="Smoke test level2 - deploy test" basedir="."	default="main">
@@ -19,6 +20,8 @@
 				<verifyTitle description="Page title" text="${page.title}" />
 				<verifyText description="Check text on page" text="${page.text}" />
 				&common_verification;
+				<invoke description="Maintenance script check" url="../maintenance/maintenance.php"/>
+				&checkForErrors;
 			</steps>
 		</webtest>
 	</target>

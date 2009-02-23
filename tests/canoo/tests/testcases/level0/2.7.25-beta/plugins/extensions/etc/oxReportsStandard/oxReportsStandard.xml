@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxReportsStandard</name>
+    <creationDate>2008-09-08</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>Standard Reports for OpenX</description>
+    <version>1.0.0</version>
+    <oxversion>2.7.16-dev</oxversion>
+    <extends>reports</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}reports/oxReportsStandard/">advertisingAnalysisReport.class.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/">campaignAnalysisReport.class.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/">conversionTrackingReport.class.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/">liveCampaignDeliveryReport.class.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">en.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">de.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">es.php</file>
+            <file path="{MODULEPATH}reports/oxReportsStandard/_lang/">ja.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
+        </files>
+
+    </install>
+
+</plugin>

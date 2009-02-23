@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>Geo</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Geotargeting Delivery Limitiations for OpenX</description>
+    <version>1.0.0</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Areacode.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Areacode.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">City.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">City.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">City.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Continent.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Continent.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Continent.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Country.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Country.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Country.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Dma.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Dma.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Dma.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Latlong.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Latlong.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Netspeed.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Netspeed.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Netspeed.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Organisation.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Organisation.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Postalcode.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Postalcode.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Region.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Region.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/">Region.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-continent.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-dmacodes.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-fips.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166-2.inc.php</file>
+        </files>
+
+
+        <components>
+            <component><name>Areacode</name></component>
+            <component><name>City</name></component>
+            <component><name>Continent</name></component>
+            <component><name>Country</name></component>
+            <component><name>Dma</name></component>
+            <component><name>Latlong</name></component>
+            <component><name>Netspeed</name></component>
+            <component><name>Organisation</name></component>
+            <component><name>Postalcode</name></component>
+            <component><name>Region</name></component>
+        </components>
+
+    </install>
+
+</plugin>

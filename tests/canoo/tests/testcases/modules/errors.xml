@@ -1,5 +1,6 @@
 <not description="There should be no errors and no notices on output page">
     <verifyText description="Check errors" text="error:" />
+    <verifyText description="Check errors" text="PEAR Error" />
 <!-- Please note that apu.php will return "if (window.captureEvents && Event.ERROR)" and in case of fatal error in php: "error</b>:"-->
     <verifyText description="Check errors" text="Fatal error" />
     <verifyText description="Check notices" text="Notice" />

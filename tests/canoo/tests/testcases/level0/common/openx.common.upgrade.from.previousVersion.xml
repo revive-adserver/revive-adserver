@@ -49,6 +49,18 @@
 					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
 					<storeCookie name="oat" property="sessid" />
 					<storeCookie name="PHPSESSID" property="sessid2" />
+					
+					<ifStep description="if ver > 2.6">
+						<condition>
+				        	<verifyProperty description="Check version no."
+				        	    name="upgrade.version"
+					       		propertyType="ant"
+				        	    text="^2\.[7-9]*|^[3-9].*" regex="true" />
+						</condition>
+				        <then>				        	
+							<setInputField name="previousPath" value="${basedir}/testcases/level0/${upgrade.version}/plugins"/>
+			        	</then>
+					</ifStep>					
 					<clickButton label="Continue »"/>
 				
 					<storeCookie name="oat" property="sessid" />
