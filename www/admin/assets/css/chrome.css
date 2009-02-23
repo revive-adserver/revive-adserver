@@ -345,7 +345,6 @@ a:hover {
   position: fixed;
   left:0;
   top:0;
-  background-color: red;
   opacity: 0;
   background-color: none;
   z-index: 99;
