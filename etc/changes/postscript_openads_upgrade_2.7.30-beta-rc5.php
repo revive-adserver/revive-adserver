@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: postscript_openads_upgrade_2.7.26-beta-rc5.php 30820 2009-01-13 19:02:17Z andrew.hill $
+$Id$
 */
 
 $className = 'OA_UpgradePostscript_2_7_30_beta_rc5';
