@@ -252,7 +252,7 @@ class MAX_Admin_Invocation {
      *
      * @return string  Generated invocation form
      */
-    function placeInvocationForm($extra = array(), $zone_invocation = false, $aParams = null)
+    function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
         global $phpAds_TextDirection, $strWarningLocalInvocation;
 
@@ -264,7 +264,9 @@ class MAX_Admin_Invocation {
 
         // register all the variables
         $this->assignVariables($aParams);
-        $this->assignVariables($extra);
+        if (is_array($extra)) {
+            $this->assignVariables($extra);
+        }
 
         // Deal with special variables
         $codetype = $this->codetype;
