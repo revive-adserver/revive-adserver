@@ -652,9 +652,9 @@ class Admin_DA
 
         if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
             $limit = ' LIMIT ' .  $oDbh->quote($aParams['perPage'], 'text', false) . ' OFFSET ' . $oDbh->quote($aParams['startRecord'], 'text', false);
-        } elseif (!empty($aParams['perPage'])) {    
+        } elseif (!empty($aParams['perPage'])) {
             $limit = ' LIMIT ' .  $oDbh->quote($aParams['perPage'], 'integer', false) . ' OFFSET 0';
-        } else { 
+        } else {
             $limit = '';
         }
 
@@ -973,13 +973,22 @@ class Admin_DA
     }
 
 
-    function _checkEmailZoneAdAssoc($aZone, $campaignid, $newStart = false, $newEnd = false)
+    /**
+     * ???
+     *
+     * @param integer $zoneId The ID of the zone to be tested.
+     * @param unknown_type $campaignid ???
+     * @param unknown_type $newStart ???
+     * @param unknown_type $newEnd ???
+     * @return unknown ???
+     */
+    function _checkEmailZoneAdAssoc($zoneId, $campaignid, $newStart = false, $newEnd = false)
     {
         // Suppress PEAR error handling for this method...
         PEAR::pushErrorHandling(null);
         require_once('Date.php');
         // This is an email zone, so check all current linked ads for active date ranges
-        $aOtherAds = Admin_DA::getAdZones(array('zone_id' => $aZone['zone_id']));
+        $aOtherAds = Admin_DA::getAdZones(array('zone_id' => $zoneId));
         $campaignVariables = Admin_DA::getPlacement($campaignid);
         if ($newStart) {
             $campaignVariables['activate'] = $newStart;
@@ -1055,7 +1064,7 @@ class Admin_DA
                 $aZone = Admin_DA::getZone($aVariables['zone_id']);
                 if ($aZone['type'] == MAX_ZoneEmail) {
                     $aAd = Admin_DA::getAd($azParams['ad_id']);
-                    $okToLink = Admin_DA::_checkEmailZoneAdAssoc($aZone, $aAd['placement_id']);
+                    $okToLink = Admin_DA::_checkEmailZoneAdAssoc($aZone['zone_id'], $aAd['placement_id']);
                     if (PEAR::isError($okToLink)) {
                         return $okToLink;
                     }

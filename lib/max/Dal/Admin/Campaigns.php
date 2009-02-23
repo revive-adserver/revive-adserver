@@ -34,6 +34,12 @@ require_once LIB_PATH . '/OperationInterval.php';
 
 require_once OX_PATH . '/lib/pear/Date.php';
 
+/**
+ * The Entity Service class for the "campaigns" table.
+ *
+ * @package    MaxDal
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
+ */
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {
     var $table = 'campaigns';
@@ -612,6 +618,59 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         }
         return $campaigns;
     }
+
+    /**
+     * A method to locate all "email" type zones that are linked
+     * to a given campaign, via the campaign's children banners
+     * (as campaigns cannot be linked to email zones directly).
+     *
+     * @param integer $campaignId The ID of the campaign.
+     * @return mixed An array of "email" type zone IDs found linked
+     *               to the given campaign, an empry array if no
+     *               such zones were found, or an MDB2_Error object
+     *               on any kind of database error.
+     */
+    function getLinkedEmailZoneIds($campaignId)
+    {
+        // Test input
+        if (!is_integer($campaignId) || $campaignId <= 0) {
+            // Not a valid campaign ID, return no found zones
+            $aResult = array();
+            return $aResult;
+        }
+        // Prepare and execute query
+        $prefix = $this->getTablePrefix();
+        $sQuery = "
+            SELECT
+                {$prefix}zones.zoneid AS zone_id
+            FROM
+                {$prefix}banners,
+                {$prefix}ad_zone_assoc,
+                {$prefix}zones
+            WHERE
+                {$prefix}banners.campaignid = " . $this->oDbh->quote($campaignId, 'integer') . "
+                AND
+                {$prefix}banners.bannerid = {$prefix}ad_zone_assoc.ad_id
+                AND
+                {$prefix}ad_zone_assoc.zone_id = {$prefix}zones.zoneid
+                AND
+                {$prefix}zones.delivery = " . $this->oDbh->quote(MAX_ZoneEmail, 'integer') . "
+            ORDER BY
+                zone_id";
+        OX::disableErrorHandling();
+        $rsResult = $this->oDbh->query($sQuery);
+        OX::enableErrorHandling();
+        if (PEAR::isError($rsResult)) {
+            return $rsResult;
+        }
+        $aResult = array();
+        while ($aRow = $rsResult->fetchRow()) {
+            $aResult[] = $aRow['zone_id'];
+        }
+        $rsResult->free();
+        return $aResult;
+    }
+
 }
 
 ?>

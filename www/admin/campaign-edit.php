@@ -698,21 +698,29 @@ function processCampaignForm($form, &$oComponent = null)
     $expire = ! empty ( $aFields['end'] ) ? date ( 'Y-m-d', strtotime ( $aFields['end'] ) ) : OA_Dal::noDateValue ();
     $activate = ! empty ( $aFields['start'] ) ? date ( 'Y-m-d', strtotime ( $aFields['start'] ) ) : OA_Dal::noDateValue ();
 
-    // If ID is not set, it should be a null-value for the auto_increment
-    if (empty ( $aFields['campaignid'] )) {
+    if (empty($aFields['campaignid'])) {
+        // The form is submitting a new campaign, so, the ID is not set;
+        // set the ID to the string "null" so that the table auto_increment
+        // or sequence will be used when the campaign is created
         $aFields['campaignid'] = "null";
     } else {
-        require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-        $oldCampaignAdZoneAssocs = Admin_DA::getAdZones ( array ('placement_id' => $aFields['campaignid'] ) );
-        $errors = array ();
-        foreach ( $oldCampaignAdZoneAssocs as $adZoneAssocId => $adZoneAssoc ) {
-            $aZone = Admin_DA::getZone ( $adZoneAssoc ['zone_id'] );
-            if ($aZone ['type'] == MAX_ZoneEmail) {
-                $thisLink = Admin_DA::_checkEmailZoneAdAssoc ( $aZone, $aFields['campaignid'], $activate, $expire );
-                if (PEAR::isError ( $thisLink )) {
-                    $errors [] = $thisLink;
-                    break;
-                }
+        // The form is submitting a campaign modification; need to test
+        // if any of the banners in the campaign are linked to an email zone,
+        // and if so, if the link(s) would still be valid if the change(s)
+        // to the campaign were made...
+        $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+        $aCurrentLinkedEmalZoneIds = $dalCampaigns->getLinkedEmailZoneIds($aFields['campaignid']);
+        if (PEAR::isError($aCurrentLinkedEmalZoneIds)) {
+            OX::disableErrorHandling();
+            $errors[] = PEAR::raiseError($GLOBALS['strErrorDBPlain']);
+            OX::enableErrorHandling();
+        }
+        $errors = array();
+        foreach ($aCurrentLinkedEmalZoneIds as $zoneId) {
+            $thisLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aFields['campaignid'], $activate, $expire);
+            if (PEAR::isError($thisLink)) {
+                $errors[] = $thisLink;
+                break;
             }
         }
     }
@@ -723,9 +731,9 @@ function processCampaignForm($form, &$oComponent = null)
 
     if (empty($errors)) {
         //check booked limits values
-        
+
         // If this is a remnant, ecpm or exclusive campaign with an expiry date, set the target's to unlimited
-        if (OA_Dal::isValidDate($expire) && 
+        if (OA_Dal::isValidDate($expire) &&
             ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT
                 || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM
                 || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
@@ -737,20 +745,20 @@ function processCampaignForm($form, &$oComponent = null)
             } else if (empty($aFields['impressions']) || $aFields['impressions'] == '-') {
                 $aFields['impressions'] = 0;
             }
-    
+
             if (!empty($aFields['click_unlimited']) && $aFields['click_unlimited'] == 't') {
                 $aFields['clicks'] = - 1;
             } else if (empty($aFields['clicks']) || $aFields['clicks'] == '-') {
                 $aFields['clicks'] = 0;
             }
-    
+
             if (!empty($aFields['conv_unlimited']) && $aFields['conv_unlimited'] == 't') {
                 $aFields['conversions'] = - 1;
             } else if (empty( $aFields['conversions']) || $aFields['conversions'] == '-') {
                 $aFields['conversions'] = 0;
             }
         }
-        
+
         //pricing model - reset fields not applicable to model to 0,
         //note that in new flow MAX_FINANCE_CPA allows all limits to be set
         if ($aFields['revenue_type'] == MAX_FINANCE_CPM) {

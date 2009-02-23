@@ -29,11 +29,11 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
 
 /**
- * A class for testing DAL Campaigns methods
+ * A class for testing the Entity Service class for the "campaigns" table.
  *
  * @package    MaxDal
  * @subpackage TestSuite
- *
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
@@ -60,7 +60,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
     /**
      * Tests all campaigns are returned.
-     *
      */
     function testGetAllCampaigns()
     {
@@ -75,7 +74,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Test same number of campaigns are returned.
         $this->assertEqual(count($aCampaigns), $numCampaigns);
     }
-
 
     function testCountActiveCampaigns()
     {
@@ -183,11 +181,10 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
 
-
     /**
      * A method to test the getDaysLeftString() method.
      */
-     function testGetDaysLeftString()
+    function testGetDaysLeftString()
     {
         /*
     	Possible cases for testing:
@@ -769,7 +766,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
 
-
     function testGetAdClicksLeft()
     {
         // Insert a campaign
@@ -872,5 +868,125 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual(array_keys($aCampaigns), array_values($aCampaigns2));
     }
 
+    /**
+     * A method to test the getLinkedEmailZoneIds() method.
+     *
+     * Note that the banner/zone association in this test is
+     * performed via the Admin_DA class, as a result of the fact
+     * that neither the "zone" or "banner" Entity Service
+     * classes support this functionality at the time of writing.
+     */
+    function testGetLinkedEmailZoneIds()
+    {
+        $oDataGenerator = new DataGenerator();
+        $dalZones = OA_Dal::factoryDAL('zones');
+
+        // Test with invalid input
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds('foo');
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        // Test with invalid campaign IDs
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds(-1);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds(0);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds(2);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        // Generate an owning manager account
+        $doAgency = OA_Dal::factoryDO('agency');
+        $managerId = $oDataGenerator->generateOne($doAgency);
+
+        // Generate an advertiser account within the manager account
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->agencyid = $managerId;
+        $advertiserId = $oDataGenerator->generateOne($doClients);
+
+        // Generate a website account within the manager account
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->agencyid = $managerId;
+        $websiteId = $oDataGenerator->generateOne($doAffiliates);
+
+        // Generate a campaign, with start and end dates
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $advertiserId;
+        $doCampaigns->activate = '2009-02-23';
+        $doCampaigns->expire   = '2009-02-24';
+        $campaignId = $oDataGenerator->generateOne($doCampaigns);
+
+        // Generate a banner in the campaign generated above
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = $oDataGenerator->generateOne($doBanners);
+
+        // Test with no linked zones
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds($campaignId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        // Add two non-email zones, and link the campaign to the zones
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $websiteId;
+        $doZones->delivery = phpAds_ZoneBanner;
+        $zoneId1 = $oDataGenerator->generateOne($doZones);
+
+        $result = $dalZones->linkZonesToCampaign(array($zoneId1), $campaignId);
+        $this->assertEqual($result, 1);
+
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $websiteId;
+        $doZones->delivery = phpAds_ZonePopup;
+        $zoneId2 = $oDataGenerator->generateOne($doZones);
+
+        $result = $dalZones->linkZonesToCampaign(array($zoneId2), $campaignId);
+        $this->assertEqual($result, 1);
+
+        // Test with linked zones that are not email zones
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds($campaignId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(empty($aResult));
+
+        // Add an email zone, and link the campaign's banner to the zone
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $websiteId;
+        $doZones->delivery = MAX_ZoneEmail;
+        $zoneId3 = $oDataGenerator->generateOne($doZones);
+
+        $aParameters = array('zone_id' => $zoneId3, 'ad_id' => $bannerId);
+        $result = Admin_DA::addAdZone($aParameters);
+        $this->assertTrue($result);
+
+        // Test with linked zones, one of which is an email zone
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds($campaignId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(!empty($aResult));
+        $this->assertEqual(count($aResult), 1);
+        $this->assertEqual($aResult[0], $zoneId3);
+
+        // Add another email zone, and link the campaign's banner to the zone
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $websiteId;
+        $doZones->delivery = MAX_ZoneEmail;
+        $zoneId4 = $oDataGenerator->generateOne($doZones);
+
+        $aParameters = array('zone_id' => $zoneId4, 'ad_id' => $bannerId);
+        $result = Admin_DA::addAdZone($aParameters);
+        $this->assertTrue($result);
+
+        // Test with linked zones, some of which are email zones
+        $aResult = $this->oDalCampaigns->getLinkedEmailZoneIds($campaignId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertTrue(!empty($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult[0], $zoneId3);
+        $this->assertEqual($aResult[1], $zoneId4);
+
+    }
 
 }
