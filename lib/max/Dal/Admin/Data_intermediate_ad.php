@@ -89,7 +89,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         $oDbh = OA_DB::singleton();
         $query = "
             SELECT
-                c.campaignid,
+                c.campaignid AS campaignid,
                 SUM(dia.impressions) AS impressions_delivered
             FROM
                 {$oDbh->quoteIdentifier($prefix.'clients',true)} AS cl,

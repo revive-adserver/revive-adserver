@@ -705,6 +705,10 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             $aRows['lAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
             $totals['lAds'] += $aAd['priority'];
+        } elseif ($aAd['campaign_priority'] == -2) {
+            // Ad is in a low priority eCPM placement
+            $aRows['eAds'][$aAd['ad_id']] = $aAd;
+            $aRows['count_active']++;
         } else {
             // Ad is in a paid placement
             $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;

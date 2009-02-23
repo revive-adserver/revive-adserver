@@ -2506,10 +2506,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getEcpmAgenciesIds()
     {
         $query = "SELECT
-                    distinct(cl.agencyid) agencyid
+                    DISTINCT cl.agencyid AS agencyid
                   FROM
-                    {$this->_getTablename('campaigns')} c,
-                    {$this->_getTablename('clients')} cl
+                    {$this->_getTablename('campaigns')} AS c,
+                    {$this->_getTablename('clients')} AS cl
                   WHERE
                     cl.clientid = c.clientid
                     AND c.priority = " . DataObjects_Campaigns::PRIORITY_ECPM;
@@ -2556,17 +2556,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getCampaignsInfoByAgencyId($agencyId)
     {
         $query = "SELECT
-                      c.campaignid,
-                      c.ecpm,
-                      c.min_impressions,
-                      b.bannerid,
-                      b.weight,
-                      aza.zone_id
+                      c.campaignid AS campaignid,
+                      c.ecpm AS ecpm,
+                      c.min_impressions AS min_impressions,
+                      b.bannerid AS bannerid,
+                      b.weight AS weight,
+                      aza.zone_id AS zone_id
                   FROM
-                      {$this->_getTablename('clients')} cl,
-                      {$this->_getTablename('campaigns')} c,
-                      {$this->_getTablename('banners')} b,
-                      {$this->_getTablename('ad_zone_assoc')} aza
+                      {$this->_getTablename('clients')} AS cl,
+                      {$this->_getTablename('campaigns')} AS c,
+                      {$this->_getTablename('banners')} AS b,
+                      {$this->_getTablename('ad_zone_assoc')} AS aza
                   WHERE
                       b.campaignid = c.campaignid
                       AND aza.ad_id = b.bannerid
@@ -2617,12 +2617,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getZonesForecastsByAgency($agencyId, $intervalStart, $intervalEnd)
     {
         $query = "SELECT
-                      h.zone_id zone_id,
-                      h.forecast_impressions forecast_impressions
+                      h.zone_id AS zone_id,
+                      h.forecast_impressions AS forecast_impressions
                   FROM
-                      {$this->_getTablename('affiliates')} a,
-                      {$this->_getTablename('zones')} z,
-                      {$this->_getTablename('data_summary_zone_impression_history')} h
+                      {$this->_getTablename('affiliates')} AS a,
+                      {$this->_getTablename('zones')} AS z,
+                      {$this->_getTablename('data_summary_zone_impression_history')} AS h
                   WHERE
                       a.agencyid = {$agencyId}
                       AND z.affiliateid = a.affiliateid
@@ -2649,12 +2649,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getZonesAllocationsByAgency($agencyId)
     {
         $query = "SELECT
-                      t.zone_id,
-                      SUM(t.required_impressions) sum_required_impressions
+                      t.zone_id AS zone_id,
+                      SUM(t.required_impressions) AS sum_required_impressions
                   FROM
-                      {$this->_getTablename('affiliates')} a,
-                      {$this->_getTablename('zones')} z,
-                      tmp_ad_zone_impression t
+                      {$this->_getTablename('affiliates')} AS a,
+                      {$this->_getTablename('zones')} AS z,
+                      tmp_ad_zone_impression AS t
                   WHERE
                       a.agencyid = {$agencyId}
                       AND z.affiliateid = a.affiliateid
