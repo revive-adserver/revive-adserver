@@ -222,6 +222,20 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     }
     
     /**
+     * @param integer $lastUpdate
+     * @return string statistics file content 
+     */
+    public function oxmStatisticsLimited($lastUpdate)
+    {
+        try {
+            $this->ensureStatusAndUpdatePcAccountId();
+            return $this->pc_api_client->oxmStatisticsLimited($lastUpdate);
+        } catch (Exception $e) {
+            $this->setStatusByException($e);
+        }
+    }
+    
+    /**
      * @param string $websiteUrl
      * @return integer website id
      */

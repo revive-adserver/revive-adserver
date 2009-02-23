@@ -106,6 +106,16 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     }
     
     /**
+     * @param integer $lastUpdate
+     * @return string statistics file content 
+     */
+    public function oxmStatisticsLimited($lastUpdate)
+    {
+        return $this->callXmlRpcFunctionWithPCAccount('oxmStatisticsLimited', 
+            array($lastUpdate));
+    }
+    
+    /**
      * @param string $websiteUrl
      * @return integer website id
      */
@@ -122,7 +132,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      * @param array $cat_ex
      * @param array $typ_ex
      * @return integer website id
-     *      */
+     */
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
         $cat_ex, $typ_ex)    
     {
