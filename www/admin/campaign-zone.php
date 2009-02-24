@@ -55,7 +55,7 @@ $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserI
 $pageName = basename($_SERVER['PHP_SELF']);
 $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
 MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
-    
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
@@ -73,13 +73,15 @@ $aCategoriesIds2   = $oDalZones->getCategoriesIdsFromWebsitesAndZones($available
 $aCategoriesIds = array_merge($aCategoriesIds, $aCategoriesIds2);
 $aCategories    = array('' => "- {$GLOBALS['strAllCategories']} -", -1 => $GLOBALS['strUncategorized']);
 $aCategories    = $aCategories + $oAdNetworks->getCategoriesSelect($aCategoriesIds, false);
- 
+
 
 $oTpl->assign('linkedWebsites', $linkedWebsites );
 $oTpl->assign('availableWebsites', $availableWebsites );
 $oTpl->assign('advertiserId', $advertiserId);
 $oTpl->assign('campaignId', $campaignId);
 $oTpl->assign('aCategories', $aCategories);
+
+$oTpl->assign('runMPE', false); //$GLOBALS['_MAX']['CONF']['priority']['instantUpdate']);
 
 $oTpl->display();
 
