@@ -81,7 +81,7 @@ $oTpl->assign('advertiserId', $advertiserId);
 $oTpl->assign('campaignId', $campaignId);
 $oTpl->assign('aCategories', $aCategories);
 
-$oTpl->assign('runMPE', false); //$GLOBALS['_MAX']['CONF']['priority']['instantUpdate']);
+$oTpl->assign('runMPE', $GLOBALS['_MAX']['CONF']['priority']['instantUpdate']);
 
 $oTpl->display();
 
