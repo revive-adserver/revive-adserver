@@ -34,6 +34,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';;
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -126,6 +127,9 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
         if (!PEAR::isError($result)) {
+            // Run the Maintenance Priority Engine process
+            OA_Maintenance_Priority::scheduleRun();
+
             Header("Location: zone-include.php?affiliateid=$publisherId&zoneid=$zoneId");
             exit;
         }
