@@ -130,7 +130,8 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray()) {
 	$aZones[$row_zones['zoneid']] = $row_zones;
 	$aZones[$row_zones['zoneid']]['lowPriorityWarning'] = false;
 
-    $aZoneAds = MAX_cacheGetZoneLinkedAds($row_zones['zoneid'], false);
+    MAX_Dal_Delivery_Include();
+    $aZoneAds = OA_Dal_Delivery_getZoneLinkedAds($row_ad_zones['zone_id']);
     if ($aZoneAds['count_active'] > 0 && $row_zones['delivery'] == phpAds_ZoneBanner && count($aZoneAds['lAds']) == 0) {
 		$aZones[$row_zones['zoneid']]['lowPriorityWarning'] = true;
 	}

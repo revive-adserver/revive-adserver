@@ -146,7 +146,8 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
 $doAdZoneAssoc->find();
 while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
     // set warning flag if zone has no low-priority ads linked
-    $aZoneAds = MAX_cacheGetZoneLinkedAds($row_ad_zones['zone_id'], false);
+    MAX_Dal_Delivery_Include();
+    $aZoneAds = OA_Dal_Delivery_getZoneLinkedAds($row_ad_zones['zone_id']);
     $lpc_flag = false;
     if ($aZoneAds['count_active'] > 0) {
         if (count($aZoneAds['lAds']) == 0) {

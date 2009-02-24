@@ -74,7 +74,7 @@ function phpAds_showZoneBanners ($zoneId)
     global $strExclusiveAds, $strHighAds, $strLowAds, $strLimitations, $strCapping, $strNoLimitations, $strPriority;
 
     MAX_Dal_Delivery_Include();
-    $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId, false);
+    $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
 
     if (empty($aZoneLinkedAds['xAds']) && empty($aZoneLinkedAds['ads']) &&  empty($aZoneLinkedAds['lAds'])) {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
