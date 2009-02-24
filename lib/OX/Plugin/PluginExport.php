@@ -123,25 +123,10 @@ class OX_PluginExport
     function exportPlugin($name)
     {
         $this->_compileContents($name);
-        /*$this->_compileDirectories($name);
-        if (!$this->_makeDirectories())
-        {
-            $this->aErrors[] = 'aborting export as not all directories could be created';
-            return false;
-        }
-        if (!$this->_copyFiles())
-        {
-            $this->aErrors[] = 'aborting export as not all files could be copied';
-            return false;
-        }*/
         if (!($result = $this->_compressFiles($name)))
         {
             return false;
         }
-        require_once(MAX_PATH.'/lib/OA/Admin/Settings.php');
-        $oSettings  = new OA_Admin_Settings();
-        $oSettings->settingChange('pluginPaths','export',$this->outputDir);
-        $oSettings->writeConfigChange();
         return $result;
     }
 
@@ -326,7 +311,7 @@ class OX_PluginExport
      */
     function _makeDirectory($dir)
     {
-        if (@mkdir($dir, null, true)) {
+        if (@mkdir($dir, 0775, true)) {
             return true;
         }
         return false;
