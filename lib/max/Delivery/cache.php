@@ -381,7 +381,7 @@ function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
     if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aTracker = OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid);
-        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
+        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker);
     }
 
     return $aTracker;
