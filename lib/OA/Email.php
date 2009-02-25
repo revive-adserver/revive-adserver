@@ -59,8 +59,9 @@ class OA_Email
         $aLinkedUsers = $this->_addAdvertiser($aAdvertiser, $aLinkedUsers);
         $copiesSent = 0;
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
-            if ($aConf['email']['useManagerDetails'])
+            if ($aConf['email']['useManagerDetails']) {
                 $aFromDetails = $this->_getAgencyFromDetails($aAdvertiser['agencyid']);
+            }
             foreach ($aLinkedUsers as $aUser) {
                 $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $aAdvertiser['clientid'], $oStartDate, $oEndDate);
                 if ($aEmail !== false) {
