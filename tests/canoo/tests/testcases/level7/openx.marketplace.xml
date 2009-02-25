@@ -25,7 +25,7 @@
 							<verifyText text="Not Found" />
 							<verifyText text="was not found on this server" />
 						</not>
-        	        	<clickButton label="Get started with OpenX Market"/>
+        	        	<clickButton label="Get started"/>
         	        	<setInputField description="Set username field m_username: openx" name="m_username" value="${admin.login}"/>
         	        	<setInputField description="Set password field m_password: openx" name="m_password" value="${admin.pass}"/>
         	        	<setCheckbox name="terms_agree"/>
