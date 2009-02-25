@@ -91,8 +91,11 @@ class OX_Component
 
     function &factoryByComponentIdentifier($componentIdentifier)
     {
-        list($extension, $group, $component) = self::parseComponentIdentifier($componentIdentifier);
-        return self::factory($extension, $group, $component);
+        $aParts = self::parseComponentIdentifier($componentIdentifier);
+        if (!$aParts) {
+            return false;
+        }
+        return call_user_func_array(array('OX_Component', 'factory'), $aParts);
     }
 
     function _isGroupInstalled($group)
@@ -435,9 +438,9 @@ class OX_Component
             $oCache = new OA_Cache('Plugins', 'ComponentHooks');
             $oCache->setFileNameProtection(false);
             $GLOBALS['_MAX']['ComponentHooks'] = $oCache->load(true);
-            if ($GLOBALS['_MAX']['ComponentHooks'] === false) 
+            if ($GLOBALS['_MAX']['ComponentHooks'] === false)
             {
-                require_once LIB_PATH . '/Plugin/PluginManager.php';        
+                require_once LIB_PATH . '/Plugin/PluginManager.php';
                 $oPluginManager = new OX_PluginManager();
                 $GLOBALS['_MAX']['ComponentHooks'] = $oPluginManager->getComponentHooks();
                 $oCache->save($GLOBALS['_MAX']['ComponentHooks']);
@@ -451,9 +454,19 @@ class OX_Component
         return implode(':', array($this->extension, $this->group, $this->component));
     }
 
+    /**
+     * Parse a colon separated component identifier, returning
+     * its parts in an array.
+     *
+     * @param string $componentIdentifier
+     * @return mixed An array on success, or a PEAR error otherwise
+     */
     function parseComponentIdentifier($componentIdentifier)
     {
-        return explode(':', $componentIdentifier);
+        if (!preg_match('/^([a-zA-Z0-9]+):([a-zA-Z0-9]+):([a-zA-Z0-9]+)$/D', $componentIdentifier, $m)) {
+            return false;
+        }
+        return array($m[1], $m[2], $m[3]);
     }
 
     /**
@@ -489,7 +502,7 @@ class OX_Component
     {
         return $this->oTrans->translate($string, $aValues, $pluralVar);
     }
-    
+
     /**
      * This method is executed when this component is enabled
      *
@@ -499,7 +512,7 @@ class OX_Component
     {
         return true;
     }
-    
+
     /**
      * This method is executed when this component is enabled
      *
