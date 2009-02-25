@@ -63,7 +63,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        if ($_POST['campaign_ecpm_enabled'] != $pref['campaign_ecpm_enabled']) {
+        if ((bool) $_POST['campaign_ecpm_enabled'] != (bool) $pref['campaign_ecpm_enabled']) {
             // update all campaigns across MANAGER account
             if (!empty($pref['campaign_ecpm_enabled'])) {
                 $updateFrom = DataObjects_Campaigns::PRIORITY_ECPM;
@@ -79,7 +79,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             foreach($aCampaigns as $campaignId => $aCampaign) {
                 if ($aCampaign['status_changed'] && $aCampaign['status'] == OA_ENTITY_STATUS_INACTIVE) {
                     // store without string indexes, to not to waste space in session
-                    $aInactivatedCampaignsIds[$aCampaign['campaignid']] = 
+                    $aInactivatedCampaignsIds[$campaignId] =
                         array($campaignId, $aCampaign['clientid'], $aCampaign['campaignname']);
                 }
             }
@@ -133,13 +133,13 @@ $aSettings = array (
 $oOptions->show($aSettings, $aErrormessage);
 
 // Show the list of inactivated campaigns
-if (!empty($session['aInactivatedCampaignsIds'])) {
+if (!empty($session['aInactivatedCampaignsIds']) && is_array($session['aInactivatedCampaignsIds'])) {
     echo '<br /><br /><br />';
     echo '<b>' . $strInactivatedCampaigns . '</b><br/>';
     echo '<ul>';
     foreach($session['aInactivatedCampaignsIds'] as $aCampaign) {
         $campaignUrl = 'campaign-edit.php?clientid='.$aCampaign[1].'&amp;campaignid='.$aCampaign[0];
-        echo '<li><a href="'.$campaignUrl.'" target="_blank">'.$aCampaign[2].'</a></li>';
+        echo '<li><a href="'.$campaignUrl.'" target="_blank">'.smarty_modifier_escape($aCampaign[2]).'</a></li>';
     }
     echo '<ul>';
     unset($session['aInactivatedCampaignsIds']);
