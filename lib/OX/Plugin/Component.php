@@ -463,10 +463,11 @@ class OX_Component
      */
     function parseComponentIdentifier($componentIdentifier)
     {
-        if (!preg_match('/^([a-zA-Z0-9]+):([a-zA-Z0-9]+):([a-zA-Z0-9]+)$/D', $componentIdentifier, $m)) {
+        if (!preg_match('/^([a-zA-Z0-9]+):([a-zA-Z0-9]+)(?::([a-zA-Z0-9]+))?$/D', $componentIdentifier, $m)) {
             return false;
         }
-        return array($m[1], $m[2], $m[3]);
+        array_shift($m);
+        return array_values($m);
     }
 
     /**
