@@ -50,9 +50,12 @@ class OA_Admin_Statistics_Factory
     function &getController($controllerType = '', $aParams = null)
     {
         // Instantiate & return the required statistics class
-        OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $aParams, $class, $file);
+        $result = OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $aParams, $class, $file);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
         // To allow catch errors and pass it out without calling error handler
-        PEAR::pushErrorHandling(null); 
+        PEAR::pushErrorHandling(null);
         $oStatsController = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         PEAR::popErrorHandling();
         return $oStatsController;
@@ -83,6 +86,12 @@ class OA_Admin_Statistics_Factory
         {
             $controllerType = basename($_SERVER['PHP_SELF']);
             $controllerType = preg_replace('#^(?:stats-)?(.*)\.php#', '$1', $controllerType);
+        }
+
+        // Validate
+        if (!preg_match('/^[a-z-]+$/Di', $controllerType)) {
+            $errMsg = "OA_Admin_Statistics_Factory::_getControllerClass() Unsupported controller type";
+            return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS, PEAR_ERROR_RETURN);
         }
 
         // Prepare the strings required to generate the file and class names
