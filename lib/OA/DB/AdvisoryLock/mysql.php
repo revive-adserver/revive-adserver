@@ -53,7 +53,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
                 $iWaitTime
             ),
             array(
-                'string',
+                'text',
                 'integer'
             )
         );
@@ -76,7 +76,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
                 $this->_sId
             ),
             array(
-                'string'
+                'text'
             )
         );
 
