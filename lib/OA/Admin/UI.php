@@ -142,6 +142,10 @@ class OA_Admin_UI
      */
     public function getNotificationManager()
     {
+        if (empty($this->notificationManager) ) {
+            $this->notificationManager = new OA_Admin_UI_NotificationManager();
+        }
+        
         return $this->notificationManager;
     }
     
