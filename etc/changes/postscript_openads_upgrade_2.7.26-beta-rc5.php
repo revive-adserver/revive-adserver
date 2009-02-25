@@ -59,10 +59,10 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-        
+
         // Recompile the delivery limitations to update the compiled limitations as well
         $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
-        
+
         $this->oDbh = &OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
@@ -83,25 +83,27 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
         $preferenceId = $rs->fetchRow(MDB2_FETCHMODE_ASSOC);
         $preferenceId = $preferenceId['preference_id'];
 
-        $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblAccountPreferenceAssoc,true)." WHERE preference_id = $preferenceId";
-        $rs = $this->oDbh->exec($sql);
-        //check for error
-        if (PEAR::isError($rs))
-        {
-            $this->logError($rs->getUserInfo());
-            return false;
-        }
-        $this->logOnly("Removed entries in account_preferences_assoc table related to auto_alter_html_banners_for_click_tracking");
+        if (!empty($preferenceId)) {
+            $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblAccountPreferenceAssoc,true)." WHERE preference_id = $preferenceId";
+            $rs = $this->oDbh->exec($sql);
+            //check for error
+            if (PEAR::isError($rs))
+            {
+                $this->logError($rs->getUserInfo());
+                return false;
+            }
+            $this->logOnly("Removed entries in account_preferences_assoc table related to auto_alter_html_banners_for_click_tracking");
 
-        $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblPreferences,true)." WHERE preference_id = $preferenceId";
-        $rs = $this->oDbh->exec($sql);
-        //check for error
-        if (PEAR::isError($rs))
-        {
-            $this->logError($rs->getUserInfo());
-            return false;
+            $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblPreferences,true)." WHERE preference_id = $preferenceId";
+            $rs = $this->oDbh->exec($sql);
+            //check for error
+            if (PEAR::isError($rs))
+            {
+                $this->logError($rs->getUserInfo());
+                return false;
+            }
+            $this->logOnly("Removed auto_alter_html_banners_for_click_tracking preference in preferences table");
         }
-        $this->logOnly("Removed auto_alter_html_banners_for_click_tracking preference in preferences table");
 
         return true;
 
