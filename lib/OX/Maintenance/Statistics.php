@@ -214,7 +214,7 @@ class OX_Maintenance_Statistics
         OA_Permission::switchToSystemProcessUser();
 
         // Log the end of the process
-        OA::debug('Maintenance Statistics Engine Completed', PEAR_LOG_INFO);
+        OA::debug('Maintenance Statistics Engine Completed (Started at ' . $oDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oDate->tz->getShortName() . ')', PEAR_LOG_INFO);
         OA::switchLogIdent();
     }
 

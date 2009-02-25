@@ -92,13 +92,10 @@ class OX_Maintenance
         }
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
-        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
-        {
+        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::switchLogIdent('maintenance');
-
             OA::debug();
-            OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
-
+            OA::debug('Running Maintenance Engine', PEAR_LOG_INFO);
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
             // Set UTC timezone
@@ -127,17 +124,23 @@ class OX_Maintenance
             }
             // Release lock before starting MPE
             $oLock->release();
-
             // Run the Maintenance Priority Engine (MPE) process, ensuring that the
             // process always runs, even if instant update of priorities is disabled
             $this->_runMPE();
-
-            OA::debug('Maintenance tasks completed', PEAR_LOG_INFO);
-
+            // Log the completion of the entire ME process
+            OA::switchLogIdent('maintenance');
+            $oEndDate = new Date();
+            $oDateSpan = new Date_Span();
+            $oDateSpan->setFromDateDiff($oDate, $oEndDate);
+            OA::debug('Maintenance Engine Completed (Started at ' .
+                      $oDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oDate->tz->getShortName() .
+                      ', taking ' . $oDateSpan->format('%H:%M:%S') .
+                      ')', PEAR_LOG_INFO);
             OA::switchLogIdent();
-        }
-        else {
-			OA::debug('Maintenance tasks not run: could not acquire lock', PEAR_LOG_INFO);
+        } else {
+            OA::switchLogIdent('maintenance');
+			OA::debug('Maintenance Engine not run: could not acquire lock', PEAR_LOG_INFO);
+			OA::switchLogIdent();
         }
     }
 
