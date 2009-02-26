@@ -539,6 +539,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         $aAdZonesProbabilities = $oEcpm->calculateDeliveryProbabilities($aCampaignsInfo);
         $this->assertEqualsFloatsArray($aExpAdZonesProbabilities, $aAdZonesProbabilities);
     }
+
+    function testNormalizeProbabilities()
+    {
+        // testing array with some probabilities bigger than 1.0
+        $aInput = array(
+            // adid => array(zoneid => prob., zoneid => prob),
+            1 => array(1 => 1.0, 2 => 1.0),
+            2 => array(1 => 1.0, 2 => 2.0),
+        );
+        // expected probabilities after normalization
+        $aExpectNormalized = array(
+            1 => array(1 => 0.5, 2 => 0.3333),
+            2 => array(1 => 0.5, 2 => 0.6667),
+        );
+
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        foreach($aInput as $adId => $aZone) {
+            foreach($aZone as $zoneId => $p) {
+                $oEcpm->sumUpZoneProbability($zoneId, $p);
+            }
+        }
+        $aRet = $oEcpm->normalizeProbabilities($aInput);
+        $this->assertEqualsFloatsArray($aExpectNormalized, $aRet);
+    }
 }
 
 ?>

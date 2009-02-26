@@ -82,6 +82,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     public $aZonesEcpmPowAlphaSums = array();
     public $aZonesContracts = array();
     public $aCampaignsDeliveredImpressions = array();
+    public $aZonesSumProbability = array();
 
     /**
      * How many operation intervals are left till the end of today
@@ -217,17 +218,57 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                         // than requested minimum
                         $minRequestedImpr = $M;
                     }
-                    // If M is close to min.requested impr. then
-                    // calculated probability may be close to (or equal) 1
-                    // This probability is scaled in the delivery so
-                    // this is not an issue
-                    $aAdZonesProbabilities[$adId][$zoneId] =
-                        $minRequestedImpr / $M
-                        + (1 - $this->aZonesMinImpressions[$zoneId] / $M) * $p;
+                    if ($this->aZonesMinImpressions[$zoneID] > $M) {
+                        $aAdZonesProbabilities[$adId][$zoneId] =
+                            $minRequestedImpr / $aZonexMinImpressions[$zoneID];
+                    } else {
+                       $aAdZonesProbabilities[$adId][$zoneId] =
+                           $minRequestedImpr / $M
+                           + (1 - $this->aZonesMinImpressions[$zoneId] / $M) * $p;
+                    }
+                    $this->sumUpZoneProbability($zoneId, $aAdZonesProbabilities[$adId][$zoneId]);
                 }
             }
         }
+        return $this->normalizeProbabilities($aAdZonesProbabilities);
+    }
+
+    /**
+     * Its possible (in cases when the minimum required impressions is close to
+     * impressions forecasted per zone) that an ad-zone probability
+     * may be bigger than one. The calculated probabilities are normalized
+     * to ensure that their sum is always equal to 1.
+     *
+     * @param array $aAdZonesProbabilities  Ad-zone probabilities, format:
+     *                                      adid (integer) => array(
+     *                                        zoneid (integer) => probability (float)
+     *                                      ),...
+     * @return array Normalized ad-zone probabilisites, same format as in $aAdZonesProbabilities
+     */
+    public function normalizeProbabilities($aAdZonesProbabilities)
+    {
+        foreach($aAdZonesProbabilities as $adId => $aZone) {
+            foreach($aZone as $zoneId => $p) {
+                $aAdZonesProbabilities[$adId][$zoneId] = $p / $this->aZonesSumProbability[$zoneId];
+            }
+        }
         return $aAdZonesProbabilities;
+    }
+
+    /**
+     * Calculates sums of probabilities of all ads linked to a given zone.
+     * This number is later used to normalize the probabilities across a zone.
+     *
+     * @param integer $zoneId  Zone ID
+     * @param float $p Probability (may be bigger than 1.0)
+     */
+    public function sumUpZoneProbability($zoneId, $p)
+    {
+        if (!isset($this->aZonesSumProbability[$zoneId])) {
+            $this->aZonesSumProbability[$zoneId] = $p;
+        } else {
+            $this->aZonesSumProbability[$zoneId] += $p;
+        }
     }
 
     /**
@@ -554,6 +595,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
         $this->aZonesEcpmPowAlphaSums = array();
         $this->aZonesContracts = array();
         $this->aCampaignsDeliveredImpressions = array();
+        $this->aZonesSumProbability = array();
     }
 
     /**
