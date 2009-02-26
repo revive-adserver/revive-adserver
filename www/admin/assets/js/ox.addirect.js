@@ -850,7 +850,9 @@ function updateCampaignPrioritySection()
 
     if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM) {
         $highPrioritySection.hide();
-        $lowExclPrioritySection.show();
+        if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+            $lowExclPrioritySection.show();
+        }
     }
     else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 	   //if exclusive selected - show weight
