@@ -249,7 +249,9 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     {
         foreach($aAdZonesProbabilities as $adId => $aZone) {
             foreach($aZone as $zoneId => $p) {
-                $aAdZonesProbabilities[$adId][$zoneId] = $p / $this->aZonesSumProbability[$zoneId];
+                if ($this->aZonesSumProbability[$zoneId]) {
+                    $aAdZonesProbabilities[$adId][$zoneId] = $p / $this->aZonesSumProbability[$zoneId];
+                }
             }
         }
         return $aAdZonesProbabilities;
