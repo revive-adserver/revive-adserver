@@ -79,7 +79,7 @@ function phpAds_SessionStart()
 	global $session;
 	if (empty($_COOKIE['sessionID'])) {
 		$session = array();
-		$_COOKIE['sessionID'] = uniqid('phpads', 1);
+		$_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
 		MAX_cookieAdd('sessionID', $_COOKIE['sessionID']);
 		MAX_cookieFlush();
 	}
