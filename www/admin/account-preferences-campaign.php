@@ -35,6 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -88,6 +89,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                 $session['aInactivatedCampaignsIds'] = $aInactivatedCampaignsIds;
                 phpAds_SessionDataStore();
             }
+
+            // Run the Maintenance Priority Engine process
+            OA_Maintenance_Priority::scheduleRun();
         }
         
         // Queue confirmation message
