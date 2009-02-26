@@ -199,6 +199,7 @@ $GLOBALS['strPriorityTargeting']        = "Distribution";
 $GLOBALS['strPriorityOptimisation']     = "Miscellaneous";
 $GLOBALS['strExclusiveAds']             = "Exclusive Contract Advertisements";
 $GLOBALS['strHighAds']                  = "Contract Advertisements";
+$GLOBALS['strECPMAds']                  = "eCPM Advertisements";
 $GLOBALS['strLowAds']                   = "Remnant Advertisements";
 $GLOBALS['strLimitations']              = "Limitations";
 $GLOBALS['strNoLimitations']            = "No Limitations";

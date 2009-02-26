@@ -71,12 +71,12 @@ function phpAds_showZoneBanners ($zoneId)
     global $strUntitled, $strName, $strID, $strWeight, $strShowBanner;
     global $strCampaignWeight, $strBannerWeight, $strProbability, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
     global $strRawQueryString, $strZoneProbListChain, $strZoneProbNullPri, $strZoneProbListChainLoop;
-    global $strExclusiveAds, $strHighAds, $strLowAds, $strLimitations, $strCapping, $strNoLimitations, $strPriority;
+    global $strExclusiveAds, $strHighAds, $strLowAds, $strECPMAds, $strLimitations, $strCapping, $strNoLimitations, $strPriority;
 
     MAX_Dal_Delivery_Include();
     $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
 
-    if (empty($aZoneLinkedAds['xAds']) && empty($aZoneLinkedAds['ads']) &&  empty($aZoneLinkedAds['lAds'])) {
+    if (empty($aZoneLinkedAds['xAds']) && empty($aZoneLinkedAds['ads']) &&  empty($aZoneLinkedAds['lAds']) &&  empty($aZoneLinkedAds['eAds'])) {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
           echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='5'><strong>{$strZoneProbNullPri}</strong></th></tr>";
         echo "</table>";
@@ -254,6 +254,90 @@ function phpAds_showZoneBanners ($zoneId)
             }
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td colspan='6'><br /><br /></td></tr>";
+        }
+        // eCPM Advertisements
+        if (!empty($aZoneLinkedAds['eAds'])) {
+            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strECPMAds:</strong></th></tr>";
+            echo "<tr height='25'>";
+            echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
+            echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
+            echo "<td height='25'><b>".$strProbability."</b></td>";
+            echo "<td height='25'><b>$strLimitations</b></td>";
+            echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
+            echo "</tr>";
+            echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+
+            foreach($aZoneLinkedAds['eAds'] as $adId => $aLinkedAd) {
+                $name = phpAds_getBannerName ($adId, 60, false);
+                echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+                echo "<td height='25'>";
+                echo "&nbsp;&nbsp;";
+                // Banner icon
+                if ($aLinkedAd['type'] == 'html') {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+                } elseif ($aLinkedAd['type'] == 'txt') {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
+                } elseif ($aLinkedAd['type'] == 'url') {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+                } else {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+                }
+                // Name
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".htmlspecialchars($name)."</a>";
+                } else {
+                    echo htmlspecialchars($name);
+                }
+                echo "</td>";
+                echo "<td height='25'>".$adId."</td>";
+                // Probability
+                $probability = $aLinkedAd['priority'] * 100;
+                $usedHighProbability += $aLinkedAd['priority'];
+                $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
+                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['ui_percentage_decimals'])."%</acronym></td>";
+
+                $capping = _isAdCapped($aLinkedAd);
+                $limitations = _isAdLimited($aLinkedAd);
+
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
+                    $linkEnd = "</a>";
+                } else {
+                    $linkStart = '';
+                    $linkEnd = '';
+                }
+
+                echo "<td height='25'>";
+                if (!$capping && !$limitations) {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
+                } elseif ($limitations && $capping) {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
+                } elseif ($limitations) {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
+                } elseif ($capping) {
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
+                }
+                echo "</td>";
+
+                // Show banner
+                if ($aLinkedAd['type'] == 'txt') {
+                    $width    = 300;
+                    $height = 200;
+                } else {
+                    $width  = $aLinkedAd['width'] + 64;
+                    $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
+                }
+                echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
+                echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
+                echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
+                echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
+                echo $strShowBanner."</a>&nbsp;&nbsp;";
+                echo "</td>";
+                echo "</tr>";
+            }
+            echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr><td colspan='5'><br /><br /></td></tr>";
         }
         // Low-Priority Advertisements
         if (!empty($aZoneLinkedAds['lAds'])) {
