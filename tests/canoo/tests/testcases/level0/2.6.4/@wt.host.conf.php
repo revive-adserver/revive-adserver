@@ -63,7 +63,7 @@ singlepagecall="spc.php"
 spcjs="spcjs.php"
 [store]
 mode=0
-webDir="/home/lukasz/www/openx-2.6.4_mysql/www/images"
+webDir=@webDir
 ftpHost=
 ftpPath=
 ftpUsername=
