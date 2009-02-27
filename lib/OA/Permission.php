@@ -211,7 +211,6 @@ class OA_Permission
         // Verify that the ID is numeric
         OA_Permission::enforceTrue(preg_match('/^\d*$/D', $entityId));
         $entityId = (int)$entityId;
-        $isAdmin =
         $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId);
         if (!$hasAccess) {
             if(!OA_Permission::isManualAccountSwitch()) {

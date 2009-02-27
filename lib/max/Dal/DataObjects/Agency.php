@@ -189,13 +189,29 @@ class DataObjects_Agency extends DB_DataObjectCommon
     {
         $aAuditFields['key_desc']     = $this->name;
     }
-    
+
     function agencyExists($agencyName)
     {
         $this->name = $agencyName;
         return (bool)$this->count();
     }
 
+    function belongsToAccount($accountId = null)
+    {
+        // Set the account ID, if not passed in
+        if (empty($accountId)) {
+            $accountId = OA_Permission::getAccountId();
+        }
+
+        $result = parent::belongsToAccount($accountId);
+
+        if (!$result) {
+            $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
+            $result = $doAccounts->account_type == OA_ACCOUNT_ADMIN;
+        }
+
+        return $result;
+    }
 }
 
 ?>
