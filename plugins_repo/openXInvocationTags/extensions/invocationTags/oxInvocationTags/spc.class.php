@@ -153,7 +153,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $script = "<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-    <title>Tags for [id{$affiliate['affiliateid']}] {$affiliate['name']}</title>
+    <title>Tags for [id{$affiliate['affiliateid']}] ".htmlspecialchars($affiliate['name'])."</title>
         <link rel='stylesheet' type='text/css' href='" . OX::assetPath() .  "/css/preview.css' />
 		<script type='text/javascript' src='" . OX::assetPath() .  "/js/jquery-1.2.3.js'></script>
 
@@ -199,7 +199,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
 		$script .= "
         <div class='settings'>
-            <h2>Tags <small>for <span class='inlinePublisher'>[id{$affiliate['affiliateid']}] {$affiliate['name']}</span></small></h2>
+            <h2>Tags <small>for <span class='inlinePublisher'>[id{$affiliate['affiliateid']}] ".htmlspecialchars($affiliate['name'])."</span></small></h2>
             <p>
                 This page contains all the information you need to show banners on your website.
                 Please follow the instructions carefully and ensure that you copied the scripts <strong>exactly</strong> as shown below.
@@ -323,7 +323,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         <div class='step'>
             <h2>
             	<div class='number'><span>{$i}</span></div>
-                Ad script <small>for <span class='inlineZone'>[id{$zone['zoneid']}] {$zone['zonename']}</span></small>
+                Ad script <small>for <span class='inlineZone'>[id{$zone['zoneid']}] ".htmlspecialchars($zone['zonename'])."</span></small>
             </h2>
             <p>
             	Copy the following script and place it in the site where you want the ad to display:
@@ -479,7 +479,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
         $js_func = $this->varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
         if ($mi->comments) {
-            $codeblock .= "\n    /* [id{$zone['zoneid']}] {$zone['zonename']} */";
+            $codeblock .= "\n    /* [id{$zone['zoneid']}] ".addcslashes($zone['zonename'], '/')." */";
         }
         $codeblock .= "\n    {$js_func}({$zone['zoneid']});\n// ]]> --></script>";
         if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
