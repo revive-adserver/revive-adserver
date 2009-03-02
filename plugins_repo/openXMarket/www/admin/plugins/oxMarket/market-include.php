@@ -67,7 +67,7 @@ phpAds_registerGlobalUnslashed('p_url');
     $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
     $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
-    $oTpl->assign('pubconsolePageId', $p_url);
+    $oTpl->assign('pubconsolePageId', htmlspecialchars($p_url));
     $oTpl->assign('pageUrl', urlencode($pageUrl));
     
     $oTpl->display();
