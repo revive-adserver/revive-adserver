@@ -635,11 +635,18 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
-    $aVariables['contenttype']     = ($aFields['type'] == 'url')
-        ? OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl'])
-        : $aVariables['contenttype'];
 
-    $aVariables['contenttype']     = ($aFields['type'] == 'txt') ? 'txt' : $aVariables['contenttype'];
+    if ($aFields['type'] == 'url') {
+        $aVariables['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl']);
+        if (empty($aVariables['contenttype'])) {
+            // Assume dynamic urls (i.e. http://www.example.com/foo?bar) are "gif"
+            $aVariables['contenttype'] = 'gif';
+        }
+    } elseif ($aFields['type'] == 'txt') {
+        // Text banners should always have a "txt" content type
+        $aVariables['contenttype'] = 'txt';
+    }
+
     $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
     $aVariables['alt_imageurl']    = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
