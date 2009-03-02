@@ -1370,7 +1370,7 @@ break;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid)) $clientid = '';
-if (empty($campaignid))  $campaignid = $clientid;
+if (!isset($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
