@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxDeliveryDataPrepare</name>
+  <version>002</version>
+  <comments>Removed the data_bkt_m_backup table</comments>
+  <constructive>
+    <changeset>
+      <name>oxDeliveryDataPrepare</name>
+      <version>002</version>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>oxDeliveryDataPrepare</name>
+      <version>002</version>
+      <remove>
+        <table>data_bkt_m_backup</table>
+      </remove>
+    </changeset>
+  </destructive>
+</instructionset>
