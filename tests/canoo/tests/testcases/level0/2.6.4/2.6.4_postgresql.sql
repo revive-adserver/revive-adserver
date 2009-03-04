@@ -12,15 +12,15 @@ SET escape_string_warning = off;
 
 --
 -- TOC entry 472 (class 2612 OID 1013036)
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: openx
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: -
 --
 
 -- CREATE PROCEDURAL LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION public.create_plpgsql_lang()
-        RETURNS TEXT
-        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
-LANGUAGE 'sql';
+--CREATE OR REPLACE FUNCTION public.create_plpgsql_lang()
+--        RETURNS TEXT
+--        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
+--LANGUAGE 'sql';
 
 SET search_path = public, pg_catalog;
 
