@@ -22,15 +22,15 @@ SET escape_string_warning = off;
 --        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
 --LANGUAGE 'sql';
 
-SELECT CASE WHEN
-  (SELECT true::BOOLEAN
-     FROM pg_language
-    WHERE lanname='plpgsql')
-THEN
-  (SELECT 'plpgsql already exists'::TEXT)
-ELSE
-	(SELECT public.create_plpgsql_lang())
-END;
+--SELECT CASE WHEN
+--  (SELECT true::BOOLEAN
+--     FROM pg_language
+--    WHERE lanname='plpgsql')
+--THEN
+--  (SELECT 'plpgsql already exists'::TEXT)
+--ELSE
+--	(SELECT public.create_plpgsql_lang())
+--END;
 
 --ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO openx;
 
