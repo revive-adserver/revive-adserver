@@ -16,20 +16,20 @@ SET escape_string_warning = off;
 --
 
 -- CREATE PROCEDURAL LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION public.create_plpgsql_lang()
-        RETURNS TEXT
-        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
-LANGUAGE 'sql';
+--CREATE OR REPLACE FUNCTION public.create_plpgsql_lang()
+--        RETURNS TEXT
+--        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
+--LANGUAGE 'sql';
 
-SELECT CASE WHEN
-  (SELECT true::BOOLEAN
-     FROM pg_language
-    WHERE lanname='plpgsql')
-THEN
-  (SELECT 'plpgsql already exists'::TEXT)
-ELSE
-	(SELECT public.create_plpgsql_lang())
-END;
+--SELECT CASE WHEN
+--  (SELECT true::BOOLEAN
+--     FROM pg_language
+--    WHERE lanname='plpgsql')
+--THEN
+--  (SELECT 'plpgsql already exists'::TEXT)
+--ELSE
+--	(SELECT public.create_plpgsql_lang())
+--END;
 
 SET search_path = public, pg_catalog;
 
