@@ -4,7 +4,7 @@
 <sleep seconds="5" />
 <retry description="retry nested steps until plugins installed" maxcount="20">
 	<sleep seconds="5" />
-	<verifyElementText htmlId="job_status_8" text="OK" />
+	<verifyElementText htmlId="job_status_8" text="OK|OK, Enabled" regex="true" />
 </retry>
 <!-- TODO add Groovy method -->
 <!-- check plugins list -->
