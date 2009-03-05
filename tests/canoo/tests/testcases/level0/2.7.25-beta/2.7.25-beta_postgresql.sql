@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Started on 2009-02-24 12:35:49 CET
+-- Started on 2009-03-05 11:45:38 CET
 
 --SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
@@ -12,27 +12,11 @@ SET escape_string_warning = off;
 
 --
 -- TOC entry 480 (class 2612 OID 1013036)
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: openx
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: -
 --
 
 --CREATE PROCEDURAL LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION public.create_plpgsql_lang()
---        RETURNS TEXT
---        AS 'CREATE PROCEDURAL LANGUAGE plpgsql; SELECT ''language plpgsql added''::TEXT;'
---LANGUAGE 'sql';
-
---SELECT CASE WHEN
---  (SELECT true::BOOLEAN
---     FROM pg_language
---    WHERE lanname='plpgsql')
---THEN
---  (SELECT 'plpgsql already exists'::TEXT)
---ELSE
---	(SELECT public.create_plpgsql_lang())
---END;
-
---ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO openx;
 
 SET search_path = public, pg_catalog;
 
@@ -43,7 +27,7 @@ SET default_with_oids = false;
 --
 -- TOC entry 1656 (class 1259 OID 1945571)
 -- Dependencies: 2022 3
--- Name: ox_account_preference_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_preference_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_account_preference_assoc (
@@ -53,12 +37,10 @@ CREATE TABLE ox_account_preference_assoc (
 );
 
 
-ALTER TABLE public.ox_account_preference_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1657 (class 1259 OID 1945580)
 -- Dependencies: 3
--- Name: ox_account_user_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_user_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_account_user_assoc (
@@ -68,12 +50,10 @@ CREATE TABLE ox_account_user_assoc (
 );
 
 
-ALTER TABLE public.ox_account_user_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1658 (class 1259 OID 1945586)
 -- Dependencies: 2023 3
--- Name: ox_account_user_permission_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_user_permission_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_account_user_permission_assoc (
@@ -84,12 +64,10 @@ CREATE TABLE ox_account_user_permission_assoc (
 );
 
 
-ALTER TABLE public.ox_account_user_permission_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1660 (class 1259 OID 1945594)
 -- Dependencies: 2025 2026 2027 2028 3
--- Name: ox_accounts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_accounts (
@@ -101,12 +79,10 @@ CREATE TABLE ox_accounts (
 );
 
 
-ALTER TABLE public.ox_accounts OWNER TO postgres;
-
 --
 -- TOC entry 1661 (class 1259 OID 1945605)
 -- Dependencies: 2029 2030 2031 2032 2033 2034 3
--- Name: ox_acls; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_acls (
@@ -119,12 +95,10 @@ CREATE TABLE ox_acls (
 );
 
 
-ALTER TABLE public.ox_acls OWNER TO postgres;
-
 --
 -- TOC entry 1662 (class 1259 OID 1945620)
 -- Dependencies: 2035 2036 2037 2038 2039 2040 3
--- Name: ox_acls_channel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls_channel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_acls_channel (
@@ -137,12 +111,10 @@ CREATE TABLE ox_acls_channel (
 );
 
 
-ALTER TABLE public.ox_acls_channel OWNER TO postgres;
-
 --
 -- TOC entry 1664 (class 1259 OID 1945637)
 -- Dependencies: 3
--- Name: ox_ad_category_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_category_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_ad_category_assoc (
@@ -152,12 +124,10 @@ CREATE TABLE ox_ad_category_assoc (
 );
 
 
-ALTER TABLE public.ox_ad_category_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1666 (class 1259 OID 1945645)
 -- Dependencies: 2043 2044 2045 2046 3
--- Name: ox_ad_zone_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_ad_zone_assoc (
@@ -171,12 +141,10 @@ CREATE TABLE ox_ad_zone_assoc (
 );
 
 
-ALTER TABLE public.ox_ad_zone_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1668 (class 1259 OID 1945659)
 -- Dependencies: 2048 2049 2050 2051 2052 2053 2054 3
--- Name: ox_affiliates; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_affiliates (
@@ -198,12 +166,10 @@ CREATE TABLE ox_affiliates (
 );
 
 
-ALTER TABLE public.ox_affiliates OWNER TO postgres;
-
 --
 -- TOC entry 1669 (class 1259 OID 1945678)
 -- Dependencies: 2055 2056 2057 2058 2059 2060 2061 2062 2063 2064 2065 2066 3
--- Name: ox_affiliates_extra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates_extra; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_affiliates_extra (
@@ -227,12 +193,10 @@ CREATE TABLE ox_affiliates_extra (
 );
 
 
-ALTER TABLE public.ox_affiliates_extra OWNER TO postgres;
-
 --
 -- TOC entry 1671 (class 1259 OID 1945700)
 -- Dependencies: 2068 2069 2070 2071 2072 3
--- Name: ox_agency; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_agency; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_agency (
@@ -247,12 +211,10 @@ CREATE TABLE ox_agency (
 );
 
 
-ALTER TABLE public.ox_agency OWNER TO postgres;
-
 --
 -- TOC entry 1672 (class 1259 OID 1945716)
 -- Dependencies: 2073 2074 3
--- Name: ox_application_variable; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_application_variable; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_application_variable (
@@ -261,12 +223,10 @@ CREATE TABLE ox_application_variable (
 );
 
 
-ALTER TABLE public.ox_application_variable OWNER TO postgres;
-
 --
 -- TOC entry 1674 (class 1259 OID 1945728)
 -- Dependencies: 2076 2077 2078 2079 2080 3
--- Name: ox_audit; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_audit (
@@ -286,12 +246,10 @@ CREATE TABLE ox_audit (
 );
 
 
-ALTER TABLE public.ox_audit OWNER TO postgres;
-
 --
 -- TOC entry 1676 (class 1259 OID 1945752)
 -- Dependencies: 2082 2083 2084 2085 2086 2087 2088 2089 2090 2091 2092 2093 2094 2095 2096 2097 2098 2099 2100 2101 2102 2103 2104 2105 2106 2107 2108 2109 2110 2111 2112 2113 2114 2115 2116 2117 3
--- Name: ox_banners; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_banners; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_banners (
@@ -342,12 +300,10 @@ CREATE TABLE ox_banners (
 );
 
 
-ALTER TABLE public.ox_banners OWNER TO postgres;
-
 --
 -- TOC entry 1678 (class 1259 OID 1945800)
 -- Dependencies: 2119 2120 2121 2122 2123 2124 2125 2126 2127 2128 2129 2130 2131 2132 2133 2134 2135 2136 2137 2138 2139 2140 2141 3
--- Name: ox_campaigns; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_campaigns (
@@ -385,12 +341,10 @@ CREATE TABLE ox_campaigns (
 );
 
 
-ALTER TABLE public.ox_campaigns OWNER TO postgres;
-
 --
 -- TOC entry 1680 (class 1259 OID 1945835)
 -- Dependencies: 2143 2144 2145 3
--- Name: ox_campaigns_trackers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_campaigns_trackers (
@@ -401,12 +355,10 @@ CREATE TABLE ox_campaigns_trackers (
 );
 
 
-ALTER TABLE public.ox_campaigns_trackers OWNER TO postgres;
-
 --
 -- TOC entry 1682 (class 1259 OID 1945848)
 -- Dependencies: 2147 3
--- Name: ox_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_category; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_category (
@@ -415,12 +367,10 @@ CREATE TABLE ox_category (
 );
 
 
-ALTER TABLE public.ox_category OWNER TO postgres;
-
 --
 -- TOC entry 1684 (class 1259 OID 1945857)
 -- Dependencies: 2149 2150 2151 2152 2153 3
--- Name: ox_channel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_channel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_channel (
@@ -438,12 +388,10 @@ CREATE TABLE ox_channel (
 );
 
 
-ALTER TABLE public.ox_channel OWNER TO postgres;
-
 --
 -- TOC entry 1686 (class 1259 OID 1945873)
 -- Dependencies: 2155 2156 2157 2158 2159 2160 2161 2162 2163 3
--- Name: ox_clients; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_clients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_clients (
@@ -466,12 +414,10 @@ CREATE TABLE ox_clients (
 );
 
 
-ALTER TABLE public.ox_clients OWNER TO postgres;
-
 --
 -- TOC entry 1739 (class 1259 OID 1946422)
 -- Dependencies: 2406 2407 3
--- Name: ox_data_bkt_a; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_a; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_a (
@@ -489,12 +435,10 @@ CREATE TABLE ox_data_bkt_a (
 );
 
 
-ALTER TABLE public.ox_data_bkt_a OWNER TO postgres;
-
 --
 -- TOC entry 1741 (class 1259 OID 1946432)
 -- Dependencies: 2409 3
--- Name: ox_data_bkt_a_var; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_a_var; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_a_var (
@@ -506,12 +450,10 @@ CREATE TABLE ox_data_bkt_a_var (
 );
 
 
-ALTER TABLE public.ox_data_bkt_a_var OWNER TO postgres;
-
 --
 -- TOC entry 1734 (class 1259 OID 1946396)
 -- Dependencies: 2401 3
--- Name: ox_data_bkt_c; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_c; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_c (
@@ -522,12 +464,10 @@ CREATE TABLE ox_data_bkt_c (
 );
 
 
-ALTER TABLE public.ox_data_bkt_c OWNER TO postgres;
-
 --
 -- TOC entry 1736 (class 1259 OID 1946408)
 -- Dependencies: 2403 3
--- Name: ox_data_bkt_m; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_m; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_m (
@@ -538,12 +478,10 @@ CREATE TABLE ox_data_bkt_m (
 );
 
 
-ALTER TABLE public.ox_data_bkt_m OWNER TO postgres;
-
 --
 -- TOC entry 1735 (class 1259 OID 1946402)
 -- Dependencies: 2402 3
--- Name: ox_data_bkt_m_backup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_m_backup; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_m_backup (
@@ -555,12 +493,10 @@ CREATE TABLE ox_data_bkt_m_backup (
 );
 
 
-ALTER TABLE public.ox_data_bkt_m_backup OWNER TO postgres;
-
 --
 -- TOC entry 1737 (class 1259 OID 1946414)
 -- Dependencies: 2404 3
--- Name: ox_data_bkt_r; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_r; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_bkt_r (
@@ -571,12 +507,10 @@ CREATE TABLE ox_data_bkt_r (
 );
 
 
-ALTER TABLE public.ox_data_bkt_r OWNER TO postgres;
-
 --
 -- TOC entry 1688 (class 1259 OID 1945896)
 -- Dependencies: 2165 2166 2167 2168 2169 2170 3
--- Name: ox_data_intermediate_ad; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_intermediate_ad (
@@ -599,12 +533,10 @@ CREATE TABLE ox_data_intermediate_ad (
 );
 
 
-ALTER TABLE public.ox_data_intermediate_ad OWNER TO postgres;
-
 --
 -- TOC entry 1690 (class 1259 OID 1945914)
 -- Dependencies: 2172 2173 2174 2175 2176 2177 2178 2179 2180 2181 2182 2183 2184 2185 2186 2187 2188 2189 2190 2191 2192 2193 2194 2195 2196 2197 2198 2199 2200 2201 2202 2203 2204 3
--- Name: ox_data_intermediate_ad_connection; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_intermediate_ad_connection (
@@ -658,12 +590,10 @@ CREATE TABLE ox_data_intermediate_ad_connection (
 );
 
 
-ALTER TABLE public.ox_data_intermediate_ad_connection OWNER TO postgres;
-
 --
 -- TOC entry 1692 (class 1259 OID 1945963)
 -- Dependencies: 2206 3
--- Name: ox_data_intermediate_ad_variable_value; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_intermediate_ad_variable_value (
@@ -674,12 +604,10 @@ CREATE TABLE ox_data_intermediate_ad_variable_value (
 );
 
 
-ALTER TABLE public.ox_data_intermediate_ad_variable_value OWNER TO postgres;
-
 --
 -- TOC entry 1693 (class 1259 OID 1945973)
 -- Dependencies: 2207 2208 2209 2210 2211 2212 2213 2214 2215 2216 2217 2218 2219 2220 2221 2222 2223 2224 2225 2226 2227 2228 2229 2230 2231 2232 3
--- Name: ox_data_raw_ad_click; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_click; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_raw_ad_click (
@@ -718,12 +646,10 @@ CREATE TABLE ox_data_raw_ad_click (
 );
 
 
-ALTER TABLE public.ox_data_raw_ad_click OWNER TO postgres;
-
 --
 -- TOC entry 1694 (class 1259 OID 1946009)
 -- Dependencies: 2233 2234 2235 2236 2237 2238 2239 2240 2241 2242 2243 2244 2245 2246 2247 2248 2249 2250 2251 2252 2253 2254 2255 2256 2257 2258 3
--- Name: ox_data_raw_ad_impression; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_impression; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_raw_ad_impression (
@@ -762,12 +688,10 @@ CREATE TABLE ox_data_raw_ad_impression (
 );
 
 
-ALTER TABLE public.ox_data_raw_ad_impression OWNER TO postgres;
-
 --
 -- TOC entry 1695 (class 1259 OID 1946045)
 -- Dependencies: 2259 2260 2261 2262 2263 2264 2265 2266 2267 2268 2269 2270 2271 2272 2273 3
--- Name: ox_data_raw_ad_request; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_request; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_raw_ad_request (
@@ -795,12 +719,10 @@ CREATE TABLE ox_data_raw_ad_request (
 );
 
 
-ALTER TABLE public.ox_data_raw_ad_request OWNER TO postgres;
-
 --
 -- TOC entry 1697 (class 1259 OID 1946072)
 -- Dependencies: 2275 2276 2277 2278 2279 2280 2281 2282 2283 2284 2285 2286 2287 2288 2289 2290 2291 2292 2293 2294 2295 2296 2297 2298 2299 2300 2301 3
--- Name: ox_data_raw_tracker_impression; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_impression; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_raw_tracker_impression (
@@ -839,12 +761,10 @@ CREATE TABLE ox_data_raw_tracker_impression (
 );
 
 
-ALTER TABLE public.ox_data_raw_tracker_impression OWNER TO postgres;
-
 --
 -- TOC entry 1698 (class 1259 OID 1946110)
 -- Dependencies: 2302 2303 3
--- Name: ox_data_raw_tracker_variable_value; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_raw_tracker_variable_value (
@@ -856,12 +776,10 @@ CREATE TABLE ox_data_raw_tracker_variable_value (
 );
 
 
-ALTER TABLE public.ox_data_raw_tracker_variable_value OWNER TO postgres;
-
 --
 -- TOC entry 1700 (class 1259 OID 1946119)
 -- Dependencies: 2305 2306 2307 2308 2309 2310 2311 2312 3
--- Name: ox_data_summary_ad_hourly; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_hourly; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_summary_ad_hourly (
@@ -883,12 +801,10 @@ CREATE TABLE ox_data_summary_ad_hourly (
 );
 
 
-ALTER TABLE public.ox_data_summary_ad_hourly OWNER TO postgres;
-
 --
 -- TOC entry 1702 (class 1259 OID 1946138)
 -- Dependencies: 2314 2315 3
--- Name: ox_data_summary_ad_zone_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_summary_ad_zone_assoc (
@@ -913,12 +829,10 @@ CREATE TABLE ox_data_summary_ad_zone_assoc (
 );
 
 
-ALTER TABLE public.ox_data_summary_ad_zone_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1704 (class 1259 OID 1946153)
 -- Dependencies: 2317 2318 3
--- Name: ox_data_summary_channel_daily; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_channel_daily; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_summary_channel_daily (
@@ -931,12 +845,10 @@ CREATE TABLE ox_data_summary_channel_daily (
 );
 
 
-ALTER TABLE public.ox_data_summary_channel_daily OWNER TO postgres;
-
 --
 -- TOC entry 1706 (class 1259 OID 1946166)
 -- Dependencies: 3
--- Name: ox_data_summary_zone_impression_history; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_data_summary_zone_impression_history (
@@ -952,12 +864,10 @@ CREATE TABLE ox_data_summary_zone_impression_history (
 );
 
 
-ALTER TABLE public.ox_data_summary_zone_impression_history OWNER TO postgres;
-
 --
 -- TOC entry 1655 (class 1259 OID 1945553)
 -- Dependencies: 2016 2017 2018 2019 2020 2021 3
--- Name: ox_database_action; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_database_action; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_database_action (
@@ -976,12 +886,10 @@ CREATE TABLE ox_database_action (
 );
 
 
-ALTER TABLE public.ox_database_action OWNER TO postgres;
-
 --
 -- TOC entry 1707 (class 1259 OID 1946174)
 -- Dependencies: 2320 3
--- Name: ox_images; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_images (
@@ -991,12 +899,10 @@ CREATE TABLE ox_images (
 );
 
 
-ALTER TABLE public.ox_images OWNER TO postgres;
-
 --
 -- TOC entry 1709 (class 1259 OID 1946185)
 -- Dependencies: 3
--- Name: ox_log_maintenance_forecasting; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_forecasting; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_log_maintenance_forecasting (
@@ -1009,12 +915,10 @@ CREATE TABLE ox_log_maintenance_forecasting (
 );
 
 
-ALTER TABLE public.ox_log_maintenance_forecasting OWNER TO postgres;
-
 --
 -- TOC entry 1711 (class 1259 OID 1946193)
 -- Dependencies: 3
--- Name: ox_log_maintenance_priority; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_priority; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_log_maintenance_priority (
@@ -1028,12 +932,10 @@ CREATE TABLE ox_log_maintenance_priority (
 );
 
 
-ALTER TABLE public.ox_log_maintenance_priority OWNER TO postgres;
-
 --
 -- TOC entry 1713 (class 1259 OID 1946201)
 -- Dependencies: 3
--- Name: ox_log_maintenance_statistics; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_statistics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_log_maintenance_statistics (
@@ -1048,12 +950,10 @@ CREATE TABLE ox_log_maintenance_statistics (
 );
 
 
-ALTER TABLE public.ox_log_maintenance_statistics OWNER TO postgres;
-
 --
 -- TOC entry 1714 (class 1259 OID 1946207)
 -- Dependencies: 2324 2325 3
--- Name: ox_password_recovery; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_password_recovery; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_password_recovery (
@@ -1064,12 +964,10 @@ CREATE TABLE ox_password_recovery (
 );
 
 
-ALTER TABLE public.ox_password_recovery OWNER TO postgres;
-
 --
 -- TOC entry 1716 (class 1259 OID 1946218)
 -- Dependencies: 3
--- Name: ox_placement_zone_assoc; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_placement_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_placement_zone_assoc (
@@ -1079,12 +977,10 @@ CREATE TABLE ox_placement_zone_assoc (
 );
 
 
-ALTER TABLE public.ox_placement_zone_assoc OWNER TO postgres;
-
 --
 -- TOC entry 1718 (class 1259 OID 1946228)
 -- Dependencies: 2328 2329 3
--- Name: ox_preferences; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_preferences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_preferences (
@@ -1094,12 +990,10 @@ CREATE TABLE ox_preferences (
 );
 
 
-ALTER TABLE public.ox_preferences OWNER TO postgres;
-
 --
 -- TOC entry 1719 (class 1259 OID 1946239)
 -- Dependencies: 2330 2331 3
--- Name: ox_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_session; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_session (
@@ -1109,12 +1003,10 @@ CREATE TABLE ox_session (
 );
 
 
-ALTER TABLE public.ox_session OWNER TO postgres;
-
 --
 -- TOC entry 1720 (class 1259 OID 1946249)
 -- Dependencies: 2332 2333 2334 2335 3
--- Name: ox_targetstats; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_targetstats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_targetstats (
@@ -1126,12 +1018,10 @@ CREATE TABLE ox_targetstats (
 );
 
 
-ALTER TABLE public.ox_targetstats OWNER TO postgres;
-
 --
 -- TOC entry 1722 (class 1259 OID 1946258)
 -- Dependencies: 2337 2338 2339 2340 2341 3
--- Name: ox_tracker_append; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_tracker_append; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_tracker_append (
@@ -1144,12 +1034,10 @@ CREATE TABLE ox_tracker_append (
 );
 
 
-ALTER TABLE public.ox_tracker_append OWNER TO postgres;
-
 --
 -- TOC entry 1724 (class 1259 OID 1946275)
 -- Dependencies: 2343 2344 2345 2346 2347 2348 2349 2350 2351 2352 2353 3
--- Name: ox_trackers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_trackers (
@@ -1169,12 +1057,10 @@ CREATE TABLE ox_trackers (
 );
 
 
-ALTER TABLE public.ox_trackers OWNER TO postgres;
-
 --
 -- TOC entry 1653 (class 1259 OID 1945535)
 -- Dependencies: 2009 2010 2011 2012 2013 2014 3
--- Name: ox_upgrade_action; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_upgrade_action; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_upgrade_action (
@@ -1190,12 +1076,10 @@ CREATE TABLE ox_upgrade_action (
 );
 
 
-ALTER TABLE public.ox_upgrade_action OWNER TO postgres;
-
 --
 -- TOC entry 1726 (class 1259 OID 1946298)
 -- Dependencies: 2355 2356 2357 2358 3
--- Name: ox_userlog; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_userlog; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_userlog (
@@ -1209,12 +1093,10 @@ CREATE TABLE ox_userlog (
 );
 
 
-ALTER TABLE public.ox_userlog OWNER TO postgres;
-
 --
 -- TOC entry 1728 (class 1259 OID 1946313)
 -- Dependencies: 2360 2361 2362 2363 2364 2365 3
--- Name: ox_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_users (
@@ -1234,12 +1116,10 @@ CREATE TABLE ox_users (
 );
 
 
-ALTER TABLE public.ox_users OWNER TO postgres;
-
 --
 -- TOC entry 1729 (class 1259 OID 1946332)
 -- Dependencies: 3
--- Name: ox_variable_publisher; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variable_publisher; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_variable_publisher (
@@ -1249,12 +1129,10 @@ CREATE TABLE ox_variable_publisher (
 );
 
 
-ALTER TABLE public.ox_variable_publisher OWNER TO postgres;
-
 --
 -- TOC entry 1731 (class 1259 OID 1946339)
 -- Dependencies: 2367 2368 2369 2370 2371 2372 2373 2374 2375 3
--- Name: ox_variables; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_variables (
@@ -1273,12 +1151,10 @@ CREATE TABLE ox_variables (
 );
 
 
-ALTER TABLE public.ox_variables OWNER TO postgres;
-
 --
 -- TOC entry 1733 (class 1259 OID 1946361)
 -- Dependencies: 2377 2378 2379 2380 2381 2382 2383 2384 2385 2386 2387 2388 2389 2390 2391 2392 2393 2394 2395 2396 2397 2398 2399 2400 3
--- Name: ox_zones; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_zones; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ox_zones (
@@ -1317,155 +1193,131 @@ CREATE TABLE ox_zones (
 );
 
 
-ALTER TABLE public.ox_zones OWNER TO postgres;
-
 --
 -- TOC entry 34 (class 1255 OID 1946442)
 -- Dependencies: 3 480
--- Name: bucket_update_ox_data_bkt_c(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: bucket_update_ox_data_bkt_c(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION bucket_update_ox_data_bkt_c(timestamp without time zone, integer, integer) RETURNS void
-    AS $_$ DECLARE x int; BEGIN LOOP                UPDATE ox_data_bkt_c SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x =ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_c VALUES ($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END $_$
+    AS $_$DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_c SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_c VALUES($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END$_$
     LANGUAGE plpgsql;
 
-
-ALTER FUNCTION public.bucket_update_ox_data_bkt_c(timestamp without time zone, integer, integer) OWNER TO postgres;
 
 --
 -- TOC entry 35 (class 1255 OID 1946443)
 -- Dependencies: 480 3
--- Name: bucket_update_ox_data_bkt_m(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: bucket_update_ox_data_bkt_m(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION bucket_update_ox_data_bkt_m(timestamp without time zone, integer, integer) RETURNS void
-    AS $_$ DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_m SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_m VALUES($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END $_$
+    AS $_$DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_m SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_m VALUES($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END$_$
     LANGUAGE plpgsql;
 
-
-ALTER FUNCTION public.bucket_update_ox_data_bkt_m(timestamp without time zone, integer, integer) OWNER TO postgres;
 
 --
 -- TOC entry 36 (class 1255 OID 1946444)
 -- Dependencies: 3 480
--- Name: bucket_update_ox_data_bkt_m_backup(timestamp without time zone, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: bucket_update_ox_data_bkt_m_backup(timestamp without time zone, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION bucket_update_ox_data_bkt_m_backup(timestamp without time zone, integer, integer, integer) RETURNS void
-    AS $_$ DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_m_backup SET count = count + 1 WHERE interval_start = $1 AND primary_creative_id = $2 ANDcreative_id = $3 AND zone_id = $4;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                 INSERT INTO ox_data_bkt_m_backup VALUES ($1, $2, $3, $4, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END $_$
+    AS $_$DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_m_backup SET count = count + 1 WHERE interval_start = $1 AND primary_creative_id = $2 ANDcreative_id = $3 AND zone_id = $4;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                 INSERT INTO ox_data_bkt_m_backup VALUES ($1, $2, $3, $4, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END$_$
     LANGUAGE plpgsql;
 
-
-ALTER FUNCTION public.bucket_update_ox_data_bkt_m_backup(timestamp without time zone, integer, integer, integer) OWNER TO postgres;
 
 --
 -- TOC entry 37 (class 1255 OID 1946445)
 -- Dependencies: 480 3
--- Name: bucket_update_ox_data_bkt_r(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: bucket_update_ox_data_bkt_r(timestamp without time zone, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION bucket_update_ox_data_bkt_r(timestamp without time zone, integer, integer) RETURNS void
-    AS $_$ DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_r SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_r VALUES($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END $_$
+    AS $_$DECLARE              x int;            BEGIN              LOOP                UPDATE ox_data_bkt_r SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;                GET DIAGNOSTICS x = ROW_COUNT;                IF x > 0 THEN                  RETURN;                END IF;                BEGIN                  INSERT INTO ox_data_bkt_r VALUES($1, $2, $3, 1);                  RETURN;                EXCEPTION WHEN unique_violation THEN                END;              END LOOP;            END$_$
     LANGUAGE plpgsql;
 
-
-ALTER FUNCTION public.bucket_update_ox_data_bkt_r(timestamp without time zone, integer, integer) OWNER TO postgres;
 
 --
 -- TOC entry 32 (class 1255 OID 1945521)
 -- Dependencies: 3 480
--- Name: concat(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: concat(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION concat(text, text) RETURNS text
-    AS $_$ BEGIN RETURN $1 || $2;END; $_$
+    AS $_$ BEGIN RETURN $1 || $2;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.concat(text, text) OWNER TO postgres;
 
 --
 -- TOC entry 33 (class 1255 OID 1945522)
 -- Dependencies: 480 3
--- Name: concat(anyelement); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: concat(anyelement); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION concat(anyelement) RETURNS text
-    AS $_$ BEGIN RETURN $1::text;END; $_$
+    AS $_$ BEGIN RETURN $1::text;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.concat(anyelement) OWNER TO postgres;
 
 --
 -- TOC entry 20 (class 1255 OID 1945509)
 -- Dependencies: 3 480
--- Name: date_add(timestamp with time zone, interval); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: date_add(timestamp with time zone, interval); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION date_add(timestamp with time zone, interval) RETURNS timestamp with time zone
-    AS $_$ BEGIN RETURN $1 + $2;END; $_$
+    AS $_$ BEGIN RETURN $1 + $2;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.date_add(timestamp with time zone, interval) OWNER TO postgres;
 
 --
 -- TOC entry 21 (class 1255 OID 1945510)
 -- Dependencies: 3 480
--- Name: date_format(timestamp with time zone, text); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: date_format(timestamp with time zone, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION date_format(timestamp with time zone, text) RETURNS text
-    AS $_$ DECLARE f text; r text[][] = ARRAY[['%Y','YYYY'],['%m','MM'],['%d','DD'],['%H','HH24'],['%i','MI'],['%S','SS'],['%k','FMHH24']]; i int4;BEGIN f := $2; FOR i IN 1..array_upper(r, 1) LOOP  f := replace(f, r[i][1], r[i][2]); END LOOP; RETURN to_char($1, f);END; $_$
+    AS $_$ DECLARE f text; r text[][] = ARRAY[['%Y','YYYY'],['%m','MM'],['%d','DD'],['%H','HH24'],['%i','MI'],['%S','SS'],['%k','FMHH24']]; i int4;BEGIN f := $2; FOR i IN 1..array_upper(r, 1) LOOP  f := replace(f, r[i][1], r[i][2]); END LOOP; RETURN to_char($1, f);END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.date_format(timestamp with time zone, text) OWNER TO postgres;
 
 --
 -- TOC entry 22 (class 1255 OID 1945511)
 -- Dependencies: 480 3
--- Name: dayofweek(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: dayofweek(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION dayofweek(timestamp with time zone) RETURNS integer
-    AS $_$ DECLARE i int4;BEGIN i = date_part('dow', $1); RETURN i + 1;END; $_$
+    AS $_$ DECLARE i int4;BEGIN i = date_part('dow', $1); RETURN i + 1;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.dayofweek(timestamp with time zone) OWNER TO postgres;
 
 --
 -- TOC entry 23 (class 1255 OID 1945512)
 -- Dependencies: 480 3
--- Name: find_in_set(integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: find_in_set(integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION find_in_set(integer, text) RETURNS integer
-    AS $_$ DECLARE a varchar[]; i int4;BEGIN IF LENGTH($2) > 0 THEN   a := string_to_array($2, ',');   FOR i IN 1..array_upper(a, 1) LOOP     IF $1 = a[i]::integer THEN       RETURN i;     END IF;  END LOOP; END IF; RETURN 0;END; $_$
+    AS $_$ DECLARE a varchar[]; i int4;BEGIN IF LENGTH($2) > 0 THEN   a := string_to_array($2, ',');   FOR i IN 1..array_upper(a, 1) LOOP     IF $1 = a[i]::integer THEN       RETURN i;     END IF;  END LOOP; END IF; RETURN 0;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.find_in_set(integer, text) OWNER TO postgres;
 
 --
 -- TOC entry 29 (class 1255 OID 1945518)
 -- Dependencies: 3 480
--- Name: hour(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: hour(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION hour(timestamp with time zone) RETURNS integer
-    AS $_$ BEGIN RETURN date_part('hour', $1)::integer;END; $_$
+    AS $_$ BEGIN RETURN date_part('hour', $1)::integer;END;$_$
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
-
-ALTER FUNCTION public.hour(timestamp with time zone) OWNER TO postgres;
 
 --
 -- TOC entry 24 (class 1255 OID 1945513)
 -- Dependencies: 480 3
--- Name: if(boolean, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: if(boolean, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION if(boolean, integer, integer) RETURNS integer
@@ -1473,12 +1325,10 @@ CREATE FUNCTION if(boolean, integer, integer) RETURNS integer
     LANGUAGE plpgsql IMMUTABLE;
 
 
-ALTER FUNCTION public.if(boolean, integer, integer) OWNER TO postgres;
-
 --
 -- TOC entry 25 (class 1255 OID 1945514)
 -- Dependencies: 3 480
--- Name: if(boolean, character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: if(boolean, character varying, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION if(boolean, character varying, integer) RETURNS integer
@@ -1486,12 +1336,10 @@ CREATE FUNCTION if(boolean, character varying, integer) RETURNS integer
     LANGUAGE plpgsql IMMUTABLE;
 
 
-ALTER FUNCTION public.if(boolean, character varying, integer) OWNER TO postgres;
-
 --
 -- TOC entry 26 (class 1255 OID 1945515)
 -- Dependencies: 480 3
--- Name: if(boolean, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: if(boolean, character varying, character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION if(boolean, character varying, character varying) RETURNS character varying
@@ -1499,12 +1347,10 @@ CREATE FUNCTION if(boolean, character varying, character varying) RETURNS charac
     LANGUAGE plpgsql IMMUTABLE;
 
 
-ALTER FUNCTION public.if(boolean, character varying, character varying) OWNER TO postgres;
-
 --
 -- TOC entry 27 (class 1255 OID 1945516)
 -- Dependencies: 3 480
--- Name: if(boolean, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: if(boolean, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION if(boolean, timestamp with time zone, timestamp with time zone) RETURNS timestamp with time zone
@@ -1512,12 +1358,10 @@ CREATE FUNCTION if(boolean, timestamp with time zone, timestamp with time zone) 
     LANGUAGE plpgsql IMMUTABLE;
 
 
-ALTER FUNCTION public.if(boolean, timestamp with time zone, timestamp with time zone) OWNER TO postgres;
-
 --
 -- TOC entry 28 (class 1255 OID 1945517)
 -- Dependencies: 3 480
--- Name: ifnull(numeric, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: ifnull(numeric, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION ifnull(numeric, integer) RETURNS integer
@@ -1525,12 +1369,10 @@ CREATE FUNCTION ifnull(numeric, integer) RETURNS integer
     LANGUAGE plpgsql IMMUTABLE;
 
 
-ALTER FUNCTION public.ifnull(numeric, integer) OWNER TO postgres;
-
 --
 -- TOC entry 30 (class 1255 OID 1945519)
 -- Dependencies: 3 480
--- Name: to_days(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: to_days(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION to_days(timestamp with time zone) RETURNS integer
@@ -1538,12 +1380,10 @@ CREATE FUNCTION to_days(timestamp with time zone) RETURNS integer
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
 
-ALTER FUNCTION public.to_days(timestamp with time zone) OWNER TO postgres;
-
 --
 -- TOC entry 31 (class 1255 OID 1945520)
 -- Dependencies: 480 3
--- Name: unix_timestamp(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: unix_timestamp(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS integer
@@ -1551,12 +1391,10 @@ CREATE FUNCTION unix_timestamp(timestamp with time zone) RETURNS integer
     LANGUAGE plpgsql IMMUTABLE STRICT;
 
 
-ALTER FUNCTION public.unix_timestamp(timestamp with time zone) OWNER TO postgres;
-
 --
 -- TOC entry 1659 (class 1259 OID 1945592)
 -- Dependencies: 3 1660
--- Name: ox_accounts_account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_accounts_account_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_accounts_account_id_seq
@@ -1566,12 +1404,10 @@ CREATE SEQUENCE ox_accounts_account_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_accounts_account_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2658 (class 0 OID 0)
 -- Dependencies: 1659
--- Name: ox_accounts_account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_accounts_account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_accounts_account_id_seq OWNED BY ox_accounts.account_id;
@@ -1580,7 +1416,7 @@ ALTER SEQUENCE ox_accounts_account_id_seq OWNED BY ox_accounts.account_id;
 --
 -- TOC entry 2659 (class 0 OID 0)
 -- Dependencies: 1659
--- Name: ox_accounts_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_accounts_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_accounts_account_id_seq', 4, true);
@@ -1589,7 +1425,7 @@ SELECT pg_catalog.setval('ox_accounts_account_id_seq', 4, true);
 --
 -- TOC entry 1663 (class 1259 OID 1945635)
 -- Dependencies: 1664 3
--- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_ad_category_assoc_ad_category_assoc_id_seq
@@ -1600,12 +1436,10 @@ CREATE SEQUENCE ox_ad_category_assoc_ad_category_assoc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_ad_category_assoc_ad_category_assoc_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2660 (class 0 OID 0)
 -- Dependencies: 1663
--- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_ad_category_assoc_ad_category_assoc_id_seq OWNED BY ox_ad_category_assoc.ad_category_assoc_id;
@@ -1614,7 +1448,7 @@ ALTER SEQUENCE ox_ad_category_assoc_ad_category_assoc_id_seq OWNED BY ox_ad_cate
 --
 -- TOC entry 2661 (class 0 OID 0)
 -- Dependencies: 1663
--- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_ad_category_assoc_ad_category_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_ad_category_assoc_ad_category_assoc_id_seq', 1, false);
@@ -1623,7 +1457,7 @@ SELECT pg_catalog.setval('ox_ad_category_assoc_ad_category_assoc_id_seq', 1, fal
 --
 -- TOC entry 1665 (class 1259 OID 1945643)
 -- Dependencies: 3 1666
--- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_ad_zone_assoc_ad_zone_assoc_id_seq
@@ -1633,12 +1467,10 @@ CREATE SEQUENCE ox_ad_zone_assoc_ad_zone_assoc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_ad_zone_assoc_ad_zone_assoc_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2662 (class 0 OID 0)
 -- Dependencies: 1665
--- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_ad_zone_assoc_ad_zone_assoc_id_seq OWNED BY ox_ad_zone_assoc.ad_zone_assoc_id;
@@ -1647,7 +1479,7 @@ ALTER SEQUENCE ox_ad_zone_assoc_ad_zone_assoc_id_seq OWNED BY ox_ad_zone_assoc.a
 --
 -- TOC entry 2663 (class 0 OID 0)
 -- Dependencies: 1665
--- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_ad_zone_assoc_ad_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_ad_zone_assoc_ad_zone_assoc_id_seq', 8, true);
@@ -1656,7 +1488,7 @@ SELECT pg_catalog.setval('ox_ad_zone_assoc_ad_zone_assoc_id_seq', 8, true);
 --
 -- TOC entry 1667 (class 1259 OID 1945657)
 -- Dependencies: 3 1668
--- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_affiliates_affiliateid_seq
@@ -1666,12 +1498,10 @@ CREATE SEQUENCE ox_affiliates_affiliateid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_affiliates_affiliateid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2664 (class 0 OID 0)
 -- Dependencies: 1667
--- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_affiliates_affiliateid_seq OWNED BY ox_affiliates.affiliateid;
@@ -1680,7 +1510,7 @@ ALTER SEQUENCE ox_affiliates_affiliateid_seq OWNED BY ox_affiliates.affiliateid;
 --
 -- TOC entry 2665 (class 0 OID 0)
 -- Dependencies: 1667
--- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_affiliates_affiliateid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, true);
@@ -1689,7 +1519,7 @@ SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 1, true);
 --
 -- TOC entry 1670 (class 1259 OID 1945698)
 -- Dependencies: 3 1671
--- Name: ox_agency_agencyid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_agency_agencyid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_agency_agencyid_seq
@@ -1699,12 +1529,10 @@ CREATE SEQUENCE ox_agency_agencyid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_agency_agencyid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2666 (class 0 OID 0)
 -- Dependencies: 1670
--- Name: ox_agency_agencyid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_agency_agencyid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_agency_agencyid_seq OWNED BY ox_agency.agencyid;
@@ -1713,7 +1541,7 @@ ALTER SEQUENCE ox_agency_agencyid_seq OWNED BY ox_agency.agencyid;
 --
 -- TOC entry 2667 (class 0 OID 0)
 -- Dependencies: 1670
--- Name: ox_agency_agencyid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_agency_agencyid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_agency_agencyid_seq', 1, true);
@@ -1722,7 +1550,7 @@ SELECT pg_catalog.setval('ox_agency_agencyid_seq', 1, true);
 --
 -- TOC entry 1673 (class 1259 OID 1945726)
 -- Dependencies: 3 1674
--- Name: ox_audit_auditid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_audit_auditid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_audit_auditid_seq
@@ -1732,12 +1560,10 @@ CREATE SEQUENCE ox_audit_auditid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_audit_auditid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2668 (class 0 OID 0)
 -- Dependencies: 1673
--- Name: ox_audit_auditid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_audit_auditid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_audit_auditid_seq OWNED BY ox_audit.auditid;
@@ -1746,7 +1572,7 @@ ALTER SEQUENCE ox_audit_auditid_seq OWNED BY ox_audit.auditid;
 --
 -- TOC entry 2669 (class 0 OID 0)
 -- Dependencies: 1673
--- Name: ox_audit_auditid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_audit_auditid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_audit_auditid_seq', 290, true);
@@ -1755,7 +1581,7 @@ SELECT pg_catalog.setval('ox_audit_auditid_seq', 290, true);
 --
 -- TOC entry 1675 (class 1259 OID 1945750)
 -- Dependencies: 1676 3
--- Name: ox_banners_bannerid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_banners_bannerid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_banners_bannerid_seq
@@ -1765,12 +1591,10 @@ CREATE SEQUENCE ox_banners_bannerid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_banners_bannerid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2670 (class 0 OID 0)
 -- Dependencies: 1675
--- Name: ox_banners_bannerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_banners_bannerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_banners_bannerid_seq OWNED BY ox_banners.bannerid;
@@ -1779,7 +1603,7 @@ ALTER SEQUENCE ox_banners_bannerid_seq OWNED BY ox_banners.bannerid;
 --
 -- TOC entry 2671 (class 0 OID 0)
 -- Dependencies: 1675
--- Name: ox_banners_bannerid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_banners_bannerid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_banners_bannerid_seq', 3, true);
@@ -1788,7 +1612,7 @@ SELECT pg_catalog.setval('ox_banners_bannerid_seq', 3, true);
 --
 -- TOC entry 1677 (class 1259 OID 1945798)
 -- Dependencies: 3 1678
--- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_campaigns_campaignid_seq
@@ -1798,12 +1622,10 @@ CREATE SEQUENCE ox_campaigns_campaignid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_campaigns_campaignid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2672 (class 0 OID 0)
 -- Dependencies: 1677
--- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_campaigns_campaignid_seq OWNED BY ox_campaigns.campaignid;
@@ -1812,7 +1634,7 @@ ALTER SEQUENCE ox_campaigns_campaignid_seq OWNED BY ox_campaigns.campaignid;
 --
 -- TOC entry 2673 (class 0 OID 0)
 -- Dependencies: 1677
--- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_campaigns_campaignid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_campaigns_campaignid_seq', 3, true);
@@ -1821,7 +1643,7 @@ SELECT pg_catalog.setval('ox_campaigns_campaignid_seq', 3, true);
 --
 -- TOC entry 1679 (class 1259 OID 1945833)
 -- Dependencies: 1680 3
--- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_campaigns_trackers_campaign_trackerid_seq
@@ -1831,12 +1653,10 @@ CREATE SEQUENCE ox_campaigns_trackers_campaign_trackerid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_campaigns_trackers_campaign_trackerid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2674 (class 0 OID 0)
 -- Dependencies: 1679
--- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_campaigns_trackers_campaign_trackerid_seq OWNED BY ox_campaigns_trackers.campaign_trackerid;
@@ -1845,7 +1665,7 @@ ALTER SEQUENCE ox_campaigns_trackers_campaign_trackerid_seq OWNED BY ox_campaign
 --
 -- TOC entry 2675 (class 0 OID 0)
 -- Dependencies: 1679
--- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_campaigns_trackers_campaign_trackerid_seq', 2, true);
@@ -1854,7 +1674,7 @@ SELECT pg_catalog.setval('ox_campaigns_trackers_campaign_trackerid_seq', 2, true
 --
 -- TOC entry 1681 (class 1259 OID 1945846)
 -- Dependencies: 3 1682
--- Name: ox_category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_category_category_id_seq
@@ -1865,12 +1685,10 @@ CREATE SEQUENCE ox_category_category_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_category_category_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2676 (class 0 OID 0)
 -- Dependencies: 1681
--- Name: ox_category_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_category_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_category_category_id_seq OWNED BY ox_category.category_id;
@@ -1879,7 +1697,7 @@ ALTER SEQUENCE ox_category_category_id_seq OWNED BY ox_category.category_id;
 --
 -- TOC entry 2677 (class 0 OID 0)
 -- Dependencies: 1681
--- Name: ox_category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_category_category_id_seq', 1, false);
@@ -1888,7 +1706,7 @@ SELECT pg_catalog.setval('ox_category_category_id_seq', 1, false);
 --
 -- TOC entry 1683 (class 1259 OID 1945855)
 -- Dependencies: 3 1684
--- Name: ox_channel_channelid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_channel_channelid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_channel_channelid_seq
@@ -1898,12 +1716,10 @@ CREATE SEQUENCE ox_channel_channelid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_channel_channelid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2678 (class 0 OID 0)
 -- Dependencies: 1683
--- Name: ox_channel_channelid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_channel_channelid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_channel_channelid_seq OWNED BY ox_channel.channelid;
@@ -1912,7 +1728,7 @@ ALTER SEQUENCE ox_channel_channelid_seq OWNED BY ox_channel.channelid;
 --
 -- TOC entry 2679 (class 0 OID 0)
 -- Dependencies: 1683
--- Name: ox_channel_channelid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_channel_channelid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_channel_channelid_seq', 1, true);
@@ -1921,7 +1737,7 @@ SELECT pg_catalog.setval('ox_channel_channelid_seq', 1, true);
 --
 -- TOC entry 1685 (class 1259 OID 1945871)
 -- Dependencies: 3 1686
--- Name: ox_clients_clientid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_clients_clientid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_clients_clientid_seq
@@ -1931,12 +1747,10 @@ CREATE SEQUENCE ox_clients_clientid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_clients_clientid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2680 (class 0 OID 0)
 -- Dependencies: 1685
--- Name: ox_clients_clientid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_clients_clientid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_clients_clientid_seq OWNED BY ox_clients.clientid;
@@ -1945,7 +1759,7 @@ ALTER SEQUENCE ox_clients_clientid_seq OWNED BY ox_clients.clientid;
 --
 -- TOC entry 2681 (class 0 OID 0)
 -- Dependencies: 1685
--- Name: ox_clients_clientid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_clients_clientid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_clients_clientid_seq', 1, true);
@@ -1954,7 +1768,7 @@ SELECT pg_catalog.setval('ox_clients_clientid_seq', 1, true);
 --
 -- TOC entry 1738 (class 1259 OID 1946420)
 -- Dependencies: 1739 3
--- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_bkt_a_server_conv_id_seq
@@ -1965,12 +1779,10 @@ CREATE SEQUENCE ox_data_bkt_a_server_conv_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_bkt_a_server_conv_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2682 (class 0 OID 0)
 -- Dependencies: 1738
--- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_bkt_a_server_conv_id_seq OWNED BY ox_data_bkt_a.server_conv_id;
@@ -1979,7 +1791,7 @@ ALTER SEQUENCE ox_data_bkt_a_server_conv_id_seq OWNED BY ox_data_bkt_a.server_co
 --
 -- TOC entry 2683 (class 0 OID 0)
 -- Dependencies: 1738
--- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_server_conv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_bkt_a_server_conv_id_seq', 1, false);
@@ -1988,7 +1800,7 @@ SELECT pg_catalog.setval('ox_data_bkt_a_server_conv_id_seq', 1, false);
 --
 -- TOC entry 1740 (class 1259 OID 1946430)
 -- Dependencies: 1741 3
--- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_bkt_a_var_server_conv_id_seq
@@ -1999,12 +1811,10 @@ CREATE SEQUENCE ox_data_bkt_a_var_server_conv_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_bkt_a_var_server_conv_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2684 (class 0 OID 0)
 -- Dependencies: 1740
--- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_bkt_a_var_server_conv_id_seq OWNED BY ox_data_bkt_a_var.server_conv_id;
@@ -2013,7 +1823,7 @@ ALTER SEQUENCE ox_data_bkt_a_var_server_conv_id_seq OWNED BY ox_data_bkt_a_var.s
 --
 -- TOC entry 2685 (class 0 OID 0)
 -- Dependencies: 1740
--- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_bkt_a_var_server_conv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_bkt_a_var_server_conv_id_seq', 1, false);
@@ -2022,7 +1832,7 @@ SELECT pg_catalog.setval('ox_data_bkt_a_var_server_conv_id_seq', 1, false);
 --
 -- TOC entry 1689 (class 1259 OID 1945912)
 -- Dependencies: 1690 3
--- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq
@@ -2033,12 +1843,10 @@ CREATE SEQUENCE ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq OWNER TO postgres;
-
 --
 -- TOC entry 2686 (class 0 OID 0)
 -- Dependencies: 1689
--- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq OWNED BY ox_data_intermediate_ad_connection.data_intermediate_ad_connection_id;
@@ -2047,7 +1855,7 @@ ALTER SEQUENCE ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq O
 --
 -- TOC entry 2687 (class 0 OID 0)
 -- Dependencies: 1689
--- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq', 1, false);
@@ -2056,7 +1864,7 @@ SELECT pg_catalog.setval('ox_data_intermediate_ad_conne_data_intermediate_ad_con
 --
 -- TOC entry 1687 (class 1259 OID 1945894)
 -- Dependencies: 3 1688
--- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_intermediate_ad_data_intermediate_ad_id_seq
@@ -2067,12 +1875,10 @@ CREATE SEQUENCE ox_data_intermediate_ad_data_intermediate_ad_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_intermediate_ad_data_intermediate_ad_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2688 (class 0 OID 0)
 -- Dependencies: 1687
--- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_intermediate_ad_data_intermediate_ad_id_seq OWNED BY ox_data_intermediate_ad.data_intermediate_ad_id;
@@ -2081,7 +1887,7 @@ ALTER SEQUENCE ox_data_intermediate_ad_data_intermediate_ad_id_seq OWNED BY ox_d
 --
 -- TOC entry 2689 (class 0 OID 0)
 -- Dependencies: 1687
--- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_data_intermediate_ad_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_intermediate_ad_data_intermediate_ad_id_seq', 1, false);
@@ -2090,7 +1896,7 @@ SELECT pg_catalog.setval('ox_data_intermediate_ad_data_intermediate_ad_id_seq', 
 --
 -- TOC entry 1691 (class 1259 OID 1945961)
 -- Dependencies: 3 1692
--- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq
@@ -2101,12 +1907,10 @@ CREATE SEQUENCE ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq OWNER TO postgres;
-
 --
 -- TOC entry 2690 (class 0 OID 0)
 -- Dependencies: 1691
--- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq OWNED BY ox_data_intermediate_ad_variable_value.data_intermediate_ad_variable_value_id;
@@ -2115,7 +1919,7 @@ ALTER SEQUENCE ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq O
 --
 -- TOC entry 2691 (class 0 OID 0)
 -- Dependencies: 1691
--- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq', 1, false);
@@ -2124,7 +1928,7 @@ SELECT pg_catalog.setval('ox_data_intermediate_ad_varia_data_intermediate_ad_var
 --
 -- TOC entry 1696 (class 1259 OID 1946070)
 -- Dependencies: 3 1697
--- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq
@@ -2135,12 +1939,10 @@ CREATE SEQUENCE ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq OWNER TO postgres;
-
 --
 -- TOC entry 2692 (class 0 OID 0)
 -- Dependencies: 1696
--- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq OWNED BY ox_data_raw_tracker_impression.server_raw_tracker_impression_id;
@@ -2149,7 +1951,7 @@ ALTER SEQUENCE ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq O
 --
 -- TOC entry 2693 (class 0 OID 0)
 -- Dependencies: 1696
--- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq', 1, false);
@@ -2158,7 +1960,7 @@ SELECT pg_catalog.setval('ox_data_raw_tracker_impressio_server_raw_tracker_impre
 --
 -- TOC entry 1699 (class 1259 OID 1946117)
 -- Dependencies: 1700 3
--- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq
@@ -2169,12 +1971,10 @@ CREATE SEQUENCE ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2694 (class 0 OID 0)
 -- Dependencies: 1699
--- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq OWNED BY ox_data_summary_ad_hourly.data_summary_ad_hourly_id;
@@ -2183,7 +1983,7 @@ ALTER SEQUENCE ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq OWNED BY 
 --
 -- TOC entry 2695 (class 0 OID 0)
 -- Dependencies: 1699
--- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq', 1, false);
@@ -2192,7 +1992,7 @@ SELECT pg_catalog.setval('ox_data_summary_ad_hourly_data_summary_ad_hourly_id_se
 --
 -- TOC entry 1701 (class 1259 OID 1946136)
 -- Dependencies: 1702 3
--- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq
@@ -2203,12 +2003,10 @@ CREATE SEQUENCE ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2696 (class 0 OID 0)
 -- Dependencies: 1701
--- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq OWNED BY ox_data_summary_ad_zone_assoc.data_summary_ad_zone_assoc_id;
@@ -2217,7 +2015,7 @@ ALTER SEQUENCE ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq O
 --
 -- TOC entry 2697 (class 0 OID 0)
 -- Dependencies: 1701
--- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq', 1, false);
@@ -2226,7 +2024,7 @@ SELECT pg_catalog.setval('ox_data_summary_ad_zone_assoc_data_summary_ad_zone_ass
 --
 -- TOC entry 1703 (class 1259 OID 1946151)
 -- Dependencies: 1704 3
--- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_summary_channel_daily_data_summary_channel_daily_id_seq
@@ -2237,12 +2035,10 @@ CREATE SEQUENCE ox_data_summary_channel_daily_data_summary_channel_daily_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_summary_channel_daily_data_summary_channel_daily_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2698 (class 0 OID 0)
 -- Dependencies: 1703
--- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_summary_channel_daily_data_summary_channel_daily_id_seq OWNED BY ox_data_summary_channel_daily.data_summary_channel_daily_id;
@@ -2251,7 +2047,7 @@ ALTER SEQUENCE ox_data_summary_channel_daily_data_summary_channel_daily_id_seq O
 --
 -- TOC entry 2699 (class 0 OID 0)
 -- Dependencies: 1703
--- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_summary_channel_daily_data_summary_channel_daily_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_summary_channel_daily_data_summary_channel_daily_id_seq', 1, false);
@@ -2260,7 +2056,7 @@ SELECT pg_catalog.setval('ox_data_summary_channel_daily_data_summary_channel_dai
 --
 -- TOC entry 1705 (class 1259 OID 1946164)
 -- Dependencies: 1706 3
--- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_data_summary_zone_impressi_data_summary_zone_impression__seq
@@ -2271,12 +2067,10 @@ CREATE SEQUENCE ox_data_summary_zone_impressi_data_summary_zone_impression__seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_data_summary_zone_impressi_data_summary_zone_impression__seq OWNER TO postgres;
-
 --
 -- TOC entry 2700 (class 0 OID 0)
 -- Dependencies: 1705
--- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_data_summary_zone_impressi_data_summary_zone_impression__seq OWNED BY ox_data_summary_zone_impression_history.data_summary_zone_impression_history_id;
@@ -2285,7 +2079,7 @@ ALTER SEQUENCE ox_data_summary_zone_impressi_data_summary_zone_impression__seq O
 --
 -- TOC entry 2701 (class 0 OID 0)
 -- Dependencies: 1705
--- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_data_summary_zone_impressi_data_summary_zone_impression__seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_data_summary_zone_impressi_data_summary_zone_impression__seq', 1, false);
@@ -2294,7 +2088,7 @@ SELECT pg_catalog.setval('ox_data_summary_zone_impressi_data_summary_zone_impres
 --
 -- TOC entry 1654 (class 1259 OID 1945551)
 -- Dependencies: 1655 3
--- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_database_action_database_action_id_seq
@@ -2304,12 +2098,10 @@ CREATE SEQUENCE ox_database_action_database_action_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_database_action_database_action_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2702 (class 0 OID 0)
 -- Dependencies: 1654
--- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_database_action_database_action_id_seq OWNED BY ox_database_action.database_action_id;
@@ -2318,7 +2110,7 @@ ALTER SEQUENCE ox_database_action_database_action_id_seq OWNED BY ox_database_ac
 --
 -- TOC entry 2703 (class 0 OID 0)
 -- Dependencies: 1654
--- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_database_action_database_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_database_action_database_action_id_seq', 6, true);
@@ -2327,7 +2119,7 @@ SELECT pg_catalog.setval('ox_database_action_database_action_id_seq', 6, true);
 --
 -- TOC entry 1708 (class 1259 OID 1946183)
 -- Dependencies: 1709 3
--- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq
@@ -2338,12 +2130,10 @@ CREATE SEQUENCE ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq OWNER TO postgres;
-
 --
 -- TOC entry 2704 (class 0 OID 0)
 -- Dependencies: 1708
--- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq OWNED BY ox_log_maintenance_forecasting.log_maintenance_forecasting_id;
@@ -2352,7 +2142,7 @@ ALTER SEQUENCE ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq O
 --
 -- TOC entry 2705 (class 0 OID 0)
 -- Dependencies: 1708
--- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq', 1, false);
@@ -2361,7 +2151,7 @@ SELECT pg_catalog.setval('ox_log_maintenance_forecastin_log_maintenance_forecast
 --
 -- TOC entry 1710 (class 1259 OID 1946191)
 -- Dependencies: 1711 3
--- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_log_maintenance_priority_log_maintenance_priority_id_seq
@@ -2372,12 +2162,10 @@ CREATE SEQUENCE ox_log_maintenance_priority_log_maintenance_priority_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_log_maintenance_priority_log_maintenance_priority_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2706 (class 0 OID 0)
 -- Dependencies: 1710
--- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_log_maintenance_priority_log_maintenance_priority_id_seq OWNED BY ox_log_maintenance_priority.log_maintenance_priority_id;
@@ -2386,7 +2174,7 @@ ALTER SEQUENCE ox_log_maintenance_priority_log_maintenance_priority_id_seq OWNED
 --
 -- TOC entry 2707 (class 0 OID 0)
 -- Dependencies: 1710
--- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_priority_log_maintenance_priority_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_log_maintenance_priority_log_maintenance_priority_id_seq', 1, false);
@@ -2395,7 +2183,7 @@ SELECT pg_catalog.setval('ox_log_maintenance_priority_log_maintenance_priority_i
 --
 -- TOC entry 1712 (class 1259 OID 1946199)
 -- Dependencies: 3 1713
--- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_log_maintenance_statistics_log_maintenance_statistics_id_seq
@@ -2406,12 +2194,10 @@ CREATE SEQUENCE ox_log_maintenance_statistics_log_maintenance_statistics_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_log_maintenance_statistics_log_maintenance_statistics_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2708 (class 0 OID 0)
 -- Dependencies: 1712
--- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_log_maintenance_statistics_log_maintenance_statistics_id_seq OWNED BY ox_log_maintenance_statistics.log_maintenance_statistics_id;
@@ -2420,7 +2206,7 @@ ALTER SEQUENCE ox_log_maintenance_statistics_log_maintenance_statistics_id_seq O
 --
 -- TOC entry 2709 (class 0 OID 0)
 -- Dependencies: 1712
--- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_log_maintenance_statistics_log_maintenance_statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_log_maintenance_statistics_log_maintenance_statistics_id_seq', 1, false);
@@ -2429,7 +2215,7 @@ SELECT pg_catalog.setval('ox_log_maintenance_statistics_log_maintenance_statisti
 --
 -- TOC entry 1715 (class 1259 OID 1946216)
 -- Dependencies: 3 1716
--- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_placement_zone_assoc_placement_zone_assoc_id_seq
@@ -2439,12 +2225,10 @@ CREATE SEQUENCE ox_placement_zone_assoc_placement_zone_assoc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_placement_zone_assoc_placement_zone_assoc_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2710 (class 0 OID 0)
 -- Dependencies: 1715
--- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_placement_zone_assoc_placement_zone_assoc_id_seq OWNED BY ox_placement_zone_assoc.placement_zone_assoc_id;
@@ -2453,7 +2237,7 @@ ALTER SEQUENCE ox_placement_zone_assoc_placement_zone_assoc_id_seq OWNED BY ox_p
 --
 -- TOC entry 2711 (class 0 OID 0)
 -- Dependencies: 1715
--- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_placement_zone_assoc_placement_zone_assoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_placement_zone_assoc_placement_zone_assoc_id_seq', 5, true);
@@ -2462,7 +2246,7 @@ SELECT pg_catalog.setval('ox_placement_zone_assoc_placement_zone_assoc_id_seq', 
 --
 -- TOC entry 1717 (class 1259 OID 1946226)
 -- Dependencies: 3 1718
--- Name: ox_preferences_preference_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_preferences_preference_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_preferences_preference_id_seq
@@ -2472,12 +2256,10 @@ CREATE SEQUENCE ox_preferences_preference_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_preferences_preference_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2712 (class 0 OID 0)
 -- Dependencies: 1717
--- Name: ox_preferences_preference_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_preferences_preference_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_preferences_preference_id_seq OWNED BY ox_preferences.preference_id;
@@ -2486,7 +2268,7 @@ ALTER SEQUENCE ox_preferences_preference_id_seq OWNED BY ox_preferences.preferen
 --
 -- TOC entry 2713 (class 0 OID 0)
 -- Dependencies: 1717
--- Name: ox_preferences_preference_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_preferences_preference_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_preferences_preference_id_seq', 116, true);
@@ -2495,7 +2277,7 @@ SELECT pg_catalog.setval('ox_preferences_preference_id_seq', 116, true);
 --
 -- TOC entry 1721 (class 1259 OID 1946256)
 -- Dependencies: 1722 3
--- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_tracker_append_tracker_append_id_seq
@@ -2506,12 +2288,10 @@ CREATE SEQUENCE ox_tracker_append_tracker_append_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_tracker_append_tracker_append_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2714 (class 0 OID 0)
 -- Dependencies: 1721
--- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_tracker_append_tracker_append_id_seq OWNED BY ox_tracker_append.tracker_append_id;
@@ -2520,7 +2300,7 @@ ALTER SEQUENCE ox_tracker_append_tracker_append_id_seq OWNED BY ox_tracker_appen
 --
 -- TOC entry 2715 (class 0 OID 0)
 -- Dependencies: 1721
--- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_tracker_append_tracker_append_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_tracker_append_tracker_append_id_seq', 1, false);
@@ -2529,7 +2309,7 @@ SELECT pg_catalog.setval('ox_tracker_append_tracker_append_id_seq', 1, false);
 --
 -- TOC entry 1723 (class 1259 OID 1946273)
 -- Dependencies: 3 1724
--- Name: ox_trackers_trackerid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_trackers_trackerid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_trackers_trackerid_seq
@@ -2539,12 +2319,10 @@ CREATE SEQUENCE ox_trackers_trackerid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_trackers_trackerid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2716 (class 0 OID 0)
 -- Dependencies: 1723
--- Name: ox_trackers_trackerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_trackers_trackerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_trackers_trackerid_seq OWNED BY ox_trackers.trackerid;
@@ -2553,7 +2331,7 @@ ALTER SEQUENCE ox_trackers_trackerid_seq OWNED BY ox_trackers.trackerid;
 --
 -- TOC entry 2717 (class 0 OID 0)
 -- Dependencies: 1723
--- Name: ox_trackers_trackerid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_trackers_trackerid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_trackers_trackerid_seq', 1, true);
@@ -2562,7 +2340,7 @@ SELECT pg_catalog.setval('ox_trackers_trackerid_seq', 1, true);
 --
 -- TOC entry 1652 (class 1259 OID 1945533)
 -- Dependencies: 3 1653
--- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_upgrade_action_upgrade_action_id_seq
@@ -2572,12 +2350,10 @@ CREATE SEQUENCE ox_upgrade_action_upgrade_action_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_upgrade_action_upgrade_action_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2718 (class 0 OID 0)
 -- Dependencies: 1652
--- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_upgrade_action_upgrade_action_id_seq OWNED BY ox_upgrade_action.upgrade_action_id;
@@ -2586,7 +2362,7 @@ ALTER SEQUENCE ox_upgrade_action_upgrade_action_id_seq OWNED BY ox_upgrade_actio
 --
 -- TOC entry 2719 (class 0 OID 0)
 -- Dependencies: 1652
--- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_upgrade_action_upgrade_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_upgrade_action_upgrade_action_id_seq', 27, true);
@@ -2595,7 +2371,7 @@ SELECT pg_catalog.setval('ox_upgrade_action_upgrade_action_id_seq', 27, true);
 --
 -- TOC entry 1725 (class 1259 OID 1946296)
 -- Dependencies: 1726 3
--- Name: ox_userlog_userlogid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_userlog_userlogid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_userlog_userlogid_seq
@@ -2606,12 +2382,10 @@ CREATE SEQUENCE ox_userlog_userlogid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_userlog_userlogid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2720 (class 0 OID 0)
 -- Dependencies: 1725
--- Name: ox_userlog_userlogid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_userlog_userlogid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_userlog_userlogid_seq OWNED BY ox_userlog.userlogid;
@@ -2620,7 +2394,7 @@ ALTER SEQUENCE ox_userlog_userlogid_seq OWNED BY ox_userlog.userlogid;
 --
 -- TOC entry 2721 (class 0 OID 0)
 -- Dependencies: 1725
--- Name: ox_userlog_userlogid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_userlog_userlogid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_userlog_userlogid_seq', 1, false);
@@ -2629,7 +2403,7 @@ SELECT pg_catalog.setval('ox_userlog_userlogid_seq', 1, false);
 --
 -- TOC entry 1727 (class 1259 OID 1946311)
 -- Dependencies: 3 1728
--- Name: ox_users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_users_user_id_seq
@@ -2639,12 +2413,10 @@ CREATE SEQUENCE ox_users_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_users_user_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 2722 (class 0 OID 0)
 -- Dependencies: 1727
--- Name: ox_users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_users_user_id_seq OWNED BY ox_users.user_id;
@@ -2653,7 +2425,7 @@ ALTER SEQUENCE ox_users_user_id_seq OWNED BY ox_users.user_id;
 --
 -- TOC entry 2723 (class 0 OID 0)
 -- Dependencies: 1727
--- Name: ox_users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_users_user_id_seq', 1, true);
@@ -2662,7 +2434,7 @@ SELECT pg_catalog.setval('ox_users_user_id_seq', 1, true);
 --
 -- TOC entry 1730 (class 1259 OID 1946337)
 -- Dependencies: 1731 3
--- Name: ox_variables_variableid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_variables_variableid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_variables_variableid_seq
@@ -2672,12 +2444,10 @@ CREATE SEQUENCE ox_variables_variableid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_variables_variableid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2724 (class 0 OID 0)
 -- Dependencies: 1730
--- Name: ox_variables_variableid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_variables_variableid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_variables_variableid_seq OWNED BY ox_variables.variableid;
@@ -2686,7 +2456,7 @@ ALTER SEQUENCE ox_variables_variableid_seq OWNED BY ox_variables.variableid;
 --
 -- TOC entry 2725 (class 0 OID 0)
 -- Dependencies: 1730
--- Name: ox_variables_variableid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_variables_variableid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_variables_variableid_seq', 2, true);
@@ -2695,7 +2465,7 @@ SELECT pg_catalog.setval('ox_variables_variableid_seq', 2, true);
 --
 -- TOC entry 1732 (class 1259 OID 1946359)
 -- Dependencies: 3 1733
--- Name: ox_zones_zoneid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ox_zones_zoneid_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE ox_zones_zoneid_seq
@@ -2705,12 +2475,10 @@ CREATE SEQUENCE ox_zones_zoneid_seq
     CACHE 1;
 
 
-ALTER TABLE public.ox_zones_zoneid_seq OWNER TO postgres;
-
 --
 -- TOC entry 2726 (class 0 OID 0)
 -- Dependencies: 1732
--- Name: ox_zones_zoneid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ox_zones_zoneid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE ox_zones_zoneid_seq OWNED BY ox_zones.zoneid;
@@ -2719,7 +2487,7 @@ ALTER SEQUENCE ox_zones_zoneid_seq OWNED BY ox_zones.zoneid;
 --
 -- TOC entry 2727 (class 0 OID 0)
 -- Dependencies: 1732
--- Name: ox_zones_zoneid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ox_zones_zoneid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('ox_zones_zoneid_seq', 2, true);
@@ -2728,7 +2496,7 @@ SELECT pg_catalog.setval('ox_zones_zoneid_seq', 2, true);
 --
 -- TOC entry 2024 (class 2604 OID 1945597)
 -- Dependencies: 1659 1660 1660
--- Name: account_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: account_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_accounts ALTER COLUMN account_id SET DEFAULT nextval('ox_accounts_account_id_seq'::regclass);
@@ -2737,7 +2505,7 @@ ALTER TABLE ox_accounts ALTER COLUMN account_id SET DEFAULT nextval('ox_accounts
 --
 -- TOC entry 2041 (class 2604 OID 1945640)
 -- Dependencies: 1663 1664 1664
--- Name: ad_category_assoc_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ad_category_assoc_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_ad_category_assoc ALTER COLUMN ad_category_assoc_id SET DEFAULT nextval('ox_ad_category_assoc_ad_category_assoc_id_seq'::regclass);
@@ -2746,7 +2514,7 @@ ALTER TABLE ox_ad_category_assoc ALTER COLUMN ad_category_assoc_id SET DEFAULT n
 --
 -- TOC entry 2042 (class 2604 OID 1945648)
 -- Dependencies: 1666 1665 1666
--- Name: ad_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ad_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_ad_zone_assoc ALTER COLUMN ad_zone_assoc_id SET DEFAULT nextval('ox_ad_zone_assoc_ad_zone_assoc_id_seq'::regclass);
@@ -2755,7 +2523,7 @@ ALTER TABLE ox_ad_zone_assoc ALTER COLUMN ad_zone_assoc_id SET DEFAULT nextval('
 --
 -- TOC entry 2047 (class 2604 OID 1945662)
 -- Dependencies: 1668 1667 1668
--- Name: affiliateid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: affiliateid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_affiliates ALTER COLUMN affiliateid SET DEFAULT nextval('ox_affiliates_affiliateid_seq'::regclass);
@@ -2764,7 +2532,7 @@ ALTER TABLE ox_affiliates ALTER COLUMN affiliateid SET DEFAULT nextval('ox_affil
 --
 -- TOC entry 2067 (class 2604 OID 1945703)
 -- Dependencies: 1671 1670 1671
--- Name: agencyid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: agencyid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_agency ALTER COLUMN agencyid SET DEFAULT nextval('ox_agency_agencyid_seq'::regclass);
@@ -2773,7 +2541,7 @@ ALTER TABLE ox_agency ALTER COLUMN agencyid SET DEFAULT nextval('ox_agency_agenc
 --
 -- TOC entry 2075 (class 2604 OID 1945731)
 -- Dependencies: 1674 1673 1674
--- Name: auditid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: auditid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_audit ALTER COLUMN auditid SET DEFAULT nextval('ox_audit_auditid_seq'::regclass);
@@ -2782,7 +2550,7 @@ ALTER TABLE ox_audit ALTER COLUMN auditid SET DEFAULT nextval('ox_audit_auditid_
 --
 -- TOC entry 2081 (class 2604 OID 1945755)
 -- Dependencies: 1676 1675 1676
--- Name: bannerid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: bannerid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_banners ALTER COLUMN bannerid SET DEFAULT nextval('ox_banners_bannerid_seq'::regclass);
@@ -2791,7 +2559,7 @@ ALTER TABLE ox_banners ALTER COLUMN bannerid SET DEFAULT nextval('ox_banners_ban
 --
 -- TOC entry 2118 (class 2604 OID 1945803)
 -- Dependencies: 1677 1678 1678
--- Name: campaignid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: campaignid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_campaigns ALTER COLUMN campaignid SET DEFAULT nextval('ox_campaigns_campaignid_seq'::regclass);
@@ -2800,7 +2568,7 @@ ALTER TABLE ox_campaigns ALTER COLUMN campaignid SET DEFAULT nextval('ox_campaig
 --
 -- TOC entry 2142 (class 2604 OID 1945838)
 -- Dependencies: 1679 1680 1680
--- Name: campaign_trackerid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: campaign_trackerid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_campaigns_trackers ALTER COLUMN campaign_trackerid SET DEFAULT nextval('ox_campaigns_trackers_campaign_trackerid_seq'::regclass);
@@ -2809,7 +2577,7 @@ ALTER TABLE ox_campaigns_trackers ALTER COLUMN campaign_trackerid SET DEFAULT ne
 --
 -- TOC entry 2146 (class 2604 OID 1945851)
 -- Dependencies: 1682 1681 1682
--- Name: category_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: category_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_category ALTER COLUMN category_id SET DEFAULT nextval('ox_category_category_id_seq'::regclass);
@@ -2818,7 +2586,7 @@ ALTER TABLE ox_category ALTER COLUMN category_id SET DEFAULT nextval('ox_categor
 --
 -- TOC entry 2148 (class 2604 OID 1945860)
 -- Dependencies: 1683 1684 1684
--- Name: channelid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: channelid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_channel ALTER COLUMN channelid SET DEFAULT nextval('ox_channel_channelid_seq'::regclass);
@@ -2827,7 +2595,7 @@ ALTER TABLE ox_channel ALTER COLUMN channelid SET DEFAULT nextval('ox_channel_ch
 --
 -- TOC entry 2154 (class 2604 OID 1945876)
 -- Dependencies: 1686 1685 1686
--- Name: clientid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: clientid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_clients ALTER COLUMN clientid SET DEFAULT nextval('ox_clients_clientid_seq'::regclass);
@@ -2836,7 +2604,7 @@ ALTER TABLE ox_clients ALTER COLUMN clientid SET DEFAULT nextval('ox_clients_cli
 --
 -- TOC entry 2405 (class 2604 OID 1946425)
 -- Dependencies: 1738 1739 1739
--- Name: server_conv_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: server_conv_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_bkt_a ALTER COLUMN server_conv_id SET DEFAULT nextval('ox_data_bkt_a_server_conv_id_seq'::regclass);
@@ -2845,7 +2613,7 @@ ALTER TABLE ox_data_bkt_a ALTER COLUMN server_conv_id SET DEFAULT nextval('ox_da
 --
 -- TOC entry 2408 (class 2604 OID 1946435)
 -- Dependencies: 1741 1740 1741
--- Name: server_conv_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: server_conv_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_bkt_a_var ALTER COLUMN server_conv_id SET DEFAULT nextval('ox_data_bkt_a_var_server_conv_id_seq'::regclass);
@@ -2854,7 +2622,7 @@ ALTER TABLE ox_data_bkt_a_var ALTER COLUMN server_conv_id SET DEFAULT nextval('o
 --
 -- TOC entry 2164 (class 2604 OID 1945899)
 -- Dependencies: 1688 1687 1688
--- Name: data_intermediate_ad_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_intermediate_ad_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_intermediate_ad ALTER COLUMN data_intermediate_ad_id SET DEFAULT nextval('ox_data_intermediate_ad_data_intermediate_ad_id_seq'::regclass);
@@ -2863,7 +2631,7 @@ ALTER TABLE ox_data_intermediate_ad ALTER COLUMN data_intermediate_ad_id SET DEF
 --
 -- TOC entry 2171 (class 2604 OID 1945917)
 -- Dependencies: 1689 1690 1690
--- Name: data_intermediate_ad_connection_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_intermediate_ad_connection_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_intermediate_ad_connection ALTER COLUMN data_intermediate_ad_connection_id SET DEFAULT nextval('ox_data_intermediate_ad_conne_data_intermediate_ad_connecti_seq'::regclass);
@@ -2872,7 +2640,7 @@ ALTER TABLE ox_data_intermediate_ad_connection ALTER COLUMN data_intermediate_ad
 --
 -- TOC entry 2205 (class 2604 OID 1945966)
 -- Dependencies: 1691 1692 1692
--- Name: data_intermediate_ad_variable_value_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_intermediate_ad_variable_value_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_intermediate_ad_variable_value ALTER COLUMN data_intermediate_ad_variable_value_id SET DEFAULT nextval('ox_data_intermediate_ad_varia_data_intermediate_ad_variable_seq'::regclass);
@@ -2881,7 +2649,7 @@ ALTER TABLE ox_data_intermediate_ad_variable_value ALTER COLUMN data_intermediat
 --
 -- TOC entry 2274 (class 2604 OID 1946075)
 -- Dependencies: 1696 1697 1697
--- Name: server_raw_tracker_impression_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: server_raw_tracker_impression_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_raw_tracker_impression ALTER COLUMN server_raw_tracker_impression_id SET DEFAULT nextval('ox_data_raw_tracker_impressio_server_raw_tracker_impression_seq'::regclass);
@@ -2890,7 +2658,7 @@ ALTER TABLE ox_data_raw_tracker_impression ALTER COLUMN server_raw_tracker_impre
 --
 -- TOC entry 2304 (class 2604 OID 1946122)
 -- Dependencies: 1700 1699 1700
--- Name: data_summary_ad_hourly_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_summary_ad_hourly_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_summary_ad_hourly ALTER COLUMN data_summary_ad_hourly_id SET DEFAULT nextval('ox_data_summary_ad_hourly_data_summary_ad_hourly_id_seq'::regclass);
@@ -2899,7 +2667,7 @@ ALTER TABLE ox_data_summary_ad_hourly ALTER COLUMN data_summary_ad_hourly_id SET
 --
 -- TOC entry 2313 (class 2604 OID 1946141)
 -- Dependencies: 1702 1701 1702
--- Name: data_summary_ad_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_summary_ad_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_summary_ad_zone_assoc ALTER COLUMN data_summary_ad_zone_assoc_id SET DEFAULT nextval('ox_data_summary_ad_zone_assoc_data_summary_ad_zone_assoc_id_seq'::regclass);
@@ -2908,7 +2676,7 @@ ALTER TABLE ox_data_summary_ad_zone_assoc ALTER COLUMN data_summary_ad_zone_asso
 --
 -- TOC entry 2316 (class 2604 OID 1946156)
 -- Dependencies: 1703 1704 1704
--- Name: data_summary_channel_daily_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_summary_channel_daily_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_summary_channel_daily ALTER COLUMN data_summary_channel_daily_id SET DEFAULT nextval('ox_data_summary_channel_daily_data_summary_channel_daily_id_seq'::regclass);
@@ -2917,7 +2685,7 @@ ALTER TABLE ox_data_summary_channel_daily ALTER COLUMN data_summary_channel_dail
 --
 -- TOC entry 2319 (class 2604 OID 1946169)
 -- Dependencies: 1705 1706 1706
--- Name: data_summary_zone_impression_history_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: data_summary_zone_impression_history_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_data_summary_zone_impression_history ALTER COLUMN data_summary_zone_impression_history_id SET DEFAULT nextval('ox_data_summary_zone_impressi_data_summary_zone_impression__seq'::regclass);
@@ -2926,7 +2694,7 @@ ALTER TABLE ox_data_summary_zone_impression_history ALTER COLUMN data_summary_zo
 --
 -- TOC entry 2015 (class 2604 OID 1945556)
 -- Dependencies: 1654 1655 1655
--- Name: database_action_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: database_action_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_database_action ALTER COLUMN database_action_id SET DEFAULT nextval('ox_database_action_database_action_id_seq'::regclass);
@@ -2935,7 +2703,7 @@ ALTER TABLE ox_database_action ALTER COLUMN database_action_id SET DEFAULT nextv
 --
 -- TOC entry 2321 (class 2604 OID 1946188)
 -- Dependencies: 1709 1708 1709
--- Name: log_maintenance_forecasting_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: log_maintenance_forecasting_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_log_maintenance_forecasting ALTER COLUMN log_maintenance_forecasting_id SET DEFAULT nextval('ox_log_maintenance_forecastin_log_maintenance_forecasting_i_seq'::regclass);
@@ -2944,7 +2712,7 @@ ALTER TABLE ox_log_maintenance_forecasting ALTER COLUMN log_maintenance_forecast
 --
 -- TOC entry 2322 (class 2604 OID 1946196)
 -- Dependencies: 1711 1710 1711
--- Name: log_maintenance_priority_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: log_maintenance_priority_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_log_maintenance_priority ALTER COLUMN log_maintenance_priority_id SET DEFAULT nextval('ox_log_maintenance_priority_log_maintenance_priority_id_seq'::regclass);
@@ -2953,7 +2721,7 @@ ALTER TABLE ox_log_maintenance_priority ALTER COLUMN log_maintenance_priority_id
 --
 -- TOC entry 2323 (class 2604 OID 1946204)
 -- Dependencies: 1712 1713 1713
--- Name: log_maintenance_statistics_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: log_maintenance_statistics_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_log_maintenance_statistics ALTER COLUMN log_maintenance_statistics_id SET DEFAULT nextval('ox_log_maintenance_statistics_log_maintenance_statistics_id_seq'::regclass);
@@ -2962,7 +2730,7 @@ ALTER TABLE ox_log_maintenance_statistics ALTER COLUMN log_maintenance_statistic
 --
 -- TOC entry 2326 (class 2604 OID 1946221)
 -- Dependencies: 1716 1715 1716
--- Name: placement_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: placement_zone_assoc_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_placement_zone_assoc ALTER COLUMN placement_zone_assoc_id SET DEFAULT nextval('ox_placement_zone_assoc_placement_zone_assoc_id_seq'::regclass);
@@ -2971,7 +2739,7 @@ ALTER TABLE ox_placement_zone_assoc ALTER COLUMN placement_zone_assoc_id SET DEF
 --
 -- TOC entry 2327 (class 2604 OID 1946231)
 -- Dependencies: 1717 1718 1718
--- Name: preference_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: preference_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_preferences ALTER COLUMN preference_id SET DEFAULT nextval('ox_preferences_preference_id_seq'::regclass);
@@ -2980,7 +2748,7 @@ ALTER TABLE ox_preferences ALTER COLUMN preference_id SET DEFAULT nextval('ox_pr
 --
 -- TOC entry 2336 (class 2604 OID 1946261)
 -- Dependencies: 1722 1721 1722
--- Name: tracker_append_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: tracker_append_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_tracker_append ALTER COLUMN tracker_append_id SET DEFAULT nextval('ox_tracker_append_tracker_append_id_seq'::regclass);
@@ -2989,7 +2757,7 @@ ALTER TABLE ox_tracker_append ALTER COLUMN tracker_append_id SET DEFAULT nextval
 --
 -- TOC entry 2342 (class 2604 OID 1946278)
 -- Dependencies: 1723 1724 1724
--- Name: trackerid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: trackerid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_trackers ALTER COLUMN trackerid SET DEFAULT nextval('ox_trackers_trackerid_seq'::regclass);
@@ -2998,7 +2766,7 @@ ALTER TABLE ox_trackers ALTER COLUMN trackerid SET DEFAULT nextval('ox_trackers_
 --
 -- TOC entry 2008 (class 2604 OID 1945538)
 -- Dependencies: 1652 1653 1653
--- Name: upgrade_action_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: upgrade_action_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_upgrade_action ALTER COLUMN upgrade_action_id SET DEFAULT nextval('ox_upgrade_action_upgrade_action_id_seq'::regclass);
@@ -3007,7 +2775,7 @@ ALTER TABLE ox_upgrade_action ALTER COLUMN upgrade_action_id SET DEFAULT nextval
 --
 -- TOC entry 2354 (class 2604 OID 1946301)
 -- Dependencies: 1725 1726 1726
--- Name: userlogid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: userlogid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_userlog ALTER COLUMN userlogid SET DEFAULT nextval('ox_userlog_userlogid_seq'::regclass);
@@ -3016,7 +2784,7 @@ ALTER TABLE ox_userlog ALTER COLUMN userlogid SET DEFAULT nextval('ox_userlog_us
 --
 -- TOC entry 2359 (class 2604 OID 1946316)
 -- Dependencies: 1728 1727 1728
--- Name: user_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_users ALTER COLUMN user_id SET DEFAULT nextval('ox_users_user_id_seq'::regclass);
@@ -3025,7 +2793,7 @@ ALTER TABLE ox_users ALTER COLUMN user_id SET DEFAULT nextval('ox_users_user_id_
 --
 -- TOC entry 2366 (class 2604 OID 1946342)
 -- Dependencies: 1730 1731 1731
--- Name: variableid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: variableid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_variables ALTER COLUMN variableid SET DEFAULT nextval('ox_variables_variableid_seq'::regclass);
@@ -3034,7 +2802,7 @@ ALTER TABLE ox_variables ALTER COLUMN variableid SET DEFAULT nextval('ox_variabl
 --
 -- TOC entry 2376 (class 2604 OID 1946364)
 -- Dependencies: 1733 1732 1733
--- Name: zoneid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: zoneid; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ox_zones ALTER COLUMN zoneid SET DEFAULT nextval('ox_zones_zoneid_seq'::regclass);
@@ -3043,7 +2811,7 @@ ALTER TABLE ox_zones ALTER COLUMN zoneid SET DEFAULT nextval('ox_zones_zoneid_se
 --
 -- TOC entry 2600 (class 0 OID 1945571)
 -- Dependencies: 1656
--- Data for Name: ox_account_preference_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_account_preference_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_account_preference_assoc (account_id, preference_id, value) VALUES (1, 1, '');
@@ -3167,7 +2935,7 @@ INSERT INTO ox_account_preference_assoc (account_id, preference_id, value) VALUE
 --
 -- TOC entry 2601 (class 0 OID 1945580)
 -- Dependencies: 1657
--- Data for Name: ox_account_user_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_account_user_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_account_user_assoc (account_id, user_id, linked) VALUES (1, 1, '2009-02-24 12:12:42');
@@ -3177,7 +2945,7 @@ INSERT INTO ox_account_user_assoc (account_id, user_id, linked) VALUES (2, 1, '2
 --
 -- TOC entry 2602 (class 0 OID 1945586)
 -- Dependencies: 1658
--- Data for Name: ox_account_user_permission_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_account_user_permission_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3185,7 +2953,7 @@ INSERT INTO ox_account_user_assoc (account_id, user_id, linked) VALUES (2, 1, '2
 --
 -- TOC entry 2603 (class 0 OID 1945594)
 -- Dependencies: 1660
--- Data for Name: ox_accounts; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_accounts; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_accounts (account_id, account_type, account_name, m2m_password, m2m_ticket) VALUES (2, 'MANAGER', 'Default manager', 'Fe7OQpUy0fcc)m14dYG5uAx3k', 'w3Qo-1hJ3WtaGfV%ax()^xr&jiwu8N');
@@ -3197,7 +2965,7 @@ INSERT INTO ox_accounts (account_id, account_type, account_name, m2m_password, m
 --
 -- TOC entry 2604 (class 0 OID 1945605)
 -- Dependencies: 1661
--- Data for Name: ox_acls; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_acls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3205,7 +2973,7 @@ INSERT INTO ox_accounts (account_id, account_type, account_name, m2m_password, m
 --
 -- TOC entry 2605 (class 0 OID 1945620)
 -- Dependencies: 1662
--- Data for Name: ox_acls_channel; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_acls_channel; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3213,7 +2981,7 @@ INSERT INTO ox_accounts (account_id, account_type, account_name, m2m_password, m
 --
 -- TOC entry 2606 (class 0 OID 1945637)
 -- Dependencies: 1664
--- Data for Name: ox_ad_category_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_ad_category_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3221,7 +2989,7 @@ INSERT INTO ox_accounts (account_id, account_type, account_name, m2m_password, m
 --
 -- TOC entry 2607 (class 0 OID 1945645)
 -- Dependencies: 1666
--- Data for Name: ox_ad_zone_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_ad_zone_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type, priority_factor, to_be_delivered) VALUES (1, 0, 1, 0, 0, 0, 1);
@@ -3236,7 +3004,7 @@ INSERT INTO ox_ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_t
 --
 -- TOC entry 2608 (class 0 OID 1945659)
 -- Dependencies: 1668
--- Data for Name: ox_affiliates; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_affiliates; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, updated, an_website_id, oac_country_code, oac_language_id, oac_category_id, as_website_id, account_id) VALUES (1, 1, 'Agency Publisher 1', '', NULL, 'Andrew Hill', 'andrew.hill@openads.org', 'http://fornax.net', '2009-02-24 11:14:54', NULL, '  ', 0, 0, 0, 4);
@@ -3245,7 +3013,7 @@ INSERT INTO ox_affiliates (affiliateid, agencyid, name, mnemonic, comments, cont
 --
 -- TOC entry 2609 (class 0 OID 1945678)
 -- Dependencies: 1669
--- Data for Name: ox_affiliates_extra; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_affiliates_extra; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3253,7 +3021,7 @@ INSERT INTO ox_affiliates (affiliateid, agencyid, name, mnemonic, comments, cont
 --
 -- TOC entry 2610 (class 0 OID 1945700)
 -- Dependencies: 1671
--- Data for Name: ox_agency; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_agency; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_agency (agencyid, name, contact, email, logout_url, active, updated, account_id) VALUES (1, 'Default manager', NULL, '', NULL, 1, '2009-02-24 11:12:42', 2);
@@ -3262,7 +3030,7 @@ INSERT INTO ox_agency (agencyid, name, contact, email, logout_url, active, updat
 --
 -- TOC entry 2611 (class 0 OID 1945716)
 -- Dependencies: 1672
--- Data for Name: ox_application_variable; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_application_variable; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_application_variable (name, value) VALUES ('tables_core', '603');
@@ -3296,7 +3064,7 @@ INSERT INTO ox_application_variable (name, value) VALUES ('oxLogRequest_version'
 --
 -- TOC entry 2612 (class 0 OID 1945728)
 -- Dependencies: 1674
--- Data for Name: ox_audit; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_audit; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_audit (auditid, actionid, context, contextid, parentid, details, userid, username, usertype, updated, account_id, advertiser_account_id, website_account_id) VALUES (1, 1, 'accounts', 1, NULL, 'a:4:{s:10:"account_id";i:1;s:12:"account_type";s:5:"ADMIN";s:12:"account_name";s:21:"Administrator account";s:8:"key_desc";s:21:"Administrator account";}', 0, 'Installer', 0, '2009-02-24 11:12:42', 1, NULL, NULL);
@@ -3594,7 +3362,7 @@ INSERT INTO ox_audit (auditid, actionid, context, contextid, parentid, details, 
 --
 -- TOC entry 2613 (class 0 OID 1945752)
 -- Dependencies: 1676
--- Data for Name: ox_banners; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_banners; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_banners (bannerid, campaignid, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, statustext, bannertext, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, acl_plugins, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, comments, updated, acls_updated, keyword, transparent, parameters, an_banner_id, as_banner_id, status, ad_direct_status, ad_direct_rejection_reason_id, ext_bannertype) VALUES (1, 1, '', 0, 'html', '', '', 'Test HTML Banner!', 'Test HTML Banner!', 468, 60, 1, 0, '', '', '', '', '', 'Test HTML Banner!', false, '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2009-02-24 11:14:17', NULL, '', 0, 'N;', NULL, NULL, 0, 0, 0, 'bannerTypeHtml:oxHtml:genericHtml');
@@ -3605,7 +3373,7 @@ INSERT INTO ox_banners (bannerid, campaignid, contenttype, pluginversion, storag
 --
 -- TOC entry 2614 (class 0 OID 1945800)
 -- Dependencies: 1678
--- Data for Name: ox_campaigns; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_campaigns; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_campaigns (campaignid, campaignname, clientid, views, clicks, conversions, expire, activate, priority, weight, target_impression, target_click, target_conversion, anonymous, companion, comments, revenue, revenue_type, updated, block, capping, session_capping, an_campaign_id, as_campaign_id, status, an_status, as_reject_reason, hosted_views, hosted_clicks, viewwindow, clickwindow) VALUES (1, 'Advertiser 1 - Default Campaign', 1, 0, -1, -1, '2007-07-01', NULL, 0, 1, 0, 0, 0, false, 0, NULL, NULL, 1, '2009-02-24 11:13:57', 0, 0, 0, NULL, NULL, 3, 0, 0, 0, 0, 0, 0);
@@ -3616,7 +3384,7 @@ INSERT INTO ox_campaigns (campaignid, campaignname, clientid, views, clicks, con
 --
 -- TOC entry 2615 (class 0 OID 1945835)
 -- Dependencies: 1680
--- Data for Name: ox_campaigns_trackers; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_campaigns_trackers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_campaigns_trackers (campaign_trackerid, campaignid, trackerid, status) VALUES (2, 3, 1, 4);
@@ -3625,7 +3393,7 @@ INSERT INTO ox_campaigns_trackers (campaign_trackerid, campaignid, trackerid, st
 --
 -- TOC entry 2616 (class 0 OID 1945848)
 -- Dependencies: 1682
--- Data for Name: ox_category; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_category; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3633,7 +3401,7 @@ INSERT INTO ox_campaigns_trackers (campaign_trackerid, campaignid, trackerid, st
 --
 -- TOC entry 2617 (class 0 OID 1945857)
 -- Dependencies: 1684
--- Data for Name: ox_channel; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_channel; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_channel (channelid, agencyid, affiliateid, name, description, compiledlimitation, acl_plugins, active, comments, updated, acls_updated) VALUES (1, 1, 1, 'Test Admin Channel 2', '', 'true', 'true', 1, '', NULL, NULL);
@@ -3642,7 +3410,7 @@ INSERT INTO ox_channel (channelid, agencyid, affiliateid, name, description, com
 --
 -- TOC entry 2618 (class 0 OID 1945873)
 -- Dependencies: 1686
--- Data for Name: ox_clients; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_clients; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_clients (clientid, agencyid, clientname, contact, email, report, reportinterval, reportlastdate, reportdeactivate, comments, updated, lb_reporting, an_adnetwork_id, as_advertiser_id, account_id, advertiser_limitation) VALUES (1, 1, 'Advertiser 1', 'advertiser', 'example@example.com', false, 7, '2009-02-24', true, '', '2009-02-24 11:13:44', 0, NULL, NULL, 3, 0);
@@ -3651,7 +3419,7 @@ INSERT INTO ox_clients (clientid, agencyid, clientname, contact, email, report, 
 --
 -- TOC entry 2651 (class 0 OID 1946422)
 -- Dependencies: 1739
--- Data for Name: ox_data_bkt_a; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_a; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3659,7 +3427,7 @@ INSERT INTO ox_clients (clientid, agencyid, clientname, contact, email, report, 
 --
 -- TOC entry 2652 (class 0 OID 1946432)
 -- Dependencies: 1741
--- Data for Name: ox_data_bkt_a_var; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_a_var; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3667,7 +3435,7 @@ INSERT INTO ox_clients (clientid, agencyid, clientname, contact, email, report, 
 --
 -- TOC entry 2647 (class 0 OID 1946396)
 -- Dependencies: 1734
--- Data for Name: ox_data_bkt_c; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_c; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_data_bkt_c (interval_start, creative_id, zone_id, count) VALUES ('2009-02-24 11:00:00', 2, 0, 2);
@@ -3677,7 +3445,7 @@ INSERT INTO ox_data_bkt_c (interval_start, creative_id, zone_id, count) VALUES (
 --
 -- TOC entry 2649 (class 0 OID 1946408)
 -- Dependencies: 1736
--- Data for Name: ox_data_bkt_m; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_m; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_data_bkt_m (interval_start, creative_id, zone_id, count) VALUES ('2009-02-24 11:00:00', 1, 1, 2);
@@ -3686,7 +3454,7 @@ INSERT INTO ox_data_bkt_m (interval_start, creative_id, zone_id, count) VALUES (
 --
 -- TOC entry 2648 (class 0 OID 1946402)
 -- Dependencies: 1735
--- Data for Name: ox_data_bkt_m_backup; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_m_backup; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_id, zone_id, count) VALUES ('2009-02-24 11:00:00', 1, 1, 1, 2);
@@ -3695,7 +3463,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2650 (class 0 OID 1946414)
 -- Dependencies: 1737
--- Data for Name: ox_data_bkt_r; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_bkt_r; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3703,7 +3471,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2619 (class 0 OID 1945896)
 -- Dependencies: 1688
--- Data for Name: ox_data_intermediate_ad; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_intermediate_ad; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3711,7 +3479,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2620 (class 0 OID 1945914)
 -- Dependencies: 1690
--- Data for Name: ox_data_intermediate_ad_connection; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_intermediate_ad_connection; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3719,7 +3487,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2621 (class 0 OID 1945963)
 -- Dependencies: 1692
--- Data for Name: ox_data_intermediate_ad_variable_value; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_intermediate_ad_variable_value; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3727,7 +3495,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2622 (class 0 OID 1945973)
 -- Dependencies: 1693
--- Data for Name: ox_data_raw_ad_click; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_raw_ad_click; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3735,7 +3503,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2623 (class 0 OID 1946009)
 -- Dependencies: 1694
--- Data for Name: ox_data_raw_ad_impression; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_raw_ad_impression; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3743,7 +3511,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2624 (class 0 OID 1946045)
 -- Dependencies: 1695
--- Data for Name: ox_data_raw_ad_request; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_raw_ad_request; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3751,7 +3519,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2625 (class 0 OID 1946072)
 -- Dependencies: 1697
--- Data for Name: ox_data_raw_tracker_impression; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_raw_tracker_impression; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3759,7 +3527,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2626 (class 0 OID 1946110)
 -- Dependencies: 1698
--- Data for Name: ox_data_raw_tracker_variable_value; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_raw_tracker_variable_value; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3767,7 +3535,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2627 (class 0 OID 1946119)
 -- Dependencies: 1700
--- Data for Name: ox_data_summary_ad_hourly; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_summary_ad_hourly; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3775,7 +3543,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2628 (class 0 OID 1946138)
 -- Dependencies: 1702
--- Data for Name: ox_data_summary_ad_zone_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_summary_ad_zone_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3783,7 +3551,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2629 (class 0 OID 1946153)
 -- Dependencies: 1704
--- Data for Name: ox_data_summary_channel_daily; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_summary_channel_daily; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3791,7 +3559,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2630 (class 0 OID 1946166)
 -- Dependencies: 1706
--- Data for Name: ox_data_summary_zone_impression_history; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_data_summary_zone_impression_history; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3799,7 +3567,7 @@ INSERT INTO ox_data_bkt_m_backup (interval_start, primary_creative_id, creative_
 --
 -- TOC entry 2599 (class 0 OID 1945553)
 -- Dependencies: 1655
--- Data for Name: ox_database_action; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_database_action; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_database_action (database_action_id, upgrade_action_id, schema_name, version, timing, action, info1, info2, tablename, tablename_backup, table_backup_schema, updated) VALUES (1, 24, 'oxDeliveryDataPrepare', 1, 0, 59, 'CREATE SUCCEEDED', NULL, 'data_bkt_c', NULL, NULL, '2009-02-24 12:12:48');
@@ -3813,7 +3581,7 @@ INSERT INTO ox_database_action (database_action_id, upgrade_action_id, schema_na
 --
 -- TOC entry 2631 (class 0 OID 1946174)
 -- Dependencies: 1707
--- Data for Name: ox_images; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_images; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89a\\324\\001<\\000\\367\\000\\000\\000\\000\\000\\200\\000\\000\\000\\200\\000\\200\\200\\000\\000\\000\\200\\200\\000\\200\\000\\200\\200\\200\\200\\200\\300\\300\\300\\377\\000\\000\\000\\377\\000\\377\\377\\000\\000\\000\\377\\377\\000\\377\\000\\377\\377\\377\\377\\377\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\000\\0003\\000\\000f\\000\\000\\231\\000\\000\\314\\000\\000\\377\\0003\\000\\00033\\0003f\\0003\\231\\0003\\314\\0003\\377\\000f\\000\\000f3\\000ff\\000f\\231\\000f\\314\\000f\\377\\000\\231\\000\\000\\2313\\000\\231f\\000\\231\\231\\000\\231\\314\\000\\231\\377\\000\\314\\000\\000\\3143\\000\\314f\\000\\314\\231\\000\\314\\314\\000\\314\\377\\000\\377\\000\\000\\3773\\000\\377f\\000\\377\\231\\000\\377\\314\\000\\377\\3773\\000\\0003\\00033\\000f3\\000\\2313\\000\\3143\\000\\37733\\00033333f33\\23133\\31433\\3773f\\0003f33ff3f\\2313f\\3143f\\3773\\231\\0003\\23133\\231f3\\231\\2313\\231\\3143\\231\\3773\\314\\0003\\31433\\314f3\\314\\2313\\314\\3143\\314\\3773\\377\\0003\\37733\\377f3\\377\\2313\\377\\3143\\377\\377f\\000\\000f\\0003f\\000ff\\000\\231f\\000\\314f\\000\\377f3\\000f33f3ff3\\231f3\\314f3\\377ff\\000ff3fffff\\231ff\\314ff\\377f\\231\\000f\\2313f\\231ff\\231\\231f\\231\\314f\\231\\377f\\314\\000f\\3143f\\314ff\\314\\231f\\314\\314f\\314\\377f\\377\\000f\\3773f\\377ff\\377\\231f\\377\\314f\\377\\377\\231\\000\\000\\231\\0003\\231\\000f\\231\\000\\231\\231\\000\\314\\231\\000\\377\\2313\\000\\23133\\2313f\\2313\\231\\2313\\314\\2313\\377\\231f\\000\\231f3\\231ff\\231f\\231\\231f\\314\\231f\\377\\231\\231\\000\\231\\2313\\231\\231f\\231\\231\\231\\231\\231\\314\\231\\231\\377\\231\\314\\000\\231\\3143\\231\\314f\\231\\314\\231\\231\\314\\314\\231\\314\\377\\231\\377\\000\\231\\3773\\231\\377f\\231\\377\\231\\231\\377\\314\\231\\377\\377\\314\\000\\000\\314\\0003\\314\\000f\\314\\000\\231\\314\\000\\314\\314\\000\\377\\3143\\000\\31433\\3143f\\3143\\231\\3143\\314\\3143\\377\\314f\\000\\314f3\\314ff\\314f\\231\\314f\\314\\314f\\377\\314\\231\\000\\314\\2313\\314\\231f\\314\\231\\231\\314\\231\\314\\314\\231\\377\\314\\314\\000\\314\\3143\\314\\314f\\314\\314\\231\\314\\314\\314\\314\\314\\377\\314\\377\\000\\314\\3773\\314\\377f\\314\\377\\231\\314\\377\\314\\314\\377\\377\\377\\000\\000\\377\\0003\\377\\000f\\377\\000\\231\\377\\000\\314\\377\\000\\377\\3773\\000\\37733\\3773f\\3773\\231\\3773\\314\\3773\\377\\377f\\000\\377f3\\377ff\\377f\\231\\377f\\314\\377f\\377\\377\\231\\000\\377\\2313\\377\\231f\\377\\231\\231\\377\\231\\314\\377\\231\\377\\377\\314\\000\\377\\3143\\377\\314f\\377\\314\\231\\377\\314\\314\\377\\314\\377\\377\\377\\000\\377\\3773\\377\\377f\\377\\377\\231\\377\\377\\314\\377\\377\\377!\\371\\004\\001\\000\\000\\020\\000,\\000\\000\\000\\000\\324\\001<\\000\\000\\010\\377\\000\\177\\344\\020Hp\\240\\301\\202\\010\\017*L\\310p\\241\\303\\206\\020\\037J\\214Hq\\242\\305\\212\\030/j\\314\\310q\\243\\307\\216 ?\\212\\014Ir\\244\\311\\222(O\\252L\\270\\262e\\312\\227.c\\302\\234)\\263&\\315\\2336s\\342\\334\\251S''\\317\\237=\\201\\012\\015Jt\\250\\321\\242H\\217*E\\232\\264\\351\\322\\247N\\243B\\235*\\265*U\\245W\\255j\\315\\312u\\253\\327\\256`\\277\\266\\024\\033\\266,\\331\\263f\\323\\242];S\\255[\\266p\\337\\312\\215K\\027j\\335\\273s\\363\\342\\335\\253\\267\\357C\\277\\200\\371\\012\\016LxpT\\303\\205\\023#^\\254\\270\\361F\\307\\220\\031K\\216L\\371\\356\\344\\313\\2253c\\336\\314U\\263g\\316\\240?\\213V\\031\\272\\364\\350\\323\\246SCD\\315Z\\265\\353\\326\\216_\\313\\206=\\273v_\\332\\270m\\353\\316\\235u\\267o\\336\\277\\203\\377\\004N\\\\\\270\\361\\342%\\217+G\\276\\2749A\\346\\320\\235K/>\\275z\\364\\353\\263\\261k\\267\\316]s\\367\\357\\333\\3033\\272\\026O\\036\\274y\\275\\347\\323\\227_\\217\\226\\275{\\365\\360\\251\\306\\237\\377\\276~Q\\373\\370\\351\\353\\247\\271\\277\\177\\376\\377#\\001(\\240\\177\\004FT\\340\\201\\003&8\\220\\202\\014"\\330\\237\\203\\015F\\030\\237\\204\\024Bh\\236\\205\\025fh\\235\\206\\034b\\330\\234\\207\\035\\206(\\234\\210$\\202\\250\\233\\211%\\246\\370\\232\\212,\\242X\\232\\213-\\306\\210\\231\\2144\\302\\270\\230\\2155\\346\\310\\227\\216<\\342H\\227\\217=\\006\\331\\036\\220D\\012\\371V\\221H\\0329\\244\\222L&\\311T\\223P:9\\234\\224TFyT\\225XZ\\031\\224\\226\\\\fi\\222\\227]\\206\\371\\030\\230d\\212\\031R\\231h\\2329\\246\\232l\\242\\231\\346\\233m2\\024''\\234t\\012T\\347\\235l\\006\\004\\000;', '2009-02-24 11:14:30');
@@ -3822,7 +3590,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 --
 -- TOC entry 2632 (class 0 OID 1946185)
 -- Dependencies: 1709
--- Data for Name: ox_log_maintenance_forecasting; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_log_maintenance_forecasting; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3830,7 +3598,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 --
 -- TOC entry 2633 (class 0 OID 1946193)
 -- Dependencies: 1711
--- Data for Name: ox_log_maintenance_priority; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_log_maintenance_priority; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3838,7 +3606,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 --
 -- TOC entry 2634 (class 0 OID 1946201)
 -- Dependencies: 1713
--- Data for Name: ox_log_maintenance_statistics; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_log_maintenance_statistics; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3846,7 +3614,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 --
 -- TOC entry 2635 (class 0 OID 1946207)
 -- Dependencies: 1714
--- Data for Name: ox_password_recovery; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_password_recovery; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -3854,7 +3622,7 @@ INSERT INTO ox_images (filename, contents, t_stamp) VALUES ('468x60.gif', 'GIF89
 --
 -- TOC entry 2636 (class 0 OID 1946218)
 -- Dependencies: 1716
--- Data for Name: ox_placement_zone_assoc; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_placement_zone_assoc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_placement_zone_assoc (placement_zone_assoc_id, zone_id, placement_id) VALUES (1, 2, 1);
@@ -3866,7 +3634,7 @@ INSERT INTO ox_placement_zone_assoc (placement_zone_assoc_id, zone_id, placement
 --
 -- TOC entry 2637 (class 0 OID 1946228)
 -- Dependencies: 1718
--- Data for Name: ox_preferences; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_preferences; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_preferences (preference_id, preference_name, account_type) VALUES (1, 'default_banner_image_url', 'TRAFFICKER');
@@ -3990,7 +3758,7 @@ INSERT INTO ox_preferences (preference_id, preference_name, account_type) VALUES
 --
 -- TOC entry 2638 (class 0 OID 1946239)
 -- Dependencies: 1719
--- Data for Name: ox_session; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_session; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('phpads49a3d635a893a4.76145330', 'a:1:{s:4:"user";O:18:"OA_Permission_User":2:{s:5:"aUser";a:15:{s:7:"user_id";s:1:"1";s:12:"contact_name";s:13:"Administrator";s:13:"email_address";s:15:"test@openx.test";s:8:"username";s:5:"openx";s:8:"language";s:2:"en";s:18:"default_account_id";s:1:"2";s:8:"comments";s:0:"";s:6:"active";s:1:"1";s:11:"sso_user_id";s:0:"";s:12:"date_created";s:19:"2009-02-24 12:12:42";s:15:"date_last_login";s:0:"";s:13:"email_updated";s:19:"2009-02-24 12:12:42";s:10:"account_id";s:1:"1";s:6:"linked";s:19:"2009-02-24 12:12:42";s:8:"is_admin";b:1;}s:8:"aAccount";a:7:{s:10:"account_id";s:1:"2";s:12:"account_type";s:7:"MANAGER";s:12:"account_name";s:15:"Default manager";s:12:"m2m_password";s:0:"";s:10:"m2m_ticket";s:0:"";s:9:"entity_id";s:1:"1";s:9:"agency_id";s:1:"1";}}}', '2009-02-24 11:12:53');
@@ -4012,7 +3780,7 @@ INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('phpads499ea1c
 --
 -- TOC entry 2639 (class 0 OID 1946249)
 -- Dependencies: 1720
--- Data for Name: ox_targetstats; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_targetstats; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -4020,7 +3788,7 @@ INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('phpads499ea1c
 --
 -- TOC entry 2640 (class 0 OID 1946258)
 -- Dependencies: 1722
--- Data for Name: ox_tracker_append; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_tracker_append; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -4028,7 +3796,7 @@ INSERT INTO ox_session (sessionid, sessiondata, lastused) VALUES ('phpads499ea1c
 --
 -- TOC entry 2641 (class 0 OID 1946275)
 -- Dependencies: 1724
--- Data for Name: ox_trackers; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_trackers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_trackers (trackerid, trackername, description, clientid, viewwindow, clickwindow, blockwindow, status, type, linkcampaigns, variablemethod, appendcode, updated) VALUES (1, 'Sample Tracker', '', 1, 0, 0, 0, 4, 1, false, 'js', '', '2009-02-24 11:30:40');
@@ -4037,7 +3805,7 @@ INSERT INTO ox_trackers (trackerid, trackername, description, clientid, viewwind
 --
 -- TOC entry 2598 (class 0 OID 1945535)
 -- Dependencies: 1653
--- Data for Name: ox_upgrade_action; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_upgrade_action; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_upgrade_action (upgrade_action_id, upgrade_name, version_to, version_from, action, description, logfile, confbackup, updated) VALUES (1, 'install_2.7.25-beta', '2.7.25-beta', '0', 1, 'UPGRADE_COMPLETE', 'install.log', NULL, '2009-02-24 12:12:36');
@@ -4072,7 +3840,7 @@ INSERT INTO ox_upgrade_action (upgrade_action_id, upgrade_name, version_to, vers
 --
 -- TOC entry 2642 (class 0 OID 1946298)
 -- Dependencies: 1726
--- Data for Name: ox_userlog; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_userlog; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -4080,7 +3848,7 @@ INSERT INTO ox_upgrade_action (upgrade_action_id, upgrade_name, version_to, vers
 --
 -- TOC entry 2643 (class 0 OID 1946313)
 -- Dependencies: 1728
--- Data for Name: ox_users; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_users (user_id, contact_name, email_address, username, password, language, default_account_id, comments, active, sso_user_id, date_created, date_last_login, email_updated) VALUES (1, 'Administrator', 'test@openx.test', 'openx', '7a89a595cfc6cb85480202a143e37d2e', 'en', 2, NULL, 1, NULL, '2009-02-24 12:12:42', '2009-02-24 11:19:28', '2009-02-24 12:12:42');
@@ -4089,7 +3857,7 @@ INSERT INTO ox_users (user_id, contact_name, email_address, username, password, 
 --
 -- TOC entry 2644 (class 0 OID 1946332)
 -- Dependencies: 1729
--- Data for Name: ox_variable_publisher; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_variable_publisher; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -4097,7 +3865,7 @@ INSERT INTO ox_users (user_id, contact_name, email_address, username, password, 
 --
 -- TOC entry 2645 (class 0 OID 1946339)
 -- Dependencies: 1731
--- Data for Name: ox_variables; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_variables; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_variables (variableid, trackerid, name, description, datatype, purpose, reject_if_empty, is_unique, unique_window, variablecode, hidden, updated) VALUES (1, 1, 'boo', 'Sample number', 'numeric', NULL, 0, 0, 0, 'var boo = \\''%%BOO_VALUE%%\\''', false, '2009-02-24 11:30:40');
@@ -4107,7 +3875,7 @@ INSERT INTO ox_variables (variableid, trackerid, name, description, datatype, pu
 --
 -- TOC entry 2646 (class 0 OID 1946361)
 -- Dependencies: 1733
--- Data for Name: ox_zones; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ox_zones; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO ox_zones (zoneid, affiliateid, zonename, description, delivery, zonetype, category, width, height, ad_selection, chain, prepend, append, appendtype, forceappend, inventory_forecast_type, comments, cost, cost_type, cost_variable_id, technology_cost, technology_cost_type, updated, block, capping, session_capping, what, as_zone_id, is_in_ad_direct, rate, pricing, oac_category_id) VALUES (1, 1, 'Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, false, 0, '', NULL, NULL, NULL, NULL, NULL, '2009-02-24 11:15:05', 0, 0, 0, '', NULL, 0, NULL, 'CPM', NULL);
@@ -4117,7 +3885,7 @@ INSERT INTO ox_zones (zoneid, affiliateid, zonename, description, delivery, zone
 --
 -- TOC entry 2419 (class 2606 OID 1945579)
 -- Dependencies: 1656 1656 1656
--- Name: ox_account_preference_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_preference_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_account_preference_assoc
@@ -4127,7 +3895,7 @@ ALTER TABLE ONLY ox_account_preference_assoc
 --
 -- TOC entry 2421 (class 2606 OID 1945584)
 -- Dependencies: 1657 1657 1657
--- Name: ox_account_user_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_user_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_account_user_assoc
@@ -4137,7 +3905,7 @@ ALTER TABLE ONLY ox_account_user_assoc
 --
 -- TOC entry 2424 (class 2606 OID 1945591)
 -- Dependencies: 1658 1658 1658 1658
--- Name: ox_account_user_permission_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_user_permission_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_account_user_permission_assoc
@@ -4147,7 +3915,7 @@ ALTER TABLE ONLY ox_account_user_permission_assoc
 --
 -- TOC entry 2427 (class 2606 OID 1945603)
 -- Dependencies: 1660 1660
--- Name: ox_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_accounts
@@ -4157,7 +3925,7 @@ ALTER TABLE ONLY ox_accounts
 --
 -- TOC entry 2430 (class 2606 OID 1945619)
 -- Dependencies: 1661 1661 1661
--- Name: ox_acls_bannerid_executionorder; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls_bannerid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_acls
@@ -4167,7 +3935,7 @@ ALTER TABLE ONLY ox_acls
 --
 -- TOC entry 2433 (class 2606 OID 1945634)
 -- Dependencies: 1662 1662 1662
--- Name: ox_acls_channel_channelid_executionorder; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls_channel_channelid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_acls_channel
@@ -4177,7 +3945,7 @@ ALTER TABLE ONLY ox_acls_channel
 --
 -- TOC entry 2435 (class 2606 OID 1945642)
 -- Dependencies: 1664 1664
--- Name: ox_ad_category_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_category_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_ad_category_assoc
@@ -4187,7 +3955,7 @@ ALTER TABLE ONLY ox_ad_category_assoc
 --
 -- TOC entry 2438 (class 2606 OID 1945654)
 -- Dependencies: 1666 1666
--- Name: ox_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_ad_zone_assoc
@@ -4197,7 +3965,7 @@ ALTER TABLE ONLY ox_ad_zone_assoc
 --
 -- TOC entry 2441 (class 2606 OID 1945677)
 -- Dependencies: 1668 1668
--- Name: ox_affiliates_account_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_affiliates
@@ -4207,7 +3975,7 @@ ALTER TABLE ONLY ox_affiliates
 --
 -- TOC entry 2446 (class 2606 OID 1945697)
 -- Dependencies: 1669 1669
--- Name: ox_affiliates_extra_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates_extra_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_affiliates_extra
@@ -4217,7 +3985,7 @@ ALTER TABLE ONLY ox_affiliates_extra
 --
 -- TOC entry 2444 (class 2606 OID 1945674)
 -- Dependencies: 1668 1668
--- Name: ox_affiliates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_affiliates
@@ -4227,7 +3995,7 @@ ALTER TABLE ONLY ox_affiliates
 --
 -- TOC entry 2448 (class 2606 OID 1945715)
 -- Dependencies: 1671 1671
--- Name: ox_agency_account_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_agency_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_agency
@@ -4237,7 +4005,7 @@ ALTER TABLE ONLY ox_agency
 --
 -- TOC entry 2450 (class 2606 OID 1945713)
 -- Dependencies: 1671 1671
--- Name: ox_agency_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_agency_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_agency
@@ -4247,7 +4015,7 @@ ALTER TABLE ONLY ox_agency
 --
 -- TOC entry 2452 (class 2606 OID 1945725)
 -- Dependencies: 1672 1672
--- Name: ox_application_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_application_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_application_variable
@@ -4257,7 +4025,7 @@ ALTER TABLE ONLY ox_application_variable
 --
 -- TOC entry 2458 (class 2606 OID 1945741)
 -- Dependencies: 1674 1674
--- Name: ox_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_audit
@@ -4267,7 +4035,7 @@ ALTER TABLE ONLY ox_audit
 --
 -- TOC entry 2465 (class 2606 OID 1945796)
 -- Dependencies: 1676 1676
--- Name: ox_banners_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_banners
@@ -4277,7 +4045,7 @@ ALTER TABLE ONLY ox_banners
 --
 -- TOC entry 2468 (class 2606 OID 1945831)
 -- Dependencies: 1678 1678
--- Name: ox_campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_campaigns
@@ -4287,7 +4055,7 @@ ALTER TABLE ONLY ox_campaigns
 --
 -- TOC entry 2471 (class 2606 OID 1945843)
 -- Dependencies: 1680 1680
--- Name: ox_campaigns_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_campaigns_trackers
@@ -4297,7 +4065,7 @@ ALTER TABLE ONLY ox_campaigns_trackers
 --
 -- TOC entry 2474 (class 2606 OID 1945854)
 -- Dependencies: 1682 1682
--- Name: ox_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_category
@@ -4307,7 +4075,7 @@ ALTER TABLE ONLY ox_category
 --
 -- TOC entry 2476 (class 2606 OID 1945870)
 -- Dependencies: 1684 1684
--- Name: ox_channel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_channel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_channel
@@ -4317,7 +4085,7 @@ ALTER TABLE ONLY ox_channel
 --
 -- TOC entry 2478 (class 2606 OID 1945893)
 -- Dependencies: 1686 1686
--- Name: ox_clients_account_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_clients_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_clients
@@ -4327,7 +4095,7 @@ ALTER TABLE ONLY ox_clients
 --
 -- TOC entry 2481 (class 2606 OID 1945890)
 -- Dependencies: 1686 1686
--- Name: ox_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_clients
@@ -4337,7 +4105,7 @@ ALTER TABLE ONLY ox_clients
 --
 -- TOC entry 2595 (class 2606 OID 1946429)
 -- Dependencies: 1739 1739 1739
--- Name: ox_data_bkt_a_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_a_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_a
@@ -4347,7 +4115,7 @@ ALTER TABLE ONLY ox_data_bkt_a
 --
 -- TOC entry 2597 (class 2606 OID 1946441)
 -- Dependencies: 1741 1741 1741 1741
--- Name: ox_data_bkt_a_var_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_a_var_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_a_var
@@ -4357,7 +4125,7 @@ ALTER TABLE ONLY ox_data_bkt_a_var
 --
 -- TOC entry 2587 (class 2606 OID 1946401)
 -- Dependencies: 1734 1734 1734 1734
--- Name: ox_data_bkt_c_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_c_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_c
@@ -4367,7 +4135,7 @@ ALTER TABLE ONLY ox_data_bkt_c
 --
 -- TOC entry 2589 (class 2606 OID 1946407)
 -- Dependencies: 1735 1735 1735 1735 1735
--- Name: ox_data_bkt_m_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_m_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_m_backup
@@ -4377,7 +4145,7 @@ ALTER TABLE ONLY ox_data_bkt_m_backup
 --
 -- TOC entry 2591 (class 2606 OID 1946413)
 -- Dependencies: 1736 1736 1736 1736
--- Name: ox_data_bkt_m_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_m_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_m
@@ -4387,7 +4155,7 @@ ALTER TABLE ONLY ox_data_bkt_m
 --
 -- TOC entry 2593 (class 2606 OID 1946419)
 -- Dependencies: 1737 1737 1737 1737
--- Name: ox_data_bkt_r_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_bkt_r_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_bkt_r
@@ -4397,7 +4165,7 @@ ALTER TABLE ONLY ox_data_bkt_r
 --
 -- TOC entry 2490 (class 2606 OID 1945955)
 -- Dependencies: 1690 1690
--- Name: ox_data_intermediate_ad_connection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad_connection
@@ -4407,7 +4175,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad_connection
 --
 -- TOC entry 2486 (class 2606 OID 1945907)
 -- Dependencies: 1688 1688
--- Name: ox_data_intermediate_ad_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad
@@ -4417,7 +4185,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad
 --
 -- TOC entry 2497 (class 2606 OID 1945969)
 -- Dependencies: 1692 1692
--- Name: ox_data_intermediate_ad_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad_variable_value
@@ -4427,7 +4195,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad_variable_value
 --
 -- TOC entry 2514 (class 2606 OID 1946107)
 -- Dependencies: 1697 1697 1697
--- Name: ox_data_raw_tracker_impression_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_raw_tracker_impression
@@ -4437,7 +4205,7 @@ ALTER TABLE ONLY ox_data_raw_tracker_impression
 --
 -- TOC entry 2517 (class 2606 OID 1946116)
 -- Dependencies: 1698 1698 1698 1698
--- Name: ox_data_raw_tracker_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_raw_tracker_variable_value
@@ -4447,7 +4215,7 @@ ALTER TABLE ONLY ox_data_raw_tracker_variable_value
 --
 -- TOC entry 2521 (class 2606 OID 1946132)
 -- Dependencies: 1700 1700
--- Name: ox_data_summary_ad_hourly_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_summary_ad_hourly
@@ -4457,7 +4225,7 @@ ALTER TABLE ONLY ox_data_summary_ad_hourly
 --
 -- TOC entry 2528 (class 2606 OID 1946145)
 -- Dependencies: 1702 1702
--- Name: ox_data_summary_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_summary_ad_zone_assoc
@@ -4467,7 +4235,7 @@ ALTER TABLE ONLY ox_data_summary_ad_zone_assoc
 --
 -- TOC entry 2533 (class 2606 OID 1946160)
 -- Dependencies: 1704 1704
--- Name: ox_data_summary_channel_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_channel_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_summary_channel_daily
@@ -4477,7 +4245,7 @@ ALTER TABLE ONLY ox_data_summary_channel_daily
 --
 -- TOC entry 2537 (class 2606 OID 1946171)
 -- Dependencies: 1706 1706
--- Name: ox_data_summary_zone_impression_history_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_data_summary_zone_impression_history
@@ -4487,7 +4255,7 @@ ALTER TABLE ONLY ox_data_summary_zone_impression_history
 --
 -- TOC entry 2414 (class 2606 OID 1945567)
 -- Dependencies: 1655 1655
--- Name: ox_database_action_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_database_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_database_action
@@ -4497,7 +4265,7 @@ ALTER TABLE ONLY ox_database_action
 --
 -- TOC entry 2540 (class 2606 OID 1946182)
 -- Dependencies: 1707 1707
--- Name: ox_images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_images
@@ -4507,7 +4275,7 @@ ALTER TABLE ONLY ox_images
 --
 -- TOC entry 2542 (class 2606 OID 1946190)
 -- Dependencies: 1709 1709
--- Name: ox_log_maintenance_forecasting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_forecasting_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_log_maintenance_forecasting
@@ -4517,7 +4285,7 @@ ALTER TABLE ONLY ox_log_maintenance_forecasting
 --
 -- TOC entry 2544 (class 2606 OID 1946198)
 -- Dependencies: 1711 1711
--- Name: ox_log_maintenance_priority_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_priority_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_log_maintenance_priority
@@ -4527,7 +4295,7 @@ ALTER TABLE ONLY ox_log_maintenance_priority
 --
 -- TOC entry 2546 (class 2606 OID 1946206)
 -- Dependencies: 1713 1713
--- Name: ox_log_maintenance_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_log_maintenance_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_log_maintenance_statistics
@@ -4537,7 +4305,7 @@ ALTER TABLE ONLY ox_log_maintenance_statistics
 --
 -- TOC entry 2548 (class 2606 OID 1946213)
 -- Dependencies: 1714 1714 1714
--- Name: ox_password_recovery_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_password_recovery_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_password_recovery
@@ -4547,7 +4315,7 @@ ALTER TABLE ONLY ox_password_recovery
 --
 -- TOC entry 2550 (class 2606 OID 1946215)
 -- Dependencies: 1714 1714
--- Name: ox_password_recovery_recovery_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_password_recovery_recovery_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_password_recovery
@@ -4557,7 +4325,7 @@ ALTER TABLE ONLY ox_password_recovery
 --
 -- TOC entry 2552 (class 2606 OID 1946223)
 -- Dependencies: 1716 1716
--- Name: ox_placement_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_placement_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_placement_zone_assoc
@@ -4567,7 +4335,7 @@ ALTER TABLE ONLY ox_placement_zone_assoc
 --
 -- TOC entry 2557 (class 2606 OID 1946235)
 -- Dependencies: 1718 1718
--- Name: ox_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_preferences
@@ -4577,7 +4345,7 @@ ALTER TABLE ONLY ox_preferences
 --
 -- TOC entry 2559 (class 2606 OID 1946237)
 -- Dependencies: 1718 1718
--- Name: ox_preferences_preference_name; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_preferences_preference_name; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_preferences
@@ -4587,7 +4355,7 @@ ALTER TABLE ONLY ox_preferences
 --
 -- TOC entry 2561 (class 2606 OID 1946248)
 -- Dependencies: 1719 1719
--- Name: ox_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_session_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_session
@@ -4597,7 +4365,7 @@ ALTER TABLE ONLY ox_session
 --
 -- TOC entry 2563 (class 2606 OID 1946271)
 -- Dependencies: 1722 1722
--- Name: ox_tracker_append_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_tracker_append_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_tracker_append
@@ -4607,7 +4375,7 @@ ALTER TABLE ONLY ox_tracker_append
 --
 -- TOC entry 2567 (class 2606 OID 1946294)
 -- Dependencies: 1724 1724
--- Name: ox_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_trackers
@@ -4617,7 +4385,7 @@ ALTER TABLE ONLY ox_trackers
 --
 -- TOC entry 2411 (class 2606 OID 1945549)
 -- Dependencies: 1653 1653
--- Name: ox_upgrade_action_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_upgrade_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_upgrade_action
@@ -4627,7 +4395,7 @@ ALTER TABLE ONLY ox_upgrade_action
 --
 -- TOC entry 2569 (class 2606 OID 1946310)
 -- Dependencies: 1726 1726
--- Name: ox_userlog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_userlog_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_userlog
@@ -4637,7 +4405,7 @@ ALTER TABLE ONLY ox_userlog
 --
 -- TOC entry 2571 (class 2606 OID 1946327)
 -- Dependencies: 1728 1728
--- Name: ox_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_users
@@ -4647,7 +4415,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2573 (class 2606 OID 1946331)
 -- Dependencies: 1728 1728
--- Name: ox_users_sso_user_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_users_sso_user_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_users
@@ -4657,7 +4425,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2575 (class 2606 OID 1946329)
 -- Dependencies: 1728 1728
--- Name: ox_users_username; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_users_username; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_users
@@ -4667,7 +4435,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2577 (class 2606 OID 1946336)
 -- Dependencies: 1729 1729 1729
--- Name: ox_variable_publisher_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variable_publisher_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_variable_publisher
@@ -4677,7 +4445,7 @@ ALTER TABLE ONLY ox_variable_publisher
 --
 -- TOC entry 2580 (class 2606 OID 1946356)
 -- Dependencies: 1731 1731
--- Name: ox_variables_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_variables
@@ -4687,7 +4455,7 @@ ALTER TABLE ONLY ox_variables
 --
 -- TOC entry 2584 (class 2606 OID 1946393)
 -- Dependencies: 1733 1733
--- Name: ox_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ox_zones
@@ -4697,7 +4465,7 @@ ALTER TABLE ONLY ox_zones
 --
 -- TOC entry 2422 (class 1259 OID 1945585)
 -- Dependencies: 1657
--- Name: ox_account_user_assoc_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_account_user_assoc_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_account_user_assoc_user_id ON ox_account_user_assoc USING btree (user_id);
@@ -4706,7 +4474,7 @@ CREATE INDEX ox_account_user_assoc_user_id ON ox_account_user_assoc USING btree 
 --
 -- TOC entry 2425 (class 1259 OID 1945604)
 -- Dependencies: 1660
--- Name: ox_accounts_account_type; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_accounts_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_accounts_account_type ON ox_accounts USING btree (account_type);
@@ -4715,7 +4483,7 @@ CREATE INDEX ox_accounts_account_type ON ox_accounts USING btree (account_type);
 --
 -- TOC entry 2428 (class 1259 OID 1945617)
 -- Dependencies: 1661
--- Name: ox_acls_bannerid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls_bannerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_acls_bannerid ON ox_acls USING btree (bannerid);
@@ -4724,7 +4492,7 @@ CREATE INDEX ox_acls_bannerid ON ox_acls USING btree (bannerid);
 --
 -- TOC entry 2431 (class 1259 OID 1945632)
 -- Dependencies: 1662
--- Name: ox_acls_channel_channelid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_acls_channel_channelid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_acls_channel_channelid ON ox_acls_channel USING btree (channelid);
@@ -4733,7 +4501,7 @@ CREATE INDEX ox_acls_channel_channelid ON ox_acls_channel USING btree (channelid
 --
 -- TOC entry 2436 (class 1259 OID 1945656)
 -- Dependencies: 1666
--- Name: ox_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_ad_zone_assoc_ad_id ON ox_ad_zone_assoc USING btree (ad_id);
@@ -4742,7 +4510,7 @@ CREATE INDEX ox_ad_zone_assoc_ad_id ON ox_ad_zone_assoc USING btree (ad_id);
 --
 -- TOC entry 2439 (class 1259 OID 1945655)
 -- Dependencies: 1666
--- Name: ox_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_ad_zone_assoc_zone_id ON ox_ad_zone_assoc USING btree (zone_id);
@@ -4751,7 +4519,7 @@ CREATE INDEX ox_ad_zone_assoc_zone_id ON ox_ad_zone_assoc USING btree (zone_id);
 --
 -- TOC entry 2442 (class 1259 OID 1945675)
 -- Dependencies: 1668
--- Name: ox_affiliates_agencyid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_affiliates_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_affiliates_agencyid ON ox_affiliates USING btree (agencyid);
@@ -4760,7 +4528,7 @@ CREATE INDEX ox_affiliates_agencyid ON ox_affiliates USING btree (agencyid);
 --
 -- TOC entry 2453 (class 1259 OID 1945747)
 -- Dependencies: 1674
--- Name: ox_audit_account_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_account_id ON ox_audit USING btree (account_id);
@@ -4769,7 +4537,7 @@ CREATE INDEX ox_audit_account_id ON ox_audit USING btree (account_id);
 --
 -- TOC entry 2454 (class 1259 OID 1945748)
 -- Dependencies: 1674
--- Name: ox_audit_advertiser_account_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_advertiser_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_advertiser_account_id ON ox_audit USING btree (advertiser_account_id);
@@ -4778,7 +4546,7 @@ CREATE INDEX ox_audit_advertiser_account_id ON ox_audit USING btree (advertiser_
 --
 -- TOC entry 2455 (class 1259 OID 1945746)
 -- Dependencies: 1674 1674
--- Name: ox_audit_context_actionid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_context_actionid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_context_actionid ON ox_audit USING btree (context, actionid);
@@ -4787,7 +4555,7 @@ CREATE INDEX ox_audit_context_actionid ON ox_audit USING btree (context, actioni
 --
 -- TOC entry 2456 (class 1259 OID 1945742)
 -- Dependencies: 1674 1674
--- Name: ox_audit_parentid_contextid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_parentid_contextid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_parentid_contextid ON ox_audit USING btree (parentid, contextid);
@@ -4796,7 +4564,7 @@ CREATE INDEX ox_audit_parentid_contextid ON ox_audit USING btree (parentid, cont
 --
 -- TOC entry 2459 (class 1259 OID 1945743)
 -- Dependencies: 1674
--- Name: ox_audit_updated; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_updated ON ox_audit USING btree (updated);
@@ -4805,7 +4573,7 @@ CREATE INDEX ox_audit_updated ON ox_audit USING btree (updated);
 --
 -- TOC entry 2460 (class 1259 OID 1945745)
 -- Dependencies: 1674
--- Name: ox_audit_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_username ON ox_audit USING btree (username);
@@ -4814,7 +4582,7 @@ CREATE INDEX ox_audit_username ON ox_audit USING btree (username);
 --
 -- TOC entry 2461 (class 1259 OID 1945744)
 -- Dependencies: 1674
--- Name: ox_audit_usertype; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_usertype; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_usertype ON ox_audit USING btree (usertype);
@@ -4823,7 +4591,7 @@ CREATE INDEX ox_audit_usertype ON ox_audit USING btree (usertype);
 --
 -- TOC entry 2462 (class 1259 OID 1945749)
 -- Dependencies: 1674
--- Name: ox_audit_website_account_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_audit_website_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_audit_website_account_id ON ox_audit USING btree (website_account_id);
@@ -4832,7 +4600,7 @@ CREATE INDEX ox_audit_website_account_id ON ox_audit USING btree (website_accoun
 --
 -- TOC entry 2463 (class 1259 OID 1945797)
 -- Dependencies: 1676
--- Name: ox_banners_campaignid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_banners_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_banners_campaignid ON ox_banners USING btree (campaignid);
@@ -4841,7 +4609,7 @@ CREATE INDEX ox_banners_campaignid ON ox_banners USING btree (campaignid);
 --
 -- TOC entry 2466 (class 1259 OID 1945832)
 -- Dependencies: 1678
--- Name: ox_campaigns_clientid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_campaigns_clientid ON ox_campaigns USING btree (clientid);
@@ -4850,7 +4618,7 @@ CREATE INDEX ox_campaigns_clientid ON ox_campaigns USING btree (clientid);
 --
 -- TOC entry 2469 (class 1259 OID 1945844)
 -- Dependencies: 1680
--- Name: ox_campaigns_trackers_campaignid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_trackers_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_campaigns_trackers_campaignid ON ox_campaigns_trackers USING btree (campaignid);
@@ -4859,7 +4627,7 @@ CREATE INDEX ox_campaigns_trackers_campaignid ON ox_campaigns_trackers USING btr
 --
 -- TOC entry 2472 (class 1259 OID 1945845)
 -- Dependencies: 1680
--- Name: ox_campaigns_trackers_trackerid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_campaigns_trackers_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_campaigns_trackers_trackerid ON ox_campaigns_trackers USING btree (trackerid);
@@ -4868,7 +4636,7 @@ CREATE INDEX ox_campaigns_trackers_trackerid ON ox_campaigns_trackers USING btre
 --
 -- TOC entry 2479 (class 1259 OID 1945891)
 -- Dependencies: 1686
--- Name: ox_clients_agencyid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_clients_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_clients_agencyid ON ox_clients USING btree (agencyid);
@@ -4877,7 +4645,7 @@ CREATE INDEX ox_clients_agencyid ON ox_clients USING btree (agencyid);
 --
 -- TOC entry 2482 (class 1259 OID 1945908)
 -- Dependencies: 1688 1688
--- Name: ox_data_intermediate_ad_ad_id_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_ad_id_date_time ON ox_data_intermediate_ad USING btree (ad_id, date_time);
@@ -4886,7 +4654,7 @@ CREATE INDEX ox_data_intermediate_ad_ad_id_date_time ON ox_data_intermediate_ad 
 --
 -- TOC entry 2488 (class 1259 OID 1945958)
 -- Dependencies: 1690
--- Name: ox_data_intermediate_ad_connection_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_ad_id ON ox_data_intermediate_ad_connection USING btree (ad_id);
@@ -4895,7 +4663,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_ad_id ON ox_data_intermediate_ad
 --
 -- TOC entry 2491 (class 1259 OID 1945956)
 -- Dependencies: 1690
--- Name: ox_data_intermediate_ad_connection_tracker_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_tracker_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_tracker_date_time ON ox_data_intermediate_ad_connection USING btree (tracker_date_time);
@@ -4904,7 +4672,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_tracker_date_time ON ox_data_int
 --
 -- TOC entry 2492 (class 1259 OID 1945957)
 -- Dependencies: 1690
--- Name: ox_data_intermediate_ad_connection_tracker_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_tracker_id ON ox_data_intermediate_ad_connection USING btree (tracker_id);
@@ -4913,7 +4681,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_tracker_id ON ox_data_intermedia
 --
 -- TOC entry 2493 (class 1259 OID 1945960)
 -- Dependencies: 1690
--- Name: ox_data_intermediate_ad_connection_viewer_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_viewer_id ON ox_data_intermediate_ad_connection USING btree (viewer_id);
@@ -4922,7 +4690,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_viewer_id ON ox_data_intermediat
 --
 -- TOC entry 2494 (class 1259 OID 1945959)
 -- Dependencies: 1690
--- Name: ox_data_intermediate_ad_connection_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_zone_id ON ox_data_intermediate_ad_connection USING btree (zone_id);
@@ -4931,7 +4699,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_zone_id ON ox_data_intermediate_
 --
 -- TOC entry 2483 (class 1259 OID 1945910)
 -- Dependencies: 1688
--- Name: ox_data_intermediate_ad_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_date_time ON ox_data_intermediate_ad USING btree (date_time);
@@ -4940,7 +4708,7 @@ CREATE INDEX ox_data_intermediate_ad_date_time ON ox_data_intermediate_ad USING 
 --
 -- TOC entry 2484 (class 1259 OID 1945911)
 -- Dependencies: 1688
--- Name: ox_data_intermediate_ad_interval_start; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_interval_start ON ox_data_intermediate_ad USING btree (interval_start);
@@ -4949,7 +4717,7 @@ CREATE INDEX ox_data_intermediate_ad_interval_start ON ox_data_intermediate_ad U
 --
 -- TOC entry 2495 (class 1259 OID 1945970)
 -- Dependencies: 1692
--- Name: ox_data_intermediate_ad_variable_value_data_intermediate_ad_con; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_data_intermediate_ad_con; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_data_intermediate_ad_con ON ox_data_intermediate_ad_variable_value USING btree (data_intermediate_ad_connection_id);
@@ -4958,7 +4726,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_data_intermediate_ad_con ON 
 --
 -- TOC entry 2498 (class 1259 OID 1945972)
 -- Dependencies: 1692
--- Name: ox_data_intermediate_ad_variable_value_tracker_value; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_tracker_value; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_value ON ox_data_intermediate_ad_variable_value USING btree (value);
@@ -4967,7 +4735,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_value ON ox_data_int
 --
 -- TOC entry 2499 (class 1259 OID 1945971)
 -- Dependencies: 1692
--- Name: ox_data_intermediate_ad_variable_value_tracker_variable_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_tracker_variable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_variable_id ON ox_data_intermediate_ad_variable_value USING btree (tracker_variable_id);
@@ -4976,7 +4744,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_variable_id ON ox_da
 --
 -- TOC entry 2487 (class 1259 OID 1945909)
 -- Dependencies: 1688 1688
--- Name: ox_data_intermediate_ad_zone_id_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_intermediate_ad_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_intermediate_ad_zone_id_date_time ON ox_data_intermediate_ad USING btree (zone_id, date_time);
@@ -4985,7 +4753,7 @@ CREATE INDEX ox_data_intermediate_ad_zone_id_date_time ON ox_data_intermediate_a
 --
 -- TOC entry 2500 (class 1259 OID 1946007)
 -- Dependencies: 1693
--- Name: ox_data_raw_ad_click_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_click_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_click_ad_id ON ox_data_raw_ad_click USING btree (ad_id);
@@ -4994,7 +4762,7 @@ CREATE INDEX ox_data_raw_ad_click_ad_id ON ox_data_raw_ad_click USING btree (ad_
 --
 -- TOC entry 2501 (class 1259 OID 1946006)
 -- Dependencies: 1693
--- Name: ox_data_raw_ad_click_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_click_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_click_date_time ON ox_data_raw_ad_click USING btree (date_time);
@@ -5003,7 +4771,7 @@ CREATE INDEX ox_data_raw_ad_click_date_time ON ox_data_raw_ad_click USING btree 
 --
 -- TOC entry 2502 (class 1259 OID 1946005)
 -- Dependencies: 1693
--- Name: ox_data_raw_ad_click_viewer_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_click_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_click_viewer_id ON ox_data_raw_ad_click USING btree (viewer_id);
@@ -5012,7 +4780,7 @@ CREATE INDEX ox_data_raw_ad_click_viewer_id ON ox_data_raw_ad_click USING btree 
 --
 -- TOC entry 2503 (class 1259 OID 1946008)
 -- Dependencies: 1693
--- Name: ox_data_raw_ad_click_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_click_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_click_zone_id ON ox_data_raw_ad_click USING btree (zone_id);
@@ -5021,7 +4789,7 @@ CREATE INDEX ox_data_raw_ad_click_zone_id ON ox_data_raw_ad_click USING btree (z
 --
 -- TOC entry 2504 (class 1259 OID 1946043)
 -- Dependencies: 1694
--- Name: ox_data_raw_ad_impression_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_impression_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_impression_ad_id ON ox_data_raw_ad_impression USING btree (ad_id);
@@ -5030,7 +4798,7 @@ CREATE INDEX ox_data_raw_ad_impression_ad_id ON ox_data_raw_ad_impression USING 
 --
 -- TOC entry 2505 (class 1259 OID 1946042)
 -- Dependencies: 1694
--- Name: ox_data_raw_ad_impression_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_impression_date_time ON ox_data_raw_ad_impression USING btree (date_time);
@@ -5039,7 +4807,7 @@ CREATE INDEX ox_data_raw_ad_impression_date_time ON ox_data_raw_ad_impression US
 --
 -- TOC entry 2506 (class 1259 OID 1946041)
 -- Dependencies: 1694
--- Name: ox_data_raw_ad_impression_viewer_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_impression_viewer_id ON ox_data_raw_ad_impression USING btree (viewer_id);
@@ -5048,7 +4816,7 @@ CREATE INDEX ox_data_raw_ad_impression_viewer_id ON ox_data_raw_ad_impression US
 --
 -- TOC entry 2507 (class 1259 OID 1946044)
 -- Dependencies: 1694
--- Name: ox_data_raw_ad_impression_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_impression_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_impression_zone_id ON ox_data_raw_ad_impression USING btree (zone_id);
@@ -5057,7 +4825,7 @@ CREATE INDEX ox_data_raw_ad_impression_zone_id ON ox_data_raw_ad_impression USIN
 --
 -- TOC entry 2508 (class 1259 OID 1946068)
 -- Dependencies: 1695
--- Name: ox_data_raw_ad_request_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_request_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_request_ad_id ON ox_data_raw_ad_request USING btree (ad_id);
@@ -5066,7 +4834,7 @@ CREATE INDEX ox_data_raw_ad_request_ad_id ON ox_data_raw_ad_request USING btree 
 --
 -- TOC entry 2509 (class 1259 OID 1946067)
 -- Dependencies: 1695
--- Name: ox_data_raw_ad_request_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_request_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_request_date_time ON ox_data_raw_ad_request USING btree (date_time);
@@ -5075,7 +4843,7 @@ CREATE INDEX ox_data_raw_ad_request_date_time ON ox_data_raw_ad_request USING bt
 --
 -- TOC entry 2510 (class 1259 OID 1946066)
 -- Dependencies: 1695
--- Name: ox_data_raw_ad_request_viewer_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_request_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_request_viewer_id ON ox_data_raw_ad_request USING btree (viewer_id);
@@ -5084,7 +4852,7 @@ CREATE INDEX ox_data_raw_ad_request_viewer_id ON ox_data_raw_ad_request USING bt
 --
 -- TOC entry 2511 (class 1259 OID 1946069)
 -- Dependencies: 1695
--- Name: ox_data_raw_ad_request_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_ad_request_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_ad_request_zone_id ON ox_data_raw_ad_request USING btree (zone_id);
@@ -5093,7 +4861,7 @@ CREATE INDEX ox_data_raw_ad_request_zone_id ON ox_data_raw_ad_request USING btre
 --
 -- TOC entry 2512 (class 1259 OID 1946109)
 -- Dependencies: 1697
--- Name: ox_data_raw_tracker_impression_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_tracker_impression_date_time ON ox_data_raw_tracker_impression USING btree (date_time);
@@ -5102,7 +4870,7 @@ CREATE INDEX ox_data_raw_tracker_impression_date_time ON ox_data_raw_tracker_imp
 --
 -- TOC entry 2515 (class 1259 OID 1946108)
 -- Dependencies: 1697
--- Name: ox_data_raw_tracker_impression_viewer_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_raw_tracker_impression_viewer_id ON ox_data_raw_tracker_impression USING btree (viewer_id);
@@ -5111,7 +4879,7 @@ CREATE INDEX ox_data_raw_tracker_impression_viewer_id ON ox_data_raw_tracker_imp
 --
 -- TOC entry 2518 (class 1259 OID 1946134)
 -- Dependencies: 1700 1700
--- Name: ox_data_summary_ad_hourly_ad_id_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_ad_id_date_time ON ox_data_summary_ad_hourly USING btree (ad_id, date_time);
@@ -5120,7 +4888,7 @@ CREATE INDEX ox_data_summary_ad_hourly_ad_id_date_time ON ox_data_summary_ad_hou
 --
 -- TOC entry 2519 (class 1259 OID 1946133)
 -- Dependencies: 1700
--- Name: ox_data_summary_ad_hourly_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_date_time ON ox_data_summary_ad_hourly USING btree (date_time);
@@ -5129,7 +4897,7 @@ CREATE INDEX ox_data_summary_ad_hourly_date_time ON ox_data_summary_ad_hourly US
 --
 -- TOC entry 2522 (class 1259 OID 1946135)
 -- Dependencies: 1700 1700
--- Name: ox_data_summary_ad_hourly_zone_id_date_time; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_zone_id_date_time ON ox_data_summary_ad_hourly USING btree (zone_id, date_time);
@@ -5138,7 +4906,7 @@ CREATE INDEX ox_data_summary_ad_hourly_zone_id_date_time ON ox_data_summary_ad_h
 --
 -- TOC entry 2523 (class 1259 OID 1946148)
 -- Dependencies: 1702
--- Name: ox_data_summary_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_ad_id ON ox_data_summary_ad_zone_assoc USING btree (ad_id);
@@ -5147,7 +4915,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_ad_id ON ox_data_summary_ad_zone_asso
 --
 -- TOC entry 2524 (class 1259 OID 1946150)
 -- Dependencies: 1702
--- Name: ox_data_summary_ad_zone_assoc_expired; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_expired; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_expired ON ox_data_summary_ad_zone_assoc USING btree (expired);
@@ -5156,7 +4924,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_expired ON ox_data_summary_ad_zone_as
 --
 -- TOC entry 2525 (class 1259 OID 1946147)
 -- Dependencies: 1702
--- Name: ox_data_summary_ad_zone_assoc_interval_end; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_interval_end; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_interval_end ON ox_data_summary_ad_zone_assoc USING btree (interval_end);
@@ -5165,7 +4933,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_interval_end ON ox_data_summary_ad_zo
 --
 -- TOC entry 2526 (class 1259 OID 1946146)
 -- Dependencies: 1702
--- Name: ox_data_summary_ad_zone_assoc_interval_start; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_interval_start ON ox_data_summary_ad_zone_assoc USING btree (interval_start);
@@ -5174,7 +4942,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_interval_start ON ox_data_summary_ad_
 --
 -- TOC entry 2529 (class 1259 OID 1946149)
 -- Dependencies: 1702
--- Name: ox_data_summary_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_zone_id ON ox_data_summary_ad_zone_assoc USING btree (zone_id);
@@ -5183,7 +4951,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_zone_id ON ox_data_summary_ad_zone_as
 --
 -- TOC entry 2530 (class 1259 OID 1946162)
 -- Dependencies: 1704
--- Name: ox_data_summary_channel_daily_channel_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_channel_daily_channel_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_channel_daily_channel_id ON ox_data_summary_channel_daily USING btree (channel_id);
@@ -5192,7 +4960,7 @@ CREATE INDEX ox_data_summary_channel_daily_channel_id ON ox_data_summary_channel
 --
 -- TOC entry 2531 (class 1259 OID 1946161)
 -- Dependencies: 1704
--- Name: ox_data_summary_channel_daily_day; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_channel_daily_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_channel_daily_day ON ox_data_summary_channel_daily USING btree (day);
@@ -5201,7 +4969,7 @@ CREATE INDEX ox_data_summary_channel_daily_day ON ox_data_summary_channel_daily 
 --
 -- TOC entry 2534 (class 1259 OID 1946163)
 -- Dependencies: 1704
--- Name: ox_data_summary_channel_daily_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_channel_daily_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_channel_daily_zone_id ON ox_data_summary_channel_daily USING btree (zone_id);
@@ -5210,7 +4978,7 @@ CREATE INDEX ox_data_summary_channel_daily_zone_id ON ox_data_summary_channel_da
 --
 -- TOC entry 2535 (class 1259 OID 1946172)
 -- Dependencies: 1706
--- Name: ox_data_summary_zone_impression_history_operation_interval_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_operation_interval_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_zone_impression_history_operation_interval_id ON ox_data_summary_zone_impression_history USING btree (operation_interval_id);
@@ -5219,7 +4987,7 @@ CREATE INDEX ox_data_summary_zone_impression_history_operation_interval_id ON ox
 --
 -- TOC entry 2538 (class 1259 OID 1946173)
 -- Dependencies: 1706
--- Name: ox_data_summary_zone_impression_history_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_data_summary_zone_impression_history_zone_id ON ox_data_summary_zone_impression_history USING btree (zone_id);
@@ -5228,7 +4996,7 @@ CREATE INDEX ox_data_summary_zone_impression_history_zone_id ON ox_data_summary_
 --
 -- TOC entry 2415 (class 1259 OID 1945569)
 -- Dependencies: 1655 1655 1655 1655
--- Name: ox_database_action_schema_version_timing_action; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_database_action_schema_version_timing_action; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_database_action_schema_version_timing_action ON ox_database_action USING btree (schema_name, version, timing, action);
@@ -5237,7 +5005,7 @@ CREATE INDEX ox_database_action_schema_version_timing_action ON ox_database_acti
 --
 -- TOC entry 2416 (class 1259 OID 1945570)
 -- Dependencies: 1655
--- Name: ox_database_action_updated; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_database_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_database_action_updated ON ox_database_action USING btree (updated);
@@ -5246,7 +5014,7 @@ CREATE INDEX ox_database_action_updated ON ox_database_action USING btree (updat
 --
 -- TOC entry 2417 (class 1259 OID 1945568)
 -- Dependencies: 1655 1655
--- Name: ox_database_action_upgrade_action_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_database_action_upgrade_action_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_database_action_upgrade_action_id ON ox_database_action USING btree (upgrade_action_id, database_action_id);
@@ -5255,7 +5023,7 @@ CREATE INDEX ox_database_action_upgrade_action_id ON ox_database_action USING bt
 --
 -- TOC entry 2553 (class 1259 OID 1946225)
 -- Dependencies: 1716
--- Name: ox_placement_zone_assoc_placement_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_placement_zone_assoc_placement_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_placement_zone_assoc_placement_id ON ox_placement_zone_assoc USING btree (placement_id);
@@ -5264,7 +5032,7 @@ CREATE INDEX ox_placement_zone_assoc_placement_id ON ox_placement_zone_assoc USI
 --
 -- TOC entry 2554 (class 1259 OID 1946224)
 -- Dependencies: 1716
--- Name: ox_placement_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_placement_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_placement_zone_assoc_zone_id ON ox_placement_zone_assoc USING btree (zone_id);
@@ -5273,7 +5041,7 @@ CREATE INDEX ox_placement_zone_assoc_zone_id ON ox_placement_zone_assoc USING bt
 --
 -- TOC entry 2555 (class 1259 OID 1946238)
 -- Dependencies: 1718
--- Name: ox_preferences_account_type; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_preferences_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_preferences_account_type ON ox_preferences USING btree (account_type);
@@ -5282,7 +5050,7 @@ CREATE INDEX ox_preferences_account_type ON ox_preferences USING btree (account_
 --
 -- TOC entry 2564 (class 1259 OID 1946272)
 -- Dependencies: 1722 1722
--- Name: ox_tracker_append_tracker_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_tracker_append_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_tracker_append_tracker_id ON ox_tracker_append USING btree (tracker_id, rank);
@@ -5291,7 +5059,7 @@ CREATE INDEX ox_tracker_append_tracker_id ON ox_tracker_append USING btree (trac
 --
 -- TOC entry 2565 (class 1259 OID 1946295)
 -- Dependencies: 1724
--- Name: ox_trackers_clientid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_trackers_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_trackers_clientid ON ox_trackers USING btree (clientid);
@@ -5300,7 +5068,7 @@ CREATE INDEX ox_trackers_clientid ON ox_trackers USING btree (clientid);
 --
 -- TOC entry 2412 (class 1259 OID 1945550)
 -- Dependencies: 1653
--- Name: ox_upgrade_action_updated; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_upgrade_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_upgrade_action_updated ON ox_upgrade_action USING btree (updated);
@@ -5309,7 +5077,7 @@ CREATE INDEX ox_upgrade_action_updated ON ox_upgrade_action USING btree (updated
 --
 -- TOC entry 2578 (class 1259 OID 1946357)
 -- Dependencies: 1731
--- Name: ox_variables_is_unique; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variables_is_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_variables_is_unique ON ox_variables USING btree (is_unique);
@@ -5318,7 +5086,7 @@ CREATE INDEX ox_variables_is_unique ON ox_variables USING btree (is_unique);
 --
 -- TOC entry 2581 (class 1259 OID 1946358)
 -- Dependencies: 1731
--- Name: ox_variables_trackerid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_variables_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_variables_trackerid ON ox_variables USING btree (trackerid);
@@ -5327,7 +5095,7 @@ CREATE INDEX ox_variables_trackerid ON ox_variables USING btree (trackerid);
 --
 -- TOC entry 2582 (class 1259 OID 1946395)
 -- Dependencies: 1733
--- Name: ox_zones_affiliateid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_zones_affiliateid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_zones_affiliateid ON ox_zones USING btree (affiliateid);
@@ -5336,7 +5104,7 @@ CREATE INDEX ox_zones_affiliateid ON ox_zones USING btree (affiliateid);
 --
 -- TOC entry 2585 (class 1259 OID 1946394)
 -- Dependencies: 1733 1733
--- Name: ox_zones_zonenameid; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ox_zones_zonenameid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX ox_zones_zonenameid ON ox_zones USING btree (zonename, zoneid);
@@ -5345,7 +5113,7 @@ CREATE INDEX ox_zones_zonenameid ON ox_zones USING btree (zonename, zoneid);
 --
 -- TOC entry 2657 (class 0 OID 0)
 -- Dependencies: 3
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
@@ -5354,7 +5122,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2009-02-24 12:35:49 CET
+-- Completed on 2009-03-05 11:45:38 CET
 
 --
 -- PostgreSQL database dump complete
