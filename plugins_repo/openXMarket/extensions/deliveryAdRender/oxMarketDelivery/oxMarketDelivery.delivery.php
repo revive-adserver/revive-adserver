@@ -117,7 +117,8 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
 
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
 
-        $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://' . $aConf['oxMarketDelivery']['brokerHost'];
+        $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://'; 
+        $baseUrl .= $aConf['oxMarketDelivery']['brokerHost'];
         $urlParams = array(
             'pid=' . $aWebsiteMarketInfo['website_id'],
             'tag_type=1',
