@@ -26,6 +26,9 @@ $Id$
 */
 require_once dirname(__FILE__) . '/../../oxMarketDelivery.delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
+require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
+require_once LIB_PATH . '/Plugin/Component.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * A class for testing the oxMarketDelivery functions
@@ -36,6 +39,17 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
  */
 class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends UnitTestCase
 {
+    function setUp()
+    {
+        TestEnv::uninstallPluginPackage('openXMarket',false);
+        TestEnv::installPluginPackage('openXMarket',false);
+    }
+    
+    function tearDown()
+    {
+        TestEnv::uninstallPluginPackage('openXMarket',false);
+    }
+    
     function testOX_marketProcess()
     {
         $serverHttps = (isset($_SERVER['HTTPS'])) ? $_SERVER['HTTPS'] : null;
@@ -112,6 +126,49 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // restore setting
         $_SERVER['HTTPS'] = $serverHttps;
+    }
+    
+    function testOX_Dal_Delivery_getPlatformMarketInfo()
+    {
+        MAX_Dal_Delivery_Include();
+        
+        // No admin_account_id in application_variable
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
+
+        // Add test assoc data
+        $admin_account_id = 3;
+        $status = 0;
+        
+        $doAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doAssocData->status = $status;
+        $doAssocData->account_id = $admin_account_id;
+        DataGenerator::generateOne($doAssocData);
+        
+        // Still no admin_account_id in application_variable
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
+        // This will check only ext_market_assoc_data
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo($admin_account_id)); 
+
+        // Add admin_account_id to application_variable
+        $doAppVar = OA_Dal::factoryDO('application_variable');
+        $doAppVar->name = 'admin_account_id';
+        $doAppVar->value = $admin_account_id;
+        DataGenerator::generateOne($doAppVar);
+        
+        // Get admin account from DB, check ext_market_assoc_data
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo());
+        // This will check only ext_market_assoc_data
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo($admin_account_id));
+        // Check account not in ext_market_assoc_data
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo(2)); 
+        
+        // Set status to invalid
+        $doAssocData = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doAssocData->get($admin_account_id);
+        $doAssocData->status = 1;
+        $doAssocData->update();
+        
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
     }
     
 }

@@ -282,9 +282,14 @@ function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
                 name = 'admin_account_id'
         ";
         $res = OA_Dal_Delivery_query($query);
-    
-        if (is_resource($res) && mysql_num_rows($res)) {
-            $account_id = (int)mysql_result($res, 0, 0);
+
+        if (is_resource($res)) {
+            $aRes = OA_Dal_Delivery_fetchAssoc($res);
+            if ($aRes && isset($aRes['value'])) {
+                $account_id = $aRes['value'];
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -300,10 +305,15 @@ function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
     ";
     
     $res = OA_Dal_Delivery_query($query);
-    if (is_resource($res) && mysql_num_rows($res) == 1) {
-        $result = (int)mysql_result($res, 0, 0);
-        // Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS === 0
-        return ($result === 0);
+    
+    if (is_resource($res)) {
+        $aRes = OA_Dal_Delivery_fetchAssoc($res);
+        if ($aRes && isset($aRes['status'])) {
+            // Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS === 0
+            return ((int)$aRes['status'] === 0); 
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
