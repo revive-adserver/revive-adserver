@@ -96,17 +96,18 @@ class OA_Dashboard_Widget extends OA_Central
      *
      * @param string $m2mTicket
      * @param string $url If empty, use the default dashboard Url from conf file
+     * @param ps parameter separator
      * @return string
      */
-    function buildDashboardUrl($m2mTicket, $url = null)
+    function buildDashboardUrl($m2mTicket, $url = null, $ps = '&')
     {
         if (empty($url)) {
             $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
         }
-        $url .= strpos($url, '?') === false ? '?' : '&';
+        $url .= strpos($url, '?') === false ? '?' : $ps;
         $url .= 'ticket='.urlencode($m2mTicket);
-        $url .= '&oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
-        $url .= '&lang=' . $GLOBALS['_MAX']['PREF']['language'];
+        $url .= $ps . 'oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
+        $url .= $ps . 'lang=' . $GLOBALS['_MAX']['PREF']['language'];
 
         return $url;
     }

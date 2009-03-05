@@ -53,7 +53,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
             if (empty($m2mTicket)) {
                 $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Reload');
             } else {
-                $dashboardUrl = $this->buildDashboardUrl($m2mTicket);
+                $dashboardUrl = $this->buildDashboardUrl($m2mTicket, null, '&amp;');
             }
         }
 

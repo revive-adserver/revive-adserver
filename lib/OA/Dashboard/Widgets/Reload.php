@@ -76,7 +76,7 @@ class OA_Dashboard_Widget_Reload extends OA_Dashboard_Widget
         if (PEAR::isError($m2mTicket)) {
             $this->showError($m2mTicket);
         } else {
-            $url = $this->buildDashboardUrl($m2mTicket, $this->buildUrl($this->aUrl));
+            $url = $this->buildDashboardUrl($m2mTicket, $this->buildUrl($this->aUrl), '&');
 
             if (!preg_match('/[\r\n]/', $url)) {
                 header("Location: {$url}");
