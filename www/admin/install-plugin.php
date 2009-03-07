@@ -155,6 +155,24 @@ function checkPlugin($pluginName)
             }
         }
     }
+    // Try to upgrade bundled plugins
+    include_once(MAX_PATH.'/etc/default_plugins.php');
+    if ($aDefaultPlugins)
+    {
+        foreach ($aDefaultPlugins AS $idx => $aPlugin)
+        {
+            if ($aPlugin['name'] == $pluginName)
+            {
+                $upgraded = false;
+                $oPluginManager = new OX_PluginManager();
+                $aFileName['name'] = $aPlugin['name'].'.'.$aPlugin['ext'];
+                $aFileName['tmp_name'] = $aPlugin['path'].$aPlugin['name'].'.'.$aPlugin['ext'];
+                $aFileName['type'] = 'application/zip';
+                $upgraded = $oPluginManager->upgradePackage($aFileName, $pluginName);
+            }
+        }
+    }
+
     // now diagnose problems
     $aDiag = $oPluginManager->getPackageDiagnostics($pluginName);
     if ($aDiag['plugin']['error'])
@@ -181,6 +199,9 @@ function checkPlugin($pluginName)
     if (!$aDiag['plugin']['error'])
     {
         $aResult['status'] = 'OK';
+        if ($upgraded) {
+            $aResult['status'].= ', Upgraded';
+        }
         if ($enabled)
         {
             if ($oPluginManager->enablePackage($pluginName))
