@@ -42,6 +42,7 @@
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/cache"/>
     <include name="var/plugins/config"/>
+    <include name="var/plugins/recover"/>
     <include name="var/plugins/DataObjects"/>
     <include name="var/plugins/README.txt"/>
     <include name="var/templates_compiled"/>
