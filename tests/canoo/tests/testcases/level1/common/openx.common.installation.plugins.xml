@@ -9,19 +9,37 @@
 <!-- TODO add Groovy method -->
 <!-- check plugins list -->
 <verifyText text="openXBannerTypes" description="openXBannerTypes"/>
+<verifyElementText htmlId="job_status_0" text="OK*" regex="true" description="openXBannerTypes installation status check"/>
+
 <verifyText text="openXDeliveryLimitations" description="openXDeliveryLimitations" />
+<verifyElementText htmlId="job_status_1" text="OK*" regex="true" description="openXDeliveryLimitations installation status check"/>
+
 <verifyText text="openX3rdPartyServers" description="openX3rdPartyServers" />
+<verifyElementText htmlId="job_status_2" text="OK*" regex="true" description="openX3rdPartyServers installation status check"/>
+
 <verifyText text="openXReports" description="openXReports" />
+<verifyElementText htmlId="job_status_3" text="OK*" regex="true" description="openXReports installation status check"/>
+
 <verifyText text="openXDeliveryCacheStore" description="openXDeliveryCacheStore" />
+<verifyElementText htmlId="job_status_4" text="OK*" regex="true" description="openXDeliveryCacheStore installation status check"/>
+
 <verifyText text="openXMaxMindGeoIP" description="openXMaxMindGeoIP" />
+<verifyElementText htmlId="job_status_5" text="OK*" regex="true" description="openXMaxMindGeoIP installation status check"/>
+
 <verifyText text="openXInvocationTags" description="openXInvocationTags" />
+<verifyElementText htmlId="job_status_6" text="OK*" regex="true" description="openXInvocationTags installation status check"/>
+
 <verifyText text="openXDeliveryLog" description="openXDeliveryLog" />
+<verifyElementText htmlId="job_status_7" text="OK*" regex="true" description="openXDeliveryLog installation status check"/>
+
 <verifyText text="openXMarket" description="openXMarket" />
+<verifyElementText htmlId="job_status_8" text="OK*" regex="true" description="openXMarket installation status check"/>
+
 <!-- <verifyXPath xpath="/html/body/div[3]/div/div[3]/div[2]/table[2]/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/ul/li" text="Cookie not found" /> -->
 <not>
 	<verifyText text="Cookie not found" description="check: Cookie not found" />
 	<verifyText text="Invalid Request" description="check: Invalid Request" />
-	<verifyText text="Failed" description="check:Failed" />
+	<verifyText text="Failed*" description="check:Failed" regex="true"/>
 </not>
 
 <clickButton label="Continue »"/>
