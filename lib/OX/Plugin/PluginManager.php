@@ -171,7 +171,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'>'))
             {
-                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not newer than that of the package you have installed');
+                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is older than that of the package you have installed');
                 $this->previousVersionInstalled = OX_PLUGIN_NEWER_VERSION_INSTALLED;
             }
             elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'=='))
