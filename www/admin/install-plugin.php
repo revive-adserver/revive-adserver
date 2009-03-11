@@ -169,6 +169,12 @@ function checkPlugin($pluginName)
                 $aFileName['tmp_name'] = $aPlugin['path'].$aPlugin['name'].'.'.$aPlugin['ext'];
                 $aFileName['type'] = 'application/zip';
                 $upgraded = $oPluginManager->upgradePackage($aFileName, $pluginName);
+                if(!empty($oPluginManager->aErrors) && !empty($oPluginManager->previousVersionInstalled) &&
+                          $oPluginManager->previousVersionInstalled != OX_PLUGIN_SAME_VERSION_INSTALLED) {
+                    foreach ($oPluginManager->aErrors as $i => $msg) {
+                        $aErrors[] = $msg;
+                    }
+                }
             }
         }
     }
@@ -198,9 +204,14 @@ function checkPlugin($pluginName)
     $enabled = wasPluginEnabled($pluginName); // original setting
     if (!$aDiag['plugin']['error'])
     {
-        $aResult['status'] = 'OK';
         if ($upgraded) {
-            $aResult['status'].= ', Upgraded';
+            $aResult['status'].= 'OK, Upgraded';
+        } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_GREATER_VERSION_INSTALLED) {
+            $aResult['status'].= 'OK. Notice: You have a greater plugin version installed that the one that comes with this upgrade package.';
+        } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_SAME_VERSION_INSTALLED) {
+            $aResult['status'].= 'OK, Up to date';
+        } else {
+            $aResult['status'].= 'OK';
         }
         if ($enabled)
         {

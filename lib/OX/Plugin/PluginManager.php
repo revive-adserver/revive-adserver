@@ -44,6 +44,10 @@ define('OX_PLUGIN_ERROR_PLUGIN_PARSE_FAILED'            ,   -9);
 define('OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH'            ,   -10);
 define('OX_PLUGIN_ERROR_ILLEGAL_FILE'                   ,   -11);
 define('OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH'    ,   -12);
+define('OX_PLUGIN_OLDER_VERSION_INSTALLED'              ,     1);
+define('OX_PLUGIN_SAME_VERSION_INSTALLED'               ,     2);
+define('OX_PLUGIN_NEWER_VERSION_INSTALLED'              ,     3);
+
 
 //define('OX_PLUGIN_DIR_WRITE_MODE', 0755);
 define('OX_PLUGIN_DIR_WRITE_MODE', 0777);
@@ -59,8 +63,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     var $oExtensionManager;
 
     var $aParse = array('package'=>array(), 'plugins'=>array());
-    
+
     var $pluginLogSwitchCounter = 0;
+
+    var $previousVersionInstalled;
 
     function __construct()
     {
@@ -147,9 +153,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             $aPluginsOld = $this->_getParsedPlugins();
             $this->aParse = array();
-    
+
             $this->disablePackage($name);
-    
+
             if (!$this->unpackPlugin($aFile, true))
             {
                 throw new Exception();
@@ -159,9 +165,19 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 throw new Exception('Upgrade package name '.$aPackageNew['name'].'" does not match the package you are upgrading '.$name);
             }
-            if (version_compare($aPackageOld['version'],$aPackageNew['version'],'>='))
+            if (version_compare($aPackageOld['version'],$aPackageNew['version'],'<'))
             {
-                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not greater than that of the package you have installed');
+                $this->previousVersionInstalled = OX_PLUGIN_OLDER_VERSION_INSTALLED;
+            }
+            elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'>'))
+            {
+                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is not newer than that of the package you have installed');
+                $this->previousVersionInstalled = OX_PLUGIN_NEWER_VERSION_INSTALLED;
+            }
+            elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'=='))
+            {
+                $this->previousVersionInstalled = OX_PLUGIN_SAME_VERSION_INSTALLED;
+                throw new Exception('Upgrade package '.$aPackageNew['name'].'" has the same version stamp as that of the package you have installed');
             }
             $aPluginsNew = $this->_getParsedPlugins();
             $this->_runExtensionTasks('BeforePluginInstall');
@@ -1422,11 +1438,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         $this->pluginLogSwitchCounter++;
     }
-    
+
     function _switchToDefaultLog() {
         $this->pluginLogSwitchCounter--;
         if ($this->pluginLogSwitchCounter == 0) {
-            OA::switchLogIdent();    
+            OA::switchLogIdent();
         }
     }
 }
