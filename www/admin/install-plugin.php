@@ -206,7 +206,7 @@ function checkPlugin($pluginName)
     {
         if ($upgraded) {
             $aResult['status'].= 'OK, Upgraded';
-        } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_GREATER_VERSION_INSTALLED) {
+        } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_NEWER_VERSION_INSTALLED) {
             $aResult['status'].= 'OK. Notice: You have a greater plugin version installed that the one that comes with this upgrade package.';
         } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_SAME_VERSION_INSTALLED) {
             $aResult['status'].= 'OK, Up to date';
