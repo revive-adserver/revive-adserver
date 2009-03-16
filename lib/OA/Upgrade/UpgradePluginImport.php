@@ -98,11 +98,17 @@ class OX_UpgradePluginImport extends OX_PluginExport
     {
         $sucess = true;
         if ($this->prepare($name)) {
-        foreach ($this->aFileList as $file) {
-            $file = substr($file, strlen($this->basePath));
-            $this->_makeDirectory(dirname($this->destPath . '/' . $file));
+            foreach ($this->aFileList as $file) {
+                $file = substr($file, strlen($this->basePath));
+                $this->_makeDirectory(dirname($this->destPath . '/' . $file));
                 @copy($this->basePath . $file, $this->destPath . '/' . $file);
-        }
+                // Deal with deliveryLimitation plugins which may reference phpSniff from core not the plugin
+                if ($name == 'openXDeliveryLimitations' && stristr($file, '/Client/')) {
+                    $contents = file_get_contents($this->destPath . '/' . $file);
+                    $contents = preg_replace('#^(require_once MAX_PATH \. \'/lib/phpSniff/phpSniff.class.php\';)$#m', "// \$1\nclass phpSniff { } \n", $contents);
+                    file_put_contents($this->destPath . '/' . $file, $contents);
+                }
+            }
         } else {
             $sucess = false;
         }
