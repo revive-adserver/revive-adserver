@@ -377,20 +377,20 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         // set up some package folders and files
         $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
 
-        $aPathExtensions = explode('/',$aConf['extensions']);
-        $varPathExtensions = $varPath;
-        foreach ($aPathExtensions as $sub)
+        $aPathPlugins = explode('/',$aConf['plugins']);
+        $varPathPlugins = $varPath;
+        foreach ($aPathPlugins as $sub)
         {
             if (trim($sub))
             {
-                $varPathExtensions.= '/'.$sub;
-                if (!file_exists(MAX_PATH.$varPathExtensions))
+                $varPathPlugins.= '/'.$sub;
+                if (!file_exists(MAX_PATH.$varPathPlugins))
                 {
-                    mkdir(MAX_PATH.$varPathExtensions);
+                    mkdir(MAX_PATH.$varPathPlugins);
                 }
             }
         }
-        $varPathExtensions.= '/';
+        $varPathPlugins.= '/';
         $aPathPackages = explode('/',$aConf['packages']);
         $varPathPackages = $varPath;
         foreach ($aPathPackages as $sub)

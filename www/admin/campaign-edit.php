@@ -251,9 +251,18 @@ $campaign['campaignid'] = $campaignid;
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
+
+// Handle ajax call to update ecpm field.
+if (isset($_REQUEST['ajax'])) {
+    $startDate = date('Y-m-d', strtotime($start));
+    $endDate = date('Y-m-d', strtotime($end));
+    $ecpm = OX_Util_Utils::getEcpm($revenue_type, $revenue,
+            $impressions, $clicks, $conversions, $startDate, $endDate);
+    echo $ecpm;
+    exit();
+}
+
 //build campaign form
-
-
 //var_dump($campaign);
 $oComponent = null;
 if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXThorium'] )
@@ -587,7 +596,8 @@ function buildECPMFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
         //section decorator to allow hiding of the section
         $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
-        $ecpmGroup ['ecpm'] = $form->createElement ( 'text', 'ecpm', null, array ('id' => 'ecpm' ) );
+        $ecpmGroup ['ecpm'] = $form->createElement ( 'text', 'ecpm', null, array ('id' => 'ecpm', 'disabled' => 'true'));
+//        $ecpmGroup['ecpm'] = $form->createElement ('custom', 'ecpm', null, array('ecpm' => $campaign['ecpm']), true);
         $form->addGroup ( $ecpmGroup, 'ecpm_group', $GLOBALS ['strECPM'], null, false );
 
         //minimum number of requires impressions
@@ -995,7 +1005,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
 
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
     $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningECPMNoECPM', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningECPMNoECPM'] ) ) );
+    $oTpl->assign ( 'strCampaignWarningEcpmNoRevenue', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningEcpmNoRevenue'] ) ) );
     $oTpl->assign ( 'strCampaignWarningExclusiveNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningExclusiveNoWeight'] ) ) );
 
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
@@ -1077,8 +1087,8 @@ function getCampaignInactiveReasons($aCampaign)
     ) {
         $aReasons [] = $GLOBALS ['strTargetIsNull'];
     }
-    if ($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM && $aCampaign['ecpm'] <= 0) {
-        $aReasons [] = $GLOBALS ['strECPMIsNull'];
+    if ($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM && $aCampaign['revenue'] <= 0) {
+        $aReasons [] = $GLOBALS ['strRevenueIsNull'];
     }
 
 

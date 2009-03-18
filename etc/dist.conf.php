@@ -395,15 +395,15 @@ saveStats=false
 showUnavailable=false
 
 [pluginPaths]
-packages   = /extensions/etc/
-extensions = /extensions/
+packages   = /plugins/etc/
+plugins    = /plugins/
 admin      = /www/admin/plugins/
 var        = /var/plugins/
 
 [pluginUpdatesServer]
 protocol=http
-host=localhost
-path=/plugins_repo/server
+host=code.openx.org
+path=/openx/plugin-updates
 httpPort=80
 
 [plugins]

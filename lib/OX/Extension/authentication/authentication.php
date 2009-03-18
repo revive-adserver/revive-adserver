@@ -164,19 +164,15 @@ class Plugins_Authentication extends OX_Component
             $errDetails = '';
             if (is_array($vals['error'])) {
                 $errDetails = '<ul>';
-                if ($env == 'PERMS')
-                {
+                if ($env == 'PERMS') {
                     foreach ($vals['actual'] as $key => $val) {
-                        if ($val['error'])
-                        {
-                            $errDetails .= '<li>' . $val['file'] . '  ' . $val['result'].'</li>';
+                        if ($val['error']) {
+                            $errDetails .= '<li>' . htmlspecialchars($val['file']) . '  ' . htmlspecialchars($val['result']).'</li>';
                         }
                     }
-                }
-                else
-                {
+                } else {
                     foreach ($vals['actual'] as $key => $val) {
-                        $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+                        $errDetails .= '<li>' . htmlspecialchars($key) . ' &nbsp; => &nbsp; ' . htmlspecialchars($val) . '</li>';
                     }
                 }
                 $errDetails .= '</ul>';

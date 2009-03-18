@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>demoExtension</name>
+    <creationDate>2008-06-30</creationDate>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Demo Extension for OpenX</description>
+    <version>0.0.3</version>
+    <type>extension</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">demoExtension.readme.txt</file>
+            <file path="{PLUGINPATH}">demoExtension.uninstall.txt</file>
+        </files>
+
+        <contents>
+            <group name="demoDeliveryLimitation"   >1</group>
+            <group name="demoBannerTypeHtml"       >2</group>
+            <group name="demoUserInterface"        >3</group>
+            <group name="demoXajax"                >4</group>
+            <group name="demojQuery"              >5</group>
+        </contents>
+
+    </install>
+
+    <readme>
+
+    </readme>
+
+</plugin>

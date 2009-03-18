@@ -8,7 +8,7 @@
 			</fileset>
 			<mapper type="glob" from="*.template.xml" to="*.temp.xml"/>
 			<filterset onmissingfiltersfile="ignore">
-				<filtersfile file="${basedir}/${name}/extensions/etc/override.properties"/>
+				<filtersfile file="${basedir}/${name}/plugins/etc/override.properties"/>
 			</filterset>
 		</copy>
 
@@ -18,7 +18,7 @@
 			</fileset>
 			<mapper type="glob" from="*.temp.xml" to="*.xml"/>
 			<filterset onmissingfiltersfile="warn">
-				<filtersfile file="${basedir}/${name}/extensions/etc/default.properties"/>
+				<filtersfile file="${basedir}/${name}/plugins/etc/default.properties"/>
 			</filterset>
 		</copy>
 		
@@ -38,7 +38,7 @@
 			</fileset>
 			<mapper type="glob" from="*.template.xml" to="*.xml"/>
 			<filterset onmissingfiltersfile="warn">
-				<filtersfile file="${basedir}/${name}/extensions/etc/default.properties"/>
+				<filtersfile file="${basedir}/${name}/plugins/etc/default.properties"/>
 			</filterset>
 		</copy>
 		

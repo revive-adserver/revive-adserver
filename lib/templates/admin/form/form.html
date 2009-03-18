@@ -35,12 +35,6 @@ $Id$
 <form {$form.attributes}>
 {$form.hidden}
 
-{if $form.hasRequiredFields and not $form.frozen}
-<div style="width: 580px; text-align:left; margin-bottom: 7px;">
-    <span style="font-size:80%; color: red">*</span> <span style="font-size:80%; color:#7f7f7f;">{t str=RequiredFieldLegend}</span>
-</div>
-{/if}
-
 {foreach from=$form.elements item=nonSecElem key=ei name=_e_elements}
     {oa_form_element elem=$nonSecElem }{/oa_form_element}
 {/foreach}

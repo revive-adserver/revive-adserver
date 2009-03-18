@@ -51,7 +51,7 @@ OA::debug('starting delivery script '.__FILE__);
 $script = str_replace("\0", '', $_GET['script']);
 $aPluginId = explode(':', $script);
 
-$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
+$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['plugins'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
 
 if (stristr($scriptFileName, '../') || stristr($scriptFileName, '..\\') || !is_readable($scriptFileName) || !is_file($scriptFileName)) {
     if (empty($conf['debug']['production'])) {

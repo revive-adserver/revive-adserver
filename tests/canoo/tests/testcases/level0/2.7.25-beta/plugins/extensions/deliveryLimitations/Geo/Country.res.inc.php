@@ -33,7 +33,7 @@ $Id: Country.res.inc.php 22781 2008-07-16 16:52:20Z chris.nutting@openx.org $
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['country'])) {
-    $pathPlugins = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'/deliveryLimitations/Geo/data/';
+    $pathPlugins = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'].'/deliveryLimitations/Geo/data/';
     require $pathPlugins.'res-iso3166.inc.php';
 
     $res = array();

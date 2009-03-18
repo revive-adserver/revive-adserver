@@ -1475,10 +1475,10 @@ function _pgsqlGetTotalPrioritiesByCP($aAdsByCP)
     return $totals;
 }
 
-function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
+function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     if (!empty($GLOBALS['_MAX']['CONF']['deliveryLog']['enabled']))
     {
         require_once(MAX_PATH.'/lib/OA.php');
@@ -1491,10 +1491,10 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
     return $result;
 }
 
-function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
+function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $args = implode(',', OX_bucket_quoteArgs($aQuery));
-    $query = "SELECT bucket_update_{$tableName}({$args})";
+    $query = "SELECT bucket_update_{$tableName}({$args},1)";
     return $query;
 }
 

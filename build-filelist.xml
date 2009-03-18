@@ -36,7 +36,7 @@
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
-    <include name="extensions/**"/>
+    <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
@@ -113,7 +113,7 @@
     <include name="var/templates_compiled"/>
     <include name="www/images"/>
     <include name="www/admin/plugins"/>
-    <include name="extensions/**"/>
+    <include name="plugins/**"/>
   </patternset>
 
 </project>

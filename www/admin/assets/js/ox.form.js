@@ -13,6 +13,10 @@
                 return true;
             }
             
+            if (isEmpty(settings.rules)) {
+                return;
+            }
+            
             $this.validate({
                 event: "keyup",
                 focusInvalid: true,
@@ -36,5 +40,15 @@
                 messages: settings.messages
             });
         });
+        
+        //checkif given object properties are not empty, ignore properties from parent object
+        function isEmpty(ob){
+          for (var i in ob) { 
+            if (ob.hasOwnProperty(i)) {
+                return false;
+            }
+          }
+          return true;
+        }
     };
 })(jQuery);

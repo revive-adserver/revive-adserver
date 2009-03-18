@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 
 /**
  * A class to carry out the task of calculating eCPM probabilities.
@@ -49,29 +50,31 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     const ALPHA = 5.0;
 
     /**
-     * If there is no data forecasted for a zone (which shouldn't happen but
-     * theoretically is possible, use this data as a default)
+     * If there is no data forecasted for a zone use this data as a default
      */
     const DEFAULT_ZONE_FORECAST = 100;
 
     /**
      * Indexes used for indexing arrays. More effective than using strings because less memory
      * will be used to store the data.
-     * (For the debugging purposes its handy to change them to string)
+     * (For the debugging purposes its handy to change them to strings)
      */
     const IDX_ADS             = 1; // 'ads'
     const IDX_WEIGHT          = 2; // 'weight'
     const IDX_ZONES           = 3; // 'zones'
-    const IDX_ECPM            = 4; // 'ecpm'
-    const IDX_MIN_IMPRESSIONS = 5; // 'impr'
+    const IDX_MIN_IMPRESSIONS = 4; // 'impressions'
+    const IDX_REVENUE         = 5; // 'revenue'
+    const IDX_REVENUE_TYPE    = 6; // 'revenue_type'
+    const IDX_ACTIVATE        = 7; // 'activate'
+    const IDX_EXPIRE          = 8; // 'expire'
 
     /**
-     * Used to generate date in string format from the PEAR_Date
+     * Used to generate date (in string format) from the PEAR_Date
      */
     const DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
-     * Helper arrays for storing the additional variables
+     * Helper arrays for storing additional variables
      * required in calculations.
      *
      * @var array
@@ -82,7 +85,8 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     public $aZonesEcpmPowAlphaSums = array();
     public $aZonesContracts = array();
     public $aCampaignsDeliveredImpressions = array();
-    public $aZonesSumProbability = array();
+    public $aCampaignsDeliveries = array();
+    public $aCampaignsEcpms = array();
 
     /**
      * How many operation intervals are left till the end of today
@@ -101,7 +105,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     var $aLastRun;
 
     /**
-     * Contains both start and end date of the operation interval in which
+     * Contains both start and end dates of the operation interval in which
      * the MPE is being executing. (contains indexes 'start' and 'end' with
      * PEAR_Dates)
      *
@@ -158,10 +162,10 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     }
 
     /**
-     * Executes the eCPM algorithm. For each agency calculates the probabilities.
+     * Executes the eCPM algorithm.
      * Calculations for each of the agencies are carried on in separate
-     * loops so it should be relatively easy to scale this algorithm up
-     * and sums the data for different agencies using different machines.
+     * loop so it should be relatively easy to scale this algorithm up
+     * and run it on more than one machine.
      */
     public function runAlgorithm()
     {
@@ -172,8 +176,10 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
             if (is_array($aCampaignsInfo) && !empty($aCampaignsInfo)) {
                 $this->preloadZonesContractsForAgency($agencyId);
                 $this->preloadCampaignsDeliveredImpressionsForAgency($agencyId);
+                $this->preloadCampaignsDeliveriesForAgency($agencyId);
                 $this->prepareCampaignsParameters($aCampaignsInfo);
                 $this->oDal->updateEcpmPriorities($this->calculateDeliveryProbabilities($aCampaignsInfo));
+                $this->oDal->updateCampaignsEcpms($aCampaignsInfo);
             }
         }
     }
@@ -213,11 +219,6 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                     }
                     $M = $this->getZoneContract($zoneId);
                     $minRequestedImpr = $aAdsZonesMinImpressions[$adId][$zoneId];
-                    if ($minRequestedImpr > $M) {
-                        // make sure estimated number of impressions is always bigger
-                        // than requested minimum
-                        $minRequestedImpr = $M;
-                    }
                     if ($this->aZonesMinImpressions[$zoneID] > $M) {
                         $aAdZonesProbabilities[$adId][$zoneId] =
                             $minRequestedImpr / $aZonexMinImpressions[$zoneID];
@@ -226,51 +227,10 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                            $minRequestedImpr / $M
                            + (1 - $this->aZonesMinImpressions[$zoneId] / $M) * $p;
                     }
-                    $this->sumUpZoneProbability($zoneId, $aAdZonesProbabilities[$adId][$zoneId]);
-                }
-            }
-        }
-        return $this->normalizeProbabilities($aAdZonesProbabilities);
-    }
-
-    /**
-     * Its possible (in cases when the minimum required impressions is close to
-     * impressions forecasted per zone) that an ad-zone probability
-     * may be bigger than one. The calculated probabilities are normalized
-     * to ensure that their sum is always equal to 1.
-     *
-     * @param array $aAdZonesProbabilities  Ad-zone probabilities, format:
-     *                                      adid (integer) => array(
-     *                                        zoneid (integer) => probability (float)
-     *                                      ),...
-     * @return array Normalized ad-zone probabilisites, same format as in $aAdZonesProbabilities
-     */
-    public function normalizeProbabilities($aAdZonesProbabilities)
-    {
-        foreach($aAdZonesProbabilities as $adId => $aZone) {
-            foreach($aZone as $zoneId => $p) {
-                if ($this->aZonesSumProbability[$zoneId]) {
-                    $aAdZonesProbabilities[$adId][$zoneId] = $p / $this->aZonesSumProbability[$zoneId];
                 }
             }
         }
         return $aAdZonesProbabilities;
-    }
-
-    /**
-     * Calculates sums of probabilities of all ads linked to a given zone.
-     * This number is later used to normalize the probabilities across a zone.
-     *
-     * @param integer $zoneId  Zone ID
-     * @param float $p Probability (may be bigger than 1.0)
-     */
-    public function sumUpZoneProbability($zoneId, $p)
-    {
-        if (!isset($this->aZonesSumProbability[$zoneId])) {
-            $this->aZonesSumProbability[$zoneId] = $p;
-        } else {
-            $this->aZonesSumProbability[$zoneId] += $p;
-        }
     }
 
     /**
@@ -282,8 +242,8 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
      * paper for more info.
      *
      * This function can be divided into two functionaly separate functions
-     * but that would require passing the campaignsInfo array twice so from
-     * the performance reasons both tasks are performed in signle pass.
+     * but that would require passing the campaignsInfo array twice so because
+     * of the performance reasons both tasks are performed in signle pass.
      *
      * @param array $aCampaignsInfo  Contains all ecpm campaigns withing one agency with
      *                               all their ads and the zones they are linked to.
@@ -295,13 +255,14 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
         $campaignRemainingOperationIntervals = $this->getTodaysRemainingOperationIntervals();
         foreach($aCampaignsInfo as $campaignId => $aCampaign) {
             $deliveredImpressions = $this->getCampaignDeliveredImpressions($campaignId);
+            $this->aCampaignsEcpms[$campaignId] = $ecpm =
+                $this->calculateCampaignEcpm($campaignId, $aCampaign);
             $campaignAdsWeightSum = 0;
-            // Calculates ECPM ^ ALPHA and sums of ads weights
+            // Calculates ECPM ^ ALPHA and sums up ads weights
             foreach($aCampaign[self::IDX_ADS] as $adId => $adInfo) {
                 // calculate sum of all ads weights across a campaign
                 $campaignAdsWeightSum += $adInfo[self::IDX_WEIGHT];
-                
-                $this->setAdEcpmPowAlpha($adId, $aCampaign[self::IDX_ECPM]);
+                $this->setAdEcpmPowAlpha($adId, $ecpm);
                 $this->setZonesEcpmPowAlphaSums($adId, $adInfo[self::IDX_ZONES]);
             }
             // Calculates minimum number of required impressions for each ad
@@ -321,6 +282,19 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                 );
             }
         }
+    }
+
+    public function calculateCampaignEcpm($campaignId, $aCampaign)
+    {
+        return OX_Util_Utils::getEcpm(
+            $aCampaign[self::IDX_REVENUE_TYPE],
+            $aCampaign[self::IDX_REVENUE],
+            $this->aCampaignsDeliveries[$campaignId]['sum_impressions'],
+            $this->aCampaignsDeliveries[$campaignId]['sum_clicks'],
+            $this->aCampaignsDeliveries[$campaignId]['sum_conversions'],
+            $aCampaign[self::IDX_ACTIVATE],
+            $aCampaign[self::IDX_EXPIRE]
+        );
     }
 
     /**
@@ -511,6 +485,21 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     }
 
     /**
+     * Reads from database number of impressions, clicks and conversions which
+     * were delivered during the campaign lifetime in each of the ecpm campaigns in a given agency.
+     * The data is cached in the array for the later use.
+     *
+     * @param integer $agencyId  Agency ID
+     */
+    public function preloadCampaignsDeliveriesForAgency($agencyId)
+    {
+        $aCampaignsDeliveries = $this->oDal->getAgencyEcpmRemnantCampaignsDeliveriesToDate($agencyId);
+        if ($aCampaignsDeliveries) {
+            $this->aCampaignsDeliveries = $aCampaignsDeliveries;
+        }
+    }
+
+    /**
      * Calculates zones contracts for a given agency (for today).
      * A contract is a result of forecasting (ZIF) minus
      * requested impressions in a given zone by high priority
@@ -597,7 +586,8 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
         $this->aZonesEcpmPowAlphaSums = array();
         $this->aZonesContracts = array();
         $this->aCampaignsDeliveredImpressions = array();
-        $this->aZonesSumProbability = array();
+        $this->aCampaignsDeliveries = array();
+        $this->aCampaignsEcpms = array();
     }
 
     /**

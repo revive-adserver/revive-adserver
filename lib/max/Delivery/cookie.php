@@ -189,17 +189,18 @@ function _isBlockCookie($cookieName)
  */
 function MAX_cookieGetUniqueViewerId($create = true)
 {
+    static $uniqueViewerId = null;
+    if(!is_null($uniqueViewerId)) {
+        return $uniqueViewerId;
+    }
     $conf = $GLOBALS['_MAX']['CONF'];
     if (isset($_COOKIE[$conf['var']['viewerId']])) {
-        $viewerId = $_COOKIE[$conf['var']['viewerId']];
+        $uniqueViewerId = $_COOKIE[$conf['var']['viewerId']];
     } elseif ($create) {
-        $viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
+        $uniqueViewerId = md5(uniqid('', true));  // Need to find a way to generate this...
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-    } else {
-        $viewerId = null;
-    }
-
-    return $viewerId;
+    } 
+    return $uniqueViewerId;
 }
 
 /**

@@ -1140,7 +1140,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             SELECT
                 *
             FROM
-                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true) . "
+                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns', true) . "
             WHERE
                 campaignid = " . $idCampaign;
         $aRow = $this->oDbh->queryRow($query);

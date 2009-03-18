@@ -28,6 +28,8 @@ $Id$
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OX/Translation.php';
+require_once MAX_PATH . '/lib/OX/Extension/invocationTags/InvocationTagsOptions.php';
+
 
 define('MAX_PLUGINS_INVOCATION_TAGS_ALLOW', 'Allow ');
 define('MAX_PLUGINS_INVOCATION_TAGS_STANDARD', 0);
@@ -182,7 +184,16 @@ class Plugins_InvocationTags extends OX_Component
             }
         }
         $mi->parameters = array();
-
+        $imgParams      = array();
+        
+        // Setup option defaults
+        $pluginOptions = new Plugins_InvocationTagsOptions();
+        foreach ($pluginOptions->defaultValues as $key => $value) {
+            if (!is_array($value) && is_null($mi->$key)) {
+                $mi->$key = $mi->parameters[$key] = $value;
+            }
+        }
+        
         // UniqueID is only necessary for a couple of plugins, so it is not "common"
         //$mi->uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
@@ -192,34 +203,34 @@ class Plugins_InvocationTags extends OX_Component
 
         // Set parameters
         if (isset($mi->clientid) && strlen($mi->clientid) && $mi->clientid != '0') {
-            $mi->parameters['clientid'] = "clientid=".$mi->clientid;
+            $mi->parameters['clientid'] = $imgParams['clientid'] = "clientid=".$mi->clientid;
         }
         if (isset($mi->zoneid) && $mi->zoneid != '') {
-            $mi->parameters['zoneid'] = "zoneid=".urlencode($mi->zoneid);
+            $mi->parameters['zoneid'] = $imgParams['zoneid'] = "zoneid=".urlencode($mi->zoneid);
         }
         if (isset($mi->campaignid) && strlen($mi->campaignid) && $mi->campaignid != '0') {
-            $mi->parameters['campaignid'] = "campaignid=".$mi->campaignid;
+            $mi->parameters['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
         }
         if (isset($mi->bannerid) && $mi->bannerid != '') {
-            $mi->parameters['bannerid'] = "bannerid=".urlencode($mi->bannerid);
+            $mi->parameters['bannerid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
         }
         if (isset($mi->what) && $mi->what != '') {
-            $mi->parameters['what'] = "what=".str_replace (",+", ",_", $mi->what);
+            $mi->parameters['what'] = $imgParams['what'] = "what=".str_replace (",+", ",_", $mi->what);
         }
         if (isset($mi->source) && $mi->source != '') {
-            $mi->parameters['source'] = "source=".urlencode($mi->source);
+            $mi->parameters['source'] = $imgParams['source'] = "source=".urlencode($mi->source);
         }
         if (isset($mi->target) && $mi->target != '') {
-            $mi->parameters['target'] = "target=".urlencode($mi->target);
+            $mi->parameters['target'] = $imgParams['target'] = "target=".urlencode($mi->target);
         }
         if (isset($mi->charset) && $mi->charset != '') {
-            $mi->parameters['charset'] = "charset=".urlencode($mi->charset);
+            $mi->parameters['charset'] = $imgParams['charset'] = "charset=".urlencode($mi->charset);
         }
         if (!empty($mi->cachebuster)) {
-            $mi->parameters['cb'] = "cb=" . $mi->macros['cachebuster'];
+            $mi->parameters['cb'] = $imgParams['cb'] = "cb=" . $mi->macros['cachebuster'];
         }
         if (!empty($mi->thirdpartytrack)) {
-           $mi->parameters['ct0'] = "ct0=" . $mi->macros['clickurl'];
+           $mi->parameters['ct0'] = $imgParams['ct0'] = "ct0=" . $mi->macros['clickurl'];
         }
 
         // Set $mi->buffer to the initial comment
@@ -273,7 +284,6 @@ class Plugins_InvocationTags extends OX_Component
 
         // Set $mi->backupImage to the HTML for the backup image (same as used by adview)
         $hrefParams = array();
-        $imgParams = $mi->parameters;
         $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
         if ((isset($mi->bannerid)) && ($mi->bannerid != '')) {
@@ -307,6 +317,13 @@ class Plugins_InvocationTags extends OX_Component
         }
         $backup .= "' border='0' alt='' /></a>";
         $mi->backupImage = $backup;
+
+        // Make sure that the parameters being added are accepted by this plugin, else remove them
+        foreach ($mi->parameters as $key => $value) {
+            if (!in_array($key, array_keys($this->options))) {
+                unset($mi->parameters[$key]);
+            }
+        }
     }
 
     /**
@@ -326,7 +343,6 @@ class Plugins_InvocationTags extends OX_Component
         $show = $this->getOptionsList($maxInvocation);
         $show += $this->defaultOptions;
 
-        include_once LIB_PATH . '/Extension/invocationTags/InvocationTagsOptions.php';
         $invocationOptions = new Plugins_InvocationTagsOptions();
         $invocationOptions->setInvocation($maxInvocation);
 

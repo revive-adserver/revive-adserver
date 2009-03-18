@@ -39,7 +39,7 @@ class Test_OX_PluginExport extends UnitTestCase
     var $testpathData         = '/lib/OX/Plugin/tests/data/';
     var $testpathPackages     = '/lib/OX/Plugin/tests/data/plugins/etc/';
     var $testpathPluginsAdmin = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
-    var $testpathExtensions   = '/lib/OX/Plugin/tests/data/plugins/';
+    var $testpathPlugins      = '/lib/OX/Plugin/tests/data/plugins/';
     var $testpathDataObjects  = '/var/';
 
 
@@ -120,11 +120,11 @@ class Test_OX_PluginExport extends UnitTestCase
     function test_compileContents_admin_with_schema()
     {
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages']     = $this->testpathPackages;
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']   = $this->testpathExtensions;
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins']   = $this->testpathPlugins;
         $GLOBALS['_MAX']['CONF']['pluginPaths']['admin']        = $this->testpathPluginsAdmin;
 
         $pathPackages     = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $pathExtensions   = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $pathPlugins      = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $pathAdmin        = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
@@ -156,11 +156,11 @@ class Test_OX_PluginExport extends UnitTestCase
     /*function test_compileDirectories_admin_with_schema()
     {
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages']     = $this->testpathPackages;
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']   = $this->testpathExtensions;
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins']   = $this->testpathPlugins;
         $GLOBALS['_MAX']['CONF']['pluginPaths']['admin']        = $this->testpathPluginsAdmin;
 
         $pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $pathPlugins      = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
@@ -170,7 +170,7 @@ class Test_OX_PluginExport extends UnitTestCase
         $this->assertIsA($oExport->aDirList,'array');
         $this->assertEqual(count($oExport->aDirList),10);
         $this->assertTrue(in_array(rtrim($pathPackages,'/'), $oExport->aDirList));
-        $this->assertTrue(in_array(rtrim($pathExtensions,'/'), $oExport->aDirList));
+        $this->assertTrue(in_array(rtrim($pathPlugins,'/'), $oExport->aDirList));
         $this->assertTrue(in_array($pathPackages.'testDepends', $oExport->aDirList));
         $this->assertTrue(in_array($pathPackages.'testPlugin', $oExport->aDirList));
         $this->assertTrue(in_array($pathPackages.'testPlugin/etc', $oExport->aDirList));
@@ -188,7 +188,7 @@ class Test_OX_PluginExport extends UnitTestCase
         TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $pathExtensions   = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $pathPlugins      = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $pathAdmin        = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
@@ -197,8 +197,8 @@ class Test_OX_PluginExport extends UnitTestCase
         $this->assertEqual(count($oExport->aFileList),4);
         $this->assertTrue(in_array($pathPackages.'openXTests.xml', $oExport->aFileList));
         $this->assertTrue(in_array($pathPackages.'Dummy/Dummy.xml', $oExport->aFileList));
-        $this->assertTrue(in_array($pathExtensions.'deliveryLimitations/Dummy/Dummy.class.php', $oExport->aFileList));
-        $this->assertTrue(in_array($pathExtensions.'deliveryLimitations/Dummy/Dummy.delivery.php', $oExport->aFileList));
+        $this->assertTrue(in_array($pathPlugins.'deliveryLimitations/Dummy/Dummy.class.php', $oExport->aFileList));
+        $this->assertTrue(in_array($pathPlugins.'deliveryLimitations/Dummy/Dummy.delivery.php', $oExport->aFileList));
 
 	    TestEnv::uninstallPluginPackage('openXTests', false);
 	    TestEnv::restoreConfig();
@@ -209,7 +209,7 @@ class Test_OX_PluginExport extends UnitTestCase
         TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $pathPlugins      = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
@@ -218,10 +218,10 @@ class Test_OX_PluginExport extends UnitTestCase
         $this->assertIsA($oExport->aDirList,'array');
         $this->assertEqual(count($oExport->aDirList),4);
         $baseDir = MAX_PATH.'/var/tmp/openXTests';
-        $this->assertTrue(in_array(rtrim($pathExtensions,'/'), $oExport->aDirList));
+        $this->assertTrue(in_array(rtrim($pathPlugins,'/'), $oExport->aDirList));
         $this->assertTrue(in_array(rtrim($pathPackages,'/'), $oExport->aDirList));
         $this->assertTrue(in_array($pathPackages.'Dummy', $oExport->aDirList));
-        $this->assertTrue(in_array($pathExtensions.'deliveryLimitations/Dummy', $oExport->aDirList));
+        $this->assertTrue(in_array($pathPlugins.'deliveryLimitations/Dummy', $oExport->aDirList));
 
         TestEnv::uninstallPluginPackage('openXTests', false);
         TestEnv::restoreConfig();
@@ -258,7 +258,7 @@ class Test_OX_PluginExport extends UnitTestCase
         TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $pathPlugins      = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
@@ -282,12 +282,12 @@ class Test_OX_PluginExport extends UnitTestCase
 		$this->assertEqual($aContents[0]['stored_filename'],ltrim($pathPackages,'/').'Dummy/Dummy.xml');
 
 		$this->assertEqual($aContents[1]['status'],'ok');
-		$this->assertEqual($aContents[1]['filename'],ltrim($pathExtensions,'/').'deliveryLimitations/Dummy/Dummy.class.php');
-		$this->assertEqual($aContents[1]['stored_filename'],ltrim($pathExtensions,'/').'deliveryLimitations/Dummy/Dummy.class.php');
+		$this->assertEqual($aContents[1]['filename'],ltrim($pathPlugins,'/').'deliveryLimitations/Dummy/Dummy.class.php');
+		$this->assertEqual($aContents[1]['stored_filename'],ltrim($pathPlugins,'/').'deliveryLimitations/Dummy/Dummy.class.php');
 
 		$this->assertEqual($aContents[2]['status'],'ok');
-		$this->assertEqual($aContents[2]['filename'],ltrim($pathExtensions,'/').'deliveryLimitations/Dummy/Dummy.delivery.php');
-		$this->assertEqual($aContents[2]['stored_filename'],ltrim($pathExtensions,'/').'deliveryLimitations/Dummy/Dummy.delivery.php');
+		$this->assertEqual($aContents[2]['filename'],ltrim($pathPlugins,'/').'deliveryLimitations/Dummy/Dummy.delivery.php');
+		$this->assertEqual($aContents[2]['stored_filename'],ltrim($pathPlugins,'/').'deliveryLimitations/Dummy/Dummy.delivery.php');
 
 		$this->assertEqual($aContents[3]['status'],'ok');
 		$this->assertEqual($aContents[3]['filename'],ltrim($pathPackages,'/').'openXTests.xml');

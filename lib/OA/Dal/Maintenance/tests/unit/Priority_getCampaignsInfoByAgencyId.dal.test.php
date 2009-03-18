@@ -84,11 +84,13 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
         $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
         $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
-        $idxEcpm = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ECPM;
+        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE;
+        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE_TYPE;
         $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
 
         $aCampaign = $ret[$campaignId];
-        $this->assertEqual($aExpectedCampaign['ecpm'], $aCampaign[$idxEcpm]);
+        $this->assertEqual($aExpectedCampaign['revenue'], $aCampaign[$idxRevenue]);
+        $this->assertEqual($aExpectedCampaign['revenue_type'], $aCampaign[$idxRevenueType]);
         $this->assertTrue(isset($aCampaign[$idxAds][$adId]));
         $aAd = $aCampaign[$idxAds][$adId];
         $this->assertEqual($aExpectedAd['weight'], $aAd[$idxWeight]);
@@ -118,19 +120,20 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         // Add campaigns
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test eCPM Campaign 1';
-        $doCampaigns->ecpm = 0.1;
+        $doCampaigns->revenue = 0.1;
         $doCampaigns->min_impressions = 100;
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
         $doCampaigns->clientid = $clientId1;
         $idCampaign11 = DataGenerator::generateOne($doCampaigns);
         $this->firsCampaignId = $idCampaign11;
-        $this->aExpectedData['campaigns'][$idCampaign11]['ecpm'] = $doCampaigns->ecpm;
+        $this->aExpectedData['campaigns'][$idCampaign11]['revenue'] = $doCampaigns->revenue;
+        $this->aExpectedData['campaigns'][$idCampaign11]['revenue_type'] = $doCampaigns->revenue_type;
         $this->aExpectedData['campaigns'][$idCampaign11]['min_impressions'] =
             $doCampaigns->min_impressions;
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test non eCPM Campaign 2';
-        $doCampaigns->ecpm = 0.2;
+        $doCampaigns->revenue = 0.2;
         $doCampaigns->min_impressions = 200;
         $doCampaigns->priority = 1;
         $doCampaigns->clientid = $clientId1;
@@ -138,13 +141,14 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test eCPM Campaign 2';
-        $doCampaigns->ecpm = 0.5;
+        $doCampaigns->revenue = 0.5;
         $doCampaigns->min_impressions = 300;
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
         $doCampaigns->clientid = $clientId2;
         $idCampaign2 = DataGenerator::generateOne($doCampaigns);
         $this->secondCampaignId = $idCampaign2;
-        $this->aExpectedData['campaigns'][$idCampaign2]['ecpm'] = $doCampaigns->ecpm;
+        $this->aExpectedData['campaigns'][$idCampaign2]['revenue'] = $doCampaigns->revenue;
+        $this->aExpectedData['campaigns'][$idCampaign2]['revenue_type'] = $doCampaigns->revenue_type;
         $this->aExpectedData['campaigns'][$idCampaign2]['min_impressions'] =
             $doCampaigns->min_impressions;
 

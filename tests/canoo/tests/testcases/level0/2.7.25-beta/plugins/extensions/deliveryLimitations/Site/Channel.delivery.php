@@ -53,7 +53,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
     }
 	$aLimitations = MAX_cacheGetChannelLimitations($limitation);
 
-	$pathPlugins = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+	$pathPlugins = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
 
     // Include required deliveryLimitation files...
     if(strlen($aLimitations['acl_plugins'])) {

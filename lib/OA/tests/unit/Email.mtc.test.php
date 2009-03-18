@@ -99,8 +99,8 @@ class Test_OA_Email extends UnitTestCase
 
         // Prepare valid test data
         $advertiserId = 1;
-        $oStartDate   = new Date('2007-05-13 23:59:59');
-        $oEndDate     = new Date('2007-05-19 00:00:00');
+        $oStartDate   = new Date('2007-05-13 00:00:00');
+        $oEndDate     = new Date('2007-05-19 23:59:59');
         $email        = 'andrew.hill@openx.org';
         $user_name    = 'Andrew Hill';
         $clientName   = 'Foo Client';
@@ -358,19 +358,19 @@ class Test_OA_Email extends UnitTestCase
         $doBanners->description = 'Test Banner';
         $adId1= DataGenerator::generateOne($doBanners);
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->date_time   = '2007-05-14 12:00:00';
+        $doDataSummaryAdHourly->date_time   = '2007-05-14 02:00:00';
         $doDataSummaryAdHourly->ad_id       = $adId1;
         $doDataSummaryAdHourly->impressions = 5000;
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $doDataSummaryAdHourly->date_time   = '2007-05-14 13:00:00';
+        $doDataSummaryAdHourly->date_time   = '2007-05-14 03:00:00';
         $doDataSummaryAdHourly->ad_id       = $adId1;
         $doDataSummaryAdHourly->impressions = 5000;
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $doDataSummaryAdHourly->date_time   = '2007-05-15 13:00:00';
+        $doDataSummaryAdHourly->date_time   = '2007-05-15 03:00:00';
         $doDataSummaryAdHourly->ad_id       = $adId1;
         $doDataSummaryAdHourly->impressions = 5000;
         $doDataSummaryAdHourly->clicks      = 0;
@@ -399,6 +399,65 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
+
+        // Retest with a different timezone, same interval
+        $oStartDate   = new Date('2007-05-10 00:00:00');
+        $oEndDate     = new Date('2007-05-19 23:59:00');
+        $oStartDate->setTZbyID('PST');
+        $oEndDate->setTZbyID('PST');
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $expectedSubject = "Advertiser report: $clientName";
+        $expectedContents  = "Dear $user_name,\n\n";
+        $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
+        global $date_format;
+        $startDate = $oStartDate->format($date_format);
+        $endDate   = $oEndDate->format($date_format);
+        $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$adId1] Test Banner\n";
+        $expectedContents .= " ------------------------------------------------------\n";
+        $expectedContents .= " Impressions (Total):          15,000\n";
+        $expectedContents .= "          14-05-2007:           5,000\n";
+        $expectedContents .= "          13-05-2007:          10,000\n";
+        $expectedContents .= "   Total this period:          15,000\n";
+        $expectedContents .= "\n\n";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 3);
+        $this->assertEqual($aResult['subject'], $expectedSubject);
+        $this->assertEqual($aResult['contents'], $expectedContents);
+
+
+        // Retest with a different timezone, shorter interval
+        $oStartDate   = new Date('2007-05-13 00:00:00');
+        $oEndDate     = new Date('2007-05-13 23:59:00');
+        $oStartDate->setTZbyID('PST');
+        $oEndDate->setTZbyID('PST');
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $expectedSubject = "Advertiser report: $clientName";
+        $expectedContents  = "Dear $user_name,\n\n";
+        $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
+        global $date_format;
+        $startDate = $oStartDate->format($date_format);
+        $endDate   = $oEndDate->format($date_format);
+        $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$adId1] Test Banner\n";
+        $expectedContents .= " ------------------------------------------------------\n";
+        $expectedContents .= " Impressions (Total):          15,000\n";
+        $expectedContents .= "          13-05-2007:          10,000\n";
+        $expectedContents .= "   Total this period:          10,000\n";
+        $expectedContents .= "\n\n";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 3);
+        $this->assertEqual($aResult['subject'], $expectedSubject);
+        $this->assertEqual($aResult['contents'], $expectedContents);
+
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
 
@@ -572,7 +631,6 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual(count($aUserLog), 3);
         $this->assertEqual($aUserLog[0]['action'], phpAds_actionAdvertiserReportMailed);
         $this->assertEqual($aUserLog[1]['action'], phpAds_actionAdvertiserReportMailed);
-
 
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
@@ -1515,6 +1573,57 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
         TestEnv::restoreEnv();
+    }
+
+    function testConvertStartEndDate()
+    {
+        $oEmail = new PartialMockOA_Email();
+        $oEmail->setReturnValue('sendMail', true);
+
+        // UTC, no start
+        $oStartDate = null;
+        $oEndDate   = new Date('2009-01-07 00:05:00');
+        $oTimezone = new Date_TimeZone('UTC');
+        $oEmail->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
+        $this->assertNull($oStartDate);
+        $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'),   '2009-01-06 23:59:59');
+        $this->assertEqual($oEndDate->tz, $oTimezone);
+
+        // UTC
+        $oStartDate = new Date('2009-01-01 00:05:00');
+        $oEndDate   = new Date('2009-01-07 00:05:00');
+        $oTimezone = new Date_TimeZone('UTC');
+        $oEmail->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
+        $this->assertEqual($oStartDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-01 00:00:00');
+        $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'),   '2009-01-06 23:59:59');
+        $this->assertEqual($oEndDate->tz, $oTimezone);
+
+        // PST
+        $oStartDate = new Date('2009-01-01 00:05:00');
+        $oEndDate   = new Date('2009-01-07 00:05:00');
+        $oTimezone = new Date_TimeZone('PST');
+        $oEmail->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
+        $this->assertEqual($oStartDate->format('%Y-%m-%d %H:%M:%S'), '2008-12-31 00:00:00');
+        $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'),   '2009-01-05 23:59:59');
+        $this->assertEqual($oEndDate->tz, $oTimezone);
+
+        // PST, running at 10am
+        $oStartDate = new Date('2009-01-01 10:05:00');
+        $oEndDate   = new Date('2009-01-07 10:05:00');
+        $oTimezone = new Date_TimeZone('PST');
+        $oEmail->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
+        $this->assertEqual($oStartDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-01 00:00:00');
+        $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'),   '2009-01-06 23:59:59');
+        $this->assertEqual($oEndDate->tz, $oTimezone);
+
+        // CET
+        $oStartDate = new Date('2009-01-01 00:05:00');
+        $oEndDate   = new Date('2009-01-07 00:05:00');
+        $oTimezone = new Date_TimeZone('CET');
+        $oEmail->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
+        $this->assertEqual($oStartDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-01 00:00:00');
+        $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'),   '2009-01-06 23:59:59');
+        $this->assertEqual($oEndDate->tz, $oTimezone);
     }
 }
 

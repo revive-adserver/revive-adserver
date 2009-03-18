@@ -35,6 +35,36 @@ class Plugins_InvocationTagsOptions
 {
     var $maxInvocation;
 
+    var $defaultValues = array();
+    function Plugins_InvocationTagsOptions()
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $this->defaultValues = array(
+            'target'            => '',
+            'source'            => '',
+            'withtext'          => 0,
+            'refresh'           => '',
+            'transparent'       => 0,
+            'ilayer'            => 0,
+            'iframetracking'    => 0,
+            'block'             => 0,
+            'blockcampaign'     => 0,
+            'raw'               => 0,
+            'popunder'          => 1,
+            'delay'             => '-',
+            'absolute'          => array('top' => '-', 'left' => '-'),
+            'timeout'           => '-',
+            'windowoptions'     => array('toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0),
+            'xmlrpcproto'       => 0,
+            'xmlrpctimeout'     => '',
+            'hostlanguage'      => '',
+            'thirdPartyServer'  => $conf['delivery']['clicktracking'],
+            'cachebuster'       => 1,
+            'comments'          => 1,
+            'charset'           => '',
+        );
+    }
+    
     /**
      * Return name of plugin
      *
@@ -168,7 +198,7 @@ class Plugins_InvocationTagsOptions
     {
         $maxInvocation = &$this->maxInvocation;
 
-        $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : '';
+        $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : $this->defaultValues['target'];
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>
             <td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>
@@ -194,7 +224,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationSource']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='source' size='' value='".(isset($maxInvocation->source) ? htmlspecialchars(stripslashes($maxInvocation->source),ENT_QUOTES) : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
+        $option .= "<input class='flat' type='text' name='source' size='' value='".(isset($maxInvocation->source) ? htmlspecialchars(stripslashes($maxInvocation->source),ENT_QUOTES) : $this->defaultValues['source'])."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -230,7 +260,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strIFrameRefreshAfter']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='refresh' size='' value='".(isset($maxInvocation->refresh) ? $maxInvocation->refresh : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+        $option .= "<input class='flat' type='text' name='refresh' size='' value='".(isset($maxInvocation->refresh) ? $maxInvocation->refresh : $this->defaultValues['refresh'])."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -435,7 +465,7 @@ class Plugins_InvocationTagsOptions
              (isset($maxInvocation->delay_type) && $maxInvocation->delay_type == 'exit' ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strPopUpOnClose']."<br />";
         $option .= "<input type='radio' name='delay_type' value='seconds'".
              (isset($maxInvocation->delay_type) && $maxInvocation->delay_type == 'seconds' ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strPopUpAfterSec']."&nbsp;".
-             "<input class='flat' type='text' name='delay' size='' value='".(isset($maxInvocation->delay) ? $maxInvocation->delay : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td>";
+             "<input class='flat' type='text' name='delay' size='' value='".(isset($maxInvocation->delay) ? $maxInvocation->delay : $this->defaultValues['delay'])."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
@@ -453,10 +483,10 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strPopUpTop']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='top' size='' value='".(isset($maxInvocation->top) ? $maxInvocation->top : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+        $option .= "<input class='flat' type='text' name='top' size='' value='".(isset($maxInvocation->top) ? $maxInvocation->top : $this->defaultValues['absolute']['top'])."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strPopUpLeft']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='left' size='' value='".(isset($maxInvocation->left) ? $maxInvocation->left : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+        $option .= "<input class='flat' type='text' name='left' size='' value='".(isset($maxInvocation->left) ? $maxInvocation->left : $this->defaultValues['absolute']['left'])."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -473,7 +503,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strAutoCloseAfter']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='timeout' size='' value='".(isset($maxInvocation->timeout) ? $maxInvocation->timeout : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+        $option .= "<input class='flat' type='text' name='timeout' size='' value='".(isset($maxInvocation->timeout) ? $maxInvocation->timeout : $this->defaultValues['timeout'])."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -556,7 +586,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strXmlRpcTimeout']."</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='".(isset($maxInvocation->xmlrpctimeout) ? $maxInvocation->xmlrpctimeout : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
+        $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='".(isset($maxInvocation->xmlrpctimeout) ? $maxInvocation->xmlrpctimeout : $this->defaultValues['xmlrpctimeout'])."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -575,7 +605,7 @@ class Plugins_InvocationTagsOptions
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strXmlRpcLanguage']."</td><td width='370'>";
         $option .= "<select name='hostlanguage' tabindex='".($tabindex++)."'>";
-        $option .= "<option value='php'".($maxInvocation->hostlanguage == 'php' ? ' selected' : '').">PHP</option>";
+        $option .= "<option value='php'".($maxInvocation->hostlanguage == 'php' ? ' selected' : $this->defaultValues['hostlanguage']).">PHP</option>";
         $option .= "</select>";
         $option .= "</td></tr>";
         return $option;
@@ -627,7 +657,7 @@ class Plugins_InvocationTagsOptions
     function cacheBuster()
     {
         $maxInvocation =& $this->maxInvocation;
-        $cachebuster = (is_null($this->maxInvocation->cachebuster)) ? 1 : $this->maxInvocation->cachebuster;
+        $cachebuster = (is_null($this->maxInvocation->cachebuster)) ? $this->defaultValues['cacheBuster'] : $this->maxInvocation->cachebuster;
 
         $option = '';
         $option .= "
@@ -651,7 +681,7 @@ class Plugins_InvocationTagsOptions
     function comments()
     {
         $maxInvocation = &$this->maxInvocation;
-        $comments = (isset($maxInvocation->comments)) ? $maxInvocation->comments : 1;
+        $comments = (isset($maxInvocation->comments)) ? $maxInvocation->comments : $this->defaultValues['comments'];
 
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";

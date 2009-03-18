@@ -33,7 +33,7 @@ class OX_PluginExport
     //var $baseDir;
     var $outputDir;
     var $pathPackages;
-    var $pathExtensions;
+    var $pathPlugins;
     var $pathAdmin;
     //var $aDirList     = array();
     var $aFileList    = array();
@@ -91,7 +91,7 @@ class OX_PluginExport
         $this->aSettings        = array();
         $this->aPreferences     = array();
         $this->pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $this->pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
+        $this->pathPlugins      = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
         $this->pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
     }
 
@@ -320,7 +320,7 @@ class OX_PluginExport
     /*
     function _compileDirectories($pluginName)
     {
-        $this->aDirList[] = rtrim($this->pathExtensions,'/');
+        $this->aDirList[] = rtrim($this->pathPlugins,'/');
         $this->aDirList[] = rtrim($this->pathPackages,'/');
         $this->aDirList = array_unique($this->aDirList);
     }

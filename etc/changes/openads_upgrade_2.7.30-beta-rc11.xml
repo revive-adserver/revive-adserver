@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2009-03-10</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade 2.7.30-beta-rc1 (extensions -&gt; plugins)</description>
+    <versionFrom>2.7.30-beta-rc10</versionFrom>
+    <versionTo>2.7.30-beta-rc11</versionTo>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>postscript_openads_upgrade_2.7.30-beta-rc5.php</prescript-->
+    <postscript>postscript_openads_upgrade_2.7.30-beta-rc11.php</postscript>
+
+</upgrade>

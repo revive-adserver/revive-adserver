@@ -63,7 +63,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager = new OX_Plugin_ComponentGroupManager();
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertEqual($aConf['pluginPaths']['packages'],   $oManager->pathPackages);
-        $this->assertEqual($aConf['pluginPaths']['extensions'], $oManager->pathExtensions);
+        $this->assertEqual($aConf['pluginPaths']['plugins'],    $oManager->pathPlugins);
         $this->assertEqual($aConf['pluginPaths']['admin'],      $oManager->pathPluginsAdmin);
         $this->assertEqual($aConf['pluginPaths']['var'] . 'DataObjects/',$oManager->pathDataObjects);
     }

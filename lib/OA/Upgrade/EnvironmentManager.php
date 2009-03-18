@@ -71,7 +71,7 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/cache', true);
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/plugins', true);
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/templates_compiled', true);
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/extensions', true);
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/plugins', true);
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/admin/plugins', true);
 
         // if CONF file hasn't been created yet, use the default images folder

@@ -361,7 +361,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
     function getFilePathToPlugin($extensionType, $group, $component, $postfix = '.delivery.php')
     {
         $oPluginMgr = $this->_getComponentGroupManager();
-        $dirPath = MAX_PATH . $oPluginMgr->pathExtensions .
+        $dirPath = MAX_PATH . $oPluginMgr->pathPlugins .
             $extensionType . '/' . $group.'/';
         $file = $dirPath . $component . $postfix;
         if (!file_exists($file)) {

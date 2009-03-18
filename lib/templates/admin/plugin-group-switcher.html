@@ -29,8 +29,8 @@ $Id$
 <form method="get" action="plugin-index.php">
     <b>{t str=ChooseSection}:</b>
     <select name='selection' id="selection" onchange="this.form.submit()">
-        <option value="plugins" {if $selected == 'plugins'} selected {/if} >Plugins</option>
-        <option value="components" {if $selected == 'components'} selected {/if} >Components</option>
+        <option value="plugins" {if $selected == 'plugins'} selected {/if} >{t str='Plugins'}</option>
+        <option value="groups" {if $selected == 'groups'} selected {/if} >{t str='Groups'}</option>
     </select>
     <input type="image" src="{$assetPath}/images/ltr/go_blue.gif" />
 </form>

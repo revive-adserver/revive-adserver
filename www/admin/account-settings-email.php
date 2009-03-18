@@ -54,8 +54,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements = array();
     // E-mail Addresses
     $aElements += array(
-        'email_fromName'          => array('email' => 'fromName'),
         'email_fromAddress'       => array('email' => 'fromAddress'),
+        'email_fromName'          => array('email' => 'fromName'),
         'email_fromCompany'       => array('email' => 'fromCompany'),
         'email_useManagerDetails' => array('email' => 'useManagerDetails',
                                            'bool'  => true
@@ -119,16 +119,6 @@ $aSettings = array (
        'items' => array (
             array (
                 'type'    => 'text',
-                'name'    => 'email_fromName',
-                'text'    => $strEmailFromName,
-                'req'     => true,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
                 'name'    => 'email_fromAddress',
                 'text'    => $strEmailFromAddress,
                 'req'     => true,
@@ -140,9 +130,19 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
+                'name'    => 'email_fromName',
+                'text'    => $strEmailFromName,
+                'req'     => false,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
                 'name'    => 'email_fromCompany',
                 'text'    => $strEmailFromCompany,
-                'req'     => true,
+                'req'     => false,
                 'size'    => 35,
             ),
             array (

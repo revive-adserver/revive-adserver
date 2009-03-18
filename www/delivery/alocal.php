@@ -1372,7 +1372,7 @@ break;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid)) $clientid = '';
-if (!isset($campaignid))  $campaignid = $clientid;
+if (empty($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
@@ -1381,14 +1381,12 @@ $loc = $_SERVER['HTTP_REFERER'];
 } else {
 $loc = '';
 }
-$loc = urldecode($loc);
 // Set real referer - Only valid if passed in
 if (!empty($referer)) {
 $_SERVER['HTTP_REFERER'] = stripslashes($referer);
 } else {
 if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 }
-$referer = urldecode($referer);
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
 $GLOBALS['_MAX']['CONF']['var']['blockAd'],
 $GLOBALS['_MAX']['CONF']['var']['capAd'],
@@ -1576,7 +1574,7 @@ if (!function_exists($functionName)) {
 _includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
 if (!function_exists($functionName)) {
 // Function doesn't exist, include the relevant plugin file
-_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php');
+_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
 if (!function_exists($functionName)) {
 // Function or function file doesn't exist, use the "parent" function
 _includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
@@ -1623,10 +1621,14 @@ if(strlen($row['acl_plugins'])) {
 $acl_plugins = explode(',', $row['acl_plugins']);
 foreach ($acl_plugins as $acl_plugin) {
 list($extension, $package, $name) = explode(':', $acl_plugin);
-$pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "{$extension}/{$package}/{$name}.delivery.php";
+$pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
-include($pluginName);
+// If any of the delivery files doesn't exists don't check the delivery limitations
+if (include($pluginName)) {
 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
+} else {
+return true;
+}
 }
 }
 }
@@ -1750,10 +1752,10 @@ if (strpos($code, '{clickurlparams}')) {
 $maxparams = _adRenderBuildParams($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
 $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs to be done separately because {clickurlparams} does contain {random}...
 }
-$search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}');
+$search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}', '{referer}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
 $websiteid = (!empty($aBanner['affiliate_id'])) ? $aBanner['affiliate_id'] : '0';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id']);
+$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id'], $referer);
 preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
@@ -2956,7 +2958,8 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 // init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
 // however - in local mode (only), this is not the case
-$referer = $loc;
+global $referer, $loc;
+$referer = (!empty($loc)) ? $loc : '';
 $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
 getHostName() .
 $_SERVER['REQUEST_URI'];
@@ -2964,7 +2967,7 @@ $_SERVER['REQUEST_URI'];
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '') {
 // start stacked output buffering
 ob_start();
-if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
+if (empty($what) && !((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
 if ($zoneid) {
 $what = "zone:".$zoneid;
 }
@@ -2975,7 +2978,7 @@ if ($bannerid) {
 $what = "bannerid:".$bannerid;
 }
 }
-$output = MAX_adSelect($what, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }

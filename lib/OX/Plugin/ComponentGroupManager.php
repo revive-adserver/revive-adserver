@@ -54,7 +54,7 @@ require_once(MAX_PATH.'/lib/OA/Admin/Menu.php');
 class OX_Plugin_ComponentGroupManager
 {
     var $pathPackages;
-    var $pathExtensions;
+    var $pathPlugins;
     var $pathPluginsAdmin;
     var $pathDataObjects;
 
@@ -77,7 +77,7 @@ class OX_Plugin_ComponentGroupManager
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->pathPackages     = $aConf['pluginPaths']['packages'];
-        $this->pathExtensions   = $aConf['pluginPaths']['extensions'];
+        $this->pathPlugins   = $aConf['pluginPaths']['plugins'];
         $this->pathPluginsAdmin = $aConf['pluginPaths']['admin'];
         $this->pathDataObjects  = $aConf['pluginPaths']['var'] . 'DataObjects/';
         // Attempt to increase the memory limit when using the plugin manager
@@ -611,7 +611,12 @@ class OX_Plugin_ComponentGroupManager
      */
     function getFilePathToXMLInstall($plugin)
     {
-        return $this->getPathToComponentGroup($plugin).$plugin.'.xml';
+        $file = $this->getPathToComponentGroup($plugin).$plugin.'.xml';
+        if (file_exists($file)) {
+            return $file;
+        } elseif (file_exists(str_replace('/plugins/', '/extensions/', $file))) {
+            return str_replace('/plugins/', '/extensions/', $file);
+        }
     }
 
     /**
@@ -1259,9 +1264,9 @@ class OX_Plugin_ComponentGroupManager
         }
         return true;
     }
-    
+
     /**
-     * Check UI Menu checkers 
+     * Check UI Menu checkers
      *  - declared file exists
      *  - declared class exists
      *  - class implements OA_Admin_Menu_IChecker
@@ -1273,7 +1278,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _checkNavigationCheckers($name, $aCheckersList=array(), $aFiles=array())
     {
-        if (is_array($aCheckersList) && !empty($aCheckersList)) 
+        if (is_array($aCheckersList) && !empty($aCheckersList))
         {
             foreach ($aCheckersList as &$aChecker) {
                 $result = false;
@@ -1319,7 +1324,7 @@ class OX_Plugin_ComponentGroupManager
                 if ($name) // its a group (no name = plugin package)
                 {
                     if ( ($folder !=  $this->basePath.rtrim($this->pathPackages,'/')) &&
-                         ($folder !=  $this->basePath.rtrim($this->pathExtensions,'/')) &&
+                         ($folder !=  $this->basePath.rtrim($this->pathPlugins,'/')) &&
                          ($folder !=  $this->basePath.rtrim($this->pathPluginsAdmin,'/')) )
                      {
                         @rmdir($folder);
@@ -1400,7 +1405,7 @@ class OX_Plugin_ComponentGroupManager
      * @param string $name
      * @param array $aMenuCheckers
      * @param array $aFiles
-     * @return array Menu checkers 
+     * @return array Menu checkers
      */
     function _prepareMenuCheckers($name, $aMenuCheckers = null, $aFiles = null)
     {
@@ -1419,7 +1424,7 @@ class OX_Plugin_ComponentGroupManager
         }
         return $aCheckers;
     }
-    
+
     /**
      * return an instance of the core version control class
      *
@@ -1939,6 +1944,13 @@ class OX_Plugin_ComponentGroupManager
      */
     function _addMenuSection(&$oMenu, &$aMenu, &$aCheckers)
     {
+        if (isset($aMenu['exclusive'])) {
+            if ($aMenu['exclusive'] == 'true' || $aMenu['exclusive'] == '1') {
+                $aMenu['exclusive'] = true;
+            } else {
+                $aMenu['exclusive'] = false;
+            }
+        }
         if ($aMenu['add'])
         {
             if ($oMenu->get($aMenu['add'],false))
@@ -1946,7 +1958,7 @@ class OX_Plugin_ComponentGroupManager
                 // menu already exists
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link']);
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive']);
             $oMenu->add($oMenuSection);
         }
         else
@@ -1956,7 +1968,7 @@ class OX_Plugin_ComponentGroupManager
                 $this->_logError('Menu already exists for '.$aMenu['index']);
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link']);
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive']);
             if ($aMenu['addto'])
             {
                 if (!$oMenu->get($aMenu['addto'],false))
@@ -1989,12 +2001,12 @@ class OX_Plugin_ComponentGroupManager
         {
             $checkerClassName = $aMenu['checker'];
             @include_once( $aCheckers[$checkerClassName]['fullPath'] );
-            if (class_exists($checkerClassName)) 
+            if (class_exists($checkerClassName))
             {
                 $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['fullPath']);
                 $oChecker = new $checkerClassName;
                 $oMenuSection->setChecker($oChecker);
-                
+
             }
         }
         return true;
@@ -2183,7 +2195,7 @@ class OX_Plugin_ComponentGroupManager
     function _expandFilePath($path, $file, $groupname='', $pluginname='')
     {
         $aPattern   = array(OX_PLUGIN_PLUGINPATH_REX, OX_PLUGIN_GROUPPATH_REX, OX_PLUGIN_MODULEPATH_REX, OX_PLUGIN_ADMINPATH_REX);
-        $aReplace   = array($this->pathPackages, $this->pathPackages.$groupname, $this->pathExtensions, $this->pathPluginsAdmin.$groupname);
+        $aReplace   = array($this->pathPackages, $this->pathPackages.$groupname, $this->pathPlugins, $this->pathPluginsAdmin.$groupname);
         $result     = preg_replace($aPattern,$aReplace,$path.$file);
         return $result;
     }

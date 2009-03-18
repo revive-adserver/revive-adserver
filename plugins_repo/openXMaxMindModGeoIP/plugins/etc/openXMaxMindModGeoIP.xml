@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXMaxMindModGeoIP</name>
+    <creationDate>2008-08-27</creationDate>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>My New Plugin</description>
+    <version>1.0.1</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <type>package</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">openXMaxMindModGeoIP.readme.txt</file>
+        </files>
+
+        <!-- list the groups that are contained in this plugin -->
+        <!-- in the order they should be installed -->
+        <contents>
+            <group name="oxMaxMindModGeoIP">0</group>
+        </contents>
+
+    </install>
+
+</plugin>

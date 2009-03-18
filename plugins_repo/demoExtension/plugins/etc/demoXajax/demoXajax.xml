@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>demoXajax</name>
+    <creationDate>2008-07-18</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>xAjax Demo</description>
+    <version>0.0.2</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <depends>
+                <plugin version="0.0.1" enabled="0">demoUserInterface</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/assets/images/">grad-1.gif</file>
+            <file path="{ADMINPATH}/assets/images/">triangle-d.gif</file>
+            <file path="{ADMINPATH}/assets/images/">triangle-u.gif</file>
+            <file path="{ADMINPATH}/templates/">home.html</file>
+            <file path="{ADMINPATH}/templates/">noframe.html</file>
+            <file path="{ADMINPATH}/templates/">frame.html</file>
+            <file path="{ADMINPATH}/templates/">frame-smarty.html</file>
+            <file path="{ADMINPATH}/lib/">demoXajax.inc.php</file>
+            <file path="{ADMINPATH}/">demoXajax-index.php</file>
+            <file path="{ADMINPATH}/">demoXajax-frame.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu add="demo-xajax-menu" index="demo-xajax-menu" link="plugins/demoXajax/demoXajax-index.php?show=home">xAjax</menu>
+                <menu addto="demo-xajax-menu" index="demo-xajax-home" link="plugins/demoXajax/demoXajax-index.php?show=home">xAjax</menu>
+                <menu addto="demo-xajax-menu" index="demo-xajax-frame" link="plugins/demoXajax/demoXajax-index.php?show=frame">Frame</menu>
+                <menu addto="demo-xajax-menu" index="demo-xajax-noframe" link="plugins/demoXajax/demoXajax-index.php?show=noframe">No Frame</menu>
+                <menu addto="demo-xajax-menu" index="demo-xajax-frame-smarty" link="plugins/demoXajax/demoXajax-index.php?show=frame-smarty">Smarty Frame</menu>
+                <menu addto="demo-xajax-menu" index="demo-xajax-noframe-smarty" link="plugins/demoXajax/demoXajax-index.php?show=noframe-smarty">Smarty No Frame</menu>
+            </admin>
+
+        </navigation>
+
+        <configuration>
+
+        </configuration>
+
+    </install>
+
+</plugin>

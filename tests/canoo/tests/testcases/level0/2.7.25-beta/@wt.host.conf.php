@@ -289,8 +289,8 @@ type=
 saveStats=
 showUnavailable=
 [pluginPaths]
-packages="/extensions/etc/"
-extensions="/extensions/"
+packages="/plugins/etc/"
+plugins="/plugins/"
 admin="/www/admin/plugins/"
 var="/var/plugins/"
 [pluginUpdatesServer]

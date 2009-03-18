@@ -19,7 +19,7 @@
 
   cd "$arg"
 
-  zip -r ../"$arg" . -x \*.svn/*
+  zip -r ../"$arg" . -x \*.svn/* \*extensions/*
 
   cd ..
 
@@ -31,7 +31,7 @@
 
   cd "$arg"
 
-  zip -r ../"$arg" . -x \*.svn/*
+  zip -r ../"$arg" . -x \*.svn/* \*extensions/*
 
   cd ..
 
@@ -43,7 +43,7 @@
 
   cd "$arg"
 
-  zip -r ../"$arg" . -x \*.svn/*
+  zip -r ../"$arg" . -x \*.svn/* \*extensions/*
 
   cd ..
 

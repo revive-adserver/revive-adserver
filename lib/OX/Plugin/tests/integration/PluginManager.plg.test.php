@@ -39,7 +39,7 @@ class Test_OX_PluginManager extends UnitTestCase
     var $testpathData         = '/lib/OX/Plugin/tests/data/';
     var $testpathPackages     = '/lib/OX/Plugin/tests/data/plugins/etc/';
     var $testpathPluginsAdmin = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
-    var $testpathExtensions   = '/lib/OX/Plugin/tests/data/plugins/';
+    var $testpathPlugins      = '/lib/OX/Plugin/tests/data/plugins/';
     var $testpathDataObjects  = '/var/';
 
 

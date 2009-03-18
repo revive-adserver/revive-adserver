@@ -10,6 +10,51 @@
 <!-- cd <host folder> && ln -s <path from host folder to openx folder>/plugins_repo download -->
 
     <package>
+        <name>openX3rdPartyServers</name>
+        <creationDate>2008-08-01</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>3rd Party Server plugins for OpenX</description>
+        <version>1.0.2</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <!--oxmaxver></oxmaxver-->
+        <!--downloadUrl>http://plugins.openx.org/download/openX3rdPartyServers</downloadUrl-->
+        <downloadUrl>{local}/openx/plugin-updates/download/openX3rdPartyServers.zip</downloadUrl>
+    </package>
+
+    
+    <package>
+        <name>openXAdditionalBannerTypes</name>
+        <creationDate>2008-02-19</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Additional Banner Type Plugins for OpenX</description>
+        <version>1.0.0-dev</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <!--downloadUrl>http://plugins.openx.org/download/openXBannerTypes</downloadUrl-->
+        <downloadUrl>{local}/openx/plugin-updates/download/openXAdditionalBannerTypes.zip</downloadUrl>
+    </package>
+    
+    <package>
+        <name>openXAuthCAS</name>
+        <creationDate>2008-09-02</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>GPL</license>
+        <description>OpenX CAS authentication</description>
+        <version>0.0.2</version>
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXAuthCAS.zip</downloadUrl>
+    </package>
+    
+    <package>
         <name>openXBannerTypes</name>
         <creationDate>2008-02-19</creationDate>
         <author>Monique Szpak</author>
@@ -17,82 +62,153 @@
         <authorUrl>http://www.openx.org</authorUrl>
         <license>license.txt</license>
         <description>Basic Banner Type Plugins for OpenX</description>
-        <version>0.0.1-alpha</version>
-        <oxminver>2.7.5-dev</oxminver>
+        <version>1.0.0-dev</version>
+        <oxminver>2.7.15-dev</oxminver>
         <oxmaxver></oxmaxver>
-        <!--downloadUrl>http://plugins.openx.org/download/openXBannerTypes</downloadUrl-->
-        <downloadUrl>{local}/download/openXBannerTypes.zip</downloadUrl>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXBannerTypes.zip</downloadUrl>
     </package>
-
+    
+    <package>
+        <name>openXDeliveryCacheStore</name>
+        <creationDate>2008-07-21</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Delivery Cache Store Plugins for OpenX</description>
+        <version>1.0.3</version>
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXDeliveryCacheStore.zip</downloadUrl>
+    </package>
+    
     <package>
         <name>openXDeliveryLimitations</name>
         <creationDate>2008-02-19</creationDate>
-        <author>Monique Szpak</author>
-        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>GNU General Public License</license>
+        <description>OpenX Delivery Limitations Plugins for OpenX</description>
+        <version>1.0.6</version>
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXDeliveryLimitations.zip</downloadUrl>
+    </package>
+    
+    
+    <package>
+        <name>openXDeliveryLog</name>
+        <creationDate>2008-06-10</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
         <authorUrl>http://www.openx.org</authorUrl>
         <license>license.txt</license>
-        <description>OpenX Delivery Limitations Plugins for OpenX</description>
-        <version>1.0.2</version>
-        <oxminver>2.7.27-beta-rc5</oxminver>
+        <description>Standard delivery logging plugin for OpenX</description>
+        <version>1.0.3</version>           
+        <oxminver>2.7.15-dev</oxminver>
         <oxmaxver></oxmaxver>
-        <!--downloadUrl>http://plugins.openx.org/download/openXDeliveryLimitations</downloadUrl-->
-        <downloadUrl>{local}/download/openXDeliveryLimitations.zip</downloadUrl>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXDeliveryLog.zip</downloadUrl>
     </package>
-
+        
     <package>
-        <name>openX3rdPartyServers</name>
-        <creationDate>2008-08-01</creationDate>
+        <name>openXDeliveryLogCountry</name>
+        <creationDate>2008-06-10</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>GPL</license>
+        <description>Delivery Log Country Plugin</description>
+        <version>1.0.1-dev</version>    
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXDeliveryLogCountry.zip</downloadUrl>
+    </package>
+    
+    <package>
+        <name>openXDeveloperToolbox</name>
+        <creationDate>2008-07-18</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Developer Toolbox for OpenX</description>
+        <version>0.1.0-dev</version> 
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXDeveloperToolbox.zip</downloadUrl>
+    </package>
+    
+    <package>
+        <name>openXInvocationTags</name>
+        <creationDate>2008-09-09</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>OpenX Invocation Tags Plugins for OpenX</description>
+        <version>1.0.1</version>
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXInvocationTags.zip</downloadUrl>
+    </package>
+    
+    
+    <package>
+        <name>openXMarket</name>
+        <creationDate>2008-11-14</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>OpenX Market for OpenX Ad Server (Download)</description>
+        <version>0.1.3-beta-rc3</version>
+        <oxminver>2.7.15-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXMarket.zip</downloadUrl>
+    </package>
+    
+    <package>
+        <name>openXMaxMindGeoIP</name>
+        <creationDate>2008-08-26</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>GPL</license>
+        <description>OpenX MaxMind GeoIP Geotargeting plugin</description>
+        <version>1.0.1</version>
+        <oxminver>2.7.14-dev</oxminver>
+        <oxmaxver></oxmaxver>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXMaxMindGeoIP.zip</downloadUrl>
+    </package>
+    
+    <package>
+        <name>openXMaxMindModGeoIP</name>
+        <creationDate>2008-08-27</creationDate>
         <author>Chris Nutting</author>
         <authorEmail>chris.nutting@openx.org</authorEmail>
-        <authorUrl>http://www.openx.org</authorUrl>
-        <license>license.txt</license>
-        <description>3rd Party Server plugins for OpenX</description>
+        <authorUrl>www.openx.org</authorUrl>
+        <license>GPL</license>
+        <description>My New Plugin</description>
         <version>1.0.0-dev</version>
-        <oxminver>2.7.5-dev</oxminver>
-        <!--downloadUrl>http://plugins.openx.org/download/openX3rdPartyServers</downloadUrl-->
-        <downloadUrl>{local}/download/openX3rdPartyServers.zip</downloadUrl>
-    </package>
-
-    <package>
-        <name>demoExtension</name>
-        <creationDate>2008-05-30</creationDate>
-        <author>Monique Szpak</author>
-        <authorEmail>monique.szpak@openx.org</authorEmail>
-        <authorUrl>http://www.openx.org</authorUrl>
-        <license>license.txt</license>
-        <description>Demo Extension for OpenX</description>
-        <version>0.0.2-beta</version>
-        <oxminver>2.7.5-dev</oxminver>
+        <oxminver>2.7.14-dev</oxminver>
         <oxmaxver></oxmaxver>
-        <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXMaxMindModGeoIP.zip</downloadUrl>
     </package>
-
-    <package>
-        <name>openXDeliveryCacheStore</name>
-        <creationDate>2008-08-08</creationDate>
-        <author>Lukasz Wikierski</author>
-        <authorEmail>lukasz.wikierski@openx.org</authorEmail>
-        <authorUrl>http://www.openx.org</authorUrl>
-        <license>license.txt</license>
-        <description>Standard OpenX File and memcached Based Delivery Cache</description>
-        <version>1.0.1</version>
-        <oxminver>2.7.13-dev</oxminver>
-        <oxmaxver></oxmaxver>
-        <downloadUrl>{local}/download/openXDeliveryCacheStore.zip</downloadUrl>
-    </package>
-
+    
     <package>
         <name>openXReports</name>
-        <creationDate>2008-05-30</creationDate>
-        <author>Monique Szpak</author>
-        <authorEmail>monique.szpak@openx.org</authorEmail>
-        <authorUrl>http://www.openx.org</authorUrl>
-        <license>license.txt</license>
-        <description>Reports for OpenX</description>
-        <version>1.0.0</version>
+        <creationDate>2008-09-08</creationDate>
+        <author>OpenX</author>
+        <authorEmail>hello@openx.org</authorEmail>
+        <authorUrl>www.openx.org</authorUrl>
+        <license>GPL</license>
+        <description>Basic Reports for OpenX</description>
+        <version>1.0.2</version>
         <oxminver>2.7.16-dev</oxminver>
         <oxmaxver></oxmaxver>
-        <downloadUrl>{local}/download/openXReports.zip</downloadUrl>
+        <downloadUrl>{local}/openx/plugin-updates/download/openXReports.zip</downloadUrl>
     </package>
+    
 
 </releases>

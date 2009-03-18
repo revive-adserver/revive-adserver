@@ -87,7 +87,7 @@ class Plugins_DeliveryLimitations extends OX_Component
 
     function _getRes()
     {
-        $file = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']."/deliveryLimitations/{$this->group}/{$this->component}.res.inc.php";
+        $file = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['plugins']."/deliveryLimitations/{$this->group}/{$this->component}.res.inc.php";
         if (is_readable($file)) {
             // Use include here, not require_once, so that the $res array will be created every time,
             // even if the plugin is initialised more than once

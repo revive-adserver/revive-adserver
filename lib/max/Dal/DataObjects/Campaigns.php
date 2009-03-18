@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -29,6 +29,8 @@ $Id$
  * Table Definition for campaigns
  */
 require_once 'DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/OX/Util/Utils.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 class DataObjects_Campaigns extends DB_DataObjectCommon
 {
@@ -153,7 +155,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
 
         if ($this->priority == self::PRIORITY_ECPM) {
-            $ecpmOk = floatval($this->ecpm) > 0;
+            $ecpmOk = floatval($this->revenue) > 0;
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$ecpmOk) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
             }
@@ -304,6 +306,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $this->setStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
         }
 
+        if ($this->priority == self::PRIORITY_ECPM) {
+            $this->ecpm = $this->calculateEcpm();
+        }
+
         return parent::update($dataObject);
     }
 
@@ -311,6 +317,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         // Set the correct campaign status
         $this->setStatus();
+        
+        if ($this->priority == self::PRIORITY_ECPM) {
+            $this->ecpm = $this->calculateEcpm();;
+        }
 
         $id = parent::insert();
         if (!$id) {
@@ -524,6 +534,18 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             // Save cache
             $oCache->save($aCache);
         }
+    }
+
+    function calculateEcpm()
+    {
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+        $result = $oMaxDalMaintenance->getCampaignDeliveryToDate($this->campaignid);
+        $requestsToDate = $result[0]['sum_requests'];
+        $impressionsToDate = $result[0]['sum_views'];
+        $clicksToDate = $result[0]['sum_clicks'];
+        $conversionsToDate = $result[0]['sum_conversions'];
+        return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
+            $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate, $this->expire);
     }
 }
 

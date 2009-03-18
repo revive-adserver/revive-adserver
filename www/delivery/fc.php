@@ -52,7 +52,7 @@ include_once '../../init-delivery.php';
 // Strip out any '../' from the passed in script value to try and prevent directory traversal attacks
 $script = str_replace("\0", '', $_GET['script']);
 $aPluginId = explode(':', $script);
-$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['extensions'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
+$scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['plugins'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';
 if (stristr($scriptFileName, '../') || stristr($scriptFileName, '..\\') || !is_readable($scriptFileName) || !is_file($scriptFileName)) {
 if (empty($conf['debug']['production'])) {
 echo "Unable to find delivery script ({$scriptFileName}) for specified plugin-component-identifier: {$script}";

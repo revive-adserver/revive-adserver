@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -443,7 +443,7 @@ class OA_Dll_Banner extends OA_Dll
             $aTargetingList = array();
             
             $doBannerTargeting = OA_Dal::factoryDO('acls');
-            $doBannerTargeting->bannerId = $bannerId;
+            $doBannerTargeting->bannerid = $bannerId;
             $doBannerTargeting->find();
             
             while ($doBannerTargeting->fetch()) {

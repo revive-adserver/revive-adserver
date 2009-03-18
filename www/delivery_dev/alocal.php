@@ -39,7 +39,8 @@ OA::debug('starting delivery script '.__FILE__);
 
 // init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
 // however - in local mode (only), this is not the case
-$referer = $loc;
+global $referer, $loc;
+$referer = (!empty($loc)) ? $loc : '';
 $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
     getHostName() .
 	$_SERVER['REQUEST_URI'];
@@ -48,7 +49,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     // start stacked output buffering
     ob_start();
 
-    if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
+    if (empty($what) && !((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
         if ($zoneid) {
             $what = "zone:".$zoneid;
         }
@@ -60,7 +61,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
         }
     }
 
-    $output = MAX_adSelect($what, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+    $output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
     if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }

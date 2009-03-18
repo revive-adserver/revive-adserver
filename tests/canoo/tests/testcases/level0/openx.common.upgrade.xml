@@ -12,7 +12,7 @@
 			</filelist>
 		</subant>
 		<echo>basedir in level0: ${basedir}</echo>
-		<replace dir="${basedir}/../../../www/delivery_test" value="${basedir}/../../.."> <!-- /extensions -->
+		<replace dir="${basedir}/../../../www/delivery_test" value="${basedir}/../../.."> <!-- /plugins -->
 			<include name="chmodgeo.php"/>
 			<replacetoken>@path</replacetoken>
 		</replace>

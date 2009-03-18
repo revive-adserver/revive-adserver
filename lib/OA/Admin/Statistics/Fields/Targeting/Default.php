@@ -53,7 +53,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
         $this->_aFields = array(
             'placement_required_impressions'  => array('name'   => $GLOBALS['strRequiredImpressions'],
                                                        'format' => 'default',
-                                                       'active' => false
+                                                       'active' => true
                                                       ),
             'ad_required_impressions'         => array('name'   => $GLOBALS['strRequiredImpressions'],
                                                        'format' => 'default',
@@ -61,7 +61,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
                                                       ),
             'placement_requested_impressions' => array('name'   => $GLOBALS['strRequestedImpressions'],
                                                        'format' => 'default',
-                                                       'active' => false
+                                                       'active' => true
                                                       ),
             'ad_requested_impressions'        => array('name'   => $GLOBALS['strRequestedImpressions'],
                                                        'format' => 'default',
@@ -69,7 +69,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
                                                       ),
             'placement_actual_impressions'    => array('name'   => $GLOBALS['strActualImpressions'],
                                                        'format' => 'default',
-                                                       'active' => false
+                                                       'active' => true
                                                       ),
             'ad_actual_impressions'           => array('name'   => $GLOBALS['strActualImpressions'],
                                                        'format' => 'default',

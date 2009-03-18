@@ -119,8 +119,6 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
         $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion));
         // Check that the conversion was logged correctly
         if (is_array($aConversionInfo)) {
-            // If this was a "sale" type conversion, then clear the cookie data
-            MAX_trackerDeleteActionFromCookie($aConnection);
             // Return the result
             return $aConversionInfo;
         }

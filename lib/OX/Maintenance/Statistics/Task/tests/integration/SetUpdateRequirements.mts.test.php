@@ -217,7 +217,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
         // Ask the appropriate default OpenX delivery logging plugin component
         // to log a click
-        require_once MAX_PATH . $aConf['pluginPaths']['extensions'] . '/deliveryLog/oxLogClick/logClick.delivery.php';
+        require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . '/deliveryLog/oxLogClick/logClick.delivery.php';
         $GLOBALS['_MAX']['deliveryData'] = array(
             'interval_start' => '2008-08-12 14:15:00',
             'creative_id'    => 1,
@@ -260,7 +260,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
         // Ask the appropriate default OpenX delivery logging plugin component
         // to log an earlier impression
-        require_once MAX_PATH . $aConf['pluginPaths']['extensions'] . '/deliveryLog/oxLogImpression/logImpression.delivery.php';
+        require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . '/deliveryLog/oxLogImpression/logImpression.delivery.php';
         $GLOBALS['_MAX']['deliveryData'] = array(
             'interval_start' => '2008-08-12 13:45:00',
             'creative_id'    => 1,

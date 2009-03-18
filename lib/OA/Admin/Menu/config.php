@@ -225,7 +225,7 @@ function _buildNavigation($accountType)
             if (empty($aConf['ui']['disableDirectSelection'])) {
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", 'GenerateBannercode', "admin-generate.php", false, ""));
             }
-            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", 'UserAccess', "agency-access.php?agencyid={agencyid}", false, ""));
+            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", 'UserAccess', "agency-access.php?agencyid={agencyid}", false, "", array(array(OA_ACCOUNT_MANAGER => OA_PERM_SUPER_ACCOUNT))));
                 $oMenu->addTo("agency-access", new OA_Admin_Menu_Section("agency-user", 'UserProperties', "agency-user.php?userid={userid}&agencyid={agencyid}", false, ""));
 
             $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));

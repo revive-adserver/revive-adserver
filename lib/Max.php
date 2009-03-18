@@ -149,7 +149,7 @@ EOF;
         if ($type == MAX_URL_ADMIN) {
             $path = $aConf['webpath']['admin'];
         } elseif ($type == MAX_URL_IMAGE) {
-            $path = $aConf['webpath']['admin'] . "/" . OX::assetPath("/images");
+            return OX::assetPath("/images/" . $file);
         } else {
             return null;
         }

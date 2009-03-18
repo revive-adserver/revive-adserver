@@ -181,7 +181,7 @@ class OA_Admin_UI
             //update page title
             $oCurrentSection = $oMenu->get($ID);
             if ($oCurrentSection == null) {
-                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
+                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . htmlspecialchars($ID) . '</strong> not found for the current user');
             }
 
             if ($oHeaderModel == null) {
@@ -773,7 +773,7 @@ class OA_Admin_UI
             'js/ox.navigator.js',
             'js/ox.table.js',
             'js/jquery.tablesorter.js',
-            'js/ox.tablesorter.extensions.js',
+            'js/ox.tablesorter.plugins.js',
             'js/formValidation.js'
             
         );

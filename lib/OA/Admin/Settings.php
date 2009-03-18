@@ -251,7 +251,7 @@ class OA_Admin_Settings
             }
         }
         // Always touch the INSTALLED file
-        if (!touch(MAX_PATH . '/var/INSTALLED')) {
+        if (!file_exists(MAX_PATH . '/var/INSTALLED') && !touch(MAX_PATH . '/var/INSTALLED')) {
             return false;
         }
         // Do any old configuration files need to be deleted?

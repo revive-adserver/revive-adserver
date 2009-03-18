@@ -100,8 +100,15 @@ class OX_UpgradePluginImport extends OX_PluginExport
         if ($this->prepare($name)) {
             foreach ($this->aFileList as $file) {
                 $file = substr($file, strlen($this->basePath));
-                $this->_makeDirectory(dirname($this->destPath . '/' . $file));
-                @copy($this->basePath . $file, $this->destPath . '/' . $file);
+                $sourceFile = $this->basePath . $file;
+                // If the sourceFile can't be found, try looking in /extensions/ instead
+                if (!file_exists($sourceFile)) {
+                    $sourceFile = str_replace('/plugins/', '/extensions/', $sourceFile);
+                }
+                // Ensure that the destination file is placed in /plugins/
+                $destFile   = str_replace('/extensions/', '/plugins/', $this->destPath . $file);
+                $this->_makeDirectory(dirname($destFile));
+                @copy($sourceFile, $destFile);
                 // Deal with deliveryLimitation plugins which may reference phpSniff from core not the plugin
                 if ($name == 'openXDeliveryLimitations' && stristr($file, '/Client/')) {
                     $contents = file_get_contents($this->destPath . '/' . $file);
@@ -148,8 +155,12 @@ class OX_UpgradePluginImport extends OX_PluginExport
             foreach ($this->aFileList as $file) {
                 $filename = $this->basePath . '/' . substr($file, strlen($this->basePath));
                 if (!file_exists($filename)) {
-                    $this->_log("Plugin: {$name} - Unable to locate file: " . $filename);
-                    $sucess = false;
+                    // Check for a pre 2.7.31 path (extensions not plugins)
+                    $filename = str_replace('/plugins/', '/extensions/', $filename);
+                    if (!file_exists($filename)) {
+                        $this->_log("Plugin: {$name} - Unable to locate file: " . $filename);
+                        $sucess = false;
+                    }
                 }
             }
         } else {

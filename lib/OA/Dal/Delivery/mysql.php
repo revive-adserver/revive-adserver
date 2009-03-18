@@ -1468,10 +1468,10 @@ function _mysqlGetTotalPrioritiesByCP($aAdsByCP)
     return $totals;
 }
 
-function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
+function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     if (!empty($GLOBALS['_MAX']['CONF']['deliveryLog']['enabled']))
     {
         require_once(MAX_PATH.'/lib/OA.php');
@@ -1484,19 +1484,23 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
     return $result;
 }
 
-function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
+function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     // Initiate the connection to the database (before using mysql_real_escape_string) 
  	OA_Dal_Delivery_connect('rawDatabase');
  	
     array_map('mysql_real_escape_string', $aQuery);
+    if ($increment) {
     $aQuery[$counter] = 1;
+    } else {
+        $aQuery[$counter] = -1;
+    }
     $query = "
         INSERT INTO {$tableName}
             (" . implode(', ', array_keys($aQuery)) . ")
             VALUES ('" . implode("', '", $aQuery) . "')
     ";
-    $query .= " ON DUPLICATE KEY UPDATE $counter = $counter + 1";
+    $query .= " ON DUPLICATE KEY UPDATE $counter = $counter + {$aQuery[$counter]}";
     return $query;
 }
 

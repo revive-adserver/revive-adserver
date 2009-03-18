@@ -538,7 +538,6 @@ class OA_statisticsFieldsDelivery
         $sGroupBy  = count($aGroupBy) ? 'GROUP BY '.join(', ', $aGroupBy) : '';
 
         $query = "SELECT ".$sFields." FROM ".$sFrom." ".$sWhere." ".$sGroupBy;
-
         $oDbh = OA_DB::singleton();
         $aResult = $oDbh->queryAll($query);
         if (PEAR::isError($aResult))
@@ -555,11 +554,18 @@ class OA_statisticsFieldsDelivery
                 $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
             }
             foreach ($aResult AS $k => $row) {
+            	// when pkey is specified, we use it as the unique id used to find the matching row in aRows
+            	if ($method == 'getEntitiesStats') {
+            		$k = $row['pkey'];
+            	}
                 if (!isset($aRows[$k])) {
                     $aRows[$k] = $emptyRow;
                 }
-
-                $aRows[$k] = $row + $aRows[$k];
+				foreach($row as $field => $value) {
+					if(!isset($aRows[$k][$field])){
+						$aRows[$k][$field] = $value;
+					}
+				}
             }
         }
     }

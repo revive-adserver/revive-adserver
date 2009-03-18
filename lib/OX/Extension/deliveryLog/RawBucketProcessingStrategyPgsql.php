@@ -77,9 +77,9 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
 
         OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
 
+
         if ($count) {
-            $aRow = $oMainDbh->queryRow("SHOW VARIABLES LIKE 'max_allowed_packet'");
-            $packetSize = !empty($aRow['value']) ? $aRow['value'] : 0;
+            $packetSize = 16777216; // 16 MB hardcoded (there's no max limit)
 
             $i = 0;
             while ($rsData->fetch()) {
@@ -108,12 +108,6 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
                 }
 
                 if (count($aExecQueries)) {
-                    // Disable the binlog for the inserts so we don't
-                    // replicate back out over our logged data.
-                    $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
-                    if (PEAR::isError($result)) {
-                        MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                    }
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
                             if (PEAR::isError($result)) {

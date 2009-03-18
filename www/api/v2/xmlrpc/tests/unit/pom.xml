@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.openads</groupId>
+	<artifactId>xmlrpc-unit</artifactId>
+	<name>xmlrpc-unit</name>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+	<url>http://www.openx.org</url>
+	<scm>
+		<connection>scm:svn:https://svn.openx.org/openx/trunk/www/api/v2/xmlrpc/tests/unit</connection>
+	</scm>
+	
+	<modules>
+	</modules>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-common</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-client</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+			
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<encoding>UTF-8</encoding>
+					</configuration>				
+				</plugin>
+
+	            <plugin>
+	                 <groupId>org.apache.maven.plugins</groupId>
+	                 <artifactId>maven-surefire-plugin</artifactId>
+	                 <configuration>
+	                     <excludes>
+	                       <exclude>**/TestGetBanner.*</exclude> <!-- disabled during OX-2555 -->
+						   <exclude>**/TestGetBannerListByCampaignId.*</exclude> <!-- disabled during OX-2555 -->	                     
+	                       <exclude>**/Abstract*</exclude>
+	                       <exclude>**/*Case.*</exclude>
+	                       <exclude>**/*$*</exclude>
+	                     </excludes>
+	                 </configuration>
+	             </plugin>        
+				
+			</plugins>
+		</pluginManagement>
+	</build>
+		
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<id>openadsInternal</id>
+			<name>Openads Internal</name>
+			<url>https://codex.openx.org/maven2</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<id>openadsInternal</id>
+			<name>Openads Internal</name>
+			<url>https://codex.openx.org/maven2</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<profiles>
+        <profile>
+            <id>eclipse-src</id>
+            <properties>
+                <downloadSources>true</downloadSources>
+                <downloadJavadoc>true</downloadJavadoc>
+            </properties>
+        </profile>
+    </profiles>
+
+	<properties>
+	
+	</properties>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+
+</project>

@@ -408,8 +408,8 @@ saveStats=false
 showUnavailable=false
 
 [pluginPaths]
-packages   = /extensions/etc/
-extensions = /extensions/
+packages   = /plugins/etc/
+plugins    = /plugins/
 admin      = /www/admin/plugins/
 var        = /var/plugins/
 repo       = "../plugins_repo/release/|../etc/plugins/" ; http://your.test.server/path_to_plugins/

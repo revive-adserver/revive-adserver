@@ -433,9 +433,16 @@ else if (array_key_exists('btn_plugins', $_POST))
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
             OA_Permission::switchToSystemProcessUser('Installer');
-
+            $aAdminInfo = $_POST['aAdmin'];
+			
+            // we set the default from: in OpenX emails to the administrator's email
+            if(empty($GLOBALS['_MAX']['CONF']['email']['fromAddress'])) {
+                $oUpgrader->oConfiguration->setValue('email', 'fromAddress', $aAdminInfo['email']);
+                $oUpgrader->oConfiguration->writeConfig(true);
+            }
+			
             // Save admin credentials
-            $oUpgrader->putAdmin($_POST['aAdmin']);
+            $oUpgrader->putAdmin($aAdminInfo);
 
             // Save admim account preference for timezone
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);

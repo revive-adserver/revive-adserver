@@ -350,13 +350,13 @@ function phpAds_sqlDie()
             $message .= $GLOBALS['strErrorDBSubmitBug'];
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
-            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." v".OA_VERSION."</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".htmlspecialchars(MAX_PRODUCT_NAME)." v".htmlspecialchars(OA_VERSION)."</td></tr>";
             $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".$dbmsName." " . $dbVersion . "</td></tr>";
-            $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
-            $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
-            $message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td><pre>".$last_query."</pre></td></tr>";
-            $message .= "<tr><td valign='top' nowrap><b>\$_POST:</b></td><td><pre>".(empty($_POST) ? 'Empty' : print_r($_POST, true))."</pre></td></tr>";
-            $message .= "<tr><td valign='top' nowrap><b>\$_GET:</b></td><td><pre>".(empty($_GET) ? 'Empty' : print_r($_GET, true))."</pre></td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".htmlspecialchars($_SERVER['PHP_SELF'])."</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".htmlspecialchars($error)."</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td><pre>".htmlspecialchars($last_query)."</pre></td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>\$_POST:</b></td><td><pre>".(empty($_POST) ? 'Empty' : htmlspecialchars(print_r($_POST, true)))."</pre></td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>\$_GET:</b></td><td><pre>".(empty($_GET) ? 'Empty' : htmlspecialchars(print_r($_GET, true)))."</pre></td></tr>";
             $message .= "</table>";
         }
     }
@@ -390,10 +390,9 @@ function phpAds_Die($title="Error", $message="Unknown error")
         }
         phpAds_PageHeader(phpAds_Error);
     }
-    // Message
     echo "<br>";
     echo "<div class='errormessage'><img class='errormessage' src='". OX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
-    echo "<span class='tab-r'>".$title."</span><br><br>".htmlspecialchars($message)."</div><br>";
+    echo "<span class='tab-r'>".$title."</span><br><br>". $message ."</div><br>";
     // Die
     if ($header == phpAds_Login) {
         $_COOKIE['sessionID'] = phpAds_SessionStart();

@@ -80,9 +80,11 @@ $Id$
         $GLOBALS['sortColumn']    = $column;
         $GLOBALS['sortAscending'] = $ascending;
 
+        reset($aArr);
+        $key = key($aArr);
         // If array keys are days (yyyy-mm-dd format), and the array is to be sorted by 'day',
         // use ksort to avoid comparing strings with formatted dates
-        if ($column == 'day' && preg_match("/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/", key($aArr)) == 1) {
+        if ($column == 'day' && preg_match("/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/", $key) == 1) {
             if ($ascending) {
                 ksort($aArr);
             } else {
@@ -103,6 +105,7 @@ $Id$
                 break;
 
             case 'ctr'  :
+            case 'sum_ctr':
                 if (isset($a['sum_views']) && !isset($a['views'])) {
                     $ratioA = $a['sum_views'] > 0 ? $a['sum_clicks']/$a['sum_views'] : 0;
                     $ratioB = $b['sum_views'] > 0 ? $b['sum_clicks']/$b['sum_views'] : 0;

@@ -76,7 +76,7 @@ class OX_Extension
     }
 
     /**
-     * a list of all known extensions
+     * a list of all known plugins
      * compiled by scanning the plugins folder
      *
      * @return unknown
@@ -86,12 +86,12 @@ class OX_Extension
         $aResult[] = 'admin';
         $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
         $pkgPath = rtrim(MAX_PATH.$aConf['packages'],DIRECTORY_SEPARATOR);
-        $dh = opendir(MAX_PATH.$aConf['extensions']);
+        $dh = opendir(MAX_PATH.$aConf['plugins']);
         while (false !== ($file = readdir($dh)))
         {
             if ( (substr($file,0,1) != '.') &&
                  ($file != '..') &&
-                 (rtrim(MAX_PATH.$aConf['extensions'].$file,DIRECTORY_SEPARATOR) != $pkgPath))
+                 (rtrim(MAX_PATH.$aConf['plugins'].$file,DIRECTORY_SEPARATOR) != $pkgPath))
             {
                 $aResult[] = $file;
             }

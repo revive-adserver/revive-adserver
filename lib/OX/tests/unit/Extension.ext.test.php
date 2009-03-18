@@ -68,14 +68,14 @@ class Test_OX_Extension extends UnitTestCase
     }
 
     /**
-     * a list of all known extensions
+     * a list of all known plugins
      *
      * @return unknown
      */
     function test_getAllExtensionsArray()
     {
         $oExtension = new OX_Extension();
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/tests/data/plugins/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/tests/data/plugins/';
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/tests/data/plugins/etc/';
 
         $aResult = $oExtension->getAllExtensionsArray();
@@ -92,7 +92,7 @@ class Test_OX_Extension extends UnitTestCase
     function test_setAllExtensions()
     {
         $oExtension = new OX_Extension();
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/tests/data/plugins/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/tests/data/plugins/';
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/tests/data/plugins/etc/';
 
         $oExtension->setAllExtensions();

@@ -72,32 +72,16 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
         if ($rowCount) {
             // We can't do bulk inserts with ON DUPLICATE.
             $aExecQueries = array();
-            if ($rsData->fetch()) {
+            while ($rsData->fetch()) {
                 // Get first row
                 $aRow = $rsData->toArray();
-                // Prepare INSERT
-                $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
-                // Add first row data
-                $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
-                $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
-                // Add first insert
-                $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
-                // Deal with the other rows
-                while ($rsData->fetch()) {
-                    $aRow = $rsData->toArray();
-                    $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
-                    $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
-                    $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
-                }
+               // Insert or update
+                $aExecQueries[] = "SELECT bucket_update_{$sTableName}(".
+                    join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).
+                    ")";
             }
 
             if (count($aExecQueries)) {
-                // Disable the binlog for the inserts so we don't
-                // replicate back out over our logged data.
-                $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
-                if (PEAR::isError($result)) {
-                    MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                }
                 foreach ($aExecQueries as $execQuery) {
                     $result = $oMainDbh->exec($execQuery);
                     if (PEAR::isError($result)) {

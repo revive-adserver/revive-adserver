@@ -30,7 +30,7 @@ define ('OA_SKIP_LOGIN', 1);
 require_once '../../../../../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
-require_once MAX_PATH . '/extensions/authentication/oxAuthCAS/Controller/ConfirmAccount.php';
+require_once MAX_PATH . '/plugins/authentication/oxAuthCAS/Controller/ConfirmAccount.php';
 
 phpAds_SessionDataDestroy();
 phpAds_SessionStart();

@@ -41,7 +41,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
     private $mockDalIntermediateAd;
     
     const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
-    const IDX_ECPM = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ECPM;
     const IDX_MIN_IMPRESSIONS = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
     const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
     const IDX_ZONES = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
@@ -65,7 +64,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_ECPM',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM',
-            array('_getDal', '_factoryDal', 'getTodaysRemainingOperationIntervals')
+            array('_getDal', '_factoryDal', 'getTodaysRemainingOperationIntervals',
+                'calculateCampaignEcpm'
+            )
         );
     }
 
@@ -170,6 +171,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
     function testPrepareCampaignsParameters()
     {
         $aCampaignsInfo = array();
+        $aEcpm = array();
         $aCampaignsDeliveredImpressions = array();
         $aExpAdsEcpmPowAlpha = array();
         $aExpZonesEcpmPowAlphaSums = array();
@@ -189,9 +191,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId1 = 1),
                 )
             ),
-            self::IDX_ECPM => 0.5,
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
+        $aEcpm[$campaignId1] = 0.5;
         $aCampaignsDeliveredImpressions[$campaignId1] = 0;
         $aExpAdsEcpmPowAlpha[$adId1] = pow(0.5, self::ALPHA);
         $aExpZonesEcpmPowAlphaSums[$zoneId1] = $aExpAdsEcpmPowAlpha[$adId1];
@@ -208,9 +210,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId2 = 2, $zoneId3 = 3),
                 )
             ),
-            self::IDX_ECPM => 0.6,
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         );
+        $aEcpm[$campaignId2] = 0.6;
         $aCampaignsDeliveredImpressions[$campaignId2] = $delivered = 100; // half delivered
         $aExpAdsEcpmPowAlpha[$adId2] = pow(0.6, self::ALPHA);
         $aExpZonesEcpmPowAlphaSums[$zoneId2] =
@@ -233,9 +235,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId4),
                 ),
             ),
-            self::IDX_ECPM => 0.7,
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
+        $aEcpm[$campaignId3] = 0.7;
         $aCampaignsDeliveredImpressions[$campaignId3] = $delivered = 200;
         $aExpAdsEcpmPowAlpha[$adId3] = pow(0.7, self::ALPHA);
         $aExpAdsEcpmPowAlpha[$adId4] = pow(0.7, self::ALPHA);
@@ -257,9 +259,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId5 = 5),
                 )
             ),
-            self::IDX_ECPM => 0.8,
             self::IDX_MIN_IMPRESSIONS => 100,
         );
+        $aEcpm[$campaignId4] = 0.8;
         $aCampaignsDeliveredImpressions[$campaignId4] = 100; // all delivered
         $aExpAdsEcpmPowAlpha[$adId5] = pow(0.8, self::ALPHA);
         $aExpZonesEcpmPowAlphaSums[$zoneId5] =
@@ -270,6 +272,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
         // lets assume only two intervals are left till the end of the day
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', $leftOi);
+        foreach ($aEcpm as $campId => $ecpm) {
+            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
+        }
         // Impressions delivered today in eahc of campaigns
         $oEcpm->aCampaignsDeliveredImpressions = $aCampaignsDeliveredImpressions;
 
@@ -326,9 +331,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId2 = 2, $zoneId3 = 3),
                 )
             ),
-            self::IDX_ECPM => 0.6,
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         );
+        $aEcpm[$campaignId2] = 0.6;
         // as many impressions in first zone as in second, sum equal to required minimum
         $aZonesContracts[$zoneId2] = 100;
         $aZonesContracts[$zoneId3] = 100;
@@ -350,9 +355,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId4),
                 ),
             ),
-            self::IDX_ECPM => 0.7,
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
+        $aEcpm[$campaignId3] = 0.7;
         // all left minimum impressions go to two ads based on their weights
         $sumW = $w1 + $w2;
         // twice as many impressions as required
@@ -364,6 +369,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', 1);
+        foreach ($aEcpm as $campId => $ecpm) {
+            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
+        }
         $oEcpm->aCampaignsDeliveredImpressions = array(); // nothing was delivered so far
         // precalculate the min/required impressions per ad
         $oEcpm->prepareCampaignsParameters($aCampaignsInfo);
@@ -394,9 +402,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId1 = 1),
                 )
             ),
-            self::IDX_ECPM => 0.1,
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
+        $aEcpm[$campaignId1] = 0.1;
         // less impressions available than the required minumum
         $aZonesContracts[$zoneId1] = 10;
         $aExpAdZonesProbabilities[$adId1][$zoneId1] = 1;
@@ -411,9 +419,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId2 = 2, $zoneId3 = 3),
                 )
             ),
-            self::IDX_ECPM => 0.6,
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         );
+        $aEcpm[$campaignId2] = 0.6;
         // as many impressions in first zone as in second, sum equal to required minimum
         $aZonesContracts[$zoneId2] = 100;
         $aZonesContracts[$zoneId3] = 100;
@@ -435,9 +443,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId4),
                 ),
             ),
-            self::IDX_ECPM => 0.7,
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
+        $aEcpm[$campaignId3] = 0.7;
         $aZonesContracts[$zoneId4] = $M = 600;
         // actual algorithm
         $ecpmPow = pow(0.7, self::ALPHA);
@@ -468,9 +476,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId4),
                 ),
             ),
-            self::IDX_ECPM => 0.7,
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
+        $aEcpm[$campaignId3] = 0.7;
         $aZonesContracts[$zoneId4] = $M = 600;
         // actual algorithm
         $ecpmPow = pow(0.7, self::ALPHA);
@@ -497,9 +505,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId5 = 5),
                 ),
             ),
-            self::IDX_ECPM => 0.5,
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
+        $aEcpm[$campaignId4] = 0.5;
         $aCampaignsInfo[$campaignId4 = 5] = array(
             self::IDX_ADS => array(
                 $adId6 = 6 => array(
@@ -507,9 +515,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
                     self::IDX_ZONES => array($zoneId5 = 5),
                 ),
             ),
-            self::IDX_ECPM => 1.0,
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
+        $aEcpm[$campaignId4] = 1.0;
         $aZonesContracts[$zoneId5] = $M = 1000;
         // actual algorithm
         $ecpmPow1 = pow(0.5, self::ALPHA);
@@ -530,6 +538,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', 1);
+        foreach ($aEcpm as $campId => $ecpm) {
+            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
+        }
         $oEcpm->aCampaignsDeliveredImpressions = array(); // nothing was delivered so far
         // precalculate the min/required impressions per ad
         $oEcpm->aZonesContracts = $aZonesContracts;
@@ -538,30 +549,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // Test
         $aAdZonesProbabilities = $oEcpm->calculateDeliveryProbabilities($aCampaignsInfo);
         $this->assertEqualsFloatsArray($aExpAdZonesProbabilities, $aAdZonesProbabilities);
-    }
-
-    function testNormalizeProbabilities()
-    {
-        // testing array with some probabilities bigger than 1.0
-        $aInput = array(
-            // adid => array(zoneid => prob., zoneid => prob),
-            1 => array(1 => 1.0, 2 => 1.0),
-            2 => array(1 => 1.0, 2 => 2.0),
-        );
-        // expected probabilities after normalization
-        $aExpectNormalized = array(
-            1 => array(1 => 0.5, 2 => 0.3333),
-            2 => array(1 => 0.5, 2 => 0.6667),
-        );
-
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
-        foreach($aInput as $adId => $aZone) {
-            foreach($aZone as $zoneId => $p) {
-                $oEcpm->sumUpZoneProbability($zoneId, $p);
-            }
-        }
-        $aRet = $oEcpm->normalizeProbabilities($aInput);
-        $this->assertEqualsFloatsArray($aExpectNormalized, $aRet);
     }
 }
 

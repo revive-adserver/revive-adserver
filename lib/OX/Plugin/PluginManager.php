@@ -808,8 +808,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $file = $this->getPathToPackages().$name.'.xml';
             if (!@file_exists($file))
             {
-                $this->_logError('Failed to find package definition file '.$file);
-                return false;
+                if ($GLOBALS['installing'] && file_exists(str_replace('/plugins/', '/extensions/', $file))) {
+                    $file = str_replace('/plugins/', '/extensions/', $file);
+                } else {
+                    $this->_logError('Failed to find package definition file '.$file);
+                    return false;
+                }
             }
         }
         $this->aParse['package'] = $this->parseXML($file);

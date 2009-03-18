@@ -128,6 +128,13 @@ class OA_Admin_UI_Component_ArrayRenderer
             'type'     => $html->getType(),
             'html'     => $html->toHtml()
         );
+        
+        //get decorators
+        $decoratorsArr = $this->decoratorsToArray($html->getName());
+        if ($decoratorsArr) {
+            $elAry['decorators']= $decoratorsArr;  
+        }
+        
         $this->_storeArray($elAry);        
     }
     

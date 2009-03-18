@@ -374,6 +374,17 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                             raw statistics table which should be used to store the
      *                             corresponding supplementary raw data when they are migrated.
      *
+     * 4. Custom Migration of Bucket Data
+     *
+     * Required map keys & values:
+     * - method             => The value "custom".
+     * - bucketTable        => The name of the bucket table, including prefix
+     *                         if required, where the aggregate bucked data
+     *                         is stored.
+     * - dateTimeColumn     => The name of the column in the bucket table that
+     *                         defines the date/time for which the data is
+     *                         relevant (and which will be used to limit which
+     *                         data are migrated to the statistics table).
      */
     abstract function getStatisticsMigration();
 
@@ -401,6 +412,8 @@ abstract class Plugins_DeliveryLog extends OX_Component
             return $this->_testStatisticsMigrationRaw($aMap);
         } else if ($aMap['method'] == 'rawSupplementary') {
             return $this->_testStatisticsMigrationRawSupplementary($aMap);
+        } else if ($aMap['method'] == 'custom') {
+            return $this->_testStatisticsMigrationCustom($aMap);
         }
         return false;
     }
@@ -591,6 +604,32 @@ abstract class Plugins_DeliveryLog extends OX_Component
         // Everything looks okay!
         return true;
 
+    }
+
+    /**
+     * A private method to test the returned migration map array from
+     * the getStatisticsMigration() method for plugins that require
+     * custom migration of bucket data. Cannot be overwritten.
+     *
+     * @access private
+     * @param array $aMap The migration map array result from calling
+     *                    getStatisticsMigration();
+     * @return boolean True on the map being valid, false otherwise.
+     */
+    final private function _testStatisticsMigrationCustom($aMap)
+    {
+        // Must have a valid "bucketTable" value
+        if (!$this->_testMigrationValidTableOrColumn($aMap['bucketTable'])) {
+            return false;
+        }
+
+        // Must have a valid "dateTimeColumn" value
+        if (!$this->_testMigrationValidTableOrColumn($aMap['dateTimeColumn'])) {
+            return false;
+        }
+
+        // Everything looks okay!
+        return true;
     }
 
     /**

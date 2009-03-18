@@ -1689,7 +1689,52 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oServiceLocator->register('OA_Email', $oEmail);
         }
         $report = "\n";
-        // Select all campaigns in the system
+        // Select all campaigns in the system, where:
+        //    The campaign is ACTIVE and:
+        //    - The end date stored for the campaign is not null; or
+        //    - The campaign has a lifetime impression, click or conversion
+        //      target set.
+        //
+        //    That is:
+        //    - It is possible for the active campaign to be automatically
+        //      stopped, as it has a valid end date. (No limitations are
+        //      applied to those campaigns tested, as the ME may not have
+        //      run for a while, and if so, even campaigns with an end date
+        //      of many, many weeks ago should be tested to ensure they are
+        //      [belatedly] halted.)
+        //    - It is possible for the active campaign to be automatically
+        //      stopped, as it has at leaast one lifetime target that could
+        //      have been reached.
+        //
+        //    The campaign is INACTIVE and:
+        //    - The start date stored for the campaign is not null; and
+        //    - The weight is greater than zero; and
+        //    - The end date stored for the campaign is either null, or is
+        //      greater than "today" less one day.
+        //
+        //    That is:
+        //    - It is possible for the inactive campaign to be automatically
+        //      started, as it has a valid start date. (No limitations are
+        //      applied to those campaigns tested, as the ME may not have run
+        //      for a while, and if so, even campaigns with an activation date
+        //      of many, many weeks ago should be tested to ensure they are
+        //      [belatedy] enabled.)
+        //    - The campaign is not in a permanently inactive state, as a
+        //      result of the weight being less then one, which means that
+        //      it cannot be activated.
+        //    - The test to start the campaign is unlikely to fail on account
+        //      of the end date. (Inactive campaigns with start dates may have
+        //      passed the start date, but they may also have passed the end
+        //      date - unfortunately, because the dates are not stored in UTC,
+        //      it's not possible to know exactly which campaigns have passed
+        //      the end date or not, until the values are converted to UTC based
+        //      on the Advertiser Account timezone preference - so it's necessary
+        //      to get some campaigns that might be passed the end date, and do
+        //      the converstion to UTC and test to check.)
+        $prefix = $this->getTablePrefix();
+        $oYesterdayDate = new Date();
+        $oYesterdayDate->copy($oDate);
+        $oYesterdayDate->subtractSeconds(SECONDS_PER_DAY);
         $query = "
             SELECT
                 cl.clientid AS advertiser_id,
@@ -1707,23 +1752,73 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ca.activate AS start,
                 ca.expire AS end
             FROM
-                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)." AS ca,
-                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)." AS cl
+                {$prefix}campaigns AS ca,
+                {$prefix}clients AS cl
             WHERE
                 ca.clientid = cl.clientid
+                AND
+                ca.status = " . $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer') . "
+                AND
+                (
+                    ca.expire " . OA_Dal::notEqualNoDateString() . "
+                    OR
+                    (
+                        ca.views > 0
+                        OR
+                        ca.clicks > 0
+                        OR
+                        ca.conversions > 0
+                    )
+                )
+            UNION ALL
+            SELECT
+                cl.clientid AS advertiser_id,
+                cl.account_id AS advertiser_account_id,
+                cl.agencyid AS agency_id,
+                cl.contact AS contact,
+                cl.email AS email,
+                cl.reportdeactivate AS send_activate_deactivate_email,
+                ca.campaignid AS campaign_id,
+                ca.campaignname AS campaign_name,
+                ca.views AS targetimpressions,
+                ca.clicks AS targetclicks,
+                ca.conversions AS targetconversions,
+                ca.status AS status,
+                ca.activate AS start,
+                ca.expire AS end
+            FROM
+                {$prefix}campaigns AS ca,
+                {$prefix}clients AS cl
+            WHERE
+                ca.clientid = cl.clientid
+                AND
+                ca.status != " . $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer') . "
+                AND
+                ca.activate " . OA_Dal::notEqualNoDateString() . "
+                AND
+                (
+                    ca.weight > 0
+                    OR
+                    ca.priority > 0
+                )
+                AND
+                (
+                    ca.expire >= " . $this->oDbh->quote($oYesterdayDate->format('%Y-%m-%d'), 'timestamp') . "
+                    OR
+                    ca.expire " . OA_Dal::equalNoDateString() . "
+                )
             ORDER BY
-                advertiser_id
-            ";
-        OA::debug('- Selecting all campaigns', PEAR_LOG_DEBUG);
+                advertiser_id";
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
+        OA::debug('- Found ' . $rsResult->numRows() . ' campaigns to test for activation/deactivation', PEAR_LOG_DEBUG);
         while ($aCampaign = $rsResult->fetchRow()) {
             if ($aCampaign['status'] == OA_ENTITY_STATUS_RUNNING) {
                 // The campaign is currently running, look at the campaign
                 $disableReason = 0;
-                $canExpire = false;
+                $canExpireSoon = false;
                 if (($aCampaign['targetimpressions'] > 0) ||
                     ($aCampaign['targetclicks'] > 0) ||
                     ($aCampaign['targetconversions'] > 0)) {
@@ -1795,9 +1890,12 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             }
                             phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
+                        } else {
+                            // The campaign didn't have a diable reason,
+                            // it *might* possibly be diabled "soon"...
+                            $canExpireSoon = true;
                         }
                     }
-                    $canExpire = true;
                 }
                 // Does the campaign need to be disabled due to the date?
                 if ($aCampaign['end'] != OA_Dal::noDateValue()) {
@@ -1830,8 +1928,11 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         }
                         phpAds_userlogSetUser(phpAds_userMaintenance);
                         phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
+                    } else {
+                        // The campaign wasn't disabled based on the end
+                        // date, to it *might* possibly be disabled "soon"...
+                        $canExpireSoon = true;
                     }
-                    $canExpire = true;
                 }
                 if ($disableReason) {
                     // The campaign was disabled, so send the appropriate
@@ -1861,9 +1962,9 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
                         $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id'], $disableReason);
                     }
-                } elseif ($canExpire) {
+                } else if ($canExpireSoon) {
                     // The campaign has NOT been deactivated - test to see if it will
-                    // be deactivated soon, and send email(s) warning of this as required
+                    // be deactivated "soon", and send email(s) warning of this as required
                     $oEmail->sendCampaignImpendingExpiryEmail($oDate, $aCampaign['campaign_id']);
                 }
             } else {

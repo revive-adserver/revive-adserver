@@ -58,9 +58,15 @@ $Id$
 {if $_e.type == 'controls'}
     {* open controls *}
     <div class="controls">
-        {* display form controls *}
-        {$_e.content}
-        {* close form controls *}    
+      {if $form.hasRequiredFields and not $form.frozen}
+        <span style="margin-left: 7px; float: right;">
+            <span style="font-size:80%; color: red">*</span> <span style="font-size:80%; color:#7f7f7f;">{t str=RequiredFieldLegend}</span>
+        </span>
+      {/if}
+    
+      {* display form controls *}
+      {$_e.content}
+      {* close form controls *}
     </div>
 {/if}
 
@@ -78,32 +84,34 @@ $Id$
             <td width='170' valign="top" style="padding-top: 5px">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
         {/if}
         <td {if $_e.label}width='100%'{else}colspan='2'{/if}>
-    {/if}  
-            {cycle name=gsep advance=false values=$_e.separator reset=true print=false}
-            {foreach key=gkey item=groupItem from=$_e.elements}
-                {if $groupItem.type == "group"}
-                    {oa_form_element elem=$groupItem parent=$_e}{/oa_form_element}
-                {else}
-                    {if $groupItem.decorators}
-                       {$groupItem.decorators.prepend}
-                    {/if}
-                
-                    {if $groupItem.type == 'custom'}
-                        {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
-                    {else}
-	                    {if $groupItem.labelPlacement == "after"}
-	                       {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if}
-	                    {else}
-	                        {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</font>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
-	                    {/if}
-                    {/if}
-                    {if $groupItem.decorators}
-                        {$groupItem.decorators.append}
-                    {/if}
-                {/if}
-                {if $_e.separator}{cycle name=gsep values=$_e.separator}
-                {/if}
-            {/foreach}
+    {/if}
+      
+    {cycle name=gsep advance=false values=$_e.separator reset=true print=false}
+    {foreach key=gkey item=groupItem from=$_e.elements}
+        {if $groupItem.type == "group"}
+            {oa_form_element elem=$groupItem parent=$_e}{/oa_form_element}
+        {else}
+            {if $groupItem.decorators}
+               {$groupItem.decorators.prepend}
+            {/if}
+        
+            {if $groupItem.type == 'custom'}
+                {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
+            {else}
+              {if $groupItem.labelPlacement == "after"}
+                 {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}{if $groupItem.required}<font color="red">*</font>{/if}
+              {else}
+                  {$groupItem.label}{if $groupItem.required && $groupItem.label}<font color="red">*</font>{/if} {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}{if $groupItem.required && !$groupItem.label}<font color="red">*</font>{/if}
+              {/if}
+            {/if}
+            {if $groupItem.decorators}
+                {$groupItem.decorators.append}
+            {/if}
+        {/if}
+        {if $_e.separator}{cycle name=gsep values=$_e.separator}
+        {/if}
+    {/foreach}
+    
     {if !$_e.parent}
         {if $_e.error}<br><label class="error">{$_e.error}</label>{/if}    
         </td>

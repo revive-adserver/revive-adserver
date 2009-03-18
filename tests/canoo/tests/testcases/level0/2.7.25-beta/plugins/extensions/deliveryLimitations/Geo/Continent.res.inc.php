@@ -25,7 +25,7 @@
 $Id: Continent.res.inc.php 22781 2008-07-16 16:52:20Z chris.nutting@openx.org $
 */
 
-require_once MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].'/deliveryLimitations/Geo/data/res-continent.inc.php';
+require_once MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'].'/deliveryLimitations/Geo/data/res-continent.inc.php';
 
 /**
  * @package    OpenXPlugin

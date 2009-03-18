@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -24,6 +24,8 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A set of static utility methods
@@ -209,7 +211,74 @@ class OX_Util_Utils
        return $name;
    }
 
+   /**
+    * Calculates the effective CPM (eCPM)
+    *
+    * @param int $revenueType revenue type (CPM, CPA, etc) as defined in constants.php.
+    * @param double $revenue revenue amount, eg 1.55.  CPM, CPC, CPA: the rate. Tenancy: the total.
+    * @param int $impressions the number of impressions.
+    * @param int $clicks the number of clicks
+    * @param int $conversions the number of conversions.
+    * @param string $startDate start date of the campaign. Required for tenancy.
+    * @param string $endDate end date of the campaign. Required for tenancy.
+    * @param double defaultClickRatio click ratio to use when there are no impressions.
+    *                                 If null, uses the value in the config file.
+    * @param double defaultConversionRatio conversion ratio to use when there are no impressions.
+    *                                 If null, uses the value in the config file.
+    * 
+    * @return double the eCPM
+    */
+   public static function getEcpm($revenueType, $revenue, $impressions = 0, $clicks = 0, $conversions = 0,
+        $startDate = null, $endDate = null, $defaultClickRatio = null, $defaultConversionRatio = null)
+   {
+       $ecpm = 0.0;
 
+       switch($revenueType) {
+           case MAX_FINANCE_CPM:
+               // eCPM = CPM
+               return $revenue;
+               break;
+           case MAX_FINANCE_CPC:
+               if ($impressions != 0) {
+                   $ecpm = $revenue * $clicks / $impressions * 1000;
+               } else {
+                   if (!$defaultClickRatio) {
+                       $defaultClickRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultClickRatio'];
+                   }
+                   $ecpm = $defaultClickRatio * $revenue * 1000;
+               }
+               break;
+           case MAX_FINANCE_CPA:
+               if ($impressions != 0) {
+                   $ecpm = $revenue * $conversions / $impressions * 1000;
+               } else {
+                   if (!$defaultConversionRatio) {
+                       $defaultConversionRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultConversionRatio'];
+                   }
+                   $ecpm = $defaultConversionRatio * $revenue * 1000;
+               }
+               break;
+           case MAX_FINANCE_MT:
+               if ($impressions != 0) {
+                   if ($startDate && $endDate) {
+                       $daysInCampaign = new Date_Span();
+                       $daysInCampaign->setFromDateDiff(new Date($startDate), new Date($endDate));
+
+                       $daysSoFar = new Date_Span();
+                       $daysSoFar->setFromDateDiff(new Date($startDate), new Date('Y-m-d'));
+
+                       $ecpm = ($revenue / $daysInCampaign->toDays()) * $daysSoFar->toDays() / $impressions * 1000;
+                   } else {
+                       // Not valid without start and end dates.
+                       $ecpm = 0.0;
+                   }
+               } else {
+                   $ecpm = 0.0;
+               }
+               break;
+       }
+       return $ecpm;
+   }
 }
 
 ?>

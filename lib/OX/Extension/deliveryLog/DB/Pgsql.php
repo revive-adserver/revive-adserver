@@ -128,14 +128,14 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
         $tableName = $component->getBucketTableName();
         $query = 'CREATE OR REPLACE FUNCTION '
             . $this->getStoredProcedureName($component) . '
-            ('.$this->_getColumnTypesList($component).')
+            ('.$this->_getColumnTypesList($component).', cnt integer)
             RETURNS void AS
             $BODY$DECLARE
               x int;
             BEGIN
               LOOP
                 -- first try to update
-                UPDATE ' . $tableName . ' SET count = count + 1 WHERE '
+                UPDATE ' . $tableName . ' SET count = count + cnt WHERE '
                     .$this->_getSPWhere($component).';
                 GET DIAGNOSTICS x = ROW_COUNT;
                 IF x > 0 THEN
@@ -146,7 +146,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
                 -- we could get a unique-key failure
                 BEGIN
                   INSERT INTO ' . $tableName . ' VALUES ('
-                        .$this->_getSPValuesList($component).');
+                        .$this->_getSPValuesList($component).', cnt);
                   RETURN;
                 EXCEPTION WHEN unique_violation THEN
                   -- do nothing, and loop to try the UPDATE again
@@ -214,16 +214,16 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
     {
         $values = '';
         $c = 1;
+        $comma = '';
         $aColumns = $component->getBucketTableColumns();
         foreach ($aColumns as $columnName => $columnType) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }
-            $values .= '$'.$c.', ';
+            $values .= $comma.'$'.$c;
             $comma = ', ';
             $c++;
         }
-        $values .= '1';
         return $values;
     }
 }

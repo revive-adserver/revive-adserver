@@ -75,9 +75,7 @@ if (!empty($row['html'])) {
             }
         }
     }
-    // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)
-    global $cookie_random;
-    $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);
+    $cookie[$conf['var']['dest']] = str_replace($row['aSearch'], $row['aReplace'], $row['url']);
     // The call to view_raw() above will have tried to log the impression via a beacon,
     // but this type of ad doesn't work with beacons, so the impression must
     // be logged here

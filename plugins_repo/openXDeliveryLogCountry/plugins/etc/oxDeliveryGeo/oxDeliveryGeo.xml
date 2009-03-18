@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxDeliveryGeo</name>
+    <creationDate>2008-07-28</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Plugin prepares data for buckets logging</description>
+    <version>1.0.2-dev</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>deliveryDataPrepare</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryGeo/">dataGeo.class.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryGeo/">dataGeo.delivery.php</file>
+        </files>
+
+        <schema>
+            <mdb2schema>tables_oxDeliveryGeo</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Data_bkt_country_m.php</dataobject>
+            <dataobject>Data_bkt_country_c.php</dataobject>
+            <dataobject>Stats_country.php</dataobject>
+        </schema>
+
+
+        <components>
+           <component>
+                <name>dataGeo</name>
+                <hook>preLog</hook>
+           </component>
+        </components>
+
+    </install>
+
+</plugin>

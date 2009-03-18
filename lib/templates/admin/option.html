@@ -47,10 +47,12 @@
         }
 
         if (localSocketObj.obj.disabled) return;
+        
+        var portEnabled = dbTypeObj.obj.options[dbTypeObj.obj.selectedIndex].value == 'pgsql';
 
         if (localSocketObj.obj.checked == true) {
             setInputDisabled(hostObj.obj, true);
-            setInputDisabled(portObj.obj, true);
+            setInputDisabled(portObj.obj, !portEnabled);
             setInputDisabled(socketObj.obj, false);
         } else {
             setInputDisabled(hostObj.obj, false);

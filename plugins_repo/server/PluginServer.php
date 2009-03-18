@@ -73,11 +73,11 @@ class OX_PluginServer
         else if (version_compare($aRelease['version'],$aParams['version'],'>'))
         {
             $aRelease['status'] = 0;
-            if (version_compare($aParams['oxversion'], $aRelease['oxmaxver'],'>') )
+            if (!empty($aRelease['oxmaxver']) && version_compare($aParams['oxversion'], $aRelease['oxmaxver'],'>') )
             {
                 $aRelease['status'] = -1;
             }
-            else if (version_compare($aParams['oxversion'], $aRelease['oxminver'],'<'))
+            else if (!empty($aRelease['oxminver']) && version_compare($aParams['oxversion'], $aRelease['oxminver'],'<'))
             {
                 $aRelease['status'] = -2;
             }

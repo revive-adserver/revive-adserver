@@ -134,7 +134,7 @@ class OX_Component
         {
             $groupPath = empty($group) ? "" : $group."/";
 
-            $fileName = MAX_PATH . $aConf['pluginPaths']['extensions'] . $extension . "/". $groupPath . $component . OX_COMPONENT_SUFFIX;
+            $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . $extension . "/". $groupPath . $component . OX_COMPONENT_SUFFIX;
         }
         if (!file_exists($fileName))
         {
@@ -241,7 +241,7 @@ class OX_Component
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($extension != 'admin')
         {
-            $pathExtension = $aConf['pluginPaths']['extensions'] . $extension . '/';
+            $pathExtension = $aConf['pluginPaths']['plugins'] . $extension . '/';
         }
         else
         {
@@ -479,7 +479,7 @@ class OX_Component
      */
     function &getFallbackHandler($extension)
     {
-        //$path = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'].$extension.'/';
+        //$path = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'].$extension.'/';
         $fileName = LIB_PATH.'/Extension/'.$extension.'/'.$extension.'.php';
         if (!file_exists($fileName))
         {

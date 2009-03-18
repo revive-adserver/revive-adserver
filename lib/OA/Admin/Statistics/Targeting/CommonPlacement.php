@@ -95,7 +95,7 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
 
         // Pad out any missing items in the stats array,
         // and ensure that links are correctly set
-        $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
+        $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $oStartDate);
         $this->oHistory->fillGapsAndLink($aStats, $aDates, $this, $link);
 
         // Ensure the stats array for the range is filled

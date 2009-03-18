@@ -491,7 +491,10 @@ function initCampaignForm(formId)
         align      : 'Bl',
         weekNumbers: false,
         firstDay   : calendarBeginOfWeek,
-        electric   : false
+        electric   : false,
+        onUpdate   : function() {
+            $("#start").change();
+        }
     });
 
     Calendar.setup({
@@ -501,7 +504,10 @@ function initCampaignForm(formId)
        align : 'Bl',
        weekNumbers: false,
        firstDay : calendarBeginOfWeek,
-       electric : false
+       electric : false,
+       onUpdate : function() {
+           $("#end").change();
+       }
     });
 
 
@@ -514,6 +520,11 @@ function initCampaignForm(formId)
 
     var $conversionsField =  $("#conversions");
     var $conversionsUnlimitedField = $("#conv_unlimited");
+
+    var $pricingField = $("#pricing_revenue_type");
+    var $revenueField = $("#revenue");
+    var $startDateField = $("#start");
+    var $endDateField = $("#end");
 
     $("#priority-h, #priority-e, #priority-l")
         .click(function() {
@@ -534,6 +545,11 @@ function initCampaignForm(formId)
 	initCampaignBookedInput($impressionsField, $impressionsUnlimitedField, 'openadsRemainingImpressions');
 	initCampaignBookedInput($clicksField, $clicksUnlimitedField,  'openadsRemainingClicks');
 	initCampaignBookedInput($conversionsField, $conversionsUnlimitedField);
+
+    initEcpmInput($pricingField);
+    initEcpmInput($revenueField);
+    initEcpmInput($startDateField);
+    initEcpmInput($endDateField);
 
     $("#priority-e, #endSet_immediate, #endSet_specific, #impr_unlimited, #click_unlimited, #conv_unlimited").click(function() {
         updateCampaignDateAndLimitsAndType();
@@ -669,6 +685,12 @@ function showHideLimitDisabledNotes()
 	}
 }
 
+function initEcpmInput($input)
+{
+    $input.change(function() {
+           updateEcpm();
+    });
+}
 
 function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
 {
@@ -942,8 +964,8 @@ function campaignFormPriorityCheck(form)
             return confirm (strCampaignWarningRemnantNoWeight);
         }
     } else if (campaignType == CAMPAIGN_TYPE_ECPM) {
-        if (!parseFloat($("#ecpm").val()) || parseFloat($("#ecpm").val()) <= 0) {
-            return confirm (strCampaignWarningECPMNoECPM);
+        if (!parseFloat($("#revenue").val()) || parseFloat($("#revenue").val()) <= 0) {
+            return confirm (strCampaignWarningEcpmNoRevenue);
         }
     }
 

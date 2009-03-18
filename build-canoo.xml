@@ -99,14 +99,14 @@ enabled=0]]></replacevalue>
 	</macrodef>
 	
 
-	<!-- changes file permissions on plugins (located in extensions/) created during the installation -->
+	<!-- changes file permissions on plugins (located in plugins/) created during the installation -->
 
 	<target name="canoo-chmod">	
 		<available property="fileFound" file="${basedir}/target/www/delivery_test/chmod.php" />
 		<if>
 			<istrue value="${fileFound}"/>
 			<then>
-				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!-- /extensions -->
+				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!- /plugins ->
 					<include name="chmod.php"/>
 					<replacetoken>@path</replacetoken>
 				</replace>
@@ -233,14 +233,14 @@ enabled=0]]></replacevalue>
 		<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
 		<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
 		<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
-		<chmod dir="${basedir}/extensions" perm="a+rwx" type="dir"/>
-		<chmod dir="${basedir}/extensions" perm="a+rw" type="both" includes="**/*" parallel="true" verbose="true"/>		
+		<chmod dir="${basedir}/plugins" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/plugins" perm="a+rw" type="both" includes="**/*" parallel="true" verbose="true"/>		
 	<!-- 
 	<chmod perm="a+rw" verbose="true">	  type="both" 
-			<dirset dir="${basedir}/extensions/*">
+			<dirset dir="${basedir}/plugins/*">
 				<include name="**"/>
 			</dirset>
-			<fileset dir="${basedir}/extensions/*">
+			<fileset dir="${basedir}/plugins/*">
 				<include name="**/*"/>
 			</fileset>
 		</chmod>

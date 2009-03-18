@@ -58,14 +58,30 @@ class OA_DB
      * @param string $dsn Optional database DSN details - connects to the
      *                    database defined by the configuration file otherwise.
      *                    See {@link OA_DB::getDsn()} for format.
+     *
+     * @param array $aDriverOptions An optional array of driver options. Currently
+     *                              supported options are:
+     *                  - For MySQL:
+     *                      ['ssl']      = false|true Perform connection over SSL?
+     *                      ['ca']       = Name of CA file, if "ssl" true
+     *                      ['capath']   = Path to CA file above, is "ssl" true
+     *                      ['compress'] = false|true Use client compression?
+     *
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    function &singleton($dsn = null)
+    function &singleton($dsn = null, $aDriverOptions = array())
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Get the driver options, if not set
+        if (!is_array($aDriverOptions) || (is_null($dsn) && empty($aDriverOptions))) {
+            $aDriverOptions = OA_DB::getDsnOptions();
+        }
+
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+
 
         // Check that the parameter is a string, not an array
         if (is_array($dsn)) {
@@ -78,6 +94,19 @@ class OA_DB
         if (strpos($dsn, '//:@') !== false) {
             // Return a silent error
             return new PEAR_Error('Bad argument: Empty DSN');
+        }
+
+        // Get the database type in use from the DNS, not from the
+        // configuration file
+        $aDSN = MDB2::parseDSN($dsn);
+        $databaseType = $aDSN['phptype'];
+
+        // Is this a MySQL database connection that should happen via SSL?
+        if ((strcasecmp($databaseType, 'mysql') === 0) && ($aDriverOptions['ssl'])) {
+            // Modify the DSN string to include the required CA and CAPATH options
+            if (!empty($aDriverOptions['ca']) && !empty($aDriverOptions['capath'])) {
+                $dsn .= "?ca={$aDriverOptions['ca']}&capth={$aDriverOptions['capath']}";
+            }
         }
 
         // Create an MD5 checksum of the DSN
@@ -101,7 +130,7 @@ class OA_DB
             // Set the portability options
             $aOptions['portability'] = OA_DB_MDB2_DEFAULT_OPTIONS;
             // Set the default table type for MySQL, if appropriate
-            if (strcasecmp($aConf['database']['type'], 'mysql') === 0)
+            if (strcasecmp($databaseType, 'mysql') === 0)
             {
                 if (!empty($aConf['table']['type']))
                 {
@@ -112,7 +141,7 @@ class OA_DB
                         $aOptions['use_transactions'] = true;
                     }
                 }
-            } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
+            } elseif (strcasecmp($databaseType, 'pgsql') === 0) {
                 $aOptions['quote_identifier'] = true;
 	        }
 	        // Add default charset - custom OpenX
@@ -132,6 +161,14 @@ class OA_DB
 
             $aOptions += OA_DB::getDatatypeMapOptions();
 
+            // Is this a MySQL database connection?
+            if (strcasecmp($databaseType, 'mysql') === 0) {
+                // Should this connection happen over SSL?
+                if ($aDriverOptions['ssl']) {
+                    $aOptions['ssl'] = true;
+                }
+            }
+
             // Create the new database connection
             OA::disableErrorHandling();
             $oDbh =& MDB2::singleton($dsn, $aOptions);
@@ -139,6 +176,24 @@ class OA_DB
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
             }
+
+            // Is this a MySQL database connection?
+            if (strcasecmp($databaseType, 'mysql') === 0) {
+                $client_flags = 0;
+                // Should this connection happen over SSL?
+                if ($aDriverOptions['ssl']) {
+                    $client_flags = $client_flags | MYSQL_CLIENT_SSL;
+                }
+                // Should this connection use compression?
+                if ($aDriverOptions['compress']) {
+                    $client_flags = $client_flags | MYSQL_CLIENT_COMPRESS;
+                }
+                // Are there any MySQL connection flags to set?
+                if ($client_flags != 0) {
+                    $oDbh->dsn['client_flags'] = $client_flags;
+                }
+            }
+
             OA::disableErrorHandling();
             $success = $oDbh->connect();
             OA::enableErrorHandling();
@@ -164,7 +219,7 @@ class OA_DB
             // Store the database connection
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] =& $oDbh;
             // Set MySQL 4 compatibility if needed
-            if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['database']['mysql4_compatibility'])) {
+            if (strcasecmp($databaseType, 'mysql') === 0 && !empty($aConf['database']['mysql4_compatibility'])) {
                 $oDbh->exec("SET SESSION sql_mode='MYSQL40'");
             }
         }
@@ -244,22 +299,22 @@ class OA_DB
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
-// this will ensure mysqli driver is used if no mysql extension loaded
-//        if (strcasecmp($aConf['database']['type'], 'mysql') === 0)
-//        {
-//            if (extension_loaded('mysqli') && (!extension_loaded('mysql')))
-//            {
-//                $aConf['database']['type'] = 'mysqli';
-//            }
-//        }
         $dbType = $aConf['database']['type'];
     	if (isset($aConf['database']['protocol']) && $aConf['database']['protocol']=='unix')
     	{
+    	    $socket = $aConf['database']['socket'];
+
+    	    // Pgsql socket connection: unix(:5432)
+    	    if ($dbType == 'pgsql') {
+    	        if (empty($socket) && !empty($aConf['database']['port'])) {
+            	    $socket =  ':' . $aConf['database']['port'];
+    	        }
+    	    }
+
             $dsn = $dbType . '://' .
                 $aConf['database']['username'] . ':' .
                 $aConf['database']['password'] . '@' .
-                $aConf['database']['protocol'] . '(' .
-                $aConf['database']['socket'] .')' . '/' .
+                $aConf['database']['protocol'] . '(' . $socket .')' . '/' .
                 $aConf['database']['name'];
     	}
     	else
@@ -275,6 +330,43 @@ class OA_DB
                 $aConf['database']['name'];
     	}
         return $dsn;
+    }
+
+    /**
+     * A method to return an array of driver specific options as described
+     * in the OA_DB::singleton method.
+     *
+     * @static
+     * @param array $aConf An optional array containing the database details,
+     *                     specifically containing index "database" which is
+     *                     an array containing:
+     *                      type     - Database type, matching PEAR::MDB2 driver name
+     *                      ssl      - Optional boolean value; should MySQL connect over SSL?
+     *                      ca       - Optional string; is using SSL, what is the CA filename?
+     *                      capath   - Optional string; is using SSL, what is path to the the CA file?
+     *                      compress - Optional boolean value; should MySQL connect using compression?
+     *
+     * @return array An array of driver specific options suitable for passing into
+     *               the OA_DB::singleton method call.
+     */
+    function getDsnOptions($aConf = null)
+    {
+        $aDriverOptions = array();
+        if (is_null($aConf)) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+        }
+        $dbType = $aConf['database']['type'];
+        if (strcasecmp($dbType, 'mysql') === 0) {
+            if ($aConf['database']['ssl'] && !empty($aConf['database']['ca']) && !empty($aConf['database']['capth'])) {
+                $aDriverOptions['ssl'] = true;
+                $aDriverOptions['ca'] = $aConf['database']['ca'];
+                $aDriverOptions['capath'] = $aConf['database']['capth'];
+            }
+            if ($aConf['database']['compress']) {
+                $aDriverOptions['compress'] = true;
+            }
+        }
+        return $aDriverOptions;
     }
 
     /**

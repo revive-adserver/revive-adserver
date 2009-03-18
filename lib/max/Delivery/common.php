@@ -420,7 +420,7 @@ function MAX_commonInitVariables()
 
     // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
     if (!isset($clientid)) $clientid = '';
-    if (!isset($campaignid))  $campaignid = $clientid;
+    if (empty($campaignid))  $campaignid = $clientid;
 
     $source = MAX_commonDeriveSource($source);
 
@@ -431,7 +431,6 @@ function MAX_commonInitVariables()
     } else {
         $loc = '';
     }
-    $loc = urldecode($loc);
 
     // Set real referer - Only valid if passed in
     if (!empty($referer)) {
@@ -439,7 +438,6 @@ function MAX_commonInitVariables()
     } else {
         if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
     }
-    $referer = urldecode($referer);
 
     $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
         $GLOBALS['_MAX']['CONF']['var']['blockAd'],
@@ -697,7 +695,7 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
         _includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
         if (!function_exists($functionName)) {
             // Function doesn't exist, include the relevant plugin file
-            _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php');
+            _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
             if (!function_exists($functionName)) {
                 // Function or function file doesn't exist, use the "parent" function
                 _includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');

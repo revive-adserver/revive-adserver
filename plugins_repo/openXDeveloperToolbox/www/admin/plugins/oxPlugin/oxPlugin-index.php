@@ -163,10 +163,7 @@ function processForm(&$form, $aPluginValues)
             $aVals['group']                 = $aGroup['groupname'];
             $aPluginValues['grouporder'][]  = $aGroup['groupname'];
             $oPluginManager->_decompressFile('etc/group.zip', $pathPackages.$aGroup['groupname']);
-            if (isset($aGroup['schema']) && $aGroup['schema'])
-            {
-                $oPluginManager->_decompressFile('etc/schema.zip', $pathPackages.$aGroup['groupname']);
-            }
+            
             $oBuilder = new OX_PluginBuilder_Group();
             if (isset($aGroup['schema']) && $aGroup['schema'])
             {

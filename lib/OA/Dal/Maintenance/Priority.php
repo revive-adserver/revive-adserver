@@ -234,6 +234,77 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
     /**
      * A method to get the details of the total number of advertisements
+     * delivered, to date, for all placements in a given agency.
+     * This method returns only the campaigns which revenue_type is not
+     * equal MAX_FINANCE_CPM and therefore whose eCPM needs to be calculated
+     * dynamically each time the maintenance is executed.
+     *
+     * @param integer $id The agency ID.
+     * @return array An array of arrays, with each containing the "placement_id",
+     *               "sum_requests", "sum_views", "sum_clicks" and "sum_conversions"
+     *               for that placement.
+     */
+    function getAgencyEcpmRemnantCampaignsDeliveriesToDate($id)
+    {
+        $table = $this->_getTablename('campaigns');
+        $aWheres = array(
+            array("$table.priority = " . DataObjects_Campaigns::PRIORITY_ECPM, 'AND'),
+            array("$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'),
+        );
+        return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
+    }
+
+
+    /**
+     * A method to get the details of the total number of advertisements
+     * delivered, to date, for all placements in a given agency.
+     *
+     * @param integer $id The agency ID.
+     * @return array An array of arrays, indexed with campaigns id with each containing the
+     *               "sum_impressions", "sum_clicks" and "sum_conversions"
+     *               for that campaign.
+     */
+    function getAgencyCampaignsDeliveriesToDate($id, $aWheres = array())
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $query = array();
+        $table = $this->_getTablename('campaigns');
+        $joinTable1 = $this->_getTablename('banners');
+        $joinTable2 = $this->_getTablename('data_intermediate_ad');
+        $joinTable3 = $this->_getTablename('clients');
+        $query['table']    = $table;
+        $query['fields']   = array(
+                                "SUM($joinTable2.impressions) AS sum_impressions",
+                                "SUM($joinTable2.clicks) AS sum_clicks",
+                                "SUM($joinTable2.conversions) AS sum_conversions",
+                                "$table.campaignid AS campaign_id"
+                             );
+        $query['wheres']   = array(
+                                array("$joinTable3.agencyid = $id", 'AND'),
+                             );
+        if (!empty($aWheres)) {
+            $query['wheres'] = array_merge($query['wheres'], $aWheres);
+        }
+        $query['joins']    = array(
+                                array($joinTable1, "$table.campaignid = $joinTable1.campaignid"),
+                                array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"),
+                                array($joinTable3, "$joinTable3.clientid = $table.clientid")
+                             );
+        $query['group']    = "campaign_id";
+        $result = $this->_get($query);
+        $aResult = array();
+        foreach ($result as $row) {
+            $aResult[$row['campaign_id']] = array(
+                'sum_impressions' => $row['sum_impressions'],
+                'sum_clicks'      => $row['sum_clicks'],
+                'sum_conversions' => $row['sum_conversions']
+            );
+        }
+        return $aResult;
+    }
+
+    /**
+     * A method to get the details of the total number of advertisements
      * delivered, today, for a specified placement.
      *
      * @param integer $id The placement ID.
@@ -1209,6 +1280,57 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         }
                         return false;
                     }
+                }
+            }
+            if ($dbHasTransactionSupport) {
+                $oRes = $this->oDbh->commit();
+                if (PEAR::isError($oRes)) {
+                    OA::debug('    - Error: Could not commit the transaction', PEAR_LOG_DEBUG);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Updates the campaigns eCPM. MPE updates the eCPM each time it 
+     *
+     * @param array $aCampaignsEcpms  Array - indexed with campaign Ids, contains ECPMs
+     * @return boolean  True on success, otherwise false
+     */
+    public function updateCampaignsEcpms($aCampaignsEcpms)
+    {
+        OA::debug('- Updating Campaigns ECPMs', PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $dbHasTransactionSupport = !(strcasecmp($aConf['database']['type'], 'mysql') === 0
+            && strcasecmp($aConf['table']['type'], 'myisam') === 0);
+        if ($dbHasTransactionSupport) {
+            $oRes = $this->oDbh->beginTransaction();
+            if (PEAR::isError($oRes)) {
+                // Cannot start transaction
+                OA::debug('    - Error: Could not start transaction', PEAR_LOG_DEBUG);
+                return false;
+            }
+        }
+        if (is_array($aCampaignsEcpms) && !empty($aCampaignsEcpms)) {
+            $table = $this->_getTablename('campaigns');
+            foreach($aCampaignsEcpms as $campaignId => $ecpm) {
+                $query = "
+                    UPDATE
+                        {$table}
+                    SET
+                        ecpm = {$ecpm}
+                    WHERE
+                        campaignid = {$campaignId}";
+                $rows = $this->oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    OA::debug("    - Error updating ecpm, campaign ID {$campaignId} to {$ecpm}.", PEAR_LOG_DEBUG);
+                    if ($dbHasTransactionSupport) {
+                        OA::debug('     - Error: Rolling back transaction', PEAR_LOG_DEBUG);
+                        $this->oDbh->rollback();
+                    }
+                    return false;
                 }
             }
             if ($dbHasTransactionSupport) {
@@ -2543,7 +2665,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                Format:
      *                array(
      *                   campaignid (integer) => array(
-     *                       self::IDX_ECPM => (float),
+     *                       self::IDX_REVENUE => (float),
+     *                       self::IDX_REVENUE_TYPE => (integer),
      *                       self::IDX_MIN_IMPRESSIONS => (integer)
      *                       self::IDX_ADS => array(
      *                         adid (integer) => array(
@@ -2557,8 +2680,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $query = "SELECT
                       c.campaignid AS campaignid,
-                      c.ecpm AS ecpm,
+                      c.revenue AS revenue,
+                      c.revenue_type AS revenue_type,
                       c.min_impressions AS min_impressions,
+                      c.activate AS activate,
+                      c.expire AS expire,
                       b.bannerid AS bannerid,
                       b.weight AS weight,
                       aza.zone_id AS zone_id
@@ -2587,8 +2713,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
         $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
         $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
-        $idxEcpm = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ECPM;
+        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE;
+        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE_TYPE;
         $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
+        $idxActivate = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ACTIVATE;
+        $idxExpire = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_EXPIRE;
 
         // Format output into desired structure (see comments in a phpdoc above)
         while ($aRow = $rc->fetchRow()) {
@@ -2598,8 +2727,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             if (!isset($aResult[$aRow['campaignid']])) {
                 $aResult[$aRow['campaignid']] = array(
-                    $idxEcpm => $aRow['ecpm'],
-                    $idxImpr => $aRow['min_impressions'],
+                    $idxRevenue => $aRow['revenue'],
+                    $idxRevenueType => $aRow['revenue_type'],
+                    $idxActivate => $aRow['activate'],
+                    $idxExpire => $aRow['expire'],
                     $idxAds => array(),
                 );
             }

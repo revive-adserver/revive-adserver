@@ -1374,7 +1374,7 @@ break;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid)) $clientid = '';
-if (!isset($campaignid))  $campaignid = $clientid;
+if (empty($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
@@ -1383,14 +1383,12 @@ $loc = $_SERVER['HTTP_REFERER'];
 } else {
 $loc = '';
 }
-$loc = urldecode($loc);
 // Set real referer - Only valid if passed in
 if (!empty($referer)) {
 $_SERVER['HTTP_REFERER'] = stripslashes($referer);
 } else {
 if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
 }
-$referer = urldecode($referer);
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
 $GLOBALS['_MAX']['CONF']['var']['blockAd'],
 $GLOBALS['_MAX']['CONF']['var']['capAd'],
@@ -1578,7 +1576,7 @@ if (!function_exists($functionName)) {
 _includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
 if (!function_exists($functionName)) {
 // Function doesn't exist, include the relevant plugin file
-_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php');
+_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
 if (!function_exists($functionName)) {
 // Function or function file doesn't exist, use the "parent" function
 _includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
@@ -1692,7 +1690,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if ($type == MAX_URL_ADMIN) {
 $path = $aConf['webpath']['admin'];
 } elseif ($type == MAX_URL_IMAGE) {
-$path = $aConf['webpath']['admin'] . "/" . OX::assetPath("/images");
+return OX::assetPath("/images/" . $file);
 } else {
 return null;
 }
@@ -1770,10 +1768,14 @@ if(strlen($row['acl_plugins'])) {
 $acl_plugins = explode(',', $row['acl_plugins']);
 foreach ($acl_plugins as $acl_plugin) {
 list($extension, $package, $name) = explode(':', $acl_plugin);
-$pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "{$extension}/{$package}/{$name}.delivery.php";
+$pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
-include($pluginName);
+// If any of the delivery files doesn't exists don't check the delivery limitations
+if (include($pluginName)) {
 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
+} else {
+return true;
+}
 }
 }
 }
@@ -1897,10 +1899,10 @@ if (strpos($code, '{clickurlparams}')) {
 $maxparams = _adRenderBuildParams($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
 $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs to be done separately because {clickurlparams} does contain {random}...
 }
-$search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}');
+$search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}', '{referer}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
 $websiteid = (!empty($aBanner['affiliate_id'])) ? $aBanner['affiliate_id'] : '0';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id']);
+$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id'], $referer);
 preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {

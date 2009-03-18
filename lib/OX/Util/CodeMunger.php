@@ -198,6 +198,11 @@ class OX_Util_CodeMunger
      */
     public function parseFile($filename)
     {
+        // Don't try and process the file if the tokenizer isn't available
+        if (!function_exists('token_get_all')) {
+            return false;
+        }
+
         // Track included files to allow require_once/include_once to work correctly
         $thisFile = OX::realPathRelative(getcwd() . '/' . $filename);
         $this->onlyOnce[$thisFile] = true;

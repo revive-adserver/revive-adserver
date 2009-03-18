@@ -352,11 +352,11 @@ phpAds_PageHeader("plugin-index");
 
 if (is_null($oTpl))
 {
-    if (array_key_exists('selection',$_REQUEST) && ($_REQUEST['selection']=='components'))
+    if (array_key_exists('selection',$_REQUEST) && ($_REQUEST['selection']=='groups'))
     {
         $oTpl = new OA_Admin_Template('plugin-group-index-list.html');
         $oTpl->assign('aWarnings',$oComponentGroupManager->aWarnings);
-        $oTpl->assign('selected','components');
+        $oTpl->assign('selected','groups');
         $oTpl->assign('aPlugins',$oComponentGroupManager->getComponentGroupsList());
     }
     else //if ($_POST['selection']=='plugins')

@@ -63,7 +63,7 @@ $Id$
 
     var strCampaignWarningNoTargetMessage = '{$strCampaignWarningNoTargetMessage}';
     var strCampaignWarningRemnantNoWeight ='{$strCampaignWarningRemnantNoWeight}';
-    var strCampaignWarningECPMNoECPM ='{$strCampaignWarningECPMNoECPM}';
+    var strCampaignWarningEcpmNoRevenue ='{$strCampaignWarningEcpmNoRevenue}';
     var strCampaignWarningExclusiveNoWeight ='{$strCampaignWarningExclusiveNoWeight}';
 
     $(document).ready(function() {ldelim}
@@ -107,6 +107,34 @@ $Id$
 {/if}
 
 {literal}
+function updateEcpm()
+{
+    var impressionsSoFar = this['impressions_delivered'];
+    var clicksSoFar = this['clicks_delivered'];
+    var conversionsSoFar = this['conversions_delivered'];
+    var revenueType = $("#pricing_revenue_type").val();
+    var revenue = $("#revenue").val();
+    var clientId = $(":input[name=clientid]").val();
+    var campaignId = $(":input[name=campaignid]").val();
+    var startDate = $("#start").val();
+    var endDate = $("#end").val();
+
+    // AJAX call.
+    $.ajax({
+        url: 'campaign-edit.php?ajax=true&clientid=' + clientId +
+            '&campaignid=' + campaignId + '&revenue_type=' + revenueType +
+            '&revenue=' + revenue + '&impressions=' + impressionsSoFar +
+            '&clicks=' + clicksSoFar + '&conversions=' + conversionsSoFar +
+            '&start=' + startDate + '&end=' + endDate,
+        success: function(response) {
+            $("#ecpm").attr("value", response);
+        },
+        error: function(xhr) {
+            //alert('Error! Status = ' + xhr.status);
+        }
+    });
+}
+
 function updateCampaignPricingSectionNotes(field, unlimitedField)
 {
     var name = field.name;

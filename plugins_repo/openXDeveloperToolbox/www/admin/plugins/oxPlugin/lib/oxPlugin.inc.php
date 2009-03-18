@@ -71,7 +71,7 @@ class OX_PluginBuilder_Common
             $data = str_replace('{'.strtoupper($tag).'}', '', $data);
             return;
         }
-        if (!file_exists('etc/elements/'.$aTemplates[$tag]))
+        if (!file_exists('etc/elements/'.$this->aTemplates[$tag]))
         {
             return;
         }
@@ -134,16 +134,17 @@ class OX_PluginBuilder_Common
 class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
 {
     var $pathGroup;
+    var $pathComponents;
     var $schema = false;
 
     function init($aVals)
     {
         parent::init($aVals);
 
-        $file = 'files-'.$this->aValues['extension'].'.xml.tpl';
-        if (file_exists('etc/elements/'.$file))
+        $xmlTemplate = 'files-'.$this->aValues['extension'].'.xml.tpl';
+        if (file_exists('etc/elements/'.$xmlTemplate))
         {
-            $this->aTemplates['FILES'] = $file;
+            $this->aTemplates['FILES'] = $xmlTemplate;
         }
         if ($aVals['extension']=='admin')
         {
@@ -154,9 +155,24 @@ class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
             $this->aTemplates['SCHEMA'] = 'schema.xml.tpl';
         }
 
+        // Component class file
+        $classFile = $this->aValues['extension'] . 'Component.class.php';
+        if (file_exists('etc/components/' . $classFile)) {
+            $this->aTemplates['COMPONENTS'][$this->aValues['extension']][] = $classFile;
+        }
+
+        // Component delivery file
+        $deliveryFile = $this->aValues['extension'] . 'Component.delivery.php';
+        if (file_exists('etc/components/' . $deliveryFile)) {
+            $this->aTemplates['COMPONENTS'][$this->aValues['extension']][] = $deliveryFile;
+        }
+
         global $pathPackages;
         $this->pathGroup = $pathPackages.$aVals['group'].'/';
 
+        // Create the components dir (is there a better place to do this?)
+        $this->pathComponents = $pathPackages . "../{$this->aValues['extension']}/{$aVals['name']}/";
+        mkdir($this->pathComponents, 0777, true);
     }
 
     function putGroup()
@@ -174,6 +190,13 @@ class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
         copy($groupDefinitionFile, str_replace('group',$this->aValues['name'], $groupDefinitionFile));
         unlink($groupDefinitionFile);
         $this->_compileFiles($this->pathPlugin, 'group');
+
+        // Copy the component files.
+        foreach ($this->aTemplates['COMPONENTS'][$this->aValues['extension']] as $file) {
+            $dest = str_replace($this->aValues['extension'], $this->aValues['name'], $file);
+            copy('etc/components/' . $file, $this->pathComponents . $dest);
+        }
+        $this->_compileFiles($this->pathComponents);
     }
 }
 
@@ -204,7 +227,7 @@ class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
         $data = str_replace('{NAME}', $this->aValues['name'], $data);
         $i = file_put_contents($pluginDefinitionFile, $data);
 
-        copy($pluginDefinitionFile, str_replace('plugin',$this->aValues['name'], $pluginDefinitionFile));
+        copy($pluginDefinitionFile, str_replace('plugin.xml',$this->aValues['name'].'.xml', $pluginDefinitionFile));
         unlink($pluginDefinitionFile);
 
         $pluginReadmeFile = $this->pathPackages.'plugin.readme.txt';

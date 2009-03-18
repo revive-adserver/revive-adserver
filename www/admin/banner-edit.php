@@ -622,7 +622,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     $aVariables['weight']          = !empty($aFields['weight']) ? $aFields['weight'] : 0;
     $aVariables['adserver']        = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
     $aVariables['alt']             = !empty($aFields['alt']) ? $aFields['alt'] : '';
-    $aVariables['bannertext']      = !empty($aFields['bannertext']) ? phpAds_htmlQuotes($aFields['bannertext']) : ''; //still I need to quote the text ad text...
+    $aVariables['bannertext']      = !empty($aFields['bannertext']) ? $aFields['bannertext'] : '';
     $aVariables['htmltemplate']    = !empty($aFields['htmltemplate']) ? $aFields['htmltemplate'] : '';
     $aVariables['description']     = !empty($aFields['description']) ? $aFields['description'] : '';
     $aVariables['imageurl']        = (!empty($aFields['imageurl']) && $aFields['imageurl'] != 'http://') ? $aFields['imageurl'] : '';
@@ -665,7 +665,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $oFile = OA_Creative_File::factoryUploadedFile('upload');
         if (PEAR::isError($oFile)) {
             phpAds_PageHeader(1);
-            phpAds_Die($strErrorOccurred, $oFile->getMessage());
+            phpAds_Die($strErrorOccurred, htmlspecialchars($oFile->getMessage()));
         }
         $oFile->store($aFields['type']);
         $aFile = $oFile->getFileDetails();
@@ -690,7 +690,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
         if (PEAR::isError($oFile)) {
             phpAds_PageHeader(1);
-            phpAds_Die($strErrorOccurred, $oFile->getMessage());
+            phpAds_Die($strErrorOccurred, htmlspecialchars($oFile->getMessage()));
         }
         $oFile->store($aFields['type']);
         $aFile = $oFile->getFileDetails();

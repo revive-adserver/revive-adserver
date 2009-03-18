@@ -572,7 +572,7 @@ function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEn
     MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, MAX_buildBreadcrumbPath($entityClass), $newEntity);
 }
 
-function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbPath, $newEntity)
+function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbPath, $newEntity = false)
 {
     global $phpAds_breadcrumbs;
 
@@ -1815,7 +1815,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
             }
         }
         $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'></form>";
-                           
+
         addPageFormTool($GLOBALS['strMoveTo'], 'iconZoneMove', $form);
     }
 

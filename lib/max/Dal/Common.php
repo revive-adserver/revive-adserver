@@ -91,8 +91,11 @@ class MAX_Dal_Common
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $this->getTablePrefix();
         $this->oDbh = &$this->_getDbConnection();
-        $dsn = OA_DB::getDsn();
-        $this->queryBuilder = $this->_getQueryTool($dsn);
+
+        // Get DSN as array as the MDB2 parser is better and backwards compatible
+        $aDsn = MDB2::parseDSN(OA_DB::getDsn());
+
+        $this->queryBuilder = $this->_getQueryTool($aDsn);
     }
 
     /**

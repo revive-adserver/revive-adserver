@@ -274,15 +274,9 @@ class OX_Maintenance
                 }
             }
             if ($sendReport) {
-                // Prepare the end date of the report
-                $oReportEndDate = new Date();
-                $oReportEndDate->setHour(0);
-                $oReportEndDate->setMinute(0);
-                $oReportEndDate->setSecond(0);
-                $oReportEndDate->subtractSeconds(1);
                 // Send the advertiser's campaign delivery report
                 $oEmail = new OA_Email();
-                $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oReportLastDate, $oReportEndDate);
+                $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oReportLastDate);
             }
         }
         OA::debug('  Finished sending advertiser "campaign delivery" reports.', PEAR_LOG_DEBUG);

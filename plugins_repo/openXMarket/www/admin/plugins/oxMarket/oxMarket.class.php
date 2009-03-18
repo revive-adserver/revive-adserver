@@ -146,7 +146,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         // invalidate campaign-market delivery cache
         if (!function_exists('OX_cacheInvalidateGetCampaignMarketInfo')) {
-            require_once MAX_PATH . $aConf['pluginPaths']['extensions'] . 'deliveryAdRender/oxMarketDelivery/oxMarketDelivery.delivery.php';
+            require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . 'deliveryAdRender/oxMarketDelivery/oxMarketDelivery.delivery.php';
         }
         OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }

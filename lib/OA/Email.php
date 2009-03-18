@@ -51,8 +51,13 @@ class OA_Email
     var $aClientCache;
     var $aAgencyCache;
 
-    function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate) {
+    function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate = null, $oEndDate = null) {
         $aConf = $GLOBALS['_MAX']['CONF'];
+
+        $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aAdvertiser['account_id'], true);
+        $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+
+        $this->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
 
         $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $aAdvertiser['clientid']);
         // Add the advertiser to the linked users if there isn't any linked user with the advertiser's email address
@@ -335,8 +340,8 @@ class OA_Email
      *
      * @access private
      * @param integer    $advertiserId The advertiser's ID.
-     * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
-     * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
+     * @param Date $oStartDate   The start date of the report, inclusive.
+     * @param Date $oEndDate     The end date of the report, inclusive.
      * @param string     $type         One of "impressions", "clicks" or "conversions".
      * @param string     $adTextPrint  An sprintf compatible formatting string for use
      *                                 with the $strTotalThisPeriod global string.
@@ -377,27 +382,40 @@ class OA_Email
         // Fetch the ad's stats for the report period, grouped by day
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->selectAdd();
+        $doDataSummaryAdHourly->selectAdd("date_time");
         $doDataSummaryAdHourly->selectAdd("SUM($type) as quantity");
-        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(date_time, '%Y-%m-%d') AS day");
-        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(date_time, '$date_format') as t_stamp_f");
         $doDataSummaryAdHourly->ad_id = $adId;
-        $doDataSummaryAdHourly->whereAdd('impressions > 0');
+        $doDataSummaryAdHourly->whereAdd("impressions > 0");
         if (!is_null($oStartDate)) {
-            $doDataSummaryAdHourly->whereAdd('date_time >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d 00:00:00'), 'timestamp'));
+            $oDate = new Date($oStartDate);
+            $oDate->toUTC();
+            $doDataSummaryAdHourly->whereAdd('date_time >= ' . $oDbh->quote($oDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
         }
-        $doDataSummaryAdHourly->whereAdd('date_time <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d 23:59:59'), 'timestamp'));
-        $doDataSummaryAdHourly->groupBy('day');
-        $doDataSummaryAdHourly->groupBy('t_stamp_f');
-        $doDataSummaryAdHourly->orderBy('day DESC');
+        $oDate = new Date($oEndDate);
+        $oDate->toUTC();
+        $doDataSummaryAdHourly->whereAdd('date_time <= ' . $oDbh->quote($oDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+        $doDataSummaryAdHourly->groupBy('date_time');
+        $doDataSummaryAdHourly->orderBy('date_time DESC');
         $doDataSummaryAdHourly->find();
         if ($doDataSummaryAdHourly->getRowCount() > 0) {
-            // The ad has statistics this period, add them to the report
-            while ($doDataSummaryAdHourly->fetch()) {
-                // Add this day's statistics
-                $aAdQuantity = $doDataSummaryAdHourly->toArray();
-                $emailBodyStats .= sprintf($adTextPrint, $aAdQuantity['t_stamp_f']) . ': ';
-                $emailBodyStats .= sprintf('%15s', phpAds_formatNumber($aAdQuantity['quantity'])) . "\n";
-                $total += $aAdQuantity['quantity'];
+            // The ad has statistics this period, perform time zone conversion and summarize
+            $aAdQuantity = array();
+            while($doDataSummaryAdHourly->fetch()) {
+                $v = $doDataSummaryAdHourly->toArray();
+                $oDate = new Date($v['date_time']);
+                $oDate->setTZbyID('UTC');
+                $oDate->convertTZ($oEndDate->tz);
+                $k = $oDate->format($date_format);
+                if (!isset($aAdQuantity[$k])) {
+                    $aAdQuantity[$k] = 0;
+                }
+                $aAdQuantity[$k] += $v['quantity'];
+            }
+            foreach ($aAdQuantity as $day => $quantity) {
+                // Add this day
+                $emailBodyStats .= sprintf($adTextPrint, $day) . ': ';
+                $emailBodyStats .= sprintf('%15s', phpAds_formatNumber($quantity)) . "\n";
+                $total += $quantity;
             }
             // Add the total statistics for the period
             $emailBodyStats .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ';
@@ -1294,6 +1312,40 @@ class OA_Email
         unset($this->aAdminCache);
         unset($this->aAdminCache);
         unset($this->aClientCache);
+    }
+
+    function convertStartEndDate(&$oStartDate, &$oEndDate, $oTimezone)
+    {
+        if (isset($oStartDate)) {
+            $oStartTz = new Date($oStartDate);
+            $oStartTz->convertTZ($oTimezone);
+            $oStartTz->setHour(0);
+            $oStartTz->setMinute(0);
+            $oStartTz->setSecond(0);
+            if ($oStartTz->after($oStartDate)) {
+                $oStartTz->subtractSpan(new Date_Span('1-0-0-0'));
+            }
+        } else {
+            $oStartTz = null;
+        }
+
+
+        if (!isset($oEndDate)) {
+            $oEndDate = new Date();
+        }
+
+        $oEndTz   = new Date($oEndDate);
+        $oEndTz->convertTZ($oTimezone);
+        $oEndTz->setHour(0);
+        $oEndTz->setMinute(0);
+        $oEndTz->setSecond(0);
+        $oEndTz->subtractSeconds(1);
+        if ($oEndTz->after($oEndDate)) {
+            $oEndTz->subtractSpan(new Date_Span('1-0-0-0'));
+        }
+
+        $oStartDate = $oStartTz;
+        $oEndDate   = $oEndTz;
     }
 
 }

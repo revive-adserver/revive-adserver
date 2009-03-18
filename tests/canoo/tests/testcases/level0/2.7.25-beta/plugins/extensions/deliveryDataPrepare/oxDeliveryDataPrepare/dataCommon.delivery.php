@@ -33,7 +33,7 @@ $Id: dataCommon.delivery.php 25650 2008-09-12 17:43:39Z andrew.hill $
 MAX_Dal_Delivery_Include();
 
 /**
- * Component prepares data which may be used by deliveryLog extensions
+ * Component prepares data which may be used by deliveryLog plugins
  * or other deliveryDataPrepare components as a base for their data preparations.
  * All data is stored in $GLOBALS['_MAX']['deliveryData']
  *

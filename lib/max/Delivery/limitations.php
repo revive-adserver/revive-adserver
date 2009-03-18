@@ -56,10 +56,14 @@ function MAX_limitationsCheckAcl($row, $source = '')
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
                 list($extension, $package, $name) = explode(':', $acl_plugin);
-                $pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "{$extension}/{$package}/{$name}.delivery.php";
+                $pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
                 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
-                    include($pluginName);
-                    $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
+                    // If any of the delivery files doesn't exists don't check the delivery limitations
+                    if (include($pluginName)) {
+                        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
+                    } else {
+                        return true;
+                    }
                 }
             }
         }

@@ -135,7 +135,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_includeComponentFile()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
         $this->assertFalse(class_exists('Plugins_TestExtension1_TestGroup1_TestComponent1'));
         $this->assertTrue(OX_Component::_includeComponentFile('testExtension1','testGroup1', 'testComponent1'));
@@ -149,7 +149,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_getComponentFilesFromDirectory()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
 
         $extension  = 'testExtension1';
@@ -196,7 +196,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_getComponents()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'] = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1,'testPlugin'=>1);
 
@@ -264,7 +264,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_factory()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
 
         $oComponent = OX_Component::factory('testExtension1','testGroup1','testComponent1');
@@ -284,7 +284,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_getComponentIdentifier()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
         $oComponent = OX_Component::factory('testExtension1','testGroup1','testComponent1');
         $this->assertEqual($oComponent->getComponentIdentifier('testExtension1','testGroup1','testComponent1'),
@@ -304,7 +304,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_factoryByComponentIdentifier()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>0);
 
         $oComponent = OX_Component::factoryByComponentIdentifier('testExtension1:testGroup1:testComponent1');
@@ -331,7 +331,7 @@ class Test_OX_Component extends UnitTestCase {
 
     function test_callOnComponents()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = '/lib/OX/Plugin/tests/data/testExtensions/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/Plugin/tests/data/testExtensions/';
         $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'] = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testGroup1'=>1,'testGroup2'=>1);
 

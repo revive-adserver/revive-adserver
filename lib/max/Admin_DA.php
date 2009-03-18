@@ -703,6 +703,11 @@ class Admin_DA
             $oDate->setTZbyID('UTC');
             $oDate->convertTZ($oNow->tz);
             $aStats[$k]['date_time'] = $oDate->format('%Y-%m-%d %H:%M:%S');
+
+            $oDate = new Date($aStats[$k]['connection_date_time']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aStats[$k]['connection_date_time'] = $oDate->format('%Y-%m-%d %H:%M:%S');
         }
 
         return $aStats;
@@ -1122,7 +1127,7 @@ class Admin_DA
 
     function getAd($adId)
     {
-        return Admin_DA::_getDataRowFromId('ad', 'bannerid', $adId);
+        return Admin_DA::_getDataRowFromId('ad', 'ad_id', $adId);
     }
 
     function getAds($aParams, $allFields = false)

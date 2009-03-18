@@ -696,6 +696,7 @@ div.error-box {
   margin: 0 auto 0 auto6;
   -moz-border-radius: 5px;
   text-align: left;
+  line-height: 150%;
 }
 
 select.inerror, input.inerror {
@@ -792,6 +793,7 @@ form .controls {
     text-align: left;
     margin-top: 15px;
     padding-top: 7px;
+    width: 560px;
 }
 
 a.adv-list-entry {

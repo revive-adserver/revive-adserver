@@ -37,6 +37,9 @@ define('OA_UPGRADE_INSTALL',                   36);
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 phpAds_SessionDataFetch();
 
+// Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
+$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
+
 $aErrors = array();
 $result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
 if (validRequest($result))
@@ -50,6 +53,12 @@ if (validRequest($result))
         $result = checkPlugin($_REQUEST['plugin']);
     }
 }
+
+// Undo hack
+unset($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']);
+$oSettings = new OA_Admin_Settings();
+$oSettings->writeConfigChange();
+
 require_once MAX_PATH.'/lib/JSON/JSON.php';
 $json = new Services_JSON();
 $output = $json->encode($result);

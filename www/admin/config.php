@@ -48,7 +48,8 @@ if (PEAR::isError($oDbh))
         phpAds_PageFooter();
         exit;
     }
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
+    $translation->htmlSpecialChars = true;
     $translated_message = $translation->translate ($GLOBALS['strErrorCantConnectToDatabase'], array(MAX_PRODUCT_NAME));
     phpAds_Die ($GLOBALS['strErrorDatabaseConnetion'], $translated_message);
 }

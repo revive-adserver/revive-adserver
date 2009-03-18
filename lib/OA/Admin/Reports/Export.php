@@ -74,7 +74,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
         // Get section by pageId
         $oCurrentSection = $oMenu->get($this->oStatsController->pageId);
         if ($oCurrentSection == null) {
-            phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
+            phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . htmlspecialchars($ID) . '</strong> not found for the current user');
         }
         // Get name
         $reportName = $oCurrentSection->getName();

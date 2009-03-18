@@ -45,8 +45,8 @@ MAX_commonRegisterGlobalsArray(array('layerstyle'));
 if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
 
 // Include layerstyle
-if (file_exists(MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
-    include MAX_PATH . $conf['pluginPaths']['extensions'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+if (file_exists(MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
+    include MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
 } else {
     // Don't generate output when plugin layerstyleisn't available,just send javascript comment on fail
     echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';

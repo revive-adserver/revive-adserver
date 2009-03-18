@@ -210,23 +210,6 @@ function MAX_trackerCheckForValidAction($trackerid)
     return array_shift($aMatchingActions);
 }
 
-function MAX_trackerDeleteActionFromCookie($aConnection)
-{
-    $trackerTypes = _getTrackerTypes();
-    if ($trackerTypes[$aConnection['tracker_type']] != 'sale') {
-        // We only clear the cookie information for "sale" trackers
-        return;
-    }
-    // Haven't planned how this will be achieved yet...
-    // The cookie packing mechanism wasn't built to allow deleting items from the compacted array
-    // I'm guessing something like set _cookieName[adId] = "false", then unset from packed when recompacting
-    $actionTypes = _getActionTypes();
-    $aConf = $GLOBALS['_MAX']['CONF'];
-
-    $cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
-    MAX_cookieAdd($cookieName, 'false', _getTimeThirtyDaysFromNow());
-}
-
 function _getActionTypes()
 {
     return array(0 => 'view', 1 => 'click');

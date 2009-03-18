@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxSchema</name>
+    <creationDate>2008-07-18</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Schema Editor OpenX</description>
+    <version>0.0.2-dev</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <depends>
+                <plugin version="0.0.1-dev" enabled="0">oxToolbox</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/assets/images/">grad-1.gif</file>
+            <file path="{ADMINPATH}/assets/images/">triangle-d.gif</file>
+            <file path="{ADMINPATH}/assets/images/">triangle-u.gif</file>
+            <file path="{ADMINPATH}/assets/css/">mdb2_xsl.css</file>
+            <file path="{ADMINPATH}/templates/">class_migration.tpl</file>
+            <file path="{ADMINPATH}/templates/">oxSchema-frame.html</file>
+            <file path="{ADMINPATH}/templates/">schema_edit.html</file>
+            <file path="{ADMINPATH}/templates/">table_data_dictionary.html</file>
+            <file path="{ADMINPATH}/templates/">table_edit_fields.html</file>
+            <file path="{ADMINPATH}/templates/">table_edit_foreignkeys.html</file>
+            <file path="{ADMINPATH}/templates/">table_edit_index.html</file>
+            <file path="{ADMINPATH}/templates/">table_edit_menu.html</file>
+            <file path="{ADMINPATH}/xsl/">mdb2_schema.xsl</file>
+            <file path="{ADMINPATH}/xsl/">mdb2_dictionary.xsl</file>
+            <file path="{ADMINPATH}/xsl/">mdb2_changeset.xsl</file>
+            <file path="{ADMINPATH}/lib/">oxSchema.inc.php</file>
+            <file path="{ADMINPATH}/lib/">oxAjax.inc.php</file>
+            <file path="{ADMINPATH}/etc/">dd.common.xml</file>
+            <file path="{ADMINPATH}/etc/">dd.generic.xml</file>
+            <file path="{ADMINPATH}/">oxSchema-index.php</file>
+            <file path="{ADMINPATH}/">oxSchema-changes.php</file>
+            <file path="{ADMINPATH}/">oxSchema-frame.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu addto="devtools-main" index="devtools-schema" link="plugins/oxSchema/oxSchema-index.php">Schema Editor</menu>
+            </admin>
+
+        </navigation>
+
+        <configuration>
+
+        </configuration>
+
+    </install>
+
+</plugin>

@@ -289,6 +289,45 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     }
                 }
             }
+
+            // Prepare arrays of all of the migration maps of custom migrations
+            // (If we refactor stats this will be the one and only method.)
+            $aRunComponents = $this->_prepareMaps($aSummariseComponents, 'custom');
+
+            // Run each migration map by statistics table
+            foreach ($aRunComponents as $statisticsTable => $aMaps) {
+                $aBucketTables = array();
+                foreach ($aMaps as $aMap) {
+                    $aBucketTables[] = $aMap['bucketTable'];
+        }
+                foreach ($aRunDates as $aDates) {
+                    $aExtras = array();
+
+                    $message = "- Migrating aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
+                    OA::debug($message, PEAR_LOG_DEBUG);
+                    $message = "  to the '$statisticsTable' table, for operation interval range";
+                    OA::debug($message, PEAR_LOG_DEBUG);
+                    $message = '  ' . $aDates['start']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['start']->tz->getShortName() .
+                               ' to ' . $aDates['end']->format('%Y-%m%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName();
+                    OA::debug($message, PEAR_LOG_DEBUG);
+
+                    // Call the components migrateStats method.
+                    foreach ($aMaps as $componentClassName => $aMap) {
+                        $result = $aSummariseComponents[$statisticsTable][$componentClassName]->migrateStatistics($aDates['end']);
+                        if (PEAR::isError($result)) {
+                            // Oh noz! The bucket data could not be migrated
+                            // Tell the user all about it, but then just keep on truckin'...
+                            $message = "   ERROR: Could not migrate aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
+                            OA::debug($message, PEAR_LOG_ERR);
+                            $message = "   Error message was: {$result->message}.";
+                            OA::debug($message, PEAR_LOG_ERR);
+                        } else {
+                            // Only prune the bucket if we migrated the stats successfully.
+                            $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
+    }
+                    }
+                } // End dates foreach
+            } // End components foreach
         }
     }
 
@@ -367,6 +406,19 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     if (!$oComponent->testStatisticsMigration($aMap)) {
                         continue;
                     }
+                    if ($aMap['method'] == $type) {
+                        // Nice! We can migrate aggregate data
+                        $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
+                    }
+                }
+            }
+        } else if ($type == 'custom') {
+            foreach ($aSummariseComponents as $statisticsTable => $aComponents) {
+                foreach ($aComponents as $oComponent) {
+                    $aMap = $oComponent->getStatisticsMigration();
+                    if (!$oComponent->testStatisticsMigration($aMap)) {
+                        continue;
+        }
                     if ($aMap['method'] == $type) {
                         // Nice! We can migrate aggregate data
                         $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
