@@ -106,7 +106,7 @@ enabled=0]]></replacevalue>
 		<if>
 			<istrue value="${fileFound}"/>
 			<then>
-				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!- /plugins ->
+				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!-- /plugins -->
 					<include name="chmod.php"/>
 					<replacetoken>@path</replacetoken>
 				</replace>
