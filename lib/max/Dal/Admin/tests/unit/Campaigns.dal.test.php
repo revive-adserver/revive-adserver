@@ -1,8 +1,8 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -815,7 +815,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $dg = new DataGenerator();
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_REMNANT;
-        $doCampaigns->ecpm = 0;
+        $doCampaigns->revenue = 0;
         $doCampaigns->min_impressions = 0;
         $aCampaignsId1 = $aCampaigns1 = $dg->generate($doCampaigns, $numCampaign1, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');
@@ -831,7 +831,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         foreach($aRet as $checkCampaignId => $aCampaign) {
             // test that statuses should change
             $doCheck = OA_Dal::staticGetDo('campaigns', $checkCampaignId);
-            $this->assertEqual(OA_ENTITY_STATUS_INACTIVE, $doCheck->status);
+            $this->assertEqual(OA_ENTITY_STATUS_INACTIVE, $doCheck->status,
+                'Campaign was not made inactive');
         }
     }
 
