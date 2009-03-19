@@ -538,12 +538,16 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function calculateEcpm()
     {
-        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
-        $result = $oMaxDalMaintenance->getCampaignDeliveryToDate($this->campaignid);
-        $requestsToDate = $result[0]['sum_requests'];
-        $impressionsToDate = $result[0]['sum_views'];
-        $clicksToDate = $result[0]['sum_clicks'];
-        $conversionsToDate = $result[0]['sum_conversions'];
+        if ($this->campaignid) {
+            $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+            $result = $oMaxDalMaintenance->getCampaignDeliveryToDate($this->campaignid);
+            $requestsToDate = $result[0]['sum_requests'];
+            $impressionsToDate = $result[0]['sum_views'];
+            $clicksToDate = $result[0]['sum_clicks'];
+            $conversionsToDate = $result[0]['sum_conversions'];
+        } else {
+            $requestsToDate = $impressionsToDate = $clicksToDate = $conversionsToDate = 0;
+        }
         return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
             $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate, $this->expire);
     }
