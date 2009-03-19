@@ -337,7 +337,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
     buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
     buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
     buildECPMFormSection($form, $campaign, $newCampaign, $ecpmEnabled);
-    buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, false, $newCampaign );
+    buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
     buildMiscFormSection ( $form, $campaign, $newCampaign );
 
     //form controls
@@ -636,6 +636,9 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
     $miscG ['anonymous'] = $form->createElement ( 'advcheckbox', 'anonymous', null, $GLOBALS ['strAnonymous'], null, array ("f", "t" ) );
     $miscG ['companion'] = $form->createElement ( 'checkbox', 'companion', null, $GLOBALS ['strCompanionPositioning'] );
     $form->addGroup ( $miscG, 'misc_g', $GLOBALS ['strPriorityOptimisation'], "<BR>" );
+    
+    $commentsG ['comments']  = $form->createElement ( 'textarea', 'comments', null);
+    $form->addGroup ( $commentsG, 'comments_g', $GLOBALS['strComments'], "<BR>" );
 }
 
 function buildStatusForm($aCampaign)
