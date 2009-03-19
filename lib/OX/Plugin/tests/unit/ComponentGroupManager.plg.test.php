@@ -302,9 +302,22 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_getFilePathToXMLInstall()
     {
         $oManager = new OX_Plugin_ComponentGroupManager();
-        $path = $oManager->getFilePathToXMLInstall('testplugin');
-        $confpath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $this->assertEqual($path,MAX_PATH.$confpath.'testplugin/testplugin.xml');
+        // The file needs to exist for this method to return now
+        $file = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].'testplugin/testplugin.xml';
+        mkdir(dirname($file)); touch($file);
+        $result = $oManager->getFilePathToXMLInstall('testplugin');
+        $this->assertEqual($result, $file);
+        unlink($file); rmdir(dirname($file));
+        
+        // Check that if the file doesn't exist, but it can be found in the old /extensions path, that this is returned.
+        // NOTE: This requires the test env to have write permissions to /path/to/openx/
+        $file = str_replace('/plugins/', '/extensions/', $file);
+        if (is_writable(MAX_PATH)) {
+            mkdir(dirname($file), 0777, true); touch($file);
+            $result = $oManager->getFilePathToXMLInstall('testplugin');
+            $this->assertEqual($result, $file);
+            unlink($file); rmdir(dirname($file));
+        }
     }
 
     function test_checkFiles()
