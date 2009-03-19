@@ -377,16 +377,18 @@ $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 }
 function MAX_cookieGetUniqueViewerId($create = true)
 {
+static $uniqueViewerId = null;
+if(!is_null($uniqueViewerId)) {
+return $uniqueViewerId;
+}
 $conf = $GLOBALS['_MAX']['CONF'];
 if (isset($_COOKIE[$conf['var']['viewerId']])) {
-$viewerId = $_COOKIE[$conf['var']['viewerId']];
+$uniqueViewerId = $_COOKIE[$conf['var']['viewerId']];
 } elseif ($create) {
-$viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
+$uniqueViewerId = md5(uniqid('', true));  // Need to find a way to generate this...
 $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-} else {
-$viewerId = null;
 }
-return $viewerId;
+return $uniqueViewerId;
 }
 function MAX_cookieGetCookielessViewerID()
 {
@@ -895,21 +897,6 @@ ksort($aMatchingActions);
 // Return the first matching action
 return array_shift($aMatchingActions);
 }
-function MAX_trackerDeleteActionFromCookie($aConnection)
-{
-$trackerTypes = _getTrackerTypes();
-if ($trackerTypes[$aConnection['tracker_type']] != 'sale') {
-// We only clear the cookie information for "sale" trackers
-return;
-}
-// Haven't planned how this will be achieved yet...
-// The cookie packing mechanism wasn't built to allow deleting items from the compacted array
-// I'm guessing something like set _cookieName[adId] = "false", then unset from packed when recompacting
-$actionTypes = _getActionTypes();
-$aConf = $GLOBALS['_MAX']['CONF'];
-$cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
-MAX_cookieAdd($cookieName, 'false', _getTimeThirtyDaysFromNow());
-}
 function _getActionTypes()
 {
 return array(0 => 'view', 1 => 'click');
@@ -961,8 +948,6 @@ $serverRawIp = $aConf['rawDatabase']['host'];
 $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion));
 // Check that the conversion was logged correctly
 if (is_array($aConversionInfo)) {
-// If this was a "sale" type conversion, then clear the cookie data
-MAX_trackerDeleteActionFromCookie($aConnection);
 // Return the result
 return $aConversionInfo;
 }
