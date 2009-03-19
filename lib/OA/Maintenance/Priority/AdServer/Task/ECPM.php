@@ -179,7 +179,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                 $this->preloadCampaignsDeliveriesForAgency($agencyId);
                 $this->prepareCampaignsParameters($aCampaignsInfo);
                 $this->oDal->updateEcpmPriorities($this->calculateDeliveryProbabilities($aCampaignsInfo));
-                $this->oDal->updateCampaignsEcpms($aCampaignsInfo);
+                $this->oDal->updateCampaignsEcpms($this->aCampaignsEcpms);
             }
         }
     }
