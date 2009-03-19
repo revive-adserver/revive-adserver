@@ -79,9 +79,6 @@ class Delivery_TestOfCookie extends UnitTestCase
     {
         $conf =& $GLOBALS['_MAX']['CONF'];
 
-        $_COOKIE[$conf['var']['viewerId']] = 'TEST';
-        $this->assertEqual(MAX_cookieGetUniqueViewerID(), 'TEST');
-
         // Test that the a value is not set if $create=false
         unset($_COOKIE[$conf['var']['viewerId']]);
         $this->assertFalse(MAX_cookieGetUniqueViewerID(false));
@@ -97,6 +94,8 @@ class Delivery_TestOfCookie extends UnitTestCase
         $viewerId = MAX_cookieGetUniqueViewerID(true);
         $this->assertIsA($viewerId, 'string');
         $this->assertTrue(strlen($viewerId) == 32);
+        
+        $this->assertEqual(MAX_cookieGetUniqueViewerID(), $viewerId);
 
     }
 
