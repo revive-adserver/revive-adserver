@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>607</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>607</version>
+      <change>
+        <table>
+          <name>campaigns</name>
+          <add>
+            <field>
+              <name>ecpm_enabled</name>
+              <type>openads_tinyint</type>
+              <length>4</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>ecpm_enabled</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>607</version>
+    </changeset>
+  </destructive>
+</instructionset>

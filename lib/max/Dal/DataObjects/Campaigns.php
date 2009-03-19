@@ -40,7 +40,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     const PRIORITY_REMNANT = 0;
     const PRIORITY_ECPM = -2;
-
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -55,11 +54,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $activate;                        // DATE() => openads_date => 6 
     public $priority;                        // INT(11) => openads_int => 129 
     public $weight;                          // TINYINT(4) => openads_tinyint => 129 
-    public $target_impression;               // INT(11) => openads_int => 129
+    public $target_impression;               // INT(11) => openads_int => 129 
     public $target_click;                    // INT(11) => openads_int => 129 
     public $target_conversion;               // INT(11) => openads_int => 129 
-    public $min_impressions;                  // INT(11) => openads_int => 129
-    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1
     public $anonymous;                       // ENUM('t','f') => openads_enum => 130 
     public $companion;                       // SMALLINT(1) => openads_smallint => 17 
     public $comments;                        // TEXT() => openads_text => 34 
@@ -78,6 +75,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $hosted_clicks;                   // INT(11) => openads_int => 129 
     public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
     public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1 
+    public $min_impressions;                 // INT(11) => openads_int => 129 
+    public $ecpm_enabled;                    // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
@@ -95,7 +95,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'target_impression' => 0,
                 'target_click' => 0,
                 'target_conversion' => 0,
-                'min_impressions' => 0,
                 'anonymous' => 'f',
                 'companion' => 0,
                 'updated' => '%DATE_TIME%',
@@ -109,6 +108,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'hosted_clicks' => 0,
                 'viewwindow' => 0,
                 'clickwindow' => 0,
+                'min_impressions' => 0,
+                'ecpm_enabled' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

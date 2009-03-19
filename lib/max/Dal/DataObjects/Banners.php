@@ -59,7 +59,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $statustext;                      // VARCHAR(255) => openads_varchar => 130 
     public $bannertext;                      // TEXT() => openads_text => 162 
     public $description;                     // VARCHAR(255) => openads_varchar => 130 
-    public $adserver;                        // VARCHAR(50) => openads_varchar => 130 
+    public $adserver;                        // VARCHAR(255) => openads_varchar => 130 
     public $block;                           // INT(11) => openads_int => 129 
     public $capping;                         // INT(11) => openads_int => 129 
     public $session_capping;                 // INT(11) => openads_int => 129 

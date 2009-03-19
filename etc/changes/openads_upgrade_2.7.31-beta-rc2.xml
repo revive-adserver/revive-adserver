@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2009-03-19</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade 2.7.31-beta-rc2</description>
+    <!-- versionFrom if it is a milestone upgrade package -->
+    <versionFrom></versionFrom>
+    <versionTo>2.7.31-beta-rc2</versionTo>
+
+    <database>
+
+        <!-- optional database package(s) -->
+        <package>
+            <version>607</version>
+            <!--  if a version stamp is present it will override the changeset version number  -->
+            <!--stamp>nnn</stamp-->
+            <schema>tables_core</schema>
+            <file>schema_tables_core_607.xml</file>
+            <file>changes_tables_core_607.xml</file>
+            <file>migration_tables_core_607.php</file>
+        </package>
+    </database>
+
+</upgrade>

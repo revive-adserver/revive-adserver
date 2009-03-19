@@ -82,7 +82,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $options = &PEAR::getStaticProperty('DB_DataObject','options');
 
         $oTable = new OA_DB_Table();
-        $oTable->init($schema);
+        $oTable->init($schema, false);
         $aDefinition = $oTable->aDefinition['tables'];
 
         if (isset($options['generator_exclude_regex']))
