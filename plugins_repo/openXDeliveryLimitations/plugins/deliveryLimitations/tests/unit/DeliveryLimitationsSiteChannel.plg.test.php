@@ -27,7 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Plugin/Component.php';
 // Using multi-dirname so that the tests can run from either plugins or plugins_repo
-//require_once dirname(dirname(dirname(__FILE__))) . '/Site/Channel.delivery.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Site/Channel.delivery.php';
 
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_City class.
@@ -43,7 +43,6 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCas
         $aConf = & $GLOBALS['_MAX']['CONF'];
         $aConf['pluginGroupComponents']['Site'] = 1;
         $aConf['pluginPaths']['plugins'] = '/plugins_repo/openXDeliveryLimitations/plugins/';
-        require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . '/deliveryLimitations/Site/Channel.delivery.php';
     }
 
     function tearDown()
