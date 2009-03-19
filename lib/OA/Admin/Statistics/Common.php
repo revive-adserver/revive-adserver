@@ -335,7 +335,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $this->$k = $v;
             }
         }
-        
+
         // Ensure that the entity/breakdown values are set
         if (empty($this->entity)) {
             $this->entity = 'entity';
@@ -889,7 +889,19 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             }
         }
         if (!$access) {
-            phpAds_PageHeader('2');
+            // Before blatting out an error, has the access failure come about from
+            // a manually generated account switch process?
+            if (OA_Permission::isManualAccountSwitch()) {
+                // Yup! Re-direct to the main stats page
+                OX_Admin_Redirect::redirect('stats.php', true);
+            }
+            // Not a manual account switch, just deny access for now...
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                phpAds_PageHeader('2');
+            }
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                phpAds_PageHeader('1');
+            }
             phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
     }
