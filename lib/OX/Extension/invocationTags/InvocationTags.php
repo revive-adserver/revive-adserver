@@ -203,34 +203,34 @@ class Plugins_InvocationTags extends OX_Component
 
         // Set parameters
         if (isset($mi->clientid) && strlen($mi->clientid) && $mi->clientid != '0') {
-            $mi->parameters['clientid'] = $imgParams['clientid'] = "clientid=".$mi->clientid;
+            $mi->parameters['clientid'] = $this->options['clientid'] = $imgParams['clientid'] = "clientid=".$mi->clientid;
         }
         if (isset($mi->zoneid) && $mi->zoneid != '') {
-            $mi->parameters['zoneid'] = $imgParams['zoneid'] = "zoneid=".urlencode($mi->zoneid);
+            $mi->parameters['zoneid'] = $this->options['zoneid'] = $imgParams['zoneid'] = "zoneid=".urlencode($mi->zoneid);
         }
         if (isset($mi->campaignid) && strlen($mi->campaignid) && $mi->campaignid != '0') {
-            $mi->parameters['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
+            $mi->parameters['campaignid'] = $this->options['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
         }
         if (isset($mi->bannerid) && $mi->bannerid != '') {
-            $mi->parameters['bannerid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
+            $mi->parameters['bannerid'] = $this->options['campaignid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
         }
         if (isset($mi->what) && $mi->what != '') {
-            $mi->parameters['what'] = $imgParams['what'] = "what=".str_replace (",+", ",_", $mi->what);
+            $mi->parameters['what'] = $this->options['what'] = $imgParams['what'] = "what=".str_replace (",+", ",_", $mi->what);
         }
         if (isset($mi->source) && $mi->source != '') {
-            $mi->parameters['source'] = $imgParams['source'] = "source=".urlencode($mi->source);
+            $mi->parameters['source'] = $this->options['source'] = $imgParams['source'] = "source=".urlencode($mi->source);
         }
         if (isset($mi->target) && $mi->target != '') {
-            $mi->parameters['target'] = $imgParams['target'] = "target=".urlencode($mi->target);
+            $mi->parameters['target'] = $this->options['target'] = $imgParams['target'] = "target=".urlencode($mi->target);
         }
         if (isset($mi->charset) && $mi->charset != '') {
-            $mi->parameters['charset'] = $imgParams['charset'] = "charset=".urlencode($mi->charset);
+            $mi->parameters['charset'] = $this->options['charset'] = $imgParams['charset'] = "charset=".urlencode($mi->charset);
         }
         if (!empty($mi->cachebuster)) {
-            $mi->parameters['cb'] = $imgParams['cb'] = "cb=" . $mi->macros['cachebuster'];
+            $mi->parameters['cb'] = $this->options['cb'] = $imgParams['cb'] = "cb=" . $mi->macros['cachebuster'];
         }
         if (!empty($mi->thirdpartytrack)) {
-           $mi->parameters['ct0'] = $imgParams['ct0'] = "ct0=" . $mi->macros['clickurl'];
+           $mi->parameters['ct0'] = $this->options['ct0'] = $imgParams['ct0'] = "ct0=" . $mi->macros['clickurl'];
         }
 
         // Set $mi->buffer to the initial comment
