@@ -771,11 +771,11 @@ class OA_Admin_UI
             'js/ox.multicheckbox.js',
             'js/ox.dropdown.js',
             'js/ox.navigator.js',
+            'js/jquery.delegate-1.1.min.js',
             'js/ox.table.js',
             'js/jquery.tablesorter.js',
             'js/ox.tablesorter.plugins.js',
-            'js/formValidation.js'
-            
+            'js/formValidation.js'        
         );
     }
 

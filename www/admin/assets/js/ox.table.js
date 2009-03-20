@@ -2,72 +2,51 @@
     $.extend({
         activateTable: new function() {
 
-            function onToggleSelection(event) {
-                var checked = this.checked;
-                
-                if (checked) {
-                    $(this).parents('tr').addClass('selected'); 
-                } else {
-                    $(this).parents('tr').removeClass('selected');  
-                }
-                
-                $(this).parents('table').find('.toggleAll input').each(function() {
-                    if (this.checked != checked) {
-                        this.checked = false;   
-                    }
-                });
-                
-                updateButtons(this);
-            }
-
-            function onToggleAll() {
-                var checked = this.checked;
-                
-                $(this).parents('table').find('.toggleSelection input').each(function() {
-                    if (checked) {
-                        this.checked = true;
-                        $(this).parents('tr').addClass('selected'); 
-                    } else {
-                        this.checked = false;
-                        $(this).parents('tr').removeClass('selected');  
-                    }
-                });
-                
-                updateButtons(this);
-            }
-            
-            function updateButtons(parent) {
-                var count = $(parent).parents('table').find('.toggleSelection input:checked').length;
-                
-                if (count) {
-                    $(parent).parents('.tableWrapper').find('.activeIfSelected').removeClass('inactive');
-                } else {
-                    $(parent).parents('.tableWrapper').find('.activeIfSelected').addClass('inactive');
-                }
-            }
-
             this.construct = function(settings) {
                 return this.each(function() {
-                    var count = 0;
+                    var $this = $(this);
                     
-                    $(this).find('.toggleSelection input').each(function() {
-                        if (this.checked) {
-                            $(this).parents('tr').addClass('selected'); 
-                            count++;
+                    var $parentCheckbox = $this.find('.toggleAll input');
+                    var $childCheckboxes = $this.find('.toggleSelection input');
+                    var $checkboxSelectionDependants = $this.find('.activeIfSelected');
+                                        
+                    $this.multicheckboxes({
+                      selectedClass: "selected", 
+                      unselectedClass: "", 
+                      toSelectClass: "selected", 
+                      toUselectClass: "",
+                      selectAllSelector: ".toggleAll input",
+                      updateElement: "tr",
+                      isMultiCheckbox : function ($checkbox) { 
+                          return $checkbox.parent(".toggleAll").size() == 1 
+                            || $checkbox.parent(".toggleSelection").size() == 1; 
+                      },
+                      getChildCheckboxes: function($checkbox) {
+                          return $checkbox.parent(".toggleAll").size() == 1 ? $childCheckboxes : $([]);
+                      },
+                      getParentCheckbox: function($checkbox) {
+                        return $checkbox.parent(".toggleSelection").size() == 1 ? $parentCheckbox : $([]);
+                      }
+                    });
+                    
+                    
+                    $this.bind("multichange", function() {
+                        if ($childCheckboxes.filter(":checked").size() > 0) { 
+                            //if there are any checkboxes selected enable
+                            $checkboxSelectionDependants.removeClass('inactive');
+                        }
+                        else {
+                            $checkboxSelectionDependants.addClass('inactive');
                         }
                     });
                     
-                    if (count) {
-                        $(this).find('.activeIfSelected').removeClass('inactive');
-                    }
+                    //preselect checkboxes
+                   $childCheckboxes.filter(":checked").each(function() {
+                      $(this).parents('tr').addClass('selected'); 
+                    });
                     
-                    $(this).find('.toggleAll input').bind('click', onToggleAll);
-                    $(this).find('.toggleSelection input').bind('click', onToggleSelection);
-
-                    $(this).find('tbody tr').hover(function () {
-                        $(this).addClass("hilite");
-                    }, function () {
-                        $(this).removeClass("hilite");
+                    $this.delegate( 'mouseover mouseout', 'tbody tr', function( event ){ 
+                        $( this ).toggleClass('hilite'); 
                     });
                 });
             };
