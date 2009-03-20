@@ -154,12 +154,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $aPluginsOld = $this->_getParsedPlugins();
             $this->aParse = array();
 
-            $this->disablePackage($name);
-
-            if (!$this->unpackPlugin($aFile, true))
-            {
-                throw new Exception();
-            }
+            // Parse the plugin file in the var/tmp folder
+            $this->unpackPlugin($aFile, true, true);
+            
             $aPackageNew = $this->_getParsedPackage();
             if ($name != $aPackageNew['name'])
             {
@@ -179,6 +176,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->previousVersionInstalled = OX_PLUGIN_SAME_VERSION_INSTALLED;
                 throw new Exception('Upgrade package '.$aPackageNew['name'].'" has the same version stamp as that of the package you have installed');
             }
+            
+            $this->disablePackage($name);
+            if (!$this->unpackPlugin($aFile, true))
+            {
+                throw new Exception();
+            }            
+            
             $aPluginsNew = $this->_getParsedPlugins();
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
@@ -227,7 +231,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aFile
      * @return boolean
      */
-    function unpackPlugin($aFile, $overwrite=false)
+    function unpackPlugin($aFile, $overwrite = false, $checkOnly = false)
     {
         //OA::logMem('enter unpackPlugin');
         $this->_switchToPluginLog();
@@ -236,7 +240,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 throw new Exception('Failed to read the uploaded file');
             }
-            if (!$this->_unpack($aFile, $overwrite))
+            if (!$this->_unpack($aFile, $overwrite, $checkOnly))
             {
                 throw new Exception('The uploaded file '.$aFile['name'] .' was not unpacked');
             }
@@ -1063,7 +1067,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aFile
      * @return string | null
      */
-    function _unpack($aFile, $overwrite=false)
+    function _unpack($aFile, $overwrite = false, $checkOnly = false)
     {
         //OA::logMem('enter _unpack');
         $aPath = pathinfo($aFile['name']);
@@ -1082,6 +1086,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 {
                     $this->_logError('The uploaded file did not pass security check');
                     return false;
+                }
+                if ($checkOnly) {
+                    return true;
                 }
                 if (!$this->_decompressFile($aFile['tmp_name'], $this->basePath, $overwrite))
                 {
