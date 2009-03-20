@@ -110,35 +110,55 @@ class XmlRpcUtils
     }
 
     /**
-     * Convert RecordSet into the array of XML_RPC_Response structures.
+     * Convert RecordSet or MDB2 Result into the array of XML_RPC_Response structures.
      *
      * @access public
      *
      * @param array $aFieldTypes  field name - field type
-     * @param RecordSet &$rsAllData   Record Set with all data
+     * @param mixed &$rsAllData   Either a DBC RecordSet or an MDB2_Result_Common with all data
      *
      * @return XML_RPC_Response
      */
     function arrayOfStructuresResponse($aFieldTypes, &$rsAllData)
     {
-        $rsAllData->find();
-        $cRecords = 0;
+        if (is_a($rsAllData, 'MDB2_Result_Common')) {
+            $cRecords = 0;
 
-           while($rsAllData->fetch()) {
-               $aRowData = $rsAllData->toArray();
-            foreach ($aRowData as $databaseFieldName => $fieldValue) {
-                foreach ($aFieldTypes as $fieldName => $fieldType) {
-                    if (strtolower($fieldName) == strtolower($databaseFieldName)) {
-                        $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
+            while ($aRowData = $rsAllData->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+
+                foreach ($aRowData as $databaseFieldName => $fieldValue) {
+                    foreach ($aFieldTypes as $fieldName => $fieldType) {
+                        if (strtolower($fieldName) == strtolower($databaseFieldName)) {
+                            $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
                                                                 $fieldType, $fieldValue);
+                        }
                     }
                 }
 
-            }
-
-            $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
+                $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
                                                            $GLOBALS['XML_RPC_Struct']);
-            $cRecords++;
+                $cRecords++;
+            }
+        } else { // It is a DBC RecordSet
+            $rsAllData->find();
+            $cRecords = 0;
+
+            while($rsAllData->fetch()) {
+                $aRowData = $rsAllData->toArray();
+                foreach ($aRowData as $databaseFieldName => $fieldValue) {
+                    foreach ($aFieldTypes as $fieldName => $fieldType) {
+                        if (strtolower($fieldName) == strtolower($databaseFieldName)) {
+                            $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
+                                                            $fieldType, $fieldValue);
+                        }
+                    }
+
+                }
+
+                $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
+                                                       $GLOBALS['XML_RPC_Struct']);
+                $cRecords++;
+            }
         }
 
         $value = new XML_RPC_Value($aReturnData, $GLOBALS['XML_RPC_Array']);
