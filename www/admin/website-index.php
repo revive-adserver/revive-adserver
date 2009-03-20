@@ -179,6 +179,15 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doZones->joinAdd($doAffiliates);
 }
 
+$itemsPerPage = 250;
+$oPager = buildPager($affiliates, $itemsPerPage);
+$oTopPager = buildPager($affiliates, $itemsPerPage, false);
+list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+$affiliates =  array_slice($affiliates, $itemsFrom - 1, $itemsPerPage, true);
+
+$oTpl->assign('pager', $oPager);
+$oTpl->assign('topPager', $oTopPager);
+
 $oTpl->assign('affiliates',     $affiliates);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);

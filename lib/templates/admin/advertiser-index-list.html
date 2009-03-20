@@ -1,8 +1,8 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -81,6 +81,13 @@ $Id$
                     <div class='mask'></div>
                 </div>
             </li>
+            {if !empty($topPager->links)}
+            <li>
+              <div class="pager">
+                <span class="controls">{$topPager->links}</span>
+              </div>
+            </li>
+            {/if}
         </ul>
 
         <div class='clear'></div>
@@ -160,6 +167,18 @@ $Id$
             </tr>
     {/foreach}
        </tbody>
+{/if}
+{if !empty($pager->links)}
+    <tbody class="tableFooter">
+        <tr>
+        <td  colspan="3">
+              <div class="pager">
+                <span class="summary">{$pager->summary}</span>
+                <span class="controls">{$pager->links}</span>
+              </div>
+        </td>
+        </tr>
+    </tbody>
 {/if}
     </table>
 </div>

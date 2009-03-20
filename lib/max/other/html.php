@@ -1850,5 +1850,47 @@ function addChannelPageTools($agencyid, $websiteId, $channelid, $channelType)
     addPageLinkTool($GLOBALS["strDelete"], "channel-delete.php?&agencyid=$agencyid&affiliateid=$websiteId&channelid=$channelid&returnurl=$deleteReturlUrl", "iconDelete", null, $deleteConfirm);
 }
 
+function buildPager($items, $itemsPerPage, $withNumbers = true)
+{
+    require_once MAX_PATH . '/lib/pear/Pager/Pager.php';
+    
+    $oTrans = new OX_Translation();
+    
+    /** prepare paging **/
+    $count = count($items);
+        $delta = $withNumbers ? 4 : 0; 
+    
+    
+    $pagerOptions = array(
+        'mode'       => 'Sliding',
+        'perPage'    => $itemsPerPage,
+        'delta'      => $delta,
+        'totalItems' => $count,
+        'prevImg'       => '&lt; ' . $oTrans->translate('Back'),
+        'nextImg'       => $oTrans->translate('Next') . ' &gt;',
+        'urlVar' => 'p',
+        'linkClass' => 'page',
+        'curPageLinkClassName' => 'current',
+        'spacesBeforeSeparator' => 0,
+        'spacesAfterSeparator' => 0
+    );
+    
+    $pager = Pager::factory($pagerOptions);
+    list($from, $to) = $pager->getOffsetByPageId();
+    $summary = "<em>$from</em>-<em>$to</em> of <em>".$pager->numItems()."</em>"; 
+    $pager->summary = $summary;
+    
+    //oberride links with shorter pager controls        
+    if (!$withNumbers) {
+        $links = $pager->links;
+        $shortLinks = preg_replace("/<span class=\"current\">\d+<\/span>/i", "<span class='summary'>$summary</span>" , $links);
+        $shortLinks = preg_replace("/\[\d+\]/", "" , $shortLinks);
+        $pager->links = $shortLinks;
+    }
+    
+    return $pager;
+}
+
+
 
 ?>

@@ -377,6 +377,35 @@
 }
 
 
+.tableWrapper .tableFooter td {
+  line-height: 350%;
+}
+
+/** pager **/
+.tableWrapper .pager {
+  float: right;
+}
+
+.tableWrapper .pager .summary  {
+  color: #444444;
+  margin-right: 5px;
+}
+
+
+.tableWrapper .pager .summary em {
+  font-style: normal;
+  font-weight: bold;
+}
+
+.tableWrapper .pager .controls .current {
+  font-weight: bold;
+}
+
+.tableWrapper .pager .controls .current, .tableWrapper .pager .controls .page {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 
 
 

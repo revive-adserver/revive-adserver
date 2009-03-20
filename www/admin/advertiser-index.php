@@ -36,7 +36,6 @@ require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
-
 function _isBannerAssignedToCampaign($aBannerData)
 {
     return $aBannerData['campaignid'] > 0;
@@ -161,11 +160,17 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) &&
     }
 }
 
+$itemsPerPage = 250;
+$oPager = buildPager($clients, $itemsPerPage);
+$oTopPager = buildPager($clients, $itemsPerPage, false);
+list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+$clients =  array_slice($clients, $itemsFrom - 1, $itemsPerPage, true);
 
+$oTpl->assign('pager', $oPager);
+$oTpl->assign('topPager', $oTopPager);
 
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
-
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);

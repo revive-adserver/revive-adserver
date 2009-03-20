@@ -59,6 +59,17 @@ $Id$
             </li>
         </ul>
 
+        {if !empty($topPager->links)}
+        <ul class='tableFilters alignRight'>
+            <li>
+              <div class="pager">
+                <span class="controls">{$topPager->links}</span>
+              </div>
+            </li>
+        </ul>
+        {/if}
+        
+
         <div class='clear'></div>
         <div class='corner left'></div>
         <div class='corner right'></div>
@@ -161,5 +172,18 @@ $Id$
     {/foreach}
        </tbody>
 {/if}
+{if !empty($pager->links)}
+    <tbody class="tableFooter">
+        <tr>
+        <td  colspan="3">
+              <div class="pager">
+                <span class="summary">{$pager->summary}</span>
+                <span class="controls">{$pager->links}</span>
+              </div>
+        </td>
+        </tr>
+    </tbody>
+{/if}
+
     </table>
 </div>
