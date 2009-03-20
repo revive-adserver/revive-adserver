@@ -177,12 +177,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 throw new Exception('Upgrade package '.$aPackageNew['name'].'" has the same version stamp as that of the package you have installed');
             }
             
+            $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;             
             $this->disablePackage($name);
             if (!$this->unpackPlugin($aFile, true))
             {
                 throw new Exception();
             }            
-            
+            if ($enabled) {
+                $this->enablePackage($name);
+            }
             $aPluginsNew = $this->_getParsedPlugins();
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
