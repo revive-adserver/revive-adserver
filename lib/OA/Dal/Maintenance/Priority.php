@@ -246,7 +246,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getAgencyEcpmRemnantCampaignsDeliveriesToDate($id)
     {
-        $table = $this->_getTablename('campaigns');
+        $table = $this->_getTablenameUnquoted('campaigns');
         $aWheres = array(
             array("$table.priority = " . DataObjects_Campaigns::PRIORITY_ECPM, 'AND'),
             array("$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'),
@@ -268,10 +268,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table = $this->_getTablename('campaigns');
-        $joinTable1 = $this->_getTablename('banners');
-        $joinTable2 = $this->_getTablename('data_intermediate_ad');
-        $joinTable3 = $this->_getTablename('clients');
+        $table = $this->_getTablenameUnquoted('campaigns');
+        $joinTable1 = $this->_getTablenameUnquoted('banners');
+        $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
+        $joinTable3 = $this->_getTablenameUnquoted('clients');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.impressions) AS sum_impressions",
