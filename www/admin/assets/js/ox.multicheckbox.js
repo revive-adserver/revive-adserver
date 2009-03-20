@@ -150,6 +150,7 @@
         isMultiCheckbox : function ($checkbox) { 
             return $checkbox.attr("id");
         },
+        useState: true,
         /**
         * Returns children checkboxes for a parent checkbox. Currently, the
         * formula for parent-child relationship is hardcoded.
@@ -166,8 +167,11 @@
       
       var options = $.extend({ }, defaults, settings); 
 
-      var $container = $(this);
-      $container.updatestate();
+      var $container = $(this)
+      
+      if (options.useState) {
+        $container.updatestate();
+      } 
       
       $container.find(options.selectAllSelector).click(function() {
         var $checkboxes = $container.find(":checkbox").not(options.selectAllSelector);

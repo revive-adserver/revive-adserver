@@ -17,6 +17,7 @@
                       toUselectClass: "",
                       selectAllSelector: ".toggleAll input",
                       updateElement: "tr",
+                      useState: false,
                       isMultiCheckbox : function ($checkbox) { 
                           return $checkbox.parent(".toggleAll").size() == 1 
                             || $checkbox.parent(".toggleSelection").size() == 1; 
@@ -60,7 +61,7 @@
 
     // extend all forms
     $(document).ready(function() {
-        $('.tableWrapper').activateTable();
+       $('.tableWrapper').activateTable();
     });
 
 })(jQuery);

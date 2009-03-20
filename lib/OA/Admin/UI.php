@@ -747,7 +747,7 @@ class OA_Admin_UI
 
     function genericJavascript() {
         return array (
-            'js/jquery-1.2.3.js',
+            'js/jquery-1.2.6-mod.js',
             'js/effects.core.js',
             'js/jquery.bgiframe.js',
             'js/jquery.dimensions.js',
@@ -767,12 +767,12 @@ class OA_Admin_UI
             'js/ox.addirect.js',
             'js/ox.form.js',
             'js/ox.help.js',
-            'js/ox.util.js',
+            'js/ox.util.js', //1.3s
             'js/ox.multicheckbox.js',
             'js/ox.dropdown.js',
             'js/ox.navigator.js',
             'js/jquery.delegate-1.1.min.js',
-            'js/ox.table.js',
+            'js/ox.table.js', //1,2s
             'js/jquery.tablesorter.js',
             'js/ox.tablesorter.plugins.js',
             'js/formValidation.js'        
