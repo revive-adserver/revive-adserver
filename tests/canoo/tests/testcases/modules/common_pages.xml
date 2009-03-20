@@ -2,6 +2,6 @@
 				<not>
 					<verifyText description="Check text is not present on page" text="Openads" />
 				</not>
-				<verifyLinks ignoreForeignJSErrors="true" onsiteonly="true"/>
+				<verifyLinks ignoreForeignJSErrors="true" onsiteonly="true" includes="${wt.protocol}://${wt.host}:${wt.port}" />
 				<!--  <verifyImages />   -->
 <!--			<enableJavaScript description="Turn back JS verification for further testing" enable="true" /> -->
