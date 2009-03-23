@@ -317,9 +317,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table = $this->_getTablename('campaigns');
-        $joinTable1 = $this->_getTablename('banners');
-        $joinTable2 = $this->_getTablename('data_intermediate_ad');
+        $table = $this->_getTablenameUnquoted('campaigns');
+        $joinTable1 = $this->_getTablenameUnquoted('banners');
+        $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
 
         $query['table']    = $table;
         $query['fields']   = array(
@@ -2434,7 +2434,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $this->_getTablename('ad_zone_assoc');
+        $table             = $this->_getTablenameUnquoted('ad_zone_assoc');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.ad_id AS ad_id",
