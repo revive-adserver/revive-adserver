@@ -125,6 +125,9 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
             'f='.urlencode($floorPrice),
             's='.urlencode($aAd['width'].'x'.$aAd['height']),
         );
+        
+        // Add marketUrlParam hook
+        OX_Delivery_Common_hook('addMarketUrlParams', array(&$urlParams));
 
         if ($aConf['logging']['adImpressions']) {
             // overwrite the original banner Id
@@ -150,8 +153,8 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
             "}\n";
         $output .= "</script>\n";
 
-        $url = $baseUrl.'/json?'.join('&', $urlParams);
-        $url .= '&o='.urlencode($oVar);
+        $url = $baseUrl.'/json?o='.urlencode($oVar);
+        $url .= '&'.join('&', $urlParams);
         $url .= '&cb='.$cb;
 
         $output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
