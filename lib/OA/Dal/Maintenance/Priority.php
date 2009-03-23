@@ -210,9 +210,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table = $this->_getTablename('campaigns');
-        $joinTable1 = $this->_getTablename('banners');
-        $joinTable2 = $this->_getTablename('data_intermediate_ad');
+        $table = $this->_getTablenameUnquoted('campaigns');
+        $joinTable1 = $this->_getTablenameUnquoted('banners');
+        $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.requests) AS sum_requests",
@@ -1294,7 +1294,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * Updates the campaigns eCPM. MPE updates the eCPM each time it 
+     * Updates the campaigns eCPM. MPE updates the eCPM each time it
      *
      * @param array $aCampaignsEcpms  Array - indexed with campaign Ids, contains ECPMs
      * @return boolean  True on success, otherwise false
