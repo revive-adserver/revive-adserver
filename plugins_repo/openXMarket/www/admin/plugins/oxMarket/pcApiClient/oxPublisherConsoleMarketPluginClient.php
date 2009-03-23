@@ -26,12 +26,17 @@ $Id: oxPublisherConsoleMarketPluginClient.php 29196 2008-11-20 14:16:53Z apetlyo
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/XmlRpcClient.php';
 require_once MAX_PATH . '/lib/OX/M2M/XmlRpcExecutor.php';
-require_once MAX_PATH . '/lib/Zend/Http/Exception.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Accounts.php';
 require_once MAX_PATH . '/lib/OX/M2M/ZendXmlRpcExecutor.php';
 require_once MAX_PATH . '/lib/OX/M2M/M2MProtectedRpc.php';
 require_once MAX_PATH . '/lib/OA/Central/M2MProtectedRpc.php';
+require_once MAX_PATH . '/lib/OA.php';
+
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Common/ConnectionUtils.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/M2M/PearXmlRpcCustomClientExecutor.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Common/Cache.php';
 
 require_once dirname(__FILE__) . '/oxPublisherConsoleClient.php';
 require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
@@ -42,6 +47,7 @@ require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
  * @package    OpenXPlugin
  * @subpackage openXMarket
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
+ * @author     Lukasz Wikierski   <lukasz.wikierski@openx.net>
  */
 
 class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
@@ -61,13 +67,53 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     /**
      * @var Plugins_admin_oxMarket_PublisherConsoleClient
      */
-    private $pc_api_client;
+    protected $pc_api_client;
+    
+    public function __construct()
+    {
+        $oPearXmlRpcClient = $this->getPearXmlRpcClient();
+        $oServiceExecutor = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor($oPearXmlRpcClient);
+        $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oServiceExecutor);
+        $this->pc_api_client = 
+            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oServiceExecutor);    
+    }
+    
+    /**
+     * Return OA_XML_RPC_Client
+     * 
+     * Protocol and API url is set to fallbackPcApiHost 
+     * if SSL extensions are not available 
+     *
+     * @return OA_XML_RPC_Client
+     */
+    protected function getPearXmlRpcClient()
+    {
+        $aMarketConf = $GLOBALS['_MAX']['CONF']['oxMarket'];
+        
+        if (OX_oxMarket_Common_ConnectionUtils::isSSLAvailable()) {
+            $apiHostUrl = $aMarketConf['marketPcApiHost'];
+        }
+        else {
+            $apiHostUrl = $aMarketConf['fallbackPcApiHost'];
+        }
+        $apiUrl = $apiHostUrl .'/'. $aMarketConf['marketXmlRpcUrl'];
+        
+        $aUrl = parse_url($apiUrl);
+        // If port is unknow set it to 0 (XML_RPC_Client will use standard ports for given protocol)
+        $port = (isset($aUrl['port'])) ? $aUrl['port'] : 0; 
+
+        return new OA_XML_RPC_Client(
+            $aUrl['path'],
+            "{$aUrl['scheme']}://{$aUrl['host']}",
+            $port
+        );
+    }
     
     /**
      * @param array $array
      * return empty array if argument is null
      */
-    private function putEmptyArrayIfNull($array)
+    protected function putEmptyArrayIfNull($array)
     {
         if (isset($array)) {
             return $array;
@@ -77,7 +123,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
     }
     
-    private function ensureStatusAndUpdatePcAccountId()
+    protected function ensureStatusAndUpdatePcAccountId()
     {
         $publisher_account_id = null;
         $account_status = null;
@@ -96,8 +142,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
                         $account_status);
             }
             else {
-            	$this->pc_api_client->setPublisherAccountId(
-            	   $publisher_account_id);
+                $this->pc_api_client->setPublisherAccountId(
+                   $publisher_account_id);
             }
         }
     }
@@ -106,7 +152,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * @param integer $publisher_account_id
      * @param integer $association_status
      */
-    private function getAssociatedPcAccountIdAndStatus(&$publisher_account_id, 
+    protected function getAssociatedPcAccountIdAndStatus(&$publisher_account_id, 
         &$association_status)
     {
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
@@ -116,17 +162,6 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $publisher_account_id = $oAccountAssocData->publisher_account_id;
             $association_status   = $oAccountAssocData->status; 
         }
-    }
-    
-    public function __construct()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        
-        $apiUrl = $aConf['oxMarket']['marketPcApiUrl'];
-        $oServiceExecutor = new OX_M2M_ZendXmlRpcExecutor($apiUrl);
-        $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oServiceExecutor);
-        $this->pc_api_client = 
-            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc);    
     }
     
     /**
@@ -181,7 +216,19 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     {
         $publisher_account_id = $this->pc_api_client->linkOxp(
             $username, $password);
-            
+
+        return $this->setNewPublisherAccount($publisher_account_id);
+    }
+    
+    /**
+     * Set new publisher account in ext_market_assoc_data table
+     *
+     * @param string $publisher_account_id publisher account UUID
+     * @return boolean
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException 
+     */
+    protected function setNewPublisherAccount($publisher_account_id)
+    {
         $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
         $aExtMarketRecords = $doExtMarket->getAll();
         
@@ -298,6 +345,36 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     }
     
     /**
+     * Create sso account and link this account to Publisher account for this Platform
+     *
+     * @param string $email       user email address
+     * @param string $username    user name
+     * @param string $password    user password (not md5)
+     * @param string $captcha     captcha value
+     * @param string $captcha_random captcha random parameter
+     * @return string publisher account UUID
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
+     */
+    public function createAccount($email, $username, $password, $captcha, $captcha_random)
+    {
+        $publisher_account_id = $this->pc_api_client->createAccount(
+            $email, $username, md5($password), $captcha, $captcha_random);
+        return $this->setNewPublisherAccount($publisher_account_id);
+    }
+    
+    
+    /**
+     * Check if given sso user name is available
+     *
+     * @param string $userName
+     * @return bool
+     */
+    public function isSsoUserNameAvailable($userName)
+    {
+        return $this->pc_api_client->isSsoUserNameAvailable($userName);
+    }
+    
+    /**
      * Set status to account disabled if exception code is one of account disabling codes
      *
      * @param Exception $exception
@@ -320,104 +397,88 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     /**
      * Returns default restrictions.
      * 
-     * XXX hardcoded for now
      * @return array default settings
      */
     public function getDefaultRestrictions()
     {
-        return array(
-            'attribute' => array(),
-            'category'  => array(1, 10, 26),
-            'type'      => array()
-        );
+        return $this->getDictionaryData('DefaultRestrictions', 'getDefaultRestrictions');;
     }
     
     /**
      * Returns array of Ad Categories used in marketplace
      *
-     * XXX hardcoded for now
      * @return array array of categories names where array keys are ids
      */
     public function getAdCategories() {
-        return array(
-                '1' => 'Adult Entertainment',
-                '2' => 'Arts and Entertainment',
-                '3' => 'Automotive',
-                '4' => 'Business',
-                '5' => 'Careers and Jobs',
-                '6' => 'Clothing and Apparel',
-                '7' => 'Consumer Electronics',
-                '8' => 'Dating and Relationships',
-                '9' => 'Family and Parenting',
-               '10' => 'Firearms and Weapons',
-               '11' => 'Food and Drink',
-               '12' => 'Gambling',
-               '13' => 'Government',
-               '14' => 'Health',
-               '15' => 'Hobbies and Interests',
-               '16' => 'Holidays',
-               '17' => 'Home and Garden',
-               '18' => 'Humanities and Social Sciences',
-               '19' => 'Internet',
-               '20' => 'Pets',
-               '30' => 'Personal Finance',
-               '21' => 'Property and Real Estate',
-               '22' => 'Religion and Spirituality',
-               '23' => 'Research and Education',
-               '24' => 'Science and Engineering',
-               '25' => 'Sports and Recreation',
-               '26' => 'Tobacco and Smoking',
-               '27' => 'Toys and Games',
-               '28' => 'Travel and Tourism',
-               '29' => 'Weather'
-            );
+        return $this->getDictionaryData('AdCategories', 'getAdCategories');;
     }
     
     /**
      * Returns array of Creative Types used in marketplace
      *
-     * XXX hardcoded for now
      * @return array array of types names where array keys are ids
      */
     function getCreativeTypes()
     {
-        return array(
-            '1' => 'Image',
-            '2' => 'Flash',
-            '3' => 'Text',
-            '4' => 'Video',
-            '5' => 'DHTML',
-            '6' => 'Expandable',
-            '7' => 'Audio',
-            '8' => 'Pop-Up',
-            '9' => 'Pop-Under'
-        );
+        return $this->getDictionaryData('CreativeTypes', 'getCreativeTypes');
     }
 
     /**
      * Returns array of Creative Attributes used in marketplace
      *
-     * XXX hardcoded for now
      * @return array array of attributes names where array keys are ids
      */
     function getCreativeAttributes()
     {
-        return array(
-           '1' => 'Alcohol',
-           '2' => 'Audio/Video',
-           '3' => 'Dating/Romance',
-           '4' => 'Download',
-           '5' => 'English',
-           '6' => 'Error Box',
-           '7' => 'Excessive Animation',
-           '8' => 'Gambling',
-           '9' => 'Holiday',
-           '10' => 'Incentivized',
-           '11' => 'Male Health',
-           '12' => 'Membership Club',
-           '13' => 'Political',
-           '14' => 'Suggestive',
-           '15' => 'Tobacco'
-        );
+        return $this->getDictionaryData('CreativeAttributes', 'getCreativeAttributes');
+    }
+    
+    /**
+     * Generic method to retrieve dictionary data.
+     * 
+     * Method to following steps:
+     *  1. get data from cache if cache is valid
+     *  2. (if not 1) get data from Pub Console
+     *  3. (if not 2) get data from cache ignore cache validity
+     *  4. (if not 3) get data from var/data/dictionary cached data
+     *  5. (if not 4) return empty array 
+     *
+     * @param string $dictionaryName cache name
+     * @param string $apiMethod name of called API method
+     * @return mixed
+     */
+    protected function getDictionaryData($dictionaryName, $apiMethod) 
+    {
+        // Read data from cache if possible
+        $oCache = new OX_oxMarket_Common_Cache($dictionaryName, 'oxMarket', 
+            $GLOBALS['_MAX']['CONF']['oxMarket']['dictionaryCacheLifeTime']);
+        $oCache->setFileNameProtection(false);
+        $aData = $oCache->load(false);
+
+        if ($aData == false) {
+            // Cache doesn't exist or is expired
+            try {
+                // Read data from xmlrpc
+                $aData = call_user_func(array(&$this->pc_api_client, $apiMethod));
+                $oCache->save($aData);
+            } catch (Exception $e) {
+                OA::debug('openXMarket: Error during retrieving dictionary data: ['.$e->getCode().'] '.$e->getMessage());
+                // Try to read cache ignoring life time
+                $aData = $oCache->load(true);
+                if ($aData == false) {
+                    // Cache desn't exist
+                    // Try to read cache from var/data/dictionary
+                    $oCache = new OX_oxMarket_Common_Cache($dictionaryName, 'oxMarket', 
+                                    null, OX_MARKET_VAR_DICTIONARY);
+                    $oCache->setFileNameProtection(false);
+                    $aData = $oCache->load(true);
+                    if ($aData == false) {
+                        // Empty array if there is no permament dictionary data
+                        $aData = array();
+                    }
+                }
+            }
+        }
+        return $aData;
     }
 }

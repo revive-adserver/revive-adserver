@@ -25,47 +25,57 @@
 $Id$
 */
 
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+require_once dirname(__FILE__) . '/../../../../../../var/config.php';
+require_once dirname(__FILE__) . '/../../Cache.php';
 
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
-
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    $oMarketComponent->updateSSLMessage();
-    
-
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    phpAds_PageHeader("openx-market",'','../../');
-
-    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
-    if (!$aContentKeys) {
-        $aContentKeys = array();
+class OX_oxMarket_Common_CacheTest extends UnitTestCase 
+{
+    function testLifeTime() 
+    {
+        $oCache = new OX_oxMarket_Common_Cache('test', 'oxMarket', 1);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        
+        // File not exist
+        $result = $oCache->load(false);
+        $this->assertFalse($result);
+        
+        $data = 'test';
+        $oCache->save($data);
+        
+        // File exists
+        $result = $oCache->load(false);
+        $this->assertEqual($result, $data);
+        
+        // Wait 3 seconds and set cache lifetime to 1 second
+        sleep(3);
+        $oCache = new OX_oxMarket_Common_Cache('test', 'oxMarket', 1);
+        $oCache->setFileNameProtection(false);
+        
+        // File exists but is not valid
+        $result = $oCache->load(false);
+        $this->assertFalse($result);
+        
+        // Try to retrive cache ignoring lifetime
+        $result = $oCache->load(true);
+        $this->assertEqual($result, $data);
     }
-    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
-        ? $aContentKeys['tracker-iframe'] 
-        : '';
     
-    $content = $aContentKeys['content']; 
-    
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
-    $oTpl->assign('content', $content);
-    $oTpl->assign('trackerFrame', $trackerFrame);
-    
-    $oTpl->display();
+    function testCacheDir() 
+    {
+        $oCache = new OX_oxMarket_Common_Cache('test', 'oxMarket');
+        $oCache->clear();
+        
+        $result = $oCache->load(true);
+        $this->assertFalse($result);
+        
+        $newCacheDir = dirname(__FILE__) . '/../data/'; 
+        
+        $oCache = new OX_oxMarket_Common_Cache('test', 'oxMarket', null, $newCacheDir);
+        $oCache->setFileNameProtection(false);
+        
+        $result = $oCache->load(true);
+        $this->assertEqual('test', $result);
+    }
+}
 
-    //footer
-    phpAds_PageFooter();
-?>

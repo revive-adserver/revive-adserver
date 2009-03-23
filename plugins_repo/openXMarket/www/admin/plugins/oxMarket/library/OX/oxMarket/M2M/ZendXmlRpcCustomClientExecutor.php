@@ -25,47 +25,46 @@
 $Id$
 */
 
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+//hack to fix LIB_PATH inconsistency among projects
+if (!defined(LIB_PATH_)) {
+	define("LIB_PATH_", preg_replace("/OX$/", "", LIB_PATH));
+}
 
+require_once(LIB_PATH_ . '/Zend/Http/Client.php');
+require_once(LIB_PATH_ . '/Zend/XmlRpc/Client.php');
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+class OX_oxMarket_M2M_ZendXmlRpcCustomClientExecutor
+	implements OX_M2M_XmlRpcExecutor 
+{
+	/**
+	 * @var Zend_XmlRpc_Client
+	 */
+	private $rpcClient;
+	private $prefix = "";
+	
+	public function getPrefix()
+	{
+		return $this->prefix;
+	}
+	
+	
+	public function setPrefix($prefix)
+	{
+		$this->prefix = $prefix;
+	}
+	
+	
+	function __construct(Zend_XmlRpc_Client $rpcClient, $prefix = "")
+	{
+		$this->rpcClient = $rpcClient;
+		$this->prefix = $prefix;
+	}
+	
+	
+	function call($methodName, $params)
+	{
+		return $this->rpcClient->call($this->getPrefix() . $methodName, $params);	
+	}
+}
 
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    $oMarketComponent->updateSSLMessage();
-    
-
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    phpAds_PageHeader("openx-market",'','../../');
-
-    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
-    if (!$aContentKeys) {
-        $aContentKeys = array();
-    }
-    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
-        ? $aContentKeys['tracker-iframe'] 
-        : '';
-    
-    $content = $aContentKeys['content']; 
-    
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
-    $oTpl->assign('content', $content);
-    $oTpl->assign('trackerFrame', $trackerFrame);
-    
-    $oTpl->display();
-
-    //footer
-    phpAds_PageFooter();
 ?>

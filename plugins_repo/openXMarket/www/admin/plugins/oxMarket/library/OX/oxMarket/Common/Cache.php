@@ -25,47 +25,41 @@
 $Id$
 */
 
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Cache.php';
 
+/**
+ * A extension to OA_Cache class that allows to define cache life time
+ * and alternative cacheDir
+ *
+ */
+class OX_oxMarket_Common_Cache extends OA_Cache
+{
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+    /**
+     * Class constructor
+     *
+     * @param string $id
+     * @param string $group
+     * @param int $lifeTime
+     * @param string $cacheDir
+     * @return OA_Cache
+     */
+    function __construct($id, $group, $lifeTime = null, $cacheDir = null)
+    {
+        if (!isset($cacheDir)) {
+            $cacheDir = MAX_PATH . '/var/cache/';
+        }
+        $this->oCache = &new Cache_Lite(array(
+            'cacheDir'                      => $cacheDir,
+            'lifeTime'                      => $lifeTime,
+            'readControlType'               => 'md5',
+            'automaticSerialization'        => true
+        ));
 
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    $oMarketComponent->updateSSLMessage();
-    
-
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    phpAds_PageHeader("openx-market",'','../../');
-
-    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
-    if (!$aContentKeys) {
-        $aContentKeys = array();
+        $this->id    = $id;
+        $this->group = $group;
     }
-    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
-        ? $aContentKeys['tracker-iframe'] 
-        : '';
-    
-    $content = $aContentKeys['content']; 
-    
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
-    $oTpl->assign('content', $content);
-    $oTpl->assign('trackerFrame', $trackerFrame);
-    
-    $oTpl->display();
 
-    //footer
-    phpAds_PageFooter();
+}
+
 ?>

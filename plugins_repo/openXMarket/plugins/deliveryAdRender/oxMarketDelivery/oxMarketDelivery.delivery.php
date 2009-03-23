@@ -107,27 +107,24 @@ function OX_marketNeedsAudience()
 function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo)
 {
     $output = '';
-        
+
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])
         && !empty($aWebsiteMarketInfo['website_id']))
     {
-
-        $cb = mt_rand(0, PHP_INT_MAX);
-
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
 
         $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://'; 
         $baseUrl .= $aConf['oxMarketDelivery']['brokerHost'];
-        $urlParams = array(
-            'pid=' . $aWebsiteMarketInfo['website_id'],
-            'tag_type=1',
-            'f='.urlencode($floorPrice),
-            's='.urlencode($aAd['width'].'x'.$aAd['height']),
+        
+        $aParams = array(
+            'website' => $aWebsiteMarketInfo['website_id'],
+            'size' => $aAd['width'].'x'.$aAd['height'],
+            'floor' => $floorPrice,
         );
         
         // Add marketUrlParam hook
-        OX_Delivery_Common_hook('addMarketUrlParams', array(&$urlParams));
+        OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
 
         if ($aConf['logging']['adImpressions']) {
             // overwrite the original banner Id
@@ -141,25 +138,27 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         if (!is_callable('MAX_javascriptEncodeJsonField')) {
             require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
         }
+        
+        $aParams['beacon']   = $beaconHtml;
+        $aParams['fallback'] = $adHtml;
 
-        $oVar = 'OXM_'.substr(md5(uniqid('', 1)), 0, 8);
-
+        $aJsonParams = array();
+        foreach ($aParams as $param => $value) {
+            $aJsonParams[] = MAX_javascriptEncodeJsonField($param).":".MAX_javascriptEncodeJsonField($value);
+        }
+        
         $output = '<script type="text/javascript">';
         $output .= "\n";
-        $output .= "{$oVar} = {\"t\":".
-            MAX_javascriptEncodeJsonField($beaconHtml).
-            ",\"f\":".
-            MAX_javascriptEncodeJsonField($adHtml).
-            "}\n";
+        $output .= "OXM_ad = {";
+        $output .= join(",\n",$aJsonParams);
+        $output .= "}\n";
         $output .= "</script>\n";
 
-        $url = $baseUrl.'/json?o='.urlencode($oVar);
-        $url .= '&'.join('&', $urlParams);
-        $url .= '&cb='.$cb;
+        $url = $baseUrl.'/jstag';
 
         $output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
    }
-    return $output;
+   return $output;
 }
 
 function OX_marketLogGetIds()

@@ -29,36 +29,86 @@ $Id$
 -->*}
 
 <div class="content">
-  <div class='form-message form-message-error' id="server-errors" {if $error}{else}style="display:none"{/if}>
-    {if $hasError && in_array($error.code, $aSsoErrors)}
-    <div>{t str='Invalid user name or password.'}</div>
-    <ul>
-      <li>{t str='Please check that the OpenX User name and password are correct.'}</li>
-      <li>{t str='If you have recently signed up for a new OpenX Account, make sure you have gone into your email and activated your OpenX Account.'}</li>
-    </ul>
-    {elseif $hasError && in_array($error.code, $aLinkOxpErrors)}
-          {if $error.code == 901}
-            This Ad Server is already associated with OpenX Market through a different OpenX account   
-          {elseif $error.code == 902}
-            This OpenX account is already associated with OpenX Market through a different OpenX Ad Server
-          {else}
-            {$error.message}
-          {/if}
-           ({t str='Code'} {$error.code}). <br>Please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a> if you need further assistance.
-    {elseif $error.code == 0}
-        A generic error occurred while associating your OpenX account ({t str='Code'} {$error.code}: {$error.message})
-        <br>The problem may by caused by an improper configuration of your OpenX Ad Server or your web server or by the lack of a required PHP extension.
-        <br>If the problem persists, please contact <a href="mailto:{$publisherSupportEmail}">OpenX Market publisher support</a> for assistance.
-    {else}
-          {t str='An error occured while associating your OpenX account'} ({t str='Code'} {$error.code}). <br>Please try again in couple of minutes. If the problem persists, please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a>
-          for assistance.
-    {/if}
-  </div>
 
+{if $hasServerError}
+  <div class='form-message form-message-error' id="server-errors" >
+    {$errorMessage}
+  </div>
+{/if}
 
   {*signup form*}
   {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
-  {*/singup form*}
+  {*/signup form*}
 </div>
+
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
+<script type="text/javascript">
+{literal}
+<!--
+  $(document).ready(function() {
+    $("#market-signup-form")
+    .marketSignup({
+        {/literal}
+        captchaBaseUrl: "{$captchaBaseUrl}",
+        usernameCheckUrl: "market-sso-user-exists.php"
+        {literal} 
+    });
+    $("#market-signup-form")
+    .initForm({
+        rules: {
+            "g_accountMode": { "required": true },
+            "m_username": { "required": "#account-login:checked" },
+            "m_password": {"required": "#account-login:checked" },
+            "m_new_email": {"required": "#account-signup:checked", "email": true },
+            "m_new_username": { "required": "#account-signup:checked" },
+            "m_new_password": { "required": "#account-signup:checked" },
+            "m_new_confirm_password": { "required": "#account-signup:checked" },
+            "openx_terms_agree": { "required": "#account-signup:checked" },
+            "m_captcha": { "required": "#account-signup:checked" },
+            "market_terms_agree": { "required": function(element) {
+                    return $("#account-signup:checked,#account-login:checked").length > 0;
+                } 
+            }
+        },
+
+        messages: {
+            "g_accountMode": {
+                "required": {/literal}"{$account_question_required_message}"{literal} 
+            },
+            "m_username": {
+                "required": {/literal}"{$login_field_label} is required"{literal} 
+            },
+            "m_password": {
+                "required": {/literal}"{$password_field_label} is required"{literal} 
+            },
+            "m_new_email": {
+                "required": {/literal}"{$signup_email_field_label} is required"{literal}, 
+                "email": "Please enter a valid email" 
+            },
+            "m_new_username": {
+                "required": {/literal}"{$signup_username_field_label} is required"{literal}
+            },
+            "m_new_password": {
+                "required": {/literal}"{$signup_password_field_label} is required"{literal} 
+            },
+            "m_new_confirm_password": {
+                "required": {/literal}"{$signup_password_confirm_field_label} is required"{literal}
+            },
+            "openx_terms_agree": { 
+                "required": {/literal}"{$signup_openx_terms_field_invalid_message}"{literal} 
+            },
+            "m_captcha": {
+                "required": {/literal}"{$signup_captcha_field_required_message}"{literal} 
+            },
+            "market_terms_agree": {
+                "required": {/literal}"{$market_terms_field_invalid_message}"{literal} 
+            }
+        }
+    });
+  });
+-->
+{/literal}
+</script>
+
 
 {$trackerFrame}

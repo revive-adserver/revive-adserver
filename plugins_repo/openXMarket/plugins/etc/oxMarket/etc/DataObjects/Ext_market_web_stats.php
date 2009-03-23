@@ -60,20 +60,26 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      *  - orderdirection  - order direction 'up' or 'down'
      *  - listorder       - colum name to order by
      *  - period_preset   - special defined periods (e.g. all_stats)
-     *  - period_start    - start date of period
-     *  - period_end      - end date of period
+     *  - period_start    - start date of period (Y-m-d php date function format)
+     *  - period_end      - end date of period (Y-m-d php date function format)
      *
      * @param array $aOption
      * @return array DB rows with statistics data
      */
     function getWebsiteStatsByAgencyId($aOption)
     {
+        if (!$this->checkDate($aOption['period_start']) || 
+            !$this->checkDate($aOption['period_end'])) {
+            return array();
+        }
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
-        if (empty($aOption['listorder'])) {
+        $aOrderOptions = array ('name', 'impressions', 'revenue', 'ecpm' );
+        if (empty($aOption['listorder']) ||
+            !in_array($aOption['listorder'],$aOrderOptions)) {
             $orderClause = 'name';
         } else {
-            $orderClause = ($aOption['listorder'] == 'name') ? 'name' : $aOption['listorder'];
+            $orderClause = $aOption['listorder'];
         }
         $orderClause .= " $orderDir";
 
@@ -126,8 +132,8 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      *  - listorder       - colum name to order by
      *  - affiliateid     - affiliate id
      *  - period_preset   - special defined periods (e.g. all_stats)
-     *  - period_start    - start date of period
-     *  - period_end      - end date of period
+     *  - period_start    - start date of period (Y-m-d php date function format)
+     *  - period_end      - end date of period (Y-m-d php date function format)
      *
      * @param array $aOption
      * @return array DB rows with statistics data
@@ -139,10 +145,16 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
                 return array();
             }
         }
+        if (!$this->checkDate($aOption['period_start']) || 
+            !$this->checkDate($aOption['period_end'])) {
+            return array();
+        }
 
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
-        if (empty($aOption['listorder'])) {
+        $aOrderOptions = array ('name', 'impressions', 'revenue', 'ecpm' );
+        if (empty($aOption['listorder']) || 
+            !in_array($aOption['listorder'],$aOrderOptions)) {
             $orderClause = 'width, height';
         } else {
             $orderClause = ($aOption['listorder'] == 'name') ? 'width, height' : $aOption['listorder'];
@@ -189,17 +201,23 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      *  - listorder       - colum name to order by
      *  - aAffiliateids   - list of affiliate id's, if empty return size stats for all websites visible to current user
      *  - period_preset   - special defined periods (e.g. all_stats)
-     *  - period_start    - start date of period
-     *  - period_end      - end date of period
+     *  - period_start    - start date of period (Y-m-d php date function format)
+     *  - period_end      - end date of period (Y-m-d php date function format)
      *
      * @param array $aOption same as in getSizeStatsByAffiliateId except aAffiliateids
      * @return array An associative array indexed with afiiliate id
      */
     function getSizeStatsForAffiliates($aOption)
     {
+        if (!$this->checkDate($aOption['period_start']) || 
+            !$this->checkDate($aOption['period_end'])) {
+            return array();
+        }
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
-        if (empty($aOption['listorder'])) {
+        $aOrderOptions = array ('name', 'impressions', 'revenue', 'ecpm' );
+        if (empty($aOption['listorder']) ||
+            !in_array($aOption['listorder'],$aOrderOptions)) {
             $orderClause = 'width, height';
         } else {
             $orderClause = ($aOption['listorder'] == 'name') ? 'width, height' : $aOption['listorder'];
@@ -259,6 +277,24 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         }
 
         return $aResult;
+    }
+    
+    /**
+     * Check date if is valid
+     * Empty/ null $date is valid!
+     *
+     * @param string $date Y-m-d php date function format
+     * @return bool
+     */
+    protected function checkDate($date) {
+        if (!empty($date)) {
+            $aDate = split('-',$date);
+            if ((count($aDate) != 3) ||  
+                !@checkdate($aDate[1],$aDate[2],$aDate[0])) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 ?>

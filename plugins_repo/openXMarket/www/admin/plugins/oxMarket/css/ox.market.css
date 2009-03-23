@@ -30,6 +30,17 @@ $Id$
   background-image: url("../images/icon-marketplace-large.png");
 }
 
+/** hack the message to look better on market screens **/
+div.messagePlaceholder {
+  height: auto;
+  float: left;
+}
+
+div.localMessage div.panel {
+  width: 600px;
+  margin-bottom: 5px;
+}
+
 /**/
 p.wide {
   line-height:150%;
@@ -56,6 +67,33 @@ ul.form li.line p {
 ul.form ctrl-buttons {
     margin-top: 20px;
 }
+
+/** signup screen **/
+#market-signup-form .section-header {
+  font-size:14px;
+  font-weight:bold;
+}
+#market-signup-form .type-name {
+  margin-right: 20px;
+}
+
+#market-signup-form .pick-account input {
+  margin-bottom: 15px;
+}
+
+#market-signup-form .header {
+  margin: 10px 0px 0px 30px;
+  font-weight: bold;
+}
+
+#market-signup-form #captcha-image {
+  margin-top: 15px;
+}
+
+#market-signup-form .type-name em{
+  font-style: italic;
+}
+  
 
 /* creative types and attributes */
 .checkbox-list {

@@ -1,4 +1,103 @@
 (function($) {
+  $.fn.marketSignup = function(options) {
+        var defaults = {
+            captchaBaseUrl: '',
+            captchaRandomName: 't'
+        };
+        var settings = $.extend({}, defaults, options);
+        var $form = $(this);
+        var $accountModeRadios =  $("input[name=accountMode]");
+        $accountModeRadios.click(updateForm);
+        
+        $("#captcha-image", $form).captcha({
+            baseUrl: settings.captchaBaseUrl,
+            reloadElemSelector : "#captcha-reload",
+            randomHiddenSelector: "input[name=captchaRandom]",
+            randomKeyName: settings.captchaRandomName
+        });
+        
+        $("#m_new_username", $form).userNameCheck({
+          userNameCheckUrl: settings.usernameCheckUrl,
+          userNameParameterName: 'userName',
+          checkTimeout: 500,
+          availableResultText: 'available',
+          indicatorSelector: '#user-check-indicator',
+          availableClass: 'available',
+          unavailableClass: 'unavailable',
+          callback: updateSubmitButton
+        });
+        
+        updateForm();
+        
+        
+        function updateForm()
+        {
+            $("[id^=line-]").hide();
+            
+            var selectedId = $accountModeRadios.filter(":checked").attr("id");
+            
+            if (selectedId) {
+                $("[id^=line-" + selectedId + "]").show();
+                $("[id^=line-account-both]").show();
+            }
+            
+            if (this.id == 'account-login') {
+                $("#m_username").focus();   
+            }
+            else {
+                $("#m_new_email").focus();
+            }
+        }
+        
+        
+        function updateSubmitButton(texElement, userNameAvailable) {
+            /*if (userNameAvailable) {
+                $("#save", $form).attr("disabled", false);
+                $("#userhint", $form).fadeOut();
+            } 
+            else {
+                $("#save", $form).attr("disabled", true);
+                $("#userhint", $form).fadeIn();
+            }*/
+        };
+  }
+
+
+    $.fn.captcha = function(options) {
+        var defaults = {
+            reloadElemSelector : '',
+            baseUrl: '',
+            randomKeyName: 'reload',
+            randomHiddenSelector: ''
+        };
+        var settings = $.extend({}, defaults, options);
+        $image = $(this);
+        
+        var captchaUrl = settings.baseUrl != '' ? settings.baseUrl : $image.attr("src");
+        var separator  = captchaUrl.indexOf("?") == -1 ? "?" : "&";
+
+        if (settings.reloadElemSelector) {
+            $(settings.reloadElemSelector).click(reloadCaptcha);
+        }
+        
+        function reloadCaptcha()
+        {
+                var random = new Date().getTime();
+                var reloadUrl = captchaUrl 
+                    + separator
+                    + settings.randomKeyName +"=" + random; 
+                
+                $image.attr("src", reloadUrl);
+                
+                if (settings.randomHiddenSelector != '') {
+                    $(settings.randomHiddenSelector).val(random);
+                }
+                
+                return false;
+        }
+    }
+  
+
   $.fn.campaignMarket = function(options) {
     return this.each(function() {
         var defaults = {

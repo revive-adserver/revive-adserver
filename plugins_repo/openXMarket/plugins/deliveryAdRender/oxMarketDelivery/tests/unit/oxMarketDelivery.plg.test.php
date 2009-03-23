@@ -62,54 +62,64 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $aWebsiteMarketInfo = array('website_id' => $website_id);
         $GLOBALS['_MAX']['CONF']['oxMarketDelivery']['brokerHost'] = 'brokerHost.org';
 
-        // patter to check OX_marketProcess result and get t, f parameters and src for second script
+        // pattern to check OX_marketProcess result and get OXM_ad parameters and src of second script
+        $pattern = '<script type="text/javascript">[[:space:]]OXM_ad = ({.*})[[:space:]]</script>[[:space:]]'.
+                   '<script type="text/javascript" src="(.*)"></script>';
+        /* pattern for old call
         $pattern = '<script type="text/javascript">[[:space:]]OXM_(.*) = {"t":"(.*)","f":"(.*)"}[[:space:]]</script>[[:space:]]'.
                    '<script type="text/javascript" src="(.*)"></script>';
+        */
         
         // set https to on
         $_SERVER['HTTPS'] = 'on';
         
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
         // check if response matches to pattern
         $this->assertTrue(ereg($pattern, $result, $aResult));
+        
         // check ereg result
-        $this->assertEqual(5,count($aResult));
+        $this->assertEqual(3,count($aResult));
         $this->assertFalse(empty($aResult[1]));
         $this->assertFalse(empty($aResult[2]));
-        $this->assertEqual($adHtml, $aResult[3]);
+        $jsonOXM_ad = $aResult[1];
+        
+        // Check OXM_ad json
+        $aOXM_ad = json_decode($jsonOXM_ad,true);
+        $this->assertEqual(5,count($aOXM_ad));
+        $this->assertEqual($aOXM_ad['website'], $website_id);
+        $this->assertEqual($aOXM_ad['floor'], 0);
+        $this->assertEqual($aOXM_ad['size'], "468x60");
+        $this->assertTrue(isset($aOXM_ad['beacon']));
+        $this->assertEqual($aOXM_ad['fallback'],$adHtml); 
+       
         // Check market url
-        $aUrl = parse_url($aResult[4]);
+        $aUrl = parse_url($aResult[2]);
         $this->assertEqual('https', $aUrl['scheme']);
         $this->assertEqual('brokerHost.org', $aUrl['host']);
-        $this->assertEqual('/json', $aUrl['path']);
-        $aQuery = explode('&', html_entity_decode(($aUrl['query'])));
-        $aUrlParams = array();
-        foreach ($aQuery as $param) {
-            $b = split('=', $param);
-            $aUrlParams[$b[0]] = $b[1];
-        }
-        $this->assertEqual($aUrlParams['o'], 'OXM_'.$aResult[1]);
-        $this->assertEqual($aUrlParams['pid'], $website_id);
-        $this->assertEqual($aUrlParams['tag_type'], 1);
-        $this->assertEqual($aUrlParams['f'], 0);
-        $this->assertEqual($aUrlParams['s'], "468x60");
-        $this->assertEqual($aUrlParams['s'], "468x60");
-        $this->assertFalse(empty($aUrlParams['cb']));
+        $this->assertEqual('/jstag', $aUrl['path']);
+        $this->assertTrue(empty($aUrl['query']));
 
         // set https to off
         $_SERVER['HTTPS'] = 'off';
         
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
-        
         // check if response matches to pattern
         $this->assertTrue(ereg($pattern, $result, $aResult));
+        
         // check ereg result
-        $this->assertEqual(5,count($aResult));
-        $aUrl = parse_url($aResult[4]);
+        $this->assertEqual(3,count($aResult));
+        $this->assertEqual($aResult[1], $jsonOXM_ad);
+        $this->assertFalse(empty($aResult[2]));
+        $httpUrl = $aResult[2];
+
+        // Check market url
+        $aUrl = parse_url($aResult[2]);
         $this->assertEqual('http', $aUrl['scheme']);
         $this->assertEqual('brokerHost.org', $aUrl['host']);
-        $this->assertEqual('/json', $aUrl['path']);
-        
+        $this->assertEqual('/jstag', $aUrl['path']);
+        $this->assertTrue(empty($aUrl['query']));
+
         // unset https
         unset($_SERVER['HTTPS']);
         
@@ -118,14 +128,61 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         // check if response matches to pattern
         $this->assertTrue(ereg($pattern, $result, $aResult));
         // check ereg result
-        $this->assertEqual(5,count($aResult));
-        $aUrl = parse_url($aResult[4]);
-        $this->assertEqual('http', $aUrl['scheme']);
-        $this->assertEqual('brokerHost.org', $aUrl['host']);
-        $this->assertEqual('/json', $aUrl['path']);
-        
+        $this->assertEqual(3,count($aResult));
+        $this->assertEqual($aResult[1], $jsonOXM_ad);
+        $this->assertEqual($aResult[2], $httpUrl);
+
         // restore setting
         $_SERVER['HTTPS'] = $serverHttps;
+    }
+    
+    function testAddMarketParamsHook()
+    {
+        // Store original hooks
+        $addMarketParamsHooks = null;
+        if (isset($GLOBALS['_MAX']['CONF']['deliveryHooks']['addMarketParams'])) {
+            $addMarketParamsHooks = $GLOBALS['_MAX']['CONF']['deliveryHooks']['addMarketParams'];
+        }
+        
+        // Set own hook
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['addMarketParams'] = 
+            "deliveryAdRender:myTestPluginGroup:myParamsPlugin";
+        
+        // declare test function for hook
+        function Plugin_deliveryAdRender_myTestPluginGroup_myParamsPlugin_Delivery_addMarketParams(&$aParams) 
+        {
+            $aParams['myParam'] = '1234';
+        }
+        
+        // Prepare test data
+        $adHtml = 'test banner';
+        $aAd = array( 'width' => 468, 'height' => 60 );
+        $aCampaignMarketInfo = array();
+        $website_id = 12;
+        $aWebsiteMarketInfo = array('website_id' => $website_id);
+        $GLOBALS['_MAX']['CONF']['oxMarketDelivery']['brokerHost'] = 'brokerHost.org';
+
+        // pattern to check OX_marketProcess result and get OXM_ad parameters and src of second script
+        $pattern = '<script type="text/javascript">[[:space:]]OXM_ad = ({.*})[[:space:]]</script>[[:space:]]'.
+                   '<script type="text/javascript" src="(.*)"></script>';
+        
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+
+        // check if response matches to pattern
+        $this->assertTrue(ereg($pattern, $result, $aResult));
+
+        $jsonOXM_ad = $aResult[1];
+        
+        // Check OXM_ad json
+        $aOXM_ad = json_decode($jsonOXM_ad,true);
+        $this->assertEqual(6,count($aOXM_ad));
+        $this->assertEqual($aOXM_ad['website'], $website_id);
+        $this->assertEqual($aOXM_ad['floor'], 0);
+        $this->assertEqual($aOXM_ad['size'], "468x60");
+        $this->assertTrue(isset($aOXM_ad['beacon']));
+        $this->assertEqual($aOXM_ad['fallback'], $adHtml);
+        $this->assertEqual($aOXM_ad['myParam'], 1234);
+        
     }
     
     function testOX_Dal_Delivery_getPlatformMarketInfo()

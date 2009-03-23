@@ -117,6 +117,41 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual($aResult,$aStoreResult);
         
+        // Try invalid column name in list order
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aOption = array(
+            'orderdirection'    => 'down',
+            'listorder'         => 'name<xss>',
+            'period_preset'     => null,
+            'period_start'      => null,
+            'period_end'        => null
+        );
+        $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
+        $this->assertEqual($aResult,$aStoreResult);
+        
+        // Try invalid orderdirection and period_preset
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aOption = array(
+            'orderdirection'    => 'up<xss>',
+            'listorder'         => 'name',
+            'period_preset'     => 'million years ago',
+            'period_start'      => null,
+            'period_end'        => null
+        );
+        $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
+        $this->assertEqual($aResult,$aStoreResult);
+        
+        // Try invalid period dates
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aOption = array(
+            'orderdirection'    => 'down',
+            'listorder'         => 'name',
+            'period_preset'     => null,
+            'period_start'      => 'to hack your database',
+            'period_end'        => 'or not-to-hack'
+        );
+        $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
+        $this->assertEqual(count($aResult),0);
     }
     
     function testGetSizeStatsByAffiliateId(){
@@ -178,6 +213,31 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         
         $this->assertEqual($aResult[0]['impressions'],20);
         $this->assertEqual($aResult[0]['revenue'],30);
+        
+        // Try invalid column name in list order
+        $aOption = array(
+            'affiliateid'       => $aObjectsIds['affiliateId'],
+            'orderdirection'    => 'down',
+            'listorder'         => 'name<xss>',
+            'period_preset'     => null,
+            'period_start'      => '2008-12-22',
+            'period_end'        => '2008-12-22'
+        );
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
+        $this->assertEqual(count($aResult),1);
+        
+        // Try invalid period dates
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aOption = array(
+            'orderdirection'    => 'down',
+            'listorder'         => 'name',
+            'period_preset'     => null,
+            'period_start'      => 'to hack your database',
+            'period_end'        => 'or not-to-hack'
+        );
+        $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
+        $this->assertEqual(count($aResult),0);
     }
 
     function testGetSizeStatsForAffiliates(){
@@ -249,6 +309,36 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aRows[0]['id'],$aObjectsIds['affiliateId']);
         $this->assertEqual($aRows[0]['impressions'],20);
         $this->assertEqual($aRows[0]['revenue'],30);
+        
+        // Try invalid column name in list order
+        $aOption = array(
+            'aAffiliateids'     => array(),
+            'orderdirection'    => 'down',
+            'listorder'         => 'name',
+            'period_preset'     => null,
+            'period_start'      => '2008-12-22',
+            'period_end'        => '2008-12-22'
+        );
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
+        
+        $this->assertEqual(count($aResult),1);
+        
+        // Try invalid period dates
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aOption = array(
+            'orderdirection'    => 'down',
+            'listorder'         => 'name',
+            'period_preset'     => null,
+            'period_start'      => 'to hack your database',
+            'period_end'        => 'or not-to-hack'
+        );
+        $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
+        $this->assertEqual(count($aResult),0);
+        
+        $aOption['period_start'] = 'inva-li-dd';
+        $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
+        $this->assertEqual(count($aResult),0);
     }
     
     function _prepare_users()

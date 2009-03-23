@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Maintenace Statistics Tasks</description>
     <version>0.1.2</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <oxversion>2.7.31-beta-rc2</oxversion>
     <extends>maintenanceStatisticsTask</extends>
 
     <install>

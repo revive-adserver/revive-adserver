@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.2.0-rc1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>0.3.0-rc1</version>
+    <oxversion>2.7.31-beta-rc2</oxversion>
     <extends>admin</extends>
 
     <install>
@@ -24,6 +24,8 @@
         <files>
             <file path="{ADMINPATH}/css/">ox.market.css</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>
+            <file path="{ADMINPATH}/js/">jquery.typewatch.js</file>
+            <file path="{ADMINPATH}/js/">ox.usernamecheck.js</file>
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
@@ -41,6 +43,19 @@
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
             
+            <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>
+            <file path="{ADMINPATH}/library/Zend/Http/Client/Adapter/">Curl.php</file>
+            <file path="{ADMINPATH}/var/">config.php</file>
+            
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_AdCategories</file>
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeAttributes</file>
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeTypes</file>
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
+            
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>
@@ -49,6 +64,7 @@
             <file path="{ADMINPATH}/">market-info.php</file>
             <file path="{ADMINPATH}/">market-preferences-website.php</file>
             <file path="{ADMINPATH}/">market-signup.php</file>
+            <file path="{ADMINPATH}/">market-sso-user-exists.php</file>
             <file path="{ADMINPATH}/">market-stats.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
             <file path="{ADMINPATH}/">XMLToArray.php</file>
@@ -84,15 +100,24 @@
         <configuration option="Market API">
             <!-- todo - set proper hosts before final release and set visible ="0" -->
             <setting key="marketHost" type="text" label="Market host" required="1" size="32" visible="0">@marketHost@</setting>
-            <setting key="marketPcApiUrl" type="text" label="Market PC API URL" required="1" size="100" visible="0">@marketPcApiUrl@</setting>
-	    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
+            <!--setting key="marketPcApiUrl" type="text" label="Market PC API URL" required="1" size="100" visible="0">@marketPcApiUrl@</setting-->
+            <setting key="marketPcApiHost" type="text" label="Market PC API host URL" required="1" size="32" visible="0">@marketPcApiHost@</setting>
+            <setting key="fallbackPcApiHost" type="text" label="Market PC API fallback host URL" required="1" size="32" visible="0">@fallbackPcApiHost@</setting>
+            <setting key="marketXmlRpcUrl" type="text" label="Market XmlRpc URL" required="1" size="32" visible="0">@marketXmlRpcUrl@</setting>
+            <setting key="marketCustomContentUrl" type="text" label="Market custom content URL" required="1" size="32" visible="0">@marketCustomContentUrl@</setting>
+            <setting key="marketMenuUrl" type="text" label="Market menu URL" required="1" size="32" visible="0">@marketMenuUrl@</setting>
+            <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
+            <setting key="marketCaptchaUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
+            <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
+            <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
             <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
-            <setting key="ssoSignupUrl" type="text" label="OpenX Account signup  URL" required="1" size="100" visible="0">@ssoSignupUrl@</setting>
             <setting key="splashAlreadyShown" type="checkbox" label="OpenX Market splash shown" required="1"  visible="0">0</setting>
+            <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
+            <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
         </configuration>
 
         <schema>

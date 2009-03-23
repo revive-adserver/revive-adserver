@@ -22,60 +22,35 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: market-stats.php 31666 2009-01-29 19:24:16Z lukasz.wikierski $
 */
 
 require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
-phpAds_registerGlobalUnslashed('p_url');
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
+$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+//check if you can see this page
+$oMarketComponent->checkRegistered(false);
 
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    $oMarketComponent->updateSSLMessage();
+$userName = $_REQUEST['userName'];
 
+try {
 
-    //retrieve menu from
-    $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($p_url);
-
-    //header
-    $pageId = "openx-market";
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    
-    if (!empty($pubconsolePageName)) {
-        $oMenu = OA_Admin_Menu::singleton();
-        //update page title
-        $oCurrentSection = $oMenu->get($pageId);
-        phpAds_PageHeader($pageId, new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName().': '.$pubconsolePageName, "iconMarketLarge"), '../../');
+    if ($oMarketComponent->isSsoUserNameAvailable($userName)) {
+        echo "available";
     }
     else {
-        phpAds_PageHeader($pageId, null,'../../');
+        echo "taken";
     }
-
-    $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-    $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-    
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
-    $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
-    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
-    $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
-    $oTpl->assign('pubconsolePageId', htmlspecialchars($p_url));
-    $oTpl->assign('pageUrl', urlencode($pageUrl));
-    
-    $oTpl->display();
-
-    //footer
-    phpAds_PageFooter();
-
-?>
+}
+catch (Exception $exc) {
+    header("HTTP/1.0 500 Server Error (Code: ".$exc->getCode().")");
+    OA::debug('Error during retrieving custom content: ('.$exc->getCode().')'.$exc->getMessage());
+}
+ 
