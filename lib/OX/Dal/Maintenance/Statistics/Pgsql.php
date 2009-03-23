@@ -75,7 +75,8 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
             (
                 " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . ",
                 ad_id,
-                zone_id
+                zone_id,
+                1
             )
             FROM
                 " . $this->oDbh->quoteIdentifier($rawTable, true) . "
