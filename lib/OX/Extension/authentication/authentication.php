@@ -27,6 +27,9 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once 'Date.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
+
+Language_Loader::load('settings');
 
 /**
  * Plugins_Authentication is an parent class for Authentication plugins
