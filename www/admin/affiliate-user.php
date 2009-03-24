@@ -84,8 +84,8 @@ $userAccess->setPagePrefix('affiliate');
 
 
 $aAllowedPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
+        OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
 $aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false,

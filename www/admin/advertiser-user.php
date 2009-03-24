@@ -74,9 +74,9 @@ $userAccess->setAccountId($accountId);
 $userAccess->setPagePrefix('advertiser');
 
 $aAllowedPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
+        OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
 $aAllowedPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
 $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;

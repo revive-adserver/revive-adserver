@@ -63,9 +63,8 @@ $userAccess->setAccountId($accountId);
 $userAccess->setPagePrefix('agency');
 
 $aAllowedPermissions = array();
-if (OA_Permission::isUserLinkedToAdmin())
-{
-    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
