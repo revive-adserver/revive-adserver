@@ -320,7 +320,7 @@ function getTranslationLabels($oMarketComponent)
     $aContentStrings['header_title'] = isset($aContentKeys['header-title']) 
         ? $aContentKeys['header-title']
         : '<span class="section-header">Provide an OpenX.org account</span> 
-            <span class="link" help="help-market-info"><span class="icon icon-info"></span></span>
+            <span class="link" help="help-market-info"><span class="icon icon-info">&nbsp;</span></span>
             <div class="hide" id="help-market-info" style="height: auto; width: 270px;">
             <p>
                 An OpenX.org account is an account which you may use to login to a variety 
