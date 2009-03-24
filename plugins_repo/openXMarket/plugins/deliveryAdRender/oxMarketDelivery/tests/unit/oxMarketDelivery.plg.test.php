@@ -88,7 +88,6 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         // Check OXM_ad json
         $oJson = new Services_JSON();
         $aOXM_ad = $oJson->decode($jsonOXM_ad);
-        //$aOXM_ad = json_decode($jsonOXM_ad,true);
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0);
         $this->assertEqual($aOXM_ad->size, "468x60");
@@ -176,14 +175,14 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $jsonOXM_ad = $aResult[1];
         
         // Check OXM_ad json
-        $aOXM_ad = json_decode($jsonOXM_ad,true);
-        $this->assertEqual(6,count($aOXM_ad));
-        $this->assertEqual($aOXM_ad['website'], $website_id);
-        $this->assertEqual($aOXM_ad['floor'], 0);
-        $this->assertEqual($aOXM_ad['size'], "468x60");
-        $this->assertTrue(isset($aOXM_ad['beacon']));
-        $this->assertEqual($aOXM_ad['fallback'], $adHtml);
-        $this->assertEqual($aOXM_ad['myParam'], 1234);
+        $oJson = new Services_JSON();
+        $aOXM_ad = $oJson->decode($jsonOXM_ad);
+        $this->assertEqual($aOXM_ad->website, $website_id);
+        $this->assertEqual($aOXM_ad->floor, 0);
+        $this->assertEqual($aOXM_ad->size, "468x60");
+        $this->assertTrue(isset($aOXM_ad->beacon));
+        $this->assertEqual($aOXM_ad->fallback,$adHtml);
+        $this->assertEqual($aOXM_ad->myParam, 1234);
         
     }
     
