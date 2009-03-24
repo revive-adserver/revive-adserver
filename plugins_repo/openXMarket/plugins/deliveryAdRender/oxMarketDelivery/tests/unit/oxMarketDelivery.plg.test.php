@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+require_once MAX_PATH . '/lib/JSON/JSON.php';
 
 /**
  * A class for testing the oxMarketDelivery functions
@@ -85,13 +86,14 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $jsonOXM_ad = $aResult[1];
         
         // Check OXM_ad json
-        $aOXM_ad = json_decode($jsonOXM_ad,true);
-        $this->assertEqual(5,count($aOXM_ad));
-        $this->assertEqual($aOXM_ad['website'], $website_id);
-        $this->assertEqual($aOXM_ad['floor'], 0);
-        $this->assertEqual($aOXM_ad['size'], "468x60");
-        $this->assertTrue(isset($aOXM_ad['beacon']));
-        $this->assertEqual($aOXM_ad['fallback'],$adHtml); 
+        $oJson = new Services_JSON();
+        $aOXM_ad = $oJson->decode($jsonOXM_ad);
+        //$aOXM_ad = json_decode($jsonOXM_ad,true);
+        $this->assertEqual($aOXM_ad->website, $website_id);
+        $this->assertEqual($aOXM_ad->floor, 0);
+        $this->assertEqual($aOXM_ad->size, "468x60");
+        $this->assertTrue(isset($aOXM_ad->beacon));
+        $this->assertEqual($aOXM_ad->fallback,$adHtml); 
        
         // Check market url
         $aUrl = parse_url($aResult[2]);
