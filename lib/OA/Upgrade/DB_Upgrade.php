@@ -2312,6 +2312,19 @@ class OA_DB_Upgrade
         }
     }
 
+    function _logWarning($message)
+    {
+        if ($this->oLogger)
+        {
+            $this->oLogger->logWarning($message);
+        }
+        else
+        {
+            $this->aMessages[] = $message;
+            $this->_logWrite("WARNING: {$message}");
+        }
+    }
+
     /**
      * write an error to the log file
      *
@@ -2497,6 +2510,52 @@ class OA_DB_Upgrade
         unset($aDefinition['tables']);
         $aDefinition['tables'] = $aTables;
         return $aDefinition;
+    }
+
+    function checkPotentialUpgradeProblems()
+    {
+        $tableName = $GLOBALS['_MAX']['CONF']['table']['prefix'].'campaigns';
+
+        $query = "
+            SELECT
+                campaignid,
+                revenue_type
+            FROM
+                ".$this->oSchema->db->quoteIdentifier($tableName)."
+            WHERE
+                (revenue_type = ".MAX_FINANCE_CPM." AND (clicks > 0 OR conversions > 0)) OR
+                (revenue_type = ".MAX_FINANCE_CPC." AND conversions  > 0)
+            ORDER BY
+                campaignid
+        ";
+
+        OX::disableErrorHandling();
+        $aResult = $this->oSchema->db->queryAll($query);
+        OX::enableErrorHandling();
+
+        if (!PEAR::isError($result) && count($aResult) > 0) {
+            $warning = false;
+            foreach ($aResult as $row) {
+                if ($v['revenue_type'] == MAX_FINANCE_CPM) {
+                    $type = 'CPM';
+                    $what = 'clicks and/or conversions';
+                } else {
+                    $type = 'CPC';
+                    $what = 'conversions';
+                }
+
+                $message = "campaign [id{$row['campaignid']}] is {$type} but has booked {$what} set";
+
+                if (!$warning) {
+                    $warning = "Warning: the revenue type of some campaigns doesn't match the campaign targets. For example, {$message}. Check the install.log for the detailed campaign list.";
+                    $this->_logWarning($warning);
+                }
+
+                $this->_logOnly('Revenue type mismatch: '.$message);
+            }
+        }
+
+        return true;
     }
 
 }

@@ -931,7 +931,7 @@ class OA_Upgrade
             }
             return false;
         }
-        return true;
+        return $this->oDBUpgrader->checkPotentialUpgradeProblems();
     }
 
 
@@ -1005,6 +1005,7 @@ class OA_Upgrade
             }
             else if ($current)
             {
+                $this->_checkPotentialUpgradeProblems();
                 if ($this->seekFantasyUpgradeFile())
                 {
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;

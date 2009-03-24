@@ -284,6 +284,51 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->tally();
 
     }
+
+
+    function testCheckPotentialUpgradeProblems()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $oDB_Upgrade->aMessages = array();
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 0);
+
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPM.", 1, -1, -1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 0);
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPM.", -1, 1, -1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 2); // Warning + 1 detail row
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPM.", -1, -1, 1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 3); // Warning + 2 detail rows
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPC.", 1, 1, -1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 3); // Warning + 2 detail rows
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPC.", -1, -1, 1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 4); // Warning + 3 detail rows
+
+        $oDB_Upgrade->aMessages = array();
+        $oDB_Upgrade->oSchema->db->exec("INSERT INTO {$prefix}campaigns (revenue_type, views, clicks, conversions) VALUES (".MAX_FINANCE_CPA.", 1, 1, 1)");
+        $this->assertTrue($oDB_Upgrade->checkPotentialUpgradeProblems());
+        $this->assertEqual(count($oDB_Upgrade->aMessages), 4); // Warning + 3 detail rows
+
+        $oDB_Upgrade->oSchema->db->exec("DELETE FROM {$prefix}campaigns");
+    }
+
 }
 
 ?>
