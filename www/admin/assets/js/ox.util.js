@@ -217,21 +217,6 @@ $.fn.setElementVisibility = function(visible)
 }
 
 
-/** 
- * Event delegation helper
- * see: http://www.danwebb.net/2008/2/8/event-delegation-made-easy-in-jquery   
- */
-jQuery.fn.delegate = function(eventType, rules) {
-  return this.bind(eventType, function(e) {
-    var target = $(e.target);
-    for(var selector in rules) {
-      if(target.is(selector)) { 
-        return rules[selector].apply(this, arguments)
-      }
-    }
-  });
-}
-
 /**
  *
  */

@@ -250,8 +250,8 @@ jQuery.extend(jQuery.validator, {
 				validator.settings["on" + event.type] && validator.settings["on" + event.type].call(validator, this[0] );
 			}
 			jQuery(this.currentForm)
-				.delegate("focusin focusout keyup", ":text, :password, :file, select, textarea", delegate)
-				.delegate("click", ":radio, :checkbox", delegate);
+				.delegateValidatorEvent("focusin focusout keyup", ":text, :password, :file, select, textarea",  delegate)
+				.delegateValidatorEvent("click", ":radio, :checkbox", delegate);
 		},
 
 		// http://docs.jquery.com/Plugins/Validation/Validator/form
@@ -1027,7 +1027,7 @@ jQuery.extend(jQuery.validator, {
 		}
 	});
 	$.extend($.fn, {
-		delegate: function(type, delegate, handler) {
+		delegateValidatorEvent: function(type, delegate, handler) {
 			return this.bind(type, function(event) {
 				var target = $(event.target);
 				if (target.is(delegate)) {
