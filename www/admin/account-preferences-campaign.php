@@ -129,7 +129,8 @@ $aSettings = array (
             array (
                 'type'  => 'checkbox',
                 'name'  => 'campaign_ecpm_enabled',
-                'text'  => $ecpmInfoText
+                'text'  => $ecpmInfoText,
+                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
             ),
         )
     )
