@@ -219,9 +219,9 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                     }
                     $M = $this->getZoneContract($zoneId);
                     $minRequestedImpr = $aAdsZonesMinImpressions[$adId][$zoneId];
-                    if ($this->aZonesMinImpressions[$zoneID] > $M) {
+                    if ($this->aZonesMinImpressions[$zoneId] > $M) {
                         $aAdZonesProbabilities[$adId][$zoneId] =
-                            $minRequestedImpr / $aZonexMinImpressions[$zoneID];
+                            $minRequestedImpr / $this->aZonesMinImpressions[$zoneId];
                     } else {
                        $aAdZonesProbabilities[$adId][$zoneId] =
                            $minRequestedImpr / $M
