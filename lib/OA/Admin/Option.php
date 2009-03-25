@@ -140,6 +140,7 @@ class OA_Admin_Option
                 'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],    'perm' => OA_ACCOUNT_ADMIN),
                 'update'          => array('name' => $GLOBALS['strUpdateSettings'],         'perm' => OA_ACCOUNT_ADMIN),
                 'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],            'perm' => OA_ACCOUNT_ADMIN),
+                'plugins'         => array('name' => $GLOBALS['strPluginSettings'],         'perm' => OA_ACCOUNT_ADMIN),
             );
         }
         elseif ($this->_optionType == 'account-preferences') {

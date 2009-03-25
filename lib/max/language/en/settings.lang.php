@@ -525,6 +525,10 @@ $GLOBALS['strPlatformHashRegenerate']                = "Platform Hash Regenerate
 $GLOBALS['strNewPlatformHash']                       = "Your new Platform Hash is:";
 $GLOBALS['strPlatformHashInsertingError']            = "Error inserting Platform Hash into database";
 
+// Plugin Settings
+$GLOBALS['strPluginSettings']                        = "Plugin Settings";
+$GLOBALS['strEnableNewPlugins']                      = "Enable newly installed plugins";
+
 /*-------------------------------------------------------*/
 /* Unknown (unused?) translations                        */
 /*-------------------------------------------------------*/

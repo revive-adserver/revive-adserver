@@ -416,9 +416,12 @@ repo       = "../plugins_repo/release/|../etc/plugins/" ; http://your.test.serve
 
 [pluginUpdatesServer]
 protocol=http
-host=localhost
-path=/plugins_repo/server
+host=code.openx.org
+path=/openx/plugin-updates
 httpPort=80
+
+[pluginSettings]
+enableOnInstall = true
 
 [plugins]
 

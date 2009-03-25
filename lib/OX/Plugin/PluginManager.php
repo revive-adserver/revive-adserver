@@ -343,6 +343,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError($e->getMessage());
             $result = false;
         }
+        if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall'])) {
+            $this->enablePackage($aPackage['name']);
+        }
+        
         //OA::logMem('exit installPackage');
         $this->_switchToDefaultLog();
         return $result;

@@ -406,6 +406,9 @@ host=code.openx.org
 path=/openx/plugin-updates
 httpPort=80
 
+[pluginSettings]
+enableOnInstall = true
+
 [plugins]
 
 [pluginGroupComponents]
