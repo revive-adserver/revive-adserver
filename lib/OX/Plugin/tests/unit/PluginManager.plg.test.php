@@ -205,6 +205,7 @@ class Test_OX_PluginManager extends UnitTestCase
                                       '_auditStart',
                                       '_auditUpdate',
                                       '_auditSetID',
+                                      'enablePackage',
                                      )
                              );
         $oManager = new $oMockManager($this);
@@ -215,6 +216,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValue('_instantiateClass', $oExtension);
         $oManager->expectCallCount('_instantiateClass',1);
 
+        $oManager->setReturnValue('enablePackage', true);
+        $oManager->expectCallCount('enablePackage', 2);
 
         // Test 1 - package unpack error
         $oManager->setReturnValueAt(0,'unpackPlugin', false);
@@ -251,6 +254,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testParsePluginFull.xml',
                        'name'=>'testParsePluginFull.xml'
                        );
+        // Disable auto-enable for this one (brings enablePackage call count down to 2
+        $GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall'] = false;
         $this->assertTrue($oManager->installPackage($aFile));
 
         $oManager->expectCallCount('unpackPlugin', 4);
@@ -258,7 +263,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->expectCallCount('_registerPackage',2);
 
         $oManager->tally();
-
+        TestEnv::restoreConfig();
     }
 
     function test_uninstallPackage()
