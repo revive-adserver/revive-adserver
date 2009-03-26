@@ -44,6 +44,9 @@ $referer = (!empty($loc)) ? $loc : '';
 $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
     getHostName() .
 	$_SERVER['REQUEST_URI'];
+// init-delivery.php is not setting invocationType properly for local invocation type
+// we should set it here
+$GLOBALS['_OA']['invocationType'] = 'local';
 // This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '') {
     // start stacked output buffering

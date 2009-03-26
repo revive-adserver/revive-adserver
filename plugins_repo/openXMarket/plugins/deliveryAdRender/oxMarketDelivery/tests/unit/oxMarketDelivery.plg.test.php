@@ -40,6 +40,12 @@ require_once MAX_PATH . '/lib/JSON/JSON.php';
  */
 class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends UnitTestCase
 {
+    // pattern to check OX_marketProcess result and get OXM_ad parameters and src of second script
+    var $pattern = '<script type="text/javascript">[[:space:]]OXM_ad = ({.*});[[:space:]]</script>[[:space:]]<script type="text/javascript" src="(.*)"></script>[[:space:]]<noscript>(.*)</noscript>';
+        /* pattern for old call
+        $pattern = '<script type="text/javascript">[[:space:]]OXM_(.*) = {"t":"(.*)","f":"(.*)"}[[:space:]]</script>[[:space:]]<script type="text/javascript" src="(.*)"></script>';
+        */
+        
     function setUp()
     {
         TestEnv::uninstallPluginPackage('openXMarket',false);
@@ -63,13 +69,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $aWebsiteMarketInfo = array('website_id' => $website_id);
         $GLOBALS['_MAX']['CONF']['oxMarketDelivery']['brokerHost'] = 'brokerHost.org';
 
-        // pattern to check OX_marketProcess result and get OXM_ad parameters and src of second script
-        $pattern = '<script type="text/javascript">[[:space:]]OXM_ad = ({.*})[[:space:]]</script>[[:space:]]'.
-                   '<script type="text/javascript" src="(.*)"></script>';
-        /* pattern for old call
-        $pattern = '<script type="text/javascript">[[:space:]]OXM_(.*) = {"t":"(.*)","f":"(.*)"}[[:space:]]</script>[[:space:]]'.
-                   '<script type="text/javascript" src="(.*)"></script>';
-        */
+        
         
         // set https to on
         $_SERVER['HTTPS'] = 'on';
@@ -77,12 +77,13 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
         
         // check if response matches to pattern
-        $this->assertTrue(ereg($pattern, $result, $aResult));
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
         
         // check ereg result
-        $this->assertEqual(3,count($aResult));
+        $this->assertEqual(4,count($aResult));
         $this->assertFalse(empty($aResult[1]));
         $this->assertFalse(empty($aResult[2]));
+        $this->assertEqual($aResult[3], $adHtml);
         $jsonOXM_ad = $aResult[1];
         
         // Check OXM_ad json
@@ -106,12 +107,13 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
         // check if response matches to pattern
-        $this->assertTrue(ereg($pattern, $result, $aResult));
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
         
         // check ereg result
-        $this->assertEqual(3,count($aResult));
+        $this->assertEqual(4,count($aResult));
         $this->assertEqual($aResult[1], $jsonOXM_ad);
         $this->assertFalse(empty($aResult[2]));
+        $this->assertEqual($aResult[3], $adHtml);
         $httpUrl = $aResult[2];
 
         // Check market url
@@ -127,11 +129,12 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
         
         // check if response matches to pattern
-        $this->assertTrue(ereg($pattern, $result, $aResult));
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
         // check ereg result
-        $this->assertEqual(3,count($aResult));
+        $this->assertEqual(4,count($aResult));
         $this->assertEqual($aResult[1], $jsonOXM_ad);
         $this->assertEqual($aResult[2], $httpUrl);
+        $this->assertEqual($aResult[3], $adHtml);
 
         // restore setting
         $_SERVER['HTTPS'] = $serverHttps;
@@ -162,15 +165,11 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $website_id = 12;
         $aWebsiteMarketInfo = array('website_id' => $website_id);
         $GLOBALS['_MAX']['CONF']['oxMarketDelivery']['brokerHost'] = 'brokerHost.org';
-
-        // pattern to check OX_marketProcess result and get OXM_ad parameters and src of second script
-        $pattern = '<script type="text/javascript">[[:space:]]OXM_ad = ({.*})[[:space:]]</script>[[:space:]]'.
-                   '<script type="text/javascript" src="(.*)"></script>';
         
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
 
         // check if response matches to pattern
-        $this->assertTrue(ereg($pattern, $result, $aResult));
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
 
         $jsonOXM_ad = $aResult[1];
         

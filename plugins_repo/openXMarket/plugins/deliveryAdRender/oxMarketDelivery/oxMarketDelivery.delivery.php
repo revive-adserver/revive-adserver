@@ -63,7 +63,8 @@ function _marketNeeded($scriptFile, $code, $aAd) {
         return false;
     }
     // Only process requests from supported tag types
-    if ($scriptFile != 'js' && $scriptFile != 'frame' && $scriptFile != 'singlepagecall') {
+    $aAllowedTypes = array('js', 'frame', 'singlepagecall', 'xml-rpc', 'local');
+    if (!in_array($scriptFile, $aAllowedTypes)) {
         return false;
     }
     
@@ -151,12 +152,13 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         $output .= "\n";
         $output .= "OXM_ad = {";
         $output .= join(",\n",$aJsonParams);
-        $output .= "}\n";
+        $output .= "};\n";
         $output .= "</script>\n";
 
         $url = $baseUrl.'/jstag';
 
-        $output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
+        $output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>'."\n";
+        $output .= '<noscript>'.$adHtml.'</noscript>';
    }
    return $output;
 }
