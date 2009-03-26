@@ -444,14 +444,15 @@ class OA_statisticsFieldsDelivery
                 $tzMethod    = 'getHour';
                 $tzArgs      = array();
             }
+
+            $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS day_and_hour";
+            $aGroupBy = array('day_and_hour');
         }
 
         $aFrom   = array(
             "{$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac"
         );
-        $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS day_and_hour";
         $aWhere   = array("diac.inside_window = 1");
-        $aGroupBy = array('day_and_hour');
 
         $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
                         " AND diac.connection_action = ".MAX_CONNECTION_AD_IMPRESSION.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_IMPRESSION;
@@ -539,34 +540,27 @@ class OA_statisticsFieldsDelivery
 
         $query = "SELECT ".$sFields." FROM ".$sFrom." ".$sWhere." ".$sGroupBy;
         $oDbh = OA_DB::singleton();
-        $aResult = $oDbh->queryAll($query);
-        if (PEAR::isError($aResult))
-        {
-            // if there is an error?
+        $key = $method == 'getEntitiesStats' ? 'pkey' : 'day_and_hour';
+        $oRes = $oDbh->query($query);
+        $aResult = array();
+        if (!PEAR::isError($oRes)) {
+            while ($row = $oRes->fetchRow()) {
+                $aResult[$row[$key]] = $row;
+                unset($aResult[$row[$key]][$key]);
+            }
         }
-        else
-        {
-           if ($method != 'getEntitiesStats') {
-                foreach ($aResult AS $k => $row) {
-                    unset($aResult[$k]);
-                    $aResult[$row['day_and_hour']] = $row;
-                }
-                $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
+        if ($method != 'getEntitiesStats') {
+            $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
+        }
+        foreach ($aResult AS $k => $row) {
+            if (!isset($aRows[$k])) {
+                $aRows[$k] = $emptyRow;
             }
-            foreach ($aResult AS $k => $row) {
-            	// when pkey is specified, we use it as the unique id used to find the matching row in aRows
-            	if ($method == 'getEntitiesStats') {
-            		$k = $row['pkey'];
-            	}
-                if (!isset($aRows[$k])) {
-                    $aRows[$k] = $emptyRow;
-                }
-				foreach($row as $field => $value) {
-					if(!isset($aRows[$k][$field])){
-						$aRows[$k][$field] = $value;
-					}
+			foreach($row as $field => $value) {
+				if(!isset($aRows[$k][$field])){
+					$aRows[$k][$field] = $value;
 				}
-            }
+			}
         }
     }
 
