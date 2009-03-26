@@ -56,7 +56,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $content = $aContentKeys['content']; 
     $iframeHeight = isset($aContentKeys['iframe-height']) 
         ? $aContentKeys['iframe-height'] 
-        : 380;
+        : 260;
     $submitLabel = isset($aContentKeys['submit-field-label']) 
         ? $aContentKeys['submit-field-label'] 
         : 'Get Started';
