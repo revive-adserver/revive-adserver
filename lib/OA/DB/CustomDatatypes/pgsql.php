@@ -58,7 +58,7 @@ $Id$
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_date_callback(&$db, $method, $aParameters)
+function datatype_date_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -127,7 +127,7 @@ function datatype_date_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_timestamp_callback(&$db, $method, $aParameters)
+function datatype_timestamp_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -196,7 +196,7 @@ function datatype_timestamp_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_bigint_callback(&$db, $method, $aParameters)
+function datatype_openads_bigint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -265,7 +265,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_char_callback(&$db, $method, $aParameters)
+function datatype_openads_char_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -323,7 +323,7 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_decimal_callback(&$db, $method, $aParameters)
+function datatype_openads_decimal_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -399,7 +399,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_date_callback(&$db, $method, $aParameters)
+function datatype_openads_date_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -468,7 +468,7 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_datetime_callback(&$db, $method, $aParameters)
+function datatype_openads_datetime_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -537,7 +537,7 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_double_callback(&$db, $method, $aParameters)
+function datatype_openads_double_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -605,7 +605,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_enum_callback(&$db, $method, $aParameters)
+function datatype_openads_enum_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -664,7 +664,7 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_float_callback(&$db, $method, $aParameters)
+function datatype_openads_float_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -732,7 +732,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_int_callback(&$db, $method, $aParameters)
+function datatype_openads_int_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -801,7 +801,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
+function datatype_openads_mediumint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -870,7 +870,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
+function datatype_openads_mediumtext_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -925,7 +925,7 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_set_callback(&$db, $method, $aParameters)
+function datatype_openads_set_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -981,7 +981,7 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_smallint_callback(&$db, $method, $aParameters)
+function datatype_openads_smallint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1047,7 +1047,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_text_callback(&$db, $method, $aParameters)
+function datatype_openads_text_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1107,7 +1107,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
+function datatype_openads_timestamp_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1176,7 +1176,7 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
+function datatype_openads_tinyint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1242,7 +1242,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_varchar_callback(&$db, $method, $aParameters)
+function datatype_openads_varchar_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1305,7 +1305,7 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_bpchar_callback(&$db, $aFields)
+function nativetype_bpchar_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1322,7 +1322,7 @@ function nativetype_bpchar_callback(&$db, $aFields)
 }
 
 
-function nativetype_bool_callback(&$db, $aFields)
+function nativetype_bool_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1335,7 +1335,7 @@ function nativetype_bool_callback(&$db, $aFields)
     return array($aType, $length, $unsigned, $fixed);
 }
 
-function nativetype_float4_callback(&$db, $aFields)
+function nativetype_float4_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
