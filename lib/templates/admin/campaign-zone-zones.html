@@ -36,7 +36,7 @@ $Id$
 <tr class="website">
   <td class="name" title="{$website.name|escape}">
     <label style="white-space: nowrap">
-        <input id="{$checkboxPrefix}w{$websiteid}" 
+        <input id="{$checkboxPrefix}w{$websiteid}"
                name="w{$websiteid}" type="checkbox" class="checkbox parent" />{boldSearchPhrase text=$website.name search=$text}
     </label>
   </td>
@@ -53,7 +53,7 @@ $Id$
 <tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
   <td class="name" title="{$zone.name|escape}">
   <label>
-      <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}" 
+      <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}"
              name="z{$zoneid}" type="checkbox" class="checkbox" />
       {boldSearchPhrase text=$zone.name search=$text}
   </label>
@@ -68,19 +68,19 @@ $Id$
   <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
   <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
 </tr>
-{/foreach}    
+{/foreach}
 
 {foreachelse}
 <tr class="empty">
   <td colspan="5">
     {t str=NoWebsitesAndZones}
-    {if $category} 
+    {if $category}
       {t str=NoWebsitesAndZonesCategory} {$category}
     {/if}
     {if $text}
-      {t str=NoWebsitesAndZonesText values=$text}
+      {t str=NoWebsitesAndZonesText values=$text|escape}
     {/if}
-    
+
     {if $checkboxPrefix == 'a'}
     {t str=ToLink}
     {else}
@@ -99,7 +99,7 @@ $Id$
   {/if}
   <span class="status-value">{$zonescounts.all}</span><br />
 
-  {if $category or $text} 
+  {if $category or $text}
   {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
   {/if}
 <!--status-{$status}-end-->
