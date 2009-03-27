@@ -726,18 +726,11 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // Determine the destination
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
-        if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) != 'http') {
-            $ct0 = '';
+        if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
+            $dest = $ct0.urlencode($dest);
         }
-        if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
-            // Strip maxdest with SWF banners using clickTAG
-            $maxdest = '';
-        } else {
-            if (!empty($ct0)) {
-                $dest = $ct0.urlencode($dest);
-            }
-            $maxdest = "{$del}{$conf['var']['dest']}=".urlencode($dest);
-        }
+        $maxdest = "{$del}{$conf['var']['dest']}=".urlencode($dest);
+
         $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 
         $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;

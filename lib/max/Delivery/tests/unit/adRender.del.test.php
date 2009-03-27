@@ -467,14 +467,6 @@ class test_DeliveryAdRender extends UnitTestCase
         $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.example.com%2F%3Ffoo%2Bbar");
         preg_match('/(http.*?)$/', $ret, $m);
         $this->assertEqual(urldecode($m[1]), $aBanner['url']);
-
-
-		$aBanner	= array('bannerid'=>'9999',
-							'url'=>'http://www.somewhere.com',
-							'contenttype'=>'swf'
-							);
-		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret,"2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}");
 	}
 
 	/**
