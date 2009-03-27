@@ -59,7 +59,7 @@ phpAds_registerGlobalUnslashed('p_url');
     }
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-    $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
+    $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
 
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
