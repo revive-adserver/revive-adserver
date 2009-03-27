@@ -294,6 +294,10 @@ else if ('info' == $action)
 {
     if ($plugin)
     {
+        if (!isset($GLOBALS['_MAX']['CONF']['plugins'][$plugin])) {
+            require_once LIB_PATH . '/Admin/Redirect.php';
+            OX_Admin_Redirect::redirect('plugin-index.php');
+        }
         $oTpl = new OA_Admin_Template('plugin-view.html');
         $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
         $aComponents = $aPackageInfo['contents'];
