@@ -726,15 +726,20 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // Determine the destination
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
-        $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : htmlspecialchars($ct0, ENT_QUOTES);
+        if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) != 'http') {
+            $ct0 = '';
+        }
         if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
             // Strip maxdest with SWF banners using clickTAG
             $maxdest = '';
         } else {
-            $maxdest = "{$del}{$conf['var']['dest']}={$ct0}{$dest}";
+            if (!empty($ct0)) {
+                $dest = $ct0.urlencode($dest);
+            }
+            $maxdest = "{$del}{$conf['var']['dest']}=".urlencode($dest);
         }
         $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
-        
+
         $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
         // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
         $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));

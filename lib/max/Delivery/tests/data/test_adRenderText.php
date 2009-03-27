@@ -77,7 +77,7 @@ $aBanner    =   array(
 );
 
 $expectNoBeacon =
-"<a href='http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/{$GLOBALS['_MAX']['CONF']['file']['click']}?{$conf['var']['params']}=2__{$conf['var']['adId']}=5__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http://www.m3.net' target='_blank'>m3 media services</a>";
+"<a href='http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/{$GLOBALS['_MAX']['CONF']['file']['click']}?{$conf['var']['params']}=2__{$conf['var']['adId']}=5__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.m3.net' target='_blank'>m3 media services</a>";
 $expect = $expectNoBeacon .
 "<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/{$GLOBALS['_MAX']['CONF']['file']['log']}?{$conf['var']['adId']}=5&amp;campaignid=1&amp;{$conf['var']['zoneId']}=0&amp;referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>";
 

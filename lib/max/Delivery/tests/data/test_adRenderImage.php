@@ -80,7 +80,7 @@ $aBanner = array (
 );
 
 $expect = "<a href='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
-    "/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=7__{$conf['var']['zoneId']}=0__cb={random}__{$conf['var']['dest']}=http://www.m3.net' target='{target}'>" .
+    "/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=7__{$conf['var']['zoneId']}=0__cb={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.m3.net' target='{target}'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['images'] .
     "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0' /></a>" .
     "<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .

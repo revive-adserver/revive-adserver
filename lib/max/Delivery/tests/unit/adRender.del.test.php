@@ -408,7 +408,66 @@ class test_DeliveryAdRender extends UnitTestCase
 		$conf = $GLOBALS['_MAX']['CONF'];
 
 		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http://www.somewhere.com");
+        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.somewhere.com");
+        preg_match('/(http.*?)$/', $ret, $m);
+        $this->assertEqual(urldecode($m[1]), $aBanner['url']);
+
+
+		$this->sendMessage('test_adRenderBuildParams');
+		$aBanner	= array('bannerid'=>'9999',
+							'url'=>'http://www.example.com/?foo+bar',
+							'contenttype'=>''
+							);
+		$zoneId		= 0;
+		$source		= '';
+		$ct0		= '';
+		$logClick	= true;
+		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
+		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.example.com%2F%3Ffoo%2Bbar");
+        preg_match('/(http.*?)$/', $ret, $m);
+        $this->assertEqual(urldecode($m[1]), $aBanner['url']);
+
+
+		$this->sendMessage('test_adRenderBuildParams');
+		$aBanner	= array('bannerid'=>'9999',
+							'url'=>'http://www.example.com/?foo+bar',
+							'contenttype'=>''
+							);
+		$zoneId		= 0;
+		$source		= '';
+		$ct0		= 'http://www.openx.org/ck.php?foo=bar&dest=';
+		$logClick	= true;
+		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
+		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.openx.org%2Fck.php%3Ffoo%3Dbar%26dest%3Dhttp%253A%252F%252Fwww.example.com%252F%253Ffoo%252Bbar");
+        preg_match('/(http.*?openx.org.*?)$/', $ret, $m);
+        preg_match('/=(http.*?)$/', urldecode($m[1]), $m);
+        $this->assertEqual(urldecode($m[1]), $aBanner['url']);
+
+
+        // Same as above, wrong ct0
+		$this->sendMessage('test_adRenderBuildParams');
+		$aBanner	= array('bannerid'=>'9999',
+							'url'=>'http://www.example.com/?foo+bar',
+							'contenttype'=>''
+							);
+		$zoneId		= 0;
+		$source		= '';
+		$ct0		= 'foobar';
+		$logClick	= true;
+		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
+		$ret = _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.example.com%2F%3Ffoo%2Bbar");
+        preg_match('/(http.*?)$/', $ret, $m);
+        $this->assertEqual(urldecode($m[1]), $aBanner['url']);
+
 
 		$aBanner	= array('bannerid'=>'9999',
 							'url'=>'http://www.somewhere.com',
@@ -441,7 +500,22 @@ class test_DeliveryAdRender extends UnitTestCase
 		$conf = $GLOBALS['_MAX']['CONF'];
 
 		$ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http://www.somewhere.com");
+        $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%3A%2F%2Fwww.somewhere.com");
+
+        // XSS via ct0
+		$aBanner	= array('bannerid'=>'9999',
+							'url'=>'http://www.somewhere.com',
+							'contenttype'=>''
+							);
+		$zoneId		= 0;
+		$source		= '';
+		$ct0		= 'http\'>XSS';
+		$logClick	= true;
+		$overrideDest = false;
+		$conf = $GLOBALS['_MAX']['CONF'];
+
+		$ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}__{$conf['var']['dest']}=http%27%3EXSShttp%253A%252F%252Fwww.somewhere.com");
 	}
 }
 
