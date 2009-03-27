@@ -44,8 +44,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     }
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-    $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-    
+    $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
+
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
@@ -53,20 +53,20 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     if (!$aContentKeys) {
         $aContentKeys = array();
     }
-    $content = $aContentKeys['content']; 
-    $iframeHeight = isset($aContentKeys['iframe-height']) 
-        ? $aContentKeys['iframe-height'] 
+    $content = $aContentKeys['content'];
+    $iframeHeight = isset($aContentKeys['iframe-height'])
+        ? $aContentKeys['iframe-height']
         : 260;
-    $submitLabel = isset($aContentKeys['submit-field-label']) 
-        ? $aContentKeys['submit-field-label'] 
+    $submitLabel = isset($aContentKeys['submit-field-label'])
+        ? $aContentKeys['submit-field-label']
         : 'Get Started';
-    $submitLabelRegistered = isset($aContentKeys['submit-field-label']) 
-        ? $aContentKeys['submit-field-label-registered'] 
+    $submitLabelRegistered = isset($aContentKeys['submit-field-label'])
+        ? $aContentKeys['submit-field-label-registered']
         : 'Continue';
-    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
-        ? $aContentKeys['tracker-iframe'] 
+    $trackerFrame = isset($aContentKeys['tracker-iframe'])
+        ? $aContentKeys['tracker-iframe']
         : '';
-    
+
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-info.html','openXMarket');
     $oTpl->assign('welcomeURL', $oMarketComponent->getConfigValue('marketWelcomeUrl'));
@@ -78,7 +78,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $oTpl->assign('iframeHeight', $iframeHeight);
     $oTpl->assign('trackerFrame', $trackerFrame);
     $oTpl->assign('content', $content);
-    
+
     $oTpl->display();
 
     //footer

@@ -50,7 +50,7 @@ class Test_OA_ConfParse extends UnitTestCase
      */
     function test_parseDeliveryIniFile()
     {
-        $host = getHostName();
+        $host = OX_getHostName();
 
         copy(MAX_PATH.'/lib/OA/tests/data/test.demo.conf.php',MAX_PATH.'/var/'.$host.'.test.demo.conf.php');
         copy(MAX_PATH.'/lib/OA/tests/data/test.real.conf.php',MAX_PATH.'/var/test.real.conf.php');

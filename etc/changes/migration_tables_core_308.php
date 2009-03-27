@@ -630,7 +630,7 @@ class Migration_308 extends Migration
 	   $geotracking_type, $geotracking_location, $geotracking_stats)
 	{
 	    $upgradeConfig = new OA_Upgrade_Config();
-	    $host = getHostName();
+	    $host = OX_getHostName();
 
 	    if (empty($geotracking_type) || $geotracking_type == 'ip2country') {
 	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);

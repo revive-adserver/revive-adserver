@@ -496,7 +496,7 @@ class MAX_Plugin
             $startPath  = MAX_PATH . '/plugins/';
         } else {
             if (is_null($host)) {
-                $host = getHostName();
+                $host = OX_getHostName();
             }
             $startPath  = MAX_PATH . $aConf['pluginPaths']['var'] . 'config/';
         }

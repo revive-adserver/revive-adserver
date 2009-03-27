@@ -163,7 +163,7 @@ function OA_setTimeZoneLocal()
  *
  * @return string containing the hostname (with port number stripped).
  */
-function getHostName()
+function OX_getHostName()
 {
     if (!empty($_SERVER['HTTP_HOST'])) {
         $host = explode(':', $_SERVER['HTTP_HOST']);
@@ -180,7 +180,7 @@ function getHostName()
  *
  * @return string containing the hostname with port
  */
-function getHostNameWithPort()
+function OX_getHostNameWithPort()
 {
     if (!empty($_SERVER['HTTP_HOST'])) {
         $host = $_SERVER['HTTP_HOST'];

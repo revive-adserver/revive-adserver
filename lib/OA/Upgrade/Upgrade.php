@@ -404,7 +404,7 @@ class OA_Upgrade
     {
         if ($confBackup)
         {
-            $host = getHostName();
+            $host = OX_getHostName();
             $confFile = $host.'.conf.php';
             if (file_exists(MAX_PATH.'/var/'.$confFile))
             {

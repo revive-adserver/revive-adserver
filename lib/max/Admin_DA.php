@@ -466,7 +466,7 @@ class Admin_DA
 
         // check if this method has defined different cache group
         $cacheGroups = $GLOBALS['_MAX']['Admin_DA']['cacheGroups'];
-        $options['defaultGroup'] = getHostName();
+        $options['defaultGroup'] = OX_getHostName();
         if(isset($cacheGroups[$method])) {
             $options['defaultGroup'] .= $cacheGroups[$method];
         }

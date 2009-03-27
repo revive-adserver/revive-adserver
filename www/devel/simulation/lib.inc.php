@@ -39,9 +39,9 @@ function check_environment()
     }
     else
     {
-        if (!file_exists(MAX_PATH . '/var/' . getHostName() . '.conf.php'))
+        if (!file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php'))
         {
-            copy(MAX_PATH . '/etc/sim.conf.php', MAX_PATH . '/var/' . getHostName() . '.conf.php');
+            copy(MAX_PATH . '/etc/sim.conf.php', MAX_PATH . '/var/' . OX_getHostName() . '.conf.php');
         }
     }
     if (!folder_is_writable(SIM_PATH.'/'.SCENARIOS_DATASETS))
@@ -68,11 +68,11 @@ function get_conf()
     {
         define('TEST_ENVIRONMENT_RUNNING', true);
     }
-    if (!file_exists(MAX_PATH . '/var/' . getHostName() . '.conf.php'))
+    if (!file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php'))
     {
         if (folder_is_writable(MAX_PATH.'/var'))
         {
-            copy(MAX_PATH . '/etc/sim.conf.php', MAX_PATH . '/var/' . getHostName() . '.conf.php');
+            copy(MAX_PATH . '/etc/sim.conf.php', MAX_PATH . '/var/' . OX_getHostName() . '.conf.php');
         }
     }
     require_once MAX_PATH.'/init-delivery-parse.php';
@@ -146,7 +146,7 @@ function write_sim_ini_file($confAll)
     require_once MAX_PATH.'/lib/max/other/common.php';
     $conf = MAX_commonSlashArray($conf);
     $content = parse_conf_for_ini_file($conf, $content, true);
-    if ($handle = fopen(MAX_PATH . '/var/' . getHostName() . '.conf.php', 'w'))
+    if ($handle = fopen(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php', 'w'))
     {
        fwrite($handle, $content);
        fclose($handle);

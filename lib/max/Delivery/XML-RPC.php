@@ -275,7 +275,7 @@ function OA_Delivery_XmlRpc_View($params)
     // Add $loc param
     $view_params[] =
         (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        getHostName().
+        OX_getHostName().
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
     $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -424,7 +424,7 @@ function OA_Delivery_XmlRpc_SPC($params)
     global $loc, $referer;
     $loc =
         (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        getHostName().
+        OX_getHostName().
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';

@@ -45,9 +45,9 @@ class Migration_601Test extends MigrationTest
 	    $this->host = $_SERVER['HTTP_HOST'];
 	    $_SERVER['HTTP_HOST'] = 'test1';
 
-		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = getHostName();
-        if (file_exists(MAX_PATH . '/var/' . getHostName() . '.conf.php')) {
-            unlink(MAX_PATH . '/var/' . getHostName() . '.conf.php');
+		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = OX_getHostName();
+        if (file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php')) {
+            unlink(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php');
         }
         // Tests in this class need to use the "real" configuration
         // file writing method, not the one reserved for the test
@@ -59,9 +59,9 @@ class Migration_601Test extends MigrationTest
 
 	function tearDown()
 	{
-        if (file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))
+        if (file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))
         {
-            @unlink(MAX_PATH.'/var/'.getHostName().'.conf.php');
+            @unlink(MAX_PATH.'/var/'.OX_getHostName().'.conf.php');
         }
 	    $_SERVER['HTTP_HOST'] = $this->host;
 
@@ -148,7 +148,7 @@ class Migration_601Test extends MigrationTest
         );
         $this->assertEqual($aBanners, $aExpectedBanners);
 
-        $aConf = parse_ini_file(MAX_PATH . '/var/' . getHostName() . '.conf.php', true);
+        $aConf = parse_ini_file(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php', true);
         $oxMaxMindGeoIP = array(
             'geoipCountryLocation' => '/path/to/geoipCountryLocation.dat',
             'geoipRegionLocation' => '/path/to/geoipRegionLocation.dat',
@@ -170,7 +170,7 @@ class Migration_601Test extends MigrationTest
      */
     function createConfigIfNotExists()
     {
-        if (!(file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))) {
+        if (!(file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))) {
         	$oConfig = new OA_Upgrade_Config();
         	$oConfig->putNewConfigFile();
         	$oConfig->writeConfig(true);
@@ -185,7 +185,7 @@ class Migration_601Test extends MigrationTest
      */
     function checkGlobalConfigConsists($testSection, $testArray)
     {
-        $host = getHostName();
+        $host = OX_getHostName();
     	$configPath = MAX_PATH . "/var/$host.conf.php";
     	if ($this->assertTrue(file_exists($configPath), "File: '$configPath' should exist!")) {
             $aContents = parse_ini_file($configPath, true);

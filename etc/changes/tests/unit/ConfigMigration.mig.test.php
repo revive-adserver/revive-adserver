@@ -51,7 +51,7 @@ class ConfigMigrationTest extends UnitTestCase
 	    $this->host = $_SERVER['HTTP_HOST'];
 	    $_SERVER['HTTP_HOST'] = 'test1';
 
-		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = getHostName();
+		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = OX_getHostName();
 
 		// set up test folders
     	$this->moduleDir = MAX_PATH . '/var/plugins/config/testModule';
@@ -69,9 +69,9 @@ class ConfigMigrationTest extends UnitTestCase
         // Resume normal service with regards to the configuration file writer...
         unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
 
-        if (file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))
+        if (file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))
         {
-            @unlink(MAX_PATH.'/var/'.getHostName().'.conf.php');
+            @unlink(MAX_PATH.'/var/'.OX_getHostName().'.conf.php');
         }
 	    $_SERVER['HTTP_HOST'] = $this->host;
 	}
@@ -120,11 +120,11 @@ class ConfigMigrationTest extends UnitTestCase
         $this->assertTrue(file_exists($this->moduleDir.'/test_host.plugin.conf.php'));
         $this->assertTrue(file_exists($this->packageDir.'/test_host.plugin.conf.php'));
 
-        @unlink($this->packageDir.'/'.getHostName().'.plugin.conf.php');
+        @unlink($this->packageDir.'/'.OX_getHostName().'.plugin.conf.php');
         @unlink($this->packageDir.'/test_host.plugin.conf.php');
         @unlink($this->packageDir);
 
-        @unlink($this->moduleDir.'/'.getHostName().'.plugin.conf.php');
+        @unlink($this->moduleDir.'/'.OX_getHostName().'.plugin.conf.php');
         @unlink($this->moduleDir.'/test_host.plugin.conf.php');
         @unlink($this->moduleDir);
     }
@@ -137,7 +137,7 @@ class ConfigMigrationTest extends UnitTestCase
      */
     function checkGlobalConfigConsists($testSection, $testArray)
     {
-        $host = getHostName();
+        $host = OX_getHostName();
     	$configPath = MAX_PATH . "/var/$host.conf.php";
     	if ($this->assertTrue(file_exists($configPath), "File: '$configPath' should exist!")) {
             $aContents = parse_ini_file($configPath, true);
@@ -153,7 +153,7 @@ class ConfigMigrationTest extends UnitTestCase
      */
     function createConfigIfNotExists()
     {
-        if (!(file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))) {
+        if (!(file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))) {
         	$oConfig = new OA_Upgrade_Config();
         	$oConfig->putNewConfigFile();
         	$oConfig->writeConfig(true);

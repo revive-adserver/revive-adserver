@@ -63,7 +63,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         }
         $host = trim($GLOBALS['argv'][1]);
     } else {
-        $host = getHostName();
+        $host = OX_getHostName();
     }
     // Is the system running the test environment?
     if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {

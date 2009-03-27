@@ -306,7 +306,7 @@ class TestEnv
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
-            $host = getHostName();
+            $host = OX_getHostName();
             $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
             if (file_exists($testFilePath)) {
                 return $testFilePath;

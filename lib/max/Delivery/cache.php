@@ -52,7 +52,7 @@ define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
  */
 $GLOBALS['OA_Delivery_Cache'] = array(
     'prefix' => 'deliverycache_',
-    'host'   => getHostName(),
+    'host'   => OX_getHostName(),
     'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
 

@@ -88,7 +88,7 @@ class Migration_tables_core_108Test extends MigrationTest
         }
 
         $upgradeConfig = new OA_Upgrade_Config();
-        $host = getHostName();
+        $host = OX_getHostName();
 
         $migration = new Migration_108();
         $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');

@@ -684,7 +684,7 @@ class Test_OA_Upgrade extends UnitTestCase
      */
     function test_recoverUpgrade()
     {
-        $host = getHostName();
+        $host = OX_getHostName();
         $confFile = $host.'.conf.php';
         if (file_exists(MAX_PATH.'/var/test_'.$confFile))
         {

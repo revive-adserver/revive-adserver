@@ -50,7 +50,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     if ($configFile) {
         $configFile = '.' . $configFile;
     }
-    $host = getHostName();
+    $host = OX_getHostName();
     $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
     $conf = @parse_ini_file($configFileName, $sections);
     if (isset($conf['realConfig'])) {

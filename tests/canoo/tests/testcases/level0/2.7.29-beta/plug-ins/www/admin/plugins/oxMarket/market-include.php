@@ -59,8 +59,8 @@ phpAds_registerGlobalUnslashed('p_url');
     }
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-    $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-    
+    $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
+
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
@@ -69,7 +69,7 @@ phpAds_registerGlobalUnslashed('p_url');
     $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
     $oTpl->assign('pubconsolePageId', $p_url);
     $oTpl->assign('pageUrl', urlencode($pageUrl));
-    
+
     $oTpl->display();
 
     //footer

@@ -261,7 +261,7 @@ class OA_Auth
                 // The user is not in the "admin" folder directly. Are they
                 // in the admin folder as a result of a "full" virtual host
                 // configuration?
-                if ($aConf['webpath']['admin'] != getHostName()) {
+                if ($aConf['webpath']['admin'] != OX_getHostName()) {
                     // Not a "full" virtual host setup, so re-direct
                     $redirect = true;
                 }

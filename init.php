@@ -113,19 +113,19 @@ function init()
                 {
                     // The root index.php page was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostNameWithPort() . $path . '/www/admin/install.php';
+                           OX_getHostNameWithPort() . $path . '/www/admin/install.php';
                     header($location);
                 } elseif (defined('WWW_INDEX'))
                 {
                     // The index.php page in /www was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostNameWithPort() . $path . '/admin/install.php';
+                           OX_getHostNameWithPort() . $path . '/admin/install.php';
                     header($location);
                 } else
                 {
                     // The index.php page in /www/admin was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostNameWithPort() . $path . '/install.php';
+                           OX_getHostNameWithPort() . $path . '/install.php';
                     header($location);
                 }
                 exit();

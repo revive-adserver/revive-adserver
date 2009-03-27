@@ -67,7 +67,7 @@ class OA_Upgrade_Config
             $this->configFile = $realConfig.'.conf.php';
             return true;
         }
-        $host = getHostName();
+        $host = OX_getHostName();
         if (file_exists($host.'.conf.php'))
         {
             $this->configFile = $host.'.conf.php';
@@ -84,7 +84,7 @@ class OA_Upgrade_Config
 
     function isMaxConfigFile()
     {
-        $host = getHostName();
+        $host = OX_getHostName();
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
@@ -95,7 +95,7 @@ class OA_Upgrade_Config
 
     function replaceMaxConfigFileWithOpenadsConfigFile()
     {
-        $host = getHostName();
+        $host = OX_getHostName();
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
@@ -137,7 +137,7 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Openads' root directory so can guess at all locations
             $subpath = preg_replace('#/www/admin$#', '', $path);
-            $basepath = getHostNameWithPort() . $subpath. '/www/';
+            $basepath = OX_getHostNameWithPort() . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
             $this->setValue('webpath', 'delivery', $basepath.'delivery');
             $this->setValue('webpath', 'deliverySSL', $basepath.'delivery');
@@ -148,7 +148,7 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Openads' /www directory so can guess at all locations
             $subpath = preg_replace('#/admin$#', '', $path);
-            $basepath = getHostName() . $subpath. '';
+            $basepath = OX_getHostName() . $subpath. '';
             $this->setValue('webpath', 'admin', $basepath.'/admin');
             $this->setValue('webpath', 'delivery', $basepath.'/delivery');
             $this->setValue('webpath', 'deliverySSL', $basepath.'/delivery');
@@ -158,11 +158,11 @@ class OA_Upgrade_Config
         else
         {
             // User has web root configured as Openads' www/admin directory so can only guess the admin location
-            $this->setValue('webpath', 'admin'   , getHostName());
-            $this->setValue('webpath', 'delivery', getHostName());
-            $this->setValue('webpath', 'images', getHostName());
-            $this->setValue('webpath', 'deliverySSL', getHostName());
-            $this->setValue('webpath', 'imagesSSL', getHostName());
+            $this->setValue('webpath', 'admin'   , OX_getHostName());
+            $this->setValue('webpath', 'delivery', OX_getHostName());
+            $this->setValue('webpath', 'images', OX_getHostName());
+            $this->setValue('webpath', 'deliverySSL', OX_getHostName());
+            $this->setValue('webpath', 'imagesSSL', OX_getHostName());
         }
     }
 

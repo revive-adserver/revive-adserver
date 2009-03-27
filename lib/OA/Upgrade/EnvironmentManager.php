@@ -264,7 +264,7 @@ class OA_Environment_Manager
 
         // IS ANY OF THIS NECESSARY NOW THAT WE EXPECT VAR RECURSIVELY WRITEABLE?
         /*if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
-            $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
+            $configFile = MAX_PATH . '/var/' . OX_getHostName() . '.conf.php';
             if (file_exists($configFile)) {
                 // Test if *this* config file can be written to, as the
                 // installer might need to do this later
@@ -554,7 +554,7 @@ class OA_Environment_Manager
         increaseMemoryLimit($memoryLimit + 1);
         $newMemoryLimit = getMemorySizeInBytes();
         $memoryCanBeSet = ($memoryLimit != $newMemoryLimit);
-        
+
         // Restore previous limit
         @ini_set('memory_limit', $memoryLimit);
         return $memoryCanBeSet;

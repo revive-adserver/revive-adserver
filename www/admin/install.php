@@ -434,13 +434,13 @@ else if (array_key_exists('btn_plugins', $_POST))
         {
             OA_Permission::switchToSystemProcessUser('Installer');
             $aAdminInfo = $_POST['aAdmin'];
-			
+
             // we set the default from: in OpenX emails to the administrator's email
             if(empty($GLOBALS['_MAX']['CONF']['email']['fromAddress'])) {
                 $oUpgrader->oConfiguration->setValue('email', 'fromAddress', $aAdminInfo['email']);
                 $oUpgrader->oConfiguration->writeConfig(true);
             }
-			
+
             // Save admin credentials
             $oUpgrader->putAdmin($aAdminInfo);
 
@@ -479,7 +479,7 @@ else if (array_key_exists('btn_plugins', $_POST))
         if (!$importErrors) {
             // Use current url as base path for calling install-plugin
             $baseInstalUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-            $baseInstalUrl .= getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
+            $baseInstalUrl .= OX_getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
 
             if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
             {

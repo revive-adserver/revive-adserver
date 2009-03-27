@@ -46,7 +46,7 @@ define('TEST_ENVIRONMENT_RUNNING', true);
 require_once 'lib.inc.php';
 
 $conf['simdb'] = $conf['database'];
-$conf['realConfig'] = getHostName();
+$conf['realConfig'] = OX_getHostName();
 
 global $is_simulation;
 $is_simulation = true;
