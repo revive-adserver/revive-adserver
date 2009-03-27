@@ -56,7 +56,7 @@ $configPath = MAX_PATH . '/var';
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
-$host = getHostName();
+$host = OX_getHostName();
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, $sections);
 if (isset($conf['realConfig'])) {
@@ -198,7 +198,7 @@ function OA_setTimeZoneLocal()
 $tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
 OA_setTimeZone($tz);
 }
-function getHostName()
+function OX_getHostName()
 {
 if (!empty($_SERVER['HTTP_HOST'])) {
 $host = explode(':', $_SERVER['HTTP_HOST']);
@@ -209,7 +209,7 @@ $host = $host[0];
 }
 return $host;
 }
-function getHostNameWithPort()
+function OX_getHostNameWithPort()
 {
 if (!empty($_SERVER['HTTP_HOST'])) {
 $host = $_SERVER['HTTP_HOST'];
@@ -643,7 +643,7 @@ $configPath = MAX_PATH . '/var';
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
-$host = getHostName();
+$host = OX_getHostName();
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, $sections);
 if (isset($conf['realConfig'])) {
@@ -2350,7 +2350,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = array(
 'prefix' => 'deliverycache_',
-'host'   => getHostName(),
+'host'   => OX_getHostName(),
 'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
 function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
@@ -3309,7 +3309,7 @@ $view_params[] = '';
 // Add $loc param
 $view_params[] =
 (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-getHostName().
+OX_getHostName().
 $_SERVER['REQUEST_URI'];
 // Add $referer parameter
 $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -3410,7 +3410,7 @@ $context = array();
 global $loc, $referer;
 $loc =
 (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-getHostName().
+OX_getHostName().
 $_SERVER['REQUEST_URI'];
 // Add $referer parameter
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
