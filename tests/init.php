@@ -46,7 +46,7 @@ require_once 'PEAR.php';
 function init()
 {
     // Disable notices, but enable warnings
-    error_reporting(E_ALL ^ E_NOTICE);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
     // Always include the configuration file
     include_once MAX_PATH . '/tests/config.php';
 

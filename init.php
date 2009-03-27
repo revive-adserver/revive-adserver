@@ -75,7 +75,7 @@ function init()
     setupConfigVariables();
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
     // If not being called from the installation script...
     if ( (!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed']) )
     {

@@ -48,6 +48,11 @@ function setupConstants()
     }
     define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 
+    // PHP 5.3 compatibility
+    if (!defined('E_DEPRECATED')) {
+        define('E_DEPRECATED', 0);
+    }
+
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
     define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
