@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    MaxDelivery
+ * @package    OpenXDelivery
  * @author     Chris Nutting <chris.nutting@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
@@ -41,11 +41,12 @@ $Id$
  *   existing files
  */
 
-/**
- * Main part of script where data is initialized for delivery
- */
 require_once 'init-delivery-parse.php';
+require_once 'memory.php';
 require_once 'variables.php';
+
+// Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
+OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 
 setupServerVariables();
 setupDeliveryConfigVariables();
@@ -54,7 +55,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 // Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 
-// Disable all notices and warnings, 
+// Disable all notices and warnings,
 // as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);

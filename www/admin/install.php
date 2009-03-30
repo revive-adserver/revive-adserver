@@ -48,10 +48,6 @@ $installing = true;
 error_reporting(E_ERROR);
 
 require_once '../../init.php';
-
-//require_once MAX_PATH.'/lib/OA.php';
-//OA::logMem('start installer');
-
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
@@ -69,17 +65,8 @@ if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INS
     OX_Admin_Redirect::redirect('advertiser-index.php');
 }
 
-// setup oUpgrader, determine whether they are installing or that they can Upgrade
+// Setup oUpgrader
 $oUpgrader = new OA_Upgrade();
-$oSystemMgr = &$oUpgrader->oSystemMgr;
-$oSystemMgr->getAllInfo();
-if (!$oSystemMgr->checkMemory()) {
-    $memory = getMinimumRequiredMemory() / 1048576;
-    echo '<link rel="stylesheet" type="text/css" href="' . OX::assetPath() . '/css/install.css"/><br />';
-    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="' . OX_PRODUCT_DOCSURL . '/requirements" target="_blank" style="color: #990000">required</a> by OpenX is <b>'. $memory
-        .' MB</b>. <br />Please <a href="http://www.openx.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
-    exit(1);
-}
 
 @set_time_limit(600);
 

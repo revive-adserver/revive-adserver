@@ -26,7 +26,7 @@ $Id: init-delivery-parse.php 6120 2007-04-30 01:55:40Z aj@seagullproject.org $
 */
 
 /**
- * @package    Max
+ * @package    OpenXDelivery
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
@@ -119,6 +119,5 @@ if (!function_exists('mergeConfigFiles'))
         return $realConfig;
     }
 }
-
 
 ?>

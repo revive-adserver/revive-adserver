@@ -65,12 +65,6 @@ function setupConstants()
     define('OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', 3);
     define('OX_CAMPAIGN_TYPE_ECPM', 4);
 
-
-
-    // This old PAN constant is used in a couple places but could well conflict with the configured DB
-    // TODO: find any uses of this constant and re-think their place.
-    //define('phpAds_dbmsname', 'MySQL');
-
     // Database connection constants
     define('MAX_DSN_ARRAY',                 0);
     define('MAX_DSN_STRING',                1);
@@ -214,13 +208,6 @@ function setupConstants()
 
     // Do not overload DataObjects as it allows us to work with 4.3.10
     define('DB_DATAOBJECT_NO_OVERLOAD', true);
-
-    // define minimum amount of required memory
-    $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
-        'PHP5' => 25165824,  // 24MB in bytes - required by >PHP5.2
-        'PLUGINS' => 67108864,  // 64MB in bytes - Since we can't really know how much memory intalling a plugin may take
-        'MAINTENANCE' => 134217728  // 128MB - try to set this value inside all maintenance scripts
-    );
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {

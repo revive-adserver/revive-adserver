@@ -81,7 +81,7 @@ class OX_Plugin_ComponentGroupManager
         $this->pathPluginsAdmin = $aConf['pluginPaths']['admin'];
         $this->pathDataObjects  = $aConf['pluginPaths']['var'] . 'DataObjects/';
         // Attempt to increase the memory limit when using the plugin manager
-        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['PLUGINS']);
+        OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('plugin'));
         $this->basePath = MAX_PATH;
     }
 
@@ -2157,12 +2157,12 @@ class OX_Plugin_ComponentGroupManager
         $aGroup = $this->parseXML($file);
         return $aGroup['install']['conf'];
     }
-    
+
     /**
      *
      * @param string $name The name of the group
      * @param bolean $visibleOnly Should only visible settings be returned?
-     * 
+     *
      * @return array The array of settings for this component group
      */
     function getComponentGroupSettings($name, $visibleOnly = false)

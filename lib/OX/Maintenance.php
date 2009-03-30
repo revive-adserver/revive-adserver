@@ -97,7 +97,7 @@ class OX_Maintenance
             OA::debug();
             OA::debug('Running Maintenance Engine', PEAR_LOG_INFO);
             // Attempt to increase PHP memory
-            increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+            OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
             // Set UTC timezone
             OA_setTimeZoneUTC();
             // Get last run

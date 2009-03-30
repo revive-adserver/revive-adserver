@@ -79,7 +79,7 @@ class OA_Maintenance_Priority
         }
 
         // Attempt to increase PHP memory
-        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+        OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
 
         // Run the following code as the "Maintenance" user
         OA_Permission::switchToSystemProcessUser('Maintenance');

@@ -77,7 +77,7 @@ class OX_Maintenance_Distributed
         OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
 
         // Attempt to increase PHP memory
-        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+        OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
 
         // Ensure the current time is registered with the OA_ServiceLocator
         $oServiceLocator =& OA_ServiceLocator::instance();

@@ -64,7 +64,13 @@
                 $sysinfoarray['actual']['memory_limit'] = $sysinfoarray['actual']['memory_limit'] / 1048576;
                 $sysinfoarray['actual']['memory_limit'] .= ' MB';
             }
-            $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['error'][OA_ENV_ERROR_PHP_MEMORY] ? $sysinfoarray['actual']['memory_limit'].' '.$errorImage : $sysinfoarray['actual']['memory_limit'].' '.$passImage );
+            if ($sysinfoarray['error'][OA_ENV_ERROR_PHP_MEMORY]) {
+                $sysinfoarray['actual']['memory_limit'] = $sysinfoarray['actual']['memory_limit'].' '.$errorImage;
+            } else if ($sysinfoarray['warning'][OA_ENV_WARNING_MEMORY]) {
+                $sysinfoarray['actual']['memory_limit'] = $sysinfoarray['actual']['memory_limit'].' '.$warnImage;
+            } else {
+                $sysinfoarray['actual']['memory_limit'] = $sysinfoarray['actual']['memory_limit'].' '.$passImage;
+            }
 
             $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);

@@ -150,10 +150,16 @@ class OA_Environment_Manager
     {
         $aResult['version'] = phpversion();
 
-        $aResult['memory_limit'] = getMemorySizeInBytes();
+        $aResult['memory_limit'] = OX_getMemoryLimitSizeInBytes();
         if ($aResult['memory_limit'] == -1) {
             $aResult['memory_limit'] = OA_MEMORY_UNLIMITED;
         }
+
+        $aResult['original_memory_limit'] = $GLOBALS['_OX']['ORIGINAL_MEMORY_LIMIT'];
+        if ($aResult['original_memory_limit'] == -1) {
+            $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
+        }
+
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode']            = ini_get('safe_mode');
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
@@ -252,79 +258,6 @@ class OA_Environment_Manager
             $aErrors[] = $aFile;
         }
 
-        // If upgrading, must also be able to write to:
-        //  - The configuration file(s) (if the web hosts is the same as
-        //    it was, the user cannot have the config file locked, as
-        //    new items might need to be merged into the config file(s)).
-        //  - The default configuration file, if it exists, needs to
-        //    be able to be written to by the web server also.
-        //  - The INSTALLED file needs to be able to be "touched",
-        //    as this is done for all upgrades/installs.
-
-
-        // IS ANY OF THIS NECESSARY NOW THAT WE EXPECT VAR RECURSIVELY WRITEABLE?
-        /*if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
-            $configFile = MAX_PATH . '/var/' . OX_getHostName() . '.conf.php';
-            if (file_exists($configFile)) {
-                // Test if *this* config file can be written to, as the
-                // installer might need to do this later
-                if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                    $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
-                } else {
-                    $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
-                }
-                // Test if this configuration file is the real one or not
-                // by looking for a realConfig value
-                $aUpgradeConfig = @parse_ini_file($configFile, true);
-                if (!empty($aUpgradeConfig['realConfig'])) {
-                    // This is not the real configuration file! Use
-                    // the one suggested instead
-                    $configFile = MAX_PATH . '/var/' . $aUpgradeConfig['realConfig'] . '.conf.php';
-                    $aUpgradeConfig = @parse_ini_file($configFile, true);
-                }
-                // Now inspect the possible configuration file(s) that
-                // may exist, based on the webpaths in use
-                $aPossibleConfigFiles = array();
-                if (!empty($aUpgradeConfig['webpath']['admin'])) {
-                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['admin']);
-                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
-                }
-                if (!empty($aUpgradeConfig['webpath']['delivery'])) {
-                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['delivery']);
-                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
-                }
-                if (!empty($aUpgradeConfig['webpath']['deliverySSL'])) {
-                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['deliverySSL']);
-                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
-                }
-                $aPossibleConfigFiles = array_unique($aPossibleConfigFiles);
-                if (!empty($aPossibleConfigFiles)) {
-                    foreach ($aPossibleConfigFiles as $configFile) {
-                        if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                            $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
-                        } else {
-                            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
-                        }
-                    }
-                }
-            }
-            // Test the default.conf.php file
-            $configFile = MAX_PATH . '/var/default.conf.php';
-            if (file_exists($configFile)) {
-                if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                    $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
-                } else {
-                    $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
-                }
-            }
-            $installerFile = MAX_PATH . '/var/INSTALLED';
-            if (file_exists($installerFile)) {
-                if (!$this->isWritable($installerFile)) {
-                    $aErrors[] = $this->buildFilePermArrayItem($installerFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
-                }
-            }
-        }*/
-
         return $aErrors;
     }
 
@@ -366,27 +299,6 @@ class OA_Environment_Manager
         $this->_checkCriticalFilePermissions();
         $this->_checkCriticalFiles();
         return $this->aInfo;
-    }
-
-    /**
-     * Check if amount of memory is enough for our application
-     *
-     * @return boolean  True if amount of memory is enough, else false
-     */
-    function checkMemory()
-    {
-        $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
-        $expected = getMinimumRequiredMemory();
-        // Warn (not error) if the memory limit can't be increased
-        if  (!$this->_checkMemoryCanBeSet())
-        {
-            $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY] = "The <a href='http://php.net/ini.core#ini.memory-limit' target='_blank'>memory_limit</a> cannot be set by PHP, some parts of the product may not function correctly";
-        }
-        if ($memlim != OA_MEMORY_UNLIMITED && ($memlim > 0) && ($memlim < $expected))
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -450,12 +362,17 @@ class OA_Environment_Manager
             $this->aInfo['PHP']['error'] = false;
         }
 
-        // Test the PHP configuration's memory_limit value
-        if (!$this->checkMemory())
-        {
-            $result = OA_ENV_ERROR_PHP_MEMORY;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'The memory_limit value needs to be increased';
+        // Test the original memory_limit
+        if (!$this->checkOriginalMemory()) {
+            $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY] =
+                MAX_PRODUCT_NAME . " requires a minimum of " . (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB to run successfully, although " .
+                "some parts of the application will increase this limitation if required. The current 'memory_limit' value is set to " .
+                ($this->aInfo['PHP']['actual']['original_memory_limit'] / 1048576) . " MB, so " . MAX_PRODUCT_NAME . " has automatically increased " .
+                "this limit. If possible, please increase the 'memory_limit' value to a minimum of " . (OX_getMemoryLimitSizeInBytes() / 1048576) .
+                " MB before continuing.";
         }
+        // Ensure that the original memory_limit is not displayed in the systems screen
+        unset($this->aInfo['PHP']['actual']['original_memory_limit']);
 
         // Test the PHP configuration's safe_mode value
         if ($this->aInfo['PHP']['actual']['safe_mode'])
@@ -495,6 +412,24 @@ class OA_Environment_Manager
         }
 
         return $result;
+    }
+
+    /**
+     * Check if the original memory_limit had to be worked around to allow
+     * OpenX to work
+     *
+     * @return boolean True if the original memory_limit was okay, false otherwise
+     */
+    function checkOriginalMemory()
+    {
+        $return = true;
+        $originalLimit = $this->aInfo['PHP']['actual']['original_memory_limit'];
+        $requiredLimit = OX_getMemoryLimitSizeInBytes();
+        if ($originalLimit != OA_MEMORY_UNLIMITED && ($originalLimit > 0) && ($originalLimit < $requiredLimit))
+        {
+            $return = false;
+        }
+        return $return;
     }
 
     /**
@@ -542,22 +477,6 @@ class OA_Environment_Manager
     {
         $this->aInfo['FILES']['error'] = false;
         return true;
-    }
-
-    function _checkMemoryCanBeSet()
-    {
-        $memoryLimit = getMemorySizeInBytes();
-        // Unlimited memory, no need to check if it can be set
-        if ($memoryLimit == -1) {
-            return true;
-        }
-        increaseMemoryLimit($memoryLimit + 1);
-        $newMemoryLimit = getMemorySizeInBytes();
-        $memoryCanBeSet = ($memoryLimit != $newMemoryLimit);
-
-        // Restore previous limit
-        @ini_set('memory_limit', $memoryLimit);
-        return $memoryCanBeSet;
     }
 }
 

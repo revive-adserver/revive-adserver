@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    MaxDelivery
+ * @package    OpenX
  * @author     Chris Nutting <chris.nutting@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
@@ -40,7 +40,6 @@ $Id$
  * - We have as few as possible includes and add new code into
  *   existing files.
  */
-
 
 /**
  * Setup common variables - used by both delivery and admin part as well
@@ -206,70 +205,6 @@ function setupIncludePath()
     $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 
     set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
-}
-
-/**
- * Returns minimum required amount of memory for used PHP version
- *
- * @return integer  Required minimum amount of memory (in bytes)
- */
-function getMinimumRequiredMemory()
-{
-    return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'];
-}
-
-/**
- * Set a minimum amount of memory required by Openads
- *
- * @param integer $setMemory  A new memory limit (in bytes)
- * @return boolean  true if memory is already bigger or when an attempt to
- *                  set a memory was succesfull, else false
- */
-function increaseMemoryLimit($setMemory) {
-
-    $memory = getMemorySizeInBytes();
-    if ($memory == -1) {
-        // unlimited
-        return true;
-    }
-
-    if ($setMemory > $memory) {
-        if (@ini_set('memory_limit', $setMemory) === false) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/**
- * Check how much memory is available for php, converts it into bytes and returns.
- *
- * @param mixed $size The size to be converted
- * @return mixed
- */
-function getMemorySizeInBytes() {
-    $phpMemory = ini_get('memory_limit');
-    if (empty($phpMemory) || $phpMemory == -1) {
-        // unlimited
-        return -1;
-    }
-
-    $aSize = array(
-        'G' => 1073741824,
-        'M' => 1048576,
-        'K' => 1024
-    );
-    $size = $phpMemory;
-    foreach($aSize as $type => $multiplier) {
-        $pos = strpos($phpMemory, $type);
-        if (!$pos) {
-            $pos = strpos($phpMemory, strtolower($type));
-        }
-        if ($pos) {
-            $size = substr($phpMemory, 0, $pos) * $multiplier;
-        }
-    }
-    return $size;
 }
 
 ?>

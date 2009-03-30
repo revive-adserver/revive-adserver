@@ -69,13 +69,17 @@ function init()
 
     // Set up server variables
     setupServerVariables();
+
     // Set up the UI constants
     setupConstants();
+
     // Set up the common configuration variables
     setupConfigVariables();
+
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
+
     // If not being called from the installation script...
     if ( (!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed']) )
     {
@@ -132,14 +136,18 @@ function init()
             }
         }
     }
+
     // Start PHP error handler
     $conf = $GLOBALS['_MAX']['CONF'];
     include_once MAX_PATH . '/lib/max/ErrorHandler.php';
     $eh = new MAX_ErrorHandler();
     $eh->startHandler();
 
-    // increase amount of required memory if necessery
-    increaseMemoryLimit(getMinimumRequiredMemory());
+    // Store the original memory limit before changing it
+    $GLOBALS['_OX']['ORIGINAL_MEMORY_LIMIT'] = OX_getMemoryLimitSizeInBytes();
+
+    // Increase the PHP memory_limit value to the OpenX minimum required value, if necessary
+    OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 }
 
 // Run the init() function

@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -32,6 +33,8 @@ $Id$
  * to be run or not.
  */
 
+require_once 'memory.php';
+
 /**
  * A function to check system settings and display detected problems
  */
@@ -40,19 +43,19 @@ function OX_initialSystemCheck(){
     $installed = OX_checkSystemInstalled();
     $aErrors = array();
     $erorCode = OX_checkSystemInitialRequirements($aErrors);
-    if ($erorCode!==true) {
+    if ($erorCode !== true) {
         $imageRelativePath = "./www/admin/precheck/";
-        if ($erorCode != -3) { //strpos & parse_url aren't missing
-            // try to guess proper relative Path
-            // cecking if url include www or admin in path
+        // Do functions strpos & parse_url exist? If so, try to
+        // guess the proper relative path...
+        if ($erorCode != -2) {
+            // Checking if URL include www or admin in path
             if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
                 $imageRelativePath = "./precheck/";
             } else if (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
                 $imageRelativePath = "./admin/precheck/";
             }
         }
-
-        // We always trying show images in css
+        // We always trying show images in CSS
         $bodyBackground = "url('{$imageRelativePath}body_piksel.gif') repeat-x";
         $liBackground = "background: url('{$imageRelativePath}list_element.gif') no-repeat;";
         $openXLogo = "background: url('{$imageRelativePath}openx_logo.gif') no-repeat;";
@@ -199,69 +202,110 @@ function OX_checkSystemInstalled()
  * imposible, or results in unformated error output, due to system
  * configuration.
  *
- * @param &$aErrors Array of error mesages.
+ * @param &$aErrors Array of error mesages. All errors that it is possible to
+ *                  detect will be set, regardless of the function return value.
  * @return bool|int True on system check OK, negative int value on detected problems.
- *                         -1 => function_exists doesn't exists
- *                         -2 => detected more missing functions
- *                         -3 => strpos or parse_url are missing
+ *                         -1 => The "function_exists" built-in function doesn't exist
+ *                         -2 => At least one of the "strpos" or "parse_url" built-in
+ *                               functions don't exist
+ *                         -3 => One of the other required built-in functions was
+ *                               detected as being disabled
+ *                         -4 => The amount of memory required was too low
+ *
  */
 function OX_checkSystemInitialRequirements(&$aErrors){
-    // List of functions required to run OpenX, exlcuding
-    // the functions "function_exists", "ini_get", "explode",
-    // "trim" and "array_intersect", as these functions are
-    // all treated with special tests in this method
+
+    // Variables for tracking if the test has passed or not,
+    // and if not, what value to return
+    $isSystemOK = true;
+    $return = true;
+
+    // The general list of built in PHP functions that are required to
+    // run OpenX, apart from the functions:
+    //
+    //   - "function_exists"
+    //   - "array_intersect"
+    //   - "explode"
+    //   - "ini_get"
+    //   - "trim"
+    //   - "parse_url"
+    //   - "strpos"
+    //
+    // These other functions are tested separately, as they are
+    // required to test for the existence of the functions in the
+    // array below!
     $aRequiredFunctions = array(
         'dirname',
         'empty',
         'file_exists',
+        'ini_set',
         'parse_ini_file',
         'version_compare'
     );
+
     // Prepare error strings, in the simplest possible way
     $errorString1 = 'The built in PHP function "';
     $errorString2 = '" is in the "disable_functions" list in your "php.ini" file.';
+
     // Need "function_exists" to be able to test for functions required
     // for testing what is in the "disabled_functions" list
     if (!function_exists('function_exists')) {
         $aErrors[] = $errorString1 . 'function_exists' . $errorString2;
+        // Cannot detect any more errors, as function_exists is
+        // needed to detect the required functions!
         return -1;
     }
-    // Test for existence of "ini_get", "explode", "trim" and
-    // "array_intersect", which are all required as part of
-    // testing what is in the "disabled_functions" list
-    $isSystemOK = true;
-    $errorCode = -2;
-    // Tests parse_url and strpos in first place, to get knowlege how to display error message
+
+    // Test for existence of "parse_url" and "strpos", which are
+    // special cases required for the display of the error message
+    // in the event of anything failing in this test!
     if (!function_exists('parse_url')) {
         $aErrors[] = $errorString1 . 'parse_url' . $errorString2;
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -2;
+        }
     }
     if (!function_exists('strpos')) {
         $aErrors[] = $errorString1 . 'strpos' . $errorString2;
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -2;
+        }
     }
-    if (!$isSystemOK) {
-        $errorCode = -3;
-    }
-    if (!function_exists('ini_get')) {
-        $aErrors[] = $errorString1 . 'ini_get' . $errorString2;
+
+    // Test for existence of "array_intersect", "explode", "ini_get"
+    // and "trim", which are all required as part of the code to test
+    // which functions are in the "disabled_functions" list below...
+    if (!function_exists('array_intersect')) {
+        $aErrors[] = $errorString1 . 'array_intersect' . $errorString2;
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
+        }
     }
     if (!function_exists('explode')) {
         $aErrors[] = $errorString1 . 'explode' . $errorString2;
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
+        }
+    }
+    if (!function_exists('ini_get')) {
+        $aErrors[] = $errorString1 . 'ini_get' . $errorString2;
+        $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
+        }
     }
     if (!function_exists('trim')) {
         $aErrors[] = $errorString1 . 'trim' . $errorString2;
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
+        }
     }
-    if (!function_exists('array_intersect')) {
-        $aErrors[] = $errorString1 . 'array_intersect' . $errorString2;
-        $isSystemOK = false;
-    }
-    if (!$isSystemOK) {
-        return $errorCode;
-    }
+
     // Test the disabled functons list with required functions list
     // defined above in $aRequiredFunctions
     $aDisabledFunctions = explode(',', ini_get('disable_functions'));
@@ -283,14 +327,37 @@ function OX_checkSystemInitialRequirements(&$aErrors){
         if ($result) {
             $aErrors[] = $errorMessage;
             $isSystemOK = false;
+            if ($return === true) {
+                $return = -3;
+            }
+        }
+    }
+
+    // Check minimum memory requirements are okay (24MB)
+    $minimumRequiredMemory = OX_getMinimumRequiredMemory();
+    $phpMemoryLimit = OX_getMemoryLimitSizeInBytes();
+    if ($phpMemoryLimit > 0 && $phpMemoryLimit < $minimumRequiredMemory) {
+        // The memory limit is too low, but can it be increased?
+        $memoryCanBeSet = OX_checkMemoryCanBeSet();
+        if (!$memoryCanBeSet) {
+            $minimumRequiredMemoryInMB = $minimumRequiredMemory / 1048576;
+            $errorMessage = 'The PHP "memory_limit" value is set to less than the required minimum of ' .
+                            $minimumRequiredMemoryInMB . 'MB, but because the built in PHP function "ini_set" ' .
+                            'has been disabled, the memory limit cannot be automatically increased.';
+            $aErrors[] = $errorMessage;
+            $isSystemOK = false;
+            if ($return === true) {
+                $return = -4;
+            }
         }
     }
 
     if (!$isSystemOK) {
-        return $errorCode;
+        return $return;
     }
     return true;
 }
 
 OX_initialSystemCheck();
+
 ?>

@@ -51,7 +51,7 @@ $GLOBALS['_MAX']['CONF']['database']['type'] = 'mysql';
 setupConstants();
 setupConfigVariables();
 @set_time_limit(600);
-increaseMemoryLimit(40 * 1024 * 1024); // 40MB
+OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('cache'));
 
 
 if (!is_writable(MAX_PATH.'/etc/xmlcache')) {

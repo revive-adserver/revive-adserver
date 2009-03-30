@@ -65,7 +65,7 @@ echo "<strong>". $strChannels .":</strong>";
 phpAds_showBreak();
 
 // Check all the channels...
-increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
 
 $dalChannel = OA_Dal::factoryDAL('channel');
 $rsChannel = $dalChannel->getChannelsAndAffiliates();
