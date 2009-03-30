@@ -2943,7 +2943,7 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 global $referer, $loc;
 $referer = (!empty($loc)) ? $loc : '';
 $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-getHostName() .
+OX_getHostName() .
 $_SERVER['REQUEST_URI'];
 // init-delivery.php is not setting invocationType properly for local invocation type
 // we should set it here
