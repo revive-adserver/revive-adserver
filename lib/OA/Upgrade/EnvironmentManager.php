@@ -423,14 +423,10 @@ class OA_Environment_Manager
      */
     function checkOriginalMemory()
     {
-        $return = true;
-        $originalLimit = $this->aInfo['PHP']['actual']['original_memory_limit'];
-        $requiredLimit = OX_getMemoryLimitSizeInBytes();
-        if ($originalLimit != OA_MEMORY_UNLIMITED && ($originalLimit > 0) && ($originalLimit < $requiredLimit))
-        {
-            $return = false;
+        if ($this->aInfo['PHP']['actual']['original_memory_limit'] != OA_MEMORY_UNLIMITED && ($this->aInfo['PHP']['actual']['original_memory_limit'] > 0) && ($this->aInfo['PHP']['actual']['original_memory_limit'] < OX_getMinimumRequiredMemory())) {
+            return false;
         }
-        return $return;
+        return true;
     }
 
     /**
