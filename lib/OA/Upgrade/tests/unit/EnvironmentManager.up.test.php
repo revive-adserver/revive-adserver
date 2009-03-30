@@ -57,15 +57,14 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.1.4';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 5.1.4');
 
-        $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '2048';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_MEMORY,'memory_limit too low');
+        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '2048';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_WARNING_MEMORY,'original memory_limit too low');
 
-        $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '16384';
-        $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'] = '16384';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'memory_limit');
+        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '25165824';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'original memory_limit');
 
-        $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'memory_limit not set');
+        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'original memory_limit not set');
 
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '1';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_SAFEMODE,'safe_mode on');
