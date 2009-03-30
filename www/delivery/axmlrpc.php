@@ -124,6 +124,69 @@ unset($realConfig['realConfig']);
 return $realConfig;
 }
 }
+function OX_getMinimumRequiredMemory($limit = null)
+{
+if ($limit == 'cache') {
+return 41943040; // 40MB in bytes (40 * 1048576)
+}
+if ($limit == 'plugin') {
+return 67108864; // 64MB in bytes (64 * 1048576)
+}
+if ($limit == 'maintenance') {
+return 134217728; // 128MB in bytes (128 * 1048576)
+}
+return 25165824; // 24MB in bytes (24 * 1048576)
+}
+function OX_getMemoryLimitSizeInBytes() {
+$phpMemoryLimit = ini_get('memory_limit');
+if (empty($phpMemoryLimit) || $phpMemoryLimit == -1) {
+// No memory limit
+return -1;
+}
+$aSize = array(
+'G' => 1073741824,
+'M' => 1048576,
+'K' => 1024
+);
+$phpMemoryLimitInBytes = $phpMemoryLimit;
+foreach($aSize as $type => $multiplier) {
+$pos = strpos($phpMemoryLimit, $type);
+if (!$pos) {
+$pos = strpos($phpMemoryLimit, strtolower($type));
+}
+if ($pos) {
+$phpMemoryLimitInBytes = substr($phpMemoryLimit, 0, $pos) * $multiplier;
+}
+}
+return $phpMemoryLimitInBytes;
+}
+function OX_checkMemoryCanBeSet()
+{
+$phpMemoryLimitInBytes = OX_getMemoryLimitSizeInBytes();
+// Unlimited memory, no need to check if it can be set
+if ($phpMemoryLimitInBytes == -1) {
+return true;
+}
+OX_increaseMemoryLimit($phpMemoryLimitInBytes + 1);
+$newPhpMemoryLimitInBytes = OX_getMemoryLimitSizeInBytes();
+$memoryCanBeSet = ($phpMemoryLimitInBytes != $newPhpMemoryLimitInBytes);
+// Restore previous limit
+@ini_set('memory_limit', $phpMemoryLimitInBytes);
+return $memoryCanBeSet;
+}
+function OX_increaseMemoryLimit($setMemory) {
+$phpMemoryLimitInBytes = OX_getMemoryLimitSizeInBytes();
+if ($phpMemoryLimitInBytes == -1) {
+// Memory is unlimited
+return true;
+}
+if ($setMemory > $phpMemoryLimitInBytes) {
+if (@ini_set('memory_limit', $setMemory) === false) {
+return false;
+}
+}
+return true;
+}
 function setupConfigVariables()
 {
 $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
@@ -229,46 +292,8 @@ $oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pe
 $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
-function getMinimumRequiredMemory()
-{
-return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'];
-}
-function increaseMemoryLimit($setMemory) {
-$memory = getMemorySizeInBytes();
-if ($memory == -1) {
-// unlimited
-return true;
-}
-if ($setMemory > $memory) {
-if (@ini_set('memory_limit', $setMemory) === false) {
-return false;
-}
-}
-return true;
-}
-function getMemorySizeInBytes() {
-$phpMemory = ini_get('memory_limit');
-if (empty($phpMemory) || $phpMemory == -1) {
-// unlimited
-return -1;
-}
-$aSize = array(
-'G' => 1073741824,
-'M' => 1048576,
-'K' => 1024
-);
-$size = $phpMemory;
-foreach($aSize as $type => $multiplier) {
-$pos = strpos($phpMemory, $type);
-if (!$pos) {
-$pos = strpos($phpMemory, strtolower($type));
-}
-if ($pos) {
-$size = substr($phpMemory, 0, $pos) * $multiplier;
-}
-}
-return $size;
-}
+// Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
+OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
