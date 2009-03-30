@@ -30,7 +30,7 @@ $Id$
 {/if}
 <br /><br />
 
-{include file=form/general-errors.html errors=$zoneErrors title=ErrorEditingZone text=UnableToChangeZone}    
+{include file=form/general-errors.html errors=$zoneErrors title=ErrorEditingZone text=UnableToChangeZone}
 
 {if $zoneid}
     {*// Only display the notices when *changing* a zone, not for new zones*}
@@ -43,12 +43,12 @@ $Id$
         <span class='tab-s'> {t str=Notice}:</span><br />
         {t str=WarnChangeZoneSize}
     </div>
-    
+
     {if $errors}
         <div class='errormessage'><img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
             <span class='tab-r'>{t str=ErrorEditingZone}</span><br><br>";
             {t str=UnableToChangeZone}
-            {foreach from=$errors item=aError }            
+            {foreach from=$errors item=aError }
 	            $aError->message<br>
 	        {/foreach}
         </div>
@@ -69,10 +69,6 @@ $Id$
 {if $zoneWidth != null && $zoneWidth != ''}
     document.zoneWidth ='{$zoneWidth}';
 {/if}
-    document.MAX_FINANCE_ANYVAR = {$MAX_FINANCE_ANYVAR};
-    document.MAX_FINANCE_VARSUM = {$MAX_FINANCE_VARSUM};
-    document.MAX_FINANCE_CPM = {$MAX_FINANCE_CPM};
-
 
 {literal}
     function phpAds_formSelectSize(o)
@@ -127,38 +123,6 @@ $Id$
         document.zoneform.size.disabled = false;
     }
 
-    function m3_updateFinance()
-    {
-        var o = document.getElementById('cost_type');
-        var o2 = document.getElementById('technology_cost_type');
-        var p = document.getElementById('cost_variable_id');
-        var p2 = document.getElementById('cost_variable_id_mult');
-        var cost_cpm_desc = document.getElementById('cost_cpm_description');
-        var cost_cpm_desc2 = document.getElementById('technology_cost_cpm_description');
-
-        if ( o.options[o.selectedIndex].value == document.MAX_FINANCE_ANYVAR) {
-            p.style.display = '';
-            p2.style.display = 'none';
-        } else if (o.options[o.selectedIndex].value == document.MAX_FINANCE_VARSUM) {
-            p.style.display = 'none';
-            p2.style.display = '';
-        } else {
-            p.style.display = 'none';
-            p2.style.display = 'none';
-        }
-
-        if ( o.options[o.selectedIndex].value == document.MAX_FINANCE_CPM) {
-            cost_cpm_desc.style.display = 'block';
-        } else {
-            cost_cpm_desc.style.display = 'none';
-        }
-        if ( o2.options[o2.selectedIndex].value == document.MAX_FINANCE_CPM) {
-            cost_cpm_desc2.style.display = 'block';
-        } else {
-            cost_cpm_desc2.style.display = 'none';
-        }
-    }
-
     function oa_sizeChangeUpdateMessage(id)
     {
         if (document.zoneWidth != document.zoneform.width.value ||
@@ -181,8 +145,6 @@ $Id$
         var obj = findObj(id);
         if (obj) { obj.style.display = 'none'; }
     }
-    
-    m3_updateFinance();
 {/literal}
 //-->
 </script>

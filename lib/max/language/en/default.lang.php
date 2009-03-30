@@ -300,7 +300,6 @@ $GLOBALS['strCPC']                      = "Cost Per Click";
 $GLOBALS['strCPCo']                     = "Cost Per Conversion";
 $GLOBALS['strCPCoShort']                = "CPCo";
 $GLOBALS['strCPCShort']                 = "CPC";
-$GLOBALS['strTotalCost']                = "Total Cost";
 $GLOBALS['strTotalViews']               = "Total Impressions";
 $GLOBALS['strTotalClicks']              = "Total Clicks";
 $GLOBALS['strTotalConversions']         = "Total Conversions";
@@ -889,8 +888,6 @@ $GLOBALS['strHideMatchingBanners']          = "Hide matching banners";
 $GLOBALS['strBannerLinkedAds']              = "Banners linked to the zone";
 $GLOBALS['strCampaignLinkedAds']            = "Campaigns linked to the zone";
 $GLOBALS['strTotalZones']                   = "Total zones";
-$GLOBALS['strCostInfo']                     = "Media Cost";
-$GLOBALS['strTechnologyCost']               = "Technology Cost";
 $GLOBALS['strInactiveZonesHidden']          = "inactive zone(s) hidden";
 $GLOBALS['strWarnChangeZoneType']           = "Changing the zone type to text or email will unlink all banners/campaigns due to restrictions of these zone types
                                                 <ul>
@@ -1168,8 +1165,6 @@ $GLOBALS['strErrorEditingCampaignRevenue']      = "incorrect number format in Re
 $GLOBALS['strErrorEditingCampaignECPM']         = "incorrect number format in ECPM Information field";
 $GLOBALS['strErrorEditingZone']                 = "Error updating zone:";
 $GLOBALS['strUnableToChangeZone']               = "Cannot apply this change because:";
-$GLOBALS['strErrorEditingZoneTechnologyCost']   = "incorrect number format in Media Cost field";
-$GLOBALS['strErrorEditingZoneCost']             = "incorrect number format in Technology Cost field";
 $GLOBALS['strDatesConflict']                    = "dates conflict with:";
 $GLOBALS['strEmailNoDates']                     = "Email zone campaigns must have a start and end date";
 $GLOBALS['strWarningInaccurateStats']           = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
@@ -1270,14 +1265,8 @@ $GLOBALS['strNameLanguage']                     = "Name & Language";
 // Statistics columns
 // Long names
 $GLOBALS['strRevenue']                             = "Revenue";
-$GLOBALS['strCost']                                = "Cost";
 $GLOBALS['strNumberOfItems']                       = "Number of items";
 $GLOBALS['strRevenueCPC']                          = "Revenue CPC";
-$GLOBALS['strCostCPC']                             = "Cost CPC";
-$GLOBALS['strIncome']                              = "Income";
-$GLOBALS['strIncomeMargin']                        = "Income Margin";
-$GLOBALS['strProfit']                              = "Profit";
-$GLOBALS['strMargin']                              = "Margin";
 $GLOBALS['strERPM']                                = "ERPM";
 $GLOBALS['strERPC']                                = "ERPC";
 $GLOBALS['strERPS']                                = "ERPS";
@@ -1303,16 +1292,9 @@ $GLOBALS['strZonesImpressions']                 = "Sum Zone Impressions";
 
     // Short names
 $GLOBALS['strRevenue_short']                    = "Rev.";
-$GLOBALS['strCost_short']                       = "Cost";
 $GLOBALS['strBasketValue_short']                = "BV";
 $GLOBALS['strNumberOfItems_short']              = "Num. Items";
 $GLOBALS['strRevenueCPC_short']                 = "Rev. CPC";
-$GLOBALS['strCostCPC_short']                    = "Cost CPC";
-$GLOBALS['strTechnologyCost_short']             = "Tech. Cost";
-$GLOBALS['strIncome_short']                     = "Income";
-$GLOBALS['strIncomeMargin_short']               = "Inc. Margin";
-$GLOBALS['strProfit_short']                     = "Profit";
-$GLOBALS['strMargin_short']                     = "Margin";
 $GLOBALS['strERPM_short']                       = "ERPM";
 $GLOBALS['strERPC_short']                       = "ERPC";
 $GLOBALS['strERPS_short']                       = "ERPS";

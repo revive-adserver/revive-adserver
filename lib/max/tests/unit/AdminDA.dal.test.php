@@ -738,11 +738,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('forceappend', $aZone2));
         $this->assertTrue(array_key_exists('inventory_forecast_type', $aZone2));
         $this->assertTrue(array_key_exists('comments', $aZone2));
-        $this->assertTrue(array_key_exists('cost', $aZone2));
-        $this->assertTrue(array_key_exists('cost_type', $aZone2));
-        $this->assertTrue(array_key_exists('cost_variable_id', $aZone2));
-        $this->assertTrue(array_key_exists('technology_cost', $aZone2));
-        $this->assertTrue(array_key_exists('technology_cost_type', $aZone2));
         $this->assertTrue(array_key_exists('block', $aZone2));
         $this->assertTrue(array_key_exists('capping', $aZone2));
         $this->assertTrue(array_key_exists('session_capping', $aZone2));

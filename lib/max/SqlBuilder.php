@@ -228,7 +228,7 @@ class SqlBuilder
 
         case 'zone' :
             $aColumns += array('z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type');
-            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.cost' => 'cost', 'z.cost_type' => 'cost_type', 'z.cost_variable_id' => 'cost_variable_id', 'z.technology_cost' => 'technology_cost', 'z.technology_cost_type' => 'technology_cost_type', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.is_in_ad_direct' => 'is_in_ad_direct', 'z.rate' => 'rate', 'z.pricing' => 'pricing');
+            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.is_in_ad_direct' => 'is_in_ad_direct', 'z.rate' => 'rate', 'z.pricing' => 'pricing');
             break;
 
         case 'placement_zone_assoc' :

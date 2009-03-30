@@ -49,12 +49,6 @@ require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
  *  - Basket Value: Of conversions
  *  - Number of Items: In conversions
  *  - Revenue CPC: Revenue per click
- *  - Cost CPC: Cost per click
- *  - Technology Cost
- *  - Income
- *  - Income Margin
- *  - Profit
- *  - Margin
  *  - ERPM
  *  - ERPC
  *  - ERPS

@@ -51,12 +51,6 @@ phpAds_registerGlobalUnslashed(
     'width',
     'height',
     'submit',
-    'cost',
-    'cost_type',
-    'technology_cost',
-    'technology_cost_type',
-    'cost_variable_id',
-    'cost_variable_id_mult',
     'comments'
 );
 
@@ -89,16 +83,6 @@ if (!empty($zoneid)) {
 
     if ($zone['width'] == -1) $zone['width'] = '*';
     if ($zone['height'] == -1) $zone['height'] = '*';
-
-    // Set the default financial information
-    if (!isset($zone['cost'])) {
-        $zone['cost'] = '0.0000';
-    } else {
-        $zone['cost'] = OA_Admin_NumberFormat::formatNumber($zone['cost'], 4);
-    }
-    if (isset($zone['technology_cost'])) {
-        $zone['technology_cost'] = OA_Admin_NumberFormat::formatNumber($zone['technology_cost'], 4);
-    }
 }
 else {
     $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -115,11 +99,6 @@ else {
     $zone['width']           = '468';
     $zone['height']          = '60';
     $zone['delivery']        = phpAds_ZoneBanner;
-    $zone['cost']            = OA_Admin_NumberFormat::formatNumber(0, 4);;
-    $zone['cost_type']       = null;
-    $zone['technology_cost'] = null;
-    $zone['technology_cost_type'] = null;
-    $zone['cost_variable_id'] = null;
     $zone['comments'] = null;
 }
 $zone['affiliateid']     = $affiliateid;
@@ -238,62 +217,6 @@ function buildZoneForm($zone)
 
     $form->addGroup($sizeTypes, 'size_types', $GLOBALS['strSize'], "<br/>");
 
-    //media cost
-    $mediaCost['cost'] = $form->createElement('text', 'cost', '');
-    $mediaCost['cost']->setSize(10);
-    $mediaCostTypes = array(MAX_FINANCE_CPM => $GLOBALS['strFinanceCPM'],
-                                MAX_FINANCE_CPC => $GLOBALS['strFinanceCPC'],
-                                MAX_FINANCE_CPA => $GLOBALS['strFinanceCPA'],
-                                MAX_FINANCE_MT => $GLOBALS['strFinanceMT'],
-                                MAX_FINANCE_RS => $GLOBALS['strPercentRevenueSplit'],
-                                MAX_FINANCE_BV => $GLOBALS['strPercentBasketValue'],
-                                MAX_FINANCE_AI => $GLOBALS['strAmountPerItem'],
-                                MAX_FINANCE_ANYVAR => $GLOBALS['strPercentCustomVariable'],
-                                MAX_FINANCE_VARSUM => $GLOBALS['strPercentSumVariables']);
-
-    $mediaCost['cost_type'] = $form->createElement('select', 'cost_type', null, $mediaCostTypes,
-        array('id' => 'cost_type', 'onchange' => 'm3_updateFinance();'));
-
-
-    //tracker variables
-    $dalVariables = OA_Dal::factoryDAL('variables');
-    $rsVariables = $dalVariables->getTrackerVariables($zone['zoneid'], $zone['affiliateid'], OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
-    $rsVariables->find();
-    if (!$rsVariables->getRowCount()) {
-        $aTrackerVariables[''] = $GLOBALS['strNoLinkedTrackersDropdown'];
-    }
-    else {
-        while ($rsVariables->fetch() && $row = $rsVariables->toArray()) {
-            $aTrackerVariables[$row['variable_id']] = "[id".$row['tracker_id']."] ".
-                htmlspecialchars(empty($row['tracker_description']) ? $row['tracker_name'] : $row['tracker_description']).
-                ": ".htmlspecialchars(empty($row['variable_description']) ? $row['variable_name'] : $row['variable_description']);
-        }
-    }
-
-    //add tracker select and per single impression note
-    $mediaCost['cost_variable_id'] = $form->createElement('select', 'cost_variable_id', null, $aTrackerVariables,
-        array('id' => 'cost_variable_id'));
-    $mediaCost['cost_variable_id_mult'] = $form->createElement('select', 'cost_variable_id_mult', null, $aTrackerVariables,
-        array('id' => 'cost_variable_id_mult', 'multiple' => 'multiple', 'size' => '3'));
-    $mediaCost['cost_info'] = $form->createElement('html', null,
-        "<span id='cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");
-    $form->addGroup($mediaCost, 'g_media_cost', $GLOBALS['strCostInfo'], array('', '', '', '<BR>'), false);
-
-
-
-    //technology_cost_type
-    $technologyCost['cost'] = $form->createElement('text', 'technology_cost', '');
-    $technologyCost['cost']->setSize(10);
-    $technologyCostTypes = array(MAX_FINANCE_CPM => $GLOBALS['strFinanceCPM'],
-                            MAX_FINANCE_CPC => $GLOBALS['strFinanceCPC'],
-                            MAX_FINANCE_RS => $GLOBALS['strPercentRevenueSplit']);
-
-    $technologyCost['cost_type'] = $form->createElement('select', 'technology_cost_type', null, $technologyCostTypes,
-        array('id' => 'technology_cost_type', 'onchange' => 'm3_updateFinance();'));
-    $technologyCost['cost_note'] = $form->createElement('html', null,
-        "<span id='technology_cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");
-    $form->addGroup($technologyCost, 'g_technology_cost', $GLOBALS['strTechnologyCost'], array('', '<BR>'), false);
-
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
 
     $form->addElement('controls', 'form-controls');
@@ -326,14 +249,6 @@ function buildZoneForm($zone)
     }
     $form->setDefaults(array('size' => $size, 'sizetype' => $sizeType));
 
-        //tracker variables
-    if (strpos($zone['cost_variable_id'], ',')) {
-        $cost_variable_ids = explode(',', $zone['cost_variable_id']);
-    }
-    else {
-        $cost_variable_ids = array($zone['cost_variable_id']);
-    }
-    $form->setDefaults(array('cost_variable_id_mult' => $cost_variable_ids));
 
     return $form;
 }
@@ -378,56 +293,7 @@ function processForm($form)
             $aFields['oac_category_id'] = 'NULL';
     }
 
-    //correction cost and technology_cost from other formats (23234,34 or 23 234,34 or 23.234,34)
-    //to format acceptable by is_numeric (23234.34)
-    $corrected_cost = OA_Admin_NumberFormat::unformatNumber($aFields['cost']);
-    if ( $corrected_cost !== false ) {
-        $aFields['cost'] = $corrected_cost;
-        unset($corrected_cost);
-    }
-    if (!empty($aFields['cost']) && !(is_numeric($aFields['cost']))) {
-        // Suppress PEAR error handling to show this error only on top of HTML form
-        PEAR::pushErrorHandling(null);
-        $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneCost']);
-        PEAR::popErrorHandling();
-    }
-
-    $corrected_technology_cost = OA_Admin_NumberFormat::unformatNumber($aFields['technology_cost']);
-    if ( $corrected_technology_cost !== false ) {
-        $aFields['technology_cost'] = $corrected_technology_cost;
-        unset($corrected_technology_cost);
-    }
-    if (!empty($aFields['technology_cost']) && !(is_numeric($aFields['technology_cost']))) {
-        // Suppress PEAR error handling to show this error only on top of HTML form
-        PEAR::pushErrorHandling(null);
-        $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneTechnologyCost']);
-        PEAR::popErrorHandling();
-    }
-
     if (empty($errors)) {
-
-        if (!(is_numeric($aFields['cost'])) || ($aFields['cost'] <= 0)) {
-            // No cost information, set to null
-            $aFields['cost'] = 'NULL';
-            $aFields['cost_type'] = 'NULL';
-        }
-
-        if (!(is_numeric($aFields['technology_cost'])) || ($aFields['technology_cost'] <= 0)) {
-            // No cost information, set to null
-            $aFields['technology_cost'] = 'NULL';
-            $aFields['technology_cost_type'] = 'NULL';
-        }
-
-        if ($aFields['cost_type'] == MAX_FINANCE_VARSUM && is_array($aFields['cost_variable_id_mult'])) {
-            $aFields['cost_variable_id'] = 0;
-            foreach ($aFields['cost_variable_id_mult'] as $val) {
-                if ($aFields['cost_variable_id']) {
-                    $aFields['cost_variable_id'] .= "," . $val;
-                } else {
-                    $aFields['cost_variable_id'] = $val;
-                }
-            }
-        }
 
         // Edit
         if (!empty($aFields['zoneid']))
@@ -443,13 +309,6 @@ function processForm($form)
             $doZones->width = $aFields['width'];
             $doZones->height = $aFields['height'];
             $doZones->comments = $aFields['comments'];
-            $doZones->cost = $aFields['cost'];
-            $doZones->cost_type = $aFields['cost_type'];
-            if ($aFields['cost_type'] == MAX_FINANCE_ANYVAR || $aFields['cost_type'] == MAX_FINANCE_VARSUM) {
-                $doZones->cost_variable_id = $aFields['cost_variable_id'];
-            }
-            $doZones->technology_cost = $aFields['technology_cost'];
-            $doZones->technology_cost_type = $aFields['technology_cost_type'];
             $doZones->delivery = $aFields['delivery'];
             if ($aFields['delivery'] != phpAds_ZoneText && $aFields['delivery'] != phpAds_ZoneBanner) {
                 $doZones->append = '';
@@ -551,7 +410,7 @@ function processForm($form)
                 htmlspecialchars($aFields['zonename'])
                 ));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-            
+
             OX_Admin_Redirect::redirect("zone-edit.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
         }
         // Add
@@ -566,14 +425,6 @@ function processForm($form)
             $doZones->width = $aFields['width'];
             $doZones->height = $aFields['height'];
             $doZones->delivery = $aFields['delivery'];
-            $doZones->cost = $aFields['cost'];
-            $doZones->cost_type = $aFields['cost_type'];
-            $doZones->technology_cost = $aFields['technology_cost'];
-            $doZones->technology_cost_type = $aFields['technology_cost_type'];
-            if ($aFields['cost_type'] == MAX_FINANCE_ANYVAR
-                || $aFields['cost_type'] == MAX_FINANCE_VARSUM) {
-                $doZones->cost_variable_id = $aFields['cost_variable_id'];
-            }
             $doZones->oac_category_id  = $aFields['oac_category_id'];
 
             // The following fields are NOT NULL but do not get values set in the form.
@@ -630,10 +481,6 @@ function displayPage($zone, $form, $zoneErrors = null)
     $oTpl->assign('zoneid', $zone['zoneid']);
     $oTpl->assign('zoneHeight', $zone["height"]);
     $oTpl->assign('zoneWidth', $zone["width"]);
-
-    $oTpl->assign('MAX_FINANCE_ANYVAR', MAX_FINANCE_ANYVAR);
-    $oTpl->assign('MAX_FINANCE_VARSUM', MAX_FINANCE_VARSUM);
-    $oTpl->assign('MAX_FINANCE_CPM', MAX_FINANCE_CPM);
 
     $oTpl->assign('zoneErrors', $zoneErrors);
     $oTpl->assign('form', $form->serialize());

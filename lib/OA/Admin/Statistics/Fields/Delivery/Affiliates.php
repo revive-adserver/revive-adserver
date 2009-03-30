@@ -63,14 +63,6 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'format' => 'currency'
             );
 
-        $this->_aFields['sum_cost'] =
-            array(
-                'name'   => $GLOBALS['strCost'],
-                'short'  => $GLOBALS['strCost_short'],
-                'pref'   => 'ui_column_cost',
-                'format' => 'currency'
-            );
-
         $this->_aFields['sum_bv'] =
             array(
                 'name'   => $GLOBALS['strBasketValue'],
@@ -94,54 +86,6 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name'   => $GLOBALS['strRevenueCPC'],
                 'short'  => $GLOBALS['strRevenueCPC_short'],
                 'pref'   => 'ui_column_revcpc',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_costcpc'] =
-            array(
-                'name'   => $GLOBALS['strCostCPC'],
-                'short'  => $GLOBALS['strCostCPC_short'],
-                'pref'   => 'ui_column_costcpc',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_technology_cost'] =
-            array(
-                'name'   => $GLOBALS['strTechnologyCost'],
-                'short'  => $GLOBALS['strTechnologyCost_short'],
-                'pref'   => 'ui_column_technology_cost',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_income'] =
-            array(
-                'name'   => $GLOBALS['strIncome'],
-                'short'  => $GLOBALS['strIncome_short'],
-                'pref'   => 'ui_column_income',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_income_margin'] =
-            array(
-                'name'   => $GLOBALS['strIncomeMargin'],
-                'short'  => $GLOBALS['strIncomeMargin_short'],
-                'pref'   => 'ui_column_income_margin',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_profit'] =
-            array(
-                'name'   => $GLOBALS['strProfit'],
-                'short'  => $GLOBALS['strProfit_short'],
-                'pref'   => 'ui_column_profit',
-                'format' => 'currency'
-            );
-
-        $this->_aFields['sum_margin'] =
-            array(
-                'name'   => $GLOBALS['strMargin'],
-                'short'  => $GLOBALS['strMargin_short'],
-                'pref'   => 'ui_column_margin',
                 'format' => 'currency'
             );
 
@@ -260,8 +204,6 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
     function addQueryParams(&$aParams)
     {
         $aParams['add_columns']['SUM(s.total_revenue)']      = 'sum_revenue';
-        $aParams['add_columns']['SUM(s.total_cost)']         = 'sum_cost';
-        $aParams['add_columns']['SUM(s.total_techcost)']     = 'sum_technology_cost';
         $aParams['add_columns']['SUM(s.total_basket_value)'] = 'sum_bv';
         $aParams['add_columns']['SUM(s.total_num_items)']    = 'sum_num_items';
     }
@@ -276,11 +218,6 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
     function summarizeStats(&$row)
     {
         $row['sum_revcpc']          = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
-        $row['sum_costcpc']         = $row['sum_clicks'] ? $row['sum_cost'] / $row['sum_clicks'] : 0;
-        $row['sum_income']          = $row['sum_revenue'] - $row['sum_technology_cost'];
-        $row['sum_income_margin']   = $row['sum_revenue'] ? $row['sum_income'] / $row['sum_revenue'] : 0;
-        $row['sum_profit']          = $row['sum_revenue'] - $row['sum_technology_cost'] - $row['sum_cost'];
-        $row['sum_margin']          = $row['sum_revenue'] ? $row['sum_profit'] / $row['sum_revenue'] : 0;
         $row['sum_erpm']            = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
         $row['sum_erpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
         $row['sum_erps']            = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions'] : 0;
