@@ -432,8 +432,8 @@ function getTranslationLabels($oMarketComponent)
         : '<div>Invalid user name or password.</div>
             <ul>
               <li>Please check that the OpenX User name and password are correct.</li>
-              <li>If you have recently signed up for a new OpenX Account, 
-              make sure you have gone into your email and activated your OpenX Account.</li>
+              <li>If you have recently signed up for a new OpenX.org Account, 
+              make sure you have gone into your email and activated your OpenX.org Account.</li>
             </ul>';
         
     $aContentStrings['error_message']['702'] = isset($aContentKeys['error-702-message']) 
@@ -447,13 +447,13 @@ function getTranslationLabels($oMarketComponent)
         
     $aContentStrings['error_message']['901'] = isset($aContentKeys['error-901-message']) 
         ? vsprintf($aContentKeys['error-901-message'], array($publisherSupportEmail))
-        : 'This Ad Server is already associated with OpenX Market through a different OpenX account'
+        : 'This Ad Server is already associated with OpenX Market through a different OpenX.org account'
            .' (Code 901). <br>Please contact <a href="mailto:'.$publisherSupportEmail
            .'">OpenX Market publisher support</a> if you need further assistance.'; 
         
     $aContentStrings['error_message']['902'] = isset($aContentKeys['error-902-message']) 
         ? vsprintf($aContentKeys['error-902-message'], array($publisherSupportEmail))
-        : 'This OpenX account is already associated with OpenX Market through a different OpenX Ad Server'
+        : 'This OpenX.org account is already associated with OpenX Market through a different OpenX Ad Server'
           .' (Code 902). <br>Please contact <a href="mailto:'.$publisherSupportEmail
           .'">OpenX Market publisher support</a> if you need further assistance.'; 
         
@@ -465,7 +465,7 @@ function getTranslationLabels($oMarketComponent)
 
     $aContentStrings['error_message']['0'] = isset($aContentKeys['error-0-message']) 
         ? $aContentKeys['error-0-message']
-        : 'A generic error occurred while associating your OpenX account (Code 0: %s)' //%s needs to replaced with exc message
+        : 'A generic error occurred while associating your OpenX.org account (Code 0: %s)' //%s needs to replaced with exc message
           .'<br>The problem may by caused by an improper configuration of your OpenX Ad Server'
           .' or your web server or by the lack of a required PHP extension.'
           .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
@@ -477,6 +477,18 @@ function getTranslationLabels($oMarketComponent)
           .'<br>Please try again in couple of minutes. If the problem persists,' 
           .'please contact <a href="mailto:%s">OpenX Market publisher support</a>' //%s needs to be replaced with publisher support email
           .' for assistance.'; 
+          
+    // PEAR XML-RPC errors
+    $aXmlRpcPearErrors = getXmlRpcPearErrorsCodes();
+    foreach ($aXmlRpcPearErrors as $errnum) {
+        $aContentStrings['error_message'][$errnum] = isset($aContentKeys['error-generic-xml-rpc-message']) 
+            ? $aContentKeys['error-generic-xml-rpc-message']
+            : 'An error occurred while associating your OpenX.org account (Code %s: %s)' //%s needs to replaced with code and exc message
+              .'<br>The problem may by caused by an improper configuration of your OpenX Ad Server'
+              .' or your web server or by the lack of a required PHP extension.'
+              .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
+              .'">OpenX Market publisher support</a> for assistance.';
+    }
 
     return $aContentStrings;
 }
@@ -490,8 +502,12 @@ function getErrorMessage($oMarketComponent, $error)
     
     if (isset($aStrings['error_message'][$errorKey])) {
         $message = $aStrings['error_message'][$errorKey];
+        $aXmlRpcPearErrors = getXmlRpcPearErrorsCodes();
         if ($error['code'] == 0) {
             $message = vsprintf($message, array($error['message'], $publisherSupportEmail));    
+        }
+        elseif (in_array($error['code'], $aXmlRpcPearErrors)) {
+            $message = vsprintf($message, array($error['code'], $error['message'], $publisherSupportEmail));
         }
     }
     else {
@@ -502,6 +518,19 @@ function getErrorMessage($oMarketComponent, $error)
     return $message;
 }
 
+/**
+ * Returns codes used and returned by PEAR XML_RPC_Client
+ * 
+ * Codes 1-7 errors caused by invalid response
+ * 101-106 errors caused by invalid call (e.g. wrong url)
+ *
+ * @return array
+ */
+function getXmlRpcPearErrorsCodes()
+{  
+    return array( '1', '2', '3', '4', '5', '6', '7', 
+                  '101', '102', '103', '104', '105', '106');
+}
 
 function updateCaptcha($oForm, $captchaRandom)
 {
