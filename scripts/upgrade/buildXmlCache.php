@@ -32,6 +32,7 @@ error_reporting(E_ALL);
 // setup environment - do not require config file
 require_once MAX_PATH . '/init-parse.php';
 require_once MAX_PATH . '/constants.php';
+require_once MAX_PATH . '/memory.php';
 require_once MAX_PATH . '/variables.php';
 setupServerVariables();
 // set conf array to prevent loading config file
