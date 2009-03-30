@@ -48,6 +48,11 @@ require_once 'variables.php';
 // Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 
+// PHP 5.3 compatibility
+if (!defined('E_DEPRECATED')) {
+    define('E_DEPRECATED', 0);
+}
+
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
