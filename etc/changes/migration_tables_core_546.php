@@ -283,7 +283,9 @@ class Migration_546 extends Migration
 
 	function migratePreferences()
 	{
-	    $this->tblAgency    = $this->_getQuotedTableName('agency');
+        $this->aDefaultPreferences = $this->_getDefaultPreferences();
+
+        $this->tblAgency    = $this->_getQuotedTableName('agency');
         $this->tblPrefsOld  = $this->_getQuotedTableName('preference');
         $this->tblAppVars   = $this->_getQuotedTableName('application_variable');
 	    $this->tblAccounts  = $this->_getQuotedTableName('accounts');
@@ -541,11 +543,11 @@ class Migration_546 extends Migration
         // The only remaining preferences of interest are old style "gui_column_name" entries
         foreach ($aPrefOld AS $oldName => $val)
         {
-            if (ereg('gui_column_', $oldName)) {
+            if (strpos($oldName, 'gui_column_') === 0) {
                 // Prepare the new preference name
                 $newName = substr($oldName, 1);
                 // Is there a value set for the preference?
-                if (!is_null($val)) {
+                if (isset($val)) {
                     // Yes, extract the values for the preference
                     $aVal = unserialize($val);
                     if (is_array($aVal))
@@ -572,11 +574,7 @@ class Migration_546 extends Migration
                     }
                 }
                 // Test that a value has been set for the column preference
-                if (is_null($this->aPrefMap[$newName])) {
-                    // Obtain the default values for the preferences, if required
-                    if (empty($this->aDefaultPreferences)) {
-                        $this->aDefaultPreferences = OA_Preferences::getPreferenceDefaults();
-                    }
+                if (!isset($this->aPrefMap[$newName])) {
                     // Add in the default value for the column preference
                     $this->aPrefMap[$newName]            = array('name' => $oldName, 'value' => $this->aDefaultPreferences[$newName]['default'],            'level' => OA_ACCOUNT_MANAGER);
                     $this->aPrefMap[$newName . '_label'] = array('name' => $oldName, 'value' => $this->aDefaultPreferences[$newName . '_label']['default'], 'level' => OA_ACCOUNT_MANAGER);
@@ -752,42 +750,6 @@ class Migration_546 extends Migration
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	function _movePreferencesAgency()
 	{
         $query = "
@@ -846,6 +808,591 @@ class Migration_546 extends Migration
 	}
 
 
+    function _getDefaultPreferences()
+    {
+        return array (
+          'default_banner_image_url' =>
+          array (
+            'account_type' => 'TRAFFICKER',
+            'default' => '',
+          ),
+          'default_banner_destination_url' =>
+          array (
+            'account_type' => 'TRAFFICKER',
+            'default' => '',
+          ),
+          'auto_alter_html_banners_for_click_tracking' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => true,
+          ),
+          'default_banner_weight' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 1,
+          ),
+          'default_campaign_weight' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 1,
+          ),
+          'warn_email_admin' =>
+          array (
+            'account_type' => 'ADMIN',
+            'default' => true,
+          ),
+          'warn_email_admin_impression_limit' =>
+          array (
+            'account_type' => 'ADMIN',
+            'default' => 100,
+          ),
+          'warn_email_admin_day_limit' =>
+          array (
+            'account_type' => 'ADMIN',
+            'default' => 1,
+          ),
+          'warn_email_manager' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'warn_email_manager_impression_limit' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 100,
+          ),
+          'warn_email_manager_day_limit' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 1,
+          ),
+          'warn_email_advertiser' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => true,
+          ),
+          'warn_email_advertiser_impression_limit' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 100,
+          ),
+          'warn_email_advertiser_day_limit' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 1,
+          ),
+          'timezone' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'tracker_default_status' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 4,
+          ),
+          'tracker_default_type' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => 1,
+          ),
+          'tracker_link_campaigns' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => false,
+          ),
+          'ui_show_campaign_info' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => true,
+          ),
+          'ui_show_banner_info' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => true,
+          ),
+          'ui_show_campaign_preview' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => false,
+          ),
+          'ui_show_banner_html' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => false,
+          ),
+          'ui_show_banner_preview' =>
+          array (
+            'account_type' => 'ADVERTISER',
+            'default' => true,
+          ),
+          'ui_hide_inactive' =>
+          array (
+            'account_type' => NULL,
+            'default' => false,
+          ),
+          'ui_show_matching_banners' =>
+          array (
+            'account_type' => 'TRAFFICKER',
+            'default' => true,
+          ),
+          'ui_show_matching_banners_parents' =>
+          array (
+            'account_type' => 'TRAFFICKER',
+            'default' => false,
+          ),
+          'ui_novice_user' =>
+          array (
+            'account_type' => NULL,
+            'default' => true,
+          ),
+          'ui_week_start_day' =>
+          array (
+            'account_type' => NULL,
+            'default' => 1,
+          ),
+          'ui_percentage_decimals' =>
+          array (
+            'account_type' => NULL,
+            'default' => 2,
+          ),
+          'ui_column_id' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_id_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_id_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_requests' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_requests_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_requests_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_impressions' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'ui_column_impressions_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_impressions_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 1,
+          ),
+          'ui_column_clicks' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'ui_column_clicks_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_clicks_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 2,
+          ),
+          'ui_column_ctr' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'ui_column_ctr_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_ctr_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 3,
+          ),
+          'ui_column_conversions' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_conversions_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_conversions_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_conversions_pending' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_conversions_pending_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_conversions_pending_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_sr_views' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_sr_views_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_sr_views_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_sr_clicks' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_sr_clicks_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_sr_clicks_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_revenue' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'ui_column_revenue_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_revenue_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 4,
+          ),
+          'ui_column_cost' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_cost_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_cost_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_bv' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_bv_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_bv_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_num_items' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_num_items_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_num_items_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_revcpc' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_revcpc_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_revcpc_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_costcpc' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_costcpc_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_costcpc_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_technology_cost' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_technology_cost_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_technology_cost_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_income' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_income_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_income_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_income_margin' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_income_margin_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_income_margin_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_profit' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_profit_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_profit_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_margin' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_margin_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_margin_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_erpm' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_erpm_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_erpm_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_erpc' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_erpc_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_erpc_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_erps' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_erps_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_erps_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_eipm' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_eipm_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_eipm_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_eipc' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_eipc_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_eipc_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_eips' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_eips_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_eips_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_ecpm' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => true,
+          ),
+          'ui_column_ecpm_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_ecpm_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 5,
+          ),
+          'ui_column_ecpc' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_ecpc_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_ecpc_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+          'ui_column_ecps' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => false,
+          ),
+          'ui_column_ecps_label' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => '',
+          ),
+          'ui_column_ecps_rank' =>
+          array (
+            'account_type' => 'MANAGER',
+            'default' => 0,
+          ),
+        );
+    }
 
 }
 

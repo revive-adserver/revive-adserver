@@ -180,7 +180,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 1);
         $this->assertEqual($aRow['total_basket_value'], 1);
         $this->assertEqual($aRow['total_revenue'], 5);
-        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -197,7 +196,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 2);
         $this->assertEqual($aRow['total_basket_value'], 2);
         $this->assertEqual($aRow['total_revenue'], 10);
-        $this->assertEqual($aRow['total_cost'], 0.04);
         $query = "
             SELECT
                 *
@@ -214,7 +212,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 0);
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 2);
-        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -231,7 +228,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 0);
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 0);
-        $this->assertEqual($aRow['total_cost'], 1);
         $query = "
             SELECT
                 *
@@ -253,7 +249,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 5);
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 20);
-        $this->assertEqual($aRow['total_cost'], 10);
 
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
@@ -264,7 +259,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 5);
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 20);
-        $this->assertEqual($aRow['total_cost'], 10);
 
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
@@ -275,7 +269,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 5);
         $this->assertEqual($aRow['total_basket_value'], 100);
         $this->assertEqual($aRow['total_revenue'], 20);
-        $this->assertEqual($aRow['total_cost'], 5);
 
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
@@ -286,7 +279,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 5);
         $this->assertEqual($aRow['total_basket_value'], 100);
         $this->assertEqual($aRow['total_revenue'], 20);
-        $this->assertEqual($aRow['total_cost'], 1.5);
         TestEnv::restoreEnv();
 
         // Test 3
@@ -337,7 +329,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 1);
         $this->assertEqual($aRow['total_basket_value'], 1);
         $this->assertEqual($aRow['total_revenue'], 5);
-        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -354,7 +345,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 2);
         $this->assertEqual($aRow['total_basket_value'], 2);
         $this->assertEqual($aRow['total_revenue'], 10);
-        $this->assertEqual($aRow['total_cost'], 0.04);
         $query = "
             SELECT
                 *
@@ -371,7 +361,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->assertEqual($aRow['conversions'], 0);
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 2);
-        $this->assertEqual($aRow['total_cost'], 0.02);
         TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
@@ -485,8 +474,6 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)."
                 (
                     zoneid,
-                    cost,
-                    cost_type,
                     category,
                     ad_selection,
                     chain,
@@ -494,10 +481,8 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                     append
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?)";
         $aTypes = array(
-            'integer',
-            'float',
             'integer',
             'text',
             'text',
@@ -507,27 +492,27 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 20, MAX_FINANCE_CPM, '', '', '', '', ''
+            1, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 1, MAX_FINANCE_CPC, '', '', '', '', ''
+            2, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 2, MAX_FINANCE_CPA, '', '', '', '', ''
+            3, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 50, MAX_FINANCE_RS, '', '', '', '', ''
+            4, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5, 5, MAX_FINANCE_BV, '', '', '', '', ''
+            5, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6, 0.5, MAX_FINANCE_AI, '', '', '', '', ''
+            6, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
     }
