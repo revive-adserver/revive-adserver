@@ -59,9 +59,11 @@ class OX_oxMarket_Common_ConnectionUtils
 		if ($hasCurl && !$hasOpenssl) {
 		    $oAdapter = new Zend_Http_Client_Adapter_Curl();
 		    
+		    $oAdapter->setCurlOption(CURLOPT_SSL_VERIFYPEER, false);
+		    // This CA file is also used in OA_XML_RPC_Client
+		    $oAdapter->setCurlOption(CURLOPT_CAINFO, MAX_PATH . '/etc/curl-ca-bundle.crt');
 		    if ($curlAllowAnyCertificate) {
-                // Change curl option to turn off checking peer's certificate and host 
-                $oAdapter->setCurlOption(CURLOPT_SSL_VERIFYPEER, false);
+                // Change curl option to turn off checking peer's host 
                 $oAdapter->setCurlOption(CURLOPT_SSL_VERIFYHOST, false);
 	        }
             

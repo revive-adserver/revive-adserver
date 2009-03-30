@@ -55,6 +55,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         }
 
         $this->verifyPeer = false;
+        // This CA file is reused in openXMarket plugin 
+        // to setup curl in Zend_Http_Client_Adapter_Curl in same way as here 
         $this->caFile     = MAX_PATH . '/etc/curl-ca-bundle.crt';
 
         parent::XML_RPC_Client($path, $server, $port);
