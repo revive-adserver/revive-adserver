@@ -291,6 +291,10 @@ set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . g
 }
 // Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
+// PHP 5.3 compatibility
+if (!defined('E_DEPRECATED')) {
+define('E_DEPRECATED', 0);
+}
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
