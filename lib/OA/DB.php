@@ -306,8 +306,8 @@ class OA_DB
 
     	    // Pgsql socket connection: unix(:5432)
     	    if ($dbType == 'pgsql') {
-    	        if (empty($socket) && !empty($aConf['database']['port'])) {
-            	    $socket =  ':' . $aConf['database']['port'];
+    	        if (!empty($aConf['database']['port'])) {
+            	    $socket .=  ':' . $aConf['database']['port'];
     	        }
     	    }
 
