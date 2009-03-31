@@ -150,5 +150,3 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
         return $aParams;
     }
 }
-
-?>
