@@ -2499,6 +2499,7 @@ $first = true;
 global $g_append, $g_prepend;
 $g_append = '';
 $g_prepend = '';
+if(!empty($what)) {
 while ($first || ($what != '' && $found == false)) {
 $first = false;
 // Get first part, store second part
@@ -2547,6 +2548,7 @@ $found = true;
 }
 } else {
 $what  = $remaining;
+}
 }
 }
 // Return the banner information
