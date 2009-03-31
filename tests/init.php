@@ -39,8 +39,6 @@ require_once '../variables.php';
 setupConstants();
 setupConfigVariables();
 
-require_once 'PEAR.php';
-
 /**
  * The environment initialisation function for the OpenX testing environment.
  */
@@ -55,6 +53,9 @@ function init()
 
 // Run the init() function
 init();
+
+// Load PEAR
+require_once 'PEAR.php';
 
 // Set $conf
 $conf = $GLOBALS['_MAX']['CONF'];
