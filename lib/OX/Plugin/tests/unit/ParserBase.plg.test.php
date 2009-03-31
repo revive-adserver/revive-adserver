@@ -111,7 +111,7 @@ class Test_OX_ParserBase extends UnitTestCase
             $this->assertEqual($aPlugin['authorurl'],'http://www.openx.org');
             $this->assertEqual($aPlugin['license'],'license.txt');
             $this->assertEqual($aPlugin['description'],'Test Parse Partial');
-            $this->assertEqual($aPlugin['version'],'0.0.1-test');
+            $this->assertEqual($aPlugin['version'],'0.0.1-test-RC1');
             $this->assertEqual($aPlugin['extends'],'admin');
 
             $this->assertEqual(count($aPlugin['install']['syscheck']['depends']),1);
@@ -161,7 +161,7 @@ class Test_OX_ParserBase extends UnitTestCase
             $this->assertEqual($aPlugin['authorurl'],'http://www.openx.org');
             $this->assertEqual($aPlugin['license'],'license.txt');
             $this->assertEqual($aPlugin['description'],'Test Parse Full');
-            $this->assertEqual($aPlugin['version'],'0.0.1-test');
+            $this->assertEqual($aPlugin['version'],'0.0.1-test-RC2');
             $this->assertEqual($aPlugin['extends'],'admin');
             $this->assertEqual($aPlugin['oxversion'],'2.7');
 
