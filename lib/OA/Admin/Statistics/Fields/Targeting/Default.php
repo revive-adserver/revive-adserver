@@ -81,7 +81,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
                                                       ),
             'zones_forecast_impressions'      => array('name'   => $GLOBALS['strZonesForecast'],
                                                        'format' => 'default',
-                                                       'active' => false
+                                                       'active' => true
                                                       ),
             'zone_actual_impressions'         => array('name'   => $GLOBALS['strZoneImpressions'],
                                                        'format' => 'default',
@@ -89,7 +89,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
                                                       ),
             'zones_actual_impressions'        => array('name'   => $GLOBALS['strZonesImpressions'],
                                                        'format' => 'default',
-                                                       'active' => false
+                                                       'active' => true
                                                       ),
             'average'                         => array('name'   => $GLOBALS['strAverage'],
                                                        'format' => 'boolean',
@@ -144,7 +144,10 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
      */
     function getTargetingSpanParams()
     {
-        return array();
+        $aParams = array();
+        $aParams['custom_table']   = 'data_summary_zone_impression_history';
+        $aParams['custom_columns'] = array("DATE_FORMAT(MIN(interval_start), '%Y-%m-%d')" => 'start_date');
+        return $aParams;
     }
 }
 
