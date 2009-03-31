@@ -54,7 +54,13 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.1.4';
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.11';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.11');
+
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.3.0RC2-dev';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION_NEWER,'version 5.3.0RC2');
+
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.2.9';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 5.1.4');
 
         $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '2048';

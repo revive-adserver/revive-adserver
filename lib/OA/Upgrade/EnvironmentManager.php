@@ -45,6 +45,7 @@ define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
 define('OA_ENV_WARNING_MEMORY',                     -13);
+define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -14);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -103,6 +104,7 @@ class OA_Environment_Manager
         $this->aInfo['FILES']['actual']   = array();
 
         $this->aInfo['PHP']['expected']['version']              = '5.1.4';
+        $this->aInfo['PHP']['expected']['version_new']          = '5.3.0-dev';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
@@ -340,6 +342,17 @@ class OA_Environment_Manager
             );
             if ($result) {
                 $result = OA_ENV_ERROR_PHP_VERSION;
+            } elseif (!empty($this->aInfo['PHP']['expected']['version_new'])) {
+                $result = version_compare(
+                    $this->aInfo['PHP']['actual']['version'],
+                    $this->aInfo['PHP']['expected']['version_new'],
+                    ">="
+                );
+                if ($result) {
+                    $result = OA_ENV_ERROR_PHP_VERSION_NEWER;
+                } else {
+                    $result = OA_ENV_ERROR_PHP_NOERROR;
+                }
             } else {
                 $result = OA_ENV_ERROR_PHP_NOERROR;
             }
@@ -354,6 +367,13 @@ class OA_Environment_Manager
         {
             $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
+                "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
+                "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
+        }
+        elseif ($result == OA_ENV_ERROR_PHP_VERSION_NEWER)
+        {
+            $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION_NEWER] =
+                "Version {$this->aInfo['PHP']['actual']['version']} is not supported yet." .
                 "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
                 "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
         }
