@@ -377,9 +377,8 @@ function MAX_commonInitVariables()
     $ct0        = (isset($ct0)          ? $ct0          : ''        );
     $context    = (isset($context)      ? $context      : array()   );
 
-    $target     = (isset($target)  && (!empty($target))  && (!strpos($target , chr(32))) ? $target       : '_blank'  );
-    $charset    = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset      : 'UTF-8'  );
-
+    $target     = (isset($target) && (!empty($charset)) && (strpos($target , chr(32)) !== false)  ? $target  : '');
+    $charset    = (isset($charset) && (!empty($charset)) && (strpos($charset, chr(32)) !== false) ? $charset : 'UTF-8'  );
 
     $bannerid   = (isset($bannerid)     && is_numeric($bannerid)    ? $bannerid     : ''        );
     $campaignid = (isset($campaignid)   && is_numeric($campaignid)  ? $campaignid   : ''        );
