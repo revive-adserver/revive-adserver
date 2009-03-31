@@ -9,7 +9,7 @@
 <div flexy:start="here">
 	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;">
+	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;padding-bottom:10px; ">
 	 <br />
 
     <div flexy:if="showDaySpanSelector">
@@ -64,26 +64,6 @@
     }
     {scriptClose:h}
 
-    <table width='100%' border='0' cellspacing='0' cellpadding='0'>
-	<tr>
-    {if:!disableGraph}
-		<td style="padding-bottom:5px; white-space: nowrap;">
-			<br />
-			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
-            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
-            </a>
-		</td>
-		<td width="90%">&nbsp;</td>
-	{else:}
-		<td style="padding-bottom:5px; white-space: nowrap;">
-			<br />
-			<span style="color: #999999;">
-            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
-		</td>
-		<td width="90%">&nbsp;</td>
-	{end:}
-	</tr>
-	</table>
     <div id="statsgraph" style="text-align: center; display:none; background-color:#f9f9f9; border: 1px solid #cccccc; padding: 10px; width: 850px; margin-top: 15px; margin-bottom: 15px;">
 	    {if:aGraphData[noGraph]}
 	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aGraphData[noGraph]:h}</div>
