@@ -86,7 +86,8 @@ class Test_OX_ParserPlugin extends UnitTestCase
             $aPlugin = $oParser->aPlugin;
 
             $this->_assertStructure($aPlugin);
-
+            $this->assertEqual($aPlugin['version'], '0.0.1-test-RC1');
+            
             $this->assertEqual(count($aPlugin['install']['contents']),2);
             $this->assertEqual($aPlugin['install']['contents'][1]['name'],'testPlugin1');
             $this->assertEqual($aPlugin['install']['contents'][2]['name'],'testPlugin2');

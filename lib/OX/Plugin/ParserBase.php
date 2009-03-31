@@ -243,13 +243,16 @@ class OX_ParserBase extends XML_Parser
                 $this->aUninstall['postscript'] = $data;
                 $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
                 break;
+            case 'plugin-version':
+                // Fix potential issues with lowercase RC's
+                $this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
+                break;
             case 'plugin-name':
             case 'plugin-creationdate':
             case 'plugin-author':
             case 'plugin-authoremail':
             case 'plugin-authorurl':
             case 'plugin-license':
-            case 'plugin-version':
             case 'plugin-oxversion':
             case 'plugin-extends':
             case 'plugin-description':

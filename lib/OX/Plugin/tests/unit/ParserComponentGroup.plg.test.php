@@ -92,7 +92,8 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $aPlugin = $oParser->aPlugin;
 
             $this->_assertStructure($aPlugin);
-
+            
+            $this->assertEqual($aPlugin['version'], '0.0.1-test-RC1');
             $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]),4);
             $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['insertafter'],'main-menu');
             $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['index'],'test-menu');
@@ -157,6 +158,7 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $aPlugin = $oParser->aPlugin;
 
             $this->_assertStructure($aPlugin);
+            $this->assertEqual($aPlugin['version'], '0.0.1-test-RC2');
             $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN]),3);
 
             $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]),4);

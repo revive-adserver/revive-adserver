@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>Test Parse Full</description>
     <oxversion>2.7</oxversion>
-    <version>0.0.1-test</version>
+    <version>0.0.1-test-RC2</version>
     <extends>admin</extends>
 
     <install>

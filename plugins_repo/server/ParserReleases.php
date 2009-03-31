@@ -110,6 +110,10 @@ class OX_ParserReleases extends XML_Parser
 
         switch ($this->element)
         {
+            case 'releases-package-version':
+                // Fix potential issues with lowercase RC's
+                $this->aPackage['version']= preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
+                break;
             case 'releases-package-name':
             case 'releases-package-creationdate':
             case 'releases-package-author':
@@ -117,7 +121,6 @@ class OX_ParserReleases extends XML_Parser
             case 'releases-package-authorurl':
             case 'releases-package-license':
             case 'releases-package-description':
-            case 'releases-package-version':
             case 'releases-package-oxminver':
             case 'releases-package-oxmaxver':
             case 'releases-package-downloadurl':
