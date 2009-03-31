@@ -39,6 +39,7 @@ phpAds_SessionDataFetch();
 
 // Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
 $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
+$GLOBALS['_MAX']['CONF']['pluginPaths']['packages']   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . 'etc/';
 
 $aErrors = array();
 $result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
