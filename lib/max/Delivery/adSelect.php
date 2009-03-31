@@ -162,59 +162,61 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     global $g_append, $g_prepend;
     $g_append = '';
     $g_prepend = '';
-    while ($first || ($what != '' && $found == false)) {
-        $first = false;
-        // Get first part, store second part
-        $ix = strpos($what, '|');
-        if ($ix === false) {
-            $remaining = '';
-        } else {
-            $remaining = substr($what, $ix+1);
-            $what = substr($what, 0, $ix);
-        }
-        if (strpos($what, 'zone:') === 0) {
-            $zoneId  = intval(substr($what,5));
-            $row = _adSelectZone($zoneId, $context, $source, $richmedia);
-        } else {
-            // Expand paths to regular statements
-            if (strpos($what, '/') > 0) {
-                if (strpos($what, '@') > 0) {
-                    list ($what, $append) = explode ('@', $what);
-                } else {
-                    $append = '';
-                }
-
-                $separate  = explode ('/', $what);
-                $expanded  = '';
-                $collected = array();
-
-                reset($separate);
-                while (list(,$v) = each($separate)) {
-                    $expanded .= ($expanded != '' ? ',+' : '') . $v;
-                    $collected[] = $expanded . ($append != '' ? ',+'.$append : '');
-                }
-
-                $what = strtok(implode('|', array_reverse ($collected)), '|');
-                $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
-            }
-
-            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
-        }
-        if (is_array($row) && empty($row['default'])) {
-            // Log the ad request
-            MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid'], $row);
-            if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
-                && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
-                // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
-                $GLOBALS['_MAX']['adChain'][] = $row;
-                $found = false;
-                $what = "zone:{$matches[1]}";
-            } else {
-                $found = true;
-            }
-        } else {
-          $what  = $remaining;
-        }
+    if(!empty($what)) {
+	    while ($first || ($what != '' && $found == false)) {
+	        $first = false;
+	        // Get first part, store second part
+	        $ix = strpos($what, '|');
+	        if ($ix === false) {
+	            $remaining = '';
+	        } else {
+	            $remaining = substr($what, $ix+1);
+	            $what = substr($what, 0, $ix);
+	        }
+	        if (strpos($what, 'zone:') === 0) {
+	            $zoneId  = intval(substr($what,5));
+	            $row = _adSelectZone($zoneId, $context, $source, $richmedia);
+	        } else {
+	            // Expand paths to regular statements
+	            if (strpos($what, '/') > 0) {
+	                if (strpos($what, '@') > 0) {
+	                    list ($what, $append) = explode ('@', $what);
+	                } else {
+	                    $append = '';
+	                }
+	
+	                $separate  = explode ('/', $what);
+	                $expanded  = '';
+	                $collected = array();
+	
+	                reset($separate);
+	                while (list(,$v) = each($separate)) {
+	                    $expanded .= ($expanded != '' ? ',+' : '') . $v;
+	                    $collected[] = $expanded . ($append != '' ? ',+'.$append : '');
+	                }
+	
+	                $what = strtok(implode('|', array_reverse ($collected)), '|');
+	                $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
+	            }
+	
+	            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
+	        }
+	        if (is_array($row) && empty($row['default'])) {
+	            // Log the ad request
+	            MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid'], $row);
+	            if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
+	                && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
+	                // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
+	                $GLOBALS['_MAX']['adChain'][] = $row;
+	                $found = false;
+	                $what = "zone:{$matches[1]}";
+	            } else {
+	                $found = true;
+	            }
+	        } else {
+	          $what  = $remaining;
+	        }
+	    }
     }
 
     // Return the banner information
