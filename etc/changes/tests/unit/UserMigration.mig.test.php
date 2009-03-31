@@ -498,6 +498,17 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
     }
 
     /**
+     * A private method to return the default preferences
+     *
+     * @access private
+     */
+    function _getDefaultPreferences()
+    {
+        $oMig = new Migration_546();
+        return $oMig->_getDefaultPreferences();
+    }
+
+    /**
      * A private method that tests that preferences have been
      * correctly migrated to settings.
      *
@@ -1121,7 +1132,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                          )
             );
         } else if ($set == 1) {
-            $aColumnDefaults = OA_Preferences::getPreferenceDefaults();
+            $aColumnDefaults = $this->_getDefaultPreferences();
             $aColumnPreferences = array(
                 'ui_column_id'                        => array(
                                                             'value' => $aColumnDefaults['ui_column_id']['default'],
