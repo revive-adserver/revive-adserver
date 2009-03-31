@@ -43,6 +43,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 	$name = str_replace("'", "", $name);
 	$extension = substr($name, strrpos($name, "."));
 	if ($type == 'web') {
+		$filename = phpAds_LocalUniqueName($buffer, $extension);
 		if ($aConf['store']['mode'] == 'ftp') {
 			// FTP mode
 			$server = array();
@@ -54,7 +55,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 			$server['user'] = $aConf['store']['ftpUsername'];
 			$server['pass'] = $aConf['store']['ftpPassword'];
 			$server['passiv'] = !empty( $aConf['store']['ftpPassive'] );
-            $stored_url = phpAds_FTPStore($server, $name, $buffer, $overwrite);
+            $stored_url = phpAds_FTPStore($server, $filename, $buffer, true);
 		} else {
 			// Local mode, get the unique filename
 			$filename = phpAds_LocalUniqueName($buffer, $extension);
