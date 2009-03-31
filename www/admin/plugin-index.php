@@ -116,6 +116,9 @@ else if (array_key_exists('check',$_POST))
         $aMessages[] = 'Currently installed OpenX version '. OA_VERSION;
         switch ($response['status'])
         {
+            case 3:
+                $aMessages[] = 'You have a newer plugin version installed than the one available for upgrade.';
+                break;
             case 1:
                 $aMessages[] = 'This plugin is up to date';
                 break;

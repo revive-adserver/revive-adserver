@@ -66,22 +66,21 @@ class OX_PluginServer
 
     function _compareVersions($aParams, &$aRelease)
     {
-        if (version_compare($aRelease['version'],$aParams['version'],'=='))
-        {
+        if (version_compare($aRelease['version'],$aParams['version'],'==')) {
+            // Check for equal
             $aRelease['status'] = 1;
-        }
-        else if (version_compare($aRelease['version'],$aParams['version'],'>'))
-        {
+        } else if (version_compare($aRelease['version'],$aParams['version'],'<')) {
+            // Check for older than installed
+            $aRelease['status'] = 3;
+        } else if (version_compare($aRelease['version'],$aParams['version'],'>')) {
+            // Check for newer than installed
             $aRelease['status'] = 0;
-            if (!empty($aRelease['oxmaxver']) && version_compare($aParams['oxversion'], $aRelease['oxmaxver'],'>') )
-            {
+            if (!empty($aRelease['oxmaxver']) && version_compare($aParams['oxversion'], $aRelease['oxmaxver'],'>') ) {
                 $aRelease['status'] = -1;
-            }
-            else if (!empty($aRelease['oxminver']) && version_compare($aParams['oxversion'], $aRelease['oxminver'],'<'))
-            {
+            } else if (!empty($aRelease['oxminver']) && version_compare($aParams['oxversion'], $aRelease['oxminver'],'<')) {
                 $aRelease['status'] = -2;
             }
-        }
+        } 
     }
 
     function _parseReleasesXML()
