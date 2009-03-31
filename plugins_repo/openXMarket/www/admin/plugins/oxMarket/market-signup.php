@@ -466,7 +466,7 @@ function getTranslationLabels($oMarketComponent)
     $aContentStrings['error_message']['0'] = isset($aContentKeys['error-0-message']) 
         ? $aContentKeys['error-0-message']
         : 'A generic error occurred while associating your OpenX.org account (Code 0: %s)' //%s needs to replaced with exc message
-          .'<br>The problem may by caused by an improper configuration of your OpenX Ad Server'
+          .'<br>The problem may be caused by an improper configuration of your OpenX Ad Server'
           .' or your web server or by the lack of a required PHP extension.'
           .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
           .'">OpenX Market publisher support</a> for assistance.';
@@ -484,7 +484,7 @@ function getTranslationLabels($oMarketComponent)
         $aContentStrings['error_message'][$errnum] = isset($aContentKeys['error-generic-xml-rpc-message']) 
             ? $aContentKeys['error-generic-xml-rpc-message']
             : 'An error occurred while associating your OpenX.org account (Code %s: %s)' //%s needs to replaced with code and exc message
-              .'<br>The problem may by caused by an improper configuration of your OpenX Ad Server'
+              .'<br>The problem may be caused by an improper configuration of your OpenX Ad Server'
               .' or your web server or by the lack of a required PHP extension.'
               .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
               .'">OpenX Market publisher support</a> for assistance.';
