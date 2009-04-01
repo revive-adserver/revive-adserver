@@ -691,6 +691,7 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
  *
  * @return string The params string
  */
+
 function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
 {
     // HACK - sometimes $aBanner has the banner ID as bannerid, and others it is ad_id.  This needs
@@ -729,7 +730,10 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
             $dest = $ct0.urlencode($dest);
         }
-        $maxdest = "{$del}{$conf['var']['dest']}=".urlencode($dest);
+        // Urlencode, but allow magic macros
+        $dest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
+
+        $maxdest = "{$del}{$conf['var']['dest']}={$dest}";
 
         $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 
