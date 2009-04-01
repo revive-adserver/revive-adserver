@@ -269,7 +269,7 @@ class test_DeliveryCommon extends UnitTestCase
 
         $this->assertEqual($context, array(), '$context');
         $this->assertEqual($source, '{obfs:}', '$source'); // only if conf->obfuscate
-        $this->assertEqual($target, '_blank', '$target');
+        $this->assertEqual($target, '', '$target');
         $this->assertEqual($withText, '', '$withText');
         $this->assertEqual($withtext, '', '$withtext');
         $this->assertEqual($withtext, $withText, '$withtext/$withText');
@@ -330,7 +330,7 @@ class test_DeliveryCommon extends UnitTestCase
         $target  = '';
         $charset = '';
         MAX_commonInitVariables();
-        $this->assertEqual($GLOBALS['target'], '_blank');
+        $this->assertEqual($GLOBALS['target'], '');
         $this->assertEqual($GLOBALS['charset'], 'UTF-8');
 
         $this->_unsetMAXGlobals();
@@ -338,7 +338,7 @@ class test_DeliveryCommon extends UnitTestCase
         $target  = 'select * from users';
         $charset = 'select * from users';
         MAX_commonInitVariables();
-        $this->assertEqual($GLOBALS['target'], '_blank');
+        $this->assertEqual($GLOBALS['target'], '');
         $this->assertEqual($GLOBALS['charset'], 'UTF-8');
 
         $this->_unsetMAXGlobals();
