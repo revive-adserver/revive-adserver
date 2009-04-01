@@ -540,7 +540,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $aRequestParams =  array(
                 $this->getConfigValue('marketAccountIdParamName') => $pubAccountId);
             if (!empty($sectionId)) {
-                $sectionId = urlencode($sectionId); //encode id for special characters eg. spaces
+                $id = urlencode($sectionId); //encode id for special characters eg. spaces
                 $aRequestParams["id"] = $sectionId;
             }
             $oClient->setParameterGet($aRequestParams);        
