@@ -143,13 +143,13 @@ if ($campaignid != "") {
     }
 
     // Get the value to be used in the target_value field
-    if ($campaign['target_impression'] >= 0) {
+    if ($campaign['target_impression'] > 0) {
         $campaign['target_value'] = $campaign['target_impression'];
         $campaign['target_type'] = 'target_impression';
-    } elseif ($campaign['target_click'] >= 0) {
+    } elseif ($campaign['target_click'] > 0) {
         $campaign['target_value'] = $campaign['target_click'];
         $campaign['target_type'] = 'target_click';
-    } elseif ($campaign['target_conversion'] >= 0) {
+    } elseif ($campaign['target_conversion'] > 0) {
         $campaign['target_value'] = $campaign['target_conversion'];
         $campaign['target_type'] = 'target_conversion';
     } else {
