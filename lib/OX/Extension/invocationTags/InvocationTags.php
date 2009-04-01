@@ -185,7 +185,7 @@ class Plugins_InvocationTags extends OX_Component
         }
         $mi->parameters = array();
         $imgParams      = array();
-        
+
         // Setup option defaults
         $pluginOptions = new Plugins_InvocationTagsOptions();
         foreach ($pluginOptions->defaultValues as $key => $value) {
@@ -193,7 +193,7 @@ class Plugins_InvocationTags extends OX_Component
                 $mi->$key = $mi->parameters[$key] = $value;
             }
         }
-        
+
         // UniqueID is only necessary for a couple of plugins, so it is not "common"
         //$mi->uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
@@ -212,7 +212,7 @@ class Plugins_InvocationTags extends OX_Component
             $mi->parameters['campaignid'] = $this->options['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
         }
         if (isset($mi->bannerid) && $mi->bannerid != '') {
-            $mi->parameters['bannerid'] = $this->options['campaignid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
+            $mi->parameters['bannerid'] = $this->options['bannerid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
         }
         if (isset($mi->what) && $mi->what != '') {
             $mi->parameters['what'] = $this->options['what'] = $imgParams['what'] = "what=".str_replace (",+", ",_", $mi->what);
