@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>oxMarket</name>
+ <create>false</create>
+ <overwrite>false</overwrite>
+ <version>002</version>
+ <status>final</status>
+
+ <table>
+
+  <name>ext_market_assoc_data</name>
+
+  <declaration>
+
+   <field>
+    <name>account_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>publisher_account_id</name>
+    <type>openads_varchar</type>
+    <length>36</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+   
+   <index>
+    <name>ext_market_assoc_data_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>account_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_market_campaign_pref</name>
+
+  <declaration>
+
+   <field>
+    <name>campaignid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>is_enabled</name>
+    <type>openads_smallint</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>floor_price</name>
+    <type>openads_decimal</type>
+    <length>10,4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ext_market_campaign_pref_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_market_general_pref</name>
+
+  <declaration>
+
+   <field>
+    <name>name</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>value</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ext_market_general_pref_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_market_setting</name>
+
+  <declaration>
+
+   <field>
+    <name>market_setting_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>market_setting_type_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owner_type_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owner_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_market_web_stats</name>
+
+  <declaration>
+
+   <field>
+    <name>p_website_id</name>
+    <type>openads_char</type>
+    <length>36</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>impressions</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>revenue</name>
+    <type>openads_decimal</type>
+    <length>17,5</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>width</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ext_market_web_stats_website_id</name>
+    <field>
+     <name>p_website_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ext_market_web_stats_date_time</name>
+    <field>
+     <name>date_time</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ext_market_web_stats_ad_size</name>
+    <field>
+     <name>width</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>height</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_market_website_pref</name>
+
+  <declaration>
+
+   <field>
+    <name>affiliateid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>website_id</name>
+    <type>openads_char</type>
+    <length>36</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>is_url_synchronized</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <index>
+    <name>ext_market_website_pref_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>affiliateid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

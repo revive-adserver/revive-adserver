@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>Client</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>GNU General Public License</license>
+    <description>Client Delivery Limitations for OpenX</description>
+    <version>1.0.3</version>
+    <oxversion>2.7.27-beta-rc5</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Ip.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Ip.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">CHANGES</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">LICENSE</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">index.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">user_agent.inc</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">phpSniff.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">phpSniff.core.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">phpTimer.class.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+        </files>
+
+        <components>
+            <component><name>Browser</name></component>
+            <component><name>Domain</name></component>
+            <component><name>Ip</name></component>
+            <component><name>Language</name></component>
+            <component><name>Os</name></component>
+            <component><name>Useragent</name></component>
+        </components>
+
+        <configuration option="Browser Limitations">
+            <setting key="sniff" type="checkbox" label="Extract the viewer's operating system and web browser information using phpSniff" required="0" size="0" visible="1">false</setting>
+        </configuration>
+
+        <postscript>postscript_install_Client.php</postscript>
+
+    </install>
+
+</plugin>

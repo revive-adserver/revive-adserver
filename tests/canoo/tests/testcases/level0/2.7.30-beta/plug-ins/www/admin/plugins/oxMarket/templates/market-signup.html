@@ -1,0 +1,64 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-signup.html 32758 2009-02-23 11:10:53Z bernard.lange $
+
+-->*}
+
+<div class="content">
+  <div class='form-message form-message-error' id="server-errors" {if $error}{else}style="display:none"{/if}>
+    {if $hasError && in_array($error.code, $aSsoErrors)}
+    <div>{t str='Invalid user name or password.'}</div>
+    <ul>
+      <li>{t str='Please check that the OpenX User name and password are correct.'}</li>
+      <li>{t str='If you have recently signed up for a new OpenX Account, make sure you have gone into your email and activated your OpenX Account.'}</li>
+    </ul>
+    {elseif $hasError && in_array($error.code, $aLinkOxpErrors)}
+          {if $error.code == 901}
+            This Ad Server is already associated with OpenX Market through a different OpenX account   
+          {elseif $error.code == 902}
+            This OpenX account is already associated with OpenX Market through a different OpenX Ad Server
+          {else}
+            {$error.message}
+          {/if}
+           ({t str='Code'} {$error.code}). <br>Please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a> if you need further assistance.
+    {elseif $error.code == 0}
+        A generic error occurred while associating your OpenX account ({t str='Code'} {$error.code}: {$error.message})
+        <br>The problem may by caused by an improper configuration of your OpenX Ad Server or your web server or by the lack of a required PHP extension.
+        <br>If the problem persists, please contact <a href="mailto:{$publisherSupportEmail}">OpenX Market publisher support</a> for assistance.
+    {else}
+          {t str='An error occured while associating your OpenX account'} ({t str='Code'} {$error.code}). <br>Please try again in couple of minutes. If the problem persists, please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a>
+          for assistance.
+    {/if}
+  </div>
+
+
+  {*signup form*}
+  {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+  {*/singup form*}
+</div>
+
+{$trackerFrame}

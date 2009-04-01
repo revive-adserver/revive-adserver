@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>ox3rdPartyServers</name>
+    <creationDate>2008-08-01</creationDate>
+    <author>Chris Nutting</author>
+    <authorEmail>Chris.Nutting@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Plugins for OpenX which automatically modify HTML banners to track clicks</description>
+    <version>1.0.2</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>3rdPartyServers</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">adtech.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">atlas.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">bluestreak.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">cpx.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">doubleclick.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">eyeblaster.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">falk.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">google.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">kontera.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">max.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">mediaplex.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">tangozebra.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">tradedoubler.class.php</file>
+            <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">ypn.class.php</file>
+            <file path="{PLUGINPATH}ox3rdPartyServers/_lang/">en.mo</file>
+            <file path="{PLUGINPATH}ox3rdPartyServers/_lang/po/">en.pot</file>
+        </files>
+
+        <components>
+           <component>
+                <name>adtech</name>
+           </component>
+           <component>
+                <name>atlas</name>
+           </component>
+           <component>
+                <name>bluestreak</name>
+           </component>
+           <component>
+                <name>cpx</name>
+           </component>
+           <component>
+                <name>doubleclick</name>
+           </component>
+           <component>
+                <name>eyeblaster</name>
+           </component>
+           <component>
+                <name>falk</name>
+           </component>
+           <component>
+                <name>google</name>
+           </component>
+           <component>
+                <name>kontera</name>
+           </component>
+           <component>
+                <name>max</name>
+           </component>
+           <component>
+                <name>mediaplex</name>
+           </component>
+           <component>
+                <name>tangozebra</name>
+           </component>
+           <component>
+                <name>tradedoubler</name>
+           </component>
+           <component>
+                <name>ypn</name>
+           </component>
+         </components>
+
+    </install>
+
+</plugin>
