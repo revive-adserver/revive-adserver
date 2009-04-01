@@ -1750,7 +1750,7 @@ $random = substr(md5(uniqid($time, true)), 0, 10);
 global $cookie_random;  // Temporary fix to get doubleclick tracking working (Bug # 88)
 $cookie_random = $random;
 // Get the click URL
-$clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
+$clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, true);
 // Get URL prefix, stripping the traling slash
 $urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
 $code = str_replace('{clickurl}', $clickUrl, $code);  // This step needs to be done separately because {clickurl} can contain {random}...
