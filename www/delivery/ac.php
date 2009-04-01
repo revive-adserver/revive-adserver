@@ -2148,7 +2148,9 @@ $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
 if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
 $dest = $ct0.urlencode($dest);
 }
-$maxdest = "{$del}{$conf['var']['dest']}=".urlencode($dest);
+// Urlencode, but allow magic macros
+$dest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
+$maxdest = "{$del}{$conf['var']['dest']}={$dest}";
 $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
 // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
