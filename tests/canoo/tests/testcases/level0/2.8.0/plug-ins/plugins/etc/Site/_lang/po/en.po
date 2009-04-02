@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX - Delivery limitations (Ste)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-16 14:32+0100\n"
+"PO-Revision-Date: 2008-09-16 14:33+0100\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site/\n"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
+msgid "Is all of"
+msgstr "Is all of"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
+msgid "Channel"
+msgstr "Channel"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
+msgid "Refering Page"
+msgstr "Refering Page"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
+msgid "Source"
+msgstr "Source"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
+msgid "Page URL"
+msgstr "Page URL"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
+msgid "Variable"
+msgstr "Variable"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
+msgid "Site:Variable: Name contains unallowed character(s)"
+msgstr "Site:Variable: Name contains unallowed character(s)"
+

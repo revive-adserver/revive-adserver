@@ -1,0 +1,106 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-stats-website.html 30820 2009-01-13 19:02:17Z andrew.hill $
+
+-->*}
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>
+            <div>
+                <form id='period_form' name='period_form' action='market-stats.php'>
+                   {$daySpan->display()}
+                   <a href='#' onclick='return periodFormSubmit()'>
+                       <img src='{$assetPath|escape}/images/ltr/go_blue.gif' border='0' tabindex='6' />
+                   </a>
+                </form>
+            </div>
+
+            <table width="100%" class="table">
+                <thead>
+                    <tr height="25">
+                        <th height="25" width="40%">
+                            <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=up default=1 url=market-stats.php}</b>
+                        </th>
+                        <th height='25' width="20%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=Impressions item=impressions order=down url=market-stats.php}</th>
+                        <th height='25' width="13%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=Revenue item=revenue order=down url=market-stats.php}</th>
+                        <th height='25' width="13%" class='aright'>&nbsp;&nbsp;{oa_title_sort str=ECPM item=ecpm order=down url=market-stats.php}</th>
+                    </tr>
+                </thead>
+                {if !$aReportData}
+                  <tbody class="even">
+                    <tr height='25' bgcolor='#F6F6F6'>
+                        <td height='25' colspan='4'>&nbsp;&nbsp;{t str=$listEmptyStr|default:"There are currently no websites details available."}</td>
+                    </tr>
+                  </tbody>
+                {else}
+                    {cycle name=bgcolor values="odd,even" assign=bgColor reset=1}
+                    {foreach item=affiliate from=$aReportData.websites}
+                        {assign var=affiliateId value=$affiliate.id}
+                        {cycle name=bgcolor assign=bgColor}
+                    <tbody class="{$bgColor}">
+                        <tr height="25">
+                            <td height='25'>
+                          <div style="float:left;padding-right: 5px;">
+                          {if $aReportData.zones.$affiliateId}
+                            <a href="market-stats.php??period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&collapse={$affiliateId}"><img src="{$assetPath}/images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
+                          {else}
+                            <a href="market-stats.php??period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand={$affiliateId}"><img src="{$assetPath}/images/{$phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>                            
+                          {/if}
+                            <img src='{$assetPath|escape}/images/icon-affiliate.gif' align='absmiddle'>&nbsp;
+                          </div>
+                          <div>
+                            <a href='market-stats.php?affiliateid={$affiliateId}'>{$affiliate.name|escape:html}</a>
+                          </div>
+                            </td>
+                
+                            <td height='25' class='aright'>
+                               {$affiliate.impressions}
+                            </td>
+                
+                            <td height='25' class='aright'>
+                                {$affiliate.revenue|string_format:"%.2f"}
+                            </td>
+                
+                            <td height='25' class='aright'>
+                                {$affiliate.ecpm|string_format:"%.2f"}
+                            </td>
+                            
+                        </tr>
+                        {if $aReportData.zones.$affiliateId}
+                          {foreach item=zone from=$aReportData.zones.$affiliateId}
+                              {include file='stats-zone-row.html' zone=$zone level=2}
+                          {/foreach}
+                        {/if}
+                    </tbody>
+                    {/foreach}
+                {/if}
+            </table>
+        </td>
+    </tr>
+</table>
+<div style="float: right;">
+    <img border="0" align="absmiddle" src="{$assetPath}/images/triangle-d.gif"/> <a accesskey="e" href="market-stats.php?period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand=all"><u>E</u>xpand all</a>
+          |  
+    <img border="0" align="absmiddle" src="{$assetPath}/images/ltr/triangle-l.gif"/> <a accesskey="c" href="market-stats.php?period_preset={$period_preset}&period_start={$period_start}&period_end={$period_end}&listorder={$listorder}&orderdirection={$orderdirection}&expand=none"><u>C</u>ollapse all</a>
+</div>

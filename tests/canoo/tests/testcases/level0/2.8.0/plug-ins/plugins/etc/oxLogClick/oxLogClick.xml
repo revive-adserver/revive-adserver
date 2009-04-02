@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxLogClick</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Click logging component of the standard delivery logging plugin for OpenX</description>
+    <version>1.0.2</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>deliveryLog</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLog/oxLogClick/">logClick.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogClick/">logClick.class.php</file>
+        </files>
+
+        <postscript>postscript_install_oxLogClick.php</postscript>
+
+        <components>
+           <component>
+                <name>logClick</name>
+                <hook>logClick</hook>
+           </component>
+        </components>
+
+    </install>
+
+
+</plugin>
