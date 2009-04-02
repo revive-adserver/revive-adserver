@@ -500,8 +500,8 @@ class OA_Dll_Audit extends OA_Dll
         }
 
         $oDate = new Date();
-        $oDate->subtractSpan(new Date_Span('7-0-0-0'));
         $oDate->toUTC();
+        $oDate->subtractSpan(new Date_Span('7-0-0-0'));
         $oAudit->whereAdd("username <> 'Maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));

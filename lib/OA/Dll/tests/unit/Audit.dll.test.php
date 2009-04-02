@@ -95,8 +95,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDate->addSpan(new Date_Span('0-1-0-0'));
 
         // record 1
-        $oDateCopy = new Date($oDate);
-        $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
         $oAudit->context = 'campaigns';
@@ -152,8 +150,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDate->addSpan(new Date_Span('0-1-0-0'));
 
         // record 1
-        $oDateCopy = new Date($oDate);
-        $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
         $oAudit->context = 'campaigns';
@@ -516,8 +512,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDate->addSpan(new Date_Span('0-1-0-0'));
 
         // record 1 - more than 7 days old so should not be returned
-        $oDateCopy = new Date($oDate);
-        $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
         $oAudit->context = 'campaigns';
