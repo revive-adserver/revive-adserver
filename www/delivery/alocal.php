@@ -124,16 +124,10 @@ return $realConfig;
 }
 function OX_getMinimumRequiredMemory($limit = null)
 {
-if ($limit == 'cache') {
-return 41943040; // 40MB in bytes (40 * 1048576)
-}
-if ($limit == 'plugin') {
-return 67108864; // 64MB in bytes (64 * 1048576)
-}
 if ($limit == 'maintenance') {
 return 134217728; // 128MB in bytes (128 * 1048576)
 }
-return 25165824; // 24MB in bytes (24 * 1048576)
+return 134217728; // 128MB in bytes (128 * 1048576)
 }
 function OX_getMemoryLimitSizeInBytes() {
 $phpMemoryLimit = ini_get('memory_limit');
