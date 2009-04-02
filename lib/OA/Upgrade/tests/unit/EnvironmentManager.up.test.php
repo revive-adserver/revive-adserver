@@ -48,41 +48,437 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalPHP()
     {
-        $oEnvMgr =&  $this->_getEnvMgrObj();
 
-        $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
-        $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
-        $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
+        // Test 1: Test PHP versions
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.11';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.11');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '4.3.11';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('OA_ENV_ERROR_PHP_VERSION'));
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.3.0RC2-dev';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION_NEWER,'version 5.3.0RC2');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.1.3';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('OA_ENV_ERROR_PHP_VERSION'));
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.2.9';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 5.1.4');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.1.4';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
-        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '2048';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_WARNING_MEMORY,'original memory_limit too low');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.3.0RC2-dev';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_NEWER);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
-        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '25165824';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'original memory_limit');
+        // Test 2: Test memory_limit
 
-        $oEnvMgr->aInfo['PHP']['actual']['original_memory_limit'] = '';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'original memory_limit not set');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid memory_limit
+        $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '2048';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('OA_ENV_WARNING_MEMORY'));
 
-        $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '1';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_SAFEMODE,'safe_mode on');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid memory_limit
+        $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '134217728';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
-        $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'safe_mode off');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid memory_limit
+        $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '-1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
-        $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '1';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_MAGICQ,'magic_quotes_runtime on');
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid memory_limit
+        $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
-        $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'magic_quotes_runtime off');
+        // Test 3: Test safe_mode
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid safe_mode
+        $oEnvironmentManager->aInfo['PHP']['actual']['safe_mode'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_SAFEMODE);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_SAFEMODE'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid safe_mode
+        $oEnvironmentManager->aInfo['PHP']['actual']['safe_mode'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 4: Test magic_quotes_runtime
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid magic_quotes_runtime
+        $oEnvironmentManager->aInfo['PHP']['actual']['magic_quotes_runtime'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_MAGICQ);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_MAGICQ'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid magic_quotes_runtime
+        $oEnvironmentManager->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 5: Test file_uploads
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid file_uploads
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_UPLOADS'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid file_uploads
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 6: Test file_uploads
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid file_uploads
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_UPLOADS'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid file_uploads
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 7: Test the pcre extension
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_PCRE'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 8: Test the xml extension
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid xml extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['xml'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_XML'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid xml extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['xml'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 9: Test the zlib extension
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid zlib extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['zlib'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_ZLIB'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid zlib extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['zlib'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 10: Test the mysql/pgsql extensions
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid mysql/pgsql extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_MYSQL'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid mysql/pgsql extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid mysql/pgsql extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid mysql/pgsql extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 11: Test the timeout settings
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid timeout setting
+        $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('OA_ENV_ERROR_PHP_TIMEOUT'), array());
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid timeout setting
+        $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+    }
+
+    /**
+     * A private method to return an OA_Environment_Manager instance that is valid
+     * for all required PHP versions/settings to install OpenX.
+     *
+     * @access private
+     * @return OA_Environment_Manager A valid OA_Environment_Manager instance for use in the test_checkCriticalPHP() method.
+     */
+    function _getValidEnvironmentManagerObject()
+    {
+        // Create a new OA_Environment_Manager instance
+        $oEnvironmentManager = new OA_Environment_Manager();
+        // Set a valid enfironment
+        $oEnvironmentManager->aInfo['PHP']['actual']['version']              = '5.1.4';
+        $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit']         = '';
+        $oEnvironmentManager->aInfo['PHP']['actual']['safe_mode']            = '0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads']         = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pcre']                 = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['xml']                  = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['zlib']                 = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysql']                = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql']                = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['timeout']              = '0';
+        // Return the valid OA_Environment_Manager instance
+        return $oEnvironmentManager;
+    }
+
+    /**
+     * A private method to test an OA_Environment_Manager instance, either with
+     * no errors or warning set, or with a set of specified expected errors or warnings.
+     *
+     * @access private
+     * @param OA_Environment_Manager $oEnvironmentManager The instance to test.
+     * @param array $aErrors An array of errors that are expected to be set.
+     * @param array $aWarnings An array of warnings that are expected to be set.
+     * @return void
+     */
+    function _testValidEnvironmentManagerObject($oEnvironmentManager, $aErrors = array(), $aWarnings = array())
+    {
+        if (in_array('OA_ENV_ERROR_PHP_VERSION', $aWarnings)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_MEMORY', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY]);
+        }
+        if (in_array('OA_ENV_WARNING_MEMORY', $aWarnings)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_SAFEMODE', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_MAGICQ', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_UPLOADS', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_PCRE', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_XML', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_ZLIB', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_MYSQL', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL]);
+        }
+        if (in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors)) {
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]);
+        } else {
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]);
+        }
     }
 
     function test_buildFilePermArrayItem()

@@ -313,7 +313,7 @@ class OA_Environment_Manager
      *      Sets: $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION]
      *
      *  - The PHP configuration's memory_limit value
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY]
+     *      Sets: $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY]
      *
      *  - The PHP configuration's safe_mode value
      *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE]
@@ -324,11 +324,39 @@ class OA_Environment_Manager
      *  - The PHP configuration's file_uploads value
      *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS]
      *
+     *  - The PHP configuration's pcre extension
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE]
+     *
+     *  - The PHP configuration's xml extension
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML]
+     *
+     *  - The PHP configuration's zlib extension
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB]
+     *
+     *  - The PHP configuration's database (both mysql and pgsql) extensions
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL]
+     *
+     *  - The PHP configuration's timeout settings
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]
+     *
      * Otherwise, if there are no errors or warnings, then $this->aInfo['PHP']['error']
      * is set to "false".
      *
      * @access private
-     * @return void
+     * @return integer One of the following values:
+     *                      - OA_ENV_ERROR_PHP_NOERROR
+     *                      - OA_ENV_ERROR_PHP_VERSION
+     *                      - OA_ENV_ERROR_PHP_VERSION_NEWER
+     *                      - OA_ENV_ERROR_PHP_SAFEMODE
+     *                      - OA_ENV_ERROR_PHP_MAGICQ
+     *                 Note that sometimes an error value is returned, sometimes
+     *                 not, even if there is an actual error - this appears to be
+     *                 a historical hangover, where the information set in the
+     *                 $this->aInfo array has gradually assumed more importance
+     *                 than the return value.
+     *
+     * @TODO Address the return value oddness, by removing all return values, and
+     *       simply rely on the $this->aInfo array, perhaps?
      */
     function _checkCriticalPHP()
     {
