@@ -9,18 +9,12 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.3.0-rc6</version>
+    <version>0.3.0-rc7</version>
     <oxversion>2.7.31-beta-rc4</oxversion>
     <extends>admin</extends>
 
     <install>
-
-        <syscheck>
-            <php>
-                <setting name='version'>5.1</setting>;
-            </php>
-        </syscheck>
-
+    
         <files>
             <file path="{ADMINPATH}/css/">ox.market.css</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>

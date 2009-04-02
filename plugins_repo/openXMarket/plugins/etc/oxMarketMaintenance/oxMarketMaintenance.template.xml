@@ -9,20 +9,11 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Maintenace Statistics Tasks</description>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <oxversion>2.7.31-beta-rc2</oxversion>
     <extends>maintenanceStatisticsTask</extends>
 
     <install>
-
-        <syscheck>
-            <php>
-                <setting name='version'>5.1</setting>;
-            </php>
-            <!--depends>
-                <plugin version="0.0.1-dev" enabled="0">oxMarket</plugin>
-            </depends-->
-        </syscheck>
 
         <files>
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenance.class.php</file>
