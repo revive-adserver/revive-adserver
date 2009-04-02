@@ -91,7 +91,7 @@ class OA_StatisticsFieldsTargeting_Default extends OA_StatisticsFieldsTargeting
                                                        'format' => 'default',
                                                        'active' => true
                                                       ),
-            'average'                         => array('name'   => $GLOBALS['strAverage'],
+            'average'                         => array('name'   => $GLOBALS['strAveraged'],
                                                        'format' => 'boolean',
                                                        'active' => true
                                                       ),
