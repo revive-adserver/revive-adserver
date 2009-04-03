@@ -192,7 +192,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
         $this->htmlName = $htmlName;
     }
     
-    
+	
     /**
      * Returns map of entityId => (entityName, [entityUrl]) entries.
      * @return array
@@ -202,15 +202,22 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
         return $this->aEntityMap;
     }
     
-    
     /**
      * @param array $aEntityMap
      */
     public function setEntityMap($aEntityMap)
     {
+		uasort($aEntityMap, array($this, "orderEntitiesByNameAsc"));
         $this->aEntityMap = $aEntityMap;
     }
     
+    /**
+     * Order the drop down selectors by Name asc for easy browsing 
+     * when selector has thousands of entries
+     * See OX-4877
+     */
+    protected function orderEntitiesByNameAsc($a, $b) 
+    {
+	    return strnatcasecmp($a['name'], $b['name']);
+	}
 }
-
-?>
