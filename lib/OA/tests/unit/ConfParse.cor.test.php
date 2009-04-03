@@ -85,33 +85,8 @@ class Test_OA_ConfParse extends UnitTestCase
         $max = 126;
         for ($i=$min;$i<=$max;$i++)
         {
-            if (($i==34))
-            {
-                /*
-                    // double quotes breaks the array
-                    [test1]
-                    34="test\""
-                    [test2]
-                    34="\"test"
-                    [test3]
-                    34="te\"st"
-
-                    // single quotes returns backslash
-                    [test1]
-                    39="test\'"
-                    [test2]
-                    39="\'test"
-                    [test3]
-                    39="te\'st"
-
-                    // backslash quotes returns two backslashes
-                    [test1]
-                    92="test\\"
-                    [test2]
-                    92="\\test"
-                    [test3]
-                    92="te\\st"
-                */
+            if ($i == 34 || $i == 36) {
+                // '"' (any version) and '$' (5.3) break the test
                 continue;
             }
             $aIni = array();

@@ -1591,8 +1591,15 @@ class OX_Plugin_ComponentGroupManager
         {
             $oScript->oManager = & $this;
         }
-        if (!call_user_func_array(array($oScript, 'execute'), $aParams))
-        {
+        if (!isset($aParams)) {
+            $ret = call_user_func(array($oScript, 'execute'));
+        } else {
+            if (!is_array($aParams)) {
+                $aParams = array($aParams);
+            }
+            $ret = call_user_func_array(array($oScript, 'execute'), $aParams);
+        }
+        if (!$ret) {
             $this->_logError('Failed to execute '.$className);
             return false;
         }

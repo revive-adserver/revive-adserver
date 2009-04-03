@@ -125,7 +125,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
         $oEcpm->aOIDates['start'] = $oEcpm->aOIDates['end'] = new Date();
         $oEcpm->setReturnReference('_getDal', $oDal);
-        $oEcpm->OA_Maintenance_Priority_AdServer_Task_ECPM();
+        $oEcpm->OA_Maintenance_Priority_AdServer_Task();
 
         // Test
         $aZonesExpectedContracts = array(
@@ -156,7 +156,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
         $oEcpm->setReturnReference('_factoryDal', $oDal);
-        $oEcpm->OA_Maintenance_Priority_AdServer_Task_ECPM();
+        $oEcpm->OA_Maintenance_Priority_AdServer_Task();
 
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(123);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);

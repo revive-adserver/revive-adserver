@@ -375,9 +375,12 @@ class OX_Component
             MAX::raiseError("Method '$staticMethod()' not defined in class '$className'.", MAX_ERROR_INVALIDARGS);
             return false;
         }
-        if (is_null($aParams)) {
+        if (!isset($aParams)) {
             return call_user_func(array($className, $staticMethod));
         } else {
+            if (!is_array($aParams)) {
+                $aParams = array($aParams);
+            }
             return call_user_func_array(array($className, $staticMethod), $aParams);
         }
     }

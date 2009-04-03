@@ -137,6 +137,10 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $oServiceLocator->register('now', $oDate);
 
         // Test 6
+        if (version_compare(PHP_VERSION, '5.3.0-dev', '>=')) {
+            // Skip, see http://bugs.php.net/bug.php?id=47870
+            return;
+        }	
         $aZoneIds = $this->_generateTestZones(3);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory($aZoneIds[0], $aDates, -1);

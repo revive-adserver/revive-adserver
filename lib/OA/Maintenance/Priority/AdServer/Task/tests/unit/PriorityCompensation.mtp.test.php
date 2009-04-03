@@ -77,7 +77,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task();
 
         // Test 1
         $returnGetAllZonesImpInv = array(
@@ -390,7 +390,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task();
 
         // Test 1
         $aData = array(
@@ -493,7 +493,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task();
 
         // Test 1
         $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
@@ -838,7 +838,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task();
 
         // Test 1
         $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
