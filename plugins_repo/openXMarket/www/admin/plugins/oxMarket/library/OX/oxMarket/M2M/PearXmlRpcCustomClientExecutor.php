@@ -116,9 +116,11 @@ class OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor
         $executionTime = (int)ini_get('max_execution_time');
         $default_socket_timeout = (int)ini_get('default_socket_timeout');
         // Time margin for calls
-        $timeMargin = 3; 
-        
-        $executionTime = min(array(($executionTime-$timeMargin),$default_socket_timeout));
+        $timeMargin = 1; 
+        //use orginal executionTime if is set to 0 or isn't higher than timeMargin
+        if ($executionTime-$timeMargin > 0) {  
+            $executionTime = min(array(($executionTime-$timeMargin),$default_socket_timeout));
+        }
         return $executionTime;
     }
 }

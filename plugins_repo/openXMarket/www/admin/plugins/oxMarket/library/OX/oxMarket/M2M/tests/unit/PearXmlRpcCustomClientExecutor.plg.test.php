@@ -150,4 +150,24 @@ class OX_oxMarket_M2M_PearXmlRpcCustomClientExecutorTest extends UnitTestCase
         }
     }
 
+    function testGetTimeout()
+    {
+        $oXmlRpcClient = new TestXML_RPC_Client();
+        $oXmlRpCExec = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor(
+                            $oXmlRpcClient);
+
+        $executionTime = (int)ini_get('max_execution_time');
+        $default_socket_timeout = (int)ini_get('default_socket_timeout');
+        $timeMargin = 1;
+        
+        ini_set('max_execution_time',300);
+        ini_set('default_socket_timeout',600);
+        
+        $this->assertEqual($oXmlRpCExec->getTimeout(),300-$timeMargin);
+        
+        ini_set('max_execution_time',0);
+        ini_set('default_socket_timeout', $default_socket_timeout);
+        
+        $this->assertEqual($oXmlRpCExec->getTimeout(), 0);
+    }
 }
