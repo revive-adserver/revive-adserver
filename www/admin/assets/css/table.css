@@ -1,7 +1,9 @@
+/* UIDG tables */
 
 .tableWrapper {
     position: relative; 
     width: 100%;
+    padding-top: 2px;
 }
 
 .tableWrapper .tableHeader {
@@ -65,6 +67,12 @@
 	clear: none;
     float: right;
 }
+
+.tableWrapper .tableFilters.alignLeft {
+    clear: none;
+    float: left;
+}
+
 .tableWrapper .tableActions li,
 .tableWrapper .tableFilters li {
     display: block;
@@ -83,6 +91,9 @@
 
     border-left: 1px solid #e3e3e3;
     border-right: 1px solid #e3e3e3;
+}
+.tableWrapper table.fixedLayout {
+    table-layout: fixed;
 }
 .tableWrapper table table {
 	border: none;
@@ -113,21 +124,11 @@
 
 .tableWrapper table td {
     border-bottom: 1px solid #e6e6e6;
-    line-height: 26px;
-    padding: 2px 8px 0;
+    line-height: 1.2;
+    padding: 8px 8px 6px;
     vertical-align: top;
-}
-
-.tableWrapper table tr.even td {
-    background: #f6f6f6;
-}
-
-.tableWrapper table tr.hilite td {
-    background: #fffeea;
-}
-
-.tableWrapper table tr.selected td {
-    background: #ffffce;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tableWrapper table .alignRight {
@@ -319,6 +320,61 @@
 
 
 
+/* rounded panel */
+.tableMessage .panel {
+    padding: 15px;
+    border: 1px solid #ddd;
+
+    position: relative;
+    top:0;
+    left:0;
+    background: #fff url("../images/panel-background.png") bottom left repeat-x;
+
+    -zoom: 1;
+
+    margin: 10px 0px 15px 0px;
+}
+
+.tableMessage .panel .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.tableMessage .panel .bottom-left {
+    left: -1px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom left;
+}
+
+.tableMessage .panel .bottom-right {
+    right: -1px;
+    -right: -2px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom right;
+}
+
+.tableMessage .panel .top-left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.tableMessage .panel .top-right {
+    right: -1px;
+    -right: -2px;
+    top: -1px;
+    background-position: top right;
+}
+
 .tableMessage {
     position: relative;
 }
@@ -365,22 +421,74 @@
 
 
 
-.tableWrapper .inactive a {
+.tableHeader .inactive a {
     color: #999;
     cursor: default;
 }
-.tableWrapper .inactive a:hover {
+.tableHeader .inactive a:hover {
     text-decoration: none;
 }
-.tableWrapper span {
-	color: #999;
+.tableHeader span {
+    color: #999;
 }
-
 
 .tableWrapper .tableFooter td {
   line-height: 350%;
 }
 
+/** Indenting */
+.tableWrapper table tr.level0 td.indented {
+}
+
+.tableWrapper table tr.level1 td.indented {
+  padding-left: 26px;
+}
+
+.tableWrapper table tr.level2 td.indented {
+  padding-left: 52px;
+}
+
+/** Numeric entries aligned to the right */
+.tableWrapper table th.num,
+.tableWrapper table td.num {
+  text-align: right;
+  padding-right: 2em;
+}
+
+.tableWrapper table th.bool,
+.tableWrapper table td.bool {
+  text-align: center;
+}
+
+/** Row highlighting */
+.tableWrapper table tbody tr.hl {
+  background-color: #d4f4de !important;
+}
+
+.tableWrapper table tbody tr.even {
+  background-color: #f6f6f6;
+}
+
+.tableWrapper table tbody tr.odd {
+  background-color: #ffffff;
+}
+
+.tableWrapper table tbody tr:hover {
+  background-color: #ffffeb;
+}
+
+.tableWrapper table tbody tr.empty:hover {
+  background-color: transparent;
+}
+
+.tableWrapper table tbody tr.active {
+  background-color: #ffffcc;
+}
+
+.tableWrapper table tbody tr td.cursor-pointer {
+  cursor: pointer;
+}
+  
 /** pager **/
 .tableWrapper .pager {
   float: right;
