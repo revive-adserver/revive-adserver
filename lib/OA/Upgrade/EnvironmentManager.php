@@ -104,7 +104,7 @@ class OA_Environment_Manager
         $this->aInfo['FILES']['actual']   = array();
 
         $this->aInfo['PHP']['expected']['version']              = '5.1.4';
-        $this->aInfo['PHP']['expected']['version_new']          = '5.3.0-dev';
+        $this->aInfo['PHP']['expected']['version_new']          = '6.0.0-dev';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
