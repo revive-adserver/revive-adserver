@@ -5,7 +5,7 @@
             this.construct = function(settings) {
                 return this.each(function() {
                     var $this = $(this);
-                    
+
                     var $parentCheckbox = $this.find('.toggleAll input');
                     var $childCheckboxes = $this.find('.toggleSelection input');
                     var $checkboxSelectionDependants = $this.find('.activeIfSelected');
@@ -40,7 +40,7 @@
                             $checkboxSelectionDependants.addClass('inactive');
                         }
                     });
-                    
+
                     //preselect checkboxes
                    $childCheckboxes.filter(":checked").each(function() {
                       $(this).parents('tr').addClass('selected'); 
@@ -58,6 +58,7 @@
     $.fn.extend({
         activateTable: $.activateTable.construct
     });
+
 
     // extend all forms
     $(document).ready(function() {
