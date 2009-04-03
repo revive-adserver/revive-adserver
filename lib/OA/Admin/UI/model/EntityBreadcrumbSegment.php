@@ -207,7 +207,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      */
     public function setEntityMap($aEntityMap)
     {
-		uasort($aEntityMap, array($this, "orderEntitiesByNameAsc"));
+        uasort($aEntityMap, array($this, "orderEntitiesByNameAsc"));
         $this->aEntityMap = $aEntityMap;
     }
     
@@ -219,5 +219,5 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     protected function orderEntitiesByNameAsc($a, $b) 
     {
 	    return strnatcasecmp($a['name'], $b['name']);
-	}
+    }
 }
