@@ -58,7 +58,7 @@ $Id$
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_bigint_callback(&$db, $method, $aParameters)
+function datatype_openads_bigint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -128,7 +128,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_char_callback(&$db, $method, $aParameters)
+function datatype_openads_char_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -186,7 +186,7 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_decimal_callback(&$db, $method, $aParameters)
+function datatype_openads_decimal_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -262,7 +262,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_date_callback(&$db, $method, $aParameters)
+function datatype_openads_date_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -325,7 +325,7 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_datetime_callback(&$db, $method, $aParameters)
+function datatype_openads_datetime_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -388,7 +388,7 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_double_callback(&$db, $method, $aParameters)
+function datatype_openads_double_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -458,7 +458,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_enum_callback(&$db, $method, $aParameters)
+function datatype_openads_enum_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -517,7 +517,7 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_float_callback(&$db, $method, $aParameters)
+function datatype_openads_float_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -587,7 +587,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_int_callback(&$db, $method, $aParameters)
+function datatype_openads_int_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -657,7 +657,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
+function datatype_openads_mediumint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -727,7 +727,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
+function datatype_openads_mediumtext_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -785,7 +785,7 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_set_callback(&$db, $method, $aParameters)
+function datatype_openads_set_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -844,7 +844,7 @@ function datatype_openads_set_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_smallint_callback(&$db, $method, $aParameters)
+function datatype_openads_smallint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -914,7 +914,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_text_callback(&$db, $method, $aParameters)
+function datatype_openads_text_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -974,7 +974,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
+function datatype_openads_timestamp_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1043,7 +1043,7 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
+function datatype_openads_tinyint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1113,7 +1113,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
  *               for details of the expected return values of the five possible
  *               calling methods.
  */
-function datatype_openads_varchar_callback(&$db, $method, $aParameters)
+function datatype_openads_varchar_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
@@ -1176,7 +1176,7 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_bigint_callback(&$db, $aFields)
+function nativetype_bigint_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1224,7 +1224,7 @@ function nativetype_bigint_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_char_callback(&$db, $aFields)
+function nativetype_char_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1269,7 +1269,7 @@ function nativetype_char_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_decimal_callback(&$db, $aFields)
+function nativetype_decimal_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1317,7 +1317,7 @@ function nativetype_decimal_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always fase in this case, as the type is not text.
  */
-function nativetype_date_callback(&$db, $aFields)
+function nativetype_date_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1355,7 +1355,7 @@ function nativetype_date_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always fase in this case, as the type is not text.
  */
-function nativetype_datetime_callback(&$db, $aFields)
+function nativetype_datetime_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1393,7 +1393,7 @@ function nativetype_datetime_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_double_callback(&$db, $aFields)
+function nativetype_double_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1442,7 +1442,7 @@ function nativetype_double_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_enum_callback(&$db, $aFields)
+function nativetype_enum_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1487,7 +1487,7 @@ function nativetype_enum_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_float_callback(&$db, $aFields)
+function nativetype_float_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1535,7 +1535,7 @@ function nativetype_float_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_int_callback(&$db, $aFields)
+function nativetype_int_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1583,7 +1583,7 @@ function nativetype_int_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_mediumint_callback(&$db, $aFields)
+function nativetype_mediumint_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1632,7 +1632,7 @@ function nativetype_mediumint_callback(&$db, $aFields)
  *                       fields. Always false in this case, as mediumtext is not
  *                       of fixed length.
  */
-function nativetype_mediumtext_callback(&$db, $aFields)
+function nativetype_mediumtext_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1678,7 +1678,7 @@ function nativetype_mediumtext_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_set_callback(&$db, $aFields)
+function nativetype_set_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1724,7 +1724,7 @@ function nativetype_set_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_smallint_callback(&$db, $aFields)
+function nativetype_smallint_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1773,7 +1773,7 @@ function nativetype_smallint_callback(&$db, $aFields)
  *                       fields. Always false in this case, as text is not
  *                       of fixed length.
  */
-function nativetype_text_callback(&$db, $aFields)
+function nativetype_text_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1818,7 +1818,7 @@ function nativetype_text_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_timestamp_callback(&$db, $aFields)
+function nativetype_timestamp_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1856,7 +1856,7 @@ function nativetype_timestamp_callback(&$db, $aFields)
  *                  3 => A boolean value indicating the "fixed" nature of text
  *                       fields. Always null in this case, as the type is not text.
  */
-function nativetype_tinyint_callback(&$db, $aFields)
+function nativetype_tinyint_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
@@ -1905,7 +1905,7 @@ function nativetype_tinyint_callback(&$db, $aFields)
  *                       fields. Always false in this case, as varchar is not
  *                       of fixed length.
  */
-function nativetype_varchar_callback(&$db, $aFields)
+function nativetype_varchar_callback($db, $aFields)
 {
     // Prepare the type array
     $aType = array();
