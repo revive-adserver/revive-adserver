@@ -70,11 +70,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function addAdvertiser(&$oParams)
+    function addAdvertiser($oParams)
     {
         $sessionId          = null;
         $oAdvertiserInfo    = new OA_Dll_AdvertiserInfo();
@@ -102,11 +102,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function modifyAdvertiser(&$oParams)
+    function modifyAdvertiser($oParams)
     {
 
         $sessionId          = null;
@@ -137,11 +137,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function deleteAdvertiser(&$oParams)
+    function deleteAdvertiser($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$advertiserId),
@@ -166,11 +166,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function advertiserDailyStatistics(&$oParams)
+    function advertiserDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -202,11 +202,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function advertiserCampaignStatistics(&$oParams)
+    function advertiserCampaignStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -239,11 +239,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function advertiserBannerStatistics(&$oParams)
+    function advertiserBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -277,11 +277,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function advertiserPublisherStatistics(&$oParams)
+    function advertiserPublisherStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -313,11 +313,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function advertiserZoneStatistics(&$oParams)
+    function advertiserZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -351,11 +351,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getAdvertiser(&$oParams) {
+    function getAdvertiser($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$advertiserId),
@@ -380,11 +380,11 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getAdvertiserListByAgencyId(&$oParams) {
+    function getAdvertiserListByAgencyId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$agencyId),

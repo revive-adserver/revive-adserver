@@ -71,11 +71,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function addCampaign(&$oParams)
+    function addCampaign($oParams)
     {
         $sessionId          = null;
         $oCampaignInfo      = new OA_Dll_CampaignInfo();
@@ -107,11 +107,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function modifyCampaign(&$oParams)
+    function modifyCampaign($oParams)
     {
         $sessionId          = null;
         $oCampaignInfo      = new OA_Dll_CampaignInfo();
@@ -143,11 +143,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function deleteCampaign(&$oParams)
+    function deleteCampaign($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$campaignId),
@@ -172,11 +172,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function campaignDailyStatistics(&$oParams)
+    function campaignDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -207,11 +207,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function campaignBannerStatistics(&$oParams)
+    function campaignBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -245,11 +245,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function campaignPublisherStatistics(&$oParams)
+    function campaignPublisherStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -281,11 +281,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function campaignZoneStatistics(&$oParams)
+    function campaignZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -319,11 +319,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getCampaign(&$oParams) {
+    function getCampaign($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$campaignId),
@@ -348,11 +348,11 @@ class CampaignXmlRpcService extends BaseCampaignService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getCampaignListByAdvertiserId(&$oParams) {
+    function getCampaignListByAdvertiserId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$advertiserId),

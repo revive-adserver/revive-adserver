@@ -70,11 +70,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function addAgency(&$oParams)
+    function addAgency($oParams)
     {
         $sessionId          = null;
         $oAgencyInfo        = new OA_Dll_AgencyInfo();
@@ -102,11 +102,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function modifyAgency(&$oParams)
+    function modifyAgency($oParams)
     {
         $sessionId          = null;
         $oAgencyInfo        = new OA_Dll_AgencyInfo();
@@ -134,11 +134,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function deleteAgency(&$oParams)
+    function deleteAgency($oParams)
     {
         $oResponseWithError = null;
 
@@ -164,11 +164,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyDailyStatistics(&$oParams)
+    function agencyDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -200,11 +200,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyAdvertiserStatistics(&$oParams)
+    function agencyAdvertiserStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -237,11 +237,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyCampaignStatistics(&$oParams)
+    function agencyCampaignStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -276,11 +276,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyBannerStatistics(&$oParams)
+    function agencyBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -317,11 +317,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyPublisherStatistics(&$oParams)
+    function agencyPublisherStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -354,11 +354,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function agencyZoneStatistics(&$oParams)
+    function agencyZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -393,11 +393,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getAgency(&$oParams) {
+    function getAgency($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$agencyId),
@@ -422,11 +422,11 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getAgencyList(&$oParams) {
+    function getAgencyList($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId),

@@ -67,11 +67,11 @@ class LogonXmlRpcService extends BaseLogonService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function logon(&$oParams)
+    function logon($oParams)
     {
         $sessionId          = null;
         $oResponseWithError = null;
@@ -99,11 +99,11 @@ class LogonXmlRpcService extends BaseLogonService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function logoff(&$oParams)
+    function logoff($oParams)
     {
         $sessionId          = null;
         $oResponseWithError = null;

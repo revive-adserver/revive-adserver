@@ -70,11 +70,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function addBanner(&$oParams)
+    function addBanner($oParams)
     {
         $sessionId          = null;
         $oBannerInfo        = new OA_Dll_BannerInfo();
@@ -105,11 +105,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function modifyBanner(&$oParams)
+    function modifyBanner($oParams)
     {
         $sessionId          = null;
         $oBannerInfo        = new OA_Dll_BannerInfo();
@@ -140,11 +140,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function deleteBanner(&$oParams)
+    function deleteBanner($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$bannerId),
@@ -168,11 +168,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (array or error)
      */
-    function getBannerTargeting(&$oParams)
+    function getBannerTargeting($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$bannerId),
@@ -199,11 +199,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (boolean or error)
      */
-    function setBannerTargeting(&$oParams)
+    function setBannerTargeting($oParams)
     {
         $oResponseWithError = null;
         $aTargeting = array();
@@ -233,11 +233,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function bannerDailyStatistics(&$oParams)
+    function bannerDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -270,11 +270,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function bannerPublisherStatistics(&$oParams)
+    function bannerPublisherStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -307,11 +307,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function bannerZoneStatistics(&$oParams)
+    function bannerZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -346,11 +346,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getBanner(&$oParams) {
+    function getBanner($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$bannerId),
@@ -375,11 +375,11 @@ class BannerXmlRpcService extends BaseBannerService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getBannerListByCampaignId(&$oParams) {
+    function getBannerListByCampaignId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$campaignId),

@@ -70,11 +70,11 @@ class UserXmlRpcService extends BaseUserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function addUser(&$oParams)
+    function addUser($oParams)
     {
         $sessionId          = null;
         $oUserInfo    = new OA_Dll_UserInfo();
@@ -103,11 +103,11 @@ class UserXmlRpcService extends BaseUserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function modifyUser(&$oParams)
+    function modifyUser($oParams)
     {
 
         $sessionId          = null;
@@ -139,11 +139,11 @@ class UserXmlRpcService extends BaseUserService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return XML_RPC_Response  data or error
      */
-    function deleteUser(&$oParams)
+    function deleteUser($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId),
@@ -168,11 +168,11 @@ class UserXmlRpcService extends BaseUserService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getUser(&$oParams) {
+    function getUser($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$userId),
@@ -197,11 +197,11 @@ class UserXmlRpcService extends BaseUserService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getUserListByAccountId(&$oParams) {
+    function getUserListByAccountId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$accountId),
@@ -220,7 +220,7 @@ class UserXmlRpcService extends BaseUserService
         }
     }
 
-    function updateSsoUserId(&$oParams) {
+    function updateSsoUserId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$oldSsoUserId, &$newSsoUserId),
             array(true, true, true), $oParams, $oResponseWithError )) {
@@ -238,7 +238,7 @@ class UserXmlRpcService extends BaseUserService
         }
     }
 
-    function updateUserEmailBySsoId(&$oParams) {
+    function updateUserEmailBySsoId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$ssoUserId, &$email),
             array(true, true, true), $oParams, $oResponseWithError )) {

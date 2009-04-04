@@ -71,11 +71,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function addPublisher(&$oParams)
+    function addPublisher($oParams)
     {
         $sessionId          = null;
         $oPublisherInfo     = new OA_Dll_PublisherInfo();
@@ -104,11 +104,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function modifyPublisher(&$oParams)
+    function modifyPublisher($oParams)
     {
         $sessionId          = null;
         $oPublisherInfo     = new OA_Dll_PublisherInfo();
@@ -137,11 +137,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function deletePublisher(&$oParams)
+    function deletePublisher($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$publisherId),
@@ -166,11 +166,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function publisherDailyStatistics(&$oParams)
+    function publisherDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -202,11 +202,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function publisherZoneStatistics(&$oParams)
+    function publisherZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -239,11 +239,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function publisherAdvertiserStatistics(&$oParams)
+    function publisherAdvertiserStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -276,11 +276,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function publisherCampaignStatistics(&$oParams)
+    function publisherCampaignStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -315,11 +315,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param  XML_RPC_Message &$oParams
+     * @param  XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function publisherBannerStatistics(&$oParams)
+    function publisherBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
@@ -356,11 +356,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getPublisher(&$oParams) {
+    function getPublisher($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$publisherId),
@@ -385,11 +385,11 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @access public
      *
-     * @param XML_RPC_Message &$oParams
+     * @param XML_RPC_Message $oParams
      *
      * @return generated result (data or error)
      */
-    function getPublisherListByAgencyId(&$oParams) {
+    function getPublisherListByAgencyId($oParams) {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
                 array(&$sessionId, &$agencyId),
