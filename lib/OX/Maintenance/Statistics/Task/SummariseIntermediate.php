@@ -299,8 +299,8 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 $aBucketTables = array();
                 foreach ($aMaps as $aMap) {
                     $aBucketTables[] = $aMap['bucketTable'];
-        }
-                foreach ($aRunDates as $aDates) {
+                }
+                foreach ($this->aRunDates as $aDates) {
                     $aExtras = array();
 
                     $message = "- Migrating aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
@@ -324,10 +324,10 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         } else {
                             // Only prune the bucket if we migrated the stats successfully.
                             $aSummariseComponents[$statisticsTable][$componentClassName]->pruneBucket($aDates['end'], $aDates['start']);
-    }
+                        }
                     }
-                } // End dates foreach
-            } // End components foreach
+                }
+            }
         }
     }
 
