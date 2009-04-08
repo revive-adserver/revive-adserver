@@ -317,9 +317,16 @@ $Id$
   }
 
   function updatePanel(data, panel) {
-    $("#zones-" + panel + "-rows").html(extractPart(data, panel, "rows"));
+    var panelRows = extractPart(data, panel, "rows");
+    if ($.browser.mozilla) {
+        $("#zones-" + panel + "-rows").get(0).innerHTML = panelRows;
+    }
+    else {
+        $("#zones-" + panel + "-rows").html(panelRows);
+    }
     $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
-    $("#status-" + panel).html(extractPart(data, panel, "status"));
+    var panelStatus = extractPart(data, panel, "status");
+    $("#status-" + panel).html(panelStatus);
   }
 
   function checkReload(data) {
