@@ -236,7 +236,7 @@ if (!empty($aConversions))
                 'cacheDir' => MAX_CACHE,
         );
         $cache = new Cache_Lite($options);
-        $cache->clean('stats');
+        $cache->clean(OX_getHostName().'stats');
     }
 }
 
