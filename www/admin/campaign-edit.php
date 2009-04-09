@@ -53,6 +53,14 @@ OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
 OA_Permission::enforceAccessToObject ( 'clients', $clientid );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid, true );
 
+
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
 /*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/
@@ -200,7 +208,6 @@ if ($campaignid != "") {
     if (! isset ( $campaign['ecpm'] )) {
         $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
     }
-
 } else {
     // New campaign
     $doClients = OA_Dal::factoryDO ( 'clients' );

@@ -50,6 +50,13 @@ phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', '
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid, true);
 
+
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
+	
 /*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/

@@ -62,6 +62,12 @@ OA_Permission::enforceAccessToObject('clients', $clientid, true);
 
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+	
+/*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/
 if ($clientid != "") {

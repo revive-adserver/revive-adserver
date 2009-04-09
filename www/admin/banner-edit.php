@@ -89,6 +89,14 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     OA_Permission::enforceAccessToObject('banners', $bannerid, true);
 }
 
+
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
 /*
 storage type / media type
 sql gif
@@ -159,6 +167,7 @@ if ($bannerid != '') {
     $row['hardcoded_targets'] = $hardcoded_targets;
     $row['hardcoded_sources'] = $hardcoded_sources;
     $row['clientid']   = $clientid;
+    
 }
 else {
     // Set default values for new banner
