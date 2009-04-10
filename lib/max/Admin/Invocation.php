@@ -372,6 +372,15 @@ class MAX_Admin_Invocation {
             } else {
                 $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
                 $buffer .= "<tr><td height='25'>";
+                
+                if ($codetype == 'invocationTags:oxInvocationTags:local') {
+                    $buffer .= "<p><b>Note:</b> Impression data generated from using Local Mode invocation tags are not compliant with IAB guidelines for ad impression measurements.</p>";
+                }
+                
+                if ($codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
+                    $buffer .= "<p><b>Note:</b> Impression data generated from using XML-RPC invocation tags are not compliant with IAB guidelines for ad impression measurements.</p>";
+                }
+                
                 if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
                     if ($bannerid == 0) {
                         $this->ads = array();
