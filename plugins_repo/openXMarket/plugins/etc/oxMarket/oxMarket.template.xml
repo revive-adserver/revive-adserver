@@ -8,7 +8,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>0.3.0-rc8</version>
+    <version>1.0.0-rc1</version>
     <oxversion>2.7.31-beta-rc4</oxversion>
     <extends>admin</extends>
     <install>
@@ -31,6 +31,7 @@
             <file path="{ADMINPATH}/templates/">market-stats-website.html</file>
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
             <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
+			<file path="{ADMINPATH}/templates/">market-quality-tool.html</file>            
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
@@ -65,6 +66,7 @@
                                                        
                                                        
             <!-- End spacer for the 4096 byte boundary -->
+			<file path="{ADMINPATH}/">market-quality-tool.php</file>            
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
             <file path="{ADMINPATH}/">XMLToArray.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketChecker.php</file>

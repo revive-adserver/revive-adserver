@@ -68,6 +68,17 @@ ul.form ctrl-buttons {
     margin-top: 20px;
 }
 
+/** campaignform **/
+#campaignform .market-invite {
+  padding-left: 30px;
+  width:530px;
+  line-height: 150%;
+}
+
+#campaignform .market-invite p {
+    margin-top: 10px;
+}
+
 /** signup screen **/
 #market-signup-form .section-header {
   font-size:14px;

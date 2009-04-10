@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download)</description>
-    <version>0.3.0-rc8</version>
+    <version>1.0.0-rc1</version>
     <type>extension</type>
 
     <install>
