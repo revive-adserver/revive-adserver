@@ -67,10 +67,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
+        //if account is not associated (registered) yet, show activation invite
+        if (!$this->isRegistered()) {
+            $this->afterPricingFormSectionForUnregistered(&$form, $campaign, $newCampaign);
+            return;
+        }
+        //if it has been registered but was disabled, show nothing
         if (!$this->isActive()) {
             return;
         }
-
+        //if it is registered, show normal form with additional checkbox
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
@@ -115,6 +121,34 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $form->setDefaults($aFields);
     }
 
+    
+    function afterPricingFormSectionForUnregistered(&$form, $campaign, $newCampaign)
+    {
+        $oUI = OA_Admin_UI::getInstance();
+        $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+        
+        $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
+        
+        if (OA_Permission::isUserLinkedToAdmin()) {
+            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
+            $link = '<a href="'.$url.'">Activate OpenX Market &raquo;</a>';
+        }
+        else {
+            $link ="<a onclick=\"return confirm('This will log you out and you will be required to log in as the administrator. Do you want to continue?');\" href=\"logout.php\">Activate OpenX Market &raquo;</a>";
+        }
+        
+        $message = 
+            "<div class='market-invite'>
+                Earn more revenue by activating OpenX Market for your ad server 
+                (<a href='http://www.openx.org/market' target='_blank'>learn more</a>).
+                To activate OpenX Market, log in as the <b>administrator</b> and go 
+                to <b><i>My Account > OpenX Market</i><b>
+                <p>$link</p>
+            </div>";
+        
+        $form->addElement('html', 'get_started', $message);
+    }
+    
 
     function processCampaignForm(&$aFields)
     {
