@@ -32,63 +32,78 @@ $Id$
 
 
 <!--rows-{$status}-start-->
-{foreach from=$websites key=websiteid item=website}
-<tr class="website">
-  <td class="name" title="{$website.name|escape}">
-    <label style="white-space: nowrap">
-        <input id="{$checkboxPrefix}w{$websiteid}"
-               name="w{$websiteid}" type="checkbox" class="checkbox parent" />{boldSearchPhrase text=$website.name search=$text}
-    </label>
-  </td>
-  <td>
-      <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
-  </td>
-  <td class="category" title="{$website.category}">{$website.category}</td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
+<table id="zones-{$status}" class="zones new-table">
+  <tbody>
+    <tr class="header hide">
+      <th class="name"><label><input type="checkbox" id="{$status}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+      <th class="link"></th>
+      <th class="category">{t str=Category}</th>
+      <th class="ctr">{t str=FinanceCTR}</th>
+      <th class="cr">{t str=FinanceCR}</th>
+      <th class="ecpm last">{t str=FinanceCPM}</th>
+    </tr>
+  </tbody>
 
-{foreach from=$website.zones key=zoneid item=zone}
-<tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
-  <td class="name" title="{$zone.name|escape}">
-  <label>
-      <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}"
-             name="z{$zoneid}" type="checkbox" class="checkbox" />
-      {boldSearchPhrase text=$zone.name search=$text}
-  </label>
-  </td>
-  <td>
-      <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
-  </td>
-  <td class="category" title="{$zone.category}">{$zone.category}</td>
-  {assign var="ctr" value="`$zone.ctr*100`"}
-  {assign var="cr" value="`$zone.cr*100`"}
-  <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
-  <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
-  <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
-</tr>
-{/foreach}
-
-{foreachelse}
-<tr class="empty">
-  <td colspan="5">
-    {t str=NoWebsitesAndZones}
-    {if $category}
-      {t str=NoWebsitesAndZonesCategory} {$category}
-    {/if}
-    {if $text}
-      {t str=NoWebsitesAndZonesText values=$text|escape}
-    {/if}
-
-    {if $checkboxPrefix == 'a'}
-    {t str=ToLink}
-    {else}
-    {t str=ToUnlink}
-    {/if}
-  </td>
-</tr>
-{/foreach}
+  <tbody id="zones-{$status}-rows">
+    {foreach from=$websites key=websiteid item=website}
+    <tr class="website">
+      <td class="name" title="{$website.name|escape}">
+        <label style="white-space: nowrap">
+            <input id="{$checkboxPrefix}w{$websiteid}"
+                   name="w{$websiteid}" type="checkbox" class="checkbox parent" />{boldSearchPhrase text=$website.name search=$text}
+        </label>
+      </td>
+      <td>
+          <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
+      </td>
+      <td class="category" title="{$website.category}">{$website.category}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    
+      {foreach from=$website.zones key=zoneid item=zone}
+      <tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
+        <td class="name" title="{$zone.name|escape}">
+        <label>
+            <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}"
+                   name="z{$zoneid}" type="checkbox" class="checkbox" />
+            {boldSearchPhrase text=$zone.name search=$text}
+        </label>
+        </td>
+        <td>
+            <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
+        </td>
+        <td class="category" title="{$zone.category}">{$zone.category}</td>
+        {assign var="ctr" value="`$zone.ctr*100`"}
+        {assign var="cr" value="`$zone.cr*100`"}
+        <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
+        <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
+        <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
+      </tr>
+      {/foreach}
+    
+    {foreachelse}
+    <tr class="empty">
+      <td colspan="5">
+        {t str=NoWebsitesAndZones}
+        {if $category}
+          {t str=NoWebsitesAndZonesCategory} {$category}
+        {/if}
+        {if $text}
+          {t str=NoWebsitesAndZonesText values=$text|escape}
+        {/if}
+    
+        {if $checkboxPrefix == 'a'}
+        {t str=ToLink}
+        {else}
+        {t str=ToUnlink}
+        {/if}
+      </td>
+    </tr>
+    {/foreach}
+  </tbody>
+</table>
 <!--rows-{$status}-end-->
 
 <!--status-{$status}-start-->

@@ -66,44 +66,48 @@ $Id$
     <div id="available">
       <div class="zones-container new-table-container">
         <div id="zones-available-loading" class="ajax-loading panel-loading hide"></div>
-        <table id="zones-available" class="zones new-table">
-          <tbody>
-            <tr class="header hide">
-              <th class="name"><label><input type="checkbox" id="available-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
-              <th class="link"></th>
-              <th class="category">{t str=Category}</th>
-              <th class="ctr">{t str=FinanceCTR}</th>
-              <th class="cr">{t str=FinanceCR}</th>
-              <th class="ecpm last">{t str=FinanceCPM}</th>
-            </tr>
-          </tbody>
-
-          <tbody id="zones-available-rows">
-            <tr class="hide"><td></td></tr>
-          </tbody>
-        </table>
+        <div id="zones-available-container">
+          <table id="zones-available" class="zones new-table">
+            <tbody>
+              <tr class="header hide">
+                <th class="name"><label><input type="checkbox" id="available-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+                <th class="link"></th>
+                <th class="category">{t str=Category}</th>
+                <th class="ctr">{t str=FinanceCTR}</th>
+                <th class="cr">{t str=FinanceCR}</th>
+                <th class="ecpm last">{t str=FinanceCPM}</th>
+              </tr>
+            </tbody>
+  
+            <tbody id="zones-available-rows">
+              <tr class="hide"><td></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <div id="linked">
       <div class="zones-container new-table-container">
         <div id="zones-linked-loading" class="ajax-loading panel-loading hide"></div>
-        <table id="zones-linked" class="zones new-table">
-          <tbody>
-            <tr class="header hide">
-              <th class="name"><label><input type="checkbox" id="linked-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
-              <th class="link"></th>
-              <th class="category">{t str=Category}</th>
-              <th class="ctr">{t str=FinanceCTR}</th>
-              <th class="cr">{t str=FinanceCR}</th>
-              <th class="ecpm last">{t str=FinanceCPM}</th>
-            </tr>
-          </tbody>
-
-          <tbody id="zones-linked-rows">
-            <tr class="hide"><td></td></tr>
-          </tbody>
-        </table>
+        <div id="zones-linked-container">
+          <table id="zones-linked" class="zones new-table">
+            <tbody>
+              <tr class="header hide">
+                <th class="name"><label><input type="checkbox" id="linked-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+                <th class="link"></th>
+                <th class="category">{t str=Category}</th>
+                <th class="ctr">{t str=FinanceCTR}</th>
+                <th class="cr">{t str=FinanceCR}</th>
+                <th class="ecpm last">{t str=FinanceCPM}</th>
+              </tr>
+            </tbody>
+  
+            <tbody id="zones-linked-rows">
+              <tr class="hide"><td></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -126,7 +130,7 @@ $Id$
 {literal}
   $(document).ready(function() {
     // Multicheckbox selections, selection by row clicks
-    $("#zones-available, #zones-linked").multicheckboxes({
+    $("#zones-available-container, #zones-linked-container").multicheckboxes({
       selectedClass: "to-link",
       unselectedClass: "",
       toSelectClass: "to-link",
@@ -134,17 +138,16 @@ $Id$
       selectAllSelector: ".select-all"
     });
 
-    $("#zones-available").bind("multichange", function() {
+    $("#zones-available-container").bind("multichange", function() {
       $("#link-button").attr("disabled", $("#zones-available :checked").not(".select-all").size() == 0);
     });
 
-    $("#zones-linked").bind("multichange", function() {
+    $("#zones-linked-container").bind("multichange", function() {
       $("#unlink-button").attr("disabled", $("#zones-linked :checked").not(".select-all").size() == 0);
     });
 
-    $("#zones-linked, #zones-available").bind("filter", function() {
-      var panel = this.id.substring("zones-".length);
-
+    $("#zones-linked-container, #zones-available-container").bind("filter", function() {
+      var panel = this.id.substring("zones-".length).replace(/-container/, '');
       var $quickSearch = $("#quick-search-" + panel);
       var category = $("#category-" + panel).val();
       var categoryText = "";
@@ -187,10 +190,10 @@ $Id$
 
     // Category filters
     $("#category-linked").bind("change", function() {
-      $("#zones-linked").trigger("filter");
+      $("#zones-linked-container").trigger("filter");
     });
     $("#category-available").bind("change", function() {
-      $("#zones-available").trigger("filter");
+      $("#zones-available-container").trigger("filter");
     });
 
     // Quick search fields
@@ -199,13 +202,13 @@ $Id$
       .typeWatch({
         callback: function() {
           var panelId = this.el.id.substring("quick-search-".length);
-          $("#zones-" + panelId).trigger("filter");
+          $("#zones-" + panelId + '-container').trigger("filter");
         },
         wait: 500,
         captureLength: 1
       });
 
-    $("#zones-available, #zones-linked").trigger("filter").trigger("multichange");
+    $("#zones-available-container, #zones-linked-container").trigger("filter").trigger("multichange");
   });
 
   // Performs linking/unlinking and refreshes panels on completion
@@ -280,7 +283,6 @@ $Id$
       data: postData,
       cache: false,
       complete: function() {
-        $("#zones-available, #zones-linked").trigger("multichange");
         $(".select-all").attr("checked", false);
         $("#linking-indicator").hide();
       },
@@ -318,15 +320,11 @@ $Id$
 
   function updatePanel(data, panel) {
     var panelRows = extractPart(data, panel, "rows");
-    if ($.browser.mozilla) {
-        $("#zones-" + panel + "-rows").get(0).innerHTML = panelRows;
-    }
-    else {
-        $("#zones-" + panel + "-rows").html(panelRows);
-    }
+    $("#zones-" + panel + "-container").get(0).innerHTML = panelRows;
     $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
     var panelStatus = extractPart(data, panel, "status");
     $("#status-" + panel).html(panelStatus);
+    $("#zones-" + panel + "-container").trigger('dataUpdate');    
   }
 
   function checkReload(data) {
