@@ -598,7 +598,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         //contact pubconsole and get the menu items
         $aPubconsoleNav = array();
         try {
-            $menuUrl = $this->buildPubconsoleUrl($this->getConfigValue('marketMenuUrl'));
+            $menuUrl = $this->buildPubconsoleApiUrl($this->getConfigValue('marketMenuUrl'));
             $oClient = $this->getHttpClient();
             $oClient->setUri($menuUrl);
             
@@ -830,12 +830,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $result = false;
         try {
             //connect to pubconsole API and get the custom content for that page
-            $customContentUrl = $this->buildPubconsoleUrl($this->getConfigValue('marketCustomContentUrl'));
+            $customContentUrl = $this->buildPubconsoleApiUrl($this->getConfigValue('marketCustomContentUrl'));
             $oClient = $this->getHttpClient();
             $oClient->setUri($customContentUrl);
             $oClient->setParameterGet(array(
                 'pageName'  => urlencode($pageName),
-                'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, ''))
+                'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, '')),
+                'pcWebUrl' => urlencode($this->getConfigValue('marketHost'))
             ));        
     
             $response = $oClient->request();
@@ -885,7 +886,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @param string $suffix - with no leading slash
      * @return string pubconsole url with suffix if given
      */
-    function buildPubconsoleUrl($suffix = null)
+    function buildPubconsoleApiUrl($suffix = null)
     {
         if (OX_oxMarket_Common_ConnectionUtils::isSSLAvailable()) {
             $pubconsoleLink = $this->getConfigValue('marketPcApiHost');        
