@@ -163,4 +163,7 @@ $GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Warning:</s
 Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
 and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Note:</b> Impression data generated from using Local Mode invocation tags are not compliant with IAB guidelines for ad impression measurements.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Note:</b> Impression data generated from using XML-RPC invocation tags are not compliant with IAB guidelines for ad impression measurements.";
+
 ?>

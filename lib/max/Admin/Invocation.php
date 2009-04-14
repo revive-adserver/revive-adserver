@@ -254,7 +254,8 @@ class MAX_Admin_Invocation {
      */
     function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
-        global $phpAds_TextDirection, $strWarningLocalInvocation;
+        global $phpAds_TextDirection, $strWarningLocalInvocation, 
+            $strIABNoteLocalInvocation, $strIABNoteXMLRPCInvocation;
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
@@ -373,12 +374,8 @@ class MAX_Admin_Invocation {
                 $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
                 $buffer .= "<tr><td height='25'>";
                 
-                if ($codetype == 'invocationTags:oxInvocationTags:local') {
-                    $buffer .= "<p><b>Note:</b> Impression data generated from using Local Mode invocation tags are not compliant with IAB guidelines for ad impression measurements.</p>";
-                }
-                
                 if ($codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
-                    $buffer .= "<p><b>Note:</b> Impression data generated from using XML-RPC invocation tags are not compliant with IAB guidelines for ad impression measurements.</p>";
+                    $buffer .= "<p>$strIABNoteXMLRPCInvocation</p>";
                 }
                 
                 if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
@@ -387,11 +384,16 @@ class MAX_Admin_Invocation {
                     } else {
                         $this->ads = array($bannerid => $aAd);
                     }
-                } elseif ($codetype == 'invocationTags:oxInvocationTags:local' && !$server_same) {
+                } 
+                elseif ($codetype == 'invocationTags:oxInvocationTags:local' && !$server_same) {
                     $buffer .= "
                         <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
                             $strWarningLocalInvocation
+                            <br><p>$strIABNoteLocalInvocation</p>
                         </div>";
+                }
+                else if ($codetype == 'invocationTags:oxInvocationTags:local' && $server_same) {
+                    $buffer .= "<p>$strIABNoteLocalInvocation</p>";
                 }
 
                 // Supress the textarea if required by this plugin
