@@ -67,16 +67,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
-        //if account is not associated (registered) yet, show activation invite
-        if (!$this->isRegistered()) {
-            $this->afterPricingFormSectionForUnregistered(&$form, $campaign, $newCampaign);
-            return;
-        }
-        //if it has been registered but was disabled, show nothing
         if (!$this->isActive()) {
+            $this->afterPricingFormSectionForInactive(&$form, $campaign, $newCampaign);
             return;
         }
-        //if it is registered, show normal form with additional checkbox
+
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
@@ -122,7 +117,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
     
-    function afterPricingFormSectionForUnregistered(&$form, $campaign, $newCampaign)
+    function afterPricingFormSectionForInactive(&$form, $campaign, $newCampaign)
     {
         $oUI = OA_Admin_UI::getInstance();
         $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
@@ -130,26 +125,62 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
         
         if (OA_Permission::isUserLinkedToAdmin()) {
-            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
-            $link = '<a href="'.$url.'">Activate OpenX Market &raquo;</a>';
+            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-info.php');
+            $message = 
+                "<div class='market-invite'>
+                    Earn more revenue by activating OpenX Market for your instance  of OpenX Ad Server. 
+                    <a href='".$url."'><b>Get started now &raquo;</b></a>
+                </div>";
         }
         else {
-            $link ="<a onclick=\"return confirm('This will log you out and you will be required to log in as the administrator. Do you want to continue?');\" href=\"logout.php\">Activate OpenX Market &raquo;</a>";
+            $aMailContents = $this->buildAdminEmail();
+            $url =  "mailto:".$aMailContents['to']."?subject=".$aMailContents['subject']."&body=".$aMailContents['body'];
+            $message = "You can earn more revenue by having your OpenX Administrator activate OpenX Market for your instance of OpenX Ad Server.
+            <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
         }
         
-        $message = 
-            "<div class='market-invite'>
-                Earn more revenue by activating OpenX Market for your ad server 
-                (<a href='http://www.openx.org/market' target='_blank'>learn more</a>).
-                To activate OpenX Market, log in as the <b>administrator</b> and go 
-                to <b><i>My Account > OpenX Market</i><b>
-                <p>$link</p>
-            </div>";
         
         $form->addElement('html', 'get_started', $message);
     }
     
+    
+    function buildAdminEmail()
+    {
+        $aMail = array();
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-info.php');
+        
+        $oUser = OA_Permission::getCurrentUser();
+        $userFullName = $oUser->aUser['contact_name'].' ('.OA_Permission::getUserName().')';
 
+        $aMail['to'] = join(',', $this->getAdminEmails());
+        $aMail['subject'] = "Please activate OpenX Market for our instance of OpenX Ad Server";
+        $aMail['body'] = "Help earn more revenue by activating OpenX Market for our ad server. Click this link to get started:%0D%0D<$url>%0D%0DThanks,%0D$userFullName";
+        
+        return $aMail;
+    }
+    
+    
+    function getAdminEmails()
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        
+        $doAccount_user_assoc->account_id = DataObjects_Accounts::getAdminAccountId();     
+        $doUsers->joinAdd($doAccount_user_assoc);
+        $doUsers->active = 1;
+        $doUsers->selectAdd();
+        $doUsers->selectAdd('email_address');
+        $doUsers->find();
+
+        $aEmails = array();
+        while ($doUsers->fetch()) {
+            $aEmails[] = $doUsers->email_address;
+        };
+        
+        return $aEmails;
+    }
+    
+    
     function processCampaignForm(&$aFields)
     {
         if (!$this->isActive()) {
@@ -178,6 +209,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
     }
+    
 
     /**
      * Set default restriction to given website
