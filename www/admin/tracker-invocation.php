@@ -52,6 +52,12 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 

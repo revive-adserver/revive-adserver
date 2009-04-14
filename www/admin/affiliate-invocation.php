@@ -49,6 +49,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);

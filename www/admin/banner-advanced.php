@@ -43,6 +43,13 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 

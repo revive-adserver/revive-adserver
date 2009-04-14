@@ -44,6 +44,13 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+
+
 $userAccess = new OA_Admin_UI_UserAccess();
 $userAccess->init();
 

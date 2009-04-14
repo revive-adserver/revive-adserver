@@ -60,6 +60,13 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
 // Initalise any tracker based plugins
 $plugins = array();
 $invocationPlugins = &OX_Component::getComponents('invocationTags');

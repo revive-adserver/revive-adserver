@@ -45,6 +45,13 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
+
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
 /*-------------------------------------------------------*/

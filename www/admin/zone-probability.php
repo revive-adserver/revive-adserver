@@ -45,6 +45,11 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 OA_Permission::enforceAccessToObject('zones', $zoneid);
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

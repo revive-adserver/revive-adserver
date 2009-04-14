@@ -53,6 +53,12 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid, true);
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
 /* Initialise data                                       */
 /*-------------------------------------------------------*/
 if ($trackerid != "" || (isset($move) && $move == 't')) {

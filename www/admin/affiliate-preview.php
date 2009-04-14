@@ -51,6 +51,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
 }
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
+
 Language_Loader::load('default');
 
 $maxInvocation = new MAX_Admin_Invocation();

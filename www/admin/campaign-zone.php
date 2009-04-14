@@ -49,6 +49,13 @@ OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
 OA_Permission::enforceAccessToObject ( 'clients', $clientid );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
 $agencyId = OA_Permission::getAgencyId();
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));

@@ -40,6 +40,12 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+phpAds_SessionDataStore();
+
 // Initialize trackerAppend class
 $trackerAppend = new Max_Admin_Inventory_TrackerAppend();
 

@@ -46,6 +46,14 @@ OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid] = $campaignid;
+phpAds_SessionDataStore();
+
+
     // Get input parameters
     $advertiserId   = MAX_getValue('clientid');
     $campaignId     = MAX_getValue('campaignid');

@@ -51,6 +51,12 @@ $tabindex = 1;
 
 if (!empty($affiliateid)) {
     OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+    
+    /*-------------------------------------------------------*/
+	/* Store preferences									 */
+	/*-------------------------------------------------------*/
+	$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+	phpAds_SessionDataStore();
 
     $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));

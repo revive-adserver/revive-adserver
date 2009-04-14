@@ -68,6 +68,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 }
 
 /*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/
 $doZones = OA_Dal::factoryDO('zones');

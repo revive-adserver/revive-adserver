@@ -45,6 +45,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     OA_Permission::enforceAllowed(OA_PERM_ZONE_LINK);
 }
 
+/*-------------------------------------------------------*/
+/* Store preferences									 */
+/*-------------------------------------------------------*/
+$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+phpAds_SessionDataStore();
+
     // Get input parameters
     $pref =& $GLOBALS['_MAX']['PREF'];
     $publisherId    = MAX_getValue('affiliateid');
@@ -210,8 +216,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $aZonesPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), true, 'placement_id');
         MAX_displayZoneEntitySelection('placement', $aOtherAdvertisers, $aOtherPlacements, null, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectCampaignToLink'], $pageName, $tabIndex);
         if (!empty($aZonesPlacements)) {
-        	$aParams = array('placement_id' => implode(',', array_keys($aZonesPlacements)));
-        	$aParams += MAX_getLinkedAdParams($zoneId);
+	        $aParams = array('placement_id' => implode(',', array_keys($aZonesPlacements)));
+	        $aParams += MAX_getLinkedAdParams($zoneId);
         } else {
             $aParams = null;
         }
