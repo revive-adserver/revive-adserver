@@ -68,7 +68,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
         if (!$this->isActive()) {
-            $this->afterPricingFormSectionForInactive(&$form, $campaign, $newCampaign);
+            $this->afterPricingFormSectionForInactive($form, $campaign, $newCampaign);
             return;
         }
 
