@@ -33,6 +33,10 @@ if(isset($GLOBALS['_MAX']['FILES'][$file])) {
 ###END_STRIP_DELIVERY
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
+
+require_once MAX_PATH . '/lib/OA/Dal/Delivery.php';
+
+
 function MAX_Dal_Delivery_Include()
 {
     static $included;

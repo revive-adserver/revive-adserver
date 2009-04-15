@@ -86,14 +86,8 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
-        if ($this->oDbh->dbsyntax == 'mysql')
-        {
-            $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
-        }
-        else if ($this->oDbh->dbsyntax == 'pgsql')
-        {
-            $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'pgsql link');
-        }
+        $type = get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+        $this->assertEqual($type, $this->oDbh->dbsyntax.' link');
     }
 
     function _getTableName($table)
@@ -110,14 +104,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $aConf = $GLOBALS['_MAX']['CONF'];
         $res = OA_Dal_Delivery_query("SELECT * FROM ".$this->_getTableName('banners')." limit 1");
         $this->assertTrue($res);
-        if ($this->oDbh->dbsyntax == 'mysql')
-        {
-            $row = @mysql_fetch_array($res);
-        }
-        else if ($this->oDbh->dbsyntax == 'pgsql')
-        {
-            $row = @pg_fetch_array($res);
-        }
+        $row = OA_Dal_Delivery_fetchAssoc($res);
         $this->assertTrue($row);
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
     }
