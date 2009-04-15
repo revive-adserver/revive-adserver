@@ -375,7 +375,10 @@ class MAX_Admin_Invocation {
                 $buffer .= "<tr><td height='25'>";
                 
                 if ($codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
-                    $buffer .= "<p>$strIABNoteXMLRPCInvocation</p>";
+                    $buffer .= "
+                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                            $strIABNoteXMLRPCInvocation
+                        </div>";
                 }
                 
                 if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
@@ -393,7 +396,10 @@ class MAX_Admin_Invocation {
                         </div>";
                 }
                 else if ($codetype == 'invocationTags:oxInvocationTags:local' && $server_same) {
-                    $buffer .= "<p>$strIABNoteLocalInvocation</p>";
+                    $buffer .= "
+                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                            $strIABNoteLocalInvocation
+                        </div>";
                 }
 
                 // Supress the textarea if required by this plugin
