@@ -823,7 +823,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Method to test linkZonesToCampaign method
      *
      */
-    function testLinkZonesToCampaign()
+    function _internalTestLinkZonesToCampaign()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -977,6 +977,21 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             $this->assertEqual($doAdZoneAssoc->count(), 1, "found {$doAdZoneAssoc->count()} row ad_zone_assoc for \$aExpectedAdZoneAssocs[{$row}] when expected 1 row");
         }
     }
+
+    
+    function testLinkZonesToCampaignWithAuditTrail()
+    {
+        $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = true;
+        $this->_internalTestLinkZonesToCampaign();
+    }
+    
+    
+    function testLinkZonesToCampaignWithNoAuditTrail()
+    {
+        $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = false;
+        $this->_internalTestLinkZonesToCampaign();
+    }
+    
 
     /**
      * Method to test checkZonesCampaignRealm method

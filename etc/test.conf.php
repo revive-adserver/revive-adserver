@@ -433,6 +433,7 @@ enableOnInstall = true
 
 [audit]
 enabled=0
+enabledForZoneLinking=false
 
 ;------------------------------------------------------------------------------------------;
 ; Test configuration

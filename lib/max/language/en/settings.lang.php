@@ -255,6 +255,7 @@ $GLOBALS['strEmailLog']                              = "Email log";
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings']                    = "Audit Trail Settings";
 $GLOBALS['strEnableAudit']                           = "Enable Audit Trail";
+$GLOBALS['strEnableAuditForZoneLinking']             = "Enable Audit Trail for Zone Linking screen (introduces huge performance penalty when linking large amounts of zones)";
 
 // Debug Logging Settings
 $GLOBALS['strDebug']                                 = "Debug Logging Settings";

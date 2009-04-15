@@ -57,7 +57,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'audit_enabled' => array(
             'audit' => 'enabled',
             'bool'  => true
-        )
+        ),
+        'audit_enabledForZoneLinking' => array(
+            'audit' => 'enabledForZoneLinking',
+            'bool'  => true
+        )        
     );
     // Debug Logging Settings
     $aElements += array(
@@ -119,13 +123,18 @@ $GLOBALS['_MAX']['CONF']['log']['priority'] = $oOptions->pearLogPriorityToConstr
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'  => $strAudit,
+        'text'  => $strAuditTrailSettings,
         'items' => array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'audit_enabled',
                 'text'    => $strEnableAudit
-            )
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'audit_enabledForZoneLinking',
+                'text'    => $strEnableAuditForZoneLinking
+            )            
         )
     ),
     array (

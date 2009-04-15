@@ -419,5 +419,6 @@ enableOnInstall = true
 
 [audit]
 enabled=1
+enabledForZoneLinking=false
 
 ;------------------------------------------------------------------------------------------;
