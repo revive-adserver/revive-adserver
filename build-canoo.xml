@@ -284,7 +284,7 @@ enabled=0]]></replacevalue>
 		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.login}">
 			<replacetoken>@username</replacetoken>
 		</replace>
-		<copy file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.example.properties" tofile="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
+		<copy file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.example.properties" tofile="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.properties"/>
 		<replace file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.properties" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/">
 			<replacetoken>@serviceURL</replacetoken>
 		</replace>
