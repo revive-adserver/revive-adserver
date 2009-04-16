@@ -482,16 +482,12 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
-            $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
             $aRows['xAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
-            $totals['xAds'] += $aAd['priority'];
         } elseif ($aAd['campaign_priority'] == 0) {
             // Ad is in a low priority placement
-            $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
             $aRows['lAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
-            $totals['lAds'] += $aAd['priority'];
         } elseif ($aAd['campaign_priority'] == -2) {
             // Ad is in a low priority eCPM placement
             $aRows['eAds'][$aAd['ad_id']] = $aAd;
@@ -507,7 +503,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
                 // Store a low priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
-                $totals['clAds'] += $aAd['priority'];
             } else {
                 // Store a paid priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
@@ -515,6 +510,10 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             }
 
         }
+    }
+    // If there are exclusive ads, sort by priority
+    if (is_array($aRows['xAds'])) {
+        $totals['xAds'] = _setPriorityFromWeights($aRows['xAds']);
     }
     // If there are paid ads (or eCPM ads), prepare array of priority totals
     // to allow delivery to do the scaling work later
@@ -526,7 +525,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     }
     // If there are low priority ads, sort by priority
     if (is_array($aRows['lAds'])) {
-        uasort($aRows['lAds'], '_sortArrayPriority');
+        $totals['lAds'] = _setPriorityFromWeights($aRows['lAds']);
     }
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
@@ -535,7 +534,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     }
     // If there are low priority companion ads, sort by priority
     if (is_array($aRows['clAds'])) {
-        uasort($aRows['clAds'], '_sortArrayPriority');
+        $totals['clAds'] = _setPriorityFromWeights($aRows['clAds']);
     }
     $aRows['priority'] = $totals;
     return $aRows;
@@ -640,6 +639,10 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
 
         }
     }
+    // If there are exclusive ads, sort by priority
+    if (isset($aRows['xAds']) && is_array($aRows['xAds'])) {
+        $totals['xAds'] = _setPriorityFromWeights($aRows['xAds']);
+    }
     // If there are paid ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (isset($aRows['ads']) && is_array($aRows['ads'])) {
@@ -647,7 +650,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     }
     // If there are low priority ads, sort by priority
     if (isset($aRows['lAds']) && is_array($aRows['lAds'])) {
-        uasort($aRows['lAds'], '_sortArrayPriority');
+        $totals['lAds'] = _setPriorityFromWeights($aRows['lAds']);
     }
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
@@ -656,7 +659,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     }
     // If there are low priority companion ads, sort by priority
     if (isset($aRows['clAds']) && is_array($aRows['clAds'])) {
-        uasort($aRows['clAds'], '_sortArrayPriority');
+        $totals['clAds'] = _setPriorityFromWeights($aRows['clAds']);
     }
     $aRows['priority'] = $totals;
     return $aRows;
@@ -1295,22 +1298,58 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
 
 /**
- * A private callback function for the uasort function
+ * A private function to calculate priority for low/exclusive campagins
  *
- * @param  string   $a      First parameter
- * @param  string   $b      Second parameter
+ * @param  array $aAds Ads array
  *
- * @return boolean  Compare result
+ * @return int Total priority
  */
-function _sortArrayPriority($a, $b)
+function _setPriorityFromWeights(&$aAds)
 {
-    $compare = ($a['priority'] > $b['priority']) ? -1 : 1;
-    return $compare;
+    // Skip if empty
+    if (!count($aAds)) {
+        return 0;
+    }
+
+    // Get campaign weights and ad count
+    $aCampaignWeights  = array();
+    $aCampaignAdWeight = array();
+    foreach ($aAds as $v) {
+        if (!isset($aCampaignWeights[$v['placement_id']])) {
+            $aCampaignWeights[$v['placement_id']] = $v['campaign_weight'];
+            $aCampaignAdWeight[$v['placement_id']] = 0;
+        }
+        $aCampaignAdWeight[$v['placement_id']] += $v['weight'];
+    }
+
+    // Scale campaign weights by the total banner weight
+    foreach ($aCampaignWeights as $k => $v) {
+        if ($aCampaignAdWeight[$k]) {
+            $aCampaignWeights[$k] /= $aCampaignAdWeight[$k];
+        }
+    }
+
+    // Set weighted priority and calculate total
+    $totalPri = 0;
+    foreach ($aAds as $k => $v) {
+        $aAds[$k]['priority'] = $aCampaignWeights[$v['placement_id']] * $v['weight'];
+        $totalPri += $aAds[$k]['priority'];
+    }
+
+    // Scale to 1
+    if ($totalPri) {
+        foreach ($aAds as $k => $v) {
+            $aAds[$k]['priority'] /= $totalPri;
+        }
+        return 1;
+    }
+
+    return 0;
 }
 
 
 /**
- * A private method to calculate total expected priority values
+ * A private function to calculate total expected priority values
  * for each campaign priority. The values are used later during
  * delivery to scale priorities to 1
  *

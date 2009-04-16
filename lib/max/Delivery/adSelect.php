@@ -184,21 +184,21 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 	                } else {
 	                    $append = '';
 	                }
-	
+
 	                $separate  = explode ('/', $what);
 	                $expanded  = '';
 	                $collected = array();
-	
+
 	                reset($separate);
 	                while (list(,$v) = each($separate)) {
 	                    $expanded .= ($expanded != '' ? ',+' : '') . $v;
 	                    $collected[] = $expanded . ($append != '' ? ',+'.$append : '');
 	                }
-	
+
 	                $what = strtok(implode('|', array_reverse ($collected)), '|');
 	                $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
 	            }
-	
+
 	            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
 	        }
 	        if (is_array($row) && empty($row['default'])) {
@@ -547,32 +547,14 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $paidAds = ($adArrayVar == 'ads') || (empty($aContext) && $adArrayVar == 'cAds') || ($adArrayVar == 'eAds');
-
-    if ($paidAds) {
-        // Paid campaigns have a sum of priorities of unity, so pick
-        // a float random number between 0 and 1, inclusive.
-        $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
-    } else {
-        // All other campaigns have integer-based priority values, so
-        // select an integer random number between 0 and the sum of all the
-        // priority values
-        $prioritysum = 0;
-        foreach ($aAds as $aAd) {
-            $prioritysum += $aAd['priority'];
-        }
-        if (!$prioritysum) {
-            // No priority, exit!
-            return;
-        }
-        $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
-    }
+    // Pick a float random number between 0 and 1, inclusive.
+    $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
 
     // Perform selection of an ad, based on the random number
     $low = 0;
     $high = 0;
     foreach($aAds as $aLinkedAd) {
-        if (is_array($aLinkedAd)) {
+        if (!empty($aLinkedAd['priority'])) {
             $low = $high;
             $high += $aLinkedAd['priority'];
             if ($high > $ranweight && $low <= $ranweight) {

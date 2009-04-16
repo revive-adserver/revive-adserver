@@ -290,6 +290,192 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $aReturn    = OA_Dal_Delivery_getTrackerVariables($trackerid);
         $this->assertEqual(count($aReturn), 2);
     }
+
+    /**
+     * proper low/exclusive prioritisation with campaign weight coming first
+     *
+     */
+    function test_setPriorityFromWeights()
+    {
+        $aAds = array();
+        $this->assertFalse(_setPriorityFromWeights($aAds));
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 0,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertFalse(_setPriorityFromWeights($aAds));
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 0,
+            ),
+        );
+        $this->assertFalse(_setPriorityFromWeights($aAds));
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 1);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.5);
+        $this->assertEqual($aAds[1]['priority'], 0.5);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 2,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.25);
+        $this->assertEqual($aAds[1]['priority'], 0.25);
+        $this->assertEqual($aAds[2]['priority'], 0.5);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 4,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 2,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.1);
+        $this->assertEqual($aAds[1]['priority'], 0.4);
+        $this->assertEqual($aAds[2]['priority'], 0.5);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 12,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 13,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 2,
+                'campaign_weight' => 3,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.12);
+        $this->assertEqual($aAds[1]['priority'], 0.13);
+        $this->assertEqual($aAds[2]['priority'], 0.75);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 0,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 2,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.5);
+        $this->assertEqual($aAds[1]['priority'], 0);
+        $this->assertEqual($aAds[2]['priority'], 0.5);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 4,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 2,
+                'campaign_weight' => 0,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.2);
+        $this->assertEqual($aAds[1]['priority'], 0.8);
+        $this->assertEqual($aAds[2]['priority'], 0);
+
+        $aAds = array(
+            array(
+                'placement_id'    => 1,
+                'weight'          => 1,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 1,
+                'weight'          => 4,
+                'campaign_weight' => 1,
+            ),
+            array(
+                'placement_id'    => 2,
+                'weight'          => 0,
+                'campaign_weight' => 1,
+            ),
+        );
+        $this->assertTrue(_setPriorityFromWeights($aAds));
+        $this->assertEqual($aAds[0]['priority'], 0.2);
+        $this->assertEqual($aAds[1]['priority'], 0.8);
+        $this->assertEqual($aAds[2]['priority'], 0);
+    }
 }
 
 ?>
