@@ -259,7 +259,7 @@ enabled=0]]></replacevalue>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
 	</target>
 
-	<target name="run-test" depends="test-unit-webService-API">
+	<target name="run-test" depends="test-unit-webService-APIv2">
 		<echo message="Starting test automation framework ..." />
 	</target>
 
@@ -284,6 +284,16 @@ enabled=0]]></replacevalue>
 		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.login}">
 			<replacetoken>@username</replacetoken>
 		</replace>
+		<copy file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.example.properties" tofile="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
+		<replace file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.properties" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/">
+			<replacetoken>@serviceURL</replacetoken>
+		</replace>
+		<replace file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.pass}">
+			<replacetoken>@password</replacetoken>
+		</replace>
+		<replace file="${basedir}/www/api/v2/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.login}">
+			<replacetoken>@username</replacetoken>
+		</replace>
 	</target>
 	
 	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo, prepare-webService-API-test-config">
@@ -300,6 +310,21 @@ enabled=0]]></replacevalue>
 		<fail unless="should.have.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.xmlrpc.mvn.result}"/>
 	</target>
 
+	<target name="test-unit-webService-APIv2" if="test.unit.xmlrpc.api" depends="test-unit-webService-API">
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" failonerror="false" resultproperty="test.unit.xmlrpc.mvn.result" dir="${basedir}/www/api/v2/xmlrpc/tests/unit/">
+			<env key="MAVEN_TERMINATE_CMD" value="on" />
+			<arg line="clean test" />
+		</exec>
+		<condition property="should.have.failed">
+			<equals arg1="0" arg2="${test.unit.xmlrpc.mvn.result}" />
+		</condition>
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v2/xmlrpc/tests/unit/">
+			<arg line="surefire-report:report-only" />
+		</exec>
+		<fail unless="should.have.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.xmlrpc.mvn.result}"/>
+	</target>
+
+	
 	<target name="clean-ec2" description="Cleans the ec2 from all the files left.">
 		<canoo-ssh command="rm ${canoo.package}"/>
 		<canoo-ssh-root command="rm -rf ${ec2.openx.dir}"/>
