@@ -39,6 +39,7 @@ class DataObjects_Ext_market_assoc_data extends DB_DataObjectCommon
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129
     public $publisher_account_id;                      // VARCHAR(36) => openads_varchar => 130
     public $status;                          // TINYINT(4) => openads_tinyint => 129
+    public $api_key;                         // VARCHAR(255) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ext_market_assoc_data',$k,$v); }
