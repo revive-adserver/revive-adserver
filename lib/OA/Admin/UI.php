@@ -764,7 +764,7 @@ class OA_Admin_UI
             'js/boxrow.js',
             'js/ox.message.js',
             'js/ox.usernamecheck.js',
-            'js/ox.addirect.js',
+            'js/ox.ui.js',
             'js/ox.form.js',
             'js/ox.help.js',
             'js/ox.util.js', //1.3s

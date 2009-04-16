@@ -127,12 +127,12 @@ if ($bannerid != '') {
     // Fetch the data from the database
     $doBanners = OA_Dal::factoryDO('banners');
     if ($doBanners->get($bannerid)) {
-        $row = $doBanners->toArray();
+        $aBanner = $doBanners->toArray();
     }
 
     // Set basic values
-    $type               = $row['storagetype'];
-    $ext_bannertype     = $row['ext_bannertype'];
+    $type               = $aBanner['storagetype'];
+    $ext_bannertype     = $aBanner['ext_bannertype'];
     $hardcoded_links    = array();
     $hardcoded_targets  = array();
     $hardcoded_sources  = array();
@@ -145,8 +145,8 @@ if ($bannerid != '') {
         }
     }
     // Check for hard-coded links
-    if (!empty($row['parameters'])) {
-        $aSwfParams = unserialize($row['parameters']);
+    if (!empty($aBanner['parameters'])) {
+        $aSwfParams = unserialize($aBanner['parameters']);
         if (!empty($aSwfParams['swf'])) {
             foreach ($aSwfParams['swf'] as $iKey => $aSwf) {
                 $hardcoded_links[$iKey]   = $aSwf['link'];
@@ -155,43 +155,43 @@ if ($bannerid != '') {
             }
         }
     }
-    if (!empty($row['filename'])) {
-        $row['replaceimage'] = "f"; //select keep image by default
+    if (!empty($aBanner['filename'])) {
+        $aBanner['replaceimage'] = "f"; //select keep image by default
     }
 
-    if (!empty($row['alt_filename'])) {
-        $row['replacealtimage'] = "f"; //select keep backup image by default
+    if (!empty($aBanner['alt_filename'])) {
+        $aBanner['replacealtimage'] = "f"; //select keep backup image by default
     }
 
-    $row['hardcoded_links'] = $hardcoded_links;
-    $row['hardcoded_targets'] = $hardcoded_targets;
-    $row['hardcoded_sources'] = $hardcoded_sources;
-    $row['clientid']   = $clientid;
+    $aBanner['hardcoded_links'] = $hardcoded_links;
+    $aBanner['hardcoded_targets'] = $hardcoded_targets;
+    $aBanner['hardcoded_sources'] = $hardcoded_sources;
+    $aBanner['clientid']   = $clientid;
     
 }
 else {
     // Set default values for new banner
-    $row['bannerid']     = '';
-    $row['campaignid']   = $campaignid;
-    $row['clientid']     = $clientid;
-    $row['alt']          = '';
-    $row['status']       = '';
-    $row['bannertext']   = '';
-    $row['url']          = "http://";
-    $row['target']       = '';
-    $row['imageurl']     = "http://";
-    $row['width']        = '';
-    $row['height']       = '';
-    $row['htmltemplate'] = '';
-    $row['description']  = '';
-    $row['comments']     = '';
-    $row['contenttype']  = '';
-    $row['adserver']     = '';
-    $row['keyword']      = '';
-    $row["weight"]       = $pref['default_banner_weight'];
+    $aBanner['bannerid']     = '';
+    $aBanner['campaignid']   = $campaignid;
+    $aBanner['clientid']     = $clientid;
+    $aBanner['alt']          = '';
+    $aBanner['status']       = '';
+    $aBanner['bannertext']   = '';
+    $aBanner['url']          = "http://";
+    $aBanner['target']       = '';
+    $aBanner['imageurl']     = "http://";
+    $aBanner['width']        = '';
+    $aBanner['height']       = '';
+    $aBanner['htmltemplate'] = '';
+    $aBanner['description']  = '';
+    $aBanner['comments']     = '';
+    $aBanner['contenttype']  = '';
+    $aBanner['adserver']     = '';
+    $aBanner['keyword']      = '';
+    $aBanner["weight"]       = $pref['default_banner_weight'];
 
-    $row['hardcoded_links'] = array();
-    $row['hardcoded_targets'] = array();
+    $aBanner['hardcoded_links'] = array();
+    $aBanner['hardcoded_targets'] = array();
 }
 if ($ext_bannertype)
 {
@@ -273,7 +273,7 @@ if (!$type)
 }
 
 //build banner form
-$form = buildBannerForm($type, $row, $oComponent, $formDisabled);
+$form = buildBannerForm($type, $aBanner, $oComponent, $formDisabled);
 
 $valid = $form->validate();
 if ($valid && $oComponent && $oComponent->enabled)
@@ -286,12 +286,12 @@ if ($valid)
     processForm($bannerid, $form, $oComponent, $formDisabled);
 }
 else { //either validation failed or form was not submitted, display the form
-    displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $row, $type, $form, $ext_bannertype, $formDisabled);
+    displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
 }
 
 
 
-function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $row, $type, $form, $ext_bannertype, $formDisabled=false)
+function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled=false)
 {
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
@@ -320,8 +320,8 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $row, $typ
     $oTpl->assign('bannerId',  $bannerid);
     $oTpl->assign('bannerTypes', $bannerTypes);
     $oTpl->assign('bannerType', ($ext_bannertype ? $ext_bannertype : $type));
-    $oTpl->assign('bannerHeight', $row["height"]);
-    $oTpl->assign('bannerWidth', $row["width"]);
+    $oTpl->assign('bannerHeight', $aBanner["height"]);
+    $oTpl->assign('bannerWidth', $aBanner["width"]);
     $oTpl->assign('disabled', $formDisabled);
     $oTpl->assign('form', $form->serialize());
 
@@ -335,18 +335,21 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $row, $typ
 }
 
 
-function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
+function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false)
 {
     //-- Build forms
     $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
     $form->forceClientValidation(true);
-    $form->addElement('hidden', 'clientid', $row['clientid']);
-    $form->addElement('hidden', 'campaignid', $row['campaignid']);
-    $form->addElement('hidden', 'bannerid', $row['bannerid']);
+    $form->addElement('hidden', 'clientid', $aBanner['clientid']);
+    $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
+    $form->addElement('hidden', 'bannerid', $aBanner['bannerid']);
     $form->addElement('hidden', 'type', $type);
-    $form->addElement('hidden', 'status', $row['status']);
+    $form->addElement('hidden', 'status', $aBanner['status']);
 
-    if ($row['contenttype'] == 'swf' && empty($row['alt_contenttype']) && empty($row['alt_imageurl'])) {
+    if ($type == 'sql' || $type == 'web') {
+        $form->addElement('custom', 'banner-iab-note', null, null);
+    }
+    if ($aBanner['contenttype'] == 'swf' && empty($aBanner['alt_contenttype']) && empty($aBanner['alt_imageurl'])) {
         $form->addElement('custom', 'banner-backup-note', null, null);
     }
 
@@ -355,7 +358,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $form->addElement('text', 'description', $GLOBALS['strName']);
     }
     else {
-        $form->addElement('static', 'description', $GLOBALS['strName'], $row['description']);
+        $form->addElement('static', 'description', $GLOBALS['strName'], $aBanner['description']);
     }
 
     //local banners
@@ -369,15 +372,15 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $header->setAttribute('icon', 'icon-banner-stored.gif');
         $form->addElement($header);
 
-        $imageName = _getContentTypeIconImageName($row['contenttype']);
-        $size = _getBannerSizeText($type, $row['filename']);
+        $imageName = _getContentTypeIconImageName($aBanner['contenttype']);
+        $size = _getBannerSizeText($type, $aBanner['filename']);
 
-        addUploadGroup($form, $row,
+        addUploadGroup($form, $aBanner,
             array(
                 'uploadName' => 'upload',
                 'radioName' => 'replaceimage',
                 'imageName'  => $imageName,
-                'fileName'  => $row['filename'],
+                'fileName'  => $aBanner['filename'],
                 'fileSize'  => $size,
                 'newLabel'  => $GLOBALS['strNewBannerFile'],
                 'updateLabel'  => $GLOBALS['strUploadOrKeep'],
@@ -385,49 +388,53 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
               )
         );
 
-        if ($row['contenttype'] == 'swf') {
-            $altImageName = _getContentTypeIconImageName($row['alt_contenttype']);
-            $altSize = _getBannerSizeText($type, $row['alt_filename']);
-
-            addUploadGroup($form, $row,
-                array(
-                    'uploadName' => 'uploadalt',
-                    'radioName' => 'replacealtimage',
-                    'imageName'  => $altImageName,
-                    'fileSize'  => $altSize,
-                    'fileName'  => $row['alt_filename'],
-                    'newLabel'  => $GLOBALS['strNewBannerFileAlt'],
-                    'updateLabel'  => $GLOBALS['strUploadOrKeep'],
-                    'handleSWF' => false
-                  )
-            );
+        $altImageName = null;
+        $altSize = null;
+        if ($aBanner['contenttype'] == 'swf') {
+            $altImageName = _getContentTypeIconImageName($aBanner['alt_contenttype']);
+            $altSize = _getBannerSizeText($type, $aBanner['alt_filename']);
         }
-
+        
+        $aUploadParams = array(
+                'uploadName' => 'uploadalt',
+                'radioName' => 'replacealtimage',
+                'imageName'  => $altImageName,
+                'fileSize'  => $altSize,
+                'fileName'  => $aBanner['alt_filename'],
+                'newLabel'  => $GLOBALS['strNewBannerFileAlt'],
+                'updateLabel'  => $GLOBALS['strUploadOrKeep'],
+                'handleSWF' => false
+              );
+        
+        if ($aBanner['contenttype'] != 'swf') {
+            $aUploadParams = array_merge($aUploadParams, array('decorateId' => 'swfAlternative'));
+        }
+        addUploadGroup($form, $aBanner, $aUploadParams);
 
         $form->addElement('header', 'header_b_links', "Banner link");
-        if (count($row['hardcoded_links']) == 0) {
+        if (count($aBanner['hardcoded_links']) == 0) {
             $form->addElement('text', 'url', $GLOBALS['strURL']);
             $targetElem = $form->createElement('text', 'target', $GLOBALS['strTarget']);
             $targetElem->setAttribute('maxlength', '16');
             $form->addElement($targetElem);
         }
         else {
-            foreach ($row['hardcoded_links'] as $key => $val) {
+            foreach ($aBanner['hardcoded_links'] as $key => $val) {
                 $link['text'] = $form->createElement('text', "alink[".$key."]", null);
                 $link['text']->setAttribute("style", "width:330px");
                 $link['radio'] = $form->createElement('radio', "alink_chosen", null, null, $key);
                 $form->addGroup($link, 'url_group', $GLOBALS['strURL'], "", false);
 
-                if (isset($row['hardcoded_targets'][$key])) {
+                if (isset($aBanner['hardcoded_targets'][$key])) {
                     $targetElem = $form->createElement('text', "atar[".$key."]", $GLOBALS['strTarget']);
                     $targetElem->setAttribute('maxlength', '16');
                     $form->addElement($targetElem);
                 }
-                if (count($row['hardcoded_links']) > 1) {
+                if (count($aBanner['hardcoded_links']) > 1) {
                     $form->addElement('text', "asource[".$key."]", $GLOBALS['strOverwriteSource']);
                 }
             }
-            $form->addElement('hidden', 'url', $row['url']);
+            $form->addElement('hidden', 'url', $aBanner['url']);
         }
         $form->addElement('header', 'header_b_display', 'Banner display');
         $form->addElement('text', 'alt', $GLOBALS['strAlt']);
@@ -436,7 +443,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $form->addElement('text', 'bannertext', $GLOBALS['strTextBelow']);
         $form->applyFilter('bannertext', 'phpAds_htmlQuotes');
 
-        if (!empty($row['bannerid'])) {
+        if (!empty($aBanner['bannerid'])) {
             $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
             $sizeG['width']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
             $sizeG['width']->setSize(5);
@@ -458,7 +465,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
                 'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
                 'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
         }
-        if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+        if (!isset($aBanner['contenttype']) || $aBanner['contenttype'] == 'swf')
         {
             $form->addElement('checkbox', 'transparent', $GLOBALS['strSwfTransparency'], $GLOBALS['strSwfTransparency']);
         }
@@ -474,9 +481,9 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
 
         $form->addElement('text', 'imageurl', $GLOBALS['strNewBannerURL']);
 
-        if ($row['contenttype'] == 'swf') {
-            $altImageName = _getContentTypeIconImageName($row['alt_contenttype']);
-            $altSize = _getBannerSizeText($type, $row['alt_filename']);
+        if ($aBanner['contenttype'] == 'swf') {
+            $altImageName = _getContentTypeIconImageName($aBanner['alt_contenttype']);
+            $altSize = _getBannerSizeText($type, $aBanner['alt_filename']);
 
             $form->addElement('text', 'alt_imageurl', $GLOBALS['strNewBannerFileAlt']);
         }
@@ -504,7 +511,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $sizeG['height']->setSize(5);
         $form->addGroup($sizeG, 'size', $GLOBALS['strSize'], "&nbsp;", false);
 
-        if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+        if (!isset($aBanner['contenttype']) || $aBanner['contenttype'] == 'swf')
         {
             $form->addElement('checkbox', 'transparent', $GLOBALS['strSwfTransparency'], $GLOBALS['strSwfTransparency']);
         }
@@ -525,7 +532,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     //html & text banners
     if ($oComponent)
     {
-        $oComponent->buildForm($form, $row);
+        $oComponent->buildForm($form, $aBanner);
     }
 
     $translation = new OX_Translation();
@@ -554,19 +561,19 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
     }
 
     //set banner values
-    $form->setDefaults($row);
+    $form->setDefaults($aBanner);
 
-    foreach ($row['hardcoded_links'] as $key => $val) {
+    foreach ($aBanner['hardcoded_links'] as $key => $val) {
         $swfLinks["alink[".$key."]"] = phpAds_htmlQuotes($val);
 
-        if ($val == $row['url']) {
+        if ($val == $aBanner['url']) {
             $swfLinks['alink_chosen'] = $key;
         }
-        if (isset($row['hardcoded_targets'][$key])) {
-            $swfLinks["atar[".$key."]"] = phpAds_htmlQuotes($row['hardcoded_targets'][$key]);
+        if (isset($aBanner['hardcoded_targets'][$key])) {
+            $swfLinks["atar[".$key."]"] = phpAds_htmlQuotes($aBanner['hardcoded_targets'][$key]);
         }
-        if (count($row['hardcoded_links']) > 1) {
-            $swfLinks["asource[".$key."]"] = phpAds_htmlQuotes($row['hardcoded_sources'][$key]);
+        if (count($aBanner['hardcoded_links']) > 1) {
+            $swfLinks["asource[".$key."]"] = phpAds_htmlQuotes($aBanner['hardcoded_sources'][$key]);
         }
     }
     $form->setDefaults($swfLinks);
@@ -579,7 +586,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
 }
 
 
-function addUploadGroup($form, $row, $vars)
+function addUploadGroup($form, $aBanner, $vars)
 {
         $uploadG = array();
         if (isset($vars['fileName']) && $vars['fileName'] != '') {
@@ -606,6 +613,13 @@ function addUploadGroup($form, $row, $vars)
             }
 
             $form->addGroup($uploadG, $vars['uploadName'].'_group', $vars['newLabel'], "<br>", false);
+            
+            if (!empty($vars['decorateId'])) {
+                $form->addDecorator($vars['uploadName'].'_group', 'process', array('tag' => 'tr',
+                    'addAttributes' => array('id' => $vars['decorateId'].'{numCall}',  
+                    'style' => 'display:none')));
+            }
+            
         }
         $form->setDefaults(array("checkswf" => "t")); //TODO does not work??
 }

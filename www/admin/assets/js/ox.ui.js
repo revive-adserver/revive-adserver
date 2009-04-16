@@ -1152,3 +1152,15 @@ function formUnFormat(field)
     });
   };
 })(jQuery);
+
+(function($) {
+  $.fn.selectFile = function() {
+    return this.each(function() {
+        $form = $(this);
+        
+        
+    
+    });
+  };
+})(jQuery);
+

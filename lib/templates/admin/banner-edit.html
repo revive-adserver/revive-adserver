@@ -84,12 +84,21 @@ $Id$
         if (handleSWF) {
             // Show SWF Layer
             var swflayer = findObj ('swflayer');
+            var swfAlternate1 = findObj ('swfAlternative1');
+            var swfAlternate2 = findObj ('swfAlternative2');
+            var iab_rmedia_note = findObj ('iab_rmedia_note');
 
             if (swflayer) {
                 if (filename.indexOf('swf') + 3 == filename.length) {
                     swflayer.style.display = '';
+                    swfAlternate1.style.display = '';
+                    swfAlternate2.style.display = '';
+                    iab_rmedia_note.style.display = ''; 
                 } else {
                     swflayer.style.display = 'none';
+                    swfAlternate1.style.display = 'none';
+                    swfAlternate2.style.display = 'none';
+                    iab_rmedia_note.style.display = 'none';
                 }
             }
         }
