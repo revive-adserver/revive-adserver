@@ -113,7 +113,7 @@ public class TestAddAgency extends AgencyTestCase {
 		addAgencyParameters.put(AGENCY_NAME, "testAgancy7");
 		addAgencyParameters.put(CONTACT_NAME, "test");
 		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
-		addAgencyParameters.put(USER_NAME, "testUserName");
+		addAgencyParameters.put(USER_NAME, "testUserName7");
 		addAgencyParameters.put(PASSWORD, "testPassword");
 		addAgencyParameters.put(USER_EMAIL, "user123@mailinator.com");
 		addAgencyParameters.put(LANGUAGE, "de");
