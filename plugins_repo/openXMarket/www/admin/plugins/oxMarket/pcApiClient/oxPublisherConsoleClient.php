@@ -54,10 +54,15 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      * @var integer
      */
     protected $publisher_account_id;
+
+    /**
+     * @var string
+     */
+    protected $apiKey;
     
     /**
-     * @param OX_M2M_M2MProtectedRpc $m2mprotected_xml_rpc_client
-     * @param OX_M2M_XmlRpcExecutor $xml_rpc_client
+     * @param OX_M2M_M2MProtectedRpc $m2mprotected_xml_rpc_client Client for old M2M protected API
+     * @param OX_M2M_XmlRpcExecutor $xml_rpc_client Client for Public API
      * @param integer $publisher_account_id
      */
     public function __construct(OX_M2M_M2MProtectedRpc $m2mprotected_xml_rpc_client, 
@@ -65,6 +70,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
         $publisher_account_id = null)
     {
         $this->publisher_account_id = $publisher_account_id;
+        $this->apiKey = null;
         $this->m2mprotected_xml_rpc_client = $m2mprotected_xml_rpc_client;
         $this->xml_rpc_client = $xml_rpc_client;
     }
@@ -76,9 +82,36 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
                 'publisher_account_id can not be null');
         }
     }
+    
+    /**
+     * Method checks if API Key is set for this client
+     * 
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException if API Key is not set
+     */
+    protected function ensureApiKeyIsSet()
+    {
+        if (!isset($this->apiKey)) {
+            throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                'apiKey can not be null');
+        }
+    }
 
     protected function callXmlRpcClient($function, $params) {
         return $this->xml_rpc_client->call($function, $params);
+    }
+
+    /**
+     * Call XML RPC client adding API Key for authorization
+     *
+     * @param string $function
+     * @param array $params
+     * @return mixed
+     */
+    protected function callApiKeyAuthXmlRpcFunction($function, $params) {
+        $this->ensureApiKeyIsSet();
+        $paramsWithApiKey = array_merge(
+            array($this->apiKey), $params);
+        return $this->xml_rpc_client->call($function, $paramsWithApiKey);
     }
     
     protected function callM2mprotectedXmlRpcClient($function, $params) {
@@ -103,9 +136,21 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     }
     
     /**
+     * Set API Key used to authorize client calls 
+     * 
+     * @param string $apiKey Api Key used to authorize client in public API
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+        $this->ensureApiKeyIsSet();
+    }
+    
+    /**
      * @param string $username
      * @param string $password
      * @return integer publisher_account_id
+     * @deprecated 
      */
     public function linkOxp($username, $password)
     {
@@ -115,7 +160,8 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     
     /**
      * @param integer $lastUpdate
-     * @return string statistics file content 
+     * @return string statistics file content
+     * @deprecated 
      */
     public function oxmStatistics($lastUpdate)
     {
@@ -125,7 +171,8 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     
     /**
      * @param integer $lastUpdate
-     * @return string statistics file content 
+     * @return string statistics file content
+     * @deprecated 
      */
     public function oxmStatisticsLimited($lastUpdate)
     {

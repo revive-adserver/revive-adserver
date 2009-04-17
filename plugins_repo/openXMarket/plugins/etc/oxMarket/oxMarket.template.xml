@@ -99,16 +99,13 @@
             <setting key="marketPcApiHost" type="text" label="Market PC API host URL" required="1" size="32" visible="0">@marketPcApiHost@</setting>
             <setting key="fallbackPcApiHost" type="text" label="Market PC API fallback host URL" required="1" size="32" visible="0">@fallbackPcApiHost@</setting>
             <setting key="marketXmlRpcUrl" type="text" label="Market XmlRpc URL" required="1" size="32" visible="0">@marketXmlRpcUrl@</setting>
+            <setting key="marketPublicApiUrl" type="text" label="Market Public XmlRpc URL" required="1" size="32" visible="0">@marketPublicApiUrl@</setting>
             <setting key="marketCustomContentUrl" type="text" label="Market custom content URL" required="1" size="32" visible="0">@marketCustomContentUrl@</setting>
             <setting key="marketMenuUrl" type="text" label="Market menu URL" required="1" size="32" visible="0">@marketMenuUrl@</setting>
             <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
             <setting key="marketCaptchaUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
-            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
-            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
-            <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
-            <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
             <!-- Spacer for the 4096 byte boundary -->
                                                        
                                                        
@@ -117,7 +114,12 @@
                                                        
                                                        
                                                        
-            <!-- End spacer for the 4096 byte boundary --><setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
+            <!-- End spacer for the 4096 byte boundary -->
+            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
+            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
+            <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
+            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
+            <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
             <setting key="splashAlreadyShown" type="checkbox" label="OpenX Market splash shown" required="1"  visible="0">0</setting>
             <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
             <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->

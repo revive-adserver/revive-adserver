@@ -106,11 +106,12 @@ class Openads_Schema_Manager
         {
             $path_schema = '/etc/';
         }
-        if (!empty($path_schema) && (substr($path_schema,0,1)!='/'))
+        if (substr($path_schema,0,1)!='/')
         {
             $path_schema = '/'.$path_schema;
         }
-        if (!empty($path_schema) && (substr($path_schema,strlen($path_schema)-4,4)!='etc/'))
+        $lastPath = substr($path_schema,strlen($path_schema)-4,4);
+        if ($lastPath!='etc/' && $lastPath!='etc\\')
         {
             $path_schema = $path_schema.'etc/';
         }

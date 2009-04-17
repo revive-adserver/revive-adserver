@@ -71,11 +71,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     
     public function __construct()
     {
-        $oPearXmlRpcClient = $this->getPearXmlRpcClient();
-        $oServiceExecutor = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor($oPearXmlRpcClient);
-        $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oServiceExecutor);
+        $oPearXmlRpcClient = $this->getPearXmlRpcClient('marketPublicApiUrl');
+        $oPublicApiServiceExecutor = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor($oPearXmlRpcClient);
+        // M2M service is used only to do relink to new public API
+        $oPearXmlRpcClientForM2M = $this->getPearXmlRpcClient('marketXmlRpcUrl');
+        $oM2MServiceExecutor = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor($oPearXmlRpcClientForM2M);
+        $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oM2MServiceExecutor);
         $this->pc_api_client = 
-            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oServiceExecutor);    
+            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oPublicApiServiceExecutor);    
     }
     
     /**
@@ -84,9 +87,10 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * Protocol and API url is set to fallbackPcApiHost 
      * if SSL extensions are not available 
      *
+     * @param string $urlSettingName name of url setting to build client
      * @return OA_XML_RPC_Client
      */
-    protected function getPearXmlRpcClient()
+    protected function getPearXmlRpcClient($urlSettingName)
     {
         $aMarketConf = $GLOBALS['_MAX']['CONF']['oxMarket'];
         
@@ -96,7 +100,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         else {
             $apiHostUrl = $aMarketConf['fallbackPcApiHost'];
         }
-        $apiUrl = $apiHostUrl .'/'. $aMarketConf['marketXmlRpcUrl'];
+        $apiUrl = $apiHostUrl .'/'. $aMarketConf[$urlSettingName];
         
         $aUrl = parse_url($apiUrl);
         // If port is unknow set it to 0 (XML_RPC_Client will use standard ports for given protocol)
@@ -125,10 +129,11 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     
     protected function ensureStatusAndUpdatePcAccountId()
     {
-        $publisher_account_id = null;
-        $account_status = null;
-        $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
-            $account_status);
+        
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        $account_status = $aPcAccountData['account_status'];
+        $publisher_account_id = $aPcAccountData['publisher_account_id'];
+        $apiKey = $aPcAccountData['api_key'];
         if (!isset($account_status)) {
             throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
                 'There is no association between PC and OXP accounts');
@@ -144,24 +149,33 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             else {
                 $this->pc_api_client->setPublisherAccountId(
                    $publisher_account_id);
+                $this->pc_api_client->setApiKey($apiKey);
             }
         }
     }
     
     /**
-     * @param integer $publisher_account_id
-     * @param integer $association_status
+     * Get basic data regarding associated PC account
+     * 
+     * @return array with 'publisher_account_id', 'association_status' and 'api_key' values, 
      */
-    protected function getAssociatedPcAccountIdAndStatus(&$publisher_account_id, 
-        &$association_status)
+    protected function getAssociatedPcAccountData()
     {
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
         $adminAccountId = DataObjects_Accounts::getAdminAccountId();
         if (isset($adminAccountId)) {
             $oAccountAssocData->get('account_id', $adminAccountId);
-            $publisher_account_id = $oAccountAssocData->publisher_account_id;
-            $association_status   = $oAccountAssocData->status; 
+            $result = array();
+            $result['publisher_account_id'] = $oAccountAssocData->publisher_account_id;
+            $result['association_status']   = $oAccountAssocData->status;
+            $result['api_key']              = $oAccountAssocData->api_key;
+        } else {
+            $result = array(
+            'publisher_account_id' => null, 
+            'association_status'   => null,
+            'apiKey'               => null);
         }
+        return $result;
     }
     
     /**
@@ -172,11 +186,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function hasAssociationWithPc()
     {
-        $publisher_account_id = null;
-        $account_status = null;
-        $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
-            $account_status);
-        return isset($publisher_account_id); 
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        return isset($aPcAccountData['publisher_account_id']); 
     }
     
     /**
@@ -186,11 +197,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function getPcAccountId()
     {
-        $publisher_account_id = null;
-        $account_status = null;
-        $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
-            $account_status);
-        return $publisher_account_id; 
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        return $aPcAccountData['publisher_account_id'];
     }
     
     /**
@@ -200,11 +208,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function getAssociationWithPcStatus()
     {
-        $publisher_account_id = null;
-        $account_status = null;
-        $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
-            $account_status);
-        return $account_status; 
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        return isset($aPcAccountData['account_status']);
     }
     
     /**
