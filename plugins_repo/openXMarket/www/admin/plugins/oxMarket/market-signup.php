@@ -207,7 +207,7 @@ function processForm($oForm, $oMarketComponent)
         $oApiClient = $oMarketComponent->getPublisherConsoleApiClient();
         $linkingResult = false;
         if ("login" == $aFields['accountMode']) {
-            $linkingResult = $oApiClient->linkOxp($aFields['m_username'],$aFields['m_password']);
+            $linkingResult = $oApiClient->createAccountBySsoCred($aFields['m_username'],$aFields['m_password']);
         }
         elseif ("signup" == $aFields['accountMode']) {
             //call client signup function here

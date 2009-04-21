@@ -147,16 +147,37 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     }
     
     /**
+     * Create Publisher account
+     * 
      * @param string $username
      * @param string $password
-     * @return integer publisher_account_id
-     * @deprecated 
+     * @param string $ph - platform hash
+     * @return array 'ApiKey' and 'accountUuid' publisher account id
      */
-    public function linkOxp($username, $password)
+    public function createAccountBySsoCred($username, $password, $ph)
     {
-        return $this->callM2mprotectedXmlRpcClient('linkOxp', 
-            array($username, md5($password)));
+        return $this->callXmlRpcClient('createAccountBySsoCred', 
+            array($username, md5($password), $ph));
     }
+    
+    
+    /**
+     * Create sso account and link this account to Publisher account for this Platform
+     *
+     * @param string $email       user email address
+     * @param string $username    user name
+     * @param string $md5password md5 hash of user password
+     * @param string $captcha     captcha value
+     * @param string $captcha_random captcha random parameter
+     * @param string $$captcha_ph captcha ph parameter (platform hash)
+     * @return array 'ApiKey' and 'accountUuid' publisher account id
+     */
+    public function createAccount($email, $username, $md5password, $captcha, $captcha_random, $captcha_ph)
+    {
+        return $this->callXmlRpcClient('createAccount', 
+            array($email, $username, $md5password, $captcha, $captcha_random, $captcha_ph));
+    }
+    
     
     /**
      * @param integer $lastUpdate
@@ -186,7 +207,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      */
     public function newWebsite($websiteUrl)
     {
-        return $this->callXmlRpcFunctionWithPCAccount('newWebsite', array(
+        return $this->callApiKeyAuthXmlRpcFunction('newWebsite', array(
             $websiteUrl));
     }
     
@@ -201,7 +222,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
         $cat_ex, $typ_ex)    
     {
-        return $this->callXmlRpcFunctionWithPCAccount('updateWebsite', 
+        return $this->callApiKeyAuthXmlRpcFunction('updateWebsite', 
             array($websiteId, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
     }
     
@@ -212,25 +233,10 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      */
     public function getAccountStatus()
     {
-        return $this->callXmlRpcFunctionWithPCAccount('getAccountStatus', 
+        return $this->callApiKeyAuthXmlRpcFunction('getAccountStatus', 
             array());
     }
-    
-    /**
-     * Create sso account and link this account to Publisher account for this Platform
-     *
-     * @param string $email       user email address
-     * @param string $username    user name
-     * @param string $md5password md5 hash of user password
-     * @param string $captcha     captcha value
-     * @param string $captcha_random captcha random parameter
-     * @return string publisher account UUID
-     */
-    public function createAccount($email, $username, $md5password, $captcha, $captcha_random)
-    {
-        return $this->callM2mprotectedXmlRpcClient('createAccount', 
-            array($email, $username, $md5password, $captcha, $captcha_random));
-    }
+
     
     /**
      * Check if given sso user name is available

@@ -87,7 +87,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * Protocol and API url is set to fallbackPcApiHost 
      * if SSL extensions are not available 
      *
-     * @param string $urlSettingName name of url setting to build client
+     * @param string $urlSettingName name of market setting cointaining url to build client
      * @return OA_XML_RPC_Client
      */
     protected function getPearXmlRpcClient($urlSettingName)
@@ -140,7 +140,6 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
         else {
             if (self::LINK_IS_VALID_STATUS != $account_status) {
-                //TODO: Add more specific errors when such list would be created
                 throw 
                     new Plugins_admin_oxMarket_PublisherConsoleClientException(
                         'Association of PC account with OXP account is invalid', 
@@ -209,7 +208,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function getAssociationWithPcStatus()
     {
         $aPcAccountData = $this->getAssociatedPcAccountData();
-        return isset($aPcAccountData['account_status']);
+        return $aPcAccountData['account_status'];
     }
     
     /**
@@ -217,22 +216,43 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * @param string $password
      * @return boolean 
      */
-    public function linkOxp($username, $password)
+    public function createAccountBySsoCred($username, $password)
     {
-        $publisher_account_id = $this->pc_api_client->linkOxp(
-            $username, $password);
-
-        return $this->setNewPublisherAccount($publisher_account_id);
+        $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
+        $response = $this->pc_api_client->createAccountBySsoCred(
+            $username, $password, $platformHash);
+        return $this->setNewPublisherAccount($response['accountUuid'], $response['apiKey']);
+    }
+    
+    
+    /**
+     * Create sso account and link this account to Publisher account for this Platform
+     *
+     * @param string $email       user email address
+     * @param string $username    user name
+     * @param string $password    user password (not md5)
+     * @param string $captcha     captcha value
+     * @param string $captcha_random captcha random parameter
+     * @return string publisher account UUID
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
+     */
+    public function createAccount($email, $username, $password, $captcha, $captcha_random)
+    {
+        $captcha_ph = OA_Dal_ApplicationVariables::get('platform_hash');
+        $response = $this->pc_api_client->createAccount(
+            $email, $username, md5($password), $captcha, $captcha_random, $captcha_ph);
+        return $this->setNewPublisherAccount($response['accountUuid'], $response['apiKey']);
     }
     
     /**
      * Set new publisher account in ext_market_assoc_data table
      *
      * @param string $publisher_account_id publisher account UUID
+     * @param string $api_key publisher API key
      * @return boolean
      * @throws Plugins_admin_oxMarket_PublisherConsoleClientException 
      */
-    protected function setNewPublisherAccount($publisher_account_id)
+    protected function setNewPublisherAccount($publisher_account_id, $api_key)
     {
         $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
         $aExtMarketRecords = $doExtMarket->getAll();
@@ -250,11 +270,13 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             }
             $doExtMarket->account_id = $account_id;
             $doExtMarket->publisher_account_id = $publisher_account_id;
+            $doExtMarket->api_key = $api_key;
             $doExtMarket->status = self::LINK_IS_VALID_STATUS;
             $doExtMarket->insert();
         }
         
         $this->pc_api_client->setPublisherAccountId($publisher_account_id);
+        $this->pc_api_client->setApiKey($api_key);
         
         return true;
     }
@@ -331,40 +353,25 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     {
         $publisher_account_id = null;
         $currentStatus = null;
+        $apiKey = null;
         
         $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
         $adminAccountId = DataObjects_Accounts::getAdminAccountId();
         if (isset($adminAccountId)) {
             $doExtMarket->get('account_id', $adminAccountId);
             $publisher_account_id = $doExtMarket->publisher_account_id;
-            $currentStatus        = $doExtMarket->status; 
+            $currentStatus        = $doExtMarket->status;
+            $apiKey               = $doExtMarket->api_key;
         }
         
         $this->pc_api_client->setPublisherAccountId($publisher_account_id);
+        $this->pc_api_client->setApiKey($apiKey);
         $newStatus = $this->pc_api_client->getAccountStatus();
         if ($newStatus != $currentStatus) {
             $doExtMarket->status = $newStatus;
             $doExtMarket->update();
         }
         return $newStatus;
-    }
-    
-    /**
-     * Create sso account and link this account to Publisher account for this Platform
-     *
-     * @param string $email       user email address
-     * @param string $username    user name
-     * @param string $password    user password (not md5)
-     * @param string $captcha     captcha value
-     * @param string $captcha_random captcha random parameter
-     * @return string publisher account UUID
-     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
-     */
-    public function createAccount($email, $username, $password, $captcha, $captcha_random)
-    {
-        $publisher_account_id = $this->pc_api_client->createAccount(
-            $email, $username, md5($password), $captcha, $captcha_random);
-        return $this->setNewPublisherAccount($publisher_account_id);
     }
     
     

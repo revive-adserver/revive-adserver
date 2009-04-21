@@ -41,6 +41,8 @@ require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/M2M/PearXmlRpcCustomClientExecut
  */
 class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
 {
+    static $pluginVersion;
+    
     function __construct()
     {
         parent::__construct();
@@ -54,20 +56,60 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
             'PartialMockOA_Central_M2MProtectedRpc',
             array('call')
         );
+        
+        $oPkgMgr = new OX_PluginManager();
+        TestEnv::uninstallPluginPackage('openXMarket',false);
+        TestEnv::installPluginPackage('openXMarket',false);
+        
+        // @TODO remove after creating final package 1.0.0-RC1
+        // Get plugin version to run proper test while plugin isn't build to etc/plugins
+        $aPackageInfo = $oPkgMgr->getPackageInfo('openXMarket');
+        self::$pluginVersion = $aPackageInfo['version'];
+    }
+    
+    function __destruct()
+    {
+        TestEnv::uninstallPluginPackage('openXMarket',false);
     }
     
     function setUp()
     {
-        $oPkgMgr = new OX_PluginManager();
-        TestEnv::uninstallPluginPackage('openXMarket',false);
-        TestEnv::installPluginPackage('openXMarket',false);
+        
     }
 
     function tearDown()
     {
-        TestEnv::uninstallPluginPackage('openXMarket',false);
+        
     }
 
+    function testCreateAccountBySsoCred()
+    {
+        // method available from plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $username = 'testUsername';
+            $password = 'test';
+            $md5password = md5($password);
+            $ph = 'platform_hash';
+            
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+            
+            $call = array('createAccountBySsoCred', array($username, $md5password, $ph));
+            $response = array('accountUuid' => 'pub-acc-id', 'apiKey' => 'api-key');
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            $result = $oPCClient->createAccountBySsoCred($username, $password, $ph);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
     function testCreateAccount()
     {
         $email = 'email@test.org';
@@ -75,22 +117,152 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         $md5password = md5('test');
         $captcha = 'captcha';
         $captcha_random = 'captcha_random';
+        $captcha_ph = 'captcha_ph';
         
-        $sso_id = 1234;
-
-        $call = array('createAccount', array($email, $username, $md5password, $captcha, $captcha_random));
-    
         $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
         $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
-        $oM2MXmlRpc->expectOnce('call', $call);
-        $oM2MXmlRpc->setReturnValue('call', $sso_id);
+
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '<'))
+        {
+            // plugin 0.3.0
+            $call = array('createAccount', array($email, $username, $md5password, $captcha, $captcha_random));
         
-        $oPCClient = 
-            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+            $publisher_account_id = 'pub-acc-id';
             
-        $result = $oPCClient->createAccount($email, $username, $md5password, $captcha, $captcha_random);
+            $oM2MXmlRpc->expectOnce('call', $call);
+            $oM2MXmlRpc->setReturnValue('call', $publisher_account_id);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            $result = $oPCClient->createAccount($email, $username, $md5password, $captcha, $captcha_random);
+            
+            $this->assertEqual($result, $publisher_account_id);
+        } else {
+            // plugin 1.0.0
+            $call = array('createAccount', array($email, $username, $md5password, $captcha, $captcha_random, $captcha_ph));
         
-        $this->assertEqual($result, $sso_id);
+            $response = array('accountUuid' => 'pub-acc-id', 'apiKey' => 'api-key');
+            
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            $result = $oPCClient->createAccount($email, $username, $md5password, $captcha, $captcha_random, $captcha_ph);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
+    function testNewWebsite()
+    {    
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $websiteUrl = 'http:\\test.url';
+            $website_id = 'thorium_website_id';
+            $apiKey = 'testApiKey';
+        
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+            $call = array('newWebsite', array($apiKey, $websiteUrl));
+            $response = $website_id;
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            try {
+                $result = $oPCClient->newWebsite($websiteUrl);
+                $this->fail('should have thrown exception');
+            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+                $this->assertEqual($e->getMessage(),
+                                   'apiKey can not be null');
+            }
+            
+            $oPCClient->setApiKey($apiKey);
+            $result = $oPCClient->newWebsite($websiteUrl);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
+    function testUpdateWebsite()
+    {    
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $websiteUrl = 'http:\\test.url';
+            $website_id = 'thorium_website_id';
+            $apiKey = 'testApiKey';
+            $att_ex = array(); 
+            $cat_ex = array(1,2);
+            $typ_ex = array(3);
+        
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+            $call = array('updateWebsite', array($apiKey, $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
+            $response = $website_id;
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            try {
+                $result = $oPCClient->updateWebsite($website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
+                $this->fail('should have thrown exception');
+            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+                $this->assertEqual($e->getMessage(),
+                                   'apiKey can not be null');
+            }
+            
+            $oPCClient->setApiKey($apiKey);
+            $result = $oPCClient->updateWebsite($website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
+    function testGetAccountStatus()
+    {    
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {        
+            $apiKey = 'testApiKey';
+            
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+            $call = array('getAccountStatus', array($apiKey));
+            $response = 0;
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            try {
+                $result = $oPCClient->getAccountStatus($websiteUrl);
+                $this->fail('should have thrown exception');
+            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+                $this->assertEqual($e->getMessage(),
+                                   'apiKey can not be null');
+            }
+            
+            $oPCClient->setApiKey($apiKey);
+            $result = $oPCClient->getAccountStatus($websiteUrl);
+            
+            $this->assertEqual($result, $response);
+        }
     }
     
     function testIsSsoUserNameAvailable()
