@@ -101,12 +101,12 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $aExpectedCampaign = $this->aExpectedData['campaigns'][$campaignId];
         $aExpectedAd = $this->aExpectedData['banners'][$adId];
         
-        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
-        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
-        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
-        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE;
-        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE_TYPE;
-        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
+        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ADS;
+        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ZONES;
+        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_WEIGHT;
+        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_REVENUE;
+        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_REVENUE_TYPE;
+        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_MIN_IMPRESSIONS;
 
         $aCampaign = $ret[$campaignId];
         $this->assertEqual($aExpectedCampaign['revenue'], $aCampaign[$idxRevenue]);
