@@ -1415,7 +1415,7 @@ class OX_Plugin_ComponentGroupManager
                 foreach ($aFiles as &$aFile)
                 {
                     if ($aFile['name'] == $aChecker['include']) {
-                        $aChecker['fullPath'] = $this->basePath.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
+                        $aChecker['path'] = $this->_expandFilePath($aFile['path'], $aFile['name'], $name);
                         break;
                     }
                 }
@@ -2007,10 +2007,10 @@ class OX_Plugin_ComponentGroupManager
         if ($aMenu['checker'])
         {
             $checkerClassName = $aMenu['checker'];
-            @include_once( $aCheckers[$checkerClassName]['fullPath'] );
+            @include_once MAX_PATH . $aCheckers[$checkerClassName]['path'];
             if (class_exists($checkerClassName))
             {
-                $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['fullPath']);
+                $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['path']);
                 $oChecker = new $checkerClassName;
                 $oMenuSection->setChecker($oChecker);
 

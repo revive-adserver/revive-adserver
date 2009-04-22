@@ -98,7 +98,9 @@ class OA_Admin_Menu
         }
         if ($aMenu['checkerPaths']) {
             foreach ($aMenu['checkerPaths'] as $path) {
-                 @include_once $path;
+                 if (!@include_once MAX_PATH . $path) {
+                     return false;
+                 }
             }
         }
         return unserialize($aMenu['oMenu']);
@@ -505,9 +507,9 @@ class OA_Admin_Menu
      * @param string $checkerClassName
      * @param string $fullPath
      */
-    function addCheckerIncludePath($checkerClassName, $fullPath)
+    function addCheckerIncludePath($checkerClassName, $path)
     {
-        $this->aCheckerIncludePaths[$checkerClassName] = $fullPath;
+        $this->aCheckerIncludePaths[$checkerClassName] = $path;
     }
 }
 /**
