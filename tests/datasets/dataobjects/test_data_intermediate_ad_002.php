@@ -34,7 +34,7 @@ $Id: test_data_intermediate_ad_001.php 30820 2009-01-13 19:02:17Z andrew.hill $
  */
 
 require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPM.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemnant.php';
 
 class OA_Test_Data_data_intermediate_ad_002 extends OA_Test_Data_DataObjects
 {

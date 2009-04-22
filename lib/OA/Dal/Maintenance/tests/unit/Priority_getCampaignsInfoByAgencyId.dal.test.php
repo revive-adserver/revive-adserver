@@ -60,7 +60,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
      */
     function testGetCampaignsInfoByAgencyId()
     {
-        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns();
+        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns(DataObjects_Campaigns::PRIORITY_ECPM);
 
         $da = new OA_Dal_Maintenance_Priority();
 
@@ -70,6 +70,26 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
 
         // Test 2 getCampaignsInfoByAgencyId method.
         $ret = $da->getCampaignsInfoByAgencyId($agencyId2);
+        $this->checkTestResults($ret, $this->secondCampaignId, $this->secondAdId);
+
+        DataGenerator::cleanUp();
+    }
+
+    /**
+     * A method to test the getCampaignsInfoByAgencyId method.
+     */
+    function testGetCampaignsInfoByAgencyIdAndPriority()
+    {
+        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns($priority = 4, 1);
+
+        $da = new OA_Dal_Maintenance_Priority();
+
+        // Test 1 getCampaignsInfoByAgencyId method.
+        $ret = $da->getCampaignsInfoByAgencyIdAndPriority($agencyId1, $priority);
+        $this->checkTestResults($ret, $this->firsCampaignId, $this->firsAdId);
+
+        // Test 2 getCampaignsInfoByAgencyId method.
+        $ret = $da->getCampaignsInfoByAgencyIdAndPriority($agencyId2, $priority);
         $this->checkTestResults($ret, $this->secondCampaignId, $this->secondAdId);
 
         DataGenerator::cleanUp();
@@ -103,7 +123,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
      *
      * @access private
      */
-    function _generateAgencyCampaigns()
+    function _generateAgencyCampaigns($priority, $ecpmEnabled = 0)
     {
         // Add agencies
         $agencyId1 = DataGenerator::generateOne('agency', true);
@@ -122,7 +142,8 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->campaignname = 'Test eCPM Campaign 1';
         $doCampaigns->revenue = 0.1;
         $doCampaigns->min_impressions = 100;
-        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
+        $doCampaigns->priority = $priority;
+        $doCampaigns->ecpm_enabled = $ecpmEnabled;
         $doCampaigns->clientid = $clientId1;
         $idCampaign11 = DataGenerator::generateOne($doCampaigns);
         $this->firsCampaignId = $idCampaign11;
@@ -143,7 +164,8 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->campaignname = 'Test eCPM Campaign 2';
         $doCampaigns->revenue = 0.5;
         $doCampaigns->min_impressions = 300;
-        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
+        $doCampaigns->priority = $priority;
+        $doCampaigns->ecpm_enabled = $ecpmEnabled;
         $doCampaigns->clientid = $clientId2;
         $idCampaign2 = DataGenerator::generateOne($doCampaigns);
         $this->secondCampaignId = $idCampaign2;

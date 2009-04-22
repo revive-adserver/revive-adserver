@@ -81,12 +81,16 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
      * @param integer    $agencyId The agency ID.
      * @param PEAR::Date $oDate      Limits delivery information to that which is
      *                               after this date.
+     * @param integer    $priority Campaign priority (by default eCPM priority).
      * @return array
      */
-	function getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate)
+	function getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate, $priority = null)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        if (is_null($priority)) {
+            $priority = DataObjects_Campaigns::PRIORITY_ECPM;
+        }
         $query = "
             SELECT
                 c.campaignid AS campaignid,
@@ -99,7 +103,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
             WHERE
                 cl.agencyid = " . DBC::makeLiteral($agencyId) . "
                 AND c.status = ".OA_ENTITY_STATUS_RUNNING."
-                AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
+                AND c.priority = ".$priority."
                 AND cl.clientid = c.clientid
                 AND b.bannerid = dia.ad_id
                 AND b.campaignid = c.campaignid
@@ -110,8 +114,6 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         if (PEAR::isError($rs)) {
             return false;
         }
-        // while fetch()?
-
         return $rs->getAll(array(), 'campaignid');
     }
 

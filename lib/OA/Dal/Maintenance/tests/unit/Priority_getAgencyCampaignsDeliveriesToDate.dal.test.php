@@ -38,6 +38,8 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  */
 class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extends UnitTestCase
 {
+    public $idCampaign2;
+
     /**
      * The constructor method.
      */
@@ -55,14 +57,64 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
      * Test 2: Test correct results are returned with single data entry.
      * Test 3: Test correct results are returned with multiple data entries.
      */
-    function testGetAgencyCampaignsDeliveriesToDate()
+    function testGetAgencyEcpmRemnantCampaignsDeliveriesToDate()
     {
         TestEnv::restoreEnv();
 
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $priority = DataObjects_Campaigns::PRIORITY_ECPM;
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+        list($agencyId1, $agencyId2) = $this->_commonTest($oMaxDalMaintenance, $priority);
 
+        // Check that there are no results for agency 1 (when checking ecpm deliveries)
+        $result = $oMaxDalMaintenance->getAgencyEcpmRemnantCampaignsDeliveriesToDate($agencyId1);
+        $this->assertTrue(is_array($result));
+        $this->assertEqual(count($result), 0);
+
+        // Check that results for agency 2 are the same (when checking ecpm deliveries)
+        $result = $oMaxDalMaintenance->getAgencyEcpmRemnantCampaignsDeliveriesToDate($agencyId2);
+        $this->_testResult($result);
+        DataGenerator::cleanUp();
+    }
+
+    /**
+     * Method to test the getAgencyEcpmContractCampaignsDeliveriesToDate method.
+     *
+     * Requirements:
+     * Test 1: Test correct results are returned with no data.
+     * Test 2: Test correct results are returned with single data entry.
+     * Test 3: Test correct results are returned with multiple data entries.
+     */
+    function testGetAgencyEcpmContractCampaignsDeliveriesToDate()
+    {
+        $priority = 7;
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+        list($agencyId1, $agencyId2) = $this->_commonTest($oMaxDalMaintenance, $priority);
+
+        // Check that there are no results for agency 1 (when checking ecpm deliveries)
+        $result = $oMaxDalMaintenance->getAgencyEcpmContractCampaignsDeliveriesToDate($agencyId1, $priority);
+        $this->assertTrue(is_array($result));
+        $this->assertEqual(count($result), 0);
+
+        // Check that results for agency 2 are the same (when checking ecpm deliveries)
+        $result = $oMaxDalMaintenance->getAgencyEcpmContractCampaignsDeliveriesToDate($agencyId2, $priority);
+        $this->_testResult($result);
+        DataGenerator::cleanUp();
+    }
+
+    public function _testResult($result)
+    {
+        $this->assertTrue(is_array($result));
+        $this->assertEqual(count($result), 1);
+        foreach ($result as $id => $data) {
+            $this->assertEqual($this->idCampaign2, $id);
+        }
+        $this->assertEqual($result[$this->idCampaign2]['sum_impressions'], 475);
+        $this->assertEqual($result[$this->idCampaign2]['sum_clicks'], 25);
+        $this->assertEqual($result[$this->idCampaign2]['sum_conversions'], 5);
+    }
+
+    public function _commonTest($oMaxDalMaintenance, $priority)
+    {
         $oNow = new Date();
 
         // Test 1
@@ -72,7 +124,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
 
         $doClients = OA_Dal::factoryDO('clients');
         $idClient = DataGenerator::generateOne($doClients, true);
-        $agencyId = DataGenerator::getReferenceId('agency');
+        $agencyId1 = DataGenerator::getReferenceId('agency');
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $idClient;
@@ -116,7 +168,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $doInterAd->hour = 11;
         $idInterAd = DataGenerator::generateOne($doInterAd);
 
-        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate($agencyId);
+        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate($agencyId1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
         foreach ($result as $id => $data) {
@@ -133,19 +185,20 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $idClient2;
-        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
+        $doCampaigns->priority = $priority;
+        $doCampaigns->ecpm_enabled = 1;
         $doCampaigns->revenue_type = MAX_FINANCE_CPC;
-        $idCampaign2 = DataGenerator::generateOne($doCampaigns);
+        $this->idCampaign2 = DataGenerator::generateOne($doCampaigns);
 
         $doBanners   = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $idCampaign2;
+        $doBanners->campaignid = $this->idCampaign2;
         $idBanner2 = DataGenerator::generateOne($doBanners);
 
         $doInterAd->ad_id = $idBanner2;
         $idInterAd = DataGenerator::generateOne($doInterAd);
 
         // Check that results for agency 1 are still the same
-        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate($agencyId);
+        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate($agencyId1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
         foreach ($result as $id => $data) {
@@ -160,28 +213,13 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
         foreach ($result as $id => $data) {
-            $this->assertEqual($idCampaign2, $id);
+            $this->assertEqual($this->idCampaign2, $id);
         }
-        $this->assertEqual($result[$idCampaign2]['sum_impressions'], 475);
-        $this->assertEqual($result[$idCampaign2]['sum_clicks'], 25);
-        $this->assertEqual($result[$idCampaign2]['sum_conversions'], 5);
+        $this->assertEqual($result[$this->idCampaign2]['sum_impressions'], 475);
+        $this->assertEqual($result[$this->idCampaign2]['sum_clicks'], 25);
+        $this->assertEqual($result[$this->idCampaign2]['sum_conversions'], 5);
 
-        // Check that there are no results for agency 1 (when checking ecpm deliveries)
-        $result = $oMaxDalMaintenance->getAgencyEcpmRemnantCampaignsDeliveriesToDate($agencyId);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
-
-        // Check that results for agency 2 are the same (when checking ecpm deliveries)
-        $result = $oMaxDalMaintenance->getAgencyEcpmRemnantCampaignsDeliveriesToDate($agencyId2);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1);
-        foreach ($result as $id => $data) {
-            $this->assertEqual($idCampaign2, $id);
-        }
-        $this->assertEqual($result[$idCampaign2]['sum_impressions'], 475);
-        $this->assertEqual($result[$idCampaign2]['sum_clicks'], 25);
-        $this->assertEqual($result[$idCampaign2]['sum_conversions'], 5);
-        DataGenerator::cleanUp();
+        return array($agencyId1, $agencyId2);
     }
 
 }

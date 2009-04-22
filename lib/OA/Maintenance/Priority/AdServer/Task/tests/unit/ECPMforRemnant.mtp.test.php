@@ -25,32 +25,32 @@
 $Id: PriorityCompensation.mtp.test.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPM.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemnant.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Data_intermediate_ad.php';
 
 /**
- * A class for testing the OA_Maintenance_Priority_AdServer_Task_ECPM class.
+ * A class for testing the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class.
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Radek Maciaszek <radek@urbantrip.com>
  */
-class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTestCase
 {
     private $mockDal;
     private $mockDalIntermediateAd;
     
-    const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
-    const IDX_MIN_IMPRESSIONS = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
-    const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
-    const IDX_ZONES = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
+    const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ADS;
+    const IDX_MIN_IMPRESSIONS = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_MIN_IMPRESSIONS;
+    const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_WEIGHT;
+    const IDX_ZONES = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ZONES;
 
-    const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPM::ALPHA;
+    const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::ALPHA;
 
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Priority_AdServer_Task_ECPM()
+    function Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant()
     {
         $this->UnitTestCase();
         Mock::generate(
@@ -62,8 +62,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             $this->mockDalIntermediateAd = 'MAX_Dal_Admin_Data_intermediate_ad'.rand()
         );
         Mock::generatePartial(
-            'OA_Maintenance_Priority_AdServer_Task_ECPM',
-            'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM',
+            'OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant',
+            'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant',
             array('_getDal', '_factoryDal', 'getTodaysRemainingOperationIntervals',
                 'calculateCampaignEcpm'
             )
@@ -97,12 +97,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
     }
 
     /**
-     * A method to test the preloadZonesContractsForAgency() method.
+     * A method to test the preloadZonesAvailableImpressionsForAgency() method.
      *
      * Requirements
      * Test 1: Test that contracts are correctly calculated based on the forecasts and allocations
      */
-    function testPreloadZonesContractsForAgency()
+    function testPreloadZonesAvailableImpressionsForAgency()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -117,15 +117,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             2 => 30,
             4 => 10, // this should be ignored
         );
-        $oDal->setReturnReference('getZonesAllocationsByAgency', $aZonesAllocations);
+        $oDal->setReturnReference('getZonesAllocationsForEcpmRemnantByAgency', $aZonesAllocations);
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->aOIDates['start'] = $oEcpm->aOIDates['end'] = new Date();
         $oEcpm->setReturnReference('_getDal', $oDal);
-        $oEcpm->OA_Maintenance_Priority_AdServer_Task();
+        $oEcpm->OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant();
 
         // Test
         $aZonesExpectedContracts = array(
@@ -133,8 +133,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             2 => 0, // 20 - 30 = -10, so it should be 0
             3 => 50, // 50 - no allocations for this zone
         );
-        $oEcpm->preloadZonesContractsForAgency(123);
-        $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesContracts);
+        $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
+        $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
     }
 
     /**
@@ -153,10 +153,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         );
         $oDal->setReturnReference('getDeliveredEcpmCampainImpressionsByAgency', $aCampaignsImpressions);
 
-        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->setReturnReference('_factoryDal', $oDal);
-        $oEcpm->OA_Maintenance_Priority_AdServer_Task();
+        $oEcpm->OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant();
 
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(123);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);
@@ -268,8 +268,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             $aExpAdsEcpmPowAlpha[$adId5];
         $aExpAdsMinImpressions[$adId5] = 0; // all min. impressions delivered
 
-        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         // lets assume only two intervals are left till the end of the day
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', $leftOi);
         foreach ($aEcpm as $campId => $ecpm) {
@@ -299,7 +299,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // prepare test data
         $aCampaignsInfo = array();
         $aAdsMinImpressions = array();
-        $aZonesContracts = array();
+        $aZonesAvailableImpressions = array();
 
         $aExpAdZonesMinImpressions = array();
 
@@ -316,7 +316,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
         // less impressions available than the required minumum
-        $aZonesContracts[$zoneId1] = 10;
+        $aZonesAvailableImpressions[$zoneId1] = 10;
         // can't get more impressions if a contract is smaller than
         // the required minimum
         $aExpAdZonesMinImpressions[$adId1][$zoneId1] = 10;
@@ -335,8 +335,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         );
         $aEcpm[$campaignId2] = 0.6;
         // as many impressions in first zone as in second, sum equal to required minimum
-        $aZonesContracts[$zoneId2] = 100;
-        $aZonesContracts[$zoneId3] = 100;
+        $aZonesAvailableImpressions[$zoneId2] = 100;
+        $aZonesAvailableImpressions[$zoneId3] = 100;
         // ad should get all impr. in both zones
         $aExpAdZonesMinImpressions[$adId2][$zoneId2] = 100;
         $aExpAdZonesMinImpressions[$adId2][$zoneId3] = 100;
@@ -361,13 +361,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         // all left minimum impressions go to two ads based on their weights
         $sumW = $w1 + $w2;
         // twice as many impressions as required
-        $aZonesContracts[$zoneId4] = 600;
+        $aZonesAvailableImpressions[$zoneId4] = 600;
         // ad should get impr. in both zones according to their weights
         $aExpAdZonesMinImpressions[$adId3][$zoneId4] = $w1 / $sumW * $min;
         $aExpAdZonesMinImpressions[$adId4][$zoneId4] = $w2 / $sumW * $min;
 
-        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', 1);
         foreach ($aEcpm as $campId => $ecpm) {
             $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
@@ -375,7 +375,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         $oEcpm->aCampaignsDeliveredImpressions = array(); // nothing was delivered so far
         // precalculate the min/required impressions per ad
         $oEcpm->prepareCampaignsParameters($aCampaignsInfo);
-        $oEcpm->aZonesContracts = $aZonesContracts;
+        $oEcpm->aZonesAvailableImpressions = $aZonesAvailableImpressions;
 
         // Test
         $aAdsZonesMinImpressions = $oEcpm->calculateAdsZonesMinimumRequiredImpressions($aCampaignsInfo);
@@ -391,7 +391,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
     function testCalculateDeliveryProbabilities()
     {
         $aExpAdZonesProbabilities = array();
-        $aZonesContracts = array();
+        $aZonesAvailableImpressions = array();
         ///////////////////////////////////////////////////
         // one ad linked to one zone
         ///////////////////////////////////////////////////
@@ -406,7 +406,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         );
         $aEcpm[$campaignId1] = 0.1;
         // less impressions available than the required minumum
-        $aZonesContracts[$zoneId1] = 10;
+        $aZonesAvailableImpressions[$zoneId1] = 10;
         $aExpAdZonesProbabilities[$adId1][$zoneId1] = 1;
 
         ///////////////////////////////////////////////////
@@ -423,8 +423,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         );
         $aEcpm[$campaignId2] = 0.6;
         // as many impressions in first zone as in second, sum equal to required minimum
-        $aZonesContracts[$zoneId2] = 100;
-        $aZonesContracts[$zoneId3] = 100;
+        $aZonesAvailableImpressions[$zoneId2] = 100;
+        $aZonesAvailableImpressions[$zoneId3] = 100;
         // separate zones, so each zone get 100%
         $aExpAdZonesProbabilities[$adId2][$zoneId2] = 1;
         $aExpAdZonesProbabilities[$adId2][$zoneId3] = 1;
@@ -446,7 +446,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
         $aEcpm[$campaignId3] = 0.7;
-        $aZonesContracts[$zoneId4] = $M = 600;
+        $aZonesAvailableImpressions[$zoneId4] = $M = 600;
         // actual algorithm
         $ecpmPow = pow(0.7, self::ALPHA);
         $ecpmZoneSum = $ecpmPow + $ecpmPow;
@@ -479,7 +479,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             self::IDX_MIN_IMPRESSIONS => $min = 300,
         );
         $aEcpm[$campaignId3] = 0.7;
-        $aZonesContracts[$zoneId4] = $M = 600;
+        $aZonesAvailableImpressions[$zoneId4] = $M = 600;
         // actual algorithm
         $ecpmPow = pow(0.7, self::ALPHA);
         $ecpmZoneSum = $ecpmPow + $ecpmPow;
@@ -508,7 +508,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
         $aEcpm[$campaignId4] = 0.5;
-        $aCampaignsInfo[$campaignId4 = 5] = array(
+        $aCampaignsInfo[$campaignId5 = 5] = array(
             self::IDX_ADS => array(
                 $adId6 = 6 => array(
                     self::IDX_WEIGHT => $w2 = 1,
@@ -517,8 +517,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
             ),
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         );
-        $aEcpm[$campaignId4] = 1.0;
-        $aZonesContracts[$zoneId5] = $M = 1000;
+        $aEcpm[$campaignId5] = 1.0;
+        $aZonesAvailableImpressions[$zoneId5] = $M = 1000;
         // actual algorithm
         $ecpmPow1 = pow(0.5, self::ALPHA);
         $ecpmPow2 = pow(1.0, self::ALPHA);
@@ -535,15 +535,52 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPM extends UnitTestCase
         $aExpAdZonesProbabilities[$adId6][$zoneId5] =
             $adMinImpr2 / $M + (1 - $sumAdMinImpr / $M) * $p2;
 
-        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
-        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPM($this);
+        ///////////////////////////////////////////////////
+        // two ads linked to one zone -
+        //      case with too many testing impressions required
+        ///////////////////////////////////////////////////
+        $aCampaignsInfo[$campaignId6 = 6] = array(
+            self::IDX_ADS => array(
+                $adId7 = 7 => array(
+                    self::IDX_WEIGHT => 1,
+                    self::IDX_ZONES => array($zoneId6 = 6),
+                ),
+            ),
+            self::IDX_MIN_IMPRESSIONS => $min1 = 100,
+        );
+        $aEcpm[$campaignId6] = 0.5;
+        $aCampaignsInfo[$campaignId7 = 7] = array(
+            self::IDX_ADS => array(
+                $adId8 = 8 => array(
+                    self::IDX_WEIGHT => 1,
+                    self::IDX_ZONES => array($zoneId6 = 6),
+                ),
+            ),
+            self::IDX_MIN_IMPRESSIONS => $min2 = 200,
+        );
+        $aEcpm[$campaignId7] = 1.0;
+
+        $aZonesAvailableImpressions[$zoneId6] = $M = 100; // less than $min1 + $min2
+        // algorithm never tries to deliver more impressions than estimated
+        // available impressions - takes minimum
+        $min1 = min($min1, $M);
+        $min2 = min($min2, $M);
+        // probabilities
+        $aExpAdZonesProbabilities[$adId7][$zoneId6] =
+            $min1 / ($min1 + $min2);
+        $aExpAdZonesProbabilities[$adId8][$zoneId6] =
+            $min2 / ($min1 + $min2);
+        ////////////////////////////////////////////////
+
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
+        $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->setReturnValue('getTodaysRemainingOperationIntervals', 1);
         foreach ($aEcpm as $campId => $ecpm) {
             $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
         }
         $oEcpm->aCampaignsDeliveredImpressions = array(); // nothing was delivered so far
         // precalculate the min/required impressions per ad
-        $oEcpm->aZonesContracts = $aZonesContracts;
+        $oEcpm->aZonesAvailableImpressions = $aZonesAvailableImpressions;
         $oEcpm->prepareCampaignsParameters($aCampaignsInfo);
 
         // Test

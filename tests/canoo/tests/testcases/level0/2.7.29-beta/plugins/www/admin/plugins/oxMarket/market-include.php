@@ -22,40 +22,57 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: market-info.php 31111 2009-01-20 13:41:50Z bernard.lange $
+$Id: market-include.php 31111 2009-01-20 13:41:50Z bernard.lange $
 */
 
 require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
-
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
+phpAds_registerGlobalUnslashed('p_url');
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
     $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    $oMarketComponent->setSplashAlreadyShown();
+    //check if you can see this page
+    $oMarketComponent->checkActive();
+
+
+    //retrieve menu from
+    $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($p_url);
+
+    //header
+    $pageId = "openx-market";
+    if (!empty($pubconsolePageName)) {
+        $oMenu = OA_Admin_Menu::singleton();
+        //update page title
+        $oCurrentSection = $oMenu->get($pageId);
+        phpAds_PageHeader($pageId, new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName().': '.$pubconsolePageName, "iconMarketLarge"), '../../');
+    }
+    else {
+        phpAds_PageHeader($pageId, null,'../../');
+    }
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
     $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-
-    //header
-    phpAds_PageHeader("openx-market",'','../../');
-
+    
     //get template and display form
-    $oTpl = new OA_Plugin_Template('market-info.html','openXMarket');
-    $oTpl->assign('welcomeURL', $oMarketComponent->getConfigValue('marketWelcomeUrl'));
+    $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
-    $oTpl->assign('isRegistered', $oMarketComponent->isRegistered());
+    $oTpl->assign('pubconsoleURL', $oMarketComponent->getConfigValue('marketHost'));
+    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
+    $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
+    $oTpl->assign('pubconsolePageId', $p_url);
     $oTpl->assign('pageUrl', urlencode($pageUrl));
-
+    
     $oTpl->display();
 
     //footer
     phpAds_PageFooter();
+
 ?>
