@@ -156,6 +156,34 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         }
     }
     
+    function testGetStatistics()
+    {    
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $apiKey = 'testApiKey';
+            $lastUpdate = 1234;
+            $aWebsitesIds = array ('website_id1', 'website_id2');
+        
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+            $call = array('getStatistics', array($apiKey, $lastUpdate, $aWebsitesIds));
+            $response = '1234\t0\n';
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+            $oPCClient->setApiKey($apiKey);
+            
+            $result = $oPCClient->getStatistics($lastUpdate, $aWebsitesIds);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
     function testNewWebsite()
     {    
         // test added for plugin 1.0.0
@@ -168,7 +196,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
             $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
             $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
         
-            $call = array('newWebsite', array($apiKey, $websiteUrl));
+            $call = array('registerWebsite', array($apiKey, $websiteUrl));
             $response = $website_id;
 
             $oXmlRpcClient->expectOnce('call', $call);

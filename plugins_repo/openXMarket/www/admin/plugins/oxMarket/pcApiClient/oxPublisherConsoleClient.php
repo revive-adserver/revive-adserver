@@ -177,28 +177,16 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
         return $this->callXmlRpcClient('createAccount', 
             array($email, $username, $md5password, $captcha, $captcha_random, $captcha_ph));
     }
-    
-    
+
     /**
      * @param integer $lastUpdate
+     * @param array $aWebsitesIds websites ids
      * @return string statistics file content
-     * @deprecated 
      */
-    public function oxmStatistics($lastUpdate)
+    public function getStatistics($lastUpdate, $aWebsitesIds)
     {
-        return $this->callXmlRpcFunctionWithPCAccount('oxmStatistics', 
-            array($lastUpdate));
-    }
-    
-    /**
-     * @param integer $lastUpdate
-     * @return string statistics file content
-     * @deprecated 
-     */
-    public function oxmStatisticsLimited($lastUpdate)
-    {
-        return $this->callXmlRpcFunctionWithPCAccount('oxmStatisticsLimited', 
-            array($lastUpdate));
+        return $this->callApiKeyAuthXmlRpcFunction('getStatistics', 
+            array($lastUpdate, $aWebsitesIds));
     }
     
     /**
@@ -207,7 +195,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      */
     public function newWebsite($websiteUrl)
     {
-        return $this->callApiKeyAuthXmlRpcFunction('newWebsite', array(
+        return $this->callApiKeyAuthXmlRpcFunction('registerWebsite', array(
             $websiteUrl));
     }
     

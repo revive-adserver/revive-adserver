@@ -64,20 +64,10 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             else {
                 $last_update = 0;
             }
-            try {
-                do {
-                    $data = $oPublisherConsoleApiClient->oxmStatisticsLimited($last_update);
-                    //var_dump($data);
-                    $endOfData = $this->getStatisticFromString($data, $last_update, $oPluginSettings);
-                } while ($endOfData === false);
-            } catch (Exception $e) {
-                if ($e->getCode() == 620) {
-                    $data = $oPublisherConsoleApiClient->oxmStatistics($last_update);
-                    $this->getStatisticFromString($data, $last_update, $oPluginSettings);
-                } else {
-                    throw $e;
-                }
-            }
+            do {
+                $data = $oPublisherConsoleApiClient->getStatistics($last_update);
+                $endOfData = $this->getStatisticFromString($data, $last_update, $oPluginSettings);
+            } while ($endOfData === false);
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }

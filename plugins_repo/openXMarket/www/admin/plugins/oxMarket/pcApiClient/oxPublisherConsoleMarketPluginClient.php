@@ -131,19 +131,19 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     {
         
         $aPcAccountData = $this->getAssociatedPcAccountData();
-        $account_status = $aPcAccountData['account_status'];
+        $association_status = $aPcAccountData['association_status'];
         $publisher_account_id = $aPcAccountData['publisher_account_id'];
         $apiKey = $aPcAccountData['api_key'];
-        if (!isset($account_status)) {
+        if (!isset($association_status)) {
             throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
                 'There is no association between PC and OXP accounts');
         }
         else {
-            if (self::LINK_IS_VALID_STATUS != $account_status) {
+            if (self::LINK_IS_VALID_STATUS != $association_status) {
                 throw 
                     new Plugins_admin_oxMarket_PublisherConsoleClientException(
                         'Association of PC account with OXP account is invalid', 
-                        $account_status);
+                        $association_status);
             }
             else {
                 $this->pc_api_client->setPublisherAccountId(
@@ -208,7 +208,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function getAssociationWithPcStatus()
     {
         $aPcAccountData = $this->getAssociatedPcAccountData();
-        return $aPcAccountData['account_status'];
+        return $aPcAccountData['association_status'];
     }
     
     /**
@@ -283,27 +283,15 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     
     /**
      * @param integer $lastUpdate
+     * @param array $aWebsitesIds websites ids
      * @return string statistics file content 
      */
-    public function oxmStatistics($lastUpdate)
+    public function getStatistics($lastUpdate, $aWebsitesIds = null)
     {
         try {
             $this->ensureStatusAndUpdatePcAccountId();
-            return $this->pc_api_client->oxmStatistics($lastUpdate);
-        } catch (Exception $e) {
-            $this->setStatusByException($e);
-        }
-    }
-    
-    /**
-     * @param integer $lastUpdate
-     * @return string statistics file content 
-     */
-    public function oxmStatisticsLimited($lastUpdate)
-    {
-        try {
-            $this->ensureStatusAndUpdatePcAccountId();
-            return $this->pc_api_client->oxmStatisticsLimited($lastUpdate);
+            return $this->pc_api_client->getStatistics($lastUpdate, 
+                                                       $this->putEmptyArrayIfNull($aWebsitesIds));
         } catch (Exception $e) {
             $this->setStatusByException($e);
         }

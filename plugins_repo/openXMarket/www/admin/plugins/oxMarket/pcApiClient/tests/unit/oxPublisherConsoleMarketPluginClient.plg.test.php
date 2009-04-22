@@ -51,7 +51,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                 'Plugins_admin_oxMarket_PublisherConsoleClient',
                 'PartialMockPublisherConsoleClient',
                 array('createAccount',
-                      'isSsoUserNameAvailable')
+                      'isSsoUserNameAvailable',
+                      'getStatistics')
             );
             // @TODO remove after creating final package 1.0.0-RC1
             // Get plugin version to run proper test while plugin isn't build to etc/plugins
@@ -64,6 +65,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
     function tearDown()
     {
         TestEnv::uninstallPluginPackage('openXMarket',false);
+        DataGenerator::cleanUp();
     }
 
     function testCreateAccount()
@@ -179,6 +181,65 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                 $this->assertEqual($e->getMessage(),
                                     'There is already publisher_account_id on the OXP');
             }
+        }
+    }
+    
+    function testGetStatistics()
+    {
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
+        {
+            $lastUpdate1 = 0;
+            $lastUpdate2 = 1;
+            $aWebsitesIds2 = array( 'w_id1', 'w_id2');
+            
+            $callArgs1 = array($lastUpdate1, array()); // Empty array is expected for null $aWebsitesIds parameter
+            $response1 = "1\t0\n";
+            $callArgs2 = array($lastUpdate2, $aWebsitesIds2);
+            $response2 = "2\t0\n";
+            
+            // Create mockup for PubConsoleClient
+            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+            $PubConsoleClient->expectAt(0, 'getStatistics', $callArgs1);
+            $PubConsoleClient->setReturnValueAt(0, 'getStatistics', $response1);
+            $PubConsoleClient->expectAt(1, 'getStatistics', $callArgs2);
+            $PubConsoleClient->setReturnValueAt(1, 'getStatistics', $response2);
+            $PubConsoleClient->expectCallCount('getStatistics', 2);
+            
+            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+
+            // Try to call method when plugin is not registered
+            try {
+                $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
+                $this->fail('Should have thrown exception');
+            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+                $this->assertEqual($e->getMessage(),
+                                    'There is no association between PC and OXP accounts');
+            }
+            
+            // Create account and set publisher account association data
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+            $adminAccountId = DataGenerator::generateOne($doAccounts);
+            $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+            $doExtMarket->account_id = $adminAccountId;
+            $doExtMarket->publisher_account_id = 'publisher_account_id';
+            $doExtMarket->api_key = 'api_key';
+            $doExtMarket->status = 
+                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+            $doExtMarket->insert();
+            
+            // Test null value for aWebsitesIds
+            $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
+            $this->assertEqual($response1, $result);
+            
+            // Test not empty aWebsitesIds
+            $result = $oPCMarketPluginClient->getStatistics($lastUpdate2, $aWebsitesIds2);
+            $this->assertEqual($response2, $result);
+            
+            // Clear account association
+            $doExtMarket->delete();
         }
     }
     

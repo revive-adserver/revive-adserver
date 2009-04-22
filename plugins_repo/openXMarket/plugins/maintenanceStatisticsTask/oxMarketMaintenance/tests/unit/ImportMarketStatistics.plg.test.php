@@ -76,63 +76,99 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     
     function testRun() 
     {
-        // Skip this tests if bundled plugin has older version than 0.2.0-dev
+        
         $plgManager = new OX_PluginManager();
         $info = $plgManager->getPackageInfo('openXMarket');
-        if (version_compare($info['version'],'0.1.3-beta-rc1','<'))
+        if (version_compare($info['version'],'1.0.0-dev','<'))
         {
-            return;
+            // test it for plugin version 0.3.0
+            Mock::generatePartial(
+                'MockExceptionPublisherConsoleMarketPluginClient',
+                'MockPublisherConsoleMarketPluginClient',
+                array('oxmStatistics','oxmStatisticsLimited')
+            );
+            
+            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+            $response1 = "1\t0\n".
+                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\n";
+            $response2 = "2\t1\n".
+                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\n";
+            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'oxmStatisticsLimited',$response1);
+            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'oxmStatisticsLimited',$response2);
+            $oPubConsoleMarketPluginClient->expectCallCount('oxmStatisticsLimited', 2);
+            $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+            $oImportMarketStatistics->run();
+            
+            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+            $aWebsiteStat = $oWebsiteStat->getAll();
+            $this->assertEqual(2, count ($aWebsiteStat));
+            $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
+            $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
+            
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->get('name', 
+                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+            $this->assertEqual(2,$oPluginSettings->value);
+    
+            // Clear statistics
+            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+            $oWebsiteStat->whereAdd('1=1');
+            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+            
+            $oPubConsoleMarketPluginClient = new MockExceptionPublisherConsoleMarketPluginClient();
+            $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+            $oImportMarketStatistics->run();
+            
+            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+            $aWebsiteStat = $oWebsiteStat->getAll();
+            $this->assertEqual(1, count ($aWebsiteStat));
+            $this->assertEqual('website-uuidid3', $aWebsiteStat[0]['p_website_id']);
+            
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->get('name', 
+                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+            $this->assertEqual(1,$oPluginSettings->value);
+        } else {
+            // test it for plugin version 1.0.0
+            Mock::generatePartial(
+                'MockExceptionPublisherConsoleMarketPluginClient',
+                'MockPublisherConsoleMarketPluginClient',
+                array('getStatistics')
+            );
+            
+            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+            $response1 = "1\t0\n".
+                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\n";
+            $response2 = "2\t1\n".
+                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\n";
+            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
+            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
+            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
+            
+            $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+            $oImportMarketStatistics->run();
+            
+            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+            $aWebsiteStat = $oWebsiteStat->getAll();
+            $this->assertEqual(2, count ($aWebsiteStat));
+            $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
+            $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
+            
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->get('name', 
+                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+            $this->assertEqual(2,$oPluginSettings->value);
         }
         
-        Mock::generatePartial(
-            'MockExceptionPublisherConsoleMarketPluginClient',
-            'MockPublisherConsoleMarketPluginClient',
-            array('oxmStatistics','oxmStatisticsLimited')
-        );
-        
-        $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-        $response1 = "1\t0\n".
-                    "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\n";
-        $response2 = "2\t1\n".
-                    "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\n";
-        $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'oxmStatisticsLimited',$response1);
-        $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'oxmStatisticsLimited',$response2);
-        $oPubConsoleMarketPluginClient->expectCallCount('oxmStatisticsLimited', 2);
-        $oImportMarketStatistics = new MockImportMarketStatistics($this);
-        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-        $oImportMarketStatistics->run();
-        
-        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-        $aWebsiteStat = $oWebsiteStat->getAll();
-        $this->assertEqual(2, count ($aWebsiteStat));
-        $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
-        $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
-        
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $oPluginSettings->get('name', 
-            Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-        $this->assertEqual(2,$oPluginSettings->value);
-
         // Clear statistics
         $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
         $oWebsiteStat->whereAdd('1=1');
         $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-        
-        $oPubConsoleMarketPluginClient = new MockExceptionPublisherConsoleMarketPluginClient();
-        $oImportMarketStatistics = new MockImportMarketStatistics($this);
-        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-        $oImportMarketStatistics->run();
-        
-        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-        $aWebsiteStat = $oWebsiteStat->getAll();
-        $this->assertEqual(1, count ($aWebsiteStat));
-        $this->assertEqual('website-uuidid3', $aWebsiteStat[0]['p_website_id']);
-        
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $oPluginSettings->get('name', 
-            Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-        $this->assertEqual(1,$oPluginSettings->value);
     }
 }
