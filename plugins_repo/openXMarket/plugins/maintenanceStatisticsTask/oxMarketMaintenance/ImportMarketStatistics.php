@@ -39,6 +39,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version';
 
     /**
+     * Market plugin
+     * @var Plugins_admin_oxMarket_oxMarket
+     */
+    protected $oMarketComponent;
+    
+    /**
      * The constructor method.
      */
     function __construct()
@@ -54,20 +60,22 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     {
         OA::debug('Started oxMarket_ImportMarketStatistics');
         try {
-            $oPublisherConsoleApiClient = 
-                $this->getPublisherConsoleApiClient();
-            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-            $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
-            if (isset($oPluginSettings->value)) {
-                $last_update = intval($oPluginSettings->value);
+            if ($this->isPluginActive())
+            {
+                $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();   
+                $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+                $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
+                if (isset($oPluginSettings->value)) {
+                    $last_update = intval($oPluginSettings->value);
+                }
+                else {
+                    $last_update = 0;
+                }
+                do {
+                    $data = $oPublisherConsoleApiClient->getStatistics($last_update);
+                    $endOfData = $this->getStatisticFromString($data, $last_update, $oPluginSettings);
+                } while ($endOfData === false);
             }
-            else {
-                $last_update = 0;
-            }
-            do {
-                $data = $oPublisherConsoleApiClient->getStatistics($last_update);
-                $endOfData = $this->getStatisticFromString($data, $last_update, $oPluginSettings);
-            } while ($endOfData === false);
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
@@ -150,8 +158,29 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      */
     protected function getPublisherConsoleApiClient()
     {
-        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-        return $oMarketComponent->getPublisherConsoleApiClient();
+        $this->initMarketComponent();
+        return $this->oMarketComponent->getPublisherConsoleApiClient();
+    }
+    
+    /**
+     * Check if plugin is active (registered to the market)
+     *
+     * @return boolean
+     */
+    protected function isPluginActive()
+    {
+        $this->initMarketComponent();
+        return $this->oMarketComponent->isActive();
+    }
+    
+    /**
+     * Initialize market component if needed
+     */
+    protected function initMarketComponent()
+    {
+        if (!isset($this->oMarketComponent)) {
+            $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+        }
     }
 }
 

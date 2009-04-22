@@ -54,13 +54,15 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_UpdateWebsites extend
         OA::debug('Started oxMarket_UpdateWebsites');
         try {
             $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-            try {
-                $oMarketComponent->updateAccountStatus(); // updateAccountStatus first
-            } catch (Exception $e) {
-                // Catch exception from updateAccountStatus separately to updateAllWebsites 
-                OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
+            if ($oMarketComponent->isActive()) {
+                try {
+                    $oMarketComponent->updateAccountStatus(); // updateAccountStatus first
+                } catch (Exception $e) {
+                    // Catch exception from updateAccountStatus separately to updateAllWebsites 
+                    OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
+                }
+                $oMarketComponent->updateAllWebsites(true); //updateAllWebsites skip synchronized
             }
-            $oMarketComponent->updateAllWebsites(true); //updateAllWebsites skip synchronized
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }

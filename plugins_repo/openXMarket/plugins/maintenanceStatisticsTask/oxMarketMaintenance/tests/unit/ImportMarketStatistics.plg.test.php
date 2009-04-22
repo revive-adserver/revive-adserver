@@ -54,13 +54,6 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXMarket',false);
         TestEnv::installPluginPackage('openXMarket',false);
-        if (!class_exists('MockImportMarketStatistics')) {
-            Mock::generatePartial(
-                'Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
-                'MockImportMarketStatistics',
-                array('getPublisherConsoleApiClient')
-            );
-        }
     }
 
     function tearDown()
@@ -70,7 +63,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     
     function test_implements()
     {
-        $oImportMarketStatistics = new MockImportMarketStatistics($this);
+        Mock::generatePartial(
+            'Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
+            'Mock2ImportMarketStatistics',
+            array('getPublisherConsoleApiClient')
+        );
+        $oImportMarketStatistics = new Mock2ImportMarketStatistics($this);
         $this->assertIsA($oImportMarketStatistics, 'OX_Maintenance_Statistics_Task');  
     }
     
@@ -86,6 +84,11 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 'MockExceptionPublisherConsoleMarketPluginClient',
                 'MockPublisherConsoleMarketPluginClient',
                 array('oxmStatistics','oxmStatisticsLimited')
+            );
+            Mock::generatePartial(
+                'Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
+                'MockImportMarketStatistics',
+                array('getPublisherConsoleApiClient')
             );
             
             $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
@@ -111,7 +114,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oPluginSettings->get('name', 
                 Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
             $this->assertEqual(2,$oPluginSettings->value);
-    
+            
             // Clear statistics
             $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
             $oWebsiteStat->whereAdd('1=1');
@@ -139,6 +142,19 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 'MockPublisherConsoleMarketPluginClient',
                 array('getStatistics')
             );
+            Mock::generatePartial(
+                'Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
+                'MockImportMarketStatistics',
+                array('getPublisherConsoleApiClient', 'isPluginActive')
+            );
+            
+            // Test when plugin is inactive
+            $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('isPluginActive', false);
+            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
+            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 0);
+            $oImportMarketStatistics->run();
+            
             
             $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
             $response1 = "1\t0\n".
@@ -150,6 +166,8 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
             
             $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('isPluginActive', true);
+            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
             $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
             $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
             $oImportMarketStatistics->run();
