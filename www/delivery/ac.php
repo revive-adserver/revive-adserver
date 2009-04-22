@@ -3182,10 +3182,10 @@ $logLastAction .= $delimiter . (!empty($ad['viewwindow']) && !empty($ad['tracker
 }
 }
 $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
-$url .= "?bannerid=" . $aBanner['ad_id'];
-$url .= $amp . "campaignid=" . $aBanner['placement_id'];
-$url .= $amp . "zoneid=" . $zoneId;
-if (!empty($source)) $url .= $amp . "source=" . $source;
+$url .= "?" . $conf['var']['adId'] . "=" . $aBanner['ad_id'];
+$url .= $amp . $conf['var']['campaignId'] . "=" . $aBanner['placement_id'];
+$url .= $amp . $conf['var']['zoneId'] . "=" . $zoneId;
+if (!empty($source)) $url .= $amp . $conf['var']['channel'] . "=" . $source;
 if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
 if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
 if (!empty($aBanner['session_cap_ad'])) $url .= $amp . $conf['var']['sessionCapAd'] . "=" . $aBanner['session_cap_ad'];
