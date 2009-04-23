@@ -30,8 +30,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZone
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsDaily.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsLifetime.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemnant.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforContract.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPM.php';
 require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
@@ -70,12 +69,9 @@ class OA_Maintenance_Priority_AdServer
         // Add a task to compensate & save the priority values
         $oPriorityCompensation = new OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
         $this->oTaskRunner->addTask($oPriorityCompensation);
-        // Add a task to update priority values for eCPM Contract campaigns
-        $oPriorityEcpmContract = new OA_Maintenance_Priority_AdServer_Task_ECPMforContract();
-        $this->oTaskRunner->addTask($oPriorityEcpmContract);
-        // Add a task to update priority values for eCPM Remnant campaigns
-        $oPriorityEcpmRemnant = new OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant();
-        $this->oTaskRunner->addTask($oPriorityEcpmRemnant);
+        // Add a task to update priority values for ecpm campaigns
+        $oPriorityEcpm = new OA_Maintenance_Priority_AdServer_Task_ECPM();
+        $this->oTaskRunner->addTask($oPriorityEcpm);
     }
 
     /**

@@ -64,7 +64,6 @@ function setupConstants()
     define('OX_CAMPAIGN_TYPE_CONTRACT_NORMAL', 2);
     define('OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', 3);
     define('OX_CAMPAIGN_TYPE_ECPM', 4);
-    define('OX_CAMPAIGN_TYPE_CONTRACT_ECPM', 5);
 
     // Database connection constants
     define('MAX_DSN_ARRAY',                 0);

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -52,9 +52,6 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Some additional calculations are required, increase the memory
-    OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
-
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
     $aElements   = array();
@@ -62,12 +59,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     
     // eCPM
     $aElements[] = 'campaign_ecpm_enabled';
-    $aElements[] = 'contract_ecpm_enabled';
     $aCheckboxes['campaign_ecpm_enabled'] = true;
-    $aCheckboxes['contract_ecpm_enabled'] = true;
 
     // Save the preferences
-    $aInactivatedCampaignsIds = array();
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
         if ((bool) $_POST['campaign_ecpm_enabled'] != (bool) $pref['campaign_ecpm_enabled']) {
@@ -82,6 +76,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $oDal = OA_Dal::factoryDAL('campaigns');
             $agencyId = OA_Permission::getAgencyId();
             $aCampaigns = $oDal->updateCampaignsPriorityByAgency($agencyId, $updateFrom, $updateTo);
+            $aInactivatedCampaignsIds = array();
             foreach($aCampaigns as $campaignId => $aCampaign) {
                 if ($aCampaign['status_changed'] && $aCampaign['status'] == OA_ENTITY_STATUS_INACTIVE) {
                     // store without string indexes, to not to waste space in session
@@ -89,38 +84,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                         array($campaignId, $aCampaign['clientid'], $aCampaign['campaignname']);
                 }
             }
-            $runMaintenance = true;
-        }
-
-        // We changed contract
-        if ((bool) $_POST['contract_ecpm_enabled'] != (bool) $pref['contract_ecpm_enabled']) {
-        
-            // Reload the prefs we just changed into the global variable because
-            // we use it when setting ecpm_enabled in the DO.
-            OA_Preferences::loadPreferences();
-            $oDal = OA_Dal::factoryDAL('campaigns');
-            $agencyId = OA_Permission::getAgencyId();
-            $aCampaigns = $oDal->updateEcpmEnabledByAgency($agencyId);
-            foreach($aCampaigns as $campaignId => $aCampaign) {
-                if ($aCampaign['status_changed'] && $aCampaign['status'] == OA_ENTITY_STATUS_INACTIVE) {
-                    // store without string indexes, to not to waste space in session
-                    $aInactivatedCampaignsIds[$campaignId] =
-                        array($campaignId, $aCampaign['clientid'], $aCampaign['campaignname']);
-                }
+            // store the list of inactivated campaigns in the session
+            if (!empty($aInactivatedCampaignsIds)) {
+                $session['aInactivatedCampaignsIds'] = $aInactivatedCampaignsIds;
+                phpAds_SessionDataStore();
             }
-            $runMaintenance = true;
-        }
 
-        // store the list of inactivated campaigns in the session
-        if (!empty($aInactivatedCampaignsIds)) {
-            $session['aInactivatedCampaignsIds'] = $aInactivatedCampaignsIds;
-            phpAds_SessionDataStore();
-        }
-        
-        if ($runMaintenance) {
+            // Run the Maintenance Priority Engine process
             OA_Maintenance_Priority::scheduleRun();
         }
-
+        
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
@@ -143,11 +116,9 @@ $title = $setPref[$prefSection]['name'];
 $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
-$remnantEcpmInfoText = $strEnableECPM . '<br/>&nbsp;&nbsp;&nbsp;&nbsp;';
-$remnantEcpmInfoText .= !empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromECPM :
+$ecpmInfoText = $strEnableECPM . '<br/>&nbsp;&nbsp;&nbsp;&nbsp;';
+$ecpmInfoText .= !empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromECPM : 
     $strEnableECPMfromRemnant;
-
-$contractEcpmInfoText = $strEnableContractECPM;
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
@@ -158,15 +129,9 @@ $aSettings = array (
             array (
                 'type'  => 'checkbox',
                 'name'  => 'campaign_ecpm_enabled',
-                'text'  => $remnantEcpmInfoText,
+                'text'  => $ecpmInfoText,
                 'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
             ),
-            array(
-                'type' => 'checkbox',
-                'name' => 'contract_ecpm_enabled',
-                'text' => $contractEcpmInfoText,
-                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-            )
         )
     )
 );

@@ -76,33 +76,6 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 $aCampaign['status_changed'] = ($doCampaigns->status != $oldStatus);
                 $aCampaign['status'] = $doCampaigns->status;
                 $aUpdatedCampaigns[$campaignId] = $aCampaign;
-                $doCampaigns->free();
-            }
-        }
-        return $aUpdatedCampaigns;
-    }
-
-    /**
-     * Sets ecpm_enabled in campaigns belonging to a given agency.
-     *
-     * @param integer $agencyId
-     * @return array  Array of campaigns which ecpm_enabled was changed
-     */
-    function updateEcpmEnabledByAgency($agencyId)
-    {
-        $aUpdatedCampaigns = array();
-        $aCampaigns = $this->getAllCampaignsUnderAgency($agencyId, 'name', 'up');
-        foreach ($aCampaigns as $campaignId => $aCampaign) {
-            $aCampaign['status_changed'] = false;
-            $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-            if ($doCampaigns) {
-                $oldStatus = $doCampaigns->status;
-                $doCampaigns->setEcpmEnabled();
-                $doCampaigns->update();
-                $aCampaign['status_changed'] = ($doCampaigns->status != $oldStatus);
-                $aCampaign['status'] = $doCampaigns->status;
-                $aUpdatedCampaigns[$campaignId] = $aCampaign;
-                $doCampaigns->free();
             }
         }
         return $aUpdatedCampaigns;
@@ -595,14 +568,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $rsCampaigns = DBC::NewRecordSet($query);
         $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status', 'priority', 'revenue'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
-        $aRetCampaigns = array();
-        foreach ($aCampaigns as $campaignId => $aCampaign) {
-            $aRetCampaigns[$campaignId]['status_changed'] = $aCampaign['status_changed'];
-            $aRetCampaigns[$campaignId]['status'] = $aCampaign['status'];
-            $aRetCampaigns[$campaignId]['clientid'] = $aCampaign['clientid'];
-            $aRetCampaigns[$campaignId]['campaignname'] = $aCampaign['campaignname'];
-        }
-        return $aRetCampaigns;
+        return $aCampaigns;
     }
 
     function countActiveCampaigns()

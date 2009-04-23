@@ -60,7 +60,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
      */
     function testGetCampaignsInfoByAgencyId()
     {
-        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns(DataObjects_Campaigns::PRIORITY_ECPM);
+        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns();
 
         $da = new OA_Dal_Maintenance_Priority();
 
@@ -75,38 +75,18 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         DataGenerator::cleanUp();
     }
 
-    /**
-     * A method to test the getCampaignsInfoByAgencyId method.
-     */
-    function testGetCampaignsInfoByAgencyIdAndPriority()
-    {
-        list($agencyId1, $agencyId2) = $this->_generateAgencyCampaigns($priority = 4, 1);
-
-        $da = new OA_Dal_Maintenance_Priority();
-
-        // Test 1 getCampaignsInfoByAgencyId method.
-        $ret = $da->getCampaignsInfoByAgencyIdAndPriority($agencyId1, $priority);
-        $this->checkTestResults($ret, $this->firsCampaignId, $this->firsAdId);
-
-        // Test 2 getCampaignsInfoByAgencyId method.
-        $ret = $da->getCampaignsInfoByAgencyIdAndPriority($agencyId2, $priority);
-        $this->checkTestResults($ret, $this->secondCampaignId, $this->secondAdId);
-
-        DataGenerator::cleanUp();
-    }
-
     function checkTestResults($ret, $campaignId, $adId)
     {
         $this->assertTrue(is_array($ret));
         $aExpectedCampaign = $this->aExpectedData['campaigns'][$campaignId];
         $aExpectedAd = $this->aExpectedData['banners'][$adId];
         
-        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ADS;
-        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ZONES;
-        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_WEIGHT;
-        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_REVENUE;
-        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_REVENUE_TYPE;
-        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_MIN_IMPRESSIONS;
+        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
+        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
+        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
+        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE;
+        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE_TYPE;
+        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
 
         $aCampaign = $ret[$campaignId];
         $this->assertEqual($aExpectedCampaign['revenue'], $aCampaign[$idxRevenue]);
@@ -123,7 +103,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
      *
      * @access private
      */
-    function _generateAgencyCampaigns($priority, $ecpmEnabled = 0)
+    function _generateAgencyCampaigns()
     {
         // Add agencies
         $agencyId1 = DataGenerator::generateOne('agency', true);
@@ -142,8 +122,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->campaignname = 'Test eCPM Campaign 1';
         $doCampaigns->revenue = 0.1;
         $doCampaigns->min_impressions = 100;
-        $doCampaigns->priority = $priority;
-        $doCampaigns->ecpm_enabled = $ecpmEnabled;
+        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
         $doCampaigns->clientid = $clientId1;
         $idCampaign11 = DataGenerator::generateOne($doCampaigns);
         $this->firsCampaignId = $idCampaign11;
@@ -164,8 +143,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->campaignname = 'Test eCPM Campaign 2';
         $doCampaigns->revenue = 0.5;
         $doCampaigns->min_impressions = 300;
-        $doCampaigns->priority = $priority;
-        $doCampaigns->ecpm_enabled = $ecpmEnabled;
+        $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_ECPM;
         $doCampaigns->clientid = $clientId2;
         $idCampaign2 = DataGenerator::generateOne($doCampaigns);
         $this->secondCampaignId = $idCampaign2;

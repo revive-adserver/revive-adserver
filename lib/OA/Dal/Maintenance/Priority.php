@@ -57,7 +57,7 @@ define('DAL_PRIORITY_UPDATE_ECPM', 2);
  * @subpackage MaintenancePriority
  * @author     James Floyd <james@m3.net>
  * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Radek Maciaszek <radek@urbantrip.com>
+ * @author     Radek Maciaszek <radek@m3.net>
  */
 class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 {
@@ -208,7 +208,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getCampaignDeliveryToDate($id)
     {
-        $this->oDbh->loadModule('Reverse');
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
         $table = $this->_getTablenameUnquoted('campaigns');
@@ -258,31 +257,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
     /**
      * A method to get the details of the total number of advertisements
-     * delivered, to date, for ecpm hpc campaigns withing given priority in a given agency.
-     * This method returns only the campaigns which revenue_type is not
-     * equal MAX_FINANCE_CPM and therefore whose eCPM needs to be calculated
-     * dynamically each time the maintenance is executed.
-     *
-     * @param integer $id The agency ID.
-     * @param integer $priority Campaign priority.
-     * @return array An array of arrays, with each containing the "placement_id",
-     *               "sum_requests", "sum_views", "sum_clicks" and "sum_conversions"
-     *               for that placement.
-     */
-    function getAgencyEcpmContractCampaignsDeliveriesToDate($id, $priority)
-    {
-        $priority = (int) $priority;
-        $table = $this->_getTablenameUnquoted('campaigns');
-        $aWheres = array(
-            array("$table.priority = " . $priority, 'AND'),
-            array("$table.ecpm_enabled = 1", 'AND'),
-            array("$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'),
-        );
-        return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
-    }
-
-    /**
-     * A method to get the details of the total number of advertisements
      * delivered, to date, for all placements in a given agency.
      *
      * @param integer $id The agency ID.
@@ -292,7 +266,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getAgencyCampaignsDeliveriesToDate($id, $aWheres = array())
     {
-        $this->oDbh->loadModule('Reverse');
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
         $table = $this->_getTablenameUnquoted('campaigns');
@@ -2372,49 +2345,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get the required impressions for a list of advertisements
-     * from the tmp_ad_required_impression table per each advertisement and zone.
-     *
-     * @param array $aAdvertID An array of advertisement IDs.
-     * @return array An array of required impressions, indexed by zone ID
-     *               and advertisement ID
-     */
-    function getRequiredAdZoneImpressions($aAdvertID)
-    {
-        if (empty($aAdvertID)) {
-            return array();
-        }
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-        $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_zone_impression');
-        $query = "
-            SELECT
-                ad_id AS ad_id,
-                zone_id AS zone_id,
-                required_impressions AS required_impressions
-            FROM
-                {$tableTmp}
-            WHERE
-                ad_id IN (" . implode(', ', $aAdvertID) . ')';
-        // Don't use a PEAR_Error handler
-        PEAR::pushErrorHandling(null);
-        // Execute the query
-        $rc = $this->oDbh->query($query);
-        // Resore the PEAR_Error handler
-        PEAR::popErrorHandling();
-        if (!PEAR::isError($rc)) {
-            $aResult = array();
-            while ($row = $rc->fetchRow()) {
-                $aResult[$row['zone_id']][$row['ad_id']] = $row['required_impressions'];
-            }
-            return $aResult;
-        } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
-            return array();
-        }
-        MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-    }
-
-    /**
      * A method to get current zone impression forecast(s) for every zone in the
      * system. Where no impression forecast exists for a zone, the default zone
      * impression forecast value (adjusted for the operation interval length) is
@@ -2705,37 +2635,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                   WHERE
                     cl.clientid = c.clientid
                     AND c.priority = " . DataObjects_Campaigns::PRIORITY_ECPM;
-        return $this->getAgenciesIdsFromQuery($query);
-    }
-
-    /**
-     * Returns an array of agencies (managers) IDs which has any
-     * ecpm campaigns running.
-     *
-     * @return array  Array with IDs of agencies IDs
-     */
-    public function getEcpmContractAgenciesIds()
-    {
-        $query = "SELECT
-                    DISTINCT cl.agencyid AS agencyid
-                  FROM
-                    {$this->_getTablename('campaigns')} AS c,
-                    {$this->_getTablename('clients')} AS cl
-                  WHERE
-                    cl.clientid = c.clientid
-                    AND c.ecpm_enabled = 1";
-        return $this->getAgenciesIdsFromQuery($query);
-    }
-    
-    /**
-     * Returns an array of agencies (managers) IDs using the provided
-     * SQL query to retreive the data from the database.
-     *
-     * @param  string  SQL query which retreives the agencies ids
-     * @return array  Array with IDs of agencies IDs
-     */
-    public function getAgenciesIdsFromQuery($query)
-    {
         $rc = $this->oDbh->query($query);
         $aResult = array();
         if (PEAR::isError($rc)) {
@@ -2763,7 +2662,19 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * @param integer $agencyId  Agency (manager) ID
      * @return array  Array of campaigns, zones and
      *                ads which are linked to each other for given agency.
-     *                Format, see method: getCampaignsInfoByQuery()
+     *                Format:
+     *                array(
+     *                   campaignid (integer) => array(
+     *                       self::IDX_REVENUE => (float),
+     *                       self::IDX_REVENUE_TYPE => (integer),
+     *                       self::IDX_MIN_IMPRESSIONS => (integer)
+     *                       self::IDX_ADS => array(
+     *                         adid (integer) => array(
+     *                           self::IDX_WEIGHT => (integer)
+     *                           self::IDX_ZONES => array(zoneid (integer), ...)
+     *                         )
+     *                       ),...
+     *                   ),...
      */
     public function getCampaignsInfoByAgencyId($agencyId)
     {
@@ -2791,71 +2702,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
                       AND aza.zone_id != 0
                       AND cl.agencyid = " . $agencyId;
-        return $this->getCampaignsInfoByQuery($query);
-    }
-
-    /**
-     * Retreives the list of all active eCPM HPC campaigns for a given agency ID
-     * (manager) within given campaign priority.
-     *
-     * @param integer $agencyId  Agency (manager) ID
-     * @param integer $priority  Campaign priority
-     * @return array  Array of campaigns, zones and
-     *                ads which are linked to each other for given agency.
-     *                Format, see method: getCampaignsInfoByQuery()
-     */
-    public function getCampaignsInfoByAgencyIdAndPriority($agencyId, $priority)
-    {
-        $query = "SELECT
-                      c.campaignid AS campaignid,
-                      c.revenue AS revenue,
-                      c.revenue_type AS revenue_type,
-                      c.min_impressions AS min_impressions,
-                      c.activate AS activate,
-                      c.expire AS expire,
-                      b.bannerid AS bannerid,
-                      b.weight AS weight,
-                      aza.zone_id AS zone_id
-                  FROM
-                      {$this->_getTablename('clients')} AS cl,
-                      {$this->_getTablename('campaigns')} AS c,
-                      {$this->_getTablename('banners')} AS b,
-                      {$this->_getTablename('ad_zone_assoc')} AS aza
-                  WHERE
-                      b.campaignid = c.campaignid
-                      AND aza.ad_id = b.bannerid
-                      AND cl.clientid = c.clientid
-                      AND c.status = ".OA_ENTITY_STATUS_RUNNING."
-                      AND b.status = ".OA_ENTITY_STATUS_RUNNING."
-                      AND c.priority = ".$priority."
-                      AND c.ecpm_enabled = 1
-                      AND aza.zone_id != 0
-                      AND cl.agencyid = " . $agencyId;
-        return $this->getCampaignsInfoByQuery($query);
-    }
-
-    /**
-     * Retreives the list of campaigns for a given SQL query.
-     *
-     * @param integer $agencyId  Agency (manager) ID
-     * @return array  Array of campaigns, zones and
-     *                ads which are linked to each other for given agency.
-     *                Format:
-     *                array(
-     *                   campaignid (integer) => array(
-     *                       self::IDX_REVENUE => (float),
-     *                       self::IDX_REVENUE_TYPE => (integer),
-     *                       self::IDX_MIN_IMPRESSIONS => (integer)
-     *                       self::IDX_ADS => array(
-     *                         adid (integer) => array(
-     *                           self::IDX_WEIGHT => (integer)
-     *                           self::IDX_ZONES => array(zoneid (integer), ...)
-     *                         )
-     *                       ),...
-     *                   ),...
-     */
-    public function getCampaignsInfoByQuery($query)
-    {
         $rc = $this->oDbh->query($query);
         $aResult = array();
         if (PEAR::isError($rc)) {
@@ -2863,15 +2709,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return $aResult;
         }
 
-        require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemnant.php';
-        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ADS;
-        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ZONES;
-        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_WEIGHT;
-        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_REVENUE;
-        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_REVENUE_TYPE;
-        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_MIN_IMPRESSIONS;
-        $idxActivate = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ACTIVATE;
-        $idxExpire = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_EXPIRE;
+        require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPM.php';
+        $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ADS;
+        $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ZONES;
+        $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_WEIGHT;
+        $idxRevenue = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE;
+        $idxRevenueType = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_REVENUE_TYPE;
+        $idxImpr = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_MIN_IMPRESSIONS;
+        $idxActivate = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_ACTIVATE;
+        $idxExpire = OA_Maintenance_Priority_AdServer_Task_ECPM::IDX_EXPIRE;
 
         // Format output into desired structure (see comments in a phpdoc above)
         while ($aRow = $rc->fetchRow()) {
@@ -2898,18 +2744,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         return $aResult;
     }
 
-    /**
-     * Get all zones forecasts by agency
-     *
-     * @todoradek Limit the query to get forecasts only for required campaigns
-     * (either ecpm low or ecpm hpc)
-     *
-     * @param integer $agencyId  Agency ID
-     * @param string $intervalStart  Interval start date (format: YY-MM-DD HH:MM:SS)
-     * @param string $intervalEnd  Interval end date (format: YY-MM-DD HH:MM:SS)
-     * @return array  Array of zones forecasts, indexed by zone Ids with the
-     *                values of forecasts for each zone
-     */
+    // get all zones contracts by agency
     public function getZonesForecastsByAgency($agencyId, $intervalStart, $intervalEnd)
     {
         $query = "SELECT
@@ -2941,14 +2776,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         return $aResult;
     }
 
-    /**
-     * Get all zones allocations. Returns the number of impressions which
-     * were required by high priority campaigns in each of the zones.
-     *
-     * @param integer $agencyId  Agency ID
-     * @return array  Array of allocations per each of the zone
-     */
-    public function getZonesAllocationsForEcpmRemnantByAgency($agencyId)
+    // get all zones allocations
+    public function getZonesAllocationsByAgency($agencyId)
     {
         $query = "SELECT
                       t.zone_id AS zone_id,
@@ -2956,64 +2785,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                   FROM
                       {$this->_getTablename('affiliates')} AS a,
                       {$this->_getTablename('zones')} AS z,
-                      {$this->_getTablename('campaigns')} AS c,
-                      {$this->_getTablename('banners')} AS b,
                       tmp_ad_zone_impression AS t
                   WHERE
                       a.agencyid = {$agencyId}
                       AND z.affiliateid = a.affiliateid
                       AND z.zoneid = t.zone_id
                       AND t.to_be_delivered = 1
-                      AND b.bannerid = t.ad_id
-                      AND c.campaignid = b.campaignid
-                      AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
                   GROUP BY
                       t.zone_id";
-        return $this->getZonesAllocationsByQuery($query);
-    }
-
-    /**
-     * Get all zones allocations. Returns the number of impressions which
-     * were required by high priority campaigns in each of the zones
-     * limited by the campaigns priority. Get only allocations by the
-     * campaigns with higher priority than the passed priority.
-     *
-     * @param integer $agencyId  Agency ID
-     * @return array  Array of allocations per each of the zone
-     */
-    public function getZonesAllocationsByAgencyAndCampaignPriority($agencyId, $priority)
-    {
-        $query = "SELECT
-                      t.zone_id AS zone_id,
-                      SUM(t.required_impressions) AS sum_required_impressions
-                  FROM
-                      {$this->_getTablename('affiliates')} AS a,
-                      {$this->_getTablename('zones')} AS z,
-                      {$this->_getTablename('campaigns')} AS c,
-                      {$this->_getTablename('banners')} AS b,
-                      tmp_ad_zone_impression AS t
-                  WHERE
-                      a.agencyid = {$agencyId}
-                      AND z.affiliateid = a.affiliateid
-                      AND z.zoneid = t.zone_id
-                      AND t.to_be_delivered = 1
-                      AND b.bannerid = t.ad_id
-                      AND c.campaignid = b.campaignid
-                      AND c.ecpm_enabled = 1
-                      AND c.priority > {$priority}
-                  GROUP BY
-                      t.zone_id";
-        return $this->getZonesAllocationsByQuery($query);
-    }
-
-    /**
-     * Get all zones allocations by SQL query.
-     *
-     * @param string $query  SQL query
-     * @return array  Array of allocations per each of the zone
-     */
-    public function getZonesAllocationsByQuery($query)
-    {
         $rc = $this->oDbh->query($query);
         $aResult = array();
         if (PEAR::isError($rc)) {

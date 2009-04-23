@@ -148,7 +148,6 @@ if ($campaignid != "") {
         $campaign['impressions_delivered'] = $data ['impressions_delivered'];
         $campaign['clicks_delivered'] = $data ['clicks_delivered'];
         $campaign['conversions_delivered'] = $data ['conversions_delivered'];
-        $deliveryDataLoaded = true;
     }
 
     // Get the value to be used in the target_value field
@@ -262,28 +261,11 @@ $campaign['campaignid'] = $campaignid;
 
 // Handle ajax call to update ecpm field.
 if (isset($_REQUEST['ajax'])) {
-    if ($start) {
-        $startDate = date('Y-m-d', strtotime($start));
-    } else {
-        $startDate = null;
-    }
-    if ($end) {
-        $endDate = date('Y-m-d', strtotime($end));
-    } else {
-        $endDate = null;
-    }
-
-    if (is_null($deliveryDataLoaded)) {
-        $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
-        $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignid);
-        $data = $record->toArray();
-        $impressions = $data['impressions_delivered'];
-        $clicks = $data['clicks_delivered'];
-        $conversions = $data['conversions_delivered'];
-    }
+    $startDate = date('Y-m-d', strtotime($start));
+    $endDate = date('Y-m-d', strtotime($end));
     $ecpm = OX_Util_Utils::getEcpm($revenue_type, $revenue,
             $impressions, $clicks, $conversions, $startDate, $endDate);
-    echo OA_Admin_NumberFormat::formatNumber($ecpm, 4);
+    echo $ecpm;
     exit();
 }
 
@@ -354,7 +336,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
     //form sections
     $newCampaign = empty ( $campaign['campaignid'] );
 
-    $ecpmEnabled = (!empty($pref['campaign_ecpm_enabled']) || !empty($pref['contract_ecpm_enabled']));
+    $ecpmEnabled = !empty($pref['campaign_ecpm_enabled']);
     buildBasicInformationFormSection ( $form, $campaign, $newCampaign, $ecpmEnabled );
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection ( $form, $campaign, $newCampaign );
@@ -449,7 +431,7 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $ecpm
     $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
 
     if ($ecpmEnabled) {
-        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
+        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strCampaignECPM'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
         $priority_l [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'ecpm-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ) ) );
         $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
@@ -621,17 +603,15 @@ function buildECPMFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
         //section decorator to allow hiding of the section
         $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
-        $ecpmGroup ['ecpm'] = $form->createElement ( 'static', 'ecpm', null);
-        $form->addDecorator ('ecpm', 'tag', array('attributes' => array('id' => 'ecpm_val')));
+        $ecpmGroup ['ecpm'] = $form->createElement ( 'text', 'ecpm', null, array ('id' => 'ecpm', 'disabled' => 'true'));
+//        $ecpmGroup['ecpm'] = $form->createElement ('custom', 'ecpm', null, array('ecpm' => $campaign['ecpm']), true);
         $form->addGroup ( $ecpmGroup, 'ecpm_group', $GLOBALS ['strECPM'], null, false );
 
-        // Minimum number of required impressions should only be shown for remnant ecpm.
-        $minimumImpr['field'] = $form->createElement ( 'text', 'min_impressions', null );
+        //minimum number of requires impressions
+        $minimumImpr = array(
+            'field' => $form->createElement ( 'text', 'min_impressions', null )
+        );
         $form->addGroup ( $minimumImpr, 'g_min_impressions', $GLOBALS ['strMinimumImpressions'] );
-        $form->addDecorator ( 'g_min_impressions', 'process', 
-            array ('tag' => 'tr',
-                   'addAttributes' => array ('id' => 'ecpm_min_row{numCall}',
-                                             'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
     } else {
         $form->addElement ( 'hidden', 'ecpm', $campaign ['ecpm'] );
         $form->addElement ( 'hidden', 'min_impressions', $campaign ['min_impressions'] );
@@ -682,7 +662,7 @@ function buildStatusForm($aCampaign)
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignApprove'] . " - " . $GLOBALS ['strCampaignApproveDescription'], OA_ENTITY_STATUS_RUNNING, array ('id' => 'sts_approve' ) );
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignReject'] . " - " . $GLOBALS ['strCampaignRejectDescription'], OA_ENTITY_STATUS_REJECTED, array ('id' => 'sts_reject' ) );
         $form->addElement ( 'select', 'as_reject_reason', $GLOBALS ['strReasonForRejection'], array (OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE => $GLOBALS ['strReasonSiteNotLive'], OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE => $GLOBALS ['strReasonBadCreative'], OA_ENTITY_ADVSIGNUP_REJECT_BADURL => $GLOBALS ['strReasonBadUrl'], OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS => $GLOBALS ['strReasonBreakTerms'] ) );
-        $form->addDecorator ( 'as_reject_reason', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'rsn_row{numCall}', 'class' => '' ) ) );
+        $form->addDecorator ( 'as_reject_reason', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'rsn_row{numCall}', 'class' => 'hide' ) ) );
     } elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_RUNNING) {
         $form->addElement ( 'radio', 'status', null, $GLOBALS ['strCampaignPause'] . " - " . $GLOBALS ['strCampaignPauseDescription'], OA_ENTITY_STATUS_PAUSED, array ('id' => 'sts_pause' ) );
     } elseif ($aCampaign ['status'] == OA_ENTITY_STATUS_PAUSED) {
@@ -905,10 +885,8 @@ function processCampaignForm($form, &$oComponent = null)
 
         if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
             $doCampaigns->campaignid = $aFields['campaignid'];
-            $doCampaigns->setEcpmEnabled();
             $doCampaigns->update();
         } else {
-            $doCampaigns->setEcpmEnabled();
             $aFields['campaignid'] = $doCampaigns->insert();
         }
         if ($oComponent) {
@@ -1046,9 +1024,6 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_NORMAL', OX_CAMPAIGN_TYPE_CONTRACT_NORMAL );
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE );
     $oTpl->assign ( 'CAMPAIGN_TYPE_ECPM', OX_CAMPAIGN_TYPE_ECPM );
-    $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_ECPM', OX_CAMPAIGN_TYPE_CONTRACT_ECPM );
-    $oTpl->assign ( 'PRIORITY_ECPM_FROM', DataObjects_Campaigns::PRIORITY_ECPM_FROM);
-    $oTpl->assign ( 'PRIORITY_ECPM_TO', DataObjects_Campaigns::PRIORITY_ECPM_TO);
     $oTpl->assign ( 'MODEL_CPM', MAX_FINANCE_CPM );
     $oTpl->assign ( 'MODEL_CPC', MAX_FINANCE_CPC );
     $oTpl->assign ( 'MODEL_CPA', MAX_FINANCE_CPA );
@@ -1122,10 +1097,7 @@ function getCampaignInactiveReasons($aCampaign)
     ) {
         $aReasons [] = $GLOBALS ['strTargetIsNull'];
     }
-    if (($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM ||
-        $aCampaign['priority'] >= DataObjects_Campaigns::PRIORITY_ECPM_FROM ||
-        $aCampaign['priority'] <= DataObjects_Campaigns::PRIORITY_ECPM_TO) &&
-        $aCampaign['revenue'] <= 0) {
+    if ($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM && $aCampaign['revenue'] <= 0) {
         $aReasons [] = $GLOBALS ['strRevenueIsNull'];
     }
 
