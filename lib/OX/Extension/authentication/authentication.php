@@ -193,8 +193,7 @@ class Plugins_Authentication extends OX_Component
         $url = '';
         if( !empty($_SERVER['PATH_INFO']) ) { 
             $url = $_SERVER['PATH_INFO'];
-        } 
-        else if( !empty($_SERVER['REQUEST_URI']) ) {
+        } else if( !empty($_SERVER['REQUEST_URI']) ) {
             if( ($pos = strpos($_SERVER['REQUEST_URI'], "?")) !== false ) {
                 $url = substr($_SERVER['REQUEST_URI'], 0, $pos);
             } else {
@@ -207,7 +206,9 @@ class Plugins_Authentication extends OX_Component
         if (!empty($_SERVER['QUERY_STRING'])) {
             $url .= '?'.$_SERVER['QUERY_STRING'];
         }
-
+        // remove any extra slashes that would confuse the browser (see OX-5234)
+        $url = '/' . ltrim($url, '/');
+        
         $appName = !empty($aConf['ui']['applicationName']) ? $aConf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
         $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
