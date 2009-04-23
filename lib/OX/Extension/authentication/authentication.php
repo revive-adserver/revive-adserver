@@ -206,9 +206,11 @@ class Plugins_Authentication extends OX_Component
         if (!empty($_SERVER['QUERY_STRING'])) {
             $url .= '?'.$_SERVER['QUERY_STRING'];
         }
-        // remove any extra slashes that would confuse the browser (see OX-5234)
-        $url = '/' . ltrim($url, '/');
-        
+        if(!empty($url)) {
+	        // remove any extra slashes that would confuse the browser (see OX-5234)
+	        $url = '/' . ltrim($url, '/');
+        }
+            
         $appName = !empty($aConf['ui']['applicationName']) ? $aConf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
         $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
