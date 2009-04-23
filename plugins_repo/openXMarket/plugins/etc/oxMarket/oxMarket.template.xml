@@ -88,7 +88,8 @@
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
             </admin>
             <manager>
-                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Content Restrictions</menu>
+                <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Ad Quality Tool</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
             </manager>
         </navigation>
