@@ -63,27 +63,45 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             if ($this->isPluginActive())
             {
                 $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();   
-                $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-                $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
-                if (isset($oPluginSettings->value)) {
-                    $last_update = intval($oPluginSettings->value);
+                $last_update = $this->getLastUpdateVersionNumber();
+                $aWebsitesIds = $this->getRegisteredWebsitesIds();
+                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
+                    // Download statistics only if there are registered websites
+                    do {
+                        $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
+                        $endOfData = $this->getStatisticFromString($data, $last_update);
+                    } while ($endOfData === false);
                 }
-                else {
-                    $last_update = 0;
-                }
-                do {
-                    $data = $oPublisherConsoleApiClient->getStatistics($last_update);
-                    $endOfData = $this->getStatisticFromString($data, $last_update, $oPluginSettings);
-                } while ($endOfData === false);
             }
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
         OA::debug('Finished oxMarket_ImportMarketStatistics');
     }
+
+    function getLastUpdateVersionNumber()
+    {
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
+        if (isset($oPluginSettings->value)) {
+            return $oPluginSettings->value;
+        }
+        return 0;
+    }
     
     /**
-     * Insert data from oxmStatistics/oxmStatisticsLimited to database 
+     * Get array of website_id stored in database 
+     *
+     * @return array of strings (website Ids)
+     */
+    function getRegisteredWebsitesIds()
+    {
+        $oWebsites = OA_Dal::factoryDO('ext_market_website_pref');
+        return $oWebsites->getRegisteredWebsitesIds();
+    }
+    
+    /**
+     * Insert data from getStatistics to database 
      *
      * @param string $data
      * @param int $last_update

@@ -65,5 +65,17 @@ class DataObjects_Ext_market_website_pref extends DB_DataObjectCommon
     {
         return false;
     }
+    
+    /**
+     * Get array of website_id stored in database 
+     *
+     * @return array of strings (website Ids)
+     */
+    function getRegisteredWebsitesIds()
+    {
+        $this->selectAdd();
+        $this->selectAdd('website_id');
+        return $this->getAll();
+    }
 }
 ?>

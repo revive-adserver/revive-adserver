@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+
 // False Pub Console client to test handling exception 'method does not exist'
 class MockExceptionPublisherConsoleMarketPluginClient {
     function oxmStatisticsLimited()
@@ -145,17 +147,31 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             Mock::generatePartial(
                 'Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
                 'MockImportMarketStatistics',
-                array('getPublisherConsoleApiClient', 'isPluginActive')
+                array('getPublisherConsoleApiClient', 'isPluginActive', 'getRegisteredWebsitesIds')
             );
-            
+                        
             // Test when plugin is inactive
             $oImportMarketStatistics = new MockImportMarketStatistics($this);
             $oImportMarketStatistics->setReturnValue('isPluginActive', false);
             $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
+            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 0);
             $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 0);
             $oImportMarketStatistics->run();
             
+            // Test when plugin is active but there is no registered websites
+            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
             
+            $oImportMarketStatistics = new MockImportMarketStatistics($this);
+            $oImportMarketStatistics->setReturnValue('isPluginActive', true);
+            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
+            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', array());
+            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
+            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+            $oImportMarketStatistics->run();
+            
+            // Test get statistics in two steps
             $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
             $response1 = "1\t0\n".
                         "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\n";
@@ -168,6 +184,8 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oImportMarketStatistics = new MockImportMarketStatistics($this);
             $oImportMarketStatistics->setReturnValue('isPluginActive', true);
             $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
+            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', array('website-uuidid1', 'website-uuidid2'));
+            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
             $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
             $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
             $oImportMarketStatistics->run();
@@ -188,5 +206,59 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
         $oWebsiteStat->whereAdd('1=1');
         $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+    }
+    
+    function testGetLastUpdateVersionNumber()
+    {
+        $plgManager = new OX_PluginManager();
+        $info = $plgManager->getPackageInfo('openXMarket');
+        if (version_compare($info['version'],'1.0.0-dev','>'))
+        {
+            $oImportMarketStatistics = new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics();
+            $result = $oImportMarketStatistics->getLastUpdateVersionNumber();
+            $this->assertEqual($result, 0);
+            
+            $last_update = 34;
+            
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->name = 
+                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE;
+            $oPluginSettings->value = $last_update;
+            $oPluginSettings->insert();
+            
+            $result = $oImportMarketStatistics->getLastUpdateVersionNumber();
+            $this->assertEqual($result, $last_update);
+        }
+    }
+    
+    function testGetRegisteredWebsitesIds()
+    {
+        $plgManager = new OX_PluginManager();
+        $info = $plgManager->getPackageInfo('openXMarket');
+        if (version_compare($info['version'],'1.0.0-dev','>'))
+        {
+            $oImportMarketStatistics = new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics();
+            $aResult = $oImportMarketStatistics->getRegisteredWebsitesIds();
+            $expected = array();
+            $this->assertEqual($expected, $aResult);
+            
+            // Prepare data
+            $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
+            $doWebsite->affiliateid = 1;
+            $doWebsite->website_id = 'my-uuid1';
+            DataGenerator::generateOne($doWebsite);
+            $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
+            $doWebsite->affiliateid = 2;
+            $doWebsite->website_id = 'my-uuid2';
+            DataGenerator::generateOne($doWebsite);
+            $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
+            $doWebsite->affiliateid = 3;
+            $doWebsite->website_id = 'my-uuid3';
+            DataGenerator::generateOne($doWebsite);
+    
+            $aResult = $oImportMarketStatistics->getRegisteredWebsitesIds();
+            $expected = array('my-uuid1', 'my-uuid2', 'my-uuid3');
+            $this->assertEqual($expected, sort($aResult));
+        }
     }
 }
