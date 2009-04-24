@@ -43,7 +43,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
     $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-
+    
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
@@ -53,7 +53,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('isRegistered', $oMarketComponent->isRegistered());
     $oTpl->assign('pageUrl', urlencode($pageUrl));
-
+        
     $oTpl->display();
 
     //footer

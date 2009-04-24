@@ -47,6 +47,9 @@ $Id$
     var CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE = {$CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE};
     var CAMPAIGN_TYPE_REMNANT = {$CAMPAIGN_TYPE_REMNANT};
     var CAMPAIGN_TYPE_ECPM = {$CAMPAIGN_TYPE_ECPM};
+    var CAMPAIGN_TYPE_CONTRACT_ECPM = {$CAMPAIGN_TYPE_CONTRACT_ECPM};
+    var PRIORITY_ECPM_FROM = {$PRIORITY_ECPM_FROM};
+    var PRIORITY_ECPM_TO = {$PRIORITY_ECPM_TO};
     var MODEL_CPM = {$MODEL_CPM};
     var MODEL_CPC = {$MODEL_CPC};
     var MODEL_CPA = {$MODEL_CPA};
@@ -113,7 +116,7 @@ function updateEcpm()
     var clicksSoFar = this['clicks_delivered'];
     var conversionsSoFar = this['conversions_delivered'];
     var revenueType = $("#pricing_revenue_type").val();
-    var revenue = $("#revenue").val();
+    var revenue = $("#revenue").val() ? $("#revenue").val() : 0.0;
     var clientId = $(":input[name=clientid]").val();
     var campaignId = $(":input[name=campaignid]").val();
     var startDate = $("#start").val();
@@ -127,7 +130,7 @@ function updateEcpm()
             '&clicks=' + clicksSoFar + '&conversions=' + conversionsSoFar +
             '&start=' + startDate + '&end=' + endDate,
         success: function(response) {
-            $("#ecpm").attr("value", response);
+            $("#ecpm_val").html(response);
         },
         error: function(xhr) {
             //alert('Error! Status = ' + xhr.status);

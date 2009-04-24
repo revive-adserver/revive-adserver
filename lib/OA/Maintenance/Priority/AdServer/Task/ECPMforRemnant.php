@@ -22,57 +22,23 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: PriorityCompensation.php 30820 2009-01-13 19:02:17Z andrew.hill $
+$Id: ECPM.php 30820 2009-03-23 19:02:17Z radek.maciaszek $
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
-require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-require_once MAX_PATH . '/lib/OX/Util/Utils.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMCommon.php';
 
 /**
- * A class to carry out the task of calculating eCPM probabilities.
+ * A class to carry out the task of calculating eCPM Remnant (Low priority campaigns) probabilities.
  * 
  * For more information on details of eCPM algorithm see the
- * ad selection algorithm (market maker).
+ * ad selection algorithm (market maker).andrew.hill
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
  * @author     Radek Maciaszek <radek@urbantrip.com>
  */
-class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority_AdServer_Task
+class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenance_Priority_AdServer_Task_ECPMCommon
 {
-    /**
-     * Default alpha parameter used to calculate the probabilities.
-     */
-    const ALPHA = 5.0;
-
-    /**
-     * If there is no data forecasted for a zone use this data as a default
-     */
-    const DEFAULT_ZONE_FORECAST = 100;
-
-    /**
-     * Indexes used for indexing arrays. More effective than using strings because less memory
-     * will be used to store the data.
-     * (For the debugging purposes its handy to change them to strings)
-     */
-    const IDX_ADS             = 1; // 'ads'
-    const IDX_WEIGHT          = 2; // 'weight'
-    const IDX_ZONES           = 3; // 'zones'
-    const IDX_MIN_IMPRESSIONS = 4; // 'impressions'
-    const IDX_REVENUE         = 5; // 'revenue'
-    const IDX_REVENUE_TYPE    = 6; // 'revenue_type'
-    const IDX_ACTIVATE        = 7; // 'activate'
-    const IDX_EXPIRE          = 8; // 'expire'
-
-    /**
-     * Used to generate date (in string format) from the PEAR_Date
-     */
-    const DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
-
     /**
      * Helper arrays for storing additional variables
      * required in calculations.
@@ -81,12 +47,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
      */
     public $aAdsMinImpressions = array();
     public $aZonesMinImpressions = array();
-    public $aAdsEcpmPowAlpha = array();
-    public $aZonesEcpmPowAlphaSums = array();
-    public $aZonesContracts = array();
     public $aCampaignsDeliveredImpressions = array();
-    public $aCampaignsDeliveries = array();
-    public $aCampaignsEcpms = array();
 
     /**
      * How many operation intervals are left till the end of today
@@ -96,70 +57,11 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     public $operationIntervalsTillTheEndOfToday;
 
     /**
-     * The array of dates when the MPE last ran
-     * Array of Date strings relating to the last run info 
-     * (contains 'start_run' and 'now' indexes with the PEAR_Dates)
+     * Task Name
      *
-     * @var array
+     * @var string
      */
-    var $aLastRun;
-
-    /**
-     * Contains both start and end dates of the operation interval in which
-     * the MPE is being executing. (contains indexes 'start' and 'end' with
-     * PEAR_Dates)
-     *
-     * @var array
-     */
-    var $aOIDates;
-
-    /**
-     * A date representing "now", ie. the current date/time.
-     *
-     * @var PEAR::Date
-     */
-    var $oDateNow;
-
-    /**
-     * The main method of the class, that is run by the controlling
-     * task runner class.
-     */
-    function run()
-    {
-        OA::debug('Running Maintenance Priority Engine: ECPM', PEAR_LOG_DEBUG);
-        // Record the start of this ECPM run
-        $oStartDate = new Date();
-        // Get the details of the last time Priority Compensation started running
-        $aDates =
-            $this->oDal->getMaintenancePriorityLastRunInfo(
-                DAL_PRIORITY_UPDATE_ECPM,
-                array('start_run', 'end_run')
-            );
-        if (!is_null($aDates)) {
-            // Set the details of the last time Priority Compensation started running
-            $this->aLastRun['start_run'] = new Date($aDates['start_run']);
-            // Set the details of the current date/time
-            $oServiceLocator =& OA_ServiceLocator::instance();
-            $this->aLastRun['now'] =& $oServiceLocator->get('now');
-        }
-        $this->oDateNow = $this->getDateNow();
-        $this->aOIDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
-
-        $this->runAlgorithm();
-
-        // Record the completion of the task in the database
-        // Note that the $oUpdateTo parameter is "null", as this value is not
-        // appropriate when recording Priority Compensation task runs - all that
-        // matters is the start/end dates.
-        OA::debug('- Recording completion of the ECPM task', PEAR_LOG_DEBUG);
-        $oEndDate = new Date();
-        $this->oDal->setMaintenancePriorityLastRunInfo(
-            $oStartDate,
-            $oEndDate,
-            null,
-            DAL_PRIORITY_UPDATE_ECPM
-        );
-    }
+    var $taskName = 'ECPM for Remnant';
 
     /**
      * Executes the eCPM algorithm.
@@ -174,7 +76,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
             $this->resetHelperProperties();
             $aCampaignsInfo = $this->oDal->getCampaignsInfoByAgencyId($agencyId);
             if (is_array($aCampaignsInfo) && !empty($aCampaignsInfo)) {
-                $this->preloadZonesContractsForAgency($agencyId);
+                $this->preloadZonesAvailableImpressionsForAgency($agencyId);
                 $this->preloadCampaignsDeliveredImpressionsForAgency($agencyId);
                 $this->preloadCampaignsDeliveriesForAgency($agencyId);
                 $this->prepareCampaignsParameters($aCampaignsInfo);
@@ -217,7 +119,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
                         // the ECPM should be always set, but in case its not, avoid division by zero
                         $p = 0;
                     }
-                    $M = $this->getZoneContract($zoneId);
+                    $M = $this->getZoneAvailableImpressions($zoneId);
                     $minRequestedImpr = $aAdsZonesMinImpressions[$adId][$zoneId];
                     if ($this->aZonesMinImpressions[$zoneId] > $M) {
                         $aAdZonesProbabilities[$adId][$zoneId] =
@@ -284,19 +186,6 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
         }
     }
 
-    public function calculateCampaignEcpm($campaignId, $aCampaign)
-    {
-        return OX_Util_Utils::getEcpm(
-            $aCampaign[self::IDX_REVENUE_TYPE],
-            $aCampaign[self::IDX_REVENUE],
-            $this->aCampaignsDeliveries[$campaignId]['sum_impressions'],
-            $this->aCampaignsDeliveries[$campaignId]['sum_clicks'],
-            $this->aCampaignsDeliveries[$campaignId]['sum_conversions'],
-            $aCampaign[self::IDX_ACTIVATE],
-            $aCampaign[self::IDX_EXPIRE]
-        );
-    }
-
     /**
      * Calculates number of operation intervals which are left till
      * the end of today.
@@ -361,17 +250,6 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     }
 
     /**
-     * Calculates parameter ecpm^Alpha (see ad selection algorithm papaer)
-     *
-     * @param integer $adId  Ad ID
-     * @param float $campaignEcpm  Campaign eCPM
-     */
-    public function setAdEcpmPowAlpha($adId, $campaignEcpm)
-    {
-        $this->aAdsEcpmPowAlpha[$adId] = pow($campaignEcpm, self::ALPHA);
-    }
-
-    /**
      * Calculates minimum volume of required impressions for each ad/zone pair.
      *
      * @param array $aCampaignsInfo  Contains all ecpm campaigns withing one agency with
@@ -425,7 +303,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
             $adMinImpressions = $adZonesContractsSum;
         }
         foreach($aZones as $zoneId) {
-            $zoneContract = $this->getZoneContract($zoneId);
+            $zoneContract = $this->getZoneAvailableImpressions($zoneId);
             $aAdZonesMinImpressions[$zoneId] = $adMinImpressions
                 * $zoneContract / $adZonesContractsSum;
             $this->addMinRequiredImprToZone($zoneId, $aAdZonesMinImpressions[$zoneId]);
@@ -462,7 +340,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     {
         $sum = 0;
         foreach($aZones as $zoneId) {
-            $sum += $this->getZoneContract($zoneId);
+            $sum += $this->getZoneAvailableImpressions($zoneId);
         }
         return $sum;
     }
@@ -500,46 +378,14 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
     }
 
     /**
-     * Calculates zones contracts for a given agency (for today).
-     * A contract is a result of forecasting (ZIF) minus
-     * requested impressions in a given zone by high priority
-     * campaigns.
+     * Get number of allocated impressions in each zone in given agency
      *
      * @param integer $agencyId  Agency ID
+     * @return array  Zone allocated impressions (indexed by zone ID)
      */
-    public function preloadZonesContractsForAgency($agencyId)
+    public function getZonesAllocationByAgency($agencyId)
     {
-        $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
-        $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
-
-        $this->aZonesContracts = $this->oDal->getZonesForecastsByAgency($agencyId,
-            $startDateString, $endDateString);
-        if (!$this->aZonesContracts) {
-            $this->aZonesContracts = array();
-        }
-        $aZonesAllocations = $this->oDal->getZonesAllocationsByAgency($agencyId);
-        // Substract allocations from forecasts to get the number of available impressions
-        // in each of the zoned under agency
-        foreach ($aZonesAllocations as $zoneId => $zoneAllocation) {
-            if (isset($this->aZonesContracts[$zoneId]) && $zoneAllocation) {
-                $this->aZonesContracts[$zoneId] -= $zoneAllocation;
-                if ($this->aZonesContracts[$zoneId] < 0) {
-                    $this->aZonesContracts[$zoneId] = 0;
-                }
-            }
-        }
-    }
-
-    /**
-     * Returns zone contract (forecasting minus requested impressions)
-     *
-     * @param integer $zoneId  Zone ID
-     * @return integer  Amount of available impressions (contract)
-     */
-    public function getZoneContract($zoneId)
-    {
-        return isset($this->aZonesContracts[$zoneId]) ?
-            $this->aZonesContracts[$zoneId] : self::DEFAULT_ZONE_FORECAST;
+        return $this->oDal->getZonesAllocationsForEcpmRemnantByAgency($agencyId);
     }
 
     /**
@@ -580,40 +426,10 @@ class OA_Maintenance_Priority_AdServer_Task_ECPM extends OA_Maintenance_Priority
      */
     public function resetHelperProperties()
     {
+        parent::resetHelperProperties();
         $this->aZonesMinImpressions = array();
-        $this->aAdsEcpmPowAlpha = array();
         $this->aAdsMinImpressions = array();
-        $this->aZonesEcpmPowAlphaSums = array();
-        $this->aZonesContracts = array();
         $this->aCampaignsDeliveredImpressions = array();
-        $this->aCampaignsDeliveries = array();
-        $this->aCampaignsEcpms = array();
-    }
-
-    /**
-     * Get the current "now" time from the OA_ServiceLocator,
-     * or create it if not set yet
-     */
-    function getDateNow()
-    {
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDateNow =& $oServiceLocator->get('now');
-        if (!$oDateNow) {
-            $oDateNow = new Date();
-            $oServiceLocator->register('now', $oDateNow);
-        }
-        return $oDateNow;
-    }
-
-    /**
-     * Factory and returns Dal object for a given table
-     *
-     * @param string $tableName  Dal name (table name)
-     * @return object  Dal object
-     */
-    function _factoryDal($tableName)
-    {
-        return OA_Dal::factoryDal($tableName);
     }
 }
 

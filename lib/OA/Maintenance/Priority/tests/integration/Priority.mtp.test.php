@@ -483,7 +483,7 @@ class Test_Priority extends UnitTestCase
         );
 
         $this->_assertLogMaintenance(
-            4,
+            5,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -491,7 +491,7 @@ class Test_Priority extends UnitTestCase
             '2005-06-15 14:59:59'
         );
         $this->_assertLogMaintenance(
-            5,
+            6,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -683,7 +683,7 @@ class Test_Priority extends UnitTestCase
             DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
         );
         $this->_assertLogMaintenance(
-            4,
+            5,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
@@ -691,14 +691,14 @@ class Test_Priority extends UnitTestCase
             '2005-06-15 14:59:59'
         );
         $this->_assertLogMaintenance(
-            5,
+            6,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
             DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
         );
         $this->_assertLogMaintenance(
-            7,
+            9,
             $oTest3BeforeUpdateDate,
             $oTest3AfterUpdateDate,
             60,
@@ -706,7 +706,7 @@ class Test_Priority extends UnitTestCase
             '2005-06-19 00:59:59'
         );
         $this->_assertLogMaintenance(
-            8,
+            10,
             $oTest3BeforeUpdateDate,
             $oTest3AfterUpdateDate,
             60,

@@ -525,6 +525,8 @@ function initCampaignForm(formId)
     var $revenueField = $("#revenue");
     var $startDateField = $("#start");
     var $endDateField = $("#end");
+    var $priorityField = $("#high_priority_value");
+    var $dateFields = $("input[id$='Set_immediate']");
 
     $("#priority-h, #priority-e, #priority-l")
         .click(function() {
@@ -550,12 +552,18 @@ function initCampaignForm(formId)
     initEcpmInput($revenueField);
     initEcpmInput($startDateField);
     initEcpmInput($endDateField);
+    initEcpmInput($priorityField);
+    initEcpmInput($dateFields);
+    updateEcpm();
 
     $("#priority-e, #endSet_immediate, #endSet_specific, #impr_unlimited, #click_unlimited, #conv_unlimited").click(function() {
         updateCampaignDateAndLimitsAndType();
         updateCampaignPrioritySection();
     });
 
+    $("#high_priority_value").change(function() {
+        updateCampaignTypeForm();
+    });
 
     $("#startSet_immediate, #startSet_specific, #endSet_immediate, #endSet_specific")
         .click(updateCampaignDateSection);
@@ -653,7 +661,7 @@ function updateCampaignDateAndLimitsAndType()
         $("#date-section-limit-date-set").hide();
 
         //check if both date and limit is set and disable exclusive
-        if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL && dateSet && limitClicked) {
+        if ((campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) && dateSet && limitClicked) {
             $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").show();
             $("#priority-e, #priority-l").attr("disabled", true);
         }
@@ -721,10 +729,13 @@ function updateCampaignTypeForm()
 {
     var $allSectionsButPriority = $("#sect_date, #sect_pricing, #sect_cap, #sect_misc");
     var campaignType = getCampaignType();
+    var minImpressions = $("[id^='ecpm_min_row']");
+    var remnantEcpmNote = $("#remnant_ecpm_note");
+    var contractEcpmNote = $("#contract_ecpm_note");
 
     updateCampaignDateAndLimitsAndType();
 
-    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
         $allSectionsButPriority.show();
         updateCampaignDateSection();
         updateCampaignPricingSection();
@@ -741,11 +752,20 @@ function updateCampaignTypeForm()
         $allSectionsButPriority.hide();
         $("#sect_priority_low_excl, #sect_priority_high").hide();
     }
-    if(campaignType == CAMPAIGN_TYPE_ECPM) {
+    if(campaignType == CAMPAIGN_TYPE_ECPM || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
         $("#sect_priority_low_excl").hide();
         $("#sect_priority_ecpm").show();
     } else {
         $("#sect_priority_ecpm").hide();
+    }
+    if (campaignType == CAMPAIGN_TYPE_ECPM) {
+        minImpressions.show();
+        remnantEcpmNote.show();
+        contractEcpmNote.hide();
+    } else {
+        minImpressions.hide();
+        remnantEcpmNote.hide();
+        contractEcpmNote.show();
     }
 }
 
@@ -876,7 +896,7 @@ function updateCampaignPrioritySection()
             $lowExclPrioritySection.show();
         }
     }
-    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
 	   //if exclusive selected - show weight
 	   if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 	        $highPrioritySection.hide();
@@ -949,21 +969,24 @@ function campaignFormPriorityCheck(form)
 {
     var campaignType = getCampaignType();
 
-    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE
+        || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM)
+    {
 	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {
 	        return confirm (strCampaignWarningExclusiveNoWeight);
 	    }
-	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL
-	       && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet())
+	    else if (campaignType != CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE
+            && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet())
             && !parseInt($("#target_value").val()) ) {
-        return confirm (strCampaignWarningNoTargetMessage);
+            return confirm (strCampaignWarningNoTargetMessage);
 	    }
     }
-    else if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+    if (campaignType == CAMPAIGN_TYPE_REMNANT) {
         if (!parseInt($("#weight").val())) {
             return confirm (strCampaignWarningRemnantNoWeight);
         }
-    } else if (campaignType == CAMPAIGN_TYPE_ECPM) {
+    }
+    if (campaignType == CAMPAIGN_TYPE_ECPM || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
         if (!parseFloat($("#revenue").val()) || parseFloat($("#revenue").val()) <= 0) {
             return confirm (strCampaignWarningEcpmNoRevenue);
         }
@@ -979,7 +1002,13 @@ function getCampaignType()
     if( $("#priority-h, #priority-e, #priority-l").length > 0) {
 
 	    if ($("#priority-h").attr("checked") == true) {
-	        return CAMPAIGN_TYPE_CONTRACT_NORMAL;
+            if (($("[@name=ecpm_enabled]").val() == 1) &&
+                $("#high_priority_value").val() >= PRIORITY_ECPM_FROM &&
+                $("#high_priority_value").val() <= PRIORITY_ECPM_TO) {
+                return CAMPAIGN_TYPE_CONTRACT_ECPM;
+            } else {
+                return CAMPAIGN_TYPE_CONTRACT_NORMAL;
+            }
 	    }
 	    else if ($("#priority-e").attr("checked") == true) {
 	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;

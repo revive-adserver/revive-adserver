@@ -40,6 +40,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     const PRIORITY_REMNANT = 0;
     const PRIORITY_ECPM = -2;
+
+    /**
+     * Defines which campaigns priorities can be used together
+     * with eCPM feature. (PRIORITY_ECPM_FROM should be smaller than
+     * PRIORITY_ECPM_TO)
+     */
+    const PRIORITY_ECPM_FROM = 6;
+    const PRIORITY_ECPM_TO = 9;
+
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -155,12 +164,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             }
         }
 
-        if ($this->priority == self::PRIORITY_ECPM) {
+        if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled == 1) {
             $ecpmOk = floatval($this->revenue) > 0;
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$ecpmOk) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
-            }
-            elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && $ecpmOk) {
+            } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && $ecpmOk) {
                 $this->status = OA_ENTITY_STATUS_RUNNING;
             }
         } else {
@@ -302,13 +310,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function update($dataObject = false)
     {
+//        $this->setEcpmEnabled();
+
+        if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
+            $this->ecpm = $this->calculateEcpm();
+        }
+
         if (isset($this->campaignid)) {
             // Set the correct campaign status, loading the old data
             $this->setStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
-        }
-
-        if ($this->priority == self::PRIORITY_ECPM) {
-            $this->ecpm = $this->calculateEcpm();
         }
 
         return parent::update($dataObject);
@@ -316,12 +326,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function insert()
     {
-        // Set the correct campaign status
-        $this->setStatus();
-        
-        if ($this->priority == self::PRIORITY_ECPM) {
+//        $this->setEcpmEnabled();
+
+        if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();;
         }
+
+        // Set the correct campaign status
+        $this->setStatus();
 
         $id = parent::insert();
         if (!$id) {
@@ -551,6 +563,23 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
         return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
             $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate, $this->expire);
+    }
+
+    /**
+     * Sets whether contract eCPM is enabled for this campaign depending
+     * on the account preference and the campaign priority.
+     * 
+     *
+     */
+    function setEcpmEnabled()
+    {
+        $ecpmEnabled = !empty($GLOBALS['_MAX']['PREF']['contract_ecpm_enabled']);
+        
+        if ($ecpmEnabled && $this->priority >= self::PRIORITY_ECPM_FROM && $this->priority <= self::PRIORITY_ECPM_TO) {
+            $this->ecpm_enabled = 1;
+        } else {
+            $this->ecpm_enabled = 0;
+        }
     }
 }
 
