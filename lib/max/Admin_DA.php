@@ -1288,7 +1288,7 @@ class Admin_DA
 
     function getPlacement($placementId)
     {
-        return Admin_DA::_getDataRowFromId('placement', 'campaignid', $placementId);
+        return Admin_DA::_getDataRowFromId('placement', 'placement_id', $placementId);
     }
 
     function getPlacements($aParams, $allFields = false, $key = null)
