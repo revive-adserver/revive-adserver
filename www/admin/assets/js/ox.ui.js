@@ -1002,7 +1002,7 @@ function getCampaignType()
     if( $("#priority-h, #priority-e, #priority-l").length > 0) {
 
 	    if ($("#priority-h").attr("checked") == true) {
-            if (($("[@name=ecpm_enabled]").val() == 1) &&
+            if (($("[@name=contract_ecpm_enabled]").val() == 1) &&
                 $("#high_priority_value").val() >= PRIORITY_ECPM_FROM &&
                 $("#high_priority_value").val() <= PRIORITY_ECPM_TO) {
                 return CAMPAIGN_TYPE_CONTRACT_ECPM;
@@ -1014,7 +1014,7 @@ function getCampaignType()
 	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
 	    }
 	    else if ($("#priority-l").attr("checked") == true) {
-            if ($("[@name=ecpm_enabled]").val() == 1) {
+            if ($("[@name=remnant_ecpm_enabled]").val() == 1) {
                 return CAMPAIGN_TYPE_ECPM;
             } else {
                 return CAMPAIGN_TYPE_REMNANT;

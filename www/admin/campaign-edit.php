@@ -354,14 +354,15 @@ function buildCampaignForm($campaign, &$oComponent = null)
     //form sections
     $newCampaign = empty ( $campaign['campaignid'] );
 
-    $ecpmEnabled = (!empty($pref['campaign_ecpm_enabled']) || !empty($pref['contract_ecpm_enabled']));
-    buildBasicInformationFormSection ( $form, $campaign, $newCampaign, $ecpmEnabled );
+    $remnantEcpmEnabled = !empty($pref['campaign_ecpm_enabled']);
+    $contractEcpmEnabled = !empty($pref['contract_ecpm_enabled']);
+    buildBasicInformationFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection ( $form, $campaign, $newCampaign );
     buildPluggableFormSection ( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign );
     buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
     buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
-    buildECPMFormSection($form, $campaign, $newCampaign, $ecpmEnabled);
+    buildECPMFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
     buildMiscFormSection ( $form, $campaign, $newCampaign );
 
@@ -434,7 +435,7 @@ function buildPluggableFormSection(&$oComponent, $method, &$form, $campaign, $ne
     }
 }
 
-function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
+function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
 {
     $form->addElement ( 'header', 'h_basic_info', $GLOBALS ['strBasicInformation'] );
 
@@ -448,19 +449,30 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $ecpm
     $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
     $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
 
-    if ($ecpmEnabled) {
+    if ($remnantEcpmEnabled) {
         $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
         $priority_l [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'ecpm-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ) ) );
         $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
-        $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
+//        $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
     } else {
         $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
         $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
         $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
         $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
-        $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
+//        $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
+    }
+
+    if ($remnantEcpmEnabled) {
+        $form->addElement ( 'hidden', 'remnant_ecpm_enabled', 1 );
+    } else {
+        $form->addElement ( 'hidden', 'remnant_ecpm_enabled', 0 );
+    }
+    if ($contractEcpmEnabled) {
+        $form->addElement ( 'hidden', 'contract_ecpm_enabled', 1 );
+    } else {
+        $form->addElement ( 'hidden', 'contract_ecpm_enabled', 0 );
     }
 
     $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
@@ -613,9 +625,9 @@ function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
     $form->addGroup ( $highPriorityGroup, 'g_high_priority', $GLOBALS ['strPriorityLevel'], null, false );
 }
 
-function buildECPMFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
+function buildECPMFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
 {
-    if ($ecpmEnabled) {
+    if ($remnantEcpmEnabled || $contractEcpmEnabled) {
         //priority section
         $form->addElement ( 'header', 'h_ecpm_priority', $GLOBALS ['strECPMInformation'] );
         //section decorator to allow hiding of the section
@@ -635,7 +647,7 @@ function buildECPMFormSection(&$form, $campaign, $newCampaign, $ecpmEnabled)
         $minimumImpr['field'] = $form->createElement ( 'text', 'min_impressions', null );
         $minimumImpr['note'] = $form->createElement('custom', 'minimum-impressions-note', null);
         $form->addGroup ( $minimumImpr, 'g_min_impressions', $GLOBALS ['strMinimumImpressions'] );
-        $form->addDecorator ( 'g_min_impressions', 'process', 
+        $form->addDecorator ( 'g_min_impressions', 'process',
             array ('tag' => 'tr',
                    'addAttributes' => array ('id' => 'ecpm_min_row{numCall}',
                                              'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
@@ -670,7 +682,7 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
     $miscG ['anonymous'] = $form->createElement ( 'advcheckbox', 'anonymous', null, $GLOBALS ['strAnonymous'], null, array ("f", "t" ) );
     $miscG ['companion'] = $form->createElement ( 'checkbox', 'companion', null, $GLOBALS ['strCompanionPositioning'] );
     $form->addGroup ( $miscG, 'misc_g', $GLOBALS ['strPriorityOptimisation'], "<BR>" );
-    
+
     $commentsG ['comments']  = $form->createElement ( 'textarea', 'comments', null);
     $form->addGroup ( $commentsG, 'comments_g', $GLOBALS['strComments'], "<BR>" );
 }
