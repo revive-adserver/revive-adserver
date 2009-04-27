@@ -52,25 +52,25 @@ abstract class Plugins_MaintenancePriorityTask extends OX_Component
     abstract function addMaintenancePriorityTask();
 
     /**
-     * Returns the class name of the task this task should run after.
+     * Returns the class name of the task this task should run after or replace.
      * To add to the end of the task list, return null.
      *
-     * @return string the name of the task to run after.
+     * @return string the name of the task to run after or replace.
      */
-    public function getAfterClassName()
+    public function getClassName()
     {
         return null;
     }
 
     /**
-     * Returns the class name of the task this task should replace.
-     * To add to the end of the task list, return null.
+     * Whether the task should replace the class specified in getClassName.
      *
-     * @return string the name of the task to replace.
+     * @return boolean true if the task should replace the specified class,
+     *                 false if it should replace it.
      */
-    public function getReplacementClassName()
+    public function replace()
     {
-        return null;
+        return false;
     }
 }
 

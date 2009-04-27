@@ -81,7 +81,7 @@ class OA_Maintenance_Priority_AdServer
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenancePriorityTask');
         foreach ($aPlugins as $i => $id) {
             if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
-                $this->oTaskRunner->addTask($obj->addMaintenancePriorityTask(), $obj->getAfterClassName(), $obj->getReplacementClassName());
+                $this->oTaskRunner->addTask($obj->addMaintenancePriorityTask(), $obj->getClassName(), $obj->replace());
             }
         }
     }
