@@ -737,28 +737,25 @@ function updateCampaignTypeForm()
 
     updateCampaignDateAndLimitsAndType();
 
-    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL ||
+        campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE ||
+        campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM ||
+        campaignType == CAMPAIGN_TYPE_REMNANT ||
+        campaignType == CAMPAIGN_TYPE_ECPM) {
         $allSectionsButPriority.show();
         updateCampaignDateSection();
         updateCampaignPricingSection();
         updateCampaignPrioritySection();
-    }
-    else if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM) {
-        $allSectionsButPriority.show();
-        updateCampaignDateSection();
-        updateCampaignPricingSection();
-        updateCampaignPrioritySection();
-    }
-    else {
+    } else {
         //hide all form sections
         $allSectionsButPriority.hide();
         $("#sect_priority_low_excl, #sect_priority_high").hide();
     }
     if(campaignType == CAMPAIGN_TYPE_ECPM || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
         $("#sect_priority_low_excl").hide();
-        $("#sect_priority_ecpm").show();
+        $("[id^='sect_priority_ecpm']").show();
     } else {
-        $("#sect_priority_ecpm").hide();
+        $("[id^='sect_priority_ecpm']").hide();
     }
     if (campaignType == CAMPAIGN_TYPE_ECPM) {
         minImpressions.show();

@@ -358,11 +358,10 @@ function buildCampaignForm($campaign, &$oComponent = null)
     $contractEcpmEnabled = !empty($pref['contract_ecpm_enabled']);
     buildBasicInformationFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDateFormSection ( $form, $campaign, $newCampaign );
-    buildPricingFormSection ( $form, $campaign, $newCampaign );
+    buildPricingFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildPluggableFormSection ( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign );
     buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
     buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
-    buildECPMFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
     buildMiscFormSection ( $form, $campaign, $newCampaign );
 
@@ -533,7 +532,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'expiration_note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'startDateNote', 'class' => 'hide' ) ) );
 }
 
-function buildPricingFormSection(&$form, $campaign, $newCampaign)
+function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
 {
     global $conf;
 
@@ -591,6 +590,39 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
     $form->addGroup ( $imprCount, 'g_impr_booked', $GLOBALS ['strImpressions'] );
     //decorator - to allow hiding until model is set
     $form->addDecorator ( 'g_impr_booked', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'pricing_impr_booked{numCall}', 'class' => 'hide' ) ) );
+
+    if ($remnantEcpmEnabled || $contractEcpmEnabled) {
+        //priority section
+//        $form->addElement ( 'header', 'h_ecpm_priority', $GLOBALS ['strECPMInformation'] );
+        //section decorator to allow hiding of the section
+//        $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
+
+        $ecpmGroup['ecpm'] = $form->createElement('static', 'ecpm', null);
+        $form->addDecorator ('ecpm', 'tag', array('attributes' => array('id' => 'ecpm_val')));
+
+        // Show either remnant ecpm note or contract ecpm note
+        $ecpmGroup['remnantNote'] = $form->createElement('custom', 'remnant-ecpm-note', null);
+        $form->addDecorator('remnant-ecpm-note', 'tag', array('attributes' => array('id' => 'remnant_ecpm_note', 'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
+        $ecpmGroup['contractNote'] = $form->createElement('custom', 'contract-ecpm-note', null);
+        $form->addDecorator('contract-ecpm-note', 'tag', array('attributes' => array('id' => 'contract_ecpm_note', 'class' => $campaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
+        $form->addGroup ( $ecpmGroup, 'ecpm_group', $GLOBALS ['strECPM'], null, false );
+        $form->addDecorator ( 'ecpm_group', 'process',
+            array ('tag' => 'tr',
+                   'addAttributes' => array ('id' => 'sect_priority_ecpm{numCall}',
+                                             'class' => $newCampaign ? 'hide' : '' ) ) );
+
+        // Minimum number of required impressions should only be shown for remnant ecpm.
+        $minimumImpr['field'] = $form->createElement ( 'text', 'min_impressions', null );
+        $minimumImpr['note'] = $form->createElement('custom', 'minimum-impressions-note', null);
+        $form->addGroup ( $minimumImpr, 'g_min_impressions', $GLOBALS ['strMinimumImpressions'] );
+        $form->addDecorator ( 'g_min_impressions', 'process',
+            array ('tag' => 'tr',
+                   'addAttributes' => array ('id' => 'ecpm_min_row{numCall}',
+                                             'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
+    } else {
+        $form->addElement ( 'hidden', 'ecpm', $campaign ['ecpm'] );
+        $form->addElement ( 'hidden', 'min_impressions', $campaign ['min_impressions'] );
+    }
 }
 
 function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
@@ -623,38 +655,6 @@ function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'high_distribution_man', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'high_distribution_span', 'style' => 'display:none' ) ) );
 
     $form->addGroup ( $highPriorityGroup, 'g_high_priority', $GLOBALS ['strPriorityLevel'], null, false );
-}
-
-function buildECPMFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
-{
-    if ($remnantEcpmEnabled || $contractEcpmEnabled) {
-        //priority section
-        $form->addElement ( 'header', 'h_ecpm_priority', $GLOBALS ['strECPMInformation'] );
-        //section decorator to allow hiding of the section
-        $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
-
-        $ecpmGroup['ecpm'] = $form->createElement('static', 'ecpm', null);
-        $form->addDecorator ('ecpm', 'tag', array('attributes' => array('id' => 'ecpm_val')));
-
-        // Show either remnant ecpm note or contract ecpm note
-        $ecpmGroup['remnantNote'] = $form->createElement('custom', 'remnant-ecpm-note', null);
-        $form->addDecorator('remnant-ecpm-note', 'tag', array('attributes' => array('id' => 'remnant_ecpm_note', 'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
-        $ecpmGroup['contractNote'] = $form->createElement('custom', 'contract-ecpm-note', null);
-        $form->addDecorator('contract-ecpm-note', 'tag', array('attributes' => array('id' => 'contract_ecpm_note', 'class' => $campaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
-        $form->addGroup ( $ecpmGroup, 'ecpm_group', $GLOBALS ['strECPM'], null, false );
-
-        // Minimum number of required impressions should only be shown for remnant ecpm.
-        $minimumImpr['field'] = $form->createElement ( 'text', 'min_impressions', null );
-        $minimumImpr['note'] = $form->createElement('custom', 'minimum-impressions-note', null);
-        $form->addGroup ( $minimumImpr, 'g_min_impressions', $GLOBALS ['strMinimumImpressions'] );
-        $form->addDecorator ( 'g_min_impressions', 'process',
-            array ('tag' => 'tr',
-                   'addAttributes' => array ('id' => 'ecpm_min_row{numCall}',
-                                             'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '')));
-    } else {
-        $form->addElement ( 'hidden', 'ecpm', $campaign ['ecpm'] );
-        $form->addElement ( 'hidden', 'min_impressions', $campaign ['min_impressions'] );
-    }
 }
 
 function buildLowAndExclusivePriorityFormSection(&$form, $campaign, $newCampaign)
