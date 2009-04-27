@@ -227,11 +227,11 @@ class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
         $data = str_replace('{NAME}', $this->aValues['name'], $data);
         $i = file_put_contents($pluginDefinitionFile, $data);
 
-        copy($pluginDefinitionFile, str_replace('plugin.xml',$this->aValues['name'].'.xml', $pluginDefinitionFile));
+        copy($pluginDefinitionFile, str_replace('plugin.xml',$this->aValues['name'] . '.xml', $pluginDefinitionFile));
         unlink($pluginDefinitionFile);
 
         $pluginReadmeFile = $this->pathPackages.'plugin.readme.txt';
-        copy($pluginReadmeFile, str_replace('plugin',$this->aValues['name'], $pluginReadmeFile));
+        copy($pluginReadmeFile, str_replace('plugin.readme.txt', $this->aValues['name'] . '.readme.txt', $pluginReadmeFile));
         unlink($pluginReadmeFile);
     }
 }
