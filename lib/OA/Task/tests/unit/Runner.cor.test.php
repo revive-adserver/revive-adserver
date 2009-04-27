@@ -69,6 +69,8 @@ class Test_OA_Task_Runner extends UnitTestCase
         $oTask1 = new MockTask1($this);
         Mock::generatePartial('OA_Task', 'MockTask2', array('run'));
         $oTask2 = new MockTask2($this);
+        Mock::generatePartial('OA_Task', 'MockTask3', array('run'));
+        $oTask3 = new MockTask3($this);
 
         // Create a task runner, and test addition of classes
         $oTaskRunner = new OA_Task_Runner();
@@ -82,25 +84,47 @@ class Test_OA_Task_Runner extends UnitTestCase
         $this->assertTrue($return);
         $this->assertEqual(count($oTaskRunner->aTasks), 1);
         $oTask = $oTaskRunner->aTasks[0];
-        $this->assertTrue(is_a($oTask, 'MockTask0'));
+        $this->assertIsA($oTask, 'MockTask0');
 
         $return = $oTaskRunner->addTask($oTask1);
         $this->assertTrue($return);
         $this->assertEqual(count($oTaskRunner->aTasks), 2);
         $oTask = $oTaskRunner->aTasks[0];
-        $this->assertTrue(is_a($oTask, 'MockTask0'));
+        $this->assertIsA($oTask, 'MockTask0');
         $oTask = $oTaskRunner->aTasks[1];
-        $this->assertTrue(is_a($oTask, 'MockTask1'));
+        $this->assertIsA($oTask, 'MockTask1');
 
+        // Add after task
         $return = $oTaskRunner->addTask($oTask2, 'MockTask0');
         $this->assertTrue($return);
         $this->assertEqual(count($oTaskRunner->aTasks), 3);
         $oTask = $oTaskRunner->aTasks[0];
-        $this->assertTrue(is_a($oTask, 'MockTask0'));
+        $this->assertIsA($oTask, 'MockTask0');
         $oTask = $oTaskRunner->aTasks[1];
-        $this->assertTrue(is_a($oTask, 'MockTask2'));
+        $this->assertIsA($oTask, 'MockTask2');
         $oTask = $oTaskRunner->aTasks[2];
-        $this->assertTrue(is_a($oTask, 'MockTask1'));
+        $this->assertIsA($oTask, 'MockTask1');
+
+        $return = $oTaskRunner->addTask($oTask2, 'InvalidClassName');
+        $this->assertFalse($return);
+
+        // Replace task
+        $return = $oTaskRunner->addTask($oTask3, null, 'MockTask2');
+        $this->assertTrue($return);
+        $this->assertEqual(count($oTaskRunner->aTasks), 3);
+        $oTask = $oTaskRunner->aTasks[0];
+        $this->assertIsA($oTask, 'MockTask0');
+        $oTask = $oTaskRunner->aTasks[1];
+        $this->assertIsA($oTask, 'MockTask3');
+        $oTask = $oTaskRunner->aTasks[2];
+        $this->assertIsA($oTask, 'MockTask1');
+
+        $return = $oTaskRunner->addTask($oTask3, null, 'InvalidClassName');
+        $this->assertFalse($return);
+
+        $return = $oTaskRunner->addTask($oTask3, 'MockTask0', 'MockTask1');
+        $this->assertFalse($return);
+
     }
 
 }

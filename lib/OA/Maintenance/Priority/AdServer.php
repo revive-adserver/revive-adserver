@@ -76,6 +76,14 @@ class OA_Maintenance_Priority_AdServer
         // Add a task to update priority values for eCPM Remnant campaigns
         $oPriorityEcpmRemnant = new OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant();
         $this->oTaskRunner->addTask($oPriorityEcpmRemnant);
+
+        // addMaintenancePriorityTask hook
+        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenancePriorityTask');
+        foreach ($aPlugins as $i => $id) {
+            if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
+                $this->oTaskRunner->addTask($obj->addMaintenancePriorityTask(), $obj->getAfterClassName(), $obj->getReplacementClassName());
+            }
+        }
     }
 
     /**

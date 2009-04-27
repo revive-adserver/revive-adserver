@@ -65,14 +65,20 @@ class OA_Task_Runner
      * A method to register a new Task object in the collection of tasks.
      *
      * @param OA_Task $oTask An object that implements the OA_Task interface.
-     * @param string  $after An optional string, specifying the class name of a task all
-     *                       ready in the collection, which this task is to be inserted
+     * @param string $after An optional string specifying the class name of a task
+     *                       already in the collection, which this task is to be inserted
      *                       to run just after.
+     * @param string $replace An optional string specifying the class name of a task
+     *                        already in the collection, which this task is to replace.
      * @return boolean Returns true on add success, false on failure.
      */
-    function addTask($oTask, $after = null)
+    function addTask($oTask, $after = null, $replace = null)
     {
         if (!is_null($after)) {
+            if (!is_null($replace)) {
+                // Can't run after and replace.
+                return false;
+            }
             // Try to locate the task supplied
             foreach ($this->aTasks as $key => $oExistingTask) {
                 if (is_a($oExistingTask, $after)) {
@@ -88,6 +94,17 @@ class OA_Task_Runner
             // The existing task specified was not found
             return false;
         }
+
+        if (!is_null($replace)) {
+            foreach($this->aTasks as $key => $oExistingTask) {
+                if (is_a($oExistingTask, $replace)) {
+                    $this->aTasks[$key] = $oTask;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         if (is_a($oTask, 'OA_Task')) {
             $this->aTasks[] =& $oTask;
             return true;
