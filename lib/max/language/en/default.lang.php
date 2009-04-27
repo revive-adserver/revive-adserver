@@ -58,6 +58,7 @@ $GLOBALS['strNavigation']               = "Navigation";
 $GLOBALS['strShortcuts']                = "Shortcuts";
 $GLOBALS['strActions']                  = "Actions";
 $GLOBALS['strMore']                     = "More";
+$GLOBALS['strAndXMore']                 = "and %s more";
 $GLOBALS['strLess']                     = "Less";
 $GLOBALS['strAdminstration']            = "Inventory";
 $GLOBALS['strMaintenance']              = "Maintenance";
@@ -224,8 +225,12 @@ $GLOBALS['strComments']                 = "Comments";
 
 // User access
 $GLOBALS['strWorkingAs']                = "Working as";
+$GLOBALS['strWorkingAs_Key']            = "<u>W</u>orking as";
+$GLOBALS['strWorkingAs']                = "Working as";
 $GLOBALS['strSwitchTo']                 = "Switch to";
 $GLOBALS['strWorkingFor']               = "%s for...";
+$GLOBALS['strNoAccountWithXInNameFound']= "No accounts with \"%s\" in name found";
+$GLOBALS['strRecentlyUsed']             = "Recently used";
 $GLOBALS['strLinkUser']                 = "Add user";
 $GLOBALS['strLinkUser_Key']             = "Add <u>u</u>ser";
 $GLOBALS['strUsernameToLink']           = "Username of user to add";
@@ -1597,6 +1602,7 @@ $GLOBALS['keyAddNew']        = "n";
 $GLOBALS['keyNext']            = "n";
 $GLOBALS['keyPrevious']        = "p";
 $GLOBALS['keyLinkUser']        = "u";
+$GLOBALS['keyWorkingAs']        = "w";
 
 
 /*-------------------------------------------------------*/

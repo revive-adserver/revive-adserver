@@ -410,6 +410,7 @@ function initAccoutSwitcher()
   $switcher = $("#oaNavigationExtra .accountSwitcher");
   //$("#oaNavigation").append("<div class='accountSwitcherOverlay'>&nbsp;</div>");
 
+  $switcher.accountswitch();
 
   $(".switchTrigger").hover(function() {
       $(".triggerContainer").addClass("hover");
@@ -417,10 +418,11 @@ function initAccoutSwitcher()
       $(".triggerContainer").removeClass("hover");
   });
 
-
-  $(".switchTrigger", $switcher).click(function() {
+  $(".switchTrigger, .triggerContainer > a", $switcher).click(function() {
     $switcher.toggleClass("expanded");
+    $switcher.accountswitch({action: 'show'});
     $(".accountSwitcherOverlay").toggle();
+    return false;
   });
 
   $(".accountsPanel li").hover(function() {

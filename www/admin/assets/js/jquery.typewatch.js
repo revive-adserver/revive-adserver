@@ -18,7 +18,8 @@
       wait : 750,
       callback : function() { },
       highlight : true,
-      captureLength : 2
+      captureLength : 2,
+      submitOnEnter: true
     }, o);
       
     function checkElement(timer, override) {
@@ -57,7 +58,7 @@
           var timerWait = timer.wait;
           var overrideBool = false;
           
-          if (evt.keyCode == 13 && this.type.toUpperCase() == "TEXT") {
+          if (options.submitOnEnter && evt.keyCode == 13 && this.type.toUpperCase() == "TEXT") {
             timerWait = 1;
             overrideBool = true;
           }

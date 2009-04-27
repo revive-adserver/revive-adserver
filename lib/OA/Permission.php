@@ -691,7 +691,7 @@ class OA_Permission
         }
         if ($sort) {
             foreach ($aAccountsByType as $accountType => $aAccount) {
-                asort($aAccountsByType[$accountType]);
+                natcasesort($aAccountsByType[$accountType]);
             }
         }
         return $aAccountsByType;

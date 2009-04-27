@@ -32,6 +32,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/AccountSwitch.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 
@@ -546,20 +547,9 @@ class OA_Admin_UI
                 $this->oTpl->assign('buttonReportBugs', true);
 
                 // Account switcher
-                $this->oTpl->assign('strWorkingAs', $GLOBALS['strWorkingAs']);
-                $aAccounts = array();
-                foreach (OA_Permission::getLinkedAccounts(true, true) as $k => $v) {
-                    $workingFor = sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower($k)));
-                    $aAccounts[$workingFor] = $v;
-                }
-                reset($aAccounts);
-                if (key($aAccounts) == sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower(OA_ACCOUNT_ADMIN)))) {
-                    $aAdminAccounts = array_shift($aAccounts);
-                } else {
-                    $aAdminAccounts = array();
-                }
-                $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);
-                $this->oTpl->assign('aAccounts', $aAccounts);
+                OA_Admin_UI_AccountSwitch::assignModel($this->oTpl);
+                $this->oTpl->assign('strWorkingAs', $GLOBALS['strWorkingAs_Key']);
+                $this->oTpl->assign('keyWorkingAs', $GLOBALS['keyWorkingAs']);
                 $this->oTpl->assign('accountId', OA_Permission::getAccountId());
                 $this->oTpl->assign('accountName', OA_Permission::getAccountName());
 
@@ -764,6 +754,7 @@ class OA_Admin_UI
             'js/boxrow.js',
             'js/ox.message.js',
             'js/ox.usernamecheck.js',
+            'js/ox.accountswitch.js',
             'js/ox.ui.js',
             'js/ox.form.js',
             'js/ox.help.js',

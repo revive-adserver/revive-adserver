@@ -142,26 +142,18 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if $buttonLogout}
         <li class="accountSwitcher">
-            <div class="triggerContainer"><div class="switchTrigger">{$accountName|escape}</div> {$strWorkingAs} </div>
+            <div class="triggerContainer"><div class="switchTrigger">{$accountName|escape}</div> <a href="#" accesskey="{$keyWorkingAs}">{$strWorkingAs}</a> </div>
             <div class="accountsPanel">
               <div class="switchTop">&nbsp;</div>
               <div class="switchMiddle">
                 <div class="switchMiddleBody">
-	                <div class="label">Switch to</div>
-	                <div class="selection" style="display:none" ></div>
+	                <div class="label">
+                      Switch to <input id="accountSearch" type="text" />
+                      <span id="accountSearchIcon">&nbsp;</span>
+                    </div>
+                    <div id="accountLoading"></div>
 	                <div class="result">
-	                  <ul id="accounts">
-						  {foreach from=$aAdminAccounts  key=accountId item=account}
-						    <li><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account|escape}</a></li>
-						  {/foreach}
-
-		                  {foreach from=$aAccounts  key=groupName item=group}
-		                      <li class="opt">{$groupName|escape}</li>
-		                      {foreach from=$group key=accountId item=account}
-		                        <li class="inopt"><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account|escape}</a></li>
-		                      {/foreach}
-		                  {/foreach}
-	                  </ul>
+                      {include file=account-switch-search.html}
 	                </div>
                 </div>
               </div>
