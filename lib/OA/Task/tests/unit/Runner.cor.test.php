@@ -109,7 +109,7 @@ class Test_OA_Task_Runner extends UnitTestCase
         $this->assertFalse($return);
 
         // Replace task
-        $return = $oTaskRunner->addTask($oTask3, null, 'MockTask2');
+        $return = $oTaskRunner->addTask($oTask3, 'MockTask2', true);
         $this->assertTrue($return);
         $this->assertEqual(count($oTaskRunner->aTasks), 3);
         $oTask = $oTaskRunner->aTasks[0];
@@ -119,12 +119,8 @@ class Test_OA_Task_Runner extends UnitTestCase
         $oTask = $oTaskRunner->aTasks[2];
         $this->assertIsA($oTask, 'MockTask1');
 
-        $return = $oTaskRunner->addTask($oTask3, null, 'InvalidClassName');
+        $return = $oTaskRunner->addTask($oTask3, 'InvalidClassName', true);
         $this->assertFalse($return);
-
-        $return = $oTaskRunner->addTask($oTask3, 'MockTask0', 'MockTask1');
-        $this->assertFalse($return);
-
     }
 
 }

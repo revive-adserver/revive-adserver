@@ -65,43 +65,35 @@ class OA_Task_Runner
      * A method to register a new Task object in the collection of tasks.
      *
      * @param OA_Task $oTask An object that implements the OA_Task interface.
-     * @param string $after An optional string specifying the class name of a task
+     * @param string $className An optional string specifying the class name of a task
      *                       already in the collection, which this task is to be inserted
-     *                       to run just after.
-     * @param string $replace An optional string specifying the class name of a task
-     *                        already in the collection, which this task is to replace.
+     *                       to run just after or replace.
+     * @param boolean $replace false if the task is to be added after the specified class name,
+     *                         true if the task is to replace the specified class name.
      * @return boolean Returns true on add success, false on failure.
      */
-    function addTask($oTask, $after = null, $replace = null)
+    function addTask($oTask, $className = null, $replace = false)
     {
-        if (!is_null($after)) {
-            if (!is_null($replace)) {
-                // Can't run after and replace.
-                return false;
-            }
+        if (!is_null($className)) {
+            
             // Try to locate the task supplied
             foreach ($this->aTasks as $key => $oExistingTask) {
-                if (is_a($oExistingTask, $after)) {
-                    // Insert the new task after this item
-                    $this->aTasks = array_merge(
-                        array_slice($this->aTasks, 0, $key + 1),
-                        array($oTask),
-                        array_slice($this->aTasks, $key + 1)
-                    );
+                if (is_a($oExistingTask, $className)) {
+                    if (!$replace) {
+                        // Insert the new task after this item
+                        $this->aTasks = array_merge(
+                            array_slice($this->aTasks, 0, $key + 1),
+                            array($oTask),
+                            array_slice($this->aTasks, $key + 1)
+                        );
+                    } else {
+                        // Replace the specified task
+                        $this->aTasks[$key] = $oTask;
+                    }
                     return true;
                 }
             }
             // The existing task specified was not found
-            return false;
-        }
-
-        if (!is_null($replace)) {
-            foreach($this->aTasks as $key => $oExistingTask) {
-                if (is_a($oExistingTask, $replace)) {
-                    $this->aTasks[$key] = $oTask;
-                    return true;
-                }
-            }
             return false;
         }
 
