@@ -74,7 +74,7 @@ phpAds_SessionDataStore();
     {
         $dalZones       = OA_Dal::factoryDAL('zones');
         $prioritise     = false;
-        $aErrors        = array();
+        $error          = false;
         $aPreviousZones = Admin_DA::getAdZones(array('ad_id' => $bannerId));
         $aDeleteZones   = array();
         
@@ -94,19 +94,23 @@ phpAds_SessionDataStore();
         }
 
         // Unlink zones
-        $unlinked = $dalZones->unlinkZonesFromBanner($aDeleteZones, $bannerId);
-        if (PEAR::IsError($unlinked)) {
-            $aErrors[] = $unlinked;
-        } elseif ($unlinked > 0) {
-            $prioritise = true;
+        if (count($aDeleteZones)) {
+            $unlinked = $dalZones->unlinkZonesFromBanner($aDeleteZones, $bannerId);
+            if ($unlinked > 0) {
+                $prioritise = true;
+            } elseif ($unlinked == -1) {
+                $error = true;
+            }
         }
 
         // Link zones
-        $linked = $dalZones->linkZonesToBanner(array_keys($aCurrentZones), $bannerId);
-        if (PEAR::IsError($linked)) {
-            $aErrors[] = $linked;
-        } elseif ($linked > 0) {
-            $prioritise = true;
+        if (count($aCurrentZones)) {
+            $linked = $dalZones->linkZonesToBanner(array_keys($aCurrentZones), $bannerId);
+            if ($linked > 0) {
+                $prioritise = true;
+            } elseif ($linked == -1) {
+                $error = true;
+            }
         }
 
         if ($prioritise) {
@@ -115,7 +119,7 @@ phpAds_SessionDataStore();
         }
 
         // Move on to the next page
-        if (empty($aErrors)) {
+        if (!$error) {
             // Queue confirmation message
             $translation = new OX_Translation ();
             if ($linked > 0) {
@@ -160,14 +164,11 @@ phpAds_SessionDataStore();
 
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
-    if (!empty($aErrors)) {
+    if ($error) {
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>";
-        foreach ($aErrors as $oError) {
-            echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $oError->message . "<br>";
-        }
+        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span>";
         echo "</div>";
     } else {
         echo "<br /><br />";
