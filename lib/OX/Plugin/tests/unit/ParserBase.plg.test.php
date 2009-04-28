@@ -198,6 +198,60 @@ class Test_OX_ParserBase extends UnitTestCase
         }
     }
 
+    /**
+     * Test that cdata values > 4096 bytes parse correctly
+     *
+     */
+    function test_ParseLong()
+    {
+        $file = LIB_PATH.'/Plugin/tests/data/testParseGroupLong.xml';
+        $this->assertTrue(file_exists($file),'file not found '.$file);
+        if (file_exists($file))
+        {
+            $oParser = new OX_ParserBase();
+            $this->assertIsA($oParser,'OX_ParserBase');
+            $result = $oParser->setInputFile($file);
+            $this->assertFalse(PEAR::isError($result));
+            $result = $oParser->parse();
+            $this->assertFalse(PEAR::isError($result));
+            $this->assertFalse(PEAR::isError($oParser->error));
+            $this->assertTrue(is_array($oParser->aPlugin));
+
+            $aPlugin = $oParser->aPlugin;
+
+            $this->_assertStructure($aPlugin);
+
+            $this->assertEqual($aPlugin['name'],'testParse');
+            $this->assertEqual($aPlugin['creationdate'],'2009-04-28');
+            $this->assertEqual($aPlugin['author'],'Test Author');
+            $this->assertEqual($aPlugin['authoremail'],'test@example.org');
+            $this->assertEqual($aPlugin['authorurl'],'http://www.openx.org');
+            $this->assertEqual($aPlugin['license'],'license.txt');
+            $this->assertEqual($aPlugin['description'],'Test Parse Long');
+            $this->assertEqual($aPlugin['version'],'0.0.1-test-RC2');
+            $this->assertEqual($aPlugin['extends'],'admin');
+            $this->assertEqual($aPlugin['oxversion'],'2.7');
+
+            $this->assertEqual(count($aPlugin['install']['files']),1);
+            $this->assertEqual(strlen($aPlugin['install']['files'][0]['name']),5653);
+            $this->assertEqual($aPlugin['install']['files'][0]['path'],'{ADMINPATH}/templates/');
+
+            $this->assertEqual(strlen($aPlugin['install']['prescript']),5489);
+            $this->assertEqual(strlen($aPlugin['install']['postscript']),5489);
+
+            $this->assertEqual(strlen($aPlugin['uninstall']['prescript']),5497);
+            $this->assertEqual(strlen($aPlugin['uninstall']['postscript']),5497);
+            
+            $this->assertIsA($aPlugin['allfiles'], 'array');
+            $this->assertEqual(count($aPlugin['allfiles']), 5);
+            $this->assertEqual(strlen($aPlugin['allfiles'][0]['name']), 5653);
+            $this->assertEqual(strlen($aPlugin['allfiles'][1]['name']), 5489);
+            $this->assertEqual(strlen($aPlugin['allfiles'][2]['name']), 5489);
+            $this->assertEqual(strlen($aPlugin['allfiles'][3]['name']), 5497);
+            $this->assertEqual(strlen($aPlugin['allfiles'][4]['name']), 5497);
+        }        
+    }
+    
     function _assertStructure($aPlugin)
     {
         $this->assertTrue(array_key_exists('name', $aPlugin),'array key not found [name]');

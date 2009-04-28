@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testParse</name>
+    <creationDate>2009-04-28</creationDate>
+    <author>Test Author</author>
+    <authorEmail>test@example.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Test Parse Long</description>
+    <oxversion>2.7</oxversion>
+    <version>0.0.1-test-RC2</version>
+    <extends>admin</extends>
+
+    <install>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+                test test test test test test test test test test test test test test test test test test test test test test test test test
+            </file>
+        </files>
+
+        <prescript>
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+        </prescript>
+        <postscript>
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+        </postscript>
+
+    </install>
+
+    <uninstall>
+        <prescript>
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test        
+        </prescript>
+        <postscript>
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test
+            test test test test test test test test test test test test test test test test test test test test test test test test test        
+        </postscript>
+    </uninstall>
+
+</plugin>
