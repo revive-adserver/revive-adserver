@@ -138,13 +138,8 @@ $Id$
       selectAllSelector: ".select-all"
     });
 
-    $("#zones-available-container").bind("multichange", function() {
-      $("#link-button").attr("disabled", $("#zones-available :checked").not(".select-all").size() == 0);
-    });
-
-    $("#zones-linked-container").bind("multichange", function() {
-      $("#unlink-button").attr("disabled", $("#zones-linked :checked").not(".select-all").size() == 0);
-    });
+    addMultiselectListeners("available");
+    addMultiselectListeners("linked");
 
     $("#zones-linked-container, #zones-available-container").bind("filter", function() {
       var panel = this.id.substring("zones-".length).replace(/-container/, '');
@@ -163,25 +158,7 @@ $Id$
         "text": $quickSearch.is(".example-search") ? "" : $quickSearch.val()
       };
 
-      $.ajax({
-        url: "campaign-zone-zones.php",
-        type: "GET",
-        data: postData,
-        cache: false,
-        complete: function() {
-          $("#zones-" + panel + "-loading").hide();
-        },
-        success: function(data) {
-          if (!checkReload(data)) {
-            updatePanel(data, panel);
-	        }
-        },
-        error: function() {
-          $("#error-indicator").show();
-        }
-      });
-      $("#error-indicator").hide();
-      $("#zones-" + panel + "-loading").show();
+      sendZonesRequest(panel, "campaign-zone-zones.php", postData);
     });
 
     // Link/Unlink buttons
@@ -211,6 +188,28 @@ $Id$
     $("#zones-available-container, #zones-linked-container").trigger("filter").trigger("multichange");
   });
 
+  function sendZonesRequest(panel, url, params) {
+    $.ajax({
+      url: url,
+      type: "GET",
+      data: params,
+      cache: false,
+      complete: function() {
+        $("#zones-" + panel + "-loading").hide();
+      },
+      success: function(data) {
+        if (!checkReload(data)) {
+          updatePanel(data, panel);
+        }
+      },
+      error: function() {
+        $("#error-indicator").show();
+      }
+    });
+    $("#error-indicator").hide();
+    $("#zones-" + panel + "-loading").show();
+  }
+
   // Performs linking/unlinking and refreshes panels on completion
   function sendLinkingRequest(event) {
     var action = event.data[0];
@@ -219,12 +218,12 @@ $Id$
 
     var $checkboxContainer;
     if (action == "link") {
-      checkboxContainer = $("#zones-available");
+      $checkboxContainer = $("#zones-available");
     } else {
-      checkboxContainer = $("#zones-linked");
+      $checkboxContainer = $("#zones-linked");
     }
 
-    var checkedNames = $.map($(checkboxContainer).find(":checked").not(".select-all"), function(val) {
+    var checkedNames = $.map($checkboxContainer.find(":checked").not(".select-all"), function(val) {
       return val.name;
     });
 
@@ -274,7 +273,10 @@ $Id$
       "text-linked": quickSearchLinked,
       "text-available": quickSearchAvailable,
       "action": action,
-      "ids[]": checkedNames
+      "ids[]": checkedNames,
+      "allSelected": $checkboxContainer.data("allSelected"),
+      "page-linked": $("#page-linked").text(),
+      "page-available": $("#page-available").text()
     };
 
     $.ajax({
@@ -304,7 +306,7 @@ $Id$
 
 {/literal}{if $runMPE}
 	      // Run MPE
-	      $.get('run-mpe.php');
+//	      $.get('run-mpe.php');
 {/if}{literal}
 
       },
@@ -324,7 +326,46 @@ $Id$
     $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
     var panelStatus = extractPart(data, panel, "status");
     $("#status-" + panel).html(panelStatus);
-    $("#zones-" + panel + "-container").trigger('dataUpdate');    
+    $("#zones-" + panel + "-container").trigger('dataUpdate');
+    $("#zones-" + panel + "-container a.page").click(function() {
+      sendZonesRequest(panel, this.href, {})
+      return false;
+    });
+    addSelectAllListeners(panel);
+  }
+
+  function addMultiselectListeners(panel) {
+    $("#zones-" + panel + "-container").bind("multichange", function() {
+      var $selectAll = $("#zones-" + panel + " .select-all");
+      var selectAllChecked = $selectAll.size() > 0 && $selectAll.is(":checked");
+      $("#zones-" + panel + "-select-all, #select-all-container-" + panel).setElementVisible(selectAllChecked);
+      if (!selectAllChecked) {
+        cancelAllZonesSelection(panel);
+      }
+      $("#" + (panel == "available" ? "link" : "unlink") + "-button")
+        .attr("disabled", $("#zones-" + panel + " :checked").not(".select-all").size() == 0);
+    });
+  }
+
+  function addSelectAllListeners(panel) {
+    $("#zones-" + panel + "-select-all a").click(function() {
+      $("#zones-" + panel + "-select-all").hide();
+      $("#zones-" + panel + "-all-selected").show();
+      $("#zones-" + panel).data("allSelected", true);
+      return false;
+    });
+    $("#zones-" + panel + "-all-selected a").click(function() {
+      cancelAllZonesSelection(panel);
+      $("#zones-" + panel + " :checkbox").attr("checked", false);
+      return false;
+    });
+  }
+  
+  function cancelAllZonesSelection(panel) {
+    $("#select-all-container-" + panel).hide();
+    $("#zones-" + panel + "-select-all").hide();
+    $("#zones-" + panel + "-all-selected").hide();
+    $("#zones-" + panel).data("allSelected", false);
   }
 
   function checkReload(data) {

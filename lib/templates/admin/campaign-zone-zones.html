@@ -32,7 +32,15 @@ $Id$
 
 
 <!--rows-{$status}-start-->
-<table id="zones-{$status}" class="zones new-table">
+<span id="page-{$status}" class="hide">{$page}</span>
+{if !empty($topPager->links)}
+<div class="tableWrapper topPagerContainer clearfix">
+  <div class="pager topPager">
+    {$topPager->links}
+  </div>
+</div>
+{/if}
+<table id="zones-{$status}" class="zones new-table tableWrapper">
   <tbody>
     <tr class="header hide">
       <th class="name"><label><input type="checkbox" id="{$status}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
@@ -43,7 +51,22 @@ $Id$
       <th class="ecpm last">{t str=FinanceCPM}</th>
     </tr>
   </tbody>
-
+  
+  {if !empty($topPager->links)}
+  <tbody id="select-all-container-{$status}" class="hide">
+    <tr class="header">
+      <th colspan="6">
+        <div id="zones-{$status}-select-all" class="selectAllInAccount hide">
+          All <em>{$zonescounts.showing}</em> zones on this page selected. <a href="#">Select all <em>{$zonescounts.all}</em> matching zones from this account.</a>
+        </div>
+        <div id="zones-{$status}-all-selected" class="selectAllInAccount hide">
+          All <em>{$zonescounts.all}</em> matching zones from this account selected. <a href="#">Clear selection</a></a>
+        </div>
+      </th>
+    </tr>
+  </tbody>
+  {/if}
+  
   <tbody id="zones-{$status}-rows">
     {foreach from=$websites key=websiteid item=website}
     <tr class="website">
@@ -53,7 +76,7 @@ $Id$
                    name="w{$websiteid}" type="checkbox" class="checkbox parent" />{boldSearchPhrase text=$website.name search=$text}
         </label>
       </td>
-      <td>
+      <td class="link">
           <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
       </td>
       <td class="category" title="{$website.category}">{$website.category}</td>
@@ -71,7 +94,7 @@ $Id$
             {boldSearchPhrase text=$zone.name search=$text}
         </label>
         </td>
-        <td>
+        <td class="link">
             <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
         </td>
         <td class="category" title="{$zone.category}">{$zone.category}</td>
@@ -103,6 +126,19 @@ $Id$
     </tr>
     {/foreach}
   </tbody>
+  {if !empty($pager->links)}
+  <tfoot class="tableFooter">
+      <tr>
+      <td  colspan="6">
+            <div class="pager">
+              <span class="summary">{$pager->summary}</span>
+              <span class="controls">{$pager->links}</span>
+            </div>
+      </td>
+      </tr>
+  </tfoot>
+  {/if}
+  
 </table>
 <!--rows-{$status}-end-->
 
@@ -114,7 +150,5 @@ $Id$
   {/if}
   <span class="status-value">{$zonescounts.all}</span><br />
 
-  {if $category or $text}
   {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
-  {/if}
 <!--status-{$status}-end-->

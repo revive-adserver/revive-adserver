@@ -37,11 +37,14 @@ require_once MAX_PATH . '/www/admin/config.php';
 /* Main code                                             */
 /*-------------------------------------------------------*/
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
+
+phpAds_registerGlobalUnslashed('action', 'campaignid', 'allSelected');
 
 $agencyId   = OA_Permission::getAgencyId();
 $oDalZones  = OA_Dal::factoryDAL('zones');
-$action     = $_REQUEST["action"];
-$campaignId = $_REQUEST['campaignid'];
+$action     = $GLOBALS["action"];
+$campaignId = $GLOBALS['campaignid'];
 
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
@@ -55,6 +58,23 @@ foreach ($_REQUEST['ids'] as $zone) {
     }
 }
 
+// If we're requested to link all matching zones, we need to determine the ids to link
+// Ideally, there should be a DAL method to that directly. Note that we're replacing
+// only the $aZonesIds array here, and keeping $aZonesIdsHash populated based on the
+// zone ids from the request. This way, zones with ids from the request will get
+// higlighted as "just linked". It doesn't make to put all zone ids in $aZonesIdsHash as 
+// only 
+if ($GLOBALS['allSelected'] == 'true') {
+    $aZonesIds = array();
+    $websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignId, $linked, $text);
+    foreach ($websites as $website) {
+        $zones = $website['zones'];
+        foreach ($zones as $zoneid => $zone) {
+        	$aZonesIds []= $zoneid;
+        }
+    }
+}
+
 switch ($action) {
     case "link" :
             $result = $oDalZones->linkZonesToCampaign($aZonesIds, $campaignId);
@@ -64,33 +84,11 @@ switch ($action) {
         break;
 };
 
-$oTpl = new OA_Admin_Template('campaign-zone-zones.html');
-
-// Available zones go here
-$availableWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_REQUEST['category-available'], $campaignId, false, $_REQUEST['text-available']);
-$aAvailableZones = array (
-    'all'     => $oDalZones->countZones($agencyId, null, $campaignId, false),
-    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category-available'], $campaignId, false, $_REQUEST['text-available'])
-);
-$oTpl->assign('websites', $availableWebsites);
-$oTpl->assign('zonescounts',  $aAvailableZones);
-$oTpl->assign('category', $_REQUEST['category-available-text']);
-$oTpl->assign('text', $_REQUEST['text-available']);
-$oTpl->assign('status', "available");
+$oTpl = OA_Admin_UI_CampaignZoneLink::createTemplateWithModel('available', false);
 $oTpl->assign('aZonesIdHash', $aZonesIdsHash);
 $oTpl->display();
 
-// Linked zones go here
-$linkedWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_REQUEST['category-linked'], $campaignId, true, $_REQUEST['text-linked']);
-$aLinkedZones = array (
-    'all'     => $oDalZones->countZones($agencyId, null, $campaignId, true),
-    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category-linked'], $campaignId, true, $_REQUEST['text-linked'])
-);
-$oTpl->assign('websites', $linkedWebsites);
-$oTpl->assign('zonescounts',  $aLinkedZones);
-$oTpl->assign('category', $_REQUEST['category-linked-text']);
-$oTpl->assign('text', $_REQUEST['text-linked']);
-$oTpl->assign('status', "linked");
+$oTpl = OA_Admin_UI_CampaignZoneLink::createTemplateWithModel('linked', false);
 $oTpl->assign('aZonesIdHash', $aZonesIdsHash);
 $oTpl->display();
 

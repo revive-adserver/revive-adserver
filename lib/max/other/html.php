@@ -1850,7 +1850,19 @@ function addChannelPageTools($agencyid, $websiteId, $channelid, $channelType)
     addPageLinkTool($GLOBALS["strDelete"], "channel-delete.php?&agencyid=$agencyid&affiliateid=$websiteId&channelid=$channelid&returnurl=$deleteReturlUrl", "iconDelete", null, $deleteConfirm);
 }
 
-function buildPager($items, $itemsPerPage, $withNumbers = true)
+
+/**
+ * Builds Pear pager object, preconfigured with items per page. Pager links are
+ * processed to make them more readable. Also items name in summary can be added.
+ *
+ * @param unknown_type $items
+ * @param unknown_type $itemsPerPage
+ * @param unknown_type $withNumbers
+ * @param unknown_type $itemsName
+ * @return unknown
+ */
+function OX_buildPager($items, $itemsPerPage, $withNumbers = true, $itemsName = '', $delta = 4, 
+    $currentPage = null, $fileName = null, $params = null)
 {
     require_once MAX_PATH . '/lib/pear/Pager/Pager.php';
     
@@ -1858,7 +1870,7 @@ function buildPager($items, $itemsPerPage, $withNumbers = true)
     
     /** prepare paging **/
     $count = count($items);
-        $delta = $withNumbers ? 4 : 0; 
+        $delta = $withNumbers ? $delta : 0; 
     
     
     $pagerOptions = array(
@@ -1874,13 +1886,23 @@ function buildPager($items, $itemsPerPage, $withNumbers = true)
         'spacesBeforeSeparator' => 0,
         'spacesAfterSeparator' => 0
     );
+    if (!empty($fileName)) {
+        $pagerOptions['fileName'] = $fileName;
+        $pagerOptions['fixFileName'] = false;
+    }
+    if (!empty($params)) {
+        $pagerOptions['extraVars'] = $params;
+    }
+    if (!empty($currentPage)) {
+        $pagerOptions['currentPage'] = $currentPage;
+    }
     
     $pager = Pager::factory($pagerOptions);
     list($from, $to) = $pager->getOffsetByPageId();
-    $summary = "<em>$from</em>-<em>$to</em> of <em>".$pager->numItems()."</em>"; 
+    $summary = "<em>$from</em>-<em>$to</em> of <em>".$pager->numItems()." $itemsName</em>"; 
     $pager->summary = $summary;
     
-    //oberride links with shorter pager controls        
+    //override links with shorter pager controls        
     if (!$withNumbers) {
         $links = $pager->links;
         $shortLinks = preg_replace("/<span class=\"current\">\d+<\/span>/i", "<span class='summary'>$summary</span>" , $links);

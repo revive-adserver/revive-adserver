@@ -82,8 +82,6 @@ $aCategories    = array('' => "- {$GLOBALS['strAllCategories']} -", -1 => $GLOBA
 $aCategories    = $aCategories + $oAdNetworks->getCategoriesSelect($aCategoriesIds, false);
 
 
-$oTpl->assign('linkedWebsites', $linkedWebsites );
-$oTpl->assign('availableWebsites', $availableWebsites );
 $oTpl->assign('advertiserId', $advertiserId);
 $oTpl->assign('campaignId', $campaignId);
 $oTpl->assign('aCategories', $aCategories);

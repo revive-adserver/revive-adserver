@@ -180,8 +180,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 }
 
 $itemsPerPage = 250;
-$oPager = buildPager($affiliates, $itemsPerPage);
-$oTopPager = buildPager($affiliates, $itemsPerPage, false);
+$oPager = OX_buildPager($affiliates, $itemsPerPage);
+$oTopPager = OX_buildPager($affiliates, $itemsPerPage, false);
 list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
 $affiliates =  array_slice($affiliates, $itemsFrom - 1, $itemsPerPage, true);
 

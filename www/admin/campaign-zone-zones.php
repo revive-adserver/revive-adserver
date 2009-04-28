@@ -31,7 +31,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 
-phpAds_registerGlobalUnslashed('campaignid', 'status', 'category', 'text', 'category-text');
+phpAds_registerGlobalUnslashed('status');
 
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
@@ -41,29 +41,9 @@ OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 /*-------------------------------------------------------*/
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
 
-$agencyId = OA_Permission::getAgencyId();
-$oDalZones = OA_Dal::factoryDAL('zones');
-$linked = ($status == "linked");
-$websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignid, $linked, $text);
-$aZonesCounts = array (
-    'all'     => $oDalZones->countZones($agencyId, null, $campaignid, $linked),
-    'showing' => $oDalZones->countZones($agencyId, $category, $campaignid, $linked, $text)
-  );
-
-$oTpl = new OA_Admin_Template('campaign-zone-zones.html');
-$oTpl->assign('websites', $websites);
-$oTpl->assign('category', $category-text);
-$oTpl->assign('text', $text);
-$oTpl->assign('zonescounts', $aZonesCounts);
-
-if ($linked) {
-  $oTpl->assign('status', 'linked');
-}
-else {
-  $oTpl->assign('status', 'available');
-}
-
+$oTpl = OA_Admin_UI_CampaignZoneLink::createTemplateWithModel($status);
 $oTpl->display();
 ?>
 

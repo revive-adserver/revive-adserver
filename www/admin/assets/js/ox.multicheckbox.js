@@ -170,8 +170,6 @@
 
       var $container = $(this);
       
-      //console.log("Registered mulitcheckbox for " + $container.attr("id") + ":" + options.id);
-      
       if (options.useState) {
         $container.updatestate();
       } 
@@ -267,6 +265,10 @@
               //console.log(options.id + ' triggered parent state update');             
               $container.trigger('stateUpdate', [options.id, $children]);
             }
+          }
+          
+          if (options.selectAllSelector && !$checkbox.is(":checked")) {
+            $(options.selectAllSelector).attr("checked", false);
           }
           if (triggerMultichange) {
             $container.trigger("multichange");
