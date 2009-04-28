@@ -131,11 +131,10 @@ $Id$
   $(document).ready(function() {
     // Multicheckbox selections, selection by row clicks
     $("#zones-available-container, #zones-linked-container").multicheckboxes({
-      selectedClass: "to-link",
-      unselectedClass: "",
       toSelectClass: "to-link",
       toUselectClass: "",
-      selectAllSelector: ".select-all"
+      selectAllSelector: ".select-all",
+      updateElement: "tr"
     });
 
     addMultiselectListeners("available");
@@ -331,6 +330,12 @@ $Id$
       sendZonesRequest(panel, this.href, {})
       return false;
     });
+      
+    if ($("#page-" + panel).size() > 0) {
+      $("#zones-" + panel + "-loading").addClass("has-paging");
+    } else {
+      $("#zones-" + panel + "-loading").removeClass("has-paging");
+    }
     addSelectAllListeners(panel);
   }
 
@@ -342,6 +347,7 @@ $Id$
       if (!selectAllChecked) {
         cancelAllZonesSelection(panel);
       }
+      
       $("#" + (panel == "available" ? "link" : "unlink") + "-button")
         .attr("disabled", $("#zones-" + panel + " :checked").not(".select-all").size() == 0);
     });
@@ -357,6 +363,7 @@ $Id$
     $("#zones-" + panel + "-all-selected a").click(function() {
       cancelAllZonesSelection(panel);
       $("#zones-" + panel + " :checkbox").attr("checked", false);
+      $("#zones-" + panel + "-rows tr").removeClass("to-link");
       return false;
     });
   }

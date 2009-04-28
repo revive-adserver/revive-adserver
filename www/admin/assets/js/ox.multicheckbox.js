@@ -142,19 +142,17 @@
         checkboxClicked: null,
         updateChildren: synchronizeChildrenWithParent,
         updateParent: synchronizeParentWithChildren,
-        selectedClass: "selected",    // style to apply to rows with selected checkboxes
-        unselectedClass: "unselected",// style to apply to rows with unselected checkboxes 
         toSelectClass: "to-select",   // style to apply to rows with originally unselected checkboxes, but now selected
         toUselectClass: "to-unselect",// style to apply to rows with originally selected checkboxes, but now unselected
         selectAllSelector: "#select-all", // if provided, all checkboxes within the container will be selected/unselected according to this selector's checkbox
         isMultiCheckbox : function ($checkbox) { 
             return $checkbox.attr("id");
         },
-        useState: true,
+        
         /**
-        * Returns children checkboxes for a parent checkbox. Currently, the
-        * formula for parent-child relationship is hardcoded.
-        */ 
+         * Returns children checkboxes for a parent checkbox. Currently, the
+         * formula for parent-child relationship is hardcoded.
+         */ 
         getChildCheckboxes: function($parentCheckbox) {
             return $("[@id^='" + $parentCheckbox.attr("id") + "_']");
         },
@@ -169,10 +167,6 @@
       var cache = new Object();
 
       var $container = $(this);
-      
-      if (options.useState) {
-        $container.updatestate();
-      } 
       
       $container.bind('stateUpdate', function(event, internalId, $checkboxes) {
         if (internalId == options.id) {
@@ -283,8 +277,20 @@
       function handleSelectAllChange($checkbox)
       {
         var $checkboxes = $container.find(":checkbox").not(options.selectAllSelector);
-        $checkboxes.attr("checked", $checkbox.is(":checked"));
-        updateTableRow($checkboxes, options);
+        var allChecked = $checkbox.is(":checked");
+        $checkboxes.attr("checked", allChecked);
+        
+        // Ideally, we should call updateTableRow($checkboxes, options) here, but
+        // it's much faster to perform the update directly on all elements
+        if (options.updateElement) {
+          var $elements = $container.find(options.updateElement);
+          if (allChecked) {
+            $elements.addClass(options.toSelectClass);
+          } else {
+            $elements.removeClass(options.toSelectClass);
+          }
+        }
+        
         $container.trigger("multichange");
       }
       
@@ -365,31 +371,11 @@
             }
           
             var newState = $checkbox.get(0).checked;
-            
-            if (options.useState) {
-              var originalState = $checkbox.data("state");
-               
-              $row.removeClass(options.selectedClass + " " + options.unselectedClass + " " + options.toSelectClass + " " + options.toUselectClass);
-              if (originalState && newState && options.selectedClass) {
-                $row.addClass(options.selectedClass);
-              }
-              else if (!originalState && !newState && options.unselectedClass) {
-                $row.addClass(options.unselectedClass);
-              }      
-              else if (originalState && !newState && options.toUselectClass) {
-                $row.addClass(options.toUselectClass);
-              }      
-              else if (!originalState && newState && options.toSelectClass) {
+            if (newState) {
                 $row.addClass(options.toSelectClass);
-              }
             }
             else {
-                if (newState) {
-                    $row.addClass(options.toSelectClass);
-                }
-                else {
-                    $row.removeClass(options.toSelectClass);
-                }
+                $row.removeClass(options.toSelectClass);
             }
           });
         }
@@ -411,15 +397,6 @@
       
     });
   };
-  
-  $.fn.updatestate = function() {
-     return this.find(":checkbox").each(function() {
-       $(this).data("state", this.checked);
-     });
-  }; 
-
-  
-
 
   
   function fold()
