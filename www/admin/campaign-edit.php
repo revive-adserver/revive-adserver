@@ -591,12 +591,8 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEn
     //decorator - to allow hiding until model is set
     $form->addDecorator ( 'g_impr_booked', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'pricing_impr_booked{numCall}', 'class' => 'hide' ) ) );
 
+    // eCPM
     if ($remnantEcpmEnabled || $contractEcpmEnabled) {
-        //priority section
-//        $form->addElement ( 'header', 'h_ecpm_priority', $GLOBALS ['strECPMInformation'] );
-        //section decorator to allow hiding of the section
-//        $form->addDecorator ( 'h_ecpm_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_ecpm', 'class' => $newCampaign ? 'hide' : '' ) ) );
-
         $ecpmGroup['ecpm'] = $form->createElement('static', 'ecpm', null);
         $form->addDecorator ('ecpm', 'tag', array('attributes' => array('id' => 'ecpm_val')));
 
