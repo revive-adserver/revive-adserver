@@ -475,12 +475,12 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      *
      * @param array $aZonesIds array of zones IDs
      * @param int $campaignId  the campaign ID.
-     * @return int number of linked zones , -1 if invalid parameters was detected, PEAR:Errors on DB errors 
+     * @return int number of linked zones , -1 if invalid parameters was detected, PEAR:Errors on DB errors
      */
-    function linkZonesToCampaign($aZonesIds, $campaignId) 
+    function linkZonesToCampaign($aZonesIds, $campaignId)
     {
         // Check realm of given zones and campaign
-        $checkResult = $this->_checkZonesCampaignRealm($aZonesIds, $campaignId);
+        $checkResult = $this->_checkZonesRealm($aZonesIds, $campaignId);
         if ($checkResult == false) {
             return -1;
         } elseif (PEAR::isError($checkResult)) {
@@ -493,14 +493,41 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         if (PEAR::isError($linkedZones)) {
                 return $linkedZones;
         }
-        $linkedBanners = $this->_linkZonesToCampaignsBanners($aZonesIds, $campaignId);
+        $linkedBanners = $this->_linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, $campaignId);
         if (PEAR::isError($linkedBanners)) {
                 return $linkedBanners;
         }
 
         return $linkedZones;
     }
-    
+
+    /**
+     * Batch linking list of zones to banner
+     *
+     * @param array $aZonesIds array of zones IDs
+     * @param int $bannerId  the banner ID.
+     * @return int number of linked zones , -1 if invalid parameters was detected, PEAR:Errors on DB errors
+     */
+    function linkZonesToBanner($aZonesIds, $bannerId)
+    {
+        // Check realm of given zones and campaign
+        $checkResult = $this->_checkZonesRealm($aZonesIds, null, $bannerId);
+        if ($checkResult == false) {
+            return -1;
+        } elseif (PEAR::isError($checkResult)) {
+            MAX::raiseError($checkResult,MAX_ERROR_DBFAILURE);
+            return -1;
+        }
+
+        // Call sql queries to link zones to banners
+        $linkedZones = $this->_linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, null, $bannerId);
+        if (PEAR::isError($linkedZones)) {
+                return $linkedZones;
+        }
+
+        return $linkedZones;
+    }
+
     /**
      * Batch linking list of zones to campaign
      * This is a sub-function of linkZonesToCampaigns.
@@ -535,8 +562,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $query = "INSERT INTO {$prefix}placement_zone_assoc (placement_id, zone_id)
                       SELECT c.campaignid, z.zoneid
                       $fromWhereClause";
-            $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
-            return $prepared->execute();                                   
+            return $this->oDbh->exec($query);
         }
         else 
         {
@@ -561,8 +587,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     } 
         
     /**
-     * Batch linking list of zones to campaign's banners
-     * This is a sub-function of linkZonesToCampaigns.
+     * Batch linking list of zones to campaign's banners or a specific banner
+     * This is a sub-function of linkZonesToCampaigns and linkZonesToBanner.
      *
      * Banners are linked when:
      *  - text text banner and text zone (ignore width/height)
@@ -572,9 +598,10 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      *  
      * @param array $aZonesIds array of zones IDs
      * @param int $campaignId  the campaign ID.
+     * @param int $bannerId    the banner ID.
      * @return int number of linked banners 
      */
-    function _linkZonesToCampaignsBanners($aZonesIds, $campaignId) {
+    function _linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, $campaignId, $bannerId = null) {
         $prefix = $this->getTablePrefix();
         
         $fastLinking = !$GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'];
@@ -584,9 +611,18 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 CROSS JOIN
                 {$prefix}zones AS z
                 LEFT JOIN {$prefix}ad_zone_assoc AS aza ON (aza.ad_id = b.bannerid AND aza.zone_id = z.zoneid)
-            WHERE
+            WHERE";
+        if (!empty($campaignId)) {
+            $fromWhereClause .= "
                 b.campaignid = " . DBC::makeLiteral($campaignId) . "
-                AND
+                AND";
+        }
+        if (!empty($bannerId)) {
+            $fromWhereClause .= "
+                b.bannerid = " . DBC::makeLiteral($bannerId) . "
+                AND";
+        }
+        $fromWhereClause .= "
                 z.zoneid IN (" . implode(",",$aZonesIds) . ")
                 AND
                 (
@@ -622,8 +658,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 SELECT z.zoneid, b.bannerid
                 $fromWhereClause
             ";
-            $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
-            return $prepared->execute();
+            return $this->oDbh->exec($query);
         }        
         else {
             $query = " 
@@ -645,17 +680,21 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             return count($aAdZones);
         }
     }
-    
+
     /**
-     * Check if given zones are under the same agency as given campaign
+     * Check if given zones are under the same agency as given campaign or banner
      *
      * @param array $aZonesIds array of zones IDs
      * @param int $campaignId  the campaign ID.
-     * @return boolean true if all zones are in the same realm as campaign, false otherwise
+     * @param int $bannerId    the banner ID.
+     * @return boolean true if all zones are in the same realm as banner, false otherwise
      */
-    function _checkZonesCampaignRealm($aZonesIds, $campaignId)
+    function _checkZonesRealm($aZonesIds, $campaignId = null, $bannerId = null)
     {
-        if (!is_array($aZonesIds) || count($aZonesIds) == 0 || !is_numeric($campaignId) ) {
+        if (!is_array($aZonesIds) || count($aZonesIds) == 0) {
+            return false;
+        }
+        if (empty($campaignId) && empty($bannerId)) {
             return false;
         }
 
@@ -665,7 +704,14 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         $doCampaigns  = OA_Dal::factoryDO('campaigns');
         $doClients    = OA_Dal::factoryDO('clients');
 
-        $doCampaigns->campaignid = $campaignId;
+        if (!empty($bannerId)) {
+            $doBanners    = OA_Dal::factoryDO('banners');
+            $doBanners->bannerid = (int)$bannerId;
+            $doCampaigns->joinAdd($doBanners);
+        }
+        if (!empty($campaignId)) {
+            $doCampaigns->campaignid = (int)$campaignId;
+        }
         $doClients->joinAdd($doCampaigns);
         $doAgency->joinAdd($doClients);
         $doAffiliates->joinAdd($doAgency);
@@ -723,8 +769,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                        zone_id IN (" . implode(",",$aZonesIds) . ")
                ";
          
-               $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
-               $unlinkedBanners = $prepared->execute();
+               $unlinkedBanners = $this->oDbh->exec($query);
                if (PEAR::isError($unlinkedBanners)) {
                   return $unlinkedBanners;
                }
@@ -739,8 +784,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                    AND
                    zone_id IN (" . implode(",",$aZonesIds) . ")
            ";
-           $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
-           return $prepared->execute();            
+           return $this->oDbh->exec($query);
         }
         else { //slow - uses audit trail
             if (count($aBannersIds)!=0) {
@@ -772,6 +816,57 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             return count($aZonesIds);
         }
         
+    }
+
+    /**
+     * Batch unlinking zones from banner
+     *
+     * @param array $aZonesIds array of zones IDs
+     * @param int $bannerId  the banner ID.
+     * @return int number of unlinked zones, -1 on parameters error, PEAR:Errors on DB errors
+     */
+    function unlinkZonesFromBanner($aZonesIds, $bannerId)
+    {
+        if (!is_array($aZonesIds)) {
+            return -1;
+        } else if(count($aZonesIds) == 0){
+            return 0;
+        }
+        $prefix = $this->getTablePrefix();
+
+        $fastLinking = !$GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'];
+        if ($fastLinking) {
+            // Delete ad_zone_assoc
+           $query = "
+               DELETE
+               FROM {$prefix}ad_zone_assoc
+               WHERE
+                   ad_id = " . DBC::makeLiteral($bannerId) . "
+                   AND
+                   zone_id IN (" . implode(",",$aZonesIds) . ")
+           ";
+
+           return $this->oDbh->exec($query);
+        }
+        else { //slow - uses audit trail
+            // Do a iteration to add all deleted ad_zone_assoc to audit log
+            // it doesn't log all deleted rows when using
+            // $doAdZoneAssoc->addWhere(
+            //      ad_id IN (" . implode(',', $aBannersIds) . ")
+            //      AND
+            //      zone_id IN (" . implode(",",$aZonesIds) . ")
+            //
+            $doAdZoneAssocEmpty = OA_Dal::factoryDO('ad_zone_assoc');
+            foreach ($aZonesIds as $zonesId) {
+                $doAdZoneAssoc = clone($doAdZoneAssocEmpty);  // Every delete have to be done on separate object
+                $doAdZoneAssoc->zone_id = $zonesId;
+                $doAdZoneAssoc->ad_id   = $bannerId;
+                $doAdZoneAssoc->delete();
+            }
+
+            return count($aZonesIds);
+        }
+
     }
 
     /**

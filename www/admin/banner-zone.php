@@ -72,42 +72,41 @@ phpAds_SessionDataStore();
     // Process submitted form
     if (isset($submit))
     {
-        $prioritise = false;
-        $errors = array();
+        $dalZones       = OA_Dal::factoryDAL('zones');
+        $prioritise     = false;
+        $aErrors        = array();
         $aPreviousZones = Admin_DA::getAdZones(array('ad_id' => $bannerId));
-
+        $aDeleteZones   = array();
+        
         // First, remove any zones that should be deleted.
         if (!empty($aPreviousZones)) {
             $unlinked = 0;
             foreach ($aPreviousZones as $aAdZone) {
                 $zoneId = $aAdZone['zone_id'];
                 if ((empty($aCurrentZones[$zoneId])) && ($zoneId > 0))  {
-                    // The user has removed this zone link
-                    $aParameters = array('zone_id' => $zoneId, 'ad_id' => $bannerId);
-                    Admin_DA::deleteAdZones($aParameters);
-                    $prioritise = true;
-                    $unlinked++;
-                } 
-                else {
+                    // Schedule for deletion
+                    $aDeleteZones[] = $zoneId;
+                } else {
                     // Remove this key, because it is already there and does not need to be added again.
                     unset($aCurrentZones[$zoneId]);
                 }
             }
         }
 
-        if (!empty($aCurrentZones)) {
-            $linked = 0;
-            foreach ($aCurrentZones as $zoneId => $value) {
-                $aParameters = array('zone_id' => $zoneId, 'ad_id' => $bannerId);
-                $result = Admin_DA::addAdZone($aParameters);
-                $linked++;
-                if (PEAR::isError($result)) {
-                    $errors[] = $result;
-                }
-                if (empty($errors)) {
-                    $prioritise = true;
-                }
-            }
+        // Unlink zones
+        $unlinked = $dalZones->unlinkZonesFromBanner($aDeleteZones, $bannerId);
+        if (PEAR::IsError($unlinked)) {
+            $aErrors[] = $unlinked;
+        } elseif ($unlinked > 0) {
+            $prioritise = true;
+        }
+
+        // Link zones
+        $linked = $dalZones->linkZonesToBanner(array_keys($aCurrentZones), $bannerId);
+        if (PEAR::IsError($linked)) {
+            $aErrors[] = $linked;
+        } elseif ($linked > 0) {
+            $prioritise = true;
         }
 
         if ($prioritise) {
@@ -116,16 +115,16 @@ phpAds_SessionDataStore();
         }
 
         // Move on to the next page
-        if (empty($errors)) {
+        if (empty($aErrors)) {
             // Queue confirmation message
             $translation = new OX_Translation ();
-            if ($linked) {
+            if ($linked > 0) {
                 $linked_message = $translation->translate ( $GLOBALS['strXZonesLinked'], array($linked));
             }
-            if ($unlinked) {
+            if ($unlinked > 0) {
                 $unlinked_message = $translation->translate ( $GLOBALS['strXZonesUnlinked'], array($unlinked));
             }
-            if ($linked || $unlinked) {
+            if ($linked > 0 || $unlinked > 0) {
                 $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message; 
                 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
           	}
@@ -161,13 +160,13 @@ phpAds_SessionDataStore();
 
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
-    if (!empty($errors)) {
+    if (!empty($aErrors)) {
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>";
-        foreach ($errors as $aError) {
-            echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $aError->message . "<br>";
+        foreach ($aErrors as $oError) {
+            echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $oError->message . "<br>";
         }
         echo "</div>";
     } else {
