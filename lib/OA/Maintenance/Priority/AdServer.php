@@ -49,11 +49,25 @@ class OA_Maintenance_Priority_AdServer
      */
     var $oTaskRunner;
 
+    /** @var array array of addMaintenancePriorityTask components. */
+    private $aComponents;
+
     /**
      * The constructor method.
      */
     function OA_Maintenance_Priority_AdServer()
     {
+        $this->aComponents = OX_Component::getListOfRegisteredComponentsForHook('addMaintenancePriorityTask');
+
+        // addMaintenancePriorityTask hook
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $obj->beforeMpe();
+                }
+            }
+        }
+
         // Create the task runner object, for running the MPE tasks
         $this->oTaskRunner = new OA_Task_Runner();
         // Add a task to update the zone impression forecasts
@@ -78,10 +92,11 @@ class OA_Maintenance_Priority_AdServer
         $this->oTaskRunner->addTask($oPriorityEcpmRemnant);
 
         // addMaintenancePriorityTask hook
-        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenancePriorityTask');
-        foreach ($aPlugins as $i => $id) {
-            if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
-                $this->oTaskRunner->addTask($obj->addMaintenancePriorityTask(), $obj->getClassName(), $obj->replace());
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $this->oTaskRunner->addTask($obj->addMaintenancePriorityTask(), $obj->getExistingClassName(), $obj->getOrder());
+                }
             }
         }
     }
@@ -96,6 +111,15 @@ class OA_Maintenance_Priority_AdServer
         // Run the required tasks
         // TODO: OA_Task::run should really return a boolean we could check here.
         $this->oTaskRunner->runTasks();
+
+        // addMaintenancePriorityTask hook
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $obj->afterMpe();
+                }
+            }
+        }
     }
 
 }
