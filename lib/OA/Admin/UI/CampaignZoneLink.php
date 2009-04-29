@@ -74,7 +74,8 @@ class OA_Admin_UI_CampaignZoneLink
         $websites = array_slice($websites, $itemsFrom - 1, self::WEBSITES_PER_PAGE, true);
         
         $aZonesCounts = array (
-                'all' => $oDalZones->countZones($agencyId, null, $campaignId, $linked));
+                'all' => $oDalZones->countZones($agencyId, null, $campaignId, $linked),
+                'matching' => $oDalZones->countZones($agencyId, $category, $campaignId, $linked, $text));
         $showingCount = 0;
         
         // TODO: currently we're calculating the number in PHP code. Once

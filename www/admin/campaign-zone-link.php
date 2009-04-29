@@ -39,7 +39,8 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
 
-phpAds_registerGlobalUnslashed('action', 'campaignid', 'allSelected');
+phpAds_registerGlobalUnslashed('action', 'campaignid', 'allSelected', 
+    'category-linked', 'category-available', 'text-linked', 'text-available');
 
 $agencyId   = OA_Permission::getAgencyId();
 $oDalZones  = OA_Dal::factoryDAL('zones');
@@ -66,7 +67,10 @@ foreach ($_REQUEST['ids'] as $zone) {
 // only 
 if ($GLOBALS['allSelected'] == 'true') {
     $aZonesIds = array();
-    $websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignId, $linked, $text);
+    $link = ($action == 'link'); 
+    $category = ($link ? $GLOBALS['category-available'] : $GLOBALS['category-linked']);
+    $text = ($link ? $GLOBALS['text-available'] : $GLOBALS['text-linked']);
+    $websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignId, !$link, $text);
     foreach ($websites as $website) {
         $zones = $website['zones'];
         foreach ($zones as $zoneid => $zone) {
