@@ -174,9 +174,9 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             // Test get statistics in two steps
             $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
             $response1 = "1\t0\n".
-                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\n";
-            $response2 = "2\t1\n".
-                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\n";
+                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
+            $response2 = "223746234762347623\t1\n".
+                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
             $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
             $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
             $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
@@ -199,7 +199,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
             $oPluginSettings->get('name', 
                 Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual(2,$oPluginSettings->value);
+            $this->assertEqual('223746234762347623',$oPluginSettings->value);
         }
         
         // Clear statistics
@@ -216,9 +216,9 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         {
             $oImportMarketStatistics = new Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics();
             $result = $oImportMarketStatistics->getLastUpdateVersionNumber();
-            $this->assertEqual($result, 0);
+            $this->assertEqual($result, '0');
             
-            $last_update = 34;
+            $last_update = '3434534674722352567';
             
             $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
             $oPluginSettings->name = 

@@ -189,8 +189,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         // test added for plugin 1.0.0
         if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
         {
-            $lastUpdate1 = 0;
-            $lastUpdate2 = 1;
+            $lastUpdate1 = '0';
+            $lastUpdate2 = '1';
             $aWebsitesIds2 = array( 'w_id1', 'w_id2');
             
             $callArgs1 = array($lastUpdate1, array()); // Empty array is expected for null $aWebsitesIds parameter

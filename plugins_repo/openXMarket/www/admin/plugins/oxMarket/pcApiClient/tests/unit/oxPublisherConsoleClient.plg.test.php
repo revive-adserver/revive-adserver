@@ -162,7 +162,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
         {
             $apiKey = 'testApiKey';
-            $lastUpdate = 1234;
+            $lastUpdate = '1234';
             $aWebsitesIds = array ('website_id1', 'website_id2');
         
             $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);

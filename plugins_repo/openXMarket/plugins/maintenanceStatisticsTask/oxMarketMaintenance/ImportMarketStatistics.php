@@ -86,7 +86,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         if (isset($oPluginSettings->value)) {
             return $oPluginSettings->value;
         }
-        return 0;
+        return '0';
     }
     
     /**
@@ -119,7 +119,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 
                 $aLines = explode("\n", $data);
                 $aFirstRow = explode("\t", $aLines[0]); 
-                $last_update = intval($aFirstRow[0]);
+                $last_update = $aFirstRow[0];
                 $endOfData = true;
                 if (array_key_exists(1,$aFirstRow)) {
                     $endOfData = (intval($aFirstRow[1])==1);
