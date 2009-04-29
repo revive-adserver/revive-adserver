@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -117,6 +117,9 @@ class OX_Maintenance_Statistics
      */
     var $oTaskRunner;
 
+    /** @var array array of addMaintenanceStatisticsTask components. */
+    private $aComponents;
+
     /**
      * The method to run the Maintenance Statistics Engine process.
      *
@@ -148,6 +151,17 @@ class OX_Maintenance_Statistics
             // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();
             $oServiceLocator->register('now', $oDate);
+        }
+
+        $this->aComponents = OX_Component::getListOfRegisteredComponentsForHook('addMaintenanceStatisticsTask');
+
+        // addMaintenanceStatisticsTask hook
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $obj->beforeMse();
+                }
+            }
         }
 
         // Initialise the task runner object, for storing/running the tasks
@@ -198,17 +212,25 @@ class OX_Maintenance_Statistics
         $this->oTaskRunner->addTask($oManageCampaigns);
 
         // addMaintenanceStatisticsTask hook
-        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('addMaintenanceStatisticsTask');
-        foreach ($aPlugins as $i => $id)
-        {
-            if ($obj = OX_Component::factoryByComponentIdentifier($id))
-            {
-                $this->oTaskRunner->addTask($obj->addMaintenanceStatisticsTask());
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $this->oTaskRunner->addTask($obj->addMaintenanceStatisticsTask(), $obj->getExistingClassName(), $obj->getOrder());
+                }
             }
         }
 
         // Run the MSE process tasks
         $this->oTaskRunner->runTasks();
+
+        // addMaintenanceStatisticsTask hook
+        if (!empty($this->aComponents) && is_array($this->aComponents)) {
+            foreach ($this->aComponents as $componentId) {
+                if ($obj = OX_Component::factoryByComponentIdentifier($componentId)) {
+                    $obj->afterMse();
+                }
+            }
+        }
 
         // Return to the "normal" user
         OA_Permission::switchToSystemProcessUser();
