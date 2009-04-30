@@ -528,10 +528,24 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isActive()
     {
-        return $this->isRegistered() &&
+        // Account is active if is registered, has valid status and API key is set
+        $result = $this->isRegistered() &&
                ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==
-                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS) &&
-               ($this->oMarketPublisherClient->hasApiKey() == true);
+                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS);
+        
+        if ($result && !($this->oMarketPublisherClient->hasApiKey() == true))
+        {
+            // If only API key is missing, try recive this key automatically
+            try {
+                $this->oMarketPublisherClient->getApiKeyByM2MCred();
+            } catch( Exception $e)
+            {
+                OA::debug('openXMarket: Error during reciving automatically API key : ('
+                          .$e->getCode().') '.$e->getMessage());
+            }
+        }
+        // Check if apikey is set
+        return $result && ($this->oMarketPublisherClient->hasApiKey() == true);
     }
 
 

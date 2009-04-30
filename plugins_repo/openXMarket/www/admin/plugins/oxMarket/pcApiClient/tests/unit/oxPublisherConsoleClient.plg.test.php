@@ -287,6 +287,32 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
     }
     
     
+    function testGetApiKeyByM2MCred()
+    {
+        // method available from plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+            $pubAccountId = 'pubAccountId';
+            
+            $call = array('getApiKeyByM2MCred', array($pubAccountId));
+            $response = 'api-key';
+
+            $oM2MXmlRpc->expectOnce('call', $call);
+            $oM2MXmlRpc->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+            $oPCClient->setPublisherAccountId($pubAccountId);
+            
+            $result = $oPCClient->getApiKeyByM2MCred();
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
+    
     function testGenerateApiKey()
     {
         // method available from plugin 1.0.0

@@ -351,6 +351,23 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         return $this->saveApiKeyToDB($apiKey);
     }
     
+    
+    /**
+     * Get API key by M2M credentials
+     *
+     * @param string $username
+     * @param string $password
+     * @return bool true if successful
+     */
+    public function getApiKeyByM2MCred()
+    {
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        $this->pc_api_client->setPublisherAccountId(
+                   $aPcAccountData['publisher_account_id']);
+        $apiKey = $this->pc_api_client->getApiKeyByM2MCred();
+        return $this->saveApiKeyToDB($apiKey);
+    }
+    
     /**
      * Saves API key in database
      *

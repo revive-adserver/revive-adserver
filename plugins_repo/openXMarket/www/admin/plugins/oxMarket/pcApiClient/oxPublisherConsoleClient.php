@@ -114,10 +114,24 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
         return $this->xml_rpc_client->call($function, $paramsWithApiKey);
     }
     
+    /**
+     * Call M2M protected XML-RPC method
+     *
+     * @param unknown_type $function
+     * @param unknown_type $params
+     * @return unknown
+     */
     protected function callM2mprotectedXmlRpcClient($function, $params) {
         return $this->m2mprotected_xml_rpc_client->call($function, $params);
     }
     
+    /**
+     * Call M2M protected XML-RPC method, add Publisher Account as first parameter
+     *
+     * @param string $function
+     * @param array $params
+     * @return mixed
+     */
     protected function callXmlRpcFunctionWithPCAccount($function, $params = array())
     {
         $this->ensurePublisherAccountIdIsSet();
@@ -250,6 +264,18 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     {
         return $this->callXmlRpcClient('generateApiKey', 
             array($username, md5($password)));
+    }
+    
+    
+    /**
+     * Get API key by M2M credentials
+     *
+     * @return string apiKey
+     */
+    public function getApiKeyByM2MCred()
+    {
+        return $this->callXmlRpcFunctionWithPCAccount(
+            'getApiKeyByM2MCred', array());
     }
     
     /**
