@@ -530,7 +530,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         return $this->isRegistered() &&
                ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==
-                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS);
+                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS) &&
+               ($this->oMarketPublisherClient->hasApiKey() == true);
     }
 
 
@@ -560,8 +561,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return null;
         }
 
-        $status = $this->oMarketPublisherClient->getAssociationWithPcStatus();
+        $hasApiKey = $this->oMarketPublisherClient->hasApiKey();
         $message = "OpenX Market publisher account is not properly associated with your ad server";
+        if (!$hasApiKey) {
+            $status = null;
+            $message .= "<br>API Key is missing, please try re-connect your Ad Server to OpenX Market using your OpenX.org account";
+        } else {
+            $status = $this->oMarketPublisherClient->getAssociationWithPcStatus();
+        }
 
         return array('code' => $status, 'message' => $message);
     }

@@ -259,6 +259,33 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         }
     }
     
+    function testGetApiKey()
+    {
+        // method available from plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>'))
+        {
+            $username = 'testUsername';
+            $password = 'test';
+            $md5password = md5($password);
+            
+            $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+            $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+            
+            $call = array('getApiKey', array($username, $md5password));
+            $response = 'api-key';
+
+            $oXmlRpcClient->expectOnce('call', $call);
+            $oXmlRpcClient->setReturnValue('call', $response);
+            
+            $oPCClient = 
+                new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+                
+            $result = $oPCClient->getApiKey($username, $password);
+            
+            $this->assertEqual($result, $response);
+        }
+    }
+    
     function testGetAccountStatus()
     {    
         // test added for plugin 1.0.0

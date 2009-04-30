@@ -52,7 +52,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                 'PartialMockPublisherConsoleClient',
                 array('createAccount',
                       'isSsoUserNameAvailable',
-                      'getStatistics')
+                      'getStatistics',
+                      'getApiKey')
             );
             // @TODO remove after creating final package 1.0.0-RC1
             // Get plugin version to run proper test while plugin isn't build to etc/plugins
@@ -240,6 +241,54 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
             
             // Clear account association
             $doExtMarket->delete();
+        }
+    }
+    
+    function testGetApiKey()
+    {
+        $username = 'testUsername';
+        $password = 'test';
+        
+        // test added for plugin 1.0.0
+        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
+        {
+            $response = 'newApiKey';
+            $callArgs = array($username, $password);
+        
+            // Create mockup for PubConsoleClient
+            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+            $PubConsoleClient->expect('getApiKey', $callArgs);
+            $PubConsoleClient->setReturnValue('getApiKey', $response);
+            
+            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+    
+            // Try to call method when plugin wasn't registered
+            $result = $oPCMarketPluginClient->getApiKey($username, $password);
+            $this->assertFalse($result);
+            
+            // Create account and set publisher account association data
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+            $adminAccountId = DataGenerator::generateOne($doAccounts);
+            $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+            $doExtMarket->account_id = $adminAccountId;
+            $doExtMarket->publisher_account_id = 'publisher_account_id';
+            $doExtMarket->api_key = null;
+            $doExtMarket->status = 
+                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+            $doExtMarket->insert();
+            
+            // Test valid use
+            $result = $oPCMarketPluginClient->getApiKey($username, $password);
+            $this->assertTrue($result);
+            
+            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+            $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
+            $doMarketAssoc->find();
+            $this->assertTrue($doMarketAssoc->fetch());
+            $this->assertEqual($response, $doMarketAssoc->api_key);
+            $this->assertFalse($doMarketAssoc->fetch()); // only one entry
         }
     }
     

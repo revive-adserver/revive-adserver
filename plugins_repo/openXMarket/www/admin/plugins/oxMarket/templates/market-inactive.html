@@ -43,6 +43,46 @@ $Id$
 {/if}
 </b>
 </p>
+
+{if $hasServerError}
+  <div class='form-message form-message-error' id="server-errors" >
+    {$errorMessage}
+  </div>
+{/if}
+
+  {*oxMarketRelink form*}
+  {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+  {*/oxMarketRelink form*}
+</div>
+
+<script type="text/javascript">
+{literal}
+<!--
+  $(document).ready(function() {
+    $("#market-relink-form")
+    .initForm({
+        rules: {
+            "m_username": { "required": true },
+            "m_password": { "required": true },
+            "market_terms_agree": { "required": true }
+        },
+
+        messages: {
+            "m_username": {
+                "required": {/literal}"{$login_field_label} is required"{literal} 
+            },
+            "m_password": {
+                "required": {/literal}"{$password_field_label} is required"{literal} 
+            },
+            "market_terms_agree": {
+                "required": {/literal}"{$market_terms_field_invalid_message}"{literal} 
+            }
+        }
+    });
+  });
+-->
+{/literal}
+
 {if $publisherSupportEmail != ''}
   <p>
   If you think it is incorrect or have further questions please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a>.

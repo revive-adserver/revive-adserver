@@ -189,6 +189,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         return isset($aPcAccountData['publisher_account_id']); 
     }
     
+    public function hasApiKey()
+    {
+        $aPcAccountData = $this->getAssociatedPcAccountData();
+        return isset($aPcAccountData['api_key']);
+    }
+    
     /**
      * Return publisher account id for OXP admin account
      *
@@ -332,6 +338,42 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
     }
     
+    /**
+     * Get API key by SSO credentials
+     *
+     * @param string $username
+     * @param string $password
+     * @return bool true if successful
+     */
+    public function getApiKey($username, $password)
+    {
+        $apiKey = $this->pc_api_client->getApiKey($username, $password);
+        return $this->saveApiKeyToDB($apiKey);
+    }
+    
+    /**
+     * Saves API key in database
+     *
+     * @param string $apiKey
+     * @return bool true if successful
+     */
+    protected function saveApiKeyToDB($apiKey)
+    {
+        $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
+        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
+        if (!isset($adminAccountId)) {
+            // no admin account
+            return false;
+        }
+        $doExtMarket->get('account_id', $adminAccountId);
+        if (empty($doExtMarket->publisher_account_id)) {
+            // no association data
+            return false;
+        }
+        $doExtMarket->api_key = $apiKey;
+        $result = $doExtMarket->update();;
+        return true;
+    }
     /**
      * Synchronize status with market and return new status
      *
