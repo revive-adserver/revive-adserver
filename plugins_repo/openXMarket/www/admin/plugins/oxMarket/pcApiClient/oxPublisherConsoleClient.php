@@ -240,6 +240,19 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     
     
     /**
+     * Generate new API key by SSO credentials
+     * 
+     * @param string $username
+     * @param string $password
+     * @return string apiKey
+     */
+    public function generateApiKey($username, $password)
+    {
+        return $this->callXmlRpcClient('generateApiKey', 
+            array($username, md5($password)));
+    }
+    
+    /**
      * Check if given sso user name is available
      *
      * @param string $userName
