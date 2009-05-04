@@ -218,7 +218,7 @@ function processForm($oForm, $oMarketComponent)
         if ($linkingResult == true) {
             // perform activation actions
             $oMarketComponent->removeRegisterNotification();
-            $oMarketComponent->updateAllWebsites();
+            $oMarketComponent->initialUpdateWebsites();
         }
     } 
     catch (Exception $exc) {

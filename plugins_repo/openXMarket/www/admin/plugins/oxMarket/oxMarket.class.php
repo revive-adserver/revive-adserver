@@ -705,16 +705,20 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      *
      * @param boolean $skip_synchonized In maintenace skip updating websites marked as url synchronized with marketplace
      *                                  other cases (e.g. reinstalling plugin and re-linking to market) should updates all websites
+     * @param int $limitUpdatedWebsites Limit updated websites to this number, 0 - no limit
      */
-    function updateAllWebsites($skip_synchonized = false)
+    function updateAllWebsites($skip_synchonized = false, $limitUpdatedWebsites = 0)
     {
         if (!$this->isRegistered() || !$this->isActive()) {
             return;
         }
+        $updatedWebsites = 0;
 
         $oWebsite = & OA_Dal::factoryDO('affiliates');
         $oWebsite->find();
-        while($oWebsite->fetch()) {
+        while($oWebsite->fetch() && 
+              ($limitUpdatedWebsites==0 || $updatedWebsites<$limitUpdatedWebsites)) 
+        {
             try {
                 $affiliateId = $oWebsite->affiliateid;
                 $websiteId = $this->getWebsiteId($affiliateId, false);
@@ -723,9 +727,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
                         $this->setWebsiteId($affiliateId, $websiteId);
                         $this->insertDefaultRestrictions($affiliateId);
+                        $updatedWebsites++;
                     }
                 } else {
-                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl, $skip_synchonized);
+                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl, 
+                                            $skip_synchonized, $updatedWebsites);
                     if ($result!==true) {
                         throw new Exception($result);
                     }
@@ -742,9 +748,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @param int $affiliateId Affiliate Id
      * @param string $url New website url
      * @param boolean $skip_synchonized Skip updating if url is synchronized
+     * @param int $updatedWebsites increase counter if website was updated
      * @return boolean|string true or error message
      */
-    function updateWebsiteUrl($affiliateId, $url, $skip_synchonized = false) {
+    function updateWebsiteUrl($affiliateId, $url, $skip_synchonized = false, &$updatedWebsites = null) {
         $doWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
         $doWebsitePref->get($affiliateId);
 
@@ -765,9 +772,24 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 }
                 $doWebsitePref->is_url_synchronized = (!isset($error)) ? 't' : 'f';
                 $doWebsitePref->update();
+                // Increase counter of updated websites
+                if (isset($updatedWebsites)) {
+                    $updatedWebsites++;
+                }
             }
         }
         return (!isset($error)) ? true : $error;
+    }
+    
+    /**
+     * This method is called after install or enable
+     * to update 10 websites (rest will be updated during maintenance)
+     *
+     */
+    function initialUpdateWebsites()
+    {
+        // send 10 not updated websites
+        $this->updateAllWebsites(true, 10);
     }
 
 
@@ -778,7 +800,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         
         try {
-            $this->updateAllWebsites();
+            $this->initialUpdateWebsites();
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
