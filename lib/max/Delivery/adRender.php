@@ -224,7 +224,6 @@ function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = nul
     return $beacon;
 }
 
-
 /**
  * This function builds the HTML code to display an "image" ad (e.g. GIF/JPG/PNG)
  *
@@ -244,7 +243,7 @@ function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = nul
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
+function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array(), $useAppend=true)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $aBanner['bannerContent'] = $imageUrl = _adRenderBuildFileUrl($aBanner, $useAlt);
@@ -299,7 +298,7 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
+function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array())
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -386,7 +385,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array())
 {
     // This is a wrapper to the "parent" bannerTypeHtml function
     $aConf = $GLOBALS['_MAX']['CONF'];
@@ -413,7 +412,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=false, $loc, $referer, $context=array())
 {
     // This is a wrapper to the "parent" bannerTypeHtml function
     $aConf = $GLOBALS['_MAX']['CONF'];
