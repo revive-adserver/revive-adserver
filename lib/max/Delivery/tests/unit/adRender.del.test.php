@@ -176,53 +176,6 @@ class test_DeliveryAdRender extends UnitTestCase
 		// And target
 		$this->assertTrue(strstr($aMatch['script_content'][0], "addVariable('atar1', '_blank')"));
 
-}
-
-	/**
-	 * NOTE: probably deprecated
-	 *
-	 * render an ad of type Quicktime
-	 *
-	 *
-	 */
-	function test_adRenderQuicktime()
-	{
-		$this->sendMessage('test_adRenderQuicktime');
-
-		require_once MAX_PATH . '/lib/max/Delivery/common.php';
-        $prepend = '<p>before</p>';
-        $append  = '<p>after</p>';
-
-		$aBanner	= array('prepend' 	=> $prepend,
-							'append' 	=> $append,
-							'width'		=> 104,
-							'height'	=> 104,
-							'pluginversion' => '1.2.3',
-							'filename'	=> 'myquick.mov',
-							'target'	=> 'http://www.target.com',
-							'status'	=>	0
-							);
-		$zoneId		=	0;
-		$source		=	'';
-		$ct0		=	'';
-		$withText	=	false;
-		$logClick	=	true;
-		$logView	=	true;
-		$useAlt		=	false;
-		$loc		=	0;
-		$referer	= 	'http://some.referrer.com/';
-
-		$expect = "$prepend
-<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='104' height='104'>
-<param name='src' value=''>
-<param name='controller' value='false'>
-<param name='autoplay' value='true'>
-<embed src='' controller='false' autoplay='true' width='104' height='104' pluginspace='http://www.apple.com/quicktime/download/'></embed>
-<noembed><p>before</p><p>after</p></noembed>
-</object><div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=&amp;campaignid=&amp;zoneid=0&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>$append";
-
-		$ret 	= _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
-        $this->assertEqual($ret, $expect);
 	}
 
 	/**
@@ -272,17 +225,6 @@ class test_DeliveryAdRender extends UnitTestCase
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
 		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($return, $expect);
-	}
-
-	/**
-	 * render an ad of type Real
-	 *
-	 * NOTE: I believe this function is never called
-	 *
-	 */
-	function test_adRenderReal()
-	{
-		// _adBuildHtmlReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer);
 	}
 
     /**
