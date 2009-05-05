@@ -2,7 +2,7 @@
     $.fn.accountswitch = function(options) {
         var defaults = {
           action: 'init',
-          searchUrl: 'http://192.168.0.161/trunk/www/admin/account-switch-search.php',
+          searchUrl: 'account-switch-search.php',
           searchInputSelector: '#accountSearch',
           progressIndicatorSelector: '#accountLoading',
           searchPrompt: 'account name',
