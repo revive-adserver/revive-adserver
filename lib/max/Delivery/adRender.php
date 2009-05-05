@@ -370,62 +370,6 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
 }
 
 /**
- * This function generates the code to show a "quicktime" ad (e.g. MOV)
- *
- * @param array   $aBanner      The ad-array for the ad to render code for
- * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
- * @param string  $source       The "source" parameter passed into the adcall
- * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
- * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
- * @param boolean $logView      Should this view be logged (views in admin should not be logged
- *                              also - 3rd party callback logging should not be logged at view time)
- * @param string  $loc          The "current page" URL
- * @param string  $referer      The "referring page" URL
- *
- * @return string               The HTML to display this ad
- */
-function _adRenderQuicktime(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
-    $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-    $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
-    $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-    $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
-    // Create the anchor tag..
-    $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
-    if (!empty($clickTag)) {  // There is a link
-        $status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $swfParams = 'clickTAG=' . $clickTag;
-        $anchor = "<a href='$clickTag' target='$target'$status>";
-        $anchorEnd = '</a>';
-    } else {
-        $swfParams = '';
-        $anchor = '';
-        $anchorEnd = '';
-    }
-    $clickTag = _adRenderBuildFileUrl($aBanner, $source, $ct0, $logClick);
-    $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-    $code = "
-<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='$width' height='$height'>
-<param name='src' value='$fileUrl'>
-<param name='controller' value='false'>
-<param name='autoplay' value='true'>
-<embed src='$fileUrl' controller='false' autoplay='true' width='$width' height='$height' pluginspace='http://www.apple.com/quicktime/download/'></embed>
-<noembed>$altImageBannercode</noembed>
-</object>";
-    $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
-    // Get the image beacon...
-    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-    return $prepend . $code . $bannerText . $beaconTag . $append;
-}
-
-/**
  * This function generates the code to show an "HTML" ad (usually 3rd party adserver code)
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
@@ -477,64 +421,6 @@ function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         @include LIB_PATH . '/Extension/bannerTypeText/bannerTypeTextDelivery.php';
     }
     return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
-}
-
-/**
- * This function generates the code to show a "real" ad (e.g. RPM (RealMedia))
- *
- * @todo  I believe this function is never called - if so, then this function can be removed
- *
- * @param array   $aBanner      The ad-array for the ad to render code for
- * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
- * @param string  $source       The "source" parameter passed into the adcall
- * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
- * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
- * @param boolean $logView      Should this view be logged (views in admin should not be logged
- *                              also - 3rd party callback logging should not be logged at view time)
- * @param string  $loc          The "current page" URL
- * @param string  $referer      The "referring page" URL
- *
- * @return string               The HTML to display this ad
- */
-function _adRenderReal(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
-    $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-    $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
-    $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-    $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
-    // Create the anchor tag..
-    $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
-    if (!empty($clickTag)) {  // There is a link
-        $status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $swfParams = 'clickTAG=' . $clickTag;
-        $anchor = "<a href='$clickTag' target='$target'$status>";
-        $anchorEnd = '</a>';
-    } else {
-        $swfParams = '';
-        $anchor = '';
-        $anchorEnd = '';
-    }
-    $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
-    $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-    $code = "
-<object classid='clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA' width='$width' height='$height'>
-<param name='src' value='$fileUrl'>
-<param name='controls' value='ImageWindow'>
-<param name='autostart' value='true'>
-<embed src='$fileUrl' controls='ImageWindow' autostart='true' width='$width' height='$height' type='audio/x-pn-realaudio-plugin'></embed>
-<noembed>$altImageBannercode</noembed>
-</object>";
-    $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
-    // Get the image beacon...
-    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-    return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 
 /**
@@ -812,9 +698,6 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
                 break;
             case 'txt'  :
                     $functionName = '_adRenderText';
-                break;
-            case 'mov'  :
-                    $functionName = '_adRenderQuicktime';
                 break;
             default :
                 switch ($aBanner['type']) {
