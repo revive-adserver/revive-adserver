@@ -213,17 +213,16 @@ class test_DeliveryAdRender extends UnitTestCase
 	function test_adRenderText()
 	{
 		$this->sendMessage('test_adRenderText');
-
         // Test that it should generate ad without beacon
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
-		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
         $this->assertEqual($return, $expectNoBeacon);
 
 		// Test that it should generate ad beacon
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
-		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
         $this->assertEqual($return, $expect);
 	}
 
