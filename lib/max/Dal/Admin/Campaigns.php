@@ -601,6 +601,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aRetCampaigns[$campaignId]['status'] = $aCampaign['status'];
             $aRetCampaigns[$campaignId]['clientid'] = $aCampaign['clientid'];
             $aRetCampaigns[$campaignId]['campaignname'] = $aCampaign['campaignname'];
+            $aRetCampaigns[$campaignId]['priority'] = $aCampaign['priority'];
         }
         return $aRetCampaigns;
     }
