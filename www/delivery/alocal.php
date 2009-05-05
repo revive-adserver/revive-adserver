@@ -480,7 +480,7 @@ MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(),
 }
 function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null)
 {
-if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
 if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
@@ -578,7 +578,7 @@ $file = '/lib/max/Delivery/remotehost.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostSetInfo($run = false)
 {
-if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xml-rpc')) {
+if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xmlrpc')) {
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 //MAX_remotehostSetClientInfo();  // now moved into plugin
