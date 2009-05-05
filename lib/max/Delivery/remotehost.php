@@ -50,7 +50,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
  */
 function MAX_remotehostSetInfo($run = false)
 {
-    if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xml-rpc')) {
+    if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xmlrpc')) {
         MAX_remotehostProxyLookup();
         MAX_remotehostReverseLookup();
         //MAX_remotehostSetClientInfo();  // now moved into plugin

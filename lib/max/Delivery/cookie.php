@@ -309,7 +309,7 @@ function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain 
     ###START_STRIP_DELIVERY
     if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
     ###END_STRIP_DELIVERY
-        if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+        if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
             if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
                 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
             }

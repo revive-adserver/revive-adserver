@@ -41,7 +41,7 @@ require_once 'XML/RPC/Server.php';
 // Set a global variable to let the other functions know
 // they are serving an XML-RPC request. Needed for capping
 // on request
-$GLOBALS['_OA']['invocationType'] = 'xml-rpc';
+$GLOBALS['_OA']['invocationType'] = 'xmlrpc';
 
 // Workaround for PHP bug #41293 (PHP-5.2.2)
 if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
