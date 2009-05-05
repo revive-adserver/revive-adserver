@@ -3172,7 +3172,7 @@ $divEnd = '</div>';
 $beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
 return $beacon;
 }
-function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array(), $useAppend=true)
+function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array(), $useAppend=true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $aBanner['bannerContent'] = $imageUrl = _adRenderBuildFileUrl($aBanner, $useAlt);
@@ -3208,7 +3208,7 @@ $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag{$aB
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
-function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array())
+function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -3271,7 +3271,7 @@ $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $code . $bannerText . $beaconTag . $append;
 }
-function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $context=array())
+function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
 {
 // This is a wrapper to the "parent" bannerTypeHtml function
 $aConf = $GLOBALS['_MAX']['CONF'];
@@ -3280,7 +3280,7 @@ if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
 }
 return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }
-function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=false, $loc, $referer, $context=array())
+function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=false, $loc='', $referer='', $context=array())
 {
 // This is a wrapper to the "parent" bannerTypeHtml function
 $aConf = $GLOBALS['_MAX']['CONF'];
