@@ -226,7 +226,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
             }
             $this->oController->report .= "\n";
         } else {
-            $message = "- Maintenance statistics will NOT be run for the $module";
+            $message = "- Maintenance statistics will NOT be run";
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_INFO);
             $this->oController->report .= "\n";
