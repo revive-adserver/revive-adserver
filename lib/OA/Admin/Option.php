@@ -119,6 +119,41 @@ class OA_Admin_Option
         echo "// -->\n</script>";
     }
 
+    /**
+     * Function that adds subitems to Camapaign left menu item
+     * That function must be called just when the openXMarket plugin
+     * is installed and enabled
+     *
+     * @param string $section   The subitem to be highlighted
+     * @return array $aResult   Array of subitems
+     */
+    function getCampaigns($section)
+    {
+        $aSections['advertiser-campaigns'] =
+            array(
+                  'name' => 'Campaign Management',
+                  'value' => 'advertiser-campaigns.php',
+                  'perm' => OA_ACCOUNT_MANAGER
+                 );
+        $aSections['market-campaigns-settings'] =
+            array(
+                  'name' => 'OpenX Market Settings',
+                  'value' => 'plugins/oxMarket/market-campaigns-settings.php',
+                  'perm' => OA_ACCOUNT_MANAGER
+                  );
+
+        foreach ($aSections as $k => $v) {
+            if (OA_Permission::isAccount($v['perm'])) {
+                $aResult[$k]['name'] = $v['name'];
+                $aResult[$k]['link'] = $v['value'];
+                addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
+            }
+        }
+        setCurrentLeftMenuSubItem($section);
+
+        return $aResult;
+    }
+
 
     function getSettingsPreferences($section)
     {
@@ -202,7 +237,25 @@ class OA_Admin_Option
                     'name' => $GLOBALS['strChangePassword'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
-        }
+        }/*
+        elseif ($this->_optionType == 'account-user') {
+            $aSections = array();
+            $aSections['name-language'] =
+                array(
+                    'name' => $GLOBALS['strNameLanguage'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+            $aSections['email'] =
+                array(
+                    'name' => $GLOBALS['strChangeEmail'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+            $aSections['password'] =
+                array(
+                    'name' => $GLOBALS['strChangePassword'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+        }*/
 
         foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {

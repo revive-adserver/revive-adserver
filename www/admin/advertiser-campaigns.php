@@ -41,6 +41,20 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
+
+// If OpenX Market Plugin is enabled
+ if ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
+    require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+    $oOptions = new OA_Admin_Option('user');
+    $prefSection = "advertiser-campaigns";
+
+    // Set the correct section of the preference pages and display the drop-down menu
+    $setPref = $oOptions->getCampaigns($prefSection);
+ }
+
+
+
+
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
