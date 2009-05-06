@@ -109,6 +109,7 @@ web                                 = true
 url                                 = true
 html                                = true
 text                                = true
+video                               = false
 
 [delivery]
 cacheExpire                         = 1200

@@ -172,18 +172,34 @@ function buildZoneForm($zone)
         "<img src='".OX::assetPath()."/images/icon-zone-email.gif' align='absmiddle'>&nbsp;".$GLOBALS['strEmailAdZone'],
         MAX_ZoneEmail, array('id' => 'delivery-e', 'onClick' => 'phpAds_formEnableSize();',
             'onChange' => 'oa_hide("warning_change_zone_type");'));
+    if (!empty($conf['allowedBanners']['video'])) {
+        $zoneTypes[] = $form->createElement('radio', 'delivery', '',
+            "<img src='".OX::assetPath()."/images/icon-zone-video-instream.png' align='absmiddle'>&nbsp;".$GLOBALS['strZoneVideoInstream'],
+            OX_ZoneVideoInstream, array('id' => 'delivery-vi', 'onClick' => 'phpAds_formDisableSize();',
+                'onChange' => 'oa_hide("warning_change_zone_type");'));
+        $zoneTypes[] = $form->createElement('radio', 'delivery', '',
+            "<img src='".OX::assetPath()."/images/icon-zone-video-overlay.png' align='absmiddle'>&nbsp;".$GLOBALS['strZoneVideoOverlay'],
+            OX_ZoneVideoOverlay, array('id' => 'delivery-vo', 'onClick' => 'phpAds_formDisableSize();',
+                'onChange' => 'oa_hide("warning_change_zone_type");'));
+    }
     $form->addGroup($zoneTypes, 'zone_types', $GLOBALS['strZoneType'], "<br/>");
 
     //size
     global $phpAds_IAB;
-    if ($zone['delivery'] == phpAds_ZoneText) {
-        $sizeDisabled = true;
-        $zone['width'] = '*';
-        $zone['height'] = '*';
+    switch ($zone['delivery']) {
+        case phpAds_ZoneText:
+        case OX_ZoneVideoInstream:
+        case OX_ZoneVideoOverlay:
+            $sizeDisabled = true;
+            $zone['width'] = '*';
+            $zone['height'] = '*';
+        break;
+        default:
+            $sizeDisabled = false;
+        break;
+        
     }
-    else {
-        $sizeDisabled = false;
-    }
+   
     $aDefaultSize['radio'] = $form->createElement('radio', 'sizetype', '', '',
         'default', array('id' => 'size-d'));
     foreach (array_keys($phpAds_IAB) as $key)
@@ -272,26 +288,28 @@ function processForm($form)
 {
     $aFields = $form->exportValues();
 
-    if ($aFields['delivery'] == phpAds_ZoneText)
-    {
-        $aFields['width'] = 0;
-        $aFields['height'] = 0;
-    }
-    else
-    {
-        if ($aFields['sizetype'] == 'custom')
-        {
-            if (isset($aFields['width']) && $aFields['width'] == '*') {
-                $aFields['width'] = -1;
+    switch ($aFields['delivery']) {
+        case phpAds_ZoneText:
+            $aFields['width'] = $aFields['height'] = 0;
+            break;
+        case OX_ZoneVideoOverlay:
+            $aFields['width'] = $aFields['height'] = -2;
+            break;
+        case OX_ZoneVideoInstream:
+            $aFields['width'] = $aFields['height'] = -3;
+            break;
+        default:
+            if ($aFields['sizetype'] == 'custom') {
+                if (isset($aFields['width']) && $aFields['width'] == '*') {
+                    $aFields['width'] = -1;
+                }
+                if (isset($aFields['height']) && $aFields['height'] == '*') {
+                    $aFields['height'] = -1;
+                }
+            } else {
+                list($aFields['width'], $aFields['height']) = explode ('x', $aFields['size']);
             }
-            if (isset($aFields['height']) && $aFields['height'] == '*') {
-                $aFields['height'] = -1;
-            }
-        }
-        else
-        {
-            list ($aFields['width'], $aFields['height']) = explode ('x', $aFields['size']);
-        }
+        break;
     }
 
     if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {

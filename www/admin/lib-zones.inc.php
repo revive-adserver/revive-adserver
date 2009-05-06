@@ -41,6 +41,8 @@ define ("phpAds_ZonePopup", 2);
 define ("phpAds_ZoneText", 3);
 define ("MAX_ZoneEmail", 4);
 define ("MAX_ZoneClick", 5);
+define ("OX_ZoneVideoInstream", 6);
+define ("OX_ZoneVideoOverlay", 7);
 
 // Define appendtypes
 define ("phpAds_ZoneAppendRaw", 0);
