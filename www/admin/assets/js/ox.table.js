@@ -15,7 +15,7 @@
                       unselectedClass: "", 
                       toSelectClass: "selected", 
                       toUselectClass: "",
-                      selectAllSelector: ".toggleAll input",
+                      selectAllSelector: ".toggleAll:has(input)",
                       updateElement: "tr",
                       useState: false,
                       isMultiCheckbox : function ($checkbox) { 
