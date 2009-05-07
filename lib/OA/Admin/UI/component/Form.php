@@ -219,6 +219,27 @@ class OA_Admin_UI_Component_Form
         return parent::addRule($element, $message, $type, $format, $validation, $reset, $force);
     }
 
+    function addGroupRule($group, $arg1, $type='', $format=null, $howmany=0, $validation = 'server', $reset = false)
+    {
+        if (empty($validation) && $this->forceClientValidation) {
+            $validation = 'client';
+        }
+
+        if (is_array($arg1)) {
+            foreach($arg1 as $elementIndex => $rules) {
+                foreach ($rules as $rule) {
+                    if($rule[1] == 'required') {
+                        $this->hasRequiredFields = true;
+                    }
+                }
+            }
+        }
+
+        if ($type == 'required') {
+            $this->hasRequiredFields = true;
+        }
+        return parent::addGroupRule($group, $arg1, $type, $format, $howmany, $validation, $reset);
+    }
 
     public function addElements($elements = array())
     {
