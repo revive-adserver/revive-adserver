@@ -41,25 +41,25 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
-
-// If OpenX Market Plugin is enabled
- if ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
-    require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-    $oOptions = new OA_Admin_Option('user');
-    $prefSection = "advertiser-campaigns";
-
-    // Set the correct section of the preference pages and display the drop-down menu
-    $setPref = $oOptions->getCampaigns($prefSection);
- }
-
-
-
-
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
     $page = basename($_SERVER['PHP_SELF']);
     OX_Admin_Redirect::redirect($page);
+}
+
+// Is OpenX Market Plugin enabled?
+if ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
+    require_once MAX_PATH . '/www/admin/plugins/oxMarket/oxMarket.class.php';
+    $oMarket = new Plugins_admin_oxMarket_oxMarket();
+    // Is OpenX Market Plugin active?
+    if ($oMarket->isActive()) {
+        // Let add to Campaigns the OpenX Market Settings subitem
+        require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+        $oOptions = new OA_Admin_Option('user');
+        $prefSection = "advertiser-campaigns";
+        $setPref = $oOptions->getCampaigns($prefSection);
+    }
 }
 
 /*-------------------------------------------------------*/
