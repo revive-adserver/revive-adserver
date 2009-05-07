@@ -268,9 +268,9 @@ class OX_ParserBase extends XML_Parser
         }
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = OX_PLUGIN_ERROR_PARSE)
+    function raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = OX_PLUGIN_ERROR_PARSE)
     {
-        if (is_null($this->error))
+		if (is_null($this->error))
         {
             $error = '';
             if (is_resource($msg))
@@ -278,16 +278,13 @@ class OX_ParserBase extends XML_Parser
                 $error.= 'Parser error: '.xml_error_string(xml_get_error_code($msg));
                 $xp = $msg;
             }
+
             else
             {
                 $error.= 'Parser error: '.$msg;
                 if (!is_resource($xp)) {
                     $xp = $this->parser;
                 }
-            }
-            if ($error_string = xml_error_string($xmlecode))
-            {
-                $error.= ' - '.$error_string;
             }
             if (is_resource($xp))
             {
@@ -301,14 +298,11 @@ class OX_ParserBase extends XML_Parser
             $options = 0;
             $userinfo = '';
 
-            $this->error =& PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'OX_ParserPlugin_Error', true);
-            return $err;
-
+            $this->error = PEAR::raiseError($error, $code, $mode, $options, $userinfo);
+			return $this->error;
         }
         return $this->error;
     }
-
-
 }
 
 ?>

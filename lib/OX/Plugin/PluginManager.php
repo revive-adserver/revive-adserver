@@ -611,7 +611,24 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->aParse['plugins'][$idx] = $this->parseXML($file, 'OX_ParserComponentGroup');
             if (!$this->aParse['plugins'][$idx])
             {
-                $this->_logError('Failed to parse plugin definition in '.$file);
+				// We should be able to assume that our parent already added a detailed error
+				if (count($this->aErrors) )
+				{
+					$lastError = array_pop($this->aErrors);
+					
+					// Save the generic error
+					$this->_logError('Failed to parse plugin definition in '.$file);
+					
+					// Show the detailed error on the line after the generic error
+					$this->_logError($lastError);
+				}
+				else
+				{
+					$this->_logError('Failed to parse plugin definition in '.$file);
+				}
+				
+				$this->_logError($errorMsg);
+
                 $this->aParse['plugins'][$idx]['error'] = true;
                 if ($returnOnError)
                 {
