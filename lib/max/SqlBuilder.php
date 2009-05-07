@@ -741,7 +741,7 @@ class SqlBuilder
         case 'zone' :
             if (!empty($aParams['agency_id'])) SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
             if (!empty($aParams['publisher_id'])) SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-            if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
+            if (isset($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
             if (isset($aParams['zone_type'])) SqlBuilder::_addLimitation($aLimitations, 'zone_type', 'z.delivery', $aParams['zone_type']);
             if (isset($aParams['zone_width'])) SqlBuilder::_addLimitation($aLimitations, 'zone_width', 'z.width', $aParams['zone_width']);
             if (isset($aParams['zone_height'])) SqlBuilder::_addLimitation($aLimitations, 'zone_height', 'z.height', $aParams['zone_height']);

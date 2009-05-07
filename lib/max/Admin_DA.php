@@ -1504,7 +1504,7 @@ class Admin_DA
     // +---------------------------------------+
     function getZone($zoneId)
     {
-        return Admin_DA::_getDataRowFromId('zone', 'zoneid', $zoneId);
+        return Admin_DA::_getDataRowFromId('zone', 'zone_id', $zoneId);
     }
 
     function getZones($aParams, $allFields = false)
