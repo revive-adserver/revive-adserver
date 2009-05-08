@@ -484,7 +484,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $message .= ', but no delivered impressions:';
             $this->globalMessage .= $message . "\n";
             OA::debug($message, PEAR_LOG_DEBUG);
-            if ($oAdvert->pastToBeDelivered == 0 || (!empty($GLOBALS['_MAX']['CONF']['maintenance']['excludeZoneZero']) && $zoneId == 0)) {
+            if ($oAdvert->pastToBeDelivered == 0) {
                 $message = '      - CORRECT! Ad was not meant to be delivered!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
