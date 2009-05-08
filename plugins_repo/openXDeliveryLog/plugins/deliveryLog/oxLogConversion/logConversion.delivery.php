@@ -41,8 +41,9 @@ MAX_Dal_Delivery_Include();
  *                           MAX_trackerCheckForValidAction() function.
  * @return array An array...
  */
-function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion)
+function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion, $okToLog = true)
 {
+    if (!$okToLog) { return false; }
     // Initiate the connection to the database (before using mysql_real_escape_string) 
  	OA_Dal_Delivery_connect('rawDatabase');
  	

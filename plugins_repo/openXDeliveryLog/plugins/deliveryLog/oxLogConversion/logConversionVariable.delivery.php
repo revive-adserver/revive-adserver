@@ -41,8 +41,9 @@ MAX_Dal_Delivery_Include();
  * @param string $serverRawIp The associated server identifier for these values.
  * @return bool True on success, false on failuer.
  */
-function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logConversionVariable($aVariables, $trackerId, $serverConvId, $serverRawIp)
+function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logConversionVariable($aVariables, $trackerId, $serverConvId, $serverRawIp, $okToLog=true)
 {
+    if (!$okToLog) { return false; }
     // Initiate the connection to the database (before using mysql_real_escape_string) 
  	OA_Dal_Delivery_connect('rawDatabase');
  	

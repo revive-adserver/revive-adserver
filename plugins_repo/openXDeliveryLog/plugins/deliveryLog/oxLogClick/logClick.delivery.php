@@ -32,8 +32,9 @@ $Id$
 
 MAX_Dal_Delivery_Include();
 
-function Plugin_deliveryLog_oxLogClick_logClick_Delivery_logClick()
+function Plugin_deliveryLog_oxLogClick_logClick_Delivery_logClick($adId = 0, $zoneId = 0, $okToLog = true)
 {
+    if (!$okToLog) { return false; }
     $aData = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
         'interval_start' => $aData['interval_start'],

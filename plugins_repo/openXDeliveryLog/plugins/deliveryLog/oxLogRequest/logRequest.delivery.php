@@ -30,8 +30,9 @@ $Id$
  * @subpackage openxDeliveryLog
  */
 
-function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest()
+function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($adId = 0, $zoneId = 0, $aAd = array(), $okToLog = true)
 {
+    if (!$okToLog) { return false; }
     $aData = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
         'interval_start' => $aData['interval_start'],

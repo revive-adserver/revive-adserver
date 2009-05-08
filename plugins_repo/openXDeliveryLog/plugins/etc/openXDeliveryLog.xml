@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Standard delivery logging plugin for OpenX</description>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <type>extension</type>
 
     <install>
