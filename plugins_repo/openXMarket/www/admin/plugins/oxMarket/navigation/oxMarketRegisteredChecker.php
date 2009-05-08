@@ -24,44 +24,36 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
 
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+/**
+ *
+ * @package    openXMarket
+ * @subpackage oxMarket
+ * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
+ */
+class Plugins_admin_oxMarket_oxMarketRegisteredChecker
+    implements OA_Admin_Menu_IChecker
+{
+    /**
+     * Returns true if marketPlugin is enabled and status flag is set to valid.
+     *
+     * @param OA_Admin_Menu_Section $oSection
+     */
+    public function check($oSection)
+    {
+        $isRegistered = false;
+        if (isset ( $GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] )
+            && $GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
 
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-
-/*
-
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    if (!$oMarketComponent->isSplashAlreadyShown()) {
-        $oMarketComponent->setSplashAlreadyShown();
+            require_once(MAX_PATH . '/www/admin/plugins/oxMarket/oxMarket.class.php');
+            $oOpenxMarket = new Plugins_admin_oxMarket_oxMarket();
+            if ($oOpenxMarket->isActive() && $oOpenxMarket->isRegistered()) {
+                $isRegistered = true;
+            }
+        }
+        return $isRegistered;
     }
+}
 
-    $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-    $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
-*/
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    $oMenu = OA_Admin_Menu::singleton();
-
-    //update page title
-    $oCurrentSection = $oMenu->get("market-campaigns-settings");
-    phpAds_PageHeader("market-campaigns-settings", new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName(), "iconMarketLarge"), '../../', true, true, true, false);
-
-
-    $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
-    $oTpl->display();
-
-    //footer
-    phpAds_PageFooter();
 ?>

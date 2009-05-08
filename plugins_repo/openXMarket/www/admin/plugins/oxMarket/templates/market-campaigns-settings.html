@@ -1,11 +1,14 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,4 +27,19 @@
 $Id$
 
 -->*}
-{include file=market-campaigns-settings-list.html from=$aCampaigns aCount=$aCount}
+<div class="content">
+    <iframe id="content-frame" src="{$pubconsoleHost}/{$pubconsolePageId}?{$pubconsoleAccountIdParamName}={$pubconsoleAccountId}" width="100%" height="530px" frameborder="0" marginwidth="0" marginheight="0"></iframe>
+</div>
+
+<script type="text/javascript" src="{$pubconsoleHost}/assets/pc/js/ox.pc.frame.js" ></script>
+<script type="text/javascript">
+<!--
+{literal}
+$(document).ready(function() {
+  if ($.fn.updateFrameSize) {
+    $("#content-frame").updateFrameSize({'msie' : 650, 'name': 'market-include'});
+  }
+});
+{/literal}
+//-->
+</script>
