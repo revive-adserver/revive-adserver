@@ -2691,7 +2691,7 @@ $aInfo = explode(':', $identifier);
 $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
 if (!function_exists($functionName)) {
 // Function doesn't exist, include the generic merged delivery file
-_includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
+if (!empty($GLOBALS['CONF']['debug']['production'])) _includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
 if (!function_exists($functionName)) {
 // Function doesn't exist, include the relevant plugin file
 _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
