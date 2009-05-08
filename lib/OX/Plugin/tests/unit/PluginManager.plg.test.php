@@ -739,8 +739,8 @@ class Test_OX_PluginManager extends UnitTestCase
                                 array('getPackageInfo')
                              );
         $oManager = new $oMockManager($this);
-        $oManager->setReturnValueAt(0,'getPackageInfo', array('stuff'=>'foo'));
-        $oManager->setReturnValueAt(1,'getPackageInfo', array('stuff'=>'bar'));
+        $oManager->setReturnValueAt(0,'getPackageInfo', array('stuff'=>'bar'));
+        $oManager->setReturnValueAt(1,'getPackageInfo', array('stuff'=>'foo'));
         $oManager->expectCallCount('getPackageInfo',2);
 
         $GLOBALS['_MAX']['CONF']['plugins'] = array('foo' => 1,'bar' => 0);
