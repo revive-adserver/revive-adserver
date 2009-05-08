@@ -919,7 +919,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function getPackagesList()
     {
-        $aResult = $GLOBALS['_MAX']['CONF']['plugins'];
+        $aResult = array_reverse($GLOBALS['_MAX']['CONF']['plugins']);
         foreach ($aResult AS $name => $enabled)
         {
             $aResult[$name] = $this->getPackageInfo($name);

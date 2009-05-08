@@ -2045,7 +2045,7 @@ class OX_Plugin_ComponentGroupManager
     {
         if (!$aGroups)
         {
-            $aGroups = array_keys($GLOBALS['_MAX']['CONF']['pluginGroupComponents']);
+            $aGroups = array_reverse(array_keys($GLOBALS['_MAX']['CONF']['pluginGroupComponents']));
         }
         $aResult = array();
         foreach ($aGroups as $k => &$v)
