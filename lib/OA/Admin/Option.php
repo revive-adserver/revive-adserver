@@ -119,42 +119,6 @@ class OA_Admin_Option
         echo "// -->\n</script>";
     }
 
-    /**
-     * Function that adds subitems to Camapaign left menu item
-     * That function must be called just when the openXMarket plugin
-     * is installed and enabled
-     *
-     * @param string $section   The subitem to be highlighted
-     * @return array $aResult   Array of subitems
-     */
-    function getCampaigns($section)
-    {
-        $aSections['advertiser-campaigns'] =
-            array(
-                  'name' => 'Campaign Management',
-                  'value' => 'advertiser-campaigns.php',
-                  'perm' => OA_ACCOUNT_MANAGER
-                 );
-        $aSections['market-campaigns-settings'] =
-            array(
-                  'name' => 'OpenX Market Settings',
-                  'value' => 'plugins/oxMarket/market-campaigns-settings.php',
-                  'perm' => OA_ACCOUNT_MANAGER
-                  );
-
-        foreach ($aSections as $k => $v) {
-            if (OA_Permission::isAccount($v['perm'])) {
-                $aResult[$k]['name'] = $v['name'];
-                $aResult[$k]['link'] = $v['value'];
-                addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
-            }
-        }
-        setCurrentLeftMenuSubItem($section);
-
-        return $aResult;
-    }
-
-
     function getSettingsPreferences($section)
     {
         /**

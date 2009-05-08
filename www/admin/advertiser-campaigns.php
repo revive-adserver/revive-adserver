@@ -48,19 +48,6 @@ if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)
     OX_Admin_Redirect::redirect($page);
 }
 
-// Is OpenX Market Plugin enabled?
-if ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
-    require_once MAX_PATH . '/www/admin/plugins/oxMarket/oxMarket.class.php';
-    $oMarket = new Plugins_admin_oxMarket_oxMarket();
-    // Is OpenX Market Plugin active?
-    if ($oMarket->isActive()) {
-        // Let add to Campaigns the OpenX Market Settings subitem
-        require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-        $oOptions = new OA_Admin_Option('user');
-        $prefSection = "advertiser-campaigns";
-        $setPref = $oOptions->getCampaigns($prefSection);
-    }
-}
 
 /*-------------------------------------------------------*/
 /* Init data                                             */
