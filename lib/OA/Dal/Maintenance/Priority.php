@@ -967,8 +967,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     unset($aNotInLastOIPastDeliveryResult[$aResult['ad_id']][$aResult['zone_id']]);
                 }
             }
-            foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aZones) {
-                if (empty($aZones)) {
+            foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aTestZone) {
+                if (empty($aTestZone)) {
                     unset($aNotInLastOIPastDeliveryResult[$adKey]);
                 }
             }
