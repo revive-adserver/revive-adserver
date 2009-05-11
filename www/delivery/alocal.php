@@ -2048,17 +2048,17 @@ return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
 function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
 // Call all registered plugins that use the "logRequest" hook
-OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog()));
+OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
 // Call all registered plugins that use the "logImpression" hook
-OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog()));
+OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
 // Call all registered plugins that use the "logClick" hook
-OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog()));
+OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
@@ -2078,7 +2078,7 @@ $serverRawIp = $aConf['rawDatabase']['serverRawIp'];
 $serverRawIp = $aConf['rawDatabase']['host'];
 }
 // Call all registered plugins that use the "logConversion" hook
-$aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog()));
+$aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)));
 // Check that the conversion was logged correctly
 if (is_array($aConversionInfo)) {
 // Return the result
@@ -2122,10 +2122,10 @@ continue;
 $aVariables[$aVariable['variable_id']]['value'] = $value;
 }
 if (count($aVariables)) {
-OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog()));
+OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)));
 }
 }
-function _viewersHostOkayToLog()
+function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -2173,7 +2173,7 @@ $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_host';
 $okToLog = false;
 }
 }
-$result = OX_Delivery_Common_Hook('filterEvent', array());
+$result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
 if (!empty($result) && is_array($result)) {
 foreach ($result as $pci => $value) {
 if ($value == false) {
