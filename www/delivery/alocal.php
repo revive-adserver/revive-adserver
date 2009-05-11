@@ -1573,6 +1573,8 @@ $aColumns = array(
 'm.block AS block_campaign',
 'm.capping AS cap_campaign',
 'm.session_capping AS session_cap_campaign',
+'m.clickwindow AS clickwindow',
+'m.viewwindow AS viewwindow',
 'cl.clientid AS client_id',
 'cl.advertiser_limitation AS advertiser_limitation',
 'a.account_id AS account_id',
