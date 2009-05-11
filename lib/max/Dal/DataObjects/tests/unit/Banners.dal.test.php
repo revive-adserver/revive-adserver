@@ -102,6 +102,19 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doAdZoneAssoc->zone_id = 0;
         $this->assertTrue($doAdZoneAssoc->find());
         $this->assertTrue($doAdZoneAssoc->fetch());
+
+        // Test creating a text ad. Ensure it is linked to zone 0 even though
+        // zone 0 is not a text zone.
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 19:28:06';
+        $doBanners->contenttype = 'txt';
+        $doBanners->storagetype = 'txt';
+        $bannerId = DataGenerator::generateOne($doBanners, true);
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc->ad_id = $bannerId;
+        $doAdZoneAssoc->zone_id = 0;
+        $this->assertTrue($doAdZoneAssoc->find());
+        $this->assertTrue($doAdZoneAssoc->fetch());
     }
 
 }

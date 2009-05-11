@@ -1062,6 +1062,10 @@ class Admin_DA
     {
         $aAdZone = Admin_DA::getAdZones($aVariables);
         if (empty($aAdZone))  {
+            if (!$aVariables['zone_id']) {
+                // Direct selection zone, always allow
+                return true;
+            }
             $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
             $azParams['ad_id'] = $aVariables['ad_id'];
             $azAds = Admin_DA::getAds($azParams);
