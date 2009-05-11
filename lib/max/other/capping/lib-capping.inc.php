@@ -68,7 +68,7 @@ function _initCappingVariables(&$time, &$cap, &$session_capping) {
     else {
     	$session_capping = 0;
     }
-
+    if (empty($cap) && empty($session_capping)) { $block = 0; }
     return $block;
 }
 
