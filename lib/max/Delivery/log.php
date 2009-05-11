@@ -55,7 +55,7 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
     // Call all registered plugins that use the "logRequest" hook
-    OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog()));
+    OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)));
 }
 
 /**
@@ -67,7 +67,7 @@ function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
     // Call all registered plugins that use the "logImpression" hook
-    OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog()));
+    OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 
 /**
@@ -79,7 +79,7 @@ function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
     // Call all registered plugins that use the "logClick" hook
-    OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog()));
+    OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 
 /**
@@ -109,7 +109,7 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
         $serverRawIp = $aConf['rawDatabase']['host'];
     }
     // Call all registered plugins that use the "logConversion" hook
-    $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog()));
+    $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)));
     // Check that the conversion was logged correctly
     if (is_array($aConversionInfo)) {
         // Return the result
@@ -171,7 +171,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
         $aVariables[$aVariable['variable_id']]['value'] = $value;
     }
     if (count($aVariables)) {
-        OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog()));
+        OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)));
     }
 }
 
@@ -180,11 +180,15 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
  * logged or ignored, on the basis of the viewer's IP address or hostname.
  *
  * @access private
+ * @param integer $adId      The id of the ad being logged
+ * @param integer $zoneId    The id of the zone being logged
+ * @param integer $trackerId The id of the tracker being logged
  * @return boolean True if the information should be logged, or false if the
  *                 IP address or host name is in the list of hosts for which
  *                 information should not be logged.
  */
-function _viewersHostOkayToLog()
+
+function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -253,7 +257,7 @@ function _viewersHostOkayToLog()
     if ($okToLog) OA::debug('viewers host is OK to log');
     ###END_STRIP_DELIVERY
     
-    $result = OX_Delivery_Common_Hook('filterEvent', array());
+    $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
     if (!empty($result) && is_array($result)) {
         foreach ($result as $pci => $value) {
             if ($value == false) {
