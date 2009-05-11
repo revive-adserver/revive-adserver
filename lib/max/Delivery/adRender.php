@@ -359,13 +359,21 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     }
     $code .= "
     ox_swf.addParam('allowScriptAccess','always');
-    ox_swf.write('ox_$rnd');
-/"."/ ]]> --></script>";
-
+    ox_swf.write('ox_$rnd');\n";
+   
+    if ($logView && $conf['logging']['adImpressions']) {
+        // Only render the log beacon if the user has the minumum required flash player version
+        $code .= "if (ox_swf.installedVer.versionIsValid(ox_swf.getAttribute('version'))) { document.write(\""._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer)."\"); }";
+        // Otherwise log a fallback impression (if there is a fallback creative configured)
+        if (!empty($aBanner['alt_filename'])) {
+            $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
+            $code .= ' else { document.write("'._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL).'"); }';
+        }
+    }
+    $code .= "/"."/ ]]> --></script>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
-    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-
-    return $prepend . $code . $bannerText . $beaconTag . $append;
+   
+    return $prepend . $code . $bannerText . $append;
 }
 
 /**
@@ -485,7 +493,7 @@ function _adRenderBuildImageUrlPrefix()
  *                              for when writing out to a page, & is necessary when redirecting directly
  * @return string  The logging beacon URL
  */
-function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
+function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;', $fallBack = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // If there is an OpenX->OpenX internal redirect, log both zones information
@@ -527,6 +535,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     if (!empty($logLastAction)) $url .= $amp . $conf['var']['lastView'] . "=" . $logLastAction;
     if (!empty($loc)) $url .= $amp . "loc=" . urlencode($loc);
     if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
+    if (!empty($fallBack)) $url .= $amp . $conf['var']['fallBack'] . '=1';
     $url .= $amp . "cb={random}";
 
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
