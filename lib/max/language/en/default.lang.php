@@ -1333,6 +1333,7 @@ $GLOBALS['strGlobalSettings']               = "Global Settings";
 $GLOBALS['strGeneralSettings']              = "General Settings";
 $GLOBALS['strMainSettings']                 = "Main Settings";
 $GLOBALS['strAdminSettings']                = "Administration Settings";
+$GLOBALS['strPlugins']                      = "Plugins";
 
 $GLOBALS['strChooseSection']          = 'Choose Section';
 

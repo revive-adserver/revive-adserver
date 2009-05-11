@@ -154,7 +154,7 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("plugin-index");
+phpAds_PageHeader("plugin-index", new OA_Admin_UI_Model_PageHeaderModel($GLOBALS['strPluginPreferences']), '', false, true);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

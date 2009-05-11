@@ -166,7 +166,7 @@ $aSettings[0]['items'][] = array(
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("plugin-index");
+phpAds_PageHeader("plugin-index", new OA_Admin_UI_Model_PageHeaderModel($GLOBALS['strPluginSettings']), '', false, true);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

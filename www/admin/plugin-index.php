@@ -351,7 +351,7 @@ else if (array_key_exists('checkdb',$_GET))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("plugin-index", new OA_Admin_UI_Model_PageHeaderModel('Plugins'), '', false, true);
+phpAds_PageHeader("plugin-index", new OA_Admin_UI_Model_PageHeaderModel($GLOBALS['strPlugins']), '', false, true);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
