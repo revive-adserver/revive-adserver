@@ -111,7 +111,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("account-settings-index", 'GlobalSettings', "account-settings-index.php", false, ""));
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("maintenance-index", 'Maintenance', "maintenance-index.php", false, "settings/maintenance"));
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("updates-index", 'ProductUpdates', "updates-product.php", false, "settings/productUpdates"));
-                $oMenu->addTo("configuration", new OA_Admin_Menu_Section("plugin-index", 'Plugins', "plugin-index.php"));
+            $oMenu->add(new OA_Admin_Menu_Section("plugin-index", 'Plugins', "plugin-index.php"));
 
         break;
         case OA_ACCOUNT_MANAGER:
