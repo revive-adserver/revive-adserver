@@ -63,7 +63,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Publisher',
-            'PartialMockOA_Dll_Publisher',
+            'PartialMockOA_Dll_Publisher_ZoneTest',
             array('checkPermissions', 'getDefaultAgencyId')
         );
         Mock::generatePartial(
@@ -88,7 +88,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
      */
     function testAddModifyDelete()
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_ZoneTest($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
@@ -140,7 +140,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
      */
     function testGetAndGetList()
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_ZoneTest($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
@@ -230,7 +230,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
      */
     function _testStatistics($methodName)
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_ZoneTest($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
@@ -415,7 +415,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $isAllowedAdjsTags = $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'];
         $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'] = false;
         $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'adjs'));
-        
+
         // Allowed code type
         $GLOBALS['_MAX']['CONF']['oxInvocationTags']['isAllowedAdjs'] = true;
         $tag1 = $dllZonePartialMock->generateTags($zoneId, 'adjs');
@@ -433,7 +433,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         TestEnv::installPluginPackage('openXInvocationTags');
         $dllZone = new OA_Dll_Zone();
         $aZoneAllowedTags = $dllZone->getAllowedTags();
-        // Test if only and all allowed tags are returned 
+        // Test if only and all allowed tags are returned
         $count = 0;
         $invocationTags =& OX_Component::getComponents('invocationTags');
         foreach($invocationTags as $pluginKey => $invocationTag) {

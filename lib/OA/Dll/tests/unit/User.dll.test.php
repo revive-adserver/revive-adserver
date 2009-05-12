@@ -64,7 +64,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Agency',
-            'PartialMockOA_Dll_Agency',
+            'PartialMockOA_Dll_Agency_UserTest',
             array('checkPermissions')
         );
         Mock::generatePartial(
@@ -151,7 +151,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
     function testGetAndGetList()
     {
         $dllUserPartialMock = new PartialMockOA_Dll_User($this);
-        $dllAgencyPartialMock     = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock     = new PartialMockOA_Dll_Agency_UserTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 1);

@@ -39,8 +39,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */
-
-
 class OA_Dll_PublisherTest extends DllUnitTestCase
 {
     /**
@@ -62,13 +60,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Agency',
-            'PartialMockOA_Dll_Agency',
+            'PartialMockOA_Dll_Agency_PublisherTest',
             array('checkPermissions')
         );
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Publisher',
-            'PartialMockOA_Dll_Publisher',
+            'PartialMockOA_Dll_Publisher_PublisherTest',
             array('checkPermissions', 'getDefaultAgencyId')
         );
     }
@@ -88,7 +86,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     function testAddModifyDelete()
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_PublisherTest($this);
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
@@ -136,8 +134,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     function testGetAndGetList()
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
-        $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_PublisherTest($this);
+        $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency_PublisherTest($this);
 
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
         $dllPublisherPartialMock->expectCallCount('checkPermissions', 8);
@@ -231,7 +229,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     function _testStatistics($methodName)
     {
-        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_PublisherTest($this);
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);

@@ -58,7 +58,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Agency',
-            'PartialMockOA_Dll_Agency',
+            'PartialMockOA_Dll_Agency_AgencyTest',
             array('checkPermissions')
         );
     }
@@ -73,7 +73,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
      */
     function testAddModifyDelete()
     {
-        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 9);
@@ -136,7 +136,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
     function testAddAgencyWithoutUser()
     {
-        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 2);
@@ -158,7 +158,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
     function testAddAgencyWithUser()
     {
-        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 3);
@@ -211,7 +211,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
      */
     function testGetAndGetList()
     {
-        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 6);
@@ -290,7 +290,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
      */
     function _testStatistics($methodName)
     {
-        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 5);
