@@ -153,8 +153,31 @@ ul.column li.rejected {
     background-color: #fe9797;
 }
 
+/** Mass opt-in */
+#massOptIn h3 {
+  display: inline;
+}
 
+#massOptIn #mainOptions {
+  line-height: 24px;
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
 
+#massOptIn #mainOptions li.mainOption {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
 
+#massOptIn input[type=radio] {
+  vertical-align: middle;
+}
 
- 
+#massOptIn .mainOptionContent {
+  margin-left: 26px;
+}
+
+#massOptIn input.cpm  {
+  width: 3em;
+}

@@ -25,68 +25,39 @@ $Id$
 
 -->*}
 
-
 <div class='tableWrapper'>
     <div class='tableHeader'>
-        <ul class='tableActions'>
-            {if $isManager}
-            <li>
-                {if $clientId != -1}
-                <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon iconCampaignAdd'>{t str=AddCampaign}</a>
-                {else}
-                <span class='inlineIcon iconCampaignAddDisabled'>{t str=AddCampaign}</span>
-                {/if}
-            </li>
-            {/if}
-            {if $isAdvertiser == false}
-            <li class='inactive activeIfSelected'>
-                <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
-
-                {literal}
-                <script type='text/javascript'>
-                <!--
-
-                $('#deleteSelection').click(function(event) {
-					event.preventDefault();
-
-					if (!$(this).parents('li').hasClass('inactive')) {
-						var ids = [];
-						$(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
-							ids.push(this.value);
-						});
-
-						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteCampaigns}{literal}")) {
-    						window.location = 'campaign-delete.php?clientid={/literal}{$clientId}{literal}&campaignid=' + ids.join(',');
-						}
-					}
-                });
-
-                //-->
-                </script>
-                {/literal}
-            </li>
-            {/if}
-        </ul>
-
-        <ul class='tableFilters alignRight'>
+        <ul class='tableFilters'>
             <li>
                 <div class='label'>
-                    Show
+                    Showing
                 </div>
 
                 <div class='dropDown'>
-                    <span><span>{if $hideinactive}Active campaigns{else}All campaigns{/if}</span></span>
+                    <span><span>
+                        {if $campaignType == 'remnant'}
+                            Remnant campaigns
+                        {elseif $campaignType == 'nonexclusive'}
+                            Non-exclusive campaigns
+                        {else}
+                            All campaigns
+                        {/if}
+                     </span></span>
 
                     <div class='panel'>
                         <div>
                             <ul>
-                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=0'>All campaigns</a></li>
-                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=1'>Active campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=remnant'>Remnant campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=nonexclusive'>Non-exclusive campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=all'>All campaigns</a></li>
                             </ul>
                         </div>
                     </div>
 
                     <div class='mask'></div>
+                </div>
+                <div class='label' style="margin-left: 4px;">
+                    that are not yet opted in
                 </div>
             </li>
         </ul>
@@ -99,46 +70,66 @@ $Id$
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-                {if $isAdvertiser == false}
                 <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
-                {/if}
-                <th class='{ox_column_class item=name order=up default=1}'>
-                    {ox_column_title item=name order=up default=1 str=Name url=advertiser-campaigns.php}
-                </th>
-                <th class='{ox_column_class item=status order=up default=0}'>
-                    {ox_column_title item=status order=up default=0 str=Status url=advertiser-campaigns.php}
+                <th>
+                    Campaign Name
                 </th>
                 <th>
-                    Type
+                    Campaign Type
                 </th>
-                <th>&nbsp;
-
-                </th>
-                <th class='last alignRight'>&nbsp;
-
+                <th class='last'>
+                    Minimum CPM that OpenX Market must beat
                 </th>
             </tr>
         </thead>
 
-{if !$from|@count}
+{if $from|@count}
+        <tbody>
+        {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
+        {foreach key=campaignId item=campaign from=$from}
+            {cycle name=bgcolor assign=bgColor}
+            <tr class='{$bgColor}'>
+                <td class='toggleSelection'>
+                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}' id="c{$campaignId}" />
+                </td>
+                <td>
+                    <label for="c{$campaignId}">{$campaign.campaignname|escape:html}</label>
+                </td>
+                <td>
+                    {ox_campaign_type type=$campaign.type}
+                </td>
+                <td>
+                    $ <input type="text" class="cpm" name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
+                    {if $campaign.minCpmCalculated}
+                    <small>This is the campaign's calculated eCPM</small>
+                    {/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+{else}
         <tbody>
             <tr class='odd'>
-                <td colspan='6'>&nbsp;</td>
+                <td colspan='4'>&nbsp;</td>
             </tr>
             <tr class='even'>
-                <td colspan='6'>
+                <td colspan='4'>
                     <div class='tableMessage'>
                         <div class='panel'>
-                            {if $clientId != -1}
-                            	{if $hideinactive}
-                               		{$aCount.campaigns_hidden} {t str=InactiveCampaignsHidden}
-                                {else}
-	                                {t str=NoCampaigns}
-                                {/if}
+                            {capture assign=$typeString}
+                              {if $campaignType == 'remnant'}
+                                  remnant
+                              {elseif $campaignType == 'nonexclusive'}
+                                  non-exclusive
+                              {/if} 
+                            {/capture}
+                            
+                            {if $campaignsOptedIn > 0}
+                                All of your {$typeString} campaigns have been opted in to OpenX Market.
                             {else}
-                                {t str=NoCampaignsAddAdvertiser}
+                                There are no {$typeString} campaigns to opt in to OpenX Market in your inventory.
                             {/if}
 
                             <div class='corner top-left'></div>
@@ -152,90 +143,9 @@ $Id$
                 </td>
             </tr>
             <tr class='odd'>
-                <td colspan='6'>&nbsp;</td>
+                <td colspan='4'>&nbsp;</td>
             </tr>
         </tbody>
-
-{else}
-        <tbody>
-    {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
-    {foreach key=campaignId item=campaign from=$from}
-        {cycle name=bgcolor assign=bgColor}
-            <tr class='{$bgColor}'>
-                {if $isAdvertiser == false}
-                <td class='toggleSelection'>
-                    <input type='checkbox' value='{$campaignId}' />
-                </td>
-                {/if}
-                <td>
-                    {if $isAdvertiser}
-                        <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
-                    {else}
-                        {if $isAdvertiser && $canEdit == false}
-                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
-                        {else}
-                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
-                        {/if}
-                    {/if}
-                </td>
-                <td>
-                    {ox_campaign_status clientid=$clientId campaignid=$campaignId status=$campaign.status}
-                </td>
-                <td>
-                    {ox_campaign_type type=$campaign.type}
-                </td>
-                <td class='alignRight verticalActions'>
-                    <ul class='rowActions'>
-                    {if $isAdvertiser == false}
-                        <li>
-                            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
-                        </li>
-                        {/if}
-                        <li>
-                            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBanners'>{t str=Banners}</a>
-                        </li>
-                    </ul>
-                </td>
-                <td class='hasPanel'>
-                    <div class='panel'>
-                        <table cellspacing='0' summary=''>
-                            <tr>
-                                <th>{t str=ImpressionsBooked}</th>
-                                <td>{if $campaign.impressions >= 0}{$campaign.impressions}{else}{t str=Unlimited}{/if}</td>
-                            </tr>
-                            <tr>
-                                <th>{t str=ClicksBooked}</th>
-                                <td>{if $campaign.clicks >= 0}{$campaign.clicks}{else}{t str=Unlimited}{/if}</td>
-                            </tr>
-                            {if $showconversions}
-                            <tr>
-                                <th>{t str=ConversionsBooked}</th>
-                                <td>{if $campaign.conversions >= 0}{$campaign.conversions}{else}{t str=Unlimited}{/if}</td>
-                            </tr>
-                            {/if}
-                            <tr>
-                                <th>{t str=ActivationDate}</th>
-                                <td>{$campaign.activate}</td>
-                            </tr>
-                            <tr>
-                                <th>{t str=ExpirationDate}</th>
-                                <td>{$campaign.expire}</td>
-                            </tr>
-                            <tr>
-                                <th>{t str=Priority}</th>
-                                <td>{$campaign.priority}</td>
-                            </tr>
-                        </table>
-
-                        <div class='corner top-left'></div>
-                        <div class='corner top-right'></div>
-                        <div class='corner bottom-left'></div>
-                        <div class='corner bottom-right'></div>
-                    </div>
-                </td>
-            </tr>
-    {/foreach}
-       </tbody>
 {/if}
     </table>
 </div>

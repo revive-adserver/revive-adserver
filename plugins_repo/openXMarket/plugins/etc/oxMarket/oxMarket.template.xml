@@ -52,6 +52,7 @@
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
 
             <file path="{ADMINPATH}/">market-campaigns-settings.php</file>
+            <file path="{ADMINPATH}/">market-campaigns-settings=opt-in.php</file>
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>

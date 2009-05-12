@@ -195,3 +195,33 @@
         });
     };
 })(jQuery);
+
+
+(function($) {
+    $.fn.marketOptIn = function(options) {
+        var defaults = {
+        };
+        var settings = $.extend({}, defaults, options);
+
+        var $radioButtons = this.find(":radio[@name=optInType]");
+        $radioButtons.change(updateVisibility);
+        if ($.browser.msie) {
+            $radioButtons.click(updateVisibility);
+        }
+        
+        updateVisibility.call(this.find(":radio:checked"));
+        
+        function updateVisibility() {
+            var value = $(this).val();
+            if (value == 'remnant') {
+                $("#optInSelected").hide();
+                $("#minCpm").attr('disabled', false).focus();
+            } else {
+                $("#optInSelected").show();
+                $("#minCpm").attr('disabled', true);
+            }
+        }
+        
+        return this;
+    };
+})(jQuery);

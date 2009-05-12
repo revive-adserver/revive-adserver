@@ -27,19 +27,45 @@
 $Id$
 
 -->*}
-<div class="content">
-    <iframe id="content-frame" src="{$pubconsoleHost}/{$pubconsolePageId}?{$pubconsoleAccountIdParamName}={$pubconsoleAccountId}" width="100%" height="530px" frameborder="0" marginwidth="0" marginheight="0"></iframe>
-</div>
+<form class="flat" id="massOptIn" action="market-campaigns-settings-opt-in.php" method="POST">
+<input type="hidden" name="campaignType" value="{$campaignType}" /> 
+<p style="width: 50em">
+<strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
+You can further update OpenX Market settings for a specific campaign on the Edit Campaign page.
+<a href="http://www.openx.org/market" target="_blank">Learn more</a>
+</p>
 
-<script type="text/javascript" src="{$pubconsoleHost}/assets/pc/js/ox.pc.frame.js" ></script>
+<ul id="mainOptions">
+  <li class="mainOption">
+    <label><input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
+                  name="optInType" value="remnant" /> 
+      Opt in all {$remnantCampaignsCount} of your existing remnant campaigns to OpenX Market</label>
+      
+    <div id="optInAllRemnant" class="mainOptionContent">
+      <label>Minimum CPM that OpenX Market must beat 
+      $ <input id="minCpm" class="cpm" type="text" name="minCpm" 
+               value="{$minCpm}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
+    </div>
+  </li>
+  
+  <li class="mainOption">
+    <label><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
+                  name="optInType" value="selected" /> 
+        Opt in the selected campaigns to OpenX Market</label>
+    <div id="optInSelected" class="mainOptionContent hide">
+      {include file=market-campaigns-settings-list.html from=$campaigns}
+    </div>
+  </li>
+</ul>
+
+<input type="submit" value="Opt in" />
+</form>
+
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
 <script type="text/javascript">
-<!--
 {literal}
-$(document).ready(function() {
-  if ($.fn.updateFrameSize) {
-    $("#content-frame").updateFrameSize({'msie' : 650, 'name': 'market-include'});
-  }
-});
-{/literal}
+//<!--
+$("#massOptIn").marketOptIn();
 //-->
+{/literal}
 </script>
