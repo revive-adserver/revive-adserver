@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxMarket</name>
+  <version>004</version>
+  <comments>Added ext_market_plugin_variable OXPL-233</comments>
+  <constructive>
+    <changeset>
+      <name>oxMarket</name>
+      <version>004</version>
+      <add>
+        <table>
+        <name>ext_market_plugin_variable</name>
+        <was>ext_market_plugin_variable</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>oxMarket</name>
+    <version>004</version>
+  </changeset>
+</destructive>
+</instructionset>

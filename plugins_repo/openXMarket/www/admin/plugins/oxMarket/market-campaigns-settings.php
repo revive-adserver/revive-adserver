@@ -38,14 +38,12 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
-
-/*
-
     $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    if (!$oMarketComponent->isSplashAlreadyShown()) {
-        $oMarketComponent->setSplashAlreadyShown();
+    if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
+        $oMarketComponent->setMarketSettingsAlreadyShown();
     }
 
+/*
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
     $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
 */

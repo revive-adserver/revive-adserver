@@ -4,24 +4,24 @@
 <upgrade>
     <name>oxMarket</name>
 	<type>plugin</type>
-    <creationDate>2009-04-16</creationDate>
-    <author>Lukasz Wikierski</author>
-    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <creationDate>2009-05-11</creationDate>
+    <author>Miguel Correa</author>
+    <authorEmail>miguel.correa@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GNU General Public License</license>
     <description>>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <versionFrom></versionFrom>
-    <versionTo>1.0.0-RC1</versionTo>
-    <oxversion>2.7.31-beta-rc4</oxversion>
+    <versionFrom>1.0.0-RC1</versionFrom>
+    <versionTo>1.0.0-rc2</versionTo>
+    <oxversion>2.8.1-rc3</oxversion>
 
     <!-- Database Packages -->
     <database>
 		<package>
-            <version>003</version>
+            <version>004</version>
             <schema>tables_oxMarket</schema>
-            <file>schema_tables_oxMarket_003.xml</file>
-            <file>changes_tables_oxMarket_003.xml </file>
-            <file>migration_tables_oxMarket_003.php</file>
+            <file>schema_tables_oxMarket_004.xml</file>
+            <file>changes_tables_oxMarket_004.xml </file>
+            <file>migration_tables_oxMarket_004.php</file>
         </package>
     </database>
 
