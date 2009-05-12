@@ -27,7 +27,7 @@
 $Id$
 
 -->*}
-<form class="flat" id="massOptIn" action="market-campaigns-settings-opt-in.php" method="POST">
+<form class="flat" id="massOptIn" method="POST">
 <input type="hidden" name="campaignType" value="{$campaignType}" /> 
 <p style="width: 50em">
 <strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
@@ -43,7 +43,8 @@ You can further update OpenX Market settings for a specific campaign on the Edit
       
     <div id="optInAllRemnant" class="mainOptionContent">
       <label>Minimum CPM that OpenX Market must beat 
-      $ <input id="minCpm" class="cpm" type="text" name="minCpm" 
+      $ <input id="minCpm" type="text" name="minCpm"
+               class="cpm{if $minCpmInvalid} error{/if}" 
                value="{$minCpm}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
     </div>
   </li>

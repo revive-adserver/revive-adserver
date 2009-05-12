@@ -92,7 +92,8 @@ $Id$
             {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
                 <td class='toggleSelection'>
-                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}' id="c{$campaignId}" />
+                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
+                           id="c{$campaignId}"{if $toOptIn[$campaignId]} checked="checked"{/if} />
                 </td>
                 <td>
                     <label for="c{$campaignId}">{$campaign.campaignname|escape:html}</label>
@@ -101,7 +102,8 @@ $Id$
                     {ox_campaign_type type=$campaign.type}
                 </td>
                 <td>
-                    $ <input type="text" class="cpm" name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
+                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" 
+                             name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
                     {if $campaign.minCpmCalculated}
                     <small>This is the campaign's calculated eCPM</small>
                     {/if}
