@@ -809,6 +809,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         // check if size has changed
         if ($aVariables['width'] != $aBanner['width'] || $aVariables['height'] != $aBanner['height']) {
             MAX_adjustAdZones($bannerid);
+            MAX_addDefaultPlacementZones($bannerid, $aVariables['campaignid']);
         }
     }
     if ($oComponent)
