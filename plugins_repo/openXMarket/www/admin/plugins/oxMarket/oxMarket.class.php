@@ -417,10 +417,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterLogin()
     {
-        //////////
-        OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
-        exit;
-        //////////
+        /*TODO, update this function to use
+          isMarketSettingsAlreadyShown() function and setMarketSettingsAlreadyShown() function
+          OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
+          exit;
+        */
 
         //show only to unregistered users and those who are linked to admin
         if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) {
