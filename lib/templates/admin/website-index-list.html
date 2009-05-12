@@ -129,26 +129,12 @@ $Id$
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=key item=affiliate from=$from}
         {cycle name=bgcolor assign=bgColor}
-        {* set low priority campaign warning if any of this affiliate's zones *}
-        {* are without low-priority ads *}
-        {assign var='zone_overview_icon' value='iconZones'}
-        {assign var='zone_overview_warning_start' value=''}
-        {assign var='zone_overview_warning_e' value=''}
-            
-        {foreach key=key item=aff_zone from=$affiliate.zones}
-            {if $aff_zone.lpc_flag}
-                {assign var='zone_overview_icon' value='iconZoneWarning'}
-                {assign var='zone_overview_warning_start' value='<acronym title="Warning - Publisher has zones with no low-priority ads linked">'}
-                {assign var='zone_overview_warning_end' value='</acronym>'}
-            {/if}
-        {/foreach}
-
             <tr class='{$bgColor}'>
               <td class='toggleSelection'>
-                  <input type='checkbox' value='{$affiliate.affiliateid}' />
+                  <input type='checkbox' value='{$key}' />
                 </td>
                 <td>
-                    <a href='affiliate-edit.php?affiliateid={$affiliate.affiliateid}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
+                    <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
                 </td>
                 {if $showAdDirect}
                 <td>
@@ -158,13 +144,13 @@ $Id$
                 <td class='alignRight'>
                     <ul class='rowActions'>
                         <li>
-                            <a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' class='inlineIcon iconZoneAdd'>{t str=AddNewZone}</a>
+                            <a href='zone-edit.php?affiliateid={$key}' class='inlineIcon iconZoneAdd'>{t str=AddNewZone}</a>
                         </li>
                         <li>
-                          {$zone_overview_warning_start}<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' class='inlineIcon {$zone_overview_icon}'>{t str=Zones}</a>{$zone_overview_warning_end}
+                          <a href='affiliate-zones.php?affiliateid={$key}' class='inlineIcon iconZones'>{t str=Zones}</a>
                         </li>
                         <li>
-                            <a href='affiliate-channels.php?affiliateid={$affiliate.affiliateid}' class='inlineIcon iconTargetingChannels'>{t str=Channels}</a>
+                            <a href='affiliate-channels.php?affiliateid={$key}' class='inlineIcon iconTargetingChannels'>{t str=Channels}</a>
                         </li>
                     </ul>
                 </td>

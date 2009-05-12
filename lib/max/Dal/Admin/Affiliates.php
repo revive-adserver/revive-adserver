@@ -72,6 +72,28 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         $oDbh = OA_DB::singleton();
         $tableW     = $oDbh->quoteIdentifier($prefix.$this->table,true);
         $tableZ     = $oDbh->quoteIdentifier($prefix.'zones',true);
+        
+        // Select out websites only first (to ensure websites with no zones are included in the list)
+        $aWebsitesAndZones = array();
+        $query = "
+            SELECT
+                w.affiliateid AS website_id,
+                w.website     AS website_url,
+                w.name        AS website_name
+            FROM
+                {$tableW} AS w
+            WHERE
+                w.agencyid = " . DBC::makeLiteral($agencyId) . "
+            ORDER BY w.name";
+        $rsAffiliates = DBC::NewRecordSet($query);
+        $rsAffiliates->find();
+        while ($rsAffiliates->fetch()) {
+            $aWebsiteZone = $rsAffiliates->toArray();
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'] = array();
+        }
+        
         $query = "
         SELECT
             w.affiliateid AS website_id,
@@ -86,13 +108,13 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
             {$tableZ} AS z
         WHERE
             z.affiliateid = w.affiliateid
-          AND w.agencyid = " . DBC::makeLiteral($agencyId);
+          AND w.agencyid = " . DBC::makeLiteral($agencyId) . "
+        ORDER BY w.name";
         
-        $aWebsitesAndZones = array();
-        $rsAffiliates = DBC::NewRecordSet($query);
-        $rsAffiliates->find();
-        while ($rsAffiliates->fetch()) {
-            $aWebsiteZone = $rsAffiliates->toArray();
+        $rsAffiliatesAndZones = DBC::NewRecordSet($query);
+        $rsAffiliatesAndZones->find();
+        while ($rsAffiliatesAndZones->fetch()) {
+            $aWebsiteZone = $rsAffiliatesAndZones->toArray();
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'][$aWebsiteZone['zone_id']] = array(

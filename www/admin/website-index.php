@@ -31,12 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-size.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
-require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection',
@@ -82,113 +76,19 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('website-index.html');
 
-
-$doAffiliates = OA_Dal::factoryDO('affiliates');
-$doAffiliates->addListOrderBy($listorder, $orderdirection);
-
-// Get affiliates and build the tree
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-	$doAffiliates->agencyid = OA_Permission::getEntityId();
-}
-elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
-{
-	$doAffiliates->affiliateid = OA_Permission::getEntityId();
-}
-
-$doAffiliates->find();
-while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
-{
-	$affiliates[$row_affiliates['affiliateid']] = $row_affiliates;
-	$affiliates[$row_affiliates['affiliateid']]['expand'] = 0;
-	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
-    $affiliates[$row_affiliates['affiliateid']]['channels'] = Admin_DA::getChannels(array('publisher_id' => $row_affiliates['affiliateid']));
-
-    $affiliates[$row_affiliates['affiliateid']]['adv_signup'] = !empty($row_affiliates['as_website_id']) ? $strYes : $strNo;
-}
-
-$doZones = OA_Dal::factoryDO('zones');
-$doZones->addListOrderBy($listorder, $orderdirection);
-
-$doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-$doAdZoneAssoc->selectAdd();
-$doAdZoneAssoc->selectAdd('zone_id');
-$doAdZoneAssoc->selectAdd('COUNT(*) AS num_ads');
-$doAdZoneAssoc->groupBy('zone_id');
-
-// Get the zones for each affiliate
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
-{
-    $doAdZoneAssoc->whereAdd('zone_id > 0');
-}
-elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-    $agencyId = OA_Permission::getAgencyId();
-
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->agencyid = $agencyId;
-    $doZones->joinAdd($doAffiliates);
-
-    $doAdZoneAssoc->joinAdd($doZones);
-}
-
-$doZones->find();
-
-while ($doZones->fetch() && $row_zones = $doZones->toArray())
-{
-	if (isset($affiliates[$row_zones['affiliateid']]))
-	{
-		$zones[$row_zones['zoneid']] = $row_zones;
-		$affiliates[$row_zones['affiliateid']]['count']++;
-	}
-}
-
-$doAdZoneAssoc->find();
-while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
-    // set warning flag if zone has no low-priority ads linked
-    MAX_Dal_Delivery_Include();
-    $aZoneAds = OA_Dal_Delivery_getZoneLinkedAds($row_ad_zones['zone_id']);
-    $lpc_flag = false;
-    if ($aZoneAds['count_active'] > 0) {
-        if (count($aZoneAds['lAds']) == 0) {
-            $lpc_flag = true;
-        }
-    }
-    $zones[$row_ad_zones['zone_id']]['lpc_flag'] = $lpc_flag;
-
-    $zones[$row_ad_zones['zone_id']]['num_ads'] = $row_ad_zones['num_ads'];
-}
-
-// Build Tree
-if (isset($zones) && is_array($zones) && count($zones) > 0)
-{
-	// Add banner to campaigns
-	foreach (array_keys($zones) as $zkey)
-	{
-		$affiliates[$zones[$zkey]['affiliateid']]['zones'][$zkey] = $zones[$zkey];
-	}
-
-	unset ($zones);
-}
-
-$doAffiliates = OA_Dal::factoryDO('affiliates');
-$doZones = OA_Dal::factoryDO('zones');
-
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    $doAffiliates->agencyid = OA_Permission::getAgencyId();
-    $doZones->joinAdd($doAffiliates);
-}
+$dalAffiliates = OA_Dal::factoryDAL('affiliates');
+$aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 
 $itemsPerPage = 250;
-$oPager = OX_buildPager($affiliates, $itemsPerPage);
-$oTopPager = OX_buildPager($affiliates, $itemsPerPage, false);
+$oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
+$oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);
 list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
-$affiliates =  array_slice($affiliates, $itemsFrom - 1, $itemsPerPage, true);
+$aWebsitesZones =  array_slice($aWebsitesZones, $itemsFrom - 1, $itemsPerPage, true);
 
 $oTpl->assign('pager', $oPager);
 $oTpl->assign('topPager', $oTopPager);
 
-$oTpl->assign('affiliates',     $affiliates);
+$oTpl->assign('affiliates',     $aWebsitesZones);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
