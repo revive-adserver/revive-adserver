@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class Delivery_TestOfLog extends UnitTestCase
+class Test_DeliveryLog extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Delivery_TestOfLog()
+    function __construct()
     {
         $this->UnitTestCase();
     }
@@ -107,7 +107,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $conf['logging']['ignoreHosts'] = '24.24.24.24';
         $_SERVER['REMOTE_ADDR'] = '124.24.24.24';
         $this->assertTrue(_viewersHostOkayToLog());
-        
+
         // Reset the configuration
         TestEnv::restoreConfig();
 

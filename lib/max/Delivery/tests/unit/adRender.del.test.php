@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
  * @author
  *
  */
-class test_DeliveryAdRender extends UnitTestCase
+class Test_DeliveryAdRender extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryAdRender()
+    function __construct()
     {
         $this->UnitTestCase();
     }

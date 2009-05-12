@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
  * @author
  *
  */
-class test_DeliveryJavascript extends UnitTestCase
+class Test_DeliveryJavascript extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryJavascript()
+    function __construct()
     {
         $this->UnitTestCase();
     }

@@ -34,13 +34,13 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
  * @subpackage TestSuite
  * @author     Chris Nutting <chris.nutting@openx.org>
  */
-class Delivery_TestOfCookie extends UnitTestCase
+class Test_DeliveryCookie extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Delivery_TestOfCookie()
+    function __construct()
     {
         $this->UnitTestCase();
     }
@@ -55,6 +55,7 @@ class Delivery_TestOfCookie extends UnitTestCase
     {
         //Unset the cookie cache array
         unset($GLOBALS['_MAX']['COOKIE']['CACHE']);
+
         // Set a test cookie
         MAX_cookieAdd('test', 'test');
 
@@ -63,6 +64,7 @@ class Delivery_TestOfCookie extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['COOKIE']['CACHE']['test'][1], 0);
 
         unset($GLOBALS['_MAX']['COOKIE']['CACHE']);
+
         // Set a test cookie with an expiry time
         MAX_cookieAdd('test', 'test', 60);
         $this->assertIsA($GLOBALS['_MAX']['COOKIE']['CACHE']['test'], 'array');
@@ -94,7 +96,7 @@ class Delivery_TestOfCookie extends UnitTestCase
         $viewerId = MAX_cookieGetUniqueViewerID(true);
         $this->assertIsA($viewerId, 'string');
         $this->assertTrue(strlen($viewerId) == 32);
-        
+
         $this->assertEqual(MAX_cookieGetUniqueViewerID(), $viewerId);
 
     }

@@ -35,9 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @author Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  *
  */
-class DeliveryLimitationsTest extends UnitTestCase
+class Test_DeliveryLimitations_Delivery extends UnitTestCase
 {
-    function DeliveryLimitationsTest()
+
+    /**
+     * The constructor method.
+     */
+    function __construct()
     {
         $this->UnitTestCase();
     }

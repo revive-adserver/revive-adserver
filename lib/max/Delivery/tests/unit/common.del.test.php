@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
  * @author
  *
  */
-class test_DeliveryCommon extends UnitTestCase
+class Test_DeliveryCommon extends UnitTestCase
 {
     /** @var int */
     var $original_server_port;
@@ -43,7 +43,7 @@ class test_DeliveryCommon extends UnitTestCase
     /**
      * The constructor method.
      */
-    function test_DeliveryCommon()
+    function __construct()
     {
         $this->UnitTestCase();
     }

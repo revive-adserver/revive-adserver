@@ -35,13 +35,12 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
  * @author
  *
  */
-class test_DeliveryAdSelect extends UnitTestCase
-{
+class Test_DeliveryAdSelect extends UnitTestCase {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryAdSelect()
+    function __construct()
     {
         $this->UnitTestCase();
     }

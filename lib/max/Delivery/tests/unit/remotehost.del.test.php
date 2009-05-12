@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
  * @author
  *
  */
-class test_DeliveryRemotehost extends UnitTestCase
+class Test_DeliveryRemotehost extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryRemotehost()
+    function __construct()
     {
         $this->UnitTestCase();
     }

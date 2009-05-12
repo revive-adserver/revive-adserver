@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Monique Szpak <monique.szpak@openx.org>
  */
-class test_DeliveryLimitations extends UnitTestCase
+class Test_DeliveryLimitations extends UnitTestCase
 {
 
     var $tmpCookie;
@@ -44,7 +44,7 @@ class test_DeliveryLimitations extends UnitTestCase
     /**
      * The constructor method.
      */
-    function test_DeliveryLimitations()
+    function __construct()
     {
         $this->UnitTestCase();
     }

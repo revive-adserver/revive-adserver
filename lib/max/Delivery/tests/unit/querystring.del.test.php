@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
  * @author
  *
  */
-class test_DeliveryQuerystring extends UnitTestCase
+class Test_DeliveryQuerystring extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryQuerystring()
+    function __construct()
     {
         $this->UnitTestCase();
     }

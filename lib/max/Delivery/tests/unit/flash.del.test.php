@@ -35,13 +35,13 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
  * @author
  *
  */
-class test_DeliveryFlash extends UnitTestCase
+class Test_DeliveryFlash extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function test_DeliveryFlash()
+    function __construct()
     {
         $this->UnitTestCase();
     }
