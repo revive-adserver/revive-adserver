@@ -65,7 +65,7 @@ if (!isset($minCpm)) {
 $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
 
 // Perform opt-in if needed
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl)) 
+if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
 {
     performOptIn();
     exit(0);
@@ -78,21 +78,21 @@ foreach ($_REQUEST as $param => $value) {
     }
 }
 
-// TODO: Get campaigns based on the criteria 
+// TODO: Get campaigns based on the criteria
 $doCampaigns = OA_Dal::factoryDO('campaigns');
 $doCampaigns->find();
 while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
     $campaignId = $row_campaigns['campaignid'];
     $campaigns[$row_campaigns['campaignid']]['campaignid']   = $campaignId;
-    
+
     $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
     $campaigns[$campaignId]['campaignname'] = MAX_getPlacementName($campaign_details);
     $campaigns[$campaignId]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);
-    
+
     // TODO: Insert eCPM here or null if not available
     $campaignECPM = ($campaignId % 7 == 0) ? 0.15 : null;
-    
-    $campaignMinCpm = (isset($minCpms[$campaignId]) ? $minCpms[$campaignId] : 
+
+    $campaignMinCpm = (isset($minCpms[$campaignId]) ? $minCpms[$campaignId] :
                  formatCpm(isset($campaignECPM) ? $campaignECPM : DEFAULT_OPT_IN_CPM));
     $campaigns[$campaignId]['minCpm'] = $campaignMinCpm;
     $campaigns[$campaignId]['minCpmCalculated'] = isset($campaignECPM);
@@ -101,7 +101,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 // TODO: put here the number of campaigns of $campaignType that have already been
 // opted in to the Market. We need this number to tell the difference between the
 // $campaigns list being empty because all campaigns have been opted-in and because
-// there are no campaigns in the inventory at all. In the first case $campaignsOptedIn 
+// there are no campaigns in the inventory at all. In the first case $campaignsOptedIn
 // will be > 0 and in the latter $campaignsOptedIn will be 0.
 $campaignsOptedIn = 0;
 
@@ -128,12 +128,12 @@ $oTpl->display();
 //footer
 phpAds_PageFooter();
 
-function isDataValid($template) 
+function isDataValid($template)
 {
     global $optInType, $toOptIn, $minCpm;
     $valid = true;
     $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
-    
+
     if ($optInType == 'remnant') {
         if (!$decimalValidator->validate($minCpm, 2)) {
             $template->assign('minCpmInvalid', true);
@@ -163,31 +163,31 @@ function formatCpm($cpm)
     return number_format($cpm, 2, '.', '');
 }
 
-function performOptIn() 
+function performOptIn()
 {
     global $optInType, $toOptIn, $minCpm, $campaignType;
-    
+
     // TODO: Opt-in campaigns based on the submitted values
     if ($optInType == 'remnant') {
         // echo 'Opt in all remnant campaigns at ' . $minCpm;
-    
+
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = 45;
-        OA_Admin_UI::queueMessage($campaignsOptedIn . ' remnant campaigns have been opted in to OpenX Market with minimum CPM of ' . $minCpm . ' USD', 
+        OA_Admin_UI::queueMessage($campaignsOptedIn . ' remnant campaigns have been opted in to OpenX Market with minimum CPM of ' . $minCpm . ' USD',
             'local', 'confirm', 0);
     } else {
         foreach ($toOptIn as $campaignId) {
             // echo 'Opt in campaign ' . $campaignId . ' at ' . $_REQUEST['cpm' . $campaignId] . '<br />';
         }
-        
+
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = count($toOptIn);
         OA_Admin_UI::queueMessage($campaignsOptedIn . ' campaigns have been opted in to OpenX Market', 'local', 'confirm', 0);
     }
-    
+
     // Redirect back to the opt-in page
     $params = array('optInType' => $optInType, 'campaignType' => $campaignType);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }
- 
+
 ?>

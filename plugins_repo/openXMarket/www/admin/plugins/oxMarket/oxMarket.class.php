@@ -417,11 +417,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function afterLogin()
     {
-        /*TODO, update this function to use
-          isMarketSettingsAlreadyShown() function and setMarketSettingsAlreadyShown() function
-          OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
-          exit;
-        */
+        // If the user is manager or admin try to show him the OpenX Market Settings
+        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
+            $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
+
+            $this->setMarketSettingsAlreadyShown();
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
+            exit;
+        }
 
         //show only to unregistered users and those who are linked to admin
         if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) {
@@ -571,17 +574,28 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isMarketSettingsAlreadyShown()
     {
-        return true;
+        $oMarketPluginVariable = & OA_Dal::factoryDO('ext_market_plugin_variable');
+        $oMarketPluginVariable->user_id = intval(OA_Permission::getUserId());
+        $oMarketPluginVariable->whereInAdd('name', 'campaign_settings_shown_to_user');
+        $oMarketPluginVariable->find();
+
+        $marketSettingsShown = false;
+
+        while($oMarketPluginVariable->fetch()) {
+            $marketSettingsShown = $oMarketPluginVariable->value;
+        }
+
+        return $marketSettingsShown;
     }
 
 
     function setMarketSettingsAlreadyShown()
     {
-        /*
-        $oSettings = new OA_Admin_Settings();
-        $oSettings->settingChange('oxMarket', 'splashAlreadyShown', 1);
-        $oSettings->writeConfigChange();
-        */
+        $oMarketPluginVariable = & OA_Dal::factoryDO('ext_market_plugin_variable');
+        $oMarketPluginVariable->user_id = intval(OA_Permission::getUserId());
+        $oMarketPluginVariable->name = 'campaign_settings_shown_to_user';
+        $oMarketPluginVariable->value = '1';
+        $oMarketPluginVariable->insert();
     }
 
 
