@@ -27,7 +27,7 @@
 $Id$
 
 -->*}
-<form class="flat" id="massOptIn" method="POST">
+<form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
 <input type="hidden" name="campaignType" value="{$campaignType}" /> 
 <p style="width: 50em">
 <strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
@@ -59,7 +59,7 @@ You can further update OpenX Market settings for a specific campaign on the Edit
   </li>
 </ul>
 
-<input type="submit" value="Opt in" />
+<input type="submit" value="Opt in" id="submit" class="main-submit" />
 </form>
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>

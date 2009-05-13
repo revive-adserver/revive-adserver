@@ -132,20 +132,31 @@ function isDataValid($template)
 {
     global $optInType, $toOptIn, $minCpm;
     $valid = true;
+    $zero = false;
     $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
 
     if ($optInType == 'remnant') {
-        if (!$decimalValidator->validate($minCpm, 2)) {
+        $valid = $decimalValidator->validate($minCpm, 2);
+        if ($valid) {
+            $zero = ($minCpm <= 0);
+            $valid &= !$zero; 
+        }
+        if (!$valid) {
             $template->assign('minCpmInvalid', true);
-            $valid = false;
         }
     } else {
         $invalidCpms = array();
         foreach ($toOptIn as $campaignId) {
             $value = $_REQUEST['cpm' . $campaignId];
-            if (!$decimalValidator->validate($value, 2))
-            {
-                $valid = false;
+            $valueValid = $decimalValidator->validate($value, 2);
+            if ($valueValid) {
+                $valueZero = ($value <= 0);
+                $valueValid &= !$valueZero;
+                $zero |= $valueZero;
+            }
+            $valid &= $valueValid;
+            
+            if (!$valueValid) {
                 $invalidCpms[$campaignId] = true;
             }
         }
@@ -153,7 +164,11 @@ function isDataValid($template)
     }
 
     if (!$valid) {
-        OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
+        if ($zero) {
+            OA_Admin_UI::queueMessage('Please provide CPM values greater than zero', 'local', 'error', 0);
+        } else {
+            OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
+        }
     }
     return $valid;
 }
@@ -182,11 +197,11 @@ function performOptIn()
 
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = count($toOptIn);
-        OA_Admin_UI::queueMessage($campaignsOptedIn . ' campaigns have been opted in to OpenX Market', 'local', 'confirm', 0);
+        OA_Admin_UI::queueMessage($campaignsOptedIn . ' campaign' . ($campaignsOptedIn > 1 ? 's' : '') . ' have been opted in to OpenX Market', 'local', 'confirm', 0);
     }
 
     // Redirect back to the opt-in page
-    $params = array('optInType' => $optInType, 'campaignType' => $campaignType);
+    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 'minCpm' => $minCpm);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }
 

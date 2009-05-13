@@ -203,6 +203,7 @@
         };
         var settings = $.extend({}, defaults, options);
 
+        var $optIn = this;
         var $radioButtons = this.find(":radio[@name=optInType]");
         $radioButtons.change(updateVisibility);
         if ($.browser.msie) {
@@ -210,18 +211,27 @@
         }
         
         updateVisibility.call(this.find(":radio:checked"));
+
+        this.find("table input.cpm").keyup(function(event) {
+            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
+                var $input = $(this);
+                $input.parent().parent().find(":checkbox").attr("checked", $input.val().length > 0);
+            }
+        });
+        
+        return this;
         
         function updateVisibility() {
             var value = $(this).val();
             if (value == 'remnant') {
                 $("#optInSelected").hide();
                 $("#minCpm").attr('disabled', false).focus();
+                $("#submit").attr("disabled", false);
             } else {
                 $("#optInSelected").show();
                 $("#minCpm").attr('disabled', true);
+                $("#submit").attr("disabled", $optIn.find(".tableWrapper input.cpm").size() == 0);
             }
         }
-        
-        return this;
     };
 })(jQuery);

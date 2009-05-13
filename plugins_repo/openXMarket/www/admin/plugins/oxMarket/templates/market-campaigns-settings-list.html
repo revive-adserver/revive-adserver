@@ -66,7 +66,8 @@ $Id$
         <div class='corner left'></div>
         <div class='corner right'></div>
     </div>
-
+    
+    <div class="scroll">
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
@@ -120,7 +121,7 @@ $Id$
                 <td colspan='4'>
                     <div class='tableMessage'>
                         <div class='panel'>
-                            {capture assign=$typeString}
+                            {capture assign=typeString}
                               {if $campaignType == 'remnant'}
                                   remnant
                               {elseif $campaignType == 'nonexclusive'}
@@ -150,4 +151,5 @@ $Id$
         </tbody>
 {/if}
     </table>
+    </div>
 </div>

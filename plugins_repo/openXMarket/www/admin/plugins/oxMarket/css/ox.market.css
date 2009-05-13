@@ -181,3 +181,14 @@ ul.column li.rejected {
 #massOptIn input.cpm  {
   width: 3em;
 }
+
+#massOptIn .tableWrapper td {
+  vertical-align: middle;
+}
+
+#massOptIn .tableWrapper .scroll {
+  overflow: auto;
+  overflow-x: hidden;
+  max-height: 380px;
+  position: relative;
+}
