@@ -188,8 +188,6 @@ function performOptIn()
 
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = 45;
-        OA_Admin_UI::queueMessage($campaignsOptedIn . ' remnant campaigns have been opted in to OpenX Market with minimum CPM of ' . $minCpm . ' USD',
-            'local', 'confirm', 0);
     } else {
         foreach ($toOptIn as $campaignId) {
             // echo 'Opt in campaign ' . $campaignId . ' at ' . $_REQUEST['cpm' . $campaignId] . '<br />';
@@ -197,8 +195,9 @@ function performOptIn()
 
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = count($toOptIn);
-        OA_Admin_UI::queueMessage($campaignsOptedIn . ' campaign' . ($campaignsOptedIn > 1 ? 's' : '') . ' have been opted in to OpenX Market', 'local', 'confirm', 0);
     }
+    OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' . 
+        ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);
 
     // Redirect back to the opt-in page
     $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 'minCpm' => $minCpm);
