@@ -42,7 +42,7 @@ class OA_Admin_UI_Rule_DecimalPlaces
      */
     function validate($value, $decimalPlaces = 0)
     {
-        $regex = '/^\d+(.\d{1,'.$decimalPlaces.'})?$/';        
+        $regex = '/^\d+(\.\d{1,'.$decimalPlaces.'})?$/';        
         return preg_match($regex . 'D', $value) == 0 ? false : true;
     } 
 
