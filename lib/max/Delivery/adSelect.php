@@ -638,7 +638,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
-    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' &&
+    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'html' &&
         (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
         // HTML Banners that contain 'http:' on SSL
         ###START_STRIP_DELIVERY
@@ -647,7 +647,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
-    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
         // It only matters if the initial call is to non-SSL (it can/could contain http:)
         ###START_STRIP_DELIVERY
         OA::debug('"http:" on SSL found in imagurl for url bannerid '.$aAd['ad_id'].' '.$aAd['name']);
