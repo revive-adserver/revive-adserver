@@ -3890,12 +3890,12 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 // Capping & blocking
 return false;
 }
-if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' &&
+if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'html' &&
 (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
 // HTML Banners that contain 'http:' on SSL
 return false;
 }
-if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
 // It only matters if the initial call is to non-SSL (it can/could contain http:)
 return false;
 }
