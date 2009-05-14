@@ -170,6 +170,8 @@ function buildAppendFormSection($form, $aZone)
     }
 
     if ($aZone['delivery'] == phpAds_ZoneBanner) {
+        $form->addElement('textarea', 'prepend', $GLOBALS['strZonePrependHTML'],
+            array('class' => 'code x-large'));
         $form->addElement('textarea', 'append', $GLOBALS['strZoneAppend'],
             array('class' => 'code x-large'));
     }
