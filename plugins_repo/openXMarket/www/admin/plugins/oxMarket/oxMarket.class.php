@@ -576,7 +576,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         $oMarketPluginVariable = & OA_Dal::factoryDO('ext_market_plugin_variable');
         $oMarketPluginVariable->user_id = intval(OA_Permission::getUserId());
-        $oMarketPluginVariable->whereInAdd('name', 'campaign_settings_shown_to_user');
+        $oMarketPluginVariable->name = 'campaign_settings_shown_to_user';
         $oMarketPluginVariable->find();
 
         $marketSettingsShown = false;

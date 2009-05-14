@@ -64,18 +64,18 @@ if (!isset($minCpm)) {
 
 $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
 
-// Perform opt-in if needed
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
-{
-    performOptIn();
-    exit(0);
-}
-
 $minCpms = array();
 foreach ($_REQUEST as $param => $value) {
     if (preg_match("/cpm\d+/", $param)) {
         $minCpms[substr($param, 3)] = $value;
     }
+}
+
+// Perform opt-in if needed
+if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
+{
+    performOptIn($minCpms);
+    exit(0);
 }
 
 $campaigns = getCampaigns($campaignType, $minCpm);
@@ -92,6 +92,7 @@ $campaignsOptedIn = numberOfOptedCampaigns($campaignType);
 // radio button label on the screen.
 $remnantCampaignsToOptIn = numberOfRemnantCampaignsToOptIn();
 
+$toOptIn = empty($toOptIn) ? array() : $toOptIn;
 
 $oTpl->assign('campaigns', $campaigns);
 $oTpl->assign('campaignsOptedIn', $campaignsOptedIn);
@@ -161,18 +162,17 @@ function formatCpm($cpm)
     return number_format($cpm, 2, '.', '');
 }
 
-function performOptIn()
+function performOptIn($minCpms)
 {
     global $optInType, $toOptIn, $minCpm, $campaignType;
 
-    // TODO: Opt-in campaigns based on the submitted values
+    // Opt-in campaigns based on the submitted values
     if ($optInType == 'remnant') {
 
         $oDate = new Date();
         $oDate->setTZbyID('UTC');
         $strToday = $oDate->format("%Y-%m-%d");
 
-        // echo 'Opt in all remnant campaigns at ' . $minCpm;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doClients = OA_Dal::factoryDO('clients');
 
@@ -183,7 +183,6 @@ function performOptIn()
         // Ignore already ended campaigns
         $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
 
-        // If not all campaigns selected set the selected campaign type
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
 
         $doCampaigns->find();
@@ -207,15 +206,15 @@ function performOptIn()
                 $doMarketCampaignPref->insert();
             }
         }
-
-        // TODO: Put the number of actually opted-in campaigns here
-        //$campaignsOptedIn = 45;
     } else {
         foreach ($toOptIn as $campaignId) {
-            // echo 'Opt in campaign ' . $campaignId . ' at ' . $_REQUEST['cpm' . $campaignId] . '<br />';
+            $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+            $doMarketCampaignPref->campaignid = $campaignId;
+            $doMarketCampaignPref->is_enabled = true;
+            $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
+            $doMarketCampaignPref->insert();
         }
 
-        // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = count($toOptIn);
     }
     OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' .
@@ -235,7 +234,7 @@ function getCampaigns($campaignType = null, $minCpms=null)
     $oDate->setTZbyID('UTC');
     $strToday = $oDate->format("%Y-%m-%d");
 
-    // TODO: Get campaigns based on the criteria
+    // Get campaigns based on the criteria
     $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doClients = OA_Dal::factoryDO('clients');
     $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
@@ -243,6 +242,7 @@ function getCampaigns($campaignType = null, $minCpms=null)
     // Get campaigns that belong to advertiser of the current agency
     $doClients->agencyid = OA_Permission::getAgencyId();
     $doCampaigns->joinAdd($doClients, 'LEFT');
+    $doCampaigns->selectAs(array('campaignid'), 'campaign_id');
 
     // Ignore already ended campaigns
     $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
@@ -264,6 +264,7 @@ function getCampaigns($campaignType = null, $minCpms=null)
 
     $doCampaigns->find();
     while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
+        $row_campaigns['campaignid'] = $row_campaigns['campaign_id'];
         $campaignId = $row_campaigns['campaignid'];
         $campaigns[$row_campaigns['campaignid']]['campaignid']   = $campaignId;
         $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
@@ -288,7 +289,7 @@ function numberOfOptedCampaigns($campaignType = null, $minCpms=null)
     $oDate->setTZbyID('UTC');
     $strToday = $oDate->format("%Y-%m-%d");
 
-    // TODO: Get campaigns based on the criteria
+    // Get campaigns based on the criteria
     $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doClients = OA_Dal::factoryDO('clients');
     $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
@@ -326,7 +327,7 @@ function  numberOfRemnantCampaignsToOptIn()
     $oDate->setTZbyID('UTC');
     $strToday = $oDate->format("%Y-%m-%d");
 
-    // TODO: Get campaigns based on the criteria
+    // Get campaigns based on the criteria
     $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doClients = OA_Dal::factoryDO('clients');
 
