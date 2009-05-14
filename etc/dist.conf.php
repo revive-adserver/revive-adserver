@@ -22,6 +22,7 @@ headerTextColor                     =
 gzipCompression                     = true
 combineAssets                       = true
 dashboardEnabled                    = true
+showNavigator                       = true
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
