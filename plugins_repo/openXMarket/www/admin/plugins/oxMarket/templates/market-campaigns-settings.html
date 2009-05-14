@@ -36,10 +36,13 @@ You can further update OpenX Market settings for a specific campaign on the Edit
 </p>
 
 <ul id="mainOptions">
-  <li class="mainOption">
-    <label><input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
-                  name="optInType" value="remnant" /> 
-      Opt in all {$remnantCampaignsCount} of your existing remnant campaigns to OpenX Market</label>
+  <li class="mainOption" style="width: 50em">
+    <label class="radio">
+        <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
+               name="optInType" value="remnant" class="radio" />
+      Opt in all of your existing remnant campaigns to OpenX Market. (<b>Note</b>: all 
+      remnant campaigns previously opted into OpenX Market will be updated with the 
+      following minimum CPM as well)</label> 
       
     <div id="optInAllRemnant" class="mainOptionContent">
       <label>Minimum CPM that OpenX Market must beat 
@@ -50,8 +53,8 @@ You can further update OpenX Market settings for a specific campaign on the Edit
   </li>
   
   <li class="mainOption">
-    <label><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
-                  name="optInType" value="selected" /> 
+    <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
+                  name="optInType" value="selected" class="radio" /> 
         Opt in the selected campaigns to OpenX Market</label>
     <div id="optInSelected" class="mainOptionContent hide">
       {include file=market-campaigns-settings-list.html from=$campaigns}
@@ -60,6 +63,11 @@ You can further update OpenX Market settings for a specific campaign on the Edit
 </ul>
 
 <input type="submit" value="Opt in" id="submit" class="main-submit" />
+<span id="counts">
+  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span> 
+  <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
+  campaign(s) will be updated
+</span>
 </form>
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>

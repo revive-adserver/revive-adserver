@@ -170,17 +170,33 @@ ul.column li.rejected {
   padding: 0;
 }
 
-#massOptIn input[type=radio] {
+#massOptIn #mainOptions li.mainOption label.radio {
+  line-height: 1.3; 
+  display: block; 
+  padding-left: 20px;;
+}
+
+#massOptIn #mainOptions li.mainOption label.radio input.radio {
   vertical-align: middle;
+  position: absolute; 
+  margin-left: -20px;
+  margin-top: 1px;
+  *margin-top: -3px;
 }
 
 #massOptIn .mainOptionContent {
-  margin-left: 26px;
+  margin-left: 20px;
+  margin-top: 6px;
 }
 
 #massOptIn input.cpm  {
   width: 3em;
 }
+
+#massOptIn #submit {
+  vertical-align: middle;
+  margin-right: 3px;
+} 
 
 #massOptIn .tableWrapper td {
   vertical-align: middle;

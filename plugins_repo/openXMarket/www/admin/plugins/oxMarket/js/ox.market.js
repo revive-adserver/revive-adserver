@@ -210,27 +210,49 @@
             $radioButtons.click(updateVisibility);
         }
         
-        updateVisibility.call(this.find(":radio:checked"));
-
         this.find("table input.cpm").keyup(function(event) {
             if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
                 var $input = $(this);
-                $input.parent().parent().find(":checkbox").attr("checked", $input.val().length > 0);
+                var $checkbox = $input.parent().parent().find(":checkbox");
+                var previous = $checkbox.attr("checked");
+                var next = $input.val().length > 0;
+                $checkbox.attr("checked", next);
+                if (previous != next) {
+                    updateCount();
+                }
             }
         });
         
+        this.find(".tableWrapper").bind("multichange", updateCount);
+        updateVisibility.call(this.find(":radio:checked"));
+        updateCount();
         return this;
+        
+        function updateCount() {
+            if ($optIn.find(":radio:checked").val() == 'selected') {
+                var count = $optIn.find(".toggleSelection input:checked").size();
+                $("#selectedCount").text(count + ' ');
+                if (count == 0) {
+                    $("#counts").hide();   
+                } else {
+                    $("#counts").show();   
+                }
+                $("#submit").attr("disabled", count == 0);
+            }
+        }
         
         function updateVisibility() {
             var value = $(this).val();
             if (value == 'remnant') {
-                $("#optInSelected").hide();
+                $("#optInSelected, #selectedCount").hide();
+                $("#remnantCount").show();
                 $("#minCpm").attr('disabled', false).focus();
                 $("#submit").attr("disabled", false);
             } else {
-                $("#optInSelected").show();
+                $("#optInSelected, #selectedCount").show();
+                $("#remnantCount").hide();
                 $("#minCpm").attr('disabled', true);
-                $("#submit").attr("disabled", $optIn.find(".tableWrapper input.cpm").size() == 0);
+                updateCount();
             }
         }
     };
