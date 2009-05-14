@@ -167,10 +167,49 @@ function performOptIn()
 
     // TODO: Opt-in campaigns based on the submitted values
     if ($optInType == 'remnant') {
+
+        $oDate = new Date();
+        $oDate->setTZbyID('UTC');
+        $strToday = $oDate->format("%Y-%m-%d");
+
         // echo 'Opt in all remnant campaigns at ' . $minCpm;
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doClients = OA_Dal::factoryDO('clients');
+
+        // Get campaigns that belong to advertiser of the current agency
+        $doClients->agencyid = OA_Permission::getAgencyId();
+        $doCampaigns->joinAdd($doClients, 'LEFT');
+
+        // Ignore already ended campaigns
+        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
+
+        // If not all campaigns selected set the selected campaign type
+        $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
+
+        $doCampaigns->find();
+        $campaignsOptedIn = $doCampaigns->getRowCount();
+        while ($doCampaigns->fetch()) {
+            $campaignId = $doCampaigns->campaignid;
+            $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+            $doMarketCampaignPref->campaignid = $campaignId;
+            $doMarketCampaignPref->find();
+            if ($doMarketCampaignPref->fetch()) {
+                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+                $doMarketCampaignPref->campaignid = $campaignId;
+                $doMarketCampaignPref->is_enabled = true;
+                $doMarketCampaignPref->floor_price = $minCpm;
+                $doMarketCampaignPref->update();
+            } else {
+                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+                $doMarketCampaignPref->campaignid = $campaignId;
+                $doMarketCampaignPref->is_enabled = true;
+                $doMarketCampaignPref->floor_price = $minCpm;
+                $doMarketCampaignPref->insert();
+            }
+        }
 
         // TODO: Put the number of actually opted-in campaigns here
-        $campaignsOptedIn = 45;
+        //$campaignsOptedIn = 45;
     } else {
         foreach ($toOptIn as $campaignId) {
             // echo 'Opt in campaign ' . $campaignId . ' at ' . $_REQUEST['cpm' . $campaignId] . '<br />';
@@ -179,7 +218,7 @@ function performOptIn()
         // TODO: Put the number of actually opted-in campaigns here
         $campaignsOptedIn = count($toOptIn);
     }
-    OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' . 
+    OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' .
         ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);
 
     // Redirect back to the opt-in page
@@ -204,7 +243,6 @@ function getCampaigns($campaignType = null, $minCpms=null)
     // Get campaigns that belong to advertiser of the current agency
     $doClients->agencyid = OA_Permission::getAgencyId();
     $doCampaigns->joinAdd($doClients, 'LEFT');
-    $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
 
     // Ignore already ended campaigns
     $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
@@ -216,9 +254,13 @@ function getCampaigns($campaignType = null, $minCpms=null)
         $doCampaigns->whereAdd('priority > 0');
     }
 
-    // Ignore campaigns that are already Opt in
-    $doCampaigns->whereAdd(OA_Dal::getTablePrefix().'campaigns.campaignid != '. OA_Dal::getTablePrefix() .'ext_market_campaign_pref.campaignid OR '
-                          .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled = 0');
+    // Do we have data in ext_market_campaign_pref?
+    if ($doMarketCampaignPref->count() > 0) {
+        $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
+        // Ignore campaigns that are already Opt in
+        $doCampaigns->whereAdd(' ISNULL('. OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled) OR '
+                              .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled = 0');
+    }
 
     $doCampaigns->find();
     while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
