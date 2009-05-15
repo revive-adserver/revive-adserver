@@ -244,7 +244,7 @@ class OA_Admin_UI
         $this->_assignUserAccountInfo($oCurrentSection);
 
         $this->oTpl->assign('headerModel', $oHeaderModel);
-        $this->oTpl->assign('showNavigator', $conf['ui']['showNavigator']);
+        $this->oTpl->assign('hideNavigator', $conf['ui']['hideNavigator']);
         // Tabbed navigation bar and sidebar
         $this->oTpl->assign('aMainTabNav', $aMainNav);
         $this->oTpl->assign('aLeftMenuNav', $aLeftMenuNav);
