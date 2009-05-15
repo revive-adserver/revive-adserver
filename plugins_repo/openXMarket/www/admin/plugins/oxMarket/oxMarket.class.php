@@ -836,11 +836,22 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
 
         try {
-            $this->initialUpdateWebsites();
+            // Run registerwebsites script as background process
+            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/market-run-registerwebsites.php');
+            $ctx = stream_context_create(array('http' => array(
+                   'method' => 'POST',
+                   'header' => "Cookie: sessionID=".$_COOKIE['sessionID']."\r\n")));
+            $fp = @fopen($url, 'rb', false, $ctx);
+            if ($fp) {
+                stream_set_timeout($fp, 1); // 1s timeout
+                stream_get_contents($fp); 
+            } else {
+                // register 10 websites if can't run background script 
+                $this->initialUpdateWebsites();
+            }
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
-
         return true; // we allow to enable plugin
     }
 

@@ -49,7 +49,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
         $isFormValid = $oForm->validate();
     
         if ($isFormValid) {
-            //process submitted values
+            // process submitted values
             $aProcessingError = processRelinkForm($oForm, $oMarketComponent);
         }
     }
@@ -136,7 +136,6 @@ function processRelinkForm($oForm, $oMarketComponent)
         if ($linkingResult == true) {
             // perform activation actions
             $oMarketComponent->removeRegisterNotification();
-            $oMarketComponent->initialUpdateWebsites();
         }
     } 
     catch (Exception $exc) {
@@ -150,7 +149,7 @@ function processRelinkForm($oForm, $oMarketComponent)
         return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
     
-    OX_Admin_Redirect::redirect("plugins/oxMarket/market-index.php");
+    OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
 
 }
 

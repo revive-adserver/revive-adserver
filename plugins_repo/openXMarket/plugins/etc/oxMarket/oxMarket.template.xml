@@ -70,6 +70,7 @@
 
             <!-- End spacer for the 4096 byte boundary -->
 			<file path="{ADMINPATH}/">market-quality-tool.php</file>
+			<file path="{ADMINPATH}/">market-run-registerwebsites.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
             <file path="{ADMINPATH}/">XMLToArray.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketChecker.php</file>

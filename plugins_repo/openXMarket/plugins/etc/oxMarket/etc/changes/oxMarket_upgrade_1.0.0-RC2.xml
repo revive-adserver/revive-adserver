@@ -11,8 +11,8 @@
     <license>GNU General Public License</license>
     <description>>OpenX Market for OpenX Ad Server (Download) Interface</description>
     <versionFrom>1.0.0-RC1</versionFrom>
-    <versionTo>1.0.0-rc2</versionTo>
-    <oxversion>2.8.1-rc3</oxversion>
+    <versionTo>1.0.0-RC2</versionTo>
+    <oxversion>2.7.31-beta-rc4</oxversion>
 
     <!-- Database Packages -->
     <database>
