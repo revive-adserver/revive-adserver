@@ -78,7 +78,7 @@ if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
     exit(0);
 }
 
-$campaigns = getCampaigns($campaignType, $minCpm);
+$campaigns = getCampaigns($campaignType, $minCpms);
 
 // The number of campaigns of $campaignType that have already been
 // opted in to the Market. We need this number to tell the difference between the
@@ -226,7 +226,7 @@ function performOptIn($minCpms)
 }
 
 
-function getCampaigns($campaignType = null, $minCpms=null)
+function getCampaigns($campaignType = null, $minCpms=array())
 {
     $campaigns = array();
 

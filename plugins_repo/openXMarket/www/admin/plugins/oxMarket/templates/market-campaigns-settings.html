@@ -28,9 +28,9 @@ $Id$
 
 -->*}
 <form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
-<input type="hidden" name="campaignType" value="{$campaignType}" /> 
+<input type="hidden" name="campaignType" value="{$campaignType}" />
 <p style="width: 50em">
-<strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
+<strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong>
 You can further update OpenX Market settings for a specific campaign on the Edit Campaign page.
 <a href="http://www.openx.org/market" target="_blank">Learn more</a>
 </p>
@@ -38,24 +38,24 @@ You can further update OpenX Market settings for a specific campaign on the Edit
 <ul id="mainOptions">
   <li class="mainOption" style="width: 50em">
     <label class="radio">
-        <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
+        <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if}
                name="optInType" value="remnant" class="radio" />
-      Opt in all of your existing remnant campaigns to OpenX Market. (<b>Note</b>: all 
-      remnant campaigns previously opted into OpenX Market will be updated with the 
-      following minimum CPM as well)</label> 
-      
+      <strong>Opt in all of your existing remnant campaigns</strong> to OpenX Market. (<b>Note</b>: all
+      remnant campaigns previously opted into OpenX Market will be updated with the
+      following minimum CPM as well)</label>
+
     <div id="optInAllRemnant" class="mainOptionContent">
-      <label>Minimum CPM that OpenX Market must beat 
+      <label>Minimum CPM that OpenX Market must beat
       $ <input id="minCpm" type="text" name="minCpm"
-               class="cpm{if $minCpmInvalid} error{/if}" 
+               class="cpm{if $minCpmInvalid} error{/if}"
                value="{$minCpm}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
     </div>
   </li>
-  
+
   <li class="mainOption">
-    <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
-                  name="optInType" value="selected" class="radio" /> 
-        Opt in the selected campaigns to OpenX Market</label>
+    <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if}
+                  name="optInType" value="selected" class="radio" />
+        <strong>Opt in the selected campaigns</strong> to OpenX Market</label>
     <div id="optInSelected" class="mainOptionContent hide">
       {include file=market-campaigns-settings-list.html from=$campaigns}
     </div>
@@ -64,7 +64,7 @@ You can further update OpenX Market settings for a specific campaign on the Edit
 
 <input type="submit" value="Opt in" id="submit" class="main-submit" />
 <span id="counts">
-  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span> 
+  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span>
   <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
   campaign(s) will be updated
 </span>
