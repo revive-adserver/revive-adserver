@@ -553,6 +553,7 @@ class OA_Admin_UI
                 $this->oTpl->assign('keyWorkingAs', $GLOBALS['keyWorkingAs']);
                 $this->oTpl->assign('accountId', OA_Permission::getAccountId());
                 $this->oTpl->assign('accountName', OA_Permission::getAccountName());
+                $this->oTpl->assign('accountSearchUrl',  MAX::constructURL(MAX_URL_ADMIN, 'account-switch-search.php'));
 
                 $this->oTpl->assign('productUpdatesCheck',
                     OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&

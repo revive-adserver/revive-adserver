@@ -405,12 +405,14 @@ function copyValidationConstraints(fromObj, toObj)
 }
 
 /** work as **/
-function initAccoutSwitcher()
+function initAccoutSwitcher(searchUrl)
 {
   $switcher = $("#oaNavigationExtra .accountSwitcher");
   //$("#oaNavigation").append("<div class='accountSwitcherOverlay'>&nbsp;</div>");
 
-  $switcher.accountswitch();
+  $switcher.accountswitch({
+    searchUrl: searchUrl
+  });
 
   $(".switchTrigger").hover(function() {
       $(".triggerContainer").addClass("hover");
