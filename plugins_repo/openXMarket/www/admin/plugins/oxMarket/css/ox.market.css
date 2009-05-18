@@ -158,6 +158,11 @@ ul.column li.rejected {
   display: inline;
 }
 
+#massOptIn small {
+  font-size: 10px;
+  color: #808080;
+}
+
 #massOptIn #mainOptions {
   line-height: 24px;
   list-style: none;
@@ -190,7 +195,7 @@ ul.column li.rejected {
 }
 
 #massOptIn input.cpm  {
-  width: 3em;
+  width: 4em;
 }
 
 #massOptIn #submit {

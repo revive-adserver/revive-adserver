@@ -101,7 +101,15 @@ $oTpl->assign('optInType', $optInType);
 $oTpl->assign('remnantCampaignsCount', $remnantCampaignsToOptIn);
 $oTpl->assign('minCpm', $minCpm);
 $oTpl->assign('minCpms', $minCpms);
-$oTpl->assign('toOptIn', array_fill_keys($toOptIn, true));
+$firstView = empty($toOptIn);
+$oTpl->assign('firstView', $firstView);
+$toOptInMap = array_fill_keys($toOptIn, true);
+foreach ($campaigns as $campaignId => $campaign) {
+	if (!isset($toOptInMap[$campaignId])) {
+	    $toOptInMap[$campaignId] = $firstView;
+	}
+}
+$oTpl->assign('toOptIn', $toOptInMap);
 
 // Display the page
 $oCurrentSection = $oMenu->get("market-campaigns-settings");

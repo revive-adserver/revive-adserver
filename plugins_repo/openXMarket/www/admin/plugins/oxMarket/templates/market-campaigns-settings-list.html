@@ -72,7 +72,7 @@ $Id$
         <thead>
             <tr>
                 <th class='first toggleAll'>
-                    <input type='checkbox' />
+                    <input type='checkbox'{if $firstView} checked="checked"{/if} />
                 </th>
                 <th>
                     Campaign Name
@@ -94,7 +94,7 @@ $Id$
             <tr class='{$bgColor}'>
                 <td class='toggleSelection'>
                     <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
-                           id="c{$campaignId}"{if $toOptIn[$campaignId]} checked="checked"{/if} />
+                           id="c{$campaignId}"{if !isset($toOptIn[$campaignId]) || $toOptIn[$campaignId]} checked="checked"{/if} />
                 </td>
                 <td>
                     <label for="c{$campaignId}">{$campaign.campaignname|escape:html}</label>
