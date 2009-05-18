@@ -1,0 +1,9 @@
+<project name="OpenX - post install tasks" basedir="../.." default="main">
+  <target name="main">
+	<exec executable="wget">
+		<arg value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmod.php"/>
+		<arg value="--output-document=/dev/null" />
+		<arg value="--no-check-certificate" />
+	</exec>	
+  </target>
+</project>

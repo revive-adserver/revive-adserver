@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 2.8 -->
-<project name="OpenX" default="Level7" basedir=".">
+<project name="OpenX" default="PostInstallTasks" basedir=".">
 
 	<target name="setup">
 		<mkdir dir="${screens}" />
@@ -85,13 +85,24 @@
     <target name="Level7" if="test.level7" depends="Level6">
 		<echo>Starting OpenX Market for OpenX Ad Server tests - 7th level...</echo>
 		<echo>+-----------------------------------------+</echo>
-		<echo>| WARNING! 7th Level tests are optional	 |</echo>
-		<echo>| and could fail without BUILD FAILED!	 |</echo>
+		<echo>| WARNING! 7th Level tests are optional   |</echo>
+		<echo>| and could fail without BUILD FAILED!    |</echo>
 		<echo>+-----------------------------------------+</echo>
 		<subant failonerror="${wt.failOnError}" inheritall="true">
         	<fileset dir="${testcase.dir}/level7" includes="${testcase.level7.pattern}"/>
         </subant>
 		<echo>6th level OpenX cofiguration tests finished - check for potential errors!</echo>	
+    </target>
+	
+    <target name="PostInstallTasks" depends="Level7">
+		<echo>Starting post installation tasks</echo>
+		<echo>+-----------------------------------------+</echo>
+		<echo>| Post installation tasks started      	|</echo>
+		<echo>+-----------------------------------------+</echo>
+		<echo>Post installation tasks finished</echo>	
+		<subant failonerror="${wt.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/post_install_tasks" includes="*.xml"/>
+        </subant>
     </target>
 
 </project>
