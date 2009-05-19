@@ -2175,7 +2175,7 @@ $okToLog = false;
 $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
 if (!empty($result) && is_array($result)) {
 foreach ($result as $pci => $value) {
-if ($value == false) {
+if ($value == true) {
 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = $pci;
 $okToLog = false;
 }
