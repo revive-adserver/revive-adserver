@@ -811,7 +811,7 @@ function MAX_duplicatePlacementZones($fromPlacementId, $toPlacementId) {
     $pAdZones = Admin_DA::getPlacementZones(array('placement_id' => $fromPlacementId), true, 'zone_id');
     if (!empty($pAdZones)) {
         foreach ($pAdZones as $zoneId => $placementId) {
-            Admin_DA::addPlacementZone(array('placement_id' => $toPlacementId, 'zone_id' => $zoneId));
+            Admin_DA::addPlacementZone(array('placement_id' => $toPlacementId, 'zone_id' => $zoneId), false);
         }
     }
 }

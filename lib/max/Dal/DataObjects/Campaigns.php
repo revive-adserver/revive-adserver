@@ -388,9 +388,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         unset($this->campaignid);
         $new_campaignId = $this->insert();
 
-        // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
-     	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
-
         // Duplicate original campaign's banners
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $old_campaignId;
@@ -400,7 +397,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
          	$doOriginalBanner->get($doBanners->bannerid);
          	$new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
         }
-
+        
+        // Duplicate placement-zone-associations (Do this after duplicating tbe banners (and associated ad-zone-links)
+        // The duplicatePlacementZones method will not trigger the auto-linking mechanism so you end up with a 1:1 duplicate of ad-zone links
+     	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
+        
         return $new_campaignId;
     }
 

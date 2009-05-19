@@ -1358,12 +1358,14 @@ class Admin_DA
         return Admin_DA::_getEntities('placement_zone_assoc', $aParams, $allFields, $key);
     }
 
-    function addPlacementZone($aVariables)
+    function addPlacementZone($aVariables, $autoLinkMatchingBanners = true)
     {
         if (!($pzaId = Admin_DA::_addEntity('placement_zone_assoc', $aVariables))) {
             return false;
         }
-
+        if (!$autoLinkMatchingBanners) {
+            return $pzaId;
+        }
         // Selects ads which belongs to the campaign (placement) and fit into
         // the zone. Then links all those ads to the zone if they are not linked already.
         $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
