@@ -186,7 +186,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
         }
 
         // Insert the new banner and get the ID
-        $new_adId = $this->insert();
+        $new_adId = $this->insert(false);
 
         // Copy ACLs and capping
         MAX_AclCopy(basename($_SERVER['PHP_SELF']), $old_adId, $new_adId);
@@ -198,7 +198,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
         return $new_adId;
     }
 
-    function insert()
+    function insert($autoLinkMatchingZones = true)
     {
         $this->_rebuildCache();
         $id = parent::insert();
@@ -206,7 +206,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
             // add default zone
             $aVariables = array('ad_id' => $id, 'zone_id' => 0);
             Admin_DA::addAdZone($aVariables);
-            MAX_addDefaultPlacementZones($id, $this->campaignid);
+            if ($autoLinkMatchingZones) {
+                MAX_addDefaultPlacementZones($id, $this->campaignid);
+            }
         }
         return $id;
     }
