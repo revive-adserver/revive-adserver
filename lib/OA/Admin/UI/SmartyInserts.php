@@ -56,20 +56,15 @@ function insert_OA_Admin_UI_CustomFooter()
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
+    
     if (!empty($aConf['ui']['footerFilePath'])) {
         ob_start();
         include ($aConf['ui']['footerFilePath']);
 
         $content = ob_get_clean();
-
-        return '
-            <tr>
-                <td width="40" height="20">&nbsp;</td>
-                <td height="20">
-                    '.$content.'
-                </td>
-            </tr>
-        ';
+        $content .= 'KUKU';
+        
+        return $content;
     }
 
     return '';
