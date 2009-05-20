@@ -260,6 +260,8 @@ function getCampaigns($campaignType = null, $minCpms=array())
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
     } elseif ($campaignType == 'contract') {
         $doCampaigns->whereAdd('priority > 0');
+    } elseif ($campaignType == 'all') {
+        $doCampaigns->whereAdd('priority != -1');
     }
 
     // Do we have data in ext_market_campaign_pref?
@@ -315,6 +317,8 @@ function numberOfOptedCampaigns($campaignType = null, $minCpms=null)
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
     } elseif ($campaignType == 'contract') {
         $doCampaigns->whereAdd('priority > 0');
+    } elseif ($campaignType == 'all') {
+        $doCampaigns->whereAdd('priority != -1');
     }
 
     // Ignore campaigns that are already Opt in
@@ -353,7 +357,7 @@ function  numberOfRemnantCampaignsToOptIn()
     return $numberOfRemnantCampaignsToOptIn;
 }
 
-function arrayValuesToKeys($array, $valueToFillIn = true) 
+function arrayValuesToKeys($array, $valueToFillIn = true)
 {
     $result = array();
     foreach ($array as $value) {
