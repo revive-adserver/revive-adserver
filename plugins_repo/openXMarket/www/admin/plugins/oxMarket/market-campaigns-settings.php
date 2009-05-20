@@ -189,7 +189,7 @@ function performOptIn($minCpms)
         $doCampaigns->joinAdd($doClients, 'LEFT');
 
         // Ignore already ended campaigns
-        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
+        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '". OA_Dal::noDateValue() ."'");
 
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
 
@@ -253,7 +253,7 @@ function getCampaigns($campaignType = null, $minCpms=array())
     $doCampaigns->selectAs(array('campaignid'), 'campaign_id');
 
     // Ignore already ended campaigns
-    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
+    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '". OA_Dal::noDateValue() ."'");
 
     // If not all campaigns selected set the selected campaign type
     if ($campaignType == 'remnant') {
@@ -310,7 +310,7 @@ function numberOfOptedCampaigns($campaignType = null, $minCpms=null)
     $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
 
     // Ignore already ended campaigns
-    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
+    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '". OA_Dal::noDateValue() ."'");
 
     // If not all campaigns selected set the selected campaign type
     if ($campaignType == 'remnant') {
@@ -348,7 +348,7 @@ function  numberOfRemnantCampaignsToOptIn()
     $doCampaigns->joinAdd($doClients, 'LEFT');
 
     // Ignore already ended campaigns
-    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '0000-00-00' ");
+    $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire = '". OA_Dal::noDateValue() ."'");
 
     $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
     $doCampaigns->find();
