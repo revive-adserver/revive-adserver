@@ -37,10 +37,10 @@ $Id$
                     <span><span>
                         {if $campaignType == 'remnant'}
                             Remnant campaigns
-                        {elseif $campaignType == 'nonexclusive'}
-                            Non-exclusive campaigns
+                        {elseif $campaignType == 'contract'}
+                            Contract campaigns
                         {else}
-                            All campaigns
+                            Remnant and contract campaigns
                         {/if}
                      </span></span>
 
@@ -48,8 +48,8 @@ $Id$
                         <div>
                             <ul>
                                 <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=remnant'>Remnant campaigns</a></li>
-                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=nonexclusive'>Non-exclusive campaigns</a></li>
-                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=all'>All campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=contract'>Contract campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=all'>Remnant and contract campaigns</a></li>
                             </ul>
                         </div>
                     </div>
@@ -124,8 +124,8 @@ $Id$
                             {capture assign=typeString}
                               {if $campaignType == 'remnant'}
                                   remnant
-                              {elseif $campaignType == 'nonexclusive'}
-                                  non-exclusive
+                              {elseif $campaignType == 'contract'}
+                                  contract
                               {/if} 
                             {/capture}
                             

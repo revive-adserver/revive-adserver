@@ -103,7 +103,7 @@ $oTpl->assign('minCpm', $minCpm);
 $oTpl->assign('minCpms', $minCpms);
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
-$toOptInMap = array_fill_keys($toOptIn, true);
+$toOptInMap = arrayValuesToKeys($toOptIn);
 foreach ($campaigns as $campaignId => $campaign) {
 	if (!isset($toOptInMap[$campaignId])) {
 	    $toOptInMap[$campaignId] = $firstView;
@@ -258,7 +258,7 @@ function getCampaigns($campaignType = null, $minCpms=array())
     // If not all campaigns selected set the selected campaign type
     if ($campaignType == 'remnant') {
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
-    } elseif ($campaignType == 'nonexclusive') {
+    } elseif ($campaignType == 'contract') {
         $doCampaigns->whereAdd('priority > 0');
     }
 
@@ -313,7 +313,7 @@ function numberOfOptedCampaigns($campaignType = null, $minCpms=null)
     // If not all campaigns selected set the selected campaign type
     if ($campaignType == 'remnant') {
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
-    } elseif ($campaignType == 'nonexclusive') {
+    } elseif ($campaignType == 'contract') {
         $doCampaigns->whereAdd('priority > 0');
     }
 
@@ -353,5 +353,13 @@ function  numberOfRemnantCampaignsToOptIn()
     return $numberOfRemnantCampaignsToOptIn;
 }
 
+function arrayValuesToKeys($array, $valueToFillIn = true) 
+{
+    $result = array();
+    foreach ($array as $value) {
+    	$result[$value] = $valueToFillIn;
+    }
+    return $result;
+}
 
 ?>
