@@ -62,7 +62,6 @@ function insert_OA_Admin_UI_CustomFooter()
         include ($aConf['ui']['footerFilePath']);
 
         $content = ob_get_clean();
-        $content .= 'KUKU';
         
         return $content;
     }
