@@ -263,6 +263,7 @@
 }
 .tableWrapper .dropDown div.panel div {
     background: url(../images/dropdown-left.png) left bottom no-repeat;
+    max-width: 200px; /** The image has fixed width, the layout will break if the panel get wider */
     padding: 0 0 8px;
     overflow: visible;
 
