@@ -487,15 +487,18 @@ class OA_Admin_Template extends Smarty
                 $width = $aParams['width'];
                 $height = $aParams['height'];
                 $delivery = $aParams['delivery'];
-                
-                if ($delivery == phpAds_ZoneText) {
-                    $translation = new OX_Translation ();
+                $translation = new OX_Translation ();
                     
+                if ($delivery == phpAds_ZoneText) {
                     return $translation->translate('Custom') . " (" . $translation->translate('TextAdZone') . ")";
+                } else if ($delivery == OX_ZoneVideoInstream) {
+                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoInstream') . ")";
+                } else if ($delivery == OX_ZoneVideoOverlay) {
+                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoOverlay') . ")";
                 } else {
                     if ($width == -1) $width = '*';
                     if ($height == -1) $height = '*';
-
+                
                     return phpAds_getBannerSize($width, $height);
                 }
             } else {
@@ -522,6 +525,8 @@ class OA_Admin_Template extends Smarty
                         case phpAds_ZoneInterstitial:   return 'iconZoneFloating';
                         case phpAds_ZoneText:           return 'iconZoneText';
                         case MAX_ZoneEmail:             return 'iconZoneEmail';
+                        case OX_ZoneVideoInstream:      return 'iconZoneVideoInstream';
+                        case OX_ZoneVideoOverlay:       return 'iconZoneVideoOverlay';
                         default:                        return 'iconZone';
                     }
                 }
@@ -530,6 +535,8 @@ class OA_Admin_Template extends Smarty
                     case phpAds_ZoneInterstitial:   return 'iconZoneFloatingDisabled';
                     case phpAds_ZoneText:           return 'iconZoneTextDisabled';
                     case MAX_ZoneEmail:             return 'iconZoneEmailDisabled';
+                    case OX_ZoneVideoInstream:      return 'iconZoneVideoInstreamDisabled';
+                    case OX_ZoneVideoOverlay:       return 'iconZoneVideoOverlayDisabled';
                     default:                        return 'iconZoneDisabled';
                 }
             } else {

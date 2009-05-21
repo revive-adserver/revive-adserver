@@ -188,6 +188,19 @@ div.breadcrumb .inlineIcon {
 .iconZoneFloatingDisabled {
     background-image: url("../images/icon-zone-floating-disabled.png");
 }
+.iconZoneVideoInstream {
+    background-image: url("../images/icon-zone-video-instream.png");
+}
+.iconZoneVideoInstreamDisabled {
+    background-image: url("../images/icon-zone-video-instream-disabled.png");
+}
+.iconZoneVideoOverlay {
+    background-image: url("../images/icon-zone-video-overlay.png");
+}
+.iconZoneVideoOverlayDisabled {
+    background-image: url("../images/icon-zone-video-overlay-disabled.png");
+}
+
 .iconZoneLarge {
   background-image: url("../images/icon-zone-large.png");  
 }
