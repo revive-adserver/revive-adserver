@@ -218,9 +218,20 @@ function performOptIn($minCpms)
         foreach ($toOptIn as $campaignId) {
             $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
             $doMarketCampaignPref->campaignid = $campaignId;
-            $doMarketCampaignPref->is_enabled = true;
-            $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
-            $doMarketCampaignPref->insert();
+            $doMarketCampaignPref->find();
+            if ($doMarketCampaignPref->fetch()) {
+                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+                $doMarketCampaignPref->campaignid = $campaignId;
+                $doMarketCampaignPref->is_enabled = true;
+                $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
+                $doMarketCampaignPref->update();
+            } else {
+                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+                $doMarketCampaignPref->campaignid = $campaignId;
+                $doMarketCampaignPref->is_enabled = true;
+                $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
+                $doMarketCampaignPref->insert();
+            }
         }
 
         $campaignsOptedIn = count($toOptIn);
@@ -268,14 +279,8 @@ function getCampaigns($campaignType = null, $minCpms=array())
     if ($doMarketCampaignPref->count() > 0) {
         $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
         // Ignore campaigns that are already Opt in
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['database']['type'] == 'mysql') {
-            $doCampaigns->whereAdd(' ISNULL('. OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled) OR '
+        $doCampaigns->whereAdd(OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NULL OR '
                               .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled = 0');
-        } else {
-            $doCampaigns->whereAdd(OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NULL OR '
-                              .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled = 0');
-        }
     }
 
     $doCampaigns->find();
