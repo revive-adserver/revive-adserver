@@ -85,7 +85,6 @@ if(($selectedDateRangeName = array_search(array($startDate,$endDate), $available
 	$selectedDateRangeName = "$startDate - $endDate";
 }
 
-
 // BUILDING REPORT
 $vastReport = new OX_Vast_Report();
 $dataTable = $vastReport->getVastStatistics(
