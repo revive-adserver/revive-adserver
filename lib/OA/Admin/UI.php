@@ -33,6 +33,8 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/AccountSwitch.php';
+require_once MAX_PATH . '/www/admin/assets/minify-init.php';
+
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 
@@ -336,6 +338,7 @@ class OA_Admin_UI
         $this->oTpl->assign('pageTitle', $pageTitle);
         $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
+        $this->oTpl->assign('oxpVersion', OA_VERSION);
     }
 
 
@@ -514,20 +517,27 @@ class OA_Admin_UI
 		    $this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
     }
 
+    
     function _assignJavascriptandCSS()
     {
-        global $installing, $conf; //if installing no admin base URL is known yet
+        global $installing, $conf, $phpAds_TextDirection; //if installing no admin base URL is known yet
+
+        $jsGroup = 'oxp-js';
+        $cssGroup = $phpAds_TextDirection == 'ltr' ? 'oxp-css-ltr' : 'oxp-css-rtl';
+        
         //URL to combine script
         $this->oTpl->assign('adminBaseURL', $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, ''));
         // Javascript and stylesheets to include
-        $this->oTpl->assign('genericStylesheets', urlencode(implode(',', $this->genericStylesheets())));
-        $this->oTpl->assign('genericJavascript', urlencode(implode(',', $this->genericJavascript())));
-        $this->oTpl->assign('aGenericStyleshets', $this->genericStylesheets());
-        $this->oTpl->assign('aOtherStylesheets', $this->otherCSSFiles);
-        $this->oTpl->assign('aGenericJavascript', $this->genericJavascript());
+        $this->oTpl->assign('cssGroup', $cssGroup);
+        $this->oTpl->assign('jsGroup', $jsGroup);
+        
+        $this->oTpl->assign('aCssFiles', $this->getCssFiles($cssGroup));
+        $this->oTpl->assign('aOtherCssFiles', $this->otherCSSFiles);
+        $this->oTpl->assign('aJsFiles', $this->getJavascriptFiles($jsGroup));
 
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
+    
 
     function _assignSearch($ID)
     {
@@ -535,6 +545,7 @@ class OA_Admin_UI
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
     }
+    
 
     function _assignUserAccountInfo($oCurrentSection)
     {
@@ -733,77 +744,26 @@ class OA_Admin_UI
             phpAds_SessionDataStore();
         }
 
-        return $removedCount;
+        return $count - count($aMessages);
     }
 
 
-    function genericJavascript() {
-        return array (
-            'js/jquery-1.2.6-mod.js',
-            'js/effects.core.js',
-            'js/jquery.bgiframe.js',
-            'js/jquery.dimensions.js',
-            'js/jquery.metadata.js',
-            'js/jquery.validate.js',
-            'js/jquery.jqmodal.js',
-            'js/jquery.typewatch.js',
-            'js/jquery.autocomplete.js',
-            'js/jquery.example.js',
-            'js/jscalendar/calendar.js',
-            'js/jscalendar/lang/calendar-en.js',
-            'js/jscalendar/calendar-setup.js',
-            'js/js-gui.js',
-            'js/boxrow.js',
-            'js/ox.message.js',
-            'js/ox.usernamecheck.js',
-            'js/ox.accountswitch.js',
-            'js/ox.ui.js',
-            'js/ox.form.js',
-            'js/ox.help.js',
-            'js/ox.util.js', //1.3s
-            'js/ox.multicheckbox.js',
-            'js/ox.dropdown.js',
-            'js/ox.navigator.js',
-            'js/jquery.delegate-1.1.min.js',
-            'js/ox.table.js', //1,2s
-            'js/jquery.tablesorter.js',
-            'js/ox.tablesorter.plugins.js',
-            'js/formValidation.js'        
-        );
-    }
-
-    function genericStylesheets()
+    function getJavascriptFiles($groupName) 
     {
-        global $phpAds_TextDirection;
-
-        if ($phpAds_TextDirection == 'ltr') {
-            return array (
-            'css/jquery.jqmodal.css',
-                'css/jquery.autocomplete.css',
-                'css/oa.help.css',
-                'css/chrome.css',
-                'css/table.css',
-                'css/message.css',
-                'js/jscalendar/calendar-openads.css',
-                'css/interface-ltr.css',
-                'css/icons.css'
-            );
-        }
-
-        return array (
-            'css/jquery.jqmodal.css',
-            'css/jquery.autocomplete.css',
-            'css/oa.help.css',
-            'css/chrome.css',
-            'css/table.css',
-            'css/message.css',
-            'css/chrome-rtl.css',
-            'js/jscalendar/calendar-openads.css',
-            'css/interface-rtl.css',
-            'css/icons.css'
-        );
+        global $MINIFY_JS_GROUPS;
+        
+        return $MINIFY_JS_GROUPS[$groupName];
     }
 
+    
+    function getCssFiles($groupName)
+    {
+        global $MINIFY_CSS_GROUPS;
+        
+        return $MINIFY_CSS_GROUPS[$groupName];
+    }
+    
+    
     function registerStylesheetFile($filePath)
     {
         if (!in_array($filePath, $this->otherCSSFiles)) {
