@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>vastReport</name>
+    <creationDate>2009-05-05</creationDate>
+    <author>BouncingMinds</author>
+    <authorEmail>enquiries@bouncingminds.com</authorEmail>
+    <authorUrl>http://www.bouncingminds.com</authorUrl>
+    <license>GPL</license>
+    <description>Vast Reporting Plugin</description>
+    <version>1.0rc2</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+
+    <install>
+        <syscheck>
+        </syscheck>
+
+        <files>
+            <!--
+            <file path="{GROUPPATH}/">processPreferences.php</file>
+            <file path="{GROUPPATH}/">processSettings.php</file>
+            -->
+
+            <file path="{ADMINPATH}/navigation/">oxVastReportChecker.php</file>
+
+            <file path="{ADMINPATH}/">VastAreaGraph.php</file>
+            <file path="{ADMINPATH}/">VastMultiAreaGraph.php</file>
+            <file path="{ADMINPATH}/">players.php</file>
+            <file path="{ADMINPATH}/">stats-api.php</file>
+            <file path="{ADMINPATH}/">stats-export-csv.php</file>
+            <file path="{ADMINPATH}/">stats-vast.php</file>
+            <file path="{ADMINPATH}/templates/">vast-report.html</file>
+            <file path="{ADMINPATH}/templates/">table.html</file>
+            <file path="{ADMINPATH}/templates/">row.html</file>
+            <file path="{ADMINPATH}/templates/">players.html</file>
+            <file path="{ADMINPATH}/js/">json2.js</file>
+            <file path="{ADMINPATH}/lib/">expressInstall.swf</file>
+            <file path="{ADMINPATH}/lib/">open-flash-chart.swf</file>
+            <file path="{ADMINPATH}/lib/Csv/">Csv.php</file>
+            <file path="{ADMINPATH}/lib/Url/">Url.php</file>
+            <file path="{ADMINPATH}/lib/SmartyFunctions/">function.url.php</file>
+            <file path="{ADMINPATH}/lib/SmartyFunctions/">modifier.formatNumber.php</file>
+            <file path="{ADMINPATH}/css/">graph.css</file>
+            <file path="{ADMINPATH}/css/">icons.css</file>            
+            <file path="{ADMINPATH}/css/">report.css</file>
+            <file path="{ADMINPATH}/css/">ui.datepicker.css</file>            
+            <file path="{ADMINPATH}/images/">arrow-blue-left.gif</file>
+            <file path="{ADMINPATH}/images/">button-arrow-left.gif</file>            
+            <file path="{ADMINPATH}/images/">button-arrow-right.gif</file>
+            <file path="{ADMINPATH}/images/">corner_diagram.png</file>
+            <file path="{ADMINPATH}/images/">icon-calendar.gif</file>
+            <file path="{ADMINPATH}/images/">icon-csv.gif</file>
+            <file path="{ADMINPATH}/images/">icon-video-plugin-large.png</file>
+            <file path="{ADMINPATH}/images/">message-background.png</file>
+            <file path="{ADMINPATH}/js/">ox.reports.js</file>
+            <file path="{ADMINPATH}/js/">ui.core.js</file>
+            <file path="{ADMINPATH}/js/">ui.datepicker-mod.js</file>
+            <file path="{ADMINPATH}/js/">swfobject.js</file>
+            <file path="{ADMINPATH}/js/">ui.core.js</file>
+            <file path="{ADMINPATH}/js/">ui.datepicker-mod.js</file>
+            <file path="{ADMINPATH}/lib/Graph/">DataSetColorsHelper.php</file>
+            <file path="{ADMINPATH}/lib/Graph/Flash/">AreaGraph.php</file>
+            <file path="{ADMINPATH}/lib/Graph/Flash/">BaseGraph.php</file>
+            <file path="{ADMINPATH}/lib/Graph/Flash/">LineGraph.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">JSON.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">README.txt</file>
+            <file path="{ADMINPATH}/lib/ofc2/">area-hollow.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">dot_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">json_format.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_area_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_area_hollow.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">dot_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">json_format.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_area_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_area_hollow.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_area_line.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_3d.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_filled.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_glass.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_sketch.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_bar_stack.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_hbar.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_line.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_line_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_line_dot.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_line_hollow.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_line_style.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_menu.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_pie.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_radar_axis.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_radar_axis_labels.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_radar_spoke_labels.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_scatter.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_scatter_line.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_shape.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_sugar.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_title.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_tooltip.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_upload_image.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_x_axis.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_x_axis_label.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_x_axis_labels.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_x_legend.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_y_axis.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_y_axis_base.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_y_axis_right.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">ofc_y_legend.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">open-flash-chart-object.php</file>
+            <file path="{ADMINPATH}/lib/ofc2/">open-flash-chart.php</file>
+
+        </files>
+
+        <configuration>
+        </configuration>
+
+        <components>
+        </components>
+
+
+        <navigation>
+            <checkers>
+                <checker class="Plugins_admin_openXVastBanner_vastReportChecker" include="oxVastReportChecker.php" />
+            </checkers>
+            <manager> 
+
+               <menu addto="2.1" index="stats-vast-advertiser" link="plugins/vastReport/stats-vast.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">2222 Advertiser Video Report</menu>
+               <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Campaign Video Report</menu>
+               <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+               <menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+   <menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVastBanner_vastReportChecker">Video Players</menu>
+            </manager>
+            
+            <admin>
+
+               <menu addto="2.1" index="stats-vast-advertiser" link="plugins/vastReport/stats-vast.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Advertiser Video Report</menu>
+               <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Campaign Video Report</menu>
+               <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+               <menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+   <menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVastBanner_vastReportChecker">Video Players</menu>
+            </admin>
+            <advertiser>
+
+               <menu addto="2.1" index="stats-vast-advertiser" link="plugins/vastReport/stats-vast.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Advertiser Video Report</menu>
+               <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Campaign Video Report</menu>
+               <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+               <menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+   <menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVastBanner_vastReportChecker">Video Players</menu>
+            </advertiser>
+            <trafficker>
+
+               <menu addto="2.1" index="stats-vast-advertiser" link="plugins/vastReport/stats-vast.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Advertiser Video Report</menu>
+               <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Campaign Video Report</menu>
+               <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+               <menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVastBanner_vastReportChecker">Ad Video Report</menu>
+   <menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVastBanner_vastReportChecker">Video Players</menu>
+            </trafficker>
+        </navigation>
+
+    </install>
+
+
+</plugin>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>vastOverlayBannerTypeHtml</name>
+    <creationDate>2009-03-10</creationDate>
+    <author>BouncingMinds</author>
+    <authorEmail>enquiries@bouncingminds.com</authorEmail>
+    <authorUrl>http://www.bouncingminds.com</authorUrl>
+    <license>license.txt</license>
+    <description>Vast overlay banner for OpenX</description>
+    <version>1.0rc2</version>
+    <oxversion>2.7.8-dev</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}bannerTypeHtml/vastOverlayBannerTypeHtml/">vastOverlayHtml.class.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/vastOverlayBannerTypeHtml/">vastOverlayHtml.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+        </files>
+
+    </install>
+
+</plugin>

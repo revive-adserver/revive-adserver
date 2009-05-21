@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>vastInlineBannerTypeHtml</name>
+    <creationDate>2009-03-10</creationDate>
+    <author>BouncingMinds</author>
+    <authorEmail>enquiries@bouncingminds.com</authorEmail>
+    <authorUrl>http://www.bouncingminds.com</authorUrl>
+    <license>license.txt</license>
+    <description>Vast Inline banner for OpenX</description>
+    <version>1.0rc2</version>
+    <oxversion>2.7.8-dev</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}bannerTypeHtml/vastInlineBannerTypeHtml/">vastInlineHtml.class.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/vastInlineBannerTypeHtml/">vastInlineHtml.delivery.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/vastInlineBannerTypeHtml/">common.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/vastInlineBannerTypeHtml/">commonAdmin.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/vastInlineBannerTypeHtml/">commonDelivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+        </files>
+
+        <schema>
+            <mdb2schema>tables_vastbannertypehtml</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Banner_vast_element.php</dataobject>
+            <dataobject>Data_bkt_vast_t.php</dataobject>
+        </schema>
+
+
+        <postscript>postscript_install_vastInlineBannerTypeHtml.php</postscript>
+
+    </install>
+
+</plugin>

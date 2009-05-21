@@ -1,0 +1,222 @@
+/** Report tables */
+#date-range, #date-range-view, 
+#date-range-picker {
+  position: absolute;
+  margin-top: -107px;
+  right: 40px;
+  -moz-border-radius: 5px;
+  padding: 8px;
+  text-align: right;
+}
+
+.thirdLevelToolsEmpty #date-range, .thirdLevelToolsEmpty #date-range-view,
+.thirdLevelToolsEmpty #date-range-picker {
+   margin-top: -78px;
+}
+
+#date-range-picker .iconCalendar, #date-range-view .date,
+#date-range .iconCalendar {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
+#date-range-picker .iconCalendar,
+#date-range .iconCalendar {
+  color: #255792;
+}
+
+#date-range {
+  cursor: pointer;
+  border: 1px solid #e4e5e4;    
+  background-color: #f7f7f7;
+}
+
+#date-range label, #date-range-view label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #b0b0b0;
+  cursor: pointer;
+}
+
+
+#date-range-view {
+  border: 1px solid #e4e5e4;    
+  background-color: #f7f7f7;
+}
+
+
+
+#date-range-picker {
+  border: 1px solid #bad5e6;    
+  background-color: #e6f0f9;
+  padding-bottom: 32px;
+  display: none;
+  z-index: 2;
+}
+
+#date-range-picker-controls {
+  margin-top: 10px;
+  padding-right: 11em;
+  min-height: 60px;
+}
+
+#date-range-picker ul {
+  text-align: right;
+  position: absolute;
+  right: 10px;
+}
+
+
+#date-range-picker li a {
+  display: block;
+  color: #474340;
+  padding: 3px;
+  -moz-border-radius: 2px;
+}
+
+#date-range-picker li a.current {
+  font-weight: bold;
+}
+
+#date-range-picker li a.range {
+  padding-left: 12px;
+  background-image: url("../images/arrow-blue-left.gif");
+  background-repeat: no-repeat;
+  background-position: 2px center;
+}
+
+#date-range-picker li a:hover {
+  background-color: #acc2d9;
+  text-decoration: none;
+  color: #255792;
+}
+
+#date-range-picker-start-date,
+#date-range-picker-end-date {
+  float: left;
+  margin-right: 10px;
+  position: relative;
+  font-weight: bold;
+  text-align: left;
+  color: #0867a7;
+  display: none;
+}
+
+#date-range-picker-start-date div,
+#date-range-picker-end-date div {
+  margin-top: 2px;
+}
+
+#date-range-picker-end-date button {
+  position: absolute;
+  bottom: -27px;
+  right: 0;
+  margin-right: 0;
+}
+
+/** Report summary boxes */
+#report-header {
+  position: relative;
+  padding-right: 10em;
+}
+
+#summary {
+  position: relative; /*is this required? */
+  overflow: auto;
+  margin-bottom: 12px;
+}
+
+#summary li {
+  background-color: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  -moz-border-radius: 4px;
+  padding: 6px 9px;
+  float: left;
+  margin-right: 12px;
+  min-width: 120px;
+}
+
+#summary li h4 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #323232;
+}
+
+#summary li span {
+  display: block;  
+  font-size: 11px;
+  color: #8B8B8B;
+  padding-bottom: 8px;
+}
+
+/** report table **/
+.export,
+#export {
+  position: absolute;
+  bottom: -3px;
+  right: 0;
+  width: 10em;
+  text-align: right;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  padding: 0px;
+}
+
+
+/** Report overview page */
+
+.reportGroupsBox {
+  float: left;
+  margin-right: 20px;
+}
+
+#accuracy-info {
+  width: 300px;
+  float: left;
+}
+
+#accuracy-info > .middle {
+  line-height: 1.35;
+  padding: 10px;
+  color: #808080;
+}
+
+ul.reportGroups li {
+  margin-bottom: 2ex;
+}
+
+ul.reportGroups h4 {
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+ul.reportSlices {
+  font-size: 14px;
+  display: inline;
+}
+
+
+ul.reportSlices li {
+  display: inline;
+}
+
+ul.reportSlices li {
+  border-right: 1px solid #808080;
+  padding-right: 3px;
+  padding-left: 6px;
+}
+
+ul.reportSlices li.last {
+  border: none;
+}
+
+.iconCsv {
+  background-image: url("../images/icon-csv.gif");
+}
+
+.iconCalendar {
+  background-image: url("../images/icon-calendar.gif");
+}

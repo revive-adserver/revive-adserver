@@ -1,0 +1,33 @@
+.titleIcon {
+  display: none;
+}
+
+.inlineIcon,
+.inlineIconHasNext {
+    padding: 2px 0 2px 20px;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.inlineIconAfter {
+    padding: 2px 20px 2px 0;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+#thirdLevelHeader .title .inlineIcon {
+  line-height: 23px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+} 
+
+.inlineIconHasNext {
+    padding: 1px 5px 1px 20px;
+}
+
+.iconCalendar {
+    background-image: url("../images/icon-calendar.gif");
+}
+.iconCsv {
+    background-image: url("../images/icon-csv.gif");
+}

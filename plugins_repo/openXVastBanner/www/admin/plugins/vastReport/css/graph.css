@@ -1,0 +1,161 @@
+/** RESET **/
+.report ol,.report ul {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+}
+
+.report ol,
+.report ul,
+.report li,
+.report h1,
+.report h2,
+.report h3,
+.report h4 {
+  border: 0 none;
+  font-family: inherit;
+  font-size: 100%;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline-color: -moz-use-text-color;
+  outline-style: none;
+  outline-width: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+body {
+  line-height: 1;
+}
+
+#date-range, #date-range-view, 
+#date-range-picker {
+  right: 20px;
+  margin-top: -130px;
+  *margin-top: -108px;
+  margin-top:-63px;
+  right:19px;
+}
+
+.inlineIcon {
+  *line-height: 20px;
+}
+
+#video_plugin_table_wrapper {
+  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: auto;
+  margin-right: 0px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+#video_plugin_table_wrapper table {
+  border-left: 0px solid #ddd;
+  border-right: 0px solid #ddd;
+  table-layout: fixed;
+}
+
+#video_plugin_table_wrapper table td {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#video_plugin_table_wrapper table th.nameCol {
+  width: 20em;
+}
+#video_plugin_table_wrapper table th.viewsCol {
+  /** Large widths just to show scroll bar, for production we may stick 
+    with a smaller width e.g. 3em */
+  width: 6em;
+}
+
+/* header style */
+.video_plugin_header {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 25px;
+  padding-bottom: 5px;
+}
+
+.video_plugin_header h2 {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 15px;
+  padding-bottom: 5px;
+}
+
+.video_plugin_header .export {
+  float: right;
+  background-color: transparent;
+  position: static;
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
+/* graph style */
+.graph,.graph_table {
+  border: 1px solid #dddddd;
+  left: 0;
+  position: relative;
+  top: 0;
+  margin: auto;
+  width: auto;
+  border: 1px solid #ddd;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 15px;
+  padding-top: 25px;
+}
+
+.graph_table {
+  border: 0px solid #dddddd;
+}
+
+.graph .diagram_corner {
+  background-image: url(../images/corner_diagram.png);
+  background-repeat: no-repeat;
+  font-size: 0;
+  height: 6px;
+  overflow: hidden;
+  position: absolute;
+  width: 6px;
+}
+
+.graph  .top_left {
+  background-position: left top;
+  left: -1px;
+  top: -1px;
+}
+
+.graph  .top_right {
+  background-position: right top;
+  right: -1px;
+  top: -1px;
+}
+
+.graph  .bottom_left {
+  background-position: left bottom;
+  left: -1px;
+  bottom: -1px;
+}
+
+.graph  .bottom_right {
+  background-position: right bottom;
+  right: -1px;
+  bottom: -1px;
+}
+
+.iconVideoPluginLarge {
+  background: url('../images/icon-video-plugin-large.png') no-repeat;
+}
+
+/** Hacks for the general stacking context mess in OXP */
+#thirdLevelContent { *z-index: 3; }
+#oaNavigation { z-index: 4; }
+div.breadcrumb { z-index: 1 !important;}
+

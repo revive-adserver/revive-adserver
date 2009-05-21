@@ -1,0 +1,31 @@
+<?php
+/**
+ * Table Definition for data_bkt_vast_t
+ */
+require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+
+class DataObjects_Data_bkt_vast_t extends DB_DataObjectCommon 
+{
+    ###START_AUTOCODE
+    /* the code below is auto generated do not remove the above tag */
+
+    public $__table = 'data_bkt_vast_t';                 // table name
+    public $interval_start;                  // DATETIME() => openads_datetime => 142 
+    public $creative_id;                     // MEDIUMINT(20) => openads_mediumint => 129 
+    public $zone_id;                         // MEDIUMINT(20) => openads_mediumint => 129 
+    public $vast_event_id;                   // CHAR(32) => openads_char => 130 
+    public $count;                           // INT(11) => openads_int => 129 
+
+    /* Static get */
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_bkt_vast_t',$k,$v); }
+
+    var $defaultValues = array(
+                'interval_start' => '%NO_DATE_TIME%',
+                'vast_event_id' => '',
+                'count' => 0,
+                );
+
+    /* the code above is auto generated do not remove the tag below */
+    ###END_AUTOCODE
+}
+?>

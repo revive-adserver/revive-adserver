@@ -1,0 +1,28 @@
+<tr class="level{$level} {if $iteration % 2 == 0}even{else}odd{/if}">
+{foreach from=$columns key=columnId item=columnName name=columns}
+	{if $smarty.foreach.columns.first}
+		<td class="first indented ">
+			{if $expandable}
+				<a href="{if $expanded}{url expandId=null}{else}{url expandId=$rowId $selectedDimension=test}{/if}#table" title="Expand {$rowMetrics.name}">
+				<img width="16" height="16" border="0" align="absmiddle" src="../../assets/images/{if $expanded}triangle-d{else}ltr/triangle-l{/if}.gif"></a>
+			{/if}
+			<span title="{$rowMetrics.name}" class="inlineIcon {if $selectedDimension=='campaign'}iconCampaign{elseif $selectedDimension=='banner'}iconBanner{else}iconDate{/if}">
+				{if $selectedDimension=='campaign' || $selectedDimension=='banner'}
+					{capture assign=linkToStats}
+					{if $selectedDimension=='campaign'}{url entity=$selectedDimension entityId=$rowId dimension=null campaignid=$rowId}
+					{else}{url entity=$selectedDimension entityId=$rowId dimension=null bannerid=$rowId}
+					{/if}
+					{/capture}
+					<a href="{$linkToStats}" title="Video Statistics for {$rowMetrics.name}">{$rowMetrics.name}</a>
+				{else}
+					{$rowMetrics.name}
+				{/if}
+			</span>
+		</td>
+		{else}
+ 	<td class="num">
+ 		{if isset($rowMetrics.$columnId)}{$rowMetrics.$columnId|formatNumber}{else}0{/if}
+ 	</td>
+	{/if}
+{/foreach}
+</tr>

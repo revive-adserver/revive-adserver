@@ -1,0 +1,35 @@
+<div id="video_plugin_table_wrapper">
+      <table cellspacing="0" border="0">
+        <thead>
+          <tr>
+          {foreach from=$columns key=columnId item=columnName name=columns}
+            <th class="{if $smarty.foreach.columns.first}first nameCol{else}num viewsCol{/if}">{$columnName}</th>
+          {/foreach}
+          </tr>
+        </thead>
+        <tbody>
+		{foreach from=$dataTable key=rowId item=rowMetrics name=rows}
+	          {capture assign=expanded}{if $expandId==$rowId}1{else}0{/if}{/capture}
+	        	{assign var=iteration value=$smarty.foreach.rows.index}
+				{include file=row.html level=0 selectedDimension=$selectedDimension expandable=$selectedDimensionExpanded}
+				{if $expanded}
+					{foreach from=$expandedDataTable key=rowId item=rowMetrics name=rowsExpanded}
+						{capture assign=iteration}{$smarty.foreach.rows.index+$smarty.foreach.rowsExpanded.index+1}{/capture}
+						{include file=row.html level=2 selectedDimension=$selectedDimensionExpanded expandable=0}
+					{/foreach}
+				{/if}
+		{/foreach}
+        </tbody>
+        <tfoot>
+        	{foreach from=$columns key=columnId item=columnName name=columns}
+            	{if $smarty.foreach.columns.first}
+            		<td class="first indented "><span class="inlineIcon"><strong>{$summaryRow.0}</strong></span></td>
+				{else}
+	            	<td class="num">
+	            		{if isset($summaryRow.$columnId)}{$summaryRow.$columnId|formatNumber}{else}0{/if}
+	            	</td>
+	           	{/if}
+            {/foreach}
+        </tfoot>
+      </table>
+    </div>

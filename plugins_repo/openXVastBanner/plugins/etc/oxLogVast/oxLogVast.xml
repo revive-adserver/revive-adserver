@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxLogVast</name>
+    <creationDate>2009-03-10</creationDate>
+    <author>BouncingMinds</author>
+    <authorEmail>enquiries@bouncingminds.com</authorEmail>
+    <authorUrl>http://www.bouncingminds.com</authorUrl>
+    <license>GPL</license>
+    <description>Delivery Log Vast Plugin</description>
+    <version>1.0rc2</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+
+    <install>
+        <syscheck>
+        </syscheck>
+
+        <files>
+            <file path="{MODULEPATH}deliveryLog/oxLogVast/">logImpressionVast.delivery.php</file>
+        </files>
+
+        <components>
+        </components>
+
+    </install>
+
+
+</plugin>
