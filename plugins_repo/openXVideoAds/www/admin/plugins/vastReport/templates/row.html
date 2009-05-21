@@ -3,7 +3,7 @@
 	{if $smarty.foreach.columns.first}
 		<td class="first indented ">
 			{if $expandable}
-				<a href="{if $expanded}{url expandId=null}{else}{url expandId=$rowId $selectedDimension=test}{/if}#table" title="Expand {$rowMetrics.name}">
+				<a href="{if $expanded}{url expandId=null}{else}{url expandId=$rowId}{/if}#table" title="Expand {$rowMetrics.name}">
 				<img width="16" height="16" border="0" align="absmiddle" src="../../assets/images/{if $expanded}triangle-d{else}ltr/triangle-l{/if}.gif"></a>
 			{/if}
 			<span title="{$rowMetrics.name}" class="inlineIcon {if $selectedDimension=='campaign'}iconCampaign{elseif $selectedDimension=='banner'}iconBanner{else}iconDate{/if}">
