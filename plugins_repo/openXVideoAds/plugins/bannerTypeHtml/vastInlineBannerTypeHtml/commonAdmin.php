@@ -311,8 +311,8 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
         
     $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
 
-    $form->addElement('html', 'video_status_info3', '<span style="font-size:80%;">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>rtmp://ne7c0nwbit.rtmp.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4</strong></span>' );   
-    
+    $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
+    $form->addElement('html', 'video_status_info3', '<span style="font-size:80%;">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>' );   
     
     if ( $showNetConnectionUrl ){
         
