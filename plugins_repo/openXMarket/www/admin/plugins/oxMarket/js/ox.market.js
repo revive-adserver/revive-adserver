@@ -247,12 +247,12 @@
             var value = $(this).val();
             if (value == 'remnant') {
                 $("#selectedCount").hide();
-                $("#remnantCount").show();
+                $("#remnantCount, #remnantOptedInCount").show();
                 $("#minCpm").attr('disabled', false).focus();
                 $("#submit").attr("disabled", false);
             } else {
                 $("#selectedCount").show();
-                $("#remnantCount").hide();
+                $("#remnantCount, #remnantOptedInCount").hide();
                 $("#minCpm").attr('disabled', true);
                 updateCount();
             }

@@ -64,9 +64,15 @@ $Id$
 
 <input type="submit" value="Apply" id="submit" class="main-submit" />
 <span id="counts">
-  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span> 
+  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span>
   <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
-  campaign(s) will be updated
+  campaign(s) 
+  {if $remnantCampaignsOptedIn > 0}
+    <span id="remnantOptedInCount"{if $optInType == 'selected'} class="hide"{/if}>
+      (including {$remnantCampaignsOptedIn} previously opted in campaign{if $remnantCampaignsOptedIn > 1}s{/if})
+    </span> 
+  {/if}
+  will be updated
 </span>
 </form>
 
