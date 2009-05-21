@@ -5,7 +5,7 @@
  <name>vastbannertypehtml</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>003</version>
+ <version>004</version>
  <status>final</status>
 
  <table>
@@ -149,7 +149,7 @@
 
  <table>
 
-  <name>data_bkt_vast_t</name>
+  <name>data_bkt_vast_e</name>
 
   <declaration>
 
@@ -193,7 +193,7 @@
    </field>
 
    <index>
-    <name>data_bkt_vast_t_pkey</name>
+    <name>data_bkt_vast_e_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>

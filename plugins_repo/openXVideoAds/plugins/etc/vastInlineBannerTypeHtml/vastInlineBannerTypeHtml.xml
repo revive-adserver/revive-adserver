@@ -30,7 +30,7 @@
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Banner_vast_element.php</dataobject>
-            <dataobject>Data_bkt_vast_t.php</dataobject>
+            <dataobject>Data_bkt_vast_e.php</dataobject>
         </schema>
 
 

@@ -41,7 +41,7 @@ class OX_Vast_Report {
 	 public function __construct()
 	 {
 		$prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-		$this->statsTable = $prefix . "data_bkt_vast_t";
+		$this->statsTable = $prefix . "data_bkt_vast_e";
 		$this->campaignTable = $prefix . "campaigns";
 		$this->bannerTable = $prefix . "banners";
 	 }
@@ -331,7 +331,7 @@ class OX_Vast_Report {
 				// generate events inversely proportional to the event id, 
 				// also make sure 25% happens more often than 50%
 				$count = ceil(rand(1,1000) * 1/ ($eventId==2?3:($eventId==3?2:$eventId)));
-				$query = "INSERT INTO `openx_vast`.`ox_data_bkt_vast_t` (
+				$query = "INSERT INTO {$this->statsTable} (
 							`interval_start` ,
 							`creative_id` ,
 							`zone_id` ,

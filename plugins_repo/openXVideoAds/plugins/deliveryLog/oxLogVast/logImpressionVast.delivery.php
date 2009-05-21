@@ -125,7 +125,7 @@ function bumpVastEventTrackingBucketCounter($data)
         'zone_id'        => $data['zone_id'],
         'vast_event_id'  => $data['vast_event_id'],
     );
-    return OX_bucket_updateTable('data_bkt_vast_t', $aQuery);
+    return OX_bucket_updateTable('data_bkt_vast_e', $aQuery);
 }
 
 
