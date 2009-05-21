@@ -26,7 +26,7 @@ $Id$
 */
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
 
-class Plugins_admin_openXVastBanner_vastReportChecker implements OA_Admin_Menu_IChecker
+class Plugins_admin_openXVideoAds_vastReportChecker implements OA_Admin_Menu_IChecker
 {
     /**
      * @param OA_Admin_Menu_Section $oSection

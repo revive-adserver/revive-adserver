@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>openXVastBanner</name>
+    <name>openXVideoAds</name>
     <creationDate>2009-05-20</creationDate>
     <author>BouncingMinds</author>
     <authorEmail>enquiries@bouncingminds.com</authorEmail>
@@ -15,8 +15,8 @@
     <install>
 
         <files>
-            <file path="{PLUGINPATH}">openXVastBanner.readme.txt</file>
-            <file path="{PLUGINPATH}">openXVastBanner.uninstall.txt</file>
+            <file path="{PLUGINPATH}">openXVideoAds.readme.txt</file>
+            <file path="{PLUGINPATH}">openXVideoAds.uninstall.txt</file>
         </files>
 
         <contents>

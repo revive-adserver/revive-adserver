@@ -1,4 +1,0 @@
-For more information about the work being done to enhance the OpenX plugin framework visit
-
-https://developer.openx.org/wiki/display/COMM/Plugins+for+2.8
-
