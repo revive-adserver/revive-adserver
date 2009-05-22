@@ -1,24 +1,39 @@
 <?php
 require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php";
 
-
 $vastReport = new OX_Vast_Report;
 // Generate fake stats?
-if($generateFakeStatistics = false) {
+$generateFakeStatistics = false;
+if($generateFakeStatistics) {
     $vastReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
     exit;
 }
 
 // Output all combinations of parameters for the getStatistics function?
-if($outputAllCallGetStatistics = !true) {
-	$availableDimensions = array("campaign", "banner", 
+$outputAllCallGetStatistics = false;
+if($outputAllCallGetStatistics) {
+	$availableDimensions = array(//"campaign", "banner", 
 								"day", "week", "month", "year", "hour-of-day");
+	$availableEntities = array(
+	    //entity name, entity id
+	    array('banner', 1),
+	    array('campaign', 1),
+	    array('advertiser', 1),
+	    array('website', 1),
+	    array('zone', 1),
+	);
 	$startDate = '2009-05-09';
 	$endDate = '2009-05-12';
 	foreach($availableDimensions as $dimension) {
-		echo "<h2>Test '$dimension' (from $startDate to $endDate)</h2>";
-		var_dump($vastReport->getVastStatistics('advertiser', 1, $dimension, $startDate, $endDate));
+			echo "<h1>Test '$dimension' (from $startDate to $endDate)</h1>";
+	    foreach($availableEntities as $entityNameAndValue) {
+	        $entityName = $entityNameAndValue[0];
+	        $entityValue = $entityNameAndValue[1];
+			echo "<h2>Test $entityName = $entityValue</h2>";
+			var_dump($vastReport->getVastStatistics($entityName, $entityValue, $dimension, $startDate, $endDate));
+	    }
 	}
+	exit;
 }
 
 class OX_Vast_Report {
@@ -44,6 +59,8 @@ class OX_Vast_Report {
 		$this->statsTable = $prefix . "data_bkt_vast_e";
 		$this->campaignTable = $prefix . "campaigns";
 		$this->bannerTable = $prefix . "banners";
+		$this->zoneTable = $prefix . "zones";
+		$this->websiteTable = $prefix . "affiliates";
 	 }
 	 
 	 protected function getDateTimeInUtc($date)
@@ -77,6 +94,7 @@ class OX_Vast_Report {
 		$startDateTime = $this->getDateTimeInUtc("$startDate 00:00:00");
 		$endDateTime = $this->getDateTimeInUtc("$endDate 23:59:59");
 //		echo $startDateTime . " / " . $endDateTime;
+
 		$sqlFrom = $whereEntity = '';
 		switch($entity) {
 			case 'advertiser':
@@ -97,17 +115,28 @@ class OX_Vast_Report {
 				$sqlFrom = $this->statsTable;
 				$whereEntity = "creative_id = '$entityValue'";
 			break;
-		}
-		$sqlSelectAsDimensionId = $this->getSqlDimensionFieldFromName($dimension);
-		$sqlSelectAsDimensionName = $sqlSelectAsDimensionId;
-		if($dimension == 'banner') { 
-			$sqlSelectAsDimensionName = 'b.description';
-		} else if($dimension == 'campaign') { 
-			$sqlSelectAsDimensionName = 'c.campaignname';
+			
+			case 'zone':
+				$sqlFrom = $this->statsTable;
+				$whereEntity = "zone_id = '$entityValue'";
+		    break;
+		    
+			case 'website':
+				$sqlFrom = $this->statsTable." AS s 
+							JOIN ".$this->zoneTable." as z ON s.zone_id = z.zoneid
+							JOIN ".$this->websiteTable." as a ON a.affiliateid = z.affiliateid
+							";
+				$whereEntity = "a.affiliateid = '$entityValue'";
+		    break;
 		}
 		
+		// the field to use as an ID 
+		$sqlSelectAsDimensionId = $this->getSqlFieldFromDimension($dimension);
+		// the field to use as a name for the row (first displayed column)
+		$sqlSelectAsDimensionName = $this->getSqlFieldNameFromDimension($dimension, $sqlSelectAsDimensionId);
+		
 		if(!empty($entityFilterName)) {
-			$entityFilterName = $this->getSqlDimensionFieldFromName( $entityFilterName );
+			$entityFilterName = $this->getSqlFieldFromDimension( $entityFilterName );
 			$whereEntity .= " AND $entityFilterName = '$entityFilterValue'";
 		}
 		$query = "	SELECT 	sum(count) as count, 
@@ -122,7 +151,7 @@ class OX_Vast_Report {
 					ORDER BY interval_start, vast_event_id ASC";
 		$result =  OA_DB::singleton()->queryAll($query);
         if (PEAR::isError($result)) {
-           echo $result->getMessage();
+           var_dump($result->getMessage());
            $result = array();
         }
 		$dimensionToMetrics = array();
@@ -152,30 +181,30 @@ class OX_Vast_Report {
 		return $dimensionToMetrics;
 	}
 	
-	public function doesAdvertiserHasVast($entityId)
+	public function doesAdvertiserHaveVast($entityId)
 	{
 	    $sqlFrom = $this->bannerTable ." AS b 
 					JOIN ".$this->campaignTable." AS c 
 					ON b.campaignid = c.campaignid";
 		$sqlWhere = "c.clientid = $entityId";
-		return  $this->doesEntityHasVast( $sqlFrom, $sqlWhere);
+		return  $this->doesEntityHaveVast( $sqlFrom, $sqlWhere);
 	}
 	
-	public function doesCampaignHasVast($entityId)
+	public function doesCampaignHaveVast($entityId)
 	{
 	    $sqlFrom = $this->bannerTable ." AS b";
 		$sqlWhere = "b.campaignid = $entityId";
-		return  $this->doesEntityHasVast( $sqlFrom, $sqlWhere);
+		return  $this->doesEntityHaveVast( $sqlFrom, $sqlWhere);
 	} 
 	
-	public function doesBannerHasVast($entityId)
+	public function doesBannerHaveVast($entityId)
 	{
 	    $sqlFrom = $this->bannerTable ." AS b";
 		$sqlWhere = "b.bannerid = $entityId";
-		return  $this->doesEntityHasVast( $sqlFrom, $sqlWhere);
+		return  $this->doesEntityHaveVast( $sqlFrom, $sqlWhere);
 	} 
 	
-	protected function doesEntityHasVast($sqlFrom, $sqlWhere)
+	protected function doesEntityHaveVast($sqlFrom, $sqlWhere)
 	{
 	    $query = "	
 		   SELECT count(*) as count
@@ -193,6 +222,19 @@ class OX_Vast_Report {
            return false;
         }
 	    return $result > 0;
+	}
+
+	public function doesZoneHaveVast($zoneId)
+	{
+	    return true;
+//OX_ZoneVideoInstream
+//OX_ZoneVideoOverlay
+	}
+	public function doesWebsiteHaveVast($affiliateId)
+	{
+	    return true;
+//OX_ZoneVideoInstream
+//OX_ZoneVideoOverlay
 	}
 	
 	protected function getDateLabelsBetweenDates($startDate, $endDate, $dimension)
@@ -229,8 +271,18 @@ class OX_Vast_Report {
     	}
 	    return $dates;
 	}
+	protected function getSqlFieldNameFromDimension($dimension, $sqlSelectAsDimensionId)
+	{
+	    $sqlSelectAsDimensionName = $sqlSelectAsDimensionId;
+		if($dimension == 'banner') { 
+			$sqlSelectAsDimensionName = 'b.description';
+		} else if($dimension == 'campaign') { 
+			$sqlSelectAsDimensionName = 'c.campaignname';
+		}
+		return $sqlSelectAsDimensionName;
+	}
 	
-	protected function getSqlDimensionFieldFromName($dimension)
+	protected function getSqlFieldFromDimension($dimension)
 	{
 		switch($dimension) {
 			case 'day': 
@@ -254,6 +306,12 @@ class OX_Vast_Report {
 			case 'campaign': 
 				$sqlSelectAsDimensionId = 'b.campaignid'; 
 			break;
+			case 'zone':
+			    $sqlSelectAsDimensionId = 'zone_id';
+		    break;
+			case 'website':
+			    $sqlSelectAsDimensionId = 'z.affiliateid';
+		    break;
 			default: 
 				exit("dimension $dimension not known"); 
 			break;
@@ -346,8 +404,7 @@ class OX_Vast_Report {
 							FROM_UNIXTIME(".$now."), '".$bannerId."', '".$zoneId."', '".$eventId."', '".$count."'
 							)";
 				$result =  $oDbh->queryAll($query);
-				if (PEAR::isError($result))
-				{
+				if (PEAR::isError($result)) {
 					break;
 				}
 			}

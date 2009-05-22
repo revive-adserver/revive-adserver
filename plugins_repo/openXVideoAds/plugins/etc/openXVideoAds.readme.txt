@@ -1,4 +1,45 @@
-For more information about the work being done to enhance the OpenX plugin framework visit
+README
+=================
+1 - Data Generator: please use the basic data generator in "/openx/www/admin/plugins/vastReport/stats-api.php" at line 6 & 7 and you will find:
+	$vastReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
+2 - Data checks: Calling the API for all entities and all combination of "View As" ; look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/vastReport/stats-api.php" 
 
-https://developer.openx.org/wiki/display/COMM/Plugins+for+2.8
+Note that for both tools you just have to go to stats-vast.php page and this will trigger these tools.
 
+What is supposed to work:
+=================
+- top graph showing 5 events for the total of the selected period
+- date picker 
+- menus are showing only for the right advertisers, campaigns and banners (when they contain some "video" banners)
+- Show as table / graph % / graph count
+- View by day / week / month / year / hour of day works
+- View by campaign also works on advertiser report
+- View by banner also works on advertiser + campaign reports
+- CSV export (doesnt' support expanded row)
+- when there is no data for a given date period, a row with values "0" will be shown, rather than not showing this period at all
+- when there is no data for the selected daterange, print special message
+- rows are often expandable: dates expand to campaign or banner, campaigns extend to banners (advertiser report only), dates don't expand on banner report, banner never expand
+- only one expandable row at a time, row are collapsed when clicked on the icon again
+- all campaign and banner names link to the Video Report for this campaign/banner
+- added menu for the list of Video Plugins and loading iframe from staging
+- load staging iframe when production set to 0, load iframe from website in prod 
+- menus showing for websites and zones all the time (see TODO below)
+
+Not done at this stage, TODO before release
+=================
+- check that the Players page links to the right link on the flowplayer website
+- Add Maintenance in the plugin
+- CODE: refactor & cleanup code in reporting & factor out the menu detection code from the stats-api & remove test / date generation code from the global space
+- the website and zone tab in the Stats section should only show up for video zones and websites linked to at least one video zone
+- add the "Help" linking to http://www.openx.org/en/docs/2.8/userguide/video+event+statistics
+- Change plugin description, name, create a README
+- Add checks for credentials when accessing screens
+- Check for XSS and sql injection
+- Full code review
+
+Feature requests
+=================
+- add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
+- for website report, add "View by" for zones
+- for zone report, add "View by" for campaigns and banners
+- add a "Expand all"

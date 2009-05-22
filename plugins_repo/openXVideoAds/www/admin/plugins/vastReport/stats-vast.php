@@ -17,12 +17,14 @@ include_once 'VastAreaGraph.php';
 include_once 'VastMultiAreaGraph.php';
 
 // Entity 
-$availableEntityToEntityIdName = array(
+$availableEntities = array(
 	'advertiser',
 	'campaign',
-	'banner'
+	'banner',
+    'website',
+    'zone'
 );
-if(!in_array($entity, $availableEntityToEntityIdName))
+if(!in_array($entity, $availableEntities))
 {
 	exit("Invalid input parameters");
 }
@@ -56,13 +58,6 @@ $availableDimensions += array(
 if(empty($dimension)) {
 	$dimension = 'day';
 }
-
-// if show as "graph" but dimension by campaign or banner, 
-// reset dimension to day: we only graph date by default
-//if($selectedShowAs != 'table'
-//	&& (in_array($dimension, array('campaign', 'banner')))) {
-//	$dimension = 'day';
-//}
 $selectedDimension = $dimension;
 
 // Period preset in calendar
@@ -164,6 +159,7 @@ $oTpl = new OA_Plugin_Template('vast-report.html', 'TODO title');
 $oTpl->register_function('url', 'smarty_function_url');
 $oTpl->register_modifier('formatNumber', 'smarty_modifier_formatNumber');
 $oTpl->assign('isThereAnyData', $isThereAnyData );
+$oTpl->assign('entityName', ucfirst($entity));
 $oTpl->assign('dataForTopGraphInJsonFormat', $topGraphJSON );
 $oTpl->assign('dataForBottomGraphInJsonFormat', $bottomGraphJSON );
 $oTpl->assign('dataTable', $dataTable);

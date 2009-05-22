@@ -42,19 +42,22 @@ class Plugins_admin_openXVideoAds_vastReportChecker implements OA_Admin_Menu_ICh
         require_once MAX_PATH . '/www/admin/plugins/vastReport/stats-api.php';
         $vast = new OX_Vast_Report;
         phpAds_registerGlobal( 'clientid', 'campaignid', 'bannerid' );
-        global $clientid, $campaignid, $bannerid;
+        global $clientid, $campaignid, $bannerid, $zoneid, $affiliateid;
         switch($oSection->getId()) {
             case 'stats-vast-advertiser':
-                    $enabled = $vast->doesAdvertiserHasVast($clientid);
+                    $enabled = $vast->doesAdvertiserHaveVast($clientid);
                 break;
             case 'stats-vast-campaign':
-                    $enabled = $vast->doesCampaignHasVast($campaignid);
+                    $enabled = $vast->doesCampaignHaveVast($campaignid);
                 break;
             case 'stats-vast-banner':
-                    $enabled = $vast->doesBannerHasVast($bannerid);
+                    $enabled = $vast->doesBannerHaveVast($bannerid);
                 break;
             case 'stats-vast-zone':
-                    $enabled = $vast->doesZoneHasVast($bannerid);
+                    $enabled = $vast->doesZoneHaveVast($zoneid);
+                break;
+            case 'stats-vast-website':
+                    $enabled = $vast->doesWebsiteHaveVast($affiliateid);
                 break;
             case 'players-vast':
                 return true;
