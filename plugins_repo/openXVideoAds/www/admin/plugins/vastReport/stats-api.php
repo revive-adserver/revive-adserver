@@ -4,8 +4,8 @@ require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 $vastReport = new OX_Vast_Report;
 // Generate fake stats?
-if($generateFakeStatistics =! true) {
-    $vastReport->generateFakeVastStatistics($pastDays = 100, $bannerid = 2, $zoneid = 2);
+if($generateFakeStatistics = false) {
+    $vastReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
     exit;
 }
 
@@ -76,8 +76,7 @@ class OX_Vast_Report {
 	{
 		$startDateTime = $this->getDateTimeInUtc("$startDate 00:00:00");
 		$endDateTime = $this->getDateTimeInUtc("$endDate 23:59:59");
-		//echo $startDateTime . " / " . $endDateTime;
-		
+//		echo $startDateTime . " / " . $endDateTime;
 		$sqlFrom = $whereEntity = '';
 		switch($entity) {
 			case 'advertiser':
@@ -267,6 +266,10 @@ class OX_Vast_Report {
 		$totalMetrics = array();
 		foreach($dimensionToMetrics as $dimension => $metrics) {
 			foreach($metrics as $metricId => $value) {
+			    // make sure this event exists
+			    if(!isset(self::$vastEventIdToEventName[$metricId])) {
+			        continue;
+			    }
 				if(!isset($totalMetrics[$metricId])) {
 					$totalMetrics[$metricId] = 0;
 				}

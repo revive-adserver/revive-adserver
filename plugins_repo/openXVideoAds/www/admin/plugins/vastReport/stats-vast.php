@@ -156,10 +156,14 @@ if($selectedDimensionExpanded && !empty($expandId)) {
 									$expandId
 									 );
 }
+
+$isThereAnyData = @$summaryRow[1] > 0;
+
 // TEMPLATE
 $oTpl = new OA_Plugin_Template('vast-report.html', 'TODO title');
 $oTpl->register_function('url', 'smarty_function_url');
 $oTpl->register_modifier('formatNumber', 'smarty_modifier_formatNumber');
+$oTpl->assign('isThereAnyData', $isThereAnyData );
 $oTpl->assign('dataForTopGraphInJsonFormat', $topGraphJSON );
 $oTpl->assign('dataForBottomGraphInJsonFormat', $bottomGraphJSON );
 $oTpl->assign('dataTable', $dataTable);
