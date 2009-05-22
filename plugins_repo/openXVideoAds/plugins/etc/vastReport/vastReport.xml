@@ -129,7 +129,7 @@
 				<menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Campaign Video Report</menu>
 				<menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
 				<menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
-				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Players</menu>
+				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Plugin - Player Info</menu>
             </manager>
             
             <admin>
@@ -137,7 +137,7 @@
 				<menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Campaign Video Report</menu>
 				<menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
 				<menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
-				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Players</menu>
+				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Plugin - Player Info</menu>
             </admin>
             
             <advertiser>
@@ -145,7 +145,7 @@
 				<menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Campaign Video Report</menu>
 				<menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
 				<menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
-				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Players</menu>
+				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Plugin - Player Info</menu>
             </advertiser>
             
             <trafficker>
@@ -153,7 +153,7 @@
 				<menu addto="2.1.2" index="stats-vast-campaign" link="plugins/vastReport/stats-vast.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Campaign Video Report</menu>
 				<menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/vastReport/stats-vast.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
 				<menu addto="2.4.2" index="stats-vast-zone" link="plugins/vastReport/stats-vast.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastReportChecker">Ad Video Report</menu>
-				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Players</menu>
+				<menu addto="inventory" index="players-vast" link="plugins/vastReport/players.php" checker="Plugins_admin_openXVideoAds_vastReportChecker">Video Plugin - Player Info</menu>
             </trafficker>
         </navigation>
     </install>

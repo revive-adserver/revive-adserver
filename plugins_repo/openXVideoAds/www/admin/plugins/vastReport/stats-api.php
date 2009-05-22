@@ -46,14 +46,13 @@ class OX_Vast_Report {
 		$this->bannerTable = $prefix . "banners";
 	 }
 	 
-	 protected function getDateUtc($date)
+	 protected function getDateTimeInUtc($date)
 	 {
-	     return $date;
-//	      $oDate = new Date($date);
-//          $oDate->setTZbyID('UTC');
-//          $oDate->convertTZ($oStartDate->tz);
-//                    $oStartDate = new Date($oDate);
+	     $dateInUTC = new Date($date);
+         $dateInUTC->toUTC();
+         return $dateInUTC->format('%Y-%m-%d %H:%M:%S');
 	 }
+	 
 	 // queries the bucket table
 	    /*
 	    | interval_start | datetime      | NO   | PRI |         |       |
@@ -75,8 +74,10 @@ class OX_Vast_Report {
 									$entityFilterValue = false
 									)
 	{
-		$startDate = $this->getDateUtc($startDate);
-		$endDate = $this->getDateUtc($endDate);
+		$startDateTime = $this->getDateTimeInUtc("$startDate 00:00:00");
+		$endDateTime = $this->getDateTimeInUtc("$endDate 23:59:59");
+		//echo $startDateTime . " / " . $endDateTime;
+		
 		$sqlFrom = $whereEntity = '';
 		switch($entity) {
 			case 'advertiser':
@@ -116,8 +117,8 @@ class OX_Vast_Report {
 							vast_event_id as event_id
 					FROM $sqlFrom 
 					WHERE $whereEntity
-						AND interval_start >= '$startDate 00:00:00'
-						AND interval_start <= '$endDate 23:59:59'
+						AND interval_start >= '$startDateTime'
+						AND interval_start <= '$endDateTime'
 					GROUP BY dimension_id, vast_event_id
 					ORDER BY interval_start, vast_event_id ASC";
 		$result =  OA_DB::singleton()->queryAll($query);
