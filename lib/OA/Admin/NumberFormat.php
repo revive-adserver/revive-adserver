@@ -111,7 +111,7 @@ class OA_Admin_NumberFormat {
                 return false;
             }
 
-            $decimals       = (!empty($decimals))       ? $decimals     : $GLOBALS['_MAX']['PREF']['ui_percentage_decimals'];
+            $decimals       = (!is_null($decimals))       ? $decimals     : $GLOBALS['_MAX']['PREF']['ui_percentage_decimals'];
             $dec_point      = (!empty($dec_point))      ? $dec_point    : $GLOBALS['phpAds_DecimalPoint'];
             $thousands_sep  = (!empty($thousands_sep))  ? $thousands_sep: $GLOBALS['phpAds_ThousandsSeperator'];
 
