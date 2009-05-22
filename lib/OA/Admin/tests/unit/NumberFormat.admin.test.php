@@ -79,6 +79,7 @@ class Test_OA_Admin_NumberFormat extends UnitTestCase {
 
         $number = 3.1415926535897932384626433832795 * 1000;
 
+        $this->assertEqual('1,234', OA_Admin_NumberFormat::formatNumber("1234", 0));
         $this->assertEqual('3,141.59', OA_Admin_NumberFormat::formatNumber($number));
         $this->assertEqual('3,141.593', OA_Admin_NumberFormat::formatNumber($number, 3));
         $this->assertEqual('3,141,5927', OA_Admin_NumberFormat::formatNumber($number, 4, ','));
