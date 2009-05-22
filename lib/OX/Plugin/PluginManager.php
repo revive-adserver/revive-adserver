@@ -414,12 +414,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 @unlink($pkgDefinition);
             }
+            
             $this->_auditUpdate(array('description'=>'PACKAGE UNINSTALL COMPLETE',
                                       'action'=>UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
                                       'id' => $auditId,
                                      )
                                );
             $this->_runExtensionTasks('AfterPluginUninstall');
+            
+            
             $result = true;
         } catch (Exception $e) {
             $this->_logError($e->getMessage());
@@ -497,6 +500,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->disablePackage($name);
             return false;
         }
+        
+        $this->_deleteCacheMenu();
+        $this->_deleteCompiledTemplates();
+        
         $this->_runExtensionTasks('AfterPluginEnable');
         return true;
     }
@@ -546,9 +553,32 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $this->_runExtensionTasks('AfterPluginDisable');
+        
+        $this->_deleteCacheMenu();
+        $this->_deleteCompiledTemplates();
         return true;
     }
 
+    function _deleteCompiledTemplates()
+    {
+        $template = new OA_Admin_Template();
+        $template->clear_all_cache();
+        $template->clear_compiled_tpl();
+    }
+    
+    function _deleteCacheMenu()
+    {
+        $accountTypes = array (
+			OA_ACCOUNT_ADMIN,
+			OA_ACCOUNT_MANAGER,
+			OA_ACCOUNT_ADVERTISER,
+			OA_ACCOUNT_TRAFFICKER,
+		);
+		foreach($accountTypes as $accountType) {
+		    OA_Admin_Menu::singleton()->_clearCache($accountType);
+		}
+    }
+    
     function _matchPackageFilename($name, $file)
     {
         if (substr($file,0,strlen($name))!=$name)
