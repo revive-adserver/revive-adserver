@@ -30,6 +30,7 @@ $GLOBALS['strDBCreatedSuccessful']              = "Your database has successfull
 $GLOBALS['strPluginsDefault']                   = MAX_PRODUCT_NAME." Plugins";
 $GLOBALS['strPostUpgradeTasks']                 = MAX_PRODUCT_NAME." Post-Upgrade Tasks";
 $GLOBALS['strInstallComplete']                  = "Your ".MAX_PRODUCT_NAME." installation is now complete.";
+$GLOBALS['strSignupUpdates']                    = "Sign up for product updates and security alerts?";
 $GLOBALS['strUpgradeComplete']                  = "Congratulations, you have finished upgrading ". MAX_PRODUCT_NAME;
 $GLOBALS['strUnableCreateConfFile']             = "We are unable to create your configuration file. Please re-check the permissions of the ". MAX_PRODUCT_NAME ." var folder.";
 $GLOBALS['strUnableUpdateConfFile']             = "We are unable to update your configuration file. Please re-check the permissions of the ". MAX_PRODUCT_NAME ." var folder, and also check the permissions of the previous install's config file that you copied into this folder.";

@@ -53,6 +53,20 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
+    require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+    require_once MAX_PATH . '/lib/OA/Sync.php';
+    // The opt box is ticked...
+    if (!empty($_POST['signup_opt'])) {
+        if (!empty($_POST['signup_email'])) {
+            phpAds_registerGlobalUnslashed('signup_email');
+            OA_Dal_ApplicationVariables::set('sync_registered_email', $signup_email);
+            $oSync = new OA_Sync();
+            $res = $oSync->checkForUpdates();
+        }
+    } else {
+        // The opt button is unticked, clear any existing sync_registered_email
+        OA_Dal_ApplicationVariables::delete('sync_registered_email');
+    }
     OA_Upgrade_Login::autoLogin();
     // Execute any components which have registered at the afterLogin hook
     $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');

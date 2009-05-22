@@ -263,6 +263,9 @@ class OA_Sync
         }
         $params[] = new XML_RPC_Value($originID, 'string');
 
+        // Add the registered email address
+        $params[] = new XML_RPC_Value(OA_Dal_ApplicationVariables::get('sync_registered_email'), 'string');
+        
         // Create the XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
 

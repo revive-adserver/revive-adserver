@@ -104,10 +104,8 @@ $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still pr
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
 <p><strong>What next?</strong></p>
-<div class='psub'>
-  <p><b>Sign up for product updates</b><br>
-    <a href='".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join the ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
-  </p>
+<div class='psub'>";
+$GLOBALS['strInstallSuccess2'] ="
   <p><b>Serving your first ad campaign</b><br>
     Use our <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
   </p>
