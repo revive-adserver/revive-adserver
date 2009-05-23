@@ -539,6 +539,9 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
                 }
             }
         }
+    } else {
+        // Rescale priorities by weights
+        _setPriorityFromWeights($aAds);
     }
 
     // Seed the random number generator
