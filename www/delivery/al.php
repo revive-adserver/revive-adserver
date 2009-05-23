@@ -3833,6 +3833,9 @@ $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
 }
 }
 }
+} else {
+// Rescale priorities by weights
+_setPriorityFromWeights($aAds);
 }
 // Seed the random number generator
 global $n;
