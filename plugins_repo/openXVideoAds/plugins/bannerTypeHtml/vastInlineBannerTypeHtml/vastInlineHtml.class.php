@@ -120,5 +120,12 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         addVastCompanionsToForm($form, $selectableCompanions);
     }
 
+    function onEnable()
+    {
+        $oSettings  = new OA_Admin_Settings();
+        $oSettings->settingChange('allowedBanners','video','1');
+        $oSettings->writeConfigChange();
+        return true;
+    }
 }
 ?>
