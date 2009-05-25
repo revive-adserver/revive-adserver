@@ -177,6 +177,7 @@ $Id$
                         <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
                         {/if}
                     {/if}
+                    {ox_entity_id type="Campaign" id=$campaignId} 
                 </td>
                 <td>
                     {ox_campaign_status clientid=$clientId campaignid=$campaignId status=$campaign.status}

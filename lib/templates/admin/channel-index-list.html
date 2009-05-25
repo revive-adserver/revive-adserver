@@ -133,6 +133,7 @@ $Id$
                 </td>
                 <td>
                     <a href='channel-edit.php?{$entityId}&channelid={$channelId}' class='inlineIcon iconTargetingChannel'>{$channel.name|escape:html}</a>
+                    {ox_entity_id type="Channel" id=$channelId} 
                 </td>
                 {if $entityUrl != 'affiliate-channels.php'}
                 <td>

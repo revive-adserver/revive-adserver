@@ -515,9 +515,8 @@
   padding-right: 5px;
 }
 
-
-
-
-
-
-
+/** */
+.tableWrapper small {
+  font-size: 100%;
+  color: #b8b8b8;
+}

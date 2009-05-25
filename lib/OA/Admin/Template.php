@@ -87,6 +87,7 @@ class OA_Admin_Template extends Smarty
         $this->register_function('ox_zone_size', array('OA_Admin_Template',  '_function_ox_zone_size'));
         $this->register_function('ox_zone_icon', array('OA_Admin_Template',  '_function_ox_zone_icon'));
         $this->register_function('ox_tracker_type', array('OA_Admin_Template',  '_function_ox_tracker_type'));
+        $this->register_function('ox_entity_id', array('OA_Admin_Template',  '_function_ox_entity_id'));
 
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
@@ -835,7 +836,17 @@ class OA_Admin_Template extends Smarty
     }
     
     
-
+    function _function_ox_entity_id($aParams, &$smarty) {
+        if ($GLOBALS['_MAX']['PREF']['ui_show_entity_id'] == true) {
+            $id = $aParams['id'];
+            return '<small title="' . 
+                $this->_function_t(array('str' => $aParams['type']), $smarty) . ' ' .
+                $this->_function_t(array('str' => 'ID'), $smarty) . ': ' . $id . '">[' . $id . ']</small>';
+        } else {
+            return '';
+        }
+    }
+    
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
     }

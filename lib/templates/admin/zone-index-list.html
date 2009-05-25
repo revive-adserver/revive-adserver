@@ -139,6 +139,7 @@ $Id$
                     {else}
                       <span class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'>{$zone.zonename|escape:html}</span>
                     {/if}
+                  {ox_entity_id type="Zone" id=$zoneId} 
                 </td>
                 <td>
                     {ox_zone_size width=$zone.width height=$zone.height delivery=$zone.delivery}

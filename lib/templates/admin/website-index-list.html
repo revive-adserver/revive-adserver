@@ -135,6 +135,7 @@ $Id$
                 </td>
                 <td>
                     <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
+                    {ox_entity_id type="Website" id=$key} 
                 </td>
                 {if $showAdDirect}
                 <td>
