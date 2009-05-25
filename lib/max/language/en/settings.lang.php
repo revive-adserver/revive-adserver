@@ -389,6 +389,7 @@ $GLOBALS['strShowBannerPreview']                     = "Show banner preview at t
 $GLOBALS['strHideInactive']                          = "Hide inactive items from all overview pages";
 $GLOBALS['strGUIShowMatchingBanners']                = "Show matching banners on the <i>Linked banner</i> pages";
 $GLOBALS['strGUIShowParentCampaigns']                = "Show parent campaigns on the <i>Linked banner</i> pages";
+$GLOBALS['strShowEntityId']                          = "Show entity ID";
 $GLOBALS['strGUIAnonymousCampaignsByDefault']        = "Default Campaigns to Anonymous";
 $GLOBALS['strStatisticsDefaults']                    = "Statistics";
 $GLOBALS['strBeginOfWeek']                           = "Beginning of Week";

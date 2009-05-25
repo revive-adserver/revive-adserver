@@ -767,6 +767,7 @@ class OA_Preferences
             'ui_hide_inactive'                              => array('account_type' => null,                    'default' => false),
             'ui_show_matching_banners'                      => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => true),
             'ui_show_matching_banners_parents'              => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => false),
+            'ui_show_entity_id'                             => array('account_type' => null,                    'default' => false),
             'ui_novice_user'                                => array('account_type' => null,                    'default' => true),
             'ui_week_start_day'                             => array('account_type' => null,                    'default' => 1),
             'ui_percentage_decimals'                        => array('account_type' => null,                    'default' => 2),
