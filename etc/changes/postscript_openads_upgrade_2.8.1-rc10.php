@@ -25,12 +25,12 @@
 $Id$
 */
 
-$className = 'OA_UpgradePostscript_2_8_1_rc11';
+$className = 'OA_UpgradePostscript_2_8_1_rc10';
 
 require_once MAX_PATH . '/lib/OA/DB/Table.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
 
-class OA_UpgradePostscript_2_8_1_rc11
+class OA_UpgradePostscript_2_8_1_rc10
 {
     /**
      * @var OA_Upgrade
@@ -50,7 +50,7 @@ class OA_UpgradePostscript_2_8_1_rc11
     var $prefix;
     var $tblPreferences;
 
-    function OA_UpgradePostscript_2_8_1_rc11()
+    function OA_UpgradePostscript_2_8_1_rc10()
     {
 
     }

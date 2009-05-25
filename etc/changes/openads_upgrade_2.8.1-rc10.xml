@@ -7,12 +7,12 @@
     <authorEmail>support@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
-    <description>OpenX Upgrade 2.8.1-rc11</description>
+    <description>OpenX Upgrade 2.8.1-rc10</description>
     <!-- versionFrom if it is a milestone upgrade package -->
     <versionFrom></versionFrom>
-    <versionTo>2.8.1-rc11</versionTo>
+    <versionTo>2.8.1-rc10</versionTo>
 
         <!-- No database package(s) -->
 
-    <postscript>postscript_openads_upgrade_2.8.1-rc11.php</postscript>
+    <postscript>postscript_openads_upgrade_2.8.1-rc10.php</postscript>
 </upgrade>
