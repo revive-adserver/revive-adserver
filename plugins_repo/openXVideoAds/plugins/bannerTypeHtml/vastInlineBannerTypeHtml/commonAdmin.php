@@ -54,7 +54,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
      * @return boolean
      */
     function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
-    {        
+    {    
         /*
         $actualBannerId = $bannerid;
         
@@ -75,6 +75,17 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $aVastVariables['vast_video_id'] = $aFields['vast_video_id'];
         $aVastVariables['vast_video_duration'] = $aFields['vast_video_duration'];
         $aVastVariables['vast_video_delivery'] = $aFields['vast_video_delivery'];
+
+        // auto choose the vast_video_type for the user
+        if ( strpos( $aFields['vast_video_outgoing_filename'], '/mp4:' ) ){
+
+            $aFields['vast_video_type'] = 'video/x-mp4';
+        }
+        else if ( strpos( $aFields['vast_video_outgoing_filename'], '/flv:' ) ){
+
+            $aFields['vast_video_type'] = 'video/x-flv';
+        }        
+        
         $aVastVariables['vast_video_type'] = $aFields['vast_video_type'];
         $aVastVariables['vast_video_bitrate'] = $aFields['vast_video_bitrate'];
         $aVastVariables['vast_video_height'] = $aFields['vast_video_height'];
@@ -109,7 +120,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
      * @return boolean
      */
     function processForm($insert, $bannerid, $aFields)
-    {
+    {  
         /**
          * Uncomment the following lines IF
          * you have completed the steps to make this plugin data-aware
@@ -247,6 +258,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
 
 function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
 
+    
     $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">These fields are served to the VAST-compliant video player</span>' ); 
     
     
@@ -312,7 +324,7 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
     $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
 
     $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
-    $form->addElement('html', 'video_status_info3', '<span style="font-size:80%;">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>' );   
+    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );   
     
     if ( $showNetConnectionUrl ){
         
@@ -329,7 +341,11 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
         $bannerRow['vast_video_duration'] = '30';
         
         $bannerRow['vast_overlay_width'] = '600';
-        $bannerRow['vast_overlay_height'] = '40';
+        $bannerRow['vast_overlay_height'] = '400';
+                
+        $bannerRow['vast_video_delivery'] = 'streaming';
+        $bannerRow['vast_video_type'] = 'video/x-mp4';        
+        
     }
 }
 

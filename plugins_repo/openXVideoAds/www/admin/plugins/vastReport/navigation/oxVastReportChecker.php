@@ -62,6 +62,9 @@ class Plugins_admin_openXVideoAds_vastReportChecker implements OA_Admin_Menu_ICh
             case 'players-vast':
                 return true;
                 break;
+            case 'zone-invocation-vast':
+                return false;
+                break;
         }
         $cache[$oSection->getId()] = $enabled;
         return $enabled;

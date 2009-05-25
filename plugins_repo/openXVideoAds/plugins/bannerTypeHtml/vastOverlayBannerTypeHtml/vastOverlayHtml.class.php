@@ -74,13 +74,6 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
 
-        /* 
-         * Overlay links to another video - not a url destination
-         * 
-        $form->addElement('header', 'header_b_links', "Banner link");
-        $form->addElement('text', 'url', $GLOBALS['strURL']);
-        $form->addElement('text', 'target', $GLOBALS['strTarget']);      
-        */
 
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
        
@@ -106,6 +99,12 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
         $htmlSizeG['vast_overlay_height'] = $form->createElement('text', 'vast_overlay_height', 'height');
         
         $form->addGroup($htmlSizeG, 'html_size', $GLOBALS['strSize'], "&nbsp;", false);
+
+        // ----- Now the VIDEO status
+        $form->addElement('header', 'video_status', "When the user clicks the above overlay, the browser will open the following url");
+        
+        $form->addElement('text', 'url', 'Landing page URL');
+        $form->addElement('text', 'target', $GLOBALS['strTarget']);       
         
         // ----- Now the VIDEO status
         $form->addElement('header', 'video_status', "When the user clicks the above overlay, this video will play");

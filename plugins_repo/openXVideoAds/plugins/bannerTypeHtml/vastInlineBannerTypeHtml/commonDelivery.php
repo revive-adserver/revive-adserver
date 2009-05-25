@@ -192,20 +192,36 @@ function extractVastParameters( &$aBanner ){
     }
 }
 
+function splitRtmpUrl( $fullPathToVideo, &$aOutputParams){
+      
+    $fileDelimPosn = strrpos($fullPathToVideo, '/mp4:');
+    
+    if ( $fileDelimPosn !== false ){
+    
+      $aOutputParams['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
+      $aOutputParams['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
+    }
+    else {
+        
+         // messy code - need to fix
+         $fileDelimPosn = strrpos($fullPathToVideo, '/flv:');
+         if ( $fileDelimPosn !== false ){
+        
+             $aOutputParams['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
+             $aOutputParams['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
+         }                
+    }
+}
+
 function prepareVideoParams(&$aOutputParams, $aBanner){
     
     if ( isset( $aBanner['vast_video_outgoing_filename'] ) && $aBanner['vast_video_outgoing_filename'] ){
         
        $fullPathToVideo = $aBanner['vast_video_outgoing_filename']; 
        $aOutputParams['fullPathToVideo']  = $fullPathToVideo;
-       $fileDelimPosn = strrpos($fullPathToVideo, '/mp4:');
        
-       if ( $fileDelimPosn !== false ){
-    
-          $aOutputParams['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
-          $aOutputParams['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
-       }
-          
+       splitRtmpUrl( $fullPathToVideo, $aOutputParams  );
+       
        $aOutputParams['vastVideoDuration'] = secondsToVASTDuration( $aBanner['vast_video_duration'] ); 
        $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
        $aOutputParams['vastVideoWidth']= $aBanner['vast_video_width'];
@@ -229,7 +245,10 @@ function prepareOverlayParams(&$aOutputParams, $aBanner){
         $aOutputParams['overlayMarkupTemplate'] = $aBanner['htmltemplate'];         
         //$aOutputParams['overlayMarkupCache'] = $aBanner['htmlcache'];  
         $aOutputParams['overlayHeight'] = $aBanner['vast_overlay_height'];     
-        $aOutputParams['overlayWidth'] = $aBanner['vast_overlay_width'];               
+        $aOutputParams['overlayWidth'] = $aBanner['vast_overlay_width'];
+
+        $aOutputParams['overlayDestinationUrl'] = $aBanner['url']; 
+        $aOutputParams['overlayDestinationTarget'] = $aBanner['target'];
     }
     
 }
@@ -431,10 +450,9 @@ $player = "";
 
 if ( isset($aOut['fullPathToVideo'] ) ){
     
-$player1 = <<<DEMO
+$player = <<<PLAYER
 <b>Video:</><br>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://static.flowplayer.org/js/flowplayer-3.1.0.min.js"></script>
+<script type="text/javascript" src="{$aOut['videoPlayerJsUrl']}"></script>
 <style>
 a.player {
     display:block;
@@ -450,89 +468,28 @@ a.player {
 <a class="player" id="player"></a>
 
 <script language="JavaScript">
-flowplayer("a.player", "http://www.bouncingminds.com/cdn/flash/flowplayer-3.1.0.swf", {
+flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
    clip: {
            url: '${aOut['videoFileName']}',
            provider: 'streamer',
-           autoPlay: false
+           autoPlay: ${aOut['videoPlayerAutoPlay']},
    },
 
    plugins: {
        streamer: {
-           url: "http://www.bouncingminds.com/cdn/flash/flowplayer.rtmp-3.1.0.swf",
-           netConnectionUrl: '${aOut['videoFilePath']}'
-       }
+            // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
+            //
+            url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
+            netConnectionUrl: '${aOut['videoFilePath']}'
+       },
+       controls: { 
+              url: escape('${aOut['videoPlayerControlsPluginUrl']}'), 
+       } 
    }
 });
-</script>
-<!-- START 1 -->
-DEMO;
+</script> 
+PLAYER;
     
-                    
-$player .=<<<PLAYER_IN_PAGE1
-<b>Video:</><br>
-
-<!-- include the only required JavaScript files -->
-<script src="{$aOut['videoPlayerJsUrl']}"></script>
-
-<style>
-a.rtmp {
-    display:block;
-    width:640px;
-    height:360px;
-    margin:25px 0;
-    text-align:center;
-}
-a.rtmp img {
-    border:0px;
-    margin-top:140px;
-}
-</style>
-</head>
-<body>
-
-<!--
-   Setup the player as an RTMP stream
--->
-<a
-   class="rtmp"
-   href="${aOut['videoFileName']}">
-</a>
-
-<script type="text/javascript">
-\$f("a.rtmp", "${aOut['videoPlayerSwfUrl']}",
-    {
-        // configure the player to use rtmp plugin
-        clip: {
-            provider: 'rtmp',
-            autoPlay: ${aOut['videoPlayerAutoPlay']}, 
-        },
-
-        // here is our rtmp plugin configuration
-        plugins: {
-            rtmp: {
-
-                // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
-                //
-                url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
-                
-                /*
-                    netConnectionUrl defines where the streams are found
-                    this URL is specific to Limelight.
-                */
-                netConnectionUrl: '${aOut['videoFilePath']}'
-            },
-            controls: { 
-                  url: escape('${aOut['videoPlayerControlsPluginUrl']}'), 
-            } 
-       }
-   }
-);
-</script>
-
-<br clear="all" />
-<br>
-PLAYER_IN_PAGE1;
 }
 
    return $player;
@@ -556,9 +513,17 @@ function renderOverlayInAdminTool($aOut){
 
     $player = "";
     if ( isset( $aOut['overlayMarkupTemplate'] )){
+        
     
         $player .=  "<b>Overlay(" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . "):</><br>";
-        $player .=  $aOut['overlayMarkupTemplate']; // Think this should be the templated output markup
+        
+        if ( $aOut['overlayDestinationUrl'] ){
+            
+            $player .=  "CLICKABLE: <a target=\"${aOut['overlayDestinationTarget']}\" href=\"${aOut['overlayDestinationUrl']}\"> ${aOut['overlayMarkupTemplate']}</a>"; 
+        }
+        else {
+            $player .=  $aOut['overlayMarkupTemplate']; // Think this should be the templated output markup
+        }
         $player .= "<br>";
     }
     

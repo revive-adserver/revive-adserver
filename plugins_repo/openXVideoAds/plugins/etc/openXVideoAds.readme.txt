@@ -32,7 +32,7 @@ Not done at this stage, TODO before release
 - CODE: refactor & cleanup code in reporting & factor out the menu detection code from the stats-api & remove test / date generation code from the global space
 - the website and zone tab in the Stats section should only show up for video zones and websites linked to at least one video zone
 - add the "Help" linking to http://www.openx.org/en/docs/2.8/userguide/video+event+statistics
-- Change plugin description, name, create a README
+- Change plugin description, name, change this README
 - Add checks for credentials when accessing screens
 - Check for XSS and sql injection
 - Full code review
