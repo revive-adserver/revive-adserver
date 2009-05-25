@@ -561,8 +561,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     function _deleteCompiledTemplates()
     {
-        $template = new OA_Admin_Template();
-        $template->clear_all_cache();
+        $template = new OA_Admin_Template('');
         $template->clear_compiled_tpl();
     }
     
