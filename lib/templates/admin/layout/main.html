@@ -149,8 +149,10 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
               <div class="switchMiddle">
                 <div class="switchMiddleBody">
 	                <div class="label">
-                      Switch to <input id="accountSearch" type="text" />
-                      <span id="accountSearchIcon">&nbsp;</span>
+                      {t key=SwitchTo}
+                      {if $showSearchAndRecent}<input id="accountSearch" type="text" />
+                        <span id="accountSearchIcon">&nbsp;</span>
+                      {/if}
                     </div>
                     <div id="accountLoading"></div>
 	                <div class="result">

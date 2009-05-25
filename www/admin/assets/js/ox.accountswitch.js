@@ -15,10 +15,14 @@
         var $search = this.find(settings.searchInputSelector);
         
         if (settings.action == 'show') {
-            if ($search.val() != $accountsArea.find("ul li:first").text()) {
-                $search.val("");
+            if ($search.size() != 0) {
+              if ($search.val() != $accountsArea.find("ul li:first").text()) {
+                  $search.val("");
+              }
+              $search.focus().get(0).select();
+            } else {
+              $accountsArea.find("a:first").focus();
             }
-            $search.focus().get(0).select();
             return;
         }
         
