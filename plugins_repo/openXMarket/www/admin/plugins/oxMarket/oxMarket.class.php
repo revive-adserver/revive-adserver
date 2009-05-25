@@ -80,7 +80,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $aFields = array(
             'mkt_is_enabled' => 'f',
-            'floor_price' => $defaultFloorPrice
+            'floor_price' => $this->formatCpm($defaultFloorPrice)
         );
         $dboExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
         if ($dboExt_market_campaign_pref->get($campaign['campaignid'])) {
@@ -96,9 +96,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
-        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM "));
+        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;$"));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price'));
-        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
 
@@ -1028,6 +1027,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return false;
         }
     }
+    
+    
+    function formatCpm($cpm)
+    {
+        return number_format($cpm, 2, '.', '');
+    }    
 }
 
 ?>
