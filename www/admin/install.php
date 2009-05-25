@@ -67,14 +67,6 @@ if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INS
         // The opt button is unticked, clear any existing sync_registered_email
         OA_Dal_ApplicationVariables::delete('sync_registered_email');
     }
-    OA_Upgrade_Login::autoLogin();
-    // Execute any components which have registered at the afterLogin hook
-    $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
-    foreach ($aPlugins as $i => $id) {
-        if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
-            $obj->afterLogin();
-        }
-    }
     require_once LIB_PATH . '/Admin/Redirect.php';
     OX_Admin_Redirect::redirect('advertiser-index.php');
 }
@@ -571,6 +563,16 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
+    OA_Upgrade_Login::autoLogin();
+    
+    // Execute any components which have registered at the afterLogin hook 
+    $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin'); 
+    foreach ($aPlugins as $i => $id) { 
+        if ($obj = OX_Component::factoryByComponentIdentifier($id)) { 
+            $obj->afterLogin(); 
+        } 
+    }
+    
     // Delete the cookie
     setcookie('oat', '');
     $oUpgrader->setOpenadsInstalledOn();

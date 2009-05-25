@@ -69,7 +69,7 @@ class OX_Admin_Redirect
             }
         }
 
-        if (!$manualAccountSwitch || empty($return_url)) {
+        if (!$manualAccountSwitch || empty($return_url) && empty($GLOBALS['installing'])) {
             if (!preg_match('/[\r\n]/', $adminPage)) {
                 header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
                 exit;
