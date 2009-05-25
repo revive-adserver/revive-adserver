@@ -109,7 +109,6 @@ function installPlugin($pluginName)
             }
             else
             {
-                $oPluginManager->enablePackage($aPlugin['name']);
                 $aResult['status'] = 'OK';
             }
         }

@@ -491,8 +491,11 @@ else if (array_key_exists('btn_plugins', $_POST))
                 {
                     if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins']))
                     {
-                        $aUrls[] = array('name' => $aPlugin['name'],
-                        'url' => $baseInstalUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name']);
+                        $url = $baseInstalUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name'];
+                        if (!empty($aPlugin['disabled'])) {
+                            $url .= '&disabled=1';
+                        }
+                        $aUrls[] = array('name' => $aPlugin['name'], 'url' => $url);
                     }
                 }
             }
