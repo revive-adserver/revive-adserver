@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.8.1-rc11.php';
+require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.8.1-rc10.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * @subpackage TestSuite
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.com>
  */
-class Migration_postscript_2_8_1_RC11Test extends MigrationTest
+class Migration_postscript_2_8_1_RC10Test extends MigrationTest
 {
     function setUp()
     {
@@ -71,7 +71,7 @@ class Migration_postscript_2_8_1_RC11Test extends MigrationTest
         $mockUpgrade->oDBUpgrader->oTable = &$this->oaTable;
 
         // Run the upgrade
-        $postscript = new OA_UpgradePostscript_2_8_1_rc11();
+        $postscript = new OA_UpgradePostscript_2_8_1_rc10();
         $ret = $postscript->execute(array(&$mockUpgrade));
         $this->assertTrue($ret);
 
