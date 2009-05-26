@@ -1965,17 +1965,36 @@ class OX_Plugin_ComponentGroupManager
                 // menu already exists
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive']);
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'], $aMenu['helplink']);
             $oMenu->add($oMenuSection);
         }
-        else
+        elseif ($aMenu['replace'])
         {
+			if (!$oMenu->get($aMenu['replace'],false))
+			{
+			    $this->_logError('Menu to replace does not exist '.$aMenu['replace']);
+			    return false;
+			}
+			if( !empty($aMenu['index']) && $aMenu['index'] != $aMenu['replace'])
+			{
+			    $this->_logError('When replacing a menu, you can\'t define an \'index\' in the menu definition that is different from the menu index it is replacing.
+			    You can also simply remove the \'index='.$aMenu['index'].' from your menu definition file.');
+			    return false;
+			}
+			$oMenuSection = $oMenu->get($aMenu['replace'],false);
+			if($aMenu['value']) $oMenuSection->setNameKey($aMenu['value']);
+			if($aMenu['link']) $oMenuSection->setLink($aMenu['link']);
+			if($aMenu['exclusive']) $oMenuSection->setExclusive($aMenu['exclusive']);
+			if($aMenu['helplink']) $oMenuSection->setHelpLink($aMenu['helplink']);
+        }
+        else
+		{
             if ($oMenu->get($aMenu['index'],false))
             {
                 $this->_logError('Menu already exists for '.$aMenu['index']);
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive']);
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'], $aMenu['helplink']);
             if ($aMenu['addto'])
             {
                 if (!$oMenu->get($aMenu['addto'],false))
@@ -1989,7 +2008,7 @@ class OX_Plugin_ComponentGroupManager
             {
                 if (!$oMenu->get($aMenu['insertafter'],false))
                 {
-                    $this->_logError('Sibling menu does not exist '.$aMenu['insertafter']);
+                    $this->_logError('Menu to insert after does not exist '.$aMenu['insertafter']);
                     return false;
                 }
                 $oMenu->insertAfter($aMenu['insertafter'], $oMenuSection);
@@ -1998,7 +2017,7 @@ class OX_Plugin_ComponentGroupManager
             {
                 if (!$oMenu->get($aMenu['insertbefore'],false))
                 {
-                    $this->_logError('Sibling menu does not exist '.$aMenu['insertbefore']);
+                    $this->_logError('Menu to insert before does not exist '.$aMenu['insertbefore']);
                     return false;
                 }
                 $oMenu->insertBefore($aMenu['insertbefore'], $oMenuSection);
@@ -2013,7 +2032,6 @@ class OX_Plugin_ComponentGroupManager
                 $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['path']);
                 $oChecker = new $checkerClassName;
                 $oMenuSection->setChecker($oChecker);
-
             }
         }
         return true;

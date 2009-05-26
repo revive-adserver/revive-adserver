@@ -110,11 +110,11 @@ class OA_Admin_Menu_Section
     function OA_Admin_Menu_Section($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
     {
         $this->id = $id;
-        $this->nameKey = $nameKey;
-        $this->link = $link;
-        $this->helpLink = $helpLink;
+        $this->setNameKey($nameKey);
+        $this->setLink($link);
+        $this->setHelpLink($helpLink);
+        $this->setExclusive($exclusive);
         $this->rank = $rank;
-        $this->exclusive = $exclusive;
         $this->affixed = $affixed;
         $this->aSections = array();
         $this->oSectionChecker = !empty($aAccountPermissions) ? $this->_createSecurityChecker($aAccountPermissions) : null;
@@ -130,7 +130,23 @@ class OA_Admin_Menu_Section
         return $this->id;
 	}
 
-
+	function setExclusive($exclusive)
+	{
+        $this->exclusive = $exclusive;
+	}
+	function setHelpLink($helpLink)
+	{
+	    $this->helpLink = $helpLink;
+	}
+	function setNameKey($nameKey)
+	{
+	    $this->nameKey = $nameKey;
+	}
+	function setLink($link)
+	{
+	    $this->link = $link;
+	}
+	
 	/**
 	 * Returns a translated name of this section
 	 *
@@ -141,12 +157,10 @@ class OA_Admin_Menu_Section
 	   return $this->oTranslation->translate($this->nameKey);
 	}
 
-
 	function getLink($aParams)
 	{
 	    return $this->setLinkParams($aParams);
 	}
-
 
 	function setLinkParams($aParams)
 	{
@@ -369,7 +383,6 @@ class OA_Admin_Menu_Section
 
         return true;
     }
-
 
     /**
      * Inserts new section before the section with the specified id. If the section
