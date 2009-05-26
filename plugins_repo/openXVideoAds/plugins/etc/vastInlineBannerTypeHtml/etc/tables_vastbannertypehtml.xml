@@ -5,7 +5,7 @@
  <name>vastbannertypehtml</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>004</version>
+ <version>005</version>
  <status>final</status>
 
  <table>
@@ -178,8 +178,8 @@
 
    <field>
     <name>vast_event_id</name>
-    <type>openads_char</type>
-    <length>32</length>
+    <type>openads_mediumint</type>
+    <length>20</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -216,6 +216,84 @@
   </declaration>
 
  </table>
+ 
+ 
+ 
+ <table>
+
+  <name>stats_vast</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_mediumint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_mediumint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>vast_event_id</name>
+    <type>openads_mediumint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>stats_vast_creativekey</name>
+    <primary>false</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>stats_vast_zonekey</name>
+    <primary>false</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
 
 
 </database>

@@ -151,7 +151,6 @@ if($selectedDimensionExpanded && !empty($expandId)) {
 									$expandId
 									 );
 }
-
 $isThereAnyData = @$summaryRow[1] > 0;
 
 // TEMPLATE

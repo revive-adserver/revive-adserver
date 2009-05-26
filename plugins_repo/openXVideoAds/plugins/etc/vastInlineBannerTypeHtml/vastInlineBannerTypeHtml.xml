@@ -31,6 +31,7 @@
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Banner_vast_element.php</dataobject>
             <dataobject>Data_bkt_vast_e.php</dataobject>
+            <dataobject>Stats_vast.php</dataobject>
         </schema>
 
     </install>

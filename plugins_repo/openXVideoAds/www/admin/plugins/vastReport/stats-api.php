@@ -5,7 +5,17 @@ $vastReport = new OX_Vast_Report;
 // Generate fake stats?
 $generateFakeStatistics = false;
 if($generateFakeStatistics) {
-    $vastReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
+    $bannerIds = range($minBannerId = 1, $maxBannerId = 1000, $step = 1);
+    $zoneIds = range($minZoneId = 1, $maxZoneId = 100, $step = 1);
+    $pastDays = 30;
+	echo "generating fake data for ". count($bannerIds)." banners and ".count($zoneIds)." zones for the last ".$pastDays." days...<br>";
+	flush();
+    foreach($bannerIds as $bannerId) {
+        foreach($zoneIds as $zoneId){
+		    $vastReport->generateFakeVastStatistics($pastDays, $bannerId, $zoneId);
+        }
+    }
+    echo "done!";
     exit;
 }
 
@@ -56,7 +66,7 @@ class OX_Vast_Report {
 	 public function __construct()
 	 {
 		$prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-		$this->statsTable = $prefix . "data_bkt_vast_e";
+		$this->statsTable = $prefix . "stats_vast";//"data_bkt_vast_e";
 		$this->campaignTable = $prefix . "campaigns";
 		$this->bannerTable = $prefix . "banners";
 		$this->zoneTable = $prefix . "zones";
@@ -149,6 +159,7 @@ class OX_Vast_Report {
 						AND interval_start <= '$endDateTime'
 					GROUP BY dimension_id, vast_event_id
 					ORDER BY interval_start, vast_event_id ASC";
+//		echo $query;exit;
 		$result =  OA_DB::singleton()->queryAll($query);
         if (PEAR::isError($result)) {
            var_dump($result->getMessage());
@@ -239,16 +250,13 @@ class OX_Vast_Report {
 	
 	protected function getDateLabelsBetweenDates($startDate, $endDate, $dimension)
 	{
-	    if($dimension == 'hour-of-day') {
-		    return array(
+    	switch($dimension) {
+    	    case 'hour-of-day':
+    	         return array(
 					'0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h', 
 					'12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
 				);
-	    }
-	    $startTimestamp = strtotime($startDate);
-	    $endTimestamp = strtotime($endDate);
-	    
-    	switch($dimension) {
+    	    break;
 			case 'day': 
 				$pattern = '%Y-%m-%d'; 
 			break;
@@ -265,6 +273,8 @@ class OX_Vast_Report {
 			    return array();
 		    break;
     	}
+	    $startTimestamp = strtotime($startDate);
+	    $endTimestamp = strtotime($endDate);
     	while($startTimestamp <= $endTimestamp) {
     	    $dates[] = strftime($pattern, $startTimestamp);
     	    $startTimestamp = strtotime("+1 day", $startTimestamp);
@@ -384,7 +394,6 @@ class OX_Vast_Report {
 	
 	public function generateFakeVastStatistics($pastDays, $bannerId, $zoneId)
 	{
-		echo "generating fake data...<br>";
 		$oDbh = OA_DB::singleton();
 		$now = time();
 		$stop = $now - $pastDays*86400;
@@ -410,7 +419,6 @@ class OX_Vast_Report {
 			}
 			$now = strtotime("1 hour ago", $now);
 		}
-		echo "done!";
 	}
 	
 }

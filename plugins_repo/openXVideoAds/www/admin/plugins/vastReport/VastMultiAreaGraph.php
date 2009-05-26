@@ -47,15 +47,15 @@ class VastMultiAreaGraph extends Graph_Flash_AreaGraph
         
         
         $aDataSets = $this->getDataSets();
-        
-        if(empty($this->xLabels)) {
-            $title = new title('There is not enough data for this Report');
+
+        // if no data, or only one data point, we don't display the graph
+        if(count($this->xLabels) <= 1) {
+            $title = new title('There is not enough data to display this Graph.');
 			$title->set_style('{font-size: 25px;}');
 			$chart->set_title($title);
         }
         
         $oColorHelper = new Graph_DataSetColorsHelper();
-        
         foreach ($aDataSets as $aDataSet) {
             $values = $aDataSet['values'];
             $name = $aDataSet['name'];
