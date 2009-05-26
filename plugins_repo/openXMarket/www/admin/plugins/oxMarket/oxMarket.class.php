@@ -78,6 +78,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
             ? (float) $aConf['oxMarket']['defaultFloorPrice']
             : NULL;
+        $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);            
 
         $aFields = array(
             'mkt_is_enabled' => 'f',
