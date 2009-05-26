@@ -9,8 +9,8 @@
 			<span title="{$rowMetrics.name}" class="inlineIcon {if $selectedDimension=='campaign'}iconCampaign{elseif $selectedDimension=='banner'}iconBanner{else}iconDate{/if}">
 				{if $selectedDimension=='campaign' || $selectedDimension=='banner'}
 					{capture assign=linkToStats}
-					{if $selectedDimension=='campaign'}{url entity=$selectedDimension entityId=$rowId dimension=null campaignid=$rowId}
-					{else}{url entity=$selectedDimension entityId=$rowId dimension=null bannerid=$rowId}
+					{if $selectedDimension=='campaign'}{url entity=$selectedDimension entityId=$rowId dimension=null campaignid=$rowId expandId=null}
+					{else}{url entity=$selectedDimension entityId=$rowId dimension=null bannerid=$rowId expandId=null}
 					{/if}
 					{/capture}
 					<a href="{$linkToStats}" title="Video Statistics for {$rowMetrics.name}">{$rowMetrics.name}</a>

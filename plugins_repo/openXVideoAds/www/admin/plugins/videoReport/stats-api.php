@@ -1,18 +1,21 @@
 <?php
 require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php";
 
-$vastReport = new OX_Vast_Report;
+$videoReport = new OX_Video_Report;
 // Generate fake stats?
+// Note: you can generate for any campaign and banner; However if you generate stats for a non-vast banner
+// and then try to access the UI for reporting of this non-vast banner, the "access check" will fail and 
+// the error "Menu system error: Manager::stats-vast-campaign not found for the current user" will be displayed.
 $generateFakeStatistics = false;
 if($generateFakeStatistics) {
-    $bannerIds = range($minBannerId = 1, $maxBannerId = 1000, $step = 1);
+    $bannerIds = range($minBannerId = 1, $maxBannerId = 100, $step = 1);
     $zoneIds = range($minZoneId = 1, $maxZoneId = 100, $step = 1);
-    $pastDays = 30;
+    $pastDays = 300;
 	echo "generating fake data for ". count($bannerIds)." banners and ".count($zoneIds)." zones for the last ".$pastDays." days...<br>";
 	flush();
     foreach($bannerIds as $bannerId) {
         foreach($zoneIds as $zoneId){
-		    $vastReport->generateFakeVastStatistics($pastDays, $bannerId, $zoneId);
+		    $videoReport->generateFakeVastStatistics($pastDays, $bannerId, $zoneId);
         }
     }
     echo "done!";
@@ -40,13 +43,13 @@ if($outputAllCallGetStatistics) {
 	        $entityName = $entityNameAndValue[0];
 	        $entityValue = $entityNameAndValue[1];
 			echo "<h2>Test $entityName = $entityValue</h2>";
-			var_dump($vastReport->getVastStatistics($entityName, $entityValue, $dimension, $startDate, $endDate));
+			var_dump($videoReport->getVastStatistics($entityName, $entityValue, $dimension, $startDate, $endDate));
 	    }
 	}
 	exit;
 }
 
-class OX_Vast_Report {
+class OX_Video_Report {
 	static $graphMetricsToPlot = array(1,3,2,4,5);
 	
 	static $vastEventIdToEventName = array(
@@ -215,6 +218,12 @@ class OX_Vast_Report {
 		return  $this->doesEntityHaveVast( $sqlFrom, $sqlWhere);
 	} 
 	
+	public function isZoneVast($zoneId)
+	{
+	    $zone = Admin_DA::getZone($zoneId);
+	    return in_array($zone['type'], array(OX_ZoneVideoOverlay, OX_ZoneVideoInstream));
+	}
+	
 	protected function doesEntityHaveVast($sqlFrom, $sqlWhere)
 	{
 	    $query = "	
@@ -225,7 +234,6 @@ class OX_Vast_Report {
 		 		AND (	width = ".VAST_OVERLAY_DIMENSIONS." 
 		 			OR 	width = ".VAST_INLINE_DIMENSIONS.")
 		   ";
-	    
 		$result =  OA_DB::singleton()->getOne($query);
 //	    echo $result; echo $query;exit;
         if (PEAR::isError($result)) {
@@ -234,13 +242,7 @@ class OX_Vast_Report {
         }
 	    return $result > 0;
 	}
-
-	public function doesZoneHaveVast($zoneId)
-	{
-	    return true;
-//OX_ZoneVideoInstream
-//OX_ZoneVideoOverlay
-	}
+	
 	public function doesWebsiteHaveVast($affiliateId)
 	{
 	    return true;

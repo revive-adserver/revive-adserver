@@ -11,7 +11,7 @@ if($production) {
 }
 
 // TEMPLATE
-$oTpl = new OA_Plugin_Template('players.html', 'TODO title');
+$oTpl = new OA_Plugin_Template('players.html');
 $oTpl->assign('urlIframe', $urlIframe);
 phpAds_PageHeader("players-vast",'','../../');
 $oTpl->display();

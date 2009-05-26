@@ -1,5 +1,5 @@
 <?php
-require_once MAX_PATH . "/www/admin/plugins/vastReport/lib/Url/Url.php";
+require_once MAX_PATH . "/www/admin/plugins/videoReport/lib/Url/Url.php";
 
 /**
  * Smarty {url} function plugin.
