@@ -2,8 +2,8 @@ README
 =================
 1 - Data Generator
 	You can use the data generator to generate data directly in the stats_vast table.
-	At the beginning of "/openx/www/admin/plugins/videoReport/stats-api.php" you will find:
-	$videoReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
+	At the beginning of "/openx/www/admin/plugins/videoReport/stats-api.php" you will find the related code.
+	Note that you can customize the range of banner and zone id to generate.
 2 - Data checks
 	Calling the API for all entities and all combination of "View As" ; 
 	look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-api.php" 

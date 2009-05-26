@@ -8,9 +8,9 @@ $videoReport = new OX_Video_Report;
 // the error "Menu system error: Manager::stats-vast-campaign not found for the current user" will be displayed.
 $generateFakeStatistics = false;
 if($generateFakeStatistics) {
-    $bannerIds = range($minBannerId = 1, $maxBannerId = 100, $step = 1);
-    $zoneIds = range($minZoneId = 1, $maxZoneId = 100, $step = 1);
-    $pastDays = 300;
+    $bannerIds = range($minBannerId = 1, $maxBannerId = 3, $step = 1);
+    $zoneIds = range($minZoneId = 1, $maxZoneId = 3, $step = 1);
+    $pastDays = 17;
 	echo "generating fake data for ". count($bannerIds)." banners and ".count($zoneIds)." zones for the last ".$pastDays." days...<br>";
 	flush();
     foreach($bannerIds as $bannerId) {
