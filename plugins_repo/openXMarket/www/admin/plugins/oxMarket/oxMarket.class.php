@@ -64,6 +64,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $this->oMarketPublisherClient =
             new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
     }
+    
 
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
@@ -96,8 +97,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
-        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;$"));
+        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price'));
+        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
 
