@@ -142,7 +142,6 @@
                 <menu addto="2.4.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
                 <menu addto="2.4" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
                 <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Plugin - Player Info</menu>
-                <menu replace="zone-invocation" checker="Plugins_admin_openXVideoAds_vastMenuChecker"></menu>
             </admin>
             
             <advertiser>

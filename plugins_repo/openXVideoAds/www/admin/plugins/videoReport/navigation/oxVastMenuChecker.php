@@ -31,7 +31,6 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
      */
     public function check($oSection) 
     {
-        echo "test";exit;
         // this checker is called 6 times, not sure why, but we cache the lookup in a static variable
         static $cache = array();
         if(isset($cache[$oSection->getId()])) {
