@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+  <!ENTITY config  SYSTEM "../modules/config_openx.xml">
+  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+]>
+
+<project name="OpenX Level7 - Video plugin test" basedir="." default="main">
+	<target name="main">
+		<webtest name="OpenX Level7 - Video plugin test if requested">
+			&config;
+			<steps>				
+				<ifStep description="production tests">
+			        <condition>
+			        	<verifyProperty description="Check if video plugin should be enabled" name="plugin.video.enabled" propertyType="ant" text="true" />
+		        	</condition>
+        	        <then>        	        	
+						&login;
+						<clickLink label="Administrator account"/>
+        	        	<clickLink label="Plugins"/>
+        	        	<verifyText text="openXVideoAds"/>
+						<not>
+							<verifyText text="Not Found" />
+							<verifyText text="was not found on this server" />
+						</not>
+        	        	<clickLink label="Enable" href="package=openXVideoAds" />
+        	        	
+        	        	<clickLink label="Details" href="package=openXVideoAds" />
+        	        	<verifyText text="openXVideoAds"/>
+        	        	<not>
+							<verifyText text="Not Found" />
+							<verifyText text="was not found on this server" />
+						</not>
+           	        </then>
+			    </ifStep>
+			</steps>
+		</webtest>
+	</target>
+</project>

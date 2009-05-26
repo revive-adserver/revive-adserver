@@ -35,6 +35,9 @@
 <verifyText text="openXMarket" description="openXMarket" />
 <verifyElementText htmlId="job_status_8" text="OK*" regex="true" description="openXMarket installation status check"/>
 
+<verifyText text="openXVideoAds" description="openXVideoAds" />
+<verifyElementText htmlId="job_status_9" text="OK*" regex="true" description="openXVideoAds installation status check"/>
+
 <!-- <verifyXPath xpath="/html/body/div[3]/div/div[3]/div[2]/table[2]/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/ul/li" text="Cookie not found" /> -->
 <not>
 	<verifyText text="Cookie not found" description="check: Cookie not found" />

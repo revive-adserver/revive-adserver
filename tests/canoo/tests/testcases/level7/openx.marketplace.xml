@@ -13,7 +13,7 @@
 			<steps>				
 				<ifStep description="production tests">
 			        <condition>
-			        	<verifyProperty description="Check if marketplace plugin should be enabled" name="marketplace.enabled" propertyType="ant" text="true" />
+			        	<verifyProperty description="Check if marketplace plugin should be enabled" name="plugin.marketplace.enabled" propertyType="ant" text="true" />
 		        	</condition>
         	        <then>        	        	
 						&login;
