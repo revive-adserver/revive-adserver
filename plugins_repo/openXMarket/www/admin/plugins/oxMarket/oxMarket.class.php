@@ -81,7 +81,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $aFields = array(
             'mkt_is_enabled' => 'f',
-            'floor_price' => $this->formatCpm($defaultFloorPrice)
+            'floor_price' => $defaultFloorPrice
         );
         $dboExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
         if ($dboExt_market_campaign_pref->get($campaign['campaignid'])) {
@@ -90,6 +90,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'floor_price' => !empty($dboExt_market_campaign_pref->floor_price) ? (float) $dboExt_market_campaign_pref->floor_price : ''
             );
         }
+        $aFields['floor_price'] = $this->formatCpm($aFields['floor_price']);
 
         $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
 
