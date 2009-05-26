@@ -24,7 +24,7 @@
             <group name="vastOverlayBannerTypeHtml">2</group>
             <group name="oxLogVast">3</group>
             <group name="vastServeVideoPlayer">4</group>
-            <group name="vastReport">5</group>
+            <group name="videoReport">5</group>
         </contents>
 
     </install>

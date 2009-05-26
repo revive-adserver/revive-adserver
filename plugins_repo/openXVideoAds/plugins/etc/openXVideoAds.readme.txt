@@ -1,10 +1,10 @@
 README
 =================
-1 - Data Generator: please use the basic data generator in "/openx/www/admin/plugins/vastReport/stats-api.php" at line 6 & 7 and you will find:
-	$vastReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
-2 - Data checks: Calling the API for all entities and all combination of "View As" ; look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/vastReport/stats-api.php" 
+1 - Data Generator: please use the basic data generator in "/openx/www/admin/plugins/videoReport/stats-api.php" at line 6 & 7 and you will find:
+	$videoReport->generateFakeVastStatistics($pastDays = 10, $bannerid = 1, $zoneid = 1);
+2 - Data checks: Calling the API for all entities and all combination of "View As" ; look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-api.php" 
 
-Note that for both tools you just have to go to stats-vast.php page and this will trigger these tools.
+Note that for both tools you just have to go to stats-video.php page and this will trigger these tools.
 
 What is supposed to work:
 =================
@@ -22,24 +22,37 @@ What is supposed to work:
 - only one expandable row at a time, row are collapsed when clicked on the icon again
 - all campaign and banner names link to the Video Report for this campaign/banner
 - added menu for the list of Video Plugins and loading iframe from staging
-- load staging iframe when production set to 0, load iframe from website in prod 
-- menus showing for websites and zones all the time (see TODO below)
+- load staging iframe when production set to 0, load iframe from website in production
+- maintenance
+- in Video Zones, replace the "Invocation Code" is instead called "Video Invocation Code" and displays the notice message linking to help
 
 Not done at this stage, TODO before release
 =================
-- check that the Players page links to the right link on the flowplayer website
-- Add Maintenance in the plugin
-- CODE: refactor & cleanup code in reporting & factor out the menu detection code from the stats-api & remove test / date generation code from the global space
-- the website and zone tab in the Stats section should only show up for video zones and websites linked to at least one video zone
-- add the "Help" linking to http://www.openx.org/en/docs/2.8/userguide/video+event+statistics
-- Change plugin description, name, change this README
+- open tickets
 - Add checks for credentials when accessing screens
+- $aVastEventStrToIdMap
+- website tab report should only appear for websites that have vast zones
 - Check for XSS and sql injection
+- Change plugin description, name, change this README
+- the website and zone tab in the Stats section should only show up for video zones and websites linked to at least one video zone
+- CODE: refactor & cleanup code in reporting & factor out the menu detection code from the stats-api & remove test / date generation code from the global space
 - Full code review
 
-Feature requests
-=================
-- add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
-- for website report, add "View by" for zones
-- for zone report, add "View by" for campaigns and banners
+To investigate (low priority)
+- smarty templates clearing should not delete .svn
+- why is install failing with the zone-invocation menu when upgrade is working?
+
+Feature requests Video Plugin
+=============================
+- currently, if you create a video banner, you can link it to a HTML zone that has *x* dimensions; this doesn't make sense. OXP will link the banner, but then requesting this zone from the flowplayer will just fail in some ways. We should ensure that video banners are only linked to video zones (Problem, by design openx enforces zone linking by dimensions rather than type, so I think this is not easily possible)
+- for website report, add "View by Zone"
+- for zone report, add "View by Campaign" and "View by Banner"
 - add a "Expand all"
+- video banners should have the right icons, instead of the generic html banner icons 
+- in video reports, a row should not be expandable if there is no data
+- add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
+- add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
+
+Core
+====
+- helplink should not link to openx when :// is found

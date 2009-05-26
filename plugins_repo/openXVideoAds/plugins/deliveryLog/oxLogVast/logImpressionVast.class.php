@@ -32,7 +32,7 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  * @package    Plugin
  * @subpackage openxDeliveryLog
  */
-class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_DeliveryLog
+class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLog
 {
 
     function getDependencies()
@@ -123,4 +123,3 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
 
 }
 
-?>

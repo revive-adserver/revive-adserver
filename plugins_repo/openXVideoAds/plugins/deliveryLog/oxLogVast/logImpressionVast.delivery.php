@@ -25,7 +25,6 @@
  * @author     Paul Birnie <paul.birnie@bouncingminds.com>
  */
 
-
 /* 
  * We have to call this file directly via the FC. 
  * using something like: 
@@ -165,7 +164,7 @@ if ( $vast_event ){
                      'vast_event_id'    => getVastEventIdFromVastEventStr($vast_event),
                      'interval_start'   => $intervalStart,
                      'is_host_ok'       => $viewerIsOkToLog,
-                     'video_time_posn'  => intVal($video_time_posn), 
+                     //'video_time_posn'  => intVal($video_time_posn), 
                    );
   
     //logRawVastDataEvent($aQuery);
@@ -188,5 +187,3 @@ else {
     
    // do nothing
 }
-
-?>
