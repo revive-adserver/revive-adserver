@@ -491,9 +491,11 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieClientCookieUnset($name)
 {
-MAX_cookieSet($name, false, _getTimeYearAgo());
+$conf = $GLOBALS['_MAX']['CONF'];
+$domain = (!empty($conf['cookie']['domain'])) ? $conf['cookie']['domain'] : null;
+MAX_cookieSet($name, false, _getTimeYearAgo(), null, $domain);
 // Work around a bug in IE where the cookie name is sometimes URL-encoded
-MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo());
+MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(), null, $domain);
 }
 function MAX_cookieClientCookieFlush()
 {
