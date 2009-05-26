@@ -92,23 +92,44 @@ if (!empty($bannerid)) {
 
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$moveto}&bannerid={$bannerid}");
 
-    }
-    elseif (!empty($applyto) && isset($applyto_x)) {
-        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            OA_Permission::enforceAccessToObject('banners', $applyto);
+    } elseif (!empty($applyto) && isset($applyto_x)) {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $bannerName = $doBanners->description;
+        
+        if ($applyto == -1) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+            }
+            $appliedTo = 0;
+            $doBanners = OA_Dal::factoryDO('banners');
+            $doBanners->campaignid = $campaignid;
+            $doBanners->find();
+            while ($doBanners->fetch()) {
+                if (($doBanners->bannerid != $bannerid) && (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $doBanners->bannerid))) {
+                    $appliedTo++;
+                }
+            }
+            $applyto = $bannerid;
+        } else {
+            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                OA_Permission::enforceAccessToObject('banners', $applyto);
+            }
+            if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
+                $appliedTo++;
+            }
         }
-        if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
-            // Rebuild cache
-            // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-            // phpAds_cacheDelete();
-
-            Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$applyto);
-        }
-        else {
-            phpAds_sqlDie();
-        }
-    }
-    elseif (isset($duplicate) && $duplicate == 'true') {
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate ( $GLOBALS['strBannerAclHasBeenAppliedTo'],
+            array(MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid"),
+                htmlspecialchars($bannerName),
+                $appliedTo
+            )
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        
+        Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$applyto);
+    } elseif (isset($duplicate) && $duplicate == 'true') {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $oldName = $doBanners->description;

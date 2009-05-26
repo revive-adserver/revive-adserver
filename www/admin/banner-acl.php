@@ -126,6 +126,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 // Display navigation
 $aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
 $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
+// Setup a fake record for the "Apply to all" entry
+$aOtherBanners[-1] = array('name' => '--' . $GLOBALS['strAllBannersInCampaign'] . '--', 'ad_id' => -1, 'placement_id' => $campaignid);
 MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
 /*-------------------------------------------------------*/
