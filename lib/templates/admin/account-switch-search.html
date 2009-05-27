@@ -42,7 +42,7 @@ $Id$
       </li>      
     {/foreach}
     {if isset($remainingCounts[$groupName])}
-      <li class="inopt more">... {$remainingCounts[$groupName]|escape}</li>
+      <li class="inopt more" title="{t str=UseSearchBoxToFindMoreAccounts}">... {$remainingCounts[$groupName]|escape}</li>
     {/if}
   {/foreach}
   

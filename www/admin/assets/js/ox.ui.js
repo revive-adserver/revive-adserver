@@ -429,7 +429,7 @@ function initAccoutSwitcher(searchUrl)
 
   $(".accountsPanel li").hover(function() {
       $this = $(this);
-      if (!$this.is(".opt")) {
+      if (!$this.is(".opt,.more")) {
         $this.addClass("hover");
       }
     }, function() {

@@ -228,6 +228,7 @@ $GLOBALS['strWorkingAs']                = "Working as";
 $GLOBALS['strWorkingAs_Key']            = "<u>W</u>orking as";
 $GLOBALS['strWorkingAs']                = "Working as";
 $GLOBALS['strSwitchTo']                 = "Switch to";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Use the switcher's search box to find more accounts";
 $GLOBALS['strWorkingFor']               = "%s for...";
 $GLOBALS['strNoAccountWithXInNameFound']= "No accounts with \"%s\" in name found";
 $GLOBALS['strRecentlyUsed']             = "Recently used";
