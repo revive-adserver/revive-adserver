@@ -184,7 +184,7 @@ class OA_Admin_UI
             //update page title
             $oCurrentSection = $oMenu->get($ID);
             if ($oCurrentSection == null) {
-                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . htmlspecialchars($ID) . '</strong> not found for the current user');
+                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . htmlspecialchars($ID) . '</strong> not found for the current user: you might not have sufficient permission to view this page. <br/>If the problem persists, you can also try to delete the files inside your /path/to/openx/var/cache/ directory.');
             }
 
             if ($oHeaderModel == null) {
