@@ -8,7 +8,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>1.0.0-rc10</version>
+    <version>1.0.0-rc11</version>
     <oxversion>2.7.31-beta-rc4</oxversion>
     <extends>admin</extends>
     <install>
@@ -94,7 +94,7 @@
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
             </admin>
             <manager>
-                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketRegisteredChecker">OpenX Market Settings</menu>
+                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketRegisteredChecker">OpenX Market Quickstart</menu>
                 <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Content Restrictions</menu>
                 <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Ad Quality Tool</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
