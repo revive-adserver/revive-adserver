@@ -493,9 +493,9 @@ function MAX_cookieClientCookieUnset($name)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $domain = (!empty($conf['cookie']['domain'])) ? $conf['cookie']['domain'] : null;
-MAX_cookieSet($name, false, _getTimeYearAgo(), null, $domain);
+MAX_cookieSet($name, false, _getTimeYearAgo(), '/', $domain);
 // Work around a bug in IE where the cookie name is sometimes URL-encoded
-MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(), null, $domain);
+MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(), '/', $domain);
 }
 function MAX_cookieClientCookieFlush()
 {
