@@ -95,6 +95,17 @@ $remnantCampaignsOptedIn = numberOfOptedCampaigns('remnant');
 
 $toOptIn = empty($toOptIn) ? array() : $toOptIn;
 
+
+$aContentKeys = $oMarketComponent->retrieveCustomContent('market-quickstart');
+if (!$aContentKeys) {
+    $aContentKeys = array();
+}
+$topMessage = isset($aContentKeys['top-message'])
+    ? $aContentKeys['top-message']
+    : '';
+    
+
+$oTpl->assign('topMessage', $topMessage);
 $oTpl->assign('campaigns', $campaigns);
 $oTpl->assign('campaignsOptedIn', $campaignsOptedIn);
 $oTpl->assign('campaignType', $campaignType);
