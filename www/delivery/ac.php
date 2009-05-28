@@ -2964,7 +2964,7 @@ $clickTagEnd = '';
 }
 // Create the image tag..
 if (!empty($imageUrl)) {
-$imgStatus = empty($clickTag) ? $status : '';
+$imgStatus = empty($clickTag) && !empty($status) ? $status : '';
 $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
 $alt = !empty($aBanner['alt']) ? $aBanner['alt'] : '';
