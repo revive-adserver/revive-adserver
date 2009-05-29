@@ -179,8 +179,10 @@ class OX_UpgradePluginImport extends OX_PluginExport
     {
         $this->aMessages[] = $message;
         $log = fopen($this->logFile, 'a');
-        fwrite($log, "{$message}\n");
-        fclose($log);
+        if($log) {
+	        fwrite($log, "{$message}\n");
+	        fclose($log);
+        }
     }
 }
 
