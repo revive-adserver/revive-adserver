@@ -40,6 +40,7 @@
 
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>
@@ -61,7 +62,6 @@
             <file path="{ADMINPATH}/">market-preferences-website.php</file>
             <file path="{ADMINPATH}/">market-signup.php</file>
             <file path="{ADMINPATH}/">market-sso-user-exists.php</file>
-            <file path="{ADMINPATH}/">market-stats.php</file>
             <!-- Spacer for the 4096 byte boundary -->
 
 
@@ -69,6 +69,7 @@
 
 
             <!-- End spacer for the 4096 byte boundary -->
+            <file path="{ADMINPATH}/">market-stats.php</file>
 			<file path="{ADMINPATH}/">market-quality-tool.php</file>
 			<file path="{ADMINPATH}/">market-run-registerwebsites.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
@@ -113,7 +114,6 @@
             <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
             <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
-            <setting key="marketCaptchaUrl" type="text" label="Captcha picture URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
             <!-- Spacer for the 4096 byte boundary -->
 
 
@@ -123,6 +123,7 @@
 
 
             <!-- End spacer for the 4096 byte boundary -->
+            <setting key="marketCaptchaUrl" type="text" label="Captcha picture URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
             <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
