@@ -114,6 +114,16 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
         );
         return $result;
     }
+
+    /**
+     * Because this plugin takes user-entered data it needs to be correctly escaped when compiling it
+     *
+     * @return string   The compiled data string ready for use in the compiledlimitation field
+     */
+    function compile()
+    {
+        return $this->compileData($this->_preCompile($this->data));
+    }
 }
 
 ?>
