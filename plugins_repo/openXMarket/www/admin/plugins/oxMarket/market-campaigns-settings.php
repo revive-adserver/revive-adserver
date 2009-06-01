@@ -25,8 +25,6 @@
 $Id$
 */
 
-define('DEFAULT_OPT_IN_CPM', 0.1);
-
 require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
@@ -41,6 +39,7 @@ $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
     $oMarketComponent->setMarketSettingsAlreadyShown();
 }
+$defaultMinCpm = $oMarketComponent->getConfigValue('defaultFloorPrice');
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
@@ -60,7 +59,7 @@ if (empty($optInType)) {
     $optInType = 'remnant';
 }
 if (!isset($minCpm)) {
-    $minCpm = formatCpm(DEFAULT_OPT_IN_CPM);
+    $minCpm = formatCpm($defaultMinCpm);
 }
 
 // Prepare DAL instance
@@ -82,7 +81,7 @@ if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
     exit(0);
 }
 
-$campaigns = $oCampaignsOptInDal->getCampaigns($campaignType, $minCpms);
+$campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms);
 
 // The number of campaigns of $campaignType that have already been
 // opted in to the Market. We need this number to tell the difference between the
@@ -191,7 +190,7 @@ function performOptIn($minCpms, $oCampaignsOptInDal)
 {
     global $optInType, $toOptIn, $minCpm, $campaignType;
 
-    $campaignsOptedIn = $oCampaignsOptInDal->performOptIn($minCpms, $optInType, $toOptIn, $minCpm, $campaignType);
+    $campaignsOptedIn = $oCampaignsOptInDal->performOptIn($optInType, $minCpms, $toOptIn, $minCpm);
     
     OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' .
         ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);

@@ -25,20 +25,32 @@
 $Id: CampaignsOptIn.php$
 */
 
+/**
+ * CampaignsOptIn DAL Library
+ *
+ * @package    openXMarket
+ * @author     Miguel Correa  <miguel.correa@openx.org>
+ * @author     Lukasz Wikierski  <lukasz.wikierski@openx.org>
+ */
 class OX_oxMarket_Dal_CampaignsOptIn
 {
 
-    
-    function performOptIn($minCpms, $optInType, $toOptIn, $minCpm, $campaignType)
-    {
-        //global $optInType, $toOptIn, $minCpm, $campaignType;
-    
+
+    /**
+     * Perform Opt In works in two ways:
+     * - $optInType == 'remnant' => set $minCpm to all remnant campaigns
+     * - $optInType == 'selected' => set default CPM or $minCpms if available for $toOptIn campaigns
+     *
+     * @param string $optInType Type of Opt In method (expected values: 'remnant', 'selected')
+     * @param array $minCpms Array of min cpms for campaigns (indexed by campaigns ids) (for optInType=='selected')
+     * @param array $toOptIn array of campaigns ids (for optInType=='selected')
+     * @param float $minCpm Value of cpm for all campaigns if optInType=='remnant'
+     * @return int campains opted in
+     */
+    public function performOptIn($optInType, $minCpms, $toOptIn, $minCpm)
+    {    
         // Opt-in campaigns based on the submitted values
         if ($optInType == 'remnant') {
-    
-            $oDate = new Date();
-            $oDate->setTZbyID('UTC');
-            $strToday = $oDate->format("%Y-%m-%d");
     
             $doCampaigns = OA_Dal::factoryDO('campaigns');
             $doClients = OA_Dal::factoryDO('clients');
@@ -48,7 +60,8 @@ class OX_oxMarket_Dal_CampaignsOptIn
             $doCampaigns->joinAdd($doClients, 'LEFT');
     
             // Ignore already ended campaigns
-            $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire " . $this->getNullDate());
+            $doCampaigns->whereAdd(" expire >= '" . $this->getTodayDate() . 
+                                   "' OR expire " . $this->getNullDate());
     
             $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
     
@@ -56,80 +69,59 @@ class OX_oxMarket_Dal_CampaignsOptIn
             $campaignsOptedIn = $doCampaigns->getRowCount();
             while ($doCampaigns->fetch()) {
                 $campaignId = $doCampaigns->campaignid;
-                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                $doMarketCampaignPref->campaignid = $campaignId;
-                $doMarketCampaignPref->find();
-                if ($doMarketCampaignPref->fetch()) {
-                    $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                    $doMarketCampaignPref->campaignid = $campaignId;
-                    $doMarketCampaignPref->is_enabled = true;
-                    $doMarketCampaignPref->floor_price = $minCpm;
-                    $doMarketCampaignPref->update();
-                } else {
-                    $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                    $doMarketCampaignPref->campaignid = $campaignId;
-                    $doMarketCampaignPref->is_enabled = true;
-                    $doMarketCampaignPref->floor_price = $minCpm;
-                    $doMarketCampaignPref->insert();
-                }
+                $this->insertOrUpdateMarketCampaignPref($campaignId, $minCpm);
             }
         } else {
             foreach ($toOptIn as $campaignId) {
-                $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                $doMarketCampaignPref->campaignid = $campaignId;
-                $doMarketCampaignPref->find();
-                if ($doMarketCampaignPref->fetch()) {
-                    $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                    $doMarketCampaignPref->campaignid = $campaignId;
-                    $doMarketCampaignPref->is_enabled = true;
-                    $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
-                    $doMarketCampaignPref->update();
-                } else {
-                    $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-                    $doMarketCampaignPref->campaignid = $campaignId;
-                    $doMarketCampaignPref->is_enabled = true;
-                    $doMarketCampaignPref->floor_price = $minCpms[$campaignId];
-                    $doMarketCampaignPref->insert();
-                }
+                $this->insertOrUpdateMarketCampaignPref($campaignId, $minCpms[$campaignId]);
             }
-    
+
             $campaignsOptedIn = count($toOptIn);
         }
         
         return $campaignsOptedIn;
     }
 
+    
+    /**
+     * Insert or update MarketCampaignPref entry for given campaingId and cpm
+     *
+     * @param int $campaignId
+     * @param float $minCpm
+     */
+    public function insertOrUpdateMarketCampaignPref($campaignId, $minCpm) 
+    {
+        $doQueryMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doQueryMarketCampaignPref->campaignid = $campaignId;
+        $doQueryMarketCampaignPref->find();
+        // prepare object to insert or update
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->campaignid = $campaignId;
+        $doMarketCampaignPref->is_enabled = true;
+        $doMarketCampaignPref->floor_price = $minCpm;
+        if ($doQueryMarketCampaignPref->fetch()) {
+            $doMarketCampaignPref->update();
+        } else {
+            $doMarketCampaignPref->insert();
+        }
+    }
 
-    // NOTICE: formatCpm function must be defined    
-    function getCampaigns($campaignType = null, $minCpms=array())
+    /**
+     * Get campaigns of given type, default CPM have to be provided,
+     * min CPMs for campaigns are optional
+     * NOTICE: formatCpm function must be defined to format minCpm
+     *
+     * @param float $defaultMinCpm default min CPM
+     * @param string $campaignType select campaigns of given type: 'remnant', 'contract', 'all'
+     * @param array $minCpms array of campaigns min CPM indexed by campaigns ids
+     * @return array of campaigns info: campaignid, campaignname, type, minCpm, minCpmCalculated
+     */    
+    public function getCampaigns($defaultMinCpm, $campaignType = null, $minCpms=array())
     {
         $campaigns = array();
     
-        $oDate = new Date();
-        $oDate->setTZbyID('UTC');
-        $strToday = $oDate->format("%Y-%m-%d");
-    
-        // Get campaigns based on the criteria
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doClients = OA_Dal::factoryDO('clients');
+        $doCampaigns = $this->prepareCommonCampaingQuery($campaignType);
         $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-    
-        // Get campaigns that belong to advertiser of the current agency
-        $doClients->agencyid = OA_Permission::getAgencyId();
-        $doCampaigns->joinAdd($doClients, 'LEFT');
-        $doCampaigns->selectAs(array('campaignid'), 'campaign_id');
-    
-        // Ignore already ended campaigns
-        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire " . $this->getNullDate());
-    
-        // If not all campaigns selected set the selected campaign type
-        if ($campaignType == 'remnant') {
-            $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
-        } elseif ($campaignType == 'contract') {
-            $doCampaigns->whereAdd('priority > 0');
-        } elseif ($campaignType == 'all') {
-            $doCampaigns->whereAdd('priority != -1');
-        }
     
         // Do we have data in ext_market_campaign_pref?
         if ($doMarketCampaignPref->count() > 0) {
@@ -150,7 +142,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
             // Take ECPM campaigns as remnant campaigns
             $campaigns[$campaignId]['type'] = ($campaignTypeAux == 4) ? OX_CAMPAIGN_TYPE_REMNANT : $campaignTypeAux;
             $campaignMinCpm = (isset($minCpms[$campaignId]) ? $minCpms[$campaignId] :
-            formatCpm(!empty($row_campaigns['ecpm']) ? $row_campaigns['ecpm'] : DEFAULT_OPT_IN_CPM));
+            formatCpm(!empty($row_campaigns['ecpm']) ? $row_campaigns['ecpm'] : $defaultMinCpm));
             $campaigns[$campaignId]['minCpm'] = $campaignMinCpm;
             $campaigns[$campaignId]['minCpmCalculated'] = !empty($row_campaigns['ecpm']);
         }
@@ -158,35 +150,20 @@ class OX_oxMarket_Dal_CampaignsOptIn
         return $campaigns;
     }
 
-    function numberOfOptedCampaigns($campaignType = null, $minCpms=null)
+    
+    /**
+     * Get number of opted campaigns
+     *
+     * @param string $campaignType count campaigns of given type: 'remnant', 'contract', 'all'
+     * @return int
+     */
+    public function numberOfOptedCampaigns($campaignType = null)
     {
-        $campaigns = array();
-    
-        $oDate = new Date();
-        $oDate->setTZbyID('UTC');
-        $strToday = $oDate->format("%Y-%m-%d");
-    
         // Get campaigns based on the criteria
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doClients = OA_Dal::factoryDO('clients');
+        $doCampaigns = $this->prepareCommonCampaingQuery($campaignType);
         $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
-    
-        // Get campaigns that belong to advertiser of the current agency
-        $doClients->agencyid = OA_Permission::getAgencyId();
-        $doCampaigns->joinAdd($doClients, 'LEFT');
+        
         $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
-    
-        // Ignore already ended campaigns
-        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire " . $this->getNullDate());
-    
-        // If not all campaigns selected set the selected campaign type
-        if ($campaignType == 'remnant') {
-            $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
-        } elseif ($campaignType == 'contract') {
-            $doCampaigns->whereAdd('priority > 0');
-        } elseif ($campaignType == 'all') {
-            $doCampaigns->whereAdd('priority != -1');
-        }
     
         // Ignore campaigns that are already Opt in
         $doCampaigns->whereAdd(OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled = 1');
@@ -198,14 +175,13 @@ class OX_oxMarket_Dal_CampaignsOptIn
     }
 
 
-    function  numberOfRemnantCampaignsToOptIn()
+    /**
+     * Get number of remrant campaigns
+     *
+     * @return int
+     */
+    public function  numberOfRemnantCampaignsToOptIn()
     {
-        $campaigns = array();
-    
-        $oDate = new Date();
-        $oDate->setTZbyID('UTC');
-        $strToday = $oDate->format("%Y-%m-%d");
-    
         // Get campaigns based on the criteria
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doClients = OA_Dal::factoryDO('clients');
@@ -215,7 +191,8 @@ class OX_oxMarket_Dal_CampaignsOptIn
         $doCampaigns->joinAdd($doClients, 'LEFT');
     
         // Ignore already ended campaigns
-        $doCampaigns->whereAdd(" expire >= '" . $strToday . "' OR expire " . $this->getNullDate());
+        $doCampaigns->whereAdd(" expire >= '" . $this->getTodayDate() . 
+                               "' OR expire " . $this->getNullDate());
     
         $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
         $doCampaigns->find();
@@ -225,7 +202,12 @@ class OX_oxMarket_Dal_CampaignsOptIn
     }
 
 
-    function getNullDate()
+    /**
+     * Get null date for query (this value is database dependent)
+     *
+     * @return string
+     */
+    private function getNullDate()
     {
         $nullDate = OA_Dal::noDateValue();
         if (empty($nullDate)) {
@@ -237,4 +219,49 @@ class OX_oxMarket_Dal_CampaignsOptIn
         return $nullDate;
     }
     
+    /**
+     * Get today as string formated YYYY-MM-DD
+     *
+     * @return string
+     */
+    private function getTodayDate()
+    {
+        $oDate = new Date();
+        $oDate->setTZbyID('UTC');
+        return $oDate->format("%Y-%m-%d");
+    }
+    
+    
+    /**
+     * Prepares common query for searching not ended campaigns of given type
+     *
+     * @param string $campaignType
+     * @return DataObjects_Campaigns
+     */
+    private function prepareCommonCampaingQuery($campaignType)
+    {
+        // Get campaigns based on the criteria
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doClients = OA_Dal::factoryDO('clients');
+    
+        // Get campaigns that belong to advertiser of the current agency
+        $doClients->agencyid = OA_Permission::getAgencyId();
+        $doCampaigns->joinAdd($doClients, 'LEFT');
+        $doCampaigns->selectAs(array('campaignid'), 'campaign_id');
+    
+        // Ignore already ended campaigns
+        $doCampaigns->whereAdd(" expire >= '" . $this->getTodayDate() . 
+                               "' OR expire " . $this->getNullDate());
+    
+        // If not all campaigns selected set the selected campaign type
+        if ($campaignType == 'remnant') {
+            $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT . ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
+        } elseif ($campaignType == 'contract') {
+            $doCampaigns->whereAdd('priority > 0');
+        } elseif ($campaignType == 'all') {
+            $doCampaigns->whereAdd('priority != -1');
+        }
+        
+        return $doCampaigns;
+    }
 }
