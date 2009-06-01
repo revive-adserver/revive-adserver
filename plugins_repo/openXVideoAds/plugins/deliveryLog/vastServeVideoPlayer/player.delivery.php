@@ -22,25 +22,18 @@
 /**
  * @package    Plugin
  * @subpackage vastServeVideoPlayer
- * @author     Paul Birnie <paul.birnie@bouncingminds.com>
  */
 
 MAX_commonRegisterGlobalsArray( array('file_to_serve' ));
 
-if ( $file_to_serve ){
-    
+if ( $file_to_serve 
+    && strpos($file_to_serve, '..') === false){
     $pwd = dirname(__FILE__);
-    
-    if ( strpos( $file_to_serve, 'swf') !== false){
-        
+    if ( strpos( $file_to_serve, 'swf') !== false) {
         header("content-type: application/x-shockwave-flash"); 
     }
-    
     echo file_get_contents( $pwd . '/' . $file_to_serve);   
 }
 else {
-    
     echo "no 'file_to_serve' parameter supplied";    
 }
-
-?>
