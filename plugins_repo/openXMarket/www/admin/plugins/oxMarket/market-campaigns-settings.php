@@ -70,7 +70,7 @@ $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
 
 $minCpms = array();
 foreach ($_REQUEST as $param => $value) {
-    if (preg_match("/cpm\d+/", $param ) && is_numeric($value)) {
+    if (preg_match("/cpm\d+/", $param)) {
         $minCpms[substr($param, 3)] = $value;
     }
 }

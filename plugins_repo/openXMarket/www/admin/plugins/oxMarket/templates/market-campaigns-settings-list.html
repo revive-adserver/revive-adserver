@@ -104,7 +104,7 @@ $Id$
                 </td>
                 <td>
                     $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" 
-                             name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
+                             name="cpm{$campaignId}" value="{$campaign.minCpm|escape}" /> USD
                     {if $campaign.minCpmCalculated}
                     <small>This is the campaign's calculated eCPM</small>
                     {/if}
