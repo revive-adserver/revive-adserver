@@ -42,4 +42,3 @@ function Plugin_deliveryLog_OxLogImpression_LogImpression_Delivery_logImpression
     return OX_bucket_updateTable('data_bkt_m', $aQuery);
 }
 
-?>
