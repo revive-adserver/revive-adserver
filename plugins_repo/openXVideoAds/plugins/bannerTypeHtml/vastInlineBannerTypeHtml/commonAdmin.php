@@ -1,26 +1,30 @@
 <?php 
-
-/*    
- *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
- *
- *    This file is part of the Regions plug-in for Flowplayer.
- *
- *    The Regions plug-in is free software: you can redistribute it 
- *    and/or modify it under the terms of the GNU General Public License 
- *    as published by the Free Software Foundation, either version 3 of 
- *    the License, or (at your option) any later version.
- *
- *    The Regions plug-in is distributed in the hope that it will be 
- *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
- */
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 require_once LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtml.php';
-
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
 class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_BannerTypeHTML
@@ -44,8 +48,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         return 'html';
     }
     /**
-     * This method is executed BEFORE
-     * the core banners table is written to
+     * This method is executed BEFORE the core banners table is written to
      *
      * @param boolean $insert
      * @param integer $bannerid
@@ -78,11 +81,9 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
 
         // auto choose the vast_video_type for the user
         if ( strpos( $aFields['vast_video_outgoing_filename'], '/mp4:' ) ){
-
             $aFields['vast_video_type'] = 'video/x-mp4';
         }
         else if ( strpos( $aFields['vast_video_outgoing_filename'], '/flv:' ) ){
-
             $aFields['vast_video_type'] = 'video/x-flv';
         }        
         
@@ -92,7 +93,6 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $aVastVariables['vast_video_width'] = $aFields['vast_video_width'];
         $aVastVariables['vast_video_outgoing_filename'] = $aFields['vast_video_outgoing_filename'];
         $aVastVariables['vast_companion_banner_id'] = $aFields['vast_companion_banner_id'];
-
         $aVastVariables['vast_net_connection_url'] = $aFields['vast_net_connection_url'];
         $aVastVariables['vast_overlay_height'] = $aFields['vast_overlay_height'];
         $aVastVariables['vast_overlay_width'] = $aFields['vast_overlay_width'];
@@ -111,8 +111,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
     }
 
     /**
-     * This method is executed AFTER
-     * the core banners table is written to
+     * This method is executed AFTER the core banners table is written to
      *
      * @param boolean $insert
      * @param integer $bannerid
@@ -121,14 +120,8 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
      */
     function processForm($insert, $bannerid, $aFields)
     {  
-        /**
-         * Uncomment the following lines IF
-         * you have completed the steps to make this plugin data-aware
-        */
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
-        
         $rowId = $aFields['banner_vast_element_id'];
-        
         $doBanners->vast_element_type               = $aFields['vast_element_type'];
         $doBanners->vast_video_id                   = $aFields['vast_video_id'];
         $doBanners->vast_video_duration             = $aFields['vast_video_duration'];
@@ -139,14 +132,11 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $doBanners->vast_video_width                = $aFields['vast_video_width'];
         $doBanners->vast_video_outgoing_filename    = $aFields['vast_video_outgoing_filename'];
         $doBanners->vast_companion_banner_id        = $aFields['vast_companion_banner_id'];
-
         $doBanners->vast_net_connection_url         = $aFields['vast_net_connection_url'];
         $doBanners->vast_overlay_height             = $aFields['vast_overlay_height'];
         $doBanners->vast_overlay_width              = $aFields['vast_overlay_width'];
         
-        
         if ( !$insert && ($rowId == 'banner_vast_element_id') ){
-
             // If the mode was update, but we dont have a valid pk value for $rowId
             // it probably because the user removed the plugin, cleaned out the table 
             // and then reinstalled  - we therefore need to do an insert NOT an update
@@ -157,35 +147,24 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         {
             $doBanners->banner_vast_element_id = $bannerid;
             $doBanners->banner_id            = $bannerid;
-
             return $doBanners->insert();
         }
         else
         {
             $doBanners->whereAdd('banner_vast_element_id='.$rowId, 'AND');
-            
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
-
-        return true;
     }
 
 
     function getExtendedBannerInfo($banner){
-        
         $actualBannerId = $banner['bannerid'];
-            
         $vastElements = array();
-            
         if ( $actualBannerId ){
-        
             $vastElements = $this->fetchBannersJoined($actualBannerId); 
-               
             // For now assume 1:1 relationship
             if ( isset($vastElements[0]) ){
-                  
                 $elementRow = $vastElements[0];
-                   
                 $banner = array_merge( $banner, $elementRow );  
             }
         }
@@ -204,13 +183,9 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
                      ." LEFT JOIN ".$tblD." d ON b.bannerid = d.banner_id"
                      ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'"
                      ." AND b.bannerid = $bannerId";
-                     
         debugDump( "BANNER JOIN IS ", $query );
-    
         $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true );
-            
         debugDump( "JOINED FIELDS", $joinedResult );
-            
         return $joinedResult;
     }
     
@@ -228,64 +203,42 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         return true;
     }
     
-    function getPossibleCompanions(){
-        
-        // FIX THIS SECURITY ISSUE!!!   
-        $aParams = array( 'placement_id' => $_REQUEST['campaignid'] );
-            
+    function getPossibleCompanions()
+    {
+        phpAds_registerGlobal('campaignid');
+        $aParams = array( 'placement_id' => $campaignid );
         $possibleCompanions = Admin_DA::_getEntities('ad', $aParams, true);
-    
         debugDump( 'possibleCompanions', $possibleCompanions );
-
         $selectableCompanions = array( 0 => 'none' );
-        
         foreach( $possibleCompanions as $currentCompanion ){
-            
             // Only allow linking to banners that are not of type "vast"
             if ( strpos( $currentCompanion['ext_bannertype'], 'vast' ) === false ){
-                
                 $strNameToDisplay = $currentCompanion['name'] . " (" . $currentCompanion['width'] . "x" . $currentCompanion['height'] . " )";
                 $selectableCompanions[$currentCompanion['ad_id'] ] = $strNameToDisplay;
             }
         }  
-        
         return $selectableCompanions;
-        
     }
 }
 
 /// Outside of the class
 
-function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
-
-    
+function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
+{
     $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">These fields are served to the VAST-compliant video player</span>' ); 
-    
-    
     $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id"); 
-    
     $form->addElement('hidden', 'vast_element_type', "singlerow");        
     $form->addElement('text', 'vast_video_id', "Your internal video id");   
-    
     $vastDeliveryOptions = array( 'streaming' =>  'streaming', 
                                   'progressive' => 'progressive',
                                 );
-                                
-    
     $formElementDeliveryType = $form->addElement('select', 'vast_video_delivery', "Video delivery", $vastDeliveryOptions );  
-
     $formElementDeliveryType->setAttribute( 'disabled', false );
-    
     $vastVideoType = getVastVideoTypes();        
-    
     $formElementVideoType = $form->addElement('select', 'vast_video_type', "Video type", $vastVideoType );
-    
     $formElementVideoType->setAttribute( 'disabled', false );
-    
     $advancedUser = false;
-    
     if ( $advancedUser ){
-        
         // Bitrate of encoded video in Kbps
         $form->addElement('text', 'vast_video_bitrate', "vast_video_bitrate");
          
@@ -294,7 +247,6 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
         $form->addElement('text', 'vast_video_height', "vast_video_height"); 
     }   
     else {
-        
         // hide these for now - the player ignores them anyway - atm
         $form->addElement('hidden', 'vast_video_bitrate', "vast_video_bitrate");
         $form->addElement('hidden', 'vast_video_width', "vast_video_width"); 
@@ -302,7 +254,6 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
     }
                      
     if ( $isNewBanner ){
-        
         $bannerRow['vast_video_bitrate'] = '400';
         $bannerRow['vast_video_width'] = '640';
         $bannerRow['vast_video_height'] = '480';
@@ -310,64 +261,41 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner){
 
     $showNetConnectionUrl = false;
     if ( $showNetConnectionUrl ){
-        
         $form->addElement('text', 'vast_net_connection_url', "Video net connection url");
-    }        
-    
-    $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing video filename");
-    
-    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:80%;\">(Must be an rtmp URL to an mp4 file. Use the format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4)</span>" );
-    
- 
-    $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
-        
-    $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
-
-    $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
-    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );   
-    
-    if ( $showNetConnectionUrl ){
-        
         // $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">**<strong>outgoing video filename</strong> format should be: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4</span>' ); 
     }
     
+    $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing video filename");
+    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:80%;\">(Must be an rtmp URL to an mp4 file. Use the format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4)</span>" );
+    $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
+    $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
+    $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
+    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );   
  
     $enableDefaultValues = true;
-    
     if ( $isNewBanner && $enableDefaultValues ){
-
-        //  
         $bannerRow['vast_video_outgoing_filename'] = '';
         $bannerRow['vast_video_duration'] = '30';
-        
         $bannerRow['vast_overlay_width'] = '600';
         $bannerRow['vast_overlay_height'] = '400';
-                
         $bannerRow['vast_video_delivery'] = 'streaming';
         $bannerRow['vast_video_type'] = 'video/x-mp4';        
-        
     }
 }
 
-
-function addVastCompanionsToForm( &$form, $selectableCompanions){
-
+function addVastCompanionsToForm( &$form, $selectableCompanions)
+{
     // ----- Now the Companion status
     $form->addElement('header', 'companion_status', "Companion banners");        
-    
     $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
-
     $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">***Only one companion from the current campaign supported</span>' );   
 }
 
-function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension){
-
+function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension)
+{
         // $form->setDefaults( $defaultFormValues ); will make these values the default.
         $bannerRow['width'] = $dimension;
         $bannerRow['height'] = $dimension;
-
         $form->addElement('hidden', 'width' );
         $form->addElement('hidden', 'height');     
 }
-
-?>

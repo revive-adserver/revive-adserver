@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -34,7 +33,6 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLog
 {
-
     function getDependencies()
     {
         return array($this->getComponentIdentifier() => array());

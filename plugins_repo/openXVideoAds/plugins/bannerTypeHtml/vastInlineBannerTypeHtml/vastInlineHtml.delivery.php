@@ -1,23 +1,28 @@
 <?php
-
-/*    
- *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
- *
- *    This file is part of the Regions plug-in for Flowplayer.
- *
- *    The Regions plug-in is free software: you can redistribute it 
- *    and/or modify it under the terms of the GNU General Public License 
- *    as published by the Free Software Foundation, either version 3 of 
- *    the License, or (at your option) any later version.
- *
- *    The Regions plug-in is distributed in the hope that it will be 
- *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
- */
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 
 MAX_commonRegisterGlobalsArray(array('format', 'clientdebug'));
@@ -30,8 +35,6 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Paul Birnie <paul.birnie@bouncingminds.com>
- * @abstract
  *
  * This function generates the code to show a "vast" ad
  *
@@ -68,50 +71,29 @@ function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_
 // End of functions
 
     
-if ( $format == 'vast'){
+if ( !empty($format) && $format == 'vast'){
 
     // ----------------- MARK start of cut-and-paste from spc.php ---------------
-    
-    // Required files
     require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
     require_once MAX_PATH . '/lib/max/Delivery/flash.php';
     require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
-    //require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
-    
     ###START_STRIP_DELIVERY
     OA::debug('starting delivery script '.__FILE__);
     ###END_STRIP_DELIVERY
-    
     MAX_commonSetNoCacheHeaders();
-    
-    /*-------------------------------------------------------*/
-    /* Register input variables                              */
-    /*-------------------------------------------------------*/
-    
     MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
-    
-    /*-------------------------------------------------------*/
-    /* Main code                                             */
-    /*-------------------------------------------------------*/
-    
-    // Derive the source parameter
     $source = MAX_commonDeriveSource($source);
-    
     $zones = explode('|', $zones);
-    
-    // =============== end cut-and-paste from spc.php ===========================
-
+    // ----------------- MARK end of cut-and-paste from spc.php ---------------
     if ( $format == 'vast' ){
-    
         $spc_output  = getVastXMLHeader($charset);
     }
+    
     // -------------- MARK start cut-and-paste from spc.php --------------------
     // This code was cut and pasted as we also need access to this business logic
     else {
-    
         $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";	
     }
-    
     foreach ($zones as $thisZone) {
         if (empty($thisZone)) continue;
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
@@ -175,15 +157,11 @@ if ( $format == 'vast'){
             }
         }
     }
-    
     MAX_cookieFlush();
-    
-    // =========== end cut-and-paste from spc.php ===============
+    // -------------- MARK end cut-and-paste from spc.php --------------------
     
     if ( $format == 'vast' ){
-    
         $spc_output .=  getVastXMLFooter();
-    
         // Setup the banners for this page
         MAX_commonSendContentTypeHeader("application/xml", $charset);
         header("Content-Size: ".strlen($spc_output));
@@ -193,15 +171,10 @@ if ( $format == 'vast'){
         MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
         header("Content-Size: ".strlen($spc_output));
     }
-    
     $spc_output .= getClientMessages();
-    
     echo $spc_output;
 }
 else {
-    
    //echo "<!-- vast delivery include called -->";    
 }
 
-
-?>

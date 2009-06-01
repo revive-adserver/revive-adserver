@@ -1,24 +1,28 @@
 <?php
-
-/*    
- *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
- *
- *    This file is part of the Regions plug-in for Flowplayer.
- *
- *    The Regions plug-in is free software: you can redistribute it 
- *    and/or modify it under the terms of the GNU General Public License 
- *    as published by the Free Software Foundation, either version 3 of 
- *    the License, or (at your option) any later version.
- *
- *    The Regions plug-in is distributed in the hope that it will be 
- *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
- */
-
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonDelivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
@@ -27,10 +31,6 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Paul Birnie <paul.birnie@bouncingminds.com>
- * @abstract
- *
- * This function generates the code to show a "vastOverlay" ad
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
  * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
@@ -50,7 +50,3 @@ function Plugin_bannerTypeHtml_vastOverlayBannerTypeHtml_vastOverlayHtml_Deliver
 {
    return deliverVastAd('vastOverlay', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }
-	
-
-
-?>
