@@ -107,7 +107,7 @@ function _oxMemcached_getMemcache(){
  */
 function _oxMemcached_MemcachedInit() {
     // Don't use memcached if there is no extension in PHP
-    if (!class_exists(Memcache)){
+    if (!class_exists('Memcache')){
         return false;
     }
     $oMemcache = new Memcache(); 
