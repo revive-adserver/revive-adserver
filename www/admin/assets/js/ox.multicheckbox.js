@@ -168,6 +168,8 @@
 
       var $container = $(this);
       
+      //console.log("Registered mulitcheckbox for " + $container.attr("id") + ":" + options.id);
+      
       $container.bind('stateUpdate', function(event, internalId, $checkboxes) {
         if (internalId == options.id) {
             //console.log($container.attr("id") + ":" + options.id + " ignoring change from  " + internalId + "  for " +  $checkboxes);
@@ -336,10 +338,6 @@
         var result =  callback.apply(object, args);
         cache[key] = result;
         
-        var count= 0;
-        $.each(cache, function(prop, value) { 
-            count++
-            }); 
         return result;   
       }
       
