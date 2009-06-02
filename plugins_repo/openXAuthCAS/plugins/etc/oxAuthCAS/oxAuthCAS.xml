@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>OpenX CAS authentication</description>
-    <version>0.0.3</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>0.0.4-dev1</version>
+    <oxversion>2.8.1-rc13</oxversion>
     <extends>authentication</extends>
 
     <install>
@@ -61,14 +61,21 @@
             <file path="{MODULEPATH}authentication/oxAuthCAS/CAS/PGTStorage/">pgt-main.php</file>
             <file path="{MODULEPATH}authentication/oxAuthCAS/Central/">Cas.php</file>
             <file path="{MODULEPATH}authentication/oxAuthCAS/Central/">RpcMapper.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">BaseController.php</file>
             <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">ConfirmAccount.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">Signup.php</file>
+            <file path="{MODULEPATH}authentication/oxAuthCAS/Controller/">SsoController.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
 
 
+            <file path="{ADMINPATH}/">signup.php</file>
+            <file path="{ADMINPATH}/">signup-confirm.php</file>
             <file path="{ADMINPATH}/">sso-accounts.php</file>
             <file path="{ADMINPATH}/">sso-confirm.php</file>
+            <file path="{ADMINPATH}/templates/">signup.html</file>
+            <file path="{ADMINPATH}/templates/">signup-confirm.html</file>
             <file path="{ADMINPATH}/templates/">sso-confirm.html</file>
             <file path="{ADMINPATH}/templates/">sso-create.html</file>
             <file path="{ADMINPATH}/templates/">sso-link.html</file>

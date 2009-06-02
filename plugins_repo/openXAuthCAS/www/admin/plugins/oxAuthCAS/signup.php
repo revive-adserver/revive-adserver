@@ -30,58 +30,28 @@ define ('OA_SKIP_LOGIN', 1);
 require_once '../../../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
+require_once MAX_PATH . '/plugins/authentication/oxAuthCAS/Controller/Signup.php';
 
 phpAds_SessionDataDestroy();
+phpAds_SessionStart();
 
-// Register input variables
-phpAds_registerGlobalUnslashed ('id', 'action', 'email');
+$request = phpAds_registerGlobalUnslashed ('action', 'firstName', 'lastName', 
+    'websiteURL', 'email', 'emailConfirm', 'impressions', 'phone', 'mailingList',
+    'ssoAccountMode', 'ssoUsername', 'ssoPassword', 
+    'newSsoUsername', 'newSsoPassword', 'newSsoConfirmPassword', 
+    'captcha'
+);        
 
-$authType = $GLOBALS['_MAX']['CONF']['authentication']['type'];
-$oPlugin = &OX_Component::factoryByComponentIdentifier($authType);
+$oController = new OA_Controller_SSO_Signup();
+$oController->process($request);
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$oTpl = new OA_Plugin_Template('sso-confirm.html','oxAuthCAS');
-$errors = array();
-
-if (!empty($id))
-{
-    $doUsers = OA_Dal::factoryDO('users');
-    $exist = $doUsers->loadByProperty('user_id', $id);
-    if ($exist && $doUsers->email_address == $email) {
-        $oTpl->assign('userName', $doUsers->contact_name);
-        // todo: refactor to controller
-        switch ($action) {
-            case 'linked':
-                $message = $oPlugin->translate('Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.');
-                break;
-            case 'created':
-                $message = $oPlugin->translate('Your OpenX account was succesfully created.');
-                break;
-        }
-        $oTpl->assign('ssoMessage', $message);
-    } else {
-        $errors[] = $oPlugin->translate('Error: That user does not exist.');
-    }
-}
-else
-{
-    $errors[] = $oPlugin->translate('Error: Wrong or missing parameters. That user does not exist.');
-}
-
-$oTpl->assign('errorMessage', implode('<br />', $errors));
-
+$oTpl = new OA_Plugin_Template('signup.html','oxAuthCAS');
+$oController->assignModelToView($oTpl);
+$oTpl->assign('errorMessage', implode('<br />', $oController->getErrors()));
+$oPlugin = &$oController->getCasPlugin();
 
 phpAds_PageHeader(phpAds_Login);
-
 $oTpl->display();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
 phpAds_PageFooter();
 
 ?>

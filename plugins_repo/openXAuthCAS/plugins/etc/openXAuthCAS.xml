@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>OpenX CAS authentication</description>
-    <version>0.0.3</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>0.0.4-dev1</version>
+    <oxversion>2.8.1-rc13</oxversion>
     <type>package</type>
 
     <install>

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenX - CAS authentication plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-08 15:19+0100\n"
-"PO-Revision-Date: 2008-09-23 14:10+0100\n"
-"Last-Translator: David Keen <david.keen@openx.org>\n"
+"POT-Creation-Date: 2009-05-29 14:23+0100\n"
+"PO-Revision-Date: 2009-05-29 14:25+0100\n"
+"Last-Translator: Bernard Lange <bernard@openx.org>\n"
 "Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,14 +14,14 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
-"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS/\n"
+"X-Poedit-Basepath: /home/work/oxp-public\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS\n"
 
-#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:100
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:100
 msgid "OpenX CAS"
 msgstr "OpenX CAS"
 
-#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:248
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:256
 msgid "strRegistrationRequiredInfo"
 msgstr ""
 "Welcome <b>%s</b>\n"
@@ -32,12 +32,29 @@ msgstr ""
 "\n"
 "To login as a different user click <a href='logout.php'>here</a>."
 
-#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:567
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:601
 msgid "strEmailSsoConfirmationSubject"
 msgstr "%s has given you access to an OpenX account, please complete your sign up"
 
-#: plugins_repo/openXAuthCAS/extensions/authentication/oxAuthCAS//oxAuthCAS.class.php:581
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:615
 msgid "strEmailSsoConfirmationBody"
+msgstr ""
+"Hello %s\n"
+"\n"
+"You have been given access to an OpenX account by %s, to confirm your details and complete the sign up process please click on the link below:\n"
+"%s\n"
+"\n"
+"Please contact us at info@openx.org if you have any questions.\n"
+"\n"
+"Thanks\n"
+"The OpenX Team"
+
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:627
+msgid "strEmailSsoSignupConfirmationSubject"
+msgstr "Adminstrator account has given you access to an OpenX account, please complete your sign up"
+
+#: plugins_repo/openXAuthCAS/plugins/authentication/oxAuthCAS/oxAuthCAS.class.php:642
+msgid "strEmailSsoSignupConfirmationBody"
 msgstr ""
 "Hello %s\n"
 "\n"

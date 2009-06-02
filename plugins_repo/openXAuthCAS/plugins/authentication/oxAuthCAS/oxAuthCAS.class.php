@@ -65,6 +65,8 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
 
     var $msgErrorUserAlreadyLinked = 'Server error: One of the users already is connected with this SSO User ID';
+    
+    var $msgErrorEmailNotSSO = 'Server error: Given email does not match given SSO User ID';
 
     var $aErrorCodes = array(
         OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
@@ -230,19 +232,19 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
     }
 
     function logout()
-	{
-	    $this->restorePhpCasSession();
-	    // unset phpCas session
-	    if (isset($_SESSION[OA_CAS_PLUGIN_PHP_CAS])) {
-	       unset($_SESSION[OA_CAS_PLUGIN_PHP_CAS]);
-	    }
-	    phpAds_SessionDataDestroy();
-	    // logout from CAS
+    {
+        $this->restorePhpCasSession();
+        // unset phpCas session
+        if (isset($_SESSION[OA_CAS_PLUGIN_PHP_CAS])) {
+           unset($_SESSION[OA_CAS_PLUGIN_PHP_CAS]);
+        }
+        phpAds_SessionDataDestroy();
+        // logout from CAS
         $dalAgency = OA_Dal::factoryDAL('agency');
         $this->initCasClient();
         phpCAS::logout($dalAgency->getLogoutUrl(OA_Permission::getAgencyId()));
         exit;
-	}
+    }
 
     /**
      * A method to display a registration invitation for a user who
@@ -475,6 +477,7 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
         $this->validateUsersEmail($data['email_address']);
         return $this->getValidationErrors();
     }
+    
 
     function saveUser($userid, $login, $password,
         $contactName, $emailAddress, $language, $accountId)
@@ -486,23 +489,44 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
                     $emailAddress, $language, $accountId);
             }
             return false;
-        } else {
-            return $this->createUser($contactName, $emailAddress, $language, $accountId);
+        } 
+        else {
+            return $this->createUser($contactName, $emailAddress, $language, $accountId, $login, $password);
         }
     }
 
-    function createUser($contactName, $emailAddress, $language, $accountId)
+    
+    function createUser($contactName, $emailAddress, $language, $accountId, $login, $password)
     {
         $this->getCentralCas();
-        $ssoUserId = $this->getAccountId($emailAddress);
+        $ssoUserId = $this->getSsoAccountId($emailAddress);
         if (PEAR::isError($ssoUserId)) {
             $this->addSignupError($ssoUserId);
             return false;
         }
+        
+        //check if given email address username/pass belong to same user
+        if (!empty($ssoUserId) && !empty($login) && !empty($password) ) {
+            $userPassSsoId = $this->oCentral->getAccountIdByUsernamePassword($login, md5($password));
+            
+            //if email retrieved ssoId does not match user/pass one we have mismatch
+            if (!empty($userPassSsoId) && !PEAR::isError($userPassSsoId) && $ssoUserId != $userPassSsoId) {
+                $this->addSignupError($this->msgErrorEmailNotSSO);
+                return false;
+            }
+        }
+        
         if (!$ssoUserId) {
             $superUserName = OA_Permission::getAccountName();
-            $ssoUserId = $this->createPartialAccount($emailAddress,
-                $superUserName, $contactName);
+            
+            if (!empty($login) && !empty($password)) {
+                $ssoUserId = $this->createSsoAccount($login, $password, $emailAddress, $contactName);
+            }
+            else {
+                $ssoUserId = $this->createPartialSsoAccount($emailAddress,
+                    $superUserName, $contactName);
+            }
+            
             if (PEAR::isError($ssoUserId)) {
                 $this->addSignupError($ssoUserId);
                 return false;
@@ -522,7 +546,28 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
             $emailAddress, $language, $accountId);
     }
 
-    function createPartialAccount($receipientEmail, $superUserName, $contactName)
+    
+    function createSsoAccount($userName, $password, $receipientEmail, $contactName)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $emailFrom = $aConf['email']['fromName'] . ' <' .
+            $aConf['email']['fromAddress'] . '>';
+        $this->getCentralCas();
+
+        $subject = $this->getSignupEmailSubject();
+        $content = $this->getSignupEmailBody($contactName, $receipientEmail);
+            
+        $ret = $this->oCentral->createAccount($userName, md5($password), 
+            $receipientEmail, $emailFrom, $subject, $content);
+            
+        if (PEAR::isError($ret)) {
+            $this->addSignupError($ret);
+        }
+        return $ret;
+    }
+    
+    
+    function createPartialSsoAccount($receipientEmail, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $emailFrom = $aConf['email']['fromName'] . ' <' .
@@ -540,13 +585,14 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
         return $ret;
     }
 
+    
     /**
      * Returns SSO user Id with matching email address
      *
      * @param string $emailAddress
      * @return integer|PEAR_Error Sso user Id if there is a matching user or null if user do not exist
      */
-    function getAccountId($emailAddress)
+    function getSsoAccountId($emailAddress)
     {
         $this->getCentralCas();
         $ret = $this->oCentral->getAccountId($emailAddress);
@@ -583,6 +629,34 @@ class Plugins_Authentication_OxAuthCAS_OxAuthCAS extends Plugins_Authentication
         $url = MAX::constructURL(MAX_URL_ADMIN, '') . 'plugins/' . $this->group . '/sso-accounts.php?email='.$receipientEmail.'&vh=${verificationHash}';
         return $this->translate('strEmailSsoConfirmationBody', array($contactName, $superUserName, $url));
     }
+    
+    
+    /**
+     * Returns subject of activation email
+     *
+     * @param
+     * @return string
+     */
+    function getSignupEmailSubject($superUserName)
+    {
+        return $this->translate('strEmailSsoSignupConfirmationSubject', array($superUserName));
+    }
+
+    
+    /**
+     * Returns body of activation email
+     *
+     * @param $superUserName
+     * @param $contactName
+     * @param $receipientEmail
+     * @return string
+     */
+    function getSignupEmailBody($superUserName, $contactName, $receipientEmail)
+    {
+        $url = MAX::constructURL(MAX_URL_ADMIN, '') . 'plugins/' . $this->group . '/signup-confirm.php?email='.$receipientEmail.'&vh=${verificationHash}';
+        return $this->translate('strEmailSsoSignupConfirmationBody', array($contactName, $superUserName, $url));
+    }
+    
 
     /**
      * Adds an error message to signup errors array

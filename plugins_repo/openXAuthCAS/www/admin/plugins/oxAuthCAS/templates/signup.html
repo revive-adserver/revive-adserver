@@ -1,0 +1,479 @@
+{if $errorMessage}
+  <div class="errormessageicon">
+    {$errorMessage}
+  </div>
+  <p>
+  <a href="{$adminWebPath}index.php">{t str="Click here"}</a> {t str="to sign-in as a different user."}
+  </p>
+{/if}
+
+
+<div id="form_argon">
+<div class="form_container">
+<form class="main" id="argon-my-form" method="post"
+  accept-charset="UTF-8" action="signup.php"
+>
+<input type="hidden" name="action" value="signup" />
+
+<div>
+<fieldset>
+<ol>
+  <li>
+  <fieldset>
+  <ol>
+    <li><label for="edit-firstName"><span class="title">First
+    name: <span title="This field is required." class="required">*</span></span></label>
+    <input type="text" class="typeText widthLarge required error"
+      value="" size="60" id="edit-firstName" name="firstName"
+      maxlength="64"
+    /></li>
+    <li><label for="edit-lastName"><span class="title">Last
+    name: <span title="This field is required." class="required">*</span></span></label>
+    <input type="text" class="typeText widthLarge required error"
+      value="" size="60" id="edit-lastName" name="lastName"
+      maxlength="64"
+    /></li>
+  </ol>
+  </fieldset>
+  </li>
+  <li>
+  <fieldset>
+  <ol>
+    <li><label for="edit-websiteURL"><span class="title">Website
+    URL: <span title="This field is required." class="required">*</span></span></label>
+    <span class="field-prefix">http://</span> <input type="text"
+      class="typeText widthLarge required error" value="" size="60"
+      id="edit-websiteURL" name="websiteURL" maxlength="255"
+    /> <label for="websiteURL"><span class="hint">eg.
+    www.example.com</span></label></li>
+  </ol>
+  </fieldset>
+  </li>
+  <li>
+  <fieldset>
+  <ol>
+    <li><label for="edit-email"><span class="title">Email
+    Address: <span title="This field is required." class="required">*</span></span></label>
+    <input type="text" class="typeText widthLarge required error"
+      value="" size="60" id="edit-email" name="email" maxlength="64"
+    /></li>
+    <li><label for="edit-emailConfirm"><span class="title">Confirm
+    Email Address: <span title="This field is required."
+      class="required"
+    >*</span></span></label> <input type="text" class="typeText widthLarge required error"
+      value="" size="60" id="edit-emailConfirm" name="emailConfirm"
+      maxlength="64"
+    /></li>
+  </ol>
+  </fieldset>
+  </li>
+  <li>
+  <fieldset>
+  <ol>
+    <li><label for="edit-impressions"><span class="title">Number
+    of ads served per month: <span title="This field is required."
+      class="required"
+    >*</span></span></label> <select id="edit-impressions"
+      class="typeText widthLarge required error" name="impressions"
+    >
+      <option selected="selected" value="" />
+      <option value="1">Less than 100,000</option>
+      <option value="2">Between 100,000 and 1 million</option>
+      <option value="3">Between 1 million and 25 million</option>
+      <option value="4">Between 25 million and 40 million</option>
+      <option value="5">Between 40 million and 250 million</option>
+      <option value="6">Over 250 million</option>
+    </select></li>
+    <li><label for="edit-phone"><span class="title">Phone:
+    <span title="This field is required." class="required">*</span></span></label> <input
+      type="text" class="typeText widthMediumLarge required error"
+      value="" size="60" id="edit-phone" name="phone" maxlength="32"
+    /></li>
+  </ol>
+  </fieldset>
+  </li>
+</ol>
+<ol>
+  <li>
+  <fieldset style="padding-top: 10px;">
+  <ol>
+    <li><input type="checkbox" class="typeCheckbox"
+      checked="checked" value="1" id="edit-mailingList"
+      name="mailingList"
+    /> <label for="edit-mailingList">I wish to receive product
+    updates and other OpenX related news.</label></li>
+    <li><input type="checkbox" class="typeCheckbox required"
+      value="1" id="edit-termsandconditions" name="termsandconditions"
+    /> <label for="edit-termsandconditions">I have read and
+    agree to the OpenX <a target="_blank" href="/hosted/terms">Hosted</a>
+    and <a target="_blank" href="/market/terms">Market</a> terms and
+    conditions and <a target="_blank" href="/privacy">Privacy
+    Principles</a>.</label></li>
+  </ol>
+  </fieldset>
+  </li>
+</ol>
+</fieldset>
+<fieldset>
+
+
+
+<table class="section" border="0" cellpadding="0" cellspacing="0"
+  width="100%"
+>
+  <tbody>
+    <tr>
+      <td colspan="3" height="25"><b><span
+        class="section-header"
+      >Provide an OpenX.org account</span> <span class="link popup-help-link"
+        help="help-market-info"
+      ><span class="icon icon-info">&nbsp;</span></span>
+      <div id="help-market-infowrapper"
+        class="popup-help"
+      >
+      <div class="close"><span class="link">[x]</span></div>
+      <div class="help-content" id="help-market-info"
+        style="height: auto; width: 270px; display: block;"
+      >
+      <p>An OpenX.org account is an account which you may use to
+      login to a variety of OpenX products like OpenX Hosted, the OpenX
+      Community Forums, and more.</p>
+      </div>
+      </div>
+      </b></td>
+    </tr>
+    <tr height="1">
+      <td width="30"><img
+        src="http://85.221.229.114:8000/oxp-public/www/admin/assets/images/break.gif"
+        width="30" height="1"
+      ></td>
+      <td width="170"><img
+        src="http://85.221.229.114:8000/oxp-public/www/admin/assets/images/break.gif"
+        width="170" height="1"
+      ></td>
+      <td width="100%"><img
+        src="http://85.221.229.114:8000/oxp-public/www/admin/assets/images/break.gif"
+        width="100%" height="1"
+      ></td>
+    </tr>
+    <tr>
+      <td colspan="3" height="10">&nbsp;</td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+      <td colspan="3">To get started, provide your OpenX.org
+      account. If you don't have an OpenX.org account, you may create a
+      new one below.</td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr>
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr>
+      <td colspan="3">
+      <div class="header">Do you already have an OpenX.org
+      account?</div>
+      </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr>
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+    <tr>
+      <td width="30">&nbsp;</td>
+      <td colspan="2"><input id="account-login" name="ssoAccountMode"
+        value="link" type="radio"
+      ><label for="account-login"><span class="type-name">I
+      <em>have</em> an OpenX.org account</span></label> <input id="account-signup"
+        name="ssoAccountMode" value="create" type="radio"
+      ><label for="account-signup"><span class="type-name">I
+      <em>do not have</em> an OpenX.org account</span></label></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr  id="line-account-login-accountPrefix1">
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr  id="line-account-login-accountPrefix2"
+    >
+      <td colspan="3">
+      <div class="header">Please enter your OpenX.org account
+      information</div>
+      </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr  id="line-account-login-username1"
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+    <tr  id="line-account-login-username2"
+    >
+      <td width="30">&nbsp;</td>
+      <td width="170"><label for="ssoUsername">OpenX.org
+      Username <font color="red">*</font></label></td>
+      <td width="100%"><input class="medium" name="ssoUsername"
+        id="ssoUsername" type="text"
+      ></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr  id="line-account-login-password1"
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+    <tr  id="line-account-login-password2"
+    >
+      <td width="30">&nbsp;</td>
+      <td width="170"><label for="ssoPassword">Password <font
+        color="red"
+      >*</font></label></td>
+      <td width="100%"><input class="medium" name="ssoPassword"
+        id="ssoPassword" type="password"
+      ></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr style="display: table-row;"
+      id="line-account-signup-newAccountPrefix1" 
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr style="display: table-row;"
+      id="line-account-signup-newAccountPrefix2" 
+    >
+      <td colspan="3">
+      <div class="header">Create a new OpenX.org account</div>
+      </td>
+    </tr>
+
+    <tr style="display: table-row;" id="line-account-signup-username1"
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+    <tr style="display: table-row;" id="line-account-signup-username2"
+    >
+      <td width="30">&nbsp;</td>
+      <td style="padding-top: 5px;" valign="top" width="170">Desired
+      OpenX.org username</td>
+      <td width="100%"><input class="medium" name="newSsoUsername"
+        id="newSsoUsername" type="text"
+      > <font color="red">*</font> <span class="hide"
+        id="user-check-indicator"
+      > <span class="available-int">Available</span> <span
+        class="unavailable-int"
+      >Not available</span> <span class="checking-int">Checking...</span> </span></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr style="display: table-row;" id="line-account-signup-password1"
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+    <tr style="display: table-row;" id="line-account-signup-password2"
+    >
+      <td width="30">&nbsp;</td>
+      <td width="170"><label for="newSsoPassword">Password
+      <font color="red">*</font></label></td>
+      <td width="100%"><input class="medium" name="newSsoPassword"
+        id="newSsoPassword" type="password"
+      ></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr style="display: table-row;"
+      id="line-account-signup-confirm-password1" 
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+
+    <tr style="display: table-row;"
+      id="line-account-signup-confirm-password2" 
+    >
+      <td width="30">&nbsp;</td>
+      <td width="170"><label for="newSsoConfirmPassword">Re-enter
+      password <font color="red">*</font></label></td>
+      <td width="100%"><input class="medium"
+        name="newSsoConfirmPassword" id="newSsoConfirmPassword"
+        type="password"
+      ></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr style="display: table-row;" id="line-account-signup-captcha1"
+    >
+      <td colspan="3" height="1">&nbsp;</td>
+    </tr>
+
+
+    <tr style="display: table-row;" id="line-account-signup-captcha2"
+    >
+      <td width="30">&nbsp;</td>
+      <td style="padding-top: 5px;" valign="top" width="170">Type
+      the code shown below</td>
+      <td width="100%"><input class="medium" name="captcha"
+        id="captcha" type="text"
+      > <font color="red">*</font> <a href="#" id="captcha-reload">Try
+      a different image</a> <br>
+
+
+      <img id="captcha-image"
+        src="http://laburnum.test-openx.pl/pubconsole/api/captcha?ph=7873530fdae0a7a03a5d520eff3538ff64c1de72&amp;t=1243425862"
+      ></td>
+    </tr>
+  </tbody>
+</table>
+</fieldset>
+
+
+<fieldset id="buttons" class="buttons"><span
+  class="requirements"
+>* Required fields</span> <input type="submit" class="form-submit save"
+  value="" id="edit-submit" name="submit"
+/></fieldset>
+<input type="hidden" value="signupForm" id="signupForm"
+  name="signupForm"
+/></div>
+</form>
+</div>
+<!--<div class="form_bottom">&nbsp;</div>--></div>
