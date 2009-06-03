@@ -60,9 +60,9 @@ function displayPage($oComponent)
         OA_Permission::enforceAccessToObject('affiliates', $affiliateId);
     }
 
-    $orderdirection = MAX_getStoredValue('orderdirection', '');
-    $listorder      = MAX_getStoredValue('listorder', '');
-    $periodPreset   = MAX_getStoredValue('period_preset', null);
+    $orderdirection = urlencode(MAX_getStoredValue('orderdirection', ''));
+    $listorder      = urlencode(MAX_getStoredValue('listorder', ''));
+    $periodPreset   = urlencode(MAX_getStoredValue('period_preset', null));
     if ($periodPreset == 'all_stats') {
         unset($session['prefs']['GLOBALS']['period_start']);
         unset($session['prefs']['GLOBALS']['period_end']);
@@ -74,16 +74,17 @@ function displayPage($oComponent)
     }
     $startDate      = (!empty($startDate)) ? date('Y-m-d', strtotime($startDate)) : '';
     $endDate        = (!empty($endDate)) ? date('Y-m-d', strtotime($endDate)) : null;
-
+    $startDate = urlencode($startDate);
+    $endDate = urlencode($endDate);
 
 
     $aOption = array(
         'affiliateid'       => $affiliateId,
         'orderdirection'    => $orderdirection,
         'listorder'         => $listorder,
-        'period_preset'     => $periodPreset,
-        'period_start'      => $startDate,
-        'period_end'        => $endDate
+        'period_preset'     => urlencode($periodPreset),
+        'period_start'      => urlencode($startDate),
+        'period_end'        => urlencode($endDate)
     );
 
     $oDaySpan = new Admin_UI_DaySpanField('period');
@@ -137,9 +138,9 @@ function displayPage($oComponent)
 
     $oTpl->assign('aReportData',    $aReportData);
     $oTpl->assign('daySpan',        $oDaySpan);
-    $oTpl->assign('period_start', MAX_getStoredValue('period_start', null));
-    $oTpl->assign('period_end', MAX_getStoredValue('period_end', null));
-    $oTpl->assign('period_preset', MAX_getStoredValue('period_preset', null));
+    $oTpl->assign('period_start', urlencode(MAX_getStoredValue('period_start', null)));
+    $oTpl->assign('period_end', urlencode(MAX_getStoredValue('period_end', null)));
+    $oTpl->assign('period_preset', urlencode((MAX_getStoredValue('period_preset', null))));
     $oTpl->assign('listorder',      $listorder);
     $oTpl->assign('orderdirection', $orderdirection);
     $oTpl->display();
