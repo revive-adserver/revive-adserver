@@ -404,8 +404,8 @@ function processForm($form)
                  foreach ($aAds as $adId => $aAd) {
                     $aAd = Admin_DA::getAd($adId);
                         if ( (($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
-                        || (($aAd['width'] != $aZone['width']) && ($aZone['width'] > -1))
-                        || (($aAd['height'] != $aZone['height']) && ($aZone['height'] > -1)) ) {
+                        || (($aAd['width'] != $aZone['width']) && ($aZone['width'] != -1))
+                        || (($aAd['height'] != $aZone['height']) && ($aZone['height'] != -1)) ) {
                             Admin_DA::deleteAdZones(array('zone_id' => $aFields['zoneid'], 'ad_id' => $adId));
                         }
                     }
