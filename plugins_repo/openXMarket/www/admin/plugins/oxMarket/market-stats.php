@@ -35,13 +35,10 @@ MAX_commonSetNoCacheHeaders();
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAccessToObject('agency', OA_Permission::getAgencyId());
-}
 
 $oComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
-//$oMarketComponent->checkActive();
+$oComponent->checkActive();
 
 displayPage($oComponent);
 
