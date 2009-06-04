@@ -102,7 +102,7 @@ class OA_DB
         $databaseType = $aDSN['phptype'];
 
         // Is this a MySQL database connection that should happen via SSL?
-        if ((strcasecmp($databaseType, 'mysql') === 0) && ($aDriverOptions['ssl'])) {
+        if ((strcasecmp($databaseType, 'mysql') === 0) && (@$aDriverOptions['ssl'])) {
             // Modify the DSN string to include the required CA and CAPATH options
             if (!empty($aDriverOptions['ca']) && !empty($aDriverOptions['capath'])) {
                 $dsn .= "?ca={$aDriverOptions['ca']}&capth={$aDriverOptions['capath']}";
