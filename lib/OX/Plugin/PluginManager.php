@@ -728,7 +728,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                         }
                         break;
                 case OA_STATUS_PLUGIN_NOT_INSTALLED:
-                        if (!$this->_installComponentGroups(array(0=>$aGroup)))
+                        $aGroupList = array(0=>$aGroup);
+                        if (!$this->_installComponentGroups($aGroupList))
                         {
                             return false;
                         }
