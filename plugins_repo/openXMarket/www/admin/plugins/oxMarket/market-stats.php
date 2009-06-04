@@ -79,9 +79,9 @@ function displayPage($oComponent)
         'affiliateid'       => $affiliateId,
         'orderdirection'    => $orderdirection,
         'listorder'         => $listorder,
-        'period_preset'     => urlencode($periodPreset),
-        'period_start'      => urlencode($startDate),
-        'period_end'        => urlencode($endDate)
+        'period_preset'     => $periodPreset,
+        'period_start'      => $startDate,
+        'period_end'        => $endDate
     );
 
     $oDaySpan = new Admin_UI_DaySpanField('period');
