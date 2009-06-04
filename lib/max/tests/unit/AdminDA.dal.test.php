@@ -609,11 +609,11 @@ class Admin_DaTest extends DalUnitTestCase
             [session_capping] => 0
             [compiledlimitation] => asdfasdf
             [append] => asdfasdf
-            [appendtype] => 1
             [bannertype] => 2
             [alt_filename] =>
             [alt_imageurl] =>
             [alt_contenttype] => gif
+            [prepend] =>
         )
         */
         $this->assertTrue(is_array($ret));
@@ -643,8 +643,8 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('capping', $ret));
         $this->assertTrue(array_key_exists('session_capping', $ret));
         $this->assertTrue(array_key_exists('compiledlimitation', $ret));
+        $this->assertTrue(array_key_exists('prepend', $ret));
         $this->assertTrue(array_key_exists('append', $ret));
-        $this->assertTrue(array_key_exists('appendtype', $ret));
         $this->assertTrue(array_key_exists('bannertype', $ret));
         $this->assertTrue(array_key_exists('alt_filename', $ret));
         $this->assertTrue(array_key_exists('alt_imageurl', $ret));

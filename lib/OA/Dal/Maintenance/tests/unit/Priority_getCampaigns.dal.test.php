@@ -150,8 +150,8 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doBanners->capping = 0;
         $doBanners->session_capping = 0;
         $doBanners->compiledlimitation = '';
+        $doBanners->prepend = '';
         $doBanners->append = '';
-        $doBanners->appendtype = 0;
         $doBanners->bannertype = 0;
         $doBanners->alt_filename = '';
         $doBanners->alt_imageurl = '';

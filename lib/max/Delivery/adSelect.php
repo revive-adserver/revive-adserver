@@ -393,10 +393,10 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
 
                 if (!$appendedThisZone) {
                     $aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
-                    $aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'];
+                    $aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'] . $aLinkedAd['prepend'];
                 } else {
                     $aLinkedAd['append'] .= $g_append;
-                    $aLinkedAd['prepend'] = $g_prepend;
+                    $aLinkedAd['prepend'] = $g_prepend . $aLinkedAd['prepend'];
                 }
                 return ($aLinkedAd);
             }

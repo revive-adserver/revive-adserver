@@ -415,8 +415,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doBanners->capping = 0;
         $doBanners->session_capping = 0;
         $doBanners->compiledlimitation = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
+        $doBanners->prepend = '';
         $doBanners->append = '';
-        $doBanners->appendtype = 0;
         $doBanners->bannertype = 0;
         $doBanners->alt_filename = '';
         $doBanners->alt_imageurl = '';

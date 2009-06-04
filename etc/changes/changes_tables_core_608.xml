@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>608</version>
+  <comments>Added prepend to banners. Removed useless appendtype field too.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>608</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>prepend</name>
+              <type>openads_text</type>
+              <notnull>1</notnull>
+              <was>prepend</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>608</version>
+      <change>
+        <table>
+          <name>banners</name>
+        <remove>
+          <field>
+            <name>appendtype</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
+</destructive>
+</instructionset>

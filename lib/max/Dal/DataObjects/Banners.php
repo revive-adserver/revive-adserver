@@ -66,7 +66,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $compiledlimitation;              // TEXT() => openads_text => 162 
     public $acl_plugins;                     // TEXT() => openads_text => 34 
     public $append;                          // TEXT() => openads_text => 162 
-    public $appendtype;                      // TINYINT(4) => openads_tinyint => 129 
     public $bannertype;                      // TINYINT(4) => openads_tinyint => 129 
     public $alt_filename;                    // VARCHAR(255) => openads_varchar => 130 
     public $alt_imageurl;                    // VARCHAR(255) => openads_varchar => 130 
@@ -83,6 +82,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $ad_direct_status;                // TINYINT(4) => openads_tinyint => 129 
     public $ad_direct_rejection_reason_id;    // TINYINT(4) => openads_tinyint => 129 
     public $ext_bannertype;                  // VARCHAR(255) => openads_varchar => 2 
+    public $prepend;                         // TEXT() => openads_text => 162 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }
@@ -112,7 +112,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
                 'session_capping' => 0,
                 'compiledlimitation' => '',
                 'append' => '',
-                'appendtype' => 0,
                 'bannertype' => 0,
                 'alt_filename' => '',
                 'alt_imageurl' => '',
@@ -124,6 +123,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
                 'status' => 0,
                 'ad_direct_status' => 0,
                 'ad_direct_rejection_reason_id' => 0,
+                'prepend' => '',
                 );
 
     /* the code above is auto generated do not remove the tag below */

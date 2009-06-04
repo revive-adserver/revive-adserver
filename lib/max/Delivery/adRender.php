@@ -63,8 +63,8 @@ $Id$
  *       [session_capping] => 0
  *       [compiledlimitation] =>
  *       [acl_plugins] =>
+ *       [prepend] =>
  *       [append] =>
- *       [appendtype] => 0
  *       [bannertype] => 0
  *       [alt_filename] => backup_banner_468x60.gif
  *       [alt_imageurl] =>
@@ -314,7 +314,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
         $fallBackLogURL = false;
     }
-    
+
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
@@ -363,7 +363,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $code .= "
     ox_swf.addParam('allowScriptAccess','always');
     ox_swf.write('ox_$rnd');\n";
-   
+
     if ($logView && $conf['logging']['adImpressions']) {
         // Only render the log beacon if the user has the minumum required flash player version
         $code .= "    if (ox_swf.installedVer.versionIsValid(ox_swf.getAttribute('version'))) { document.write(\""._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer)."\"); }";
@@ -377,7 +377,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $code .= '<noscript>' . _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL) . '</noscript>';
     }
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
-   
+
     return $prepend . $code . $bannerText . $append;
 }
 
