@@ -112,6 +112,28 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[2]['campaignid'], $aCampaignsIds[4]);
         $this->assertTrue($aResult[2]['is_enabled']);
         $this->assertEqual($aResult[2]['floor_price'], 1.23);
+        
+        // Security test: try to change other manager campaign
+        $toOptIn = array($aCampaignsIds[5]);
+        $minCpms = array($aCampaignsIds[5] => 1.23);
+        $result = $oDalCampaignsOptIn->performOptIn('selected', $minCpms, $toOptIn, null);
+        $this->assertEqual(0, $result);
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
+        
+        // Empty array $toOptIn
+        $toOptIn = array();
+        $minCpms = array();
+        $result = $oDalCampaignsOptIn->performOptIn('selected', $minCpms, $toOptIn, null);
+        $this->assertEqual(0, $result);
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
     }
     
     
