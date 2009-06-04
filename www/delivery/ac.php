@@ -1068,8 +1068,8 @@ d.capping AS cap_ad,
 d.session_capping AS session_cap_ad,
 d.compiledlimitation AS compiledlimitation,
 d.acl_plugins AS acl_plugins,
+d.prepend AS prepend,
 d.append AS append,
-d.appendtype AS appendtype,
 d.bannertype AS bannertype,
 d.alt_filename AS alt_filename,
 d.alt_imageurl AS alt_imageurl,
@@ -1321,8 +1321,8 @@ d.block AS block_ad,
 d.capping AS cap_ad,
 d.session_capping AS session_cap_ad,
 d.compiledlimitation AS compiledlimitation,
+d.prepend AS prepend,
 d.append AS append,
-d.appendtype AS appendtype,
 d.bannertype AS bannertype,
 d.alt_filename AS alt_filename,
 d.alt_imageurl AS alt_imageurl,
@@ -1555,8 +1555,8 @@ $aColumns = array(
 'd.session_capping AS session_cap_ad',
 'd.compiledlimitation AS compiledlimitation',
 'd.acl_plugins AS acl_plugins',
+'d.prepend AS prepend',
 'd.append AS append',
-'d.appendtype AS appendtype',
 'd.bannertype AS bannertype',
 'd.alt_filename AS alt_filename',
 'd.alt_imageurl AS alt_imageurl',
@@ -3487,10 +3487,10 @@ $aLinkedAd['cap_zone'] = $aZoneLinkedAds['cap_zone'];
 $aLinkedAd['session_cap_zone'] = $aZoneLinkedAds['session_cap_zone'];
 if (!$appendedThisZone) {
 $aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
-$aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'];
+$aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'] . $aLinkedAd['prepend'];
 } else {
 $aLinkedAd['append'] .= $g_append;
-$aLinkedAd['prepend'] = $g_prepend;
+$aLinkedAd['prepend'] = $g_prepend . $aLinkedAd['prepend'];
 }
 return ($aLinkedAd);
 }
