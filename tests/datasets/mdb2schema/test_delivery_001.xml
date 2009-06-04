@@ -24721,11 +24721,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -24937,11 +24932,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -25159,11 +25149,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -25375,11 +25360,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -25597,11 +25577,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -25813,11 +25788,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -26035,11 +26005,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -26251,11 +26216,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -26473,11 +26433,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -26689,11 +26644,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -26911,11 +26861,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -27127,11 +27072,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -27349,11 +27289,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -27565,11 +27500,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -27787,11 +27717,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -28006,11 +27931,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -28222,11 +28142,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -28444,11 +28359,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -28660,11 +28570,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -28882,11 +28787,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -29101,11 +29001,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -29317,11 +29212,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -29539,11 +29429,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -29755,11 +29640,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -29977,11 +29857,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -30193,11 +30068,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -30415,11 +30285,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -30631,11 +30496,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -30853,11 +30713,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -31069,11 +30924,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -31291,11 +31141,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -31507,11 +31352,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -31729,11 +31569,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -31945,11 +31780,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -32167,11 +31997,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -32383,11 +32208,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -32605,11 +32425,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -32821,11 +32636,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -33043,11 +32853,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -33259,11 +33064,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -33481,11 +33281,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -33697,11 +33492,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -33919,11 +33709,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -34135,11 +33920,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -34357,11 +34137,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -34573,11 +34348,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -34795,11 +34565,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -35011,11 +34776,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -35233,11 +34993,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -35449,11 +35204,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -35671,11 +35421,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -35887,11 +35632,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -36109,11 +35849,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -36325,11 +36060,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -36547,11 +36277,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -36763,11 +36488,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -36985,11 +36705,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -37201,11 +36916,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -37423,11 +37133,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -37639,11 +37344,6 @@
     <field>
      <name>append</name>
      <value>&gt;</value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -37861,11 +37561,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -38077,11 +37772,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -38299,11 +37989,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -38515,11 +38200,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -38737,11 +38417,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -38953,11 +38628,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -39175,11 +38845,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -39391,11 +39056,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -39613,11 +39273,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -39829,11 +39484,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -40051,11 +39701,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -40267,11 +39912,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -40489,11 +40129,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -40705,11 +40340,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -40927,11 +40557,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -41143,11 +40768,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -41365,11 +40985,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -41581,11 +41196,6 @@
     <field>
      <name>append</name>
      <value>&gt;</value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -41803,11 +41413,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -42019,11 +41624,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -42241,11 +41841,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -42457,11 +42052,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -42679,11 +42269,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -42895,11 +42480,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -43117,11 +42697,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -43333,11 +42908,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -43555,11 +43125,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -43771,11 +43336,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -43993,11 +43553,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -44209,11 +43764,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -44431,11 +43981,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -44647,11 +44192,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -44869,11 +44409,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -45085,11 +44620,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -45307,11 +44837,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -45523,11 +45048,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -45745,11 +45265,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -45961,11 +45476,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -46183,11 +45693,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -46399,11 +45904,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -46621,11 +46121,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -46837,11 +46332,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -47059,11 +46549,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -47275,11 +46760,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -47497,11 +46977,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -47713,11 +47188,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -47935,11 +47405,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -48151,11 +47616,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -48373,11 +47833,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -48589,11 +48044,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -48811,11 +48261,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -49027,11 +48472,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -49249,11 +48689,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -49465,11 +48900,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -49687,11 +49117,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -49903,11 +49328,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -50125,11 +49545,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -50341,11 +49756,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -50563,11 +49973,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -50779,11 +50184,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -51001,11 +50401,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -51217,11 +50612,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -51439,11 +50829,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -51655,11 +51040,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -51877,11 +51257,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -52093,11 +51468,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -52315,11 +51685,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -52531,11 +51896,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -52753,11 +52113,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -52969,11 +52324,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -53191,11 +52541,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -53407,11 +52752,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -53629,11 +52969,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -53845,11 +53180,6 @@
     <field>
      <name>append</name>
      <value>Appended code</value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -54067,11 +53397,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -54283,11 +53608,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -54505,11 +53825,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -54721,11 +54036,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -54943,11 +54253,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -55159,11 +54464,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -55381,11 +54681,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -55597,11 +54892,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -55819,11 +55109,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -56035,11 +55320,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -56257,11 +55537,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -56473,11 +55748,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -56695,11 +55965,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -56911,11 +56176,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -57133,11 +56393,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -57349,11 +56604,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -57571,11 +56821,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -57787,11 +57032,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -58009,11 +57249,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -58225,11 +57460,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -58447,11 +57677,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -58663,11 +57888,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -58885,11 +58105,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -59101,11 +58316,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -59323,11 +58533,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -59539,11 +58744,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -59761,11 +58961,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -59977,11 +59172,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -60199,11 +59389,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -60415,11 +59600,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -60637,11 +59817,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -60853,11 +60028,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -61075,11 +60245,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -61291,11 +60456,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -61513,11 +60673,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -61729,11 +60884,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -61951,11 +61101,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -62167,11 +61312,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -62389,11 +61529,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -62605,11 +61740,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -62827,11 +61957,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -63043,11 +62168,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -63265,11 +62385,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -63481,11 +62596,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -63703,11 +62813,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -63919,11 +63024,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -64141,11 +63241,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -64357,11 +63452,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -64579,11 +63669,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -64795,11 +63880,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -65017,11 +64097,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -65233,11 +64308,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -65455,11 +64525,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -65671,11 +64736,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -65893,11 +64953,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -66109,11 +65164,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -66331,11 +65381,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -66547,11 +65592,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -66769,11 +65809,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -66985,11 +66020,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -67207,11 +66237,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -67423,11 +66448,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -67645,11 +66665,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -67861,11 +66876,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -68083,11 +67093,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -68299,11 +67304,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -68521,11 +67521,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -68737,11 +67732,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -68959,11 +67949,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -69175,11 +68160,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -69397,11 +68377,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -69613,11 +68588,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -69835,11 +68805,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -70051,11 +69016,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -70273,11 +69233,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -70489,11 +69444,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -70711,11 +69661,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -70927,11 +69872,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -71149,11 +70089,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -71365,11 +70300,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -71587,11 +70517,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -71803,11 +70728,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -72025,11 +70945,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -72241,11 +71156,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -72463,11 +71373,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -72679,11 +71584,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -72901,11 +71801,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -73117,11 +72012,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -73339,11 +72229,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -73555,11 +72440,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -73777,11 +72657,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -73993,11 +72868,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -74215,11 +73085,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -74431,11 +73296,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -74653,11 +73513,6 @@
     </field>
 
     <field>
-     <name>appendtype</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>bannertype</name>
      <value>0</value>
     </field>
@@ -74869,11 +73724,6 @@
     <field>
      <name>append</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>appendtype</name>
-     <value>0</value>
     </field>
 
     <field>
