@@ -44,15 +44,8 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
     {
         parent::setUp();
         $this->assertTrue($this->initDatabase(606, array(
-            'accounts',
-            'agency',
-            'clients',
-            'campaigns',
             'banners',
-            'zones',
             'ad_zone_assoc',
-            'placement_zone_assoc',
-            'trackers',
         )));
     }
 
@@ -80,51 +73,78 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         $mockUpgrade->oDBUpgrader = new OA_DB_Upgrade($oLogger);
         $mockUpgrade->oDBUpgrader->oTable = &$this->oaTable;
 
+        $prefix = $this->oaTable->getPrefix();
+        $oDbh = $this->oaTable->oDbh;
+
         // Create a regular banner
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = '2007-04-03 19:28:06';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
-        $this->assertTrue($bannerId);
+        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+            bannerid,
+            contenttype,
+            storagetype,
+            acls_updated
+        ) VALUES (
+            1,
+            'html',
+            'html',
+            NOW()
+        )
+        ";
+        $this->assertTrue($oDbh->exec($sql));
 
         // Create a text banner
-        $doBanners->contenttype = 'txt';
-        $doBanners->storagetype = 'txt';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
-        $this->assertTrue($bannerId);
+        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+            bannerid,
+            contenttype,
+            storagetype,
+            acls_updated
+        ) VALUES (
+            2,
+            'txt',
+            'txt',
+            NOW()
+        )
+        ";
+        $this->assertTrue($oDbh->exec($sql));
 
-        // Remove zone assoc for text banner
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->ad_id = $bannerId;
-        $doAdZoneAssoc->zone_id = 0;
-        $doAdZoneAssoc->delete();
+        // Create a text banner
+        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+            bannerid,
+            contenttype,
+            storagetype,
+            acls_updated
+        ) VALUES (
+            3,
+            'txt',
+            'txt',
+            NOW()
+        )
+        ";
+        $this->assertTrue($oDbh->exec($sql));
 
-        // Create another text banner
-        $doBanners->contenttype = 'txt';
-        $doBanners->storagetype = 'txt';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
-        $this->assertTrue($bannerId);
+        // Link only the html banner to zone 0
+        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." (
+            ad_id,
+            zone_id,
+            link_type
+        ) VALUES (
+            1,
+            0,
+            ".MAX_AD_ZONE_LINK_DIRECT."
+        )
+        ";
+        $this->assertTrue($oDbh->exec($sql));
 
-        // Remove zone assoc for text banner
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->ad_id = $bannerId;
-        $doAdZoneAssoc->zone_id = 0;
-        $doAdZoneAssoc->delete();
-
-        // Test that only one banner is now linked to zone 0
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->zone_id = 0;
-        $doAdZoneAssoc->find();
-        $this->assertEqual($doAdZoneAssoc->getRowCount(), 1);
+        // Verify that only 1 banner is direct-selectable
+        $sql = "SELECT COUNT(*) FROM  ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." WHERE zone_id = 0";
+        $this->assertEqual($oDbh->query($sql)->fetchOne(), 1);
 
         // Run the upgrade
         $postscript = new OA_UpgradePostscript_2_8_1_rc4();
         $ret = $postscript->execute(array(&$mockUpgrade));
         $this->assertTrue($ret);
 
-        // Test that all the banners are now linked to zone 0
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->zone_id = 0;
-        $doAdZoneAssoc->find();
-        $this->assertEqual($doAdZoneAssoc->getRowCount(), 3);
+        // Verify that the banners are direct-selectable
+        $sql = "SELECT COUNT(*) FROM  ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." WHERE zone_id = 0";
+        $this->assertEqual($oDbh->query($sql)->fetchOne(), 3);
     }
 }
