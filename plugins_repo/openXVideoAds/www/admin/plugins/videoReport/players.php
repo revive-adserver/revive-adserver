@@ -11,7 +11,7 @@ if($production) {
 }
 
 // TEMPLATE
-$oTpl = new OA_Plugin_Template('players.html');
+$oTpl = new OA_Plugin_Template('players.html', 'openXVideoAds');
 $oTpl->assign('urlIframe', $urlIframe);
 phpAds_PageHeader("players-vast",'','../../');
 $oTpl->display();

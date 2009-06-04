@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Vast Banner type for OpenX</description>
-    <version>1.0-rc10</version>
+    <version>1.0-rc11</version>
     <type>extension</type>
 
     <install>

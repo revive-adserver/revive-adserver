@@ -153,7 +153,7 @@ if($selectedDimensionExpanded && !empty($expandId)) {
 $isThereAnyData = @$summaryRow[1] > 0;
 
 // TEMPLATE
-$oTpl = new OA_Plugin_Template('video-report.html', 'TODO title');
+$oTpl = new OA_Plugin_Template('video-report.html', 'openXVideoAds');
 $oTpl->register_function('url', 'smarty_function_url');
 $oTpl->register_modifier('formatNumber', 'smarty_modifier_formatNumber');
 $oTpl->assign('isThereAnyData', $isThereAnyData );

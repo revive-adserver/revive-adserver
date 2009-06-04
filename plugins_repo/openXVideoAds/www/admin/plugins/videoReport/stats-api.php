@@ -53,7 +53,7 @@ class OX_Video_Report {
 	static $graphMetricsToPlot = array(1,3,2,4,5);
 	
 	static $vastEventIdToEventName = array(
-	     1 => 'Initiated',
+	     1 => 'Started',
 	     2 => 'Viewed > 50%',
 	     3 => 'Viewed > 25%',
 	     4 => 'Viewed > 75%',
