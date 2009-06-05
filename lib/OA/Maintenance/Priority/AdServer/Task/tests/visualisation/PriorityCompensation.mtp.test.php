@@ -59,14 +59,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
     }
 
     /**
-     * A method to visually test the learnedPriorities() method.
+     * A method to visually test the compensatedPriorities() method.
      *
      * Tests a series of operation intervals for a zone where some ads are limited
      * to appear only in certain "channels" of the zone, and display the results
      * graphically. Uses a fixed number of impressions in the zone each operation
      * interval.
      */
-    function testLearnedPrioritiesStableZoneInvetory()
+    function testCompensatedPrioritiesStableZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -128,7 +128,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the iterations
         for ($iteration = 0; $iteration <= $iterations; $iteration++) {
             // Calculate how many impressions will be delivered for each ad
@@ -172,7 +172,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $oAd->pastZoneTrafficFraction = $result['ads'][$adKey]['past_zone_traffic_fraction'];
                 $oZone->addAdvert($oAd);
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
@@ -233,14 +233,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
     }
 
     /**
-     * A method to visually test the learnedPriorities() method.
+     * A method to visually test the compensatedPriorities() method.
      *
      * Tests a series of operation intervals for a zone where some ads are limited
      * to appear only in certain "channels" of the zone, and display the results
      * graphically. Uses a changing number of impressions in the zone each operation
      * interval.
      */
-    function testLearnedPrioritiesSmoothChangingZoneInvetory()
+    function testCompensatedPrioritiesSmoothChangingZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -307,7 +307,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the iterations
         for ($iteration = 1; $iteration <= $iterations; $iteration++) {
             // Calculate how many impressions will be delivered for each ad
@@ -359,7 +359,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $oAd->pastZoneTrafficFraction = $result['ads'][$adKey]['past_zone_traffic_fraction'];
                 $oZone->addAdvert($oAd);
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
@@ -420,14 +420,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
     }
 
     /**
-     * A method to visually test the learnedPriorities() method.
+     * A method to visually test the compensatedPriorities() method.
      *
      * Tests a series of operation intervals for a zone where some ads are limited
      * to appear only in certain "channels" of the zone, and display the results
      * graphically. Uses a changing number of impressions in the zone each operation
      * interval.
      */
-    function testLearnedPrioritiesSharpChangingZoneInvetory()
+    function testCompensatedPrioritiesSharpChangingZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -494,7 +494,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the iterations
         for ($iteration = 1; $iteration <= $iterations; $iteration++) {
             // Calculate how many impressions will be delivered for each ad
@@ -546,7 +546,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $oAd->pastZoneTrafficFraction = $result['ads'][$adKey]['past_zone_traffic_fraction'];
                 $oZone->addAdvert($oAd);
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
         $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));

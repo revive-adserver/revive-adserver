@@ -109,12 +109,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         );
         $oDal->setReturnReference('getAllZonesImpInv', $returnGetAllZonesImpInv);
         $oDal->expectOnce('getAllZonesImpInv');
-        $returnGetAllDeliveryLimitationChangedAds = array(
+        $returnGetAllDeliveryLimitationChangedCreatives = array(
             1 => '0000-00-00 00:00:00',
             2 => '2006-04-27 12:00:05'
         );
-        $oDal->setReturnReference('getAllDeliveryLimitationChangedAds', $returnGetAllDeliveryLimitationChangedAds);
-        $oDal->expectOnce('getAllDeliveryLimitationChangedAds');
+        $oDal->setReturnReference('getAllDeliveryLimitationChangedCreatives', $returnGetAllDeliveryLimitationChangedCreatives);
+        $oDal->expectOnce('getAllDeliveryLimitationChangedCreatives');
         $returnGetAllZonesWithAllocInv = array(
             array(
                 'zone_id' => 1,
@@ -785,7 +785,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
     }
 
     /**
-     * A method to test the learnedPriorities() method.
+     * A method to test the compensatedPriorities() method.
      *
      * Requirements - NO PAST AD INFO
      * Test 1: Test with a zone of zero available impressions, and no linked ads, and
@@ -827,7 +827,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * Test 13: Test with a factor that would be limited, but with deliveryLimitationChanged
      *          set and ensure that the priority factor is reset
      */
-    function testLearnedPriorities()
+    function testCompensatedPriorities()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -843,14 +843,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Test 1
         $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = 0;
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
         // Test 2
         $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = 100;
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
@@ -873,7 +873,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -928,7 +928,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -984,7 +984,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1039,7 +1039,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1093,7 +1093,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1157,7 +1157,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequiredImpressions = 0;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1221,7 +1221,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1285,7 +1285,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1353,7 +1353,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1420,7 +1420,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1488,7 +1488,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequestedImpressions = 40;
         $oAd->pastActualImpressions = 20;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1555,7 +1555,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 4);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1605,7 +1605,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastZoneTrafficFraction = 0;
         $oAd->pastAdZonePriorityFactor = 1;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 1);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);
@@ -1632,7 +1632,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oAd->pastZoneTrafficFraction = 0;
         $oAd->pastAdZonePriorityFactor = 1;
         $oZone->addAdvert($oAd);
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 1);
         $this->assertEqual($result['ads'][1]['ad_id'], 1);
         $this->assertEqual($result['ads'][1]['zone_id'], 1);

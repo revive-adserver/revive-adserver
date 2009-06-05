@@ -140,7 +140,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             }
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the initial iterations
         $oSavedZone;
         $zoneImpressions = $initialZoneImpressions;
@@ -192,7 +192,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oZone->addAdvert($oAd);
             }
             // Move to the next iteration
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the zone/ads for the final iterations
         $zoneTotalRequired = 0;
@@ -208,7 +208,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oAd->requestedImpressions = $aAdData['requiredImpressions'];
             }
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the final iterations
         $zoneImpressions = $finalZoneImpressions;
         for ($iteration = $initialIterations + 1; $iteration <= $initialIterations + $finalIterations; $iteration++) {
@@ -259,7 +259,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oAd->pastZoneTrafficFraction = $result['ads'][$adKey]['past_zone_traffic_fraction'];
                 $oZone->addAdvert($oAd);
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
 
         // Prepare the main graph
@@ -451,7 +451,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             }
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the initial iterations
         $oSavedZone;
         $zoneImpressions = $initialZoneImpressions;
@@ -503,7 +503,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oZone->addAdvert($oAd);
             }
             // Move to the next iteration
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the zone/ads for the final iterations
         $zoneTotalRequired = 0;
@@ -519,7 +519,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oAd->requestedImpressions = $aAdData['requiredImpressions'];
             }
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the final iterations
         $zoneImpressions = $finalZoneImpressions;
         for ($iteration = $initialIterations + 1; $iteration <= $initialIterations + $finalIterations; $iteration++) {
@@ -570,7 +570,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oAd->pastZoneTrafficFraction = $result['ads'][$adKey]['past_zone_traffic_fraction'];
                 $oZone->addAdvert($oAd);
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
 
         // Prepare the main graph
@@ -879,7 +879,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             }
             $oZone->addAdvert($oAd);
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the initial iterations
         $oSavedZone;
         $zoneImpressions = $initialZoneImpressions;
@@ -931,7 +931,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oZone->addAdvert($oAd);
             }
             // Move to the next iteration
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the zone/ads for the final iterations
         $zoneTotalRequired = 0;
@@ -947,7 +947,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $oAd->requestedImpressions = $aAdData['requiredImpressions'];
             }
         }
-        $result = $oPriorityCompensation->learnedPriorities($oZone);
+        $result = $oPriorityCompensation->compensatedPriorities($oZone);
         // Perform the final iterations
         $zoneImpressions = $finalZoneImpressions;
         for ($iteration = $initialIterations + 1; $iteration <= $initialIterations + $finalIterations; $iteration++) {
@@ -1002,7 +1002,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                     $oZone->addAdvert($oAd);
                 }
             }
-            $result = $oPriorityCompensation->learnedPriorities($oZone);
+            $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
 
         // Prepare the main graph

@@ -43,7 +43,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics_Task_MigrateBucketData()
+    function __construct()
     {
         $this->UnitTestCase();
     }

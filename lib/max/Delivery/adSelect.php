@@ -490,7 +490,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
  * @param string  $source       The "source" parameter passed into the adcall
  * @param boolean $richmedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $adArrayVar   The collection of ads in $aLinkedAds to select the ad from
- * @param integer $
+ * @param integer $cp
  *
  * @return array|void           The ad-array for the selected ad or void if no ad selected
  */

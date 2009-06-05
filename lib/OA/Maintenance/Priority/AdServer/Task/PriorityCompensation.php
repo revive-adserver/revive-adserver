@@ -34,8 +34,8 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The minimum difference in the fraction of a zone's actual impressions that
- * an ad is given before priority compensation will be applied again -- that
- * is, if a priority compensation step doesn't change the ad's fraction of
+ * a creative is given before priority compensation will be applied again -- that
+ * is, if a priority compensation step doesn't change the creative's fraction of
  * impressions by more than this amount, then don't try to compensate any
  * further.
  */
@@ -51,7 +51,7 @@ define('BASE_FACTOR', 10);
 /**
  * A class to carry out the task of compensating priority values, to ensure
  * delivery is as accurate as it can be, and to calculate the priority values
- * to be used for each advertisement in each zone.
+ * to be used for each creative in each zone.
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
@@ -95,22 +95,33 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $oServiceLocator =& OA_ServiceLocator::instance();
             $this->aLastRun['now'] =& $oServiceLocator->get('now');
         }
-        // Get all zone/ad information
+        // Get all creative/zone information
         $aZones =& $this->_buildClasses();
-        // For every zone with ads linked to it...
+        // For every zone with creatives linked to it...
         if (!empty($aZones)) {
             $this->globalMessage = '';
+            OA::debug('- Calculating priority values for creative/zone pairs', PEAR_LOG_DEBUG);
             foreach ($aZones as $oZone) {
-                // Calculate the priorities based on the required impression
-                // values and the past information about previous priorities
-                $aPriorities[$oZone->id] = $this->learnedPriorities($oZone);
+                // Is this Zone ID 0, the Direct Selection zone?
+                if ($oZone->id == 0) {
+                    // Calculate simplistic priorities based on the required impression
+                    // values without any form of priority compensation based on past
+                    // information about previous priorities, as this is the Direct
+                    // Selection zone, and priority compensation adjustment is not required
+                    OA::debug('  - Calculating priority values for creatives in Zone ID ' . $oZone->id . ': Basic', PEAR_LOG_DEBUG);
+                    $aPriorities[$oZone->id] = $this->initialPriorities($oZone);
+                } else {
+                    // Calculate the priorities based on the required impression
+                    // values and the past information about previous priorities
+                    OA::debug('  - Calculating priority values for creatives in Zone ID ' . $oZone->id . ': Compensated', PEAR_LOG_DEBUG);
+                    $aPriorities[$oZone->id] = $this->compensatedPriorities($oZone);
+                }
             }
             // Store the calculated priorities
             $this->oDal->updatePriorities($aPriorities);
-            // Record the completion of the task in the database
-            // Note that the $oUpdateTo parameter is "null", as this value is not
-            // appropriate when recording Priority Compensation task runs - all that
-            // matters is the start/end dates.
+            // Record the completion of the task in the database; note that the $oUpdateTo
+            // parameter is "null", as this value is not appropriate when recording Priority
+            // Compensation task runs - all that matters are the start and end dates
             OA::debug('- Recording completion of the Priority Compensation task', PEAR_LOG_DEBUG);
             $oEndDate = new Date();
             $this->oDal->setMaintenancePriorityLastRunInfo(
@@ -123,7 +134,11 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
-     * return a MAX_Entity_Ad object
+     * A private method to return a OA_Maintenance_Priority_Ad object
+     *
+     * @access private
+     * @param integer $id The creative ID for the OA_Maintenance_Priority_Ad object.
+     * @return OA_Maintenance_Priority_Ad The created OA_Maintenance_Priority_Ad object.
      */
     function _getMaxEntityAdObject($id)
     {
@@ -140,8 +155,10 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      */
     function &_buildClasses()
     {
-        OA::debug('- Building zone and advert objects', PEAR_LOG_DEBUG);
-        // Obtain the forecast impression inventory for each zone for the current OI
+        OA::debug('- Building zone and creative objects', PEAR_LOG_DEBUG);
+        // Obtain the forecast impression & actual impression inventory for
+        // every zone in the system for the "current" operation interval,
+        // including Zone ID 0 (for direct selection)
         $aZoneImpInvs =& $this->oDal->getAllZonesImpInv();
         // Create an array of all of the zones, indexed by zone ID
         $aZones = array();
@@ -155,26 +172,27 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 $aZones[$aZoneImpInv['zone_id']]->pastActualImpressions = $aZoneImpInv['actual_impressions'];
             }
         }
-        // Obtain the ad/zone combinations where advertisements have had
-        // impressions allocated to zones
+        // Obtain the creative/zone combinations where creatives have impressions
+        // allocated to these zones, including for Zone ID 0 (for direct selection)
         $aZoneImpAllocs =& $this->oDal->getAllZonesWithAllocInv();
-        // Get a list of all active, high-priority ads where the delivery limitations have changed
-        $aDeliveryLimitationChangedAds =& $this->oDal->getAllDeliveryLimitationChangedAds($this->aLastRun);
-        // Add Advert objects to the zones
+        // Get a list of all active, contract campaign creatives where the delivery
+        // limitations have changed (either in the "current" operation interval, or
+        // since the last time this code ran)
+        $aDeliveryLimitationChangedAds =& $this->oDal->getAllDeliveryLimitationChangedCreatives($this->aLastRun);
+        // Add appropriate Advert objects to represent the creatives, to the zones
         if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs))
         {
             foreach ($aZoneImpAllocs as $aZoneImpAlloc)
             {
                 // Create a OA_Maintenance_Priority_Ad object
                 $oAd = $this->_getMaxEntityAdObject($aZoneImpAlloc['ad_id']);
-
-                // Assign the required impressions for this ad/zone
+                // Assign the required impressions for this creative/zone
                 $oAd->requiredImpressions = $aZoneImpAlloc['required_impressions'];
-                // Assign the requested impressions for this ad/zone
+                // Assign the requested impressions for this creative/zone
                 $oAd->requestedImpressions = $aZoneImpAlloc['requested_impressions'];
-                // Mark the ad as to be delivered or not
+                // Mark the creative as to be delivered or not
                 $oAd->toBeDelivered = $aZoneImpAlloc['to_be_delivered'];
-                // Set a flag for any ads where the delivery limitations have changed
+                // Set a flag for any creatives where the delivery limitations have changed
                 if (isset($aDeliveryLimitationChangedAds[$aZoneImpAlloc['ad_id']]) &&
                     $aDeliveryLimitationChangedAds[$aZoneImpAlloc['ad_id']] != '0000-00-00 00:00:00') {
                     $oAd->deliveryLimitationChanged = true;
@@ -183,20 +201,19 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 if (!empty($aZones[$aZoneImpAlloc['zone_id']])) {
                     $aZones[$aZoneImpAlloc['zone_id']]->addAdvert($oAd);
                 } else {
-                    $message  = '  - Attempted to link Ad ID ' . $oAd->id . ' ';
+                    $message  = '  - Attempted to link Creative ID ' . $oAd->id . ' ';
                     $message .= 'to non-existant Zone ID ' . $aZoneImpAlloc['zone_id'];
                     OA::debug($message, PEAR_LOG_WARNING);
-
                 }
             }
         }
-        // Get the details of the previous required/delivered ad impressions and
-        // calculated priorities
+        // Get the details of the previous required/delivered creative
+        // impressions and calculated priorities
         $aPastDetails =& $this->oDal->getPreviousAdDeliveryInfo($aZones);
         if (is_array($aPastDetails) && !empty($aPastDetails)) {
             foreach ($aPastDetails as $aAdPastDetails) {
                 foreach ($aAdPastDetails as $aPastDetail) {
-                    // Only insert the past details for ads that are still linked to the same zone
+                    // Only insert the past details for creatives that are still linked to the same zone
                     if (isset($aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']])) {
                         if (!is_null($aPastDetail['required_impressions'])) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequiredImpressions
@@ -230,20 +247,20 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
-     * A method for scaling the advertisement and blank priorities in a zone
+     * A method for scaling the creative and "blank" priorities in a zone
      * so that the sum of the priorities is unity.
      *
      * Note that the input values are normally simply the required number
-     * of impressions for each advertisement, and the number of remaining
+     * of impressions for each creative, and the number of remaining
      * impressions in the zone.
      *
      * @param mixed $aParams A hash with with following indexes:
-     *                 - "ads" An array (indexed by ad id) of hashes,
+     *                 - "ads" An array (indexed by creative ID) of hashes,
      *                         each hash containing the following
      *                         indexes/data:
-     *                          - "ad_id"                 The ad ID.
+     *                          - "ad_id"                 The creative ID.
      *                          - "zone_id"               The zone ID.
-     *                          - "priority"              The ad/zone priority value.
+     *                          - "priority"              The creative/zone priority value.
      *                          - "requested_impressions" The number of impressions the priority
      *                                                    should result in.
      *                 - "blank" The blank priority for the zone.
@@ -274,16 +291,19 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
-     * A method for creating an array of initial priority values.
+     * A method for creating an array of initial priority values for
+     * the creatives in a zone, based purely on the number of impressions
+     * each creative needs to deliver in the zone, and the forecast of
+     * the zone's available inventory.
      *
      * @param Zone $oZone A Zone object, containing the relevant zone
-     *                    data and associated Adverts.
+     *                    data and associated Advert objects.
      * @return mixed A hash with with following indexes:
-     *                 - "ads" An array (indexed by ad id) of hashes, each
+     *                 - "ads" An array (indexed by creative ID) of hashes, each
      *                   hash containing the following indexes/data:
-     *                          - "ad_id"                 The ad ID.
+     *                          - "ad_id"                 The creative ID.
      *                          - "zone_id"               The zone ID.
-     *                          - "priority"              The ad/zone priority value.
+     *                          - "priority"              The creative/zone priority value.
      *                          - "requested_impressions" The number of impressions the priority
      *                                                    should result in.
      *                 - "blank" The blank priority for the zone.
@@ -294,8 +314,8 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         // Test available zone impressions > 0
         if ($oZone->availableImpressions <= 0) {
             // There are no zone impressions, so there cannot be any
-            // priorities, so assign each ad a priority of zero, and
-            // assign 1 as the initial blank priority
+            // priorities, so assign each creative a priority of zero,
+            // and assign 1 as the initial blank priority
             foreach ($oZone->aAdverts as $oAdvert) {
                 $result['ads'][$oAdvert->id] = array(
                     'ad_id'                 => $oAdvert->id,
@@ -311,11 +331,11 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $result['blank'] = 1;
             return $result;
         }
-        // For each advertisement in the zone, calculate the initial
-        // priority as the number of requested impressions for each
-        // advertisement divided by the total number of available
-        // impressions in the zone. Increment a counter of the number
-        // of allocated impressions as this is done.
+        // For each creative in the zone, calculate the initial priority
+        // as the number of requested impressions for each creative divided
+        // by the total number of available impressions in the zone.
+        // Increment a counter of the number of allocated impressions as
+        // this is done.
         $usedImpressions = 0;
         foreach ($oZone->aAdverts as $oAdvert) {
             $result['ads'][$oAdvert->id] = array(
@@ -348,44 +368,47 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
-     * A method for creating an array of learned priority values.
+     * A method for creating an array of compensated priority values,
+     * where the creative/zone priority values have been adjusted either
+     * up or down to compensate for under or over delivery in past
+     * operation intervals (where possible).
      *
      * @param Zone $oZone A Zone object, containing the relevant zone
      *                    data and associated Adverts.
      * @return mixed A hash with with following indexes:
-     *                 - "ads" An array (indexed by ad id) of hashes, each
+     *                 - "ads" An array (indexed by creative ID) of hashes, each
      *                   hash containing the following indexes/data:
-     *                          - "ad_id"                       The ad ID.
+     *                          - "ad_id"                       The creative ID.
      *                          - "zone_id"                     The zone ID.
-     *                          - "priority"                    The ad/zone priority value.
+     *                          - "priority"                    The creative/zone priority value.
      *                          - "requested_impressions"       The number of impressions the priority
      *                                                          should result in.
      *                          - "priority_factor"             The adjustment factor applied to the
-     *                                                          ad's priority.
+     *                                                          creative's priority.
      *                          - "past_zone_traffic_fraction"  The fraction of the zone's impressions
-     *                                                          given to the ad in the previous operation
-     *                                                          interval.
+     *                                                          given to the creative in the previous
+     *                                                          operation interval.
      *                 - "blank" The blank priority for the zone.
      */
-    function learnedPriorities($oZone)
+    function compensatedPriorities($oZone)
     {
-        // Calculate the priority values the normal way
+        // Calculate a set of "initial" priority values
         $result = $this->initialPriorities($oZone);
-        // Adjust each ad's priority value based on past data
+        // Adjust each creative's priority value based on past data
         foreach ($oZone->aAdverts as $oAdvert) {
-            // Calculate the ad's priority adjustment factor
+            // Calculate the creative's priority adjustment factor
             list($factor, $limited, $fraction, $to_be_delivered) =
                 $this->_getPriorityAdjustment($oAdvert,
                                               $oZone->pastActualImpressions,
                                               $oZone->id);
-            // Store if the ad is meant to be delivered, or not
+            // Store if the creative is meant to be delivered, or not
             $result['ads'][$oAdvert->id]['to_be_delivered'] = $to_be_delivered;
-            // Store the ad's priority adjustment factor
+            // Store the creative's priority adjustment factor
             $result['ads'][$oAdvert->id]['priority_factor'] = $factor;
-            // Store if the ad's priority adjustment factor was limited, or not
+            // Store if the creative's priority adjustment factor was limited, or not
             $result['ads'][$oAdvert->id]['priority_factor_limited'] = $limited;
-            // Store the fraction of the zone's impressions used by the ad in
-            // the previous operation interval
+            // Store the fraction of the zone's impressions used by the creative
+            // in the previous operation interval
             $result['ads'][$oAdvert->id]['past_zone_traffic_fraction'] = $fraction;
         }
         // Do not scale the priority values, scaling will be done during delivery
@@ -393,35 +416,35 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
-     * A private function for calculating how much an advert's priority
+     * A private function for calculating how much a creative's priority
      * value needs to be adjusted.
      *
      * @access private
      * @param Advert $oAdvert An Advert object.
      * @param integer $zoneImpressions The total number of (actual) impressions in the
-     *                                 zone (for which the ad's priority is being
+     *                                 zone (for which the creative's priority is being
      *                                 adjusted) in the previous operation interval.
      * @param integer $zoneId The zone's ID.
      * @return array An array containing:
-     *                  - A double, being the ad's priority adjustment factor
+     *                  - A double, being the creative's priority adjustment factor
      *                  - A boolean, true if the factor was limited in any way,
      *                               false otherwise.
      *                  - A double, being the fraction of the zone's impressions given
-     *                    to the ad in the previous operation interval.
-     *                  - A boolean, true if the ad is supposed to be delivered
+     *                    to the creative in the previous operation interval.
+     *                  - A boolean, true if the creative is supposed to be delivered
      */
     function _getPriorityAdjustment($oAdvert, $zoneImpressions, $zoneId)
     {
         if (!empty($oAdvert->deliveryLimitationChanged) && $oAdvert->deliveryLimitationChanged == true) {
-            // This ad has had it delivery limitations changed, so ignore history
-            $message  = sprintf('    - Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
+            // This creative has had it delivery limitations changed, so ignore history
+            $message  = sprintf('    - Creative ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'has had its delivery limitations changed - Using priority factor of 1';
             $this->globalMessage .= $message . "\n";
             return array(1, false, null, 1);
         }
         if (isset($oAdvert->toBeDelivered) && $oAdvert->toBeDelivered == false) {
-            // This ad is not meant to be delivered, so ignore history
-            $message  = sprintf('    - Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
+            // This creative is not meant to be delivered, so ignore history
+            $message  = sprintf('    - Creative ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'is not meant to be delivered because of higher CP - Using priority factor of 1';
             $this->globalMessage .= $message . "\n";
             return array(1, false, null, 0);
@@ -429,14 +452,14 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         if (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
             !is_null($oAdvert->pastActualImpressions) && ($oAdvert->pastActualImpressions != 0)) {
             // Calculate the fraction of the zone traffic that was seen
-            // by the advertisement in the past interval
+            // by the creative in the past interval
             if ($zoneImpressions > 0) {
                 $fraction = $oAdvert->pastActualImpressions / $zoneImpressions;
             } else {
                 unset($fraction);
             }
-            // Is this fraction much different to the fraction before that,
-            // given that a past fraction exists, and the ad has had priority
+            // Is this fraction much different to the fraction before that, given
+            // that a past fraction exists, and the creative has had priority
             // compensation priority adjustment factor applied before?
             if (!is_null($oAdvert->pastZoneTrafficFraction) &&
                 !is_null($oAdvert->pastAdZonePriorityFactor) &&
@@ -475,35 +498,35 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         } elseif (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
                   (is_null($oAdvert->pastActualImpressions) || ($oAdvert->pastActualImpressions == 0))) {
             // It is not possible to calculate the fraction of the zone traffic that
-            // was seen by the advertisement in the past interval, as no impressions
-            // were actually delivered, despite the fact that impressions were
-            // required. As a result, bump the priority up by 10, unless it was not meant
-            // to be delivered or the past ad zone priority factor is already >= mt_getrandmax().
-            $message  = '    - Ad ID ' . $oAdvert->id . ' in zone ID ' . $zoneId . ' ';
+            // was seen by the creative in the past interval, as no impressions were
+            // actually delivered, despite the fact that impressions were required.
+            // As a result, bump the priority up by 10, unless it was not meant to be
+            // delivered or the past creative/zone priority factor is already >= mt_getrandmax().
+            $message  = '    - Creative ID ' . $oAdvert->id . ' in zone ID ' . $zoneId . ' ';
             $message .= sprintf('had required impressions of %d', $oAdvert->pastRequestedImpressions);
             $message .= ', but no delivered impressions:';
             $this->globalMessage .= $message . "\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             if ($oAdvert->pastToBeDelivered == 0) {
-                $message = '      - CORRECT! Ad was not meant to be delivered!';
+                $message = '      - CORRECT! Creative was not meant to be delivered!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
             } elseif (is_null($oAdvert->pastAdZonePriorityFactor)) {
-                $message = '      - WARNING! Ad has a null past zone priority factor!';
+                $message = '      - WARNING! Creative has a null past zone priority factor!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
             } else {
                 if ($oAdvert->pastAdZonePriorityFactor != 0) {
                     $newFactor = $oAdvert->pastAdZonePriorityFactor * BASE_FACTOR;
                     if ($newFactor < MAX_RAND) {
-                        // Update the ad zone priority factor
+                        // Update the creative/zone priority factor
                         $message = '      - Using new priority factor of ';
                         $message .= sprintf('%.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
                         OA::debug($message, PEAR_LOG_DEBUG);
                         return array($newFactor, false, 0, 1);
                     } else {
-                        // Use the past ad zone priority factor
+                        // Use the past creative/zone priority factor
                         $newFactor = $oAdvert->pastAdZonePriorityFactor;
                         $message = '      - Re-using priority factor of ';
                         $message .= sprintf('%.5f.', $newFactor);
@@ -537,7 +560,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      * A private function for calculating the prioritisation adjustment factor
      * to use.
      *
-     * @param integer $adId The ad's ID.
+     * @param integer $adId The creative's ID.
      * @param integer $zoneId The zone's ID.
      * @param double $oldFactor  The previous priority adjustment factor
      * @param integer $required  The number of impressions required in the past interval.
@@ -575,7 +598,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // Unable to calculate the full factor, so just use the
             // factor from the previous interval as the new factor
             $newFactor = $oldFactor;
-            $message  = sprintf('  * Ad ID %5d in zone ID %5d ', $adId, $zoneId);
+            $message  = sprintf('  * Creative ID %5d in zone ID %5d ', $adId, $zoneId);
             $message .= 'had a calculated factor outside of limits of supported numbers, using old value of';
             $message .= sprintf('%23.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";
@@ -587,7 +610,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $delta = abs(MAX_RAND - $oldFactor) / 2;
             $newFactor = $oldFactor + $delta;
             $limited = true;
-            $message  = sprintf('  * Ad ID %5d in zone ID %5d ', $adId, $zoneId);
+            $message  = sprintf('  * Creative ID %5d in zone ID %5d ', $adId, $zoneId);
             $message .= 'had a calculated factor > mt_getrandmax() limits, using new value of';
             $message .= sprintf('%42.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";
@@ -606,7 +629,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $delta = abs($oldFactor - MAX_RAND_INV) / 2;
             $newFactor = $oldFactor - $delta;
             $limited = true;
-            $message  = sprintf('  * Ad ID %5d in zone ID %5d ', $adId, $zoneId);
+            $message  = sprintf('  * Creative ID %5d in zone ID %5d ', $adId, $zoneId);
             $message .= 'had a calculated factor < mt_getrandmax() limits, using new value of';
             $message .= sprintf('%42.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";

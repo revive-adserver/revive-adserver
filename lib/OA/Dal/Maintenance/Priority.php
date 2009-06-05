@@ -428,7 +428,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function &getAllZonesWithAllocInv()
     {
-        OA::debug('Getting all of the zones with ad impressions allocated.', PEAR_LOG_DEBUG);
+        OA::debug('  - Getting all of the zones with ad impressions allocated', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
         $table              = 'tmp_ad_zone_impression';
@@ -476,7 +476,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function &getAllZonesImpInv()
     {
-        OA::debug('  - Getting all of the zones impression inventory data', PEAR_LOG_DEBUG);
+        OA::debug('  - Getting the impression inventory data for all zones', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
@@ -501,15 +501,22 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $table AS t2
             ON
                 t1.zone_id = t2.zone_id
-                AND t2.operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND t2.operation_interval_id = $previousOptIntID
-                AND t2.interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND t2.interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                t2.operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                t2.operation_interval_id = $previousOptIntID
+                AND
+                t2.interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                t2.interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
             WHERE
                 t1.operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND t1.operation_interval_id = $currentOpIntID
-                AND t1.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND t1.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                t1.operation_interval_id = $currentOpIntID
+                AND
+                t1.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                t1.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
                 t1.zone_id";
         $rc = $this->oDbh->query($query);
@@ -537,25 +544,25 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get all active advertisements where the delivery limitations of
-     * the ads have had changes made:
+     * A method to get all active contract campaign creatives where the delivery limitations
+     * of the creatives have had changes made:
      *  - In the current operation interval; or
-     *  - In the previous operation interver, but after last time the Priority
+     *  - In the previous operation interval, but after last time the Priority
      *    Compensation process started running.
      *
      * @param array An array containing the last time that the Priority Compensation
      *              process started running in the 'start_run' field (as a PEAR::Date),
      *              and the current date/time (ie. a date/time in the current
      *              operation interval) in the 'now' field (as a PEAR::Date).
-     * @return array An array, indexed by ad ID, of the date/times (as strings)
+     * @return array An array, indexed by creative ID, of the date/times (as strings)
      *               that the delivery limitations were altered, of those active
-     *               ads that had delivery limitations changed since the given
+     *               creatives that had delivery limitations changed since the given
      *               'start_run' date.
      */
-    function &getAllDeliveryLimitationChangedAds($aLastRun)
+    function &getAllDeliveryLimitationChangedCreatives($aLastRun)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        OA::debug('  - Getting all ads where delivery limitations have changed', PEAR_LOG_DEBUG);
+        OA::debug('  - Getting all creatives where delivery limitations have changed', PEAR_LOG_DEBUG);
         $aAds = array();
         // Test the input data
         if (!is_array($aLastRun) || (count($aLastRun) != 2)) {
@@ -567,8 +574,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (is_null($aLastRun['now']) || (!is_a($aLastRun['now'], 'Date'))) {
             return $aAds;
         }
-        // Select those ads where the delivery limitations were changed in the current
-        // operation interval
+        // Select those contract campaign creatives where the delivery limitations were
+        // changed in the current operation interval
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aLastRun['now']);
         $table1 = $this->_getTablename('banners');
         $table2 = $this->_getTablename('campaigns');
@@ -581,17 +588,23 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 {$table2} AS c
             WHERE
                 b.acls_updated >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
-                AND b.campaignid = c.campaignid
-                AND c.priority > 0
-                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
+                AND
+                b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                b.status = " . OA_ENTITY_STATUS_RUNNING . "
+                AND
+                b.campaignid = c.campaignid
+                AND
+                c.priority > 0
+                AND
+                c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
         }
-        // Select those ads where the delivery limitations were changed in the previous
-        // operation interval, but after the last time Priority Compensation started to run
+        // Select those contract campaign creatives where the delivery limitations were
+        // changed in the previous operation interval, but after the last time Priority
+        // Compensation started to run
         $oDate = new Date();
         $oDate->copy($aDates['start']);
         $oDate->subtractSeconds(1);
@@ -606,11 +619,16 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 {$table2} AS c
             WHERE
                 b.acls_updated >= '" . $aLastRun['start_run']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
-                AND b.campaignid = c.campaignid
-                AND c.priority > 0
-                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
+                AND
+                b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                b.status = " . OA_ENTITY_STATUS_RUNNING . "
+                AND
+                b.campaignid = c.campaignid
+                AND
+                c.priority > 0
+                AND
+                c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
@@ -619,33 +637,42 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get the most recent details of advertisement delivery for
-     * a given list of advertisement/zone pairs set to deliver in the current
+     * A method to get the most recent details of contract campaign creative delivery
+     * for a given list of creative/zone pairs set to deliver in the current
      * operation interval. Normally, the data will be retrieved from the previous
-     * operation interval, but if no data exists for that ad/zone pair, then the
+     * operation interval, but if no data exists for that creative/zone pair, then the
      * next previous operation interval will be tried, and so on, up to a limit
-     * of MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes. (The default is one week.)
+     * of MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes (default is one week).
      *
-     * Requires that a current day/time (as a Date object) be registered
-     * with the OA_ServiceLocator (as "now").
+     * - Requires that a current day/time (as a Date object) be registered
+     *   with the OA_ServiceLocator (as "now").
+     *
+     * - Ignores creative ID 0 and zone ID 0 items, as these are reserved for
+     *   direct selection, which is considered to be outside the process of
+     *   priority compensation calculations (even though priority values for
+     *   all contract campaign creatives are calculated and stored for the
+     *   zone ID 0).
      *
      * Note: The logic of this method seems a little convoluted, and it is.
      * However, it needs to be. The reason being:
-     *  - If an ad delivered in the previous operation interval, it should
-     *    have a priority set in ad_zone_assoc. This should be the most
-     *    recent entry in data_summary_ad_zone_assoc. So, the first step is
-     *    to get the data for all ads that have delivered in the previous
+     *
+     *  - If a contract campaign creative delivered in the previous operation interval,
+     *    then it should have had a priority set in ad_zone_assoc (that's how OpenX
+     *    knows to deliver contract campiang creatives, natch!). This should be the most
+     *    recent entry in data_summary_ad_zone_assoc. So, the first step is to get the
+     *    data for all contract campiang creatives that have delivered in the previous
      *    OI, and the associated prioritisation data.
-     *  - If an ad did not deliver, the prioritisation data set in the
-     *    previous OI is still needed, so the second step is to get those
-     *    ads that had prioiritisation data set in the previous OI, but did
-     *    not deliver.
-     *  - Finally, as some ads are limited by hour (for example), we want to
-     *    to be able to get past prioritisation data for ads that were
-     *    disabled in the last OI, so, we need to look for ad/zone pairs
-     *    that have not yet been found, and get BOTH the prioritisation and
-     *    delivery data from the last OI when the ads were active in the
+     *  - If a contract campaign creative did not deliver, the prioritisation data set
+     *    in the previous OI is still needed anyway (as it might have been *supposed*
+     *    to deliver), so the second step is to get those creatives that had
+     *    prioiritisation data set in the previous OI, but did not deliver.
+     *  - Finally, as some creatives are limited by hour (for example), we want to
+     *    to be able to get past prioritisation data for creatives that were
+     *    disabled in the last OI, so, we need to look for creative/zone pairs
+     *    that have not yet been found, and get BOTH the prioritisation AND the
+     *    delivery data from the last OI when the creatives were active in the
      *    zones.
+     *
      * This is why the method uses a complex, 3 step process!
      *
      * @access public
@@ -670,7 +697,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function &getPreviousAdDeliveryInfo($aCurrentZones)
     {
-        OA::debug("  - Getting details of previous ad/zone delivery", PEAR_LOG_DEBUG);
+        OA::debug("  - Getting details of previous creative/zone delivery", PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
@@ -717,23 +744,39 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($currentOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Obtain the ad ID, zone ID and number of impressions delivered for every ad/zone
-        // combination that delivered impressions in the previous operation interval
-        OA::debug("  - Getting details of ad/zone pairs that delivered last OI", PEAR_LOG_DEBUG);
-        $table = $this->_getTablename('data_intermediate_ad');
+        // combination that delivered impressions in the previous operation interval, where
+        // the ad is from a contract campaign (as we don't care about other campaign types)
+        OA::debug("  - Getting details of contract campaign creative/zone pairs that delivered last OI", PEAR_LOG_DEBUG);
+        $sDataIntermediateAd = $this->_getTablename('data_intermediate_ad');
+        $sBanners = $this->_getTablename('banners');
+        $sCampaigns = $this->_getTablename('campaigns');
         $query = "
             SELECT
                 ad_id AS ad_id,
                 zone_id AS zone_id,
                 SUM(impressions) AS impressions
             FROM
-                {$table}
+                {$sDataIntermediateAd} AS dia,
+                {$sBanners} AS b,
+                {$sCampaigns} AS c
             WHERE
-                operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND operation_interval_id = $previousOperationIntervalID
-                AND interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND ad_id != 0
-                AND zone_id != 0
+                dia.operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                dia.operation_interval_id = $previousOperationIntervalID
+                AND
+                dia.interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dia.interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dia.ad_id != 0
+                AND
+                dia.zone_id != 0
+                AND
+                dia.ad_id = b.bannerid
+                AND
+                b.campaignid = c.campaignid
+                AND
+                c.priority > 0
             GROUP BY
                 ad_id,
                 zone_id
@@ -748,8 +791,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $aZones[$aRow['zone_id']] = $aRow['zone_id'];
             // Store the ad IDs by zone ID
             $aZonesAds[$aRow['zone_id']][$aRow['ad_id']] = true;
-            // Store the impressions delivered for the ad/zone pair, and that the past
-            // priority information for this ad/zone pair has not been found yet
+            // Store the impressions delivered for the contract campaign creative/zone pair,
+            // and that the past priority information for this contract campiang creative/zone
+            // pair has not been found yet (it will be found later on)
             $aPastDeliveryResult[$aRow['ad_id']][$aRow['zone_id']]['impressions'] = $aRow['impressions'];
             $aPastDeliveryResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound'] = false;
         }
@@ -757,13 +801,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (!empty($aAds)) {
             // Is there past deliver data?
             if (isset($oEarliestPastPriorityRecordDate)) {
-                // As all of the above ad/zone combinations delivered impressions in the previous
-                // operation interval, a priority value must have existed. However, the priority
-                // value may *not* have come from the previous interval, as maintenance may not
+                // As all of the above contract capiang creative/zone combinations delivered impressions
+                // in the previous operation interval, a priority value must have existed. However, the
+                // priority value may *not* have come from the previous interval, as maintenance may not
                 // have been run (although it should have ;-)
-                // However, just to be sure, interate backwards over past operation intervals
-                // (up to the earliest existing record), obtaining the details of the impressions
-                // requested and the priority values used for the above combinations
+                // To be sure, interate backwards over past operation intervals (up to the earliest
+                // existing record), obtaining the details of the impressions requested and the priority
+                // values used for the above combinations
                 $previousOperationIntervalIDLoop = $previousOperationIntervalID;
                 $aDatesLoop = array();
                 $aDatesLoop['start'] = new Date();
@@ -773,6 +817,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $foundAll = false;
                 while (!$foundAll) {
                     if (!empty($aAds) && !empty($aZones)) {
+                        OA::debug('    - Getting past details of contract campiang creative/zone pairs for OI starting at ' .
+                                         $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
                         $table = $this->_getTablename('data_summary_ad_zone_assoc');
                         $query = "
                             SELECT
@@ -789,11 +835,16 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 {$table}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
-                                AND zone_id IN (" . implode(', ', $aZones) . ")
-                                AND operation_interval = {$aConf['maintenance']['operationInterval']}
-                                AND operation_interval_id = $previousOperationIntervalIDLoop
-                                AND interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                                AND interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                                AND
+                                zone_id IN (" . implode(', ', $aZones) . ")
+                                AND
+                                operation_interval = {$aConf['maintenance']['operationInterval']}
+                                AND
+                                operation_interval_id = $previousOperationIntervalIDLoop
+                                AND
+                                interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                                AND
+                                interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
                             ORDER BY
                                 ad_id,
                                 zone_id";
@@ -801,14 +852,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         $aResult = $rc->fetchAll();
                         // Calculate the past priority results, using $aPastDeliveryResult in the call to
                         // _calculateAveragePastPriorityValues(), so that if this is the second (or greater)
-                        // time this has been done then any ad/zone pairs that have come up with details for
-                        // a second (or greater) time will NOT have their past priority info re-calculated
-                        // with the wrong values
-                        OA::debug('    - Getting past details of ad/zone pairs for OI starting at ' .
-                                   $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
+                        // time this has been done then any contract campiang creative/zone pairs that have
+                        // come up with details for a second (or greater) time (i.e. as a result of a priority
+                        // value record from an earise operation interval as we iterate backwards in time) will
+                        // NOT have its past priority info re-calculated with the wrong values
                         $this->_calculateAveragePastPriorityValues($aPastPriorityResult, $aResult, $oDate, $aPastDeliveryResult);
-                        // Loop over the results, marking off the ad/zone combinations
-                        // in the past delivery array as having had their past prioritisation
+                        // Loop over the results, marking off the contract campiang banner/zone
+                        // combinations in the past delivery array as having had their past prioritisation
                         // information found and/or calculated
                         if (!empty($aPastPriorityResult)) {
                             foreach ($aPastPriorityResult as $a => $aAd) {
@@ -820,7 +870,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             }
                         }
                     }
-                    // Look over the past delivery array to see if there are any ad/zone
+                    // Look over the past delivery array to see if there are any contract campaign creative/zone
                     // combinations that do not yet have the past prioritisation information
                     $foundAll = true;
                     if (!empty($aPastDeliveryResult)) {
@@ -840,9 +890,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                     }
                                     $remove = false;
                                 }
-                                // Remove the ad from the list of ads to select from next round,
-                                // and check if this was the last ad in the zone, and, if so,
-                                // also remove the zone from the list of zones to select from
+                                // Remove the contract campaign creative from the list of creatives to select
+                                // from next round, and check if this was the last creative in the zone, and,
+                                // if so, also remove the zone from the list of zones to select from
                                 // next round
                                 if ($remove) {
                                     unset($aAds[$a]);
@@ -874,9 +924,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
-        // Select the details of all ad/zones that had required/requested impressions,
+        // Select the details of all contract campaign creative/zones that had required/requested impressions,
         // in the previous operation interval, but for which no impressions were delivered
-        OA::debug('  - Getting details of ad/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
+        OA::debug('  - Getting details of contract campaign creative/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
         $table1 = $this->_getTablename('data_summary_ad_zone_assoc');
         $table2 = $this->_getTablename('data_intermediate_ad');
         $query = "
@@ -896,53 +946,73 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 {$table2} AS dia
             ON
                 dsaza.ad_id = dia.ad_id
-                AND dsaza.zone_id = dia.zone_id
-                AND dsaza.operation_interval = dia.operation_interval
-                AND dsaza.operation_interval_id = dia.operation_interval_id
-                AND dsaza.interval_start = dia.interval_start
-                AND dsaza.interval_end = dia.interval_end
+                AND
+                dsaza.zone_id = dia.zone_id
+                AND
+                dsaza.operation_interval = dia.operation_interval
+                AND
+                dsaza.operation_interval_id = dia.operation_interval_id
+                AND
+                dsaza.interval_start = dia.interval_start
+                AND
+                dsaza.interval_end = dia.interval_end
             WHERE
                 dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND dsaza.operation_interval_id = $previousOperationIntervalID
-                AND dsaza.interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND dsaza.interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND dsaza.required_impressions > 0
-                AND dsaza.requested_impressions > 0
-                AND dia.ad_id IS NULL
-                AND dia.zone_id IS NULL
+                AND
+                dsaza.operation_interval_id = $previousOperationIntervalID
+                AND
+                dsaza.interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.ad_id != 0
+                AND
+                dsaza.zone_id != 0
+                AND
+                dsaza.required_impressions > 0
+                AND
+                dsaza.requested_impressions > 0
+                AND
+                dia.ad_id IS NULL
+                AND
+                dia.zone_id IS NULL
             ORDER BY
                 ad_id,
                 zone_id";
         $rc = $this->oDbh->query($query);
         $aResult = $rc->fetchAll();
+        $resultCount = count($aResult);
+        OA::debug('    - Found ' . $resultCount . ' contract campaign creative/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
+        if ($resultCount > 0) {
         // Calculate the past priority results, but without the optional parameter to
         // _calculateAveragePastPriorityValues(), as this is a single calculation on data
         // in the past OI, and no further looping back over time will occur
-        OA::debug('  - Getting past details of the non-delivering ad/zone pairs', PEAR_LOG_DEBUG);
-        $this->_calculateAveragePastPriorityValues($aNonDeliveringPastPriorityResult, $aResult, $oDate);
-        // Merge the past priority values into the final results array
-        if (!empty($aNonDeliveringPastPriorityResult)) {
-            foreach ($aNonDeliveringPastPriorityResult as $a => $aAd) {
-                foreach ($aAd as $z => $aZone) {
-                    if (empty($aFinalResult[$a][$z])) {
-                        $aFinalResult[$a][$z] = array(
-                            'ad_id'                         => $a,
-                            'zone_id'                       => $z,
-                            'required_impressions'          => $aNonDeliveringPastPriorityResult[$a][$z]['required_impressions'],
-                            'requested_impressions'         => $aNonDeliveringPastPriorityResult[$a][$z]['requested_impressions'],
-                            'to_be_delivered'               => $aNonDeliveringPastPriorityResult[$a][$z]['to_be_delivered'],
-                            'priority_factor'               => $aNonDeliveringPastPriorityResult[$a][$z]['priority_factor'],
-                            'past_zone_traffic_fraction'    => $aNonDeliveringPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
-                        );
+            OA::debug('  - Getting past details of the non-delivering contract campiang creative/zone pairs', PEAR_LOG_DEBUG);
+            $this->_calculateAveragePastPriorityValues($aNonDeliveringPastPriorityResult, $aResult, $oDate);
+            // Merge the past priority values into the final results array
+            if (!empty($aNonDeliveringPastPriorityResult)) {
+                foreach ($aNonDeliveringPastPriorityResult as $a => $aAd) {
+                    foreach ($aAd as $z => $aZone) {
+                        if (empty($aFinalResult[$a][$z])) {
+                            $aFinalResult[$a][$z] = array(
+                                'ad_id'                         => $a,
+                                'zone_id'                       => $z,
+                                'required_impressions'          => $aNonDeliveringPastPriorityResult[$a][$z]['required_impressions'],
+                                'requested_impressions'         => $aNonDeliveringPastPriorityResult[$a][$z]['requested_impressions'],
+                                'to_be_delivered'               => $aNonDeliveringPastPriorityResult[$a][$z]['to_be_delivered'],
+                                'priority_factor'               => $aNonDeliveringPastPriorityResult[$a][$z]['priority_factor'],
+                                'past_zone_traffic_fraction'    => $aNonDeliveringPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
+                            );
+                        }
                     }
                 }
             }
         }
-        // Finally, now that all ad/zone combinations that had required/requested impressions
-        // in the previous operation interval and delivered/didn't deliver have been dealt
-        // with, check to see if there are any ad/zone combinations that are linked to
-        // deliver in the current operation interval, which are not covered by the above
-        OA::debug('  - Finding ad/zone pairs set to deliver, but with no past data yet', PEAR_LOG_DEBUG);
+        // Finally, now that all contract campaign creative/zone combinations that had required/requested
+        // impressions in the previous operation interval and delivered/didn't deliver issues have been
+        // dealt with, check to see if there are any contract campaign creative/zone combinations that are
+        // linked to deliver in the current operation interval, which are not covered by the above
+        OA::debug('  - Finding contract campaign creative/zone pairs set to deliver, but with no past data yet', PEAR_LOG_DEBUG);
         $aAds = array();
         $aZones = array();
         $aZonesAds = array();
@@ -950,17 +1020,21 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $aNotInLastOIPastPriorityResult = array();
         if (is_array($aCurrentZones) && !empty($aCurrentZones)) {
             foreach ($aCurrentZones as $zoneId => $oZone) {
-                if (is_array($oZone->aAdverts) && !empty($oZone->aAdverts)) {
-                    foreach ($oZone->aAdverts as $oAdvert) {
-                        // Store that the past priority information for this ad/zone pair may
-                        // not have yet been found
-                        $aNotInLastOIPastDeliveryResult[$oAdvert->id][$zoneId]['pastPriorityFound'] = false;
+                // Ignore Zone ID 0, as data for this zone is not required (there will no be
+                // priority compensation performed on this zone, the past data is not relevant)
+                if ($oZone->id != 0) {
+                    if (is_array($oZone->aAdverts) && !empty($oZone->aAdverts)) {
+                        foreach ($oZone->aAdverts as $oAdvert) {
+                            // Store that the past priority information for this contract campiagn creative/zone
+                            // pair may not have yet been found
+                            $aNotInLastOIPastDeliveryResult[$oAdvert->id][$zoneId]['pastPriorityFound'] = false;
+                        }
                     }
                 }
             }
         }
-        // Remove those ad/zone pairs that have, in fact, already had their past priority
-        // information found previously
+        // Remove those contract campiagn creative/zone pairs that have,
+        // in fact, already had their past priority information found
         if (!empty($aFinalResult)) {
             foreach ($aFinalResult as $aResult) {
                 if (isset($aResult['ad_id'])) {
@@ -973,33 +1047,36 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
-        // Create the sets of required ads and zones that need their past priority
-        // information from older operation intervals found
+        // Create the sets of required creatives and zones that need their past priority
+        // information from older operation intervals found (exluding zone ID 0, as this
+        // is not required)
         if (!empty($aNotInLastOIPastDeliveryResult)) {
             foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aData) {
-                // Store the ad ID as being one that needs to deliver
+                // Store the creative ID as being one that needs to deliver
                 $aAds[$adKey] = $adKey;
                 foreach ($aData as $zoneKey => $value) {
-                    // Store the zone ID as one that has an ad that needs to deliver in it
+                    // Store the zone ID as one that has a creative that needs to deliver in it
                     $aZones[$zoneKey] = $zoneKey;
-                    // Store the ad IDs by zone ID
+                    // Store the creative ID by zone ID
                     $aZonesAds[$zoneKey][$adKey] = true;
                 }
             }
         }
-        // Are there any ad/zone pairs that need data?
+        // Are there any contract campiagn creative/zone pairs that need data?
         if (!empty($aNotInLastOIPastDeliveryResult)) {
             // Is there past delivery data?
             if (isset($oEarliestPastPriorityRecordDate)) {
                 // Loop over the previous operation intervals, starting with the one
-                // *before* last, and find when (if possible) these ad/zone pairs
-                // last *requested* to deliver; it doesn't matter if they did deliver
-                // in that operation interval or not
+                // *before* last, and find when (if possible) these contract campiagn
+                // creative/zone pairs last *requested* to deliver; it doesn't matter if
+                // they did deliver in that operation interval or not
                 $previousOperationIntervalIDLoop = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
                 $aDatesLoop = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
                 $foundAll = false;
                 while (!$foundAll) {
                     if (!empty($aAds) && !empty($aZones)) {
+                        OA::debug('    - Getting past details of contract campiagn creative/zone pairs which did not deliver last OI, for OI ' .
+                                         'starting at ' . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
                         $table = $this->_getTablename('data_summary_ad_zone_assoc');
                         $query = "
                             SELECT
@@ -1020,26 +1097,31 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 {$table}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
-                                AND zone_id IN (" . implode(', ', $aZones) . ")
-                                AND operation_interval = {$aConf['maintenance']['operationInterval']}
-                                AND operation_interval_id = $previousOperationIntervalIDLoop
-                                AND interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                                AND interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                                AND
+                                zone_id IN (" . implode(', ', $aZones) . ")
+                                AND
+                                operation_interval = {$aConf['maintenance']['operationInterval']}
+                                AND
+                                operation_interval_id = $previousOperationIntervalIDLoop
+                                AND
+                                interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                                AND
+                                interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
                             ORDER BY
                                 ad_id,
                                 zone_id";
                         $rc = $this->oDbh->query($query);
                         $aResult = $rc->fetchAll();
-                        // Calculate the past priority results, using $aNotInLastOIPastDeliveryResult in the
-                        // call to _calculateAveragePastPriorityValues(), so that if this is the second
-                        // (or greater) time this has been done then any ad/zone pairs that have come up
-                        // with details for a second (or greater) time will NOT have their past priority info
-                        // re-calculated
-                        OA::debug("    - Getting past details of ad/zone pairs which didn't deliver last OI, for OI " .
-                                   "starting at " . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
+
+                        // Calculate the past priority results, using $aPastDeliveryResult in the call to
+                        // _calculateAveragePastPriorityValues(), so that if this is the second (or greater)
+                        // time this has been done then any contract campiang creative/zone pairs that have
+                        // come up with details for a second (or greater) time (i.e. as a result of a priority
+                        // value record from an earise operation interval as we iterate backwards in time) will
+                        // NOT have its past priority info re-calculated with the wrong values
                         $this->_calculateAveragePastPriorityValues($aNotInLastOIPastPriorityResult, $aResult, $oDate, $aNotInLastOIPastDeliveryResult);
-                        // Loop over the results, marking off the ad/zone combinations
-                        // in the past delivery array as having had their past prioritisation
+                        // Loop over the results, marking off the contract campiagn creative/zone
+                        // combinations in the past delivery array as having had their past prioritisation
                         // information found and/or calculated
                         if (!empty($aNotInLastOIPastPriorityResult)) {
                             foreach ($aNotInLastOIPastPriorityResult as $a => $aAd) {
@@ -1050,7 +1132,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 }
                             }
                         }
-                        // Look over the past delivery array to see if there are any ad/zone
+                        // Look over the past delivery array to see if there are any contract campiagn creative/zone
                         // combinations that do not yet have the past prioritisation information
                         $foundAll = true;
                         if (!empty($aNotInLastOIPastDeliveryResult)) {
@@ -1070,8 +1152,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                         }
                                         $remove = false;
                                     }
-                                    // Remove the ad from the list of ads to select from next round,
-                                    // and check if this was the last ad in the zone, and, if so,
+                                    // Remove the creative from the list of creatives to select from next round,
+                                    // and check if this was the last creative in the zone, and, if so,
                                     // also remove the zone from the list of zones to select from
                                     // next round
                                     if ($remove) {
@@ -1084,13 +1166,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         $foundAll = true;
                     }
                 }
             }
-            // Now that it is known when (if) the remaining ads last requested to deliver,
+            // Now that it is known when (if) the remaining creatives last requested to deliver,
             // determine how many impressions were delivered (if any) during the appropriate
             // operation intervals
             if (!empty($aNotInLastOIPastPriorityResult)) {
@@ -1104,11 +1185,16 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 {$table}
                             WHERE
                                 operation_interval = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval']}
-                                AND operation_interval_id = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id']}
-                                AND interval_start = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_start']}'
-                                AND interval_end = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_end']}'
-                                AND ad_id = $a
-                                AND zone_id = $z";
+                                AND
+                                operation_interval_id = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id']}
+                                AND
+                                interval_start = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_start']}'
+                                AND
+                                interval_end = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_end']}'
+                                AND
+                                ad_id = $a
+                                AND
+                                zone_id = $z";
                         $rc = $this->oDbh->query($query);
                         $aResult = $rc->fetchAll();
                         if (isset($aResult[0]['impressions'])) {
@@ -2726,7 +2812,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     AND c.ecpm_enabled = 1";
         return $this->getAgenciesIdsFromQuery($query);
     }
-    
+
     /**
      * Returns an array of agencies (managers) IDs using the provided
      * SQL query to retreive the data from the database.

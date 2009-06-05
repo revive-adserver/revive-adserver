@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
- * A class for testing the getAllDeliveryLimitationChangedAds() method of
+ * A class for testing the getAllDeliveryLimitationChangedCreatives() method of
  * the non-DB specific OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenXDal
@@ -37,19 +37,19 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds()
+    function Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives()
     {
         $this->UnitTestCase();
     }
 
 
     /**
-     * Method to test the getAllDeliveryLimitationChangedAds method.
+     * Method to test the getAllDeliveryLimitationChangedCreatives method.
      *
      * Requirements:
      * Test 0: Test with bad input data, and ensure the method survives.
@@ -70,7 +70,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
      * Test 8: Repeat test 5, but with an inactive ad.
      * Test 9: Test with a mixture of ads, and ensure the correct data are returned.
      */
-    function testGetAllDeliveryLimitationChangedAds()
+    function testGetAllDeliveryLimitationChangedCreatives()
     {
         TestEnv::restoreEnv('dropTmpTables');
 
@@ -86,12 +86,12 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         );
 
         // Test 0
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds(array());
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives(array());
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
         // Test 1
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -109,7 +109,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 11:10:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
         DataGenerator::cleanUp();
@@ -128,7 +128,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 11:15:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[$idBanner], '2006-10-04 11:15:00');
@@ -148,7 +148,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 12:15:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[$idBanner], '2006-10-04 12:15:00');
@@ -168,7 +168,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 11:10:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
         DataGenerator::cleanUp();
@@ -188,7 +188,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 11:15:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
         DataGenerator::cleanUp();
@@ -208,7 +208,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 12:15:00';
         $idBanner = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
         DataGenerator::cleanUp();
@@ -262,7 +262,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doBanners->acls_updated = '2006-10-04 12:01:00';
         $idBanner5 = DataGenerator::generateOne($doBanners);
 
-        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
+        $aResult =& $oMaxDalMaintenance->getAllDeliveryLimitationChangedCreatives($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[$idBanner1], '2006-10-04 11:30:00');

@@ -350,14 +350,14 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * @return array|false
  *               The array containg zone information with nested arrays of linked ads
  *               or false on failure. Note that:
- *                  - Exclusive ads are in "xAds"
- *                  - Normal (paid) ads are in "ads"
- *                  - Low-priority ads are in "lAds"
+ *                  - Contract (exclusive) campaign creatives are in "xAds"
+ *                  - Contract campaign creatives are in "ads"
+ *                  - Remnant campaign creatives ads are in "lAds"
  *                  - Companion ads, in addition to being in one of the above, are
  *                    also in "cAds" and "clAds"
- *                  - Exclusive and low-priority ads have had their priorities
- *                    calculated on the basis of the placement and advertisement
- *                    weight
+ *                  - Contract (Exclusive) and Remnant campaign creatives have had
+ *                    their priorities calculated on the basis of the campaign and
+ *                    creative weights
  */
 function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
@@ -479,60 +479,60 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         }
 
         $aAd['tracker_status'] = (!empty($aConversionLinkedCreatives[$aAd['ad_id']]['status'])) ? $aConversionLinkedCreatives[$aAd['ad_id']]['status'] : null;
-        // Is the ad Exclusive, Low, or Normal Priority?
+        // Is the creative from a contract (exclusive), contract or remnant campaign?
         if ($aAd['campaign_priority'] == -1) {
-            // Ad is in an exclusive placement
+            // Creative is in a contract (exclusive) campaign
             $aRows['xAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } elseif ($aAd['campaign_priority'] == 0) {
-            // Ad is in a low priority placement
+            // Creative is in a remnant campaign
             $aRows['lAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } elseif ($aAd['campaign_priority'] == -2) {
-            // Ad is in a low priority eCPM placement
+            // Creative is in a an eCPM campaign
             $aRows['eAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } else {
-            // Ad is in a paid placement
+            // Creative is in a contract campaign
             $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         }
         // Also store Companion ads in additional array
         if ($aAd['campaign_companion'] == 1) {
             if ($aAd['campaign_priority'] == 0) {
-                // Store a low priority companion ad
+                // Store a remnant campaign companion creative
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
             } else {
-                // Store a paid priority companion ad
+                // Store a contract campaign companion creative
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['cAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             }
 
         }
     }
-    // If there are exclusive ads, sort by priority
+    // If there are contract (exclusive) campaign creatives, sort by priority
     if (is_array($aRows['xAds'])) {
         $totals['xAds'] = _setPriorityFromWeights($aRows['xAds']);
     }
-    // If there are paid ads (or eCPM ads), prepare array of priority totals
-    // to allow delivery to do the scaling work later
+    // If there are contract campaign or eCPM campaign creatives, prepare array
+    // of priority totals to allow delivery to do the scaling work later
     if (is_array($aRows['ads'])) {
         $totals['ads'] = _getTotalPrioritiesByCP($aRows['ads']);
     }
     if (is_array($aRows['eAds'])) {
         $totals['eAds'] = _getTotalPrioritiesByCP($aRows['eAds']);
     }
-    // If there are low priority ads, sort by priority
+    // If there are remnant campaign creatives, sort by priority
     if (is_array($aRows['lAds'])) {
         $totals['lAds'] = _setPriorityFromWeights($aRows['lAds']);
     }
-    // If there are paid companion ads, prepare array of priority totals
-    // to allow delivery to do the scaling work later
+    // If there are companion contract campaign creatives, prepare array of
+    // priority totals to allow delivery to do the scaling work later
     if (is_array($aRows['cAds'])) {
         $totals['cAds'] = _getTotalPrioritiesByCP($aRows['cAds']);
     }
-    // If there are low priority companion ads, sort by priority
+    // If there are companion remnant campaign creatives, sort by priority
     if (is_array($aRows['clAds'])) {
         $totals['clAds'] = _setPriorityFromWeights($aRows['clAds']);
     }
@@ -602,62 +602,80 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
         } else {
             $aAd['timezone'] = $aTimezones['default'];
         }
-        // Is the ad Exclusive, Low, or Normal Priority?
+        // Is the creative from a contract (exclusive), contract or remnant campaign?
         if ($aAd['campaign_priority'] == -1) {
-            // Ad is in an exclusive placement
+            // Creative is in a contract (exclusive) campaign
             $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
             $aRows['xAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
             $totals['xAds'] += $aAd['priority'];
         } elseif ($aAd['campaign_priority'] == 0) {
-            // Ad is in a low priority placement
+            // Creative is in a remnant campaign
             $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
             $aRows['lAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
             $totals['lAds'] += $aAd['priority'];
         } elseif ($aAd['campaign_priority'] == -2) {
-            // Ad is in a low priority eCPM placement
+            // Creative is in an eCPM campaign
             $aRows['eAds'][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } else {
-            // Ad is in a paid placement
+            // Creative is in a contract campaign
             $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         }
-        // Also store Companion ads in additional array
+        // Also store companion creatives in additional array
         if ($aAd['campaign_companion'] == 1) {
             if ($aAd['campaign_priority'] == 0) {
-                // Store a low priority companion ad
+                // Store a remnant campaign companion creative
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
                 $totals['clAds'] += $aAd['priority'];
             } else {
-                // Store a paid priority companion ad
+                // Store a contract campaign companion creative
                 $aRows['zone_companion'][] = $aAd['placement_id'];
                 $aRows['cAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             }
 
         }
     }
-    // If there are exclusive ads, sort by priority
+    // If there are contract (exclusive) campaign creatives, sort by priority
     if (isset($aRows['xAds']) && is_array($aRows['xAds'])) {
         $totals['xAds'] = _setPriorityFromWeights($aRows['xAds']);
     }
-    // If there are paid ads, prepare array of priority totals
+    // If there are contract campaign creatives, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (isset($aRows['ads']) && is_array($aRows['ads'])) {
-        $totals['ads'] = _getTotalPrioritiesByCP($aRows['ads']);
+        // Are there any "lower" level creatives?
+        if (isset($aRows['lAds']) && is_array($aRows['lAds']) && count($aRows['lAds']) > 0
+            ||
+            isset($aRows['clAds']) && is_array($aRows['clAds']) && count($aRows['clAds']) > 0) {
+            // "Lower" level creatives exist, INCLUDE the "blank" priority
+            $totals['ads'] = _getTotalPrioritiesByCP($aRows['ads'], true);
+        } else {
+            // "Lower" level creatives do NOT exist, EXCLUDE the "blank" priority
+            $totals['ads'] = _getTotalPrioritiesByCP($aRows['ads'], false);
+        }
     }
-    // If there are low priority ads, sort by priority
+    // If there are remnant campaign creatives, sort by priority
     if (isset($aRows['lAds']) && is_array($aRows['lAds'])) {
         $totals['lAds'] = _setPriorityFromWeights($aRows['lAds']);
     }
-    // If there are paid companion ads, prepare array of priority totals
-    // to allow delivery to do the scaling work later
+    // If there are companion contract campaign creatives, prepare array of
+    // priority totals to allow delivery to do the scaling work later
     if (isset($aRows['cAds']) && is_array($aRows['cAds'])) {
-        $totals['cAds'] = _getTotalPrioritiesByCP($aRows['cAds']);
+        // Are there any "lower" level creatives?
+        if (isset($aRows['lAds']) && is_array($aRows['lAds']) && count($aRows['lAds']) > 0
+            ||
+            isset($aRows['clAds']) && is_array($aRows['clAds']) && count($aRows['clAds']) > 0) {
+            // "Lower" level creatives exist, INCLUDE the "blank" priority
+            $totals['cAds'] = _getTotalPrioritiesByCP($aRows['cAds'], true);
+        } else {
+            // "Lower" level creatives do NOT exist, EXCLUDE the "blank" priority
+            $totals['cAds'] = _getTotalPrioritiesByCP($aRows['cAds'], false);
+        }
     }
-    // If there are low priority companion ads, sort by priority
+    // If there are companion remnant campaign creatives, sort by priority
     if (isset($aRows['clAds']) && is_array($aRows['clAds'])) {
         $totals['clAds'] = _setPriorityFromWeights($aRows['clAds']);
     }
@@ -1300,7 +1318,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
 
 /**
- * A private function to calculate priority for low/exclusive campagins
+ * A private function to calculate priority for contract (exclusive) and remnant campagins
  *
  * @param  array $aAds Ads array
  *
@@ -1349,18 +1367,27 @@ function _setPriorityFromWeights(&$aAds)
     return 0;
 }
 
-
 /**
  * A private function to calculate total expected priority values
  * for each campaign priority. The values are used later during
  * delivery to scale priorities to 1
  *
- * @param  array    $aAdsByCP   Ads array grouped by CP
+ * @param  array    $aAdsByCP        Ads array grouped by campaign priority
+ * @param  boolean  $includeBlank    Should the "blank" priorty be included in the
+ *                                   priorities array returned? This is only relevant
+ *                                   for contract campaigns (a "blank" priority value
+ *                                   may have been calculated via the MPE), and if it
+ *                                   one exists, it may (or may not) be required --
+ *                                   specifically, direct selection calls where there
+ *                                   are NO banners available to be selected in lower
+ *                                   level priority campaigns will need the "blank"
+ *                                   priority to be excluded, so that a banner is
+ *                                   actually selected.
  *
  * @return array    Array of total priorities by campaign priority
  */
 
-function _getTotalPrioritiesByCP($aAdsByCP)
+function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
 {
     $totals = array();
 
@@ -1384,9 +1411,12 @@ function _getTotalPrioritiesByCP($aAdsByCP)
     // Sort by ascending CP
     ksort($total_priority_cp);
 
-    // Store blank priority, ensuring that small rounding errors are
-    // not taken into account
-    $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
+    $total_priority = 0;
+    if ($includeBlank) {
+        // Store blank priority, ensuring that small rounding errors are
+        // not taken into account
+        $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
+    }
 
     // Calculate totals for each campaign priority
     foreach($total_priority_cp as $campaign_priority => $priority) {

@@ -232,25 +232,26 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                     // Iterate over all the advertisements in the campaign
                     reset($oCampaign->aAds);
                     while (list($advertKey, $oAd) = each($oCampaign->aAds)) {
-                        // Allocate *all* impressions the ad requires to the Direct Selection zone,
-                        // so that direct selection of HPC ads will be based on a system-wide
-                        // weighting of the number of impressions each HPC ad requires
+                        // Allocate *all* impressions the creative requires to the Direct Selection zone,
+                        // so that direct selection of contract campaign creatives will be based on a
+                        // system-wide weighting of the number of impressions each contract campaign
+                        // creative requires
                         $this->aAdZoneImpressionAllocations[] = array(
                             'ad_id'                => $oAd->id,
                             'zone_id'              => 0,
                             'required_impressions' => $oAd->requiredImpressions,
                             'campaign_priority'    => $oCampaign->priority
                         );
-                        // Set the ad/zone association information for the advertisement
+                        // Set the creative/zone association information for the advertisement
                         if (!isset($this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id])) {
                             continue;
                         }
                         $oCampaign->aAds[$advertKey]->zones =
                             $this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id];
-                        // If the advertisement is linked to at least one "real" zone
+                        // If the creative is linked to at least one "real" zone
                         if (is_array($oCampaign->aAds[$advertKey]->zones) && !empty($oCampaign->aAds[$advertKey]->zones)) {
                             // Calculate the total volume of forecast zone impressions
-                            // for all zones linked to the advertisement
+                            // for all zones linked to the creative
                             $totalAvaiableImpressions = 0;
                             foreach ($oCampaign->aAds[$advertKey]->zones as $zoneKey => $zone) {
                                 $oCampaign->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'] =

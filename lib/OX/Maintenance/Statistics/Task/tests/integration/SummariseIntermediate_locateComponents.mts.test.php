@@ -37,13 +37,13 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseIntermediate.php'
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
+class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics_Task_MigrateBucketData()
+    function __construct()
     {
         $this->UnitTestCase();
     }
@@ -80,7 +80,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogRequest_LogRequest', $aComponentClasses));
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_LogImpression', $aComponentClasses));
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogClick_LogClick', $aComponentClasses));
-        
+
         $diac = $aConf['table']['prefix'] . 'data_intermediate_ad_connection';
         $this->assertTrue(is_array($aComponents[$diac]));
         $this->assertEqual(count($aComponents[$diac]), 1);
