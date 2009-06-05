@@ -20,7 +20,9 @@
 
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonDelivery.php';
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+if(!is_callable('MAX_adSelect')) {
+    require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+}
 
 /**
  *
