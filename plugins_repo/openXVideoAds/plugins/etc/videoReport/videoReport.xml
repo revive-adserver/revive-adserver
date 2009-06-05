@@ -9,7 +9,7 @@
     <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>GPL</license>
     <description>Vast Reporting Plugin</description>
-    <version>1.0rc8</version>
+    <version>1.0-rc21</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>

@@ -1,28 +1,23 @@
 <?php
 /*
-+---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
-|                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-$Id$
-*/
+ *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
+ *
+ *    This file is part of the Regions plug-in for Flowplayer.
+ *
+ *    The Regions plug-in is free software: you can redistribute it
+ *    and/or modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation, either version 3 of
+ *    the License, or (at your option) any later version.
+ *
+ *    The Regions plug-in is distributed in the hope that it will be
+ *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 
 
 MAX_commonRegisterGlobalsArray(array('format', 'clientdebug'));
@@ -62,7 +57,7 @@ function Plugin_BannerTypeHTML_vastBannerTypeHtml_vastHtml_Delivery_postAdRender
     return true;
 }
 
-      
+
 function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
     return deliverVastAd('vastInline', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
@@ -70,7 +65,7 @@ function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_
 
 // End of functions
 
-    
+
 if ( !empty($format) && $format == 'vast'){
 
     // ----------------- MARK start of cut-and-paste from spc.php ---------------
@@ -88,11 +83,11 @@ if ( !empty($format) && $format == 'vast'){
     if ( $format == 'vast' ){
         $spc_output  = getVastXMLHeader($charset);
     }
-    
+
     // -------------- MARK start cut-and-paste from spc.php --------------------
     // This code was cut and pasted as we also need access to this business logic
     else {
-        $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";	
+        $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
     }
     foreach ($zones as $thisZone) {
         if (empty($thisZone)) continue;
@@ -103,34 +98,34 @@ if ( !empty($format) && $format == 'vast'){
         } else {
             $thisZoneid = $varname = $thisZone;
         }
-       
+
         ###START_STRIP_DELIVERY
         appendClientMessage( "Processing zoneid:|$thisZoneid| zonename:|$varname|" );
         ###END_STRIP_DELIVERY
-        
+
         $what = 'zone:'.$thisZoneid;
-    
+
         ###START_STRIP_DELIVERY
         OA::debug('$what='.$what);
         OA::debug('$context='.print_r($context,true));
         ###END_STRIP_DELIVERY
-    
-        
+
+
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-    
+
         ###START_STRIP_DELIVERY
         OA::debug('$block='.$block);
         //OA::debug(print_r($output, true));
         OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
         ###END_STRIP_DELIVERY
-    
+
         // BM - output format is vast xml
         if ( $format == 'vast' ){
-    
+
             // Store the html2js'd output for this ad
             $spc_output .= $output['html'] . "\n";
-    
+
             // Help the player (requestor of VAST) to match the ads in the response with his request by using his id in the Ad xml node
             $spc_output = str_replace( '{player_allocated_ad_id}', $varname, $spc_output );
         }
@@ -138,7 +133,7 @@ if ( !empty($format) && $format == 'vast'){
             // Store the html2js'd output for this ad
             $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
         }
-    
+
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
             $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
@@ -147,7 +142,7 @@ if ( !empty($format) && $format == 'vast'){
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
             $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
         }
-        
+
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
         if (!empty($output['context'])) {
             foreach ($output['context'] as $id => $contextArray) {
@@ -159,7 +154,7 @@ if ( !empty($format) && $format == 'vast'){
     }
     MAX_cookieFlush();
     // -------------- MARK end cut-and-paste from spc.php --------------------
-    
+
     if ( $format == 'vast' ){
         $spc_output .=  getVastXMLFooter();
         // Setup the banners for this page
@@ -175,6 +170,6 @@ if ( !empty($format) && $format == 'vast'){
     echo $spc_output;
 }
 else {
-   //echo "<!-- vast delivery include called -->";    
+   //echo "<!-- vast delivery include called -->";
 }
 

@@ -5,11 +5,11 @@
     <name>openXVideoAds</name>
     <creationDate>2009-05-20</creationDate>
     <author>OpenX</author>
-    <authorEmail>hello@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <authorEmail>enquiries@bouncingminds.com</authorEmail>
+    <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>license.txt</license>
     <description>Vast Banner type for OpenX</description>
-    <version>1.0-rc11</version>
+    <version>1.0-rc21</version>
     <type>extension</type>
 
     <install>

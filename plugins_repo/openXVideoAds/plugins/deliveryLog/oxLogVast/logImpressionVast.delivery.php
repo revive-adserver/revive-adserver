@@ -1,30 +1,24 @@
 <?php
 /*
-+---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
-|                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-$Id$
-*/
+ *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
+ *
+ *    This file is part of the Regions plug-in for Flowplayer.
+ *
+ *    The Regions plug-in is free software: you can redistribute it
+ *    and/or modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation, either version 3 of
+ *    the License, or (at your option) any later version.
+ *
+ *    The Regions plug-in is distributed in the hope that it will be
+ *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-/* 
+/*
  * NOTE: If this list of event ever changes (IDs or names), the Video Reports must be updated as well
  */
 $aVastEventStrToIdMap = array(
@@ -85,44 +79,44 @@ if ( $vast_event ){
 
     // Prevent the logging beacon from being cached by browsers
     MAX_commonSetNoCacheHeaders();
-    
+
     // Remove any special characters from the request variables
     MAX_commonRemoveSpecialChars($_REQUEST);
-    
+
     //$GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
-   
+
     $time = getTimeNow();
-    
+
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
-    $intervalStart =  gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));   
-    
+    $intervalStart =  gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
+
     $viewerIsOkToLog = _viewersHostOkayToLog();
-    
+
     $aQuery = array( 'creative_id'      => intVal($banner_id),
                      'zone_id'          => intVal($zone_id),
                      'vast_event_id'    => getVastEventIdFromVastEventStr($vast_event),
                      'interval_start'   => $intervalStart,
                      'is_host_ok'       => $viewerIsOkToLog,
-                     //'video_time_posn'  => intVal($video_time_posn), 
+                     //'video_time_posn'  => intVal($video_time_posn),
                    );
-  
+
     //logRawVastDataEvent($aQuery);
-    
+
     if ( $viewerIsOkToLog ){
-        
-       bumpVastEventTrackingBucketCounter( $aQuery );      
+
+       bumpVastEventTrackingBucketCounter( $aQuery );
     }
-    
+
     if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
-        
+
         MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
     } else {
         // Display a 1x1 pixel gif
         MAX_commonDisplay1x1();
     }
-    
+
 }
 else {
-    
+
    // do nothing
 }

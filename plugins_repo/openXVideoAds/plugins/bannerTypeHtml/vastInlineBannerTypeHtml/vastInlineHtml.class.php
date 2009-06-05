@@ -1,28 +1,23 @@
 <?php
 /*
-+---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
-|                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-$Id$
-*/
+ *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
+ *
+ *    This file is part of the Regions plug-in for Flowplayer.
+ *
+ *    The Regions plug-in is free software: you can redistribute it
+ *    and/or modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation, either version 3 of
+ *    the License, or (at your option) any later version.
+ *
+ *    The Regions plug-in is distributed in the hope that it will be
+ *    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonAdmin.php';
@@ -55,9 +50,9 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
      * @param integer bannerId
      */
     function buildForm(&$form, &$bannerRow)
-    {   
-    	$selectableCompanions = $this->getPossibleCompanions();   	
-    	// for some bizarre reason $bannerid is all the fields 
+    {
+    	$selectableCompanions = $this->getPossibleCompanions();
+    	// for some bizarre reason $bannerid is all the fields
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
         $isNewBanner = false;
         if ( !isset( $bannerRow['banner_vast_element_id']) ){
@@ -70,8 +65,8 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         $form->addElement($header);
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
         addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
-        $form->addElement('header', 'video_status', "VAST video parameters"); 
-              
+        $form->addElement('header', 'video_status', "VAST video parameters");
+
         $isVideoUploadSupported = false;
         if ($isVideoUploadSupported){
             addUploadGroup($form, $row,
