@@ -12,17 +12,27 @@ NOTE: To trigger the data generator or the data check, you just have to visit
 any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-api.php
 directly in your browser as it will fail.
 
+How to use your custom flowplayer and flowplayer plugins versions?
+==================================================================
+By default, when previewing a banner in the OpenX UI, Flowplayer 3.1.1 will be used, 
+along with the Flowplayer Controls 3.1.1 and Flowplayer RMTP plugin 3.1.1.
+If you are using a newer version of these files in your production website, you 
+might want OpenX Video Ads plugin to use the same versions when previewing banners.
+
+To do so, you can manually add the files in 
+	/path/to/openx/plugins/deliveryLog/vastServeVideoPlayer/flowplayer/X.Y/
+Then in your configuration file /path/to/openx/var/youdomain.conf.php
+Under 
+	[vastServeVideoPlayer]
+Add the following (replacing X.Y by the corresponding version numbers)
+	flowplayerSwfUrl=flowplayer/X.Y/flowplayer-X.Y.swf
+	flowplayerJsUrl=flowplayer/X.Y/flowplayer-X.Y.min.js
+	flowplayerControlsPluginUrl=flowplayer/X.Y/flowplayer.controls-X.Y.swf
+	flowplayerRtmpPluginUrl=flowplayer/X.Y/flowplayer.rtmp-X.Y.swf
+
 Known bugs
 ==========
 See the list on: https://developer.openx.org/jira/secure/IssueNavigator.jspa?reset=true&pid=10111&component=10481&resolution=-1&sorter/field=issuekey&sorter/order=DESC&sorter/field=priority&sorter/order=DESC
-- QA: check conversion tracking works for video ads after click
-- TODO checks for credentials when accessing screens 
-- website tab report should only appear for websites that have vast zones
-- Change plugin description, name, change this README
-- Check for XSS and sql injection, and xml injection in returned vast template
-- check that the debug.log is not full of junk
-- CODE: refactor & cleanup code in reporting & factor out the menu detection code from the stats-api & remove test / date generation code from the global space
-- Full code review
 
 Feature requests Video Plugin
 =============================
@@ -35,8 +45,3 @@ Feature requests Video Plugin
 - in video reports, a row should not be expandable if there is no data
 - add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
 - add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
-
-TODO Core
-=========
-- smarty templates clearing should not delete .svn
-- helplink should not link to openx when :// is found
