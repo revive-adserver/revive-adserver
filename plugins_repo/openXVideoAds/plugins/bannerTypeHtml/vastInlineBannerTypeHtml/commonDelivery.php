@@ -100,7 +100,6 @@ function getVastXMLFooter()
  */
 function getVideoPlayerUrl($parameterId)
 {
-
     static $aDefaultPlayerFiles = array(
         'flowplayerSwfUrl'=> "flowplayer/3.1.1/flowplayer-3.1.1.swf",
         'flowplayerJsUrl'=> "flowplayer/3.1.1/flowplayer-3.1.1.min.js",
@@ -109,37 +108,26 @@ function getVideoPlayerUrl($parameterId)
     );
 
     $conf = $GLOBALS['_MAX']['CONF'];
-    $fullFileLocationUrl = "";
+
+    // you can set this by adding a setting under [vastServeVideoPlayer] in the hostname.conf.php config file
+    $fullFileLocationUrl = (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
+        'https://' . $conf['webpath']['deliverySSL'] :
+        'http://' .  $conf['webpath']['delivery'];
+    $fullFileLocationUrl .= "/fc.php?script=deliveryLog:vastServeVideoPlayer:player&file_to_serve=";
     $configFileLocation = $conf['vastServeVideoPlayer'][$parameterId];
-
     if ( $configFileLocation ){
-
-        $fullFileLocationUrl = (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
-            'https://' . $configFileLocation :
-            'http://' . $configFileLocation;
+        $fullFileLocationUrl .= $configFileLocation;
     }
     else {
-
-        // you can set this by adding a setting under [vastServeVideoPlayer] in the hostname.conf.php config file
-        $fullFileLocationUrl = (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
-            'https://' . $conf['webpath']['deliverySSL'] :
-            'http://' .  $conf['webpath']['delivery'];
-
-        $fullFileLocationUrl .= "/fc.php?script=deliveryLog:vastServeVideoPlayer:player&file_to_serve=";
-
         if ( !isset($aDefaultPlayerFiles[$parameterId]) ){
-
             throw new Exception("Uncatered for setting type in getVideoPlayerUrl() |$parameterId| in <pre>" . print_r( $aDefaultPlayerFiles, true) . '</pre>' );
         }
         else {
-
             $fullFileLocationUrl .= $aDefaultPlayerFiles[$parameterId];
         }
     }
-
     return $fullFileLocationUrl;
 }
-
 
 function getVideoPlayerSetting($parameterId)
 {
