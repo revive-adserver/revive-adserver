@@ -249,8 +249,8 @@ class OA_Admin_Menu_Section
     function &get($sectionId, $checkAccess = true)
     {
         if (!isset($this->aSectionsMap[$sectionId])) {
-            /*$errMsg = "MenuSection::get() Cannot get section. No such section with id '".$sectionId."'";
-            OA::debug($errMsg, PEAR_LOG_WARNING);*/
+            $errMsg = "MenuSection::get() Cannot get section. No such section with id '".$sectionId."'";
+            OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
         }
 
