@@ -63,7 +63,7 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
             case 'zone-invocation':
                 if(!empty($zoneid) && $vast->isZoneVast($zoneid)) {
                     $oSection->setNameKey('Video Invocation Code');
-                    $oSection->setLink('plugins/videoReport/zone-invocation-code.php?zoneid='.$zoneid);
+                    $oSection->setLink('plugins/videoReport/zone-invocation-code.php?zoneid='.$zoneid.'&affiliateid='.$affiliateid);
                 }
                 $enabled = true;
                 break;
@@ -72,5 +72,3 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
         return $enabled;
     }
 }
-
-?>
