@@ -454,8 +454,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $campaign['name'] = MAX_getPlacementName($campaign);
                     // b) mask ad names
                     if ($campaign['anonymous'] == 't') {
-                        foreach ($campaign['children'] as $ad_id => $ad) {
-                            $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+                        if(isset($campaign['children'])) {
+		                    foreach ($campaign['children'] as $ad_id => $ad) {
+		                        $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+		                    }
                         }
                     }
                 }
@@ -464,8 +466,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 // a) mask campaign name
                 $campaign['name'] = MAX_getPlacementName($campaign);
                 // b) mask ad names
-                foreach ($campaign['children'] as $ad_id => $ad) {
-                    $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+                if(isset($campaign['children'])) {
+	                foreach ($campaign['children'] as $ad_id => $ad) {
+	                    $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+	                }
                 }
                 $campaign['prefix'] = 'c';
                 $campaign['id'] = $campaignId;
