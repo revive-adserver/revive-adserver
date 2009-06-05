@@ -305,7 +305,7 @@ enabled=0]]></replacevalue>
 			<equals arg1="0" arg2="${test.unit.v1.xmlrpc.mvn.result}" />
 		</condition>
 		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
-			<arg line="surefire-report:report-only" />
+			<arg line="${test.unit.xmlrpc.mvn.params} surefire-report:report-only" />
 		</exec>
 		<fail unless="api.v1.has.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.v1.xmlrpc.mvn.result}"/>
 	</target>
@@ -319,7 +319,7 @@ enabled=0]]></replacevalue>
 			<equals arg1="0" arg2="${test.unit.v2.xmlrpc.mvn.result}" />
 		</condition>
 		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v2/xmlrpc/tests/unit/">
-			<arg line="surefire-report:report-only" />
+			<arg line="${test.unit.xmlrpc.mvn.params} surefire-report:report-only" />
 		</exec>
 		<fail unless="api.v2.has.failed" message="[ERROR] There are test failures/errors in XMLRPC v2 unit tests. Maven result code ${test.unit.v2.xmlrpc.mvn.result}"/>
 	</target>

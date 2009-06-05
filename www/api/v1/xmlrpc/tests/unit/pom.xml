@@ -54,9 +54,9 @@
 	                 <groupId>org.apache.maven.plugins</groupId>
 	                 <artifactId>maven-surefire-plugin</artifactId>
 	                 <configuration>
+						<argLine>-Xmx1536m -Xms256m -Djava.awt.headless=true</argLine>
+						<forkMode>pertest</forkMode>
 	                     <excludes>
-	                       <exclude>**/TestGetBanner.*</exclude> <!-- disabled during OX-2555 -->
-						   <exclude>**/TestGetBannerListByCampaignId.*</exclude> <!-- disabled during OX-2555 -->	                     
 	                       <exclude>**/Abstract*</exclude>
 	                       <exclude>**/*Case.*</exclude>
 	                       <exclude>**/*$*</exclude>
