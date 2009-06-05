@@ -76,7 +76,7 @@ foreach ($zones as $thisZone) {
     $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
     ###START_STRIP_DELIVERY
-    OA::debug('$block='.$block);
+    OA::debug('$block='.@$block);
     //OA::debug(print_r($output, true));
     OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
     ###END_STRIP_DELIVERY

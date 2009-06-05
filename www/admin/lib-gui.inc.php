@@ -391,7 +391,7 @@ function phpAds_Die($title="Error", $message="Unknown error")
         phpAds_PageHeader(phpAds_Error);
     }
     echo "<br>";
-    echo "<div class='errormessage'><img class='errormessage' src='". OX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
+    echo "<div class='errormessage'><img class='errormessage' src='". OX::assetPath() ."/images/errormessage.gif' align='absmiddle'> ";
     echo "<span class='tab-r'>".$title."</span><br><br>". $message ."</div><br>";
     // Die
     if ($header == phpAds_Login) {

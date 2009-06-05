@@ -62,5 +62,3 @@ if (stristr($scriptFileName, '../') || stristr($scriptFileName, '..\\') || !is_r
 
 // Include the delivery script for the specified plugin-component identifier
 include $scriptFileName;
-
-?>
