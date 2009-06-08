@@ -521,10 +521,10 @@ class Admin_DA
         if ($aZone['type'] == phpAds_ZoneText) {
             $aParams['ad_type'] = 'txt';
         } else {
-            if ($aZone['width'] > -1) {
+            if ($aZone['width'] != -1) {
                 $aParams['ad_width'] = $aZone['width'];
             }
-            if ($aZone['height'] > -1) {
+            if ($aZone['height'] != -1) {
                 $aParams['ad_height'] = $aZone['height'];
             }
         }

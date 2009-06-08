@@ -199,9 +199,9 @@ function MAX_checkZone($publisherId, $zoneId)
 function MAX_checkAdZoneValid($aZone, $aAd)
 {
     $valid = true;
-    if ($aZone['width'] > -1 && $aZone['width'] != $aAd['width']) {
+    if ($aZone['width'] != -1 && $aZone['width'] != $aAd['width']) {
         $valid = false;
-    } elseif ($aZone['height'] > -1 && $aZone['height'] != $aAd['height']) {
+    } elseif ($aZone['height'] != -1 && $aZone['height'] != $aAd['height']) {
         $valid = false;
     } elseif ($aAd['type'] == 'txt' && $aZone['type'] != phpAds_ZoneText) {
         $valid = false;
