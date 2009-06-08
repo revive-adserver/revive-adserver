@@ -5,6 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcSunHttpTransport;
@@ -30,6 +33,8 @@ public class ErrorLoggingXmlRpcSunHttpTransport extends XmlRpcSunHttpTransport {
 	public static final int BUFF_SIZE_1M = 1024 * 1024;
 	public static final int BUFF_SIZE_DEFAULT = BUFF_SIZE_1K;
 
+	private Log log = LogFactory.getLog(getClass());
+
 	public ErrorLoggingXmlRpcSunHttpTransport(XmlRpcClient client) {
 		super(client);
 	}
@@ -43,8 +48,8 @@ public class ErrorLoggingXmlRpcSunHttpTransport extends XmlRpcSunHttpTransport {
 				return super.readResponse(config, new ByteArrayInputStream(
 						bytes));
 			} catch (XmlRpcException e) {
-				e.printStackTrace();
-				System.out.println(new String(bytes));
+				log.info(e.getMessage(), e);
+			    log.info(new String(bytes));
 				throw e;
 			}
 		} catch (IOException e) {
