@@ -694,6 +694,11 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
                 list($type, $value) = $valueArray;
             }
 
+            // Skip if value is empty
+            if (empty($value)) {
+                continue;
+            }
+
             switch($type) {
                 case 'campaignid':
                     switch ($key) {
