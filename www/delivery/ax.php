@@ -3701,7 +3701,6 @@ $aLinkedAd['zoneid'] = 0;
 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
 $aLinkedAd['storagetype'] = $aLinkedAd['type'];
 $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-$aLinkedAd['prepend'] = '';
 return $aLinkedAd;
 }
 if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
