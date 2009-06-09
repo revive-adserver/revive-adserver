@@ -2641,7 +2641,6 @@ MAX_header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 function MAX_commonPackContext($context = array())
 {
-//return base64_encode(serialize($context));
 $include = array();
 $exclude = array();
 foreach ($context as $idx => $value) {
@@ -2654,11 +2653,14 @@ case 'clientid':    $value = 'a:' . $id; break;
 case 'bannerid':    $value = 'b:' . $id; break;
 case 'companionid': $value = 'p:' . $id; break;
 }
+// Set value as key to avoid duplicates
 switch ($key) {
-case '!=': $exclude[] = $value; break;
-case '==': $include[] = $value; break;
+case '!=': $exclude[$value] = true; break;
+case '==': $include[$value] = true; break;
 }
 }
+$exclude = array_keys($exclude);
+$include = array_keys($include);
 return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
 }
 function MAX_commonUnpackContext($context = '')
@@ -4073,12 +4075,11 @@ if (!is_array($context)) {
 $context = array();
 }
 if (isset($exclude) && $exclude != '' && $exclude != ',') {
-$exclude = explode (',', $exclude);
-if (count($exclude) > 0) {
+$exclude = explode(',', trim($exclude, ','));
 for ($i = 0; $i < count($exclude); $i++) {
-if ($exclude[$i] != '') {
+// Avoid adding empty entries and duplicates
+if ($exclude[$i] != '' && array_search(array ("!=" => $exclude[$i]), $context) === false) {
 $context[] = array ("!=" => $exclude[$i]);
-}
 }
 }
 }
