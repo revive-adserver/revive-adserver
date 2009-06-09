@@ -576,7 +576,6 @@ function MAX_sendStatusCode($iStatusCode) {
 
 function MAX_commonPackContext($context = array())
 {
-    //return base64_encode(serialize($context));
     $include = array();
     $exclude = array();
     foreach ($context as $idx => $value) {
@@ -589,11 +588,14 @@ function MAX_commonPackContext($context = array())
             case 'bannerid':    $value = 'b:' . $id; break;
             case 'companionid': $value = 'p:' . $id; break;
         }
+        // Set value as key to avoid duplicates
         switch ($key) {
-            case '!=': $exclude[] = $value; break;
-            case '==': $include[] = $value; break;
+            case '!=': $exclude[$value] = true; break;
+            case '==': $include[$value] = true; break;
         }
     }
+    $exclude = array_keys($exclude);
+    $include = array_keys($include);
     return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
 }
 

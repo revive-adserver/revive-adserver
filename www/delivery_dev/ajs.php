@@ -51,12 +51,11 @@ if (!is_array($context)) {
 }
 
 if (isset($exclude) && $exclude != '' && $exclude != ',') {
-    $exclude = explode (',', $exclude);
-    if (count($exclude) > 0) {
-        for ($i = 0; $i < count($exclude); $i++) {
-            if ($exclude[$i] != '') {
-                $context[] = array ("!=" => $exclude[$i]);
-            }
+    $exclude = explode(',', trim($exclude, ','));
+    for ($i = 0; $i < count($exclude); $i++) {
+        // Avoid adding empty entries and duplicates
+        if ($exclude[$i] != '' && array_search(array ("!=" => $exclude[$i]), $context) === false) {
+            $context[] = array ("!=" => $exclude[$i]);
         }
     }
 }
