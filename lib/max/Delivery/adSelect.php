@@ -308,7 +308,6 @@ function _adSelectDirect($what, $campaignid = '', $context = array(), $source = 
         $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
         $aLinkedAd['storagetype'] = $aLinkedAd['type'];
         $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-        $aLinkedAd['prepend'] = '';
 
         return $aLinkedAd;
     }
