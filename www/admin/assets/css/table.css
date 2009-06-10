@@ -433,7 +433,7 @@
     color: #999;
 }
 
-.tableWrapper .tableFooter td {
+.tableWrapper .tableFooter td, .tableWrapper tfoot td {
   line-height: 350%;
 }
 
