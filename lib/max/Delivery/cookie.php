@@ -335,7 +335,6 @@ function MAX_cookieClientCookieUnset($name)
 
 /**
  * Send all cookies in the global cookie cache to the browser
- *
  */
 function MAX_cookieClientCookieFlush()
 {
