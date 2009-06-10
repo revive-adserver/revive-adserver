@@ -196,16 +196,18 @@ class MAX_Admin_Inventory_TrackerAppend
 
         $codes = $this->codes;
         $this->codes = array();
-        foreach ($codes as $v){
-            $k = count($this->codes);
-            $v['id']   = "tag_{$k}";
-            $v['name'] = "tag[{$k}]";
-            $v['autotrackname'] = "autotrack[{$k}]";
-            $v['autotrack'] = isset($v['autotrack']) ? $v['autotrack'] : false;
-            $v['rank'] = $k + 1;
-            $v['move_up'] = $k > 0;
-            $v['move_down'] = $k < count($codes) - 1;
-            $this->codes[] = $v;
+        if (is_array($codes)) {
+            foreach ($codes as $v){
+                $k = count($this->codes);
+                $v['id']   = "tag_{$k}";
+                $v['name'] = "tag[{$k}]";
+                $v['autotrackname'] = "autotrack[{$k}]";
+                $v['autotrack'] = isset($v['autotrack']) ? $v['autotrack'] : false;
+                $v['rank'] = $k + 1;
+                $v['move_up'] = $k > 0;
+                $v['move_down'] = $k < count($codes) - 1;
+                $this->codes[] = $v;
+            }
         }
 
         // Display page content
