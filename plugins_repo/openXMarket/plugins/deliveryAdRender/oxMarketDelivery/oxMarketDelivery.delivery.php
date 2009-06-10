@@ -63,7 +63,7 @@ function _marketNeeded($scriptFile, $code, $aAd) {
         return false;
     }
     // Only process requests from supported tag types
-    $aAllowedTypes = array('js', 'frame', 'singlepagecall', 'xml-rpc', 'local');
+    $aAllowedTypes = array('js', 'frame', 'singlepagecall', 'xmlrpc', 'local');
     if (!in_array($scriptFile, $aAllowedTypes)) {
         return false;
     }
