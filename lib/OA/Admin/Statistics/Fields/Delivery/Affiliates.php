@@ -222,7 +222,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
         $row['sum_erpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
         $row['sum_erps']            = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions'] : 0;
         $row['sum_eipm']            = $row['sum_views'] ? $row['sum_income'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_eipc']            = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_clicks']: 0;
+        $row['sum_eipc']            = $row['sum_clicks'] ? $row['sum_income'] / $row['sum_clicks']: 0;
         $row['sum_eips']            = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_conversions']: 0;
         $row['sum_ecpm']            = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
         $row['sum_ecpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks']: 0;
