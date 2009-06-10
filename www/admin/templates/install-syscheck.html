@@ -44,7 +44,7 @@
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . 'Cookies - no errors' : $errorImage . ' <span class="red">'.$sysinfoarray['error']['enabled'].'</span>');
             include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
 
-            // Setup list of all timezones, calculate selected timezone
+            // Setup list of all timezones, calculate server timezone
             require_once('../../lib/OX/Admin/Timezones.php');
             $timezone = OX_Admin_Timezones::getTimezone();
 
@@ -54,7 +54,15 @@
             unset($sysinfoarray['actual']['date.timezone']);
             $sysinfoarray['actual']['timezone'] = $timezone;
 
-            $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
+            if ($sysinfoarray['actual']['timezone'] == 'System/Localtime') {
+                $sysinfoarray['actual']['timezone'] .= ' ' . $warnImage;
+                $sysinfoarray['warning'][] = MAX_PRODUCT_NAME . " has detected that your PHP installation is returning 'System/Localtime' as the ".
+                                         "timezone of your server. This is because of a patch to PHP applied by some Linux distributions. " .
+                                         "Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the 'date.timezone' " .
+                                         "property to the correct value for your server.";
+            } else {
+                $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
+            }
 
             $sysinfoarray['actual']['version'] = ($sysinfoarray['warning'][OA_ENV_ERROR_PHP_VERSION] ? $sysinfoarray['actual']['version'].' '.$warnImage : $sysinfoarray['actual']['version'].' '.$passImage );
 
