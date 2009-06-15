@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenX Market\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-18 22:21-0500\n"
+"PO-Revision-Date: 2008-11-17 11:23+0100\n"
+"Last-Translator: Bernard Lange <bernard@openx.org>\n"
+"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: plugins_repo/openXMarket/www/admin/plugins/oxMarket\n"
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/market-preferences-campaign.php:79
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:59
+msgid "Yes, allow this campaign to be challenged by MarketPlace"
+msgstr "Yes, allow this campaign to be challenged by MarketPlace"
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/market-preferences-campaign.php:80
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/market-preferences-campaign.php:84
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:63
+msgid "Campaign floor price"
+msgstr "Campaign floor price"
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:55
+msgid "Enable Marketplace"
+msgstr "Enable Marketplace"
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:58
+msgid "You could possibly earn more if this campaign takes part in MarkePlace."
+msgstr "You could possibly earn more if this campaign takes part in MarkePlace."
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:61
+msgid "Floor Price"
+msgstr "Floor Price"
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:62
+msgid "Define the minimum price (floor) to ensure that marketplace never delivers less profitable ad than you would serve otherwise."
+msgstr "Define the minimum price (floor) to ensure that marketplace never delivers less profitable ad than you would serve otherwise."
+
+#: plugins_repo/openXMarket/www/admin/plugins/oxMarket/oxMarket.class.php:70
+#, php-format
+msgid "Must be a decimal with maximum %s decimal places"
+msgstr "Must be a decimal with maximum %s decimal places"
+

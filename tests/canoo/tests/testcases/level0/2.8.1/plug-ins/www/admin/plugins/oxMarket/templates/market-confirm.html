@@ -1,0 +1,48 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-confirm.html 37141 2009-05-28 09:25:03Z bernard.lange $
+
+-->*}
+
+{if $content}
+    {$content}
+{else}
+    <div class="content">
+      <h2 class="section">Your Ad Server is now connected to OpenX Market!</h2>
+      <p class="wide">
+          You are now ready to maximize ad revenue through OpenX Market.
+      </p>
+      <h2 style="font-size:14px; font-weight:bold;"><a href="{$adminWebUrl}advertiser-index.php">Create a new ad campaign and opt it into OpenX Market &raquo;</a></h2>
+    </div>
+{/if}
+    <script type="text/javascript"><!--
+{literal}
+      // Run register websites
+      $.get('market-run-registerwebsites.php');
+{/literal}
+    //--></script>
+{$trackerFrame}

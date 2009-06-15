@@ -1,0 +1,91 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-inactive.html 35819 2009-04-30 12:10:30Z lukasz.wikierski $
+
+-->*}
+
+<div class="content">
+<h2 class="section">{t str="We're sorry your OpenX Market Publisher account is disabled"}</h2>
+<p>
+{t str='Your OpenX Market Publisher account for this OpenX Ad Server has been disabled.'}
+</p>
+<p>
+{t str='Deactivation reason:'}<br>
+<b>
+{if $deactivationStatusMessage}
+   {$deactivationStatusMessage} {if $deactivationStatus !== '' && $deactivationStatus !== null}(code: {$deactivationStatus}){/if}
+{else}
+ {*TODO here goes a switch for possible agreed reasons from publisher API*}
+{/if}
+</b>
+</p>
+
+{if $hasServerError}
+  <div class='form-message form-message-error' id="server-errors" >
+    {$errorMessage}
+  </div>
+{/if}
+
+  {*oxMarketRelink form*}
+  {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+  {*/oxMarketRelink form*}
+</div>
+
+<script type="text/javascript">
+{literal}
+<!--
+  $(document).ready(function() {
+    $("#market-relink-form")
+    .initForm({
+        rules: {
+            "m_username": { "required": true },
+            "m_password": { "required": true },
+            "market_terms_agree": { "required": true }
+        },
+
+        messages: {
+            "m_username": {
+                "required": {/literal}"{$login_field_label} is required"{literal} 
+            },
+            "m_password": {
+                "required": {/literal}"{$password_field_label} is required"{literal} 
+            },
+            "market_terms_agree": {
+                "required": {/literal}"{$market_terms_field_invalid_message}"{literal} 
+            }
+        }
+    });
+  });
+-->
+{/literal}
+
+{if $publisherSupportEmail != ''}
+  <p>
+  If you think it is incorrect or have further questions please contact <a href="mailto:{$publisherSupportEmail}">{t str='OpenX Market publisher support'}</a>.
+  </p>
+{/if}
+</div>

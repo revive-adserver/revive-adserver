@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxLogImpression</name>
+    <creationDate>2008-06-10</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Impression logging component of the standard delivery logging plugin for OpenX</description>
+    <version>1.0.4</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>deliveryLog</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.class.php</file>
+        </files>
+
+        <postscript>postscript_install_oxLogImpression.php</postscript>
+
+        <components>
+           <component>
+                <name>logImpression</name>
+                <hook>logImpression</hook>
+           </component>
+        </components>
+
+    </install>
+
+
+</plugin>

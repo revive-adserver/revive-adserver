@@ -1,0 +1,155 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.osinski $
+
+-->*}
+
+<div class='tableWrapper'>
+    <div class='tableHeader'>
+        <ul class='tableFilters'>
+            <li>
+                <div class='label'>
+                    Showing
+                </div>
+
+                <div class='dropDown'>
+                    <span><span>
+                        {if $campaignType == 'remnant'}
+                            Remnant campaigns
+                        {elseif $campaignType == 'contract'}
+                            Contract campaigns
+                        {else}
+                            Remnant and contract campaigns
+                        {/if}
+                     </span></span>
+
+                    <div class='panel'>
+                        <div>
+                            <ul>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=remnant'>Remnant campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=contract'>Contract campaigns</a></li>
+                                <li><a href='market-campaigns-settings.php?optInType=selected&amp;campaignType=all'>Remnant and contract campaigns</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class='mask'></div>
+                </div>
+                <div class='label' style="margin-left: 4px;">
+                    that are not yet opted in
+                </div>
+            </li>
+        </ul>
+
+        <div class='clear'></div>
+        <div class='corner left'></div>
+        <div class='corner right'></div>
+    </div>
+    
+    <div class="scroll">
+    <table cellspacing='0' summary=''>
+        <thead>
+            <tr>
+                <th class='first toggleAll'>
+                    <input type='checkbox'{if $firstView} checked="checked"{/if} />
+                </th>
+                <th>
+                    Campaign Name
+                </th>
+                <th>
+                    Campaign Type
+                </th>
+                <th class='last'>
+                    Minimum CPM that OpenX Market must beat
+                </th>
+            </tr>
+        </thead>
+
+{if $from|@count}
+        <tbody>
+        {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
+        {foreach key=campaignId item=campaign from=$from}
+            {cycle name=bgcolor assign=bgColor}
+            <tr class='{$bgColor}'>
+                <td class='toggleSelection'>
+                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
+                           id="c{$campaignId}"{if !isset($toOptIn[$campaignId]) || $toOptIn[$campaignId]} checked="checked"{/if} />
+                </td>
+                <td>
+                    <label for="c{$campaignId}">{$campaign.campaignname|escape:html}</label>
+                </td>
+                <td>
+                    {ox_campaign_type type=$campaign.type}
+                </td>
+                <td>
+                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" 
+                             name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
+                    {if $campaign.minCpmCalculated}
+                    <small>This is the campaign's calculated eCPM</small>
+                    {/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+{else}
+        <tbody>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+            <tr class='even'>
+                <td colspan='4'>
+                    <div class='tableMessage'>
+                        <div class='panel'>
+                            {capture assign=typeString}
+                              {if $campaignType == 'remnant'}
+                                  remnant
+                              {elseif $campaignType == 'contract'}
+                                  contract
+                              {/if} 
+                            {/capture}
+                            
+                            {if $campaignsOptedIn > 0}
+                                All of your {$typeString} campaigns have been opted in to OpenX Market.
+                            {else}
+                                There are no {$typeString} campaigns to opt in to OpenX Market in your inventory.
+                            {/if}
+
+                            <div class='corner top-left'></div>
+                            <div class='corner top-right'></div>
+                            <div class='corner bottom-left'></div>
+                            <div class='corner bottom-right'></div>
+                        </div>
+                    </div>
+
+                    &nbsp;
+                </td>
+            </tr>
+            <tr class='odd'>
+                <td colspan='4'>&nbsp;</td>
+            </tr>
+        </tbody>
+{/if}
+    </table>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2009 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<tr height="25">
+    <td height='25'>
+      <div style="float:left;padding-right: 5px;">
+        {if $level== 2}<img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16' align='absmiddle'>{/if}
+        <img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16' align='absmiddle'>
+        <img src='{$assetPath|escape}/images/icon-zone.gif' align='absmiddle'>&nbsp;
+      </div>
+      <div>
+        {$zone.description|escape:html}&nbsp;{$zone.width}x{$zone.height}
+      </div>
+    </td>
+
+    <td height='25' class='aright'>
+       {$zone.impressions}
+    </td>
+
+    <td height='25' class='aright'>
+        {$zone.revenue|string_format:"%.2f"}
+    </td>
+
+    <td height='25' class='aright'>
+        {$zone.ecpm|string_format:"%.2f"}
+    </td>
+</tr>

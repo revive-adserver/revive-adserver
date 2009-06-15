@@ -1,0 +1,89 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-campaigns-settings.html 37141 2009-05-28 09:25:03Z bernard.lange $
+
+-->*}
+
+{$topMessage}
+
+<form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
+<input type="hidden" name="campaignType" value="{$campaignType}" /> 
+<p style="width: 50em">
+<strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
+<br />You can further update OpenX Market settings for a specific campaign on the Edit Campaign page.
+<a href="http://www.openx.org/market" target="_blank">Learn more</a>
+</p>
+
+<ul id="mainOptions">
+  <li class="mainOption" style="width: 55em">
+    <label class="radio">
+        <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
+               name="optInType" value="remnant" class="radio" />
+      Opt in all of your existing remnant campaigns to OpenX Market. <br /><small>(<b>Note</b>: all 
+      remnant campaigns previously opted into OpenX Market will be updated with the 
+      following minimum CPM as well)</small></label>
+      
+    <div id="optInAllRemnant" class="mainOptionContent">
+      <label>Minimum CPM that OpenX Market must beat 
+      &nbsp;&nbsp;$ <input id="minCpm" type="text" name="minCpm"
+               class="cpm{if $minCpmInvalid} error{/if}" 
+               value="{$minCpm}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
+    </div>
+  </li>
+  
+  <li class="mainOption">
+    <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
+                  name="optInType" value="selected" class="radio" /> 
+        Opt in the selected campaigns to OpenX Market</label>
+    <div id="optInSelected" class="mainOptionContent">
+      {include file=market-campaigns-settings-list.html from=$campaigns}
+    </div>
+  </li>
+</ul>
+
+<input type="submit" value="Apply" id="submit" class="main-submit" />
+<span id="counts">
+  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span>
+  <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
+  campaign(s) 
+  {if $remnantCampaignsOptedIn > 0}
+    <span id="remnantOptedInCount"{if $optInType == 'selected'} class="hide"{/if}>
+      (including {$remnantCampaignsOptedIn} previously opted in campaign{if $remnantCampaignsOptedIn > 1}s{/if})
+    </span> 
+  {/if}
+  will be updated
+</span>
+</form>
+
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
+<script type="text/javascript">
+{literal}
+//<!--
+$("#massOptIn").marketOptIn();
+//-->
+{/literal}
+</script>

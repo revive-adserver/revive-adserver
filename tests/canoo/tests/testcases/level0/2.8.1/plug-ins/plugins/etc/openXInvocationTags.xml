@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXInvocationTags</name>
+    <creationDate>2008-09-09</creationDate>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>OpenX Invocation Tags Plugins for OpenX</description>
+    <version>1.0.3</version>
+    <type>package</type>
+
+    <install>
+
+        <contents>
+            <group name="oxInvocationTags">1</group>
+        </contents>
+
+    </install>
+
+</plugin>
