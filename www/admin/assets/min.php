@@ -8,6 +8,7 @@
  */
 
 define('LIB_PATH', '../../../lib');
+define('OX_PATH', realpath('../../..'));
 
 // setup include path
 set_include_path(LIB_PATH . '/minify' . PATH_SEPARATOR . get_include_path());

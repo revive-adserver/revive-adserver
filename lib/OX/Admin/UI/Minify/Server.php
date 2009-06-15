@@ -12,7 +12,7 @@ class OX_UI_Minify_Server
         // try to disable output_compression (may not have an effect) 
         ini_set('zlib.output_compression', '0');
         
-        Minify::setCache('../var/cache', true);
+        Minify::setCache(OX_PATH. '/var/cache', true);
         
         if (isset($_GET['g'])) {
             // serve!   
