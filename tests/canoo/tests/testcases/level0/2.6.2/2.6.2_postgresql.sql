@@ -5115,8 +5115,6 @@ CREATE INDEX ox_zones_zonenameid ON ox_zones USING btree (zonename, zoneid);
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
