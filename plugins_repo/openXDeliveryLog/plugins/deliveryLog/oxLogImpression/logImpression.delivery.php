@@ -30,7 +30,7 @@ $Id$
  * @subpackage openxDeliveryLog
  */
 
-function Plugin_deliveryLog_OxLogImpression_LogImpression_Delivery_logImpression($adId = 0, $zoneId = 0, $aAd = array(), $okToLog = true)
+function Plugin_deliveryLog_OxLogImpression_LogImpression_Delivery_logImpression($adId = 0, $zoneId = 0, $okToLog = true)
 {
     if (!$okToLog) { return false; }
     $aData = $GLOBALS['_MAX']['deliveryData'];

@@ -4,12 +4,12 @@
 <plugin>
     <name>oxLogClick</name>
     <creationDate>2008-02-19</creationDate>
-    <author>Radek Maciaszek</author>
-    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Click logging component of the standard delivery logging plugin for OpenX</description>
-    <version>1.0.3</version>
+    <version>1.0.8</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLog</extends>
 
