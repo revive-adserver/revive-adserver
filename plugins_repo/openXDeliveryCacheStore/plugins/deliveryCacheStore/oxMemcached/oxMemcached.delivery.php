@@ -69,7 +69,9 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
     }
     
     $expiryTime = 0;
-    if (is_numeric($GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'])) { 
+    if (!empty($cache_contents['cache_expire'])) {
+        $expiryTime = $cache_contents['cache_expire'];
+    } else if (is_numeric($GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'])) {
         $expiryTime = $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'];
     }
     $serializedCacheExport = serialize($cache_contents); 
