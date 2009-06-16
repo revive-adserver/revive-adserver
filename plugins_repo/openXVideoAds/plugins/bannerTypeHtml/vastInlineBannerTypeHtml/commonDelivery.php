@@ -121,9 +121,9 @@ function getVideoPlayerUrl($parameterId)
 
     $fullFileLocationUrl .= "/fc.php?script=deliveryLog:vastServeVideoPlayer:player&file_to_serve=";
 
-    $configFileLocation = $conf['vastServeVideoPlayer'][$parameterId];
-
-    if ( $configFileLocation ){
+    if ( isset( $conf['vastServeVideoPlayer'][$parameterId] ) ){
+        
+        $configFileLocation = $conf['vastServeVideoPlayer'][$parameterId];
 
         $fullFileLocationUrl .= $configFileLocation;
     }

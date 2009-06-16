@@ -55,12 +55,9 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
      */
     function buildForm(&$form, &$bannerRow)
     {
-
-
     	$selectableCompanions = $this->getPossibleCompanions();
+
     	// for some bizarre reason $bannerid is all the fields
-
-
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
     	$isNewBanner = false;
     	if ( !isset( $bannerRow['banner_vast_element_id']) ){

@@ -122,7 +122,6 @@ function vastPluginErrorHandler($errNo, $errStr, $file, $line, $context){
 
 if ( !function_exists('debugDump') ){
     
-    
     function debugDump($id, $value){
         $message = "ID:$id VALUE:" . print_r( $value, true);
         OA::debug("[VAST]" . $message);

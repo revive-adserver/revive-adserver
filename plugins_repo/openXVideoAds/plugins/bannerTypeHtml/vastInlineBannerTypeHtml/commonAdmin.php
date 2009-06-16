@@ -256,11 +256,13 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     }
 
     $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing video filename");
-    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:80%;\">(Must be an rtmp URL to an mp4 or flv file. Use the format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4 or rtmp://cdn-domain/path-to-cdn-account/flv:filename.flv)</span>" );
+    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For streamed rmtp, use the filename format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4 or rtmp://cdn-domain/path-to-cdn-account/flv:filename.flv)</span>" );
+    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For progressive http, use the filename format: http://cdn-domain/path-to-cdn-account/filename.mp4 or http://cdn-domain/path-to-cdn-account/filename.flv)</span>" );
+    
     $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
     $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
     $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
-    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4/flv files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );
+    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> supports rtmp streaming/http progressive download URLs to mp4/flv files. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );
 
     $enableDefaultValues = true;
     if ( $isNewBanner && $enableDefaultValues ){
