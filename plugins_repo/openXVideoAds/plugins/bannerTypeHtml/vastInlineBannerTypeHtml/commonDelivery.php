@@ -23,7 +23,12 @@ require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
-    activatePluginErrorHandler();
+    
+    //error_reporting( E_ALL | E_NOTICE );
+    // This is useful for debugging on - you will only get notifications about errors in your plugin
+    //activatePluginErrorHandler();
+    
+    
     global $format;
     extractVastParameters( $aBanner );
     //debugDump('DeliveryBannerData', $aBanner );
@@ -50,7 +55,7 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
     //$bannerMetaData = "BANNER DATA <pre>" . print_r($aBanner, true) . "</pre>";
     //debuglog( $bannerMetaData );
     $player = "";
-    prepareTrackingParams( $aOutputParams, $aBanner, $zoneId, $source, $ct0, $logClick, $referer );
+    prepareTrackingParams( $aOutputParams, $aBanner, $zoneId, $source, $loc, $ct0, $logClick, $referer );
     if ( $format == 'vast' ){
        //$vastAdDescription = htmlentities( $vastAdDescription );
         if ( $pluginType == 'vastInline' ){
@@ -77,7 +82,7 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
             throw new Exception("Uncatered for vast plugintype|$pluginType|");
         }
     }/* js player required */
-    dectivatePluginErrorHandler();
+    //dectivatePluginErrorHandler();
     return $player;
 }
 
@@ -113,19 +118,27 @@ function getVideoPlayerUrl($parameterId)
     $fullFileLocationUrl = (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
         'https://' . $conf['webpath']['deliverySSL'] :
         'http://' .  $conf['webpath']['delivery'];
+
     $fullFileLocationUrl .= "/fc.php?script=deliveryLog:vastServeVideoPlayer:player&file_to_serve=";
+
     $configFileLocation = $conf['vastServeVideoPlayer'][$parameterId];
+
     if ( $configFileLocation ){
+
         $fullFileLocationUrl .= $configFileLocation;
     }
     else {
+
         if ( !isset($aDefaultPlayerFiles[$parameterId]) ){
+
             throw new Exception("Uncatered for setting type in getVideoPlayerUrl() |$parameterId| in <pre>" . print_r( $aDefaultPlayerFiles, true) . '</pre>' );
         }
         else {
+
             $fullFileLocationUrl .= $aDefaultPlayerFiles[$parameterId];
         }
     }
+
     return $fullFileLocationUrl;
 }
 
@@ -145,23 +158,6 @@ function extractVastParameters( &$aBanner )
     }
 }
 
-function splitRtmpUrl( $fullPathToVideo, &$aOutputParams)
-{
-    $fileDelimPosn = strrpos($fullPathToVideo, '/mp4:');
-    if ( $fileDelimPosn !== false ) {
-      $aOutputParams['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
-      $aOutputParams['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
-    }
-    else {
-         // messy code - need to fix
-         $fileDelimPosn = strrpos($fullPathToVideo, '/flv:');
-         if ( $fileDelimPosn !== false ){
-             $aOutputParams['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
-             $aOutputParams['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
-         }
-    }
-}
-
 function prepareVideoParams(&$aOutputParams, $aBanner)
 {
     if( isset( $aBanner['vast_video_outgoing_filename'] )
@@ -169,7 +165,11 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
 
        $fullPathToVideo = $aBanner['vast_video_outgoing_filename'];
        $aOutputParams['fullPathToVideo']  = $fullPathToVideo;
-       splitRtmpUrl( $fullPathToVideo, $aOutputParams  );
+       
+       $aAdminParamsNotUsed = array();
+       
+       parseVideoUrl( $fullPathToVideo, $aOutputParams, $aAdminParamsNotUsed );
+       
        $aOutputParams['vastVideoDuration'] = secondsToVASTDuration( $aBanner['vast_video_duration'] );
        $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
        $aOutputParams['vastVideoWidth']= $aBanner['vast_video_width'];
@@ -177,6 +177,8 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
        $aOutputParams['vastVideoId'] = $aBanner['vast_video_id'];
        $aOutputParams['vastVideoType'] = $aBanner['vast_video_type'];
        $aOutputParams['vastVideoDelivery'] = $aBanner['vast_video_delivery'];
+       
+       $aOutputParams['name'] = $aBanner['name'];
     }
     else{
         //debuglog( "no video associated with the comment field for this banner id: $aBanner" );
@@ -227,10 +229,11 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
     }
 }
 
-function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $ct0, $logClick, $referer)
+function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc, $ct0, $logClick, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // Get the image beacon...
+    
     $aOutputParams['impressionUrl'] =  _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     // Create the anchor tag..
     $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
@@ -247,7 +250,9 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $ct0
     }
     */
 
+
     if ( $aOutputParams['format'] == 'vast' ){
+
        //$trackingUrl = "http://pathtofctracking/";
        $trackingUrl = 'http://' . $conf['webpath']['delivery'] . "/fc.php?script=deliveryLog:oxLogVast:logImpressionVast&banner_id=" . $aBanner['bannerid'] . "&zone_id=$zoneId&source=$source";
        $aOutputParams['trackUrlStart'] = $trackingUrl . '&vast_event=start';
@@ -266,7 +271,7 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $ct0
 
 function getVastVideoAdOutput($aO){
 
-    $vastVideoMarkup .=<<<VAST_VIDEO_AD_TEMPLATE
+    $vastVideoMarkup =<<<VAST_VIDEO_AD_TEMPLATE
                 <TrackingEvents>
                     <Tracking event="start">
                         <URL id="myadsever"><![CDATA[${aO['trackUrlStart']}]]></URL>
@@ -383,30 +388,71 @@ function renderPlayerInPage($aOut)
 			</style>
 
 			<a class="player" id="player"></a>
-
-			<script language="JavaScript">
-			flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
-			   clip: {
-			           url: '${aOut['videoFileName']}',
-			           provider: 'streamer',
-			           autoPlay: ${aOut['isAutoPlayOfVideoInOpenXAdminToolEnabled']}
-			   },
-
-			   plugins: {
-			       streamer: {
-			            // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
-			            url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
-			            netConnectionUrl: '${aOut['videoFilePath']}'
-			       },
-			       controls: {
-			            url: escape('${aOut['videoPlayerControlsPluginUrl']}')
-			       }
-			   }
-
-			});
-			</script>
 PLAYER;
+            
+		$httpPlayer = <<<HTTP_PLAYER
+
+            <script language="JavaScript">
+            flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
+               playlist: [ '${aOut['videoFileName']}' ],
+                clip: {
+                       autoPlay: ${aOut['isAutoPlayOfVideoInOpenXAdminToolEnabled']}
+               },
+               plugins: {
+
+                   controls: {
+                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
+                   }
+               }
+
+            });
+            </script>
+HTTP_PLAYER;
+        
+        $rtmpPlayer = <<<RTMP_PLAYER
+
+            <script language="JavaScript">
+            flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
+               clip: {
+                       url: '${aOut['videoFileName']}',
+                       provider: 'streamer',
+                       autoPlay: ${aOut['isAutoPlayOfVideoInOpenXAdminToolEnabled']}
+               },
+
+               plugins: {
+                   streamer: {
+                        // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
+                        url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
+                        netConnectionUrl: '${aOut['videoFilePath']}'
+                   },
+                   controls: {
+                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
+                   }
+               }
+
+            });
+            </script> 
+RTMP_PLAYER;
+
+        if ( $aOut['videoDelivery'] == 'player_in_http_mode' ){
+
+            $player .= $httpPlayer;
+        }
+        else if ( $aOut['videoDelivery'] == 'player_in_rtmp_mode' ) {
+
+            $player .= $rtmpPlayer;
+        }        
+        else {
+
+            // default to rtmp play format
+            $player .= $rtmpPlayer;
+        }
 }
+
+/*
+
+  
+ */
 
    return $player;
 }

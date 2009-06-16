@@ -55,8 +55,12 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
      */
     function buildForm(&$form, &$bannerRow)
     {
+
+
     	$selectableCompanions = $this->getPossibleCompanions();
     	// for some bizarre reason $bannerid is all the fields
+
+
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
     	$isNewBanner = false;
     	if ( !isset( $bannerRow['banner_vast_element_id']) ){
@@ -80,20 +84,91 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
         $htmlSizeG['vast_overlay_height'] = $form->createElement('text', 'vast_overlay_height', 'height');
         $form->addGroup($htmlSizeG, 'html_size', $GLOBALS['strSize'], "&nbsp;", false);
 
+        define( 'VAST_OVERLAY_CLICK_TO_PAGE', 1 );
+        define( 'VAST_OVERLAY_CLICK_TO_VIDEO', 2 );
+
+        $overlayClickModeValue = VAST_OVERLAY_CLICK_TO_PAGE;
+        $overlayOptionToRunOnPageLoad = "phpAds_formClickToVideoMode()";
+
+        if ( $bannerRow['url'] ){
+
+            //click to page
+            $overlayClickModeValue  = VAST_OVERLAY_CLICK_TO_PAGE;
+            $overlayOptionToRunOnPageLoad = " phpAds_formClickToWebPageMode();";
+        }
+        else {
+            // click to video
+            $overlayClickModeValue  = VAST_OVERLAY_CLICK_TO_VIDEO;
+            $overlayOptionToRunOnPageLoad = " phpAds_formClickToVideoMode();";
+        }
+
+
+        $overlayOptionJs = <<<OVERLAY_OPTION_JS
+            <script type="text/javascript">
+
+            function phpAds_formClickToWebPageMode()
+            {
+
+                $("#div-overlay-action-open").show('slow');
+                $("#div-overlay-action-play").hide('slow');
+
+                // clear the value
+                $("#vast_video_outgoing_filename").attr('value', '');
+
+
+            }
+            function phpAds_formClickToVideoMode()
+            {
+
+                // clear the value
+                $("#url").attr('value', '');
+
+                $("#div-overlay-action-open").hide('slow');
+                $("#div-overlay-action-play").show('slow');
+
+            }
+
+            ${overlayOptionToRunOnPageLoad}
+
+            </script>
+OVERLAY_OPTION_JS;
+
 
         $form->addElement('header', 'overlay_click_action', "Overlay click action");
 
+        //zone type group
+        $overlayClickActions[] = $form->createElement('radio', 'overlay-action', '',
+            "Open a page",
+            VAST_OVERLAY_CLICK_TO_PAGE, array('id' => 'overlay-action-open',
+                'onClick' => 'phpAds_formClickToWebPageMode();' ));
 
-        $form->addElement('header', 'video_status', "When the user clicks the above overlay, the browser will open the following url");
+        $overlayClickActions[] = $form->createElement('radio', 'overlay-action', '',
+            "Play a video",
+            VAST_OVERLAY_CLICK_TO_VIDEO, array('id' => 'overlay-action-play',
+                'onClick' => 'phpAds_formClickToVideoMode();' ));
+
+
+        $form->setDefaults(array('overlay-action' => $overlayClickModeValue));
+
+
+        $form->addGroup($overlayClickActions, 'overlayClickAction', 'When the user clicks the overlay', "<br/>");
+
+        $form->addElement('header', 'video_status1', "When the user clicks the above overlay, the browser will open the following url");
+
         $form->addElement('text', 'url', 'Landing page URL');
         $form->addElement('text', 'target', $GLOBALS['strTarget']);
 
-        $form->addElement('header', 'video_status', "When the user clicks the above overlay, this video will play");
+        $form->addDecorator ( 'video_status1', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-open' ) ) );
+
+        $form->addElement('header', 'video_status2', "When the user clicks the above overlay, this video will play");
+
+        $form->addDecorator ( 'video_status2', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-play') ) );
+
         addVastParametersToForm($form, $bannerRow, $isNewBanner);
 
 
         addVastCompanionsToForm($form, $selectableCompanions);
 
-
+        $form->addElement('html', 'jsFor1', $overlayOptionJs );
     }
 }

@@ -42,7 +42,74 @@ function getVastVideoTypes(){
    return $videoEncodingTypes;
 }
 
+function parseVideoUrl( $fullPathToVideo, &$aDeliveryFields, &$aAdminFields )
+{    
+    if ( ($fileDelimPosn = strrpos($fullPathToVideo, '/mp4:')) !== false ) {
+        
+      $aDeliveryFields['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn );
+      $aDeliveryFields['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
+      $aDeliveryFields['videoDelivery'] =  'player_in_rtmp_mode';
+      
+      // parameters used at admin time
+      $aAdminFields['vast_video_type'] = 'video/x-mp4';
+      $aAdminFields['vast_video_delivery'] = 'streaming';
+            
+    }
+    else if ( ($fileDelimPosn = strrpos($fullPathToVideo, '/flv:')) !== false ){
+       
+      $aDeliveryFields['videoFilePath'] = substr( $fullPathToVideo, 0, $fileDelimPosn  );
+      $aDeliveryFields['videoFileName'] = substr( $fullPathToVideo, $fileDelimPosn +1, strlen($fullPathToVideo) );
+      $aDeliveryFields['videoDelivery'] = 'player_in_rtmp_mode';
+      
+      // parameters used at admin time
+      $aAdminFields['vast_video_type'] = 'video/x-flv';
+      $aAdminFields['vast_video_delivery'] = 'streaming';
+
+    }
+    else if ( ($fileDelimPosn = strpos($fullPathToVideo, 'http://' )) === 0 ){
+
+      $aDeliveryFields['videoFilePath'] = "";  
+      $aDeliveryFields['videoFileName'] = $fullPathToVideo; 
+      $aDeliveryFields['videoDelivery'] = 'player_in_http_mode';
+      
+      // parameters used at admin time
+      $aAdminFields['vast_video_delivery'] = 'progressive';
+      
+      if ( ($fileExtensionDelimPosn = strrpos($fullPathToVideo, '.' )) !== false ){
+             
+          $fileExtension = substr( $fullPathToVideo, $fileExtensionDelimPosn +1, strlen($fullPathToVideo) ); 
+
+          if ( $fileExtension == 'flv' ){
+              
+              $aAdminFields['vast_video_type'] = 'video/x-flv';    
+          }
+          else if ( $fileExtension == 'mp4' ){
+              
+              $aAdminFields['vast_video_type'] = 'video/x-mp4'; 
+          }
+          /*
+          // Format not supported by flowplayer
+          else if ( $fileExtension == 'ra' ){
+              
+              $aAdminFields['vast_video_type'] = 'video/x-ra';               
+          } 
+          // Format not supported by flowplayer
+          else if ( $fileExtension == 'wmv' ){
+
+              $aAdminFields['vast_video_type'] = 'video/x-ms-wmv';              
+          } */ 
+          else {
+              // default value 
+              $aAdminFields['vast_video_type'] = 'video/x-mp4';
+          }        
+      } 
+    }
+}
+
 function vastPluginErrorHandler($errNo, $errStr, $file, $line, $context){
+    
+    xdebug_break();
+    
     if ( strpos( $errStr, 'should not be called statically')
         || strpos( $errStr, 'is_a()')){
         // ignore
@@ -54,6 +121,8 @@ function vastPluginErrorHandler($errNo, $errStr, $file, $line, $context){
 }
 
 if ( !function_exists('debugDump') ){
+    
+    
     function debugDump($id, $value){
         $message = "ID:$id VALUE:" . print_r( $value, true);
         OA::debug("[VAST]" . $message);

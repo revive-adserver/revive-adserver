@@ -65,22 +65,18 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         //$aVariables['htmltemplate'] = $this->_buildHtmlTemplate($aVariables);
         //$aVariables['comments']     = $this->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid']));
 
+        // Determine everything about the files delivery and format simply from the format of the url
+        $aDelivery = array();    
+        parseVideoUrl(  $aFields['vast_video_outgoing_filename'], $aDelivery,  $aFields);
+        
         $aVastVariables = array();
 
         $aVastVariables['banner_vast_element_id'] = $aFields['banner_vast_element_id'];
         $aVastVariables['vast_element_type'] = 'singlerow'; //$aFields['vast_element_type'];
         $aVastVariables['vast_video_id'] = $aFields['vast_video_id'];
         $aVastVariables['vast_video_duration'] = $aFields['vast_video_duration'];
+
         $aVastVariables['vast_video_delivery'] = $aFields['vast_video_delivery'];
-
-        // auto choose the vast_video_type for the user
-        if ( strpos( $aFields['vast_video_outgoing_filename'], '/mp4:' ) ){
-            $aFields['vast_video_type'] = 'video/x-mp4';
-        }
-        else if ( strpos( $aFields['vast_video_outgoing_filename'], '/flv:' ) ){
-            $aFields['vast_video_type'] = 'video/x-flv';
-        }
-
         $aVastVariables['vast_video_type'] = $aFields['vast_video_type'];
         $aVastVariables['vast_video_bitrate'] = $aFields['vast_video_bitrate'];
         $aVastVariables['vast_video_height'] = $aFields['vast_video_height'];
@@ -260,11 +256,11 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     }
 
     $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing video filename");
-    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:80%;\">(Must be an rtmp URL to an mp4 file. Use the format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4)</span>" );
+    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:80%;\">(Must be an rtmp URL to an mp4 or flv file. Use the format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4 or rtmp://cdn-domain/path-to-cdn-account/flv:filename.flv)</span>" );
     $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
     $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
     $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
-    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4 files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );
+    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> only supports rtmp URLs to mp4/flv files currently. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );
 
     $enableDefaultValues = true;
     if ( $isNewBanner && $enableDefaultValues ){

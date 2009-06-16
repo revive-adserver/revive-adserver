@@ -43,19 +43,19 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
         global $clientid, $campaignid, $bannerid, $zoneid, $affiliateid;
         switch($oSection->getId()) {
             case 'stats-vast-advertiser':
-                    $enabled = $vast->doesAdvertiserHaveVast($clientid);
+                    $enabled = $vast->doesAdvertiserHaveVast((int)$clientid);
                 break;
             case 'stats-vast-campaign':
-                    $enabled = $vast->doesCampaignHaveVast($campaignid);
+                    $enabled = $vast->doesCampaignHaveVast((int)$campaignid);
                 break;
             case 'stats-vast-banner': 
-                    $enabled = $vast->doesBannerHaveVast($bannerid);
+                    $enabled = $vast->doesBannerHaveVast((int)$bannerid);
                 break;
             case 'stats-vast-zone':
-                    $enabled = $vast->isZoneVast($zoneid);
+                    $enabled = $vast->isZoneVast((int)$zoneid);
                 break;
             case 'stats-vast-website':
-                    $enabled = $vast->doesWebsiteHaveVast($affiliateid);
+                    $enabled = $vast->doesWebsiteHaveVast((int)$affiliateid);
                 break;
             case 'players-vast':
                 return true;
