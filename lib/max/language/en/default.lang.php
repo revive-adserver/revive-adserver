@@ -320,6 +320,7 @@ $GLOBALS['strTrackerID']                = "Tracker ID";
 $GLOBALS['strTrackerName']              = "Tracker Name";
 $GLOBALS['strTrackerImageTag']          = "Image Tag";
 $GLOBALS['strTrackerJsTag']             = "Javascript Tag";
+$GLOBALS['strTrackerAlwaysAppend']      = "Always display appended code, even if no conversion is recorded by the tracker?";
 $GLOBALS['strBanners']                  = "Banners";
 $GLOBALS['strCampaigns']                = "Campaigns";
 $GLOBALS['strCampaignID']               = "Campaign ID";

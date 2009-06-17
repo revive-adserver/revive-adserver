@@ -44,6 +44,7 @@ phpAds_registerGlobal (
 	,'invtype'
 	,'trackerid'
 	,'clientid'
+    ,'append'
 );
 
 // Security check
@@ -156,7 +157,7 @@ if (empty($invtype) && (!empty($trackerDetails['appendcode']) || !empty($tracker
 $maxInvocation = new MAX_Admin_Invocation();
 
 if (isset($invtype) && $invtype == 'js') {
-    $tracker_code = $maxInvocation->generateJavascriptTrackerCode($trackerid);
+    $tracker_code = $maxInvocation->generateJavascriptTrackerCode($trackerid, $append);
 } else {
     $tracker_code = $maxInvocation->generateTrackerCode($trackerid);
 }
@@ -179,7 +180,6 @@ echo "<option value='img' " . ($invtype != 'js' ? 'selected="selected"' : '') . 
 echo "<option value='js' "  . ($invtype == 'js' ? 'selected="selected"' : '') . " >".$GLOBALS['strTrackerJsTag']."</option>\n";
 echo "</select>\n";
 echo "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'>\n";
-echo "</form>\n";
 
 if ($invtype == 'img' && !empty($trackerDetails['appendcode'])) {
     echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
@@ -208,6 +208,24 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "</table>"."\n";
 
+if ($invtype == 'js') {
+    echo "<br /><br />\n";
+    echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
+    echo "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>\n";
+    echo "<tr><td width='30'>&nbsp;</td>\n";
+    echo "<td width='200'>".$GLOBALS['strTrackerAlwaysAppend']."</td>\n";
+    echo "<td width='370'><input type='radio' name='append' value='1'".(isset($append) && $append != 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />\n";
+    echo "<input type='radio' name='append' value='0'".(!isset($append) || $append == 0 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>\n";
+    echo "</tr>\n";
+    echo "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>\n";
+    echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>\n";
+    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>\n";
+    echo "</table>\n";
+    echo "<br /><br />\n";
+    echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>\n";
+}
+
+echo "</form>\n";
 
 echo "<script type='text/javascript'>
     <!--

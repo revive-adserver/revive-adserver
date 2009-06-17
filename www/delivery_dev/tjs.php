@@ -41,7 +41,7 @@ OA::debug('starting delivery script '.__FILE__);
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
+MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit', 'append'));
 if (empty($trackerid)) $trackerid = 0;
 
 $conversionsid = NULL;
@@ -69,9 +69,28 @@ if (($conf['logging']['trackerImpressions'])) {
 }
 
 MAX_cookieFlush();
-// Write the code for seding the variable values
+
+// Write the code for tracking the variable values, and any
+// additional appended tracker code
 if ($logVars) {
+    // The $logVars variable contains the code for tracking
+    // the variable values (if required by the tracker), and
+    // also the code for appending any additional tracker code
+    // IF there was a conversion
     echo "$variablesScript";
+} else if ($append == true) {
+    // As $logVars was empty, this could mean that there are
+    // no variable values to track and there is no additional
+    // appended code required; but it could also mean that
+    // although there is additional appended code required, there
+    // was no conversion recorded. As the $append variable
+    // is true, double check to see if there is any additional
+    // appended tracker code, and if so, send it
+    $aTracker = MAX_cacheGetTracker($trackerid);
+    if (!empty($aTracker['appendcode'])) {
+        $appendScript = MAX_javascriptToHTML($aTracker['appendcode'], "MAX_{$trackerid}_appendcode", true);
+        echo $appendScript;
+    }
 }
 
 // Post tracker render hook

@@ -512,7 +512,7 @@ class MAX_Admin_Invocation {
         return $options;
     }
 
-    function generateJavascriptTrackerCode($trackerId)
+    function generateJavascriptTrackerCode($trackerId, $append = false)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -588,7 +588,15 @@ class MAX_Admin_Invocation {
     document.write (\"<\" + \"script language='JavaScript' \");
     document.write (\"type='text/javascript' src='\"+{$varprefix}p);
     document.write (\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'])."\");
-    document.write (\"?trackerid={$trackerId}&amp;r=\"+{$varprefix}r+\"'><\" + \"\\/script>\");
+    document.write (\"?trackerid={$trackerId}";
+
+        if ($append == true) {
+            $buffer .= "&amp;append=1";
+        } else {
+            $buffer .= "&amp;append=0";
+        }
+
+        $buffer .= "&amp;r=\"+{$varprefix}r+\"'><\" + \"\\/script>\");
 //]]>--></script><noscript>" . $this->_generateTrackerImageBeacon($trackerId) . "</noscript>";
         $buffer .= "\n";
         return $buffer;
