@@ -102,6 +102,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         //-->
         {/literal}</script>
         {else}
+            <span class="entityLinks">
             {section name=breadcrumbIndex loop=$breadcrumbs}
                 {if $breadcrumbs[breadcrumbIndex]->getUrl()}
                     <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</a>
@@ -113,6 +114,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                     <span class='sep'>&gt;</span>
                 {/if}
             {/section}
+            </span>
         {/if}
     </div>
 {/if}

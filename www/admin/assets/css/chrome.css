@@ -82,7 +82,7 @@ a:hover {
 #oaSearch {
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 8px;
     height: 31px;
     width: 194px;
     color: #444;
@@ -149,7 +149,7 @@ a:hover {
 #oaNavigationTabs {
     position: absolute;
     top: 1px;
-    left: 16px;
+    left: 7px;
     line-height: 26px;
     height: 29px;
     min-width: 300px;
@@ -485,12 +485,12 @@ body.hasGradient #firstLevelContent {
     position: absolute;
     left: 0;
     width: 160px;
-    margin: 24px 0 0 20px;
+    margin: 12px 0 0 12px;
 }
 
 #secondLevelNavigation .navigation {
   width: 160px;
-  margin: 0 0 20px 0;
+  margin: 0 0 12px 0;
   padding: 0;
   list-style-type: none;
   
@@ -674,7 +674,7 @@ body.hasGradient #firstLevelContent {
   margin: 0 0 0 184px;
 }
 .hasGradient #secondLevelContent {
-  padding: 24px 20px 0;
+  padding: 12px 12px 12px 0px;
 }
 
 
@@ -683,7 +683,7 @@ body.hasGradient #firstLevelContent {
 
 #thirdLevelNavigation {
 	position: absolute;
-	margin: -21px 0 0 15px;
+	margin: -21px 0 0 8px;
 	*z-index: 2;
 }
 #thirdLevelNavigation .navigation {
@@ -753,14 +753,14 @@ body.hasGradient #firstLevelContent {
 {
   position: relative;
   *z-index: 1;
-  height: 80px;
+  height: 68px;
   margin: 0;
   
   border: 1px solid #ddd;
   background: #fff url(../images/header-background.gif) left top repeat-x;
 }
 #thirdLevelHeader.hasTabs {
-  height: 100px;
+  height: 88px;
 }
 
 #thirdLevelHeader .corner {
@@ -788,14 +788,14 @@ body.hasGradient #firstLevelContent {
 }
 
 #thirdLevelHeader div.breadcrumb {
-  margin: 16px 180px 0 18px;
+  margin: 9px 180px 0 9px;
   padding: 0px 0px 0 3px;  
   
   min-height: 50px;
   -height: 50px;
 }
 #thirdLevelHeader div.breadcrumb.hasIcon {
-  padding-left: 64px;
+  padding-left: 59px;
   background-position: left top;
   background-repeat: no-repeat;
 }
@@ -813,7 +813,7 @@ body.hasGradient #firstLevelContent {
 
 #thirdLevelContent {
   margin: 0;
-  padding: 12px 20px;
+  padding: 12px;
   
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -1112,6 +1112,7 @@ div.breadcrumb h3 {
     font-size: 18px;
     font-weight: bold;
     margin: 0px;
+    padding-top: 2px;
     color: #666666;
 }
 
@@ -1119,8 +1120,9 @@ div.breadcrumb h3 span.label {
   	color: #333333;
 }
 
-h3.noBreadcrumb {
- 	 	padding-top: 13px;
+div.breadcrumb h3.noBreadcrumb {
+ 	padding-top: 14px;
+ 	margin: 0;
 }
 
 
@@ -1134,6 +1136,11 @@ div.breadcrumb span.sep {
     padding-right: 2ex;
     position: relative;
     color: #606060;
+}
+
+div.breadcrumb .entityLinks {
+    position: relative;
+    top: 3px;  
 }
 
 div.breadcrumb form {
@@ -1919,7 +1926,7 @@ div.dropDown div.panel div div.column {
     position: relative;
     
     top: 3px;
-    left: -1px;
+    left: 1px;
     
     white-space: nowrap;
 }
