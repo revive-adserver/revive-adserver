@@ -670,13 +670,14 @@ body.hasGradient #firstLevelContent {
   margin: 0;
 }
 
-.hasSidebar #secondLevelContent {
-  margin: 0 0 0 184px;
-}
 .hasGradient #secondLevelContent {
-  padding: 12px 12px 12px 0px;
+  padding: 12px 12px 12px 12px;
 }
 
+.hasSidebar #secondLevelContent {
+  margin: 0 0 0 184px;
+  padding-left: 0px;
+}
 
 
 /* Third level navigation */
