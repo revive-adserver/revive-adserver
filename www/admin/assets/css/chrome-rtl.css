@@ -7,7 +7,7 @@ body.hasSidebar {
 }
 
 #oaSearch {
-	left: 0;
+	left: 8px;
 	right: auto;
 }
 #oaSearch div {
@@ -26,7 +26,7 @@ body.hasSidebar {
 
 #oaNavigationTabs {
 	left: auto;
-	right: 181px;
+	right: 14px;
 }
 #oaNavigationTabs li {
 	float: right;
@@ -44,20 +44,4 @@ body.hasSidebar {
 #oaNavigationExtra li {
 	float: left;
 	margin: 0 0 0 12px;
-}
-
-#oaSidebar {
-	left: auto;
-	right: 0;
-	margin: 0 0 0 1px;
-	padding: 0 20px 0 0;
-}
-#oaSidebarNavigation li {
-	background-position: right center;
-}
-#oaSidebarNavigation a {
-	padding: 0 20px 0 0;
-}
-.hasSidebar #oaContents {
-	margin: 0 181px 0 0;
 }
