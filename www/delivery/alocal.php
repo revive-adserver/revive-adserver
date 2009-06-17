@@ -1999,7 +1999,7 @@ $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
 }
 }
 if(!empty($tracker['appendcode'])) {
-// Add the correct "inherit" parameter if a OpenX trackercode was found
+// Add the correct "inherit" parameter if an OpenX trackercode was found
 $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
 $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");
 // Replace template style variables

@@ -1998,7 +1998,7 @@ $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
 }
 }
 if(!empty($tracker['appendcode'])) {
-// Add the correct "inherit" parameter if a OpenX trackercode was found
+// Add the correct "inherit" parameter if an OpenX trackercode was found
 $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
 $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");
 // Replace template style variables
@@ -3036,7 +3036,7 @@ return '"'.$string.'"';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
+MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit', 'append'));
 if (empty($trackerid)) $trackerid = 0;
 $conversionsid = NULL;
 $variablesScript = '';
@@ -3059,9 +3059,27 @@ $logVars = true;
 }
 }
 MAX_cookieFlush();
-// Write the code for seding the variable values
+// Write the code for tracking the variable values, and any
+// additional appended tracker code
 if ($logVars) {
+// The $logVars variable contains the code for tracking
+// the variable values (if required by the tracker), and
+// also the code for appending any additional tracker code
+// IF there was a conversion
 echo "$variablesScript";
+} else if ($append == true) {
+// As $logVars was empty, this could mean that there are
+// no variable values to track and there is no additional
+// appended code required; but it could also mean that
+// although there is additional appended code required, there
+// was no conversion recorded. As the $append variable
+// is true, double check to see if there is any additional
+// appended tracker code, and if so, send it
+$aTracker = MAX_cacheGetTracker($trackerid);
+if (!empty($aTracker['appendcode'])) {
+$appendScript = MAX_javascriptToHTML($aTracker['appendcode'], "MAX_{$trackerid}_appendcode", true);
+echo $appendScript;
+}
 }
 // Post tracker render hook
 OX_Delivery_Common_hook('postTrackerRender', array(&$aConversion, &$aConversionInfo, &$trackerid, &$inherit));
