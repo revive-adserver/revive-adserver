@@ -263,9 +263,17 @@ enabled=0]]></replacevalue>
 		<echo message="Starting test automation framework ..." />
 	</target>
 
-	<target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.full">
-	<!--<target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows, wt.full">-->
+	<target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.init, wt.defineTasks.init, customprepend, wt.full">
+	<!--<target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows, wt.init, wt.defineTasks.init, customprepend, wt.full">-->
 		<echo message="Running Canoo tests" />
+	</target>
+	
+	<target name="customprepend">
+	    <path id="wt.defineTasks.classpath.customPrepend">
+	    	<pathelement path="${basedir}/tests/canoo/tests/config/log-overridden"/>
+			<pathelement path="${basedir}/tests/canoo/tests/config/log"/>
+	    </path>
+	    <property name="wt.defineTasks.init.skip" value="true"/>
 	</target>
 
 	<target name="test-canoo-one">
