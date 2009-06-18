@@ -8,6 +8,7 @@
 	<target name="prepare-jmx">
 		<replace dir="${basedir}/delivery">
 			<include name="*.jmx"/>
+			<replacefilter token="@protocol" value="${wt.protocol}"/>
 			<replacefilter token="@host" value="${wt.host}"/>
 			<replacefilter token="@port" value="${wt.port}"/>
 			<replacefilter token="@path" value="${wt.basepath}"/>
