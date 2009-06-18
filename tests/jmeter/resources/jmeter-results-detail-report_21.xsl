@@ -152,12 +152,12 @@
 			<xsl:variable name="allAverageTime" select="$allTotalTime div $allCount" />
 			<xsl:variable name="allMinTime">
 				<xsl:call-template name="min">
-					<xsl:with-param name="nodes" select="/testResults/*/@t" />
+					<xsl:with-param name="nodes" select="/testResults/*[@t]" />
 				</xsl:call-template>
 			</xsl:variable>
 			<xsl:variable name="allMaxTime">
 				<xsl:call-template name="max">
-					<xsl:with-param name="nodes" select="/testResults/*/@t" />
+					<xsl:with-param name="nodes" select="/testResults/*[@t]" />
 				</xsl:call-template>
 			</xsl:variable>
 			<xsl:attribute name="class">
@@ -218,12 +218,12 @@
 			<xsl:variable name="averageTime" select="$totalTime div $count" />
 			<xsl:variable name="minTime">
 				<xsl:call-template name="min">
-					<xsl:with-param name="nodes" select="../*[@lb = current()/@lb]/@t" />
+					<xsl:with-param name="nodes" select="../*[@lb = current()/@lb and @t]" />
 				</xsl:call-template>
 			</xsl:variable>
 			<xsl:variable name="maxTime">
 				<xsl:call-template name="max">
-					<xsl:with-param name="nodes" select="../*[@lb = current()/@lb]/@t" />
+					<xsl:with-param name="nodes" select="../*[@lb = current()/@lb and @t]" />
 				</xsl:call-template>
 			</xsl:variable>
 			<tr valign="top">
@@ -351,8 +351,8 @@
 
 <xsl:template name="min">
 	<xsl:param name="nodes" />
-	<!--  <xsl:message>|NODES:<xsl:value-of select="$nodes"/>|</xsl:message>
-	<xsl:message>|NODES2:<xsl:value-of select="../*[@lb = current()/@lb]/@t"/>|</xsl:message> -->
+	<!--<xsl:message>|NODES:<xsl:value-of select="$nodes"/>|</xsl:message>-->
+	<!--<xsl:message>|NODES2:<xsl:value-of select="../*[@lb = current()/@lb]/@t"/>|</xsl:message> -->
 	<xsl:choose>
 		<xsl:when test="not($nodes)">NaN</xsl:when>
 		<xsl:otherwise>
@@ -374,7 +374,7 @@
 		<xsl:otherwise>
  			<xsl:for-each select="$nodes/@t">
 <!-- 			<xsl:for-each select="../*[@lb = current()/@lb]"> -->
-				<xsl:sort order="descending" />
+				<xsl:sort data-type="number" order="descending" />
 				<xsl:if test="position() = 1">
 					<xsl:value-of select="." />
 				</xsl:if>
