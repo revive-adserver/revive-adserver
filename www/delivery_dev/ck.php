@@ -140,11 +140,11 @@ function _getZoneAd($zoneId)
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
-        list($adId, $ad) = each($zoneLinkedAds['xAds']);
+        reset($zoneLinkedAds['xAds']); list($adId, $ad) = each($zoneLinkedAds['xAds']);
     } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
-        list($adId, $ad) = each($zoneLinkedAds['ads']);
+        reset($zoneLinkedAds['ads']); list($adId, $ad) = each($zoneLinkedAds['ads']);
     } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
-        list($adId, $ad) = each($zoneLinkedAds['lAds']);
+        reset($zoneLinkedAds['lAds']); list($adId, $ad) = each($zoneLinkedAds['lAds']);
     }
 
     if (!empty($ad['url'])) {
