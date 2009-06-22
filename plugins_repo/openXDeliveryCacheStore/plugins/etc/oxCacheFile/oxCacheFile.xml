@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>File based Cache Store plugins for OpenX</description>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryCacheStore</extends>
 

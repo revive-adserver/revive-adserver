@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Delivery Cache Store Plugins for OpenX</description>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <type>package</type>
 
     <install>

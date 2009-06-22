@@ -88,8 +88,9 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
         $cachedir = @opendir($this->_getCachePath());
 
         while (false !== ($filename = @readdir($cachedir))) {
-            if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename))
-                @unlink ($GLOBALS['OA_Delivery_Cache']['path'].$filename);
+            if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename)) {
+                @unlink ($this->_getCachePath().$filename);
+            }
         }
         @closedir($cachedir);
 
