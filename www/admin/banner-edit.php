@@ -686,10 +686,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     // Deal with any files that are uploaded.
     if (!empty($_FILES['upload']) && $aFields['replaceimage'] == 't') { //TODO refactor upload to be a valid quickform elem
         $oFile = OA_Creative_File::factoryUploadedFile('upload');
-        if (PEAR::isError($oFile)) {
-            phpAds_PageHeader(1);
-            phpAds_Die($strErrorOccurred, htmlspecialchars($oFile->getMessage()));
-        }
+        checkForErrorFileUploaded($oFile);
         $oFile->store($aFields['type']);
         $aFile = $oFile->getFileDetails();
 
@@ -711,10 +708,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
         //TODO: Check image only? - Wasn't enforced before
         $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
-        if (PEAR::isError($oFile)) {
-            phpAds_PageHeader(1);
-            phpAds_Die($strErrorOccurred, htmlspecialchars($oFile->getMessage()));
-        }
+        checkForErrorFileUploaded($oFile);
         $oFile->store($aFields['type']);
         $aFile = $oFile->getFileDetails();
 
@@ -861,7 +855,14 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     exit;
 }
 
-
+function checkForErrorFileUploaded($oFile)
+{
+	if (PEAR::isError($oFile)) {
+	    phpAds_PageHeader(1);
+	    phpAds_Die($GLOBALS['strErrorOccurred'], htmlspecialchars($oFile->getMessage()). "<br>Please make sure you selected a valid file.");
+	}
+}
+        
 function _getContentTypeIconImageName($contentType)
 {
     $imageName = '';
