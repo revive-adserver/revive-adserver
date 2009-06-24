@@ -11,5 +11,4 @@ $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMaxMin
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXInvocationTags','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLog','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMarket','ext'=>'zip');
-
-?>
+$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip', 'disabled'=>'true');
