@@ -9,7 +9,7 @@
     <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>GPL</license>
     <description>Vast Reporting Plugin</description>
-    <version>1.0-rc22</version>
+    <version>1.0-rc25</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>
@@ -145,21 +145,15 @@
             </admin>
             
             <advertiser>
-                <menu addto="2.1" index="stats-vast-advertiser" link="plugins/videoReport/stats-video.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Advertiser Video Report</menu>
-                <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/videoReport/stats-video.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Campaign Video Report</menu>
-                <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
-                <menu addto="2.4.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
-                <menu addto="2.4" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
+                <menu addto="1" index="stats-vast-advertiser" link="plugins/videoReport/stats-video.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Advertiser Video Report</menu>
+                <menu addto="1.2" index="stats-vast-campaign" link="plugins/videoReport/stats-video.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Campaign Video Report</menu>
+                <menu addto="1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
                 <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
-                <menu replace="zone-invocation" checker="Plugins_admin_openXVideoAds_vastMenuChecker"></menu>
             </advertiser>
             
             <trafficker>
-                <menu addto="2.1" index="stats-vast-advertiser" link="plugins/videoReport/stats-video.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Advertiser Video Report</menu>
-                <menu addto="2.1.2" index="stats-vast-campaign" link="plugins/videoReport/stats-video.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Campaign Video Report</menu>
-                <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
-                <menu addto="2.4.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
-                <menu addto="2.4" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
+                <menu addto="1" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
+                <menu addto="1.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
                 <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
                 <menu replace="zone-invocation" checker="Plugins_admin_openXVideoAds_vastMenuChecker"></menu>
             </trafficker>

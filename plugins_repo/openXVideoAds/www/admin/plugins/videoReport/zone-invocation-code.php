@@ -3,6 +3,8 @@ require_once '../../../../init.php';
 require_once '../../config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+
 // TEMPLATE
 phpAds_PageHeader("zone-invocation",'','../../');
 echo "<div class='errormessage' style='width:700px;'><img class='errormessage' src='" . OX::assetPath() . "/images/icon-warning.gif' align='absmiddle'>";

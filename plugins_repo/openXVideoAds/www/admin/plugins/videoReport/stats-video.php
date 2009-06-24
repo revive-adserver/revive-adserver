@@ -3,11 +3,14 @@ require_once '../../../../init.php';
 require_once '../../config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
-phpAds_registerGlobal(
+$inputVariables = array( 
 	'entity', 'entityId',
 	'startDate', 'endDate', 'dimension',
-	'exportCsv', 'showAs', 'expandId'
-);
+	'exportCsv', 'showAs', 'expandId');
+MAX_commonRegisterGlobalsArray($inputVariables);
+foreach($inputVariables as $variableName) {
+    $$variableName = urlencode($$variableName);
+}
 PEAR::pushErrorHandling(null);
 
 require_once 'stats-api.php';
@@ -15,6 +18,7 @@ include_once 'lib/SmartyFunctions/function.url.php';
 include_once 'lib/SmartyFunctions/modifier.formatNumber.php';
 include_once 'VastAreaGraph.php';
 include_once 'VastMultiAreaGraph.php';
+
 // Entity 
 $availableEntities = array(
 	'advertiser',
@@ -27,6 +31,15 @@ if(!in_array($entity, $availableEntities))
 {
 	exit("Invalid input parameters");
 }
+
+$entityToRequiredAccess = array(
+    'advertiser' => 'clients',
+    'campaign' => 'campaigns',
+    'banner' => 'banners',
+    'website' => 'affiliates',
+    'zone' => 'zones',
+);
+OA_Permission::enforceAccessToObject($entityToRequiredAccess[$entity], $entityId);
 
 // "Show as" dropdown
 $availableShowAs = array(
@@ -46,6 +59,9 @@ if(in_array($entity, array('campaign', 'advertiser'))) {
 	if($entity == 'advertiser') {
 		$availableDimensions['campaign'] = "Campaign";
 	}
+}
+if($entity == 'website') {
+    $availableDimensions['zone'] = "Zone";
 }
 $availableDimensions += array(
 	"day" => "Day", 
@@ -127,18 +143,23 @@ if($selectedDimension == 'campaign') {
 } elseif($selectedDimension == 'banner') {
 	// Banners do not expand
 	$selectedDimensionExpanded = false;
-} else {
-	if($entity == 'advertiser') {
-		// Date expands to show Sub Campaigns when looking at an advertiser
-		$selectedDimensionExpanded = 'campaign';
-	} else if($entity == 'campaign') {
-		// Date expands to show Sub Banners when looking at a campaign
-		$selectedDimensionExpanded = 'banner';
-	} else {
-		// Date do not expand when looking at Banners
-		$selectedDimensionExpanded = false;
-	}
+} elseif($selectedDimension == 'zone') {
+	// Zones do not expand
+	$selectedDimensionExpanded = false;
+} else if($entity == 'advertiser') {
+	// Date expands to show Sub Campaigns when looking at an advertiser
+	$selectedDimensionExpanded = 'campaign';
+} else if($entity == 'campaign') {
+	// Date expands to show Sub Banners when looking at a campaign
+	$selectedDimensionExpanded = 'banner';
+} else if($entity == 'website') {
+	// Websites expand to Zones
+	$selectedDimensionExpanded = 'zone';
+} else{
+	// Date do not expand when looking at Banners or Zones
+	$selectedDimensionExpanded = false;
 }
+
 if($selectedDimensionExpanded && !empty($expandId)) {
 	$expandedDataTable = $videoReport->getVastStatistics(
 									$entity, 

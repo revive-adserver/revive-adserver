@@ -25,7 +25,7 @@ if($generateFakeStatistics) {
 // Output all combinations of parameters for the getStatistics function?
 $outputAllCallGetStatistics = false;
 if($outputAllCallGetStatistics) {
-	$availableDimensions = array(//"campaign", "banner", 
+	$availableDimensions = array(//"campaign", "banner", "zone",
 								"day", "week", "month", "year", "hour-of-day");
 	$availableEntities = array(
 	    //entity name, entity id
@@ -175,9 +175,8 @@ class OX_Video_Report {
 			$metricName = $row['event_id'];
 			$metricValue = $row['count'];
 			$dimensionToMetrics[$rowDimension][$metricName] = $metricValue;
-			$dimensionToMetrics[$rowDimension]['name'] = $rowDimensionName;
+			$dimensionToMetrics[$rowDimension]['name'] = htmlentities($rowDimensionName);
 		}
-		
 		
 		// if segmented by date, we make sure all dates are set with at least an empty row (no gaps)
 		$allRowNames = $this->getDateLabelsBetweenDates($startDate, $endDate, $dimension);
@@ -242,12 +241,12 @@ class OX_Video_Report {
         }
 	    return $result > 0;
 	}
-	
+
 	public function doesWebsiteHaveVast($affiliateId)
 	{
-	    return true;
-//OX_ZoneVideoInstream
-//OX_ZoneVideoOverlay
+	    $sqlFrom = $this->zoneTable ." AS z";
+		$sqlWhere = "z.affiliateid = $affiliateId";
+		return  $this->doesEntityHaveVast( $sqlFrom, $sqlWhere);
 	}
 	
 	protected function getDateLabelsBetweenDates($startDate, $endDate, $dimension)
@@ -290,6 +289,8 @@ class OX_Video_Report {
 			$sqlSelectAsDimensionName = 'b.description';
 		} else if($dimension == 'campaign') { 
 			$sqlSelectAsDimensionName = 'c.campaignname';
+		} else if($dimension == 'zone') {
+		    $sqlSelectAsDimensionName = 'z.zonename';
 		}
 		return $sqlSelectAsDimensionName;
 	}

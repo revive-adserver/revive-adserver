@@ -41,6 +41,7 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
         $vast = new OX_Video_Report;
         phpAds_registerGlobal( 'clientid', 'campaignid', 'bannerid', 'zoneid' );
         global $clientid, $campaignid, $bannerid, $zoneid, $affiliateid;
+//        echo "<pre>";debug_print_backtrace();
         switch($oSection->getId()) {
             case 'stats-vast-advertiser':
                     $enabled = $vast->doesAdvertiserHaveVast((int)$clientid);
