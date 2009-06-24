@@ -90,6 +90,10 @@ class OA_Admin_Menu
 
     function _loadFromCache($accountType)
     {
+        // don't load menu from cache in debug mode
+        if($GLOBALS['_MAX']['CONF']['debug']['production'] == 0) {
+            return;
+        }
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
         $aMenu = $oCache->load(true);
@@ -141,8 +145,8 @@ class OA_Admin_Menu
     {
         //if (!array_key_exists($sectionId, $this->aAllSections)) {
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-            $errMsg = "Menu::get() Cannot get section '".$sectionId."': no such section found. Returning null.";
-            OA::debug($errMsg, PEAR_LOG_WARNING);
+//            $errMsg = "Menu::get() Cannot get section '".$sectionId."': no such section found. Returning null.";
+//            OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
         }
 
