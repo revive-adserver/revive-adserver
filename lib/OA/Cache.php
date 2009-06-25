@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v2.8                                                                |
+| ==========                                                                |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -55,11 +55,11 @@ class OA_Cache
      * @param string $group
      * @return OA_Cache
      */
-    function OA_Cache($id, $group)
+    function OA_Cache($id, $group, $lifeTime = null)
     {
         $this->oCache = &new Cache_Lite(array(
             'cacheDir'                      => MAX_PATH . '/var/cache/',
-            'lifeTime'                      => null,
+            'lifeTime'                      => $lifeTime,
             'readControlType'               => 'md5',
             'automaticSerialization'        => true
             //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist

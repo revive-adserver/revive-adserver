@@ -58,6 +58,7 @@ class Test_OA_Cache extends UnitTestCase
 
     function test_Cache()
     {
+        // Default never expire
         $oCache = new OA_Cache('testId', 'testGroup');
 
         $this->assertEqual($oCache->id,'testId');
@@ -84,6 +85,11 @@ class Test_OA_Cache extends UnitTestCase
         $this->assertTrue($oCache->clear());
         $aCache = $oCache->load();
         $this->assertTrue(empty($aCache));
+
+        // Test lifeTime
+        $oCache = new OA_Cache('testId', 'testGroup', 10);
+        $this->assertIsA($oCache->oCache,'Cache_Lite');
+        $this->assertEqual($oCache->oCache->_lifeTime, 10);
 
     }
 
