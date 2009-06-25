@@ -33,7 +33,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed('append', 'submitbutton');
+phpAds_registerGlobalUnslashed('prepend', 'append', 'submitbutton');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -58,8 +58,8 @@ if (isset($submitbutton)) {
         // Update banner
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
-        $doBanners->append = $append;
-        $doBanners->appendtype = phpAds_ZoneAppendRaw;
+        $doBanners->prepend = $prepend;
+        $doBanners->append  = $append;
         $doBanners->update();
 
         // Queue confirmation message
@@ -101,8 +101,6 @@ if ($doBanners->find(true)) {
 
 $tabindex = 1;
 
-if ($banner['type'] != 'txt'){
-    // Header
     echo "<form name='appendform' method='post' action='banner-advanced.php' onSubmit='return phpAds_formSubmit() && max_formValidate(this);'>";
     echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $clientid != '' ? $clientid : '')."'>";
     echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) && $campaignid != '' ? $campaignid : '')."'>";
@@ -115,9 +113,14 @@ if ($banner['type'] != 'txt'){
     echo "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-    echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
-    echo "<input type='hidden' name='appendsave' value='1'>";
-    echo "<input type='hidden' name='appendtype' value='" . phpAds_ZoneAppendRaw . "'>";
+    echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strBannerPrependHTML."</td><td>";
+    echo "<textarea class='code' name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($banner['prepend'])."</textarea>";
+    echo "</td></tr>";
+
+    echo "<tr><td><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
+
+    echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strBannerAppendHTML."</td><td>";
     echo "<textarea class='code' name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($banner['append'])."</textarea>";
     echo "</td></tr>";
 
@@ -125,19 +128,9 @@ if ($banner['type'] != 'txt'){
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table><br />";
-} else {
-    echo "<br /><br /><div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
-    echo $strAppendTextAdNotPossible;
-    echo "</div>";
-    echo "<input type='hidden' name='append' value=''>";
-    echo "<input type='hidden' name='appendtype' value='".phpAds_ZoneAppendRaw."'>";
-    echo "<input type='hidden' name='appendsave' value='1'>";
-}
 
-if ($banner['type'] != 'txt'){
     echo "<br /><input type='submit' name='submitbutton' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
     echo "</form>";
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

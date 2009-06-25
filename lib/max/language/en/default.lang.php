@@ -717,6 +717,9 @@ $GLOBALS['strGenericOutputAdServer'] = "Generic";
 $GLOBALS['strSwfTransparency']		   = "Allow transparent background";
 $GLOBALS['strBackToBanners']           = "Back to banners";
 
+// Banner (advanced)
+$GLOBALS['strBannerPrependHTML']       = "Always prepend the following HTML code to this banner";
+$GLOBALS['strBannerAppendHTML']        = "Always append the following HTML code to this banner";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']                = "Check for hard-coded links inside the Flash file";
