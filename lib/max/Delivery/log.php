@@ -112,6 +112,8 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
     $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)));
     // Check that the conversion was logged correctly
     if (is_array($aConversionInfo)) {
+        // Delete that action to avoid another connection with that action
+        MAX_Delivery_log_pruneActionFromCookie($aConversion);
         // Return the result
         return $aConversionInfo;
     }
@@ -256,7 +258,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
     ###START_STRIP_DELIVERY
     if ($okToLog) OA::debug('viewers host is OK to log');
     ###END_STRIP_DELIVERY
-    
+
     $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
     if (!empty($result) && is_array($result)) {
         foreach ($result as $pci => $value) {
@@ -375,6 +377,20 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
     if (!empty($aSetLastSeen[$index])) {
         MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
     }
+}
+
+/**
+ * This funciton prunes the last action cookie after a successful conversion
+ *
+ * @param array $aConnection
+ */
+function MAX_Delivery_log_pruneActionFromCookie($aConnection)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $actionTypes = _getActionTypes();
+    $cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
+    $thirtyDaysFromNow = _getTimeThirtyDaysFromNow();
+    MAX_cookieAdd($cookieName, MAX_commonCompressInt(MAX_commonGetTimeNow()-$thirtyDaysFromNow) . "-" . $aConnection['zid'], $thirtyDaysFromNow);
 }
 
 /**
