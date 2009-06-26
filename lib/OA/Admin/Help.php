@@ -57,6 +57,10 @@ class OA_Admin_Help
             $relativeHelpPath = "";
         }
         
+        // the link is not relative, we directly link to it
+        if(strpos($relativeHelpPath, '://')  !== false ) {
+            return $relativeHelpPath;
+        }
         return OA_Admin_Help::buildHelpLink($relativeHelpPath);
     }
     
