@@ -153,7 +153,9 @@ OVERLAY_OPTION_JS;
         $form->addElement('header', 'video_status1', "When the user clicks the above overlay, the browser will open the following url");
 
         $form->addElement('text', 'url', 'Landing page URL');
-        $form->addElement('text', 'target', $GLOBALS['strTarget']);
+        
+        // Need to just open page in a new window - OXPL-344
+        //$form->addElement('text', 'target', $GLOBALS['strTarget']);
 
         $form->addDecorator ( 'video_status1', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-open' ) ) );
 

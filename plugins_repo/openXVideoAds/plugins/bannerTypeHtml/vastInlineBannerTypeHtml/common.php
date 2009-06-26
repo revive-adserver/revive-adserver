@@ -42,6 +42,12 @@ function getVastVideoTypes(){
    return $videoEncodingTypes;
 }
 
+
+function xmlspecialchars($text) {
+    
+   return htmlspecialchars($text, ENT_QUOTES); 
+}
+
 function parseVideoUrl( $fullPathToVideo, &$aDeliveryFields, &$aAdminFields )
 {    
     if ( ($fileDelimPosn = strrpos($fullPathToVideo, '/mp4:')) !== false ) {
@@ -124,15 +130,22 @@ if ( !function_exists('debugDump') ){
     
     function debugDump($id, $value){
         $message = "ID:$id VALUE:" . print_r( $value, true);
-        OA::debug("[VAST]" . $message);
+        
+        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
+        //OA::debug("[VAST]" . $message);
     }
 
     function debugLog($message){
-        OA::debug("[VAST]" . $message);
+        
+        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
+        //OA::debug("[VAST]" . $message);
     }
 
     function appendDebugMessage($message){
-        OA::debug("[VAST]" . $message);
+        
+        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
+        //OA::debug("[VAST]" . $message);
+        
     }
 }
 

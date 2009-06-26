@@ -124,9 +124,26 @@ if ( !empty($format) && $format == 'vast'){
         // BM - output format is vast xml
         if ( $format == 'vast' ){
 
-            // Store the html2js'd output for this ad
-            $spc_output .= $output['html'] . "\n";
-
+            if (  $output['html']  && 
+                 (
+                     ($output['width'] != VAST_OVERLAY_DIMENSIONS) && 
+                     ($output['width'] != VAST_INLINE_DIMENSIONS) 
+                 )
+               ){
+                
+                xdebug_break();
+                $badZoneId = $output['aRow']['zoneid'];
+                $badBannerId = $output['bannerid'];
+                
+                // Store the html2js'd output for this ad
+                $spc_output .= "<!-- You are requesting vast xml for zone $badZoneId which does not apear to be a video overlay banner nor a vast inline banner. banner   -->\n";
+                                
+            }
+            else {
+                // Store the html2js'd output for this ad
+                $spc_output .= $output['html'] . "\n";
+            }
+            
             // Help the player (requestor of VAST) to match the ads in the response with his request by using his id in the Ad xml node
             $spc_output = str_replace( '{player_allocated_ad_id}', $varname, $spc_output );
         }

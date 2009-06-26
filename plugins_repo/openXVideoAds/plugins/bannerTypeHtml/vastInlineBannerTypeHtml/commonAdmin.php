@@ -218,7 +218,10 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">These fields are served to the VAST-compliant video player</span>' );
     $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id");
     $form->addElement('hidden', 'vast_element_type', "singlerow");
-    $form->addElement('text', 'vast_video_id', "Your internal video id");
+    
+    // Users are confused by the use of the Id thinking its a number
+    // changed this to "description" in the GUI
+    $form->addElement('text', 'vast_video_id', "Your internal video description");
     $vastDeliveryOptions = array( 'streaming' =>  'streaming',
                                   'progressive' => 'progressive',
                                 );

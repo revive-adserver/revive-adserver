@@ -160,6 +160,8 @@ function extractVastParameters( &$aBanner )
 
 function prepareVideoParams(&$aOutputParams, $aBanner)
 {
+    $aOutputParams['name'] = $aBanner['name'];
+    
     if( isset( $aBanner['vast_video_outgoing_filename'] )
         && $aBanner['vast_video_outgoing_filename'] ) {
 
@@ -174,16 +176,18 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
        $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
        $aOutputParams['vastVideoWidth']= $aBanner['vast_video_width'];
        $aOutputParams['vastVideoHeight'] = $aBanner['vast_video_height'];
-       $aOutputParams['vastVideoId'] = $aBanner['vast_video_id'];
+       $aOutputParams['vastVideoId'] =  $aBanner['vast_video_id'];
        $aOutputParams['vastVideoType'] = $aBanner['vast_video_type'];
        $aOutputParams['vastVideoDelivery'] = $aBanner['vast_video_delivery'];
        
-       $aOutputParams['name'] = $aBanner['name'];
+       
     }
     else{
         //debuglog( "no video associated with the comment field for this banner id: $aBanner" );
     }
 }
+
+
 
 function prepareOverlayParams(&$aOutputParams, $aBanner)
 {
@@ -221,7 +225,9 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
         if ( $companionOutput['html'] ){
             // We only regard  a companion existing, if we have some markup
             // to output
+                       
             $aOutputParams['companionMarkup'] = $companionOutput['html'];
+            
             $aOutputParams['companionWidth'] = $companionOutput['width'];
             $aOutputParams['companionHeight'] = $companionOutput['height'];
             $aOutputParams['companionClickUrl'] ='http://openxhasalreadywrappedhtmlwithclickurl.com';
@@ -306,7 +312,7 @@ function getVastVideoAdOutput($aO){
                 </TrackingEvents>
                 <Video>
                     <Duration>${aO['vastVideoDuration']}</Duration>
-                    <AdID>${aO['vastVideoId']}</AdID>
+                    <AdID><![CDATA[${aO['vastVideoId']}]]></AdID>
                     <VideoClicks>
                         <ClickThrough>
                             <URL id="destination"><![CDATA[${aO['clickUrl']}]]></URL>
@@ -326,14 +332,14 @@ VAST_VIDEO_AD_TEMPLATE;
 function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
 {
     debuglog( "Plugin_BannerTypeText_delivery_adRender format is vast" );
-    // Ensure that & etc in the name does not break the xml
-    $adName = htmlspecialchars( $aOut['name'] );
+
+    $adName = $aOut['name'];
     $player = "";
     $player .= "    <Ad id=\"{player_allocated_ad_id}\" >";
     $player .= "        <InLine>";
     $player .= "            <AdSystem>openx</AdSystem>";
-    $player .= "                <AdTitle>$adName</AdTitle>";
-    $player .= "                    <Description>$vastAdDescription</Description>";
+    $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>";
+    $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>";
     $player .= "                    <Impression>";
     $player .= "                        <URL id=\"myadsever\"><![CDATA[${aOut['impressionUrl']}]]></URL>";
     $player .= "                    </Impression>";
@@ -449,11 +455,6 @@ RTMP_PLAYER;
         }
 }
 
-/*
-
-  
- */
-
    return $player;
 }
 
@@ -484,13 +485,27 @@ function renderOverlayInAdminTool($aOut)
     return $player;
 }
 
+// if bcmath php extension not installed
+if ( !(function_exists('bcmod'))) {
+   
+    /**
+     * for extremely large numbers of seconds this will break
+     * but for video we will never have extremely large numbers of seconds
+     * 
+     * see http://www.php.net/manual/en/language.operators.arithmetic.php
+     **/
+    function bcmod( $x, $y )
+    {
+        $mod= $x % $y;
+
+        return (int)$mod;
+    }
+    
+}// end of if bcmath php extension not installed
+
 function secondsToVASTDuration($seconds)
 {
     $hours = intval(intval($seconds) / 3600);
-    if($hours > 0)
-    {
-        $ret .= "$hours hours ";
-    }
     $minutes = bcmod((intval($seconds) / 60),60);
     $seconds = bcmod(intval($seconds),60);
     $ret = sprintf( "%02d:%02d:%02d", $hours, $minutes, $seconds );
