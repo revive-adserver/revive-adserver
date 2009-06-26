@@ -34,4 +34,3 @@ $server->xmlfile = '../release/releases.xml';
 
 $server->start();
 
-?>

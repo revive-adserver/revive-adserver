@@ -61,7 +61,7 @@ class OX_PluginServer
         if (!empty($this->psError))
             return new XML_RPC_Response(XML_RPC_encode($this->psError));
 
-        return new XML_RPC_Response(0, $XML_RPC_erruser, "Error");
+        return new XML_RPC_Response(0, $XML_RPC_erruser, "There was a problem during the Update check. Does the Upgrade Server knows about the plugin you are requesting?");
     }
 
     function _compareVersions($aParams, &$aRelease)
