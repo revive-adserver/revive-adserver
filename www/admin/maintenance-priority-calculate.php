@@ -40,6 +40,9 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
+// Set timezone to UTC
+OA_setTimeZoneUTC();
+
 // Run the Maintenance Priority Engine process
 OA_Maintenance_Priority::run();
 
