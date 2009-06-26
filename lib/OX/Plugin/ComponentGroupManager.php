@@ -1981,11 +1981,12 @@ class OX_Plugin_ComponentGroupManager
 			    You can also simply remove the \'index='.$aMenu['index'].' from your menu definition file.');
 			    return false;
 			}
-			$oMenuSection = $oMenu->get($aMenu['replace'],false);
+			$oMenuSection = $oMenu->get($aMenu['replace'], false);
 			if($aMenu['value']) $oMenuSection->setNameKey($aMenu['value']);
 			if($aMenu['link']) $oMenuSection->setLink($aMenu['link']);
 			if($aMenu['exclusive']) $oMenuSection->setExclusive($aMenu['exclusive']);
 			if($aMenu['helplink']) $oMenuSection->setHelpLink($aMenu['helplink']);
+			$oMenuSection->setSectionHasBeenReplaced();
         }
         else
 		{

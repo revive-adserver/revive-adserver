@@ -183,6 +183,9 @@ class OA_Admin_UI
             $oMenu = OA_Admin_Menu::singleton();
             //update page title
             $oCurrentSection = $oMenu->get($ID);
+            
+            $this->redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection);
+
             if ($oCurrentSection == null) {
                 phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . htmlspecialchars($ID) . '</strong> not found for the current user: you might not have sufficient permission to view this page. <br/>If the problem persists, you can also try to delete the files inside your /path/to/openx/var/cache/ directory.');
             }
@@ -289,7 +292,30 @@ class OA_Admin_UI
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
     }
-
+    
+    // if the current menu section has been replaced (ie. some attributes of the menu were replaced in a plugin menu file definition)
+    // we want to check that the current URL is the one that has been defined for this section (in the "link" attribute).
+    // if the section "link" is different from the current URL, it means that you are accessing a page for which the Section's "link" has been overwritten.
+    // You may be clicking on a link in the UI pointing to the old page URL.
+    // we redirect the request to the URL that has been overwritten in the menu definition.
+    private function redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection)
+    {
+        $currentPath = @$_SERVER['SCRIPT_NAME'];
+	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
+	    $startQueryString = strpos($expectedPathForThisSection, '?');
+	    
+	    if($startQueryString !== false) {
+	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
+	    }
+	    if( !empty($currentPath)
+			&& $oCurrentSection->hasSectionBeenReplaced()
+			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
+			    $urlToRedirectTo = $oCurrentSection->getLink($this->aLinkParams);
+			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
+			    exit;
+	    }
+    }
+    
     function getID($ID)
     {
         $id = $ID;

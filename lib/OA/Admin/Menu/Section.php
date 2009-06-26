@@ -57,7 +57,19 @@ class OA_Admin_Menu_Section
     var $oSectionChecker; //checker used to decide whether this section can be shown to the user
     var $parentSection; //reference to parent section
     var $aSectionsMap; //hash holding id => section
-
+    
+    /**
+     * When replacing some information for a section, it can happen that you also replace the "link"
+     * which means that a given menu section will link to a different page.
+     * However, this old page can still be linked from other places in OpenX. Only the Menu knows about the fact that the link has changed.
+     * For links still pointing to the old page name, the menu code will detect that the user is accessing the old page, and will
+     * redirect the user to the new page.
+     * 
+     * @see OA_Admin_UI::redirectSectionToCorrectUrlIfOldUrlDetected()
+     * @var bool
+     */
+    var $sectionHasBeenReplaced;
+      
     /**
      * A string name that indicates relationship between sections on
      * the same level - if a couple of sections share the same group name they could
@@ -111,6 +123,8 @@ class OA_Admin_Menu_Section
     {
         $this->id = $id;
         $this->setNameKey($nameKey);
+// Debug: uncomment below if you are looking for a given Section ID in order to add a new menu entry using the menu XML definition
+//      $this->setNameKey($id. " ".$nameKey); 
         $this->setLink($link);
         $this->setHelpLink($helpLink);
         $this->setExclusive($exclusive);
@@ -122,6 +136,7 @@ class OA_Admin_Menu_Section
         $this->groupName = $groupName;
         // Create instance of OX_Translation
         $this->oTranslation = new OX_Translation();
+        $this->sectionHasBeenReplaced = false;
     }
 
 
@@ -147,6 +162,16 @@ class OA_Admin_Menu_Section
 	    $this->link = $link;
 	}
 	
+	function setSectionHasBeenReplaced()
+	{
+	    $this->sectionHasBeenReplaced = true;
+	}
+	
+	function hasSectionBeenReplaced()
+	{
+	    return $this->sectionHasBeenReplaced;
+	}
+	
 	/**
 	 * Returns a translated name of this section
 	 *
@@ -157,7 +182,7 @@ class OA_Admin_Menu_Section
 	   return $this->oTranslation->translate($this->nameKey);
 	}
 
-	function getLink($aParams)
+	function getLink($aParams = array())
 	{
 	    return $this->setLinkParams($aParams);
 	}
