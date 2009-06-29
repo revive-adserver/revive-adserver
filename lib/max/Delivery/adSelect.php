@@ -533,8 +533,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
                 }
             } else {
                 foreach ($aAds as $key => $ad) {
-                    $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
-                        $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
+                    $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'];
                 }
             }
         }
