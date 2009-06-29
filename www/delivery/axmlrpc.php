@@ -4007,8 +4007,7 @@ $aAds[$key]['priority'] = $ad['priority']
 }
 } else {
 foreach ($aAds as $key => $ad) {
-$aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
-$aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
+$aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'];
 }
 }
 }
