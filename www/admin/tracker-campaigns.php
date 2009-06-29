@@ -167,8 +167,7 @@ $checkedall = true;
 $campaignshidden = 0;
 
 $defaults = array(
-    'viewwindow'  => $conf['logging']['defaultImpressionConnectionWindow'],
-    'clickwindow' => $conf['logging']['defaultClickConnectionWindow'],
+    'status' => MAX_CONNECTION_STATUS_PENDING
 );
 
 if (!empty($trackerid)) {
@@ -298,7 +297,7 @@ if ($doCampaigns->getRowCount() == 0) {
             if (isset($campaign_tracker_row[$campaign['campaignid']])) {
                 $trackerStatusId = $campaign_tracker_row[$campaign['campaignid']]['status'];
             } else {
-                  $trackerStatusId = $defaults['status'];
+                $trackerStatusId = $defaults['status'];
             }
 
             foreach($statuses as $statusId => $statusName) {

@@ -53,13 +53,26 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     function testInsert()
     {
         $numTrackers = 2;
+        $clientId = 7;
 
         // Prepare test data
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel, true);
 
-        $clientId = 7;
+        // Test non empty connection wondows
+        $GLOBALS['_MAX']['CONF']['logging']['defaultImpressionConnectionWindow'] = 1000;
+        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow']      = 2000;
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        $this->assertNotEmpty($campaignId);
+        $this->assertEqual($doCampaigns->viewwindow, 1000);
+        $this->assertEqual($doCampaigns->clickwindow, 2000);
+        $GLOBALS['_MAX']['CONF']['logging']['defaultImpressionConnectionWindow'] = '';
+        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow']      = '';
+
+        // Add trackers
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';

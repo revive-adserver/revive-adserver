@@ -326,6 +326,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function insert()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
 //        $this->setEcpmEnabled();
 
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
@@ -334,6 +336,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         // Set the correct campaign status
         $this->setStatus();
+
+        // Set deafult connection windows if not supplied
+        if (!isset($this->viewwindow) && !empty($aConf['logging']['defaultImpressionConnectionWindow'])) {
+            $this->viewwindow = $aConf['logging']['defaultImpressionConnectionWindow'];
+        }
+        if (!isset($this->clickwindow) && !empty($aConf['logging']['defaultClickConnectionWindow'])) {
+            $this->clickwindow = $aConf['logging']['defaultClickConnectionWindow'];
+        }
 
         $id = parent::insert();
         if (!$id) {
@@ -397,11 +407,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
          	$doOriginalBanner->get($doBanners->bannerid);
          	$new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
         }
-        
+
         // Duplicate placement-zone-associations (Do this after duplicating tbe banners (and associated ad-zone-links)
         // The duplicatePlacementZones method will not trigger the auto-linking mechanism so you end up with a 1:1 duplicate of ad-zone links
      	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
-        
+
         return $new_campaignId;
     }
 
@@ -569,13 +579,13 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /**
      * Sets whether contract eCPM is enabled for this campaign depending
      * on the account preference and the campaign priority.
-     * 
+     *
      *
      */
     function setEcpmEnabled()
     {
         $ecpmEnabled = !empty($GLOBALS['_MAX']['PREF']['contract_ecpm_enabled']);
-        
+
         if ($ecpmEnabled && $this->priority >= self::PRIORITY_ECPM_FROM && $this->priority <= self::PRIORITY_ECPM_TO) {
             $this->ecpm_enabled = 1;
         } else {
