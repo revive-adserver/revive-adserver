@@ -101,9 +101,11 @@ class TestFiles
      */
     function getAllTestFiles($type)
     {
+        global $conf;
+        $aDirectories = explode('|', $conf['test']['directories']);
         $aTests = array();
         foreach ($GLOBALS['_MAX']['TEST'][$type . '_layers'] as $layer => $data) {
-            foreach ($GLOBALS['_MAX']['TEST']['directories'] as $path) {
+            foreach ($aDirectories as $path) {
                 if (empty($aTests[$layer])) {
                     $aTests[$layer] = array();
                 }
@@ -123,8 +125,10 @@ class TestFiles
      */
     function getLayerTestFiles($type, $layer)
     {
+        global $conf;
+        $aDirectories = explode('|', $conf['test']['directories']);
         $aTests = array();
-        foreach ($GLOBALS['_MAX']['TEST']['directories'] as $path) {
+        foreach ($aDirectories as $path) {
             if (empty($aTests[$layer])) {
                 $aTests[$layer] = array();
             }

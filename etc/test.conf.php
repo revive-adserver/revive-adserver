@@ -443,6 +443,7 @@ enabledForZoneLinking=false
 ;------------------------------------------------------------------------------------------;
 
 [test]
+directories = "etc/changes|lib|lib/max|lib/OA|lib/OX|lib/util|plugins_repo|plugins|www/admin/plugins|lib/xmlrpc/php"
 urlToTracSvnBrowser = https://developer.openx.org/browser/branches/max/trunk/
 phpPath = /usr/local/bin/php
 ;------------------------------------------------------------------------------------------;

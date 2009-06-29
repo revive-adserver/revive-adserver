@@ -39,22 +39,6 @@ define('DB_NO_TABLES',   2);
 define('DB_WITH_TABLES', 3);
 define('DB_WITH_DATA',   4);
 
-// The directories where tests can be found, to help
-// reduce filesystem parsing time
-$GLOBALS['_MAX']['TEST']['directories'] =
-    array(
-        'etc/changes',
-        'lib',
-        'lib/max',
-        'lib/OA',
-        'lib/OX',
-        'lib/util',
-        'plugins_repo',
-        'plugins',
-        'www/admin/plugins',
-    	'lib/xmlrpc/php'
-    );
-
 // Project path - helpful for testing external projects
 // which integrate with OpenX code
 define('MAX_PROJECT_PATH', MAX_PATH);
