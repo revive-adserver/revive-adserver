@@ -55,7 +55,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '==',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -66,7 +66,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '!=',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -77,7 +77,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '<=',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -88,7 +88,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>=',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -99,7 +99,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '<',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -110,7 +110,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -121,7 +121,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => 'hello',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -161,7 +161,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '==',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -178,7 +178,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '!=',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -195,7 +195,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '<=',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -212,7 +212,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>=',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -229,7 +229,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '<',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -246,7 +246,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
@@ -263,7 +263,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>',
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1

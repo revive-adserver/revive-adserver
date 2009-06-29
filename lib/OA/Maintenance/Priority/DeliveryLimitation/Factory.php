@@ -66,9 +66,9 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
         // OA_Maintenance_Priority_DeliveryLimitation_Day
         // and OA_Maintenance_Priority_DeliveryLimitation_Hour classes
         $dateTimeClasses = array(
-            'deliverylimitations:time:date',
-            'deliverylimitations:time:day',
-            'deliverylimitations:time:hour'
+            'time:date',
+            'time:day',
+            'time:hour'
         );
         // If the delivery limitations properties passed in have a type that matches
         // one of the date/time delivery limitations, set the $class variable so that
@@ -76,7 +76,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
         // the OA_Maintenance_Priority_DeliveryLimitation_Empty class can be
         // instantiated
         if (in_array(strtolower($aDeliveryLimitation['type']), $dateTimeClasses)) {
-            $class = ucfirst(substr($aDeliveryLimitation['type'], 25));
+            $class = ucfirst(substr($aDeliveryLimitation['type'], 5));
         } else {
             $class = 'Empty';
         }

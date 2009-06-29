@@ -60,7 +60,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'or',
-            'type'           => 'DeliveryLimitations:Time:Date',
+            'type'           => 'Time:Date',
             'comparison'     => '>',
             'data'           => '2005-05-05',
             'executionorder' => 1
@@ -68,7 +68,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Date');
         $this->assertEqual($obj->logical, 'or');
-        $this->assertEqual($obj->type, 'DeliveryLimitations:Time:Date');
+        $this->assertEqual($obj->type, 'Time:Date');
         $this->assertEqual($obj->comparison, '<=');
         $this->assertEqual($obj->data[0], '2005-05-05');
         $this->assertEqual($obj->executionOrder, 1);
@@ -80,7 +80,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Day',
+            'type'           => 'Time:Day',
             'comparison'     => '=~',
             'data'           => '0,6',
             'executionorder' => 7
@@ -88,7 +88,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Day');
         $this->assertEqual($obj->logical, 'and');
-        $this->assertEqual($obj->type, 'DeliveryLimitations:Time:Day');
+        $this->assertEqual($obj->type, 'Time:Day');
         $this->assertEqual($obj->comparison, '!~');
         $this->assertEqual($obj->data[1], 1);
         $this->assertEqual($obj->data[2], 2);
@@ -115,7 +115,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Hour',
+            'type'           => 'Time:Hour',
             'comparison'     => '=~',
             'data'           => '0,6,21',
             'executionorder' => 0
@@ -123,7 +123,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Hour');
         $this->assertEqual($obj->logical, 'and');
-        $this->assertEqual($obj->type, 'DeliveryLimitations:Time:Hour');
+        $this->assertEqual($obj->type, 'Time:Hour');
         $this->assertEqual($obj->comparison, '!~');
         $this->assertTrue(!isset($obj->data[0]));
         $this->assertEqual($obj->data[1], 1);

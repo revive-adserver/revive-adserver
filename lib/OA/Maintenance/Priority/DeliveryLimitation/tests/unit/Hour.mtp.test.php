@@ -56,7 +56,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Hour',
+            'type'           => 'Time:Hour',
             'comparison'     => '=~',
             'data'           => '1,7,18,23',
             'executionorder' => 1,
@@ -112,7 +112,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Hour',
+            'type'           => 'Time:Hour',
             'comparison'     => '!~',
             'data'           => '1,7,18,23',
             'executionorder' => 1,
@@ -145,7 +145,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'DeliveryLimitations:Time:Hour',
+            'type'           => 'Time:Hour',
             'comparison'     => '=~',
             'data'           => '1, 5, 7, 20',
             'executionorder' => 1
