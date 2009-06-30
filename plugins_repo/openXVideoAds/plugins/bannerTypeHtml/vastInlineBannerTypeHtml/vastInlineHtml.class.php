@@ -40,7 +40,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
      */
     function getOptionDescription()
     {
-        return $this->translate('OpenX VAST Inline Video Banner (pre/mid/post-roll)');
+        return $this->translate('OpenX VAST Inline Video Ad (pre/mid/post-roll)');
     }
 
     /**
@@ -61,7 +61,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         }
 
         //parent::buildForm($form, $bannerId);
-        $header = $form->createElement('header', 'header_txt', "Create a inline video banner (pre/mid/post-roll)");
+        $header = $form->createElement('header', 'header_txt', "Create an Inline Video Ad (pre/mid/post-roll)");
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());

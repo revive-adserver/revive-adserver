@@ -1,17 +1,3 @@
-README
-=================
-1 - Data Generator
-	You can use the data generator to generate data directly in the stats_vast table.
-	At the beginning of "/openx/www/admin/plugins/videoReport/stats-api.php" you will find the related code.
-	Note that you can customize the range of banner and zone id to generate.
-2 - Data checks
-	Calling the API for all entities and all combination of "View As" ; 
-	look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-api.php" 
-
-NOTE: To trigger the data generator or the data check, you just have to visit 
-any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-api.php
-directly in your browser as it will fail.
-
 How to use your custom flowplayer and flowplayer plugins versions?
 ==================================================================
 By default, when previewing a banner in the OpenX UI, Flowplayer 3.1.1 will be used, 
@@ -32,16 +18,28 @@ Add the following (replacing X.Y by the corresponding version numbers)
 
 Known bugs
 ==========
-See the list on: https://developer.openx.org/jira/secure/IssueNavigator.jspa?reset=true&pid=10111&component=10481&resolution=-1&sorter/field=issuekey&sorter/order=DESC&sorter/field=priority&sorter/order=DESC
+- See the list on: https://developer.openx.org/jira/secure/IssueNavigator.jspa?reset=true&pid=10111&component=10481&resolution=-1&sorter/field=issuekey&sorter/order=DESC&sorter/field=priority&sorter/order=DESC
 
 Feature requests Video Plugin
 =============================
-- please email us with your ideas or suggestions
 - currently, if you create a video banner, you can link it to a HTML zone that has *x* dimensions; this however doesn't make sense and the video won't serve. Requesting this non-video zone from the flowplayer will just fail in some ways. Ideally, we should ensure that video banners are only linked to video zones (by design OpenX enforces zone linking by dimensions rather than type, so I think this is not easily possible?)
-- for website report, add "View by Zone"
-- for zone report, add "View by Campaign" and "View by Banner"
+- please email us with your ideas or suggestions
 - add a "Expand all"
 - video banners should have the right icons, instead of the generic html banner icons 
 - in video reports, a row should not be expandable if there is no data
 - add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
 - add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
+
+Testing & QA
+============
+1 - Data Generator
+	You can use the data generator to generate data directly in the stats_vast table.
+	At the beginning of "/openx/www/admin/plugins/videoReport/stats-api.php" you will find the related code.
+	Note that you can customize the range of banner and zone id to generate.
+2 - Data checks
+	Calling the API for all entities and all combination of "View As" ; 
+	look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-api.php" 
+
+NOTE: To trigger the data generator or the data check, you just have to visit 
+any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-api.php
+directly in your browser as it will fail.

@@ -8,7 +8,7 @@
     <authorEmail>enquiries@bouncingminds.com</authorEmail>
     <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>license.txt</license>
-    <description>Vast overlay banner for OpenX</description>
+    <description>Vast Overlay Ad for OpenX</description>
     <version>1.0-rc26</version>
     <oxversion>2.7.8-dev</oxversion>
     <extends>bannerTypeHtml</extends>

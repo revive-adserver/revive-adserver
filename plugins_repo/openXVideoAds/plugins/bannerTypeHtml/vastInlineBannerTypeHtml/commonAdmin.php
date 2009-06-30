@@ -282,6 +282,7 @@ function addVastCompanionsToForm( &$form, $selectableCompanions)
 {
     // ----- Now the Companion status
     $form->addElement('header', 'companion_status', "Companion banners");
+    $form->addElement('html', '# To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration.');
     $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
     $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">***Only one companion from the current campaign supported</span>' );
 }

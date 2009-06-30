@@ -5,7 +5,7 @@
  <name>vastbannertypehtml</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>10</version>
+ <version>11</version>
  <status>final</status>
 
  <table>
@@ -96,8 +96,7 @@
         
    <field>
     <name>vast_video_outgoing_filename</name>
-    <type>openads_varchar</type>
-    <length>255</length>
+    <type>openads_text</type>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -120,8 +119,7 @@
 
    <field>
     <name>vast_net_connection_url</name>
-    <type>openads_varchar</type>
-    <length>255</length>
+    <type>openads_text</type>
     <notnull>false</notnull>
     <default></default>
    </field>

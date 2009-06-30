@@ -44,7 +44,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
      */
     function getOptionDescription()
     {
-        return $this->translate('OpenX VAST Video Overlay Banner');
+        return $this->translate('OpenX VAST Overlay Video Ad');
     }
 
     /**
@@ -64,12 +64,12 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
     	    $isNewBanner = true;
     	}
         //parent::buildForm($form, $bannerId);
-        $header = $form->createElement('header', 'header_txt', "Create a overlay video banner");
+        $header = $form->createElement('header', 'header_txt', "Create an Overlay Video Ad");
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
         addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_OVERLAY_DIMENSIONS);
-        $form->addElement('header', 'header_b_links', "Nonlinear Overlay html");
+        $form->addElement('header', 'header_b_links', "Overlay HTML");
         $form->addElement('html', 'overlay_info1', '<span style="font-size:100%;">This html overlay appears on top of the video as it plays</span>' );
         $htmlG['textarea'] = $form->createElement('textarea', 'htmltemplate', null,
             array(
