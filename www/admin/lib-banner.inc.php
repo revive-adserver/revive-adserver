@@ -71,7 +71,7 @@ function phpAds_getBannerCache($banner)
                     // Remove target parameters
                     $m[3][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[3][$k]));
 
-                    $buffer = str_replace($v, "<form {$m[1][$k]} action='{url_prefix}/{$aConf['file']['click']}' {$m[3][$k]} target='{$target}'>{$m[4][$k]}<input type='hidden' name='{$aConf['var']['params']}' value='{clickurlparams}{$m[2][$k]}'></form>")
+                    $buffer = str_replace($v, "<form {$m[1][$k]} action='{url_prefix}/{$aConf['file']['click']}' {$m[3][$k]} target='{$target}'>{$m[4][$k]}<input type='hidden' name='{$aConf['var']['params']}' value='{clickurlparams}{$m[2][$k]}'></form>", $buffer);
                 }
             }
 
