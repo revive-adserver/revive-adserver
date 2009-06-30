@@ -45,13 +45,16 @@ function phpAds_getBannerCache($banner)
     {
         if ($buffer != '')
         {
-            // Remove target parameters
-            // The regexp should handle ", ', \", \' as delimiters
-            $buffer = preg_replace('# target\s*=\s*(\\\\?[\'"]).*?\1#i', ' ', $buffer);
-
             // Put our click URL and our target parameter in all anchors...
             // The regexp should handle ", ', \", \' as delimiters
-            $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
+            if (preg_match_all('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', $buffer, $m)) {
+                foreach ($m[0] as $k => $v) {
+                    // Remove target parameters
+                    $m[4][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
+
+                    $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}http{$m[3][$k]}{$m[2][$k]}{$m[4][$k]} target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
+                }
+            }
 
             // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
             // Replace:<form\1 action="{url_prefix}/{$aConf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
@@ -63,11 +66,14 @@ function phpAds_getBannerCache($banner)
                 "<form $1 method='GET'", $buffer
             );
 
-            $buffer = preg_replace(
-                '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
-                "<form $1 action='{url_prefix}/{$aConf['file']['click']}' $3 target='{$target}'>$4<input type='hidden' name='{$aConf['var']['params']}' value='{clickurlparams}$2'></form>",
-                $buffer
-            );
+            if (preg_match_all('#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is', $buffer, $m)) {
+                foreach ($m[0] as $k => $v) {
+                    // Remove target parameters
+                    $m[3][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[3][$k]));
+
+                    $buffer = str_replace($v, "<form {$m[1][$k]} action='{url_prefix}/{$aConf['file']['click']}' {$m[3][$k]} target='{$target}'>{$m[4][$k]}<input type='hidden' name='{$aConf['var']['params']}' value='{clickurlparams}{$m[2][$k]}'></form>")
+                }
+            }
 
             //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$aConf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
             //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$aConf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
