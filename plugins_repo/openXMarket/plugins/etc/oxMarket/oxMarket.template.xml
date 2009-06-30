@@ -3,8 +3,8 @@
 <plugin>
     <name>oxMarket</name>
     <creationDate>2008-11-14</creationDate>
-    <author>Bernard Lange</author>
-    <authorEmail>bernard.lange@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>

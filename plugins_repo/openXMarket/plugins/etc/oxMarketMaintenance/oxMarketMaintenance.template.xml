@@ -4,8 +4,8 @@
 <plugin>
     <name>oxMarketMaintenance</name>
     <creationDate>2008-11-14</creationDate>
-    <author>Lukasz Wikierski</author>
-    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Maintenace Statistics Tasks</description>

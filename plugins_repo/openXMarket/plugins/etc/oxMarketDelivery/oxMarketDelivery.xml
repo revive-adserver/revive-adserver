@@ -4,8 +4,8 @@
 <plugin>
     <name>oxMarketDelivery</name>
     <creationDate>2008-12-22</creationDate>
-    <author>Chris Nutting</author>
-    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Delivery</description>
