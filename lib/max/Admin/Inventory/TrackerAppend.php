@@ -163,7 +163,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
             // Queue confirmation message
             $doTrackers = OA_Dal::factoryDO('trackers');
-            $doTrackers->get($this->advertiser_id);
+            $doTrackers->get($this->tracker_id);
   
             $translation = new OX_Translation();
             $translated_message = $translation->translate ( $GLOBALS['strTrackerAppendHasBeenUpdated'], array(
