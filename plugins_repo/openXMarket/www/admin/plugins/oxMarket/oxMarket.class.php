@@ -107,16 +107,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
 
 
-        //Form validation rules
-        $form->addGroupRule('floor_price_group', array(
-            'floor_price' => array(
-                array($this->translate("%s must be a minimum of at least 0.01", array($this->translate('Campaign floor price'))), 'min', 0.01),
-                array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2),
-                array($this->translate("%s must be smaller than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
-            )
-        ));
-
-        $form->addFormRule(array($this, 'checkIfFloorPriceRequired'));
+        //in order to get conditional validation, check if it is POST 
+        //and if market was enabled and add group rules
+        if (isset($_POST['mkt_is_enabled']) && $_POST['mkt_is_enabled'] == 't') { 
+            //Form validation rules
+            $form->addGroupRule('floor_price_group', array(
+                'floor_price' => array(
+                    array($this->translate('%s is required', array($this->translate('Campaign floor price'))), 'required'),
+                    array($this->translate("%s must be a minimum of at least 0.01", array($this->translate('Campaign floor price'))), 'min', 0.01),
+                    array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2),
+                    array($this->translate("%s must be smaller than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
+                )
+            ));
+        }
 
         $form->setDefaults($aFields);
     }
@@ -409,17 +412,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function checkIfFloorPriceRequired($submitValues)
-    {
-        if ($submitValues['mkt_is_enabled'] == 't') {
-            if (trim($submitValues['floor_price']) == '') {
-                return array('floor_price' => $this->translate('%s is required', array($this->translate('Campaign floor price'))));
-            }
-        }
-        return true;
-    }
-    
-    
     function getMaxFloorPrice()
     {
         return 1000000; //hardcoded value for validation purposes, such high 
