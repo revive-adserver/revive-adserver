@@ -2575,11 +2575,10 @@ echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==
 }
 function MAX_commonGetTimeNow()
 {
-static $now;
-if (!isset($now)) {
-$now = $GLOBALS['_MAX']['NOW'] = time();
+if (!isset($GLOBALS['_MAX']['NOW'])) {
+$GLOBALS['_MAX']['NOW'] = time();
 }
-return $now;
+return $GLOBALS['_MAX']['NOW'];
 }
 function MAX_header($value)
 {
