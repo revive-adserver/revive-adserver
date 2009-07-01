@@ -3,13 +3,13 @@
 
 <plugin>
     <name>openXDeliveryLimitations</name>
-    <creationDate>2008-02-19</creationDate>
+    <creationDate>2008-07-01</creationDate>
     <author>OpenX</author>
     <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GNU General Public License</license>
     <description>OpenX Delivery Limitations Plugins for OpenX</description>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <type>package</type>
 
     <install>

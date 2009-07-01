@@ -3,14 +3,14 @@
 
 <plugin>
     <name>Time</name>
-    <creationDate>2008-02-19</creationDate>
+    <creationDate>2008-07-01</creationDate>
     <author>Monique Szpak</author>
     <authorEmail>monique.szpak@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GNU General Public License</license>
     <description>Time Delivery Limitations for OpenX</description>
-    <version>1.0.1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.0.2</version>
+    <oxversion>2.8.2</oxversion>
     <extends>deliveryLimitations</extends>
 
     <install>
