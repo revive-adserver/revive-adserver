@@ -103,7 +103,7 @@ $Id$
                     {ox_campaign_type type=$campaign.type}
                 </td>
                 <td>
-                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" 
+                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
                              name="cpm{$campaignId}" value="{$campaign.minCpm|escape}" /> USD
                     {if $campaign.minCpmCalculated}
                     <small>This is the campaign's calculated eCPM</small>

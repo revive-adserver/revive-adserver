@@ -49,7 +49,7 @@ $Id$
       
     <div id="optInAllRemnant" class="mainOptionContent">
       <label>Minimum CPM that OpenX Market must beat 
-      &nbsp;&nbsp;$ <input id="minCpm" type="text" name="minCpm"
+      &nbsp;&nbsp;$ <input id="minCpm" type="text" name="minCpm" maxlength="{$maxValueLength}"
                class="cpm{if $minCpmInvalid} error{/if}" 
                value="{$minCpm|escape}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
     </div>

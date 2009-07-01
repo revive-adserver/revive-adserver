@@ -29,7 +29,8 @@ require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/DecimalPlaces.php';
-require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';;
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/Max.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
 
 
 // Security check
@@ -40,7 +41,7 @@ if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
     $oMarketComponent->setMarketSettingsAlreadyShown();
 }
 $defaultMinCpm = $oMarketComponent->getConfigValue('defaultFloorPrice');
-
+$maxCpm = $oMarketComponent->getMaxFloorPrice();
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
@@ -75,7 +76,7 @@ foreach ($_REQUEST as $param => $value) {
 }
 
 // Perform opt-in if needed
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl))
+if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl, $maxCpm))
 {
     performOptIn($minCpms, $oCampaignsOptInDal);
     exit(0);
@@ -116,6 +117,7 @@ $oTpl->assign('optInType', $optInType);
 $oTpl->assign('remnantCampaignsCount', $remnantCampaignsToOptIn);
 $oTpl->assign('remnantCampaignsOptedIn', $remnantCampaignsOptedIn);
 $oTpl->assign('minCpm', $minCpm);
+$oTpl->assign('maxValueLength', 3 + strlen($maxCpm)); //two decimal places, point, plus strlen of maxCPM
 $oTpl->assign('minCpms', $minCpms);
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
@@ -136,33 +138,39 @@ $oTpl->display();
 //footer
 phpAds_PageFooter();
 
-function isDataValid($template)
+function isDataValid($template, $maxCpmValue)
 {
     global $optInType, $toOptIn, $minCpm;
     $valid = true;
     $zero = false;
     $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
+    $maxValidator = new OA_Admin_UI_Rule_Max();
+    
 
     if ($optInType == 'remnant') {
-        $valid = $decimalValidator->validate($minCpm, 2);
+        $valid = $decimalValidator->validate($minCpm, 2); 
         if ($valid) {
-            $zero = ($minCpm <= 0);
-            $valid &= !$zero;
+            $tooSmall = ($minCpm <= 0);
+            $tooBig = !$maxValidator->validate($minCpm, $maxCpmValue); 
+            $valid = $valid && !$tooSmall && !$tooBig;
         }
         if (!$valid) {
             $template->assign('minCpmInvalid', true);
         }
-    } else {
+    } 
+    else {
         $invalidCpms = array();
         foreach ($toOptIn as $campaignId) {
             $value = $_REQUEST['cpm' . $campaignId];
             $valueValid = $decimalValidator->validate($value, 2);
             if ($valueValid) {
-                $valueZero = ($value <= 0);
-                $valueValid &= !$valueZero;
-                $zero |= $valueZero;
+                $valueTooSmall = ($value <= 0);
+                $valueTooBig = !$maxValidator->validate($value, $maxCpmValue);
+                $valueValid = $valueValid && !$valueTooSmall && !$valueTooBig;
+                $tooSmall = $tooSmall || $valueTooSmall;
+                $tooBig = $tooBig || $valueTooBig;
             }
-            $valid &= $valueValid;
+            $valid = $valid && $valueValid;
 
             if (!$valueValid) {
                 $invalidCpms[$campaignId] = true;
@@ -172,14 +180,20 @@ function isDataValid($template)
     }
 
     if (!$valid) {
-        if ($zero) {
+        if ($tooSmall) {
             OA_Admin_UI::queueMessage('Please provide CPM values greater than zero', 'local', 'error', 0);
-        } else {
+        }
+        else if ($tooBig) {
+            OA_Admin_UI::queueMessage('Please provide CPM values smaller than '.formatCpm($maxCpmValue), 'local', 'error', 0);
+        } 
+        
+        else {
             OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
         }
     }
     return $valid;
 }
+
 
 function formatCpm($cpm)
 {

@@ -79,6 +79,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             ? (float) $aConf['oxMarket']['defaultFloorPrice']
             : NULL;
         $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);            
+        $maxFloorPriceValue = $this->getMaxFloorPrice();
 
         $aFields = array(
             'mkt_is_enabled' => 'f',
@@ -100,7 +101,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
         $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
-        $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price'));
+        $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price', 'maxlength' => 3 + strlen($maxFloorPriceValue)));
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
@@ -110,7 +111,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $form->addGroupRule('floor_price_group', array(
             'floor_price' => array(
                 array($this->translate("%s must be a minimum of at least 0.01", array($this->translate('Campaign floor price'))), 'min', 0.01),
-                array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2)
+                array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2),
+                array($this->translate("%s must be smaller than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
             )
         ));
 
@@ -415,6 +417,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         }
         return true;
+    }
+    
+    
+    function getMaxFloorPrice()
+    {
+        return 1000000; //hardcoded value for validation purposes, such high 
+                   //CPM does not make sense anyway, but we'd like to avoid 
+                   //number overflows here
     }
 
 
