@@ -44,25 +44,18 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 function MAX_checkTime_Hour($limitation, $op, $aParams = array())
 {
-    // Get timezone, if any
-    $offset = strpos($limitation, '@');
-    if ($offset !== false) {
-        $tz = substr($limitation, $offset + 1);
-        $limitation = substr($limitation, 0, $offset);
-    } else {
-        $tz = false;
-    }
     if ($limitation == '') {
         return true;
     }
-    $timestamp = !empty($aParams['timestamp']) ? $aParams['timestamp'] : time();
-    if ($tz && $tz != 'UTC') {
-        OA_setTimeZone($tz);
-        $time = date('G', $timestamp);
-        OA_setTimeZoneUTC();
+    OA_setTimeZoneLocal();
+    if (!empty($GLOBALS['is_simulation'])) {
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oNow = $oServiceLocator->get('now');
+        $time = (int)$oNow->getHour();
     } else {
-        $time = gmdate('G', $timestamp);
+        $time = empty($aParams) ? date('G') : $aParams['hour'];
     }
+    OA_setTimeZoneUTC();
     return MAX_limitationsMatchArrayValue($time, $limitation, $op, $aParams);
 }
 

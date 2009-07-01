@@ -27,7 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A Time delivery limitation plugin, for blocking delivery of ads on the basis
@@ -62,7 +62,11 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
     function init($data)
     {
         parent::init($data);
-        $this->data = $this->_flattenData($this->data);
+        if (empty($this->data)) {
+            $this->data = '00000000';
+        } elseif (is_array($this->data)) {
+            $this->data = $this->_flattenData($this->data);
+        }
     }
 
     /**
@@ -131,36 +135,6 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
     }
 
     /**
-     * A method that returnes the currently stored timezone for the limitation
-     *
-     * @return string
-     */
-    function getStoredTz()
-    {
-        $offset = strpos($this->data, '@');
-        if ($offset !== false) {
-            return substr($this->data, $offset + 1);
-        }
-        return 'UTC';
-    }
-
-    /**
-     * A private method that returnes the current timezone as set in the user preferences
-     *
-     * @return string
-     */
-    function _getCurrentTz()
-    {
-        if (isset($GLOBALS['_MAX']['PREF']['timezone'])) {
-            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
-        } else {
-            $tz = 'UTC';
-        }
-
-        return $tz;
-    }
-
-    /**
      * A private method to "flatten" a delivery limitation into the string format that is
      * saved to the database (either in the acls, acls_channel or banners table, when part
      * of a compiled limitation string).
@@ -173,14 +147,16 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
      */
     function _flattenData($data = null)
     {
-        if (!isset($data)) {
+        if (is_null($data)) {
             $data = $this->data;
-        } elseif (is_array($data)) {
+        }
+        if (is_array($data)) {
             if (empty($data['date'])) {
-                $data = '00000000';
-            } else {
-                $data = date('Ymd', strtotime($data['date'])).'@'.$this->_getCurrentTz();
+                return '00000000';
+            } elseif (!empty($data['date'])) {
+                return date('Ymd', strtotime($data['date']));
             }
+            return sprintf('%04d%02d%02d', $data['year'], $data['month'], $data['day']);
         }
         return $data;
     }
@@ -198,41 +174,25 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
      */
     function _expandData($data = null)
     {
-        if (!isset($data)) {
+        if (is_null($data)) {
             $data = $this->data;
         }
-        if (is_array($data)) {
-            return $data;
-        }
-        $parts = explode('@', $data);
-        $data = $parts[0];
-        $tz = isset($parts[1]) ? $parts[1] : 'UTC';
-        if ($data == '00000000' || empty($data)) {
-            $data = array(
+        if (($data == '00000000') || (empty($data))) {
+            return array(
                 'day'   => 0,
                 'month' => 0,
-                'year'  => 0,
-                'tz'    => $tz,
+                'year'  => 0
             );
         } else {
-            $data = array(
-                'day'   => substr($data, 6, 2),
-                'month' => substr($data, 4, 2),
-                'year'  => substr($data, 0, 4),
-                'tz'    => $tz,
-            );
+            if (!is_array($data)) {
+                return array(
+                    'day'   => substr($this->data, 6, 2),
+                    'month' => substr($this->data, 4, 2),
+                    'year'  => substr($this->data, 0, 4)
+                );
+            }
         }
         return $data;
-    }
-
-    /**
-     * A method to return an instance to be used by the MPE
-     *
-     * @param unknown_type $aDeliveryLimitation
-     */
-    function getMpeClassInstance($aDeliveryLimitation)
-    {
-        return new OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation);
     }
 }
 
