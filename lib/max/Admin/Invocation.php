@@ -583,11 +583,10 @@ class MAX_Admin_Invocation {
   */-->
 
 <script type='text/javascript'><!--//<![CDATA[
-    var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
+    var {$varprefix}p = (location.protocol=='https:'?'https:".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'], true)."':'http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'])."');\n
     var {$varprefix}r=Math.floor(Math.random()*999999);
     document.write (\"<\" + \"script language='JavaScript' \");
     document.write (\"type='text/javascript' src='\"+{$varprefix}p);
-    document.write (\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'])."\");
     document.write (\"?trackerid={$trackerId}";
 
         if ($append == true) {
