@@ -467,11 +467,10 @@ function MAX_commonDisplay1x1()
 
 function MAX_commonGetTimeNow()
 {
-    static $now;
-    if (!isset($now)) {
-        $now = $GLOBALS['_MAX']['NOW'] = time();
+    if (!isset($GLOBALS['_MAX']['NOW'])) {
+        $GLOBALS['_MAX']['NOW'] = time();
     }
-    return $now;
+    return $GLOBALS['_MAX']['NOW'];
 }
 
 /**
