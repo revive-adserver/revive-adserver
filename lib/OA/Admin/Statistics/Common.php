@@ -672,15 +672,17 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $graphFilterArray = $graphVals;
         $imageFormat = null;
         if (!extension_loaded('gd')) {
-          $this->aGraphData['noGraph'] = true;
-    } else {
+            $this->aGraphData['noGraph'] = true;
+	    } else {
             $imgPath = rtrim(MAX::constructURL(MAX_URL_IMAGE), '/');
             if (!function_exists('imagecreate')) {
                 $this->aGraphData['noGraph'] = $GLOBALS['strGDnotEnabled'];
             } else {
-            	$tmpUrl = MAX::constructURL(MAX_URL_ADMIN) . 'stats-showgraph.php?' . $_SERVER['QUERY_STRING'];
-                foreach ($graphFilterArray as $k => $v) {
-                    $tmpUrl .= '&graphFields[]=' . $v;
+                $tmpUrl = MAX::constructURL(MAX_URL_ADMIN) . 'stats-showgraph.php?' . $_SERVER['QUERY_STRING'];
+                if(is_array($graphFilterArray)) {
+	                foreach ($graphFilterArray as $k => $v) {
+	                    $tmpUrl .= '&graphFields[]=' . $v;
+	                }
                 }
             }
             $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
@@ -689,7 +691,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $this->aGraphData['tmpUrl']          = $tmpUrl;
             $this->aGraphData['queryString']     = $_SERVER['QUERY_STRING'];
             $this->aGraphData['formSubmitLink']  = $formSubmitLink;
-    }
+	    }
 
         // Set the Flexy tags to open/close Javascript
         $this->scriptOpen     = "\n<script type=\"text/javascript\"> <!--\n";
