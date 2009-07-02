@@ -1,54 +1,6 @@
 <?php
 require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php";
 
-$videoReport = new OX_Video_Report;
-// Generate fake stats?
-// Note: you can generate for any campaign and banner; However if you generate stats for a non-vast banner
-// and then try to access the UI for reporting of this non-vast banner, the "access check" will fail and 
-// the error "Menu system error: Manager::stats-vast-campaign not found for the current user" will be displayed.
-$generateFakeStatistics = false;
-if($generateFakeStatistics) {
-    $bannerIds = range($minBannerId = 1, $maxBannerId = 3, $step = 1);
-    $zoneIds = range($minZoneId = 1, $maxZoneId = 3, $step = 1);
-    $pastDays = 17;
-	echo "generating fake data for ". count($bannerIds)." banners and ".count($zoneIds)." zones for the last ".$pastDays." days...<br>";
-	flush();
-    foreach($bannerIds as $bannerId) {
-        foreach($zoneIds as $zoneId){
-		    $videoReport->generateFakeVastStatistics($pastDays, $bannerId, $zoneId);
-        }
-    }
-    echo "done!";
-    exit;
-}
-
-// Output all combinations of parameters for the getStatistics function?
-$outputAllCallGetStatistics = false;
-if($outputAllCallGetStatistics) {
-	$availableDimensions = array(//"campaign", "banner", "zone",
-								"day", "week", "month", "year", "hour-of-day");
-	$availableEntities = array(
-	    //entity name, entity id
-	    array('banner', 1),
-	    array('campaign', 1),
-	    array('advertiser', 1),
-	    array('website', 1),
-	    array('zone', 1),
-	);
-	$startDate = '2009-05-09';
-	$endDate = '2009-05-12';
-	foreach($availableDimensions as $dimension) {
-			echo "<h1>Test '$dimension' (from $startDate to $endDate)</h1>";
-	    foreach($availableEntities as $entityNameAndValue) {
-	        $entityName = $entityNameAndValue[0];
-	        $entityValue = $entityNameAndValue[1];
-			echo "<h2>Test $entityName = $entityValue</h2>";
-			var_dump($videoReport->getVastStatistics($entityName, $entityValue, $dimension, $startDate, $endDate));
-	    }
-	}
-	exit;
-}
-
 class OX_Video_Report {
 	static $graphMetricsToPlot = array(1,3,2,4,5);
 	
@@ -109,29 +61,30 @@ class OX_Video_Report {
 //		echo $startDateTime . " / " . $endDateTime;
 
 		$sqlFrom = $whereEntity = '';
+		$entityValue = OA_DB::singleton()->quote($entityValue);
 		switch($entity) {
 			case 'advertiser':
 				$sqlFrom = $this->statsTable. " AS s 
 							JOIN $this->bannerTable as b ON s.creative_id = b.bannerid
 							JOIN $this->campaignTable AS c ON b.campaignid = c.campaignid";
-				$whereEntity = "c.clientid = '$entityValue'";
+				$whereEntity = "c.clientid = $entityValue";
 			break;
 			
 			case 'campaign':
 				$sqlFrom = $this->statsTable." AS s 
 							JOIN ".$this->bannerTable." as b ON s.creative_id = b.bannerid
 							";
-				$whereEntity = "b.campaignid = '$entityValue'";
+				$whereEntity = "b.campaignid = $entityValue";
 			break;
 			
 			case 'banner':
 				$sqlFrom = $this->statsTable;
-				$whereEntity = "creative_id = '$entityValue'";
+				$whereEntity = "creative_id = $entityValue";
 			break;
 			
 			case 'zone':
 				$sqlFrom = $this->statsTable;
-				$whereEntity = "zone_id = '$entityValue'";
+				$whereEntity = "zone_id = $entityValue";
 		    break;
 		    
 			case 'website':
@@ -139,7 +92,7 @@ class OX_Video_Report {
 							JOIN ".$this->zoneTable." as z ON s.zone_id = z.zoneid
 							JOIN ".$this->websiteTable." as a ON a.affiliateid = z.affiliateid
 							";
-				$whereEntity = "a.affiliateid = '$entityValue'";
+				$whereEntity = "a.affiliateid = $entityValue";
 		    break;
 		}
 		
@@ -150,7 +103,7 @@ class OX_Video_Report {
 		
 		if(!empty($entityFilterName)) {
 			$entityFilterName = $this->getSqlFieldFromDimension( $entityFilterName );
-			$whereEntity .= " AND $entityFilterName = '$entityFilterValue'";
+			$whereEntity .= " AND $entityFilterName = ".OA_DB::singleton()->quote($entityFilterValue);
 		}
 		$query = "	SELECT 	sum(count) as count, 
 							$sqlSelectAsDimensionId as dimension_id,
@@ -162,8 +115,9 @@ class OX_Video_Report {
 						AND interval_start <= '$endDateTime'
 					GROUP BY dimension_id, vast_event_id
 					ORDER BY interval_start, vast_event_id ASC";
-//		echo $query;exit;
+//		var_dump($query);exit;
 		$result =  OA_DB::singleton()->queryAll($query);
+		
         if (PEAR::isError($result)) {
            var_dump($result->getMessage());
            $result = array();
@@ -326,7 +280,7 @@ class OX_Video_Report {
 			    $sqlSelectAsDimensionId = 'z.affiliateid';
 		    break;
 			default: 
-				exit("dimension $dimension not known"); 
+				exit("dimension not known"); 
 			break;
 		}
 		return $sqlSelectAsDimensionId;

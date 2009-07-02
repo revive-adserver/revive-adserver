@@ -28,6 +28,7 @@
             <file path="{ADMINPATH}/">VastMultiAreaGraph.php</file>
             <file path="{ADMINPATH}/">players.php</file>
             <file path="{ADMINPATH}/">stats-api.php</file>
+            <file path="{ADMINPATH}/">stats-debug.php</file>
             <file path="{ADMINPATH}/">stats-export-csv.php</file>
             <file path="{ADMINPATH}/">stats-video.php</file>
             <file path="{ADMINPATH}/">zone-invocation-code.php</file>

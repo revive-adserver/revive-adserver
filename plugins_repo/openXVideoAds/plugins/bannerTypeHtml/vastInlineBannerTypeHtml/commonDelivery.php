@@ -23,11 +23,9 @@ require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
-    
     //error_reporting( E_ALL | E_NOTICE );
     // This is useful for debugging on - you will only get notifications about errors in your plugin
     //activatePluginErrorHandler();
-    
     
     global $format;
     extractVastParameters( $aBanner );
@@ -41,13 +39,10 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
     $aOutputParams['videoPlayerControlsPluginUrl'] = getVideoPlayerUrl('flowplayerControlsPluginUrl');
 
     if ( getVideoPlayerSetting('isAutoPlayOfVideoInOpenXAdminToolEnabled' )){
-
         $aOutputParams['isAutoPlayOfVideoInOpenXAdminToolEnabled'] = "true";
-    }
-    else {
+    } else {
         $aOutputParams['isAutoPlayOfVideoInOpenXAdminToolEnabled'] = "false";
     }
-
 
     prepareCompanionBanner($aOutputParams, $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
     prepareVideoParams( $aOutputParams, $aBanner );
@@ -88,7 +83,7 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
 
 function getVastXMLHeader($charset)
 {
-	$header   = "<?xml version=\"1.0\" encoding=\"$charset\"?>\n";
+	$header   = "<?xml version=\"1.0\" encoding=\"".xmlspecialchars($charset)."\"?>\n";
     $header  .= "<VideoAdServingTemplate xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"vast.xsd\">\n";
     return $header;
 }
@@ -461,8 +456,9 @@ RTMP_PLAYER;
 function renderCompanionInAdminTool($aOut)
 {
     $player = "";
+//    var_dump($aOut);
     if(isset($aOut['companionMarkup'])) {
-        $player .=  "<b>Companion:(" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</><br>";
+        $player .=  "<b>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . "):<br><br>";
         $player .= $aOut['companionMarkup'];
         $player .= "<br>";
     }
@@ -473,9 +469,9 @@ function renderOverlayInAdminTool($aOut)
 {
     $player = "";
     if ( isset( $aOut['overlayMarkupTemplate'] )){
-        $player .=  "<b>Overlay(" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . "):</><br>";
+        $player .=  "<b>Overlay Preview (" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . "):<br><br>";
         if ( $aOut['overlayDestinationUrl'] ){
-            $player .=  "CLICKABLE: <a target=\"${aOut['overlayDestinationTarget']}\" href=\"${aOut['overlayDestinationUrl']}\"> ${aOut['overlayMarkupTemplate']}</a>";
+            $player .=  "Clickable Overlay: <a target=\"${aOut['overlayDestinationTarget']}\" href=\"${aOut['overlayDestinationUrl']}\"> ${aOut['overlayMarkupTemplate']}</a>";
         }
         else {
             $player .=  $aOut['overlayMarkupTemplate']; // Think this should be the templated output markup

@@ -110,6 +110,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
      */
     function processForm($insert, $bannerid, $aFields)
     {
+//        var_dump($bannerid);var_dump($aFields);exit;
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
         $rowId = $aFields['banner_vast_element_id'];
         $doBanners->vast_element_type               = $aFields['vast_element_type'];
@@ -141,7 +142,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         }
         else
         {
-            $doBanners->whereAdd('banner_vast_element_id='.$rowId, 'AND');
+            $doBanners->whereAdd('banner_vast_element_id='. (int)$rowId, 'AND');
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
     }
@@ -172,7 +173,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $query  = "SELECT d.* FROM ".$tblB." b"
                      ." LEFT JOIN ".$tblD." d ON b.bannerid = d.banner_id"
                      ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'"
-                     ." AND b.bannerid = $bannerId";
+                     ." AND b.bannerid = ".(int)$bannerId;
         debugDump( "BANNER JOIN IS ", $query );
         $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true );
         debugDump( "JOINED FIELDS", $joinedResult );
@@ -215,7 +216,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
 
 function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
 {
-    $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">These fields are served to the VAST-compliant video player</span>' );
+    $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">These fields define the Video Ad that will be served to the VAST-compliant video player.</span>' );
     $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id");
     $form->addElement('hidden', 'vast_element_type', "singlerow");
     
@@ -258,17 +259,23 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
         // $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">**<strong>outgoing video filename</strong> format should be: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4</span>' );
     }
 
-    $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing video filename");
+    $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing Video URL");
     $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For streamed rmtp, use the filename format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4 or rtmp://cdn-domain/path-to-cdn-account/flv:filename.flv)</span>" );
     $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For progressive http, use the filename format: http://cdn-domain/path-to-cdn-account/filename.mp4 or http://cdn-domain/path-to-cdn-account/filename.flv)</span>" );
     
     $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
-    $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">*video upload and transcode not yet supported</span>' );
-    $sampleUrl = "rtmp://ne7c0nwbit.rtmphost.com/VideoPlayer/mp4:ads/30secs/bigger_badminton_600.mp4";
-    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">**<strong>Outgoing video filename</strong> supports rtmp streaming/http progressive download URLs to mp4/flv files. For a sample filename, try using: <strong>$sampleUrl</strong></span>" );
+    $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">* video upload and transcode not yet supported</span>' );
+    $sampleUrlMp4 = "rtmp://cp67126.edgefcs.net/ondemand/mp4:mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4";
+    $sampleUrlFlv = "rtmp://cp67126.edgefcs.net/ondemand/mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K.flv";
+    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">** <strong>Outgoing video filename</strong> supports rtmp streaming/http progressive download URLs to mp4/flv files. For a sample filename, try using: 
+    <br/><strong>$sampleUrlMp4</strong>
+    </span>" );
+    // We should also add the following:
+    // <br/><strong>$sampleUrlFlv</strong>
+    // but as of rc26 this URL doesn't work as expected
 
     $enableDefaultValues = true;
-    if ( $isNewBanner && $enableDefaultValues ){
+    if ( $isNewBanner && $enableDefaultValues ) {
         $bannerRow['vast_video_outgoing_filename'] = '';
         $bannerRow['vast_video_duration'] = '30';
         $bannerRow['vast_overlay_width'] = '600';
@@ -282,7 +289,8 @@ function addVastCompanionsToForm( &$form, $selectableCompanions)
 {
     // ----- Now the Companion status
     $form->addElement('header', 'companion_status', "Companion banners");
-    $form->addElement('html', '# To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration.');
+    $form->addElement('html', 'companion_help', 'To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. <br/>
+    					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration; please read the documentation for more information.');
     $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
     $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">***Only one companion from the current campaign supported</span>' );
 }

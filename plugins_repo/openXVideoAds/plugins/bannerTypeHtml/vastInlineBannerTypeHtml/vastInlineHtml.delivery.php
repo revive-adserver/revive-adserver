@@ -94,7 +94,7 @@ if ( !empty($format) && $format == 'vast'){
         if (empty($thisZone)) continue;
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if (!empty($nz)) {
-            list($zonename,$thisZoneid) = explode('=', $thisZone);
+            @list($zonename,$thisZoneid) = explode('=', $thisZone);
             $varname = $zonename;
         } else {
             $thisZoneid = $varname = $thisZone;
@@ -136,7 +136,7 @@ if ( !empty($format) && $format == 'vast'){
                 $badBannerId = $output['bannerid'];
                 
                 // Store the html2js'd output for this ad
-                $spc_output .= "<!-- You are requesting vast xml for zone $badZoneId which does not apear to be a video overlay banner nor a vast inline banner. banner   -->\n";
+                $spc_output .= "<!-- You are requesting vast xml for zone $badZoneId which does not apear to be a video overlay banner nor a vast inline banner. -->\n";
                                 
             }
             else {

@@ -8,12 +8,10 @@ $inputVariables = array(
 	'startDate', 'endDate', 'dimension',
 	'exportCsv', 'showAs', 'expandId');
 MAX_commonRegisterGlobalsArray($inputVariables);
-foreach($inputVariables as $variableName) {
-    $$variableName = urlencode($$variableName);
-}
 PEAR::pushErrorHandling(null);
 
 require_once 'stats-api.php';
+require_once 'stats-debug.php';
 include_once 'lib/SmartyFunctions/function.url.php';
 include_once 'lib/SmartyFunctions/modifier.formatNumber.php';
 include_once 'VastAreaGraph.php';
@@ -40,6 +38,9 @@ $entityToRequiredAccess = array(
     'zone' => 'zones',
 );
 OA_Permission::enforceAccessToObject($entityToRequiredAccess[$entity], $entityId);
+$entityId = (int)$entityId;
+$startDate = urlencode($startDate);
+$endDate = urlencode($endDate);
 
 // "Show as" dropdown
 $availableShowAs = array(
@@ -168,7 +169,7 @@ if($selectedDimensionExpanded && !empty($expandId)) {
 									$startDate,
 									$endDate,
 									$dimension,
-									$expandId
+									$expandId 
 									 );
 }
 $isThereAnyData = @$summaryRow[1] > 0;
@@ -184,20 +185,20 @@ $oTpl->assign('dataForTopGraphInJsonFormat', $topGraphJSON );
 $oTpl->assign('dataForBottomGraphInJsonFormat', $bottomGraphJSON );
 $oTpl->assign('dataTable', $dataTable);
 $oTpl->assign('expandedDataTable', $expandedDataTable);
-$oTpl->assign('selectedDimensionExpanded', $selectedDimensionExpanded);
+$oTpl->assign('selectedDimensionExpanded', urlencode($selectedDimensionExpanded));
 $oTpl->assign('columns', $columns);
 $oTpl->assign('summaryRow', $summaryRow);
 $oTpl->assign('availableDateRanges', $availableDateRanges);
 $oTpl->assign('thirtyDaysAgo', $thirtyDaysAgo);
-$oTpl->assign('expandId', $expandId);
+$oTpl->assign('expandId', urlencode($expandId));
 $oTpl->assign('today', $today);
-$oTpl->assign('startDate', $startDate);
+$oTpl->assign('startDate', $startDate); 
 $oTpl->assign('endDate', $endDate);
 $oTpl->assign('selectedDateRangeName', $selectedDateRangeName);
 $oTpl->assign('availableDimensions', $availableDimensions);
-$oTpl->assign('selectedDimension', $selectedDimension);
+$oTpl->assign('selectedDimension', urlencode($selectedDimension));
 $oTpl->assign('availableShowAs', $availableShowAs);
-$oTpl->assign('selectedShowAs', $selectedShowAs);
+$oTpl->assign('selectedShowAs', urlencode($selectedShowAs));
 
 // VIEW
 phpAds_PageHeader("stats-vast-".$entity,'','../../');

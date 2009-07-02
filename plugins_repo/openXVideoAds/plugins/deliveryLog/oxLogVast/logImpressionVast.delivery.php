@@ -70,12 +70,9 @@ OA::debug('starting delivery script '.__FILE__);
 MAX_commonRegisterGlobalsArray(array('vast_event' ));
 
 // if its a vast tracking event
-if ( $vast_event ){
-
+if($vast_event) {
     // NB: videotimeposn is not yet supported by the player
-    //
     MAX_commonRegisterGlobalsArray(array('video_time_posn', 'banner_id', 'zone_id' ));
-
 
     // Prevent the logging beacon from being cached by browsers
     MAX_commonSetNoCacheHeaders();
@@ -83,40 +80,25 @@ if ( $vast_event ){
     // Remove any special characters from the request variables
     MAX_commonRemoveSpecialChars($_REQUEST);
 
-    //$GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
-
     $time = getTimeNow();
-
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
     $intervalStart =  gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
 
     $viewerIsOkToLog = _viewersHostOkayToLog();
-
     $aQuery = array( 'creative_id'      => intVal($banner_id),
                      'zone_id'          => intVal($zone_id),
                      'vast_event_id'    => getVastEventIdFromVastEventStr($vast_event),
                      'interval_start'   => $intervalStart,
                      'is_host_ok'       => $viewerIsOkToLog,
-                     //'video_time_posn'  => intVal($video_time_posn),
                    );
 
-    //logRawVastDataEvent($aQuery);
-
-    if ( $viewerIsOkToLog ){
-
+    if ($viewerIsOkToLog) {
        bumpVastEventTrackingBucketCounter( $aQuery );
     }
 
     if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
-
         MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
-    } else {
-        // Display a 1x1 pixel gif
-        MAX_commonDisplay1x1();
+        exit;
     }
-
-}
-else {
-
-   // do nothing
-}
+} 
+MAX_commonDisplay1x1();

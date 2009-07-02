@@ -30,16 +30,6 @@ Feature requests Video Plugin
 - add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
 - add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
 
-Testing & QA
-============
-1 - Data Generator
-	You can use the data generator to generate data directly in the stats_vast table.
-	At the beginning of "/openx/www/admin/plugins/videoReport/stats-api.php" you will find the related code.
-	Note that you can customize the range of banner and zone id to generate.
-2 - Data checks
-	Calling the API for all entities and all combination of "View As" ; 
-	look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-api.php" 
-
-NOTE: To trigger the data generator or the data check, you just have to visit 
-any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-api.php
-directly in your browser as it will fail.
+Developers
+==========
+See the file openXVideoAds/www/admin/plugins/videoReport/stats-debug.php for some debugging tools
