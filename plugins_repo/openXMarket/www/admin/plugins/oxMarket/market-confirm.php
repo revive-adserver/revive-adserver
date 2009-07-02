@@ -65,8 +65,8 @@ $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
 if (!$aContentKeys) {
     $aContentKeys = array();
 }
-$trackerFrame = isset($aContentKeys['tracker-iframe']) 
-    ? vsprintf($aContentKeys['tracker-iframe'], array($accountType)) 
+$trackerFrame = isset($aContentKeys['tracker-iframe'])
+    ? str_replace('$ACCOUNT', $accountType, $aContentKeys['tracker-iframe'])
     : '';
 
 $content = $aContentKeys['content']; 

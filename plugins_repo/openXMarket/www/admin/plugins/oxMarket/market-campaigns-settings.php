@@ -52,7 +52,7 @@ $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/
 $oMenu = OA_Admin_Menu::singleton();
 
 // Register some variables from the request
-$request = phpAds_registerGlobalUnslashed('campaignType', 'optInType', 'toOptIn', 'minCpm');
+$request = phpAds_registerGlobalUnslashed('campaignType', 'optInType', 'toOptIn', 'minCpm', 'optedCount');
 if (empty($campaignType)) {
     $campaignType = 'remnant';
 }
@@ -108,6 +108,17 @@ $topMessage = isset($aContentKeys['top-message'])
     ? $aContentKeys['top-message']
     : '';
     
+if (isset($optedCount) && $optedCount > 0) { //use opted count tracker
+    $trackerFrame = isset($aContentKeys['tracker-optin-iframe'])
+        ? str_replace('$COUNT', $optedCount, $aContentKeys['tracker-optin-iframe'])
+        : '';
+}
+else {
+    $trackerFrame = isset($aContentKeys['tracker-view-iframe'])
+        ? $aContentKeys['tracker-view-iframe']
+        : '';
+}    
+    
 
 $oTpl->assign('topMessage', $topMessage);
 $oTpl->assign('campaigns', $campaigns);
@@ -121,6 +132,7 @@ $oTpl->assign('maxValueLength', 3 + strlen($maxCpm)); //two decimal places, poin
 $oTpl->assign('minCpms', $minCpms);
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
+$oTpl->assign('trackerFrame', $trackerFrame);
 $toOptInMap = arrayValuesToKeys($toOptIn);
 foreach ($campaigns as $campaignId => $campaign) {
 	if (!isset($toOptInMap[$campaignId])) {
@@ -203,14 +215,22 @@ function formatCpm($cpm)
 function performOptIn($minCpms, $oCampaignsOptInDal)
 {
     global $optInType, $toOptIn, $minCpm, $campaignType;
-
+    
+    //for tracking reasons: count all currently opted in before additional optin
+    $beforeCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
     $campaignsOptedIn = $oCampaignsOptInDal->performOptIn($optInType, $minCpms, $toOptIn, $minCpm);
+    
+    //for tracking reasons: count all currently opted in after additional optin
+    $afterCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
     
     OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' .
         ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);
 
+    //we do not count here campaigns which floor price was only updated
+    $actualOptedCount = $afterCount - $beforeCount; //this should not be lower than 0 :)         
     // Redirect back to the opt-in page
-    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 'minCpm' => $minCpm);
+    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 
+        'minCpm' => $minCpm, 'optedCount' => $actualOptedCount);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }
 
