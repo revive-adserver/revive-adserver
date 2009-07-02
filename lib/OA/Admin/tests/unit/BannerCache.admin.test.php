@@ -91,7 +91,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['target'] = '_new';
          $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
-         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html'  target='{target}'>Download Openads</a>";
+         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html' target='{target}'>Download Openads</a>";
          return $aBanner;
     }
 
@@ -176,7 +176,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['target'] = '_blank';
          $aBanner['url'] = 'http://www.openx.org/';
          $aBanner['adserver'] = 'fake';
-         $aBanner['expected'] = "<a href=\"\" >Click Here</a>";
+         $aBanner['expected'] = "<a href=\"\" target=\"\">Click Here</a>";
          return $aBanner;
     }
 }
