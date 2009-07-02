@@ -208,11 +208,13 @@ function processForm($oForm, $oMarketComponent)
         $linkingResult = false;
         if ("login" == $aFields['accountMode']) {
             $linkingResult = $oApiClient->createAccountBySsoCred($aFields['m_username'],$aFields['m_password']);
+            $mode = 'e';
         }
         elseif ("signup" == $aFields['accountMode']) {
             //call client signup function here
             $linkingResult = $oApiClient->createAccount($aFields['m_new_email'],$aFields['m_new_username'], 
                                 $aFields['m_new_password'], $aFields['m_captcha'], $aFields['captchaRandom']);
+            $mode = 'n';                                
         }
         
         if ($linkingResult == true) {
@@ -231,7 +233,7 @@ function processForm($oForm, $oMarketComponent)
         return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
     
-    OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
+    OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php?m=$mode");
 
 }
 

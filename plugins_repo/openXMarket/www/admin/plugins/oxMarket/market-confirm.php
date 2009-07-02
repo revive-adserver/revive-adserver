@@ -38,34 +38,47 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page
-    $oMarketComponent->checkActive();
-    $oMarketComponent->updateSSLMessage();
-    
+$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+//check if you can see this page
+$oMarketComponent->checkActive();
+$oMarketComponent->updateSSLMessage();
 
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    phpAds_PageHeader("openx-market",'','../../');
 
-    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
-    if (!$aContentKeys) {
-        $aContentKeys = array();
-    }
-    $trackerFrame = isset($aContentKeys['tracker-iframe']) 
-        ? $aContentKeys['tracker-iframe'] 
-        : '';
-    
-    $content = $aContentKeys['content']; 
-    
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
-    $oTpl->assign('content', $content);
-    $oTpl->assign('trackerFrame', $trackerFrame);
-    
-    $oTpl->display();
+//header
+$oUI = OA_Admin_UI::getInstance();
+$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+phpAds_PageHeader("openx-market",'','../../');
 
-    //footer
-    phpAds_PageFooter();
+//check the type of the signup (exisitng OpenX account or new account)
+phpAds_registerGlobalUnslashed('m');
+if ($m == 'e') {
+    $accountType = 'existing-sso';
+}
+else if ($m == 'n') {
+    $accountType = 'new-sso';
+}
+else {
+    $accountType = 'unspecified'; //for submissions with malformed m values (eg. modified by user)
+}
+
+$aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
+if (!$aContentKeys) {
+    $aContentKeys = array();
+}
+$trackerFrame = isset($aContentKeys['tracker-iframe']) 
+    ? vsprintf($aContentKeys['tracker-iframe'], array($accountType)) 
+    : '';
+
+$content = $aContentKeys['content']; 
+
+//get template and display form
+$oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
+$oTpl->assign('content', $content);
+$oTpl->assign('trackerFrame', $trackerFrame);
+
+$oTpl->display();
+
+//footer
+phpAds_PageFooter();
+
 ?>
