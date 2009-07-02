@@ -206,7 +206,7 @@ function pearErrorHandler($oError)
     }
     if (defined('TEST_ENVIRONMENT_RUNNING')) {
         // It's a test, stop execution
-        echo $message;
+        echo nl2br("Message: $message\ndebugInfo: $debugInfo");
         exit(1);
     } elseif (defined('OA_WEBSERVICES_API_XMLRPC')) {
         // It's an XML-RPC response
