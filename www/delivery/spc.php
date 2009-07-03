@@ -1117,16 +1117,9 @@ return OA_DELIVERY_CACHE_FUNCTION_ERROR;
 return null;
 }
 }
-// Get timezone data
-$aTimezones = MAX_cacheGetAccountTZs();
+// Get creatives with conversions enabled
 $aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
-// Add timezone
-if (isset($aAd['account_id']) && isset($aTimezones['aAccounts'][$aAd['account_id']])) {
-$aAd['timezone'] = $aTimezones['aAccounts'][$aAd['account_id']];
-} else {
-$aAd['timezone'] = $aTimezones['default'];
-}
 $aAd['tracker_status'] = (!empty($aConversionLinkedCreatives[$aAd['ad_id']]['status'])) ? $aConversionLinkedCreatives[$aAd['ad_id']]['status'] : null;
 // Is the creative from a contract (exclusive), contract or remnant campaign?
 if ($aAd['campaign_priority'] == -1) {
@@ -1220,15 +1213,7 @@ return OA_DELIVERY_CACHE_FUNCTION_ERROR;
 return null;
 }
 }
-// Get timezone data
-$aTimezones = MAX_cacheGetAccountTZs();
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
-// Add timezone
-if (isset($aAd['account_id']) && isset($aTimezones['aAccounts'][$aAd['account_id']])) {
-$aAd['timezone'] = $aTimezones['aAccounts'][$aAd['account_id']];
-} else {
-$aAd['timezone'] = $aTimezones['default'];
-}
 // Is the creative from a contract (exclusive), contract or remnant campaign?
 if ($aAd['campaign_priority'] == -1) {
 // Creative is in a contract (exclusive) campaign
@@ -3039,11 +3024,7 @@ return true;
 }
 }
 }
-// Set the ad's own timezone as preference, because some limitations require to be TZ aware
-$GLOBALS['_MAX']['PREF']['timezone'] = $row['timezone'];
 @eval('$result = (' . $row['compiledlimitation'] . ');');
-// Reset timezone
-unset($GLOBALS['_MAX']['PREF']['timezone']);
 return $result;
 } else {
 return true;
