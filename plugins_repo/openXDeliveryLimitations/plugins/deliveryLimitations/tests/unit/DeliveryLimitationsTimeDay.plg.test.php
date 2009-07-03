@@ -40,15 +40,29 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Time_Day extends UnitTestCase
 {
     function testCheckTimeDay()
     {
+        OA_setTimeZoneUTC();
+
         // =~ and !~ - Single value
-        $this->assertTrue(MAX_checkTime_Day('3',    '=~', array('day' => 3)));
-        $this->assertTrue(MAX_checkTime_Day('3',    '!~', array('day' => 4)));
+        $this->assertTrue(MAX_checkTime_Day('3',      '=~', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009)))); // Wed
+        $this->assertTrue(MAX_checkTime_Day('3',      '!~', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009)))); // Thu
 
         // =~ and !~ - Multiple value
-        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '=~', array('day' => 1)));
-        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '=~', array('day' => 4)));
-        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '!~', array('day' => 5)));
-        $this->assertFalse(MAX_checkTime_Day('1,3,4', '!~', array('day' => 3)));
+        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '=~', array('timestamp' => mktime(0, 0, 0, 7, 6, 2009)))); // Mon
+        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '=~', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009)))); // Thu
+        $this->assertTrue(MAX_checkTime_Day('1,3,4',  '!~', array('timestamp' => mktime(0, 0, 0, 7, 3, 2009)))); // Fri
+        $this->assertFalse(MAX_checkTime_Day('1,3,4', '!~', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009)))); // Wed
+
+        // =~ and !~ - Single value with TZ
+        $this->assertTrue(MAX_checkTime_Day('2@America/New_York',      '=~', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009)))); // Wed
+        $this->assertTrue(MAX_checkTime_Day('2@America/New_York',      '!~', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009)))); // Thu
+
+        // =~ and !~ - Multiple value with TZ
+        $this->assertTrue(MAX_checkTime_Day('0,2,3@America/New_York',  '=~', array('timestamp' => mktime(0, 0, 0, 7, 6, 2009)))); // Mon
+        $this->assertTrue(MAX_checkTime_Day('0,2,3@America/New_York',  '=~', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009)))); // Thu
+        $this->assertTrue(MAX_checkTime_Day('0,2,3@America/New_York',  '!~', array('timestamp' => mktime(0, 0, 0, 7, 3, 2009)))); // Fri
+        $this->assertFalse(MAX_checkTime_Day('0,2,3@America/New_York', '!~', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009)))); // Wed
+
+        OA_setTimeZoneLocal();
     }
 }
 

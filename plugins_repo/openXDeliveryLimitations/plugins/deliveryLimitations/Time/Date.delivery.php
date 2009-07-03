@@ -41,12 +41,25 @@ $Id$
  */
 function MAX_checkTime_Date($limitation, $op, $aParams = array())
 {
+    // Get timezone, if any
+    $offset = strpos($limitation, '@');
+    if ($offset !== false) {
+        $tz = substr($limitation, $offset + 1);
+        $limitation = substr($limitation, 0, $offset);
+    } else {
+        $tz = false;
+    }
     if ($limitation == '' && $limitation == '00000000') {
         return true;
     }
-    OA_setTimeZoneLocal();
-    $date = empty($aParams) ? date('Ymd') : $aParams['date'];
-    OA_setTimeZoneUTC();
+    $timestamp = !empty($aParams['timestamp']) ? $aParams['timestamp'] : time();
+    if ($tz && $tz != 'UTC') {
+        OA_setTimeZone($tz);
+        $date = date('Ymd', $timestamp);
+        OA_setTimeZoneUTC();
+    } else {
+        $date = gmdate('Ymd', $timestamp);
+    }
     switch ($op) {
         case '==': return ($date == $limitation); break;
         case '!=': return ($date != $limitation); break;

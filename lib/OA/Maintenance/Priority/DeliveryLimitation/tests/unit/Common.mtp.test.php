@@ -47,30 +47,6 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
     }
 
     /**
-     * A method to test the calculateNonDeliveryDeliveryLimitation() method.
-     *
-     * Tests that the method in the class returns a PEAR::Error, as method is abstract.
-     */
-    function testCalculateNonDeliveryDeliveryLimitation()
-    {
-        PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::calculateNonDeliveryDeliveryLimitation(), 'pear_error'));
-        PEAR::popErrorHandling();
-    }
-
-    /**
-     * A method to test the minutesPerTimePeriod() method.
-     *
-     * Tests that the method in the class returns a PEAR::Error, as method is abstract.
-     */
-    function testMinutesPerTimePeriod()
-    {
-        PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::minutesPerTimePeriod(), 'pear_error'));
-        PEAR::popErrorHandling();
-    }
-
-    /**
      * A method to test the deliveryBlocked() method.
      *
      * Tests that the method in the class returns a PEAR::Error, as method is abstract.
@@ -82,25 +58,6 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
         $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::deliveryBlocked($oDate), 'pear_error'));
         PEAR::popErrorHandling();
     }
-
-    /**
-     * A method to test the _getNonDeliveryOperator() method.
-     *
-     * Tests all possible valid inputs for the correct response, as well as an invalid input.
-     */
-    function test_getNonDeliveryOperator()
-    {
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('==') == '!=');
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('!=') == '==');
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<=') == '>');
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>=') == '<');
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<') == '>=');
-        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>') == '<=');
-        PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('hello'), 'pear_error'));
-        PEAR::popErrorHandling();
-    }
-
 }
 
 ?>

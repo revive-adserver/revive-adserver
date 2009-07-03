@@ -25,10 +25,11 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * An abstract class that defines the interface and some common methods for the
+ * A class that defines the interface and some common methods for the
  * classes that store and manipulate individual delivery limitations for ads,
  * with the goal of determining when (if at all) the deliver limitation "blocks"
  * (as opposed to "filters") deliver of an advertisement.
@@ -38,97 +39,8 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_Maintenance_Priority_DeliveryLimitation_Common
+class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_Priority_DeliveryLimitation_Empty
 {
-
-    /**
-     * Logical operator: and, or
-     * @var string
-     */
-    var $logical;
-
-    /**
-     * Delivery limitation type
-     * @var string
-     */
-    var $type;
-
-    /**
-     * Delivery limitation comparison: ==, !=, >=, <=, >, <
-     * @var string
-     */
-    var $comparison;
-
-    /**
-     * Delivery limitation data
-     * @var array
-     */
-    var $data = array();
-
-    /**
-     * Order delivery limitation should be executed in: 0-n
-     * @var integer
-     */
-    var $executionOrder;
-
-    /**
-     * Constructor method.
-     *
-     * @param array $aDeliveryLimitation An array containing the details of a delivery limitation
-     *                                   associated with an ad. For example:
-     *                                   array(
-     *                                       [ad_id]             => 1
-     *                                       [logical]           => and
-     *                                       [type]              => Time:Hour
-     *                                       [comparison]        => ==
-     *                                       [data]              => 1,7,18,23
-     *                                       [executionorder]    => 1
-     *                                   )
-     * @return OA_Maintenance_Priority_DeliveryLimitation_Common
-     */
-    function OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation)
-    {
-        // Store the logical, type, comparison, data and execution order
-        // items of the delivery limitation
-        $this->logical        = $aDeliveryLimitation['logical'];
-        $this->type           = $aDeliveryLimitation['type'];
-        $this->comparison     = $aDeliveryLimitation['comparison'];
-        $this->data           = explode(',',$aDeliveryLimitation['data']);
-        $this->executionOrder = $aDeliveryLimitation['executionorder'];
-        // Manipulate all delivery limitations to be expressed in terms of when
-        // NOT to deliver the ad, as opposed to when to deliver
-        $this->calculateNonDeliveryDeliveryLimitation();
-    }
-
-    /**
-     * A method to convert delivery limitations into negative form (i.e. when
-     * NOT to deliver ad, as opposed to when to deliver).
-     *
-     * @abstract
-     * @return mixed Void, or a PEAR::Error.
-     */
-    function calculateNonDeliveryDeliveryLimitation() {
-        return MAX::raiseError(
-            'OA_Maintenance_Priority_DeliveryLimitation::calculateNonDeliveryDeliveryLimitation() is abstract!',
-            MAX_ERROR_NOMETHOD
-        );
-    }
-
-    /**
-     * A method to return the number of minutes each delivery limitation covers.
-     *
-     * @abstract
-     * @return mixed An integer, giving the number of minutes the limitation covers,
-     *               or a PEAR::Error.
-     */
-    function minutesPerTimePeriod()
-    {
-        return MAX::raiseError(
-            'OA_Maintenance_Priority_DeliveryLimitation::minutesPerTimePeriod() is abstract!',
-            MAX_ERROR_NOMETHOD
-        );
-    }
-
     /**
      * A method to determine if the delivery limitation stored will prevent an
      * ad from delivering or not, given a time/date.
@@ -139,49 +51,39 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common
      * @return mixed A boolean (true if the ad is BLOCKED (i.e. will NOT deliver), false
      *               if the ad is NOT BLOCKED (i.e. WILL deliver), or a PEAR::Error.
      */
-    function deliveryBlocked($oDate) {
-        return MAX::raiseError(
-            'OA_Maintenance_Priority_DeliveryLimitation::deliveryBlocked() is abstract!',
-            MAX_ERROR_NOMETHOD
-        );
-    }
-
-    /**
-     * A private method to return the appropriate operator to use when
-     * evaulating delivery limitations in terms of when NOT to deliver as
-     * opposed to when to deliver.
-     *
-     * For example, the delivery condition to deliver on a specific date
-     * would be "Time:Date == 20050403". The same condition in terms of when
-     * not to deliver will be "Time:Date != 20050403"; that is, the operator
-     * changes from "==" to "!=".
-     *
-     * @access private
-     * @param string $operator Operator, one of: ==, !=, >, >=, <, <=
-     * @return mixed The appropriate (changed) delivery operator, or a
-     *               PEAR::error object
-     */
-    function _getNonDeliveryOperator($operator)
+    function deliveryBlocked($oDate)
     {
-        if ($operator == '!=') {
-            return '==';
-        } elseif ($operator == '==') {
-            return '!=';
-        } elseif ($operator == '!~') {
-            return '=~';
-        } elseif ($operator == '=~') {
-            return '!~';
-        } elseif ($operator == '>') {
-            return '<=';
-        } elseif ($operator == '>=') {
-            return '<';
-        } elseif ($operator == '<') {
-            return '>=';
-        } elseif ($operator == '<=') {
-            return '>';
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!is_a($oDate, 'Date')) {
+            return MAX::raiseError(
+                'Parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Common is not a PEAR::Date object',
+                MAX_ERROR_INVALIDARGS
+            );
         }
+
+        $aParts = OX_Component::parseComponentIdentifier($this->type);
+        if (!empty($aParts) && count($aParts) == 3) {
+            $fileName = MAX_PATH.$aConf['pluginPaths']['plugins'].join('/', $aParts).'.delivery.php';
+            $funcName = "MAX_check{$aParts[1]}_{$aParts[2]}";
+            $callable = function_exists($funcName);
+
+            if (!$callable && file_exists($fileName)) {
+                require_once $fileName;
+                $callable = true;
+            }
+
+            $aParams = array(
+                'timestamp' => $oDate->getDate(DATE_FORMAT_UNIXTIME)
+            );
+
+            if ($callable) {
+                // Return non-delivery
+                return !$funcName($this->data, $this->comparison, $aParams);
+            }
+        }
+
         return MAX::raiseError(
-            'Illegal operator passed to ' . __CLASS__ . '::' . __FUNCTION__ ,
+            'Limitation parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Common is not correct',
             MAX_ERROR_INVALIDARGS
         );
     }

@@ -37,13 +37,18 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCase
 {
-
-    /**
-     * The constructor method.
-     */
-    function Test_OA_Maintenance_Priority_DeliveryLimitation_Factory()
+    function setUp()
     {
-        $this->UnitTestCase();
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+
+    }
+
+    function tearDown()
+    {
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**
@@ -60,98 +65,61 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'or',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '>',
-            'data'           => '2005-05-05',
+            'data'           => '20050505',
             'executionorder' => 1
         );
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Date');
-        $this->assertEqual($obj->logical, 'or');
-        $this->assertEqual($obj->type, 'Time:Date');
-        $this->assertEqual($obj->comparison, '<=');
-        $this->assertEqual($obj->data[0], '2005-05-05');
-        $this->assertEqual($obj->executionOrder, 1);
-        $this->assertTrue(is_a($obj->date, 'date'));
-        $this->assertEqual($obj->date->format('%Y-%m-%d %H:%M:%S'), '2005-05-05 00:00:00');
-        unset($obj);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
 
         // Test 2
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'and',
-            'type'           => 'Time:Day',
+            'type'           => 'deliveryLimitations:Time:Day',
             'comparison'     => '=~',
             'data'           => '0,6',
             'executionorder' => 7
         );
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Day');
-        $this->assertEqual($obj->logical, 'and');
-        $this->assertEqual($obj->type, 'Time:Day');
-        $this->assertEqual($obj->comparison, '!~');
-        $this->assertEqual($obj->data[1], 1);
-        $this->assertEqual($obj->data[2], 2);
-        $this->assertEqual($obj->data[3], 3);
-        $this->assertEqual($obj->data[4], 4);
-        $this->assertEqual($obj->data[5], 5);
-        $this->assertEqual($obj->executionOrder, 7);
-        unset($obj);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
 
-        // Test 3
+        // Test 4
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'and',
-            'type'           => 'Client:IP',
+            'type'           => 'deliveryLimitations:Time:Hour',
+            'comparison'     => '=~',
+            'data'           => '0,6,21',
+            'executionorder' => 0
+          );
+        $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
+
+        // Test 4
+        $aDeliveryLimitation = array(
+            'ad_id'          => 3,
+            'logical'        => 'and',
+            'type'           => 'deliveryLimitations:Client:IP',
             'comparison'     => '=~',
             'data'           => '192.168.0.1',
             'executionorder' => 0
         );
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Empty');
-        unset($obj);
 
-        // Test 4
+        // Test 5
         $aDeliveryLimitation = array(
             'ad_id'          => 3,
             'logical'        => 'and',
-            'type'           => 'Time:Hour',
+            'type'           => 'Bogus',
             'comparison'     => '=~',
-            'data'           => '0,6,21',
+            'data'           => '192.168.0.1',
             'executionorder' => 0
-          );
+        );
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Hour');
-        $this->assertEqual($obj->logical, 'and');
-        $this->assertEqual($obj->type, 'Time:Hour');
-        $this->assertEqual($obj->comparison, '!~');
-        $this->assertTrue(!isset($obj->data[0]));
-        $this->assertEqual($obj->data[1], 1);
-        $this->assertEqual($obj->data[2], 2);
-        $this->assertEqual($obj->data[3], 3);
-        $this->assertEqual($obj->data[4], 4);
-        $this->assertEqual($obj->data[5], 5);
-        $this->assertTrue(!isset($obj->data[6]));
-        $this->assertEqual($obj->data[7], 7);
-        $this->assertEqual($obj->data[8], 8);
-        $this->assertEqual($obj->data[9], 9);
-        $this->assertEqual($obj->data[10], 10);
-        $this->assertEqual($obj->data[11], 11);
-        $this->assertEqual($obj->data[12], 12);
-        $this->assertEqual($obj->data[13], 13);
-        $this->assertEqual($obj->data[14], 14);
-        $this->assertEqual($obj->data[15], 15);
-        $this->assertEqual($obj->data[16], 16);
-        $this->assertEqual($obj->data[17], 17);
-        $this->assertEqual($obj->data[18], 18);
-        $this->assertEqual($obj->data[19], 19);
-        $this->assertEqual($obj->data[20], 20);
-        $this->assertTrue(!isset($obj->data[21]));
-        $this->assertEqual($obj->data[22], 22);
-        $this->assertEqual($obj->data[23], 23);
-        $this->assertTrue(!isset($obj->data[24]));
-        $this->assertEqual($obj->executionOrder, 0);
-        unset($obj);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Empty');
     }
 
 }

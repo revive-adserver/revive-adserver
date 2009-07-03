@@ -63,4 +63,50 @@ class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_DeliveryLim
         $this->Plugins_DeliveryLimitations_ArrayData();
         $this->setAValues(range($min, $max));
     }
+
+    /**
+     * A method that returnes the currently stored timezone for the limitation
+     *
+     * @return string
+     */
+    function getStoredTz()
+    {
+        $offset = strpos($this->data, '@');
+        if ($offset !== false) {
+            return substr($this->data, $offset + 1);
+        }
+        return 'UTC';
+    }
+
+    /**
+     * A private method that returnes the current timezone as set in the user preferences
+     *
+     * @return string
+     */
+    function _getCurrentTz()
+    {
+        if (isset($GLOBALS['_MAX']['PREF']['timezone'])) {
+            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
+        } else {
+            $tz = 'UTC';
+        }
+
+        return $tz;
+    }
+
+    function _flattenData($data = null)
+    {
+        return parent::_flattenData($data).'@'.$this->_getCurrentTz();
+    }
+
+    function _expandData($data = null)
+    {
+        if (!empty($data) && is_string($data)) {
+            $offset = strpos($data, '@');
+            if ($offset !== false) {
+                $data = substr($data, 0, $offset);
+            }
+        }
+        return parent::_expandData($data);
+    }
 }

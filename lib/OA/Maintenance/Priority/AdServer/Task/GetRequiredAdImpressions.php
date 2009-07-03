@@ -372,8 +372,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             //   number of operation intervals remaining in which the ad
             //   is capable of delivering
             $aAdZones                             = array();
-            $aAdDeliveryLimtations                = array();
-            $aAdCurrentOperationInterval          = array();
+            $aAdDeliveryLimitations               = array();
+            $aAdBlockedForCurrentOI               = array();
             $aAdWeightRemainingOperationIntervals = array();
             $aInvalidAdIds                        = array();
             reset($oCampaign->aAds);
@@ -392,12 +392,12 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                         continue;
                     }
                     // Prepare a delivery limitation object for the ad
-                    $aAdDeliveryLimtations[$oAd->id]  = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
+                    $aAdDeliveryLimitations[$oAd->id]  = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
                     // Is the ad blocked from delivering in the current operation interval?
-                    $aAdCurrentOperationInterval[$oAd->id] = $aAdDeliveryLimtations[$oAd->id]->deliveryBlocked($aCurrentOperationIntervalDates['start']);
+                    $aAdBlockedForCurrentOI[$oAd->id] = $aAdDeliveryLimitations[$oAd->id]->deliveryBlocked($aCurrentOperationIntervalDates['start']);
                     // Determine how many operation intervals remain that the ad can deliver in
                     $adRemainingOperationIntervals =
-                        $aAdDeliveryLimtations[$oAd->id]->getActiveAdOperationIntervals(
+                        $aAdDeliveryLimitations[$oAd->id]->getActiveAdOperationIntervals(
                             $campaignRemainingOperationIntervals,
                             $aCurrentOperationIntervalDates['start'],
                             $oCampaignExpiryDate
@@ -427,7 +427,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 OA::debug('    - Caclulating required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                 // Get impressions required
                 $totalRequiredAdImpressions = 0;
-                if ($oAd->active && $oAd->weight > 0 && $aAdCurrentOperationInterval[$oAd->id] !== true) {
+                if ($oAd->active && $oAd->weight > 0 && $aAdBlockedForCurrentOI[$oAd->id] !== true) {
                     $totalRequiredAdImpressions = $oCampaign->requiredImpressions *
                         ($aAdWeightRemainingOperationIntervals[$oAd->id] / $sumAdWeightRemainingOperationIntervals);
                 }
@@ -444,7 +444,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                         $totalRequiredAdImpressions,
                         $aCurrentOperationIntervalDates['start'],
                         $oCampaignExpiryDate,
-                        $aAdDeliveryLimtations[$oAd->id],
+                        $aAdDeliveryLimitations[$oAd->id],
                         $aAdZones[$oAd->id]
                     );
                 $aRequiredAdImpressions[] = array(

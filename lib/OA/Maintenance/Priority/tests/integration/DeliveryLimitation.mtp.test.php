@@ -49,6 +49,12 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             'Partial_MockOA_Maintenance_Priority_DeliveryLimitation',
             array('_getOperationInterval')
         );
+
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+
+        OA_setTimeZoneUTC();
     }
 
     /**
@@ -61,7 +67,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
@@ -69,7 +75,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Day',
+                'type'           => 'deliveryLimitations:Time:Day',
                 'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
@@ -77,7 +83,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
                 'data'           => '2005:10:10 00:00:00',
                 'executionorder' => 2
@@ -85,7 +91,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 0
@@ -95,17 +101,17 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         // Test that the different limitations have been set correctly
-        $this->assertTrue(count($oDeliveryLimitationManager->aRules) == 4);
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aRules[0], 'OA_Maintenance_Priority_DeliveryLimitation_Empty'));
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aRules[1], 'OA_Maintenance_Priority_DeliveryLimitation_Hour'));
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aRules[2], 'OA_Maintenance_Priority_DeliveryLimitation_Date'));
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aRules[3], 'OA_Maintenance_Priority_DeliveryLimitation_Day'));
-        $this->assertTrue(count($oDeliveryLimitationManager->aOperationGroups) == 2);
-        $this->assertTrue(count($oDeliveryLimitationManager->aOperationGroups[0]) == 1);
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aOperationGroups[0][0], 'OA_Maintenance_Priority_DeliveryLimitation_Hour'));
-        $this->assertTrue(count($oDeliveryLimitationManager->aOperationGroups[1]) == 2);
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aOperationGroups[1][0], 'OA_Maintenance_Priority_DeliveryLimitation_Date'));
-        $this->assertTrue(is_a($oDeliveryLimitationManager->aOperationGroups[1][1], 'OA_Maintenance_Priority_DeliveryLimitation_Day'));
+        $this->assertEqual(count($oDeliveryLimitationManager->aRules), 4);
+        $this->assertEqual($oDeliveryLimitationManager->aRules[0]->type, 'deliveryLimitations:Client:IP');
+        $this->assertEqual($oDeliveryLimitationManager->aRules[1]->type, 'deliveryLimitations:Time:Hour');
+        $this->assertEqual($oDeliveryLimitationManager->aRules[2]->type, 'deliveryLimitations:Time:Date');
+        $this->assertEqual($oDeliveryLimitationManager->aRules[3]->type, 'deliveryLimitations:Time:Day');
+        $this->assertEqual(count($oDeliveryLimitationManager->aOperationGroups), 2);
+        $this->assertEqual(count($oDeliveryLimitationManager->aOperationGroups[0]), 1);
+        $this->assertEqual($oDeliveryLimitationManager->aOperationGroups[0][0]->type, 'deliveryLimitations:Time:Hour');
+        $this->assertEqual(count($oDeliveryLimitationManager->aOperationGroups[1]), 2);
+        $this->assertEqual($oDeliveryLimitationManager->aOperationGroups[1][0]->type, 'deliveryLimitations:Time:Date');
+        $this->assertEqual($oDeliveryLimitationManager->aOperationGroups[1][1]->type, 'deliveryLimitations:Time:Day');
     }
 
     /**
@@ -117,7 +123,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
@@ -125,7 +131,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Day',
+                'type'           => 'deliveryLimitations:Time:Day',
                 'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
@@ -133,7 +139,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
                 'data'           => '2005:10:10 00:00:00',
                 'executionorder' => 2
@@ -141,7 +147,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 0
@@ -156,7 +162,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 1
@@ -164,7 +170,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Day',
+                'type'           => 'deliveryLimitations:Time:Day',
                 'comparison'     => '=~',
                 'data'           => '1',
                 'executionorder' => 3
@@ -172,7 +178,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
                 'data'           => '2005:10:10 00:00:00',
                 'executionorder' => 2
@@ -180,7 +186,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 0
@@ -216,7 +222,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -234,7 +240,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -252,7 +258,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -260,9 +266,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -278,7 +284,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -286,9 +292,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -304,7 +310,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '==',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -312,9 +318,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -330,7 +336,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -338,9 +344,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -356,7 +362,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -364,9 +370,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -382,7 +388,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -390,9 +396,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             )
         );
@@ -408,7 +414,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -416,23 +422,23 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-09',
+                'data'           => '20060209',
                 'executionorder' => 2
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 3
@@ -449,7 +455,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -457,23 +463,23 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-09',
+                'data'           => '20060209',
                 'executionorder' => 2
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 3
@@ -490,7 +496,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -498,23 +504,23 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-09',
+                'data'           => '20060209',
                 'executionorder' => 2
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 3
@@ -531,7 +537,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -539,23 +545,23 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-08',
+                'data'           => '20060208',
                 'executionorder' => 1
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'or',
-                'type'           => 'Time:Date',
+                'type'           => 'deliveryLimitations:Time:Date',
                 'comparison'     => '==',
-                'data'           => '2006-02-09',
+                'data'           => '20060209',
                 'executionorder' => 2
             ),
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Client:IP',
+                'type'           => 'deliveryLimitations:Client:IP',
                 'comparison'     => '==',
                 'data'           => '192.168.0.1',
                 'executionorder' => 3
@@ -586,7 +592,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -601,7 +607,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '!~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -632,7 +638,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -647,7 +653,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '!~',
                 'data'           => '1,7,18,23',
                 'executionorder' => 0
@@ -769,7 +775,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '!~',
                 'data'           => '23',
                 'executionorder' => 0
@@ -792,7 +798,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Hour',
+                'type'           => 'deliveryLimitations:Time:Hour',
                 'comparison'     => '=~',
                 'data'           => '22',
                 'executionorder' => 0
@@ -808,6 +814,16 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $this->assertEqual($result, 2);
 
         TestEnv::restoreConfig();
+    }
+
+    /**
+     * This MUST be the last test!!!
+     *
+     */
+    function testCleanUp()
+    {
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**

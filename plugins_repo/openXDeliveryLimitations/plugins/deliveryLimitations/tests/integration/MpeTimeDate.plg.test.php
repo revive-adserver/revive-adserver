@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Date.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -36,108 +35,18 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
 {
-
-    /**
-     * The constructor method.
-     */
-    function Test_OA_Maintenance_Priority_DeliveryLimitation_Date()
+    function setUp()
     {
-        $this->UnitTestCase();
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+
     }
 
-    /**
-     * A method to test the calculateNonDeliveryDeliveryLimitation() method.
-     *
-     * Tests all possible valid inputs for the correct response, as well as an invalid input.
-     */
-    function testCalculateNonDeliveryDeliveryLimitation()
+    function tearDown()
     {
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '==',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '!=');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '!=',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '==');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '<=',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '>');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '>=',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '<');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '<',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '>=');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => '>',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual($oLimitationDate->comparison, '<=');
-
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Date',
-            'comparison'     => 'hello',
-            'data'           => '2005-05-05',
-            'executionorder' => 1
-        );
-        PEAR::pushErrorHandling(null);
-        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        PEAR::popErrorHandling();
-        $this->assertTrue(is_a($oLimitationDate->comparison, 'pear_error'));
-    }
-
-    /**
-     * A method to test the minutesPerTimePeriod() method.
-     */
-    function testMinutesPerTimePeriod()
-    {
-        $this->assertEqual(OA_Maintenance_Priority_DeliveryLimitation_Date::minutesPerTimePeriod(), 1440);
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**
@@ -153,17 +62,22 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
      */
     function testDeliveryBlocked()
     {
+        // Set timezone to UTC
+        OA_setTimeZoneUTC();
+
         $oDate = new Date('2005-04-03');
         $oEarlierDate = new Date('2005-04-02');
         $oLaterDate = new Date('2005-04-04');
+
+        $limitationData = $oDate->format('%Y%m%d@%Z');
 
         // Test 1
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '==',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -178,9 +92,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '!=',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -195,9 +109,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '<=',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -212,9 +126,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '>=',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -229,9 +143,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '<',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -246,9 +160,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '>',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -263,15 +177,36 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Date',
+            'type'           => 'deliveryLimitations:Time:Date',
             'comparison'     => '>',
-            'data'           => $oDate->format('%Y-%m-%d'),
+            'data'           => $limitationData,
             'executionorder' => 1
         );
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         PEAR::pushErrorHandling(null);
         $this->assertTrue(is_a($oLimitationDate->deliveryBlocked('not a date'), 'pear_error'));
         PEAR::popErrorHandling();
+
+        // Test with PST timezone
+        $limitationData = $oDate->format('%Y%m%d').'@America/New_York';
+        $aDeliveryLimitation = array(
+            'ad_id'          => 1,
+            'logical'        => 'and',
+            'type'           => 'deliveryLimitations:Time:Date',
+            'comparison'     => '==',
+            'data'           => $limitationData,
+            'executionorder' => 1
+        );
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        // Test with same date (-1 day, 19pm in EST): true, ad is inactive
+        $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
+        // Test with ealier date (-2 days, 19pm in EST): true, ad is inactive
+        $this->assertTrue($oLimitationDate->deliveryBlocked($oEarlierDate));
+        // Test with later date (-0 days, 19pm in EST): false, ad is active
+        $this->assertFalse($oLimitationDate->deliveryBlocked($oLaterDate));
+
+        // Reset timezone
+        OA_setTimeZoneLocal();
     }
 
 }

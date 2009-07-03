@@ -133,9 +133,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
                 }
                 // Store possible "blocking" delivery limitations classes ONLY in
                 // the appropriately numbered operation group, for later testing
-                if (is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Date') ||
-                    is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Hour') ||
-                    is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Day')) {
+                if (is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Common')) {
                     $this->aOperationGroups[$groupNumber][] = $this->aRules[$key];
                 }
             }

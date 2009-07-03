@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.php';
+
 /**
  * A class for creating {@link OA_Maintenance_Priority_DeliveryLimitation_Common}
  * subclass objects, depending on the delivery limitation passed in.
@@ -36,6 +38,7 @@ $Id$
  */
 class OA_Maintenance_Priority_DeliveryLimitation_Factory
 {
+    static $aPlugins;
 
     /**
      * A factory method to return the appropriate
@@ -61,35 +64,18 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
      */
     function &factory($aDeliveryLimitation)
     {
-        // Define an array naming the 3 date/time delivery limitations associated
-        // with the OA_Maintenance_Priority_DeliveryLimitation_Date,
-        // OA_Maintenance_Priority_DeliveryLimitation_Day
-        // and OA_Maintenance_Priority_DeliveryLimitation_Hour classes
-        $dateTimeClasses = array(
-            'time:date',
-            'time:day',
-            'time:hour'
-        );
-        // If the delivery limitations properties passed in have a type that matches
-        // one of the date/time delivery limitations, set the $class variable so that
-        // the appropriate class can be instantiated, otherwise, set $class so that
-        // the OA_Maintenance_Priority_DeliveryLimitation_Empty class can be
-        // instantiated
-        if (in_array(strtolower($aDeliveryLimitation['type']), $dateTimeClasses)) {
-            $class = ucfirst(substr($aDeliveryLimitation['type'], 5));
-        } else {
-            $class = 'Empty';
+        // Load plugins if not already in cache
+        if (!isset(self::$aPlugins)) {
+            self::$aPlugins = OX_Component::getComponents('deliveryLimitations', null, false);
         }
-        // Prepare the OA_Maintenance_Priority_DeliveryLimitation subclass name
-        $className = 'OA_Maintenance_Priority_DeliveryLimitation_' . $class;
-        // Instantiate the appropriate delivery limitation class
-        $file = MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/' . $class . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            if (class_exists($className)) {
-                return new $className($aDeliveryLimitation);
-            }
+
+        // Return instance of the MPE DL class
+        if (isset(self::$aPlugins[$aDeliveryLimitation['type']])) {
+            return self::$aPlugins[$aDeliveryLimitation['type']]->getMpeClassInstance($aDeliveryLimitation);
         }
+
+        // Unknown plugin? Return the empty MPE DL class
+        return new OA_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation);
     }
 
 }

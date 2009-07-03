@@ -27,6 +27,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 
 /**
@@ -119,11 +120,11 @@ class Plugins_DeliveryLimitations extends OX_Component
     {
         return true;
     }
-    
+
     /**
      * Method to check input data
      *
-     * @param array $data Most important to check is $data['data'] field 
+     * @param array $data Most important to check is $data['data'] field
      * @return bool|string true or error message
      */
     function checkInputData($data)
@@ -131,7 +132,7 @@ class Plugins_DeliveryLimitations extends OX_Component
 //        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
 //            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
 //        }
-        return true;  
+        return true;
     }
 
     /**
@@ -319,6 +320,16 @@ class Plugins_DeliveryLimitations extends OX_Component
     function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * A method to return an instance to be used by the MPE
+     *
+     * @param unknown_type $aDeliveryLimitation
+     */
+    function getMpeClassInstance($aDeliveryLimitation)
+    {
+        return new OA_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation);
     }
 }
 

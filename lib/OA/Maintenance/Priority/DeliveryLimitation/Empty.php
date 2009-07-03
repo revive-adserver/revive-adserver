@@ -25,9 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-
 /**
  * A class that is used to store and manipulate individual delivery limitations
  * for ads, where the delivery limitation is NOT of the Time:Date, Time:Day or
@@ -37,8 +34,38 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_Maintenance_Priority_DeliveryLimitation_Empty extends OA_Maintenance_Priority_DeliveryLimitation_Common
+class OA_Maintenance_Priority_DeliveryLimitation_Empty
 {
+
+    /**
+     * Logical operator: and, or
+     * @var string
+     */
+    var $logical;
+
+    /**
+     * Delivery limitation type
+     * @var string
+     */
+    var $type;
+
+    /**
+     * Delivery limitation comparison: ==, !=, >=, <=, >, <
+     * @var string
+     */
+    var $comparison;
+
+    /**
+     * Delivery limitation data
+     * @var string
+     */
+    var $data;
+
+    /**
+     * Order delivery limitation should be executed in: 0-n
+     * @var integer
+     */
+    var $executionOrder;
 
     /**
      * Constructor method.
@@ -55,34 +82,15 @@ class OA_Maintenance_Priority_DeliveryLimitation_Empty extends OA_Maintenance_Pr
      *                                   )
      * @return OA_Maintenance_Priority_DeliveryLimitation_Empty
      */
-    function OA_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation)
+    function __construct($aDeliveryLimitation)
     {
-        parent::OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation);
-    }
-
-    /**
-     * A method to convert delivery limitations into negative form (i.e. when
-     * NOT to deliver ad, as opposed to when to deliver).
-     *
-     * @return mixed Void, or a PEAR::Error.
-     */
-    function calculateNonDeliveryDeliveryLimitation()
-    {
-        // Nothing to change in this class.
-        return;
-    }
-
-    /**
-     * A method to return the number of minutes each delivery limitation covers.
-     *
-     * @return mixed An integer, giving the number of minutes the limitation covers,
-     *               or a PEAR::Error.
-     */
-    function minutesPerTimePeriod()
-    {
-        // It is not appropriate to talk about the number of minutes covered
-        // by the ACLs represented by this class, so return zero
-        return 0;
+        // Store the logical, type, comparison, data and execution order
+        // items of the delivery limitation
+        $this->logical        = $aDeliveryLimitation['logical'];
+        $this->type           = $aDeliveryLimitation['type'];
+        $this->comparison     = $aDeliveryLimitation['comparison'];
+        $this->data           = $aDeliveryLimitation['data'];
+        $this->executionOrder = $aDeliveryLimitation['executionorder'];
     }
 
     /**
@@ -96,17 +104,10 @@ class OA_Maintenance_Priority_DeliveryLimitation_Empty extends OA_Maintenance_Pr
      *               if the ad is NOT BLOCKED (i.e. WILL deliver), or a PEAR::Error.
      */
     function deliveryBlocked($oDate) {
-        if (!is_a($oDate, 'Date')) {
-            return MAX::raiseError(
-                'Parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Empty is not a PEAR::Date object',
-                MAX_ERROR_INVALIDARGS
-            );
-        }
         // The delivery limitations represented by this class do not (ever) block
         // delivery, so return false
         return false;
     }
-
 }
 
 ?>

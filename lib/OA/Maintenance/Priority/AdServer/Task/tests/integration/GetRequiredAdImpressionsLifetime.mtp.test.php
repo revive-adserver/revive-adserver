@@ -50,16 +50,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generate('OA_DB_Table_Priority');
-    }
 
-    /**
-     * Set up database
-     */
-    function setUp()
-    {
-        TestEnv::teardownDB();
-        TestEnv::setupDB();
-        return parent::setUp();
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**
@@ -563,7 +557,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 array(
                     'ad_id'          => 1,
                     'logical'        => 'and',
-                    'type'           => 'Time:Hour',
+                    'type'           => 'deliveryLimitations:Time:Hour',
                     'comparison'     => '!~',
                     'data'           => '12',
                     'executionorder' => 0
@@ -596,7 +590,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 array(
                     'ad_id'          => 1,
                     'logical'        => 'and',
-                    'type'           => 'Time:Hour',
+                    'type'           => 'deliveryLimitations:Time:Hour',
                     'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
@@ -634,7 +628,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 array(
                     'ad_id'          => 1,
                     'logical'        => 'and',
-                    'type'           => 'Time:Hour',
+                    'type'           => 'deliveryLimitations:Time:Hour',
                     'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
@@ -678,7 +672,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 array(
                     'ad_id'          => 1,
                     'logical'        => 'and',
-                    'type'           => 'Time:Hour',
+                    'type'           => 'deliveryLimitations:Time:Hour',
                     'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
@@ -744,7 +738,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 array(
                     'ad_id'          => 1,
                     'logical'        => 'and',
-                    'type'           => 'Time:Hour',
+                    'type'           => 'deliveryLimitations:Time:Hour',
                     'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
@@ -1042,6 +1036,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         }
         $oGetRequiredAdImpressionsLifetime->oDal->tally();
         TestEnv::restoreConfig();
+    }
+
+    /**
+     * This MUST be the last test
+     *
+     */
+    function testCleanUp()
+    {
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
 }

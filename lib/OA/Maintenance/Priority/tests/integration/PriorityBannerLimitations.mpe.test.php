@@ -39,20 +39,18 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredA
  */
 class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends UnitTestCase
 {
-
-    /**
-     * The constructor method.
-     */
-    function Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations()
+    function setUp()
     {
-        $this->UnitTestCase();
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+
     }
 
-    /**
-     * A method to be run on the completion of test methods in this class.
-     */
     function tearDown()
     {
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
         // Clean up the testing environment
         TestEnv::restoreEnv();
     }
@@ -115,7 +113,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         $doAcls = OA_Dal::factoryDO('acls');
         $doAcls->bannerid       = $bannerId1;
         $doAcls->logical        = 'and';
-        $doAcls->type           = 'Time:Date';
+        $doAcls->type           = 'deliveryLimitations:Time:Date';
         $doAcls->comparison     = '==';
         $doAcls->data           = '20080226';
         $doAcls->executionorder = 0;
@@ -131,7 +129,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         $doAcls = OA_Dal::factoryDO('acls');
         $doAcls->bannerid       = $bannerId2;
         $doAcls->logical        = 'and';
-        $doAcls->type           = 'Time:Date';
+        $doAcls->type           = 'deliveryLimitations:Time:Date';
         $doAcls->comparison     = '==';
         $doAcls->data           = '20080227';
         $doAcls->executionorder = 0;

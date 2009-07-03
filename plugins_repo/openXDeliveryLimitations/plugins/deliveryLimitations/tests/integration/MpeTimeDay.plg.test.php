@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Day.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -36,70 +35,18 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function Test_OA_Maintenance_Priority_DeliveryLimitation_Day()
+    function setUp()
     {
-        $this->UnitTestCase();
+        // Install the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
+        TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+
     }
 
-    /**
-     * A method to test the calculateNonDeliveryDeliveryLimitation() method.
-     *
-     * Test 1: Test with =~ comparison
-     * Test 2: Test with !~ comparison
-     */
-    function testCalculateNonDeliveryDeliveryLimitation()
+    function tearDown()
     {
-        // Test 1
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Day',
-            'comparison'     => '=~',
-            'data'           => '0,2,5',
-            'executionorder' => 1
-        );
-        $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual(count($oLimitationDay->data), 4);
-        $this->assertTrue(empty($oLimitationDay->data[0]));
-        $this->assertTrue(isset($oLimitationDay->data[1]));
-        $this->assertEqual($oLimitationDay->data[1], 1);
-        $this->assertTrue(empty($oLimitationDay->data[2]));
-        $this->assertTrue(isset($oLimitationDay->data[3]));
-        $this->assertEqual($oLimitationDay->data[3], 3);
-        $this->assertTrue(isset($oLimitationDay->data[4]));
-        $this->assertEqual($oLimitationDay->data[4], 4);
-        $this->assertTrue(empty($oLimitationDay->data[5]));
-        $this->assertTrue(isset($oLimitationDay->data[6]));
-        $this->assertEqual($oLimitationDay->data[6], 6);
-
-        // Test 2
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Time:Day',
-            'comparison'     => '!~',
-            'data'           => '0,2,5',
-            'executionorder' => 1
-        );
-        $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertEqual(count($oLimitationDay->data), 3);
-        $this->assertTrue(isset($oLimitationDay->data[0]));
-        $this->assertEqual($oLimitationDay->data[0], 0);
-        $this->assertTrue(isset($oLimitationDay->data[1]));
-        $this->assertEqual($oLimitationDay->data[1], 2);
-        $this->assertTrue(isset($oLimitationDay->data[2]));
-        $this->assertEqual($oLimitationDay->data[2], 5);
-    }
-
-    /**
-     * A method to test the minutesPerTimePeriod() method.
-     */
-    function testMinutesPerTimePeriod()
-    {
-        $this->assertEqual(OA_Maintenance_Priority_DeliveryLimitation_Day::minutesPerTimePeriod(), 10080);
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**
@@ -107,12 +54,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
      */
     function testDeliveryBlocked()
     {
+        OA_setTimeZoneUTC();
+
         $aDeliveryLimitation = array(
             'ad_id'          => 1,
             'logical'        => 'and',
-            'type'           => 'Time:Day',
+            'type'           => 'deliveryLimitations:Time:Day',
             'comparison'     => '=~',
-            'data'           => '1, 5, 4, 6',
+            'data'           => '1,5,4,6',
             'executionorder' => 1
         );
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
@@ -131,6 +80,34 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
         $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
         $oDate = new Date('2006-02-11'); // Saturday
         $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
+
+        // Test timezone
+        $aDeliveryLimitation = array(
+            'ad_id'          => 1,
+            'logical'        => 'and',
+            'type'           => 'deliveryLimitations:Time:Day',
+            'comparison'     => '=~',
+            'data'           => '1,5,4,6@America/New_York',
+            'executionorder' => 1
+        );
+        $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+
+        $oDate = new Date('2006-02-05'); // Sunday, but Saturday in GMT-5
+        $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-06'); // Monday, but Sunday in GMT-5
+        $this->assertTrue($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-07'); // Tuesday, but Monday in GMT-5
+        $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-08'); // Wednesday, but Tuesday in GMT-5
+        $this->assertTrue($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-09'); // Thursday, but Wednesday in GMT-5
+        $this->assertTrue($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-10'); // Friday, but Friday in GMT-5
+        $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
+        $oDate = new Date('2006-02-11'); // Saturday, but Friday in GMT-5
+        $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
+
+        OA_setTimeZoneLocal();
     }
 
 }

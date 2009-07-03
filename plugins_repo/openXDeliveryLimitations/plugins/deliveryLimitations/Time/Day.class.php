@@ -28,6 +28,7 @@ $Id$
 require_once dirname(__FILE__) . '/AbstractTimePlugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
 
 /**
  * A Time delivery limitation plugin, for blocking delivery of ads on the basis
@@ -94,6 +95,16 @@ class Plugins_DeliveryLimitations_Time_Day extends Plugins_DeliveryLimitations_A
 		}
 		if (($i + 1) % 4 != 0) echo "</tr>";
 		echo "</table>";
+    }
+
+    /**
+     * A method to return an instance to be used by the MPE
+     *
+     * @param unknown_type $aDeliveryLimitation
+     */
+    function getMpeClassInstance($aDeliveryLimitation)
+    {
+        return new OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation);
     }
 }
 
