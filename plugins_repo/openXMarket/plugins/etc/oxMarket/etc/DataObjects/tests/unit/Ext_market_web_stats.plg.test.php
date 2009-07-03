@@ -37,6 +37,11 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
 {
+    function __construct()
+    {
+        OA_setTimeZoneUTC();
+    }
+
     function setUp()
     {
         $oPkgMgr = new OX_PluginManager();
@@ -49,7 +54,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         DataGenerator::cleanUp();
         TestEnv::uninstallPluginPackage('openXMarket', false);
     }
-    
+
     function testGetWebsiteStatsByAgencyId(){
         $aObjectsIds = &$this->_prepare_users();
         $doUsers = OA_Dal::factoryDO('users');
@@ -58,7 +63,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         global $session;
         $oUser->aAccount['account_type'] = 'ADMIN';
         $session['user'] = $oUser;
-        
+
         $aOption = array(
             'orderdirection'    => 'down',
             'listorder'         => 'name',
@@ -66,27 +71,27 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
             'period_start'      => null,
             'period_end'        => null
         );
-        
+
         // Test empty data
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $expected = array();
         $this->assertEqual($expected, $aResult);
-        
+
         // Add data
         $this->_add_stats($aObjectsIds['websiteUuid']);
-        
+
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $aStoreResult = $aResult;
         $this->assertEqual(count($aResult),1);
-        
+
         $this->assertEqual($aResult[0]['id'], $aObjectsIds['affiliateId']);
         $this->assertEqual($aResult[0]['name'],'website');
         $this->assertEqual($aResult[0]['impressions'],10+20+20);
         $this->assertEqual($aResult[0]['revenue'],1+30+3);
         $this->assertEqual(round($aResult[0]['ecpm'],2),round((1+30+3)*1000/(10+20+20),2));
-        
+
         // Test for 2008-12-22
         $aOption = array(
             'orderdirection'    => 'down',
@@ -98,14 +103,22 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual(count($aResult),1);
-        
+
         $this->assertEqual($aResult[0]['impressions'],20);
         $this->assertEqual($aResult[0]['revenue'],30);
-        
+
+        // Repeat test in a different TZ
+        OA_setTimeZone('Europe/Rome');
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
+        OA_setTimeZoneUTC();
+
+        $this->assertEqual(count($aResult), 0);
+
         // Switch user to MANAGER
         $oUser->aAccount['account_type'] = 'MANAGER';
         $session['user'] = $oUser;
-        
+
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
             'orderdirection'    => 'down',
@@ -116,7 +129,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual($aResult,$aStoreResult);
-        
+
         // Try invalid column name in list order
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
@@ -128,7 +141,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual($aResult,$aStoreResult);
-        
+
         // Try invalid orderdirection and period_preset
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
@@ -140,7 +153,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual($aResult,$aStoreResult);
-        
+
         // Try invalid period dates
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
@@ -153,7 +166,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $aResult = $doWebStats->getWebsiteStatsByAgencyId($aOption);
         $this->assertEqual(count($aResult),0);
     }
-    
+
     function testGetSizeStatsByAffiliateId(){
         $aObjectsIds = &$this->_prepare_users();
         $doUsers = OA_Dal::factoryDO('users');
@@ -162,7 +175,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         global $session;
         $oUser->aAccount['account_type'] = 'MANAGER';
         $session['user'] = $oUser;
-        
+
         $aOption = array(
             'orderdirection'    => 'down',
             'listorder'         => 'name',
@@ -170,21 +183,21 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
             'period_start'      => null,
             'period_end'        => null
         );
-        
+
         // Test empty data
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
         $expected = array();
         $this->assertEqual($expected, $aResult);
-        
+
         // Add data
         $this->_add_stats($aObjectsIds['websiteUuid']);
-        
+
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption['affiliateid'] = $aObjectsIds['affiliateId'];
         $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
         $this->assertEqual(count($aResult),2);
-        
+
         $this->assertEqual($aResult[0]['name'],'120x120');
         $this->assertEqual($aResult[0]['width'],120);
         $this->assertEqual($aResult[0]['height'],120);
@@ -197,7 +210,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[1]['impressions'],20);
         $this->assertEqual($aResult[1]['revenue'],3);
         $this->assertEqual(round($aResult[1]['ecpm'],2),round(3*1000/20,2));
-        
+
         // Test for 2008-12-22
         $aOption = array(
             'affiliateid'       => $aObjectsIds['affiliateId'],
@@ -210,10 +223,18 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
         $this->assertEqual(count($aResult),1);
-        
+
         $this->assertEqual($aResult[0]['impressions'],20);
         $this->assertEqual($aResult[0]['revenue'],30);
-        
+
+        // Repeat test in a different TZ
+        OA_setTimeZone('Europe/Rome');
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
+        OA_setTimeZoneUTC();
+
+        $this->assertEqual(count($aResult), 0);
+
         // Try invalid column name in list order
         $aOption = array(
             'affiliateid'       => $aObjectsIds['affiliateId'],
@@ -226,7 +247,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsByAffiliateId($aOption);
         $this->assertEqual(count($aResult),1);
-        
+
         // Try invalid period dates
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
@@ -248,7 +269,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         global $session;
         $oUser->aAccount['account_type'] = 'MANAGER';
         $session['user'] = $oUser;
-        
+
         $aOption = array(
             'aAffiliateids'     => array(),
             'orderdirection'    => 'down',
@@ -257,23 +278,23 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
             'period_start'      => null,
             'period_end'        => null
         );
-        
+
         // Test empty data
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
         $expected = array();
         $this->assertEqual($expected, $aResult);
-        
+
         // Add data
         $this->_add_stats($aObjectsIds['websiteUuid']);
-        
+
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
         $this->assertEqual(count($aResult),1);
-        
+
         $this->assertEqual(count($aResult[$aObjectsIds['affiliateId']]),2);
         $aRows = $aResult[$aObjectsIds['affiliateId']];
-        
+
         $this->assertEqual($aRows[0]['id'],$aObjectsIds['affiliateId']);
         $this->assertEqual($aRows[0]['name'],'120x120');
         $this->assertEqual($aRows[0]['width'],120);
@@ -288,7 +309,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aRows[1]['impressions'],20);
         $this->assertEqual($aRows[1]['revenue'],3);
         $this->assertEqual(round($aRows[1]['ecpm'],2),round(3*1000/20,2));
-        
+
         // Test for 2008-12-22
         $aOption = array(
             'aAffiliateids'     => array(),
@@ -300,16 +321,24 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
-        
+
         $this->assertEqual(count($aResult),1);
-        
+
         $this->assertEqual(count($aResult[$aObjectsIds['affiliateId']]),1);
         $aRows = $aResult[$aObjectsIds['affiliateId']];
-        
+
         $this->assertEqual($aRows[0]['id'],$aObjectsIds['affiliateId']);
         $this->assertEqual($aRows[0]['impressions'],20);
         $this->assertEqual($aRows[0]['revenue'],30);
-        
+
+        // Repeat test in a different TZ
+        OA_setTimeZone('Europe/Rome');
+        $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
+        $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
+        OA_setTimeZoneUTC();
+
+        $this->assertEqual(count($aResult), 0);
+
         // Try invalid column name in list order
         $aOption = array(
             'aAffiliateids'     => array(),
@@ -321,9 +350,9 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
-        
+
         $this->assertEqual(count($aResult),1);
-        
+
         // Try invalid period dates
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $aOption = array(
@@ -335,28 +364,28 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         );
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
         $this->assertEqual(count($aResult),0);
-        
+
         $aOption['period_start'] = 'inva-li-dd';
         $aResult = $doWebStats->getSizeStatsForAffiliates($aOption);
         $this->assertEqual(count($aResult),0);
     }
-    
+
     function _prepare_users()
     {
         $aObjectsIds = array();
-        
+
         $doAgency = OA_Dal::factoryDO('agency');
         $aObjectsIds['agencyId'] = DataGenerator::generateOne($doAgency);
-        
+
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->get($aObjectsIds['agencyId']);
         $aObjectsIds['managerAccountId'] = $doAgency->account_id;
-        
+
         // Create admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $aObjectsIds['adminAccountId'] = DataGenerator::generateOne($doAccounts);
-        
+
         // Create user linked to admin account
         // Default account for this user is set to manager account
         $doUsers = OA_Dal::factoryDO('users');
@@ -368,13 +397,13 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doAccountsUserAssoc->account_id = $aObjectsIds['managerAccountId'];
         $doAccountsUserAssoc->user_id = $aObjectsIds['adminUserID'];
         DataGenerator::generateOne($doAccountsUserAssoc);
-        
+
         $doAffiliate = OA_Dal::factoryDO('affiliates');
         $doAffiliate->agencyid = $aObjectsIds['agencyId'];
         $doAffiliate->name     = 'website';
         $aObjectsIds['affiliateId'] = DataGenerator::generateOne($doAffiliate);
-        
-        $aObjectsIds['websiteUuid'] = 'uuid1string';        
+
+        $aObjectsIds['websiteUuid'] = 'uuid1string';
         $doWebsitePref = OA_Dal::factoryDO('Ext_market_website_pref');
         $doWebsitePref->affiliateid = $aObjectsIds['affiliateId'];
         $doWebsitePref->website_id  = $aObjectsIds['websiteUuid'];
@@ -382,13 +411,13 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
 
         return $aObjectsIds;
     }
-       
+
     function _add_stats($website_uuid){
         // Add stats with some sample data
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $doWebStats->p_website_id = $website_uuid;
         $doWebStats->impressions = 10;
-        $doWebStats->date_time   = '2008-12-12 14:00:00';
+        $doWebStats->date_time   = '2008-12-12 23:00:00';
         $doWebStats->revenue     = 1;
         $doWebStats->width       = 120;
         $doWebStats->height      = 120;
@@ -397,16 +426,16 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $doWebStats->p_website_id = $website_uuid;
         $doWebStats->impressions = 20;
-        $doWebStats->date_time   = '2008-12-22 14:00:00';
+        $doWebStats->date_time   = '2008-12-22 23:00:00';
         $doWebStats->revenue     = 30;
         $doWebStats->width       = 120;
         $doWebStats->height      = 120;
         DataGenerator::generateOne($doWebStats);
-        
+
         $doWebStats = OA_Dal::factoryDO('ext_market_web_stats');
         $doWebStats->p_website_id = $website_uuid;
         $doWebStats->impressions = 20;
-        $doWebStats->date_time   = '2008-12-12 14:00:00';
+        $doWebStats->date_time   = '2008-12-12 23:00:00';
         $doWebStats->revenue     = 3;
         $doWebStats->width       = 120;
         $doWebStats->height      = 60;

@@ -68,7 +68,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      */
     function getWebsiteStatsByAgencyId($aOption)
     {
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -104,12 +104,8 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $this->selectAdd('(SUM(revenue) * 1000 / SUM(impressions)) AS ecpm');
         $this->joinAdd($oWebsitePref);
 
-        if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
-            $this->whereAdd("$tableName.date_time >= '{$aOption['period_start']}' AND $tableName.date_time <= '{$aOption['period_end']} 23:59:59'");
-        } else if (!empty($aOption['period_start']) || !empty($aOption['period_end'])) {
-            $date = (!empty($aOption['period_start'])) ? $aOption['period_start'] : $aOption['period_end'];
-            $this->whereAdd("$tableName.date_time >= '{$date}' AND $tableName.date_time <= '{$date} 23:59:59'");
-        }
+        $this->addDateTimeLimitation($aOption);
+
         $this->groupBy('affiliates.affiliateid, affiliates.name');
         if (!empty($orderClause)) {
             $this->orderBy($orderClause);
@@ -145,7 +141,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
                 return array();
             }
         }
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -153,7 +149,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
         $aOrderOptions = array ('name', 'impressions', 'revenue', 'ecpm' );
-        if (empty($aOption['listorder']) || 
+        if (empty($aOption['listorder']) ||
             !in_array($aOption['listorder'],$aOrderOptions)) {
             $orderClause = 'width, height';
         } else {
@@ -172,12 +168,9 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $this->selectAdd('(SUM(revenue) * 1000 / SUM(impressions)) AS ecpm');
         $this->joinAdd($oWebsitePref);
         $this->whereAdd($oWebsitePref->tableName() .".affiliateid = '".$this->escape($aOption['affiliateid'])."'");
-        if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
-            $this->whereAdd("$tableName.date_time >= '{$aOption['period_start']}' AND $tableName.date_time <= '{$aOption['period_end']} 23:59:59'");
-        } else if (!empty($aOption['period_start']) || !empty($aOption['period_end'])) {
-            $date = (!empty($aOption['period_start'])) ? $aOption['period_start'] : $aOption['period_end'];
-            $this->whereAdd("$tableName.date_time >= '{$date}' AND $tableName.date_time <= '{$date} 23:59:59'");
-        }
+
+        $this->addDateTimeLimitation($aOption);
+
         $this->groupBy($tableName.'.width, '.$tableName.'.height');
         if (!empty($orderClause)) {
             $this->orderBy($orderClause);
@@ -209,7 +202,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      */
     function getSizeStatsForAffiliates($aOption)
     {
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -254,12 +247,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
             $this->whereAdd($oWebsitePref->tableName() .".affiliateid in (".implode(",", $aAffiliateIds).")");
         }
 
-        if (!empty($aOption['period_start']) && !empty($aOption['period_end'])) {
-            $this->whereAdd("$tableName.date_time >= '{$aOption['period_start']}' AND $tableName.date_time <= '{$aOption['period_end']} 23:59:59'");
-        } else if (!empty($aOption['period_start']) || !empty($aOption['period_end'])) {
-            $date = (!empty($aOption['period_start'])) ? $aOption['period_start'] : $aOption['period_end'];
-            $this->whereAdd("$tableName.date_time >= '{$date}' AND $tableName.date_time <= '{$date} 23:59:59'");
-        }
+        $this->addDateTimeLimitation($aOption);
 
         $this->groupBy($oWebsitePref->tableName().'.affiliateid, '.$tableName.'.width, '.$tableName.'.height');
         if (!empty($orderClause)) {
@@ -278,7 +266,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
 
         return $aResult;
     }
-    
+
     /**
      * Check date if is valid
      * Empty/ null $date is valid!
@@ -289,12 +277,32 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
     protected function checkDate($date) {
         if (!empty($date)) {
             $aDate = split('-',$date);
-            if ((count($aDate) != 3) ||  
+            if ((count($aDate) != 3) ||
                 !@checkdate($aDate[1],$aDate[2],$aDate[0])) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * A method to add where clauses based on the user input
+     *
+     * @param array $aOption
+     */
+    protected function addDateTimeLimitation($aOption)
+    {
+        if (!empty($aOption['period_start'])) {
+            $oDate = new Date($aOption['period_start']);
+            $oDate->toUTC();
+            $this->whereAdd('date_time >= '.$this->quote($oDate->getDate(DATE_FORMAT_ISO)));
+        }
+        if (!empty($aOption['period_end'])) {
+            $oDate = new Date($aOption['period_end']);
+            $oDate->addSpan(new Date_Span('1-0-0-0'));
+            $oDate->toUTC();
+            $this->whereAdd('date_time < '.$this->quote($oDate->getDate(DATE_FORMAT_ISO)));
+        }
     }
 }
 ?>
