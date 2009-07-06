@@ -59,7 +59,8 @@ class OA_Admin_Menu
         if (isset($GLOBALS['_MAX']['MENU_OBJECT'][$accountType])) {
            $oMenu = &$GLOBALS['_MAX']['MENU_OBJECT'][$accountType];
         }
-        else if ($oMenu = OA_Admin_Menu::_loadFromCache($accountType))
+        elseif( $GLOBALS['_MAX']['CONF']['debug']['production'] != 0 // in debug mode, we don't load the menu from cache
+                && $oMenu = OA_Admin_Menu::_loadFromCache($accountType))
         {
             $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;
         }
@@ -90,10 +91,6 @@ class OA_Admin_Menu
 
     function _loadFromCache($accountType)
     {
-        // don't load menu from cache in debug mode
-        if($GLOBALS['_MAX']['CONF']['debug']['production'] == 0) {
-            return;
-        }
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
         $aMenu = $oCache->load(true);
