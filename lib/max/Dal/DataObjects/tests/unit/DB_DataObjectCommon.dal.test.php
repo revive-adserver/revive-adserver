@@ -315,10 +315,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Test that it takes 3 unique variables
         $doAgency = OA_Dal::factoryDO('agency');
         $aUnique = $doAgency->getUniqueValuesFromColumn('name');
+        sort($aUnique);
         $this->assertEqual($aUnique, array(1,2,3));
 
         $doAgency = OA_Dal::factoryDO('agency');
         $aUnique = $doAgency->getUniqueValuesFromColumn('name', $exceptValue = 2);
+        sort($aUnique);
         $this->assertEqual(array_values($aUnique), array(1,3));
     }
 
@@ -342,7 +344,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         $uniqueName = $doAgency->getUniqueNameForDuplication('name');
         $this->assertEqual($uniqueName, $name.' (3)');
-        
+
         // Test duplication from duplicate
         $doAgency = OA_Dal::staticGetDO('agency', $duplicateAgencyId);
         $nameFromDuplicate = $doAgency->getUniqueNameForDuplication('name');

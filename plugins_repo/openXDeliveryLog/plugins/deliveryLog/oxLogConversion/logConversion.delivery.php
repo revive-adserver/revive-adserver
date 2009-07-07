@@ -44,9 +44,9 @@ MAX_Dal_Delivery_Include();
 function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion, $okToLog = true)
 {
     if (!$okToLog) { return false; }
-    // Initiate the connection to the database (before using mysql_real_escape_string) 
+    // Initiate the connection to the database (before using mysql_real_escape_string)
  	OA_Dal_Delivery_connect('rawDatabase');
- 	
+
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a';
 
     if (empty($GLOBALS['_MAX']['NOW'])) {
@@ -54,7 +54,7 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
     }
     $time = $GLOBALS['_MAX']['NOW'];
 
-    $aFields = array(
+    $aValues = array(
         'server_ip'        => $serverRawIp,
         'tracker_id'       => $trackerId,
         'date_time'        => gmdate('Y-m-d H:i:s', $time),
@@ -67,14 +67,16 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
         'status'           => $aConversion['status']
     );
 
-    array_walk($aFields, 'OX_escapeString');
+    // Need to also escape identifier as "window" is reserved since PgSQL 8.4
+    $aFields = array_map('OX_escapeIdentifier', array_keys($aValues));
+    $aValues = array_map('OX_escapeString', $aValues);
 
     $query = "
         INSERT INTO
             {$table}
-            (" . implode(', ', array_keys($aFields)) . ")
+            (" . implode(', ', $aFields) . ")
         VALUES
-            ('" . implode("', '", $aFields) . "')
+            ('" . implode("', '", $aValues) . "')
     ";
     $result = OA_Dal_Delivery_query($query, 'rawDatabase');
     if (!$result) {
