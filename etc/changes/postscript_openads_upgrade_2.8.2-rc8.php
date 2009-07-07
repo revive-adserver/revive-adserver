@@ -75,6 +75,7 @@ class OA_UpgradePostscript_2_8_2_rc8
         $tzId = $this->oDbh->queryOne("SELECT preference_id FROM {$tblPrefs} WHERE preference_name = 'timezone'");
         if (empty($tzId) || PEAR::isError($tzId)) {
             // Upgrading from 2.4 maybe?
+            $tzId = 0;
             $this->logOnly("No timezone preference available, using default server timezone");
             $adminTz = date_default_timezone_get();
             if (empty($adminTz)) {
