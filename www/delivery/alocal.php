@@ -531,6 +531,8 @@ switch ($cookieName) {
 case $conf['var']['blockAd']            :
 case $conf['var']['blockCampaign']      :
 case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
+case $conf['var']['lastClick']          :
+case $conf['var']['lastView']           :
 case $conf['var']['capAd']              :
 case $conf['var']['capCampaign']        :
 case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
