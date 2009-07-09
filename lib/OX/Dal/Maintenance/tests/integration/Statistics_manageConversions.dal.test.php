@@ -63,7 +63,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageConversions extends UnitTestCase
         // the NULL value that should be inserted into the database with an
         // auto generated value...
         $doVariables = OA_Dal::factoryDO('variables');
-        $doVariables->defaultValues['purpose'] = OA_DATAOBJECT_DEFAULT_NULL;
+        $doVariables->defaultValues['purpose'] = OX_DATAOBJECT_NULL;
         $variableId1 = DataGenerator::generateOne($doVariables);
 
         // Insert a basket value variable tracker

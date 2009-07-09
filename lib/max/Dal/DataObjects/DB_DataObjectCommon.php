@@ -33,7 +33,13 @@ require_once 'DB/DataObject.php';
 
 define('OA_DATETIME_PEAR_FORMAT', '%Y-%m-%d %H:%M:%S');
 define('OA_DATETIME_FORMAT', 'Y-m-d H:i:s');
-define('OA_DATAOBJECT_DEFAULT_NULL', 'NULL');
+
+/**
+ * A constant to force DataObjects to update a field and set it to the SQL NULL
+ *
+ * This is required as a PHP null would just make DO ignore the field when updating
+ */
+define('OX_DATAOBJECT_NULL', 'NULL');
 
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
@@ -774,7 +780,7 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             else if ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%')
             {
-                return OA_DATAOBJECT_DEFAULT_NULL;
+                return OX_DATAOBJECT_NULL;
             }
             return $this->defaultValues[$fieldName];
         }

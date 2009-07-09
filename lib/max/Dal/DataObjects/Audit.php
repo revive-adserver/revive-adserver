@@ -41,19 +41,19 @@ class DataObjects_Audit extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'audit';                           // table name
-    public $auditid;                         // MEDIUMINT(9) => openads_mediumint => 129 
-    public $actionid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $context;                         // VARCHAR(255) => openads_varchar => 130 
-    public $contextid;                       // MEDIUMINT(9) => openads_mediumint => 1 
-    public $parentid;                        // MEDIUMINT(9) => openads_mediumint => 1 
-    public $details;                         // TEXT() => openads_text => 162 
-    public $userid;                          // MEDIUMINT(9) => openads_mediumint => 129 
-    public $username;                        // VARCHAR(64) => openads_varchar => 2 
-    public $usertype;                        // TINYINT(4) => openads_tinyint => 129 
-    public $updated;                         // DATETIME() => openads_datetime => 14 
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $advertiser_account_id;           // MEDIUMINT(9) => openads_mediumint => 1 
-    public $website_account_id;              // MEDIUMINT(9) => openads_mediumint => 1 
+    public $auditid;                         // MEDIUMINT(9) => openads_mediumint => 129
+    public $actionid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $context;                         // VARCHAR(255) => openads_varchar => 130
+    public $contextid;                       // MEDIUMINT(9) => openads_mediumint => 1
+    public $parentid;                        // MEDIUMINT(9) => openads_mediumint => 1
+    public $details;                         // TEXT() => openads_text => 162
+    public $userid;                          // MEDIUMINT(9) => openads_mediumint => 129
+    public $username;                        // VARCHAR(64) => openads_varchar => 2
+    public $usertype;                        // TINYINT(4) => openads_tinyint => 129
+    public $updated;                         // DATETIME() => openads_datetime => 14
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $advertiser_account_id;           // MEDIUMINT(9) => openads_mediumint => 1
+    public $website_account_id;              // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }
@@ -63,8 +63,8 @@ class DataObjects_Audit extends DB_DataObjectCommon
                 'details' => '',
                 'userid' => 0,
                 'usertype' => 0,
-                'advertiser_account_id' => OA_DATAOBJECT_DEFAULT_NULL,
-                'website_account_id' => OA_DATAOBJECT_DEFAULT_NULL,
+                'advertiser_account_id' => OX_DATAOBJECT_NULL,
+                'website_account_id' => OX_DATAOBJECT_NULL,
                 );
 
     /* the code above is auto generated do not remove the tag below */

@@ -208,7 +208,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         static $oServiceLocator;
 
-        if (!empty($this->activate_time) && $this->activate_time != 'NULL') {
+        if (!empty($this->activate_time) && $this->activate_time != OX_DATAOBJECT_NULL) {
             if (!isset($oServiceLocator)) {
                 $oServiceLocator = &OA_ServiceLocator::instance();
             }
@@ -233,7 +233,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         static $oServiceLocator;
 
-        if (!empty($this->expire_time) && $this->expire_time != 'NULL') {
+        if (!empty($this->expire_time) && $this->expire_time != OX_DATAOBJECT_NULL) {
             if (!isset($oServiceLocator)) {
                 $oServiceLocator = &OA_ServiceLocator::instance();
             }

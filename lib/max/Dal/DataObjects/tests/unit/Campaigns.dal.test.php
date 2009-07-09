@@ -99,7 +99,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
     function testUpdateExpire()
     {
-        $ndv = 'NULL';
+        $ndv = OX_DATAOBJECT_NULL;
 
         $expire = '2020-01-01';
 
@@ -126,10 +126,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
     function testGetStatus()
     {
-        $ndv = OA_Dal::noDateValue();
-        if (!isset($ndv)) {
-            $ndv = 0;
-        }
+        $ndv = OX_DATAOBJECT_NULL;
 
         $past   = date('Y-m-d', time() - 200000);
         $future = date('Y-m-d', time() + 200000);

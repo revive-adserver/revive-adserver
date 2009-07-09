@@ -539,7 +539,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             switch (true)
             {
                 case (in_array($field,$aNulls)):
-                    $aDefaults[$field] = "OA_DATAOBJECT_DEFAULT_NULL";
+                    $aDefaults[$field] = "OX_DATAOBJECT_NULL";
                     break;
                 case ((!$aField['notnull']) && ($value===null)):
                 case ($aField['autoincrement']):

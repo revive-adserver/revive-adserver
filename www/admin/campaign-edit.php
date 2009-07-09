@@ -877,11 +877,11 @@ function processCampaignForm($form, &$oComponent = null)
 
         if (empty($aFields['revenue']) || ($aFields['revenue'] <= 0)) {
             // No revenue information, set to null
-            $aFields['revenue'] = 'NULL';
+            $aFields['revenue'] = OX_DATAOBJECT_NULL;
         }
         if (empty($aFields['ecpm']) || ($aFields['ecpm'] <= 0)) {
             // No ecpm information, set to null
-            $aFields['ecpm'] = 'NULL';
+            $aFields['ecpm'] = OX_DATAOBJECT_NULL;
         }
 
         // Get the capping variables
@@ -909,9 +909,9 @@ function processCampaignForm($form, &$oComponent = null)
         $doCampaigns->capping = $aFields['capping'];
         $doCampaigns->session_capping = $aFields['session_capping'];
 
-        // Activation and expiration. Using the "NULL" sting to erase the dates in case they are set
-        $doCampaigns->activate_time = isset($activate) ? $activate : 'NULL';
-        $doCampaigns->expire_time = isset($expire) ? $expire : 'NULL';
+        // Activation and expiration
+        $doCampaigns->activate_time = isset($activate) ? $activate : OX_DATAOBJECT_NULL;
+        $doCampaigns->expire_time = isset($expire) ? $expire : OX_DATAOBJECT_NULL;
 
         if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
             $doCampaigns->campaignid = $aFields['campaignid'];

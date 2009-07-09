@@ -56,7 +56,7 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid, true);
 /*-------------------------------------------------------*/
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
 phpAds_SessionDataStore();
-	
+
 /*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/
@@ -172,7 +172,7 @@ function buildWebsiteForm($affiliate)
     $newWebsite = empty($aFields['affiliateid']);
 
     if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
-            $aFields['oac_category_id'] = 'NULL';
+            $aFields['oac_category_id'] = OX_DATAOBJECT_NULL;
     }
 
     // Setup a new publisher object and set the fields passed in from the form:
@@ -190,7 +190,7 @@ function buildWebsiteForm($affiliate)
     // Do I need to handle this?
     // $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
     $oPublisher->advSignup  =   ($aFields['advsignup'] == '1') ? true : false;
-    
+
     // process form data for oxThorium if this is edit existing website
     if (!$newWebsite && $oComponent)
     {
@@ -200,7 +200,7 @@ function buildWebsiteForm($affiliate)
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-        
+
         // Queue confirmation message
         $translation = new OX_Translation ();
         if ($newWebsite) {

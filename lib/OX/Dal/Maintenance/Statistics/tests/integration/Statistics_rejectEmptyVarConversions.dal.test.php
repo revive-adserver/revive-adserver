@@ -740,7 +740,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             // Hack the DB_DataObject so that the DataGenerator will not override
             // the NULL value that should be inserted into the database with an
             // auto generated value...
-            $doData_intermediate_ad_variable_value->defaultValues['value'] = OA_DATAOBJECT_DEFAULT_NULL;
+            $doData_intermediate_ad_variable_value->defaultValues['value'] = OX_DATAOBJECT_NULL;
         }
 
         return DataGenerator::generateOne($doData_intermediate_ad_variable_value);

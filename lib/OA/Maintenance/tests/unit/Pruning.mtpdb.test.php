@@ -224,7 +224,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire_time       = 'NULL';
+        $doCampaigns->expire_time       = OX_DATAOBJECT_NULL;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();

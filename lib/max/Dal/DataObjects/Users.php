@@ -13,19 +13,19 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'users';                           // table name
-    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129 
-    public $contact_name;                    // VARCHAR(255) => openads_varchar => 130 
-    public $email_address;                   // VARCHAR(64) => openads_varchar => 130 
-    public $username;                        // VARCHAR(64) => openads_varchar => 2 
-    public $password;                        // VARCHAR(64) => openads_varchar => 2 
-    public $language;                        // VARCHAR(5) => openads_varchar => 2 
-    public $default_account_id;              // MEDIUMINT(9) => openads_mediumint => 1 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $active;                          // TINYINT(1) => openads_tinyint => 145 
-    public $sso_user_id;                     // INT(11) => openads_int => 1 
-    public $date_created;                    // DATETIME() => openads_datetime => 14 
-    public $date_last_login;                 // DATETIME() => openads_datetime => 14 
-    public $email_updated;                   // DATETIME() => openads_datetime => 14 
+    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129
+    public $contact_name;                    // VARCHAR(255) => openads_varchar => 130
+    public $email_address;                   // VARCHAR(64) => openads_varchar => 130
+    public $username;                        // VARCHAR(64) => openads_varchar => 2
+    public $password;                        // VARCHAR(64) => openads_varchar => 2
+    public $language;                        // VARCHAR(5) => openads_varchar => 2
+    public $default_account_id;              // MEDIUMINT(9) => openads_mediumint => 1
+    public $comments;                        // TEXT() => openads_text => 34
+    public $active;                          // TINYINT(1) => openads_tinyint => 145
+    public $sso_user_id;                     // INT(11) => openads_int => 1
+    public $date_created;                    // DATETIME() => openads_datetime => 14
+    public $date_last_login;                 // DATETIME() => openads_datetime => 14
+    public $email_updated;                   // DATETIME() => openads_datetime => 14
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Users',$k,$v); }
@@ -34,9 +34,9 @@ class DataObjects_Users extends DB_DataObjectCommon
                 'contact_name' => '',
                 'email_address' => '',
                 'active' => 1,
-                'sso_user_id' => OA_DATAOBJECT_DEFAULT_NULL,
-                'date_last_login' => OA_DATAOBJECT_DEFAULT_NULL,
-                'email_updated' => OA_DATAOBJECT_DEFAULT_NULL,
+                'sso_user_id' => OX_DATAOBJECT_NULL,
+                'date_last_login' => OX_DATAOBJECT_NULL,
+                'email_updated' => OX_DATAOBJECT_NULL,
                 );
 
     /* the code above is auto generated do not remove the tag below */

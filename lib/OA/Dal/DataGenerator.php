@@ -346,7 +346,7 @@ class DataGenerator
                     }
                 }
                 if (isset($fieldValue)) {
-                    if ($fieldValue != OA_DATAOBJECT_DEFAULT_NULL) {
+                    if ($fieldValue != OX_DATAOBJECT_NULL) {
                         // exception for NULLs
                         $do->$fieldName = $fieldValue;
                     }
