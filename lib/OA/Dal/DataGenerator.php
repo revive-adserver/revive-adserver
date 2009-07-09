@@ -420,8 +420,7 @@ class DataGenerator
             if ($fieldType & DB_DATAOBJECT_NOTNULL) {
                 return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
             }
-            // According to https://developer.openx.org/wiki/DatabasePractices#UsingPEAR::MDB2
-            return OA_Dal::noDateValue();
+            return null;
         }
         // If no default set for this data type try default type
         if (isset($aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE])) {
