@@ -4106,7 +4106,7 @@ $output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document
 MAX_cookieFlush();
 // Show the banner
 MAX_commonSendContentTypeHeader("text/javascript", $charset);
-if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo) {
+if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !isset($mmm_fo)) {
 echo MAX_flashGetFlashObjectInline();
 }
 echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
