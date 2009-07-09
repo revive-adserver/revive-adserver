@@ -153,7 +153,7 @@ class Plugins_Authentication extends OX_Component
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
 
-        header('Cache-Control: max-age=0, no-cache, proxy-revalidate, must-revalidate');
+        @header('Cache-Control: max-age=0, no-cache, proxy-revalidate, must-revalidate');
 
         if (!$inLineLogin) {
             phpAds_PageHeader(phpAds_Login);

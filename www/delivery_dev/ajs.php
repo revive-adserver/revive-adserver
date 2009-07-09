@@ -101,7 +101,7 @@ MAX_cookieFlush();
 // Show the banner
 MAX_commonSendContentTypeHeader("text/javascript", $charset);
 
-if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo) {
+if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !isset($mmm_fo)) {
     echo MAX_flashGetFlashObjectInline();
 }
 
