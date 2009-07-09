@@ -135,7 +135,11 @@ class Migration_609 extends Migration
             }
         }
 
-        $oDbh->beginTransaction();
+        $useTransaction = $oDbh->supports('transactions');
+
+        if ($useTransaction) {
+            $oDbh->beginTransaction();
+        }
         $oStmt = $oDbh->prepare("UPDATE {$tblCampaigns} SET activate_time = ?, expire_time = ? WHERE campaignid = ?", array('timestamp', 'timestamp', 'integer'));
 
         $query = "SELECT a.agencyid, COALESCE(p.value, ".$oDbh->quote($adminTz).") AS tz FROM {$tblAgency} a LEFT JOIN {$tblAccPrefs} p ON (a.account_id = p.account_id AND p.preference_id = {$tzId})";
@@ -149,7 +153,9 @@ class Migration_609 extends Migration
                 ));
             }
         }
-        $oDbh->commit();
+        if ($useTransaction) {
+            $oDbh->commit();
+        }
 
 	    return true;
 	}
