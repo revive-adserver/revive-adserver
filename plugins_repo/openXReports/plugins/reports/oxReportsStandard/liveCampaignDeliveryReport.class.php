@@ -540,7 +540,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      */
     function _formatDateForDisplay($dateString)
     {
-        if ($dateString == OA_DAL::noDateValue()) {
+        if (empty($dateString)) {
             return false;
         }
         global $date_format;
@@ -637,8 +637,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _calculateTodaysMisdelivery($aCampaignData)
     {
         // Only calculate mis-delivery if start and end dates present
-        if (($aCampaignData['campaign_start'] == OA_DAL::noDateValue()) ||
-            ($aCampaignData['campaign_end'] == OA_DAL::noDateValue())) {
+        if (empty($aCampaignData['campaign_start']) || empty($aCampaignData['campaign_end'])) {
             return false;
         }
 

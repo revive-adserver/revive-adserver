@@ -774,7 +774,7 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             else if ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%')
             {
-                return OA_Dal::noDateValue();
+                return OA_DATAOBJECT_DEFAULT_NULL;
             }
             return $this->defaultValues[$fieldName];
         }

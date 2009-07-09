@@ -260,7 +260,7 @@ class OX_Maintenance
             // Don't email report by default
             $sendReport = false;
             // Has the report interval date been passed?
-            if ($aAdvertiser['reportlastdate'] == OA_Dal::noDateString()) {
+            if (empty($aAdvertiser['reportlastdate'])) {
                 $sendReport = true;
                 $oReportLastDate = null;
             } else {

@@ -59,6 +59,8 @@ class Migration_609Test extends MigrationTest
 
         $this->initDatabase(608, array_values($this->aTables));
 
+        $noDate = $oDbh->dbsyntax == 'mysql' ? "'0000-00-00'" : "NULL";
+
         // Create accounts
         $oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (1, 'ADMIN', 'Admin')");
         $oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (2, 'MANAGER', 'Agency 1')");
@@ -90,11 +92,11 @@ class Migration_609Test extends MigrationTest
         $oDbh->exec("INSERT INTO {$tblClients} (clientid, agencyid, account_id, clientname) VALUES (4, 3, 8, 'Client 4')");
 
         // Create campaigns
-        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (1, 1, 'Campaign 1', ".OA_Dal::noDateString().", ".OA_Dal::noDateString().")");
-        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (2, 1, 'Campaign 2', '2009-02-01', ".OA_Dal::noDateString().")");
-        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (3, 2, 'Campaign 3', ".OA_Dal::noDateString().", '2009-07-01')");
-        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (4, 3, 'Campaign 4', '2009-02-01', ".OA_Dal::noDateString().")");
-        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (5, 3, 'Campaign 5', ".OA_Dal::noDateString().", '2009-07-01')");
+        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (1, 1, 'Campaign 1', {$noDate}, {$noDate})");
+        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (2, 1, 'Campaign 2', '2009-02-01', {$noDate})");
+        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (3, 2, 'Campaign 3', {$noDate}, '2009-07-01')");
+        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (4, 3, 'Campaign 4', '2009-02-01', {$noDate})");
+        $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (5, 3, 'Campaign 5', {$noDate}, '2009-07-01')");
         $oDbh->exec("INSERT INTO {$tblCampaigns} (campaignid, clientid, campaignname, activate, expire) VALUES (6, 4, 'Campaign 6', '2009-02-01', '2009-07-01')");
 
         // Migrate!

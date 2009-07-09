@@ -174,14 +174,6 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      */
     function setDefaultForAdd() {
-        if (is_null($this->startDate)) {
-            $this->startDate = new Date(OA_Dal::noDateValue());
-        }
-
-        if (is_null($this->endDate)) {
-            $this->endDate = new Date(OA_Dal::noDateValue());
-        }
-
         if (is_null($this->impressions)) {
             $this->impressions = -1;
         }

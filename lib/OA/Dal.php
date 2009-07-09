@@ -320,128 +320,6 @@ class OA_Dal
     }
 
     /**
-     * A method to return a string value WITH QUOTES IF REQUIRED
-     * represeting the current value of a "no date" value
-     * based on the RDBMS type set in the configuration file.
-     *
-     * @return string The current quoted string representation of
-     *                a "no date" field. For example:
-     *                  NULL
-     *                or:
-     *                  '0000-00-00'
-     */
-    function noDateString()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['database']['type'] == 'mysql') {
-            return "'0000-00-00'";
-        }
-        return "NULL";
-    }
-
-    /**
-     * A method to return a string represeting the SQL code required
-     * to test if a column is equal to the current "no date" value,
-     * based on the RDBMS type set in the configuration file.
-     *
-     * @return string The required SQL code string.. For example:
-     *                  The string: IS NULL
-     *                or:
-     *                  The string: = '0000-00-00'
-     */
-    function equalNoDateString()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['database']['type'] == 'mysql') {
-            return "= '0000-00-00'";
-        }
-        return "IS NULL";
-    }
-
-    /**
-     * A method to return a string represeting the SQL code required
-     * to test if a column is not equal to the current "no date" value,
-     * based on the RDBMS type set in the configuration file.
-     *
-     * @return string The required SQL code string.. For example:
-     *                  The string: IS NOT NULL
-     *                or:
-     *                  The string: != '0000-00-00'
-     */
-    function notEqualNoDateString()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['database']['type'] == 'mysql') {
-            return "!= '0000-00-00'";
-        }
-        return "IS NOT NULL";
-    }
-
-    /**
-     * A method to return the current value of a "no date"
-     * value based on the RDBMS type set in the configuration file.
-     *
-     * @return mixed The current value of a "no date" field. For
-     *               example:
-     *                  The null value
-     *                or:
-     *                  The string value: 0000-00-00
-     */
-    function noDateValue()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['database']['type'] == 'mysql') {
-            return "0000-00-00";
-        }
-        return null;
-    }
-
-    /**
-     * Returns a valid SQL-formatted date for a current database.
-     * Examples:
-     * sqlDate(true, 2007, 2, 3) returns '2007-02-03'.
-     * sqlDate(false, 2007, 2, 3) returns OA_Dal::noDateValue().
-     * sqlDate(true, 2007, '-', 3) returns OA_Dal::noDateValue().
-     *
-     * @static
-     * @param boolean $validDate If true, the function will try to generate
-     * a valid date. Otherwise, it will ignore other arguments and just return
-     * an 'empty' date for this database.
-     * @param integer $year
-     * @param integer $month Month number from 1 to 12
-     * @param integer $day Day number from 1 to 28/29/30/31
-     * @return string If $validDate is true and all other parameters are valid
-     * integers, constructs a proper sql date string. If any of the $year,
-     * $month, $day is '-' or $validDate is false, returns a valid 'empty'
-     * date string for the database.
-     */
-    function sqlDate($validDate, $year, $month, $day)
-    {
-        if (!$validDate || $year == '-' || $month == '-' || $day == '-') {
-            return OA_Dal::noDateValue();
-        }
-        $month = OA_Dal::to2digitFormat($month);
-        $day = OA_Dal::to2digitFormat($day);
-        return "$year-$month-$day";
-    }
-
-    /**
-     * If the number is less < 10 returns the number prefixed with '0',
-     * for example '02' for '2'. Otherwise, returns number as it is.
-     *
-     * @static
-     * @param integer $value
-     * @return string
-     */
-    function to2digitFormat($value)
-    {
-        if ($value < 10) {
-            return "0" . $value;
-        }
-        return $value;
-    }
-
-    /**
      * Returns true if $sqlDate is not an 'empty' date, false otherwise.
      *
      * @static
@@ -450,7 +328,7 @@ class OA_Dal
     function isValidDate($sqlDate)
     {
         $dbh = OA_DB::singleton();
-        return preg_match('#\d\d\d\d-\d\d-\d\d#', $sqlDate) && $sqlDate != OA_Dal::noDateValue();
+        return !empty($sqlDate) && preg_match('#^\d\d\d\d-\d\d-\d\d$#D', $sqlDate);
     }
 
     /**

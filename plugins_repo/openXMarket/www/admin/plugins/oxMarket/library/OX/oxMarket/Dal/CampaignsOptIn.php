@@ -65,7 +65,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
 
         // Ignore already ended campaigns
         $doCampaigns->whereAdd(" expire_time >= '" . $this->getTodayDate() .
-                               "' OR expire_time " . OA_Dal::equalNoDateString());
+                               "' OR expire_time IS NULL");
 
         if ($optInType == 'remnant') {
             $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT .

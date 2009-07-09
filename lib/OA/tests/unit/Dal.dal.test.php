@@ -119,19 +119,10 @@ class Test_OA_Dal extends UnitTestCase
     }
 
 
-    function testSqlDate()
-    {
-        $this->assertEqual('2007-03-12', OA_Dal::sqlDate(true, 2007, 3, 12));
-        $this->assertEqual(OA_Dal::noDateValue(), OA_Dal::sqlDate(true, 2007, 3, '-'));
-        $this->assertEqual(OA_Dal::noDateValue(), OA_Dal::sqlDate(false, 2007, 3, 12));
-    }
-
-
     function testIsValidDate()
     {
         $this->assertTrue(OA_Dal::isValidDate('2007-03-01'));
         $this->assertFalse(OA_Dal::isValidDate('0'));
-        $this->assertFalse(OA_Dal::isValidDate(OA_Dal::noDateValue()));
         $this->assertFalse(OA_Dal::isValidDate(null));
     }
 }

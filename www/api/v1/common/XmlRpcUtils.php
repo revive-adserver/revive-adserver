@@ -271,7 +271,7 @@ class XmlRpcUtils
                         exit;
                     }
 
-                    if ($variable != OA_Dal::noDateValue()) {
+                    if (!empty($variable)) {
                         $dateArr = explode('-', $variable);
                         $dateVariable = $dateArr[0] . $dateArr[1] . $dateArr[2] . 'T00:00:00';
                     }
@@ -343,8 +343,7 @@ class XmlRpcUtils
 
         // Explicitly allow the "zero date" value to be set
         if (($year == 0) && ($month == 0) && ($day == 0)) {
-            $oResult = new Date(OA_Dal::noDateValue());
-            return true;
+            return new Date('0000-00-00');
         }
 
         if (($year < 1970) || ($year > 2038)) {
@@ -603,7 +602,7 @@ class XmlRpcUtils
         }
         return true;
     }
-    
+
     /**
      * Gets array of Structures
      *
@@ -618,17 +617,17 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getArrayOfStructuresScalarFields(&$aStructures, $className, 
+    function getArrayOfStructuresScalarFields(&$aStructures, $className,
         &$oParams, $idxParam, $aFieldNames, &$oResponseWithError)
     {
         $oArrayParam = $oParams->getParam($idxParam);
         $count = $oArrayParam->arraysize();
-        
+
         for ($i = 0; $i < $count; $i++) {
             $oStructure = new $className();
             foreach ($aFieldNames as $fieldName) {
-                if (!XmlRpcUtils::_getStructureScalarField($oStructure, 
-                    $oArrayParam->arraymem($i), $fieldName, 
+                if (!XmlRpcUtils::_getStructureScalarField($oStructure,
+                    $oArrayParam->arraymem($i), $fieldName,
                     $oResponseWithError)) {
 
                     return false;
@@ -638,7 +637,7 @@ class XmlRpcUtils
         }
         return true;
     }
-    
+
 
     /**
      * Gets Structure Scalar and non-Scalar fields

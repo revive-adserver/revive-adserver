@@ -82,12 +82,11 @@ class OA_Info
             if (array_key_exists($fieldName, $aEntityData)) {
                 if ($fieldType == 'date') {
                     // If the date is 'no date' then don't return this element in the response at all.
-                    if (empty($aEntityData[$fieldName]) ||
-                        $aEntityData[$fieldName] == OA_Dal::noDateValue()) {
+                    if (empty($aEntityData[$fieldName])) {
                         unset($this->$fieldName);
                     } else {
                         $this->$fieldName = new Date($aEntityData[$fieldName]);
-                    }                        
+                    }
                 } else {
                     $this->$fieldName = $aEntityData[$fieldName];
                 }

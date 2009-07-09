@@ -312,8 +312,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     function checkDateOrder($oStartDate, $oEndDate)
     {
         if ((isset($oStartDate) && isset($oEndDate)) &&
-            (($oStartDate->format("%Y-%m-%d") != OA_Dal::noDateValue()) &&
-            ($oEndDate->format("%Y-%m-%d") != OA_Dal::noDateValue())) &&
+            (($oStartDate->format("%Y-%m-%d") != '0000-00-00') &&
+            ($oEndDate->format("%Y-%m-%d") != '0000-00-00')) &&
             $oStartDate->after($oEndDate)) {
 
         	$this->raiseError('The start date is after the end date');
