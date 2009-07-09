@@ -9,8 +9,8 @@
     <authorUrl>www.openx.org</authorUrl>
     <license>GPL</license>
     <description>Standard Reports for OpenX</description>
-    <version>1.0.4</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.0.5</version>
+    <oxversion>2.8.2-rc9</oxversion>
     <extends>reports</extends>
 
     <install>
