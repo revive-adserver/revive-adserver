@@ -33,7 +33,7 @@ $Id$
 function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId)
 {
     // Prevent the function from running twice
-    if ($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo']) {
+    if (isset($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo'])) {
         return;
     }
     $GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo'] = true;
