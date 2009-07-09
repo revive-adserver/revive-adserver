@@ -153,7 +153,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
         $sucess = true;
         if ($this->prepare($name)) {
             foreach ($this->aFileList as $file) {
-                $filename = $this->basePath . '/' . substr($file, strlen($this->basePath));
+                $filename = $this->basePath . DIRECTORY_SEPARATOR . substr($file, strlen($this->basePath));
                 if (!file_exists($filename)) {
                     // Check for a pre 2.7.31 path (extensions not plugins)
                     $filename = str_replace('/plugins/', '/extensions/', $filename);
