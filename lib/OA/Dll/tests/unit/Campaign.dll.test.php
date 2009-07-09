@@ -163,6 +163,8 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
 
         $oCampaignInfo2               = new OA_Dll_CampaignInfo();
         $oCampaignInfo2->campaignName = 'test name 2';
+        $oCampaignInfo2->startDate    = new Date('2001-01-01 00:00:00');
+        $oCampaignInfo2->endDate      = new Date('2021-01-01 23:59:59');
         $oCampaignInfo2->advertiserId = $oAdvertiserInfo->advertiserId;
         // Add
         $this->assertTrue($dllCampaignPartialMock->modify($oCampaignInfo1),
@@ -191,6 +193,8 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         $this->assertFieldEqual($oCampaignInfo1, $oCampaignInfo1Get, 'weight');
         $this->assertFieldEqual($oCampaignInfo1, $oCampaignInfo1Get, 'advertiserId');
         $this->assertFieldEqual($oCampaignInfo2, $oCampaignInfo2Get, 'campaignName');
+        $this->assertFieldEqual($oCampaignInfo2, $oCampaignInfo2Get, 'startDate');
+        $this->assertFieldEqual($oCampaignInfo2, $oCampaignInfo2Get, 'endDate');
 
         // Get List
         $aCampaignList = array();

@@ -79,6 +79,19 @@ class OA_Dll_Campaign extends OA_Dll
         }
 
         $oCampaign->readDataFromArray($campaignData);
+
+        // Convert UTC timestamps to dates
+        if (!empty($oCampaign->startDate)) {
+            $oTz = $oCampaign->startDate->tz;
+            $oCampaign->startDate->setTZByID('UTC');
+            $oCampaign->startDate->convertTZ($oTz);
+        }
+        if (!empty($oCampaign->endDate)) {
+            $oTz = $oCampaign->endDate->tz;
+            $oCampaign->endDate->setTZByID('UTC');
+            $oCampaign->endDate->convertTZ($oTz);
+        }
+
         return  true;
     }
 
@@ -255,7 +268,7 @@ class OA_Dll_Campaign extends OA_Dll
             $campaignData['activate_time'] = $oDate->getDate(DATE_FORMAT_ISO);
         }
         if (is_object($oEndDate)) {
-            $oDate = new Date($oStartDate);
+            $oDate = new Date($oEndDate);
             $oDate->setHour(23);
             $oDate->setMinute(59);
             $oDate->setSecond(59);
