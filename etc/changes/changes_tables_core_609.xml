@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>609</version>
+  <comments>Moving activate/expire to UTC</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>609</version>
+      <change>
+        <table>
+          <name>campaigns</name>
+          <add>
+            <field>
+              <name>activate_time</name>
+              <type>openads_datetime</type>
+              <notnull></notnull>
+              <default></default>
+              <was>activate_time</was>
+            </field>
+              <field>
+                <name>expire_time</name>
+                <type>openads_datetime</type>
+                <notnull></notnull>
+                <default></default>
+                <was>expire_time</was>
+              </field>
+            </add>
+          </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>609</version>
+        <change>
+          <table>
+            <name>campaigns</name>
+          <remove>
+            <field>
+              <name>expire</name>
+            </field>
+              <field>
+                <name>activate</name>
+              </field>
+            </remove>
+          </table>
+        </change>
+      </changeset>
+    </destructive>
+  </instructionset>

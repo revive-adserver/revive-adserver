@@ -1310,18 +1310,12 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         //      result of the weight being less then one, which means that
         //      it cannot be activated.
         //    - The test to start the campaign is unlikely to fail on account
-        //      of the end date. (Inactive campaigns with start dates may have
-        //      passed the start date, but they may also have passed the end
-        //      date - unfortunately, because the dates are not stored in UTC,
-        //      it's not possible to know exactly which campaigns have passed
-        //      the end date or not, until the values are converted to UTC based
-        //      on the Advertiser Account timezone preference - so it's necessary
-        //      to get some campaigns that might be passed the end date, and do
-        //      the converstion to UTC and test to check.)
+        //      of the end date.
         $prefix = $this->getTablePrefix();
-        $oYesterdayDate = new Date();
-        $oYesterdayDate->copy($oDate);
-        $oYesterdayDate->subtractSeconds(SECONDS_PER_DAY);
+        $oNowDate = new Date($oDate);
+        $oNowDate->toUTC();
+
+        $runningStatus = $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer');
         $query = "
             SELECT
                 cl.clientid AS advertiser_id,
@@ -1336,64 +1330,45 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ca.clicks AS targetclicks,
                 ca.conversions AS targetconversions,
                 ca.status AS status,
-                ca.activate AS start,
-                ca.expire AS end
+                ca.activate_time AS start,
+                ca.expire_time AS end
             FROM
                 {$prefix}campaigns AS ca,
                 {$prefix}clients AS cl
             WHERE
                 ca.clientid = cl.clientid
                 AND
-                ca.status = " . $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer') . "
-                AND
-                (
-                    ca.expire " . OA_Dal::notEqualNoDateString() . "
-                    OR
+                ((
+                    ca.status = {$runningStatus} AND
                     (
-                        ca.views > 0
+                        ca.expire_time IS NOT NULL
                         OR
-                        ca.clicks > 0
-                        OR
-                        ca.conversions > 0
+                        (
+                            ca.views > 0
+                            OR
+                            ca.clicks > 0
+                            OR
+                            ca.conversions > 0
+                        )
                     )
-                )
-            UNION ALL
-            SELECT
-                cl.clientid AS advertiser_id,
-                cl.account_id AS advertiser_account_id,
-                cl.agencyid AS agency_id,
-                cl.contact AS contact,
-                cl.email AS email,
-                cl.reportdeactivate AS send_activate_deactivate_email,
-                ca.campaignid AS campaign_id,
-                ca.campaignname AS campaign_name,
-                ca.views AS targetimpressions,
-                ca.clicks AS targetclicks,
-                ca.conversions AS targetconversions,
-                ca.status AS status,
-                ca.activate AS start,
-                ca.expire AS end
-            FROM
-                {$prefix}campaigns AS ca,
-                {$prefix}clients AS cl
-            WHERE
-                ca.clientid = cl.clientid
-                AND
-                ca.status != " . $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer') . "
-                AND
-                ca.activate " . OA_Dal::notEqualNoDateString() . "
-                AND
-                (
-                    ca.weight > 0
-                    OR
-                    ca.priority > 0
-                )
-                AND
-                (
-                    ca.expire >= " . $this->oDbh->quote($oYesterdayDate->format('%Y-%m-%d'), 'timestamp') . "
-                    OR
-                    ca.expire " . OA_Dal::equalNoDateString() . "
-                )
+                ) OR (
+                    ca.status <> {$runningStatus} AND
+                    (
+                        ca.activate_time <= " . $this->oDbh->quote($oNowDate->getDate(DATE_FORMAT_ISO), 'timestamp') . "
+                        AND
+                        (
+                            ca.weight > 0
+                            OR
+                            ca.priority > 0
+                        )
+                        AND
+                        (
+                            ca.expire_time >= " . $this->oDbh->quote($oNowDate->getDate(DATE_FORMAT_ISO), 'timestamp') . "
+                            OR
+                            ca.expire_time IS NULL
+                        )
+                    )
+                ))
             ORDER BY
                 advertiser_id";
         $rsResult = $this->oDbh->query($query);
@@ -1424,18 +1399,18 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             AND b.campaignid = {$aCampaign['campaign_id']}";
                     $rsResultInner = $this->oDbh->query($query);
                     $valuesRow = $rsResultInner->fetchRow();
-                    if ((!is_null($valuesRow['impressions'])) || (!is_null($valuesRow['clicks'])) || (!is_null($valuesRow['conversions']))) {
+                    if ((isset($valuesRow['impressions'])) || (!is_null($valuesRow['clicks'])) || (!is_null($valuesRow['conversions']))) {
                         // There were impressions, clicks and/or conversions for this
                         // campaign, so find out if campaign targets have been passed
-                        if (is_null($valuesRow['impressions'])) {
+                        if (!isset($valuesRow['impressions'])) {
                             // No impressions
                             $valuesRow['impressions'] = 0;
                         }
-                        if (is_null($valuesRow['clicks'])) {
+                        if (!isset($valuesRow['clicks'])) {
                             // No clicks
                             $valuesRow['clicks'] = 0;
                         }
-                        if (is_null($valuesRow['conversions'])) {
+                        if (!isset($valuesRow['conversions'])) {
                             // No conversions
                             $valuesRow['conversions'] = 0;
                         }
@@ -1485,23 +1460,15 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     }
                 }
                 // Does the campaign need to be disabled due to the date?
-                if ($aCampaign['end'] != OA_Dal::noDateValue()) {
-                    // The campaign has a valid end date, stored in the timezone of the advertiser;
-                    // create an end date in the advertiser's timezone, set the time, and then
-                    // convert to UTC so that it can be compared with the MSE run time, which is
-                    // in UTC
-                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aCampaign['advertiser_account_id'], true);
-                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
-                    $oEndDate = new Date();
-                    $oEndDate->convertTZ($oTimezone);
-                    $oEndDate->setDate($aCampaign['end'] . ' 23:59:59'); // Campaigns end at the end of the day
-                    $oEndDate->toUTC();
+                if (!empty($aCampaign['end'])) {
+                    // The campaign has a valid end date, stored in in UTC
+                    $oEndDate = new Date($aCampaign['end']);
+                    $oEndDate->setTZByID('UTC');
                     if ($oDate->after($oEndDate)) {
                         // The end date has been passed; disable the campaign
                         $disableReason |= OX_CAMPAIGN_DISABLED_DATE;
-                        $message = "- Passed campaign end time of '{$aCampaign['end']} 23:59:59 {$aAdvertiserPrefs['timezone']} (" .
-                                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName() .
-                                   ")': Deactivating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
+                        $message = "- Passed campaign end time of '" . $oEndDate->getDate() . " UTC" .
+                                   "': Deactivating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
                         $report .= $message . "\n";
                         $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -1557,26 +1524,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             } else {
                 // The campaign is not active - does it need to be enabled,
                 // based on the campaign starting date?
-                if ($aCampaign['start'] != OA_Dal::noDateValue()) {
-                    // The campaign has a valid start date, stored in the timezone of the advertiser;
-                    // create an end date in the advertiser's timezone, set the time, and then
-                    // convert to UTC so that it can be compared with the MSE run time, which is
-                    // in UTC
-                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aCampaign['advertiser_account_id'], true);
-                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
-                    $oStartDate = new Date();
-                    $oStartDate->convertTZ($oTimezone);
-                    $oStartDate->setDate($aCampaign['start'] . ' 00:00:00'); // Campaigns start at the start of the day
-                    $oStartDate->toUTC();
-                    if ($aCampaign['end'] != OA_Dal::noDateValue()) {
-                        // The campaign has a valid end date, stored in the timezone of the advertiser;
-                        // create an end date in the advertiser's timezone, set the time, and then
-                        // convert to UTC so that it can be compared with the MSE run time, which is
-                        // in UTC
-                        $oEndDate = new Date();
-                        $oEndDate->convertTZ($oTimezone);
-                        $oEndDate->setDate($aCampaign['end'] . ' 23:59:59'); // Campaign end at the end of the day
-                        $oEndDate->toUTC();
+                if (!empty($aCampaign['start'])) {
+                    // The campaign has a valid start date, stored in UTC
+                    $oStartDate = new Date($aCampaign['start']);
+                    $oStartDate->setTZByID('UTC');
+                    if (!empty($aCampaign['end'])) {
+                        // The campaign has a valid end date, stored in in UTC
+                        $oEndDate = new Date($aCampaign['end']);
+                        $oEndDate->setTZByID('UTC');
                     } else {
                         $oEndDate = null;
                     }
@@ -1615,15 +1570,12 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
                         //    then there must be remaining clicks to deliver (> 0); and
                         // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
-                        //    then there must be remaining conversions to deliver (> 0); and
-                        // 4) Either there is no end date, or the end date has not been passed
+                        //    then there must be remaining conversions to deliver (> 0)
                         if ((($aCampaign['targetimpressions'] <= 0) || (($aCampaign['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
                             (($aCampaign['targetclicks']      <= 0) || (($aCampaign['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
-                            (($aCampaign['targetconversions'] <= 0) || (($aCampaign['targetconversions'] > 0) && ($remainingConversions > 0))) &&
-                            (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
-                            $message = "- Passed campaign start time of '{$aCampaign['start']} 00:00:00 {$aAdvertiserPrefs['timezone']} (" .
-                                       $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
-                                       ")': Activating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
+                            (($aCampaign['targetconversions'] <= 0) || (($aCampaign['targetconversions'] > 0) && ($remainingConversions > 0)))) {
+                            $message = "- Passed campaign start time of '" . $oStartDate->getDate() . " UTC" .
+                                       "': Activating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
                             OA::debug($message, PEAR_LOG_INFO);
                             $report .= $message . "\n";
                             $doCampaigns = OA_Dal::factoryDO('campaigns');

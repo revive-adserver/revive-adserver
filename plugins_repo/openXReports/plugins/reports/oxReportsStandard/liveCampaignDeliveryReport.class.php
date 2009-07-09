@@ -253,8 +253,8 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 c.campaignname AS campaign_name,
                 c.priority AS campaign_priority,
                 c.status AS campaign_is_active,
-                c.activate AS campaign_start,
-                c.expire AS campaign_end,
+                c.activate_time AS campaign_start,
+                c.expire_time AS campaign_end,
                 c.views AS campaign_booked_impressions,
                 SUM(dsah.impressions) AS campaign_impressions,
                 MAX(dsah.date_time) AS stats_most_recent_date_time
@@ -281,22 +281,22 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             $query .= "
                 AND
                 (
-                    c.activate <= " . DBC::makeLiteral($oDaySpan->getEndDateString(), 'string') . "
+                    c.activate_time <= " . DBC::makeLiteral($oDaySpan->getEndDateStringUTC(), 'string') . "
                     OR
-                    c.activate " . OA_Dal::equalNoDateString() . "
+                    c.activate_time IS NULL
                 )
                 AND
                 (
-                    c.expire >= " . DBC::makeLiteral($oDaySpan->getStartDateString(), 'string') . "
+                    c.expire_time >= " . DBC::makeLiteral($oDaySpan->getStartDateStringUTC(), 'string') . "
                     OR
-                    c.expire " . OA_Dal::equalNoDateString() . "
+                    c.expire_time IS NULL
                 )";
         } else {
             $query .= "
                 AND
-                dsah.date_time >= " . DBC::makeLiteral($oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S'), 'string') . "
+                dsah.date_time >= " . DBC::makeLiteral($oDaySpan->getStartDateStringUTC(), 'string') . "
                 AND
-                dsah.date_time <= " . DBC::makeLiteral($oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'string') . "
+                dsah.date_time <= " . DBC::makeLiteral($oDaySpan->getEndDateStringUTC(), 'string') . "
             ";
         }
         if ($advertiserId) {
@@ -545,6 +545,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         }
         global $date_format;
         $oDate = new Date($dateString);
+        $oTz = $oDate->tz;
+        $oDate->setTZbyID('UTC');
+        $oDate->convertTZ($oTz);
         $formattedDate = $oDate->format($date_format);
         return $formattedDate;
     }
@@ -580,8 +583,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _calculateOverallMisdelivery($aCampaignData)
     {
         // Only calculate mis-delivery if start and end dates present
-        if (($aCampaignData['campaign_start'] == OA_DAL::noDateValue()) ||
-            ($aCampaignData['campaign_end'] == OA_DAL::noDateValue())) {
+        if (empty($aCampaignData['campaign_start']) || empty($aCampaignData['campaign_end'])) {
             return false;
         }
 
@@ -711,8 +713,13 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function &_rangeFromCampaign($aCampaignData)
     {
         $oCampaignDaySpan = new OA_Admin_DaySpan();
+        $oDate = new Date();
         $oBeginDate = new Date($aCampaignData['campaign_start']);
         $oEndDate   = new Date($aCampaignData['campaign_end']);
+        $oBeginDate->setTzByID('UTC');
+        $oEndDate->setTzByID('UTC');
+        $oBeginDate->convertTZ($oDate->tz);
+        $oEndDate->convertTZ($oDate->tz);
         $oCampaignDaySpan->setSpanDays($oBeginDate, $oEndDate);
         return $oCampaignDaySpan;
     }

@@ -113,16 +113,18 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
     function _generateStatsOne()
     {
         $oDate = new Date();
-        $oDate->addSeconds((SECONDS_PER_DAY * 4));
-        $expiryDate1 = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
+        $oDate->addSpan(new Date_Span('4-0-0-0'));
+        $expiryDate1 = $oDate->getDate(DATE_FORMAT_ISO);
 
-        $oDate->addSeconds((SECONDS_PER_DAY * 4));
-        $expiryDate2 = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
+        $oDate->addSpan(new Date_Span('4-0-0-0'));
+        $expiryDate2 = $oDate->getDate(DATE_FORMAT_ISO);
 
-        $oDate->subtractSeconds((SECONDS_PER_DAY * 2));
-        $expiryDateLessTwoDays = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
+        $oDate->subtractSpan(new Date_Span('2-0-0-0'));
+        $expiryDateLessTwoDays = $oDate->getDate(DATE_FORMAT_ISO);
 
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doAcls      = OA_Dal::factoryDO('acls');
 
         $doBanners   = OA_Dal::factoryDO('banners');
@@ -160,13 +162,13 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $clientId = DataGenerator::generateOne('clients', true);
 
         // Add 3 campaigns - haha!
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 1';
         $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 0;
         $doCampaigns->clicks = 400;
         $doCampaigns->conversions = 0;
-        $doCampaigns->expire = $expiryDate1;
-        $doCampaigns->activate = OA_Dal::noDateString();
+        $doCampaigns->expire_time = $expiryDate1;
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 1;
@@ -175,13 +177,12 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idCampaign1 = DataGenerator::generateOne($doCampaigns, true);
 
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 2';
         $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 0;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 400;
-        $doCampaigns->expire = OA_Dal::noDateString();
-        $doCampaigns->activate = OA_Dal::noDateString();
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '2';
         $doCampaigns->weight = 1;
@@ -190,13 +191,13 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idCampaign2 = DataGenerator::generateOne($doCampaigns, true);
 
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 3';
         $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 0;
         $doCampaigns->expire = $expiryDate2;
-        $doCampaigns->activate = OA_Dal::noDateString();
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 1;
@@ -205,13 +206,12 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idCampaign3 = DataGenerator::generateOne($doCampaigns, true);
 
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 4';
         $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;
-        $doCampaigns->expire = OA_Dal::noDateString();
-        $doCampaigns->activate = OA_Dal::noDateString();
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '4';
         $doCampaigns->weight = 2;
@@ -220,13 +220,12 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idCampaign4 = DataGenerator::generateOne($doCampaigns, true);
 
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 5';
         $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;
-        $doCampaigns->expire = OA_Dal::noDateString();
-        $doCampaigns->activate = OA_Dal::noDateString();
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 2;

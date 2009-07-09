@@ -2858,8 +2858,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       c.revenue AS revenue,
                       c.revenue_type AS revenue_type,
                       c.min_impressions AS min_impressions,
-                      c.activate AS activate,
-                      c.expire AS expire,
+                      c.activate_time AS activate_time,
+                      c.expire_time AS expire_time,
                       b.bannerid AS bannerid,
                       b.weight AS weight,
                       aza.zone_id AS zone_id
@@ -2897,8 +2897,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       c.revenue AS revenue,
                       c.revenue_type AS revenue_type,
                       c.min_impressions AS min_impressions,
-                      c.activate AS activate,
-                      c.expire AS expire,
+                      c.activate_time AS activate_time,
+                      c.expire_time AS expire_time,
                       b.bannerid AS bannerid,
                       b.weight AS weight,
                       aza.zone_id AS zone_id
@@ -2969,8 +2969,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aResult[$aRow['campaignid']] = array(
                     $idxRevenue => $aRow['revenue'],
                     $idxRevenueType => $aRow['revenue_type'],
-                    $idxActivate => $aRow['activate'],
-                    $idxExpire => $aRow['expire'],
+                    $idxActivate => $aRow['activate_time'],
+                    $idxExpire => $aRow['expire_time'],
                     $idxAds => array(),
                 );
             }

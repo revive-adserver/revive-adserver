@@ -59,8 +59,8 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['campaignId']         = $campaignData['campaignid'];
         $campaignData['campaignName']       = $campaignData['campaignname'];
         $campaignData['advertiserId']       = $campaignData['clientid'];
-        $campaignData['startDate']          = $campaignData['activate'];
-        $campaignData['endDate']            = $campaignData['expire'];
+        $campaignData['startDate']          = $campaignData['activate_time'];
+        $campaignData['endDate']            = $campaignData['expire_time'];
         $campaignData['impressions']        = $campaignData['views'];
         $campaignData['targetImpressions']  = $campaignData['target_impression'];
         $campaignData['targetClicks']       = $campaignData['target_click'];
@@ -247,10 +247,20 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['campaignname'] = $oCampaign->campaignName;
         $campaignData['clientid']     = $oCampaign->advertiserId;
         if (is_object($oStartDate)) {
-            $campaignData['activate'] = $oStartDate->format("%Y-%m-%d");
+            $oDate = new Date($oStartDate);
+            $oDate->setHour(0);
+            $oDate->setMinute(0);
+            $oDate->setSecond(0);
+            $oDate->toUTC();
+            $campaignData['activate_time'] = $oDate->getDate(DATE_FORMAT_ISO);
         }
         if (is_object($oEndDate)) {
-            $campaignData['expire']   = $oEndDate->format("%Y-%m-%d");
+            $oDate = new Date($oStartDate);
+            $oDate->setHour(23);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
+            $oDate->toUTC();
+            $campaignData['expire_time'] = $oDate->getDate(DATE_FORMAT_ISO);
         }
 
         $campaignData['views']        = $oCampaign->impressions;

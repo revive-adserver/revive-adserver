@@ -325,11 +325,18 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // campaign as if it expires at the end of "today", regardless
                 // of the existance of any activation or expiration dates that
                 // may (or may not) be set for the campaign
-                $oDate =& $this->_getDate();
-                // Get the end of the day from this date
-                $oCampaignExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
+                $oCampaignExpiryDate = new Date($this->_getDate());
+                $oCampaignExpiryDate->setHour(23);
+                $oCampaignExpiryDate->setMinute(59);
+                $oCampaignExpiryDate->setSecond(59);
+                // Unless the campaign has an expiry date and it happens before the end of today
+                if (!empty($oCampaign->expireTime)) {
+                    if ($oCampaignExpiryDate->after($this->_getDate($oCampaign->expireTime))) {
+                        $oCampaignExpiryDate = $this->_getDate($oCampaign->expireTime);
+                    }
+                }
             } else if (
-                   ($oCampaign->expire != OA_Dal::noDateValue())
+                   !empty($oCampaign->expireTime)
                    &&
                    (
                        ($oCampaign->impressionTargetTotal > 0)
@@ -341,11 +348,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                ) {
                 // The campaign has an expiration date, and has some kind of
                 // (total) inventory requirement, so treat the campaign as if
-                // it expires at the end of the expiration date
-                $oCampaignExpiryDate =& $this->_getDate($oCampaign->expire);
-                // Campaign expires at end of expiry date, so add one day less one
-                // second, so we have a date with time portion 23:59:59
-                $oCampaignExpiryDate->addSeconds(SECONDS_PER_DAY - 1);
+                // it expires at the expiration date/time
+                $oCampaignExpiryDate = $this->_getDate($oCampaign->expireTime);
             } else {
                 // Error! There should not be any other kind of high-priority
                 // campaign in terms of activation/expiration dates and

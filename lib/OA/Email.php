@@ -579,10 +579,11 @@ class OA_Email
                     }
                 }
                 // Does the account type want warnings when the days are low?
-                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] > 0 && $aCampaign['expire'] != OA_Dal::noDateValue()) {
+                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] > 0 && !empty($aCampaign['expire_time'])) {
                     // Calculate the date that should be used to see if the warning needs to be sent
                     $warnSeconds = (int) ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] + 1) * SECONDS_PER_DAY;
-                    $oEndDate = new Date($aCampaign['expire'] . ' 23:59:59');  // Convert day to end of Date
+                    $oEndDate = new Date($aCampaign['expire_time']);
+                    $oEndDate->setTZbyID('UTC');
                     $oTestDate = new Date();
                     $oTestDate->copy($oDate);
                     $oTestDate->addSeconds($warnSeconds);

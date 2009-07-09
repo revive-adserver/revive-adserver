@@ -115,8 +115,8 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         // Test 2
         $aParams = array(
             'campaignid'        => 1,
-            'activate'          => '2005-01-01',
-            'expire'            => '2005-01-31',
+            'activate_time'     => '2005-01-01',
+            'expire_time'       => '2005-01-31',
             'views'             => 1000000,
             'clicks'            => 100000,
             'conversions'       => 1000,
@@ -127,8 +127,8 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         );
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);
-        $this->assertEqual($oCampaign->activate, '2005-01-01');
-        $this->assertEqual($oCampaign->expire, '2005-01-31');
+        $this->assertEqual($oCampaign->activateTime, '2005-01-01');
+        $this->assertEqual($oCampaign->expireTime, '2005-01-31');
         $this->assertEqual($oCampaign->impressionTargetTotal, 1000000);
         $this->assertEqual($oCampaign->clickTargetTotal, 100000);
         $this->assertEqual($oCampaign->conversionTargetTotal, 1000);
@@ -140,8 +140,8 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         // Test 3
         $aParams = array(
             'campaignid'              => 1,
-            'activate'                => '2005-01-01',
-            'expire'                  => '2005-01-31',
+            'activate_time'           => '2005-01-01',
+            'expire_time'             => '2005-01-31',
             'impression_target_total' => 1000000,
             'click_target_total'      => 100000,
             'conversion_target_total' => 1000,
@@ -152,8 +152,8 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         );
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);
-        $this->assertEqual($oCampaign->activate, '2005-01-01');
-        $this->assertEqual($oCampaign->expire, '2005-01-31');
+        $this->assertEqual($oCampaign->activateTime, '2005-01-01');
+        $this->assertEqual($oCampaign->expireTime, '2005-01-31');
         $this->assertEqual($oCampaign->impressionTargetTotal, 1000000);
         $this->assertEqual($oCampaign->clickTargetTotal, 100000);
         $this->assertEqual($oCampaign->conversionTargetTotal, 1000);

@@ -225,7 +225,7 @@ class OX_Util_Utils
     *                                 If null, uses the value in the config file.
     * @param double defaultConversionRatio conversion ratio to use when there are no impressions.
     *                                 If null, uses the value in the config file.
-    * 
+    *
     * @return double the eCPM
     */
    public static function getEcpm($revenueType, $revenue, $impressions = 0, $clicks = 0, $conversions = 0,
@@ -261,13 +261,22 @@ class OX_Util_Utils
            case MAX_FINANCE_MT:
                if ($impressions != 0) {
                    if ($startDate && $endDate) {
+                       $oStart = new Date($startDate);
+                       $oStart->setTZbyID('UTC');
+                       $oEnd = new Date($endDate);
+                       $oEnd->setTZbyID('UTC');
+                       $oNow = new Date(date('Y-m-d'));
+                       $oNow->setTZbyID('UTC');
+
                        $daysInCampaign = new Date_Span();
-                       $daysInCampaign->setFromDateDiff(new Date($startDate), new Date($endDate));
+                       $daysInCampaign->setFromDateDiff($oStart, $oEnd);
+                       $daysInCampaign = ceil($daysInCampaign->toDays());
 
                        $daysSoFar = new Date_Span();
-                       $daysSoFar->setFromDateDiff(new Date($startDate), new Date('Y-m-d'));
+                       $daysSoFar->setFromDateDiff($oStart, $oNow);
+                       $daysSoFar = ceil($daysSoFar->toDays());
 
-                       $ecpm = ($revenue / $daysInCampaign->toDays()) * $daysSoFar->toDays() / $impressions * 1000;
+                       $ecpm = ($revenue / $daysInCampaign) * $daysSoFar / $impressions * 1000;
                    } else {
                        // Not valid without start and end dates.
                        $ecpm = 0.0;

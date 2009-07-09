@@ -124,9 +124,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
             .'          (c.target_conversion < 1)'
             .'      )'
             .'      AND'
-            .'      (UNIX_TIMESTAMP(c.expire) > 0)'
-            .'      AND'
-            .'      (c.expire < '.$this->oDbh->quote(OA::getNow('Y-m-d')).')'
+            .'      (c.expire_time < '.$this->oDbh->quote(OA::getNowUTC('Y-m-d H:i:s')).')'
             .')'
             ;
 

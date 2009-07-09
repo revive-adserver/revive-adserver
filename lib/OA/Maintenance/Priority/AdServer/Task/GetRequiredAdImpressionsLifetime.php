@@ -89,14 +89,15 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get current date
-        $oDate = $this->_getDate();
-        $dateYMD = $oDate->format('%Y-%m-%d');
+        $oDate = new Date($this->_getDate());
+        $oDate->toUTC();
+        $dateYMD = $oDate->getDate(DATE_FORMAT_ISO);
         $oDbh = OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
 
         $aWheres = array(
-            array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '$dateYMD')", 'AND'),
-            array("$table.expire >= '$dateYMD'", 'AND'),
+            array("($table.activate_time IS NULL OR $table.activate_time <= '$dateYMD')", 'AND'),
+            array("$table.expire_time >= '$dateYMD'", 'AND'),
             array("$table.priority >= 1", 'AND'),
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
             array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')

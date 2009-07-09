@@ -83,23 +83,25 @@ if ($campaignid != "") {
     $campaign['clicks'] = $data ['clicks'];
     $campaign['conversions'] = $data ['conversions'];
     $campaign['expire'] = $data ['expire'];
-    if (OA_Dal::isValidDate ( $data ['expire'] )) {
-        $oExpireDate = new Date ( $data ['expire'] );
-        $campaign['expire_f'] = $oExpireDate->format ( $date_format );
-        $campaign['expire_dayofmonth'] = $oExpireDate->format ( '%d' );
-        $campaign['expire_month'] = $oExpireDate->format ( '%m' );
-        $campaign['expire_year'] = $oExpireDate->format ( '%Y' );
+    if (!empty($data['expire_time'])) {
+        $oExpireDate = new Date($data['expire_time']);
+        $oTz = $oExpireDate->tz;
+        $oExpireDate->setTZbyID('UTC');
+        $oExpireDate->convertTZ($oTz);
+        $campaign['expire_f'] = $oExpireDate->format($date_format);
+        $campaign['expire_date'] = $oExpireDate->format('%Y-%m-%d');
     }
     $campaign['status'] = $doCampaigns->status;
     $campaign['an_status'] = $doCampaigns->an_status;
     $campaign['as_reject_reason'] = $doCampaigns->as_reject_reason;
 
-    if (OA_Dal::isValidDate ( $data ['activate'] )) {
-        $oActivateDate = new Date ( $data ['activate'] );
-        $campaign['activate_f'] = $oActivateDate->format ( $date_format );
-        $campaign['activate_dayofmonth'] = $oActivateDate->format ( '%d' );
-        $campaign['activate_month'] = $oActivateDate->format ( '%m' );
-        $campaign['activate_year'] = $oActivateDate->format ( '%Y' );
+    if (!empty($data['activate_time'])) {
+        $oActivateDate = new Date($data['activate_time']);
+        $oTz = $oActivateDate->tz;
+        $oActivateDate->setTZbyID('UTC');
+        $oActivateDate->convertTZ($oTz);
+        $campaign['activate_f'] = $oActivateDate->format($date_format);
+        $campaign['activate_date'] = $oActivateDate->format('%Y-%m-%d');
     }
     $campaign['priority'] = $data ['priority'];
     $campaign['weight'] = $data ['weight'];
@@ -172,42 +174,22 @@ if ($campaignid != "") {
         $campaign['target_value'] = '-';
     }
 
-    // Set default activation settings
-    if (! isset ( $campaign["activate_dayofmonth"] )) {
-        $campaign["activate_dayofmonth"] = 0;
-    }
-    if (! isset ( $campaign["activate_month"] )) {
-        $campaign["activate_month"] = 0;
-    }
-    if (! isset ( $campaign["activate_year"] )) {
-        $campaign["activate_year"] = 0;
-    }
-    if (! isset ( $campaign["activate_f"] )) {
+    if (!isset($campaign["activate_f"])) {
         $campaign["activate_f"] = "-";
     }
 
-    // Set default expiration settings
-    if (! isset ( $campaign["expire_dayofmonth"] )) {
-        $campaign["expire_dayofmonth"] = 0;
-    }
-    if (! isset ( $campaign["expire_month"] )) {
-        $campaign["expire_month"] = 0;
-    }
-    if (! isset ( $campaign["expire_year"] )) {
-        $campaign["expire_year"] = 0;
-    }
-    if (! isset ( $campaign["expire_f"] )) {
+    if (!isset($campaign["expire_f"])) {
         $campaign["expire_f"] = "-";
     }
 
     // Set the default financial information
-    if (! isset ( $campaign['revenue'] )) {
-        $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
+    if (!isset($campaign['revenue'])) {
+        $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber(0, 4);
     }
 
     // Set the default eCPM prioritization settings
-    if (! isset ( $campaign['ecpm'] )) {
-        $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber ( 0, 4 );
+    if (!isset($campaign['ecpm'])) {
+        $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber(0, 4);
     }
 } else {
     // New campaign
@@ -226,8 +208,8 @@ if ($campaignid != "") {
     $campaign["clicks"] = -1;
     $campaign["conversions"] = -1;
     $campaign["status"] = ( int ) $status;
-    $campaign["expire"] = '';
-    $campaign["activate"] = '';
+    $campaign["expire_time"] = '';
+    $campaign["activate_time"] = '';
     $campaign["priority"] = 0;
     $campaign["anonymous"] = ($pref ['gui_campaign_anonymous'] == 't') ? 't' : '';
     $campaign['revenue'] = '';
@@ -333,7 +315,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
     $form->forceClientValidation ( true );
     $form->addElement ( 'hidden', 'campaignid', $campaign['campaignid'] );
     $form->addElement ( 'hidden', 'clientid', $campaign['clientid'] );
-    $form->addElement ( 'hidden', 'expire', $campaign['expire'] );
+    $form->addElement ( 'hidden', 'expire_time', $campaign['expire_time'] );
     $form->addElement ( 'hidden', 'target_old', isset ( $campaign['target_value'] ) ? ( int ) $campaign['target_value'] : 0 );
     $form->addElement ( 'hidden', 'target_type_old', isset ( $campaign['target_type'] ) ? $campaign['target_type'] : '' );
     $form->addElement ( 'hidden', 'weight_old', isset ( $campaign['weight'] ) ? ( int ) $campaign['weight'] : 0 );
@@ -396,17 +378,21 @@ function buildCampaignForm($campaign, &$oComponent = null)
     	'conversions' => !isset($campaign['conversions']) || $campaign['conversions'] == '' || $campaign['conversions'] < 0 ? '-' : $campaign['conversions']
 	));
 
-    $startDateSet = ($campaign["activate_dayofmonth"] == 0 && $campaign["activate_month"] == 0 && $campaign["activate_year"] == 0) ? 'f' : 't';
-    $endDateSet = ($campaign["expire_dayofmonth"] == 0 && $campaign["expire_month"] == 0 && $campaign["expire_year"] == 0) ? 'f' : 't';
+	if (!empty($campaign['activate_date'])) {
+	    $startDateSet = 't';
+	    $startDateStr = $campaign['activate_date'];
+	} else {
+	    $startDateSet = 'f';
+	    $startDateStr = '';
+	}
 
-    if ($startDateSet == "t") {
-        $oStartDate = new Date($campaign["activate_year"] . '-' . $campaign["activate_month"] . '-' . $campaign["activate_dayofmonth"]);
-    }
-    $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%d %B %Y ');
-    if ($endDateSet == "t") {
-        $oEndDate = new Date($campaign["expire_year"] . '-' . $campaign["expire_month"] . '-' . $campaign["expire_dayofmonth"]);
-    }
-    $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%d %B %Y ');
+	if (!empty($campaign['expire_date'])) {
+	    $endDateSet = 't';
+	    $endDateStr = $campaign['expire_date'];
+	} else {
+	    $endDateSet = 'f';
+	    $endDateStr = '';
+	}
 
     $form->setDefaults(array(
     	'campaign_type' => $newCampaign ? '' : OX_Util_Utils::getCampaignType($campaign['priority']),
@@ -750,8 +736,20 @@ function processCampaignForm($form, &$oComponent = null)
 {
     $aFields = $form->exportValues ();
 
-    $expire = ! empty ( $aFields['end'] ) ? date ( 'Y-m-d', strtotime ( $aFields['end'] ) ) : OA_Dal::noDateValue ();
-    $activate = ! empty ( $aFields['start'] ) ? date ( 'Y-m-d', strtotime ( $aFields['start'] ) ) : OA_Dal::noDateValue ();
+    if (!empty($aFields['start'])) {
+        $oDate = new Date(date('Y-m-d 00:00:00', strtotime($aFields['start'])));
+        $oDate->toUTC();
+        $activate = $oDate->getDate();
+    } else {
+        $activate = null;
+    }
+    if (!empty($aFields['end'])) {
+        $oDate = new Date(date('Y-m-d 23:59:59', strtotime($aFields['end'])));
+        $oDate->toUTC();
+        $expire = $oDate->getDate();
+    } else {
+        $expire = null;
+    }
 
     if (empty($aFields['campaignid'])) {
         // The form is submitting a new campaign, so, the ID is not set;
@@ -889,19 +887,12 @@ function processCampaignForm($form, &$oComponent = null)
         // Get the capping variables
         $block = _initCappingVariables($aFields['time'], $aFields['capping'], $aFields['session_capping']);
 
-        $noDateValue = OA_Dal::noDateValue();
-        if (!isset($noDateValue)) {
-            $noDateValue = 0;
-        }
-
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $aFields['campaignname'];
         $doCampaigns->clientid = $aFields['clientid'];
         $doCampaigns->views = $aFields['impressions'];
         $doCampaigns->clicks = $aFields['clicks'];
         $doCampaigns->conversions = $aFields['conversions'];
-        $doCampaigns->expire = OA_Dal::isValidDate($expire) ? $expire : $noDateValue;
-        $doCampaigns->activate = OA_Dal::isValidDate($activate) ? $activate : $noDateValue;
         $doCampaigns->priority = $aFields['priority'];
         $doCampaigns->weight = $aFields['weight'];
         $doCampaigns->target_impression = $target_impression;
@@ -917,6 +908,10 @@ function processCampaignForm($form, &$oComponent = null)
         $doCampaigns->block = $block;
         $doCampaigns->capping = $aFields['capping'];
         $doCampaigns->session_capping = $aFields['session_capping'];
+
+        // Activation and expiration. Using the "NULL" sting to erase the dates in case they are set
+        $doCampaigns->activate_time = isset($activate) ? $activate : 'NULL';
+        $doCampaigns->expire_time = isset($expire) ? $expire : 'NULL';
 
         if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
             $doCampaigns->campaignid = $aFields['campaignid'];
@@ -1109,8 +1104,6 @@ function phpAds_showStatusRejected($reject_reason)
 
 function getCampaignInactiveReasons($aCampaign)
 {
-    $activate_ts = mktime ( 23, 59, 59, $aCampaign ["activate_month"], $aCampaign ["activate_dayofmonth"], $aCampaign ["activate_year"] );
-    $expire_ts = $aCampaign ['expire_year'] ? mktime ( 23, 59, 59, $aCampaign ["expire_month"], $aCampaign ["expire_dayofmonth"], $aCampaign ["expire_year"] ) : 0;
     $aReasons = array ();
 
     if (($aCampaign['impressions'] != -1) && ($aCampaign['impressionsRemaining'] <= 0)) {
@@ -1122,10 +1115,10 @@ function getCampaignInactiveReasons($aCampaign)
     if (($aCampaign['conversions'] != -1) & ($aCampaign['conversionsRemaining'] <= 0)) {
         $aReasons [] = $GLOBALS ['strNoMoreConversions'];
     }
-    if ($activate_ts > 0 && $activate_ts > time ()) {
+    if (strtotime($aCampaign['activate_date'].' 00:00:00') > time()) {
         $aReasons [] = $GLOBALS ['strBeforeActivate'];
     }
-    if ($expire_ts > 0 && time () > $expire_ts) {
+    if (strtotime($aCampaign['expire_date'].' 23:59:59') < time()) {
         $aReasons [] = $GLOBALS ['strAfterExpire'];
     }
 

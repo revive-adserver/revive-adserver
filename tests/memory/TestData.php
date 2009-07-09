@@ -122,8 +122,6 @@ class Memory_TestData
         $doCampaigns->views    = '-1';                           // int(11)
         $doCampaigns->clicks    = '-1';                          // int(11)
         $doCampaigns->conversions    = '-1';                     // int(11)
-        $doCampaigns->expire    = OA_Dal::noDateString();
-        $doCampaigns->activate  = OA_Dal::noDateString();
         $doCampaigns->status    = OA_ENTITY_STATUS_RUNNING;     // int(11)  not_null
         $doCampaigns->priority    = '-1';                        // int(11)  not_null
         $doCampaigns->weight    = '1';                          // int(4)  not_null

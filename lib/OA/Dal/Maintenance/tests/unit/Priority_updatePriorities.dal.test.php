@@ -379,8 +379,6 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;
-        $doCampaigns->expire = OA_Dal::noDateString();
-        $doCampaigns->activate = OA_Dal::noDateString();
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = '4';
         $doCampaigns->weight = 2;

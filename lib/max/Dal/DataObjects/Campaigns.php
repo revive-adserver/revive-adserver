@@ -48,45 +48,44 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      */
     const PRIORITY_ECPM_FROM = 6;
     const PRIORITY_ECPM_TO = 9;
-
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'campaigns';                       // table name
-    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $campaignname;                    // VARCHAR(255) => openads_varchar => 130 
-    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $views;                           // INT(11) => openads_int => 1 
-    public $clicks;                          // INT(11) => openads_int => 1 
-    public $conversions;                     // INT(11) => openads_int => 1 
-    public $expire;                          // DATE() => openads_date => 6 
-    public $activate;                        // DATE() => openads_date => 6 
-    public $priority;                        // INT(11) => openads_int => 129 
-    public $weight;                          // TINYINT(4) => openads_tinyint => 129 
-    public $target_impression;               // INT(11) => openads_int => 129 
-    public $target_click;                    // INT(11) => openads_int => 129 
-    public $target_conversion;               // INT(11) => openads_int => 129 
-    public $anonymous;                       // ENUM('t','f') => openads_enum => 130 
-    public $companion;                       // SMALLINT(1) => openads_smallint => 17 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1 
-    public $revenue_type;                    // SMALLINT(6) => openads_smallint => 1 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $block;                           // INT(11) => openads_int => 129 
-    public $capping;                         // INT(11) => openads_int => 129 
-    public $session_capping;                 // INT(11) => openads_int => 129 
-    public $an_campaign_id;                  // INT(11) => openads_int => 1 
-    public $as_campaign_id;                  // INT(11) => openads_int => 1 
-    public $status;                          // INT(11) => openads_int => 129 
-    public $an_status;                       // INT(11) => openads_int => 129 
-    public $as_reject_reason;                // INT(11) => openads_int => 129 
-    public $hosted_views;                    // INT(11) => openads_int => 129 
-    public $hosted_clicks;                   // INT(11) => openads_int => 129 
-    public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
-    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1 
-    public $min_impressions;                 // INT(11) => openads_int => 129 
-    public $ecpm_enabled;                    // TINYINT(4) => openads_tinyint => 129 
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $campaignname;                    // VARCHAR(255) => openads_varchar => 130
+    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $views;                           // INT(11) => openads_int => 1
+    public $clicks;                          // INT(11) => openads_int => 1
+    public $conversions;                     // INT(11) => openads_int => 1
+    public $priority;                        // INT(11) => openads_int => 129
+    public $weight;                          // TINYINT(4) => openads_tinyint => 129
+    public $target_impression;               // INT(11) => openads_int => 129
+    public $target_click;                    // INT(11) => openads_int => 129
+    public $target_conversion;               // INT(11) => openads_int => 129
+    public $anonymous;                       // ENUM('t','f') => openads_enum => 130
+    public $companion;                       // SMALLINT(1) => openads_smallint => 17
+    public $comments;                        // TEXT() => openads_text => 34
+    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1
+    public $revenue_type;                    // SMALLINT(6) => openads_smallint => 1
+    public $updated;                         // DATETIME() => openads_datetime => 142
+    public $block;                           // INT(11) => openads_int => 129
+    public $capping;                         // INT(11) => openads_int => 129
+    public $session_capping;                 // INT(11) => openads_int => 129
+    public $an_campaign_id;                  // INT(11) => openads_int => 1
+    public $as_campaign_id;                  // INT(11) => openads_int => 1
+    public $status;                          // INT(11) => openads_int => 129
+    public $an_status;                       // INT(11) => openads_int => 129
+    public $as_reject_reason;                // INT(11) => openads_int => 129
+    public $hosted_views;                    // INT(11) => openads_int => 129
+    public $hosted_clicks;                   // INT(11) => openads_int => 129
+    public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129
+    public $ecpm;                            // DECIMAL(10,4) => openads_decimal => 1
+    public $min_impressions;                 // INT(11) => openads_int => 129
+    public $ecpm_enabled;                    // TINYINT(4) => openads_tinyint => 129
+    public $activate_time;                   // DATETIME() => openads_datetime => 14
+    public $expire_time;                     // DATETIME() => openads_datetime => 14
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
@@ -97,8 +96,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'views' => -1,
                 'clicks' => -1,
                 'conversions' => -1,
-                'expire' => '%NO_DATE_TIME%',
-                'activate' => '%NO_DATE_TIME%',
                 'priority' => 0,
                 'weight' => 1,
                 'target_impression' => 0,
@@ -131,9 +128,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @param DataObjects_Campaigns $oldDoCampaigns
      */
-    function setStatus($oldDoCampaigns = null)
+    function recalculateStatus($oldDoCampaigns = null)
     {
-        $this->_coalesce($oldDoCampaigns, array('expire'));
+        $this->_coalesce($oldDoCampaigns, array('expire_time'));
         if ($this->_isExpired()) {
             $this->status = OA_ENTITY_STATUS_EXPIRED;
             return;
@@ -145,7 +142,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             return;
         }
 
-        $this->_coalesce($oldDoCampaigns, array('activate'));
+        $this->_coalesce($oldDoCampaigns, array('activate_time'));
         if ($this->_isAwaiting()) {
             $this->status = OA_ENTITY_STATUS_AWAITING;
             return;
@@ -176,7 +173,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
             $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
             $weightOk     = $this->weight > 0;
-            $autotargeted = OA_Dal::isValidDate($this->expire) && ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
+            $autotargeted = !empty($this->expire_time) && $this->expire_time != 'NULL' &&
+                ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
             }
@@ -210,23 +208,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         static $oServiceLocator;
 
-        // MySQL null date hardcoded for optimisation
-        if (!empty($this->activate) && $this->activate != '0000-00-00') {
+        if (!empty($this->activate_time) && $this->activate_time != 'NULL') {
             if (!isset($oServiceLocator)) {
                 $oServiceLocator = &OA_ServiceLocator::instance();
             }
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
-            $oActivate = new Date($this->activate);
-            if (!empty($this->clientid)) {
-                // Set timezone
-                $aAccounts = $this->getOwningAccountIds();
-                $aPrefs = OA_Preferences::loadAccountPreferences($aAccounts[OA_ACCOUNT_ADVERTISER], true);
-                if (isset($aPrefs['timezone'])) {
-                    $oActivate->setTZbyID($aPrefs['timezone']);
-                }
-            }
+            $oActivate = new Date($this->activate_time);
             if ($oNow->before($oActivate)) {
                 return true;
             }
@@ -244,26 +233,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         static $oServiceLocator;
 
-        // MySQL null date hardcoded for optimisation
-        if (!empty($this->expire) && $this->expire != '0000-00-00') {
+        if (!empty($this->expire_time) && $this->expire_time != 'NULL') {
             if (!isset($oServiceLocator)) {
                 $oServiceLocator = &OA_ServiceLocator::instance();
             }
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
-            $oExpire = new Date($this->expire);
-            $oExpire->setHour(23);
-            $oExpire->setMinute(59);
-            $oExpire->setSecond(59);
-            if (!empty($this->clientid)) {
-                // Set timezone
-                $aAccounts = $this->getOwningAccountIds();
-                $aPrefs = OA_Preferences::loadAccountPreferences($aAccounts[OA_ACCOUNT_ADVERTISER], true);
-                if (isset($aPrefs['timezone'])) {
-                    $oExpire->setTZbyID($aPrefs['timezone']);
-                }
-            }
+            $oExpire = new Date($this->expire_time);
             if ($oNow->after($oExpire)) {
                 return true;
             }
@@ -318,7 +295,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         if (isset($this->campaignid)) {
             // Set the correct campaign status, loading the old data
-            $this->setStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
+            $this->recalculateStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
         }
 
         return parent::update($dataObject);
@@ -335,7 +312,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
 
         // Set the correct campaign status
-        $this->setStatus();
+        $this->recalculateStatus();
 
         // Set deafult connection windows if not supplied
         if (!isset($this->viewwindow) && !empty($aConf['logging']['defaultImpressionConnectionWindow'])) {
@@ -573,7 +550,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $requestsToDate = $impressionsToDate = $clicksToDate = $conversionsToDate = 0;
         }
         return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
-            $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate, $this->expire);
+            $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate_time, $this->expire_time);
     }
 
     /**

@@ -997,17 +997,19 @@ class Admin_DA
         $aOtherAds = Admin_DA::getAdZones(array('zone_id' => $zoneId));
         $campaignVariables = Admin_DA::getPlacement($campaignid);
         if ($newStart) {
-            $campaignVariables['activate'] = $newStart;
+            $campaignVariables['activate_time'] = $newStart;
         }
         if ($newEnd) {
-            $campaignVariables['expire'] = $newEnd;
+            $campaignVariables['expire_time'] = $newEnd;
         }
 
-        if ($campaignVariables['activate'] == '0000-00-00' || $campaignVariables['expire'] == '0000-00-00') {
+        if (empty($campaignVariables['activate_time']) && empty($campaignVariables['expire_time'])) {
             return PEAR::raiseError($GLOBALS['strEmailNoDates'], MAX_ERROR_EMAILNODATES);
         }
-        $campaignStart = new Date($campaignVariables['activate'] . ' 00:00:00');
-        $campaignEnd = new Date($campaignVariables['expire'] . ' 23:59:59');
+        $campaignStart = new Date($campaignVariables['activate_time']);
+        $campaignStart->setTZbyID('UTC');
+        $campaignEnd = new Date($campaignVariables['expire_time']);
+        $campaignEnd->setTZbyID('UTC');
 
         $okToLink = true;
         foreach ($aOtherAds as $azaID => $aAdVariables) {
@@ -1018,8 +1020,10 @@ class Admin_DA
             $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
 
             // Do not allow link if either start or end date is within another linked campaign dates
-            $otherCampaignStart = new Date($otherCampaignVariables['activate'] . ' 00:00:00');
-            $otherCampaignEnd = new Date($otherCampaignVariables['expire'] . ' 23:59:59');
+            $otherCampaignStart = new Date($campaignVariables['activate_time']);
+            $otherCampaignStart->setTZbyID('UTC');
+            $otherCampaignStart = new Date($campaignVariables['expire_time']);
+            $otherCampaignStart->setTZbyID('UTC');
 
             if (($campaignStart->after($otherCampaignStart) && $campaignStart->before($otherCampaignEnd)) || ($campaignStart->equals($otherCampaignStart))) {
                 $okToLink = false;

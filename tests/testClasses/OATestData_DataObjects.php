@@ -278,8 +278,8 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $this->doCampaigns->views = -1;
         $this->doCampaigns->clicks = -1;
         $this->doCampaigns->conversions = -1;
-        $this->doCampaigns->expire = OA_Dal::noDateValue();
-        $this->doCampaigns->activate = OA_Dal::noDateValue();
+        $this->doCampaigns->expire = 'NULL';
+        $this->doCampaigns->activate = 'NULL';
         $this->doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $this->doCampaigns->priority = 'l';
         $this->doCampaigns->weight = 1;

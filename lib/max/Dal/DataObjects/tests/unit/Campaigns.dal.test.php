@@ -99,32 +99,29 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
     function testUpdateExpire()
     {
-        $ndv = OA_Dal::noDateValue();
-        if (!isset($ndv)) {
-            $ndv = 0;
-        }
+        $ndv = 'NULL';
 
         $expire = '2020-01-01';
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->expire = $expire;
+        $doCampaigns->expire_time = $expire_time;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $campaignId;
-        $doCampaigns->expire = $ndv;
+        $doCampaigns->expire_time = $ndv;
         $doCampaigns->update();
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->expire, OA_Dal::noDateValue());
+        $this->assertNull($doCampaigns->expire_time);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->get($campaignId);
-        $doCampaigns->expire = $ndv;
+        $doCampaigns->expire_time = $ndv;
         $doCampaigns->update();
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->expire, OA_Dal::noDateValue());
+        $this->assertNull($doCampaigns->expire_time);
     }
 
     function testGetStatus()
@@ -134,8 +131,8 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
             $ndv = 0;
         }
 
-        $past   = date('Y-m-d', time() - 100000);
-        $future = date('Y-m-d', time() + 100000);
+        $past   = date('Y-m-d', time() - 200000);
+        $future = date('Y-m-d', time() + 200000);
 
         $aInsertTests = array(
             0  => array(0,  null,                       null,       null,       OA_ENTITY_STATUS_RUNNING),
@@ -191,10 +188,10 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
                 $doCampaigns->status   = $aTest[1];
             }
             if (isset($aTest[2])) {
-                $doCampaigns->activate = $aTest[2];
+                $doCampaigns->activate_time = $aTest[2];
             }
             if (isset($aTest[3])) {
-                $doCampaigns->expire   = $aTest[3];
+                $doCampaigns->expire_time   = $aTest[3];
             }
             $campaignId  = DataGenerator::generateOne($doCampaigns);
             $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
@@ -449,10 +446,10 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
                     $doCampaigns->status   = $aTest[0];
                 }
                 if (isset($aTest[1])) {
-                    $doCampaigns->activate = $aTest[1];
+                    $doCampaigns->activate_time = $aTest[1];
                 }
                 if (isset($aTest[2])) {
-                    $doCampaigns->expire   = $aTest[2];
+                    $doCampaigns->expire_time   = $aTest[2];
                 }
                 $doCampaigns->update();
                 $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
@@ -559,7 +556,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->name = 'Some test campaign';
-        $doCampaigns->expire = $expire;
+        $doCampaigns->expire_time = $expire;
         $doCampaigns->views  = -1;
         $doCampaigns->clicks = -1;
         $doCampaigns->conversions = -1;

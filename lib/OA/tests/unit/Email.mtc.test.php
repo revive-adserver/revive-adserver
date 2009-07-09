@@ -681,8 +681,11 @@ class Test_OA_Email extends UnitTestCase
 
         // The tests below assume that the number of days before a campaign expires when the
         $oCampaignDate = new Date($dateValue);
-        $oTwoDaysPriorDate = new Date();
-        $oTwoDaysPriorDate->copy($oCampaignDate);
+        $oCampaignDate->setHour(23);
+        $oCampaignDate->setMinute(59);
+        $oCampaignDate->setSecond(59);
+        $oCampaignDate->toUTC();
+        $oTwoDaysPriorDate = new Date($dateValue);
         $oTwoDaysPriorDate->subtractSeconds((2*24*60*60)-10);
 
         $oNowDate = new Date($dateValue);
@@ -769,7 +772,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements->clientid = $advertiserId1;
         $doPlacements->campaignname = 'Default Campaign';
         $doPlacements->views = 50;
-        $doPlacements->expire = $oCampaignDate->format('%Y-%m-%d');
+        $doPlacements->expire_time = $oCampaignDate->getDate(DATE_FORMAT_ISO);
         $placementId = DataGenerator::generateOne($doPlacements);
         $doPlacements = OA_Dal::staticGetDO('campaigns', $placementId);
         $aCampaign = $doPlacements->toArray();

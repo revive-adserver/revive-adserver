@@ -978,7 +978,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         }
     }
 
-    
+
     function testLinkZonesToCampaignWithAuditTrail()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = true;
@@ -1337,7 +1337,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId2);
         $doCampaigns->active = 'f';
-        $doCampaigns->expire = '1970-01-01'; // This date expires campaign
+        $doCampaigns->expire_time = '1970-01-01'; // This date expires campaign
         $doCampaigns->update();
 
         // Test zone with expired campaign

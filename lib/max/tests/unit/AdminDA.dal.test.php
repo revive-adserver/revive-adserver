@@ -385,8 +385,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
 
         $ret = Admin_DA::getPlacement($id);
@@ -402,8 +402,8 @@ class Admin_DaTest extends DalUnitTestCase
             [views] => -1
             [clicks] => -1
             [conversions] => -1
-            [expire] => 2005-11-01
-            [activate] => 0000-00-00
+            [expire_time] => 2005-11-01 00:00:00
+            [activate_time] =>
             [priority] => l
             [weight] => 1
             [target_impression] => 0
@@ -421,8 +421,8 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('views', $ret));
         $this->assertTrue(array_key_exists('clicks', $ret));
         $this->assertTrue(array_key_exists('conversions', $ret));
-        $this->assertTrue(array_key_exists('expire', $ret));
-        $this->assertTrue(array_key_exists('activate', $ret));
+        $this->assertTrue(array_key_exists('activate_time', $ret));
+        $this->assertTrue(array_key_exists('expire_time', $ret));
         $this->assertTrue(array_key_exists('priority', $ret));
         $this->assertTrue(array_key_exists('weight', $ret));
         $this->assertTrue(array_key_exists('target_impression', $ret));
@@ -439,8 +439,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
 
         $res = Admin_DA::getPlacements(array(
@@ -463,8 +463,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
         $this->assertTrue(is_int($placementId));
         $this->assertTrue($placementId > 0);
@@ -987,8 +987,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
 
         $ret = Admin_DA::getPlacements(array(
@@ -1035,8 +1035,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
 
         $ret = Admin_DA::fromCache('getPlacements', array(
@@ -1063,8 +1063,8 @@ class Admin_DaTest extends DalUnitTestCase
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
-            'activate' => '2007-03-29',
-            'expire' => '2007-04-10'
+            'activate_time' => '2007-03-29 00:00:00',
+            'expire_time' => '2007-04-10 23:59:59'
             ));
 
         $res = Admin_DA::fromCache('getPlacement', $id);

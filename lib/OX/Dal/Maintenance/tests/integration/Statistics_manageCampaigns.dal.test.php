@@ -43,7 +43,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
     var $doDIA       = null;
     var $doClients   = null;
     var $oDbh        = null;
-    var $noDateValue = null;
 
     /**
      * The constructor method.
@@ -55,7 +54,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $this->doClients   =  OA_Dal::factoryDO('clients');
         $this->doBanners   =  OA_Dal::factoryDO('banners');
         $this->doDIA       =  OA_Dal::factoryDO('data_intermediate_ad');
-        $this->noDateValue =  OA_Dal::noDateValue();
         $this->oDbh        =& OA_DB::singleton();
         // Set the maintenance operation interval to 60 minutes
         $aConf =& $GLOBALS['_MAX']['CONF'];
@@ -74,20 +72,13 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();
 
-        // Insert the timezone preference value
-        $timezonePreferenceId = $this->_createPreference('timezone', OA_ACCOUNT_MANAGER);
-
         // Create the required accounts & set the various ID values
         $aValues = $this->_createAccounts();
         $adminAccountId      = $aValues['adminAccount'];
         $managerAccountId    = $aValues['managerAccount'];
         $advertiserClientId  = $aValues['advertiserClient'];
 
-        // Setup the timezone preference for the admin that owns the manager that owns the advertiser
-        $this->_insertPreference($adminAccountId, $timezonePreferenceId, 'UTC');
-
-        // Setup the timezone preference for the manager that owns the advertiser
-        $this->_insertPreference($managerAccountId, $timezonePreferenceId, 'Australia/Sydney');
+        $oTimezone = new Date_TimeZone('Australia/Sydney');
 
         /******************************************************************************/
         /* Prepare Campaign and Banner Data for Tests 1 - 4                           */
@@ -147,11 +138,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // - Owned by Advertiser 1
         // - No Lifetime Target Impressions
         // - Campaign Expiration of 2004-06-06
+        $oDate = new Date('2004-06-06 23:59:59');
+        $oDate->setTZ($oTimezone);
+        $oDate->toUTC();
         $aData = array(
             'campaignname' => 'Test Campaign 6',
             'clientid'     => $advertiserClientId,
             'views'        => -1,
-            'expire'       => '2004-06-06'
+            'expire_time'  => $oDate->getDate(DATE_FORMAT_ISO)
         );
         $idCampaign6 = $this->_insertPlacement($aData);
 
@@ -160,11 +154,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // - No Lifetime Target Impressions
         // - Campaign Activation of 2004-06-06
         // - Currently not active
+        $oDate = new Date('2004-06-06 00:00:00');
+        $oDate->setTZ($oTimezone);
+        $oDate->toUTC();
         $aData = array(
-            'campaignname' => 'Test Campaign 7',
-            'clientid'     => $advertiserClientId,
-            'activate'     => '2004-06-06',
-            'status'       => OA_ENTITY_STATUS_AWAITING
+            'campaignname'  => 'Test Campaign 7',
+            'clientid'      => $advertiserClientId,
+            'activate_time' => $oDate->getDate(DATE_FORMAT_ISO),
+            'status'        => OA_ENTITY_STATUS_AWAITING
         );
         $idCampaign7 = $this->_insertPlacement($aData);
 
@@ -241,6 +238,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date();
         $oDate->toUTC();
         $oDate->setDate('2004-06-05 13:01:00');
+        $oServiceLocator->register('now', $oDate);
 
         // Test 1: Run the method with no summarised data, and a UTC date/time
         //         that is before the start/end dates that are set in
@@ -248,33 +246,33 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
         // Test 1: Campaign 1 is orphaned, test that default values are unchanged
-        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 2 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 3 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 4 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 5 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 6 is owned, and has a campaign end date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
-        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, null, '2004-06-06 13:59:59', OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 7 is owned, and has a campaign start date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still not be running
-        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_AWAITING);
+        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-05 14:00:00', null, OA_ENTITY_STATUS_AWAITING);
 
         /******************************************************************************/
 
@@ -283,6 +281,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date();
         $oDate->toUTC();
         $oDate->setDate('2004-06-05 14:01:00');
+        $oServiceLocator->register('now', $oDate);
 
         // Test 2: Run the method with no summarised data, and a UTC date/time
         //         that is before the end date of Campaign 6 (as campaigns end at
@@ -291,33 +290,33 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
         // Test 2: Campaign 1 is orphaned, test that default values are unchanged
-        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 2 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 3 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 4 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 5 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 6 is owned, and has a campaign end date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
-        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, null, '2004-06-06 13:59:59', OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 7 is owned, and has a campaign start date, and given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
-        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-05 14:00:00', null, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
 
@@ -326,6 +325,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date();
         $oDate->toUTC();
         $oDate->setDate('2004-06-06 13:01:00');
+        $oServiceLocator->register('now', $oDate);
 
         // Test 3: Run the method with no summarised data, and a UTC date/time
         //         that is (still) before the end date of Campaign 6 (as campaigns
@@ -334,33 +334,33 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
         // Test 3: Campaign 1 is orphaned, test that default values are unchanged
-        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 2 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 3 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 4 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 5 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 6 is owned, and has a campaign end date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
-        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, null, '2004-06-06 13:59:59', OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 7 is owned, and has a campaign start date, and given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
-        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-05 14:00:00', null, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
 
@@ -369,6 +369,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date();
         $oDate->toUTC();
         $oDate->setDate('2004-06-06 14:01:00');
+        $oServiceLocator->register('now', $oDate);
 
         // Test 4: Run the method with no summarised data, and a UTC date/time
         //         that is now after the end date of Campaign 6 (as campaigns
@@ -377,33 +378,33 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
         // Test 4: Campaign 1 is orphaned, test that default values are unchanged
-        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 2 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 3 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 4 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 5 is owned, but with no start/end date, and no data rows
         //         yet, should be unchanged from initial values
-        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 6 is owned, and has a campaign end date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should no longer still be running
-        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_EXPIRED);
+        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, null, '2004-06-06 13:59:59', OA_ENTITY_STATUS_EXPIRED);
 
         // Test 4: Campaign 7 is owned, and has a campaign start date, and given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
-        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-05 14:00:00', null, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
         /* Prepare Campaign Banner Delivery Data for Test 5                           */
@@ -497,8 +498,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         );
         $idDIA8 = $this->_insertDataIntermediateAd($aData);
 
-        // Reset now
-        $oServiceLocator->remove('now');
 
         /******************************************************************************/
 
@@ -508,36 +507,36 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
         // Test 5: Campaign 1 is orphaned, test that default values are unchanged
-        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 5: Campaign 2 is owned, with no start/end date, but now with
         //         10 impressions across three banners, so the campaign should
         //         no longer be running
-        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_EXPIRED);
+        $this->_testCampaignByCampaignId($idCampaign2, 10, -1, -1, null, null, OA_ENTITY_STATUS_EXPIRED);
 
         // Test 5: Campaign 3 is owned, with no start/end date, but now with
         //         only 5 clicks, the campaign should still be running (even
         //         though there are lots of impressions and conversions)
-        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign3, -1, 10, -1, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 5: Campaign 4 is owned, with no start/end date, but now with
         //         1000 conversions, the campaign should no longer be running
-        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_EXPIRED);
+        $this->_testCampaignByCampaignId($idCampaign4, -1, -1, 10, null, null, OA_ENTITY_STATUS_EXPIRED);
 
         // Test 5: Campaign 5 is owned, with no start/end date, but now with
         //         no impressions, only 4 clicks and only 6 conversions, the
         //         campaign should still be running
-        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, null, null, OA_ENTITY_STATUS_RUNNING);
 
         // Test 5: Campaign 6 is owned, and has a campaign end date, but given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should no longer still be running
-        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_EXPIRED);
+        $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, null, '2004-06-06 13:59:59', OA_ENTITY_STATUS_EXPIRED);
 
         // Test 5: Campaign 7 is owned, and has a campaign start date, and given the
         //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
-        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
+        $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-05 14:00:00', null, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
 
@@ -557,20 +556,11 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();
 
-        // Insert the timezone preference value
-        $timezonePreferenceId = $this->_createPreference('timezone', OA_ACCOUNT_MANAGER);
-
         // Create the required accounts & set the various ID values
         $aValues = $this->_createAccounts();
         $adminAccountId      = $aValues['adminAccount'];
         $managerAccountId    = $aValues['managerAccount'];
         $advertiserClientId  = $aValues['advertiserClient'];
-
-        // Setup the timezone preference for the admin that owns the manager that owns the advertiser
-        $this->_insertPreference($adminAccountId, $timezonePreferenceId, 'UTC');
-
-        // Setup the timezone preference for the manager that owns the advertiser
-        $this->_insertPreference($managerAccountId, $timezonePreferenceId, 'Australia/Sydney');
 
         /******************************************************************************/
         /* Prepare Campaign and Banner Data for Test                                  */
@@ -583,14 +573,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // - End date of 2005-12-09
         // - Campaign currently running, will be expired after we insert stats
         $aData = array(
-            'campaignname' => 'Test Campaign 1',
-            'clientid'     => $advertiserClientId,
-            'views'        => 10,
-            'clicks'       => -1,
-            'conversions'  => -1,
-            'activate'     => '2005-12-07',
-            'expire'       => '2005-12-09',
-            'status'       => OA_ENTITY_STATUS_RUNNING
+            'campaignname'  => 'Test Campaign 1',
+            'clientid'      => $advertiserClientId,
+            'views'         => 10,
+            'clicks'        => -1,
+            'conversions'   => -1,
+            'activate_time' => '2005-12-06 14:00:00', // Sydney time
+            'expire_time'   => '2005-12-09 13:59:59', // Sydney time
+            'status'        => OA_ENTITY_STATUS_RUNNING
         );
         $idCampaign1 = $this->_insertPlacement($aData);
 
@@ -629,6 +619,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date();
         $oDate->toUTC();
         $oDate->setDate('2005-12-07 11:01:00');
+        $oServiceLocator->register('now', $oDate);
 
         // Test 1: Run the method, and ensure that, although the date in UTC
         //         is after the start date of Campaign 1 and before the end
@@ -636,7 +627,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         //         past expiration of the campaign
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);
 
-        $this->_testCampaignByCampaignId($idCampaign1, 10, -1, -1, '2005-12-07', '2005-12-09', OA_ENTITY_STATUS_EXPIRED);
+        $this->_testCampaignByCampaignId($idCampaign1, 10, -1, -1, '2005-12-06 14:00:00', '2005-12-09 13:59:59', OA_ENTITY_STATUS_EXPIRED);
 
         /******************************************************************************/
 
@@ -675,8 +666,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDateStart->subtractSeconds(SECONDS_PER_HOUR + 1);
 
         $aData = array(
-            'status' => OA_ENTITY_STATUS_AWAITING,
-            'activate'   => $oDateStart->format('%Y-%m-%d')
+            'status'        => OA_ENTITY_STATUS_AWAITING,
+            'activate_time' => $oDateStart->format('%Y-%m-%d 00:00:00')
         );
         $campaignId = $this->_insertPlacement($aData);
 
@@ -809,10 +800,10 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // Create a currently running placement with 100 impressions
         // remaining and set to expire on 2008-01-13
         $aData = array(
-            'clientid' => $advertiserClientId,
-            'status'   => OA_ENTITY_STATUS_RUNNING,
-            'views'    => '100',
-            'expire'   => '2008-01-13'
+            'clientid'    => $advertiserClientId,
+            'status'      => OA_ENTITY_STATUS_RUNNING,
+            'views'       => '100',
+            'expire_time' => '2008-01-13 23:59:59'
         );
         $campaignId = $this->_insertPlacement($aData);
 
@@ -1051,8 +1042,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $this->doCampaigns->target_conversion = -1;
         $this->doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
         $this->doCampaigns->updated           = null;
-        $this->doCampaigns->expire            = OA_Dal::noDateValue();
-        $this->doCampaigns->activate          = OA_Dal::noDateValue();
+        $this->doCampaigns->activate_time     = null;
+        $this->doCampaigns->expire_time       = null;
         foreach ($aData AS $key => $val)
         {
             $this->doCampaigns->$key = $val;
@@ -1144,23 +1135,26 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             WHERE
                 campaignid = " . $idCampaign;
         $aRow = $this->oDbh->queryRow($query);
+
+        $aBacktrace = debug_backtrace();
+
         if (isset($impressions)) {
-            $this->assertEqual($aRow['views'], $impressions);
+            $this->assertEqual($aRow['views'], $impressions, '%s originally called at line '.$aBacktrace[0]['line']);
         }
         if (isset($clicks)) {
-            $this->assertEqual($aRow['clicks'], $clicks);
+            $this->assertEqual($aRow['clicks'], $clicks, '%s originally called at line '.$aBacktrace[0]['line']);
         }
         if (isset($conversions)) {
-            $this->assertEqual($aRow['conversions'], $conversions);
+            $this->assertEqual($aRow['conversions'], $conversions, '%s originally called at line '.$aBacktrace[0]['line']);
         }
         if (isset($startDate)) {
-            $this->assertEqual($aRow['activate'], $startDate);
+            $this->assertEqual($aRow['activate_time'], $startDate, '%s originally called at line '.$aBacktrace[0]['line']);
         }
         if (isset($endDate)) {
-            $this->assertEqual($aRow['expire'], $endDate);
+            $this->assertEqual($aRow['expire_time'], $endDate, '%s originally called at line '.$aBacktrace[0]['line']);
         }
         if (isset($status)) {
-            $this->assertEqual($aRow['status'], $status);
+            $this->assertEqual($aRow['status'], $status, '%s originally called at line '.$aBacktrace[0]['line']);
         }
 
     }

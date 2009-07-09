@@ -128,8 +128,8 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $idClient;
-        $doCampaigns->activate = '2005-06-23';
-        $doCampaigns->expire = '2005-06-25';
+        $doCampaigns->activate_time = '2005-06-23 00:00:00';
+        $doCampaigns->expire_time = '2005-06-25 23:59:59';
         $doCampaigns->priority = '1';
         $doCampaigns->active = 1;
         $doCampaigns->views = 100;

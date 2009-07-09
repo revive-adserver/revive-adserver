@@ -130,8 +130,6 @@ class DefaultData
                 'views'             => -1,
                 'clicks'            => -1,
                 'conversions'       => -1,
-                'expire'            => OA_Dal::noDateValue(),
-                'activate'          => OA_Dal::noDateValue(),
                 'status'            => OA_ENTITY_STATUS_RUNNING,
                 'priority'          => 2,
                 'target_impression' => 120,
@@ -159,13 +157,13 @@ class DefaultData
                 'views'             => 87600,
                 'clicks'            => -1,
                 'conversions'       => -1,
-                'expire'            => '2005-12-31',
-                'activate'          => '2005-01-01',
                 'status'            => OA_ENTITY_STATUS_RUNNING,
                 'priority'          => 2,
                 'target_impression' => -1,
                 'target_click'      => -1,
-                'target_conversion' => -1
+                'target_conversion' => -1,
+                'activate_time'     => '2005-01-01 00:00:00',
+                'expire_time'       => '2005-12-31 23:59:59',
             )
         );
         $adOneTwoOneID = Admin_DA::addAd(

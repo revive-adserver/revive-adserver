@@ -132,6 +132,32 @@ class OA_Admin_DaySpan
     }
 
     /**
+     * A method to return the start day of the span in UTC (ISO)
+     *
+     * @param string $format An optional PEAR::Date compatible format string.
+     * @return string The start day of the span.
+     */
+    function getStartDateStringUTC($format = '%Y-%m-%d')
+    {
+        $oDate = new Date($this->oStartDate);
+        $oDate->toUTC();
+        return $oDate->getDate(DATE_FORMAT_ISO);
+    }
+
+    /**
+     * A method to return the end day of the span in UTC (ISO
+     *
+     * @param string $format An optional PEAR::Date compatible format string.
+     * @return string The end day of the span.
+     */
+    function getEndDateStringUTC($format = '%Y-%m-%d')
+    {
+        $oDate = new Date($this->oStartDate);
+        $oDate->toUTC();
+        return $oDate->getDate(DATE_FORMAT_ISO);
+    }
+
+    /**
      * A method to obtain the begining of week, according to the user's preferences.
      *
      * @static

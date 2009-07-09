@@ -283,10 +283,28 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $now = OA::getNow('Y-m-d');
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->selectAdd("views AS impressions");
-        $doCampaigns->selectAdd("DATE_FORMAT(expire, '$date_format') as expire_f");
-        $doCampaigns->selectAdd("TO_DAYS(expire) - TO_DAYS('$now') as days_left");
         $doCampaigns->get($campaignId);
         $aCampaignData = $doCampaigns->toArray();
+
+        if (!empty($aCampaignData['expire_time'])) {
+            $oNow = new Date($now);
+            $oNow->setHour(0);
+            $oNow->setMinute(0);
+            $oNow->setSecond(0);
+
+            $oDate = new Date($aCampaignData['expire_time']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $oDate->setHour(0);
+            $oDate->setMinute(0);
+            $oDate->setSecond(0);
+
+            $oSpan = new Date_Span();
+            $oSpan->setFromDateDiff($oNow, $oDate);
+
+            $aCampaignData['expire_f']  = $oDate->format($date_format);
+            $aCampaignData['days_left'] = $oSpan->toDays() * ($oDate->before($oNow) ? -1 : 1);
+        }
 
         $oDbh = OA_DB::singleton();
         $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
@@ -371,8 +389,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $showEtimatedDate = false;
 
         // is there a expiration date?
-        if (!empty($aCampaignData['expire_f']) &&
-            !OA_Dal::isNullDate($aCampaignData['expire'])) {
+        if (!empty($aCampaignData['expire_time'])) {
         	$existExpirationDate = true;
         }
 
@@ -401,7 +418,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         if (!empty($aExpiration)) {
         	if ($existExpirationDate == true) {
         		if (round($aCampaignData['days_left']) >= 0) {
-        			$campaignExpirationDate = new Date($aCampaignData['expire']);
+        			$campaignExpirationDate = new Date($aCampaignData['expire_time']);
         			$aExpiration['date']->hour = 0;
         			$aExpiration['date']->minute = 0;
         			$aExpiration['date']->second = 0;

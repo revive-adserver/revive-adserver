@@ -148,8 +148,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->doCampaigns->target_click = -1;
         $this->doCampaigns->target_conversion = -1;
         $this->doCampaigns->updated = null;
-        $this->doCampaigns->expire = null;
-        $this->doCampaigns->activate = null;
+        $this->doCampaigns->expire_time = null;
+        $this->doCampaigns->activate_time = null;
         foreach ($aData AS $key => $val)
         {
             $this->doCampaigns->$key = $val;

@@ -140,14 +140,20 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['views']);
 	$campaigns[$row_campaigns['campaignid']]['clicks']       = phpAds_formatNumber($row_campaigns['clicks']);
 	$campaigns[$row_campaigns['campaignid']]['conversions']  = phpAds_formatNumber($row_campaigns['conversions']);
-	if (($row_campaigns['activate']) && ($row_campaigns['activate'] != '0000-00-00')) {
-	   $oActivateDate = new Date($row_campaigns['activate']);
+	if (!empty($row_campaigns['activate_time'])) {
+	   $oActivateDate = new Date($row_campaigns['activate_time']);
+	   $oTz = $oActivateDate->tz;
+	   $oActivateDate->setTZbyID('UTC');
+	   $oActivateDate->convertTZ($oTz);
 	   $campaigns[$row_campaigns['campaignid']]['activate']  = $oActivateDate->format($date_format);
     } else {
        $campaigns[$row_campaigns['campaignid']]['activate']  = '-';
     }
-	if (($row_campaigns['activate']) && ($row_campaigns['expire'] != '0000-00-00')) {
+	if (!empty($row_campaigns['expire_time'])) {
 	   $oExpireDate = new Date($row_campaigns['expire']);
+	   $oTz = $oExpireDate->tz;
+	   $oExpireDate->setTZbyID('UTC');
+	   $oExpireDate->convertTZ($oTz);
 	   $campaigns[$row_campaigns['campaignid']]['expire']    = $oExpireDate->format($date_format);
     } else {
        $campaigns[$row_campaigns['campaignid']]['expire']    = '-';

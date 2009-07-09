@@ -50,18 +50,18 @@ class OX_Maintenance_Priority_Campaign
     var $id;
 
     /**
-     * The placement's activation date, in YYYY-MM-DD format
+     * The placement's activation date/time, in ISO format
      *
      * @var string
      */
-    var $activate;
+    var $activateTime;
 
     /**
-     * The placement's expiration date, in YYYY-MM-DD format
+     * The placement's expiration date/time, in ISO format
      *
      * @var string
      */
-    var $expire;
+    var $expireTime;
 
     /**
      * The total placement lifetime booked impressions.
@@ -198,10 +198,10 @@ class OX_Maintenance_Priority_Campaign
      * @param array $aParams An associative array of values to be assigned to
      *                       the object. Valid array keys are:
      *      'campaignid' or 'placement_id'                   -> The placement ID. Required!
-     *      'activate'                                       -> The activation date of the placement in
-     *                                                          'YYYY-MM-DD' string format
-     *      'expire'                                         -> The expiration date of the placement in
-     *                                                          'YYYY-MM-DD' string format
+     *      'activate_time'                                  -> The activation date of the placement in
+     *                                                          ISO format
+     *      'expire_time'                                    -> The expiration date of the placement in
+     *                                                          ISO format
      *      'views' or 'impression_target_total'             -> The placement lifetime impression target
      *      'clicks' or 'click_target_total'                 -> The placement lifetime click target
      *      'conversions' or 'conversion_target_total'       -> The placement lifetime conversion target
@@ -237,8 +237,8 @@ class OX_Maintenance_Priority_Campaign
         $this->id                         = (int)$aParams['placement_id'];
 
         // Store the optional required values
-        $this->activate                   = (!empty($aParams['activate']) && $aParams['activate'] != OA_Dal::noDateString()) ? $aParams['activate'] : OA_Dal::noDateValue();
-        $this->expire                     = (!empty($aParams['expire']) && $aParams['expire'] != OA_Dal::noDateString()) ? $aParams['expire'] : OA_Dal::noDateValue();
+        $this->activateTime               = isset($aParams['activate_time']) ? $aParams['activate_time'] : null;
+        $this->expireTime                 = isset($aParams['expire_time']) ? $aParams['expire_time'] : null;
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
         $this->clickTargetTotal           = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;
         $this->conversionTargetTotal      = isset($aParams['conversion_target_total']) ? (int)$aParams['conversion_target_total'] : 0;
@@ -330,7 +330,7 @@ class OX_Maintenance_Priority_Campaign
         $this->deliveredClicks      = (int)$aStats['sum_clicks'];
         $this->deliveredConversions = (int)$aStats['sum_conversions'];
     }
-    
+
     /**
      * A private method to abort script execution when an attempt is made
      * to instantiate the entity with incorrect parameters.

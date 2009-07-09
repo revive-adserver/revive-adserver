@@ -748,8 +748,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 if ($doCampaign->fetch()) {
                     // Update Campaign
 //                    $doCampaign->campaignname = $campaignName;
-//                    $doCampaign->activate     = $campaignActivate;
-//                    $doCampaign->expire       = $campaignExpire;
+//                    $doCampaign->activate_time= $campaignActivate;
+//                    $doCampaign->expire_time  = $campaignExpire;
 //                    $doCampaign->status       = $campaignStatus;
 //                    $doCampaign->an_status    = $campaignAnStatus;
 //                    $doCampaign->revenue      = $campaignRevenue;
@@ -762,8 +762,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     // Make Campaign data from response
                     $campaignName        = $this->oDal->getUniqueCampaignName($aCampaign['id'] .
                                                                               "-" . $advertiserName);
-                    $campaignActivate    = date('Y-m-d',$aCampaign['start_date']/1000);
-                    $campaignExpire      = date('Y-m-d',$aCampaign['end_date']/1000);
+                    $campaignActivate    = date('Y-m-d 00:00:00',$aCampaign['start_date']/1000);
+                    $campaignExpire      = date('Y-m-d 23:59:59',$aCampaign['end_date']/1000);
                     $campaignStatus      = $this->transformationStatus($aCampaign['status']);
                     $campaignAnStatus    = $aCampaign['status'];
                     $campaignRevenue     = $aCampaign['rate'];
@@ -774,8 +774,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     $campaign = array(
                         'clientid'       => $campaignClientId,
                         'campaignname'   => $campaignName,
-                        'activate'       => $campaignActivate,
-                        'expire'         => $campaignExpire,
+                        'activate_time'  => $campaignActivate,
+                        'expire_time'    => $campaignExpire,
                         'status'         => $campaignStatus,
                         'an_status'      => $campaignAnStatus,
                         'revenue'        => $campaignRevenue,

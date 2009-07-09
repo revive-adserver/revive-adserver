@@ -95,8 +95,8 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         $doCampaigns->views             = 48000;
         $doCampaigns->clicks            = -1;
         $doCampaigns->conversions       = -1;
-        $doCampaigns->activate          = '2008-02-26';
-        $doCampaigns->expire            = '2008-02-27';
+        $doCampaigns->activate_time     = '2008-02-26 00:00:00';
+        $doCampaigns->expire_time       = '2008-02-27 23:59:59';
         $doCampaigns->priority          = 10;
         $doCampaigns->target_impression = 0;
         $doCampaigns->target_click      = 0;

@@ -143,7 +143,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             array(
                 new OX_Maintenance_Priority_Campaign(array(
                     'campaignid'        => 1,
-                    'expire'            => '2005-12-08 13:55:00',
+                    'expire_time'       => '2005-12-08 13:55:00',
                     'views'             => 10,
                     'clicks'            => 20,
                     'conversions'       => 30,
@@ -154,7 +154,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )),
                 new OX_Maintenance_Priority_Campaign(array(
                     'campaignid'        => 2,
-                    'expire'            => '2005-12-08 13:55:01',
+                    'expire_time'       => '2005-12-08 13:55:01',
                     'views'             => 11,
                     'clicks'            => 21,
                     'conversions'       => 31,
@@ -170,7 +170,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual(count($oResult), 2);
         $this->assertTrue(is_a($oResult[0], 'OX_Maintenance_Priority_Campaign'));
         $this->assertEqual($oResult[0]->id, 1);
-        $this->assertEqual($oResult[0]->expire, '2005-12-08 13:55:00');
+        $this->assertEqual($oResult[0]->expireTime, '2005-12-08 13:55:00');
         $this->assertEqual($oResult[0]->impressionTargetTotal, 10);
         $this->assertEqual($oResult[0]->clickTargetTotal, 20);
         $this->assertEqual($oResult[0]->conversionTargetTotal, 30);
@@ -180,7 +180,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($oResult[0]->priority, 3);
         $this->assertTrue(is_a($oResult[1], 'OX_Maintenance_Priority_Campaign'));
         $this->assertEqual($oResult[1]->id, 2);
-        $this->assertEqual($oResult[1]->expire, '2005-12-08 13:55:01');
+        $this->assertEqual($oResult[1]->expireTime, '2005-12-08 13:55:01');
         $this->assertEqual($oResult[1]->impressionTargetTotal, 11);
         $this->assertEqual($oResult[1]->clickTargetTotal, 21);
         $this->assertEqual($oResult[1]->conversionTargetTotal, 31);
@@ -216,8 +216,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             'getCampaigns',
             array(
                 array(
-                    array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
-                    array("$table.expire >= '" . $oDate->format('%Y-%m-%d') . "'", 'AND'),
+                    array("($table.activate_time IS NULL OR $table.activate_time <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "')", 'AND'),
+                    array("$table.expire_time >= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'", 'AND'),
                     array("$table.priority >= 1", 'AND'),
                     array("$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
                     array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
@@ -356,9 +356,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         // Create a "normal" placement to test with
         $oCampaign = new OX_Maintenance_Priority_Campaign(
             array(
-                'campaignid' => 1,
-                'activate'   => '2006-01-12',
-                'expire'     => '2006-02-12'
+                'campaignid'    => 1,
+                'activate_time' => '2006-01-12 00:00:00',
+                'expire_time'   => '2006-02-12 23:59:59'
             )
         );
         $oCampaign->impressionTargetTotal = 5000;
@@ -374,8 +374,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         // Create a "daily limit" placement to test with
         $oCampaign = new OX_Maintenance_Priority_Campaign(
             array(
-                'campaignid' => 2,
-                'expire'     => OA_Dal::noDateValue()
+                'campaignid'  => 2
             )
         );
         $oCampaign->impressionTargetDaily = 24;

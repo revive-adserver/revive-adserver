@@ -73,11 +73,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Test 1 : Date Values
 
-        $doCampaigns->expire = $doCampaigns->setDefaultValue('expire',6);
-        $this->assertEqual($doCampaigns->expire,OA_Dal::noDateValue());
+        $doCampaigns->expire_time = $doCampaigns->setDefaultValue('expire_time',6);
+        $this->assertNull($doCampaigns->expire_time);
 
-        $doCampaigns->activate = $doCampaigns->setDefaultValue('activate',6);
-        $this->assertEqual($doCampaigns->expire,OA_Dal::noDateValue());
+        $doCampaigns->activate_time = $doCampaigns->setDefaultValue('activate_time',6);
+        $this->assertNull($doCampaigns->expire_time);
 
         $doCampaigns->updated = $doCampaigns->setDefaultValue('updated',6);
         $this->assertTrue(OA_Dal::isValidDate($doCampaigns->updated));

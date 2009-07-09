@@ -142,10 +142,13 @@ class Test_Priority extends UnitTestCase
     function testpruneDataSummaryAdZoneAssocInactiveExpired()
     {
         $oToday     = new Date();
-        $oExpire    = new Date();
-        $oExpire->subtractSeconds(999999);
-        $today      = $oToday->getDate();
-        $expire     = $oExpire->getDate();
+        $oToday->setHour(23);
+        $oToday->setMinute(59);
+        $oToday->setSecond(59);
+        $oExpire    = new Date($oToday);
+        $oExpire->subtractSpan(new Date_Span('10-0-0-0'));
+        $today      = $oToday->getDate(DATE_FORMAT_ISO);
+        $expire     = $oExpire->getDate(DATE_FORMAT_ISO);
         $oDal       =& new OA_Maintenance_Pruning();
 
         $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
@@ -171,7 +174,6 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = OA_Dal::noDateString();
         $doCampaigns->update();
 
         // ad_id 2 => campaignid 2 => not active, high priority, expired
@@ -184,7 +186,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = $expire;
+        $doCampaigns->expire_time       = $expire;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -203,7 +205,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = $expire;
+        $doCampaigns->expire_time       = $expire;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -222,7 +224,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = OA_Dal::noDateString();
+        $doCampaigns->expire_time       = 'NULL';
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -241,7 +243,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = $expire;
+        $doCampaigns->expire_time       = $expire;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -265,7 +267,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = $today;
+        $doCampaigns->expire_time       = $today;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -284,7 +286,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = $expire;
+        $doCampaigns->expire_time       = $expire;
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveExpired();
@@ -362,7 +364,6 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 100000;
         $doCampaigns->clicks            = 1000;
         $doCampaigns->conversions       = 100;
-        $doCampaigns->expire            = OA_Dal::noDateString();
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveTargetReached(1);
@@ -381,7 +382,6 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 1111;
         $doCampaigns->clicks            = 111;
         $doCampaigns->conversions       = 11;
-        $doCampaigns->expire            = OA_Dal::noDateString();
         $doCampaigns->update();
 
         $result = $oDal->_pruneDataSummaryAdZoneAssocInactiveTargetReached(1);

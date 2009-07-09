@@ -28,7 +28,7 @@ $Id$
 require_once(MAX_PATH . '/lib/OX/Util/Utils.php');
 require_once MAX_PATH . '/lib/pear/Date.php';
 
-class OX_Util_UtilsTest 
+class OX_Util_UtilsTest
     extends UnitTestCase
 {
     function testGetCampaignType()
@@ -39,26 +39,26 @@ class OX_Util_UtilsTest
             0 => OX_CAMPAIGN_TYPE_REMNANT
         );
         for ($i = 1; $i <= 10; $i++) {
-            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL; 
+            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
         }
-        
+
         foreach ($aTestValues as $priority => $expectedResult) {
             $result = OX_Util_Utils::getCampaignType($priority);
-            $this->assertEqual($expectedResult, $result);            
+            $this->assertEqual($expectedResult, $result);
         }
     }
-    
-    
+
+
     function testGetCampaignTranslationKey()
     {
         $aTestValues = array(-1 => 'strExclusiveContract', 0 => 'strRemnant');
         for ($i = 1; $i <= 10; $i++) {
-            $aTestValues[$i] = 'strStandardContract'; 
+            $aTestValues[$i] = 'strStandardContract';
         }
-        
+
         foreach ($aTestValues as $priority => $expectedResult) {
             $result = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
-            $this->assertEqual($expectedResult, $result);            
+            $this->assertEqual($expectedResult, $result);
         }
     }
 
@@ -67,7 +67,7 @@ class OX_Util_UtilsTest
         $revenue = 10;
         $clicks = 10;
         $conversions = 5;
-        
+
         // Test each type with 0 impressions.
         $impressions = 0;
 
@@ -153,7 +153,7 @@ class OX_Util_UtilsTest
         $impressions = 0;
         $expected = 0;
         $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions,
-            $clicks, $conversions, date('Y-m-d', strtotime($startDate->getDate())), date('Y-m-d', strtotime($endDate->getDate())));
+            $clicks, $conversions, $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
         $this->assertEqual($expected, $result);
 
         // Half way through campaign (40,000 imps served)
@@ -168,7 +168,7 @@ class OX_Util_UtilsTest
         // eCPM = (revenue / totalDaysInCampaign) * daysInCampaignSoFar / impressions * 1000
         $expected = 125;
         $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions, $clicks, $conversions,
-            date('Y-m-d', strtotime($startDate->getDate())), date('Y-m-d', strtotime($endDate->getDate())));
+            $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
         $this->assertEqual($expected, $result);
 
         // End of campaign (70,000 imps served)
@@ -180,7 +180,7 @@ class OX_Util_UtilsTest
 
         $expected = 142.857142857;
         $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions, $clicks, $conversions,
-            date('Y-m-d', strtotime($startDate->getDate())), date('Y-m-d', strtotime($endDate->getDate())));
+            $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
 
         // Is this the correct margin?
         $this->assertWithinMargin($expected, $result, 0.0001, "Outside of margin");

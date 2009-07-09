@@ -467,14 +467,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Prepare a date 10 days in the future
         $daysLeft = 10;
         $oDate = new Date();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
         $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+        $oDate->toUTC();
 
         // Test an unlimited campaign which expires 10 days in the future
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = 0;
         $doCampaigns->clicks      = 0;
         $doCampaigns->conversions = 0;
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
@@ -507,14 +511,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Prepare a campaign with expiration date reached
         $daysExpired = 5;
         $oDate = new Date();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
         $oDate->subtractSeconds($daysExpired * SECONDS_PER_DAY);
+        $oDate->toUTC();
 
         // Test an unlimited campaign which expired 5 days ago
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = 0;
         $doCampaigns->clicks      = 0;
         $doCampaigns->conversions = 0;
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
@@ -547,7 +555,11 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Prepare a date 25 days in the future
         $daysLeft = 25;
         $oDate = new Date();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
         $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+        $oDate->toUTC();
 
         $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
                               $oDate->format('%d.%m.%Y') . " (" .
@@ -558,7 +570,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $totalClicks      = 500;
         $totalConversions = 10;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $doCampaigns->views       = $totalImpressions;
         $doCampaigns->clicks      = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
@@ -622,7 +634,11 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Prepare a date 19 days in the future
         $daysLeft = 19;
         $oDate = new Date();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
         $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+        $oDate->toUTC();
 
         $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
                               $oDate->format('%d.%m.%Y') . " (" .
@@ -632,7 +648,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $totalClicks      = 500;
         $totalConversions = 10;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $doCampaigns->views       = $totalImpressions;
         $doCampaigns->clicks      = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
@@ -696,7 +712,11 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Prepare a date 10 days in the future
         $daysLeft = 10;
         $oDate = new Date();
+        $oDate->setHour(23);
+        $oDate->setMinute(59);
+        $oDate->setSecond(59);
         $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+        $oDate->toUTC();
 
         // Test a triple limited campaign with an expiration date 10 days
         // in the future
@@ -707,7 +727,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->views       = $totalImpressions;
         $doCampaigns->clicks      = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
@@ -917,8 +937,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Generate a campaign, with start and end dates
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $advertiserId;
-        $doCampaigns->activate = '2009-02-23';
-        $doCampaigns->expire   = '2009-02-24';
+        $doCampaigns->activate_time = '2009-02-23 00:00:00';
+        $doCampaigns->expire_time   = '2009-02-24 23:59:59';
         $campaignId = $oDataGenerator->generateOne($doCampaigns);
 
         // Generate a banner in the campaign generated above
