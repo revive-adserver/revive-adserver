@@ -44,8 +44,8 @@ class Migration_609 extends Migration
 		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__activate';
 
 
-		$this->aObjectMap['campaigns']['activate_time'] = array('fromTable'=>'campaigns', 'fromField'=>'activate');
-		$this->aObjectMap['campaigns']['expire_time'] = array('fromTable'=>'campaigns', 'fromField'=>'expire');
+		$this->aObjectMap['campaigns']['activate_time'] = array('fromTable'=>'campaigns', 'fromField'=>'activate_time');
+		$this->aObjectMap['campaigns']['expire_time'] = array('fromTable'=>'campaigns', 'fromField'=>'expire_time');
     }
 
 
