@@ -44,8 +44,9 @@ define('OA_ENV_ERROR_PHP_PCRE',                      -9);
 define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
-define('OA_ENV_WARNING_MEMORY',                     -13);
-define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -14);
+define('OA_ENV_ERROR_PHP_SPL',                      -13);
+define('OA_ENV_WARNING_MEMORY',                     -14);
+define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -15);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -113,6 +114,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['xml']                  = true;
         $this->aInfo['PHP']['expected']['zlib']                 = true;
         $this->aInfo['PHP']['expected']['mysql']                = true;
+        $this->aInfo['PHP']['expected']['spl']                  = true;
         $this->aInfo['PHP']['expected']['timeout']              = false;
         $this->aInfo['COOKIES']['expected']['enabled']          = true;
 
@@ -174,6 +176,7 @@ class OA_Environment_Manager
         // only a problem if they don't have mysql extension (until we handle mysqli)
         $aResult['mysql']                = extension_loaded('mysql');
         $aResult['pgsql']                = extension_loaded('pgsql');
+        $aResult['spl']                  = extension_loaded('spl');
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -336,6 +339,9 @@ class OA_Environment_Manager
      *  - The PHP configuration's database (both mysql and pgsql) extensions
      *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL]
      *
+     *  - The PHP configuration's spl extension
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SPL]
+     *
      *  - The PHP configuration's timeout settings
      *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]
      *
@@ -453,6 +459,9 @@ class OA_Environment_Manager
         }
         if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['pgsql'])) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL] = 'Either the mysql or the pgsql extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['spl']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SPL] = 'The spl extension must be loaded';
         }
         if ($this->aInfo['PHP']['actual']['timeout']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT] = 'The PHP function set_time_limit() has been disabled and ';
