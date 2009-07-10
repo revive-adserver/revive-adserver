@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2009-07-10</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>OpenX Upgrade 2.8.2-rc9</description>
+    <!-- versionFrom if it is a milestone upgrade package -->
+    <versionFrom></versionFrom>
+    <versionTo>2.8.2-rc9</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>609</version>
+            <stamp>609</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_609.xml</file>
+            <file>changes_tables_core_609.xml</file>
+            <file>migration_tables_core_609.php</file>
+        </package>
+    </database>
+
+</upgrade>
