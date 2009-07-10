@@ -67,12 +67,12 @@ class Migration_609 extends Migration
 
 	function afterAddField__campaigns__expire_time()
 	{
-		return $this->afterAddField('campaigns', 'expire_time');
+		return $this->afterAddField('campaigns', 'expire_time') && $this->migrateActivateExpire();
 	}
 
 	function beforeRemoveField__campaigns__expire()
 	{
-		return $this->beforeRemoveField('campaigns', 'expire') && $this->migrateActivateExpire();
+		return $this->beforeRemoveField('campaigns', 'expire');
 	}
 
 	function afterRemoveField__campaigns__expire()
@@ -110,8 +110,7 @@ class Migration_609 extends Migration
         // Get admin account ID
         $adminAccountId = (int)$oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
         if (PEAR::isError($adminAccountId)) {
-            $this->logError("No admin account ID");
-            return false;
+            return $this->_logErrorAndReturnFalse("No admin account ID");
         }
 
         // Get preference ID for timezone
@@ -119,21 +118,23 @@ class Migration_609 extends Migration
         if (empty($tzId) || PEAR::isError($tzId)) {
             // Upgrading from 2.4 maybe?
             $tzId = 0;
-            $this->logOnly("No timezone preference available, using default server timezone");
+            $this->_log("No timezone preference available, using default server timezone");
             $adminTz = date_default_timezone_get();
             if (empty($adminTz)) {
                 // C'mon you should have set the timezone in your php.ini!
-                $this->logOnly("No default server timezone, using UTC");
+                $this->_log("No default server timezone, using UTC");
                 $adminTz = 'UTC';
             }
         } else {
             // Get admin timezone
             $adminTz = $oDbh->queryOne("SELECT value FROM {$tblAccPrefs} WHERE preference_id = {$tzId} AND account_id = {$adminAccountId}");
             if (empty($adminTz) || PEAR::isError($adminTz)) {
-                $this->logOnly("No admin timezone, using UTC");
+                $this->_log("No admin timezone, using UTC");
                 $adminTz = 'UTC';
             }
         }
+
+        $this->_log("Starting Migration");
 
         $useTransaction = $oDbh->supports('transactions');
 
@@ -144,18 +145,28 @@ class Migration_609 extends Migration
 
         $query = "SELECT a.agencyid, COALESCE(p.value, ".$oDbh->quote($adminTz).") AS tz FROM {$tblAgency} a LEFT JOIN {$tblAccPrefs} p ON (a.account_id = p.account_id AND p.preference_id = {$tzId})";
         foreach ($oDbh->getAssoc($query) as $agencyId => $tz) {
+            $this->_log("Converting agency ID {$agencyId}");
             $query = "SELECT campaignid, activate, expire FROM {$tblCampaigns} JOIN {$tblClients} USING (clientid) WHERE agencyid = {$agencyId}";
             foreach ($oDbh->getAssoc($query) as $campaignId => $aCampaign) {
-                $oStmt->execute(array(
+                $this->_log("Converting campaign ID {$campaignId} (a: {$aCampaign['activate']}, e: {$aCampaign['expire']})");
+                $result = $oStmt->execute(array(
                     $this->_convertDate($aCampaign['activate'], $tz, 0),
                     $this->_convertDate($aCampaign['expire'],   $tz, 1),
                     $campaignId
                 ));
+                if (PEAR::isError($result)) {
+                    if ($useTransaction) {
+                        $oDbh->rollback();
+                    }
+                    return $this->_logErrorAndReturnFalse("Error: ".$result->getDebugInfo());
+                }
             }
         }
         if ($useTransaction) {
             $oDbh->commit();
         }
+
+        $this->_log("Migration completed");
 
 	    return true;
 	}
