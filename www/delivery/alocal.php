@@ -1216,7 +1216,10 @@ return OA_DELIVERY_CACHE_FUNCTION_ERROR;
 return null;
 }
 }
+// Get creatives with conversions enabled
+$aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
+$aAd['tracker_status'] = (!empty($aConversionLinkedCreatives[$aAd['ad_id']]['status'])) ? $aConversionLinkedCreatives[$aAd['ad_id']]['status'] : null;
 // Is the creative from a contract (exclusive), contract or remnant campaign?
 if ($aAd['campaign_priority'] == -1) {
 // Creative is in a contract (exclusive) campaign
