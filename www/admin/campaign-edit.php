@@ -379,16 +379,18 @@ function buildCampaignForm($campaign, &$oComponent = null)
 	));
 
 	if (!empty($campaign['activate_date'])) {
+	    $oDate = new Date($campaign['activate_date']);
 	    $startDateSet = 't';
-	    $startDateStr = $campaign['activate_date'];
+	    $startDateStr = $oDate->format('%d %B %Y ');
 	} else {
 	    $startDateSet = 'f';
 	    $startDateStr = '';
 	}
 
 	if (!empty($campaign['expire_date'])) {
+	    $oDate = new Date($campaign['expire_date']);
 	    $endDateSet = 't';
-	    $endDateStr = $campaign['expire_date'];
+	    $endDateStr = $oDate->format('%d %B %Y ');
 	} else {
 	    $endDateSet = 'f';
 	    $endDateStr = '';
