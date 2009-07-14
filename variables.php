@@ -74,7 +74,7 @@ function setupConfigVariables()
 
 	list($micro_seconds, $seconds) = explode(" ", microtime());
 	$GLOBALS['_MAX']['NOW_ms'] = round(1000 *((float)$micro_seconds + (float)$seconds));
-	
+
     // Always use UTC when outside the installer
     if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
         OA_setTimeZoneUTC();
@@ -107,7 +107,7 @@ function setupDeliveryConfigVariables()
         define('MAX_PATH', dirname(__FILE__));
     }
     if (!defined('OX_PATH')) {
-        define('OX_PATH', dirname(__FILE__));
+        define('OX_PATH', MAX_PATH);
     }
     if (!defined('LIB_PATH')) {
         define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
