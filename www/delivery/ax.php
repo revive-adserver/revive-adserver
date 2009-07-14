@@ -219,13 +219,17 @@ $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 function setupDeliveryConfigVariables()
 {
 if (!defined('MAX_PATH')) {
+if (isset($regularInclude)) {
 define('MAX_PATH', dirname(__FILE__).'/../..');
+} else {
+define('MAX_PATH', dirname(__FILE__).'/../..'.'/../..');
+}
 }
 if (!defined('OX_PATH')) {
-define('OX_PATH', dirname(__FILE__).'/../..');
+define('OX_PATH', MAX_PATH);
 }
 if (!defined('LIB_PATH')) {
-define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
+define('LIB_PATH', MAX_PATH. '/lib/OX');
 }
 // Ensure that the initialisation has not been run before
 if ( !(isset($GLOBALS['_MAX']['CONF']))) {
@@ -281,8 +285,8 @@ if (isset($checkIfAlreadySet)) {
 return;
 }
 $checkIfAlreadySet = true;
-$oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pear';
-$oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
+$oxPearPath = MAX_PATH . '/lib/pear';
+$oxZendPath = MAX_PATH . '/lib';
 set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
 // Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
