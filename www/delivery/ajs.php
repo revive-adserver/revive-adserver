@@ -222,7 +222,7 @@ if (!defined('MAX_PATH')) {
 define('MAX_PATH', dirname(__FILE__).'/../..');
 }
 if (!defined('OX_PATH')) {
-define('OX_PATH', dirname(__FILE__).'/../..');
+define('OX_PATH', MAX_PATH);
 }
 if (!defined('LIB_PATH')) {
 define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
