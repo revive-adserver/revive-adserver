@@ -495,7 +495,8 @@ cc.zone.unlinked:before,a.zone:before {
 .section h2 {
   font-size: 14px;
   font-weight: bold;
-  margin: 2em 0 0;
+  color: #333;
+  margin: 24px 0 12px 0px;
 }
 
 .section h3 {

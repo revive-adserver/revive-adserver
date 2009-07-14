@@ -32,18 +32,23 @@ $Id$
 
 <form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
 <input type="hidden" name="campaignType" value="{$campaignType|escape}" /> 
-<p style="width: 50em">
-<strong>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</strong> 
-<br />You can further update OpenX Market settings for a specific campaign on the Edit Campaign page.
-<a href="http://www.openx.org/market" target="_blank">Learn more</a>
-</p>
+<div class="section" style="width: 785px;">
+    <h2>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</h3>
+    <p>
+    OpenX Market is a free ad exchange that places higher paying ads on your site. Choose which 
+    campaigns to opt in and assign minimum CPMs to your inventory. OpenX Market will serve ads if it 
+    beats the campaign's floor price, otherwise your original ad is served.
+    </p>
+    <p>You do not need to retag your zones to participate. To learn more about OpenX Market ads 
+    and getting paid, visit the <a href="http://www.openx.org/faq/market" target="_blank">FAQ</a>.</p>    
+</div>
 
 <ul id="mainOptions">
   <li class="mainOption" style="width: 55em">
     <label class="radio">
         <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
                name="optInType" value="remnant" class="radio" />
-      Opt in all of your existing remnant campaigns to OpenX Market. <br /><small>(<b>Note</b>: all 
+      <b>Opt in all of your existing remnant campaigns to OpenX Market.</b> <br /><small>(<b>Note</b>: all 
       remnant campaigns previously opted into OpenX Market will be updated with the 
       following minimum CPM as well)</small></label>
       
@@ -52,13 +57,27 @@ $Id$
       &nbsp;&nbsp;$ <input id="minCpm" type="text" name="minCpm" maxlength="{$maxValueLength}"
                class="cpm{if $minCpmInvalid} error{/if}" 
                value="{$minCpm|escape}"{if $optInType == 'selected'} disabled="disabled"{/if} /> USD</label>
+
+        <span class="link" help="help-market-cpm-all"><span class="icon icon-info">&nbsp;</span></span>
+        <div class="hide" id="help-market-cpm-all" style="height: auto; width: 270px;">
+            <p>
+                The minimum CPM you provide here will be the floor price OpenX Market uses 
+                for all your existing remnant campaigns. If the highest bid from OpenX Market 
+                exceeds your floor price, OpenX Market will serve the ad and pay you 
+                the higher revenue. Otherwise, your campaign's existing ad will be delivered.    
+            </p>
+            <p>
+                We recommend that you specify a CPM that represents the effective CPM that 
+                you expect to get from your remnant campaigns.    
+            </p>
+        </div>
     </div>
   </li>
   
   <li class="mainOption">
     <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
                   name="optInType" value="selected" class="radio" /> 
-        Opt in the selected campaigns to OpenX Market</label>
+        <b>Opt in the selected campaigns to OpenX Market</b></label>
     <div id="optInSelected" class="mainOptionContent">
       {include file=market-campaigns-settings-list.html from=$campaigns}
     </div>

@@ -105,6 +105,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price', 'maxlength' => 3 + strlen($maxFloorPriceValue)));
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
+        $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
 

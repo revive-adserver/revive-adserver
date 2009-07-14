@@ -25,6 +25,7 @@
             <file path="{ADMINPATH}/templates/">market-campaigns-settings-list.html</file>
             <file path="{ADMINPATH}/templates/">market-callout.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
+            <file path="{ADMINPATH}/templates/">market-cpm-callout.html</file>
             <file path="{ADMINPATH}/templates/">market-inactive.html</file>
             <file path="{ADMINPATH}/templates/">market-info.html</file>
             <file path="{ADMINPATH}/templates/">market-include.html</file>
@@ -59,7 +60,6 @@
             <file path="{ADMINPATH}/">market-include.php</file>
             <file path="{ADMINPATH}/">market-index.php</file>
             <file path="{ADMINPATH}/">market-info.php</file>
-            <file path="{ADMINPATH}/">market-preferences-website.php</file>
             <!-- Spacer for the 4096 byte boundary -->
                                          
                                          
@@ -67,6 +67,7 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <file path="{ADMINPATH}/">market-preferences-website.php</file>
 			<file path="{ADMINPATH}/">market-signup.php</file>
 			<file path="{ADMINPATH}/">market-sso-user-exists.php</file>	
             <file path="{ADMINPATH}/">market-stats.php</file>
@@ -109,7 +110,6 @@
             <setting key="fallbackPcApiHost" type="text" label="Market PC API fallback host URL" required="1" size="32" visible="0">@fallbackPcApiHost@</setting>
             <setting key="marketXmlRpcUrl" type="text" label="Market XmlRpc URL" required="1" size="32" visible="0">@marketXmlRpcUrl@</setting>
             <setting key="marketPublicApiUrl" type="text" label="Market Public XmlRpc URL" required="1" size="32" visible="0">@marketPublicApiUrl@</setting>
-            <setting key="marketCustomContentUrl" type="text" label="Market custom content URL" required="1" size="32" visible="0">@marketCustomContentUrl@</setting>
             <!-- Spacer for the 4096 byte boundary -->
                                          
                                          
@@ -119,6 +119,7 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <setting key="marketCustomContentUrl" type="text" label="Market custom content URL" required="1" size="32" visible="0">@marketCustomContentUrl@</setting>
 			<setting key="marketMenuUrl" type="text" label="Market menu URL" required="1" size="32" visible="0">@marketMenuUrl@</setting>
             <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
