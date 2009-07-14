@@ -29,41 +29,50 @@ global $installing;
 $installing = true;
 
 require_once '../../init.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
+
+// No upgrade file? No installer!
+if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
+    header("Location: index.php");
+    exit;
+}
 
 define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
 
-// Load session data (required for login check)
-require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-phpAds_SessionDataFetch();
-
-// Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
-$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
-$GLOBALS['_MAX']['CONF']['pluginPaths']['packages']   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . 'etc/';
-
-$aErrors = array();
-$result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
-if (validRequest($result))
+if (OA_Upgrade_Login::checkLogin(false))
 {
-    if ($_REQUEST['status']==='0')
-    {
-        $result = installPlugin($_REQUEST['plugin']);
-    }
-    else if ($_REQUEST['status']==='1')
-    {
-        $result = checkPlugin($_REQUEST['plugin']);
-    }
-}
+    // Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
+    $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
+    $GLOBALS['_MAX']['CONF']['pluginPaths']['packages']   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . 'etc/';
 
-// Undo hack
-unset($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']);
-$oSettings = new OA_Admin_Settings();
-$oSettings->writeConfigChange();
+    $aErrors = array();
+    $result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
+    if (validRequest($result))
+    {
+        if ($_REQUEST['status']==='0')
+        {
+            $result = installPlugin($_REQUEST['plugin']);
+        }
+        else if ($_REQUEST['status']==='1')
+        {
+            $result = checkPlugin($_REQUEST['plugin']);
+        }
+    }
+
+    // Undo hack
+    unset($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions']);
+    $oSettings = new OA_Admin_Settings();
+    $oSettings->writeConfigChange();
+} else {
+    $result['errors'][] = 'Permissions error';
+}
 
 require_once MAX_PATH.'/lib/JSON/JSON.php';
 $json = new Services_JSON();
 $output = $json->encode($result);
-header ("Content-Type: application/x-javascript");
+header ("Content-Type: text/javascript");
 echo $output;
 
 function getPlugin($pluginName)
@@ -288,20 +297,7 @@ function validRequest(&$result)
         $result['errors'][] = 'Cookie not found';
         return false;
     }
-    if (!checkLogin())
-    {
-        $result['errors'][] = 'Session user not found';
-        return false;
-    }
     return true;
-}
-
-function checkLogin()
-{
-    require_once MAX_PATH. '/lib/OA/Permission.php';
-    require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
-    OA_Upgrade_Login::autoLogin();
-    return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
 }
 
 ?>

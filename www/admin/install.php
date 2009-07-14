@@ -51,6 +51,12 @@ require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
+// No upgrade file? No installer!
+if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
+    header("Location: index.php");
+    exit;
+}
+
 // Setup oUpgrader
 $oUpgrader = new OA_Upgrade();
 
