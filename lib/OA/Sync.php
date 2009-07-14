@@ -265,7 +265,7 @@ class OA_Sync
 
         // Add the registered email address
         $params[] = new XML_RPC_Value(OA_Dal_ApplicationVariables::get('sync_registered_email'), 'string');
-        
+
         // Create the XML-RPC request message
         $msg = new XML_RPC_Message("OpenX.Sync", $params);
 
@@ -277,6 +277,8 @@ class OA_Sync
                 $aReturn = array(0, XML_RPC_Decode($response->value()));
                 // Prepare cache
                 $cache = $aReturn[1];
+                // Also write to the debug log
+                OA::debug("OpenX Sync: updates found!", PEAR_LOG_INFO);
                 // Update last run
                 OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
             } else {
@@ -287,6 +289,13 @@ class OA_Sync
                 // Update last run
                 if ($response->faultCode() == 800) {
                     OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
+                    // Also write to the debug log
+                    OA::debug("OpenX Sync: {$aReturn[1]}", PEAR_LOG_INFO);
+                } else {
+                    // Write to the debug log
+                    OA::debug("OpenX Sync: {$aReturn[1]} (code: {$aReturn[0]}", PEAR_LOG_ERR);
+                    // Return immediately without writing to cache
+                    return $aReturn;
                 }
             }
             OA_Dal_ApplicationVariables::set('sync_cache', serialize($cache));
@@ -295,6 +304,10 @@ class OA_Sync
         }
 
         $aReturn = array(-1, 'No response from the remote XML-RPC server.');
+
+        // Also write to the debug log
+        OA::debug("OpenX Sync: {$aReturn[1]}", PEAR_LOG_ERR);
+
         return $aReturn;
     }
 

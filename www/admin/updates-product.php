@@ -77,7 +77,7 @@ if (!isset($session['maint_update'])) {
         // Send the output to the browser
         if (false !== ob_get_contents()) {
           ob_flush();
-        } 
+        }
         flush();
 
         // Get updates info and store them into a session var
@@ -103,7 +103,8 @@ if (!isset($session['maint_update'])) {
     phpAds_SessionDataStore();
 
     if ($maint_update[0] > 0 && $maint_update[0] != 800) {
-        phpAds_Die ($strErrorOccurred, $strUpdateServerDown);
+        $errorMessage = $strErrorOccurred.": {$maint_update[1]} (code: {$maint_update[0]})";
+        phpAds_Die (htmlentities($errorMessage), $strUpdateServerDown);
     }
     echo "<br /><br />";
     if ($maint_update[0] == 800) {
