@@ -74,7 +74,7 @@ function setupConfigVariables()
 
 	list($micro_seconds, $seconds) = explode(" ", microtime());
 	$GLOBALS['_MAX']['NOW_ms'] = round(1000 *((float)$micro_seconds + (float)$seconds));
-
+	
     // Always use UTC when outside the installer
     if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
         OA_setTimeZoneUTC();
@@ -103,22 +103,14 @@ function setupServerVariables()
  */
 function setupDeliveryConfigVariables()
 {
-###START_STRIP_DELIVERY
-    // UI and deliver_dev use this
-    $regularInclude = true;
-###END_STRIP_DELIVERY
     if (!defined('MAX_PATH')) {
-        if (isset($regularInclude)) {
-            define('MAX_PATH', dirname(__FILE__));
-        } else {
-            define('MAX_PATH', dirname(__FILE__).'/../..');
-        }
+        define('MAX_PATH', dirname(__FILE__));
     }
     if (!defined('OX_PATH')) {
-        define('OX_PATH', MAX_PATH);
+        define('OX_PATH', dirname(__FILE__));
     }
     if (!defined('LIB_PATH')) {
-        define('LIB_PATH', MAX_PATH. '/lib/OX');
+        define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
     }
     // Ensure that the initialisation has not been run before
     if ( !(isset($GLOBALS['_MAX']['CONF']))) {
@@ -212,8 +204,8 @@ function setupIncludePath()
     }
     $checkIfAlreadySet = true;
 
-    $oxPearPath = MAX_PATH . '/lib/pear';
-    $oxZendPath = MAX_PATH . '/lib';
+    $oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pear';
+    $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 
     set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
