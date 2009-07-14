@@ -51,29 +51,6 @@ require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
-if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
-{
-    require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-    require_once MAX_PATH . '/lib/OA/Sync.php';
-    // The opt box is ticked...
-    if (!empty($_POST['signup_opt'])) {
-        if (!empty($_POST['signup_email'])) {
-            phpAds_registerGlobalUnslashed('signup_email');
-            OA_Dal_ApplicationVariables::set('sync_registered_email', $signup_email);
-            $oSync = new OA_Sync();
-            // Ignore errors, if any
-            OA::disableErrorHandling();
-            $oSync->checkForUpdates();
-            OA::enableErrorHandling();
-        }
-    } else {
-        // The opt button is unticked, clear any existing sync_registered_email
-        OA_Dal_ApplicationVariables::delete('sync_registered_email', false);
-    }
-    require_once LIB_PATH . '/Admin/Redirect.php';
-    OX_Admin_Redirect::redirect('advertiser-index.php');
-}
-
 // Setup oUpgrader
 $oUpgrader = new OA_Upgrade();
 
@@ -561,6 +538,30 @@ else if (array_key_exists('dirPage', $_POST) && !empty($_POST['dirPage']))
             $halt = !$oUpgrader->checkUpgradePackage();
         }
     }
+}
+else if (array_key_exists('btn_openads', $_POST))
+{
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED && OA_Upgrade_Login::checkLogin()) {
+        require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+        require_once MAX_PATH . '/lib/OA/Sync.php';
+        // The opt box is ticked...
+        if (!empty($_POST['signup_opt'])) {
+            if (!empty($_POST['signup_email'])) {
+                phpAds_registerGlobalUnslashed('signup_email');
+                OA_Dal_ApplicationVariables::set('sync_registered_email', $signup_email);
+                $oSync = new OA_Sync();
+                // Ignore errors, if any
+                OA::disableErrorHandling();
+                $oSync->checkForUpdates();
+                OA::enableErrorHandling();
+            }
+        } else {
+            // The opt button is unticked, clear any existing sync_registered_email
+            OA_Dal_ApplicationVariables::delete('sync_registered_email', false);
+        }
+    }
+    require_once LIB_PATH . '/Admin/Redirect.php';
+    OX_Admin_Redirect::redirect('advertiser-index.php');
 }
 else
 {
