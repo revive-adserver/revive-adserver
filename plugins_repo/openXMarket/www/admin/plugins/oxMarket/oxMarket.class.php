@@ -26,6 +26,8 @@ $Id$
 */
 
 require_once LIB_PATH.'/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/PluginManager.php';
+
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 require_once MAX_PATH. '/lib/JSON/JSON.php';
@@ -931,7 +933,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oClient->setParameterGet(array(
                 'pageName'  => urlencode($pageName),
                 'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, '')),
-                'pcWebUrl' => urlencode($this->getConfigValue('marketHost'))
+                'pcWebUrl' => urlencode($this->getConfigValue('marketHost')),
+                'v' => $this->getPluginVersion(),
+                'h' => "0"
             ));
 
             $response = $oClient->request();
@@ -974,6 +978,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $aKeys;
     }
 
+    
+    public function getPluginVersion()
+    {
+        $oPluginManager = new OX_PluginManager();
+        $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);    
+        return strtolower($aInfo['version']);        
+    }    
+    
 
     /**
      * Builds an url to pubconsole either SSL or HTTP fallback, apends suffix if given
