@@ -540,14 +540,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isRegistered()
     {
-        return true;
         return $this->oMarketPublisherClient->hasAssociationWithPc();
     }
 
 
     function isActive()
     {
-        return true;
         // Account is active if is registered, has valid status and API key is set
         $result = $this->isRegistered() &&
                ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==
