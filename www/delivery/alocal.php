@@ -3664,6 +3664,18 @@ $output = array(
 'aRow'          => $row,
 'context'       => _adSelectBuildContext($row, $context)
 );
+// Init block/capping fields to avoid notices below
+$row += array(
+'block_ad'             => 0,
+'cap_ad'               => 0,
+'session_cap_ad'       => 0,
+'block_campaign'       => 0,
+'cap_campaign'         => 0,
+'session_cap_campaign' => 0,
+'block_zone'           => 0,
+'cap_zone'             => 0,
+'session_cap_zone'     => 0,
+);
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
 if (MAX_Delivery_cookie_cappingOnRequest()) {
 if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
