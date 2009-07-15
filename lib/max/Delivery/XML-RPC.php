@@ -264,6 +264,7 @@ function OA_Delivery_XmlRpc_View($params)
                 $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
             }
             MAX_remotehostSetInfo(true);
+            OX_Delivery_Common_hook('postInit');
             MAX_cookieUnpackCapping();
         }
     }
@@ -412,6 +413,8 @@ function OA_Delivery_XmlRpc_SPC($params)
                 $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
             }
 
+            MAX_remotehostSetInfo(true);
+            OX_Delivery_Common_hook('postInit');
             MAX_cookieUnpackCapping();
         }
     }
