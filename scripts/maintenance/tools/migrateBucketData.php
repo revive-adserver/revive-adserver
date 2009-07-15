@@ -13,8 +13,8 @@ $scriptName = $argv[0];
  * The define statements below will need to be un-commented for the script
  * to be able to be run!
  */
-define('INTERVAL_START', '2009-07-15 00:00:00');
-define('INTERVAL_END',   '2009-07-15 00:59:59');
+//define('INTERVAL_START', '2009-07-15 00:00:00');
+//define('INTERVAL_END',   '2009-07-15 00:59:59');
 
 // Initialise the OpenX environment....
 $path = dirname(__FILE__);
