@@ -25,6 +25,19 @@ $Id$
 
 -->*}
 
+<div class="hide" id="market-cpm-callout" style="height: auto; width: 270px;">
+    <p>The minimum CPM you provide for a specific campaign will 
+    be the floor price OpenX Market uses for that campaign. 
+    If the highest bid from OpenX Market exceeds the campaign's floor price, 
+    OpenX Market will serve the ad and pay you the higher revenue. 
+    Otherwise, your campaign's existing ad will be delivered.
+    </p>
+    <p>
+        We recommend that you specify a CPM that represents 
+        the effective CPM that you expect to get from your campaign.
+    </p>
+</div>
+
 <div class='tableWrapper'>
     <div class='tableHeader'>
         <ul class='tableFilters'>
@@ -82,19 +95,21 @@ $Id$
                 </th>
                 <th class='last'>
                     Minimum CPM that OpenX Market must beat
-                    {*<span class="link" help="help-market-cpm"><span class="icon icon-info">&nbsp;</span></span>
-                    <div class="hide" id="help-market-cpm" style="height: auto; width: 270px;">
-                        <p>The minimum CPM you provide for a specific campaign will 
-                        be the floor price OpenX Market uses for that campaign. 
-                        If the highest bid from OpenX Market exceeds the campaign's floor price, 
-                        OpenX Market will serve the ad and pay you the higher revenue. 
-                        Otherwise, your campaign's existing ad will be delivered.
-                        </p>
-                        <p>
-                            We recommend that you specify a CPM that represents 
-                            the effective CPM that you expect to get from your campaign.
-                        </p>
-                    </div>*}                    
+                    <span class="link" help="market-cpm-callout"><span class="icon icon-info">&nbsp;</span></span>
+                    {literal}
+                    <script type="text/javascript">
+                    <!--
+                     $(document).ready(function(){
+                        //init help, apply offset for thirdLevelContent to get abs positioning right
+                        $("#market-cpm-callout").help({
+                            'parentXOffset' : 400,
+                            'parentYOffset' : 400
+                            }
+                        );
+                     });
+                    //-->
+                    </script>                    
+                    {/literal}
                 </th>
             </tr>
         </thead>

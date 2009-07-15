@@ -76,7 +76,7 @@ foreach ($_REQUEST as $param => $value) {
 }
 
 // Perform opt-in if needed
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isDataValid($oTpl, $maxCpm))
+if ('POST' == $_SERVER['REQUEST_METHOD'] && isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $maxCpm))
 {
     performOptIn($minCpms, $oCampaignsOptInDal);
     exit(0);
@@ -100,27 +100,7 @@ $remnantCampaignsOptedIn = $oCampaignsOptInDal->numberOfOptedCampaigns('remnant'
 $toOptIn = empty($toOptIn) ? array() : $toOptIn;
 
 
-$aContentKeys = $oMarketComponent->retrieveCustomContent('market-quickstart');
-if (!$aContentKeys) {
-    $aContentKeys = array();
-}
-$topMessage = isset($aContentKeys['top-message'])
-    ? $aContentKeys['top-message']
-    : '';
-    
-if (isset($optedCount) && $optedCount > 0) { //use opted count tracker
-    $trackerFrame = isset($aContentKeys['tracker-optin-iframe'])
-        ? str_replace('$COUNT', $optedCount, $aContentKeys['tracker-optin-iframe'])
-        : '';
-}
-else {
-    $trackerFrame = isset($aContentKeys['tracker-view-iframe'])
-        ? $aContentKeys['tracker-view-iframe']
-        : '';
-}    
-    
-
-$oTpl->assign('topMessage', $topMessage);
+setupContentStrings($oMarketComponent, $oTpl, $optedCount);
 $oTpl->assign('campaigns', $campaigns);
 $oTpl->assign('campaignsOptedIn', $campaignsOptedIn);
 $oTpl->assign('campaignType', $campaignType);
@@ -250,5 +230,58 @@ function arrayValuesToKeys($array, $valueToFillIn = true)
     	$result[$value] = $valueToFillIn;
     }
     return $result;
+}
+
+
+function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
+{
+    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-quickstart');
+    if (!$aContentKeys) {
+        $aContentKeys = array();
+    }
+    
+    $topMessage = isset($aContentKeys['top-message'])
+        ? $aContentKeys['top-message']
+        : '';
+        
+    $optInAllRadioLabel = isset($aContentKeys['radio-opt-in-all-label'])
+        ? $aContentKeys['radio-opt-in-all-label']
+        : '';
+
+    $optInAllFieldCpmLabel = isset($aContentKeys['field-opt-in-some-label'])
+        ? $aContentKeys['field-opt-in-some-label']
+        : '';
+        
+    $optInAllFieldCpmLabelSuffix = isset($aContentKeys['field-opt-in-some-label-suffix'])
+        ? $aContentKeys['field-opt-in-some-label-suffix']
+        : '';
+        
+    $optInSomeRadioLabel = isset($aContentKeys['radio-opt-in-some-label'])
+        ? $aContentKeys['radio-opt-in-some-label']
+        : '';
+        
+    $optInSubmitLabel = isset($aContentKeys['radio-opt-in-submit-label'])
+        ? $aContentKeys['radio-opt-in-submit-label']
+        : '';        
+        
+    if (isset($optedCount) && $optedCount > 0) { //use opted count tracker
+        $trackerFrame = isset($aContentKeys['tracker-optin-iframe'])
+            ? str_replace('$COUNT', $optedCount, $aContentKeys['tracker-optin-iframe'])
+            : '';
+    }
+    else {
+        $trackerFrame = isset($aContentKeys['tracker-view-iframe'])
+            ? $aContentKeys['tracker-view-iframe']
+            : '';
+    }    
+        
+    
+    $oTpl->assign('topMessage', $topMessage);
+    $oTpl->assign('optInAllRadioLabel', $optInAllRadioLabel);
+    $oTpl->assign('optInAllFieldCpmLabel', $optInAllFieldCpmLabel);
+    $oTpl->assign('optInAllFieldCpmLabelSuffix', $optInAllFieldCpmLabelSuffix);
+    $oTpl->assign('optInSomeRadioLabel', $optInSomeRadioLabel);
+    $oTpl->assign('optInSubmitLabel', $optInSubmitLabel);
+    $oTpl->assign('trackerFrame', $trackerFrame);
 }
 

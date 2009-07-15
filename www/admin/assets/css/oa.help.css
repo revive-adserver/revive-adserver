@@ -2,7 +2,7 @@
 .popup-help {
   position: absolute;
   color: black;
-  z-index: 1;
+  z-index: 1000;
   border: 1px solid #666666;
   background-color: #ffffcc;
   padding: 7px;
