@@ -2896,9 +2896,6 @@ $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, 
 // Get URL prefix, stripping the traling slash
 $urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
 $code = str_replace('{clickurl}', $clickUrl, $code);  // This step needs to be done separately because {clickurl} can contain {random}...
-if (strpos($code, '{clickurl_enc}') !== false) {
-$code = str_replace('{clickurl_enc}', urlencode($clickUrl), $code);  // This step needs to be done separately because {clickurl} can contain {random}...
-}
 if (strpos($code, '{logurl}') !== false) {
 $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $code = str_replace('{logurl}', $logUrl, $code);  // This step needs to be done separately because {logurl} does contain {random}...
@@ -2937,6 +2934,10 @@ $replace[] = urlencode($value);
 $code = str_replace($search, $replace, $code);
 $clickUrl = str_replace($search, $replace, $clickUrl);
 $aBanner['clickUrl'] = $clickUrl;
+// Now we can finally replace {clickurl_enc}
+if (strpos($code, '{clickurl_enc}') !== false) {
+$code = str_replace('{clickurl_enc}', urlencode($clickUrl), $code);
+}
 $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $logUrl = str_replace($search, $replace, $logUrl);
 $aBanner['logUrl'] = $logUrl;
