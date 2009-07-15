@@ -263,6 +263,9 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             // Store the last view action event om the cookie as well (if required)
             MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
         }
+    	// post adSelect hook
+        OX_Delivery_Common_hook('postAdSelect', array(&$output));
+        
         return $output;
     } else {
         // No banner found
@@ -429,16 +432,26 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
  */
 function _adSelectCommon($aAds, $context, $source, $richMedia)
 {
+	// pre adSelect hook
+    OX_Delivery_Common_hook('preAdSelect', array(&$aAds, &$context, &$source, &$richMedia));
+
+    if (!empty($aAds['ext_adselection'])) {
+        $adSelectFunction = OX_Delivery_Common_getFunctionFromComponentIdentifier($aAds['ext_adselection'], 'adSelect');
+    }
+    if (empty($adSelectFunction) || !function_exists($adSelectFunction)) {
+        $adSelectFunction = '_adSelect';
+    }
+
     // Are there any ads linked?
     if (!empty($aAds['count_active'])) {
         // Get an ad from the any exclusive campaigns first...
-        $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
+        $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'xAds'), $adSelectFunction);
         // If no ad selected, and a previous ad on the page has set that companion ads should be selected...
         if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
             // The companion paid ads are now grouped by campaign-priority so we need to iterate over the
             for ($i=10;$i>0;$i--) {
                 if (!empty($aAds['cAds'][$i])) {
-                    $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds', $i);
+                    $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'cAds', $i), $adSelectFunction);
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
                 }
@@ -446,7 +459,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
             // If still no ad selected...
             if (!is_array($aLinkedAd)) {
                 // Select one of the low-priority companion ads
-                $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'clAds');
+                $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'clAds'), $adSelectFunction);
             }
         }
         // If still no ad selected...
@@ -455,7 +468,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
             // The normal ads are now grouped by campaign-priority so we need to iterate over the
             for ($i=10;$i>0;$i--) {
                 if (!empty($aAds['ads'][$i])) {
-                    $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'ads', $i);
+                    $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'ads', $i), $adSelectFunction);
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
                 }
@@ -464,12 +477,12 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
         // If still no ad selected...
         if (!is_array($aLinkedAd)) {
             // Select one of the low-priority ads
-            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'lAds');
+            $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'lAds'), $adSelectFunction);
         }
         if (!is_array($aLinkedAd)) {
             // Select one of the low-priority ads
-            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'eAds', -2);
-        }
+            $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'eAds', -2), $adSelectFunction);
+            }
         if (is_array($aLinkedAd)) {
             return $aLinkedAd;
         }

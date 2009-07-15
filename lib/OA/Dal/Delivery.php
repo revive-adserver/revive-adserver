@@ -140,6 +140,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             z.block AS block_zone,
             z.capping AS cap_zone,
             z.session_capping AS session_cap_zone,
+            z.ext_adselection AS ext_adselection,
             a.account_id AS trafficker_account_id,
             m.account_id AS manager_account_id
         FROM

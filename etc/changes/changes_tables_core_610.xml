@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>610</version>
+  <comments>Added the ext_adselection field to the zones table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>610</version>
+      <change>
+        <table>
+          <name>zones</name>
+          <add>
+            <field>
+              <name>ext_adselection</name>
+              <type>openads_varchar</type>
+              <length>255</length>
+              <notnull>0</notnull>
+              <was>ext_adselection</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>610</version>
+    </changeset>
+  </destructive>
+</instructionset>

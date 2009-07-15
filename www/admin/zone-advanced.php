@@ -124,6 +124,7 @@ function buildZoneForm($aZone)
     buildChainSettingsFormSection($form, $aZone);
     buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
     buildAppendFormSection($form, $aZone);
+    buildAlgorithmFormSection($form, $aZone);
 
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
@@ -187,6 +188,30 @@ function buildAppendFormSection($form, $aZone)
     }
 }
 
+function buildAlgorithmFormSection($form, $aZone)
+{     
+    $aAlgorithmPlugins = OX_Component::getComponents('deliveryAdSelect');
+    if (!empty($aAlgorithmPlugins) && is_array($aAlgorithmPlugins)) {
+        // Add the 'Default' (internal) algorithm to the list
+        $aItems = array('none' => 'Default (internal)');
+        foreach ($aAlgorithmPlugins as $oAlgorithmPlugin) {
+            // Only include components which implement the onDemand adselect hook function
+            // This is not the cleanest way to do it :( but it works :)
+            $aInfo = $oAlgorithmPlugin->parseComponentIdentifier($oAlgorithmPlugin->getComponentIdentifier());
+            if (function_exists('Plugin_' . implode('_', $aInfo) . '_Delivery' . '_adSelect')) {
+                $aItems[$oAlgorithmPlugin->getComponentIdentifier()] = $oAlgorithmPlugin->getName();
+            }
+        }
+        // Only display the select box if at least one alternative algorithm is provided
+        if (count($aItems) === 1) {
+            $form->addElement('hidden', 'ext_adselection', 'none');
+            return;
+        }
+        $form->addElement('header', 'header_algorithm', 'Ad selection algorithm');
+        $form->addElement('select', 'ext_adselection', 'Plugin to use for ad selection in this zone', $aItems);
+    }
+}
+
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -238,6 +263,11 @@ function processForm($aZone, $form)
 
     $block = _initCappingVariables($aFields['time'], $aFields['capping'], $aFields['session_capping']);
 
+    // Set adselection PCI if required
+    if (isset($aFields['ext_adselection'])) {
+        $doZones->ext_adselection = ($aFields['ext_adselection'] == 'none') ? OX_DATAOBJECT_NULL : $aFields['ext_adselection'];
+    }
+    
     $doZones->block = $block;
     $doZones->capping = $aFields['capping'];
     $doZones->session_capping = $aFields['session_capping'];

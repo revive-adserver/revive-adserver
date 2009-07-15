@@ -526,6 +526,11 @@ class OX_Component
     {
         return true;
     }
+    
+    function getName()
+    {
+        return $this->getComponentIdentifier();
+    }
 }
 
 ?>
