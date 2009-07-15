@@ -112,7 +112,6 @@ $oTpl->assign('maxValueLength', 3 + strlen($maxCpm)); //two decimal places, poin
 $oTpl->assign('minCpms', $minCpms);
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
-$oTpl->assign('trackerFrame', $trackerFrame);
 $toOptInMap = arrayValuesToKeys($toOptIn);
 foreach ($campaigns as $campaignId => $campaign) {
 	if (!isset($toOptInMap[$campaignId])) {
@@ -274,7 +273,6 @@ function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
             ? $aContentKeys['tracker-view-iframe']
             : '';
     }    
-        
     
     $oTpl->assign('topMessage', $topMessage);
     $oTpl->assign('optInAllRadioLabel', $optInAllRadioLabel);
