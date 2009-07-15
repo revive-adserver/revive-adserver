@@ -2761,8 +2761,12 @@ MAX_commonInitVariables();
 MAX_cookieLoad();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
-// Run any plugins which have registered themselves at postInit
+// Run any plugins which have registered themselves at postInit,
+// with the exception of XML-RPC invocation that will call the hook
+// explicitly after overriding the $_SERVER variables
+if (empty($GLOBALS['_OA']['invocationType']) || $GLOBALS['_OA']['invocationType'] != 'xmlrpc') {
 OX_Delivery_Common_hook('postInit');
+}
 // Include required files
 function MAX_limitationsCheckAcl($row, $source = '')
 {
