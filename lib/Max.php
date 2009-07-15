@@ -88,7 +88,6 @@ class MAX
         $aConf = $GLOBALS['_MAX']['CONF'];
         $message = htmlspecialchars($oError->getMessage());
         $debugInfo = htmlspecialchars($oError->getDebugInfo());
-        $backtrace = htmlspecialchars($oError->getBacktrace());
         $additionalInfo = htmlspecialchars($additionalInfo);
         $level = $oError->getCode();
         $errorType = MAX::errorConstantToString($level);
