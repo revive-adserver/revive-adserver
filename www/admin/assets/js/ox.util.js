@@ -420,8 +420,8 @@ $(document).ready(function () {
 		  offset -= parseInt($(this).css('paddingTop'));
 		  offset -= parseInt($(this).css('paddingBottom'));
 	  	$(this).css(jQuery.browser.msie && jQuery.browser.version < 7 ? 'height' : 'minHeight', offset + 'px');
-      
-        if ($.browser.msie && jQuery.browser.version < 8) {
+  
+        if ($.browser.msie) {
 //          $(this).css('zoom', 0);
             $(this).css('zoom', 1);
         }      
