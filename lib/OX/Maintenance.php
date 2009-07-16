@@ -222,11 +222,11 @@ class OX_Maintenance
     {
         OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
         $this->_runReports();
-        $this->_runOpenadsSync();
         $this->_runOpenadsCentral();
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
         $this->_runDeleteUnverifiedAccounts();
+        $this->_runOpenadsSync();
         OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
     }
 
@@ -289,13 +289,12 @@ class OX_Maintenance
      */
     function _runOpenadsSync()
     {
-        OA::debug('  Starting OpenX Sync process.', PEAR_LOG_DEBUG);
+        $delay = mt_rand(0,10000000);
+        OA::debug(sprintf('  Starting OpenX Sync process in %dms.', $delay / 1000), PEAR_LOG_DEBUG);
+        usleep($delay);
         require_once MAX_PATH . '/lib/OA/Sync.php';
         $oSync = new OA_Sync($this->aConf, $this->aPref);
-        $res = $oSync->checkForUpdates(0);
-        if ($res[0] != 0 && $res[0] != 800) {
-            OA::debug("   - OpenX Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
-        }
+        $oSync->checkForUpdates(0);
         OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
     }
 
