@@ -75,7 +75,7 @@ function &buildForm()
 {
     global $oTrans;
 
-    $form = new OA_Admin_UI_Component_Form("oxToolBoxForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
+    $form = new OA_Admin_UI_Component_Form("oxToolBoxForm", "POST", $_SERVER['SCRIPT_NAME'], null, array("enctype"=>"multipart/form-data"));
     $form->forceClientValidation(true);
 
     $form->addElement('header', 'header', $oTrans->translate("New Plugin"));
@@ -163,7 +163,7 @@ function processForm(&$form, $aPluginValues)
             $aVals['group']                 = $aGroup['groupname'];
             $aPluginValues['grouporder'][]  = $aGroup['groupname'];
             $oPluginManager->_decompressFile('etc/group.zip', $pathPackages.$aGroup['groupname']);
-            
+
             $oBuilder = new OX_PluginBuilder_Group();
             if (isset($aGroup['schema']) && $aGroup['schema'])
             {

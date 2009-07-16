@@ -96,7 +96,7 @@ function init()
 
     global $installing;
     if ((!$installing) && (PHP_SAPI != 'cli')) {
-        $scriptName = basename($_SERVER['PHP_SELF']);
+        $scriptName = basename($_SERVER['SCRIPT_NAME']);
         if ($scriptName != 'install.php' && PHP_SAPI != 'cli')
         {
             // Direct the user to the installation script if not installed
@@ -108,7 +108,7 @@ function init()
                     exit;
                 }
 
-                $path = dirname($_SERVER['PHP_SELF']);
+                $path = dirname($_SERVER['SCRIPT_NAME']);
                 if ($path == DIRECTORY_SEPARATOR)
                 {
                     $path = '';

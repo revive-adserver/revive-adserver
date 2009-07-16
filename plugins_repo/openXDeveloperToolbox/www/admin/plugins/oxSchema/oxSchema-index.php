@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
 $oTpl = new OA_Plugin_Template('oxSchema-frame.html','oxSchema');
 $oTpl->debugging = false;
-$src = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/oxSchema-frame.php';
+$src = $_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']).'/oxSchema-frame.php';
 $oTpl->assign('src', $src);
 $oTpl->display();
 

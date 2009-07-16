@@ -50,7 +50,7 @@ function displayPage($oComponent)
     global $session;
 
     //get template and display form
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
 
     $affiliateId    = MAX_getStoredValue('affiliateid', null);
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && isset($affiliateId)) {
