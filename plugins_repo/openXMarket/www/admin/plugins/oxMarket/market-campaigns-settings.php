@@ -78,13 +78,10 @@ foreach ($_REQUEST as $param => $value) {
 
 // Perform opt-in if needed
 $campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms);
-//echo '<pre>';
-//var_dump($campaigns);
-//echo '</pre>';
 if ('POST' == $_SERVER['REQUEST_METHOD'] && isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $campaigns, $maxCpm))
 {
-//    performOptIn($minCpms, $oCampaignsOptInDal);
-//    exit(0);
+    performOptIn($minCpms, $oCampaignsOptInDal);
+    exit(0);
 }
 
 
