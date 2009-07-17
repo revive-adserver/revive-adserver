@@ -45,8 +45,9 @@ define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
 define('OA_ENV_ERROR_PHP_SPL',                      -13);
-define('OA_ENV_WARNING_MEMORY',                     -14);
-define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -15);
+define('OA_ENV_ERROR_PHP_MBSTRING',                 -14);
+define('OA_ENV_WARNING_MEMORY',                     -15);
+define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -16);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -115,6 +116,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['zlib']                 = true;
         $this->aInfo['PHP']['expected']['mysql']                = true;
         $this->aInfo['PHP']['expected']['spl']                  = true;
+        $this->aInfo['PHP']['expected']['mbstring']             = false;
         $this->aInfo['PHP']['expected']['timeout']              = false;
         $this->aInfo['COOKIES']['expected']['enabled']          = true;
 
@@ -177,6 +179,11 @@ class OA_Environment_Manager
         $aResult['mysql']                = extension_loaded('mysql');
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
+        // Check mbstring.func_overload
+        $aResult['mbstring.func_overload'] = false;
+        if (extension_loaded('mbstring')) {
+            $aResult['mbstring.func_overload'] = (bool)ini_get('mbstring.func_overload');
+        }
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -462,6 +469,9 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['spl']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SPL] = 'The spl extension must be loaded';
+        }
+        if ($this->aInfo['PHP']['actual']['mbstring.func_overload']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MBSTRING] = 'mbstring function overloading must be disabled';
         }
         if ($this->aInfo['PHP']['actual']['timeout']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT] = 'The PHP function set_time_limit() has been disabled and ';

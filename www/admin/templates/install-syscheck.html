@@ -98,6 +98,7 @@
             $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['spl'] = ($sysinfoarray['actual']['spl'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['mbstring.func_overload'] = ($sysinfoarray['actual']['mbstring.func_overload'] == true ? 'NOT OK ' . $errorImage : 'OK ' .$passImage);
             if ($sysinfoarray['actual']['mysql'] == false && $sysinfoarray['actual']['pgsql'] == false) {
                 $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
                 $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
