@@ -41,7 +41,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 
 // Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $agencyId = OA_Permission::getEntityId();
 $tabindex = 1;
 

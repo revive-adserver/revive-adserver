@@ -59,7 +59,7 @@ phpAds_SessionDataStore();
 $agencyId = OA_Permission::getAgencyId();
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
 MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
 

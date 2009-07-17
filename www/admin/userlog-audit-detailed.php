@@ -63,7 +63,7 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAcc
 
 
 //  initialize parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 
 $oTpl = new OA_Admin_Template('userlog-audit-detailed.html');
 

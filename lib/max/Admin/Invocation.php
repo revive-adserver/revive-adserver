@@ -254,7 +254,7 @@ class MAX_Admin_Invocation {
      */
     function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
-        global $phpAds_TextDirection, $strWarningLocalInvocation, 
+        global $phpAds_TextDirection, $strWarningLocalInvocation,
             $strIABNoteLocalInvocation, $strIABNoteXMLRPCInvocation;
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -285,7 +285,7 @@ class MAX_Admin_Invocation {
 
         // Hide when integrated in zone-advanced.php
         if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced']) {
-            $buffer .= "<form id='generate' name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this) && disableTextarea();'>\n";
+            $buffer .= "<form id='generate' name='generate' method='POST' onSubmit='return max_formValidate(this) && disableTextarea();'>\n";
         }
 
         // Invocation type selection
@@ -373,21 +373,21 @@ class MAX_Admin_Invocation {
             } else {
                 $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
                 $buffer .= "<tr><td height='25'>";
-                
+
                 if ($codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
                     $buffer .= "
                         <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
                             $strIABNoteXMLRPCInvocation
                         </div>";
                 }
-                
+
                 if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
                     if ($bannerid == 0) {
                         $this->ads = array();
                     } else {
                         $this->ads = array($bannerid => $aAd);
                     }
-                } 
+                }
                 elseif ($codetype == 'invocationTags:oxInvocationTags:local' && !$server_same) {
                     $buffer .= "
                         <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>

@@ -45,13 +45,13 @@ phpAds_registerGlobalUnslashed('acl', 'action', 'submit', 'channelid', 'agencyid
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('channel', $channelid);
 
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $agencyId = OA_Permission::getAgencyId();
 $tabindex = 1;
 
 if (!empty($affiliateid)) {
     OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-    
+
     /*-------------------------------------------------------*/
 	/* Store preferences									 */
 	/*-------------------------------------------------------*/

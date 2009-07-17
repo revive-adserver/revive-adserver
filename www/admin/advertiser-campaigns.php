@@ -44,7 +44,7 @@ phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
-    $page = basename($_SERVER['PHP_SELF']);
+    $page = basename($_SERVER['SCRIPT_NAME']);
     OX_Admin_Redirect::redirect($page);
 }
 
@@ -69,7 +69,7 @@ if (empty($clientid)) { //if it's empty
 }
 else {
     if (!isset($aAdvertisers[$clientid])) {
-        $page = basename($_SERVER['PHP_SELF']);
+        $page = basename($_SERVER['SCRIPT_NAME']);
         OX_Admin_Redirect::redirect($page);
     }
 }

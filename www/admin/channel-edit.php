@@ -89,7 +89,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildChannelForm($channel)
 {
-    $form = new OA_Admin_UI_Component_Form("channelform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("channelform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'agencyid', OA_Permission::getAgencyId());
@@ -189,7 +189,7 @@ function processForm($form)
 /*-------------------------------------------------------*/
 function displayPage($channel, $form)
 {
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();
 
     // Obtain the needed data

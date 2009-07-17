@@ -100,7 +100,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildAgencyForm($aAgency)
 {
-    $form = new OA_Admin_UI_Component_Form("agencyform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("agencyform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'agencyid', $aAgency['agencyid']);

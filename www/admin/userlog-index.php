@@ -117,7 +117,7 @@ $daySpan->setValueFromArray($aPeriod);
 $daySpan->enableAutoSubmit();
 
 // Initialize parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 
 // Load template
 $oTpl = new OA_Admin_Template('userlog-index.html');

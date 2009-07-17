@@ -95,8 +95,8 @@ if ($trackerid != "") {
     while ($doClients->fetch() && $row = $doClients->toArray()) {
         $aOtherAdvertisers[] = $row;
     }
-    MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);  
-} 
+    MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);
+}
 else {
 	if (isset($move) && $move == 't') {
 		// Convert client to tracker
@@ -172,7 +172,7 @@ $tabindex = 1;
 echo "<table border='0' width='95%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='2'><b>".$GLOBALS['strChooseInvocationType']."</b></td></tr>\n";
 echo "<tr><td height='35'>";
-echo "<form name='invform' action='".$_SERVER['PHP_SELF']."' method='POST'>\n";
+echo "<form name='invform' action='".$_SERVER['SCRIPT_NAME']."' method='POST'>\n";
 echo "<input type='hidden' name='trackerid' value='".$trackerid."'>\n";
 echo "<input type='hidden' name='clientid' value='".$clientid."'>\n";
 echo "<select name='invtype' onChange=\"this.form.submit()\">\n";
@@ -233,7 +233,7 @@ echo "<script type='text/javascript'>
         $('#bannercode').selectText();
     });
     //-->
-    </script>";                
+    </script>";
 
 
 /*-------------------------------------------------------*/

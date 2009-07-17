@@ -1118,7 +1118,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 
 function MAX_displayAcls($acls, $aParams) {
     $tabindex =& $GLOBALS['tabindex'];
-    $page = basename($_SERVER['PHP_SELF']);
+    $page = basename($_SERVER['SCRIPT_NAME']);
     $conf = $GLOBALS['_MAX']['CONF'];
 
     echo "<form action='{$page}' method='post'>";
@@ -1648,7 +1648,7 @@ function addTrackerPageTools($advertiserId, $trackerId, $aOtherAdvertisers)
 {
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         //duplicate
-        addPageLinkTool($GLOBALS["strDuplicate"], "tracker-modify.php?clientid=".$advertiserId."&trackerid=".$trackerId."&duplicate=true&returnurl=".basename($_SERVER['PHP_SELF']), "iconTrackerDuplicate");
+        addPageLinkTool($GLOBALS["strDuplicate"], "tracker-modify.php?clientid=".$advertiserId."&trackerid=".$trackerId."&duplicate=true&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME'])), "iconTrackerDuplicate");
 
         //move to
         $form  = "<form action='tracker-modify.php'>
@@ -1675,12 +1675,12 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
     global $phpAds_TextDirection;
 
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        addPageLinkTool($GLOBALS["strDuplicate"], "campaign-modify.php?duplicate=1&clientid=$clientid&campaignid=$campaignid&&returnurl=".basename($_SERVER['PHP_SELF']), "iconCampaignDuplicate");
+        addPageLinkTool($GLOBALS["strDuplicate"], "campaign-modify.php?duplicate=1&clientid=$clientid&campaignid=$campaignid&&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME'])), "iconCampaignDuplicate");
 
         $form = "<form action='campaign-modify.php'>
         <input type='hidden' name='clientid' value='$clientid'>
         <input type='hidden' name='campaignid' value='$campaignid'>
-        <input type='hidden' name='returnurl' value='".basename($_SERVER['PHP_SELF'])."'>
+        <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
         <select name='newclientid'>";
             $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');
             foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
@@ -1719,14 +1719,14 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
 
     global $phpAds_TextDirection;
     //duplicate
-    addPageLinkTool($GLOBALS["strDuplicate"], "banner-modify.php?duplicate=true&clientid=$advertiserId&campaignid=$campaignId&bannerid=$bannerId&returnurl=".basename($_SERVER['PHP_SELF']), "iconBannerDuplicate");
+    addPageLinkTool($GLOBALS["strDuplicate"], "banner-modify.php?duplicate=true&clientid=$advertiserId&campaignid=$campaignId&bannerid=$bannerId&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME'])), "iconBannerDuplicate");
 
     //move to
     $form = "<form action='banner-modify.php'>
     <input type='hidden' name='clientid' value='$advertiserId'>
     <input type='hidden' name='campaignid' value='$campaignId'>
     <input type='hidden' name='bannerid' value='$bannerId'>
-    <input type='hidden' name='returnurl' value='".basename($_SERVER['PHP_SELF'])."'>
+    <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
     <select name='moveto'>";
     $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
@@ -1745,12 +1745,12 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     addPageFormTool($GLOBALS['strMoveTo'], 'iconBannerMove', $form);
 
     //apply to
-    if (basename($_SERVER['PHP_SELF']) == 'banner-acl.php') {
+    if (basename($_SERVER['SCRIPT_NAME']) == 'banner-acl.php') {
         $form = "<form action='banner-modify.php'>
         <input type='hidden' name='clientid' value='$advertiserId'>
         <input type='hidden' name='campaignid' value='$campaignId'>
         <input type='hidden' name='bannerid' value='$bannerId'>
-        <input type='hidden' name='returnurl' value='".basename($_SERVER['PHP_SELF'])."'>
+        <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
         <select name='applyto'>";
 
         $aOtherBanners = _multiSort($aOtherBanners,'name','ad_id');
@@ -1796,7 +1796,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
         || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
         || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
-        addPageLinkTool($GLOBALS["strDuplicate"], "zone-modify.php?duplicate=true&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=".basename($_SERVER['PHP_SELF']), "iconZoneDuplicate");
+        addPageLinkTool($GLOBALS["strDuplicate"], "zone-modify.php?duplicate=true&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME'])), "iconZoneDuplicate");
     }
 
     //move to
@@ -1805,7 +1805,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
         $form = "<form action='zone-modify.php'>
         <input type='hidden' name='affiliateid' value='$affiliateid'>
         <input type='hidden' name='zoneid' value='$zoneid'>
-        <input type='hidden' name='returnurl' value='".basename($_SERVER['PHP_SELF'])."'>
+        <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
         <select name='newaffiliateid'>";
         $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
         foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
@@ -1843,7 +1843,7 @@ function addChannelPageTools($agencyid, $websiteId, $channelid, $channelType)
     }
 
     //duplicate
-    addPageLinkTool($GLOBALS["strDuplicate"], "channel-modify.php?duplicate=true&agencyid=$agencyid&affiliateid=$websiteId&channelid=$channelid&returnurl=".basename($_SERVER['PHP_SELF']), "iconTargetingChannelDuplicate");
+    addPageLinkTool($GLOBALS["strDuplicate"], "channel-modify.php?duplicate=true&agencyid=$agencyid&affiliateid=$websiteId&channelid=$channelid&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME'])), "iconTargetingChannelDuplicate");
 
     //delete
     $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']);
@@ -1861,18 +1861,18 @@ function addChannelPageTools($agencyid, $websiteId, $channelid, $channelType)
  * @param unknown_type $itemsName
  * @return unknown
  */
-function OX_buildPager($items, $itemsPerPage, $withNumbers = true, $itemsName = '', $delta = 4, 
+function OX_buildPager($items, $itemsPerPage, $withNumbers = true, $itemsName = '', $delta = 4,
     $currentPage = null, $fileName = null, $params = null)
 {
     require_once MAX_PATH . '/lib/pear/Pager/Pager.php';
-    
+
     $oTrans = new OX_Translation();
-    
+
     /** prepare paging **/
     $count = count($items);
-        $delta = $withNumbers ? $delta : 0; 
-    
-    
+        $delta = $withNumbers ? $delta : 0;
+
+
     $pagerOptions = array(
         'mode'       => 'Sliding',
         'perPage'    => $itemsPerPage,
@@ -1896,20 +1896,20 @@ function OX_buildPager($items, $itemsPerPage, $withNumbers = true, $itemsName = 
     if (!empty($currentPage)) {
         $pagerOptions['currentPage'] = $currentPage;
     }
-    
+
     $pager = Pager::factory($pagerOptions);
     list($from, $to) = $pager->getOffsetByPageId();
-    $summary = "<em>$from</em>-<em>$to</em> of <em>".$pager->numItems()." $itemsName</em>"; 
+    $summary = "<em>$from</em>-<em>$to</em> of <em>".$pager->numItems()." $itemsName</em>";
     $pager->summary = $summary;
-    
-    //override links with shorter pager controls        
+
+    //override links with shorter pager controls
     if (!$withNumbers) {
         $links = $pager->links;
         $shortLinks = preg_replace("/<span class=\"current\">\d+<\/span>/i", "<span class='summary'>$summary</span>" , $links);
         $shortLinks = preg_replace("/\[\d+\]/", "" , $shortLinks);
         $pager->links = $shortLinks;
     }
-    
+
     return $pager;
 }
 

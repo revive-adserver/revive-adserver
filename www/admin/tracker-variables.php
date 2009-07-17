@@ -135,7 +135,7 @@ if (!empty($trackerid))
         for ($f=0; $f < sizeof($variables)+1; $f++)
         if (isset($_POST['name'.$f]))
         {
-            
+
             $variables[$f]['name'] = $_POST['name'.$f];
             $variables[$f]['description'] = $_POST['description'.$f];
             $variables[$f]['datatype'] = $_POST['datatype'.$f];
@@ -311,7 +311,7 @@ $aOtherAdvertisers = array();
 while ($doClients->fetch() && $row = $doClients->toArray()) {
     $aOtherAdvertisers[] = $row;
 }
-MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);  
+MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);
 
 
 //Start
@@ -319,7 +319,7 @@ $tabindex = 0;
 
 if (isset($trackerid) && $trackerid != '')
 {
-            echo "<form action='".$_SERVER['PHP_SELF']."?clientid=$clientid&trackerid=$trackerid' method='post' onsubmit='return m3_hideShowSubmit()'>\n";
+            echo "<form action='".$_SERVER['SCRIPT_NAME']."?clientid=$clientid&trackerid=$trackerid' method='post' onsubmit='return m3_hideShowSubmit()'>\n";
                 echo "<input type='hidden' name='submit' value='true'>";
                 echo "<input type='image' name='dummy' src='" . OX::assetPath() . "/images/spacer.gif' border='0' width='1' height='1'>\n";
                 echo "<br /><br />\n";

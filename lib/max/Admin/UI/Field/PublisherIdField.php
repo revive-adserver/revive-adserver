@@ -61,7 +61,7 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
 
         echo "<input type='hidden' name='submit_type' value=''>";
         echo "<input type='hidden' name='changed_field' value=''>";
-        echo "<input type='hidden' name='refresh_page' value='".$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']."'>";
+        echo "<input type='hidden' name='refresh_page' value='".htmlentities($_SERVER['REQUEST_URI'])."'>";
         echo "
         <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."' onchange=\"form.submit_type.value='change';form.changed_field.value='publisher';submit();\"   >";
         foreach ($aPublishers as $publisherId => $aPublisher) {

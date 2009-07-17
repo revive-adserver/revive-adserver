@@ -468,7 +468,7 @@ function MAX_getStoredValue($key, $default, $pageName=null, $allowEmpty = false)
         if(isset($pgName)) {
             $pageName = $pgName;
         } else {
-            $pageName = basename($_SERVER['PHP_SELF']);
+            $pageName = basename($_SERVER['SCRIPT_NAME']);
         }
     }
 
@@ -489,7 +489,7 @@ function MAX_getStoredValue($key, $default, $pageName=null, $allowEmpty = false)
 function MAX_changeStoredValue($key, $value)
 {
     global $session;
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
 
     if (isset($_REQUEST[$key])) {
         $_REQUEST[$key] = $value;
@@ -589,7 +589,7 @@ function MAX_arrayMergeRecursive(&$a, &$b)
 function MAX_getStoredArray($key, $default)
 {
     global $session;
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
 
     $value = $default;
     if (isset($_REQUEST[$key])) {

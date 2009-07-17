@@ -80,7 +80,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                 array(htmlspecialchars($title)));
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
              // The settings configuration file was written correctly,
-            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+            OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the settings configuration file, store this
     // error message and continue

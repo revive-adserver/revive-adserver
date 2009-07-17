@@ -78,7 +78,7 @@ if (isset($submitbutton)) {
 /*-------------------------------------------------------*/
 
 // Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);

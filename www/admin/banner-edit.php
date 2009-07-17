@@ -167,7 +167,7 @@ if ($bannerid != '') {
     $aBanner['hardcoded_targets'] = $hardcoded_targets;
     $aBanner['hardcoded_sources'] = $hardcoded_sources;
     $aBanner['clientid']   = $clientid;
-    
+
 }
 else {
     // Set default values for new banner
@@ -294,7 +294,7 @@ else { //either validation failed or form was not submitted, display the form
 function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled=false)
 {
     // Initialise some parameters
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
     $entityId = OA_Permission::getEntityId();
@@ -338,7 +338,7 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
 function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false)
 {
     //-- Build forms
-    $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
+    $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['SCRIPT_NAME'], null, array("enctype"=>"multipart/form-data"));
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'clientid', $aBanner['clientid']);
     $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
@@ -394,7 +394,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
             $altImageName = _getContentTypeIconImageName($aBanner['alt_contenttype']);
             $altSize = _getBannerSizeText($type, $aBanner['alt_filename']);
         }
-        
+
         $aUploadParams = array(
                 'uploadName' => 'uploadalt',
                 'radioName' => 'replacealtimage',
@@ -405,7 +405,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
                 'updateLabel'  => $GLOBALS['strUploadOrKeep'],
                 'handleSWF' => false
               );
-        
+
         if ($aBanner['contenttype'] != 'swf') {
             $aUploadParams = array_merge($aUploadParams, array('decorateId' => 'swfAlternative'));
         }
@@ -613,13 +613,13 @@ function addUploadGroup($form, $aBanner, $vars)
             }
 
             $form->addGroup($uploadG, $vars['uploadName'].'_group', $vars['newLabel'], "<br>", false);
-            
+
             if (!empty($vars['decorateId'])) {
                 $form->addDecorator($vars['uploadName'].'_group', 'process', array('tag' => 'tr',
-                    'addAttributes' => array('id' => $vars['decorateId'].'{numCall}',  
+                    'addAttributes' => array('id' => $vars['decorateId'].'{numCall}',
                     'style' => 'display:none')));
             }
-            
+
         }
         $form->setDefaults(array("checkswf" => "t")); //TODO does not work??
 }
@@ -862,7 +862,7 @@ function checkForErrorFileUploaded($oFile)
 	    phpAds_Die($GLOBALS['strErrorOccurred'], htmlspecialchars($oFile->getMessage()). "<br>Please make sure you selected a valid file.");
 	}
 }
-        
+
 function _getContentTypeIconImageName($contentType)
 {
     $imageName = '';

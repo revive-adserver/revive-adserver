@@ -134,7 +134,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     $oDbh =& OA_DB::singleton();
 
     if ($page === false) {
-        $page = basename($_SERVER['PHP_SELF']);
+        $page = basename($_SERVER['SCRIPT_NAME']);
     }
 
     if ('banner-acl.php' == $page)

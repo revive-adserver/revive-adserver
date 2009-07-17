@@ -1,6 +1,6 @@
 
 {if $oxInstalled}
-<form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='{$formUrl}' onSubmit='return max_formValidate(this);'>
+<form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='{$formUrl|escape}' onSubmit='return max_formValidate(this);'>
     {if $adminUser && $optionType == 'account-settings' && !$formIsDisabled}
     <br />
     <div class='errormessage'><img class='errormessage' src='{$assetPath|escape}/images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
@@ -47,7 +47,7 @@
         }
 
         if (localSocketObj.obj.disabled) return;
-        
+
         var portEnabled = dbTypeObj.obj.options[dbTypeObj.obj.selectedIndex].value == 'pgsql';
 
         if (localSocketObj.obj.checked == true) {

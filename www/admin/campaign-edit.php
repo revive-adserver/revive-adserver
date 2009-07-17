@@ -311,7 +311,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
 {
     global $pref;
 
-    $form = new OA_Admin_UI_Component_Form ( "campaignform", "POST", $_SERVER ['PHP_SELF'] );
+    $form = new OA_Admin_UI_Component_Form ( "campaignform", "POST", $_SERVER ['SCRIPT_NAME'] );
     $form->forceClientValidation ( true );
     $form->addElement ( 'hidden', 'campaignid', $campaign['campaignid'] );
     $form->addElement ( 'hidden', 'clientid', $campaign['clientid'] );
@@ -673,7 +673,7 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
 
 function buildStatusForm($aCampaign)
 {
-    $form = new OA_Admin_UI_Component_Form ( "statusChangeForm", "POST", $_SERVER ['PHP_SELF'] );
+    $form = new OA_Admin_UI_Component_Form ( "statusChangeForm", "POST", $_SERVER ['SCRIPT_NAME'] );
     $form->forceClientValidation ( true );
     $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
     $form->addElement ( 'hidden', 'clientid', $aCampaign ['clientid'] );

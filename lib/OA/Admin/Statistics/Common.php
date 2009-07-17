@@ -345,7 +345,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         }
 
         // Prepare some basic preferences for the class
-        $this->pageName = basename($_SERVER['PHP_SELF']);
+        $this->pageName = basename($_SERVER['SCRIPT_NAME']);
 
         $this->aGlobalPrefs     = array();
         $this->aPagePrefs       = array();

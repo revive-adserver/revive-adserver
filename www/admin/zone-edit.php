@@ -134,7 +134,7 @@ function buildZoneForm($zone)
     // Initialise Ad  Networks
     $oAdNetworks = new OA_Central_AdNetworks();
 
-    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'zoneid', $zone['zoneid']);
     $form->addElement('hidden', 'affiliateid', $zone['affiliateid']);
@@ -197,9 +197,9 @@ function buildZoneForm($zone)
         default:
             $sizeDisabled = false;
         break;
-        
+
     }
-   
+
     $aDefaultSize['radio'] = $form->createElement('radio', 'sizetype', '', '',
         'default', array('id' => 'size-d'));
     foreach (array_keys($phpAds_IAB) as $key)
@@ -491,7 +491,7 @@ function processForm($form)
 function displayPage($zone, $form, $zoneErrors = null)
 {
     //header and breadcrumbs
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $zone['affiliateid'], 'zoneid' => $zone['zoneid']);
 

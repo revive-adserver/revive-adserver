@@ -43,7 +43,7 @@ phpAds_registerGlobal ('acl', 'action', 'submit');
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $affiliateid)) { //check if can see given website
-    $page = basename($_SERVER['PHP_SELF']);
+    $page = basename($_SERVER['SCRIPT_NAME']);
     OX_Admin_Redirect::redirect($page);
 }
 
@@ -67,7 +67,7 @@ if (empty($affiliateid)) { //if it's empty
 }
 else {
     if (!isset($aWebsites[$affiliateid])) { //bad id, redirect
-        $page = basename($_SERVER['PHP_SELF']);
+        $page = basename($_SERVER['SCRIPT_NAME']);
         OX_Admin_Redirect::redirect($page);
     }
 }

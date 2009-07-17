@@ -92,7 +92,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
                 $codetype = $defaultPublisherPlugin;
             }
 
-	        echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
+	        echo "<form name='generate' method='POST' onSubmit='return max_formValidate(this);'>\n";
 
 	        // Show the publisher invocation selection drop down
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";

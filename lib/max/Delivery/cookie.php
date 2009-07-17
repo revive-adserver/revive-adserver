@@ -83,9 +83,9 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 
     // Determine if the access to OpenX was made using HTTPS
     if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
-        $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
+        $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
     } else {
-        $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
+        $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
     }
     $url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
     MAX_header("Location: {$url}");
@@ -199,7 +199,7 @@ function MAX_cookieGetUniqueViewerId($create = true)
     } elseif ($create) {
         $uniqueViewerId = md5(uniqid('', true));  // Need to find a way to generate this...
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-    } 
+    }
     return $uniqueViewerId;
 }
 
@@ -324,7 +324,7 @@ function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain 
     ###END_STRIP_DELIVERY
 }
 
-function MAX_cookieClientCookieUnset($name)  
+function MAX_cookieClientCookieUnset($name)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $domain = (!empty($conf['cookie']['domain'])) ? $conf['cookie']['domain'] : null;

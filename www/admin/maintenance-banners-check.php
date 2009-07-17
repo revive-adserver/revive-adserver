@@ -71,7 +71,7 @@ if (!empty($action) && ($action == 'Rebuild')) {
     if (!empty($result['errors']) || !empty($result['different'])) {
         _showPageHeader();
         echo $GLOBALS['strBannerCacheDifferencesFound'];
-        echo "<form action='{$_SERVER['PHP_SELF']}' METHOD='GET'>";
+        echo "<form action='' METHOD='GET'>";
         echo "<input type='submit' name='action' value='{$GLOBALS['strBannerCacheRebuildButton']}' />";
         echo "</form>";
     } else {

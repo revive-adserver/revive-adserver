@@ -112,7 +112,7 @@ function buildWebsiteForm($affiliate)
     // Initialise Ad  Networks
     $oAdNetworks = new OA_Central_AdNetworks();
 
-    $form = new OA_Admin_UI_Component_Form("affiliateform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("affiliateform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'affiliateid', $affiliate['affiliateid']);
 

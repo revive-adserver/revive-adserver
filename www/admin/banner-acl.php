@@ -56,7 +56,7 @@ $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaigni
 phpAds_SessionDataStore();
 
 // Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
@@ -64,18 +64,18 @@ if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();
-       
+
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
         $aBannerPrev = MAX_cacheGetAd($bannerid, false);
         MAX_AclSave($acl, $aEntities);
-        
+
         $block = _initCappingVariables($time, $cap, $session_capping);
-    
+
         $values = array();
         $acls_updated = false;
         $now = OA::getNow();
-    
+
         if ($aBannerPrev['block_ad'] <> $block) {
             $values['block'] = $block;
             $acls_updated = ($block == 0) ? true : $acls_updated;
@@ -91,7 +91,7 @@ if (!empty($action)) {
         if ($acls_updated) {
             $values['acls_updated'] = $now;
         }
-    
+
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         if (!empty($values)) {

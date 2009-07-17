@@ -75,7 +75,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
-        } 
+        }
         else {
         	//Add the new username to the session
             $oUser = &OA_Permission::getCurrentUser();
@@ -83,11 +83,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $oUser->aUser['language'] = $language;
 
             phpAds_SessionDataStore();
-            
+
             // Queue confirmation message
             $setPref = $oOptions->getSettingsPreferences($prefSection);
             $title = $setPref[$prefSection]['name'];
-            
+
             $translation = new OX_Translation ();
             $translated_message = $translation->translate($GLOBALS['strUserPreferencesUpdated'],
                 array(htmlspecialchars($title)));
@@ -95,7 +95,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
-            OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+            OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
         }
     }
 }

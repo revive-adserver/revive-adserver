@@ -115,7 +115,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildZoneForm($aZone)
 {
-    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'zoneid', $aZone['zoneid']);
@@ -189,7 +189,7 @@ function buildAppendFormSection($form, $aZone)
 }
 
 function buildAlgorithmFormSection($form, $aZone)
-{     
+{
     $aAlgorithmPlugins = OX_Component::getComponents('deliveryAdSelect');
     if (!empty($aAlgorithmPlugins) && is_array($aAlgorithmPlugins)) {
         // Add the 'Default' (internal) algorithm to the list
@@ -267,7 +267,7 @@ function processForm($aZone, $form)
     if (isset($aFields['ext_adselection'])) {
         $doZones->ext_adselection = ($aFields['ext_adselection'] == 'none') ? OX_DATAOBJECT_NULL : $aFields['ext_adselection'];
     }
-    
+
     $doZones->block = $block;
     $doZones->capping = $aFields['capping'];
     $doZones->session_capping = $aFields['session_capping'];
@@ -295,7 +295,7 @@ function processForm($aZone, $form)
 /*-------------------------------------------------------*/
 function displayPage($aZone, $form)
 {
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $aZone['affiliateid'], 'zoneid' => $aZone['zoneid']);
 

@@ -164,7 +164,7 @@ EOF;
             }
         }
         // Return the URL
-        return $GLOBALS['_MAX']['HTTP'] . $path . $file;
+        return $GLOBALS['_MAX']['HTTP'] . $path . urlencode($file);
     }
 
 

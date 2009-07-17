@@ -132,7 +132,7 @@ class OA_Upgrade_Config
 
     function guessWebpath()
     {
-        $path = dirname($_SERVER['PHP_SELF']);
+        $path = dirname($_SERVER['SCRIPT_NAME']);
         if (preg_match('#/www/admin$#', $path))
         {
             // User has web root configured as Openads' root directory so can guess at all locations

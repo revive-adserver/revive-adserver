@@ -183,7 +183,7 @@ class Test_DeliveryCookie extends UnitTestCase
         // Ensure that calling MAX_cookieSetViewerIdAndRedirect($viewerId) sets and flushes the viewerId cookie and redirects
         unset($GLOBALS['_HEADERS']);
         $_SERVER['SERVER_PORT'] = 80;
-        $_SERVER['PHP_SELF'] = 'tests/index.php';
+        $_SERVER['SCRIPT_NAME'] = 'tests/index.php';
         $_SERVER['QUERY_STRING'] = 'test=1&toast=2';
 
         MAX_cookieSetViewerIdAndRedirect($viewerId);

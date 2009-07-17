@@ -96,7 +96,7 @@ if (!empty($bannerid)) {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $bannerName = $doBanners->description;
-        
+
         if ($applyto == -1) {
             if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
@@ -106,7 +106,7 @@ if (!empty($bannerid)) {
             $doBanners->campaignid = $campaignid;
             $doBanners->find();
             while ($doBanners->fetch()) {
-                if (($doBanners->bannerid != $bannerid) && (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $doBanners->bannerid))) {
+                if (($doBanners->bannerid != $bannerid) && (MAX_AclCopy(basename($_SERVER['SCRIPT_NAME']), $bannerid, $doBanners->bannerid))) {
                     $appliedTo++;
                 }
             }
@@ -115,7 +115,7 @@ if (!empty($bannerid)) {
             if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 OA_Permission::enforceAccessToObject('banners', $applyto);
             }
-            if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
+            if (MAX_AclCopy(basename($_SERVER['SCRIPT_NAME']), $bannerid, $applyto)) {
                 $appliedTo++;
             }
         }
@@ -127,7 +127,7 @@ if (!empty($bannerid)) {
             )
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
+
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$campaignid}&bannerid=".$applyto);
     } elseif (isset($duplicate) && $duplicate == 'true') {
         $doBanners = OA_Dal::factoryDO('banners');

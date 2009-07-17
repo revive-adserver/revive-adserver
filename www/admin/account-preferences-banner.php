@@ -76,7 +76,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
-        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the preferences to the database, store this
     // error message and continue

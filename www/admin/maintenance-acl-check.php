@@ -108,7 +108,7 @@ if (!$allBannersValid || !$allChannelsValid) {
     phpAds_ShowBreak();
     echo "<br /><strong>". $strErrorsFound ."</strong><br /><br />";
     echo $strRepairCompiledLimitations;
-    echo "<form action='{$_SERVER['PHP_SELF']}' METHOD='GET'>";
+    echo "<form action='' METHOD='GET'>";
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }

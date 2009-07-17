@@ -585,7 +585,7 @@ class OA_Admin_Option
         $this->oTpl->assign('aOption',          $this->aOption);
         $this->oTpl->assign('configLocked',     $configLocked);
         $this->oTpl->assign('image',            $image);
-        $this->oTpl->assign('formUrl',          $_SERVER['PHP_SELF']);
+        $this->oTpl->assign('formUrl',          $_SERVER['SCRIPT_NAME']);
         $this->oTpl->assign('checkbuffer',      $checkbuffer);
         $this->oTpl->assign('dependbuffer',     $dependbuffer);
         $this->oTpl->assign('disableSubmit',    $disableSubmit);

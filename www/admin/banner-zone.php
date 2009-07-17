@@ -64,7 +64,7 @@ phpAds_SessionDataStore();
     $submit         = MAX_getValue('submit');
 
     // Initialise some parameters
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $tabindex = 1;
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
@@ -77,7 +77,7 @@ phpAds_SessionDataStore();
         $error          = false;
         $aPreviousZones = Admin_DA::getAdZones(array('ad_id' => $bannerId));
         $aDeleteZones   = array();
-        
+
         // First, remove any zones that should be deleted.
         if (!empty($aPreviousZones)) {
             $unlinked = 0;
@@ -129,10 +129,10 @@ phpAds_SessionDataStore();
                 $unlinked_message = $translation->translate ( $GLOBALS['strXZonesUnlinked'], array($unlinked));
             }
             if ($linked > 0 || $unlinked > 0) {
-                $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message; 
+                $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message;
                 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
           	}
-          	
+
             Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
             exit;
         }

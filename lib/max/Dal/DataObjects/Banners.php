@@ -40,49 +40,49 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'banners';                         // table name
-    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $contenttype;                     // ENUM('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') => openads_enum => 130 
-    public $pluginversion;                   // MEDIUMINT(9) => openads_mediumint => 129 
-    public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130 
-    public $filename;                        // VARCHAR(255) => openads_varchar => 130 
-    public $imageurl;                        // VARCHAR(255) => openads_varchar => 130 
-    public $htmltemplate;                    // TEXT() => openads_text => 162 
-    public $htmlcache;                       // TEXT() => openads_text => 162 
-    public $width;                           // SMALLINT(6) => openads_smallint => 129 
-    public $height;                          // SMALLINT(6) => openads_smallint => 129 
-    public $weight;                          // TINYINT(4) => openads_tinyint => 129 
-    public $seq;                             // TINYINT(4) => openads_tinyint => 129 
-    public $target;                          // VARCHAR(16) => openads_varchar => 130 
-    public $url;                             // TEXT() => openads_text => 162 
-    public $alt;                             // VARCHAR(255) => openads_varchar => 130 
-    public $statustext;                      // VARCHAR(255) => openads_varchar => 130 
-    public $bannertext;                      // TEXT() => openads_text => 162 
-    public $description;                     // VARCHAR(255) => openads_varchar => 130 
-    public $adserver;                        // VARCHAR(255) => openads_varchar => 130 
-    public $block;                           // INT(11) => openads_int => 129 
-    public $capping;                         // INT(11) => openads_int => 129 
-    public $session_capping;                 // INT(11) => openads_int => 129 
-    public $compiledlimitation;              // TEXT() => openads_text => 162 
-    public $acl_plugins;                     // TEXT() => openads_text => 34 
-    public $append;                          // TEXT() => openads_text => 162 
-    public $bannertype;                      // TINYINT(4) => openads_tinyint => 129 
-    public $alt_filename;                    // VARCHAR(255) => openads_varchar => 130 
-    public $alt_imageurl;                    // VARCHAR(255) => openads_varchar => 130 
-    public $alt_contenttype;                 // ENUM('gif','jpeg','png') => openads_enum => 130 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $acls_updated;                    // DATETIME() => openads_datetime => 142 
-    public $keyword;                         // VARCHAR(255) => openads_varchar => 130 
-    public $transparent;                     // TINYINT(1) => openads_tinyint => 145 
-    public $parameters;                      // TEXT() => openads_text => 34 
-    public $an_banner_id;                    // INT(11) => openads_int => 1 
-    public $as_banner_id;                    // INT(11) => openads_int => 1 
-    public $status;                          // INT(11) => openads_int => 129 
-    public $ad_direct_status;                // TINYINT(4) => openads_tinyint => 129 
-    public $ad_direct_rejection_reason_id;    // TINYINT(4) => openads_tinyint => 129 
-    public $ext_bannertype;                  // VARCHAR(255) => openads_varchar => 2 
-    public $prepend;                         // TEXT() => openads_text => 162 
+    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $contenttype;                     // ENUM('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') => openads_enum => 130
+    public $pluginversion;                   // MEDIUMINT(9) => openads_mediumint => 129
+    public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130
+    public $filename;                        // VARCHAR(255) => openads_varchar => 130
+    public $imageurl;                        // VARCHAR(255) => openads_varchar => 130
+    public $htmltemplate;                    // TEXT() => openads_text => 162
+    public $htmlcache;                       // TEXT() => openads_text => 162
+    public $width;                           // SMALLINT(6) => openads_smallint => 129
+    public $height;                          // SMALLINT(6) => openads_smallint => 129
+    public $weight;                          // TINYINT(4) => openads_tinyint => 129
+    public $seq;                             // TINYINT(4) => openads_tinyint => 129
+    public $target;                          // VARCHAR(16) => openads_varchar => 130
+    public $url;                             // TEXT() => openads_text => 162
+    public $alt;                             // VARCHAR(255) => openads_varchar => 130
+    public $statustext;                      // VARCHAR(255) => openads_varchar => 130
+    public $bannertext;                      // TEXT() => openads_text => 162
+    public $description;                     // VARCHAR(255) => openads_varchar => 130
+    public $adserver;                        // VARCHAR(255) => openads_varchar => 130
+    public $block;                           // INT(11) => openads_int => 129
+    public $capping;                         // INT(11) => openads_int => 129
+    public $session_capping;                 // INT(11) => openads_int => 129
+    public $compiledlimitation;              // TEXT() => openads_text => 162
+    public $acl_plugins;                     // TEXT() => openads_text => 34
+    public $append;                          // TEXT() => openads_text => 162
+    public $bannertype;                      // TINYINT(4) => openads_tinyint => 129
+    public $alt_filename;                    // VARCHAR(255) => openads_varchar => 130
+    public $alt_imageurl;                    // VARCHAR(255) => openads_varchar => 130
+    public $alt_contenttype;                 // ENUM('gif','jpeg','png') => openads_enum => 130
+    public $comments;                        // TEXT() => openads_text => 34
+    public $updated;                         // DATETIME() => openads_datetime => 142
+    public $acls_updated;                    // DATETIME() => openads_datetime => 142
+    public $keyword;                         // VARCHAR(255) => openads_varchar => 130
+    public $transparent;                     // TINYINT(1) => openads_tinyint => 145
+    public $parameters;                      // TEXT() => openads_text => 34
+    public $an_banner_id;                    // INT(11) => openads_int => 1
+    public $as_banner_id;                    // INT(11) => openads_int => 1
+    public $status;                          // INT(11) => openads_int => 129
+    public $ad_direct_status;                // TINYINT(4) => openads_tinyint => 129
+    public $ad_direct_rejection_reason_id;    // TINYINT(4) => openads_tinyint => 129
+    public $ext_bannertype;                  // VARCHAR(255) => openads_varchar => 2
+    public $prepend;                         // TEXT() => openads_text => 162
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }
@@ -189,7 +189,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
         $new_adId = $this->insert(false);
 
         // Copy ACLs and capping
-        MAX_AclCopy(basename($_SERVER['PHP_SELF']), $old_adId, $new_adId);
+        MAX_AclCopy(basename($_SERVER['SCRIPT_NAME']), $old_adId, $new_adId);
 
         // Duplicate and ad-zone associations
         MAX_duplicateAdZones($old_adId, $new_adId);

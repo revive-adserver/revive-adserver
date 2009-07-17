@@ -76,7 +76,7 @@ phpAds_SessionDataStore();
     }
 
     // Initialise some parameters
-    $pageName = basename($_SERVER['PHP_SELF']);
+    $pageName = basename($_SERVER['SCRIPT_NAME']);
     $tabIndex = 1;
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);

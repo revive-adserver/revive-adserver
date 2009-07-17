@@ -48,7 +48,7 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 
 // Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid);

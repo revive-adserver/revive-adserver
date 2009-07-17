@@ -59,7 +59,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // of the preferences are checkboxes
     $aElements   = array();
     $aCheckboxes = array();
-    
+
     // eCPM
     $aElements[] = 'campaign_ecpm_enabled';
     $aElements[] = 'contract_ecpm_enabled';
@@ -94,7 +94,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         // We changed contract
         if ((bool) $_POST['contract_ecpm_enabled'] != (bool) $pref['contract_ecpm_enabled']) {
-        
+
             // Reload the prefs we just changed into the global variable because
             // we use it when setting ecpm_enabled in the DO.
             OA_Preferences::loadPreferences();
@@ -116,7 +116,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $session['aInactivatedCampaignsIds'] = $aInactivatedCampaignsIds;
             phpAds_SessionDataStore();
         }
-        
+
         if ($runMaintenance) {
             OA_Maintenance_Priority::scheduleRun();
         }
@@ -128,7 +128,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
             array(htmlspecialchars($title)));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the preferences to the database, store this
     // error message and continue

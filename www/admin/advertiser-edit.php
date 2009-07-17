@@ -66,7 +66,7 @@ OA_Permission::enforceAccessToObject('clients', $clientid, true);
 /*-------------------------------------------------------*/
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
 phpAds_SessionDataStore();
-	
+
 /*-------------------------------------------------------*/
 /* Initialise data                                    */
 /*-------------------------------------------------------*/
@@ -108,7 +108,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildAdvertiserForm($aAdvertiser)
 {
-    $form = new OA_Admin_UI_Component_Form("clientform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("clientform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
 
     $form->addElement('hidden', 'clientid', $aAdvertiser['clientid']);

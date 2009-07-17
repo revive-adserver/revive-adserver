@@ -107,7 +107,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
             array(htmlspecialchars($title)));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        OX_Admin_Redirect::redirect(basename($_SERVER['PHP_SELF']));
+        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the preferences to the database, store this
     // error message and continue

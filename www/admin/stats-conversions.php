@@ -158,7 +158,7 @@ if(OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     echo '<br><br>';
 }
 // Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $advertisersHidden = 0;
 
@@ -484,7 +484,7 @@ if (!empty($aConversions)) {
         echo "</form>"."\n";
     }
 
-    echo "<form id='setPager' method='get' action='stats.php?".$_SERVER['QUERY_STRING']."'>";
+    echo "<form id='setPager' method='get' action='stats.php?".htmlentities($_SERVER['QUERY_STRING'])."'>";
 
     $getValues = split('&', $_SERVER['QUERY_STRING']);
     foreach ($getValues as $record) {

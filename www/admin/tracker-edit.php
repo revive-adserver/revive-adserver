@@ -116,7 +116,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildTrackerForm($tracker)
 {
-    $form = new OA_Admin_UI_Component_Form("trackerform", "POST", $_SERVER['PHP_SELF']);
+    $form = new OA_Admin_UI_Component_Form("trackerform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'trackerid', $tracker['trackerid']);
     $form->addElement('hidden', 'clientid', $tracker['clientid']);

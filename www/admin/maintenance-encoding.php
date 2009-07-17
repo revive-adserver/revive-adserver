@@ -216,7 +216,7 @@ if (!empty($_POST['encTest'])) {
         }
     }
     echo "</table><br />";
-    echo "<input type='submit' name='encConfirm' value='{$GLOBALS['strConvert']}' /> <input type='button' name='encCancel' value='{$GLOBALS['strCancel']}' onclick='javascript:document.location = \"" . $_SERVER['PHP_SELF'] . "\";' />";
+    echo "<input type='submit' name='encConfirm' value='{$GLOBALS['strConvert']}' /> <input type='button' name='encCancel' value='{$GLOBALS['strCancel']}' onclick='javascript:document.location = \"" . $_SERVER['SCRIPT_NAME'] . "\";' />";
 }
 
 phpAds_ShowBreak();
