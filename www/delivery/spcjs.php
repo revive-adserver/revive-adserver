@@ -3134,7 +3134,7 @@ return;
 zoneid = zones[name];
 }
 var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
-{$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['popup'])."?zoneid=\"+zoneid;
+{$varprefix}pop+=\"src='\"+{$varprefix}p+\"?zoneid=\"+zoneid;
 {$varprefix}pop+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 if (window.location) {$varprefix}pop+=\"&amp;loc=\"+escape(window.location);
