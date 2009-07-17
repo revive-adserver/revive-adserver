@@ -2863,7 +2863,7 @@ $path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path, 1);
 }
 }
 // Return the URL
-return $GLOBALS['_MAX']['HTTP'] . $path . urlencode($file);
+return $GLOBALS['_MAX']['HTTP'] . $path . $file;
 }
 }
 function pearErrorHandler($oError)
