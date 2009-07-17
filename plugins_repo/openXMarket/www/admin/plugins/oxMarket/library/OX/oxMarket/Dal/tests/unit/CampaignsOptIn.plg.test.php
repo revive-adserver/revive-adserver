@@ -51,6 +51,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         TestEnv::uninstallPluginPackage('openXMarket', false);
     }
 
+    
     function testPerformOptIn(){
 
         $aObjectsIds = $this->_prepare_users();
@@ -190,7 +191,8 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignname'], 'campaign 1');
         $this->assertEqual($aResult[$aCampaignsIds[1]]['minCpm'], 1);
-        $this->assertTrue($aResult[$aCampaignsIds[1]]['minCpmCalculated']);
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['priority'], DataObjects_Campaigns::PRIORITY_REMNANT);
+        $this->assertFalse($aResult[$aCampaignsIds[1]]['minCpmCalculated']); //REMNANT_CAMPAIGNS are not eCPM enabled
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignname'], 'campaign 2');
         $this->assertEqual($aResult[$aCampaignsIds[2]]['minCpm'], 1);
@@ -209,7 +211,8 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual(3, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
-        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['priority'], 7);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]); 
 
         // Opt in two campaigns
         $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
@@ -291,7 +294,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         // Result is independed from already opted in capmaigns
         $this->assertEqual(2, $oDalCampaignsOptIn->numberOfRemnantCampaignsToOptIn());
     }
-
+    
 
     function _prepare_users()
     {
@@ -321,6 +324,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
 
         return $aObjectsIds;
     }
+    
 
     function _prepare_campaigns($aObjectsIds)
     {
@@ -356,6 +360,8 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $doCampaigns->expire_time = $dateY[1];
         $doCampaigns->priority = 7;
         $doCampaigns->clientid = $aObjectsIds['managerClientID'];
+        $doCampaigns->ecpm_enabled = true; //contract campaigns with priority 6-9 have this set to true
+        
         $aCampaignsIds[4] = DataGenerator::generateOne($doCampaigns);
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'campaign 5';
