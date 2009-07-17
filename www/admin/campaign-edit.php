@@ -1106,6 +1106,7 @@ function phpAds_showStatusRejected($reject_reason)
 
 function getCampaignInactiveReasons($aCampaign)
 {
+    $aPref = $GLOBALS['_MAX']['PREF'];
     $aReasons = array ();
 
     if (($aCampaign['impressions'] != -1) && ($aCampaign['impressionsRemaining'] <= 0)) {
@@ -1132,13 +1133,20 @@ function getCampaignInactiveReasons($aCampaign)
     ) {
         $aReasons [] = $GLOBALS ['strTargetIsNull'];
     }
-    if (($aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM ||
-        $aCampaign['priority'] >= DataObjects_Campaigns::PRIORITY_ECPM_FROM ||
-        $aCampaign['priority'] <= DataObjects_Campaigns::PRIORITY_ECPM_TO) &&
-        $aCampaign['revenue'] <= 0) {
-        $aReasons [] = $GLOBALS ['strRevenueIsNull'];
+    if ($aCampaign['revenue'] <= 0) {
+        // Remnant eCPM?
+        $isEcpm = $aPref['campaign_ecpm_enabled'] &&
+            $aCampaign['priority'] == DataObjects_Campaigns::PRIORITY_ECPM;
+        if (!$isEcpm) {
+            // Otherwise Contract eCPM?
+            $isEcpm = $aPref['contract_ecpm_enabled'] &&
+                $aCampaign['priority'] >= DataObjects_Campaigns::PRIORITY_ECPM_FROM &&
+                $aCampaign['priority'] <= DataObjects_Campaigns::PRIORITY_ECPM_TO;
+        }
+        if ($isEcpm) {
+            $aReasons [] = $GLOBALS ['strRevenueIsNull'];
+        }
     }
-
 
     return $aReasons;
 }
