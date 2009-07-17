@@ -47,7 +47,10 @@ $Id$
   $(document).ready(function() {
     $('#campaignform').campaignMarket({
 {/literal}
-            defaultFloorPrice: "{$_e.vars.defaultFloorPrice}"
+            defaultFloorPrice: "{$_e.vars.defaultFloorPrice}",
+            floorValidationRateMessage : "{$_e.vars.floorValidationRateMessage}",
+            floorValidationECPMMessage : "{$_e.vars.floorValidationECPMMessage}"
+            
 {literal}            
     });
   });

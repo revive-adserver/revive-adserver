@@ -110,7 +110,7 @@ $Id$
 {/if}
 
 {literal}
-function updateEcpm()
+function updateEcpm(userTriggered)
 {
     var impressionsSoFar = this['impressions_delivered'];
     var clicksSoFar = this['clicks_delivered'];
@@ -131,6 +131,7 @@ function updateEcpm()
             '&start=' + startDate + '&end=' + endDate,
         success: function(response) {
             $("#ecpm_val").html(response);
+            $("#ecpm_val").trigger('ecpmUpdate', { userTriggered: userTriggered});
         },
         error: function(xhr) {
             //alert('Error! Status = ' + xhr.status);

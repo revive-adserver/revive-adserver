@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download)</description>
     <version>1.0.3-rc4</version>
-    <oxversion>2.8.2-rc9</oxversion>
+    <oxversion>2.8.2-rc13</oxversion>
     <type>extension</type>
 
     <install>

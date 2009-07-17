@@ -9,7 +9,7 @@
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
     <version>1.0.3-rc4</version>
-    <oxversion>2.7.31-beta-rc4</oxversion>
+    <oxversion>2.8.2-rc13</oxversion>
     <extends>admin</extends>
     <install>
 
@@ -42,6 +42,8 @@
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">FloorPriceCompare.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">QuickFormFloorPriceCompareRuleAdaptor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>

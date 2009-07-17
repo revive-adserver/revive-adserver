@@ -558,7 +558,7 @@ function initCampaignForm(formId)
     initEcpmInput($endDateField);
     initEcpmInput($priorityField);
     initEcpmInput($dateFields);
-    updateEcpm();
+    updateEcpm(false);
 
     $("#priority-e, #endSet_immediate, #endSet_specific, #impr_unlimited, #click_unlimited, #conv_unlimited").click(function() {
         updateCampaignDateAndLimitsAndType();
@@ -700,7 +700,7 @@ function showHideLimitDisabledNotes()
 function initEcpmInput($input)
 {
     $input.change(function() {
-           updateEcpm();
+           updateEcpm(true);
     });
 }
 

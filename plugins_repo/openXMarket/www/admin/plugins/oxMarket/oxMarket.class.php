@@ -82,6 +82,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             : NULL;
         $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);            
         $maxFloorPriceValue = $this->getMaxFloorPrice();
+        
+        //register custom floor price vs CPM check jquery rule adaptors
+        $form->registerRule('floor_price_compare', 'rule', 'OX_oxMarket_UI_rule_FloorPriceCompare',
+            dirname(__FILE__).'/library/OX/oxMarket/UI/rule/FloorPriceCompare.php');
+
+        $form->registerJQueryRuleAdaptor('floor_price_compare', 
+            dirname(__FILE__).'/library/OX/oxMarket/UI/rule/QuickFormFloorPriceCompareRuleAdaptor.php',
+            'OX_oxMarket_UI_rule_JQueryFloorPriceCompareRule');        
 
         $aFields = array(
             'mkt_is_enabled' => 'f',
@@ -107,7 +115,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
         $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
-        $form->addElement('plugin-script', 'campaign-script', 'oxMarket', array('defaultFloorPrice' => $defaultFloorPrice));
+        $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
+            array('defaultFloorPrice' => $defaultFloorPrice,
+                'floorValidationRateMessage' => $this->translate("The Market floor price cannot be lower than the campaign's specified CPM."), 
+                'floorValidationECPMMessage' => $this->translate("The Market floor price cannot be lower than the campaign's eCPM.") 
+            ));
 
 
         //in order to get conditional validation, check if it is POST 
@@ -119,12 +131,54 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     array($this->translate('%s is required', array($this->translate('Campaign floor price'))), 'required'),
                     array($this->translate("%s must be a minimum of at least 0.01", array($this->translate('Campaign floor price'))), 'min', 0.01),
                     array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2),
-                    array($this->translate("%s must be smaller than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
+                    array($this->translate("%s must be less than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
                 )
             ));
         }
 
+       global $pref;
+       if (!empty($pref['campaign_ecpm_enabled']) || !empty($pref['contract_ecpm_enabled']) ) {
+        $floorValidationMessage = $this->translate('Floor price must be greater or equal to %s', array($GLOBALS ['strECPM'])); 
+       }
+       else {
+        $floorValidationMessage = $this->translate('Floor price must be greater or equal to %s', array($GLOBALS ['strRatePrice']));
+       } 
+        
+       $form->addGroupRule('floor_price_group', array(
+                'floor_price' => array(
+                    array('----', 'floor_price_compare'), //message here is set from JS
+                )
+       ));
+       
+       $form->addFormRule(array($this, 'compareFloorPrice'));
+                    
+
         $form->setDefaults($aFields);
+    }
+    
+    
+    function compareFloorPrice($submitValues)
+    {
+        if ($submitValues['mkt_is_enabled'] == 't') {
+            $floorPrice = trim($submitValues['floor_price']);
+            
+            //if ecpm is enabled use the hidden added by JS
+            if (isset($submitValues['remnant_ecpm_enabled']) 
+                && $submitValues['remnant_ecpm_enabled'] == 1 
+                && $submitValues['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
+                $comparedValue = $submitValues['last_ecpm'];
+                $floorValidationMessage = $this->translate("The Market floor price cannot be lower than the campaign's eCPM.");
+            }
+            else { //use rate/price .ie revenue for comparison
+                $comparedValue = $submitValues['revenue'];
+                $floorValidationMessage = $this->translate("The Market floor price cannot be lower than the campaign's specified CPM."); 
+            }
+            
+            if (is_numeric($comparedValue) && is_numeric($floorPrice) && $floorPrice < $comparedValue) {
+                return array('floor_price_group' => $floorValidationMessage);
+            }
+        }
+        return true;        
     }
 
 
@@ -540,12 +594,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isRegistered()
     {
+        return true;
         return $this->oMarketPublisherClient->hasAssociationWithPc();
     }
 
 
     function isActive()
     {
+        return true;
         // Account is active if is registered, has valid status and API key is set
         $result = $this->isRegistered() &&
                ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==

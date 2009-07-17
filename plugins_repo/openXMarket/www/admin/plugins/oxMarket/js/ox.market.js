@@ -109,9 +109,11 @@
         var $form = $(this);
         var $revenueField = $('#revenue', $form);
         var $pricingField = $('#pricing_revenue_type', $form);
+        var $eCPMSpan = $("#ecpm_val"); 
 
         var $enableMarketChbx = $('#' + settings.enableMarketId, $form);
         var $floorPriceField = $('#' + settings.floorPriceId, $form);
+        var validNumberCheck = /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/;
         
         init();
         
@@ -126,6 +128,17 @@
             $("#pricing_revenue_type").change(updateFloorPrice);
             
             $("#priority-h, #priority-e, #priority-l", $form).click(onTypeClick);
+            $eCPMSpan.bind("ecpmUpdate", function(event, data) {
+                    addLastCPMHidden(); 
+                    if (data.userTriggered) {
+                        updateFloorPrice();
+                    }
+                });
+            
+            //register custom validation method used to validate floor price agains CMP, eCPM
+            //note that the message is not used - it will be overridden in validateFloorPrice
+            jQuery.validator.addMethod("floor_price_compare", validateFloorPrice,     
+                "Floor price must greater or equal to  CPM (or eCPM if used)"); //DUMMY message, not used
         }
         
         
@@ -149,22 +162,118 @@
         }
         
         
+        function validateFloorPrice(value, element)
+        {
+            var mplaceEnabled = $enableMarketChbx.attr('checked');
+            $floorPriceField.attr('disabled', !mplaceEnabled);
+            
+            if (!mplaceEnabled) {
+                return true;
+            }
+            var pricing = $pricingField.val();
+            var currentFloor = $.trim(value).replace(/,/, '');
+            var currentRevenue = $.trim($revenueField.val()).replace(/,/, '');
+
+//            console.log("VAL pricing:|"+pricing+"|, currentFloor:|"+currentFloor+"|, revenue:|"+currentRevenue);
+            
+                        //if eCPM is not enabled
+            if (!isECPMEnabled()) {
+//              console.log("VAL compare:|"+(currentFloor < currentRevenue));
+              if (MODEL_CPM == pricing && floorLessThen(currentFloor, currentRevenue)) {
+//                 console.log("invalid floor (R)" + currentFloor + " < " + currentRevenue);
+                 setValidatorMessage(settings.floorValidationRateMessage);
+                  return false;
+              }  
+            }
+            else {
+//               console.log("VAL compare (e):|"+(currentFloor < ecpm));
+                var ecpm = $eCPMSpan.text().replace(/,/, '');
+                if (floorLessThen(currentFloor, ecpm)) {
+//                    console.log("invalid floor (E) " + currentFloor + " < " + ecpm);
+                    setValidatorMessage(settings.floorValidationECPMMessage);
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        
         function updateFloorPrice()
         {
             var mplaceEnabled = $enableMarketChbx.attr('checked');
             $floorPriceField.attr('disabled', !mplaceEnabled);
             
-            if (mplaceEnabled) {
-              var pricing = $pricingField.val();
-              var currentFloor = $floorPriceField.val();
-              var currentRevenue = $revenueField.val();
-              var defaultFloor = settings.defaultFloorPrice;
-              //if user selected CPM and floor is empty or it has default value allow to override it
-              if (MODEL_CPM == pricing && currentRevenue != '' && 
-                ($.trim($floorPriceField.val()) == '' || (defaultFloor != '' &&  currentFloor == defaultFloor) )) {
-                $floorPriceField.val(currentRevenue);
-              }
+            if (!mplaceEnabled) {
+                return;
             }
+            var pricing = $pricingField.val();
+            var currentFloor = $.trim($floorPriceField.val()).replace(/,/, '');
+            var currentRevenue = $.trim($revenueField.val()).replace(/,/, '');
+            var defaultFloor = settings.defaultFloorPrice;
+
+//            console.log("pricing:|"+pricing+"|, currentFloor:|"+currentFloor+"|, revenue:|"+currentRevenue+"|, defaultFloor:|"+defaultFloor+"|");
+          
+            //if eCPM is not enabled
+            if (!isECPMEnabled()) {
+//                console.log("compare:|"+(currentFloor < currentRevenue));
+            
+                if (MODEL_CPM == pricing && floorLessThen(currentFloor, currentRevenue)) {
+//                   console.log("setting floor from " + currentFloor + " to " + currentRevenue);
+                    $floorPriceField.val(parseFloat(currentRevenue));
+                } 
+            }
+            else {
+                var ecpm = $eCPMSpan.text().replace(/,/, '');
+//                console.log("compare (e):|"+(currentFloor < ecpm));
+                 if (floorLessThen(currentFloor, ecpm)) {
+//                   console.log("setting floor from (E)" + currentFloor + " to " + ecpm);
+                    $floorPriceField.val(parseFloat(ecpm));
+                 }
+            }
+        }
+        
+        
+        function addLastCPMHidden()
+        {
+            var $lastECPMHidden = $("#last_ecpm")        
+            if ($lastECPMHidden.length == 0) {
+                 $form.append('<input type="hidden" name="last_ecpm" id="last_ecpm" value="" />');
+                 $lastECPMHidden = $("#last_ecpm");
+            }
+            $lastECPMHidden.val($eCPMSpan.text().replace(/,/, ''));
+        }
+        
+        
+        function setValidatorMessage(message)
+        {
+            var validator = $form.getValidator()
+            var floorPriceName = $floorPriceField.attr("name");
+            messages = validator.settings.messages[floorPriceName];
+            
+            var messages = $.extend({}, messages, { 'floor_price_compare' : message });
+            
+            validator.settings.messages[floorPriceName] = messages; 
+        }
+                
+        
+        function floorLessThen(currentFloor, comparedValue)
+        {
+          var numbersValid = validNumberCheck.test(comparedValue) && validNumberCheck.test(currentFloor);
+          
+          if (numbersValid) {
+              comparedValue = parseFloat(comparedValue);
+              currentFloor = parseFloat(currentFloor);
+          } 
+          if (comparedValue != '' && numbersValid && (currentFloor < comparedValue)) {
+            return true;
+          }
+          return false;  
+        }
+        
+        function isECPMEnabled()
+        {
+            return $eCPMSpan.length > 0 && $eCPMSpan.height() > 0;        
         }
     });
   };
@@ -258,4 +367,30 @@
             }
         }
     };
+})(jQuery);
+
+(function($) {
+  $.fn.getValidator = function() {
+     if (this.length == 0) {
+        return null;
+     }
+     var form = this[0];
+     var validator = jQuery.data(form, 'validator');
+     
+     return validator;
+  };
+})(jQuery);
+
+
+(function($) {
+  $.fn.addRule = function(rules) {
+     if (this.length == 0) {
+        return this;
+     }
+     var element = this[0];
+     var validator = jQuery.data(element.form, 'validator');
+     var existingRules = validator.settings.rules[element.name] 
+      ||  (validator.settings.rules[element.name] = {});
+     $.extend(existingRules, rules);
+  };
 })(jQuery);
