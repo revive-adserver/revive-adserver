@@ -333,9 +333,9 @@ MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
 if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
-$url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
+$url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
 } else {
-$url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
+$url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
 }
 $url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
@@ -2863,7 +2863,7 @@ $path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path, 1);
 }
 }
 // Return the URL
-return $GLOBALS['_MAX']['HTTP'] . $path . $file;
+return $GLOBALS['_MAX']['HTTP'] . $path . urlencode($file);
 }
 }
 function pearErrorHandler($oError)
