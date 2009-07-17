@@ -81,7 +81,7 @@ function _marketNeeded($scriptFile, $code, $aAd) {
     }
     
     // Check if this website is market enabled
-    $aWebsiteMarketInfo = OX_cacheGetWebsiteMarketInfo($aAd['affiliate_id']);
+    $aWebsiteMarketInfo = OX_cacheGetWebsiteMarketInfo(@$aAd['affiliate_id']);
     if (empty($aWebsiteMarketInfo['website_id'])) {
         return false;
     }
