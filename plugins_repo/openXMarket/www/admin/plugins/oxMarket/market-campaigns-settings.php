@@ -29,6 +29,7 @@ require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/DecimalPlaces.php';
+require_once MAX_PATH .'/lib/pear/HTML/QuickForm/Rule/Regex.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/Max.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
 
@@ -41,7 +42,7 @@ if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
     $oMarketComponent->setMarketSettingsAlreadyShown();
 }
 $defaultMinCpm = $oMarketComponent->getConfigValue('defaultFloorPrice');
-$maxCpm = $oMarketComponent->getMaxFloorPrice();
+$maxCpm = $oMarketComponent->getMaxFloorPrice(); //used for validation purpose only
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
@@ -57,7 +58,7 @@ if (empty($campaignType)) {
     $campaignType = 'remnant';
 }
 if (empty($optInType)) {
-    $optInType = 'remnant';
+    $optInType = 'selected';
 }
 if (!isset($minCpm)) {
     $minCpm = formatCpm($defaultMinCpm);
@@ -76,13 +77,17 @@ foreach ($_REQUEST as $param => $value) {
 }
 
 // Perform opt-in if needed
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $maxCpm))
+$campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms);
+//echo '<pre>';
+//var_dump($campaigns);
+//echo '</pre>';
+if ('POST' == $_SERVER['REQUEST_METHOD'] && isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $campaigns, $maxCpm))
 {
-    performOptIn($minCpms, $oCampaignsOptInDal);
-    exit(0);
+//    performOptIn($minCpms, $oCampaignsOptInDal);
+//    exit(0);
 }
 
-$campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms);
+
 
 // The number of campaigns of $campaignType that have already been
 // opted in to the Market. We need this number to tell the difference between the
@@ -129,7 +134,7 @@ $oTpl->display();
 //footer
 phpAds_PageFooter();
 
-function isDataValid($template, $maxCpmValue)
+function isDataValid($template, $aCampaigns, $maxCpmValue)
 {
     global $optInType, $toOptIn, $minCpm;
     $valid = true;
@@ -138,51 +143,112 @@ function isDataValid($template, $maxCpmValue)
     $maxValidator = new OA_Admin_UI_Rule_Max();
     
 
-    if ($optInType == 'remnant') {
-        $valid = $decimalValidator->validate($minCpm, 2); 
-        if ($valid) {
-            $tooSmall = ($minCpm <= 0);
-            $tooBig = !$maxValidator->validate($minCpm, $maxCpmValue); 
-            $valid = $valid && !$tooSmall && !$tooBig;
-        }
-        if (!$valid) {
-            $template->assign('minCpmInvalid', true);
-        }
-    } 
-    else {
+//    if ($optInType == 'remnant') {
+//        $valid = is_numeric($minCpm) && $decimalValidator->validate($minCpm, 2); 
+//        if ($valid) {
+//            $tooSmall = ($minCpm <= 0);
+//            $tooBig = !$maxValidator->validate($minCpm, $maxCpmValue); 
+//            $valid = $valid && !$tooSmall && !$tooBig;
+//        }
+//        if (!$valid) {
+//            $template->assign('minCpmInvalid', true);
+//            if ($tooSmall) {
+//                OA_Admin_UI::queueMessage('Please provide CPM values greater than zero', 'local', 'error', 0);
+//            }
+//            else if ($tooBig) {
+//                OA_Admin_UI::queueMessage('Please provide CPM values smaller than '.formatCpm($maxCpmValue), 'local', 'error', 0);
+//            } 
+//            
+//            else {
+//                OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
+//            }
+//        }
+//    } 
+//    else {
+    if ($optInType == 'selected') {
         $invalidCpms = array();
         foreach ($toOptIn as $campaignId) {
             $value = $_REQUEST['cpm' . $campaignId];
-            $valueValid = $decimalValidator->validate($value, 2);
+            //is number
+            $valueValid = is_numeric($value);
+            
+            $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);
+            
+            //is greater than zero
             if ($valueValid) {
-                $valueTooSmall = ($value <= 0);
-                $valueTooBig = !$maxValidator->validate($value, $maxCpmValue);
-                $valueValid = $valueValid && !$valueTooSmall && !$valueTooBig;
-                $tooSmall = $tooSmall || $valueTooSmall;
-                $tooBig = $tooBig || $valueTooBig;
+                $valueValid = ($value > 0);
+                $message = $valueValid ?  null : $message = getValidationMessage('too-small', $maxCpmValue);
+            }
+            //less than arbitrary maxcpm 
+            if ($valueValid) {
+                $valueValid = $maxValidator->validate($value, $maxCpmValue);
+                $message = $valueValid ?  null : getValidationMessage('too-big', $maxCpmValue);
+            }
+            //max 2decimal places?
+            if ($valueValid) {
+                $valueValid = $decimalValidator->validate($value, 2);
+                $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);                
+            }
+            //not smaller than eCPM or campaigns CPM ('revenue')
+            if ($valueValid) {
+                $aCampaign = $aCampaigns[$campaignId];
+                if (OX_oxMarket_Dal_CampaignsOptIn::isECPMEnabledCampaign($aCampaign)) {
+                    if (is_numeric($aCampaign['ecpm']) && $value < $aCampaign['ecpm']) {
+                        $valueValid = false;
+                        $message = getValidationMessage('compare-ecpm', $maxCpmValue, $aCampaign['ecpm']);
+                    }
+                }
+                else {
+                    if (is_numeric($aCampaign['revenue']) && $value < $aCampaign['revenue']) {
+                        $valueValid = false;
+                        $message = getValidationMessage('compare-rate', $maxCpmValue, $aCampaign['revenue']);
+                    }
+                }
+            }
+            if (!$valueValid) {
+                $invalidCpms[$campaignId] = $message;
             }
             $valid = $valid && $valueValid;
-
-            if (!$valueValid) {
-                $invalidCpms[$campaignId] = true;
-            }
+        }
+        
+        if (!$valid) {
+            OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
         }
         $template->assign('minCpmsInvalid', $invalidCpms);
     }
 
-    if (!$valid) {
-        if ($tooSmall) {
-            OA_Admin_UI::queueMessage('Please provide CPM values greater than zero', 'local', 'error', 0);
+    return $valid;
+}
+
+
+function getValidationMessage($cause, $maxCpmValue, $value = null)
+{
+    switch($cause) {
+        case 'too-small' : {
+            $message = 'Please provide CPM value greater than zero';
+            break;
         }
-        else if ($tooBig) {
-            OA_Admin_UI::queueMessage('Please provide CPM values smaller than '.formatCpm($maxCpmValue), 'local', 'error', 0);
-        } 
+        case 'too-big' : {
+            $message = 'Please provide CPM value smaller than '.formatCpm($maxCpmValue); 
+            break;
+        }
+        case 'compare-ecpm' : {
+            $message = "Please provide minimum CPM greater than ".formatCpm($value)." (the campaign's eCPM)."; 
+            break;
+        }
+        case 'compare-rate' : {
+            $message = "Please provide minimum CPM greater than ".formatCpm($value)." (the campaign's specified CPM)."; 
+            break;
+        }
         
-        else {
-            OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
+        
+        case 'format' : 
+        default : {
+            $message = 'Please provide CPM values as decimal numbers with two digit precision'; 
         }
     }
-    return $valid;
+    
+    return $message;
 }
 
 

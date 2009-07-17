@@ -132,9 +132,17 @@ $Id$
                 </td>
                 <td>
                     $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
-                             name="cpm{$campaignId}" value="{$campaign.minCpm|escape}" /> USD
-                    {if $campaign.minCpmCalculated}
-                    <small>This is the campaign's calculated eCPM</small>
+                             name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
+                    {if $minCpmsInvalid[$campaignId]}
+                        <label class="error" for="cpm{$campaignId}">
+                        {$minCpmsInvalid[$campaignId]}
+                        </label>
+                    {else}     
+                      {if $campaign.minCpmCalculated}
+                      <small>This is the campaign's calculated eCPM</small>
+                      {elseif $campaign.minCpmSpecified}
+                      <small>This is the campaign's specified CPM</small>
+                      {/if}
                     {/if}
                 </td>
             </tr>

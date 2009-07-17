@@ -166,7 +166,7 @@ ul.column li.rejected {
 #massOptIn #mainOptions {
   line-height: 24px;
   list-style: none;
-  margin: 10px 0 0 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -190,7 +190,7 @@ ul.column li.rejected {
 }
 
 #massOptIn .mainOptionContent {
-  margin-left: 20px;
+  /*margin-left: 20px;*/
   margin-top: 6px;
 }
 

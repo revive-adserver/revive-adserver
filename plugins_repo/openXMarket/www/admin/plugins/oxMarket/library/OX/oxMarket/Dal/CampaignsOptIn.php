@@ -141,17 +141,53 @@ class OX_oxMarket_Dal_CampaignsOptIn
         $doCampaigns->find();
         while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
             $row_campaigns['campaignid'] = $row_campaigns['campaign_id'];
+            
             $campaignId = $row_campaigns['campaignid'];
             $campaigns[$row_campaigns['campaignid']]['campaignid']   = $campaignId;
             $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
             $campaigns[$campaignId]['campaignname'] = MAX_getPlacementName($campaign_details);
             $campaignTypeAux = OX_Util_Utils::getCampaignType($row_campaigns['priority']);
             // Take ECPM campaigns as remnant campaigns
-            $campaigns[$campaignId]['type'] = ($campaignTypeAux == 4) ? OX_CAMPAIGN_TYPE_REMNANT : $campaignTypeAux;
-            $campaignMinCpm = (isset($minCpms[$campaignId]) ? $minCpms[$campaignId] :
-            formatCpm(!empty($row_campaigns['ecpm']) ? $row_campaigns['ecpm'] : $defaultMinCpm));
+            $campaigns[$campaignId]['type'] = ($campaignTypeAux == OX_CAMPAIGN_TYPE_ECPM) 
+                ? OX_CAMPAIGN_TYPE_REMNANT : $campaignTypeAux;
+            $campaigns[$campaignId]['priority'] = $row_campaigns['priority'];
+            $campaigns[$campaignId]['revenue'] = $row_campaigns['revenue'];
+            $campaigns[$campaignId]['ecpm'] = $row_campaigns['ecpm'];
+            $campaigns[$campaignId]['ecpm_enabled'] = $row_campaigns['ecpm_enabled'];
+            
+            $minCpmCalculated = false;
+            $minCpmSpecified = false;                
+                
+            if (isset($minCpms[$campaignId])) {
+                $campaignMinCpm = $minCpms[$campaignId];
+                
+                //if user has specified same floor as current eCPM/CPM or have not 
+                //touched the proposed eCPM/CPM at all and submitted, we should preserve the ecpm marker
+                if (self::isECPMEnabledCampaign($row_campaigns) 
+                    && $minCpms[$campaignId] == $row_campaigns['ecpm']) {
+                    $minCpmCalculated = true;     
+                }
+                else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
+                    && $minCpms[$campaignId] == $row_campaigns['revenue']) {
+                    $minCpmSpecified = true;
+                }
+            }
+            else if (self::isECPMEnabledCampaign($row_campaigns) && is_numeric($row_campaigns['ecpm'])) {
+                $campaignMinCpm = formatCpm($row_campaigns['ecpm']);
+                $minCpmCalculated = true;
+            }
+            else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
+                && is_numeric($row_campaigns['revenue'])) {
+                $campaignMinCpm = formatCpm($row_campaigns['revenue']);
+                $minCpmSpecified = true;
+            }
+            else {
+                $campaignMinCpm = formatCpm($defaultMinCpm);
+            }
+            
             $campaigns[$campaignId]['minCpm'] = $campaignMinCpm;
-            $campaigns[$campaignId]['minCpmCalculated'] = !empty($row_campaigns['ecpm']);
+            $campaigns[$campaignId]['minCpmCalculated'] = $minCpmCalculated;
+            $campaigns[$campaignId]['minCpmSpecified'] = $minCpmSpecified;
         }
 
         return $campaigns;
@@ -253,5 +289,19 @@ class OX_oxMarket_Dal_CampaignsOptIn
         }
 
         return $doCampaigns;
+    }
+    
+    
+    /**
+     * Returns true if campaign is remnant eCPM enabled campaign, or if it is
+     * contract campaign with ecpm_enabled
+     *
+     * @param unknown_type $aCampaign
+     * @return unknown
+     */    
+    public static function isECPMEnabledCampaign($aCampaign)
+    {
+        $campaignTypeAux = OX_Util_Utils::getCampaignType($aCampaign['priority']);
+        return $campaignTypeAux == OX_CAMPAIGN_TYPE_ECPM || $aCampaign['ecpm_enabled'];
     }
 }

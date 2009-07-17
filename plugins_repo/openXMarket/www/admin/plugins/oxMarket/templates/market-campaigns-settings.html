@@ -27,96 +27,103 @@
 $Id$
 
 -->*}
-<form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
-<input type="hidden" name="campaignType" value="{$campaignType|escape}" /> 
-{if $topMessage}
-  {$topMessage}
-{else}    
-  <div class="section" style="width: 785px;">
-      <h2>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</h3>
-      <p>
-      OpenX Market is a free ad exchange that places higher paying ads on your site. Choose which 
-      campaigns to opt in and assign minimum CPMs to your inventory. OpenX Market will serve ads if it 
-      beats the campaign's floor price, otherwise your original ad is served.
-      </p>
-      <p>You do not need to retag your zones to participate. To learn more about OpenX Market ads 
-      and getting paid, visit the <a href="http://www.openx.org/faq/market" target="_blank">FAQ</a>.</p>    
-  </div>
-{/if}
-<ul id="mainOptions">
-  <li class="mainOption" style="width: 55em">
-    <label class="radio">
-        <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
-               name="optInType" value="remnant" class="radio" />
-      {if $optInAllLabel}
-        {$optInAllLabel}
-      {else}    
-        <b>Opt in all of your existing remnant campaigns to OpenX Market.</b> <br /><small>(<b>Note</b>: all 
-        remnant campaigns previously opted into OpenX Market will be updated with the 
-        following minimum CPM as well)</small>
-      {/if}
-    </label>
-      
-    <div id="optInAllRemnant" class="mainOptionContent">
-      <label>
-      {if $optInAllFieldCpmLabel}
-        {$optInAllFieldCpmLabel}
-      {else}
-        Minimum CPM that OpenX Market must beat&nbsp;&nbsp;
-      {/if}
-      $<input id="minCpm" type="text" name="minCpm" maxlength="{$maxValueLength}"
-               class="cpm{if $minCpmInvalid} error{/if}" 
-               value="{$minCpm|escape}"{if $optInType == 'selected'} disabled="disabled"{/if} />
-      </label>
-      {if $optInAllFieldCpmLabelSuffix}
-        {$optInAllFieldCpmLabelSuffix}
-      {else}
-        USD
-        <span class="link" help="help-market-cpm-all"><span class="icon icon-info">&nbsp;</span></span>
-        <div class="hide" id="help-market-cpm-all" style="height: auto; width: 270px;">
-            <p>
-                The minimum CPM you provide here will be the floor price OpenX Market uses 
-                for all your existing remnant campaigns. If the highest bid from OpenX Market 
-                exceeds your floor price, OpenX Market will serve the ad and pay you 
-                the higher revenue. Otherwise, your campaign's existing ad will be delivered.    
-            </p>
-            <p>
-                We recommend that you specify a CPM that represents the effective CPM that 
-                you expect to get from your remnant campaigns.    
-            </p>
+<div class="market-campaign-settings">
+  <form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
+    <input type="hidden" name="campaignType" value="{$campaignType|escape}" /> 
+    {if $topMessage}
+      {$topMessage}
+    {else}    
+      <div class="section" style="width: 785px;">
+          <h2>Maximize your revenue by flowing inventory from your campaigns into OpenX Market.</h2>
+          <p>
+          OpenX Market is a free ad exchange that places higher paying ads on your site. Choose which 
+          campaigns to opt in and assign minimum CPMs to your inventory. OpenX Market will serve ads if it 
+          beats the campaign's floor price, otherwise your original ad is served.
+          </p>
+          <p>You do not need to retag your zones to participate. To learn more about OpenX Market ads 
+          and getting paid, visit the <a href="http://www.openx.org/faq/market" target="_blank">FAQ</a>.</p>    
+      </div>
+    {/if}
+    <ul id="mainOptions">
+      {*<li class="mainOption" style="width: 55em">
+        <label class="radio">
+            <input type="radio"{if $optInType == 'remnant'} checked="checked"{/if} 
+                   name="optInType" value="remnant" class="radio" />
+          {if $optInAllLabel}
+            {$optInAllLabel}
+          {else}    
+            <b>Opt in all of your existing remnant campaigns to OpenX Market.</b> <br /><small>(<b>Note</b>: all 
+            remnant campaigns previously opted into OpenX Market will be updated with the 
+            following minimum CPM as well)</small>
+          {/if}
+        </label>
+          
+        <div id="optInAllRemnant" class="mainOptionContent">
+          <label>
+          {if $optInAllFieldCpmLabel}
+            {$optInAllFieldCpmLabel}
+          {else}
+            Minimum CPM that OpenX Market must beat&nbsp;&nbsp;
+          {/if}
+          $<input id="minCpm" type="text" name="minCpm" maxlength="{$maxValueLength}"
+                   class="cpm{if $minCpmInvalid} error{/if}" 
+                   value="{$minCpm|escape}"{if $optInType == 'selected'} disabled="disabled"{/if} />
+          </label>
+          {if $optInAllFieldCpmLabelSuffix}
+            {$optInAllFieldCpmLabelSuffix}
+          {else}
+            USD
+            <span class="link" help="help-market-cpm-all"><span class="icon icon-info">&nbsp;</span></span>
+            <div class="hide" id="help-market-cpm-all" style="height: auto; width: 270px;">
+                <p>
+                    The minimum CPM you provide here will be the floor price OpenX Market uses 
+                    for all your existing remnant campaigns. If the highest bid from OpenX Market 
+                    exceeds your floor price, OpenX Market will serve the ad and pay you 
+                    the higher revenue. Otherwise, your campaign's existing ad will be delivered.    
+                </p>
+                <p>
+                    We recommend that you specify a CPM that represents the effective CPM that 
+                    you expect to get from your remnant campaigns.    
+                </p>
+            </div>
+          {/if}
         </div>
+      </li>*}
+      
+      <li class="mainOption">
+        {*<label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
+                      name="optInType" value="selected" class="radio" />
+            {if $optInSomeRadioLabel}
+              {$optInSomeRadioLabel}
+            {else}    
+              <b>Opt in the selected campaigns to OpenX Market</b>
+            {/if}
+        </label>*}
+        <div id="optInSelected" class="mainOptionContent">
+        <b>Opt in the selected campaigns to OpenX Market</b>
+          {include file=market-campaigns-settings-list.html from=$campaigns}
+        </div>
+        <input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
+                      name="optInType" value="selected" class="radio hide" />
+        {* TODO this is hack - this radio should not be here, it should be removed
+           and JS and styling should be updated when there's time after release *}
+      </li>
+    </ul>
+    
+    <input type="submit" value="{if $optInSubmitLabel}$optInSubmitLabel{else}Apply{/if}" id="submit" name="opt-in-submit" class="main-submit" />
+    <span id="counts">
+      <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span>
+      <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
+      campaign(s) 
+      {if $remnantCampaignsOptedIn > 0}
+        <span id="remnantOptedInCount"{if $optInType == 'selected'} class="hide"{/if}>
+          (including {$remnantCampaignsOptedIn} previously opted in campaign{if $remnantCampaignsOptedIn > 1}s{/if})
+        </span> 
       {/if}
-    </div>
-  </li>
-  
-  <li class="mainOption">
-    <label class="radio"><input type="radio" {if $optInType == 'selected'} checked="checked"{/if} 
-                  name="optInType" value="selected" class="radio" />
-        {if $optInSomeRadioLabel}
-          {$optInSomeRadioLabel}
-        {else}    
-          <b>Opt in the selected campaigns to OpenX Market</b>
-        {/if}
-    </label>
-    <div id="optInSelected" class="mainOptionContent">
-      {include file=market-campaigns-settings-list.html from=$campaigns}
-    </div>
-  </li>
-</ul>
-
-<input type="submit" value="{if $optInSubmitLabel}$optInSubmitLabel{else}Apply{/if}" id="submit" name="opt-in-submit" class="main-submit" />
-<span id="counts">
-  <span id="remnantCount"{if $optInType == 'selected'} class="hide"{/if}>{$remnantCampaignsCount}</span>
-  <span id="selectedCount"{if $optInType == 'remnant'} class="hide"{/if}> </span>
-  campaign(s) 
-  {if $remnantCampaignsOptedIn > 0}
-    <span id="remnantOptedInCount"{if $optInType == 'selected'} class="hide"{/if}>
-      (including {$remnantCampaignsOptedIn} previously opted in campaign{if $remnantCampaignsOptedIn > 1}s{/if})
-    </span> 
-  {/if}
-  will be updated
-</span>
-</form>
+      will be updated
+    </span>
+  </form>
+</div>
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
 <script type="text/javascript">
