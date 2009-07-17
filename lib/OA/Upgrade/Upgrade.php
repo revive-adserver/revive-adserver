@@ -1069,7 +1069,7 @@ class OA_Upgrade
          * validate table prefix before creating DB since it does not
          * make much sense to create a DB and then be unable to add tables
          */
-        if (PEAR::isError(OA_DB::validateTableName($aConfig['table']['prefix'])))
+        if (PEAR::isError(OA_DB::validateTableName($aConfig['table']['prefix'].'foo')))
         {
             $this->oLogger->logError('Illegal characters in table prefix '.stripslashes($aConfig['table']['prefix']));
             return false;
