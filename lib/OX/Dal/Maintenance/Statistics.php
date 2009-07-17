@@ -1315,7 +1315,6 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         $oNowDate = new Date($oDate);
         $oNowDate->toUTC();
 
-        $runningStatus = $this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer');
         $query = "
             SELECT
                 cl.clientid AS advertiser_id,
@@ -1339,7 +1338,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ca.clientid = cl.clientid
                 AND
                 ((
-                    ca.status = {$runningStatus} AND
+                    ca.status = ".$this->oDbh->quote(OA_ENTITY_STATUS_RUNNING, 'integer')." AND
                     (
                         ca.expire_time IS NOT NULL
                         OR
@@ -1352,7 +1351,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         )
                     )
                 ) OR (
-                    ca.status <> {$runningStatus} AND
+                    ca.status = ".$this->oDbh->quote(OA_ENTITY_STATUS_AWAITING, 'integer')." AND
                     (
                         ca.activate_time <= " . $this->oDbh->quote($oNowDate->getDate(DATE_FORMAT_ISO), 'timestamp') . "
                         AND
@@ -1521,100 +1520,65 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     // be deactivated "soon", and send email(s) warning of this as required
                     $oEmail->sendCampaignImpendingExpiryEmail($oDate, $aCampaign['campaign_id']);
                 }
-            } else {
-                // The campaign is not active - does it need to be enabled,
-                // based on the campaign starting date?
-                if (!empty($aCampaign['start'])) {
-                    // The campaign has a valid start date, stored in UTC
-                    $oStartDate = new Date($aCampaign['start']);
-                    $oStartDate->setTZByID('UTC');
-                    if (!empty($aCampaign['end'])) {
-                        // The campaign has a valid end date, stored in in UTC
-                        $oEndDate = new Date($aCampaign['end']);
-                        $oEndDate->setTZByID('UTC');
-                    } else {
-                        $oEndDate = null;
+            } elseif (!empty($aCampaign['start'])) {
+                // The campaign is awaiting activation and has a valid start date, stored in UTC
+                $oStartDate = new Date($aCampaign['start']);
+                $oStartDate->setTZByID('UTC');
+                // Find out if there are any impression, click or conversion targets for
+                // the campaign (i.e. if the target values are > 0)
+                $remainingImpressions = 0;
+                $remainingClicks      = 0;
+                $remainingConversions = 0;
+                if (($aCampaign['targetimpressions'] > 0) ||
+                    ($aCampaign['targetclicks'] > 0) ||
+                    ($aCampaign['targetconversions'] > 0)) {
+                    // The campaign has an impression, click and/or conversion target,
+                    // so get the sum total statistics for the campaign so far
+                    $query = "
+                        SELECT
+                            SUM(dia.impressions) AS impressions,
+                            SUM(dia.clicks) AS clicks,
+                            SUM(dia.conversions) AS conversions
+                        FROM
+                            ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
+                            ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
+                        WHERE
+                            dia.ad_id = b.bannerid
+                            AND b.campaignid = {$aCampaign['campaign_id']}";
+                    $rsResultInner = $this->oDbh->query($query);
+                    $valuesRow = $rsResultInner->fetchRow();
+                    // Set the remaining impressions, clicks and conversions for the campaign
+                    $remainingImpressions = $aCampaign['targetimpressions'] - $valuesRow['impressions'];
+                    $remainingClicks      = $aCampaign['targetclicks']      - $valuesRow['clicks'];
+                    $remainingConversions = $aCampaign['targetconversions'] - $valuesRow['conversions'];
+                }
+                // In order for the campaign to be activated, need to test:
+                // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
+                //    then there must be remaining impressions to deliver (> 0); and
+                // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
+                //    then there must be remaining clicks to deliver (> 0); and
+                // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
+                //    then there must be remaining conversions to deliver (> 0)
+                if ((($aCampaign['targetimpressions'] <= 0) || (($aCampaign['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
+                    (($aCampaign['targetclicks']      <= 0) || (($aCampaign['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
+                    (($aCampaign['targetconversions'] <= 0) || (($aCampaign['targetconversions'] > 0) && ($remainingConversions > 0)))) {
+                    $message = "- Passed campaign start time of '" . $oStartDate->getDate() . " UTC" .
+                               "': Activating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
+                    OA::debug($message, PEAR_LOG_INFO);
+                    $report .= $message . "\n";
+                    $doCampaigns = OA_Dal::factoryDO('campaigns');
+                    $doCampaigns->campaignid = $aCampaign['campaign_id'];
+                    $doCampaigns->find();
+                    $doCampaigns->fetch();
+                    $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+                    $result = $doCampaigns->update();
+                    if ($result == false) {
+                        return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
-                    if (($oDate->after($oStartDate))) {
-                        // The start date has been passed; find out if there are any impression, click
-                        // or conversion targets for the campaign (i.e. if the target values are > 0)
-                        $remainingImpressions = 0;
-                        $remainingClicks      = 0;
-                        $remainingConversions = 0;
-                        if (($aCampaign['targetimpressions'] > 0) ||
-                            ($aCampaign['targetclicks'] > 0) ||
-                            ($aCampaign['targetconversions'] > 0)) {
-                            // The campaign has an impression, click and/or conversion target,
-                            // so get the sum total statistics for the campaign so far
-                            $query = "
-                                SELECT
-                                    SUM(dia.impressions) AS impressions,
-                                    SUM(dia.clicks) AS clicks,
-                                    SUM(dia.conversions) AS conversions
-                                FROM
-                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
-                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
-                                WHERE
-                                    dia.ad_id = b.bannerid
-                                    AND b.campaignid = {$aCampaign['campaign_id']}";
-                            $rsResultInner = $this->oDbh->query($query);
-                            $valuesRow = $rsResultInner->fetchRow();
-                            // Set the remaining impressions, clicks and conversions for the campaign
-                            $remainingImpressions = $aCampaign['targetimpressions'] - $valuesRow['impressions'];
-                            $remainingClicks      = $aCampaign['targetclicks']      - $valuesRow['clicks'];
-                            $remainingConversions = $aCampaign['targetconversions'] - $valuesRow['conversions'];
-                        }
-                        // In order for the campaign to be activated, need to test:
-                        // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
-                        //    then there must be remaining impressions to deliver (> 0); and
-                        // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
-                        //    then there must be remaining clicks to deliver (> 0); and
-                        // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
-                        //    then there must be remaining conversions to deliver (> 0)
-                        if ((($aCampaign['targetimpressions'] <= 0) || (($aCampaign['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
-                            (($aCampaign['targetclicks']      <= 0) || (($aCampaign['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
-                            (($aCampaign['targetconversions'] <= 0) || (($aCampaign['targetconversions'] > 0) && ($remainingConversions > 0)))) {
-                            $message = "- Passed campaign start time of '" . $oStartDate->getDate() . " UTC" .
-                                       "': Activating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
-                            OA::debug($message, PEAR_LOG_INFO);
-                            $report .= $message . "\n";
-                            $doCampaigns = OA_Dal::factoryDO('campaigns');
-                            $doCampaigns->campaignid = $aCampaign['campaign_id'];
-                            $doCampaigns->find();
-                            $doCampaigns->fetch();
-                            $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
-                            $result = $doCampaigns->update();
-                            if ($result == false) {
-                                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                            }
-                            phpAds_userlogSetUser(phpAds_userMaintenance);
-                            phpAds_userlogAdd(phpAds_actionActiveCampaign, $aCampaign['campaign_id']);
-                            // Get the advertisements associated with the campaign
-                            $query = "
-                                SELECT
-                                    bannerid AS advertisement_id,
-                                    description AS description,
-                                    alt AS alt,
-                                    url AS url
-                                FROM
-                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
-                                WHERE
-                                    campaignid = {$aCampaign['campaign_id']}";
-                            OA::debug("- Getting the advertisements for campaign ID {$aCampaign['campaign_id']}",
-                                       PEAR_LOG_DEBUG);
-                            $rsResultAdvertisement = $this->oDbh->query($query);
-                            if (PEAR::isError($rsResultAdvertisement)) {
-                                return MAX::raiseError($rsResultAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                            }
-                            while ($advertisementRow = $rsResultAdvertisement->fetchRow()) {
-                                $advertisements[$advertisementRow['advertisement_id']] =
-                                    array($advertisementRow['description'], $advertisementRow['alt'],
-                                        $advertisementRow['url']);
-                            }
-                            if ($aCampaign['send_activate_deactivate_email'] == 't') {
-                                $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id']);
-                            }
-                        }
+                    phpAds_userlogSetUser(phpAds_userMaintenance);
+                    phpAds_userlogAdd(phpAds_actionActiveCampaign, $aCampaign['campaign_id']);
+                    if ($aCampaign['send_activate_deactivate_email'] == 't') {
+                        $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id']);
                     }
                 }
             }
