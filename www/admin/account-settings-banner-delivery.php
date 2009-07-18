@@ -76,6 +76,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'delivery' => 'acls',
             'bool'     => true
         ),
+        'delivery_aclsDirectSelection' => array(
+            'delivery' => 'acls',
+            'bool'     => true
+        ),
         'delivery_obfuscate' => array(
             'delivery' => 'obfuscate',
             'bool'     => true
@@ -252,6 +256,11 @@ $aSettings = array(
                 'type'    => 'checkbox',
                 'name'    => 'delivery_acls',
                 'text'    => $strDeliveryAcls
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'delivery_aclsDirectSelection',
+                'text'    => $strDeliveryAclsDirectSelection
             ),
             array (
                 'type'    => 'break'

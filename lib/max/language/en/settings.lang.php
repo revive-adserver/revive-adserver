@@ -340,6 +340,7 @@ $GLOBALS['strOriginTimeout']                         = "Origin timeout (seconds)
 $GLOBALS['strOriginProtocol']                        = "Origin server protocol";
 
 $GLOBALS['strDeliveryAcls']                          = "Evaluate banner delivery limitations during delivery";
+$GLOBALS['strDeliveryAclsDirectSelection']           = "Evaluate banner delivery limitations for direct selected ads";
 $GLOBALS['strDeliveryObfuscate']                     = "Obfuscate channel when delivering ads";
 $GLOBALS['strDeliveryExecPhp']                       = "Allow PHP code in ads to be executed<br />(Warning: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter']                   = "3rd Party Click Tracking Delimiter";

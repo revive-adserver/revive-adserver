@@ -131,6 +131,7 @@ cacheExpire                         = 1200
 cacheStorePlugin              	    = deliveryCacheStore:oxCacheFile:oxCacheFile
 cachePath                           =
 acls                                = true
+aclsDirectSelection                 = true
 obfuscate                           = false
 execPhp                             = false
 ctDelimiter                         = __
