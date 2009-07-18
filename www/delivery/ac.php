@@ -3471,6 +3471,8 @@ return array('html' => $outputbuffer, 'bannerid' => '' );
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
 $aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
+// Set a flag to let the selection algorithm know that this is a direct request
+$GLOBALS['_MAX']['DIRECT_SELECTION'] = true;
 $aLinkedAd = _adSelectCommon($aDirectLinkedAds, $context, $source, $richMedia);
 if (is_array($aLinkedAd)) {
 $aLinkedAd['zoneid'] = 0;
@@ -3784,6 +3786,10 @@ return $context;
 }
 function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
 {
+// Don't filter ads on direct selection requests (if that setting is disabled)
+if (empty($GLOBALS['_MAX']['CONF']['delivery']['aclsDirectSelection']) && !empty($GLOBALS['_MAX']['DIRECT_SELECTION'])) {
+return $aAds;
+}
 foreach ($aAds as $adId => $aAd) {
 if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
 unset($aAds[$adId]);
