@@ -150,7 +150,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
        $campaigns[$row_campaigns['campaignid']]['activate']  = '-';
     }
 	if (!empty($row_campaigns['expire_time'])) {
-	   $oExpireDate = new Date($row_campaigns['expire']);
+	   $oExpireDate = new Date($row_campaigns['expire_time']);
 	   $oTz = $oExpireDate->tz;
 	   $oExpireDate->setTZbyID('UTC');
 	   $oExpireDate->convertTZ($oTz);
