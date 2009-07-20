@@ -72,9 +72,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
         $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+        $translatedMessage = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
             array(htmlspecialchars($title)));
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OA_Admin_UI::queueMessage($translatedMessage, 'local', 'confirm', 2000);
+        // Also display warning after 2 seconds
+        $translatedMessage = $translation->translate($GLOBALS['strTZPreferencesWarning']);
+        OA_Admin_UI::queueMessage($translatedMessage, 'local', 'warning', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the preferences to the database, store this

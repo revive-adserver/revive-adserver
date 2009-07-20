@@ -1588,6 +1588,7 @@ $GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
 $GLOBALS['strPasswordChanged'] = "Your password has been changed";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
+$GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry were not updated, nor time-based banner limitations.<br />You will need to update them manually if you wish them to use the new timezone";
 
 
 /*-------------------------------------------------------*/
