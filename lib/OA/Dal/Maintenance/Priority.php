@@ -523,13 +523,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']] = $aRow;
         }
-        // Get all possible zones in the system
+        // Get all possible zones in the system, plus zone 0
         $table = $this->_getTablename('zones');
         $query = "
             SELECT
                 zoneid AS zone_id
             FROM
-                {$table}";
+                {$table}
+            UNION ALL SELECT 0";
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             if (!isset($aResult[$aRow['zone_id']])) {
