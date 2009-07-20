@@ -254,8 +254,8 @@ class MAX_Admin_Invocation {
      */
     function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
-        global $phpAds_TextDirection, $strWarningLocalInvocation,
-            $strIABNoteLocalInvocation, $strIABNoteXMLRPCInvocation;
+        $this->tabindex = 1;
+        global $phpAds_TextDirection;
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
@@ -269,18 +269,14 @@ class MAX_Admin_Invocation {
             $this->assignVariables($extra);
         }
 
-        // Deal with special variables
-        $codetype = $this->codetype;
-        $submitbutton = $this->submitbutton;
-
         // Check if affiliate is on the same server as the delivery code
         if (!empty($extra['website'])) {
             $server_max      = parse_url('http://' . $conf['webpath']['delivery'] . '/');
             $server_affilate = parse_url($extra['website']);
             // this code could be extremely slow if host is unresolved
-            $server_same     = (@gethostbyname($server_max['host']) == @gethostbyname($server_affilate['host']));
+            $this->server_same     = (@gethostbyname($server_max['host']) == @gethostbyname($server_affilate['host']));
         } else {
-            $server_same = true;
+            $this->server_same = true;
         }
 
         // Hide when integrated in zone-advanced.php
@@ -295,11 +291,11 @@ class MAX_Admin_Invocation {
 
             $allowed = array();
             foreach($invocationTags as $pluginKey => $invocationTag) {
-                if ($invocationTag->isAllowed($extra, $server_same)) {
+                if ($invocationTag->isAllowed($extra, $this->server_same)) {
                     $aOrderedComponents[$invocationTag->getOrder()] =
                         array(
                             'pluginKey' => $pluginKey,
-                            'isAllowed' => $invocationTag->isAllowed($extra, $server_same),
+                            'isAllowed' => $invocationTag->isAllowed($extra, $this->server_same),
                             'name' => $invocationTag->getName()
                         );
                 }
@@ -310,14 +306,11 @@ class MAX_Admin_Invocation {
                 $allowed[$aComponent['pluginKey']] = $aComponent['isAllowed'];
             }
 
-            if (!isset($codetype) || $allowed[$codetype] == false) {
+            if (!isset($this->codetype) || $allowed[$this->codetype] == false) {
                 foreach ($allowed as $codetype => $isAllowed) {
+                    $this->codetype = $codetype;
                     break;
                 }
-            }
-
-            if (!isset($codetype)) {
-                $codetype = '';
             }
             if (!isset($bannerUrl)) {
                 $bannerUrl = 'http://www.example.com/INSERT_BANNER_URL.gif';
@@ -325,19 +318,19 @@ class MAX_Admin_Invocation {
 
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             $buffer .= "<tr><td height='25' width='350'><b>". $GLOBALS['strChooseTypeOfBannerInvocation'] ."</b>";
-            if ($codetype=="invocationTags:oxInvocationTags:adview" || $codetype=="invocationTags:oxInvocationTags:clickonly"){
+            if ($this->codetype=="invocationTags:oxInvocationTags:adview"){
                 $buffer .= "";
             }
 
             $buffer .= "</td></tr><tr><td height='35' valign='top'>";
-            $buffer .= "<select name='codetype' onChange=\"disableTextarea();this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
+            $buffer .= "<select name='codetype' onChange=\"disableTextarea();this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($this->tabindex++)."'>";
 
             $invocationTagsNames = array();
             foreach ($aOrderedComponents as $order => $aComponent) {
                 $invocationTagsNames[$aComponent['pluginKey']] = $aComponent['name'];
             }
             foreach($invocationTagsNames as $pluginKey => $invocationTagName) {
-                $buffer .= "<option value='".$pluginKey."'".($codetype == $pluginKey ? ' selected' : '').">".$invocationTagName."</option>";
+                $buffer .= "<option value='".$pluginKey."'".($this->codetype == $pluginKey ? ' selected' : '').">".$invocationTagName."</option>";
             }
             $buffer .= "</select>";
             $buffer .= "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></td>";
@@ -345,129 +338,27 @@ class MAX_Admin_Invocation {
             $invocationTags =& OX_Component::getComponents('invocationTags');
             foreach($invocationTags as $invocationCode => $invocationTag) {
                 if(isset($invocationTag->defaultZone) && $extra['delivery'] == $invocationTag->defaultZone) {
-                    $codetype = $invocationCode;
+                    $this->codetype = $invocationCode;
                     break;
                 }
             }
-            if (!isset($codetype)) {
-                $codetype = '';
+            if (!isset($this->codetype)) {
+                $this->codetype = '';
             }
         }
-        if ($codetype != '') {
+        if ($this->codetype != '') {
             // factory plugin for this $codetype
-            $invocationTag = OX_Component::factoryByComponentIdentifier($codetype);
+            $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
             if($invocationTag === false) {
                 OA::debug('Error while factory invocationTag plugin');
                 exit();
             }
             $invocationTag->setInvocation($this);
-            $buffer .= $invocationTag->generateBannerSelection();
 
-            $buffer .= phpAds_ShowBreak($print = false);
-            $buffer .= "<br />";
-
-            // Code
-            // Layer and popup invocation types require specific paramters to be provided before invcation is possible
-            if ( empty($submitbutton) && ($codetype=='invocationTags:oxInvocationTags:popup' || $codetype=='invocationTags:oxInvocationTags:adlayer')) {
-                $generated = false;
-            } else {
-                $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-                $buffer .= "<tr><td height='25'>";
-
-                if ($codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
-                    $buffer .= "
-                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                            $strIABNoteXMLRPCInvocation
-                        </div>";
-                }
-
-                if ($codetype == "invocationTags:oxInvocationTags:clickonly" && !$this->zone_invocation) {
-                    if ($bannerid == 0) {
-                        $this->ads = array();
-                    } else {
-                        $this->ads = array($bannerid => $aAd);
-                    }
-                }
-                elseif ($codetype == 'invocationTags:oxInvocationTags:local' && !$server_same) {
-                    $buffer .= "
-                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                            $strWarningLocalInvocation
-                            <br><p>$strIABNoteLocalInvocation</p>
-                        </div>";
-                }
-                else if ($codetype == 'invocationTags:oxInvocationTags:local' && $server_same) {
-                    $buffer .= "
-                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                            $strIABNoteLocalInvocation
-                        </div>";
-                }
-
-                // Supress the textarea if required by this plugin
-                if (empty($invocationTag->suppressTextarea)) {
-                    $buffer .= "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
-
-                    // Show clipboard button only on IE
-                    if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&
-                        strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
-                        $buffer .= "<td height='25' align='right'><img src='" . OX::assetPath() . "/images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
-                        $buffer .= "<a href='javascript:max_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";
-                    } else {
-                        $buffer .= "<td>&nbsp;</td>";
-                    }
-                    $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-                    $buffer .= "<tr><td colspan='2'>";
-
-                    $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
-                    $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
-                    $buffer .= "</textarea>";
-
-                    $buffer .= "
-                        <script type='text/javascript'>
-                        <!--
-                        $(document).ready(function() {
-                            $('#bannercode').selectText();
-                        });
-                        //-->
-                        </script>";
-                }
-                else {
-                    $buffer .= $this->generateInvocationCode($invocationTag);
-                }
-                $buffer .= "</td></tr>";
-                $buffer .= "</table><br />";
-                $buffer .= phpAds_ShowBreak($print = false);
-                $buffer .= "<br />";
-
-
-                $generated = true;
-            }
-            // Hide when integrated in zone-advanced.php
-            if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
-                // Header
-                // Parameters Section
-                $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-                $buffer .= "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
-                $buffer .= "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-                $buffer .= "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-                $buffer .= "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-            }
-
-            $buffer .= $invocationTag->generateOptions($this);
-
-            // Hide when integrated in zone-advanced.php
-            if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
-                // Footer
-                $buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-                $buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-                $buffer .= "</table>";
-                $buffer .= "<br /><br />";
-                $buffer .= "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
-                if ($generated) {
-                    $buffer .= "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
-                } else {
-                    $buffer .= "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
-                }
-            }
+            $buffer .= "</td></tr></table>";
+            
+            $buffer .= $invocationTag->getHeaderHtml( $this, $extra );
+            $buffer .= $this->getTextAreaAndOptions($invocationTag, $extra); 
         }
         // Put extra hidden fields
         if (is_array($extra)) {
@@ -493,6 +384,125 @@ class MAX_Admin_Invocation {
             </script>
         ";
 
+        return $buffer;
+    }
+    
+    public function getTextAreaAndOptions($invocationTag, $extra)
+    {
+        if(!$invocationTag->displayTextAreaAndOptions) {
+            return '';
+        }
+        $buffer = "<hr />";
+        
+        $buffer .= "<div id='div-zone-invocation'>";
+        $buffer .= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
+        $buffer .= "<td width='40'>&nbsp;</td><td><br />";
+        
+        $buffer .= "<br />";
+
+        // Code
+        // Layer and popup invocation types require specific paramters to be provided before invcation is possible
+        if ( empty($this->submitButton) 
+            && ($this->codetype=='invocationTags:oxInvocationTags:popup' || $this->codetype=='invocationTags:oxInvocationTags:adlayer')) 
+        {
+            $generated = false;
+        } 
+        else 
+        {
+            $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+            $buffer .= "<tr><td height='25'>";
+            
+            if ($this->codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
+                $buffer .= "
+                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                        {$GLOBALS['strIABNoteXMLRPCInvocation']}
+                    </div>";
+            }
+            
+            if ($this->codetype == 'invocationTags:oxInvocationTags:local' && !$this->server_same) {
+                $buffer .= "
+                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                        {$GLOBALS['strWarningLocalInvocation']}
+                        <br><p>{$GLOBALS['strIABNoteLocalInvocation']}</p>
+                    </div>";
+            }
+            else if ($this->codetype == 'invocationTags:oxInvocationTags:local' && $this->server_same) {
+                $buffer .= "
+                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                {$GLOBALS['strIABNoteLocalInvocation']}
+                    </div>";
+            }
+
+            // Supress the textarea if required by this plugin
+            if (empty($invocationTag->suppressTextarea)) {
+                $buffer .= "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
+
+                // Show clipboard button only on IE
+                if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&
+                    strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
+                    $buffer .= "<td height='25' align='right'><img src='" . OX::assetPath() . "/images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
+                    $buffer .= "<a href='javascript:max_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";
+                } else {
+                    $buffer .= "<td>&nbsp;</td>";
+                }
+                $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+                $buffer .= "<tr><td colspan='2'>";
+
+                $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
+                $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
+                $buffer .= "</textarea>";
+
+                $buffer .= "
+                    <script type='text/javascript'>
+                    <!--
+                    $(document).ready(function() {
+                        $('#bannercode').selectText();
+                    });
+                    //-->
+                    </script>";
+            }
+            else {
+                $buffer .= $this->generateInvocationCode($invocationTag);
+            }
+            $buffer .= "</td></tr>";
+            $buffer .= "</table><br />";
+            $buffer .= phpAds_ShowBreak($print = false);
+            $buffer .= "<br />";
+
+
+            $generated = true;
+        }
+        
+        // Hide when integrated in zone-advanced.php
+        if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
+            // Header
+            // Parameters Section
+            $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+            $buffer .= "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+            $buffer .= "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+            $buffer .= "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+            $buffer .= "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        }
+
+        $buffer .= $invocationTag->generateOptions($this);
+
+        // Hide when integrated in zone-advanced.php
+        if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
+            // Footer
+            $buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+            $buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            $buffer .= "</table>";
+            $buffer .= "<br /><br />";
+            $buffer .= "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
+            if ($generated) {
+                $buffer .= "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($this->tabindex++)."'>";
+            } else {
+                $buffer .= "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($this->tabindex++)."'>";
+            }
+        }
+        
+        $buffer .= "</td></tr></table>";        	
+        $buffer .= "</div>";
         return $buffer;
     }
 

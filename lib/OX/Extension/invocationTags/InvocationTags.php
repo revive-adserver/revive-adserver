@@ -61,6 +61,13 @@ class Plugins_InvocationTags extends OX_Component
     static $order = 1;
 
     /**
+     * If set to false, the zone invocation screen will not display the text area and the options below.
+     * Instead it is up to the plugin to display HTML using the getHeaderHtml() method
+     * @var bool
+     */
+    public $displayTextAreaAndOptions = true;
+    
+    /**
      * Return name of plugin
      *
      * @abstract
@@ -120,6 +127,19 @@ class Plugins_InvocationTags extends OX_Component
         return isset($aConf[$this->group][$settingString]) ? $aConf[$this->group][$settingString] : false;
     }
 
+    /**
+     * The returned HTML will be displayed after the Invocation tags SELECT dropdown 
+     * and before any other invocation tag output
+     *  
+     * @param MAX_Admin_Invocation $maxInvocation
+     * @param array $extra Information about the current request
+     * @return string
+     */
+    public function getHeaderHtml( $maxInvocation, $extra )
+    {
+        return '';
+    }
+    
     public function getOrder()
     {
         self::$order += 1;
@@ -189,7 +209,7 @@ class Plugins_InvocationTags extends OX_Component
         // Setup option defaults
         $pluginOptions = new Plugins_InvocationTagsOptions();
         foreach ($pluginOptions->defaultValues as $key => $value) {
-            if (!is_array($value) && is_null($mi->$key)) {
+            if (!is_array($value) && (!isset($mi->$key) || is_null($mi->$key))) {
                 $mi->$key = $mi->parameters[$key] = $value;
             }
         }
@@ -366,9 +386,4 @@ class Plugins_InvocationTags extends OX_Component
         return $htmlOptions;
     }
 
-    function generateBannerSelection() { }
-
-    function generateBannerSelectionHeader() { }
 }
-
-?>

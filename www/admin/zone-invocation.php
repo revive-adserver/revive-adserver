@@ -78,7 +78,6 @@ if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
                    'delivery' => $zone['delivery'],
                    'website' => $zone['website']
     );
-    $tabindex = 1;
     // Ensure 3rd Party Click Tracking defaults to the preference for this agency
     if (!isset($thirdpartytrack)) {
         $thirdpartytrack = $GLOBALS['_MAX']['CONF']['delivery']['clicktracking'];
