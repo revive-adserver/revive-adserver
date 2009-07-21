@@ -82,7 +82,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     MAX_cookieFlush();
 
     // Determine if the access to OpenX was made using HTTPS
-    if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
+    if ($GLOBALS['_MAX']['SSL_REQUEST']) {
         $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
     } else {
         $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));

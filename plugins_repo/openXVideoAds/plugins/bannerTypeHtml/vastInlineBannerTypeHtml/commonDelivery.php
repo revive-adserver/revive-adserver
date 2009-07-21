@@ -110,9 +110,7 @@ function getVideoPlayerUrl($parameterId)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // you can set this by adding a setting under [vastServeVideoPlayer] in the hostname.conf.php config file
-    $fullFileLocationUrl = (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
-        'https://' . $conf['webpath']['deliverySSL'] :
-        'http://' .  $conf['webpath']['delivery'];
+    $fullFileLocationUrl = $GLOBALS['_MAX']['SSL_REQUEST'] ? 'https://' . $conf['webpath']['deliverySSL'] : 'http://' .  $conf['webpath']['delivery'];
 
     $fullFileLocationUrl .= "/fc.php?script=deliveryLog:vastServeVideoPlayer:player&file_to_serve=";
 
