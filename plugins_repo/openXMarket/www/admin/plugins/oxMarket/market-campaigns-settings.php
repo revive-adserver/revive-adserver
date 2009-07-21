@@ -230,11 +230,11 @@ function getValidationMessage($cause, $maxCpmValue, $value = null)
             break;
         }
         case 'compare-ecpm' : {
-            $message = "Please provide minimum CPM greater than ".formatCpm($value)." (the campaign's eCPM)."; 
+            $message = "Please provide minimum CPM greater or equal to ".formatCpm($value)." (the campaign's eCPM)."; 
             break;
         }
         case 'compare-rate' : {
-            $message = "Please provide minimum CPM greater than ".formatCpm($value)." (the campaign's specified CPM)."; 
+            $message = "Please provide minimum CPM greater or equal to ".formatCpm($value)." (the campaign's specified CPM)."; 
             break;
         }
         
