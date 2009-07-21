@@ -183,19 +183,17 @@ function setupConfigVariables()
 {
 $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
 $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
-// Set the URL access mechanism
-if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
-$GLOBALS['_MAX']['HTTP'] = 'https://';
-} else {
-if (isset($_SERVER['SERVER_PORT'])) {
-if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort'])
-&& $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])
-{
-$GLOBALS['_MAX']['HTTP'] = 'https://';
-} else {
-$GLOBALS['_MAX']['HTTP'] = 'http://';
-}
-}
+// Set a flag if this request was made over an SSL connection (used more for delivery rather than UI)
+$GLOBALS['_MAX']['SSL_REQUEST'] = false;
+if (
+($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) ||
+(!empty($_SERVER['HTTPS']) && ((strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS'] == 1))) ||
+(!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) ||
+(!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && (strtolower($_SERVER['HTTP_X_FORWARDED_SSL']) == 'on')) ||
+(!empty($_SERVER['FRONT-END-HTTPS']) && (strtolower($_SERVER['FRONT-END-HTTPS'] == 'on')))
+) {
+// This request should be treated as if it was received over an SSL connection
+$GLOBALS['_MAX']['SSL_REQUEST'] = true;
 }
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
@@ -333,7 +331,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
-if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
+if ($GLOBALS['_MAX']['SSL_REQUEST']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
 } else {
 $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
@@ -2280,7 +2278,7 @@ $aCaps['session_capping'][$index]
 function MAX_commonGetDeliveryUrl($file = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+if ($GLOBALS['_MAX']['SSL_REQUEST']) {
 $url = MAX_commonConstructSecureDeliveryUrl($file);
 } else {
 $url = MAX_commonConstructDeliveryUrl($file);
@@ -3131,9 +3129,7 @@ return $fileUrl;
 function _adRenderBuildImageUrlPrefix()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
-'https://' . $conf['webpath']['imagesSSL'] :
-'http://' . $conf['webpath']['images'];
+return $GLOBALS['_MAX']['SSL_REQUEST'] ? 'https://' . $conf['webpath']['imagesSSL'] : 'http://' .  $conf['webpath']['images'];
 }
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;', $fallBack = false)
 {
@@ -3944,12 +3940,12 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 // Capping & blocking
 return false;
 }
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'html' &&
+if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
 (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
 // HTML Banners that contain 'http:' on SSL
 return false;
 }
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort'] && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
 // It only matters if the initial call is to non-SSL (it can/could contain http:)
 return false;
 }
