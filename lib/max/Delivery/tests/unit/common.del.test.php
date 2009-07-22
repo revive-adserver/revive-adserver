@@ -71,18 +71,21 @@ class Test_DeliveryCommon extends UnitTestCase
     function test_MAX_commonGetDeliveryUrl_Uses_HTTPS_Scheme_For_Secure_URLs()
     {
         $_SERVER['SERVER_PORT'] = 443;
+        $_SERVER['HTTPS'] = 'on';
         $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 443;
         $url    = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net/www/delivery/test.html', "Delivery requests that come in on the 'secure port' should use HTTPS URLs. %s");
+        unset($_SERVER['HTTPS']);
     }
 
     function test_MAX_commonGetDeliveryUrl_Includes_Nonstandard_Secure_Port_Number()
     {
         $_SERVER['SERVER_PORT'] = 4430;
+        $_SERVER['HTTPS'] = 'on';
         $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 4430;
         $url    = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net:4430/www/delivery/test.html', "A non-standard port number should be explicitly provided in delivery URLs. %s");
-
+        unset($_SERVER['HTTPS']);
     }
 
 	/**
