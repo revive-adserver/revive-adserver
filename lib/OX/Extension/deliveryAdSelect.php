@@ -25,15 +25,13 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Plugin/Common.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once LIB_PATH . '/Plugin/Component.php';
+require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
 
 /**
  * @package    OpenXExtension
- * @subpackage DeliveryAdRender
+ * @subpackage DeliveryAdSelect
  */
-class Plugins_DeliveryCacheStore extends OX_Component
+class OX_Extension_deliveryAdSelect extends OX_Extension_Delivery
 {
 
     function __construct()
