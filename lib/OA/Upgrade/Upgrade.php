@@ -2338,6 +2338,7 @@ class OA_Upgrade
                 }
             }
             $this->_pickupPostUpgradeTasksFile();
+            $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $oldAudit;
             return $aResult;
         }
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $oldAudit;
