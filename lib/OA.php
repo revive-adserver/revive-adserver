@@ -146,6 +146,8 @@ class OA
         }
         $logFile = ($ident == $aConf['log']['ident'] . '-delivery') ? $aConf['deliveryLog']['name'] : $aConf['log']['name'];
 
+        $ident .= (!empty($GLOBALS['maintenance_id'])) ? '-' . $GLOBALS['maintenance_id'] : '';
+        
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $logFile,

@@ -83,6 +83,9 @@ class OX_Maintenance
      */
     function run()
     {
+        // Add a unique-identifier to the maintenance run
+        $GLOBALS['maintenance_id'] = uniqid();
+        
         // Print a blank line in the debug log file when maintenance starts
         OA::debug();
         // Do not run if distributed stats are enabled

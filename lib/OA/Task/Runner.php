@@ -59,8 +59,10 @@ class OA_Task_Runner
         // Remove tasks from the queue and unset them when done to prevent
         // useless memory consumption
         while ($oTask = array_shift($this->aTasks)) {
+            OA::debug('Task begin: ' . get_class($oTask), PEAR_LOG_INFO); 
             $oTask->run();
             unset($oTask);
+            OA::debug('Task complete: ' . get_class($oTask), PEAR_LOG_INFO);
         }
     }
 
