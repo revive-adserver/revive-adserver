@@ -349,7 +349,7 @@ openads             = openads       ; Used as identifier for the adsense click t
 lastView            = OXLIA         ; Used to track the last time an ad was viewed
 lastClick           = OXLCA         ; Used to track the last time an ad was clicked
 blockLoggingClick   = OXBLC         ; Used to log the last time an ad was clicked
-fallBack            = oxfb            ; Used to flag if this impression was from a rich-media fallback creative
+fallBack            = oxfb          ; Used to flag if this impression was from a rich-media fallback creative
 
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;
