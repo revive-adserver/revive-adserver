@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -48,7 +48,7 @@ $oOptions = new OA_Admin_Option('preferences');
 $aErrormessage = array();
 
 $group   = $_REQUEST['group'];
-$plugin = $_REQUEST['plugin'];
+$plugin = $_REQUEST['parent'];
 
 if ($plugin) {
     $backURL =  "plugin-index.php?action=info&package=$plugin";
@@ -70,7 +70,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
     $aElements = array();
     foreach ($aConfig['preferences'] as $k => $v)
     {
-        $aElements[] = $group.'_'.$v['name'];
+        $aElements[] = $group.'_'.$v['key'];
         // Register the HTML element value
         MAX_commonRegisterGlobalsArray(array($group.'_'.$v['key']));
     }
@@ -140,12 +140,12 @@ foreach ($aConfig['preferences'] as $k => $v)
 $aPreferences[0]['items'][] = array(
                                      'type'    => 'hiddenfield',
                                      'name'    => 'plugin',
-                                     'value'   => $group,
+                                     'value'   => $plugin,
                                      );
 $aPreferences[0]['items'][] = array(
                                  'type'    => 'hiddenfield',
-                                 'name'    => '$plugin',
-                                 'value'   => $plugin,
+                                 'name'    => 'group',
+                                 'value'   => $group,
                                  );
 
 
