@@ -64,6 +64,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     foreach ($aGroup['preferences'] as $k => $v)
     {
         $aElements[] = $group.'_'.$v['name'];
+
+        // Register the HTML element value
+        MAX_commonRegisterGlobalsArray(array($group.'_'.$v['name']));
     }
     $aCheckboxes = array();
 
