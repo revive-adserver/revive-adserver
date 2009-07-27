@@ -67,15 +67,35 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
     $aCheckboxes = array();
 
-    // Create a new settings object, and save the settings!
-    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
-    if ($result)
+    // Validation
+    $valid = true;
+    $validationFile = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$group.'/processPreferences.php';
+    if (file_exists($validationFile))
     {
-        OX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
+        $className = $group.'_processPreferences';
+        include($validationFile);
+        if (class_exists($className))
+        {
+            $oPlugin = new $className;
+            if (method_exists($oPlugin, 'validate'))
+            {
+                $aErrormessage = array();
+                $valid = $oPlugin->validate($aErrormessage);
+            }
+        }
     }
-    // Could not write the settings configuration file, store this
-    // error message and continue
-    $aErrormessage[0][] = $strUnableToWritePrefs;
+
+    if ($valid) {
+        // Create a new settings object, and save the settings!
+        $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
+        if ($result)
+        {
+            OX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
+        }
+        // Could not write the settings configuration file, store this
+        // error message and continue
+        $aErrormessage[0][] = $strUnableToWritePrefs;
+    }
 }
 
 // Display the preference page's header and sections
