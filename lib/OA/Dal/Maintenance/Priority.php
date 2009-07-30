@@ -490,39 +490,49 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $previousOptIntID = OX_OperationInterval::previousOperationIntervalID($currentOpIntID);
         $aPreviousDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $table = $this->_getTablename('data_summary_zone_impression_history');
-        $query = "
-            SELECT
-                t1.zone_id AS zone_id,
-                t1.forecast_impressions AS forecast_impressions,
-                t2.actual_impressions AS actual_impressions
+        
+         $query = "SELECT
+                zone_id AS zone_id,
+                forecast_impressions AS forecast_impressions
             FROM
-                $table AS t1
-            LEFT JOIN
-                $table AS t2
-            ON
-                t1.zone_id = t2.zone_id
-                AND
-                t2.operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND
-                t2.operation_interval_id = $previousOptIntID
-                AND
-                t2.interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND
-                t2.interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                $table
             WHERE
-                t1.operation_interval = {$aConf['maintenance']['operationInterval']}
+                operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND
-                t1.operation_interval_id = $currentOpIntID
+                operation_interval_id = $currentOpIntID
                 AND
-                t1.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND
-                t1.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-            ORDER BY
-                t1.zone_id";
+                interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                ;";
+        
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']] = $aRow;
         }
+        
+        $query = "SELECT
+                zone_id AS zone_id,
+                actual_impressions AS actual_impressions
+            FROM
+                $table
+            WHERE
+                operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                operation_interval_id = $previousOptIntID
+                AND
+                interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
+                ;";
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
+            // we only select impressions for zones that have previous impressions
+            if(isset($aResult[$aRow['zone_id']])) {
+                $aResult[$aRow['zone_id']] = array_merge($aResult[$aRow['zone_id']], $aRow);
+            }
+        }
+        
         // Get all possible zones in the system, plus zone 0
         $table = $this->_getTablename('zones');
         $query = "
