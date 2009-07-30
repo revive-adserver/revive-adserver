@@ -1036,7 +1036,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ".$this->oDbh->quoteIdentifier($finalFromTable,true)."
             WHERE
                 date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
-                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'))."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
             GROUP BY
                 hour_date_time, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
@@ -1082,7 +1082,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
                 date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
-                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'));
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
