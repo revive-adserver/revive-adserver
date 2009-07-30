@@ -1185,8 +1185,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Now that it is known when (if) the remaining creatives last requested to deliver,
             // determine how many impressions were delivered (if any) during the appropriate
             // operation intervals
-            if (!empty($aNotInLastOIPastPriorityResult)) {
+            if (!empty($aNotInLastOIPastPriorityResult)) { 
+                OA::debug('  - Looping over each zone linked to '.count($aNotInLastOIPastPriorityResult). ' ads', PEAR_LOG_DEBUG);
+                $countQueriesSumImp = 0;
                 foreach ($aNotInLastOIPastPriorityResult as $a => $aAd) {
+                    OA::debug('    - Requesting sum of impressions for ad ID '.$a.' for '.count($aAd).' zones ', PEAR_LOG_DEBUG);
                     foreach ($aAd as $z => $aZone) {
                         $table = $this->_getTablename('data_intermediate_ad');
                         $query = "
@@ -1211,8 +1214,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         if (isset($aResult[0]['impressions'])) {
                             $aNotInLastOIPastPriorityResult[$a][$z]['impressions'] = $aResult[0]['impressions'];
                         }
+                        $countQueriesSumImp++;
                     }
                 }
+                OA::debug('  - Finished querying impressions for '.$countQueriesSumImp.' ad-zones combinations');
             }
             // Merge the past priority and delivery values into the final results array
             if (!empty($aNotInLastOIPastPriorityResult)) {
@@ -2075,6 +2080,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             reset($aOperationIntervals);
             $operationIntervals = count($aOperationIntervals);
             $count = 1;
+            
             while (list($operationIntervalId, $aValues) = each($aOperationIntervals)) {
                 // Is the zone considered to be new?
                 if ($aValues['new_zone']) {
@@ -2115,7 +2121,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             exit;
                         }
                     } else {
-                        $count++;
+                        $count++; 
                     }
                 } else {
                     // Try to select the data
