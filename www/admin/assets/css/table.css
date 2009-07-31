@@ -63,6 +63,11 @@
     line-height: 26px;  
     height: 26px;
 }
+
+.tableWrapper tfoot .tableActions, .tableWrapper .tableFooter .tableActions {
+  padding: 0px;
+}
+
 .tableWrapper .tableFilters.alignRight {
 	clear: none;
     float: right;
