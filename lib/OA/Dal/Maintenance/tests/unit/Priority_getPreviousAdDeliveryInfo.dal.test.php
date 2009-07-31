@@ -67,6 +67,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->doInterAd->zone_id = $aData[8];
         $this->doInterAd->impressions = $aData[9];
         $this->doInterAd->updated = $aData[10];
+        $this->doInterAd->date_time = $aData[2];
         return DataGenerator::generateOne($this->doInterAd);
     }
 
