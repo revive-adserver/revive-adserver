@@ -1370,6 +1370,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 ))
             ORDER BY
                 advertiser_id";
+        OA::debug('- Requesting campaigns to test for activation/deactivation', PEAR_LOG_DEBUG);
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -1383,6 +1384,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 if (($aCampaign['targetimpressions'] > 0) ||
                     ($aCampaign['targetclicks'] > 0) ||
                     ($aCampaign['targetconversions'] > 0)) {
+                    OA::debug('  - Selecting impressions, clicks and conversions for this running campaign ID = '.$aCampaign['campaign_id'], PEAR_LOG_DEBUG);
                     // The campaign has an impression, click and/or conversion target,
                     // so get the sum total statistics for the campaign
                     $query = "
@@ -1436,7 +1438,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         }
                         if ($disableReason) {
                             // One of the campaign targets was exceeded, so disable
-                            $message = '- Exceeded a campaign quota: Deactivating campaign ID ' .
+                            $message = '  - Exceeded a campaign quota: Deactivating campaign ID ' .
                                        "{$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
                             OA::debug($message, PEAR_LOG_INFO);
                             $report .= $message . "\n";
@@ -1466,7 +1468,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     if ($oDate->after($oEndDate)) {
                         // The end date has been passed; disable the campaign
                         $disableReason |= OX_CAMPAIGN_DISABLED_DATE;
-                        $message = "- Passed campaign end time of '" . $oEndDate->getDate() . " UTC" .
+                        $message = "  - Passed campaign end time of '" . $oEndDate->getDate() . " UTC" .
                                    "': Deactivating campaign ID {$aCampaign['campaign_id']}: {$aCampaign['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
                         $report .= $message . "\n";
@@ -1500,7 +1502,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                         WHERE
                             campaignid = {$aCampaign['campaign_id']}";
-                    OA::debug("- Getting the advertisements for campaign ID {$aCampaign['campaign_id']}", PEAR_LOG_DEBUG);
+                    OA::debug("  - Getting the advertisements for campaign ID {$aCampaign['campaign_id']}", PEAR_LOG_DEBUG);
                     $rsResultAdvertisement = $this->oDbh->query($query);
                     if (PEAR::isError($rsResultAdvertisement)) {
                         return MAX::raiseError($rsResultAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -1513,11 +1515,13 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         );
                     }
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
+                        OA::debug("  - Sending campaign deactivated email ", PEAR_LOG_DEBUG);
                         $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id'], $disableReason);
                     }
                 } else if ($canExpireSoon) {
                     // The campaign has NOT been deactivated - test to see if it will
                     // be deactivated "soon", and send email(s) warning of this as required
+                    OA::debug("  - Sending campaign 'soon deactivated' email ", PEAR_LOG_DEBUG);
                     $oEmail->sendCampaignImpendingExpiryEmail($oDate, $aCampaign['campaign_id']);
                 }
             } elseif (!empty($aCampaign['start'])) {
@@ -1532,8 +1536,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 if (($aCampaign['targetimpressions'] > 0) ||
                     ($aCampaign['targetclicks'] > 0) ||
                     ($aCampaign['targetconversions'] > 0)) {
-                    // The campaign has an impression, click and/or conversion target,
-                    // so get the sum total statistics for the campaign so far
+                    OA::debug("  - The campaign ID ".$aCampaign['campaign_id']." has an impression, click and/or conversion target, requesting impressions so far", PEAR_LOG_DEBUG);
                     $query = "
                         SELECT
                             SUM(dia.impressions) AS impressions,
@@ -1578,6 +1581,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     phpAds_userlogSetUser(phpAds_userMaintenance);
                     phpAds_userlogAdd(phpAds_actionActiveCampaign, $aCampaign['campaign_id']);
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
+                        OA::debug("  - Sending activation email for campaign ID ". $aCampaign['campaign_id'], PEAR_LOG_DEBUG);
                         $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id']);
                     }
                 }
