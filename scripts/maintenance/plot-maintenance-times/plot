@@ -1,0 +1,21 @@
+#!/usr/bin/gnuplot
+
+set terminal png size 1200,800 tiny
+set output 'times.png~'
+system "./extract > times"
+set xtics rotate
+set ylabel 'hours since start of run'
+set key box invert reverse right Left outside
+set key autotitle columnheader
+set style data histogram
+set style histogram rowstacked
+set style fill solid border -1
+set boxwidth 0.75
+set key title "OAMPAT: OA_Maintenance_Priority_AdServer_Task\nOXMST: OX_Maintenance_Statistics_Task\nPMST: Plugins_maintenanceStatisticsTask"
+#set yrange [0:4]
+#set ytics 0,0.1
+set grid y
+
+plot 'times' u 3:xtic(1), '' u 4 fs empty, '' u 5 fs empty, '' u 6, '' u 7 fs empty, '' u 8, '' u 9 fs empty, '' u 10 fs empty, '' u 11 fs empty, '' u 12 fs empty, '' u 13, '' u 14, '' u 15, '' u 16, '' u 17, '' u 18, '' u 19 fs empty
+
+system 'mv times.png~ times.png'

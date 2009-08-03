@@ -1,0 +1,116 @@
+#!/usr/bin/python
+import re
+from time import mktime
+from datetime import datetime
+
+mphases = (
+'Task begin: OX_Maintenance_Statistics_Task_SetUpdateRequirements',
+'Task begin: OX_Maintenance_Statistics_Task_MigrateBucketData',
+'Task begin: OX_Maintenance_Statistics_Task_DeDuplicateConversions',
+'Task begin: OX_Maintenance_Statistics_Task_ManageConversions',
+'Task begin: OX_Maintenance_Statistics_Task_SummariseFinal',
+'Task begin: OX_Maintenance_Statistics_Task_LogCompletion',
+'Task begin: OX_Maintenance_Statistics_Task_ManageCampaigns',
+'Task begin: Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics',
+'Task begin: Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_UpdateWebsites',
+'Task begin: Plugins_maintenanceStatisticsTask_profileTargetingMaintenance_CompileProfileTargetingTask',
+'Task begin: Plugins_maintenanceStatisticsTask_profileTargetingMaintenance_PruneProfileTargetingStatsTask',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_ECPMforContract',
+'Task begin: OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant',
+)
+
+# Not actually used, other than as a list of line to ignore
+ranges = (
+'Running Maintenance Engine',
+'Maintenance statistics will be run',
+'Running Maintenance Statistics Engine',
+'Maintenance Statistics Engine Completed ',
+'Running Maintenance Priority Engine',
+'Maintenance Priority Engine Completed ',
+'Maintenance Engine Completed ',
+'Maintenance Engine not run: could not acquire lock',
+'Running Midnight Maintenance Tasks',
+'Midnight Maintenance Tasks Completed',
+'Begin pruning records for completed inactive campaigns from data_summary_ad_zone_assoc',
+'Maintenance statistics will NOT be run'
+)
+
+pattern = re.compile(r'^(?P<time>.{15}) -0400 (?P<task>\S+) \[\s+info\]\s+(-\s+)?(?P<phase>[^(\n]+).*')
+runs = dict()
+tasks = []
+for file in ['debug.log']:
+  f = open(file,'r')
+  for line in f:
+    match = pattern.match(line)
+    if not match:
+      print 'Bad line: %s' % line
+      continue
+    time  = match.group('time')
+    task  = match.group('task')
+    phase = match.group('phase')
+    time  = datetime.strptime('2009 '+time, "%Y %b %d %H:%M:%S")
+    time  = int(mktime(time.timetuple()))
+
+    #if not task=='OX-maintenance-4a6f94862c72a': continue
+    #if not task=='OX-maintenance-4a6fdad6b2bf1': continue
+    if not task in tasks: tasks.append(task)
+
+    #print '\t'.join((str(time),task,phase))
+    if phase in mphases:
+      if not runs.has_key(task):
+        runs[task]=dict()
+        runs[task]['t0']=time
+      if runs[task].has_key('active'):
+        print "Task %s has unterminated task %s when %s starts" % (task,runs[task]['active'],phase)
+        exit(0)
+      runs[task][phase]=time
+      runs[task]['active']=phase
+    elif phase=='Task complete: ' or phase=='- Task complete: ':
+      if not runs[task].has_key('active'):
+        print "Task %s has no unterminated task when a 'Task complete:' arrives" % task
+        exit(0)
+      runs[task][runs[task]['active']]=(runs[task][runs[task]['active']],time)
+      del runs[task]['active']
+    elif phase in ranges:
+      continue
+    else:
+      print 'Bad phase for task %s: [%s]' % (task,phase)
+  tasks.append('')
+  f.close()
+
+headers = ['Task']
+for h in mphases:
+  h = h.replace('Task begin: ','')
+  h = h.replace('OX_Maintenance_Statistics_Task','OXMST')
+  h = h.replace('OA_Maintenance_Priority_AdServer_Task','OAMPAT')
+  h = h.replace('Plugins_MaintenaceStatisticsTask','PMST')
+  h = h.replace('Plugins_maintenanceStatisticsTask','PMST')
+  headers.append(h)
+
+headers = [('"%s"' % h) for h in headers]
+print '\t'.join(headers)
+for task in tasks:
+  if task=='':
+    print 'gap'
+    continue
+  if not runs.has_key(task): continue
+  if runs[task].has_key('Maintenance Engine not run: could not acquire lock'): continue
+  last=runs[task]['t0']
+  taskLegend = datetime.fromtimestamp(last).strftime("%d/%m/%y %H:%M") + task.replace("OX-maintenance","")
+  line="\"%s\"" % taskLegend
+  for phase in mphases:
+    if runs[task].has_key(phase):
+      times=runs[task][phase]
+      if not times.__class__ == ().__class__: continue
+      dt=times[1]-times[0]
+      if dt==0: dt=0.000001
+      line=line+"\t"+str(dt/3600.)
+      last=times[1]
+    else:
+      line=line+"\t0.00001"
+  print line
