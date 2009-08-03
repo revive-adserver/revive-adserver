@@ -43,7 +43,7 @@ ranges = (
 pattern = re.compile(r'^(?P<time>.{15}) -0400 (?P<task>\S+) \[\s+info\]\s+(-\s+)?(?P<phase>[^(\n]+).*')
 runs = dict()
 tasks = []
-for file in ['debug.log']:
+for file in ['debug-to-plot.log']:
   f = open(file,'r')
   for line in f:
     match = pattern.match(line)
