@@ -8,8 +8,8 @@
     <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>OpenX Market for OpenX Ad Server (Download)</description>
-    <version>1.0.3-rc5</version>
+    <description>OpenX Market for OpenX Ad Server</description>
+    <version>1.1.0-rc2</version>
     <oxversion>2.8.2-rc13</oxversion>
     <type>extension</type>
 

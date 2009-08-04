@@ -64,7 +64,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function __construct()
     {
         $this->oMarketPublisherClient =
-            new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient();
+            new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient(
+                    $this->isMultipleAccountsMode());
     }
     
 
@@ -80,7 +81,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
             ? (float) $aConf['oxMarket']['defaultFloorPrice']
             : NULL;
-        $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);            
+        $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);
         $maxFloorPriceValue = $this->getMaxFloorPrice();
         
         //register custom floor price vs CPM check jquery rule adaptors
@@ -121,7 +122,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'floorValidationECPMMessage' => $this->translate("The Market floor price cannot be lower than the campaign's eCPM.") 
             ));
 
-
+        
         //in order to get conditional validation, check if it is POST 
         //and if market was enabled and add group rules
         if (isset($_POST['mkt_is_enabled']) && $_POST['mkt_is_enabled'] == 't') { 
@@ -134,7 +135,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     array($this->translate("%s must be less than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
                 )
             ));
-        }
+        }        
 
        global $pref;
        if (!empty($pref['campaign_ecpm_enabled']) || !empty($pref['contract_ecpm_enabled']) ) {
@@ -151,7 +152,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
        ));
        
        $form->addFormRule(array($this, 'compareFloorPrice'));
-                    
 
         $form->setDefaults($aFields);
     }
@@ -474,11 +474,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return 1000000; //hardcoded value for validation purposes, such high 
                    //CPM does not make sense anyway, but we'd like to avoid 
                    //number overflows here
-    }
+    }    
 
 
     function afterLogin()
     {
+        // Try to link hosted accounts for current user
+        $this->linkHostedAccounts();
+        
         // If the user is manager or admin try to show him the OpenX Market Settings
         if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
             $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
@@ -488,9 +491,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             exit;
         }
 
-        //show only to unregistered users and those who are linked to admin
-        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) {
-
+        // Show only to unregistered users and... 
+        if ($this->isRegistered()) {
+            return;
+        }
+         
+        if ($this->isMultipleAccountsMode()) { 
+            // ... and those who are logged as manager (multiple accounts mode)
+            if (OA_Permission::isUserLinkedToAdmin() || !OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                return;
+            }
+        } 
+        elseif (!OA_Permission::isUserLinkedToAdmin()) {
+            // ... and those who are linked to admin (normal mode)
             return;
         }
 
@@ -542,6 +555,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oMarketSetting->owner_id = $affiliateId;
         $oMarketSetting->delete();
     }
+    
 
     /**
      * update website restrictions in OpenX Market
@@ -592,12 +606,26 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
+    /**
+     * Check if plugin is registered (downloaded mode)
+     * or manager account is registered (multiple accounts mode)
+     *
+     * @return bool
+     */
     function isRegistered()
     {
         return $this->oMarketPublisherClient->hasAssociationWithPc();
     }
 
 
+    /**
+     * Check if plugin is active (downloaded mode)
+     * or manager account is active (multiple accounts mode)
+     *
+     * Account is active if is registered, has valid status and API key is set 
+     * 
+     * @return bool
+     */
     function isActive()
     {
         // Account is active if is registered, has valid status and API key is set
@@ -623,15 +651,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isSplashAlreadyShown()
     {
-        return $GLOBALS['_MAX']['CONF']['oxMarket']['splashAlreadyShown'] == 1;
+        $accountId = $this->oMarketPublisherClient->getAccountId();
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        return $oPluginSettings->findAndGetValue($accountId, 'splashAlreadyShown');
     }
 
 
     function setSplashAlreadyShown()
     {
-            $oSettings = new OA_Admin_Settings();
-            $oSettings->settingChange('oxMarket', 'splashAlreadyShown', 1);
-            $oSettings->writeConfigChange();
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $accountId = $this->oMarketPublisherClient->getAccountId();
+        $oPluginSettings->insertOrUpdateValue($accountId, 'splashAlreadyShown', '1');
     }
 
     function isMarketSettingsAlreadyShown()
@@ -706,6 +736,22 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-index.php');
         }
     }
+    
+    
+    /**
+     * Uses permission class to enforce ADMIN or MANAGER account depending on plugin
+     * mode. For multiple accounts mode it assumes manager, for standalone admin
+     */
+    function enforceProperAccountAccess()
+    {
+        if ($this->isMultipleAccountsMode()) {
+            OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+        }
+        else {
+            OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+        }
+    }
+    
 
 
     function createMenuForPubconsolePage($sectionId)
@@ -720,13 +766,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $menuUrl = $this->buildPubconsoleApiUrl($this->getConfigValue('marketMenuUrl'));
             $oClient = $this->getHttpClient();
             $oClient->setUri($menuUrl);
-
             $pubAccountId = $this->getAccountId();
             $aRequestParams =  array(
-                $this->getConfigValue('marketAccountIdParamName') => $pubAccountId);
+                $this->getConfigValue('marketAccountIdParamName') => $pubAccountId,
+                'h' => $this->isMultipleAccountsMode()? "1" : "0"
+            );
             if (!empty($sectionId)) {
-                $id = urlencode($sectionId); //encode id for special characters eg. spaces and no xss
-                $aRequestParams["id"] = $sectionId;
+                $aRequestParams["id"] = $sectionId; //no need to encode params here, client does that 
             }
             $oClient->setParameterGet($aRequestParams);
 
@@ -786,6 +832,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
         }
     }
+    
 
     /**
      * Returns Publisher Console API Client
@@ -796,6 +843,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         return $this->oMarketPublisherClient;
     }
+    
 
     /**
      * Update or register all websites
@@ -807,12 +855,25 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     function updateAllWebsites($skip_synchonized = false, $limitUpdatedWebsites = 0)
     {
-        if (!$this->isRegistered() || !$this->isActive()) {
+        if (!$this->isActive()) {
             return;
         }
+        // get accountId can be null, if logged user isn't manager in multiple accounts mode
+        $accountId = $this->oMarketPublisherClient->getAccountId();
+        if (!isset($accountId)) {
+            return;
+        }
+        
         $updatedWebsites = 0;
-
+        // get all websites if account id is admin account
+        // get manager websites if account is menager account
         $oWebsite = & OA_Dal::factoryDO('affiliates');
+        if ($accountId !== DataObjects_Accounts::getAdminAccountId())
+        {
+            $oManager = OA_Dal::factoryDO('agency');
+            $oManager->account_id = $accountId;            
+            $oWebsite->joinAdd($oManager);
+        }
         $oWebsite->find();
         while($oWebsite->fetch() &&
               ($limitUpdatedWebsites==0 || $updatedWebsites<$limitUpdatedWebsites))
@@ -839,6 +900,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         }
     }
+    
 
     /**
      * Updates website url on PubConsole
@@ -854,7 +916,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $doWebsitePref->get($affiliateId);
 
         if (empty($doWebsitePref->website_id)) {
-            $error = 'website not regisetered';
+            $error = 'website not registered';
         } else {
             if (!$skip_synchonized || $doWebsitePref->is_url_synchronized !== 't') {
                 try {
@@ -893,7 +955,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function onEnable()
     {
-        if (!$this->isRegistered()) {
+        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
             $this->scheduleRegisterNotification();
         }
 
@@ -990,7 +1052,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, '')),
                 'pcWebUrl' => urlencode($this->getConfigValue('marketHost')),
                 'v' => $this->getPluginVersion(),
-                'h' => "0"
+                'h' => $this->isMultipleAccountsMode()? "1" : "0"            
             ));
 
             $response = $oClient->request();
@@ -1041,7 +1103,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return strtolower($aInfo['version']);        
     }    
     
-
+    
     /**
      * Builds an url to pubconsole either SSL or HTTP fallback, apends suffix if given
      *
@@ -1106,6 +1168,111 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         return number_format($cpm, 2, '.', '');
     }    
+    
+    function isMultipleAccountsMode()
+    {
+        return (bool) $this->getConfigValue('multipleAccountsMode');
+    }
+    
+    
+    /**
+     * Set working Account Id in multiple accounts mode,
+     * if it's not given or is null, client will be using
+     * OA_Permission::getCurrentUser()
+     *
+     * @param int $accountId optional
+     */
+    function setWorkAsAccountId($accountId = null)
+    {
+        $this->oMarketPublisherClient->setWorkAsAccountId($accountId);
+    }
+    
+    
+    /**
+     * Automatically link manager accounts to Publisher Console for user
+     * Link only that accounts where user is first linked manager.
+     *
+     * @param int $user_id optional if not set current logged user is used
+     * @param int $account_id optional if set only given account is linked
+     * @return boolean true if linking method was succesfull, false if any checks fails
+     */
+    function linkHostedAccounts($user_id = null, $account_id = null)
+    {
+        // works only in multiple accounts mode
+        if (!$this->isMultipleAccountsMode()) {
+            return false;
+        }
+        
+        // get current user if not set
+        if (!isset($user_id)) {
+            $user_id = OA_Permission::getUserId();
+        }
+
+        // stop if user isn't set or user is admin
+        if (!isset($user_id) || OA_Permission::isUserLinkedToAdmin($user_id)) {
+            return false;
+        }
+        
+        // stop if sso_id is not set
+        $doUsers = OA_Dal::staticGetDO('users', $user_id);
+        if (!$doUsers || empty($doUsers->sso_user_id)) {
+            return false;
+        }
+        $ssoId = $doUsers->sso_user_id;
+        
+        // Select such manager accounts where user is first linked manager
+        $doAUA2 = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA2->user_id = $user_id;
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+        $doAccounts->joinAdd($doAUA2, 'LEFT', 'aua2');
+        if (isset($account_id)) {
+            $doAccounts->account_id = $account_id;
+        }
+        $doAUA1 = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA1->joinAdd($doAccounts);
+        $doAUA1->whereAdd($doAUA1->tableName().'.linked <= aua2.linked');
+        $doAUA1->groupBy($doAUA1->tableName().'.account_id');
+        $doAUA1->having('count(*)=1');
+        $doAUA1->selectAdd();
+        $doAUA1->selectAdd($doAUA1->tableName().'.account_id');
+        $doAUA1->find();
+        
+        $aAccountsIds = array();
+        while($doAUA1->fetch()) {
+            $aAccountsIds[$doAUA1->account_id] = $doAUA1->account_id;
+        }
+        
+        // nothing to change
+        if (empty($aAccountsIds)) {
+            return false;
+        }
+        
+        // select already associated accounts
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->whereAdd('account_id IN ('.implode(",", $aAccountsIds).')');
+        $doMarketAssoc->find();
+        while($doMarketAssoc->fetch()) {
+            unset($aAccountsIds[$doMarketAssoc->account_id]);
+        }
+
+        // nothing to change
+        if (empty($aAccountsIds)) {
+            return false;
+        }
+        
+        $result = true;
+        foreach ($aAccountsIds as $accountId) {
+            try {
+                $this->oMarketPublisherClient->linkHostedAccount((int)$ssoId, (int)$accountId, false);
+            } catch (Exception $exc) {
+                OA::debug('Error during auto register Market in multiple accounts mode: ('.$exc->getCode().')'.$exc->getMessage());
+                $result = false;
+            }
+        }
+        
+        return $result;
+    }
 }
 
 ?>

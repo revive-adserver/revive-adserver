@@ -29,6 +29,7 @@ $Id: demoUI-page.php 30820 2009-01-13 19:02:17Z andrew.hill $
  * Table Definition for ext_market_website_pref
  */
 require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH.'/lib/max/Dal/DataObjects/Accounts.php';
 
 class DataObjects_Ext_market_website_pref extends DB_DataObjectCommon
 {
@@ -69,10 +70,20 @@ class DataObjects_Ext_market_website_pref extends DB_DataObjectCommon
     /**
      * Get array of website_id stored in database 
      *
+     * @param int $accountId manager or admin account (for admin account all websites are returned)
      * @return array of strings (website Ids)
      */
-    function getRegisteredWebsitesIds()
+    function getRegisteredWebsitesIds($accountId)
     {
+        if (isset($accountId) && 
+            $accountId !== DataObjects_Accounts::getAdminAccountId())
+        {
+            $agency = OA_Dal::factoryDO('agency');
+            $agency->account_id = $accountId;
+            $affiliates = OA_Dal::factoryDO('affiliates');
+            $affiliates->joinAdd($agency);
+            $this->joinAdd($affiliates);
+        }
         $this->selectAdd();
         $this->selectAdd('website_id');
         return $this->getAll();

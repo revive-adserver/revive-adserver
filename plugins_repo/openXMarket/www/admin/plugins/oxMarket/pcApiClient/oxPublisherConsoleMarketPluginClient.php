@@ -69,8 +69,22 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     protected $pc_api_client;
     
-    public function __construct()
+    /**
+     * @var bool
+     */
+    protected $multipleAccountsMode;
+    
+    /**
+     * In multiple accounts mode if is set overrides OA_Permission::getCurrentUser()
+     * Its needed for running various tasks from maintenance
+     *
+     * @var int
+     */
+    protected $workAsAccountId;
+    
+    public function __construct($multipleAccountsMode = false)
     {
+        $this->multipleAccountsMode = $multipleAccountsMode;
         $oPearXmlRpcClient = $this->getPearXmlRpcClient('marketPublicApiUrl');
         $oPublicApiServiceExecutor = new OX_oxMarket_M2M_PearXmlRpcCustomClientExecutor($oPearXmlRpcClient);
         // M2M service is used only to do relink to new public API
@@ -161,9 +175,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     protected function getAssociatedPcAccountData()
     {
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
-        if (isset($adminAccountId)) {
-            $oAccountAssocData->get('account_id', $adminAccountId);
+        $accountId = $this->getAccountId();
+        if (isset($accountId)) {
+            $oAccountAssocData->get('account_id', $accountId);
             $result = array();
             $result['publisher_account_id'] = $oAccountAssocData->publisher_account_id;
             $result['association_status']   = $oAccountAssocData->status;
@@ -260,7 +274,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     protected function setNewPublisherAccount($publisher_account_id, $api_key)
     {
+        $account_id = $this->getAccountId();
         $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $account_id;
         $aExtMarketRecords = $doExtMarket->getAll();
         
         if (count($aExtMarketRecords) > 0) {
@@ -268,11 +284,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
                 'There is already publisher_account_id on the OXP');
         } 
         else {
-            $account_id = DataObjects_Accounts::getAdminAccountId();
             if (!isset($account_id)) {
-                throw 
-                    new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                if ($this->multipleAccountsMode) {
+                    throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                        'Can\'t link publisher_account_id to admin account');
+                } else {
+                    throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
                         'There is no admin account id in database');
+                }
             }
             $doExtMarket->account_id = $account_id;
             $doExtMarket->publisher_account_id = $publisher_account_id;
@@ -286,6 +305,79 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         
         return true;
     }
+    
+    /**
+     * Allow to link hosted account to Market
+     * Exception is thrown if:
+     *  - sso_user_id is invalid
+     *  - sso_user_id is not linked with manager_account_id
+     *  - manager_account_id is not an MANAGER account
+     *  - sso_user_id is already linked to Market
+     *  - rethrown exception from linkHostedAccount (API errors) 
+     *
+     * @param int $sso_user_id
+     * @param int $manager_account_id
+     * @return boolean
+     * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
+     */
+    public function linkHostedAccount($sso_user_id, $manager_account_id, $checkInputData = true)
+    {
+        if ($checkInputData = true) {
+            if (empty($sso_user_id) || $sso_user_id != (int)$sso_user_id ) {
+                throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                            'Invalid user_sso_id');
+            }
+            $sso_user_id = (int)$sso_user_id;
+            // Check if user is linked to manager account
+            $doUser = OA_DAL::factoryDO('users');
+            $doUser->get('sso_user_id', $sso_user_id);
+            
+            if ( !OA_Permission::isUserLinkedToAccount($manager_account_id, $doUser->user_id) ){
+                throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                            'User ' . $doUser->username . 
+                            ' is not linked to manager account id: #' . 
+                            $manager_account_id);
+            }
+            
+            // Check if account is associated with manager
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $doAccounts->account_id = $manager_account_id;
+            $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+            $doAccounts->find();
+            if (!$doAccounts->fetch()) {
+                throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                            'Account id: #' . $manager_account_id . 
+                            ' is not MANAGER account type');
+            }
+            
+            // Check if account is already associated       
+            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+            $doMarketAssoc->account_id = $manager_account_id;
+            if ($doMarketAssoc->count()!=0) {
+                throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
+                            'Manager account (accout id: #' . 
+                            $manager_account_id . ') is already linked to the Market');
+            }
+        }
+        
+        // Call API to link this sso user
+        $response = $this->pc_api_client->linkHostedAccount($sso_user_id, 
+                             $doAccounts->account_name, $doUser->email_address);
+ 
+        // Create new association
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $manager_account_id;
+        $doMarketAssoc->publisher_account_id = $response['accountUuid'];
+        $doMarketAssoc->api_key = $response['apiKey'];
+        $doMarketAssoc->status = self::LINK_IS_VALID_STATUS;
+        $doMarketAssoc->insert();
+         
+        $this->pc_api_client->setPublisherAccountId($response['accountUuid']);
+        $this->pc_api_client->setApiKey($response['apiKey']);
+        
+        return true;
+    }
+
     
     /**
      * @param integer $lastUpdate
@@ -377,12 +469,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     protected function saveApiKeyToDB($apiKey)
     {
         $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
-        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
-        if (!isset($adminAccountId)) {
+        $accountId = $this->getAccountId();
+        if (!isset($accountId)) {
             // no admin account
             return false;
         }
-        $doExtMarket->get('account_id', $adminAccountId);
+        $doExtMarket->get('account_id', $accountId);
         if (empty($doExtMarket->publisher_account_id)) {
             // no association data
             return false;
@@ -403,9 +495,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $apiKey = null;
         
         $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
-        $adminAccountId = DataObjects_Accounts::getAdminAccountId();
-        if (isset($adminAccountId)) {
-            $doExtMarket->get('account_id', $adminAccountId);
+        $accountId = $this->getAccountId();
+        if (isset($accountId)) {
+            $doExtMarket->get('account_id', $accountId);
             $publisher_account_id = $doExtMarket->publisher_account_id;
             $currentStatus        = $doExtMarket->status;
             $apiKey               = $doExtMarket->api_key;
@@ -442,10 +534,10 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     protected function setStatusByException(Exception $exception) 
     {
         if ($exception->getCode() == self::XML_ERR_ACCOUNT_BLOCKED) {
-            $adminAccountId = DataObjects_Accounts::getAdminAccountId();
-            if (isset($adminAccountId)) {
+            $accountId = $this->getAccountId();
+            if (isset($accountId)) {
                 $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
-                $doExtMarket->get($adminAccountId);
+                $doExtMarket->get($accountId);
                 $doExtMarket->status = self::ACCOUNT_DISABLED_STATUS;;
                 $doExtMarket->update();
             }
@@ -540,4 +632,37 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
         return $aData;
     }
+    
+    public function getAccountId()
+    {
+        $accountId = null;
+        if ($this->multipleAccountsMode == true) {
+            if (isset($this->workAsAccountId)) {
+                $accountId = $this->workAsAccountId;
+            }
+            // multiple accounts mode, get manager account
+            $oUser = OA_Permission::getCurrentUser();
+            if ($oUser->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
+                $accountId = $oUser->aAccount['account_id'];
+            }            
+        } else {
+            // Normal mode, get admin account
+            $accountId = DataObjects_Accounts::getAdminAccountId();
+        }
+        return $accountId;
+        
+    }
+
+    /**
+     * Set working Account Id in multiple accounts mode,
+     * if it's not given or is null, client will be using
+     * OA_Permission::getCurrentUser()
+     *
+     * @param int $accountId optional
+     */
+    public function setWorkAsAccountId($accountId = null)
+    {
+        $this->workAsAccountId = $accountId;
+    }
+
 }

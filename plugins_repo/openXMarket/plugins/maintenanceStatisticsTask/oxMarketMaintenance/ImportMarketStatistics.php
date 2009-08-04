@@ -60,44 +60,60 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     {
         OA::debug('Started oxMarket_ImportMarketStatistics');
         try {
-            if ($this->isPluginActive())
-            {
-                $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();   
-                $last_update = $this->getLastUpdateVersionNumber();
-                $aWebsitesIds = $this->getRegisteredWebsitesIds();
-                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
-                    // Download statistics only if there are registered websites
-                    do {
-                        $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
-                        $endOfData = $this->getStatisticFromString($data, $last_update);
-                    } while ($endOfData === false);
+            $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();
+            $oAccount = OA_Dal::factoryDO('ext_market_assoc_data');
+            $oAccount->find();
+            while ($oAccount->fetch()) {
+                $accountId = (int)$oAccount->account_id;
+                $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
+                //is plugin active is checked per account
+                if ($this->isPluginActive()) { 
+                    $last_update = $this->getLastUpdateVersionNumber($accountId);
+                    $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
+                    if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
+                        // Download statistics only if there are registered websites
+                        do {
+                            $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
+                            $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
+                        } while ($endOfData === false);
+                    }
                 }
             }
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
+        // always clear workAsAccountId
+        if (isset($oPublisherConsoleApiClient)) {
+            $oPublisherConsoleApiClient->setWorkAsAccountId(null);
+        }
         OA::debug('Finished oxMarket_ImportMarketStatistics');
     }
 
-    function getLastUpdateVersionNumber()
+    
+    /**
+     * Get LastUpdate version number for given account
+     *
+     * @param int $accountId
+     * @return string
+     */
+    function getLastUpdateVersionNumber($accountId)
     {
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
-        if (isset($oPluginSettings->value)) {
-            return $oPluginSettings->value;
-        }
-        return '0';
+        $value = OA_Dal::factoryDO('ext_market_general_pref')
+                 ->findAndGetValue($accountId, self::LAST_STATISTICS_VERSION_VARIABLE);
+        return (isset($value)) ? $value : '0';
     }
     
     /**
      * Get array of website_id stored in database 
+     * associated with given account
      *
+     * @param int $accountId
      * @return array of strings (website Ids)
      */
-    function getRegisteredWebsitesIds()
+    function getRegisteredWebsitesIds($accountId)
     {
         $oWebsites = OA_Dal::factoryDO('ext_market_website_pref');
-        return $oWebsites->getRegisteredWebsitesIds();
+        return $oWebsites->getRegisteredWebsitesIds($accountId);
     }
     
     /**
@@ -105,9 +121,10 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      *
      * @param string $data
      * @param int $last_update
+     * @param int $accountId
      * @return bool Is end of data from Pub Console (always true for oxmStatistics)
      */
-    protected function getStatisticFromString($data, &$last_update)
+    protected function getStatisticFromString($data, &$last_update, $accountId)
     {
         if (!empty($data)) {
             try {
@@ -144,13 +161,10 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 }
                 // Update last statistics version serial number in same DB transaction
                 $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-                $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
-                $oPluginSettings->value = $last_update;
-                if (0 < $oPluginSettings->getRowCount()) {
-                    $oPluginSettings->update();
-                }
-                else {
-                    $oPluginSettings->insert();
+                $result = $oPluginSettings->insertOrUpdateValue($accountId, 
+                            self::LAST_STATISTICS_VERSION_VARIABLE, $last_update);
+                if ($result===false) {
+                    throw new Exception('Cannot save last statistics version variable for account: '.$accountId);
                 }
                 if ($supports_transactions) {
                     $oDB->commit();

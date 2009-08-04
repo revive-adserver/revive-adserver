@@ -193,10 +193,14 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[1]]['minCpm'], 1);
         $this->assertEqual($aResult[$aCampaignsIds[1]]['priority'], DataObjects_Campaigns::PRIORITY_REMNANT);
         $this->assertFalse($aResult[$aCampaignsIds[1]]['minCpmCalculated']); //REMNANT_CAMPAIGNS are not eCPM enabled
+        $this->assertFalse($aResult[$aCampaignsIds[1]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignname'], 'campaign 2');
         $this->assertEqual($aResult[$aCampaignsIds[2]]['minCpm'], 1);
         $this->assertTrue($aResult[$aCampaignsIds[2]]['minCpmCalculated']);
+        $this->assertFalse($aResult[$aCampaignsIds[2]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '');
 
         // Get contract campaigns
         $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'contract');
@@ -205,6 +209,8 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignname'], 'campaign 4');
         $this->assertEqual($aResult[$aCampaignsIds[4]]['minCpm'], 1);
         $this->assertTrue($aResult[$aCampaignsIds[4]]['minCpmCalculated']);
+        $this->assertFalse($aResult[$aCampaignsIds[4]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], '');
 
         // Get all (remnant+contract) campaigns
         $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all');
@@ -212,7 +218,13 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
         $this->assertEqual($aResult[$aCampaignsIds[4]]['priority'], 7);
-        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]); 
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        $this->assertFalse($aResult[$aCampaignsIds[1]]['optin_status']);
+        $this->assertFalse($aResult[$aCampaignsIds[2]]['optin_status']);
+        $this->assertFalse($aResult[$aCampaignsIds[4]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '');
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], ''); 
 
         // Opt in two campaigns
         $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
@@ -221,17 +233,95 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
 
         // Get remnant campaigns
         $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'remnant');
-        $this->assertEqual(1, count($aResult));
+        $this->assertEqual(2, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
+        $this->assertFalse($aResult[$aCampaignsIds[1]]['optin_status']);
+        $this->assertTrue($aResult[$aCampaignsIds[2]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '0.56');
 
         // Get contract campaigns
         $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'contract');
-        $this->assertEqual(0, count($aResult));
+        $this->assertEqual(1, count($aResult));
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[$aCampaignsIds[4]]['optin_status']);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], '1.23');
 
         // Get all (remnant+contract) campaigns
         $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all');
-        $this->assertEqual(1, count($aResult));
+        $this->assertEqual(3, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        $this->assertFalse($aResult[$aCampaignsIds[1]]['optin_status']);
+        $this->assertTrue($aResult[$aCampaignsIds[2]]['optin_status']);
+        $this->assertTrue($aResult[$aCampaignsIds[4]]['optin_status']); 
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '0.56');
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], '1.23');
+        
+        // test seach prhrase
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, 'ign 4');
+        $this->assertEqual(1, count($aResult));
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, 'camp');
+        $this->assertEqual(3, count($aResult));
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+        
+        // test limit
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 2);
+        $this->assertEqual(2, count($aResult));
+        $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
+        
+        // test limit, offset
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 2, 1);
+        $this->assertEqual(2, count($aResult));
+        $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+    }
+    
+    
+    function testGetCampaignsCount()
+    {
+        $aObjectsIds = $this->_prepare_users();
+        // Prepare logged user
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->get($aObjectsIds['managerUserID']);
+        $oUser = new OA_Permission_User($doUsers);
+        global $session;
+        $session['user'] = $oUser;
+
+        $aCampaignsIds = $this->_prepare_campaigns($aObjectsIds);
+
+        $oDalCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
+
+        // Get remnant campaigns
+        $this->assertEqual(2,$oDalCampaignsOptIn->getCampaignsCount('remnant'));
+        // Get contract campaigns
+        $this->assertEqual(1,$oDalCampaignsOptIn->getCampaignsCount('contract'));
+        // Get all (remnant+contract) campaigns
+        $this->assertEqual(3,$oDalCampaignsOptIn->getCampaignsCount('all'));
+        
+        // Opt in two campaigns
+        $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
+        $minCpms = array($aCampaignsIds[4] => 1.23, $aCampaignsIds[2] => 0.56);
+        $result = $oDalCampaignsOptIn->performOptIn('selected', $minCpms, $toOptIn, null);
+
+        // Get remnant campaigns
+        $this->assertEqual(2,$oDalCampaignsOptIn->getCampaignsCount('remnant'));
+        // Get contract campaigns
+        $this->assertEqual(1,$oDalCampaignsOptIn->getCampaignsCount('contract'));
+        // Get all (remnant+contract) campaigns
+        $this->assertEqual(3,$oDalCampaignsOptIn->getCampaignsCount('all'));
+                
+        // test seach prhrase
+        $this->assertEqual(1,$oDalCampaignsOptIn->getCampaignsCount('all', 'ign 4'));
+        $this->assertEqual(3,$oDalCampaignsOptIn->getCampaignsCount('all', 'camp'));
     }
 
 
@@ -296,6 +386,63 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
     }
     
 
+    function testPerformOptOut()
+    {
+        $aObjectsIds = $this->_prepare_users();
+        // Prepare logged user
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->get($aObjectsIds['managerUserID']);
+        $oUser = new OA_Permission_User($doUsers);
+        global $session;
+        $session['user'] = $oUser;
+
+        $aCampaignsIds = $this->_prepare_campaigns($aObjectsIds);
+
+        $oDalCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
+        
+        // Test invalid input, empty array, random ids where there is no campaigns optedin
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOut('not array'));
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOut(array()));
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOut(array(1,4,5,6)));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),0);
+        
+        // Opt in campaigns
+        $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
+        $minCpms = array($aCampaignsIds[4] => 1.23, $aCampaignsIds[2] => 0.56);
+        $result = $oDalCampaignsOptIn->performOptIn('selected', $minCpms, $toOptIn, null);
+        // optin other user campaign
+        $oDalCampaignsOptIn->insertOrUpdateMarketCampaignPref($aCampaignsIds[5], 0.66);
+        
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[5])));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->is_enabled = false;
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),0);
+        
+        $this->assertEqual(1, $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[2],$aCampaignsIds[5])));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[2]);
+        $this->assertFalse($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 0.56);
+        $this->assertEqual($aResult[1]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[1]['is_enabled']);
+        $this->assertEqual($aResult[1]['floor_price'], 1.23);
+        $this->assertEqual($aResult[2]['campaignid'], $aCampaignsIds[5]);
+        $this->assertTrue($aResult[2]['is_enabled']);
+        $this->assertEqual($aResult[2]['floor_price'], 0.66);
+    }
+
+    
     function _prepare_users()
     {
         $aObjectsIds = array();
@@ -371,6 +518,7 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $aCampaignsIds[5] = DataGenerator::generateOne($doCampaigns);
         return $aCampaignsIds;
     }
+    
 }
 
 ?>

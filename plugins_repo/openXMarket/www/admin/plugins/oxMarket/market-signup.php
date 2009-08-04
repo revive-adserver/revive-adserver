@@ -30,15 +30,20 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+//OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+$oMarketComponent->enforceProperAccountAccess();
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
 $oMarketComponent->checkRegistered(false);
 $oMarketComponent->updateSSLMessage();
+
+// Try to automatically register user on multiple accounts mode is on
+// and we are working on hosted platform
+oxMarketAutoRegisterIfHosted($oMarketComponent);
 
 $captchaRandom = mktime();
 $signupForm = buildSignupForm($oMarketComponent, $captchaRandom);
@@ -214,7 +219,7 @@ function processForm($oForm, $oMarketComponent)
             //call client signup function here
             $linkingResult = $oApiClient->createAccount($aFields['m_new_email'],$aFields['m_new_username'],
                                 $aFields['m_new_password'], $aFields['m_captcha'], $aFields['captchaRandom']);
-            $mode = 'n';
+            $mode = 'n';                                
         }
 
         if ($linkingResult == true) {
@@ -544,4 +549,22 @@ function updateCaptcha($oForm, $captchaRandom)
     }
 }
 
-?>
+/**
+ * Check if plugin is in multiple accounts mode and try to automatically register user.
+ * On success redirect to market-confirm page
+ *
+ * @param Plugins_admin_oxMarket_oxMarket $oMarketComponent
+ */
+function oxMarketAutoRegisterIfHosted($oMarketComponent)
+{ 
+    $oUser = OA_Permission::getCurrentUser();
+    $linkingResult = $oMarketComponent->linkHostedAccounts(
+                                            $oUser->aUser['user_id'], 
+                                            $oUser->aAccount['account_id']);
+    if ($linkingResult === true) {
+        // perform activation actions
+        $oMarketComponent->removeRegisterNotification();
+        OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
+        exit;
+    }
+}

@@ -54,6 +54,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
     
     function tearDown()
     {
+        DataGenerator::cleanUp();
         TestEnv::uninstallPluginPackage('openXMarket',false);
     }
     
@@ -136,6 +137,45 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($aResult[2], $httpUrl);
         $this->assertEqual($aResult[3], $adHtml);
 
+        // test adding url and referer if iFrame invocation
+        $GLOBALS['loc'] = 'http://test.com/';
+        $GLOBALS['referer'] = 'http://search.com/';
+        $GLOBALS['_OA']['invocationType'] = 'frame';
+        
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
+        // check if response matches to pattern
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
+        // check ereg result
+        $this->assertEqual(4,count($aResult));
+        $oOXM_ad = $oJson->decode($aResult[1]);
+        $this->assertEqual($oOXM_ad->url, 'http://test.com/');
+        $this->assertEqual($oOXM_ad->referer, 'http://search.com/');
+        
+        // unset referer
+        unset($GLOBALS['referer']);
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
+        // check ereg result
+        $this->assertEqual(4,count($aResult));
+        $oOXM_ad = $oJson->decode($aResult[1]);
+        $aOXM_ad = get_object_vars($oOXM_ad);
+        $this->assertEqual($aOXM_ad['url'], 'http://test.com/');
+        $this->assertFalse(array_key_exists('referer',$aOXM_ad));
+        
+        // uset url
+        unset($GLOBALS['loc']);
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
+        // check ereg result
+        $this->assertEqual(4,count($aResult));
+        $oOXM_ad = $oJson->decode($aResult[1]);
+        $aOXM_ad = get_object_vars($oOXM_ad);
+        $this->assertFalse(array_key_exists('url',$aOXM_ad));
+        $this->assertFalse(array_key_exists('referer',$aOXM_ad));
+        
         // restore setting
         $_SERVER['HTTPS'] = $serverHttps;
     }
@@ -183,11 +223,14 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($aOXM_ad->fallback,$adHtml);
         $this->assertEqual($aOXM_ad->myParam, 1234);
         
+        // restore hooks
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['addMarketParams'] = $addMarketParamsHooks;
     }
     
     function testOX_Dal_Delivery_getPlatformMarketInfo()
     {
         MAX_Dal_Delivery_Include();
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = false;
         
         // No admin_account_id in application_variable
         $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
@@ -204,7 +247,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         // Still no admin_account_id in application_variable
         $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
         // This will check only ext_market_assoc_data
-        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo($admin_account_id)); 
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo(null, $admin_account_id)); 
 
         // Add admin_account_id to application_variable
         $doAppVar = OA_Dal::factoryDO('application_variable');
@@ -215,9 +258,9 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         // Get admin account from DB, check ext_market_assoc_data
         $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo());
         // This will check only ext_market_assoc_data
-        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo($admin_account_id));
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo(null, $admin_account_id));
         // Check account not in ext_market_assoc_data
-        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo(2)); 
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo(null, 2)); 
         
         // Set status to invalid
         $doAssocData = OA_DAL::factoryDO('ext_market_assoc_data');
@@ -226,7 +269,73 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $doAssocData->update();
         
         $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
+        
+        // delete admin association
+        $doAssocData = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doAssocData->get($admin_account_id);
+        $doAssocData->delete();
+        
+        // switch on multiple accounts mode
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = true;
+        $status = 0;
+        
+        // Prepare test managers
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId1 = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId2 = DataGenerator::generateOne($doAgency);
+        
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->get($agencyId1);
+        $accountId1 = $doAgency->account_id;
+       
+        $doAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doAssocData->status = $status;
+        $doAssocData->account_id = $accountId1;
+        DataGenerator::generateOne($doAssocData);
+        
+        // Test linked manager
+        $this->assertTrue(OX_Dal_Delivery_getPlatformMarketInfo($agencyId1));
+        // Test not linked manager
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo($agencyId2));
+        // Test no agency_id in multiple accounts mode
+        $this->assertFalse(OX_Dal_Delivery_getPlatformMarketInfo());
     }
     
+    
+    function testOxMarketPostAdRendedHook()
+    {
+        // Store original hooks
+        $oxMarketPostAdRenderHooks = null;
+        if (isset($GLOBALS['_MAX']['CONF']['deliveryHooks']['oxMarketPostAdRender'])) {
+            $oxMarketPostAdRenderHooks = $GLOBALS['_MAX']['CONF']['deliveryHooks']['oxMarketPostAdRender'];
+        }
+        
+        // Set own hook
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['oxMarketPostAdRender'] = 
+            "deliveryAdRender:myTestPluginGroup:myMarketPostAdRenderPlugin";
+        
+        // declare test function for hook
+        function Plugin_deliveryAdRender_myTestPluginGroup_myMarketPostAdRenderPlugin_Delivery_oxMarketPostAdRender(&$code, $aBanner, $aMarketInfo) 
+        {
+            $code .= '|TestPlugin|'.serialize($aBanner).'|'.serialize($aMarketInfo);
+        }
+        
+        // Prepare test data
+        $bannerCode = 'html banner';
+        $aBanner = array( 'width' => 468, 'height' => 60 );
+        
+        $code = $bannerCode;
+        Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdRender($code, $aBanner);
+        $result = explode('|', $code);
+        $this->assertEqual(4, count($result));
+        $this->assertEqual($result[0], $bannerCode);
+        $this->assertEqual($result[1], 'TestPlugin');
+        $this->assertEqual(unserialize($result[2]), $aBanner);
+        $this->assertEqual(unserialize($result[3]), false);
+        
+        // restore hooks
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['oxMarketPostAdRender'] = $oxMarketPostAdRenderHooks;
+    }
 }
 

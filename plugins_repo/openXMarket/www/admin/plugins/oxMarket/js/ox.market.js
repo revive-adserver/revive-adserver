@@ -21,6 +21,7 @@
           userNameParameterName: 'userName',
           checkTimeout: 500,
           availableResultText: 'available',
+          unavailableResultText: 'taken',
           indicatorSelector: '#user-check-indicator',
           availableClass: 'available',
           unavailableClass: 'unavailable',

@@ -11,6 +11,7 @@
     userNameParameterName: 'username',
     checkTimeout: 500,
     availableResultText: 'available',
+    unavailableResultText: 'taken',
     indicatorSelector: '#user-check-indicator',
     availableClass: 'available',
     unavailableClass: 'unavailable',
@@ -48,27 +49,46 @@
       }
 
       // Do the XHR
-      $indicator.addClass(o.checkingClass).removeClass(o.unavailableClass).removeClass(o.availableClass);
+      clearStatusClasses($indicator);
+      $indicator.addClass(o.checkingClass);
       $indicator.show();
       $.ajax({
         url: o.userNameCheckUrl, 
         data: ajaxData, 
         success: function(data) {
-          $indicator.removeClass(o.checkingClass).removeClass(o.errorClass);
+          clearStatusClasses($indicator);
           if (data == o.availableResultText) {
-            $indicator.addClass(o.availableClass).removeClass(o.unavailableClass);
+            $indicator.addClass(o.availableClass);
             o.callback.apply(element, [element, true]);
-          } 
-          else {
-            $indicator.removeClass(o.availableClass).addClass(o.unavailableClass);
+          }
+          else if (data == o.unavailableResultText) {
+            $indicator.addClass(o.unavailableClass);
             o.callback.apply(element, [element, false]);
+          }
+          else {
+            //weird case - should be reported as error, hide indicator, allow callback to act as if it worked
+            $indicator.hide();
+            o.callback.apply(element, [element, true]);
           }
         },
         error: function() {
-          $indicator.removeClass(o.checkingClass).addClass(o.errorClass);
+          clearStatusClasses($indicator);
+          $indicator.addClass(o.errorClass);
         }
       });
     };
+
+    
+    function clearStatusClasses($elem)
+    {
+        $elem.removeClass(o.checkingClass)
+            .removeClass(o.errorClass)
+            .removeClass(o.unavailableClass)
+            .removeClass(o.availableClass);
+            
+        return $elem;    
+    }
+    
 
     return this.filter(":text").each(function() {
       $this = $(this);

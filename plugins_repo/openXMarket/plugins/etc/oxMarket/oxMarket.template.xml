@@ -7,8 +7,8 @@
     <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>OpenX Market for OpenX Ad Server (Download) Interface</description>
-    <version>1.0.3-rc5</version>
+    <description>OpenX Market for OpenX Ad Server Interface</description>
+    <version>1.1.0-rc2</version>
     <oxversion>2.8.2-rc13</oxversion>
     <extends>admin</extends>
     <install>
@@ -18,6 +18,10 @@
             <file path="{ADMINPATH}/js/">ox.market.js</file>
             <file path="{ADMINPATH}/js/">jquery.typewatch.js</file>
             <file path="{ADMINPATH}/js/">ox.usernamecheck.js</file>
+            <file path="{ADMINPATH}/images/">button-dot-green.gif</file>
+            <file path="{ADMINPATH}/images/">button-dot-red.gif</file>
+            <file path="{ADMINPATH}/images/">campaign-cpm-info.gif</file>
+            <file path="{ADMINPATH}/images/">dropdown-background.png</file>            
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
@@ -77,8 +81,10 @@
 			<file path="{ADMINPATH}/">market-run-registerwebsites.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
             <file path="{ADMINPATH}/">XMLToArray.php</file>
-            <file path="{ADMINPATH}/navigation/">oxMarketChecker.php</file>
-            <file path="{ADMINPATH}/navigation/">oxMarketRegisteredChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketActiveChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketAdminStatsChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketStandaloneModeChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketMultipleAccountsModeChecker.php</file>
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
@@ -90,18 +96,21 @@
         </components>
         <navigation>
             <checkers>
-                <checker class="Plugins_admin_oxMarket_oxMarketChecker" include="oxMarketChecker.php" />
-                <checker class="Plugins_admin_oxMarket_oxMarketRegisteredChecker" include="oxMarketRegisteredChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketActiveChecker" include="oxMarketActiveChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketAdminStatsChecker" include="oxMarketAdminStatsChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker" include="oxMarketStandaloneModeChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker" include="oxMarketMultipleAccountsModeChecker.php" />
             </checkers>
             <admin>
-                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php">OpenX Market</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
             </admin>
             <manager>
-                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketRegisteredChecker">OpenX Market Quickstart</menu>
-                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Content Restrictions</menu>
-                <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market - Ad Quality Tool</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketChecker">OpenX Market</menu>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
+                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>
+                <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Ad Quality Tool</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market</menu>
             </manager>
         </navigation>
         <configuration option="Market API">
@@ -125,15 +134,24 @@
 			<setting key="marketMenuUrl" type="text" label="Market menu URL" required="1" size="32" visible="0">@marketMenuUrl@</setting>
             <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
             <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
-			<setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
+            <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
+            <!-- Spacer for the 4096 byte boundary -->
+                                         
+                                         
+                                         
+                                         
+                                         
+                                         
+                                         
+            <!-- End spacer for the 4096 byte boundary -->
             <setting key="marketCaptchaUrl" type="text" label="Captcha picture URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
             <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
             <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
             <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
-            <setting key="splashAlreadyShown" type="checkbox" label="OpenX Market splash shown" required="1"  visible="0">0</setting>
             <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
+            <setting key="multipleAccountsMode" type="text" label="Run plugin in one account per manager mode" required="1"  visible="0">@multipleAccountsMode@</setting>
             <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
         </configuration>
         <schema>

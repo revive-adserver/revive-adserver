@@ -35,7 +35,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends UnitTestCase
 {
-    static $pluginVersion;
     
     function setUp()
     {
@@ -54,12 +53,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                       'isSsoUserNameAvailable',
                       'getStatistics',
                       'getApiKey',
-                      'getApiKeyByM2MCred')
+                      'getApiKeyByM2MCred',
+                      'linkHostedAccount')
             );
-            // @TODO remove after creating final package 1.0.0-RC1
-            // Get plugin version to run proper test while plugin isn't build to etc/plugins
-            $aPackageInfo = $oPkgMgr->getPackageInfo('openXMarket');
-            self::$pluginVersion = $aPackageInfo['version'];
         }
         
     }
@@ -78,171 +74,225 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $captcha = 'captcha';
         $captcha_random = 'captcha_random';
         $captcha_ph = 'captcha_ph';
-        
-        if (version_compare(self::$pluginVersion, '1.0.0-dev', '<'))
-        {
-        
-            // plugin 0.3.0
-            $publisher_id = 'publisher_id';
+
+        $response = array('accountUuid' => 'pub-acc-id', 'apiKey' => 'api-key');
+
+        OA_Dal_ApplicationVariables::set('platform_hash', $captcha_ph);
+        $callArgs = array($email, $username, md5($password), $captcha, $captcha_random, $captcha_ph);
     
-            $callArgs = array($email, $username, md5($password), $captcha, $captcha_random);
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expect('createAccount', $callArgs);
+        $PubConsoleClient->setReturnValue('createAccount', $response);
         
-            // Create mockup for PubConsoleClient
-            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
-            $PubConsoleClient->expect('createAccount', $callArgs);
-            $PubConsoleClient->setReturnValue('createAccount', $publisher_id);
-            
-            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
-            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
-    
-            // Try create account - when there is no admin account set
-            try {
-                $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'There is no admin account id in database');
-            }
-            
-            // Create admin account
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $adminAccountId = DataGenerator::generateOne($doAccounts);
-            
-            // Test valid use
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+
+        // Try create account - when there is no admin account set
+        try {
             $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-            
-            $this->assertTrue($result);
-            
-            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
-            $doMarketAssoc->find();
-            $this->assertTrue($doMarketAssoc->fetch());
-            $this->assertEqual($result, $doMarketAssoc->publisher_account_id);
-            $this->assertEqual(Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS,
-                $doMarketAssoc->status);
-            $this->assertFalse($doMarketAssoc->fetch()); // only one entry
-            
-            // Try to call this method once again
-            try {
-                $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'There is already publisher_account_id on the OXP');
-            }
-        } else {
-            // plugin 1.0.0
-            $response = array('accountUuid' => 'pub-acc-id', 'apiKey' => 'api-key');
-    
-            OA_Dal_ApplicationVariables::set('platform_hash', $captcha_ph);
-            $callArgs = array($email, $username, md5($password), $captcha, $captcha_random, $captcha_ph);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'There is no admin account id in database');
+        }
         
-            // Create mockup for PubConsoleClient
-            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
-            $PubConsoleClient->expect('createAccount', $callArgs);
-            $PubConsoleClient->setReturnValue('createAccount', $response);
-            
-            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
-            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
-    
-            // Try create account - when there is no admin account set
-            try {
-                $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'There is no admin account id in database');
-            }
-            
-            // Create admin account
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $adminAccountId = DataGenerator::generateOne($doAccounts);
-            
-            // Test valid use
+        // Create admin account
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        
+        // Test valid use
+        $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
+        
+        $this->assertTrue($result);
+        
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
+        $doMarketAssoc->find();
+        $this->assertTrue($doMarketAssoc->fetch());
+        $this->assertEqual($response['accountUuid'], $doMarketAssoc->publisher_account_id);
+        $this->assertEqual($response['apiKey'], $doMarketAssoc->api_key);
+        $this->assertEqual(Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS,
+            $doMarketAssoc->status);
+        $this->assertFalse($doMarketAssoc->fetch()); // only one entry
+        
+        // Try to call this method once again
+        try {
             $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-            
-            $this->assertTrue($result);
-            
-            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
-            $doMarketAssoc->find();
-            $this->assertTrue($doMarketAssoc->fetch());
-            $this->assertEqual($response['accountUuid'], $doMarketAssoc->publisher_account_id);
-            $this->assertEqual($response['apiKey'], $doMarketAssoc->api_key);
-            $this->assertEqual(Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS,
-                $doMarketAssoc->status);
-            $this->assertFalse($doMarketAssoc->fetch()); // only one entry
-            
-            // Try to call this method once again
-            try {
-                $result = $oPCMarketPluginClient->createAccount($email, $username, $password, $captcha, $captcha_random);
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'There is already publisher_account_id on the OXP');
-            }
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'There is already publisher_account_id on the OXP');
         }
     }
     
+    
+    function testLinkHostedAccount() 
+    {
+//        Mock::generatePartial(
+//            'Plugins_admin_oxMarket_PublisherConsoleClient',
+//            'PartialMockPublisherConsoleClient',
+//            array('linkHostedAccount')
+//        );
+        $thoriumrAccountId = '11112222-3333-4444-5555-666677778888';
+        $apiKey = 'api-key-231423452342345';
+        $user_sso_id = 1234;
+        $accountName = 'test';
+        $email = 'email@test.com';
+        
+        // Prepare test data
+        // manager account
+        $doAgency  = OA_DAL::factoryDO('agency');
+        $agencyId  = DataGenerator::generateOne($doAgency);
+        $doAgency  = OA_Dal::staticGetDO('agency', $agencyId);
+        $managerAccountId = $doAgency->account_id;
+        $doAccount = OA_Dal::staticGetDO('accounts', $managerAccountId);
+        $doAccount->account_name = $accountName;
+        $doAccount->update();
+        // publisher account
+        $doAffiliates = OA_DAL::factoryDo('affiliates');
+        $affiliateId = DataGenerator::generateOne($doAffiliates);
+        $doAffiliates = OA_Dal::staticGetDO('affiliates', $affiliateId);
+        $publisherAccountId = $doAffiliates->account_id;
+        
+        // user
+        $doUsers  = OA_Dal::factoryDO('users');
+        $doUsers->default_account_id = $managerAccountId;
+        $doUsers->sso_user_id = $user_sso_id;
+        $doUsers->username = 'user1';
+        $doUsers->email_address = $email;
+        $userId = DataGenerator::generateOne($doUsers);
+
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expectOnce('linkHostedAccount');
+        $PubConsoleClient->expectArguments('linkHostedAccount', array($user_sso_id, $accountName, $email));
+        $PubConsoleClient->setReturnValue('linkHostedAccount', array('accountUuid'=>$thoriumrAccountId,
+                                                                     'apiKey'=>$apiKey));
+
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        
+        // Test invalid sso
+        try {
+            $oPCMarketPluginClient->linkHostedAccount(null, $managerAccountId);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+             $this->assertEqual('Invalid user_sso_id', $e->getMessage());
+        }
+        try {
+            $oPCMarketPluginClient->linkHostedAccount('', $managerAccountId);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+             $this->assertEqual('Invalid user_sso_id', $e->getMessage());
+        }
+        
+        // Test account not linked
+        try {
+            $result = $oPCMarketPluginClient->linkHostedAccount($user_sso_id, $managerAccountId);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual('User user1 is not linked to manager account id: #' . $managerAccountId,
+                 $e->getMessage());
+        }
+        
+        // link user to publisher and manager accounts
+        $doAccountUserAssoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccountUserAssoc->user_id = $userId;
+        $doAccountUserAssoc->account_id = $publisherAccountId;
+        $doAccountUserAssoc->insert();
+        $doAccountUserAssoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccountUserAssoc->user_id = $userId;
+        $doAccountUserAssoc->account_id = $managerAccountId;
+        $doAccountUserAssoc->insert();
+        
+        // Test trying to link not manager account
+        try {
+            $result = $oPCMarketPluginClient->linkHostedAccount($user_sso_id, $publisherAccountId);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual('Account id: #' . $publisherAccountId . ' is not MANAGER account type',
+                 $e->getMessage());
+        }
+        
+        // Test proper linking
+        $result = $oPCMarketPluginClient->linkHostedAccount($user_sso_id, $managerAccountId);
+        $this->assertTrue($result);
+        
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $manager_account_id;
+        $doMarketAssoc->find();
+        $this->assertTrue($doMarketAssoc->fetch());
+        $this->assertEqual($thoriumrAccountId, $doMarketAssoc->publisher_account_id);
+        $this->assertEqual(Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS,
+            $doMarketAssoc->status);
+        $this->assertFalse($doMarketAssoc->fetch()); // only one entry
+        
+        // Try to link again
+        try {
+            $result = $oPCMarketPluginClient->linkHostedAccount($user_sso_id, $managerAccountId);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual('Manager account (accout id: #' . 
+                               $managerAccountId . ') is already linked to the Market',
+                               $e->getMessage());
+        }
+    }
+
     function testGetStatistics()
     {
-        // test added for plugin 1.0.0
-        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
-        {
-            $lastUpdate1 = '0';
-            $lastUpdate2 = '1';
-            $aWebsitesIds2 = array( 'w_id1', 'w_id2');
-            
-            $callArgs1 = array($lastUpdate1, array()); // Empty array is expected for null $aWebsitesIds parameter
-            $response1 = "1\t0\n";
-            $callArgs2 = array($lastUpdate2, $aWebsitesIds2);
-            $response2 = "2\t0\n";
-            
-            // Create mockup for PubConsoleClient
-            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
-            $PubConsoleClient->expectAt(0, 'getStatistics', $callArgs1);
-            $PubConsoleClient->setReturnValueAt(0, 'getStatistics', $response1);
-            $PubConsoleClient->expectAt(1, 'getStatistics', $callArgs2);
-            $PubConsoleClient->setReturnValueAt(1, 'getStatistics', $response2);
-            $PubConsoleClient->expectCallCount('getStatistics', 2);
-            
-            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
-            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        $lastUpdate1 = '0';
+        $lastUpdate2 = '1';
+        $aWebsitesIds2 = array( 'w_id1', 'w_id2');
+        
+        $callArgs1 = array($lastUpdate1, array()); // Empty array is expected for null $aWebsitesIds parameter
+        $response1 = "1\t0\n";
+        $callArgs2 = array($lastUpdate2, $aWebsitesIds2);
+        $response2 = "2\t0\n";
+        
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expectAt(0, 'getStatistics', $callArgs1);
+        $PubConsoleClient->setReturnValueAt(0, 'getStatistics', $response1);
+        $PubConsoleClient->expectAt(1, 'getStatistics', $callArgs2);
+        $PubConsoleClient->setReturnValueAt(1, 'getStatistics', $response2);
+        $PubConsoleClient->expectCallCount('getStatistics', 2);
+        
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
 
-            // Try to call method when plugin is not registered
-            try {
-                $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'There is no association between PC and OXP accounts');
-            }
-            
-            // Create account and set publisher account association data
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $adminAccountId = DataGenerator::generateOne($doAccounts);
-            $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doExtMarket->account_id = $adminAccountId;
-            $doExtMarket->publisher_account_id = 'publisher_account_id';
-            $doExtMarket->api_key = 'api_key';
-            $doExtMarket->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            $doExtMarket->insert();
-            
-            // Test null value for aWebsitesIds
+        // Try to call method when plugin is not registered
+        try {
             $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
-            $this->assertEqual($response1, $result);
-            
-            // Test not empty aWebsitesIds
-            $result = $oPCMarketPluginClient->getStatistics($lastUpdate2, $aWebsitesIds2);
-            $this->assertEqual($response2, $result);
-            
-            // Clear account association
-            $doExtMarket->delete();
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'There is no association between PC and OXP accounts');
         }
+        
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->publisher_account_id = 'publisher_account_id';
+        $doExtMarket->api_key = 'api_key';
+        $doExtMarket->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doExtMarket->insert();
+        
+        // Test null value for aWebsitesIds
+        $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
+        $this->assertEqual($response1, $result);
+        
+        // Test not empty aWebsitesIds
+        $result = $oPCMarketPluginClient->getStatistics($lastUpdate2, $aWebsitesIds2);
+        $this->assertEqual($response2, $result);
+        
+        // Clear account association
+        $doExtMarket->delete();
     }
     
     function testGetApiKey()
@@ -250,99 +300,91 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $username = 'testUsername';
         $password = 'test';
         
-        // test added for plugin 1.0.0
-        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
-        {
-            $response = 'newApiKey';
-            $callArgs = array($username, $password);
-        
-            // Create mockup for PubConsoleClient
-            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
-            $PubConsoleClient->expect('getApiKey', $callArgs);
-            $PubConsoleClient->setReturnValue('getApiKey', $response);
-            
-            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
-            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        $response = 'newApiKey';
+        $callArgs = array($username, $password);
     
-            // Try to call method when plugin wasn't registered
-            $result = $oPCMarketPluginClient->getApiKey($username, $password);
-            $this->assertFalse($result);
-            
-            // Create account and set publisher account association data
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $adminAccountId = DataGenerator::generateOne($doAccounts);
-            $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doExtMarket->account_id = $adminAccountId;
-            $doExtMarket->publisher_account_id = 'publisher_account_id';
-            $doExtMarket->api_key = null;
-            $doExtMarket->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            $doExtMarket->insert();
-            
-            // Test valid use
-            $result = $oPCMarketPluginClient->getApiKey($username, $password);
-            $this->assertTrue($result);
-            
-            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
-            $doMarketAssoc->find();
-            $this->assertTrue($doMarketAssoc->fetch());
-            $this->assertEqual($response, $doMarketAssoc->api_key);
-            $this->assertFalse($doMarketAssoc->fetch()); // only one entry
-        }
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expect('getApiKey', $callArgs);
+        $PubConsoleClient->setReturnValue('getApiKey', $response);
+        
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+
+        // Try to call method when plugin wasn't registered
+        $result = $oPCMarketPluginClient->getApiKey($username, $password);
+        $this->assertFalse($result);
+        
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->publisher_account_id = 'publisher_account_id';
+        $doExtMarket->api_key = null;
+        $doExtMarket->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doExtMarket->insert();
+        
+        // Test valid use
+        $result = $oPCMarketPluginClient->getApiKey($username, $password);
+        $this->assertTrue($result);
+        
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
+        $doMarketAssoc->find();
+        $this->assertTrue($doMarketAssoc->fetch());
+        $this->assertEqual($response, $doMarketAssoc->api_key);
+        $this->assertFalse($doMarketAssoc->fetch()); // only one entry
     }
     
     function testGetApiKeyByM2MCred()
     {
-        // test added for plugin 1.0.0
-        if (version_compare(self::$pluginVersion, '1.0.0-dev', '>='))
-        {
-            $response = 'newApiKey';
-            $callArgs = array();
-            $publisher_account_id = 'publisher_account_id';
-        
-            // Create mockup for PubConsoleClient
-            $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
-            $PubConsoleClient->expect('getApiKeyByM2MCred', $callArgs);
-            $PubConsoleClient->setReturnValue('getApiKeyByM2MCred', $response);
-            
-            $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
-            $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        $response = 'newApiKey';
+        $callArgs = array();
+        $publisher_account_id = 'publisher_account_id';
     
-            // Try to call method when plugin wasn't registered
-            try {
-                $result = $oPCMarketPluginClient->getApiKeyByM2MCred();
-                $this->fail('Should have thrown exception');
-            } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
-                $this->assertEqual($e->getMessage(),
-                                    'publisher_account_id can not be null');
-            }
-            
-            
-            // Create account and set publisher account association data
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $adminAccountId = DataGenerator::generateOne($doAccounts);
-            $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doExtMarket->account_id = $adminAccountId;
-            $doExtMarket->publisher_account_id = 'publisher_account_id';
-            $doExtMarket->api_key = null;
-            $doExtMarket->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            $doExtMarket->insert();
-            
-            // Test valid use
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expect('getApiKeyByM2MCred', $callArgs);
+        $PubConsoleClient->setReturnValue('getApiKeyByM2MCred', $response);
+        
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+
+        // Try to call method when plugin wasn't registered
+        try {
             $result = $oPCMarketPluginClient->getApiKeyByM2MCred();
-            $this->assertTrue($result);
-            
-            $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
-            $doMarketAssoc->find();
-            $this->assertTrue($doMarketAssoc->fetch());
-            $this->assertEqual($response, $doMarketAssoc->api_key);
-            $this->assertFalse($doMarketAssoc->fetch()); // only one entry
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'publisher_account_id can not be null');
         }
+        
+        
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->publisher_account_id = 'publisher_account_id';
+        $doExtMarket->api_key = null;
+        $doExtMarket->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doExtMarket->insert();
+        
+        // Test valid use
+        $result = $oPCMarketPluginClient->getApiKeyByM2MCred();
+        $this->assertTrue($result);
+        
+        $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = DataObjects_Accounts::getAdminAccountId();
+        $doMarketAssoc->find();
+        $this->assertTrue($doMarketAssoc->fetch());
+        $this->assertEqual($response, $doMarketAssoc->api_key);
+        $this->assertFalse($doMarketAssoc->fetch()); // only one entry
     }
     
     function testIsSsoUserNameAvailable()
@@ -621,4 +663,5 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         // clear cache
         $oCache->clear();
     }
+
 }

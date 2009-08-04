@@ -22,37 +22,28 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: oxMarketChecker.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
-
 /**
  *
  * @package    openXMarket
  * @subpackage oxMarket
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
+ * @author     Bernard Lange  <bernard@openx.org>
  */
-class Plugins_admin_oxMarket_oxMarketRegisteredChecker
+class Plugins_admin_oxMarket_oxMarketStandaloneModeChecker 
     implements OA_Admin_Menu_IChecker
 {
     /**
-     * Returns true if marketPlugin is enabled and status flag is set to valid.
+     * Returns true if plugin runs in standalone mode
      *
      * @param OA_Admin_Menu_Section $oSection
      */
-    public function check($oSection)
+    public function check($oSection) 
     {
-        $isRegistered = false;
-        if (isset ( $GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] )
-            && $GLOBALS['_MAX']['CONF']['plugins']['openXMarket']) {
-
-            require_once(MAX_PATH . '/www/admin/plugins/oxMarket/oxMarket.class.php');
-            $oOpenxMarket = new Plugins_admin_oxMarket_oxMarket();
-            if ($oOpenxMarket->isActive() && $oOpenxMarket->isRegistered()) {
-                $isRegistered = true;
-            }
-        }
-        return $isRegistered;
+        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+        
+        return !$oMarketComponent->isMultipleAccountsMode();
     }
 }
 

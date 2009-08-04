@@ -40,12 +40,9 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
-if (!$oMarketComponent->isActive()) {
-    displayInactivePage($oMarketComponent);
-}
-else {
-    displayPage($affiliateid, $oMarketComponent);
-}
+$oMarketComponent->checkActive();
+
+displayPage($affiliateid, $oMarketComponent);
 
 
 
@@ -73,27 +70,6 @@ function displayPage($affiliateid, &$oMarketComponent)
     
     $oTpl->display();
 
-    phpAds_PageFooter();
-}
-
-
-function displayInactivePage(&$oMarketComponent)
-{
-    //header
-    phpAds_PageHeader("market-website-qualitytool",'','../../');
-
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
-
-    $aDeactivationStatus = $oMarketComponent->getInactiveStatus();
-    $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
-    $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
-
-    $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
-
-    $oTpl->display();
-
-    //footer
     phpAds_PageFooter();
 }
 

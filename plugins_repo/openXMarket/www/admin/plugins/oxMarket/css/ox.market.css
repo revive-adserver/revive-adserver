@@ -153,63 +153,247 @@ ul.column li.rejected {
     background-color: #fe9797;
 }
 
-/** Mass opt-in */
-#massOptIn h3 {
-  display: inline;
-}
 
-#massOptIn small {
+.market-campaign-settings small {
   font-size: 10px;
   color: #808080;
 }
 
-#massOptIn #mainOptions {
-  line-height: 24px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 
-#massOptIn #mainOptions li.mainOption {
-  margin: 0 0 10px 0;
-  padding: 0;
-}
-
-#massOptIn #mainOptions li.mainOption label.radio {
-  line-height: 1.3; 
-  display: block; 
-  padding-left: 20px;;
-}
-
-#massOptIn #mainOptions li.mainOption label.radio input.radio {
-  vertical-align: middle;
-  position: absolute; 
-  margin-left: -20px;
-  margin-top: 1px;
-  *margin-top: -3px;
-}
-
-#massOptIn .mainOptionContent {
-  /*margin-left: 20px;*/
-  margin-top: 6px;
-}
-
-#massOptIn input.cpm  {
+.market-campaign-settings input.cpm  {
   width: 4em;
 }
 
-#massOptIn #submit {
+.market-campaign-settings #submit {
   vertical-align: middle;
   margin-right: 3px;
 } 
 
-#massOptIn .tableWrapper td {
+.market-campaign-settings label.search {
+  margin-left: 12px;
+}
+
+.market-campaign-settings label.search input{
+  width: 95px;
+}
+
+
+.market-campaign-settings .market-opted-in {
+  font-weight: bold;
+  color:green;
+}
+.market-campaign-settings .market-not-opted {
+  font-weight: bold;
+  color:red;
+}
+
+/** table modifications **/
+.market-campaign-settings .tableWrapper td {
   vertical-align: middle;
 }
 
-#massOptIn .tableWrapper .scroll {
+.market-campaign-settings .tableWrapper table th {
+  line-height: normal;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: none;
+}
+
+.market-campaign-settings .tableWrapper .scroll {
   overflow: auto;
   overflow-x: hidden;
   max-height: 380px;
   position: relative;
 }
+
+.market-campaign-settings .has-info-box  {
+  position: relative;
+}
+
+.market-campaign-settings .has-info-box .content {
+  padding-right: 260px;
+}
+
+.market-campaign-settings .has-info-box .tableWrapper {
+  padding: 0px;
+}
+
+/* updated table dropdown **/
+.market-campaign-settings .tableWrapper .dropDown span {
+  background:transparent url(../images/dropdown-background.png) no-repeat scroll left top;
+  cursor:pointer;
+  display:block;
+  height:20px;
+  line-height:20px;
+  padding:0 0 4px;
+  position:relative;
+  top:4px;
+}
+
+.market-campaign-settings .tableWrapper .dropDown {
+  position: relative;
+  top: -1px;
+}
+
+.market-campaign-settings .tableWrapper .dropDown span span {
+  background-position:right -24px;
+  color:#444444;
+  display:block;
+  padding:0 26px 0 8px;
+  position:relative;
+  top:0;
+}
+
+.market-campaign-settings .tableWrapper .dropDown div.panel {
+  top:23px;
+}
+
+.market-campaign-settings .tableWrapper .dropDown.active span {
+  background-position:left -49px;
+}
+
+.market-campaign-settings .tableWrapper .dropDown.active span span {
+  background-position:right -73px;
+  color:#FFFFFF;
+}
+
+
+/**tag **/
+.campaign-type-tag {
+    float:left;
+}
+
+.tag {
+  margin-right: 5px;
+}
+
+.tag .t-b {
+    overflow:visible;
+}
+
+.t-b {
+  border-width:1px 0;
+  margin: 0 1px;
+  padding:0;
+}
+
+.l-r {
+  border-width:0 1px;
+  margin:0 -1px;
+  padding:1px 0;
+}
+
+.val {
+    padding:0 5px 1px 5px;
+    color: white;
+}
+
+.t-b, .l-r {
+  border-style:solid;
+  font-weight:normal;
+  font-size: 10px;
+}
+
+.tag-remnant .t-b {
+    background-color: #727272; 
+}
+
+.tag-contract .t-b {
+    background-color: #f58615; 
+}
+
+.tag-remnant .t-b, .tag-remnant .l-r {
+  border-color: #727272;
+}
+
+.tag-contract .t-b, .tag-contract .l-r {
+  border-color: #f58615;
+}
+
+/** tag end **/
+.market-campaign-settings .tableWrapper .mkt-status {
+  width: 15%;
+}
+
+.market-campaign-settings .tableWrapper .cpm {
+  width: 20%;
+}
+
+.market-campaign-settings .has-info-box .tableWrapper .mkt-status {
+  width: 15%;
+}
+
+.market-campaign-settings .has-info-box .tableWrapper .cpm {
+  width: 25%;
+}
+
+.market-campaign-settings .tableWrapper .tableFooter .tableActions {
+  padding: 0px;
+}
+
+/** submit buttons **/
+.market-campaign-settings button {
+  vertical-align:middle;
+  line-height:16px;
+  margin:0 6px 0 0;
+  padding:3px;
+}
+
+.market-campaign-settings button.green-dot span {
+  background-image:url(../images/button-dot-green.gif);
+}
+
+.market-campaign-settings button.red-dot span {
+  background-image:url(../images/button-dot-red.gif);
+}
+
+.market-campaign-settings button.left span {
+  background-repeat:no-repeat;
+  line-height:13px;
+  padding-left:13px;
+  position:relative;
+  top: 0px;
+  left: -3px;
+}
+
+
+
+
+/** info box **/
+.market-campaign-settings .info-box {
+  font-size: 10px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.market-campaign-settings .info-box .panel {
+  background: none;
+  width: 217px;
+  margin: 0px;
+}
+
+.market-campaign-settings .info-box p {
+  line-height: normal;
+  margin-bottom: 5px;
+}
+
+.market-campaign-settings .info-box p.faq-link {
+  margin: 5px 0px 0px 0px;
+  
+}
+
+
+.market-campaign-settings .info-box em {
+  font-weight: bold;
+}
+
+.market-campaign-settings .info-box h3 {
+  font-size: 11px;
+  font-weight: bold;
+  margin: 0px 0px 5px 0px;
+}
+
+
+
+

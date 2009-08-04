@@ -43,12 +43,13 @@ $Id$
 function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdRender(&$code, $aBanner)
 {
     $aMarketInfo = _marketNeeded($GLOBALS['_OA']['invocationType'], $code, $aBanner);
-    if ($aMarketInfo === false) {
-        return;
+    if ($aMarketInfo !== false) {
+        if ($html = OX_marketProcess($code, $aBanner, $aMarketInfo['campaign'], $aMarketInfo['website'])) {
+            $code = $html;
+        }
     }
-    if ($html = OX_marketProcess($code, $aBanner, $aMarketInfo['campaign'], $aMarketInfo['website'])) {
-        $code = $html;
-    }
+    // PostAdRender hook enriched with $aMarketInfo
+    OX_Delivery_Common_hook('oxMarketPostAdRender', array(&$code, $aBanner, $aMarketInfo));
 }
 
 /**
@@ -68,8 +69,10 @@ function _marketNeeded($scriptFile, $code, $aAd) {
         return false;
     }
     
-    // Check that this OXP platform is connected to the publisher console
-    $aPlatformMarketInfo = OX_cacheGetPlatformMarketInfo();
+    // Check that this OXP platform or manager is connected to the publisher console
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $agency_id = ($aConf['oxMarket']['multipleAccountsMode']) ? $aAd['agency_id'] : null;
+    $aPlatformMarketInfo = OX_cacheGetPlatformMarketInfo($agency_id);
     if (empty($aPlatformMarketInfo)) {
         return false;
     }
@@ -95,16 +98,6 @@ function _marketDeliveryEnabled()
     return !empty($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['oxMarketDelivery']);
 }
 
-/**
- * A function to check if a ping to the audience service is needed
- *
- * @return boolean
- */
-function OX_marketNeedsAudience()
-{
-    return _marketDeliveryEnabled() && empty($_COOKIE['In']);
-}
-
 function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo)
 {
     $output = '';
@@ -123,6 +116,16 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
             'size' => $aAd['width'].'x'.$aAd['height'],
             'floor' => $floorPrice,
         );
+        
+        if ($GLOBALS['_OA']['invocationType'] == 'frame') {
+            // Iframe invocation needs to pass the current pageUrl and referer to the Market
+            if (!empty($GLOBALS['loc'])) {
+                $aParams['url'] = $GLOBALS['loc'];
+            }
+            if (!empty($GLOBALS['referer'])) {
+                $aParams['referer'] = $GLOBALS['referer'];
+            }
+        }
         
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
@@ -253,15 +256,15 @@ function OX_cacheInvalidateGetWebsiteMarketInfo($websiteId)
 }
 
 
-function OX_cacheGetPlatformMarketInfo($cached = true)
+function OX_cacheGetPlatformMarketInfo($agency_id, $cached = true)
 {
     if (!function_exists('OA_Delivery_Cache_getName')) {
         require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
     }
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $agency_id);
     if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRow = OX_Dal_Delivery_getPlatformMarketInfo();
+        $aRow = OX_Dal_Delivery_getPlatformMarketInfo($agency_id);
         $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
     }
 
@@ -269,22 +272,37 @@ function OX_cacheGetPlatformMarketInfo($cached = true)
 }
 
 /**
- * This function returns a boolean if this OXP is connected to the publisher console
+ * This function returns a boolean if this OXP or manager account in 
+ * multiple accounts mode is connected to the publisher console
  *
+ * @param int agency_id used to determine account id in multiple accounts mode 
  * @return boolean true if this platform is connected to the publisher console, false otherwise
  */
-function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
+function OX_Dal_Delivery_getPlatformMarketInfo($agency_id = null, $account_id = null)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (is_null($account_id)) {
-        $query = "
-            SELECT
-                value
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['application_variable']}
-            WHERE
-                name = 'admin_account_id'
-        ";
+        if($aConf['oxMarket']['multipleAccountsMode']) {
+            $agency_id = (int)$agency_id;
+            $query = "
+                SELECT 
+                    account_id as value
+                FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['agency']}
+                WHERE
+                    agencyid = {$agency_id}
+            ";
+        } else {
+            $query = "
+                SELECT
+                    value
+                FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['application_variable']}
+                WHERE
+                    name = 'admin_account_id'
+            ";
+        };                
+        
         $res = OA_Dal_Delivery_query($query);
 
         if (is_resource($res)) {

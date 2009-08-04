@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: oxMarketActiveChecker.php 37787 2009-06-10 12:32:29Z bernard.lange $
 */
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
 
@@ -30,20 +30,30 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
  *
  * @package    openXMarket
  * @subpackage oxMarket
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
+ * @author     Bernard Lange  <bernard@openx.org>
  */
-class Plugins_admin_oxMarket_oxMarketChecker 
+class Plugins_admin_oxMarket_oxMarketAdminStatsChecker 
     implements OA_Admin_Menu_IChecker
 {
     /**
-     * Returns true if marketPlugin is enabled and status flag is set to valid.
+     * Returns true if plugin is:
+     *  - in hosted mode
+     *  or
+     *  - in standalone mode and is is enabled and status flag is set to valid 
+     *  (ie. is active)
      *
      * @param OA_Admin_Menu_Section $oSection
      */
     public function check($oSection) 
     {
         $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-        return $oMarketComponent->isActive();
+        
+        //market stats are only visible if plugin is:
+        //- in hosted mode
+        //or
+        //- in standalone mode and is active
+        return $oMarketComponent->isMultipleAccountsMode() 
+            || $oMarketComponent->isActive();
     }
 }
 

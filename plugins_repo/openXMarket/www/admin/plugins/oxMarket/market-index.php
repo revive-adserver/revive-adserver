@@ -30,7 +30,7 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 $oMarketComponent->indexAction();

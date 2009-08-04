@@ -22,62 +22,29 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: oxMarketChecker.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
-
-require_once 'market-common.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
-
-
-// Security check
-$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-$oMarketComponent->enforceProperAccountAccess();
-
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-//check if you can see this page
-$oMarketComponent->checkActive();
-$oMarketComponent->updateSSLMessage();
-
-
-//header
-$oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-phpAds_PageHeader("openx-market",'','../../');
-
-//check the type of the signup (exisitng OpenX account or new account)
-phpAds_registerGlobalUnslashed('m');
-if ($m == 'e') {
-    $accountType = 'existing-sso';
-}
-else if ($m == 'n') {
-    $accountType = 'new-sso';
-}
-else {
-    $accountType = 'unspecified'; //for submissions with malformed m values (eg. modified by user)
+require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
+/**
+ *
+ * @package    openXMarket
+ * @subpackage oxMarket
+ * @author     Bernard Lange  <bernard@openx.org>
+ */
+class Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker 
+    implements OA_Admin_Menu_IChecker
+{
+    /**
+     * Returns true if plugin runs in multiple accounts mode
+     *
+     * @param OA_Admin_Menu_Section $oSection
+     */
+    public function check($oSection) 
+    {
+        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+        
+        return $oMarketComponent->isMultipleAccountsMode();
+    }
 }
 
-$aContentKeys = $oMarketComponent->retrieveCustomContent('market-confirm');
-if (!$aContentKeys) {
-    $aContentKeys = array();
-}
-$trackerFrame = isset($aContentKeys['tracker-iframe'])
-    ? str_replace('$ACCOUNT', $accountType, $aContentKeys['tracker-iframe'])
-    : '';
-
-$content = $aContentKeys['content']; 
-
-//get template and display form
-$oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
-$oTpl->assign('content', $content);
-$oTpl->assign('trackerFrame', $trackerFrame);
-
-$oTpl->display();
-
-//footer
-phpAds_PageFooter();
 ?>

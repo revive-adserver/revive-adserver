@@ -193,6 +193,18 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     }
 
     /**
+     * @param int $sso_id SSO account ID
+     * @param string $username 
+     * @param string $email
+     * @return integer publisher_account_id
+     */
+    public function linkHostedAccount($sso_id, $username, $email)
+    {
+        return $this->callM2mprotectedXmlRpcClient('linkHostedAccount', 
+            array($sso_id, $username, $email));
+    }
+    
+    /**
      * @param integer $lastUpdate
      * @param array $aWebsitesIds websites ids
      * @return string statistics file content

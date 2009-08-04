@@ -29,58 +29,57 @@ require_once 'market-common.php';
 require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
-
+$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+$oMarketComponent->enforceProperAccountAccess();
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
 
-    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    //check if you can see this page (pluigin should be inactive in this case)
-    $oMarketComponent->checkRegistered();
-    $oMarketComponent->checkActive(false);
+//check if you can see this page (pluigin should be inactive in this case)
+$oMarketComponent->checkRegistered();
+$oMarketComponent->checkActive(false);
 
-    $aDeactivationStatus = $oMarketComponent->getInactiveStatus();
-    // Is there is no deactivation status it is missing API Key problem
-    if (!isset($aDeactivationStatus['code'])) {
-        // Add form for relinking to the market
-        $oForm = buildRelinkForm($oMarketComponent);
-        $isFormValid = $oForm->validate();
+$aDeactivationStatus = $oMarketComponent->getInactiveStatus();
+// Is there is no deactivation status it is missing API Key problem
+if (!isset($aDeactivationStatus['code'])) {
+    // Add form for relinking to the market
+    $oForm = buildRelinkForm($oMarketComponent);
+    $isFormValid = $oForm->validate();
 
-        if ($isFormValid) {
-            // process submitted values
-            $aProcessingError = processRelinkForm($oForm, $oMarketComponent);
-        }
+    if ($isFormValid) {
+        // process submitted values
+        $aProcessingError = processRelinkForm($oForm, $oMarketComponent);
     }
+}
 
-    //header
-    $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    phpAds_PageHeader("openx-market",'','../../');
+//header
+$oUI = OA_Admin_UI::getInstance();
+$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+phpAds_PageHeader("openx-market",'','../../');
 
-    //get template and display form
-    $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
+//get template and display form
+$oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
 
-    $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
-    $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
+$oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
+$oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
 
-    if (isset($oForm)) {
-        // Add form for relinking to the market
-        $oTpl->assign('form', $oForm->serialize());
-        $oTpl->assign('hasServerError', !empty($aProcessingError) && $aProcessingError['error']);
-        $oTpl->assign('errorMessage', getErrorMessage($oMarketComponent, $aProcessingError));
-        foreach ($aStrings as $stringKey => $stringValue) {
-            $oTpl->assign($stringKey, $stringValue);
-        }
+if (isset($oForm)) {
+    // Add form for relinking to the market
+    $oTpl->assign('form', $oForm->serialize());
+    $oTpl->assign('hasServerError', !empty($aProcessingError) && $aProcessingError['error']);
+    $oTpl->assign('errorMessage', getErrorMessage($oMarketComponent, $aProcessingError));
+    foreach ($aStrings as $stringKey => $stringValue) {
+        $oTpl->assign($stringKey, $stringValue);
     }
+}
 
-    $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
+$oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
 
-    $oTpl->display();
+$oTpl->display();
 
-    //footer
-    phpAds_PageFooter();
+//footer
+phpAds_PageFooter();
 
 
 /*-------------------------------------------------------*/

@@ -38,11 +38,14 @@ require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+$oMarketComponent->checkActive();
+
 if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
     $oMarketComponent->setMarketSettingsAlreadyShown();
 }
 $defaultMinCpm = $oMarketComponent->getConfigValue('defaultFloorPrice');
 $maxCpm = $oMarketComponent->getMaxFloorPrice(); //used for validation purpose only
+
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
@@ -53,7 +56,7 @@ $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/
 $oMenu = OA_Admin_Menu::singleton();
 
 // Register some variables from the request
-$request = phpAds_registerGlobalUnslashed('campaignType', 'optInType', 'toOptIn', 'minCpm', 'optedCount');
+$request = phpAds_registerGlobalUnslashed('campaignType', 'optInType', 'toOptIn', 'minCpm', 'optedCount', 'search');
 if (empty($campaignType)) {
     $campaignType = 'remnant';
 }
@@ -77,12 +80,18 @@ foreach ($_REQUEST as $param => $value) {
 }
 
 // Perform opt-in if needed
-$campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms);
-if ('POST' == $_SERVER['REQUEST_METHOD'] && isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $campaigns, $maxCpm))
-{
-    performOptIn($minCpms, $oCampaignsOptInDal);
-    exit(0);
+$campaigns = $oCampaignsOptInDal->getCampaigns($defaultMinCpm, $campaignType, $minCpms, $search);
+if ('POST' == $_SERVER['REQUEST_METHOD']) { 
+    if (isset($_REQUEST['opt-in-submit']) && isDataValid($oTpl, $campaigns, $maxCpm)) {
+        performOptIn($minCpms, $oCampaignsOptInDal);
+        exit(0);
+    } 
+    elseif (isset($_REQUEST['optout'])) {
+        performOptOut($oCampaignsOptInDal);
+        exit(0);
+    }
 }
+
 
 
 
@@ -100,6 +109,16 @@ $remnantCampaignsToOptIn = $oCampaignsOptInDal->numberOfRemnantCampaignsToOptIn(
 $remnantCampaignsOptedIn = $oCampaignsOptInDal->numberOfOptedCampaigns('remnant');
 
 $toOptIn = empty($toOptIn) ? array() : $toOptIn;
+
+
+$itemsPerPage = 5;
+$oPager = OX_buildPager($campaigns, $itemsPerPage);
+$oTopPager = OX_buildPager($campaigns, $itemsPerPage, false);
+list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+$campaigns =  array_slice($campaigns, $itemsFrom - 1, $itemsPerPage, true);
+
+$oTpl->assign('pager', $oPager);
+$oTpl->assign('topPager', $oTopPager);
 
 
 setupContentStrings($oMarketComponent, $oTpl, $optedCount);
@@ -265,14 +284,38 @@ function performOptIn($minCpms, $oCampaignsOptInDal)
     //for tracking reasons: count all currently opted in after additional optin
     $afterCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
     
-    OA_Admin_UI::queueMessage('You have successfully opted <b>' . $campaignsOptedIn . ' campaign' .
-        ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);
-
     //we do not count here campaigns which floor price was only updated
-    $actualOptedCount = $afterCount - $beforeCount; //this should not be lower than 0 :)         
+    $actualOptedCount = $afterCount - $beforeCount; //this should not be lower than 0 :)
+    
+    OA_Admin_UI::queueMessage('You have successfully opted <b>' . $actualOptedCount . ' campaign' .
+        ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);         
+        
     // Redirect back to the opt-in page
     $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 
-        'minCpm' => $minCpm, 'optedCount' => $actualOptedCount);
+        'minCpm' => $minCpm, 'optedOutCount' => $actualOptedCount);
+    OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
+}
+
+function performOptOut($oCampaignsOptInDal)
+{
+    global $optInType, $toOptIn, $minCpm, $campaignType;
+    
+    //for tracking reasons: count all currently opted in before additional optin
+    $beforeCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
+    $campaignsOptedOut = $oCampaignsOptInDal->performOptOut($toOptIn);
+    
+    //for tracking reasons: count all currently opted in after additional optin
+    $afterCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
+    
+    OA_Admin_UI::queueMessage('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
+        ($campaignsOptedIn > 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
+
+    //we do not count here campaigns which floor price was only updated
+    $actualOptedOutCount = $beforeCount-$afterCount; //this should not be lower than 0 :)         
+        
+    // Redirect back to the opt-in page
+    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 
+        'minCpm' => $minCpm, 'optedCount' => $actualOptedOutCount);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }
 
@@ -337,6 +380,7 @@ function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
             : '';
     }    
     
+    $oTpl->register_function('ox_campaign_type_tag', 'ox_campaign_type_tag_helper');
     $oTpl->assign('topMessage', $topMessage);
     $oTpl->assign('optInAllRadioLabel', $optInAllRadioLabel);
     $oTpl->assign('optInAllFieldCpmLabel', $optInAllFieldCpmLabel);
@@ -345,4 +389,35 @@ function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
     $oTpl->assign('optInSubmitLabel', $optInSubmitLabel);
     $oTpl->assign('trackerFrame', $trackerFrame);
 }
+
+
+function ox_campaign_type_tag_helper($aParams, &$smarty)
+{
+    if (isset($aParams['type'])) {
+        $type = $aParams['type'];
+        $translation = new OX_Translation ();
+        
+        
+        if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+            $class = 'tag-contract';
+            $text = $translation->translate('Contract');
+        } 
+        elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
+            $class = 'tag-remnant';
+            $text = $translation->translate('eCPM');
+        } 
+        else {
+            $class = 'tag-remnant';
+            $text = $translation->translate('Remnant');
+        }
+        $text = strtolower($text);
+        
+        return '<div class="'.$class.' tag"><div class="t-b"><div class="l-r"><div class="val">'.$text.'</div></div></div></div>';
+    } 
+    else {
+        $smarty->trigger_error("t: missing 'type' parameter");
+    }
+}
+        
+        
 
