@@ -432,6 +432,11 @@ class OA_Email
         );
     }
 
+    /**
+     * @param $oDate
+     * @param $campaignId
+     * @return int Number of emails sent
+     */
     function sendCampaignImpendingExpiryEmail($oDate, $campaignId) {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
@@ -461,6 +466,9 @@ class OA_Email
         $aPreviousOIDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aPreviousOIDates['start']);
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+        if (!$doCampaigns) {
+            return 0;
+        }
         $aCampaign = $doCampaigns->toArray();
 
         if (!isset($this->aClientCache[$aCampaign['clientid']])) {
