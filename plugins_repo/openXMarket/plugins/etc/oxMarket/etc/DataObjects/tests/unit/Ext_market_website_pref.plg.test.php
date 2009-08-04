@@ -113,16 +113,19 @@ class Plugins_TestOfPDataObjects_Ext_market_website_pref extends UnitTestCase
         $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
         $aResult = $doWebsite->getRegisteredWebsitesIds(null);
         $expected = array('my-uuid1', 'my-uuid2', 'my-uuid3');
+        sort($aResult);
         $this->assertEqual($expected, $aResult);
         
         $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
         $aResult = $doWebsite->getRegisteredWebsitesIds($accountId1);
         $expected = array('my-uuid1', 'my-uuid3');
+        sort($aResult);
         $this->assertEqual($expected, $aResult);
         
         $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
         $aResult = $doWebsite->getRegisteredWebsitesIds($accountId2);
         $expected = array('my-uuid2');
+        sort($aResult);
         $this->assertEqual($expected, $aResult);
     }
 
