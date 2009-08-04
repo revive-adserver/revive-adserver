@@ -150,7 +150,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
         $originalBannerId = intval(substr($what,9));
     }
     $userid = MAX_cookieGetUniqueViewerID();
-    MAX_cookieSet($conf['var']['viewerId'], $userid, _getTimeYearFromNow());
+    MAX_cookieAdd($conf['var']['viewerId'], $userid, _getTimeYearFromNow());
     $outputbuffer = '';
     // Set flag
     $found = false;
