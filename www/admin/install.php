@@ -427,12 +427,18 @@ else if (array_key_exists('btn_plugins', $_POST))
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
         }
 
+        // Perform auto-login at this stage, so that the install-plugin can verify
+        OA_Upgrade_Login::autoLogin();
+
         $importErrors = false;
         // Import any plugins present from the previous install
-        if (isset($_POST['previousPath']) && ($_POST['previousPath'] != MAX_PATH)) {
+        $path = isset($_POST['previousPath']) ? $_POST['previousPath'] : '';
+        $path = get_magic_quotes_gpc() ? stripslashes($path) : $path;
+        if ($path && ($path != MAX_PATH)) {
             // Prevent directory traversal and other nasty tricks:
-            $path = rtrim(str_replace("\0", '', $_POST['previousPath']), '\\/');
-            if (!stristr($path, '../') && !stristr($path, '..\\')) {
+            $path = str_replace("\\", '/', $path);
+            $path = rtrim(str_replace("\0", '', $path), '/');
+            if (!stristr($path, '../')) {
                 $oPluginImporter = new OX_UpgradePluginImport();
                 $oPluginImporter->basePath = $path;
                 if ($oPluginImporter->verifyAll($GLOBALS['_MAX']['CONF']['plugins'], false)) {
@@ -519,7 +525,7 @@ else if (array_key_exists('btn_post', $_POST))
 }
 else if (array_key_exists('btn_finish', $_POST))
 {
-    if (!OA_Upgrade_Login::checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin(false)) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
@@ -576,8 +582,6 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
-    OA_Upgrade_Login::autoLogin();
-
     // Execute any components which have registered at the afterLogin hook
     $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
     foreach ($aPlugins as $i => $id) {

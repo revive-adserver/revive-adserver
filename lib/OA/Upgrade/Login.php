@@ -34,12 +34,15 @@ class OA_Upgrade_Login
     /**
      * Check administrator login during the upgrade steps
      *
+     * @param $upgradeOnly boolean Only perform the check when upgrading
      * @return boolean True if login succeded
      */
-    function checkLogin()
+    function checkLogin($upgradeOnly = true)
     {
-        if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
-            return true;
+        if ($upgradeOnly) {
+            if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
+                return true;
+            }
         }
 
         // Clean up session
