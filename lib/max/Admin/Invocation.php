@@ -356,9 +356,9 @@ class MAX_Admin_Invocation {
             $invocationTag->setInvocation($this);
 
             $buffer .= "</td></tr></table>";
-            
+
             $buffer .= $invocationTag->getHeaderHtml( $this, $extra );
-            $buffer .= $this->getTextAreaAndOptions($invocationTag, $extra); 
+            $buffer .= $this->getTextAreaAndOptions($invocationTag, $extra);
         }
         // Put extra hidden fields
         if (is_array($extra)) {
@@ -386,39 +386,32 @@ class MAX_Admin_Invocation {
 
         return $buffer;
     }
-    
+
     public function getTextAreaAndOptions($invocationTag, $extra)
     {
         if(!$invocationTag->displayTextAreaAndOptions) {
             return '';
         }
         $buffer = "<hr />";
-        
+
         $buffer .= "<div id='div-zone-invocation'>";
         $buffer .= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
         $buffer .= "<td width='40'>&nbsp;</td><td><br />";
-        
+
         $buffer .= "<br />";
 
-        // Code
-        // Layer and popup invocation types require specific paramters to be provided before invcation is possible
-        if ( empty($this->submitButton) 
-            && ($this->codetype=='invocationTags:oxInvocationTags:popup' || $this->codetype=='invocationTags:oxInvocationTags:adlayer')) 
-        {
-            $generated = false;
-        } 
-        else 
-        {
+        // Generate tag if the plugin agrees that it's ok to proceed
+        if ($invocationTag->canGenerate()) {
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             $buffer .= "<tr><td height='25'>";
-            
+
             if ($this->codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
                 $buffer .= "
                     <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
                         {$GLOBALS['strIABNoteXMLRPCInvocation']}
                     </div>";
             }
-            
+
             if ($this->codetype == 'invocationTags:oxInvocationTags:local' && !$this->server_same) {
                 $buffer .= "
                     <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
@@ -460,8 +453,7 @@ class MAX_Admin_Invocation {
                     });
                     //-->
                     </script>";
-            }
-            else {
+            } else {
                 $buffer .= $this->generateInvocationCode($invocationTag);
             }
             $buffer .= "</td></tr>";
@@ -471,8 +463,10 @@ class MAX_Admin_Invocation {
 
 
             $generated = true;
+        } else {
+            $generated = false;
         }
-        
+
         // Hide when integrated in zone-advanced.php
         if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
             // Header
@@ -500,8 +494,8 @@ class MAX_Admin_Invocation {
                 $buffer .= "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($this->tabindex++)."'>";
             }
         }
-        
-        $buffer .= "</td></tr></table>";        	
+
+        $buffer .= "</td></tr></table>";
         $buffer .= "</div>";
         return $buffer;
     }

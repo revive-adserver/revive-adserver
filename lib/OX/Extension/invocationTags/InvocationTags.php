@@ -66,7 +66,7 @@ class Plugins_InvocationTags extends OX_Component
      * @var bool
      */
     public $displayTextAreaAndOptions = true;
-    
+
     /**
      * Return name of plugin
      *
@@ -128,9 +128,19 @@ class Plugins_InvocationTags extends OX_Component
     }
 
     /**
-     * The returned HTML will be displayed after the Invocation tags SELECT dropdown 
+     * Check if plugin has enough data to perform tag generation
+     *
+     * @return boolean
+     */
+    function canGenerate()
+    {
+        return true;
+    }
+
+    /**
+     * The returned HTML will be displayed after the Invocation tags SELECT dropdown
      * and before any other invocation tag output
-     *  
+     *
      * @param MAX_Admin_Invocation $maxInvocation
      * @param array $extra Information about the current request
      * @return string
@@ -139,7 +149,7 @@ class Plugins_InvocationTags extends OX_Component
     {
         return '';
     }
-    
+
     public function getOrder()
     {
         self::$order += 1;

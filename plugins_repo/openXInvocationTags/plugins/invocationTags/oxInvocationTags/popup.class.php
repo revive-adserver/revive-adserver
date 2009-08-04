@@ -87,6 +87,16 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
     }
 
     /**
+     * Check if plugin has enough data to perform tag generation
+     *
+     * @return boolean
+     */
+    function canGenerate()
+    {
+        return !empty($this->maxInvocation->submitbutton);
+    }
+
+    /**
      * Return list of options
      *
      * @return array    Group of options
@@ -125,7 +135,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
   -- Don't forget to replace the 'Insert_Random_Number_Here' text with
   -- a cache-buster random number each time you deliver the tag through
   -- a 3rd party (non-Max) adserver.
-  --"),  
+  --"),
             'Comment'              => $this->translate("
   -- This tag has been generated for use on a non-SSL page. If this tag
   -- is to be placed on an SSL page, change all instances of
