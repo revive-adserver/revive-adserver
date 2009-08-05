@@ -501,8 +501,10 @@ function MAX_header($value)
  */
 function MAX_redirect($url)
 {
-    header('Location: '.$url);
-    MAX_sendStatusCode(302);
+    if (!preg_match('/^(?:javascript|data):/i', $url)) {
+        header('Location: '.$url);
+        MAX_sendStatusCode(302);
+    }
 }
 
 /**
