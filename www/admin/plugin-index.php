@@ -377,6 +377,12 @@ if (is_null($oTpl))
     }
 }
 
+// Determine if config file is writable
+$configLocked = !OA_Admin_Settings::isConfigWritable();
+$image = $configLocked ? 'closed' : 'open';
+$oTpl->assign('configLocked',     $configLocked);
+$oTpl->assign('image',            $image);
+
 $oTpl->display();
 
 phpAds_PageFooter();

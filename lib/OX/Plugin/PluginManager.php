@@ -179,7 +179,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             
             $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;             
             $this->disablePackage($name);
-            if (!$this->unpackPlugin($aFile, true))
+            if (!$this->unpackPlugin($aFile))
             {
                 throw new Exception();
             }            
@@ -234,11 +234,14 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aFile
      * @return boolean
      */
-    function unpackPlugin($aFile, $overwrite = false, $checkOnly = false)
+    function unpackPlugin($aFile, $overwrite = true, $checkOnly = false)
     {
         //OA::logMem('enter unpackPlugin');
         $this->_switchToPluginLog();
         try {
+            if ($this->configLocked) {
+                throw new Exception('Configuration file is locked unable to unpack'.$aFile['name']);
+            }
             if (!@file_exists ($aFile['tmp_name']))
             {
                 throw new Exception('Failed to read the uploaded file');
@@ -302,7 +305,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function installPackage($aFile)
     {
         //OA::logMem('enter installPackage');
-        if (!$this->unpackPlugin($aFile, false))
+        if (!$this->unpackPlugin($aFile))
         {
             return false;
         }
@@ -343,7 +346,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError($e->getMessage());
             $result = false;
         }
-        if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall']) && empty($_REQUEST['disabled'])) {
+        if ($result && !empty($GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall']) && empty($_REQUEST['disabled'])) {
             $this->enablePackage($aPackage['name']);
         }
         
@@ -365,6 +368,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         $this->_switchToPluginLog();
         try {
+            if ($this->configLocked) {
+                throw new Exception('Configuration file is locked unable to uninstall '.$name);
+            }
             if (!$this->_parsePackage($name))
             {
                 throw new Exception('Failed to parse the package definition for '.$name);
@@ -468,6 +474,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function enablePackage($name, $reparse='')
     {
+        if ($this->configLocked) {
+            $this->_logError('Configuration file is locked unable to enable '.$name);
+            return false;
+        }
         if ($this->aParse['package']['name'] != $name)
         {
             $reparse = true;
@@ -519,6 +529,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function disablePackage($name)
     {
+        if ($this->configLocked) {
+            $this->_logError('Configuration file is locked unable to disable '.$name);
+            return false;
+        }
         if (!$this->_parsePackage($name))
         {
             if (isset($GLOBALS['extensions']))

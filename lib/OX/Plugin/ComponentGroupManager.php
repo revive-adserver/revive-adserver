@@ -83,6 +83,7 @@ class OX_Plugin_ComponentGroupManager
         // Attempt to increase the memory limit when using the plugin manager
         OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('plugin'));
         $this->basePath = MAX_PATH;
+        $this->configLocked = !OA_Admin_Settings::isConfigWritable();
     }
 
     function countErrors()

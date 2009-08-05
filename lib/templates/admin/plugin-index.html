@@ -24,6 +24,13 @@
 $Id$
 
 -->*}
+
+{if $configLocked}
+    <div class='errormessage'><img class='errormessage' src='{$assetPath|escape}/images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
+        {t str=EditConfigNotPossible}
+    </div>
+{/if}
+
 {include file=plugin-group-switcher.html}
 
 <div class="control-panel">
@@ -34,9 +41,9 @@ $Id$
     <span class='corner bottom-right'></span>
       <h2>Install new plugin</h2>
       Select file
-      <input name="filename" tabindex="1" type="file">
-      <input value="Install" name="install" tabindex="2" type="submit">
-      <input value="Import (code only)" name="import" tabindex="3" type="submit">
+      <input name="filename" tabindex="1" type="file" {if $configLocked}disabled='true'{/if}>
+      <input value="Install" name="install" tabindex="2" type="submit" {if $configLocked}disabled='true'{/if}>
+      <input value="Import (code only)" name="import" tabindex="3" type="submit" {if $configLocked}disabled='true'{/if}>
     </div>
     </form>
 </div>
@@ -105,13 +112,15 @@ $Id$
               <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
               <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
               <td>
-                {if $aitem.enabled > 0}
-                   <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
-                {else}
-                   <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+                {if $configLocked}&nbsp;{else}
+                    {if $aitem.enabled > 0}
+                       <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
+                    {else}
+                       <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+                    {/if}
                 {/if}
               </td>
-              <td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>
+              {if $configLocked}&nbsp;{else}<td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>{/if}
           </tr>
         {/foreach}
        {/if}
