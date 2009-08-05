@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v2.8                                             |
+| ==========                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -292,6 +292,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getAgencyCampaignsDeliveriesToDate($id, $aWheres = array())
     {
+        $debugDetailQuery = '';
+        foreach($aWheres as $where) {
+            $debugDetailQuery .= $where[0]. ' ';
+        }
+        if(!empty($debugDetailQuery)) {
+            $debugDetailQuery = ' and '. $debugDetailQuery;
+        }
+        OA::debug('  - Select details of all ads delivered for Manager ID = '.$id.' '.$debugDetailQuery);
+        
         $this->oDbh->loadModule('Reverse');
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
@@ -1186,31 +1195,57 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // determine how many impressions were delivered (if any) during the appropriate
             // operation intervals
             if (!empty($aNotInLastOIPastPriorityResult)) { 
-                OA::debug('  - Looping over each zone linked to '.count($aNotInLastOIPastPriorityResult). ' ads', PEAR_LOG_DEBUG);
+                $table = $this->_getTablename('data_intermediate_ad');
+                $query = "
+                    SELECT
+                        SUM(impressions) AS impressions
+                    FROM
+                        {$table}
+                    WHERE
+                        operation_interval = ?
+                        AND
+                        operation_interval_id = ?
+                        AND
+                        date_time > DATE_SUB(?, INTERVAL 1 HOUR) 
+                        AND 
+                        date_time < DATE_ADD(?, INTERVAL 1 HOUR)
+                        AND 
+                        interval_start = ?
+                        AND
+                        interval_end = ?
+                        AND
+                        ad_id = ?
+                        AND
+                        zone_id = ?";
+                $aTypes = array(
+                    'integer',
+                    'integer',
+                    'timestamp',
+                    'timestamp',
+                    'timestamp',
+                    'timestamp',
+                    'integer',
+                    'integer',
+                );
+                $stSelectSumImpressions = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_RESULT);
+            
+                OA::debug('  - Looping over each zone linked to '.count($aNotInLastOIPastPriorityResult). ' ads');
                 $countQueriesSumImp = 0;
                 foreach ($aNotInLastOIPastPriorityResult as $a => $aAd) {
                     OA::debug('    - Requesting sum of impressions for ad ID '.$a.' for '.count($aAd).' zones ', PEAR_LOG_DEBUG);
                     foreach ($aAd as $z => $aZone) {
-                        $table = $this->_getTablename('data_intermediate_ad');
-                        $query = "
-                            SELECT
-                                SUM(impressions) AS impressions
-                            FROM
-                                {$table}
-                            WHERE
-                                operation_interval = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval']}
-                                AND
-                                operation_interval_id = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id']}
-                                AND
-                                interval_start = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_start']}'
-                                AND
-                                interval_end = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_end']}'
-                                AND
-                                ad_id = $a
-                                AND
-                                zone_id = $z";
-                        $rc = $this->oDbh->query($query);
-                        $aResult = $rc->fetchAll();
+                        $aData = array(
+                            $aNotInLastOIPastPriorityResult[$a][$z]['operation_interval'],
+                            $aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id'],
+                            $aNotInLastOIPastPriorityResult[$a][$z]['interval_start'],
+                            $aNotInLastOIPastPriorityResult[$a][$z]['interval_start'],
+                            $aNotInLastOIPastPriorityResult[$a][$z]['interval_start'],
+                            $aNotInLastOIPastPriorityResult[$a][$z]['interval_end'],
+                            $a,
+                            $z
+                        );
+                        $rsResult = $stSelectSumImpressions->execute($aData);
+                        $aResult = $rsResult->fetchAll();
                         if (isset($aResult[0]['impressions'])) {
                             $aNotInLastOIPastPriorityResult[$a][$z]['impressions'] = $aResult[0]['impressions'];
                         }
@@ -1374,7 +1409,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function updateEcpmPriorities(&$aData)
     {
-        OA::debug('- Updating ECPM priorities', PEAR_LOG_DEBUG);
+        OA::debug('- Updating ECPM priorities ', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $dbHasTransactionSupport = !(strcasecmp($aConf['database']['type'], 'mysql') === 0
             && strcasecmp($aConf['table']['type'], 'myisam') === 0);
@@ -1382,10 +1417,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $oRes = $this->oDbh->beginTransaction();
             if (PEAR::isError($oRes)) {
                 // Cannot start transaction
-                OA::debug('    - Error: Could not start transaction', PEAR_LOG_DEBUG);
+                OA::debug('    - Error: Could not start transaction', PEAR_LOG_INFO);
                 return false;
             }
         }
+        $count = 0;
         if (is_array($aData) && !empty($aData)) {
             $table = $this->_getTablename('ad_zone_assoc');
             foreach($aData as $adId => $aZone) {
@@ -1409,6 +1445,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         }
                         return false;
                     }
+                    $count++;
                 }
             }
             if ($dbHasTransactionSupport) {
@@ -1419,6 +1456,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
+        OA::debug('- Updated ECPM priorities for '.$count.' ad/zones combinations', PEAR_LOG_INFO);
         return true;
     }
 
@@ -1708,13 +1746,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         // Add the new priority values to data_summary_ad_zone_assoc
-        OA::debug("  - Adding new priority values to {$aConf['table']['data_summary_ad_zone_assoc']}", PEAR_LOG_DEBUG);
+        $tableName = $aConf['table']['data_summary_ad_zone_assoc'];
+        OA::debug("  - Adding new priority values to $tableName", PEAR_LOG_DEBUG);
         if (is_array($aData) && !empty($aData)) {
             $aValues = array();
             reset($aData);
             while (list(,$aZoneData) = each($aData)) {
                 if (is_array($aZoneData['ads']) && !empty($aZoneData['ads'])) {
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
+                                        
                         $aValues[] = array(
                             $aConf['maintenance']['operationInterval'],
                             $currentOperationIntervalID,
@@ -1736,44 +1776,25 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
             if (is_array($aValues) && !empty($aValues)) {
-                reset($aValues);
-                $table = $this->_getTablename('data_summary_ad_zone_assoc');
-                $querycols = "
-                    INSERT INTO
-                        {$table}
-                        (
-                            operation_interval,
-                            operation_interval_id,
-                            interval_start,
-                            interval_end,
-                            ad_id,
-                            zone_id,
-                            required_impressions,
-                            requested_impressions,
-                            to_be_delivered,
-                            priority,
-                            priority_factor,
-                            priority_factor_limited,
-                            past_zone_traffic_fraction,
-                            created,
-                            created_by
-                        )";
-
-                while (list(,$aInsertValues) = each($aValues))
-                {
-                    if (is_array($aInsertValues) && !empty($aInsertValues))
-                    {
-                        $aInsertValues = array_map(array(&$this->oDbh, 'quote'), $aInsertValues);
-
-                        $query = $querycols."
-                             VALUES
-                                (".implode(",",$aInsertValues).")";
-                        $rows = $this->oDbh->exec($query);
-                        if (PEAR::isError($rows)) {
-                            return false;
-                        }
-                    }
-                }
+                $tableNameUnquoted = $this->_getTablenameUnquoted('data_summary_ad_zone_assoc');
+                $fields = array(
+                            'operation_interval',
+                            'operation_interval_id',
+                            'interval_start',
+                            'interval_end',
+                            'ad_id',
+                            'zone_id',
+                            'required_impressions',
+                            'requested_impressions',
+                            'to_be_delivered',
+                            'priority',
+                            'priority_factor',
+                            'priority_factor_limited',
+                            'past_zone_traffic_fraction',
+                            'created',
+                            'created_by'
+                );
+                $this->batchInsert($tableNameUnquoted, $aValues, $fields);
             }
         }
 
@@ -2080,7 +2101,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             reset($aOperationIntervals);
             $operationIntervals = count($aOperationIntervals);
             $count = 1;
-            
             while (list($operationIntervalId, $aValues) = each($aOperationIntervals)) {
                 // Is the zone considered to be new?
                 if ($aValues['new_zone']) {
@@ -2258,6 +2278,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $table1 = $this->_getTablename('zones');
         $table2 = $this->_getTablename('ad_zone_assoc');
         $table3 = $this->_getTablename('banners');
+        $table4 = $this->_getTablename('campaigns');
         $query = "
             SELECT
                 z.zoneid AS zoneid,
@@ -2266,13 +2287,20 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             FROM
                 {$table1} AS z,
                 {$table2} AS aza,
-                {$table3} as b
+                {$table3} as b,
+                {$table4} as c
             WHERE
                 z.zoneid = aza.zone_id
+                AND
+                b.campaignid = c.campaignid
                 AND
                 aza.ad_id = b.bannerid
                 AND
                 b.status = ".OA_ENTITY_STATUS_RUNNING."
+                AND
+                c.status = ".OA_ENTITY_STATUS_RUNNING."
+                AND
+                c.priority > 0
             GROUP BY
                 zoneid,
                 zonename,
@@ -2309,15 +2337,36 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         // Select those zone IDs where data does exist
-        $table = $this->_getTablename('data_summary_zone_impression_history');
+        $table1 = $this->_getTablename('zones');
+        $table2 = $this->_getTablename('ad_zone_assoc');
+        $table3 = $this->_getTablename('banners');
+        $table4 = $this->_getTablename('data_summary_zone_impression_history');
+        $table5 = $this->_getTablename('campaigns');
         $query = "
             SELECT DISTINCT
-                zone_id
+                z.zoneid as zone_id
             FROM
-                $table
+                {$table1} as z,
+                {$table2} as aza,
+                {$table3} as b,
+                {$table4} as d,
+                {$table5} as c
             WHERE
-                zone_id IN (" . implode(', ', $aZoneIDs) . ")";
+                z.zoneid = aza.zone_id
+                AND
+                aza.ad_id = b.bannerid
+                AND
+                b.status = ".OA_ENTITY_STATUS_RUNNING."
+                AND
+                z.zoneid = d.zone_id
+                AND
+                b.campaignid = c.campaignid
+                AND
+                c.status = ".OA_ENTITY_STATUS_RUNNING."
+            ORDER BY
+                zoneid";
         $rc = $this->oDbh->query($query);
+        
         if (PEAR::isError($rc)) {
             return $rc;
         }
@@ -2399,30 +2448,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function saveRequiredAdImpressions($aData)
     {
         if (is_array($aData) && (count($aData) > 0)) {
-            $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_required_impression');
-            $query = "
-                INSERT INTO
-                    {$tableTmp}
-                    (
-                        ad_id,
-                        required_impressions
-                    )
-                VALUES
-                    (?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer'
-            );
-            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+            $tableNameUnquoted = 'tmp_ad_required_impression';
+            $data = array();
             foreach ($aData as $aValues) {
-                $aData = array();
-                $aData[0] = $aValues['ad_id'];
-                $aData[1] = $aValues['required_impressions'];
-                $rows = $st->execute($aData);
-                if (PEAR::isError($rows)) {
-                    return $rows;
-                }
+                $data[] = array(
+                    $aValues['ad_id'],
+                    $aValues['required_impressions']
+                );
             }
+            $this->batchInsert($tableNameUnquoted, $data, array('ad_id', 'required_impressions'));
         }
     }
 
@@ -2634,48 +2668,110 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function saveAllocatedImpressions($aData)
     {
-        $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_zone_impression');
+        $tableNameUnquoted = 'tmp_ad_zone_impression';
+        $tableTmp = $this->oDbh->quoteIdentifier($tableNameUnquoted);
         // Make sure that the table is empty
  	    $query = "TRUNCATE TABLE {$tableTmp}";
         $this->oDbh->exec($query);
-
+        
         if (is_array($aData) && (count($aData) > 0)) {
-            $query = "
-                INSERT INTO
-                    {$tableTmp}
-                    (
-                        ad_id,
-                        zone_id,
-                        required_impressions,
-                        requested_impressions,
-                        to_be_delivered
-                    )
-                VALUES
-                    (?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'integer'
-            );
-            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-            foreach ($aData as $aValues) {
-                $aData = array(
+            $data = array();
+            foreach ($aData as $aValues) 
+            {
+                $data[] = array(
                     $aValues['ad_id'],
                     $aValues['zone_id'],
                     $aValues['required_impressions'],
                     $aValues['requested_impressions'],
                     ($aValues['to_be_delivered'] ? 1 : 0)
                 );
-                $rows = $st->execute($aData);
-                if (PEAR::isError($rows)) {
-                    return $rows;
-                }
             }
+            $this->batchInsert($tableNameUnquoted, $data, array('ad_id', 'zone_id', 'required_impressions', 'requested_impressions', 'to_be_delivered'));
         }
     }
 
+    /*
+     * Performs a batch INSERT on the given table. The table must be created. The batch INSERT does not empty the table.
+     * If the LOAD DATA INFILE operation is not supported or fails, it fallsback to INSERTing the data in a loop - 20x slower than LOAD DATA INFILE though. 
+     * 
+     * @tableNameUnquoted string The table name (if not temporary, you must call $this->_getTablenameUnquoted() before to add the table prefix)
+     * @data array An array with each row containing a consistent number of columns. 
+     * The types must match the type of the table you are inserting in.
+     * @fields array An array of field names; must be same format as the data array. 
+     * If passed, tells mysql to load data for these values only and assume default values/autoincrement for other fields.
+     * @replaceOnPrimaryKey bool If set to true, input rows replace existing rows. In other words, rows that have the same value for a primary key or unique index as an existing row.
+     * Be careful, if the rows in your $data array do not contain one column for each column of your DB table, then your table rows will be updated with NULL and other default values, potentially wiping out data. 
+     * 
+     * @return void (dies on failure)
+     */
+    function batchInsert($tableNameUnquoted, $data, $fields, $replaceOnPrimaryKey = false)
+    {
+        if(!is_array($data)) {
+            die('Batch INSERTs expects an array of data and an array of fields.');
+        }
+        $delimiter = ',';
+        $enclosure = '"';
+
+        // on windows, mysql expects slash as directory separator
+        $filePath = str_replace('\\', '/', MAX_PATH) .'/var/cache/' . OX_getHostName() . '-maintenance-'.$tableNameUnquoted.'.sql';
+        $fp = fopen($filePath,'w');
+        if (!$fp)
+        {
+            die('Error creating the tmp file '.$filePath.' containing the batch INSERTs.');
+        }
+        
+        $dataToLoadBatch = $data;
+        foreach($dataToLoadBatch as &$row) {
+            foreach($row as &$value) {
+                if(is_null($value) || $value === false) {
+                    $value = 'NULL';
+                } else {
+                    $value = $enclosure . $value . $enclosure;
+                }
+            }
+            $string = implode($delimiter, $row) . "\n";
+            fwrite($fp, $string);
+        }
+        fclose($fp);
+    
+        $fieldsString = '(' . implode(', ', $fields) . ')';
+        
+        $replaceString = '';
+        if($replaceOnPrimaryKey) {
+            $replaceString = ' REPLACE ';
+        }
+        $tableName = $this->oDbh->quoteIdentifier($tableNameUnquoted);
+        $query = "
+            LOAD DATA LOCAL INFILE
+                '$filePath'
+            $replaceString
+            INTO TABLE
+                $tableName
+            FIELDS TERMINATED BY
+                '$delimiter'
+            ENCLOSED BY
+                '\"'
+            ESCAPED BY
+                ''
+            LINES TERMINATED BY
+                '\n' 
+        	$fieldsString
+        ";
+        OX::disableErrorHandling();
+        $result = $this->oDbh->exec($query);
+        OX::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            OA::debug('LOAD DATA INFILE failed or not supported, falling back to INSERTing data by looping over each record...', PEAR_LOG_INFO);
+            foreach($data as $row) {
+                $values = implode(', ', array_map( $this->oDbh->quote, $row));
+                $query = "INSERT INTO $tableName $fieldsString VALUES ( $values )";
+                $this->oDbh->exec($query);
+            }
+        }
+        OA::debug('Inserted '. count($data) .' rows in the table '. $tableName, PEAR_LOG_INFO);
+    }
+    
+    
    /**
     * A method to return the forcast impressions for a zone, indexed by operation interval,
     * from the current operation interval through the past week. If no forecast stored in
@@ -2800,6 +2896,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getEcpmAgenciesIds()
     {
+        OA::debug('- Selecting Managers with ECPM priority campaigns running', PEAR_LOG_INFO);
         $query = "SELECT
                     DISTINCT cl.agencyid AS agencyid
                   FROM
@@ -2819,6 +2916,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getEcpmContractAgenciesIds()
     {
+        OA::debug('- Selecting Managers with ECPM contract campaigns running', PEAR_LOG_INFO);
         $query = "SELECT
                     DISTINCT cl.agencyid AS agencyid
                   FROM
@@ -2870,6 +2968,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getCampaignsInfoByAgencyId($agencyId)
     {
+        OA::debug('  - Selecting all active ECPM campaigns for manager '.$agencyId, PEAR_LOG_INFO);
         $query = "SELECT
                       c.campaignid AS campaignid,
                       c.revenue AS revenue,
@@ -2909,6 +3008,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getCampaignsInfoByAgencyIdAndPriority($agencyId, $priority)
     {
+        OA::debug('  - Selecting active ECPM High Priority campaigns with priority = \''.$priority.'\' for manager '.$agencyId, PEAR_LOG_INFO);
         $query = "SELECT
                       c.campaignid AS campaignid,
                       c.revenue AS revenue,
@@ -3015,6 +3115,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getZonesForecastsByAgency($agencyId, $intervalStart, $intervalEnd)
     {
+        OA::debug('  - Selecting Zones forecasts for manager '.$agencyId, PEAR_LOG_INFO);
         $query = "SELECT
                       h.zone_id AS zone_id,
                       h.forecast_impressions AS forecast_impressions
@@ -3053,6 +3154,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getZonesAllocationsForEcpmRemnantByAgency($agencyId)
     {
+        OA::debug('  - Selecting Zones allocations for remnant campaigns (impressions required in each zone) ', PEAR_LOG_INFO);
         $query = "SELECT
                       t.zone_id AS zone_id,
                       SUM(t.required_impressions) AS sum_required_impressions
@@ -3086,6 +3188,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getZonesAllocationsByAgencyAndCampaignPriority($agencyId, $priority)
     {
+        OA::debug('  - Selecting Zones allocations for high priority campaigns (impressions required in each zone) ', PEAR_LOG_INFO);
         $query = "SELECT
                       t.zone_id AS zone_id,
                       SUM(t.required_impressions) AS sum_required_impressions
@@ -3134,5 +3237,3 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
 }
-
-?>

@@ -156,7 +156,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $this->assertEqual($aRow['created_by'], 0);
         $this->assertNull($aRow['expired']);
         $this->assertNull($aRow['expired_by']);
-
+        
         // Test 3
         $aData =
             array(

@@ -55,6 +55,14 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
     {
         $oDal = new OA_Dal_Maintenance_Priority();
 
+        
+        // Add campaign
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'Active Campaign';
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+        $doCampaigns->priority = 9;
+        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        
         // Test with no zones in the system
         $aResult = $oDal->getActiveZones();
         $this->assertTrue(is_array($aResult));
@@ -82,14 +90,16 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
         // Test with active and inactive banners in the system, but not linked
         $doBanners = OA_Dal::factoryDO('banners');
         $oNow = new Date();
-        $doBanners->status = 0;
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
+        $doBanners->campaignid = $idCampaign;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBannerActive = DataGenerator::generateOne($doBanners, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $oNow = new Date();
-        $doBanners->status = 1;
+        $doBanners->status = OA_ENTITY_STATUS_INACTIVE;
+        $doBanners->campaignid = $idCampaign;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBannerInactive = DataGenerator::generateOne($doBanners, true);
