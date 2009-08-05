@@ -68,7 +68,7 @@ class OX_Component
      *       they should be added to the refactoredExtensions until this whole section can be removed
      * @return mixed The instantiated component object, or false on error.
      */
-    function &factory($extension, $group, $component = null)
+    function factory($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($component === null) {
@@ -89,13 +89,14 @@ class OX_Component
         return $obj;
     }
 
-    function &factoryByComponentIdentifier($componentIdentifier)
+    function factoryByComponentIdentifier($componentIdentifier)
     {
         $aParts = self::parseComponentIdentifier($componentIdentifier);
         if (!$aParts) {
             return false;
         }
-        return call_user_func_array(array('OX_Component', 'factory'), $aParts);
+        $returned = call_user_func_array(array('OX_Component', 'factory'), $aParts);
+        return $returned;
     }
 
     function _isGroupInstalled($group)

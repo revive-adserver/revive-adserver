@@ -301,19 +301,21 @@ class OA_Admin_UI
     private function redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection)
     {
         $currentPath = @$_SERVER['SCRIPT_NAME'];
-	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
-	    $startQueryString = strpos($expectedPathForThisSection, '?');
-	    
-	    if($startQueryString !== false) {
-	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
-	    }
-	    if( !empty($currentPath)
-			&& $oCurrentSection->hasSectionBeenReplaced()
-			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
-			    $urlToRedirectTo = $oCurrentSection->getLink($this->aLinkParams);
-			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
-			    exit;
-	    }
+        if($oCurrentSection) {
+    	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
+    	    $startQueryString = strpos($expectedPathForThisSection, '?');
+    	    
+    	    if($startQueryString !== false) {
+    	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
+    	    }
+    	    if( !empty($currentPath)
+    			&& $oCurrentSection->hasSectionBeenReplaced()
+    			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
+    			    $urlToRedirectTo = $oCurrentSection->getLink($this->aLinkParams);
+    			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
+    			    exit;
+    	    }
+        }
     }
     
     function getID($ID)

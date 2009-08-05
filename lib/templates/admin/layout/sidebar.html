@@ -69,7 +69,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     {/if}      
   {/section}
 
-{if $aNotificationQueue}
+{if isset($aNotificationQueue)}
   <div class="notificationPlaceholder">
     <div class="message">
     {foreach from=$aNotificationQueue item=notification}

@@ -47,7 +47,6 @@ class OX_UpgradePluginImport extends OX_PluginExport
      */
     function init($name)
     {
-        $this->logFile = MAX_PATH . '/var/install.log';
         return true;
     }
     
@@ -178,6 +177,9 @@ class OX_UpgradePluginImport extends OX_PluginExport
     function _log($message)
     {
         $this->aMessages[] = $message;
+        if(empty($this->logFile)) {
+            $this->logFile = MAX_PATH . '/var/install.log';
+        }
         $log = fopen($this->logFile, 'a');
         if($log) {
 	        fwrite($log, "{$message}\n");
