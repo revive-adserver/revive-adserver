@@ -1483,6 +1483,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (is_array($aCampaignsEcpms) && !empty($aCampaignsEcpms)) {
             $table = $this->_getTablename('campaigns');
             foreach($aCampaignsEcpms as $campaignId => $ecpm) {
+                if(empty($ecpm)) {
+                    $ecpm = 0;
+                }
                 $query = "
                     UPDATE
                         {$table}
