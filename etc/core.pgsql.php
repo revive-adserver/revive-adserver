@@ -42,6 +42,13 @@ END;
 $$ LANGUAGE plpgsql IMMUTABLE STRICT;";
 
 $aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION DATE_SUB(timestamptz, interval) RETURNS timestamptz AS $$
+BEGIN
+ RETURN $1 - $2;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE STRICT;";
+
+$aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION DATE_FORMAT(timestamptz, text) RETURNS text AS $$
 DECLARE
  f text;

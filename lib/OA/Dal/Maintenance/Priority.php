@@ -947,7 +947,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Select the details of all contract campaign creative/zones that had required/requested impressions,
         // in the previous operation interval, but for which no impressions were delivered
         OA::debug('  - Getting details of contract campaign creative/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
-        $table1 = $this->_getTablename('data_summary_data_summary_ad_zone_assoc');
+        $table1 = $this->_getTablename('data_summary_ad_zone_assoc');
         $table2 = $this->_getTablename('data_intermediate_ad');
         $query = "
             SELECT
