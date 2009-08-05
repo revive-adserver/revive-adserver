@@ -1070,6 +1070,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      */
     function _saveSummaryUpdateWithFinanceInfo($oStartDate, $oEndDate, $table)
     {
+        OA::debug('- Selecting unique ad IDs during this OI', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_saveSummaryUpdateWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
@@ -1110,6 +1111,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      */
     function _saveSummaryGetAdFinanceInfo($aAdIds)
     {
+        OA::debug('- Select ad finance information for '.count($aAdIds).' ads', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($aAdIds)) {
             return false;
@@ -1175,6 +1177,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      */
     function _saveSummaryUpdateAdsWithFinanceInfo($aAdFinanceInfo, $oStartDate, $oEndDate, $table)
     {
+        OA::debug('- Starting update finance information for ads', PEAR_LOG_DEBUG);
+        
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%H') != 0 || $oEndDate->format('%H') != 23) {
             if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
@@ -1191,6 +1195,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 MAX_FINANCE_CPA => 'conversions'
             );
         }
+        $countQueries = 0;
         // Try to get the $aAdFinanceLimitTypes array
         $aAdFinanceLimitTypes =& $oServiceLocator->get('aAdFinanceLimitTypes');
         foreach ($aAdFinanceInfo as $aInfo) {
@@ -1249,11 +1254,13 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             }
             if (!empty($query)) {
                 $rows = $this->oDbh->exec($query);
+                $countQueries++;
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
         }
+        OA::debug('- Updated finance information for '. $countQueries .' ads', PEAR_LOG_DEBUG);
     }
 
 
