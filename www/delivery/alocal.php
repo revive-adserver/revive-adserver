@@ -3763,12 +3763,12 @@ $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
 $aLinkedAd['storagetype'] = $aLinkedAd['type'];
 $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 $aLinkedAd['zone_companion'] = $aZoneLinkedAds['zone_companion'];
-$aLinkedAd['block_zone'] = $aZoneLinkedAds['block_zone'];
-$aLinkedAd['cap_zone'] = $aZoneLinkedAds['cap_zone'];
-$aLinkedAd['session_cap_zone'] = $aZoneLinkedAds['session_cap_zone'];
+$aLinkedAd['block_zone'] = @$aZoneLinkedAds['block_zone'];
+$aLinkedAd['cap_zone'] = @$aZoneLinkedAds['cap_zone'];
+$aLinkedAd['session_cap_zone'] = @$aZoneLinkedAds['session_cap_zone'];
 if (!$appendedThisZone) {
-$aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
-$aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'] . $aLinkedAd['prepend'];
+$aLinkedAd['append'] .= @$aZoneLinkedAds['append'] . $g_append;
+$aLinkedAd['prepend'] = $g_prepend . @$aZoneLinkedAds['prepend'] . $aLinkedAd['prepend'];
 } else {
 $aLinkedAd['append'] .= $g_append;
 $aLinkedAd['prepend'] = $g_prepend . $aLinkedAd['prepend'];
