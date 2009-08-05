@@ -1888,7 +1888,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // Calculate totals for each campaign priority
 foreach($total_priority_cp as $campaign_priority => $priority) {
 $total_priority += $priority;
-$totals[$campaign_priority] = $priority / $total_priority;
+@$totals[$campaign_priority] = $priority / $total_priority;
 }
 return $totals;
 }
