@@ -39,10 +39,11 @@ function checkPermissions($aFiles)
     {
         setcookie('schemaFile', '');
         setcookie('schemaPath', '');
-        $errorMessage =
-            join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
-            'To fix, please execute the following commands:' . "<br /><br >\n" .
+        $errorMessage = join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n";
+        if(isset($aErrs['fixes'])) {
+            $errorMessage .= 'To fix, please execute the following commands:' . "<br /><br >\n" .
             join("<br />\n", $aErrs['fixes']);
+        }
         die($errorMessage);
     }
 }
