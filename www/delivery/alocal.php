@@ -2576,8 +2576,10 @@ header($value);
 }
 function MAX_redirect($url)
 {
+if (!preg_match('/^(?:javascript|data):/i', $url)) {
 header('Location: '.$url);
 MAX_sendStatusCode(302);
+}
 }
 function MAX_sendStatusCode($iStatusCode) {
 $aConf = $GLOBALS['_MAX']['CONF'];
