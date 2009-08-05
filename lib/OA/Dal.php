@@ -37,6 +37,7 @@ require_once 'DB/DataObject.php';
  */
 class OA_Dal
 {
+    static $batchInsertPath;
 
     /**
      * A local instance of the OA_DB created database handler.
@@ -341,6 +342,213 @@ class OA_Dal
     function isNullDate($sqlDate)
     {
         return !OA_Dal::isValidDate($sqlDate);
+    }
+
+    /**
+     * Performs a batch insert using either LOAD DATA INFILE or COPY FROM, eventually
+     * falling back to batchInsertPlain (plain INSERTs) on failure. On MySQL LOAD DATA
+     * INFILE is 20x faster than plain single inserts
+     *
+     * @param string $tableName The unquoted table name
+     * @param array  $aFields   The array of unquoted field names
+     * @param array  $aValues   The array of data to be inserted
+     *
+     * @return int   The number of rows inserted or PEAR_Error on failure
+     */
+    function batchInsert($tableName, $aFields, $aValues)
+    {
+        if(!is_array($aFields) || !is_array($aValues)) {
+            return MAX::raiseError('$aFields and $aData must be arrays', PEAR_ERROR_RETURN);
+        }
+
+        $oDbh = OA_DB::singleton();
+
+        // Quote table name
+        $qTableName = $oDbh->quoteIdentifier($tableName);
+
+        // Quote fields list
+        $fieldList = '('.join(',', array_map(array($oDbh, 'quoteIdentifier'), $aFields)).')';
+
+        // Database custom stuff
+        if ($oDbh->dbsyntax == 'mysql') {
+            $result = self::_batchInsertMySQL($qTableName, $fieldList, $aValues);
+        } else {
+            $result = self::_batchInsertPgSQL($qTableName, $fieldList, $aValues);
+        }
+
+        if (PEAR::isError($result)) {
+            OA::debug('LOAD DATA INFILE / COPY failed or not supported, falling back to INSERTing data by looping over each record...', PEAR_LOG_INFO);
+            $result = self::batchInsertPlain($tableName, $aFields, $aValues);
+        }
+
+        return $result;
+    }
+
+    private function _batchInsertMySQL($qTableName, $fieldList, $aValues)
+    {
+        $oDbh = OA_DB::singleton();
+
+        // File path defaults to var/cache
+        if (!isset(self::$batchInsertPath)) {
+            self::$batchInsertPath = MAX_PATH.'/var/cache';
+        }
+
+        // Create file path using hostname and table name
+        $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-'.$tableName.'.csv';
+        if (DIRECTORY_SEPARATOR == '\\') {
+            // On windows, MySQL expects slashes as directory separators
+            $filePath = str_replace('\\', '/', $filePath);
+        }
+
+        // Set up CSV delimiters, quotes, etc
+        $delim = "\t";
+        $quote = '"';
+        $eol   = "\n";
+        $null  = 'NULL';
+
+        // Disable error handler
+        OX::disableErrorHandling();
+
+        $fp = fopen($filePath, 'wb');
+        if (!$fp) {
+            return MAX::raiseError('Error creating the tmp file '.$filePath.' containing the batch INSERTs.', PEAR_ERROR_RETURN);
+        }
+        foreach ($aValues as $aRow) {
+            // Stringify row
+            $row = '';
+            foreach($aRow as $value) {
+                if(!isset($value) || $value === false) {
+                    $row .= $null.$delim;
+                } else {
+                    $row .= $quote.$value.$quote.$delim;
+                }
+            }
+            // Replace delim with eol
+            $row[strlen($row)-1] = $eol;
+            // Append
+            $ret = fwrite($fp, $row);
+            if (!$ret) {
+                fclose($fp);
+                unlink($filePath);
+                return MAX::raiseError('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.', PEAR_ERROR_RETURN);
+            }
+        }
+        fclose($fp);
+        $query = "
+            LOAD DATA LOCAL INFILE
+                '$filePath'
+            ".($replaceOnPrimaryKey ? 'REPLACE' : '')." INTO TABLE
+                $qTableName
+            FIELDS TERMINATED BY
+                ".$oDbh->quote($delim)."
+            ENCLOSED BY
+                ".$oDbh->quote($quote)."
+            ESCAPED BY
+                ''
+            LINES TERMINATED BY
+                ".$oDbh->quote($eol)."
+        	$fieldList
+        ";
+        $result = $oDbh->exec($query);
+
+        // Enable error handler again
+        OX::enableErrorHandling();
+
+        return $result;
+    }
+
+    /**
+     * Performs a batch insert using plain INSERTs
+     *
+     * @see OA_Dal::batchInsert()
+     *
+     * @param string $tableName The unquoted table name
+     * @param array  $aFields   The array of unquoted field names
+     * @param array  $aValues   The array of data to be inserted
+     *
+     * @return int   The number of rows inserted or PEAR_Error on failure
+     */
+    private function _batchInsertPgSQL($qTableName, $fieldList, $aValues)
+    {
+        $oDbh = OA_DB::singleton();
+
+        $delim = "\t";
+        $eol   = "\n";
+        $null  = '\\N';
+
+        // Disable error handler
+        OX::disableErrorHandling();
+
+        $pg = $oDbh->getConnection();
+        $result = $oDbh->exec("
+            COPY
+                $qTableName $fieldList
+            FROM
+                STDIN
+        ");
+        if (PEAR::isError($result)) {
+            return MAX::raiseError('Error issuing the COPY query for the batch INSERTs.', PEAR_ERROR_RETURN);
+        }
+        foreach ($aValues as $aRow) {
+            // Stringify row
+            $row = '';
+            foreach($aRow as $value) {
+                if(!isset($value) || $value === false) {
+                    $row .= $null.$delim;
+                } else {
+                    $row .= $value.$delim;
+                }
+            }
+            // Replace delim with eol
+            $row[strlen($row)-1] = $eol;
+            // Send line
+            $ret = pg_put_line($pg, $row);
+            if (!$ret) {
+                return MAX::raiseError('Error COPY-ing data: '.pg_errormessage($pg), PEAR_ERROR_RETURN);
+            }
+        }
+        $result = pg_put_line($pg, '\.'.$eol) && pg_end_copy($pg);
+        $result = $result ? count($aValues) : new PEAR_Error('Error at the end of the COPY: '.pg_errormessage($pg));
+
+        // Enable error handler again
+        OX::enableErrorHandling();
+
+        return $result;
+    }
+
+    function batchInsertPlain($tableName, $aFields, $aValues)
+    {
+        if(!is_array($aFields) || !is_array($aValues)) {
+            return MAX::raiseError('$aFields and $aData must be arrays', PEAR_ERROR_RETURN);
+        }
+
+        $oDbh = OA_DB::singleton();
+
+        // Create file path, if needed. On windows, mysql expects slash as directory separator
+        if (!isset(self::$batchInsertPath)) {
+            self::$batchInsertPath = MAX_PATH.'/var/cache';
+        }
+        $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-'.$tableName.'.csv';
+        if (DIRECTORY_SEPARATOR == '\\') {
+            $filePath = str_replace('\\', '/', $filePath);
+        }
+
+        // Quote table name
+        $tableName = $oDbh->quoteIdentifier($tableName);
+
+        // Quote fields list
+        $fieldList = '('.join(',', array_map(array($oDbh, 'quoteIdentifier'), $aFields)).')';
+
+        foreach($aValues as $aRow) {
+            $values = implode(', ', array_map(array($oDbh, 'quote'), $aRow));
+            $query = "INSERT INTO $tableName $fieldList VALUES ($values)";
+            $result = $oDbh->exec($query);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+        }
+
+        return count($aValues);
     }
 
 }

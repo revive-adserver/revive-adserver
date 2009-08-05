@@ -300,7 +300,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $debugDetailQuery = ' and '. $debugDetailQuery;
         }
         OA::debug('  - Select details of all ads delivered for Manager ID = '.$id.' '.$debugDetailQuery);
-        
+
         $this->oDbh->loadModule('Reverse');
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
@@ -499,7 +499,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $previousOptIntID = OX_OperationInterval::previousOperationIntervalID($currentOpIntID);
         $aPreviousDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $table = $this->_getTablename('data_summary_zone_impression_history');
-        
+
          $query = "SELECT
                 zone_id AS zone_id,
                 forecast_impressions AS forecast_impressions
@@ -514,12 +514,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND
                 interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                 ;";
-        
+
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']] = $aRow;
         }
-        
+
         $query = "SELECT
                 zone_id AS zone_id,
                 actual_impressions AS actual_impressions
@@ -541,7 +541,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aResult[$aRow['zone_id']] = array_merge($aResult[$aRow['zone_id']], $aRow);
             }
         }
-        
+
         // Get all possible zones in the system, plus zone 0
         $table = $this->_getTablename('zones');
         $query = "
@@ -947,7 +947,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Select the details of all contract campaign creative/zones that had required/requested impressions,
         // in the previous operation interval, but for which no impressions were delivered
         OA::debug('  - Getting details of contract campaign creative/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
-        $table1 = $this->_getTablename('data_summary_ad_zone_assoc');
+        $table1 = $this->_getTablename('data_summary_data_summary_ad_zone_assoc');
         $table2 = $this->_getTablename('data_intermediate_ad');
         $query = "
             SELECT
@@ -1194,8 +1194,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Now that it is known when (if) the remaining creatives last requested to deliver,
             // determine how many impressions were delivered (if any) during the appropriate
             // operation intervals
-            if (!empty($aNotInLastOIPastPriorityResult)) { 
+            if (!empty($aNotInLastOIPastPriorityResult)) {
                 $table = $this->_getTablename('data_intermediate_ad');
+                $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
                 $query = "
                     SELECT
                         SUM(impressions) AS impressions
@@ -1206,10 +1207,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         AND
                         operation_interval_id = ?
                         AND
-                        date_time > DATE_SUB(?, INTERVAL 1 HOUR) 
-                        AND 
-                        date_time < DATE_ADD(?, INTERVAL 1 HOUR)
-                        AND 
+                        date_time > DATE_SUB(?, ".$oneHourInterval.")
+                        AND
+                        date_time < DATE_ADD(?, ".$oneHourInterval.")
+                        AND
                         interval_start = ?
                         AND
                         interval_end = ?
@@ -1228,7 +1229,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     'integer',
                 );
                 $stSelectSumImpressions = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_RESULT);
-            
+
                 OA::debug('  - Looping over each zone linked to '.count($aNotInLastOIPastPriorityResult). ' ads');
                 $countQueriesSumImp = 0;
                 foreach ($aNotInLastOIPastPriorityResult as $a => $aAd) {
@@ -1757,7 +1758,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             while (list(,$aZoneData) = each($aData)) {
                 if (is_array($aZoneData['ads']) && !empty($aZoneData['ads'])) {
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
-                                        
+
                         $aValues[] = array(
                             $aConf['maintenance']['operationInterval'],
                             $currentOperationIntervalID,
@@ -2144,7 +2145,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             exit;
                         }
                     } else {
-                        $count++; 
+                        $count++;
                     }
                 } else {
                     // Try to select the data
@@ -2369,7 +2370,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             ORDER BY
                 zoneid";
         $rc = $this->oDbh->query($query);
-        
+
         if (PEAR::isError($rc)) {
             return $rc;
         }
@@ -2676,10 +2677,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Make sure that the table is empty
  	    $query = "TRUNCATE TABLE {$tableTmp}";
         $this->oDbh->exec($query);
-        
+
         if (is_array($aData) && (count($aData) > 0)) {
             $data = array();
-            foreach ($aData as $aValues) 
+            foreach ($aData as $aValues)
             {
                 $data[] = array(
                     $aValues['ad_id'],
@@ -2693,88 +2694,25 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
     }
 
-    /*
-     * Performs a batch INSERT on the given table. The table must be created. The batch INSERT does not empty the table.
-     * If the LOAD DATA INFILE operation is not supported or fails, it fallsback to INSERTing the data in a loop - 20x slower than LOAD DATA INFILE though. 
-     * 
-     * @tableNameUnquoted string The table name (if not temporary, you must call $this->_getTablenameUnquoted() before to add the table prefix)
-     * @data array An array with each row containing a consistent number of columns. 
-     * The types must match the type of the table you are inserting in.
-     * @fields array An array of field names; must be same format as the data array. 
-     * If passed, tells mysql to load data for these values only and assume default values/autoincrement for other fields.
-     * @replaceOnPrimaryKey bool If set to true, input rows replace existing rows. In other words, rows that have the same value for a primary key or unique index as an existing row.
-     * Be careful, if the rows in your $data array do not contain one column for each column of your DB table, then your table rows will be updated with NULL and other default values, potentially wiping out data. 
-     * 
-     * @return void (dies on failure)
+    /**
+     * Performs a batch insert
+     *
+     * @see OA_Dal::batchInsert()
+     *
+     * @param string $tableNameUnquoted The unquoted table name
+     * @param array  $data              The array of data to be inserted
+     * @param array  $fields            The array of unquoted field names
      */
-    function batchInsert($tableNameUnquoted, $data, $fields, $replaceOnPrimaryKey = false)
+    function batchInsert($tableNameUnquoted, $data, $fields)
     {
-        if(!is_array($data)) {
-            die('Batch INSERTs expects an array of data and an array of fields.');
-        }
-        $delimiter = ',';
-        $enclosure = '"';
-
-        // on windows, mysql expects slash as directory separator
-        $filePath = str_replace('\\', '/', MAX_PATH) .'/var/cache/' . OX_getHostName() . '-maintenance-'.$tableNameUnquoted.'.sql';
-        $fp = fopen($filePath,'w');
-        if (!$fp)
-        {
-            die('Error creating the tmp file '.$filePath.' containing the batch INSERTs.');
-        }
-        
-        $dataToLoadBatch = $data;
-        foreach($dataToLoadBatch as &$row) {
-            foreach($row as &$value) {
-                if(is_null($value) || $value === false) {
-                    $value = 'NULL';
-                } else {
-                    $value = $enclosure . $value . $enclosure;
-                }
-            }
-            $string = implode($delimiter, $row) . "\n";
-            fwrite($fp, $string);
-        }
-        fclose($fp);
-    
-        $fieldsString = '(' . implode(', ', $fields) . ')';
-        
-        $replaceString = '';
-        if($replaceOnPrimaryKey) {
-            $replaceString = ' REPLACE ';
-        }
-        $tableName = $this->oDbh->quoteIdentifier($tableNameUnquoted);
-        $query = "
-            LOAD DATA LOCAL INFILE
-                '$filePath'
-            $replaceString
-            INTO TABLE
-                $tableName
-            FIELDS TERMINATED BY
-                '$delimiter'
-            ENCLOSED BY
-                '\"'
-            ESCAPED BY
-                ''
-            LINES TERMINATED BY
-                '\n' 
-        	$fieldsString
-        ";
-        OX::disableErrorHandling();
-        $result = $this->oDbh->exec($query);
-        OX::enableErrorHandling();
+        $result = OA_Dal::batchInsert($tableNameUnquoted, $fields, $data);
         if (PEAR::isError($result)) {
-            OA::debug('LOAD DATA INFILE failed or not supported, falling back to INSERTing data by looping over each record...', PEAR_LOG_INFO);
-            foreach($data as $row) {
-                $values = implode(', ', array_map( $this->oDbh->quote, $row));
-                $query = "INSERT INTO $tableName $fieldsString VALUES ( $values )";
-                $this->oDbh->exec($query);
-            }
+            Max::raiseError($result->getMessage(), PEAR_ERROR_DIE);
         }
-        OA::debug('Inserted '. count($data) .' rows in the table '. $tableName, PEAR_LOG_INFO);
+        OA::debug('Inserted '. $result .' rows in the table '. $tableNameUnquoted, PEAR_LOG_INFO);
     }
-    
-    
+
+
    /**
     * A method to return the forcast impressions for a zone, indexed by operation interval,
     * from the current operation interval through the past week. If no forecast stored in

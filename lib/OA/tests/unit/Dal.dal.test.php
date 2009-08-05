@@ -125,6 +125,64 @@ class Test_OA_Dal extends UnitTestCase
         $this->assertFalse(OA_Dal::isValidDate('0'));
         $this->assertFalse(OA_Dal::isValidDate(null));
     }
+
+    function testBachInsertLoadInfile()
+    {
+        $this->_testBatchInsert('batchInsert');
+    }
+
+    function testBachInsertPlain()
+    {
+        $this->_testBatchInsert('batchInsertPlain');
+    }
+
+    function _testBatchInsert($method)
+    {
+        $oTable =& OA_DB_Table_Priority::singleton();
+        $oTable->createTable('tmp_ad_required_impression');
+
+        $this->assertEqual(array(), $this->_getbatchInsertRecords());
+        $aData = array(
+            array(
+                'ad_id' => '23',
+                'required_impressions' => '140',
+            ),
+            array(
+                'ad_id' => '29',
+                'required_impressions' => '120',
+            )
+        );
+        $result = OA_Dal::$method('tmp_ad_required_impression', array('ad_id', 'required_impressions'), $aData);
+        $this->assertEqual($result, 2);
+
+        $result = $this->_getbatchInsertRecords();
+        $this->assertTrue(count($result) == 2);
+        $this->assertEqual($result, $aData);
+
+        $oneMoreRow = array (
+            array(100,2)
+        );
+        $result = OA_Dal::$method('tmp_ad_required_impression', array('ad_id', 'required_impressions'), $oneMoreRow);
+        $this->assertEqual($result, 1);
+        $result = $this->_getbatchInsertRecords();
+        $this->assertTrue(count($result) == 3);
+        $this->assertEqual($result, array_merge($aData, array (
+            array(
+                'ad_id' => 100,
+                'required_impressions' => 2
+            ))));
+        TestEnv::dropTempTables();
+    }
+
+    function _getbatchInsertRecords()
+    {
+        $oDbh = OA_DB::singleton();
+        $query = "SELECT *
+        		FROM ".$oDbh->quoteIdentifier('tmp_ad_required_impression',true)."
+        		ORDER BY ad_id ASC";
+        return $oDbh->query($query)->fetchAll();
+    }
+
 }
 
 ?>
