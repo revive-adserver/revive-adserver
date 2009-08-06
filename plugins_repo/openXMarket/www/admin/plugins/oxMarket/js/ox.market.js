@@ -312,15 +312,7 @@
         var defaults = {
         };
         var settings = $.extend({}, defaults, options);
-
         var $optIn = this;
-        var $radioButtons = this.find(":radio[@name=optInType]");
-        var $remnantRadio = this.find(":radio[@value=remnant]");
-        var $selectedRadio = this.find(":radio[@value=selected]");
-        $radioButtons.change(updateVisibility);
-        if ($.browser.msie) {
-            $radioButtons.click(updateVisibility);
-        }
         
         this.find("table input.cpm").keyup(function(event) {
             if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
@@ -329,44 +321,9 @@
                 var previous = $checkbox.attr("checked");
                 var next = $input.val().length > 0;
                 $checkbox.attr("checked", next);
-                $selectedRadio.attr("checked", true);
-                if (previous != next) {
-                    updateCount();
-                }
             }
         });
-        
-        this.find(".tableWrapper").bind("multichange", function() {
-            $selectedRadio.attr("checked", true);
-            updateVisibility.call($optIn.find(":radio:checked"));
-            updateCount();
-        });
-        updateCount();
-        updateVisibility.call(this.find(":radio:checked"));
         return this;
-        
-        function updateCount() {
-            if ($selectedRadio.is(":checked")) {
-                var count = $optIn.find(".toggleSelection input:checked").size();
-                $("#selectedCount").text(count + ' ');
-                $("#submit").attr("disabled", count == 0);
-            }
-        }
-        
-        function updateVisibility() {
-            var value = $(this).val();
-            if (value == 'remnant') {
-                $("#selectedCount").hide();
-                $("#remnantCount, #remnantOptedInCount").show();
-                $("#minCpm").attr('disabled', false).focus();
-                $("#submit").attr("disabled", false);
-            } else {
-                $("#selectedCount").show();
-                $("#remnantCount, #remnantOptedInCount").hide();
-                $("#minCpm").attr('disabled', true);
-                updateCount();
-            }
-        }
     };
 })(jQuery);
 

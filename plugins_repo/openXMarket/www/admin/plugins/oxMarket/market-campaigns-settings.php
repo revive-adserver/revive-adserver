@@ -56,12 +56,9 @@ $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/
 $oMenu = OA_Admin_Menu::singleton();
 
 // Register some variables from the request
-$request = phpAds_registerGlobalUnslashed('campaignType', 'optInType', 'toOptIn', 'minCpm', 'optedCount', 'search');
+$request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'minCpm', 'optedCount', 'search');
 if (empty($campaignType)) {
     $campaignType = 'remnant';
-}
-if (empty($optInType)) {
-    $optInType = 'selected';
 }
 if (!isset($minCpm)) {
     $minCpm = formatCpm($defaultMinCpm);
@@ -125,7 +122,6 @@ setupContentStrings($oMarketComponent, $oTpl, $optedCount);
 $oTpl->assign('campaigns', $campaigns);
 $oTpl->assign('campaignsOptedIn', $campaignsOptedIn);
 $oTpl->assign('campaignType', $campaignType);
-$oTpl->assign('optInType', $optInType);
 $oTpl->assign('remnantCampaignsCount', $remnantCampaignsToOptIn);
 $oTpl->assign('remnantCampaignsOptedIn', $remnantCampaignsOptedIn);
 $oTpl->assign('minCpm', $minCpm);
@@ -152,86 +148,61 @@ phpAds_PageFooter();
 
 function isDataValid($template, $aCampaigns, $maxCpmValue)
 {
-    global $optInType, $toOptIn, $minCpm;
+    global $toOptIn, $minCpm;
     $valid = true;
     $zero = false;
     $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
     $maxValidator = new OA_Admin_UI_Rule_Max();
     
-
-//    if ($optInType == 'remnant') {
-//        $valid = is_numeric($minCpm) && $decimalValidator->validate($minCpm, 2); 
-//        if ($valid) {
-//            $tooSmall = ($minCpm <= 0);
-//            $tooBig = !$maxValidator->validate($minCpm, $maxCpmValue); 
-//            $valid = $valid && !$tooSmall && !$tooBig;
-//        }
-//        if (!$valid) {
-//            $template->assign('minCpmInvalid', true);
-//            if ($tooSmall) {
-//                OA_Admin_UI::queueMessage('Please provide CPM values greater than zero', 'local', 'error', 0);
-//            }
-//            else if ($tooBig) {
-//                OA_Admin_UI::queueMessage('Please provide CPM values smaller than '.formatCpm($maxCpmValue), 'local', 'error', 0);
-//            } 
-//            
-//            else {
-//                OA_Admin_UI::queueMessage('Please provide CPM values as decimal numbers with two digit precision', 'local', 'error', 0);
-//            }
-//        }
-//    } 
-//    else {
-    if ($optInType == 'selected') {
-        $invalidCpms = array();
-        foreach ($toOptIn as $campaignId) {
-            $value = $_REQUEST['cpm' . $campaignId];
-            //is number
-            $valueValid = is_numeric($value);
-            
-            $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);
-            
-            //is greater than zero
-            if ($valueValid) {
-                $valueValid = ($value > 0);
-                $message = $valueValid ?  null : $message = getValidationMessage('too-small', $maxCpmValue);
-            }
-            //less than arbitrary maxcpm 
-            if ($valueValid) {
-                $valueValid = $maxValidator->validate($value, $maxCpmValue);
-                $message = $valueValid ?  null : getValidationMessage('too-big', $maxCpmValue);
-            }
-            //max 2decimal places?
-            if ($valueValid) {
-                $valueValid = $decimalValidator->validate($value, 2);
-                $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);                
-            }
-            //not smaller than eCPM or campaigns CPM ('revenue')
-            if ($valueValid) {
-                $aCampaign = $aCampaigns[$campaignId];
-                if (OX_oxMarket_Dal_CampaignsOptIn::isECPMEnabledCampaign($aCampaign)) {
-                    if (is_numeric($aCampaign['ecpm']) && $value < $aCampaign['ecpm']) {
-                        $valueValid = false;
-                        $message = getValidationMessage('compare-ecpm', $maxCpmValue, $aCampaign['ecpm']);
-                    }
-                }
-                else {
-                    if (is_numeric($aCampaign['revenue']) && $value < $aCampaign['revenue']) {
-                        $valueValid = false;
-                        $message = getValidationMessage('compare-rate', $maxCpmValue, $aCampaign['revenue']);
-                    }
-                }
-            }
-            if (!$valueValid) {
-                $invalidCpms[$campaignId] = $message;
-            }
-            $valid = $valid && $valueValid;
-        }
+    $invalidCpms = array();
+    foreach ($toOptIn as $campaignId) {
+        $value = $_REQUEST['cpm' . $campaignId];
+        //is number
+        $valueValid = is_numeric($value);
         
-        if (!$valid) {
-            OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
+        $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);
+        
+        //is greater than zero
+        if ($valueValid) {
+            $valueValid = ($value > 0);
+            $message = $valueValid ?  null : $message = getValidationMessage('too-small', $maxCpmValue);
         }
-        $template->assign('minCpmsInvalid', $invalidCpms);
+        //less than arbitrary maxcpm 
+        if ($valueValid) {
+            $valueValid = $maxValidator->validate($value, $maxCpmValue);
+            $message = $valueValid ?  null : getValidationMessage('too-big', $maxCpmValue);
+        }
+        //max 2decimal places?
+        if ($valueValid) {
+            $valueValid = $decimalValidator->validate($value, 2);
+            $message = $valueValid ?  null : $message = getValidationMessage('format', $maxCpmValue);                
+        }
+        //not smaller than eCPM or campaigns CPM ('revenue')
+        if ($valueValid) {
+            $aCampaign = $aCampaigns[$campaignId];
+            if (OX_oxMarket_Dal_CampaignsOptIn::isECPMEnabledCampaign($aCampaign)) {
+                if (is_numeric($aCampaign['ecpm']) && $value < $aCampaign['ecpm']) {
+                    $valueValid = false;
+                    $message = getValidationMessage('compare-ecpm', $maxCpmValue, $aCampaign['ecpm']);
+                }
+            }
+            else {
+                if (is_numeric($aCampaign['revenue']) && $value < $aCampaign['revenue']) {
+                    $valueValid = false;
+                    $message = getValidationMessage('compare-rate', $maxCpmValue, $aCampaign['revenue']);
+                }
+            }
+        }
+        if (!$valueValid) {
+            $invalidCpms[$campaignId] = $message;
+        }
+        $valid = $valid && $valueValid;
     }
+    
+    if (!$valid) {
+        OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
+    }
+    $template->assign('minCpmsInvalid', $invalidCpms);
 
     return $valid;
 }
@@ -275,30 +246,30 @@ function formatCpm($cpm)
 
 function performOptIn($minCpms, $oCampaignsOptInDal)
 {
-    global $optInType, $toOptIn, $minCpm, $campaignType;
+    global $toOptIn, $minCpm, $campaignType;
     
     //for tracking reasons: count all currently opted in before additional optin
     $beforeCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
-    $campaignsOptedIn = $oCampaignsOptInDal->performOptIn($optInType, $minCpms, $toOptIn, $minCpm);
+    $campaignsOptedIn = $oCampaignsOptInDal->performOptIn('selected', $minCpms, $toOptIn, $minCpm);
     
     //for tracking reasons: count all currently opted in after additional optin
     $afterCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
     
     //we do not count here campaigns which floor price was only updated
     $actualOptedCount = $afterCount - $beforeCount; //this should not be lower than 0 :)
-    
+
     OA_Admin_UI::queueMessage('You have successfully opted <b>' . $actualOptedCount . ' campaign' .
         ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);         
         
     // Redirect back to the opt-in page
-    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 
+    $params = array('campaignType' => $campaignType, 
         'minCpm' => $minCpm, 'optedOutCount' => $actualOptedCount);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }
 
 function performOptOut($oCampaignsOptInDal)
 {
-    global $optInType, $toOptIn, $minCpm, $campaignType;
+    global $toOptIn, $minCpm, $campaignType;
     
     //for tracking reasons: count all currently opted in before additional optin
     $beforeCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
@@ -308,13 +279,13 @@ function performOptOut($oCampaignsOptInDal)
     $afterCount = $oCampaignsOptInDal->numberOfOptedCampaigns();
     
     OA_Admin_UI::queueMessage('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
-        ($campaignsOptedIn > 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
+        ($campaignsOptedOut > 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
 
     //we do not count here campaigns which floor price was only updated
     $actualOptedOutCount = $beforeCount-$afterCount; //this should not be lower than 0 :)         
         
     // Redirect back to the opt-in page
-    $params = array('optInType' => $optInType, 'campaignType' => $campaignType, 
+    $params = array('campaignType' => $campaignType, 
         'minCpm' => $minCpm, 'optedCount' => $actualOptedOutCount);
     OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
 }

@@ -171,29 +171,30 @@ class OX_oxMarket_Dal_CampaignsOptIn
             
             if (isset($minCpms[$campaignId])) {
                 $campaignMinCpm = $minCpms[$campaignId];
-                
-                //if user has specified same floor as current eCPM/CPM or have not 
-                //touched the proposed eCPM/CPM at all and submitted, we should preserve the ecpm marker
-                if (self::isECPMEnabledCampaign($row_campaigns) 
-                    && $minCpms[$campaignId] == $row_campaigns['ecpm']) {
-                    $minCpmCalculated = true;     
-                }
-                else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
-                    && $minCpms[$campaignId] == $row_campaigns['revenue']) {
-                    $minCpmSpecified = true;
-                }
+            }
+            else if (isset($campaigns[$campaignId]['floor_price']) && $campaigns[$campaignId]['optin_status']) {
+                $campaignMinCpm = formatCpm($campaigns[$campaignId]['floor_price']);
             }
             else if (self::isECPMEnabledCampaign($row_campaigns) && is_numeric($row_campaigns['ecpm'])) {
                 $campaignMinCpm = formatCpm($row_campaigns['ecpm']);
-                $minCpmCalculated = true;
             }
             else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
                 && is_numeric($row_campaigns['revenue'])) {
                 $campaignMinCpm = formatCpm($row_campaigns['revenue']);
-                $minCpmSpecified = true;
             }
             else {
                 $campaignMinCpm = formatCpm($defaultMinCpm);
+            }
+                
+            //if user has specified same floor as current eCPM/CPM or have not 
+            //touched the proposed eCPM/CPM at all and submitted, we should preserve the ecpm marker
+            if (self::isECPMEnabledCampaign($row_campaigns) 
+                && $campaignMinCpm == $row_campaigns['ecpm']) {
+                $minCpmCalculated = true;     
+            }
+            else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
+                && $campaignMinCpm == $row_campaigns['revenue']) {
+                $minCpmSpecified = true;
             }
             
             $campaigns[$campaignId]['minCpm'] = $campaignMinCpm;

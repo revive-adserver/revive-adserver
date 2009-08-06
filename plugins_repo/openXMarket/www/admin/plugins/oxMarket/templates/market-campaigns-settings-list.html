@@ -99,8 +99,7 @@ $Id$
                   </th>
                   <th class="mkt-status">OpenX Market Settings</th>
                   <th class='cpm last'>
-                      Minimum CPM that OpenX Market must beat
-                      <span class="link" help="market-cpm-callout"><span class="icon icon-info">&nbsp;</span></span>
+                      Floor Price (CPM)&nbsp;<span class="link" help="market-cpm-callout"><span class="icon icon-info">&nbsp;</span></span>
                       {literal}
                       <script type="text/javascript">
                       <!--
@@ -159,30 +158,30 @@ $Id$
               </tr>
           {/foreach}
           </tbody>
-          {if !empty($pager->links)}
               <tbody class="tableFooter">
-                <tr>
-                  <td  colspan="4">
-                        <ul class='tableActions'>
-                            <li>
-                                <button class="left green-dot" type="submit" name="opt-in-submit">
-                                    <span>&nbsp;</span>
-                                    {if $optInSubmitLabel}$optInSubmitLabel{else}Opt in to OpenX Market{/if} 
-                                </button>
-                                <button class="left red-dot" type="submit" name="optout">
-                                    <span>&nbsp;</span>
-                                    {if $optOutSubmitLabel}$optoutSubmitLabel{else}Opt out of OpenX Market{/if} 
-                                </button>
-                            </li>
-                        </ul>                  
-                        <div class="pager">
-                          <span class="summary">{$pager->summary}</span>
-                          <span class="controls">{$pager->links}</span>
-                        </div>
-                  </td>
-                </tr>
+                  <tr>
+                      <td  colspan="4">
+                          <ul class='tableActions'>
+                              <li>
+                                  <button class="left green-dot" type="submit" name="opt-in-submit">
+                                      <span>&nbsp;</span>
+                                      {if $optInSubmitLabel}$optInSubmitLabel{else}Opt in to OpenX Market{/if} 
+                                  </button>
+                                  <button class="left red-dot" type="submit" name="optout">
+                                      <span>&nbsp;</span>
+                                      {if $optOutSubmitLabel}$optoutSubmitLabel{else}Opt out of OpenX Market{/if} 
+                                  </button>
+                              </li>
+                          </ul>                  
+                          {if !empty($pager->links)}
+                          <div class="pager">
+                            <span class="summary">{$pager->summary}</span>
+                            <span class="controls">{$pager->links}</span>
+                          </div>
+                          {/if}
+                      </td>
+                  </tr>
               </tbody>
-          {/if}
           
   {else}
           <tbody>
@@ -228,13 +227,14 @@ $Id$
 
 <div class='info-box'>
   <div class='panel'>
-    <h3>Setting the campaign's floor price</h3>
+    <h3>Opting in your campaigns to OpenX Market</h3>
     <p>
-      OpenX Market must pay higher than the minimum CPM you set or your campaign's 
-      original ad is served.
+      OpenX Market competes with your campaigns to provide you with higher paying ads. 
+      Select which campaigns to opt in and set a floor price for each one. OpenX Market 
+      must pay higher than the floor or the campaign's original ad is served.
     </p>
-    <p><em>Tip:</em> Set the minimum CPM close to your campaign's existing CPM to give yourself
-      the best chance of maximizing your revenue uplift.
+    <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
+    CPM it is already earning.
     </p>
     <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif"/>
     <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
