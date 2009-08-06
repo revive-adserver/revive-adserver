@@ -230,11 +230,6 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
                 $oTable->truncateTable($tableName);
                 $oTable->dropTable($tableName);
             }
-
         }
-
     }
-
 }
-
-?>

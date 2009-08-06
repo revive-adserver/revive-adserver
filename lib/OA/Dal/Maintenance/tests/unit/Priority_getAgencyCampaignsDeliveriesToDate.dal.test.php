@@ -159,11 +159,13 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $doInterAd->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
 
         $doInterAd->interval_start = '2005-06-24 10:00:00';
+        $doInterAd->date_time = '2005-06-24 10:00:00';
         $doInterAd->interval_end = '2005-06-24 10:59:59';
         $doInterAd->hour = 10;
         $idInterAd = DataGenerator::generateOne($doInterAd);
 
         $doInterAd->interval_start = '2005-06-24 11:00:00';
+        $doInterAd->date_time = '2005-06-24 11:00:00';
         $doInterAd->interval_end = '2005-06-24 11:59:59';
         $doInterAd->hour = 11;
         $idInterAd = DataGenerator::generateOne($doInterAd);

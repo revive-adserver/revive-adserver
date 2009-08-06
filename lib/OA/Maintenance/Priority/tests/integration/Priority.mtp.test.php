@@ -109,7 +109,7 @@ class Test_Priority extends UnitTestCase
         // Clean up the testing environment
         TestEnv::restoreEnv();
     }
-
+    
     /**
      * A method to perform basic end-to-end integration testing of the Maintenance
      * Priority Engine classes for the Ad Server.
@@ -826,6 +826,7 @@ class Test_Priority extends UnitTestCase
         $aConf = $GLOBALS['_MAX']['CONF'];
         $tableName = $aConf['table']['prefix'] . 'data_summary_zone_impression_history';
         $table = $this->oDbh->quoteIdentifier($tableName, true);
+        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -848,23 +849,38 @@ class Test_Priority extends UnitTestCase
         $oTestEndDate = new Date();
         $oTestEndDate->copy($oStartDate);
         $oTestEndDate->addSeconds(($aConf['maintenance']['operationInterval'] * 60) - 1);
+        $aData = array();
+        while($aRow = $rc->fetchRow()) {
+            $aData[] = $aRow;
+        }
+        $aExpectedData = array();
         for ($counter = $startOperationIntervalID; $counter <= $endOperationIntervalID; $counter++) {
             for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
-                $aRow = $rc->fetchRow();
-                $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
-                $this->assertEqual($aRow['operation_interval_id'], OX_OperationInterval::convertDateToOperationIntervalID($oTestStartDate));
-                $this->assertEqual($aRow['interval_start'], $oTestStartDate->format('%Y-%m-%d %H:%M:%S'));
-                $this->assertEqual($aRow['interval_end'], $oTestEndDate->format('%Y-%m-%d %H:%M:%S'));
-                $this->assertEqual($aRow['zone_id'], $zoneID);
-                $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
-                $this->assertNull($aRow['actual_impressions']);
+                $aExpectedData[] = array(
+                	'operation_interval' => $aConf['maintenance']['operationInterval'],
+                	'operation_interval_id' => (string)OX_OperationInterval::convertDateToOperationIntervalID($oTestStartDate),
+                	'interval_start' => $oTestStartDate->format('%Y-%m-%d %H:%M:%S'),
+                	'interval_end' => $oTestEndDate->format('%Y-%m-%d %H:%M:%S'),
+                	'zone_id' => (string)$zoneID,
+                	'forecast_impressions' => (string)ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                	'actual_impressions' => null,
+                );
             }
             $oTestStartDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
             $oTestEndDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
         }
+        $this->assertEqual($aData, $aExpectedData);
+        
+        // some debug goodness when things go wrong..
+/*        if($aData != $aExpectedData) {
+            file_put_contents('actual', var_export($aData, true));
+            file_put_contents('expected', var_export($aExpectedData, true));
+            exit;
+        }
+*/   
     }
 
     /**

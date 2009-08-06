@@ -437,7 +437,7 @@ class OA_Dal
         $query = "
             LOAD DATA LOCAL INFILE
                 '$filePath'
-            ".($replaceOnPrimaryKey ? 'REPLACE' : '')." INTO TABLE
+            INTO TABLE
                 $qTableName
             FIELDS TERMINATED BY
                 ".$oDbh->quote($delim)."
@@ -523,15 +523,6 @@ class OA_Dal
         }
 
         $oDbh = OA_DB::singleton();
-
-        // Create file path, if needed. On windows, mysql expects slash as directory separator
-        if (!isset(self::$batchInsertPath)) {
-            self::$batchInsertPath = MAX_PATH.'/var/cache';
-        }
-        $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-'.$tableName.'.csv';
-        if (DIRECTORY_SEPARATOR == '\\') {
-            $filePath = str_replace('\\', '/', $filePath);
-        }
 
         // Quote table name
         $tableName = $oDbh->quoteIdentifier($tableName);

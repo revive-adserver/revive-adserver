@@ -949,6 +949,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         OA::debug('  - Getting details of contract campaign creative/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
         $table1 = $this->_getTablename('data_summary_ad_zone_assoc');
         $table2 = $this->_getTablename('data_intermediate_ad');
+       
         $query = "
             SELECT
                 dsaza.ad_id AS ad_id,
@@ -999,6 +1000,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             ORDER BY
                 ad_id,
                 zone_id";
+        
         $rc = $this->oDbh->query($query);
         $aResult = $rc->fetchAll();
         $resultCount = count($aResult);
@@ -2369,15 +2371,21 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 c.status = ".OA_ENTITY_STATUS_RUNNING."
             ORDER BY
                 zoneid";
-        $rc = $this->oDbh->query($query);
-
+                
+		$rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return $rc;
         }
-        // Copy the array of zone IDs, and remove any with data
-        $aResult = $aZoneIDs;
+        $zoneIdsToExclude = array();
         while ($aRow = $rc->fetchRow()) {
-            $aKeys = array_keys($aResult, $aRow['zone_id']);
+            $zoneIdsToExclude[] = $aRow['zone_id'];
+        }
+        // we also do not want to return zone ID = 0
+        $zoneIdsToExclude[] = 0;
+
+        $aResult = $aZoneIDs;
+        foreach($zoneIdsToExclude as $zoneId) {
+            $aKeys = array_keys($aResult, $zoneId);
             foreach ($aKeys as $key) {
                 unset($aResult[$key]);
             }
