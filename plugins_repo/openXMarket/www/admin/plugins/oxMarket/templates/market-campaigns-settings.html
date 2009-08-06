@@ -45,7 +45,7 @@ $Id$
       </div>
     {/if}
 
-    <div class="mainOptionContent has-info-box">
+    <div class="mainOptionContent{if !$infoBoxHidden} has-info-box{/if}">
       {include file=market-campaigns-settings-list.html from=$campaigns}
     </div>
     
@@ -53,6 +53,7 @@ $Id$
 </div>
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js" ></script>
 <script type="text/javascript">
 {literal}
 //<!--

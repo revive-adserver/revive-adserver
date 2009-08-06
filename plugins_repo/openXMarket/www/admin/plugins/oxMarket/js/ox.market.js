@@ -323,6 +323,15 @@
                 $checkbox.attr("checked", next);
             }
         });
+        
+        $("#market-info-box-close").click(function() {
+        	$optIn.find(".info-box").fadeOut(300, function() {
+        		$optIn.find(".mainOptionContent").removeClass("has-info-box");
+        		$.cookie("market-settings-info-box-hidden", true, {expires: 365 * 10});
+        	});
+        	return false;
+        });
+        
         return this;
     };
 })(jQuery);

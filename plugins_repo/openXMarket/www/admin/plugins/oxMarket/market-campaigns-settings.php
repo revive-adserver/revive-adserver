@@ -127,6 +127,9 @@ $oTpl->assign('remnantCampaignsOptedIn', $remnantCampaignsOptedIn);
 $oTpl->assign('minCpm', $minCpm);
 $oTpl->assign('maxValueLength', 3 + strlen($maxCpm)); //two decimal places, point, plus strlen of maxCPM
 $oTpl->assign('minCpms', $minCpms);
+if ($_COOKIE['market-settings-info-box-hidden']) {
+    $oTpl->assign('infoBoxHidden', true);
+}
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
 $toOptInMap = arrayValuesToKeys($toOptIn);
