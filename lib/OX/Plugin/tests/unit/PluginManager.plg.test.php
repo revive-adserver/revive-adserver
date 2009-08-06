@@ -217,7 +217,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->expectCallCount('_instantiateClass',1);
 
         $oManager->setReturnValue('enablePackage', true);
-        $oManager->expectCallCount('enablePackage', 2);
+        $oManager->expectCallCount('enablePackage', 0);
 
         // Test 1 - package unpack error
         $oManager->setReturnValueAt(0,'unpackPlugin', false);
