@@ -170,16 +170,11 @@ class OA_Admin_Settings
             // Special case! The test environment is running, so just write the
             // configuration to the test configuration file...
             $testConfigFile = $configPath . '/test.conf.php';
-            if (!OA_Admin_Settings::isConfigWritable($testConfigFile)) {
+            $result = $this->writeConfigArrayToFile($testConfigFile, $this->aConf);
+            if (!$result) {
                 return false;
             }
-            $oConfig = new Config();
-            $oConfigContainer =& $oConfig->parseConfig($this->aConf, 'phpArray');
-            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-            if (!$oConfig->writeConfig($testConfigFile, 'IniCommented')) {
-                return false;
-            }
+
             // Re-parse the config file?
             if ($reParse) {
                 $GLOBALS['_MAX']['CONF'] = @parse_ini_file($testConfigFile, true);
@@ -191,6 +186,7 @@ class OA_Admin_Settings
             }
             return true;
         }
+        
         // What were the old host names used for the installation?
         $aConf = $GLOBALS['_MAX']['CONF'];
         $url = @parse_url('http://' . $aConf['webpath']['admin']);
@@ -206,48 +202,77 @@ class OA_Admin_Settings
         $newDeliveryHost = $url['host'];
         $url = @parse_url('http://' . $this->aConf['webpath']['deliverySSL']);
         $newDeliverySslHost = $url['host'];
+
+        // Prepare config arrays
+        $adminConfig = $deliverySslConfig = array('realConfig' => $newDeliveryHost);
+        $adminConfigChanged = false;
+        $mainConfig = array();
+        
+        // Collect any values from existing wrapper config files
+        if (file_exists($configPath . '/' . $oldAdminHost . '.conf.php')) {
+            $adminConfig = @parse_ini_file($configPath . '/' . $oldAdminHost . '.conf.php', true);
+            // (re)set the realConfig for the admin conf file
+            if (isset($adminConfig['realConfig'])) {
+                $adminConfig['realConfig'] = $newDeliveryHost;
+            } else {
+                // Have to do this array_merge because just setting $adminConfig['realConfig'] puts the value in to the wrong place in the wrapper config file
+                $adminConfig = array_merge(array('realConfig' => $newDeliveryHost), $adminConfig);
+            }
+        }
+        
+        if (file_exists($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php')) {
+            $mainConfig = @parse_ini_file($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php', true);
+        }
+        // Clear any persisting realConfig value in the primary config file (in case we are changing URL paths?)
+        unset($mainConfig['realConfig']);
+        
+        // Iterate over the changes to be written out, check if a value is being overridden in the UI wrapper config file, ensure that it gets 
+        // changed /there/, additionally, write only changes/new items to the delivery config file, not the in-memory merged array
+        foreach ($this->aConf as $section => $sectionArray) {
+            // Compare the value to be written against that in memory (merged admin/delivery configs)
+            if (is_array($GLOBALS['_MAX']['CONF'][$section])) {
+                $sectionDiff = array_diff_assoc($this->aConf[$section], $GLOBALS['_MAX']['CONF'][$section]);
+                foreach ($sectionDiff as $configKey => $configValue) {
+                    if (isset($adminConfig[$section][$configKey])) {
+                        // This setting exists in the wrapper config file, change it's value there
+                        $adminConfig[$section][$configKey] = $configValue;
+                        $adminConfigChanged = true;
+                    } else {
+                        // This setting doesn't exist in the wrapper config file, change it in the delivery config file only
+                        $mainConfig[$section][$configKey] = $configValue;
+                    }
+                }
+            } else {
+                // This section didn't/doesnt exist in the in-memory array, assume it is a new section and write to the delivery conf file
+                $mainConfig[$section] = $this->aConf[$section];
+            }
+        }
+
         // Write out the new main configuration file
         $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
-        if (!OA_Admin_Settings::isConfigWritable($mainConfigFile)) {
+        if (!$this->writeConfigArrayToFile($mainConfigFile, $mainConfig)) {
             return false;
         }
-        $oConfig = new Config();
-        $oConfigContainer =& $oConfig->parseConfig($this->aConf, 'phpArray');
-        $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-        $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-        if (!$oConfig->writeConfig($mainConfigFile, 'IniCommented')) {
-            return false;
-        }
-        // Check if a different host name is used for the admin
+
+       // Check if a different host name is used for the admin
         if ($newAdminHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
             $file = $configPath . '/' . $newAdminHost . $configFile . '.conf.php';
-            if (!OA_Admin_Settings::isConfigWritable($file)) {
-                return false;
-            }
-            $aConfig = array('realConfig' => $newDeliveryHost);
-            $oConfig = new Config();
-            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
-            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-            if (!$oConfig->writeConfig($file, 'IniCommented')) {
-                return false;
+            // Only write out the wrapper config files if a) it doesn't exist already, or b) the value changed was in the wrapper file already
+            if (!file_exists($file) || $adminConfigChanged) {
+                if (!$this->writeConfigArrayToFile($file, $adminConfig)) {
+                    return false;
+                }
             }
         }
         // Check if a different host name is used for the delivery SSL
         if ($newDeliverySslHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
             $file = $configPath . '/' . $newDeliverySslHost . $configFile . '.conf.php';
-            if (!OA_Admin_Settings::isConfigWritable($file)) {
-                return false;
-            }
-            $aConfig = array('realConfig' => $newDeliveryHost);
-            $oConfig = new Config();
-            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
-            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-            if (!$oConfig->writeConfig($file, 'IniCommented')) {
-                return false;
+            if (!file_exists($file)) {
+                if (!$this->writeConfigArrayToFile($file, $deliverySslConfig)) {
+                    return false;
+                }
             }
         }
         // Always touch the INSTALLED file
@@ -278,12 +303,13 @@ class OA_Admin_Settings
         $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
         if (($oldDeliveryHost != $newDeliveryHost) || empty($aOtherConfigFiles))
         {
-            if (!OA_Admin_Settings::writeDefaultConfigFile($configPath, $configFile, $newDeliveryHost))
-            {
+            $file = $configPath . '/default' . $configFile . '.conf.php';
+            $aConfig = array('realConfig' => $newHost);
+            if (!$this->writeConfigArrayToFile($file, $aConfig)) {
                 return false;
             }
         } else {
-            OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
+            OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_DEBUG);
         }
         // Re-parse the config file?
         if ($reParse) {
@@ -298,6 +324,25 @@ class OA_Admin_Settings
         return true;
     }
 
+    /**
+     * This function takes a config array and writes it out into a specified file (with the appropriate comments and <?php exit; ?> line
+     *
+     * @param string $configFile /full/path/to/config file to be written
+     * @param array  $aConfig    The array of config data to be written into the file
+     * @return boolean           Result of writing out the config file.
+     */
+    function writeConfigArrayToFile($configFile, $aConfig)
+    {
+        if (!OA_Admin_Settings::isConfigWritable($configFile)) {
+            return false;
+        }
+        $oConfig = new Config();
+        $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
+        $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+        $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+        return $oConfig->writeConfig($configFile, 'IniCommented');      
+    }
+    
     function writeDefaultConfigFile($configPath, $configFile, $newHost)
     {
         $file = $configPath . '/default' . $configFile . '.conf.php';

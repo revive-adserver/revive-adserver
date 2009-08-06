@@ -126,6 +126,11 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->aConf['webpath']['admin'] = 'localhost';
         $oConf->aConf['webpath']['delivery'] = 'localhost';
         $oConf->aConf['webpath']['deliverySSL'] = 'localhost';
+        
+        // Setup an array in the global $conf
+        $GLOBALS['_MAX']['CONF']['foo'] = array('one' => 'bar', 'two' => 'baz');
+        $GLOBALS['_MAX']['CONF']['webpath'] = array();
+        
         $filename = 'oa_test_' . rand();
         $this->assertTrue($oConf->writeConfigChange($this->basePath, $filename), 'Error writing config file');
 
@@ -159,34 +164,37 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $aRealConfig = parse_ini_file($this->basePath . '/delivery.conf.php', true);
         $aDummyConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
         $this->assertEqual($oConf->aConf, $aRealConfig, 'Real config has incorrect values');
+        // Note - The behaviour has changed to persist any 'overridden' values in the wrapper config files
         $aExpected = array('realConfig' => 'delivery');
-        $this->assertEqual($aExpected, $aDummyConfig, 'Dummy config has incorrect values');
+        $this->assertEqual($aExpected['realConfig'], $aDummyConfig['realConfig'], 'Dummy config has incorrect values');
 
         // Modify the delivery to use three different hosts
+        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'delivery';
+        $oConf->aConf['webpath']['admin'] = 'admin';
         $oConf->aConf['webpath']['delivery'] = 'newhost';
         $oConf->aConf['webpath']['deliverySSL'] = 'newSSLhost';
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
 
         // Test the files have been correctly created/deleted
-        $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Dummy admin config file does not exist');
+        $this->assertTrue(file_exists($this->basePath . '/admin.conf.php'), 'Dummy admin config file does not exist');
         $this->assertTrue(file_exists($this->basePath . '/newhost.conf.php'), 'Real config file does not exist');
         $this->assertTrue(file_exists($this->basePath . '/newSSLhost.conf.php'), 'Dummy SSL delivery file does not exist');
         $this->assertFalse(file_exists($this->basePath . '/delivery.conf.php'), 'Old real config file was not removed');
 
         // Test config files are correct
         $aRealConfig = parse_ini_file($this->basePath . '/newhost.conf.php', true);
-        $aDummyAdminConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
+        $aDummyAdminConfig = parse_ini_file($this->basePath . '/admin.conf.php', true);
         $aDummySSLConfig = parse_ini_file($this->basePath . '/newSSLhost.conf.php', true);
         $this->assertEqual($oConf->aConf, $aRealConfig, 'Real config has incorrect values');
         $aExpected = array('realConfig' => 'newhost');
-        $this->assertEqual($aExpected, $aDummyAdminConfig, 'Dummy admin config has incorrect values');
-        $this->assertEqual($aExpected, $aDummySSLConfig, 'Dummy SSL config has incorrect values');
+        $this->assertEqual($aExpected['realConfig'], $aDummyAdminConfig['realConfig'], 'Dummy admin config has incorrect values');
+        $this->assertEqual($aExpected['realConfig'], $aDummySSLConfig['realConfig'], 'Dummy SSL config has incorrect values');
 
         // File should have been cleaned up by test.
         $this->assertFalse(file_exists(($this->basePath . '/delivery.conf.php')));
 
         // Clean up
-        unlink($this->basePath . '/dummy.conf.php');
+        unlink($this->basePath . '/admin.conf.php');
         unlink($this->basePath . '/default.' . $filename . '.conf.php');
         unlink($this->basePath . '/newhost.conf.php');
         unlink($this->basePath . '/newSSLhost.conf.php');
