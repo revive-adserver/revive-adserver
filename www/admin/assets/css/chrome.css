@@ -440,8 +440,11 @@ a:hover {
 
 #oaNavigationExtraTop {
     padding-top: 12px;
-    padding-right: 225px;
     color: #9c9c9c;
+    padding-right: 12px;
+}
+#oaNavigationExtraTop.hasSearch {
+    padding-right: 225px;
 }
 #oaNavigationExtraTop ul {
   float: right;
@@ -450,10 +453,15 @@ a:hover {
   float: left;
   padding: 0 7px 0 7px;
 }
-#oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonReportBugs {
+#oaNavigationExtraTop li.infoUser, 
+#oaNavigationExtraTop li.buttonHelp, 
+#oaNavigationExtraTop li.buttonContactUs, 
+#oaNavigationExtraTop li.buttonReportBugs {
     border-right: 1px solid #9c9c9c;
 }
-
+#oaNavigationExtraTop li.last {
+  border-right: none;
+}
 #oaNavigationExtraTop .buttonStartOver {
     font-weight: bold;
 }

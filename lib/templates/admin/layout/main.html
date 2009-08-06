@@ -99,7 +99,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <div id="oaHeader">
 
 {include file=layout/branding.html}
-  <div id="oaNavigationExtraTop">
+  <div id="oaNavigationExtraTop"{if $displaySearch} class="hasSearch"{/if}>
     <ul>
 
 {if $infoUser}
@@ -114,7 +114,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <li class="buttonReportBugs"><a href="http://www.openx.org/support/reporting-bugs" target="_blank">{t str='Report bug'}</a></li>
 {/if}
 
-<li class="buttonReportBugs"><a href="http://www.openx.org/about/contact-us" target="_blank">{t str='Contact us'}</a></li>
+<li class="buttonContactUs{if !$buttonLogout && !$buttonStartOver} last{/if}"><a href="http://www.openx.org/about/contact-us" target="_blank">{t str='Contact us'}</a></li>
 
 {if $buttonLogout}
         <li class="buttonLogout"><a href="{$adminWebPath}logout.php">{t str=Logout}</a></li>
