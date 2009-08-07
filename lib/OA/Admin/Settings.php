@@ -209,7 +209,7 @@ class OA_Admin_Settings
         $mainConfig = array();
         
         // Collect any values from existing wrapper config files
-        if (file_exists($configPath . '/' . $oldAdminHost . '.conf.php')) {
+        if (($newDeliveryHost != $oldAdminHost) && file_exists($configPath . '/' . $oldAdminHost . '.conf.php')) {
             $adminConfig = @parse_ini_file($configPath . '/' . $oldAdminHost . '.conf.php', true);
             // (re)set the realConfig for the admin conf file
             if (isset($adminConfig['realConfig'])) {
@@ -222,6 +222,9 @@ class OA_Admin_Settings
         
         if (file_exists($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php')) {
             $mainConfig = @parse_ini_file($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php', true);
+        } else {
+            // No config file exists, use the aConf array
+            $mainConfig = $this->aConf;
         }
         // Clear any persisting realConfig value in the primary config file (in case we are changing URL paths?)
         unset($mainConfig['realConfig']);
