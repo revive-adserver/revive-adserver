@@ -307,7 +307,7 @@ class OA_Admin_Settings
         if (($oldDeliveryHost != $newDeliveryHost) || empty($aOtherConfigFiles))
         {
             $file = $configPath . '/default' . $configFile . '.conf.php';
-            $aConfig = array('realConfig' => $newHost);
+            $aConfig = array('realConfig' => $newDeliveryHost);
             if (!$this->writeConfigArrayToFile($file, $aConfig)) {
                 return false;
             }
