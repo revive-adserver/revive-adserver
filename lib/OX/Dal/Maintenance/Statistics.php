@@ -1075,12 +1075,19 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_saveSummaryUpdateWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
         }
+        
+        $indexHint = '';
+        if($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql'
+            && $table == 'data_summary_ad_hourly') {
+            $indexHint = ' FORCE INDEX(data_summary_ad_hourly_date_time) ';
+        }
         // Obtain a list of unique ad IDs from the summary table
         $query = "
             SELECT DISTINCT
                 ad_id AS ad_id
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
+                $indexHint
             WHERE
                 date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                 AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
