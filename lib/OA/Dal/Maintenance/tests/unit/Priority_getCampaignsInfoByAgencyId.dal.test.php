@@ -143,6 +143,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->revenue = 0.1;
         $doCampaigns->min_impressions = 100;
         $doCampaigns->priority = $priority;
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->ecpm_enabled = $ecpmEnabled;
         $doCampaigns->clientid = $clientId1;
         $idCampaign11 = DataGenerator::generateOne($doCampaigns);
@@ -157,6 +158,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->revenue = 0.2;
         $doCampaigns->min_impressions = 200;
         $doCampaigns->priority = 1;
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->clientid = $clientId1;
         $idCampaign12 = DataGenerator::generateOne($doCampaigns);
 
@@ -165,6 +167,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $doCampaigns->revenue = 0.5;
         $doCampaigns->min_impressions = 300;
         $doCampaigns->priority = $priority;
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->ecpm_enabled = $ecpmEnabled;
         $doCampaigns->clientid = $clientId2;
         $idCampaign2 = DataGenerator::generateOne($doCampaigns);

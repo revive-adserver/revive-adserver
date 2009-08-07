@@ -84,12 +84,14 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignDeliveryToDate extends UnitTes
         $doCampaigns->views = 100;
         $doCampaigns->clicks = 200;
         $doCampaigns->conversions = 300;
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners   = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $idCampaign;
         $doBanners->active = 1;
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBanner = DataGenerator::generateOne($doBanners);

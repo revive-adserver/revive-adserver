@@ -317,6 +317,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         );
         $query['wheres']   = array(
         array("$joinTable3.agencyid = $id", 'AND'),
+        array("$joinTable1.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
+        array("$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
         );
         if (!empty($aWheres)) {
             $query['wheres'] = array_merge($query['wheres'], $aWheres);
@@ -2875,6 +2877,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                   {$this->_getTablename('clients')} AS cl
                   WHERE
                     cl.clientid = c.clientid
+                    AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
                     AND c.priority = " . DataObjects_Campaigns::PRIORITY_ECPM;
                   return $this->getAgenciesIdsFromQuery($query);
     }
@@ -3141,8 +3144,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND z.zoneid = t.zone_id
                       AND t.to_be_delivered = 1
                       AND b.bannerid = t.ad_id
+                      AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                       AND c.campaignid = b.campaignid
                       AND c.priority = ".DataObjects_Campaigns::PRIORITY_ECPM."
+                      AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
                   GROUP BY
                       t.zone_id";
                   return $this->getZonesAllocationsByQuery($query);
@@ -3175,9 +3180,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND z.zoneid = t.zone_id
                       AND t.to_be_delivered = 1
                       AND b.bannerid = t.ad_id
+                      AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                       AND c.campaignid = b.campaignid
                       AND c.ecpm_enabled = 1
                       AND c.priority > {$priority}
+                      AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
                   GROUP BY
                       t.zone_id";
                   return $this->getZonesAllocationsByQuery($query);

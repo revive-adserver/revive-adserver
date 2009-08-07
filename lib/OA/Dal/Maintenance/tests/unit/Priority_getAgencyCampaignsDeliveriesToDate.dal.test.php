@@ -117,19 +117,25 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
     {
         $oNow = new Date();
 
-        // Test 1
-        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate(1);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
 
         $doClients = OA_Dal::factoryDO('clients');
         $idClient = DataGenerator::generateOne($doClients, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');
 
+        // Test 1
+        $result = $oMaxDalMaintenance->getAgencyCampaignsDeliveriesToDate($agencyId1);
+        $this->assertTrue(is_array($result));
+        $this->assertEqual(count($result), 0);
+
         $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->clientid = $idClient;
-        $doCampaigns->activate_time = '2005-06-23 00:00:00';
-        $doCampaigns->expire_time = '2005-06-25 23:59:59';
+        $oYesterday = new Date();
+        $oYesterday->subtractSeconds(86400);
+        $oTomorrow = new Date();
+        $oTomorrow->addSeconds(86400);
+        $doCampaigns->activate_time = $oYesterday->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->expire_time = $oTomorrow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->priority = '1';
         $doCampaigns->active = 1;
         $doCampaigns->views = 100;
@@ -141,6 +147,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $idCampaign;
         $doBanners->active = 1;
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBanner = DataGenerator::generateOne($doBanners);
@@ -189,11 +196,13 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $doCampaigns->clientid = $idClient2;
         $doCampaigns->priority = $priority;
         $doCampaigns->ecpm_enabled = 1;
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->revenue_type = MAX_FINANCE_CPC;
         $this->idCampaign2 = DataGenerator::generateOne($doCampaigns);
 
         $doBanners   = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $this->idCampaign2;
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $idBanner2 = DataGenerator::generateOne($doBanners);
 
         $doInterAd->ad_id = $idBanner2;

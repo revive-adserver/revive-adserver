@@ -101,10 +101,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->priority = 1;
-        $campiagnId = DataGenerator::generateOne($doCampaigns);
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $campiagnId;
+        $doBanners->campaignid = $campaignId;
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $bannerId = DataGenerator::generateOne($doBanners);
         return $bannerId;
     }
