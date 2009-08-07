@@ -130,9 +130,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         // to active banners to ensure that they are considered to be active banners  //
         ////////////////////////////////////////////////////////////////////////////////
 
+        
+        // Add campaign
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'Active Campaign';
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+        $doCampaigns->priority = 9;
+        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        
         $doBanners = OA_Dal::factoryDO('banners');
         $oNow = new Date();
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
+        $doBanners->campaignid = $idCampaign;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBanner = DataGenerator::generateOne($doBanners, true);
@@ -176,6 +185,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
         $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 3;
         $this->assertEqual($storedForecasts, $expectedForecasts);
+        
+        $aExpected = array();
         // For the Zone ID 0 zone and the two "real" zones...
         for ($zoneId = 0; $zoneId < 3; $zoneId++) {
             // Set the start date and start operation interval ID based on the
@@ -187,23 +198,31 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $operationIntervalId = 64;
             // For each operation interval in the week...
             for ($counter = 0; $counter < OX_OperationInterval::operationIntervalsPerWeek(); $counter ++) {
-                // Get the data row from the database
-                $doData_summary_zone_impression_history->fetch();
-                $aRow = $doData_summary_zone_impression_history->toArray();
-                // Compare the data with that which is expected
-                $this->assertEqual($aRow['zone_id'], $zoneId);
-                $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
-                $this->assertEqual($aRow['operation_interval_id'], $operationIntervalId);
-                $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
-                $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-                $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
-                $this->assertEqual($aRow['actual_impressions'], '');
+                $aExpected[] = array(
+                    'operation_interval' => (string)$aConf['maintenance']['operationInterval'],
+                    'operation_interval_id' => (string)$operationIntervalId,
+                    'interval_start' => $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+                    'interval_end' => $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+                    'zone_id' => (string)$zoneId,
+                    'forecast_impressions' => (string)ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                    'actual_impressions' => '',
+                );
                 // Move on to the next operation interval start date and ID
                 $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
                 $operationIntervalId = OX_OperationInterval::nextOperationIntervalID($operationIntervalId);
             }
         }
 
+        $aSelectedData = array();
+        while($fetched = $doData_summary_zone_impression_history->fetch()) {
+            $row = $doData_summary_zone_impression_history->toArray();
+            unset($row['data_summary_zone_impression_history_id']);
+            unset($row['est']);
+            $aSelectedData[] = $row;
+        }
+        
+        $this->assertEqual($aSelectedData, $aExpected);
+        
         ////////////////////////////////////////////////////////////////////////////////
         // Move on to the next operation interval, but this time set the MSE to have  //
         // run, and for the First Zone to have delivered impressions in the previous  //
