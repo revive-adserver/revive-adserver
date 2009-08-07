@@ -1075,19 +1075,22 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_saveSummaryUpdateWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
         }
-
+        
+        $indexHint = '';
+        if($aConf['database']['type'] == 'mysql'
+            && $table == 'data_summary_ad_hourly') {
+            $indexHint = ' FORCE INDEX('.$aConf['table']['prefix'].'data_summary_ad_hourly_date_time) ';
+        }
         // Obtain a list of unique ad IDs from the summary table
         $query = "
-            SELECT
-                ad_id
+            SELECT DISTINCT
+                ad_id AS ad_id
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
+                $indexHint
             WHERE
                 date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
-                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
-            GROUP BY
-                ad_id
-            ";
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -1182,7 +1185,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     function _saveSummaryUpdateAdsWithFinanceInfo($aAdFinanceInfo, $oStartDate, $oEndDate, $table)
     {
         OA::debug('- Starting update finance information for ads', PEAR_LOG_DEBUG);
-
+        
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%H') != 0 || $oEndDate->format('%H') != 23) {
             if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
