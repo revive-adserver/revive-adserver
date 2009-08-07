@@ -4080,6 +4080,20 @@ $cookie[$key] = $value;
 }
 }
 $cookie[$conf['var']['dest']] = str_replace($row['aSearch'], $row['aReplace'], $row['url']);
+// if there is a fallback defined for this banner, we try and use it
+$creativeURL = '';
+if($row['contenttype'] == 'swf') {
+$filenameUseAltIfAvailable = _adRenderBuildFileUrl($row['aRow'], true);
+if(!empty($filenameUseAltIfAvailable)) {
+// this impression is a fallback impression (can be used in the logImpression hook)
+$_REQUEST[$GLOBALS['_MAX']['CONF']['var']['fallBack']] = '1';
+$creativeURL = $filenameUseAltIfAvailable;
+}
+}
+if(empty($creativeURL)) {
+// otherwise this is an Image banner and we serve the banner normally
+$creativeURL = $row['html'];
+}
 // The call to view_raw() above will have tried to log the impression via a beacon,
 // but this type of ad doesn't work with beacons, so the impression must
 // be logged here
@@ -4098,7 +4112,7 @@ MAX_redirect($row['default_banner_image_url']);
 MAX_commonDisplay1x1();
 }
 } else {
-MAX_redirect($row['html']);
+MAX_redirect($creativeURL);
 }
 } else {
 MAX_cookieAdd($conf['var']['vars'] . "[$n]", 'DEFAULT');
