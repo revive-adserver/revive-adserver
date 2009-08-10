@@ -3580,6 +3580,8 @@ $found = false;
 // Reset followed zone chain
 $GLOBALS['_MAX']['followedChain'] = array();
 $GLOBALS['_MAX']['adChain'] = array();
+// Reset considered ads set
+$GLOBALS['_MAX']['considered_ads'] = array();
 $first = true;
 global $g_append, $g_prepend;
 $g_append = '';
@@ -3844,9 +3846,10 @@ if (!is_array($aLinkedAd)) {
 // Select one of the low-priority ads
 $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'eAds', -2), $adSelectFunction);
 }
+}
+$GLOBALS['_MAX']['considered_ads'][] = &$aAds;
 if (is_array($aLinkedAd)) {
 return $aLinkedAd;
-}
 }
 return false;
 }
@@ -3855,9 +3858,9 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 // If there are no linked ads, we can return
 if (!is_array($aLinkedAds)) { return; }
 if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
-$aAds = $aLinkedAds[$adArrayVar][$cp];
+$aAds = &$aLinkedAds[$adArrayVar][$cp];
 } elseif (isset($aLinkedAds[$adArrayVar])) {
-$aAds = $aLinkedAds[$adArrayVar];
+$aAds = &$aLinkedAds[$adArrayVar];
 } else {
 $aAds = array();
 }
@@ -3866,7 +3869,8 @@ if (count($aAds) == 0) { return; }
 // Build preconditions
 $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 // New delivery algorithm: discard all invalid ads before iterating over them
-$aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
+// $aAds passed by ref here
+_adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 // If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
 if (!is_null($cp)) {
@@ -4029,11 +4033,11 @@ $context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
 }
 return $context;
 }
-function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
+function _adSelectDiscardNonMatchingAds(&$aAds, $aContext, $source, $richMedia)
 {
 // Don't filter ads on direct selection requests (if that setting is disabled)
 if (empty($GLOBALS['_MAX']['CONF']['delivery']['aclsDirectSelection']) && !empty($GLOBALS['_MAX']['DIRECT_SELECTION'])) {
-return $aAds;
+return;
 }
 foreach ($aAds as $adId => $aAd) {
 if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
@@ -4041,7 +4045,7 @@ unset($aAds[$adId]);
 } else {
 }
 }
-return $aAds;
+return;
 }
 function MAX_flashGetFlashObjectExternal()
 {
