@@ -116,7 +116,6 @@ class OX_oxMarket_Dal_CampaignsOptIn
     /**
      * Get campaigns of given type, default CPM have to be provided,
      * min CPMs for campaigns are optional
-     * NOTICE: formatCpm function must be defined to format minCpm
      *
      * @param float $defaultMinCpm default min CPM
      * @param string $campaignType select campaigns of given type: 'remnant', 'contract', 'all'
@@ -173,17 +172,17 @@ class OX_oxMarket_Dal_CampaignsOptIn
                 $campaignMinCpm = $minCpms[$campaignId];
             }
             else if (isset($campaigns[$campaignId]['floor_price']) && $campaigns[$campaignId]['optin_status']) {
-                $campaignMinCpm = formatCpm($campaigns[$campaignId]['floor_price']);
+                $campaignMinCpm = self::formatCpm($campaigns[$campaignId]['floor_price']);
             }
             else if (self::isECPMEnabledCampaign($row_campaigns) && is_numeric($row_campaigns['ecpm'])) {
-                $campaignMinCpm = formatCpm($row_campaigns['ecpm']);
+                $campaignMinCpm = self::formatCpm($row_campaigns['ecpm']);
             }
             else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
                 && is_numeric($row_campaigns['revenue'])) {
-                $campaignMinCpm = formatCpm($row_campaigns['revenue']);
+                $campaignMinCpm = self::formatCpm($row_campaigns['revenue']);
             }
             else {
-                $campaignMinCpm = formatCpm($defaultMinCpm);
+                $campaignMinCpm = self::formatCpm($defaultMinCpm);
             }
                 
             //if user has specified same floor as current eCPM/CPM or have not 
@@ -205,7 +204,12 @@ class OX_oxMarket_Dal_CampaignsOptIn
         return $campaigns;
     }
 
-
+    public static function formatCpm($cpm)
+    {
+        return number_format($cpm, 2, '.', '');
+    }
+    
+    
     /**
      * Count all campaigns matching to selected criteria
      *
