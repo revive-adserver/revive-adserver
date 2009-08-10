@@ -32,7 +32,7 @@
         				<clickLink label="Inventory" />
         				<clickLink label="Banners"/>
         <!-- 				<setSelectField name="campaignid" text="test campaign"/> -->
-        				<clickElement description="select test campaign" xpath="/html/body/div[3]/div[2]/div/div/div/div/div/div[2]/ul/li[2]/a"/>		
+        				<clickElement description="select test campaign" xpath="//a[@title='test campaign']"/>		<!-- xpath="/html/body/div[3]/div[2]/div/div/div/div/div/div[2]/ul/li[2]/a" -->
         				<clickLink label="test banner"/>
         				<setSelectField name="adserver" text="Rich Media - OpenX"/>
         				<clickButton label="Save changes"/>
