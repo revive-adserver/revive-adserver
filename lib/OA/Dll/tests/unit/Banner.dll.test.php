@@ -59,6 +59,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
     var $binaryGif;
     var $binarySwf;
+    var $binarySwfConv;
 
     /**
      * The constructor method.
@@ -84,6 +85,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         $this->binaryGif = "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\001\0\001\0\0\002\002D\001\0;";
         $this->binarySwf = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/swf-link.swf');
+        $this->binarySwfConv = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/converted-link.swf');
     }
 
     function setUp()
@@ -305,7 +307,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         $doImages = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertTrue($doImages->contents);
-        $this->assertNotEqual($doImages->contents, $this->binarySwf);
+        $this->assertEqual($doImages->contents, $this->binarySwfConv);
 
         // Add mangled banner
         $oBannerInfo2 = new OA_Dll_BannerInfo();

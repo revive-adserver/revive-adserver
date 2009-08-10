@@ -89,6 +89,8 @@ class Test_OA_Api_XmlRpc_Banner extends Test_OA_Api_XmlRpc
         // Test modify
         $swf = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/swf-link.swf');
         $this->assertTrue($swf);
+        $swfConv = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/converted-link.swf');
+        $this->assertTrue($swfConv);
 
         $oBanner = new OA_Dll_BannerInfo();
         $oBanner->bannerId    = $bannerId;
@@ -105,8 +107,7 @@ class Test_OA_Api_XmlRpc_Banner extends Test_OA_Api_XmlRpc
 
         $doImages  = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertTrue($doImages->contents);
-        $this->assertNotEqual($doImages->contents, $gif);
-        $this->assertNotEqual($doImages->contents, $swf);
+        $this->assertEqual($doImages->contents, $swfConv);
     }
 
 }

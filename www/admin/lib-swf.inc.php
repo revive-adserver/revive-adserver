@@ -37,8 +37,8 @@ define ('swf_tag_actiongetmember', 	 "\x4E");
 
 
 // Define preferences
-$swf_variable		= 'alink';		// The name of the ActionScript variable used for urls
-$swf_target_var		= 'atar';		// The name of the ActionScript variable used for targets
+$GLOBALS['swf_variable']   = 'alink';		// The name of the ActionScript variable used for urls
+$GLOBALS['swf_target_var'] = 'atar';		// The name of the ActionScript variable used for targets
 
 
 
