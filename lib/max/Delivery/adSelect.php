@@ -158,6 +158,9 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     $GLOBALS['_MAX']['followedChain'] = array();
     $GLOBALS['_MAX']['adChain'] = array();
 
+    // Reset considered ads set
+    $GLOBALS['_MAX']['considered_ads'] = array();
+
     $first = true;
     global $g_append, $g_prepend;
     $g_append = '';
@@ -498,11 +501,13 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
             // Select one of the low-priority ads
             $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'eAds', -2), $adSelectFunction);
             }
-        if (is_array($aLinkedAd)) {
-            return $aLinkedAd;
-        }
     }
 
+    $GLOBALS['_MAX']['considered_ads'][] = &$aAds;
+
+    if (is_array($aLinkedAd)) {
+      return $aLinkedAd;
+    }
     return false;
 }
 
@@ -527,9 +532,9 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     if (!is_array($aLinkedAds)) { return; }
 
     if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
-        $aAds = $aLinkedAds[$adArrayVar][$cp];
+        $aAds = &$aLinkedAds[$adArrayVar][$cp];
     } elseif (isset($aLinkedAds[$adArrayVar])) {
-        $aAds = $aLinkedAds[$adArrayVar];
+        $aAds = &$aLinkedAds[$adArrayVar];
     } else {
         $aAds = array();
     }
@@ -541,7 +546,8 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 
     // New delivery algorithm: discard all invalid ads before iterating over them
-    $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
+    // $aAds passed by ref here
+    _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 
     // If there are no linked ads of the specified type, we can return
     if (count($aAds) == 0) { return; }
@@ -787,13 +793,13 @@ function _adSelectBuildContext($aBanner, $context = array()) {
  * @param  $aContext
  * @param unknown_type $source
  * @param unknown_type $richMedia
- * @return unknown
+ * @return none
  */
-function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
+function _adSelectDiscardNonMatchingAds(&$aAds, $aContext, $source, $richMedia)
 {
     // Don't filter ads on direct selection requests (if that setting is disabled)
     if (empty($GLOBALS['_MAX']['CONF']['delivery']['aclsDirectSelection']) && !empty($GLOBALS['_MAX']['DIRECT_SELECTION'])) {
-        return $aAds;
+        return;
     }
     foreach ($aAds as $adId => $aAd) {
         ###START_STRIP_DELIVERY
@@ -810,7 +816,7 @@ function _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia)
             ###END_STRIP_DELIVERY
         }
     }
-    return $aAds;
+    return;
 }
 
 ?>
