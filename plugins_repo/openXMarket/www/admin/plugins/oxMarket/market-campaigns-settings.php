@@ -43,17 +43,9 @@ $oMarketComponent->checkActive();
 if (!$oMarketComponent->isMarketSettingsAlreadyShown()) {
     $oMarketComponent->setMarketSettingsAlreadyShown();
 }
+
 $defaultMinCpm = $oMarketComponent->getConfigValue('defaultFloorPrice');
 $maxCpm = $oMarketComponent->getMaxFloorPrice(); //used for validation purpose only
-
-/*-------------------------------------------------------*/
-/* Display page                                          */
-/*-------------------------------------------------------*/
-
-//header
-$oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-$oMenu = OA_Admin_Menu::singleton();
 
 // Register some variables from the request
 $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'minCpm', 'optedCount', 'search');
@@ -90,21 +82,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
 }
 
 
-
-
-// The number of campaigns of $campaignType that have already been
-// opted in to the Market. We need this number to tell the difference between the
-// $campaigns list being empty because all campaigns have been opted-in and because
-// there are no campaigns in the inventory at all. In the first case $campaignsOptedIn
-// will be > 0 and in the latter $campaignsOptedIn will be 0.
-$campaignsOptedIn = $oCampaignsOptInDal->numberOfOptedCampaigns($campaignType);
-
-// The number of remnant campaigns that can be opted-in.
-// This will display in the "Opt in all X of your existing remnant campaigns to OpenX Market"
-// radio button label on the screen.
-$remnantCampaignsToOptIn = $oCampaignsOptInDal->numberOfRemnantCampaignsToOptIn();
-$remnantCampaignsOptedIn = $oCampaignsOptInDal->numberOfOptedCampaigns('remnant');
-
 $toOptIn = empty($toOptIn) ? array() : $toOptIn;
 
 
@@ -120,11 +97,7 @@ $oTpl->assign('topPager', $oTopPager);
 
 setupContentStrings($oMarketComponent, $oTpl, $optedCount);
 $oTpl->assign('campaigns', $campaigns);
-$oTpl->assign('campaignsOptedIn', $campaignsOptedIn);
 $oTpl->assign('campaignType', $campaignType);
-$oTpl->assign('remnantCampaignsCount', $remnantCampaignsToOptIn);
-$oTpl->assign('remnantCampaignsOptedIn', $remnantCampaignsOptedIn);
-$oTpl->assign('minCpm', $minCpm);
 $oTpl->assign('maxValueLength', 3 + strlen($maxCpm)); //two decimal places, point, plus strlen of maxCPM
 $oTpl->assign('minCpms', $minCpms);
 if ($_COOKIE['market-settings-info-box-hidden']) {
@@ -132,6 +105,7 @@ if ($_COOKIE['market-settings-info-box-hidden']) {
 }
 $firstView = empty($toOptIn);
 $oTpl->assign('firstView', $firstView);
+
 $toOptInMap = arrayValuesToKeys($toOptIn);
 foreach ($campaigns as $campaignId => $campaign) {
 	if (!isset($toOptInMap[$campaignId])) {
@@ -139,6 +113,16 @@ foreach ($campaigns as $campaignId => $campaign) {
 	}
 }
 $oTpl->assign('toOptIn', $toOptInMap);
+
+
+/*-------------------------------------------------------*/
+/* Display page                                          */
+/*-------------------------------------------------------*/
+
+//header
+$oUI = OA_Admin_UI::getInstance();
+$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+$oMenu = OA_Admin_Menu::singleton();
 
 // Display the page
 $oCurrentSection = $oMenu->get("market-campaigns-settings");
@@ -148,6 +132,7 @@ $oTpl->display();
 
 //footer
 phpAds_PageFooter();
+
 
 function isDataValid($template, $aCampaigns, $maxCpmValue)
 {
@@ -323,26 +308,15 @@ function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
         ? $aContentKeys['top-message']
         : '';
         
-    $optInAllRadioLabel = isset($aContentKeys['radio-opt-in-all-label'])
-        ? $aContentKeys['radio-opt-in-all-label']
-        : '';
-
-    $optInAllFieldCpmLabel = isset($aContentKeys['field-opt-in-some-label'])
-        ? $aContentKeys['field-opt-in-some-label']
-        : '';
-        
-    $optInAllFieldCpmLabelSuffix = isset($aContentKeys['field-opt-in-some-label-suffix'])
-        ? $aContentKeys['field-opt-in-some-label-suffix']
-        : '';
-        
-    $optInSomeRadioLabel = isset($aContentKeys['radio-opt-in-some-label'])
-        ? $aContentKeys['radio-opt-in-some-label']
-        : '';
-        
     $optInSubmitLabel = isset($aContentKeys['radio-opt-in-submit-label'])
         ? $aContentKeys['radio-opt-in-submit-label']
         : '';        
         
+    $optOutSubmitLabel = isset($aContentKeys['radio-opt-out-submit-label'])
+        ? $aContentKeys['radio-opt-out-submit-label']
+        : '';        
+        
+    $optedCount = 10;
     if (isset($optedCount) && $optedCount > 0) { //use opted count tracker
         $trackerFrame = isset($aContentKeys['tracker-optin-iframe'])
             ? str_replace('$COUNT', $optedCount, $aContentKeys['tracker-optin-iframe'])
@@ -356,11 +330,8 @@ function setupContentStrings($oMarketComponent, $oTpl, $optedCount)
     
     $oTpl->register_function('ox_campaign_type_tag', 'ox_campaign_type_tag_helper');
     $oTpl->assign('topMessage', $topMessage);
-    $oTpl->assign('optInAllRadioLabel', $optInAllRadioLabel);
-    $oTpl->assign('optInAllFieldCpmLabel', $optInAllFieldCpmLabel);
-    $oTpl->assign('optInAllFieldCpmLabelSuffix', $optInAllFieldCpmLabelSuffix);
-    $oTpl->assign('optInSomeRadioLabel', $optInSomeRadioLabel);
     $oTpl->assign('optInSubmitLabel', $optInSubmitLabel);
+    $oTpl->assign('optOutSubmitLabel', $optOutSubmitLabel);
     $oTpl->assign('trackerFrame', $trackerFrame);
 }
 
