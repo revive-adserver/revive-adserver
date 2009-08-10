@@ -172,7 +172,6 @@ class Migration_601Test extends MigrationTest
     {
         if (!(file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))) {
         	$oConfig = new OA_Upgrade_Config();
-        	$oConfig->putNewConfigFile();
         	$oConfig->writeConfig(true);
         }
     }
