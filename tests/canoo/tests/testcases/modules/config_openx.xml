@@ -9,8 +9,8 @@
 	resultpath="${wt.resultpath}" 
 	haltonfailure="false" 
 	haltonerror="false"	
-	> 
-<!-- easyajax="${wt.easyAjax}" -->
+	easyajax="${wt.easyAjax}"
+	>
     <option name="JavaScriptEnabled" value="${wt.enableJS}"/>
     <option name="ThrowExceptionOnScriptError" value="${wt.throwExceptionOnScriptError}"/>
 	
