@@ -1,0 +1,4 @@
+				<retry description="retry nested steps until zone list is loaded" maxcount="20">
+					<sleep seconds="2" />
+					<verifyText text="Select / Unselect All" regex="false" />
+				</retry>

@@ -3,6 +3,7 @@
 <!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
 	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
 	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+	<!ENTITY zones  SYSTEM "../../modules/zones.xml">
 ]>
 
 <project name="OpenX" basedir="." default="main">
@@ -28,21 +29,18 @@
 				<clickLink description="click on 'Linked Zones'" label="Linked Zones"/>
 				<verifyText description="verify 'Available Zones'" text="Available Zones"/>
 				<verifyText description="verify 'Linked Zones'" text="Linked Zones"/>
+				&zones;
 				<setCheckbox name="z2" description="Select 'Agency Publisher 1 - Default' zone"/>
 				<clickButton description="click on 'link-button'"  htmlid="link-button"/>	
-				<!--
-				<retry maxcount="5">
-					<verifyText description="verify 'Publisher 1 - Default'" text="Publisher 1 - Default"/>
-					<sleep seconds="5"/>
-				</retry>
-				-->	
+				
 				<clickLink description="click on 'Inventory'" label="Inventory" />
 				<clickLink description="click on 'Campaigns'" label="Campaigns"/>
 				<clickLink  description="click on 'test campaign'" label="test campaign"/>
 				<clickLink description="click on 'Linked Zones'" label="Linked Zones"/>
+				&zones;
 				<setCheckbox name="z1" description="Select 'Publisher 1 - Default' zone"/>
 				<clickButton description="click on 'link-button'"  htmlid="link-button"/>
-				
+				&zones;
 				<setCheckbox name="z2" description="Select 'Agency Publisher 1 - Default' zone"/>
 				<clickButton label="Unlink"/>
 					
