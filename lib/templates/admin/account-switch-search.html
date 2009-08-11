@@ -38,7 +38,7 @@ $Id$
     <li class="opt">{$groupName|escape}</li>
     {foreach from=$accounts key=accountId item=accountName}
       <li class="inopt">
-        <a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{boldSearchPhrase text=$accountName search=$query}</a></li>
+        <a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{boldSearchPhrase text=$accountName search=$query}</a>
       </li>      
     {/foreach}
     {if isset($remainingCounts[$groupName])}
