@@ -118,7 +118,8 @@ enforceUserAgents=
 blockAdClicksWindow=0
 [maintenance]
 autoMaintenance=1
-timeLimitScripts=300
+;increased due to fatal error on Bamboo (maintenance script is run with old db dump)
+timeLimitScripts=1200
 operationInterval=60
 blockAdImpressions=0
 blockAdClicks=0
