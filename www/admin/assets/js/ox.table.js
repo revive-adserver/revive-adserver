@@ -6,9 +6,10 @@
                 return this.each(function() {
                     var $this = $(this);
 
-                    var $parentCheckbox = $this.find('.toggleAll input');
-                    var $childCheckboxes = $this.find('.toggleSelection input');
-                    var $checkboxSelectionDependants = $this.find('.activeIfSelected');
+                    var $parentCheckbox;
+                    var $childCheckboxes;
+                    var $checkboxSelectionDependants;
+                    findCheckboxes();
                                         
                     $this.multicheckboxes({
                       selectedClass: "selected", 
@@ -42,13 +43,23 @@
                     });
 
                     //preselect checkboxes
-                   $childCheckboxes.filter(":checked").each(function() {
-                      $(this).parents('tr').addClass('selected'); 
+                    $childCheckboxes.filter(":checked").each(function() {
+                        $(this).parents('tr').addClass('selected'); 
                     });
                     
                     $this.delegate( 'mouseover mouseout', 'tbody tr', function( event ){ 
                         $( this ).toggleClass('hilite'); 
                     });
+                    
+                    $this.bind("dataUpdate", function() {
+                    	findCheckboxes();
+                    });
+                    
+                    function findCheckboxes() {
+                        $parentCheckbox = $this.find('.toggleAll input');
+                        $childCheckboxes = $this.find('.toggleSelection input');
+                        $checkboxSelectionDependants = $this.find('.activeIfSelected');
+                    }
                 });
             };
         }
