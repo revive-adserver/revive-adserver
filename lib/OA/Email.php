@@ -75,7 +75,7 @@ class OA_Email
                             $copiesSent++;
                             if ($aConf['email']['logOutgoing']) {
                                 phpAds_userlogSetUser(phpAds_userMaintenance);
-                                phpAds_userlogAdd(phpAds_actionAdvertiserReportMailed, $advertiserId,
+                                phpAds_userlogAdd(phpAds_actionAdvertiserReportMailed, $aAdvertiser['clientid'],
                                     "{$aEmail['subject']}\n\n
                                      {$aUser['contact_name']}({$aUser['email_address']})\n\n
                                      {$aEmail['contents']}"
@@ -90,7 +90,7 @@ class OA_Email
         // Only update the last sent date if we actually sent out at least one copy of the email
         if ($copiesSent) {
             // Update the last run date to "today"
-            OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $aAdvertiser['clientid'] . '.', PEAR_LOG_DEBUG);
             $doUpdateClients = OA_Dal::factoryDO('clients');
             $doUpdateClients->clientid = $aAdvertiser['clientid'];
             $doUpdateClients->reportlastdate = OA::getNow();
