@@ -80,6 +80,7 @@ $dispatches = array(
     'ox.advertiserDailyStatistics' => array(
         'function'  => array($fc, 'advertiserDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -89,6 +90,7 @@ $dispatches = array(
     'ox.advertiserCampaignStatistics' => array(
         'function'  => array($fc, 'advertiserCampaignStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -98,6 +100,7 @@ $dispatches = array(
     'ox.advertiserBannerStatistics' => array(
         'function'  => array($fc, 'advertiserBannerStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -107,6 +110,7 @@ $dispatches = array(
     'ox.advertiserPublisherStatistics' => array(
         'function'  => array($fc, 'advertiserPublisherStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -116,6 +120,7 @@ $dispatches = array(
     'ox.advertiserZoneStatistics' => array(
         'function'  => array($fc, 'advertiserZoneStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -165,6 +170,7 @@ $dispatches = array(
     'ox.agencyDailyStatistics' => array(
         'function'  => array($fc, 'agencyDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -175,6 +181,7 @@ $dispatches = array(
     'ox.agencyAdvertiserStatistics' => array(
         'function'  => array($fc, 'agencyAdvertiserStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -185,6 +192,7 @@ $dispatches = array(
     'ox.agencyCampaignStatistics' => array(
         'function'  => array($fc, 'agencyCampaignStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -195,6 +203,7 @@ $dispatches = array(
     'ox.agencyBannerStatistics' => array(
         'function'  => array($fc, 'agencyBannerStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -205,6 +214,7 @@ $dispatches = array(
     'ox.agencyPublisherStatistics' => array(
         'function'  => array($fc, 'agencyPublisherStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -215,6 +225,7 @@ $dispatches = array(
     'ox.agencyZoneStatistics' => array(
         'function'  => array($fc, 'agencyZoneStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -282,6 +293,7 @@ $dispatches = array(
     'ox.bannerDailyStatistics' => array(
         'function'  => array($fc, 'bannerDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -292,6 +304,7 @@ $dispatches = array(
     'ox.bannerPublisherStatistics' => array(
         'function'  => array($fc, 'bannerPublisherStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -302,6 +315,7 @@ $dispatches = array(
     'ox.bannerZoneStatistics' => array(
         'function'  => array($fc, 'bannerZoneStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -354,6 +368,7 @@ $dispatches = array(
     'ox.campaignDailyStatistics' => array(
         'function'  => array($fc, 'campaignDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -364,6 +379,7 @@ $dispatches = array(
     'ox.campaignBannerStatistics' => array(
         'function'  => array($fc, 'campaignBannerStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -374,6 +390,7 @@ $dispatches = array(
     'ox.campaignPublisherStatistics' => array(
         'function'  => array($fc, 'campaignPublisherStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -384,6 +401,7 @@ $dispatches = array(
     'ox.campaignZoneStatistics' => array(
         'function'  => array($fc, 'campaignZoneStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -500,6 +518,7 @@ $dispatches = array(
     'ox.publisherDailyStatistics' => array(
         'function'  => array($fc, 'publisherDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -510,6 +529,7 @@ $dispatches = array(
     'ox.publisherZoneStatistics' => array(
         'function'  => array($fc, 'publisherZoneStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -520,6 +540,7 @@ $dispatches = array(
     'ox.publisherAdvertiserStatistics' => array(
         'function'  => array($fc, 'publisherAdvertiserStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -530,6 +551,7 @@ $dispatches = array(
     'ox.publisherCampaignStatistics' => array(
         'function'  => array($fc, 'publisherCampaignStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -540,6 +562,7 @@ $dispatches = array(
     'ox.publisherBannerStatistics' => array(
         'function'  => array($fc, 'publisherBannerStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -648,6 +671,7 @@ $dispatches = array(
     'ox.zoneDailyStatistics' => array(
         'function'  => array($fc, 'zoneDailyStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -658,6 +682,7 @@ $dispatches = array(
     'ox.zoneAdvertiserStatistics' => array(
         'function'  => array($fc, 'zoneAdvertiserStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -668,6 +693,7 @@ $dispatches = array(
     'ox.zoneCampaignStatistics' => array(
         'function'  => array($fc, 'zoneCampaignStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -678,6 +704,7 @@ $dispatches = array(
     'ox.zoneBannerStatistics' => array(
         'function'  => array($fc, 'zoneBannerStatistics'),
         'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')

@@ -44,28 +44,118 @@ class OA_Dal_Statistics extends OA_Dal
      *
 	 * @access public
 	 *
-     * @param date &$oStartDate
-     * @param date &$oEndDate
+     * @param Date $oStartDate
+     * @param Date $oEndDate
+     * @param bool $localTZ
      *
      * @return string
      */
-    function getWhereDate(&$oStartDate, &$oEndDate)
+    function getWhereDate($oStartDate, $oEndDate, $localTZ = false)
     {
         $where = '';
         if (isset($oStartDate)) {
-            $startDate = $this->oDbh->quote($oStartDate->format("%Y-%m-%d 00:00:00"), 'timestamp');
+            $oStart = $this->setTimeAndReturnUTC($oStartDate, $localTZ, 0, 0, 0);
             $where .= '
                 AND
-                s.date_time >= ' . $startDate;
+                s.date_time >= '.$this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
 
         if (isset($oEndDate)) {
-            $endDate  = $this->oDbh->quote($oEndDate->format("%Y-%m-%d 23:59:59"), 'timestamp');
+            $oEnd = $this->setTimeAndReturnUTC($oEndDate, $localTZ, 23, 59, 59);
             $where .= '
                 AND
-                s.date_time <= ' . $endDate;
+                s.date_time <= '.$this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
         return $where;
+    }
+
+    /**
+     * A private method to return the current TimeZone as selected by the useUTC parameter
+     *
+     * @param bool $localTZ
+     * @return Date_TimeZone
+     */
+    private function getTimeZone($localTZ = false)
+    {
+        if (empty($localTZ)) {
+            $tz = 'UTC';
+        } else {
+            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
+        }
+
+        return new Date_TimeZone($tz);
+    }
+
+    /**
+     * A private method used to return a copy of a Date object after altering its time. It can work using
+     * either UTC or the current TZ and eventually converting the result back to UTC.
+     *
+     * @param Date $oDate
+     * @param bool $localTZ
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
+     * @return Date
+     */
+    private function setTimeAndReturnUTC($oDate, $localTZ = false, $hour = 0, $minute = 0, $second = 0)
+    {
+        $oTz = $this->getTimeZone($localTZ);
+
+        $oDateCopy = new Date($oDate);
+        $oDateCopy->setHour($hour);
+        $oDateCopy->setMinute($minute);
+        $oDateCopy->setSecond($second);
+        $oDateCopy->setTZ($oTz);
+        $oDateCopy->toUTC();
+
+        return $oDateCopy;
+    }
+
+    /**
+     * A method that runs the supplied query and returns data grouped by day either in UTC or manager's TZ
+     *
+     * The query needs to return "day" and "hour" fields. Any other field will be aggregated with a SUM()
+     *
+     * @param string $query
+     * @param bool $localTZ
+     * @return array
+     */
+    function getDailyStatsAsArray($query, $localTZ = false)
+    {
+        $oTz  = $this->getTimeZone($localTZ);
+        if ($oTz->getShortName() == 'UTC') {
+            // Disable TZ conversion
+            $oTz = false;
+        } else {
+            $oUTC = new Date_TimeZone('UTC');
+        }
+        $aResult = array();
+        $oResult = $this->oDbh->query($query);
+        while ($aRow = $oResult->fetchRow()) {
+            if ($oTz) {
+                $oDate = new Date($aRow['day']);
+                $oDate->setHour($aRow['hour']);
+                $oDate->setTZ($oUTC);
+                $oDate->convertTZ($oTz);
+                $aRow['day'] = $oDate->format('%Y-%m-%d');
+            }
+            // Remove day & hour
+            unset($aRow['hour']);
+            // Add entry
+            if (!isset($aResult[$aRow['day']])) {
+                $aResult[$aRow['day']] = $aRow;
+            } else {
+                foreach ($aRow as $k => $v) {
+                    // Perform SUM() GROUP BY day
+                    if ($k == 'day') {
+                        continue;
+                    }
+                    $aResult[$aRow['day']][$k] += $v;
+                }
+            }
+        }
+
+        return array_values($aResult);
     }
 
     /**

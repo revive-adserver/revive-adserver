@@ -360,6 +360,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param integer $zoneId The ID of the zone to view statistics
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array $rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>day date</b> The day
@@ -372,7 +373,7 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
@@ -381,7 +382,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
             $dalZone = new OA_Dal_Statistics_Zone;
             $rsStatisticsData = $dalZone->getZoneDailyStatistics($zoneId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -397,6 +398,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param integer $zoneId The ID of the zone to view statistics
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array $rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>advertiser ID integer</b> The ID of the advertiser
@@ -411,7 +413,7 @@ class OA_Dll_Zone extends OA_Dll
      *
      */
 
-    function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
@@ -420,7 +422,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
             $dalZone = new OA_Dal_Statistics_Zone;
             $rsStatisticsData = $dalZone->getZoneAdvertiserStatistics($zoneId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -436,6 +438,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param integer $zoneId The ID of the zone to view statistics
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array $rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>campaignID integer</b> The ID of the campaign
@@ -451,7 +454,7 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
@@ -460,7 +463,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
             $dalZone = new OA_Dal_Statistics_Zone;
             $rsStatisticsData = $dalZone->getZoneCampaignStatistics($zoneId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -476,6 +479,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param integer $zoneId The ID of the zone to view statistics
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array $rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>bannerID integer</b> The ID of the banner
@@ -493,7 +497,7 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
@@ -502,7 +506,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
             $dalZone = new OA_Dal_Statistics_Zone;
             $rsStatisticsData = $dalZone->getZoneBannerStatistics($zoneId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -627,7 +631,7 @@ class OA_Dll_Zone extends OA_Dll
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
             }
-    
+
             $result = Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
             if ($result === 0) {
 	           $this->raiseError('Unknown link for zoneId and campaignId Error');

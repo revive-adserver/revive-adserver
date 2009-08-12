@@ -427,6 +427,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param integer $publisherId The ID of the publisher to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>day date</b> The day
@@ -439,7 +440,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
@@ -448,7 +449,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
             $publisherDal = new OA_Dal_Statistics_Publisher;
             $rsStatisticsData = $publisherDal->getPublisherDailyStatistics($publisherId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -464,6 +465,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param integer $publisherId The ID of the publisher to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>zoneID integer</b> The ID of the zone
@@ -477,7 +479,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
@@ -486,7 +488,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
             $publisherDal = new OA_Dal_Statistics_Publisher;
             $rsStatisticsData = $publisherDal->getPublisherZoneStatistics($publisherId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -502,6 +504,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param integer $publisherId The ID of the publisher to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>advertiser ID integer</b> The ID of the advertiser
@@ -516,7 +519,7 @@ class OA_Dll_Publisher extends OA_Dll
      *
      */
 
-    function getPublisherAdvertiserStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherAdvertiserStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
@@ -525,7 +528,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
             $publisherDal = new OA_Dal_Statistics_Publisher;
             $rsStatisticsData = $publisherDal->getPublisherAdvertiserStatistics($publisherId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -541,6 +544,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param integer $publisherId The ID of the publisher to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>campaignID integer</b> The ID of the campaign
@@ -556,7 +560,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
@@ -565,7 +569,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
             $publisherDal = new OA_Dal_Statistics_Publisher;
             $rsStatisticsData = $publisherDal->getPublisherCampaignStatistics($publisherId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -581,6 +585,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param integer $publisherId The ID of the publisher to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>bannerID integer</b> The ID of the banner
@@ -598,7 +603,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
@@ -607,7 +612,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
             $publisherDal = new OA_Dal_Statistics_Publisher;
             $rsStatisticsData = $publisherDal->getPublisherBannerStatistics($publisherId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {

@@ -174,17 +174,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      * @param integer $advertiserId
      * @param date $oStartDate
      * @param date $oEndDate
-     * @param recordSet &$rsStatisticsData  return data
+     * @param bool $localTZ
+     * @param array &$aData  return data
      *
      * @return boolean
      */
-    function getAdvertiserDailyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserDailyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserDailyStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $aData));
         } else {
 
             return false;
@@ -201,17 +202,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      * @param integer $advertiserId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAdvertiserCampaignStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserCampaignStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserCampaignStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -228,17 +230,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      * @param integer $advertiserId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAdvertiserBannerStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserBannerStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserBannerStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -255,17 +258,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      * @param integer $advertiserId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAdvertiserPublisherStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserPublisherStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserPublisherStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -282,17 +286,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      * @param integer $advertiserId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAdvertiserZoneStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserZoneStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserZoneStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

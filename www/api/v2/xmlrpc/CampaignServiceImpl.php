@@ -174,17 +174,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param integer $campaignId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignDailyStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -201,17 +202,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param integer $campaignId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignBannerStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getCampaignBannerStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignBannerStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -228,17 +230,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param integer $campaignId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignPublisherStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getCampaignPublisherStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignPublisherStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -255,17 +258,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param integer $campaignId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignZoneStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

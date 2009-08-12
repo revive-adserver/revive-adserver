@@ -433,7 +433,7 @@ class OA_Dll_Banner extends OA_Dll
         }
     }
 
-    
+
     function getBannerTargeting($bannerId, &$aBannerList)
     {
         if ($this->checkIdExistence('banners', $bannerId)) {
@@ -441,17 +441,17 @@ class OA_Dll_Banner extends OA_Dll
                 return false;
             }
             $aTargetingList = array();
-            
+
             $doBannerTargeting = OA_Dal::factoryDO('acls');
             $doBannerTargeting->bannerid = $bannerId;
             $doBannerTargeting->find();
-            
+
             while ($doBannerTargeting->fetch()) {
                 $bannerTargetingData = $doBannerTargeting->toArray();
-    
+
                 $oBannerTargeting = new OA_Dll_TargetingInfo();
                 $this->_setBannerDataFromArray($oBannerTargeting, $bannerTargetingData);
-    
+
                 $aBannerList[$bannerTargetingData['executionorder']] = $oBannerTargeting;
             }
 
@@ -461,55 +461,55 @@ class OA_Dll_Banner extends OA_Dll
 
             $this->raiseError('Unknown bannerId Error');
             return false;
-        }        
+        }
     }
-    
+
     function _validateTargeting($oTargeting)
     {
         if (!isset($oTargeting->data)) {
             $this->raiseError('Field \'data\' in structure does not exists');
             return false;
         }
-        
+
         if (!$this->checkStructureRequiredStringField($oTargeting,  'logical', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'type', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'comparison', 255) ||
             !$this->checkStructureNotRequiredStringField($oTargeting,  'data', 255)) {
-                
+
             return false;
         }
-        
+
         // Check that each of the specified targeting plugins are available
         $oPlugin = OX_Component::factoryByComponentIdentifier($oTargeting->type);
         if ($oPlugin === false) {
             $this->raiseError('Unknown targeting plugin: ' . $oTargeting->type);
             return false;
         }
-        
+
         return true;
     }
-    
+
     function setBannerTargeting($bannerId, &$aTargeting)
     {
         if ($this->checkIdExistence('banners', $bannerId)) {
             if (!$this->checkPermissions(null, 'banners', $bannerId)) {
                 return false;
             }
-            
+
             foreach ($aTargeting as $executionOrder => $oTargeting) {
-                
-                // Prepend "deliveryLimitations:" to any component-identifiers 
+
+                // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
                 if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {
-                    $aTargeting[$executionOrder]->type = 'deliveryLimitations:' . 
+                    $aTargeting[$executionOrder]->type = 'deliveryLimitations:' .
                         $aTargeting[$executionOrder]->type;
                 }
-                
+
                 if (!$this->_validateTargeting($oTargeting)) {
                     return false;
                 }
             }
-             
+
             $doBannerTargeting = OA_Dal::factoryDO('acls');
             $doBannerTargeting->bannerid = $bannerId;
             $doBannerTargeting->find();
@@ -528,7 +528,7 @@ class OA_Dll_Banner extends OA_Dll
                 $aAcls[$executionOrder] = $doAcl->toArray();
                 $executionOrder++;
             }
-            
+
             // Recompile the banner's compiledlimitations
             $doBanner = OA_Dal::factoryDO('banners');
             $doBanner->get($bannerId);
@@ -536,14 +536,14 @@ class OA_Dll_Banner extends OA_Dll
             $doBanner->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanner->acls_updated = gmdate(OA_DATETIME_FORMAT);
             $doBanner->update();
-            
+
             return true;
         } else {
             $this->raiseError('Unknown bannerId Error');
             return false;
-        }  
+        }
     }
-    
+
     /**
      * This method returns a list of banners for a specified campaign.
      *
@@ -589,6 +589,7 @@ class OA_Dll_Banner extends OA_Dll
      * @param integer $bannerId The ID of the banner to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>day date</b> The day
@@ -601,7 +602,7 @@ class OA_Dll_Banner extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {
             return false;
@@ -609,7 +610,7 @@ class OA_Dll_Banner extends OA_Dll
 
         if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
             $dalBanner = new OA_Dal_Statistics_Banner();
-            $rsStatisticsData = $dalBanner->getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalBanner->getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -625,6 +626,7 @@ class OA_Dll_Banner extends OA_Dll
      * @param integer $bannerId The ID of the banner to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>publisherID integer</b> The ID of the publisher
@@ -638,7 +640,7 @@ class OA_Dll_Banner extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {
             return false;
@@ -646,7 +648,7 @@ class OA_Dll_Banner extends OA_Dll
 
         if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
             $dalBanner = new OA_Dal_Statistics_Banner();
-            $rsStatisticsData = $dalBanner->getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalBanner->getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -662,6 +664,7 @@ class OA_Dll_Banner extends OA_Dll
      * @param integer $bannerId The ID of the banner to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>publisherID integer</b> The ID of the publisher
@@ -677,7 +680,7 @@ class OA_Dll_Banner extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {
             return false;
@@ -685,7 +688,7 @@ class OA_Dll_Banner extends OA_Dll
 
         if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
             $dalBanner = new OA_Dal_Statistics_Banner();
-            $rsStatisticsData = $dalBanner->getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalBanner->getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {

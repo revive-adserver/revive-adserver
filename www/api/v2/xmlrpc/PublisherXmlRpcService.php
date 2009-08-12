@@ -174,21 +174,21 @@ class PublisherXmlRpcService extends BasePublisherService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
-        $rsStatisticsData = null;
+        $aData = null;
         if ($this->_oPublisherServiceImp->getPublisherDailyStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $publisherId, $oStartDate, $oEndDate, $localTZ, $aData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
+                                                                ), $aData);
 
         } else {
 
@@ -210,14 +210,14 @@ class PublisherXmlRpcService extends BasePublisherService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherZoneStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('zoneId' => 'integer',
                                                                 'zoneName' => 'string',
@@ -247,14 +247,14 @@ class PublisherXmlRpcService extends BasePublisherService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherAdvertiserStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
@@ -284,14 +284,14 @@ class PublisherXmlRpcService extends BasePublisherService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherCampaignStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
@@ -323,14 +323,14 @@ class PublisherXmlRpcService extends BasePublisherService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherBannerStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',

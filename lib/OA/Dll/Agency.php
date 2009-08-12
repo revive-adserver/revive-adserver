@@ -365,7 +365,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
@@ -376,7 +376,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencyDailyStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -405,7 +405,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
@@ -415,7 +415,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencyAdvertiserStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -446,7 +446,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
@@ -456,7 +456,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencyCampaignStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -489,7 +489,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
@@ -500,7 +500,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencyBannerStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -529,7 +529,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
@@ -540,7 +540,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencypublisherStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -574,7 +574,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
@@ -585,7 +585,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
             $dalAgency = new OA_Dal_Statistics_Agency;
             $rsStatisticsData = $dalAgency->getAgencyZoneStatistics($agencyId,
-                $oStartDate, $oEndDate);
+                $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {

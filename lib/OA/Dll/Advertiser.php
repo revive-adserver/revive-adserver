@@ -340,6 +340,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param integer $advertiserId The ID of the advertiser to view the statistics for.
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>day date</b> The day
@@ -352,7 +353,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
             return false;
@@ -360,7 +361,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($this->_validateForStatistics($advertiserId, $oStartDate, $oEndDate)) {
             $dalAdvertiser = new OA_Dal_Statistics_Advertiser();
-            $rsStatisticsData = $dalAdvertiser->getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalAdvertiser->getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -376,6 +377,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param integer $advertiserId The ID of the advertiser to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>campaignID integer</b> The ID of the campaign
@@ -389,7 +391,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
             return false;
@@ -397,7 +399,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($this->_validateForStatistics($advertiserId, $oStartDate, $oEndDate)) {
             $dalAdvertiser = new OA_Dal_Statistics_Advertiser();
-            $rsStatisticsData = $dalAdvertiser->getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalAdvertiser->getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -413,6 +415,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param integer $advertiserId The ID of the advertiser to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>campaignID integer</b> The ID of the campaign
@@ -428,7 +431,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @return boolean  True if the operation was successful and false otherwise.
      *
      */
-    function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
             return false;
@@ -436,7 +439,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($this->_validateForStatistics($advertiserId, $oStartDate, $oEndDate)) {
             $dalAdvertiser = new OA_Dal_Statistics_Advertiser();
-            $rsStatisticsData = $dalAdvertiser->getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalAdvertiser->getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -452,6 +455,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param integer $advertiserId The ID of the advertiser to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>publisherID integer</b> The ID of the publisher
@@ -465,7 +469,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
             return false;
@@ -473,7 +477,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($this->_validateForStatistics($advertiserId, $oStartDate, $oEndDate)) {
             $dalAdvertiser = new OA_Dal_Statistics_Advertiser();
-            $rsStatisticsData = $dalAdvertiser->getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalAdvertiser->getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {
@@ -489,6 +493,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param integer $advertiserId The ID of the advertiser to view statistics for
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
      *   <ul>
      *   <li><b>publisherID integer</b> The ID of the publisher
@@ -504,7 +509,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
             return false;
@@ -512,7 +517,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($this->_validateForStatistics($advertiserId, $oStartDate, $oEndDate)) {
             $dalAdvertiser = new OA_Dal_Statistics_Advertiser();
-            $rsStatisticsData = $dalAdvertiser->getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate);
+            $rsStatisticsData = $dalAdvertiser->getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
         } else {

@@ -172,21 +172,21 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
-        $rsStatisticsData = null;
+        $aData = null;
         if ($this->_oAgencyServiceImp->getAgencyDailyStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $aData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
+                                                                ), $aData);
 
         } else {
 
@@ -208,8 +208,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
@@ -245,8 +245,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
@@ -284,8 +284,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
@@ -325,8 +325,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
@@ -362,8 +362,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 

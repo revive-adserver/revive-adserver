@@ -172,17 +172,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      * @param integer $publisherId
      * @param date $oStartDate
      * @param date $oEndDate
-     * @param recordSet &$rsStatisticsData  return data
+     * @param bool $localTZ
+     * @param array &$aData  return data
      *
      * @return boolean
      */
-    function getPublisherDailyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherDailyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherDailyStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $aData));
         } else {
 
             return false;
@@ -199,17 +200,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      * @param integer $publisherId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getPublisherZoneStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherZoneStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherZoneStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -226,17 +228,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      * @param integer $publisherId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getPublisherAdvertiserStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherAdvertiserStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherAdvertiserStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -253,17 +256,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      * @param integer $publisherId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getPublisherCampaignStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherCampaignStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherCampaignStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -280,17 +284,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      * @param integer $publisherId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getPublisherBannerStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getPublisherBannerStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherBannerStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

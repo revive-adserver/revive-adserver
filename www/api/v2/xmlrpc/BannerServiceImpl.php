@@ -165,7 +165,7 @@ class BannerServiceImpl extends BaseServiceImpl
             return false;
         }
     }
-    
+
     /**
      * This method return targeting limitations for banner
      * or returns an error message,.
@@ -188,7 +188,7 @@ class BannerServiceImpl extends BaseServiceImpl
         }
     }
 
-            
+
     /**
      * This method set targeting limitations for banner
      * or returns an error message.
@@ -221,17 +221,18 @@ class BannerServiceImpl extends BaseServiceImpl
      * @param integer $bannerId
      * @param date $oStartDate
      * @param date $oEndDate
-     * @param recordSet &$rsStatisticsData  return data
+     * @param bool $localTZ
+     * @param array &$aData  return data
      *
      * @return boolean
      */
-    function getBannerDailyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerDailyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerDailyStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, $aData));
         } else {
 
             return false;
@@ -248,6 +249,7 @@ class BannerServiceImpl extends BaseServiceImpl
      * @param integer $bannerId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
@@ -275,6 +277,7 @@ class BannerServiceImpl extends BaseServiceImpl
      * @param integer $bannerId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean

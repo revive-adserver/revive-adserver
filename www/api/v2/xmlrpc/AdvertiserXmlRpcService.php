@@ -174,21 +174,21 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
-        $rsStatisticsData = null;
+        $aData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserDailyStatistics($sessionId,
-                $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $aData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
+                                                                ), $aData);
 
         } else {
 
@@ -210,14 +210,14 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserCampaignStatistics($sessionId,
-                $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -247,14 +247,14 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserBannerStatistics($sessionId,
-                $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -285,14 +285,14 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserPublisherStatistics($sessionId,
-                $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
                                                                 'publisherName' => 'string',
@@ -321,14 +321,14 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserZoneStatistics($sessionId,
-                $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
                                                                 'publisherName' => 'string',

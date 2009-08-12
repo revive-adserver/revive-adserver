@@ -49,8 +49,9 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param bool $localTZ Should stats be using the manager TZ or UTC?
     *
-    * @return RecordSet
+    * @return array Each row containing:
     * <ul>
     *   <li><b>day date</b>  The day
     *   <li><b>requests integer</b>  The number of requests for the day
@@ -60,7 +61,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate)
+    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
         $campaignId     = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
@@ -75,7 +76,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
                 SUM(s.total_revenue) AS revenue,
-                DATE_FORMAT(s.date_time, '%Y-%m-%d') AS day
+                DATE_FORMAT(s.date_time, '%Y-%m-%d') AS day,
+                HOUR(s.date_time) AS hour
             FROM
                 $tableCampaigns AS m,
                 $tableBanners AS b,
@@ -87,12 +89,13 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 m.campaignid = b.campaignid
                 AND
                 b.bannerid = s.ad_id
-                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
             GROUP BY
-                day
+                day,
+                hour
         ";
 
-        return DBC::NewRecordSet($query);
+        return $this->getDailyStatsAsArray($query, $localTZ);
     }
 
     /**
@@ -103,6 +106,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param bool $localTZ Should stats be using the manager TZ or UTC?
     *
     * @return RecordSet
     * <ul>
@@ -119,7 +123,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate)
+    function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
         $campaignId     = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
@@ -147,7 +151,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 m.campaignid = b.campaignid
                 AND
                 b.bannerid = s.ad_id
-                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
             GROUP BY
                 b.bannerid, b.description,
                 m.campaignid, m.campaignname
@@ -165,6 +169,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param bool $localTZ Should stats be using the manager TZ or UTC?
     *
     * @return RecordSet
     * <ul>
@@ -177,7 +182,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate)
+    function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
         $campaignId      = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns  = $this->quoteTableName('campaigns');
@@ -213,7 +218,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 p.affiliateid = z.affiliateid
                 AND
                 z.zoneid = s.zone_id
-                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
             GROUP BY
                 p.affiliateid, p.name
         ";
@@ -229,6 +234,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param bool $localTZ Should stats be using the manager TZ or UTC?
     *
     * @return RecordSet
     * <ul>
@@ -243,7 +249,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate)
+    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
         $campaignId      = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns  = $this->quoteTableName('campaigns');
@@ -281,7 +287,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 p.affiliateid = z.affiliateid
                 AND
                 z.zoneid = s.zone_id
-                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
             GROUP BY
                 p.affiliateid, p.name,
                 z.zoneid, z.zonename

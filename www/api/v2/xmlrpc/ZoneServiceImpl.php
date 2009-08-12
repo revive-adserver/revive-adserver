@@ -174,17 +174,18 @@ class ZoneServiceImpl extends BaseServiceImpl
      * @param integer $zoneId
      * @param date $oStartDate
      * @param date $oEndDate
-     * @param recordSet &$rsStatisticsData  return data
+     * @param bool $localTZ
+     * @param array &$aData  return data
      *
      * @return boolean
      */
-    function getZoneDailyStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneDailyStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneDailyStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, $localTZ, $aData));
         } else {
 
             return false;
@@ -201,17 +202,18 @@ class ZoneServiceImpl extends BaseServiceImpl
      * @param integer $zoneId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getZoneAdvertiserStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneAdvertiserStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneAdvertiserStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -228,17 +230,18 @@ class ZoneServiceImpl extends BaseServiceImpl
      * @param integer $zoneId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getZoneCampaignStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneCampaignStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneCampaignStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -255,17 +258,18 @@ class ZoneServiceImpl extends BaseServiceImpl
      * @param integer $zoneId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getZoneBannerStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getZoneBannerStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneBannerStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

@@ -173,17 +173,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
-     * @param recordSet &$rsStatisticsData  return data
+     * @param bool $localTZ
+     * @param array &$aData  return data
      *
      * @return boolean
      */
-    function getAgencyDailyStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyDailyStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyDailyStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $aData));
         } else {
 
             return false;
@@ -200,17 +201,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAgencyAdvertiserStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyAdvertiserStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyAdvertiserStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -227,17 +229,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAgencyCampaignStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyCampaignStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyCampaignStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -254,17 +257,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAgencyBannerStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyBannerStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyBannerStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -281,17 +285,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAgencyPublisherStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyPublisherStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyPublisherStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -308,17 +313,18 @@ class AgencyServiceImpl extends BaseServiceImpl
      * @param integer $agencyId
      * @param date $oStartDate
      * @param date $oEndDate
+     * @param bool $localTZ
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getAgencyZoneStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getAgencyZoneStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyZoneStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

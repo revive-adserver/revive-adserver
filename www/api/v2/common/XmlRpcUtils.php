@@ -110,60 +110,64 @@ class XmlRpcUtils
     }
 
     /**
-     * Convert RecordSet or MDB2 Result into the array of XML_RPC_Response structures.
+     * Convert array, MDB2 resultset or RecordSet into the array of XML_RPC_Response structures.
      *
      * @access public
      *
      * @param array $aFieldTypes  field name - field type
-     * @param mixed &$rsAllData   Either a DBC RecordSet or an MDB2_Result_Common with all data
+     * @param mixed $data         Array or RecordSet with all data
      *
      * @return XML_RPC_Response
      */
-    function arrayOfStructuresResponse($aFieldTypes, &$rsAllData)
+    function arrayOfStructuresResponse($aFieldTypes, $data)
     {
-        if (is_a($rsAllData, 'MDB2_Result_Common')) {
-            $cRecords = 0;
-
-            while ($aRowData = $rsAllData->fetchRow(MDB2_FETCHMODE_ASSOC)) {
-
-                foreach ($aRowData as $databaseFieldName => $fieldValue) {
-                    foreach ($aFieldTypes as $fieldName => $fieldType) {
-                        if (strtolower($fieldName) == strtolower($databaseFieldName)) {
-                            $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
-                                                                $fieldType, $fieldValue);
-                        }
-                    }
-                }
-
-                $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
-                                                           $GLOBALS['XML_RPC_Struct']);
-                $cRecords++;
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::convertRowDataToStruct($aFieldTypes, $v);
             }
-        } else { // It is a DBC RecordSet
-            $rsAllData->find();
-            $cRecords = 0;
 
-            while($rsAllData->fetch()) {
-                $aRowData = $rsAllData->toArray();
-                foreach ($aRowData as $databaseFieldName => $fieldValue) {
-                    foreach ($aFieldTypes as $fieldName => $fieldType) {
-                        if (strtolower($fieldName) == strtolower($databaseFieldName)) {
-                            $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
-                                                            $fieldType, $fieldValue);
-                        }
-                    }
-
-                }
-
-                $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
-                                                       $GLOBALS['XML_RPC_Struct']);
-                $cRecords++;
+            $aReturnData = $data;
+        } elseif ($data instanceof MDB2_Result_Common) {
+            $aReturnData = array();
+            while($aRowData = $data->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+                $aReturnData[] = self::convertRowDataToStruct($aFieldTypes, $aRowData);
             }
+        } elseif ($data instanceof MDB2RecordSet) {
+            $aReturnData = array();
+            $data->find();
+            while($data->fetch()) {
+                $aReturnData[] = self::convertRowDataToStruct($aFieldTypes, $data->toArray());
+            }
+        } else {
+            return new XML_RPC_Response('', $GLOBALS['XML_RPC_error'], 'Unsupported data passed to arrayOfStructuresResponse');
         }
 
         $value = new XML_RPC_Value($aReturnData, $GLOBALS['XML_RPC_Array']);
 
         return new XML_RPC_Response($value);
+    }
+
+    /**
+     * A private method to convert a data row to an XML-RPC struct
+     *
+     * @param array $aFieldTypes
+     * @param array $aRowData
+     * @return XML_RPC_Value
+     */
+    private function convertRowDataToStruct($aFieldTypes, $aRowData)
+    {
+        $aResult = array();
+        foreach ($aRowData as $databaseFieldName => $fieldValue) {
+            foreach ($aFieldTypes as $fieldName => $fieldType) {
+                if (strtolower($fieldName) == strtolower($databaseFieldName)) {
+                    $aResult[$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
+                                                            $fieldType, $fieldValue);
+                }
+            }
+
+        }
+
+        return new XML_RPC_Value($aResult, $GLOBALS['XML_RPC_Struct']);
     }
 
     /**
