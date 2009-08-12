@@ -184,7 +184,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneDailyStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -211,7 +211,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneAdvertiserStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -238,7 +238,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneCampaignStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -265,7 +265,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneBannerStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;

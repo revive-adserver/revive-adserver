@@ -165,7 +165,7 @@ class BannerServiceImpl extends BaseServiceImpl
             return false;
         }
     }
-    
+
     /**
      * This method return targeting limitations for banner
      * or returns an error message,.
@@ -188,7 +188,7 @@ class BannerServiceImpl extends BaseServiceImpl
         }
     }
 
-            
+
     /**
      * This method set targeting limitations for banner
      * or returns an error message.
@@ -231,7 +231,7 @@ class BannerServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerDailyStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -258,7 +258,7 @@ class BannerServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerPublisherStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -285,7 +285,7 @@ class BannerServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerZoneStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;

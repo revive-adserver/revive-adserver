@@ -184,7 +184,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserDailyStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -211,7 +211,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserCampaignStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -238,7 +238,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserBannerStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -265,7 +265,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserPublisherStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -292,7 +292,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserZoneStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;

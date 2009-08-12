@@ -183,7 +183,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyDailyStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -210,7 +210,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyAdvertiserStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -237,7 +237,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyCampaignStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -264,7 +264,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyBannerStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -291,7 +291,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyPublisherStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -318,7 +318,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyZoneStatistics(
-                    $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $agencyId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;

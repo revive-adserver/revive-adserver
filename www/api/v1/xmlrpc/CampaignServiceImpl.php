@@ -184,7 +184,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignDailyStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -211,7 +211,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignBannerStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -238,7 +238,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignPublisherStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -265,7 +265,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignZoneStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;

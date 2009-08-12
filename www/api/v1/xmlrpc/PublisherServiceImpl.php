@@ -182,7 +182,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherDailyStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -209,7 +209,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherZoneStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -236,7 +236,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherAdvertiserStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -263,7 +263,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherCampaignStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
@@ -290,7 +290,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherBannerStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $publisherId, $oStartDate, $oEndDate, false, $rsStatisticsData));
         } else {
 
             return false;
