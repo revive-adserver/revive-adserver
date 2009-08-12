@@ -195,7 +195,7 @@ class OX_oxMarket_UI_CampaignsSettings
         //for tracking reasons: count all currently opted in before additional optin
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
         $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
-            'selected', $this->minCpms, $this->toOptIn, $this->defaultMinCpm);
+            $this->toOptIn, $this->minCpms);
         
         //for tracking reasons: count all currently opted in after additional optin
         $afterCount = $this->campaignsOptInDal->numberOfOptedCampaigns();

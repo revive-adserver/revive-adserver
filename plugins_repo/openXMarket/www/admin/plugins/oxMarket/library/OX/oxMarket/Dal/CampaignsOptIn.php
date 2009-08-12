@@ -37,21 +37,16 @@ class OX_oxMarket_Dal_CampaignsOptIn
 
 
     /**
-     * Perform Opt In works in two ways:
-     * - $optInType == 'remnant' => set $minCpm to all remnant campaigns
-     * - $optInType == 'selected' => set default CPM or $minCpms if available for $toOptIn campaigns
+     * Perform Opt In works on selected campaigns, set default CPM or $minCpms if available for $toOptIn campaigns
      *
-     * @param string $optInType Type of Opt In method (expected values: 'remnant', 'selected')
-     * @param array $minCpms Array of min cpms for campaigns (indexed by campaigns ids) (for optInType=='selected')
-     * @param array $toOptIn array of campaigns ids (for optInType=='selected')
-     * @param float $minCpm Value of cpm for all campaigns if optInType=='remnant'
+     * @param array $toOptIn array of campaigns ids 
+     * @param array $minCpms Array of min cpms for campaigns (indexed by campaigns ids)
      * @return int campains opted in
      */
-    public function performOptIn($optInType, $minCpms, $toOptIn, $minCpm)
+    public function performOptIn($toOptIn, $minCpms)
     {
         // For non remnant mode toOptIn have to be non empty array
-        if(($optInType != 'remnant') &&
-           (!is_array($toOptIn) || count($toOptIn)==0)) {
+        if((!is_array($toOptIn) || count($toOptIn)==0)) {
             return 0;
         }
 
@@ -66,24 +61,18 @@ class OX_oxMarket_Dal_CampaignsOptIn
         // Ignore already ended campaigns
         $doCampaigns->whereAdd(" expire_time >= '" . $this->getTodayDate() .
                                "' OR expire_time IS NULL");
-
-        if ($optInType == 'remnant') {
-            $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT .
-                                   ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
-        } else {
-            $oDbh = OA_DB::singleton();
-            foreach ($toOptIn as $k => $campaignId) {
-                $toOptIn[$k] = $oDbh->quote($campaignId, 'integer');
-            }
-            $doCampaigns->whereAdd(' campaignid IN (' . implode(",", $toOptIn) . ')');
+        // add campaigns ids
+        $oDbh = OA_DB::singleton();
+        foreach ($toOptIn as $k => $campaignId) {
+            $toOptIn[$k] = $oDbh->quote($campaignId, 'integer');
         }
+        $doCampaigns->whereAdd(' campaignid IN (' . implode(",", $toOptIn) . ')');
 
         $doCampaigns->find();
         $campaignsOptedIn = $doCampaigns->getRowCount();
         while ($doCampaigns->fetch()) {
             $campaignId = $doCampaigns->campaignid;
-            $cpm = ($optInType == 'remnant') ? $minCpm : $minCpms[$campaignId];
-            $this->insertOrUpdateMarketCampaignPref($campaignId, $cpm);
+            $this->insertOrUpdateMarketCampaignPref($campaignId, $minCpms[$campaignId]);
         }
 
         return $campaignsOptedIn;
@@ -357,7 +346,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
     
     
     /**
-     * Perform Opt Out works ib selected campaigns
+     * Perform Opt Out works on selected campaigns
      *
      * @param array $toOptOut array of campaigns ids
      * @return int campains opted out
