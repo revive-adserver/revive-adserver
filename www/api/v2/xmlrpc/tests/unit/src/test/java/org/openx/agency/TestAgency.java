@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestAgencyV2 {
+public class TestAgency {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test Agency service");

@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestZoneAdvertiserStatisticsV2 extends ZoneTestCase {
+public class TestZoneAdvertiserStatistics extends ZoneTestCase {
 	private Integer zoneId;
 
 	@Override

@@ -34,7 +34,7 @@ import org.openx.utils.TextUtils;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestDeleteChannelV2 extends ChannelTestCase {
+public class TestDeleteChannel extends ChannelTestCase {
     /**
 	 * Execute test method with error
 	 *

@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestPublisherDailyStatisticsV1 extends PublisherTestCase {
+public class TestPublisherDailyStatistics extends PublisherTestCase {
 	private Integer publisherId;
 
 	protected void setUp() throws Exception {

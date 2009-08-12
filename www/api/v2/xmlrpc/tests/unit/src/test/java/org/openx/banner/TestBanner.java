@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestBannerV2 {
+public class TestBanner {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for org.openx.banner");

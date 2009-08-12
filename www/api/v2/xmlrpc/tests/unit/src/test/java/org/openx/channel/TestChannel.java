@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestChannelV2 {
+public class TestChannel {
     public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for org.openx.channel");
 		// $JUnit-BEGIN$

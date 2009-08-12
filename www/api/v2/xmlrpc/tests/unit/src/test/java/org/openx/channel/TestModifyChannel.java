@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestModifyChannelV2 extends ChannelTestCase {
+public class TestModifyChannel extends ChannelTestCase {
     private Integer channelId = null;
 
     @Override

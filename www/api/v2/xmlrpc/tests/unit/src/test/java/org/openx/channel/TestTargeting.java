@@ -35,7 +35,7 @@ import org.openx.utils.ErrorMessage;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestTargetingV2 extends ChannelTestCase {
+public class TestTargeting extends ChannelTestCase {
 
     public void testGetAndSetTargetingWithEmptyArrays()
             throws MalformedURLException, XmlRpcException {

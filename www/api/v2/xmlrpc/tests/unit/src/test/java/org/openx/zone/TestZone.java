@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestZoneV2 {
+public class TestZone {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for org.openads.zone");

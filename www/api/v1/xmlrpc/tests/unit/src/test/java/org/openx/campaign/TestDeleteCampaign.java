@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestDeleteCampaignV1 extends CampaignTestCase {
+public class TestDeleteCampaign extends CampaignTestCase {
 	/**
 	 * Execute test method with error
 	 *

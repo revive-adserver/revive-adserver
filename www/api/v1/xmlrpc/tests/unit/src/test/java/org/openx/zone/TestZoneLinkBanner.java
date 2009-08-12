@@ -40,7 +40,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestZoneLinkBannerV1 extends ZoneTestCase {
+public class TestZoneLinkBanner extends ZoneTestCase {
 
 	protected Integer zoneId = null;
 	protected Integer bannerId = null;

@@ -40,7 +40,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestGetBannerListByCampaignIdV2 extends BannerTestCase {
+public class TestGetBannerListByCampaignId extends BannerTestCase {
 	/**
 	 * Test method with all fields.
 	 *

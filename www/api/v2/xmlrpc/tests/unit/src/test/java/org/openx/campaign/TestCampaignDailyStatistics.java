@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestCampaignDailyStatisticsV2 extends CampaignTestCase {
+public class TestCampaignDailyStatistics extends CampaignTestCase {
 	private Integer campaignId = null;
 
 	protected void setUp() throws Exception {

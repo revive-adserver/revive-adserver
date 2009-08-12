@@ -42,7 +42,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 @SuppressWarnings("unchecked")
-public class TestAddPublisherV2 extends PublisherTestCase {
+public class TestAddPublisher extends PublisherTestCase {
 	/**
 	 * Test method with all required fields and some optional.
 	 *

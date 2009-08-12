@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestModifyAdvertiserV2 extends AdvertiserTestCase {
+public class TestModifyAdvertiser extends AdvertiserTestCase {
 	private Integer advertiserId;
 
 	protected void setUp() throws Exception {

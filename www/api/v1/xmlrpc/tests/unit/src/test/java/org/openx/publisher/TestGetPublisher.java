@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetPublisherV1 extends PublisherTestCase {
+public class TestGetPublisher extends PublisherTestCase {
 
 	/**
 	 * Test method with all fields.

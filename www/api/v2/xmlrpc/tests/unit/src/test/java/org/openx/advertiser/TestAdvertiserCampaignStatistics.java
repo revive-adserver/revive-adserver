@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestAdvertiserCampaignStatisticsV2 extends AdvertiserTestCase {
+public class TestAdvertiserCampaignStatistics extends AdvertiserTestCase {
 	private Integer advertiserId;
 
 	@Override

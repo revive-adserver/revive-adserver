@@ -40,7 +40,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestGetCampaignListByAdvertiserIdV2 extends CampaignTestCase {
+public class TestGetCampaignListByAdvertiserId extends CampaignTestCase {
 	/**
 	 * Test method with all fields.
 	 *

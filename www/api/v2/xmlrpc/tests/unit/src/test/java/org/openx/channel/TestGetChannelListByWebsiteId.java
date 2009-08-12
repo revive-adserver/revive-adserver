@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestGetChannelListByWebsiteIdV2 extends ChannelTestCase {
+public class TestGetChannelListByWebsiteId extends ChannelTestCase {
 
     /**
 	 * Execute test method with error

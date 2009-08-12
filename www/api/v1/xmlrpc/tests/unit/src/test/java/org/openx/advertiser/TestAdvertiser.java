@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestAdvertiserV1 {
+public class TestAdvertiser {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for org.openx.advertiser");

@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetAdvertiserV2 extends AdvertiserTestCase {
+public class TestGetAdvertiser extends AdvertiserTestCase {
 
 	/**
 	 * Test method with all fields.

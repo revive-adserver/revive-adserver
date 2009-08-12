@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author David Keen <david.keen@openx.org>
  */
-public class TestAddChannelV2 extends ChannelTestCase {
+public class TestAddChannel extends ChannelTestCase {
 
     /**
 	 * Execute test method with error

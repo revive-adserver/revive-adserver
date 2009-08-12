@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestPublisherBannerStatisticsV2 extends PublisherTestCase {
+public class TestPublisherBannerStatistics extends PublisherTestCase {
 	private Integer publisherId;
 
 	@Override

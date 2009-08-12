@@ -36,7 +36,7 @@ import org.apache.xmlrpc.XmlRpcException;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetAgencyListV1 extends AgencyTestCase {
+public class TestGetAgencyList extends AgencyTestCase {
 
 	/**
 	 * Test method with all fields.

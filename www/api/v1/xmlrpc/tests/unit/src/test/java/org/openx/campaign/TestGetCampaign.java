@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetCampaignV1 extends CampaignTestCase {
+public class TestGetCampaign extends CampaignTestCase {
 
 	/**
 	 * Test method with all fields.

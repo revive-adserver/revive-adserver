@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestDeleteBannerV1 extends BannerTestCase {
+public class TestDeleteBanner extends BannerTestCase {
 	/**
 	 * Execute test method with error
 	 *

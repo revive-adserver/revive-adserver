@@ -35,7 +35,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestZoneUnlinkBannerV2 extends ZoneTestCase {
+public class TestZoneUnlinkBanner extends ZoneTestCase {
 
 	protected Integer zoneId = null;
 	protected Integer bannerId = null;

@@ -39,7 +39,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestModifyZoneV2 extends ZoneTestCase {
+public class TestModifyZone extends ZoneTestCase {
 	private Integer zoneId;
 
 	/**
