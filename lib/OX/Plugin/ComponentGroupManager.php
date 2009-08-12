@@ -1197,9 +1197,10 @@ class OX_Plugin_ComponentGroupManager
                 }
                 else
                 {
-                    if (version_compare($this->getComponentGroupVersion($aGroup['name']),$aGroup['version'],'<'))
+                    $installedComponentGroupVersion = $this->getComponentGroupVersion($aGroup['name']);
+                    if (version_compare($installedComponentGroupVersion ,$aGroup['version'],'<'))
                     {
-                        $this->_logError('Dependency failure: '.$name.' depends on version '.$aGroup['version'].' of '.$aGroup['name'].' but '.$aGroup['name'].' version'.$aGroup['version'].' is installed');
+                        $this->_logError('Dependency failure: '.$name.' depends on version '.$aGroup['version'].' of '.$aGroup['name'].' but '.$aGroup['name'].' version '.$installedComponentGroupVersion.' is installed');
                         return false;
                     }
                 }
