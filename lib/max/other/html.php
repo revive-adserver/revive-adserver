@@ -1884,6 +1884,7 @@ function OX_buildPager($items, $itemsPerPage, $withNumbers = true, $itemsName = 
         'linkClass' => 'page',
         'curPageLinkClassName' => 'current',
         'spacesBeforeSeparator' => 0,
+        'httpMethod' => 'GET',
         'spacesAfterSeparator' => 0
     );
     if (!empty($fileName)) {

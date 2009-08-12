@@ -42,6 +42,7 @@
                     $(this).children('div.panel').children().bind('click', preventClose);
                     $('body').bind('click', onClose);
                     $('body').bind('keydown', onKey);
+                    $(this).bind("close", onClose);
                 });
             };
         }
