@@ -59,6 +59,7 @@ class OX_oxMarket_UI_CampaignsSettings
     private $currentPage;
     
     private $toOptIn;
+    private $allSelected;
     private $optedCount;
     private $maxCpm;
     
@@ -194,8 +195,14 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         //for tracking reasons: count all currently opted in before additional optin
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
-        $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
-            $this->toOptIn, $this->minCpms);
+        
+        if ($this->allSelected) {
+            $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
+                $this->toOptIn, $this->minCpms);
+        } else {
+            $campaignsOptedIn = $this->campaignsOptInDal->performOptInAll(
+                $this->defaultMinCpm, $this->campaignType, $this->minCpms, $this->search);
+        }
         
         //for tracking reasons: count all currently opted in after additional optin
         $afterCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
@@ -213,7 +220,13 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         //for tracking reasons: count all currently opted in before additional optin
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
-        $campaignsOptedOut = $this->campaignsOptInDal->performOptOut($this->toOptIn);
+        
+        if ($this->allSelected) {
+            $campaignsOptedOut = $this->campaignsOptInDal->performOptOutAll(
+                $this->campaignType, $this->search);
+        } else {
+            $campaignsOptedOut = $this->campaignsOptInDal->performOptOut($this->toOptIn);
+        }
         
         //for tracking reasons: count all currently opted in after additional optin
         $afterCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
@@ -258,6 +271,7 @@ class OX_oxMarket_UI_CampaignsSettings
         if ($request['desc']) {
             $this->descending = true;
         }
+        $this->allSelected = !empty($request['allSelected']) && $request['allSelected'] == 'true'; 
 
         $this->minCpms = array();
         foreach ($_REQUEST as $param => $value) {
