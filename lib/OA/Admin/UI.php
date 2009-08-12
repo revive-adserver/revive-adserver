@@ -76,6 +76,14 @@ class OA_Admin_UI
      */
     var $otherCSSFiles;
 
+    
+    /**
+     * An array containing a list of JS files to be included in HEAD section
+     * when page header is rendered.
+     * @var array
+     */
+    var $otherJSFiles;
+    
 
     /**
      * Class constructor, private to force getInstance usage
@@ -87,6 +95,7 @@ class OA_Admin_UI
         $this->oTpl = new OA_Admin_Template('layout/main.html');
         $this->notificationManager = new OA_Admin_UI_NotificationManager();
         $this->otherCSSFiles = array();
+        $this->otherJSFiles = array();
         $this->setLinkParams();
         $this->aTools = array();
         $this->aShortcuts = array();
@@ -562,6 +571,7 @@ class OA_Admin_UI
         $this->oTpl->assign('aCssFiles', $this->getCssFiles($cssGroup));
         $this->oTpl->assign('aOtherCssFiles', $this->otherCSSFiles);
         $this->oTpl->assign('aJsFiles', $this->getJavascriptFiles($jsGroup));
+        $this->oTpl->assign('aOtherJSFiles', $this->otherJSFiles);
 
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
@@ -798,6 +808,15 @@ class OA_Admin_UI
             $this->otherCSSFiles[] = $filePath;
         }
     }
+    
+    
+    function registerJSFile($filePath)
+    {
+        if (!in_array($filePath, $this->otherJSFiles)) {
+            $this->otherJSFiles[] = $filePath;
+        }
+    }
+    
 
 
     function addPageLinkTool($title, $url, $iconClass, $accesskey = null, $extraAttributes = null)
