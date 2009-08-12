@@ -121,6 +121,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
      * @param string $campaignType select campaigns of given type: 'remnant', 'contract', 'all'
      * @param array $minCpms array of campaigns min CPM indexed by campaigns ids
      * @param string $searchPhrase will search for campaigns containing this string 
+     * @param string $orderBy orderBy options currently allowed values: { "name", "optinstatus"), to do reverse sorting add prefix '-' e.g. "-name" 
      * @param int $limit limit returned campaings to given number
      * @param int $offset skip first $offset campaigns in result
      * @return array of campaigns info: campaignid, campaignname, type, minCpm, minCpmCalculated, optin_status
@@ -146,7 +147,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
         }
         switch ($orderBy) {
             case ('optinstatus') :
-                $doCampaigns->orderBy("optin_status {$direction}, campaignname {$direction}, campaign_id {$direction}" );
+                $doCampaigns->orderBy("optin_status {$direction}, campaignname, campaign_id" );
                 break;
             case ('name') : 
             default:

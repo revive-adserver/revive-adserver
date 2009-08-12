@@ -308,6 +308,11 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $aExpectedSorting = array(0=>$aCampaignsIds[2], 1=> $aCampaignsIds[1], 2=> $aCampaignsIds[4]);
         $aSorting = $this->_getSorting($aResult);
         $this->assertEqual($aSorting, $aExpectedSorting);
+        // sort by desc optin status
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, '-optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[4], 2=> $aCampaignsIds[2]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
         
         // optout campaing 4
         $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[4]));
@@ -317,12 +322,23 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $aExpectedSorting = array(0=>$aCampaignsIds[2], 1=> $aCampaignsIds[4], 2=> $aCampaignsIds[1]);
         $aSorting = $this->_getSorting($aResult);
         $this->assertEqual($aSorting, $aExpectedSorting);
+        // sort by desc optin status
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, '-optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[2], 2=> $aCampaignsIds[4]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
         
         // optout campaing 1
         $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[1]));
         
         // sort by optin status (should sort properly unifying 0 and null values as not opted in)
         $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 'optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[2], 2=> $aCampaignsIds[4]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        // sort by desc optin status 
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, '-optinstatus');
         $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[2], 2=> $aCampaignsIds[4]);
         $aSorting = $this->_getSorting($aResult);
         $this->assertEqual($aSorting, $aExpectedSorting);
