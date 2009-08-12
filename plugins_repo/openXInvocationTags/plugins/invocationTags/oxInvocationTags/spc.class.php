@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once LIB_PATH . '/Extension/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/JSON/JSON.php';
 
 require_once OX_PATH . '/lib/OX.php';
 
@@ -77,8 +78,17 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      * Constructor
      *
      */
-    function Plugins_InvocationTags_OxInvocationTags_Spc() {
+    function Plugins_InvocationTags_OxInvocationTags_Spc() 
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
         $this->publisherPlugin = true;
+        $this->varprefix = $conf['var']['prefix'];
+        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) 
+            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION 
+            : MAX_PRODUCT_NAME." ".OA_VERSION;
+        $this->uri = (!empty($mi->ssl)) 
+            ? MAX_commonConstructSecureDeliveryUrl('') 
+            : MAX_commonConstructDeliveryUrl('');
     }
 
      /**
@@ -144,9 +154,6 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             return 'No Zones Available!';
         }
 
-        $this->varprefix = $conf['var']['prefix'];
-        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
-        $this->uri = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl('') : MAX_commonConstructDeliveryUrl('');
 
         $channel = (!empty($mi->source)) ? $mi->source : $affiliate['mnemonic'] . "/test/preview";
 
@@ -155,49 +162,49 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 <head>
     <title>Tags for [id{$affiliate['affiliateid']}] ".htmlspecialchars($affiliate['name'])."</title>
         <link rel='stylesheet' type='text/css' href='" . OX::assetPath() .  "/css/preview.css' />
-		<script type='text/javascript' src='" . OX::assetPath() .  "/js/jquery-1.2.3.js'></script>
+        <script type='text/javascript' src='" . OX::assetPath() .  "/js/jquery-1.2.3.js'></script>
 
         <script type='text/javascript'>
-		<!--
+        <!--
 
-			function selectElement() {
-				if (window.getSelection) {
-					var r = document.createRange();
-					r.selectNodeContents($(this)[0]);
-					var s = window.getSelection();
-					if (s.rangeCount) {
-						s.collapseToStart();
-						s.removeAllRanges();
-					}
-					s.addRange(r);
-				} else if (document.body.createTextRange) {
-					var r = document.body.createTextRange();
-					r.moveToElementText($(this)[0]);
-					r.select();
-				}
-			}
+            function selectElement() {
+                if (window.getSelection) {
+                    var r = document.createRange();
+                    r.selectNodeContents($(this)[0]);
+                    var s = window.getSelection();
+                    if (s.rangeCount) {
+                        s.collapseToStart();
+                        s.removeAllRanges();
+                    }
+                    s.addRange(r);
+                } else if (document.body.createTextRange) {
+                    var r = document.body.createTextRange();
+                    r.moveToElementText($(this)[0]);
+                    r.select();
+                }
+            }
 
-			$(document).ready(function() {
-				$('pre').bind('mousedown', selectElement);
-				$('pre').bind('click', selectElement);
-				$('pre').bind('mousemove', selectElement);
+            $(document).ready(function() {
+                $('pre').bind('mousedown', selectElement);
+                $('pre').bind('click', selectElement);
+                $('pre').bind('mousemove', selectElement);
 
-				$('#closeWindow').click(function() {
-					window.close();
-				});
-			});
+                $('#closeWindow').click(function() {
+                    window.close();
+                });
+            });
 
-		//-->
-		</script>
-	</head>
+        //-->
+        </script>
+    </head>
 
-	<body class='invocationCodes'>
-    	<div class='header'>
-        	<h1>OpenX</h1>
+    <body class='invocationCodes'>
+        <div class='header'>
+            <h1>OpenX</h1>
         </div>
-		";
+        ";
 
-		$script .= "
+        $script .= "
         <div class='settings'>
             <h2>Tags <small>for <span class='inlinePublisher'>[id{$affiliate['affiliateid']}] ".htmlspecialchars($affiliate['name'])."</span></small></h2>
             <p>
@@ -207,164 +214,164 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
             <h3>The following settings were used to generate this page:</h3>
             <table class='horizontalSummary' summary=''>
-		";
+        ";
 
-		reset ($this->defaultOptionValues);
+        reset ($this->defaultOptionValues);
         foreach ($this->defaultOptionValues as $feature => $default) {
-			switch ($feature) {
-				case 'block':
-						$optionName = $GLOBALS['strInvocationDontShowAgain'];
-						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
-						break;
-				case 'blockcampaign':
-						$optionName = $GLOBALS['strInvocationDontShowAgainCampaign'];
-						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
-						break;
-				case 'target':
-						$optionName = $GLOBALS['strInvocationTarget'];
-						switch($mi->$feature) {
-							case '_blank':	$optionValue = 'New window'; break;
-							case '_top':	$optionValue = 'Same window'; break;
-							default:		$optionValue = $GLOBALS['strDefault']; break;
-						}
-						break;
-				case 'source':
-						$optionName = $GLOBALS['strInvocationSource'];
-						$optionValue = $mi->$feature != '' ? htmlspecialchars(stripslashes($mi->$feature)) : '-';
-						break;
-				case 'withtext':
-						$optionName = $GLOBALS['strInvocationWithText'];
-						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
-						break;
-				case 'noscript':
-						$optionName = $this->translate("Option - noscript");
-						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
-						break;
-				case 'ssl':
-						$optionName = $this->translate("Option - SSL");
-						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
-						break;
-				case 'charset':
-						$optionName = $GLOBALS['strCharset'];
-						$optionValue = empty($mi->$feature) ? $GLOBALS['strAutoDetect'] : $mi->$feature;
-						break;
-				default:
-						$optionName = $feature;
-						$optionValue = htmlspecialchars(stripslashes($mi->$feature));
-						break;
-			}
+            switch ($feature) {
+                case 'block':
+                        $optionName = $GLOBALS['strInvocationDontShowAgain'];
+                        $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                        break;
+                case 'blockcampaign':
+                        $optionName = $GLOBALS['strInvocationDontShowAgainCampaign'];
+                        $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                        break;
+                case 'target':
+                        $optionName = $GLOBALS['strInvocationTarget'];
+                        switch($mi->$feature) {
+                            case '_blank':  $optionValue = 'New window'; break;
+                            case '_top':    $optionValue = 'Same window'; break;
+                            default:        $optionValue = $GLOBALS['strDefault']; break;
+                        }
+                        break;
+                case 'source':
+                        $optionName = $GLOBALS['strInvocationSource'];
+                        $optionValue = $mi->$feature != '' ? htmlspecialchars(stripslashes($mi->$feature)) : '-';
+                        break;
+                case 'withtext':
+                        $optionName = $GLOBALS['strInvocationWithText'];
+                        $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                        break;
+                case 'noscript':
+                        $optionName = $this->translate("Option - noscript");
+                        $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                        break;
+                case 'ssl':
+                        $optionName = $this->translate("Option - SSL");
+                        $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                        break;
+                case 'charset':
+                        $optionName = $GLOBALS['strCharset'];
+                        $optionValue = empty($mi->$feature) ? $GLOBALS['strAutoDetect'] : $mi->$feature;
+                        break;
+                default:
+                        $optionName = $feature;
+                        $optionValue = htmlspecialchars(stripslashes($mi->$feature));
+                        break;
+            }
 
-			$script .= "
+            $script .= "
                 <tr>
-                	<th>{$optionName}</th>
+                    <th>{$optionName}</th>
                     <td>{$optionValue}</td>
                 </tr>
-			";
+            ";
         }
 
-		$script .= "
+        $script .= "
             </table>
-		</div>
-		";
+        </div>
+        ";
 
-		/* Common script at the top of the page */
+        /* Common script at the top of the page */
         $codeblock = $this->getHeaderCode();
 
-		$script .= "
+        $script .= "
         <div class='step'>
             <h2>
-            	<div class='number'><span>1</span></div>
-				Header script
+                <div class='number'><span>1</span></div>
+                Header script
             </h2>
             <p>
-            	Insert the following script at the top of every page on the {$affiliate['website']} website. This code
-				belongs between the <code>&lt;head&gt;</code> and <code>&lt;/head&gt;</code> tags, before any ad scripts
+                Insert the following script at the top of every page on the {$affiliate['website']} website. This code
+                belongs between the <code>&lt;head&gt;</code> and <code>&lt;/head&gt;</code> tags, before any ad scripts
                 on the page:
             </p>
 
             <pre>". htmlspecialchars($codeblock) ."</pre>
-		</div>
-		";
+        </div>
+        ";
 
-		$i = 2;
+        $i = 2;
 
 
 
 
         foreach($aZones as $zone) {
-			$width = $zone['width'] > -1 ? $zone['width'] : 150;
-			$widthLabel = $zone['width'] > -1 ? $zone['width'] : '*';
+            $width = $zone['width'] > -1 ? $zone['width'] : 150;
+            $widthLabel = $zone['width'] > -1 ? $zone['width'] : '*';
 
-			$height = $zone['height'] > -1 ? $zone['height'] : 150;
-			$heightLabel = $zone['height'] > -1 ? $zone['height'] : '*';
+            $height = $zone['height'] > -1 ? $zone['height'] : 150;
+            $heightLabel = $zone['height'] > -1 ? $zone['height'] : '*';
 
-			$customClass = array();
+            $customClass = array();
 
-			if ($zone['width'] == -1 && $zone['height'] == -1) {
-				$customClass[] = 'customBoth';
-			} elseif ($zone['height'] == -1) {
-				$customClass[] = 'customHeight';
-			} elseif ($zone['width'] == -1) {
-				$customClass[] = 'customWidth';
-			}
+            if ($zone['width'] == -1 && $zone['height'] == -1) {
+                $customClass[] = 'customBoth';
+            } elseif ($zone['height'] == -1) {
+                $customClass[] = 'customHeight';
+            } elseif ($zone['width'] == -1) {
+                $customClass[] = 'customWidth';
+            }
 
-			// Labels are roughly 80 x 30 pixels...
-			// width < 80 || height < 30 =>	No room for even a single label, drop the OpenX logo and show the size outside
-			// width < 160 && height < 60	=> No room for both labels... drop the OpenX logo
-			if (($zone['width'] > -1 && $zone['width'] < 80) || ($zone['height'] > -1 && $zone['height'] < 30)) {
-				$customClass[] = 'labelsMicro';
-			} elseif ($zone['width'] > -1 && $zone['width'] < 160 && $zone['height'] > -1 && $zone['height'] < 60) {
-				$customClass[] = 'labelsMini';
-			}
+            // Labels are roughly 80 x 30 pixels...
+            // width < 80 || height < 30 => No room for even a single label, drop the OpenX logo and show the size outside
+            // width < 160 && height < 60   => No room for both labels... drop the OpenX logo
+            if (($zone['width'] > -1 && $zone['width'] < 80) || ($zone['height'] > -1 && $zone['height'] < 30)) {
+                $customClass[] = 'labelsMicro';
+            } elseif ($zone['width'] > -1 && $zone['width'] < 160 && $zone['height'] > -1 && $zone['height'] < 60) {
+                $customClass[] = 'labelsMini';
+            }
 
             $codeblock = $this->getZoneCode($zone, $affiliate);
 
-			$script .= "
+            $script .= "
         <div class='step'>
             <h2>
-            	<div class='number'><span>{$i}</span></div>
+                <div class='number'><span>{$i}</span></div>
                 Ad script <small>for <span class='inlineZone'>[id{$zone['zoneid']}] ".htmlspecialchars($zone['zonename'])."</span></small>
             </h2>
             <p>
-            	Copy the following script and place it in the site where you want the ad to display:
+                Copy the following script and place it in the site where you want the ad to display:
             </p>
 
             <pre>" . htmlspecialchars($codeblock) . "</pre>
 
             <p>
-            	Example" . ($zone['width'] == -1 || $zone['height'] == -1 ? ' (actual size may vary)' : '') . ":
+                Example" . ($zone['width'] == -1 || $zone['height'] == -1 ? ' (actual size may vary)' : '') . ":
             </p>
 
             <div class='sizePreview " . (count($customClass) ? ' ' . implode(' ', $customClass) : '') . "' style='width: {$width}px; height: {$height}px;'>
                 <img src='" . OX::assetPath() . "/images/watermark.gif' alt='' />
-				<span>{$widthLabel} x {$heightLabel}</span>
+                <span>{$widthLabel} x {$heightLabel}</span>
             </div>
 
-		</div>
-			";
+        </div>
+            ";
 
-			$i++;
+            $i++;
         }
 
         $script .= "
         <div class='step'>
             <h2>
-            	<div class='number'><span>{$i}</span></div>
+                <div class='number'><span>{$i}</span></div>
                 Done
             </h2>
             <p>
-            	Banners should now appear on your website
+                Banners should now appear on your website
             </p>
 
-        	<button id='closeWindow'><img src='" . OX::assetPath() . "/images/cross.png' alt='' />Close this window</button>
+            <button id='closeWindow'><img src='" . OX::assetPath() . "/images/cross.png' alt='' />Close this window</button>
         </div>
 
         <div class='generated'>
-        	Generated by {$this->appname} " . OA_VERSION . "
+            Generated by {$this->appname}
         </div>
-	</body>
+    </body>
 </html>
-		";
+        ";
 
         return $script;
     }
@@ -439,7 +446,14 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $this->maxInvocation->canDetectCharset = true;
     }
 
-    function getHeaderCode()
+    /**
+     * Generates header spc tag.
+     * If optional $aZoneAliases is given, additional zone aliasing array will be generated.
+     *
+     * @param array $aZoneAliases zone id => array of alias names
+     * @return unknown
+     */
+    function getHeaderCode($aZoneAliases = null)
     {
         $mi = &$this->maxInvocation;
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -454,9 +468,9 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         }
 
         $codeblock = "";
-		if ($mi->comments) {
-			$codeblock .= "<!-- Generated by {$this->appname} " . OA_VERSION . " -->\n";
-		}
+        if ($mi->comments) {
+            $codeblock .= "<!-- Generated by {$this->appname} -->\n";
+        }
         if ($mi->source) {
             $source = stripslashes($mi->source);
             $source = addcslashes($source, "\x00..\x1F\'\\");
@@ -464,12 +478,42 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             $codeblock .= "    var {$this->varprefix}source = '{$source}';\n";
             $codeblock .= "// ]]> --></script>";
         }
-		$codeblock .= "<script type='text/javascript' src='{$this->uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>";
+        
+        $aliasesBlock = '';
+        if (!empty($aZoneAliases)) {
+            $aliasesBlock = $this->generateAliasesCode($aZoneAliases);
+            $codeblock .= !empty($aliasesBlock) ? $aliasesBlock : '';
+        }
+        
+        $codeblock .= "<script type='text/javascript' src='{$this->uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>";
 
         return $codeblock;
     }
+    
+    
+    private function generateAliasesCode($aZoneAliases)
+    {
+        $oJson = new Services_JSON();
+        
+        $aStruct = array();
+        foreach ($aZoneAliases as $zoneId => $aAliases) {
+            foreach($aAliases as $alias) {
+                $aStruct[$alias] = $zoneId;        
+            }
+        }
+        $aliasesCode.= $oJson->encode($aStruct);
+        
+        $codeblock .= "<script type='text/javascript'><!--// <![CDATA[\n";
+        $codeblock .= "    var {$this->varprefix}zones = ";
+        $codeblock .= $aliasesCode;
+        $codeblock .= "    \n";
+        $codeblock .= "// ]]> --></script>\n";
+        
+        return $codeblock;
+    }
+    
 
-    function getZoneCode($zone, $affiliate)
+    function getZoneCode($zone, $affiliate, $zoneAlias = null)
     {
         $mi = &$this->maxInvocation;
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -479,9 +523,9 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
         $js_func = $this->varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
         if ($mi->comments) {
-            $codeblock .= "\n    /* [id{$zone['zoneid']}] ".addcslashes($zone['zonename'], '/')." */";
+            $codeblock .= "\n    /* ".($zoneAlias ? addcslashes($zoneAlias)." - " : '')."[id{$zone['zoneid']}] ".addcslashes($zone['zonename'], '/')." */";
         }
-        $codeblock .= "\n    {$js_func}({$zone['zoneid']});\n// ]]> --></script>";
+        $codeblock .= "\n    {$js_func}(".($zoneAlias ? "'".$zoneAlias."'" : $zone['zoneid']).");\n// ]]> --></script>";
         if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
             $codeblock .= "<noscript><a target='_blank' href='{$this->uri}{$conf['file']['click']}?n={$zone['n']}'>";
             $codeblock .= "<img border='0' alt='' src='{$this->uri}{$conf['file']['view']}?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";

@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Invocation Tags Plugins for OpenX</description>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <type>package</type>
 
     <install>
