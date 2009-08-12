@@ -111,7 +111,7 @@
             </admin>
             <manager>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
-                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Settings</menu>
+                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>
                 <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>                
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   

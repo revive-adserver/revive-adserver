@@ -121,13 +121,13 @@ $Id$
               {$minCpmsInvalid[$campaignId]}
               </label>
             {else}     
-              <small style="float: left"><span class="campaign-type-tag">
+              <span style="float: left" class="campaign-type-tag">
               {if $campaign.minCpmCalculated}
                 {ox_campaign_type_tag type='ui-ecpm'}
               {elseif $campaign.minCpmSpecified}
                 {ox_campaign_type_tag type='ui-cpm'}
               {/if}
-              </span></small>
+              </span>
             {/if}
           </td>
         </tr>
@@ -135,7 +135,7 @@ $Id$
     </tbody>
     <tbody class="tableFooter">
       <tr>
-        <td  colspan="4">
+        <td colspan="4">
           <ul class='tableActions'>
             <li>
               <button class="left green-dot" type="submit" name="optInSubmit">
@@ -154,6 +154,18 @@ $Id$
             <span class="controls">{$pager->links}</span>
           </div>
           {/if}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: right; line-height: 1.2; padding-right: 1.7em">
+            <div style="clear: both; margin-bottom: 7px">
+            <span style="float: right; position: relative; top: -2px; margin-left: 2px" class="campaign-type-tag">{ox_campaign_type_tag type='ui-cpm'}</span>
+            floor price value equal to the campaign's secified CPM
+            </div>
+            <div style="clear: both">
+            <span style="float: right; position: relative; top: -2px; margin-left: 2px" class="campaign-type-tag">{ox_campaign_type_tag type='ui-ecpm'}</span>
+            floor price value equal to the campaign's calculated eCPM
+            </div>
         </td>
       </tr>
     </tbody>

@@ -164,6 +164,13 @@ ul.column li.rejected {
   width: 4em;
 }
 
+.market-campaign-settings label.error {
+  display: block;
+  clear: both;
+  padding: 0;
+  padding-top: 5px;
+}
+
 .market-campaign-settings #submit {
   vertical-align: middle;
   margin-right: 3px;
@@ -363,11 +370,11 @@ ul.column li.rejected {
 
 /** tag end **/
 .market-campaign-settings .tableWrapper th.mkt-status {
-  width: 13em;
+  width: 9em;
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
-  width: 13em;
+  width: 12em;
 }
 /*
 .market-campaign-settings .has-info-box .tableWrapper .mkt-status {
