@@ -92,7 +92,7 @@ function loadSchemaList()
                 continue;
             }
             $relPath = $pluginPath.$folder.'/etc/';
-            $dhPlgs = opendir(MAX_PATH.$relPath);
+            $dhPlgs = @opendir(MAX_PATH.$relPath);
             if ($dhPlgs)
             {
                 while (false !== ($file = readdir($dhPlgs)))
