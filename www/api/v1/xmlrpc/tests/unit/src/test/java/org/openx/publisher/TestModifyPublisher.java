@@ -39,7 +39,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestModifyPublisher extends PublisherTestCase {
+public class TestModifyPublisherV1 extends PublisherTestCase {
 	private Integer publisherId;
 
 	protected void setUp() throws Exception {

@@ -32,7 +32,7 @@ import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 
-public class TestTargeting extends BannerTestCase {
+public class TestTargetingV2 extends BannerTestCase {
 
 	public void testGetAndSetTargetingWithEmptyArrays()
 			throws MalformedURLException, XmlRpcException {

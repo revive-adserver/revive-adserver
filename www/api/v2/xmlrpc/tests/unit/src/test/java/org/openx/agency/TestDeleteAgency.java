@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestDeleteAgency extends AgencyTestCase {
+public class TestDeleteAgencyV2 extends AgencyTestCase {
 
 	/**
 	 * Execute test method with error

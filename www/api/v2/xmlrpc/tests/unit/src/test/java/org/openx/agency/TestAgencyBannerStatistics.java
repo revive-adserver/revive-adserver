@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestAgencyBannerStatistics extends AgencyTestCase {
+public class TestAgencyBannerStatisticsV2 extends AgencyTestCase {
 	private Integer agencyId;
 
 	protected void setUp() throws Exception {

@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestAuthUser extends WebServiceTestCase {
+public class TestAuthUserV1 extends WebServiceTestCase {
 
 	private String sessionId;
 	

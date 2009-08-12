@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestModifyBanner extends BannerTestCase {
+public class TestModifyBannerV2 extends BannerTestCase {
 	private Integer bannerId = null;
 
 	protected void setUp() throws Exception {

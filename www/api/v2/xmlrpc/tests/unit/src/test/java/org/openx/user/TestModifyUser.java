@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestModifyUser extends UserTestCase {
+public class TestModifyUserV2 extends UserTestCase {
 
 	/**
 	 * Execute test method with error

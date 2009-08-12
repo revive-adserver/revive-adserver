@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestDeletePublisher extends PublisherTestCase {
+public class TestDeletePublisherV1 extends PublisherTestCase {
 	/**
 	 * Execute test method with error
 	 *

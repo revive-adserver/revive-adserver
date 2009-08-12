@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestDeleteAdvertiser extends AdvertiserTestCase {
+public class TestDeleteAdvertiserV1 extends AdvertiserTestCase {
 	/**
 	 * Execute test method with error
 	 *

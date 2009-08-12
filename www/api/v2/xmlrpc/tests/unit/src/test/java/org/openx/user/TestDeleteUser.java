@@ -36,7 +36,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestDeleteUser extends UserTestCase {
+public class TestDeleteUserV2 extends UserTestCase {
 	
 	/**
 	 * Execute test method with error

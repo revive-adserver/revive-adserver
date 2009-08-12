@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestGetUserListByAccountId extends UserTestCase {
+public class TestGetUserListByAccountIdV1 extends UserTestCase {
 
 	/**
 	 * Execute test method with error

@@ -40,7 +40,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestAddCampaign extends CampaignTestCase {
+public class TestAddCampaignV2 extends CampaignTestCase {
 	/**
 	 * Execute test method with error
 	 *

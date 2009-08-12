@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestZoneGenerateTags extends ZoneTestCase {
+public class TestZoneGenerateTagsV2 extends ZoneTestCase {
 
 	//TODO: Make not allowed type error verification more flexible
 	//TODO: Manage the available ad types 

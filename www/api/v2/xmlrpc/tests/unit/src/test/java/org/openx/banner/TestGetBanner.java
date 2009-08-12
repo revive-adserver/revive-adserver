@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetBanner extends BannerTestCase {
+public class TestGetBannerV2 extends BannerTestCase {
 
 	/**
 	 * Test method with all fields.

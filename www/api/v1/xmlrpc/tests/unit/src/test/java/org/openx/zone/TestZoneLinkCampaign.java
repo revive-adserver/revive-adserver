@@ -35,7 +35,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestZoneLinkCampaign extends ZoneTestCase {
+public class TestZoneLinkCampaignV1 extends ZoneTestCase {
 
 	protected Integer zoneId = null;
 	protected Integer campaignId = null;

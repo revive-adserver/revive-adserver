@@ -39,7 +39,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestGetZoneListByPublisherId extends ZoneTestCase {
+public class TestGetZoneListByPublisherIdV1 extends ZoneTestCase {
 
 	/**
 	 * Test method with all fields.

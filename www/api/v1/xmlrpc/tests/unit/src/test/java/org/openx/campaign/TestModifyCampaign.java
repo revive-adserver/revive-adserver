@@ -39,7 +39,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
-public class TestModifyCampaign extends CampaignTestCase {
+public class TestModifyCampaignV1 extends CampaignTestCase {
 	private Integer campaignId = null;
 
 	protected void setUp() throws Exception {

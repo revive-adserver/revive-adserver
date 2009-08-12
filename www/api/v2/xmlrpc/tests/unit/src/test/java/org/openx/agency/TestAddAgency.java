@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>, Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestAddAgency extends AgencyTestCase {
+public class TestAddAgencyV2 extends AgencyTestCase {
 	
 	/**
 	 * Test method with all required fields and some optional.

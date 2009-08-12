@@ -37,7 +37,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestGetZone extends ZoneTestCase {
+public class TestGetZoneV1 extends ZoneTestCase {
 
 	/**
 	 * Test method with all fields.

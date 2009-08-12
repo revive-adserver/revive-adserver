@@ -38,7 +38,7 @@ import org.openx.utils.TextUtils;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class TestAddZone extends ZoneTestCase {
+public class TestAddZoneV2 extends ZoneTestCase {
 	/**
 	 * Execute test method with error
 	 *
