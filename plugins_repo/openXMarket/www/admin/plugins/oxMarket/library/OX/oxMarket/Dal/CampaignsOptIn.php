@@ -395,4 +395,51 @@ class OX_oxMarket_Dal_CampaignsOptIn
         
         return $campaignsOptedOut;
     }
+    
+    
+    public function performOptInAll($defaultMinCpm, $campaignType = null, $minCpms=array(),
+                                 $searchPhrase = null)
+    {
+        // get all selected campaign
+        $campaigns = $this->getCampaigns($defaultMinCpm, $campaignType, $minCpms, $searchPhrase);
+        // Create toOptIn array of campaigns
+        // and create allMinCpms as merge of given $minCpms and values from query
+        $allMinCpms = array();
+        $toOptIn = array();
+        foreach ($campaigns as $campaign) {
+            $campaignId = $campaign['campaignid'];
+            $toOptIn[] = $campaign['campaignid'];
+            $allMinCpms[$campaignId] = (isset($minCpms[$campaignId])) ? $minCpms[$campaignId] : $campaign['minCpm'];
+        }
+        return $this->performOptIn($toOptIn, $allMinCpms);
+    }
+    
+    
+    public function performOptOutAll($campaignType = null, $searchPhrase = null)
+    {
+        // Select all campaignids
+        $doCampaigns = $this->prepareCommonCampaingQuery($campaignType, $searchPhrase);
+        $doCampaigns->whereAdd('('.OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NOT NULL AND '
+                                .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled <> 0)');
+        $doCampaigns->selectAdd();
+        $doCampaigns->selectAdd('campaignid');
+        $doCampaigns->find();
+        $toOptOut = array();
+        while ($doCampaigns->fetch()) {
+            $toOptOut[] = $doCampaigns->campaignid;
+        }
+        
+        // If no campaign to optout exit
+        if (count($toOptOut)==0) {
+            return 0;
+        }
+        
+        // optout campaigns from list
+        $doCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doCampaignPref->whereAdd(' campaignid IN (' . implode(",", $toOptOut) . ')');
+        $doCampaignPref->is_enabled = false;
+        $campaignsOptedOut = $doCampaignPref->update();
+        
+        return $campaignsOptedOut;
+    }
 }
