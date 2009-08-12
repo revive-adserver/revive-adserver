@@ -397,32 +397,55 @@ class OX_oxMarket_Dal_CampaignsOptIn
     }
     
     
+    /**
+     * Opt in all selected campaigns
+     * Sets minCpm from $minCpms before database
+     *
+     * @param float $defaultMinCpm default min CPM
+     * @param string $campaignType select campaigns of given type: 'remnant', 'contract', 'all'
+     * @param array $minCpms array of campaigns min CPM indexed by campaigns ids
+     * @param string $searchPhrase will search for campaigns containing this string 
+     * @return int campains opted in
+     */
     public function performOptInAll($defaultMinCpm, $campaignType = null, $minCpms=array(),
                                  $searchPhrase = null)
     {
         // get all selected campaign
-        $campaigns = $this->getCampaigns($defaultMinCpm, $campaignType, $minCpms, $searchPhrase);
+        $campaigns = $this->getCampaigns($defaultMinCpm, $campaignType, $minCpms, 
+                                 $searchPhrase);
         // Create toOptIn array of campaigns
-        // and create allMinCpms as merge of given $minCpms and values from query
-        $allMinCpms = array();
+        // and minCpms array from results
+        $minCpms = array();
         $toOptIn = array();
         foreach ($campaigns as $campaign) {
             $campaignId = $campaign['campaignid'];
             $toOptIn[] = $campaign['campaignid'];
-            $allMinCpms[$campaignId] = (isset($minCpms[$campaignId])) ? $minCpms[$campaignId] : $campaign['minCpm'];
+            $minCpms[$campaignId] = $campaign['minCpm'];
         }
-        return $this->performOptIn($toOptIn, $allMinCpms);
+        return $this->performOptIn($toOptIn, $minCpms);
     }
     
     
+    /**
+     * Perform Opt Out for all selected campaigns
+     *
+     * @param string $campaignType select campaigns of given type: 'remnant', 'contract', 'all'
+     * @param string $searchPhrase will search for campaigns containing this string
+     * @return int campains opted out
+     */
     public function performOptOutAll($campaignType = null, $searchPhrase = null)
     {
         // Select all campaignids
         $doCampaigns = $this->prepareCommonCampaingQuery($campaignType, $searchPhrase);
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+
+        // Select campaigns already optedin ext_market_campaign_pref
+        $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
         $doCampaigns->whereAdd('('.OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NOT NULL AND '
                                 .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled <> 0)');
+                                
         $doCampaigns->selectAdd();
-        $doCampaigns->selectAdd('campaignid');
+        $doCampaigns->selectAdd($doCampaigns->tableName().'.campaignid');
         $doCampaigns->find();
         $toOptOut = array();
         while ($doCampaigns->fetch()) {

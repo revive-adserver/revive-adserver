@@ -508,6 +508,144 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertTrue($aResult[2]['is_enabled']);
         $this->assertEqual($aResult[2]['floor_price'], 0.66);
     }
+    
+    
+    function testPerformOptInAll()
+    {
+        $aObjectsIds = $this->_prepare_users();
+        // Prepare logged user
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->get($aObjectsIds['managerUserID']);
+        $oUser = new OA_Permission_User($doUsers);
+        global $session;
+        $session['user'] = $oUser;
+
+        $aCampaignsIds = $this->_prepare_campaigns($aObjectsIds);
+
+        $oDalCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
+        
+        // Test selected (update and insert)
+        $minCpms = array($aCampaignsIds[4] => 1.23);
+        $defaultMinCpm = 3.45;
+        $result = $oDalCampaignsOptIn->performOptInAll($defaultMinCpm, 'remnant', array(), 'ign 4');
+        $this->assertEqual(0, $result);
+        
+        $result = $oDalCampaignsOptIn->performOptInAll($defaultMinCpm, 'all', array(), 'ign 5');
+        $this->assertEqual(0, $result);
+        
+        $result = $oDalCampaignsOptIn->performOptInAll($defaultMinCpm, 'all', array(), 'ign 4');
+        $this->assertEqual(1, $result);
+
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),1);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 1.0);  // uses calculated ecpm
+
+        $result = $oDalCampaignsOptIn->performOptInAll($defaultMinCpm, 'contract', $minCpms, 'ign 4');
+        $this->assertEqual(1, $result);
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),1);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 1.23); // uses given ecpm
+
+        $result = $oDalCampaignsOptIn->performOptInAll($defaultMinCpm, 'all', array(), null);
+        $this->assertEqual(3, $result);
+       
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[1]);
+        $this->assertTrue($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 1.00);
+        $this->assertEqual($aResult[1]['campaignid'], $aCampaignsIds[2]);
+        $this->assertTrue($aResult[1]['is_enabled']);
+        $this->assertEqual($aResult[1]['floor_price'], 1.00);
+        $this->assertEqual($aResult[2]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[2]['is_enabled']);
+        $this->assertEqual($aResult[2]['floor_price'], 1.23); // uses last given ecpm
+    }
+    
+    
+    function testPerformOptOutAll()
+    {
+        $aObjectsIds = $this->_prepare_users();
+        // Prepare logged user
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->get($aObjectsIds['managerUserID']);
+        $oUser = new OA_Permission_User($doUsers);
+        global $session;
+        $session['user'] = $oUser;
+
+        $aCampaignsIds = $this->_prepare_campaigns($aObjectsIds);
+
+        $oDalCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
+        
+        // Test: no campaigns optedin
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOutAll('all', null));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),0);
+        
+        // Opt in campaigns
+        $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
+        $minCpms = array($aCampaignsIds[4] => 1.23, $aCampaignsIds[2] => 0.56);
+        $result = $oDalCampaignsOptIn->performOptIn($toOptIn, $minCpms);
+        // optin other user campaign
+        $oDalCampaignsOptIn->insertOrUpdateMarketCampaignPref($aCampaignsIds[5], 0.66);
+        
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOutAll('all', 'ign 5'));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->is_enabled = false;
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),0);
+        
+        $this->assertEqual(1, $oDalCampaignsOptIn->performOptOutAll('all', 'aign 2'));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[2]);
+        $this->assertFalse($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 0.56);
+        $this->assertEqual($aResult[1]['campaignid'], $aCampaignsIds[4]);
+        $this->assertTrue($aResult[1]['is_enabled']);
+        $this->assertEqual($aResult[1]['floor_price'], 1.23);
+        $this->assertEqual($aResult[2]['campaignid'], $aCampaignsIds[5]);
+        $this->assertTrue($aResult[2]['is_enabled']);
+        $this->assertEqual($aResult[2]['floor_price'], 0.66);
+        
+        $this->assertEqual(0, $oDalCampaignsOptIn->performOptOutAll('remnant'));
+        
+        $this->assertEqual(1, $oDalCampaignsOptIn->performOptOutAll('contract'));
+        
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->orderBy('campaignid');
+        $aResult = $doMarketCampaignPref->getAll();
+        $this->assertEqual(count($aResult),3);
+        $this->assertEqual($aResult[0]['campaignid'], $aCampaignsIds[2]);
+        $this->assertFalse($aResult[0]['is_enabled']);
+        $this->assertEqual($aResult[0]['floor_price'], 0.56);
+        $this->assertEqual($aResult[1]['campaignid'], $aCampaignsIds[4]);
+        $this->assertFalse($aResult[1]['is_enabled']);
+        $this->assertEqual($aResult[1]['floor_price'], 1.23);
+        $this->assertEqual($aResult[2]['campaignid'], $aCampaignsIds[5]);
+        $this->assertTrue($aResult[2]['is_enabled']);
+        $this->assertEqual($aResult[2]['floor_price'], 0.66);
+        
+    }
 
     
     function _prepare_users()
