@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 /**
  * Global location for storing merged plugins files code
  */
-define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/plugins/cache/mergedDeliveryFunctions.php');
+define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/mergedDeliveryFunctions.php');
 
 /**
  * Generates delivery log plugins cache and order the dependencies
@@ -196,6 +196,10 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      */
     function regenerateDeliveryPluginsCodeCache($aComponentsByHooks)
     {
+        // Only attempt to create the merged functions file if required
+        if (empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) {
+            return true;
+        }
         $aDeliveryComponentsHooks = $this->filterDeliveryHooks($aComponentsByHooks);
         $mergedDelivery = $this->generatePluginsCode($aDeliveryComponentsHooks);
         if (!$mergedDelivery) {

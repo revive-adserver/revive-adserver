@@ -694,7 +694,7 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
 
     if (!function_exists($functionName)) {
         // Function doesn't exist, include the generic merged delivery file
-        if (!empty($GLOBALS['_MAX']['CONF']['debug']['production'])) _includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
+        if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) _includeDeliveryPluginFile('/var/cache/mergedDeliveryFunctions.php');
         if (!function_exists($functionName)) {
             // Function doesn't exist, include the relevant plugin file
             _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');

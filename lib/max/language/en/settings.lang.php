@@ -530,6 +530,7 @@ $GLOBALS['strPlatformHashInsertingError']            = "Error inserting Platform
 // Plugin Settings
 $GLOBALS['strPluginSettings']                        = "Plugin Settings";
 $GLOBALS['strEnableNewPlugins']                      = "Enable newly installed plugins";
+$GLOBALS['strUseMergedFunctions']                    = "Use merged delivery functions file";
 
 /*-------------------------------------------------------*/
 /* Unknown (unused?) translations                        */

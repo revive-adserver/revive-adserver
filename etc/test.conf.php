@@ -426,6 +426,7 @@ httpPort=80
 
 [pluginSettings]
 enableOnInstall = true
+useMergedFunctions = true
 
 [plugins]
 

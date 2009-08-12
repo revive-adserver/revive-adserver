@@ -58,7 +58,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'pluginSettings_enableOnInstall' => array(
         'pluginSettings' => 'enableOnInstall',
         'bool'    => true
-        )
+        ),
+        'pluginSettings_useMergedFunctions' => array('pluginSettings' => 'useMergedFunctions', 'bool' => true),
     );
 
     // Create a new settings object, and save the settings!
@@ -97,6 +98,11 @@ $aSettings = array (
                 'type'  => 'checkbox',
                 'name'  => 'pluginSettings_enableOnInstall',
                 'text'  => $GLOBALS['strEnableNewPlugins']
+            ),
+            array (
+                'type'  => 'checkbox',
+                'name'  => 'pluginSettings_useMergedFunctions',
+                'text'  => $GLOBALS['strUseMergedFunctions']
             ),
         ),
     ),
