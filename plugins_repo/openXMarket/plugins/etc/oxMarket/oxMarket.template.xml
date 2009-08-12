@@ -70,6 +70,7 @@
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
 
             <file path="{ADMINPATH}/">market-campaigns-settings.php</file>
+            <file path="{ADMINPATH}/">market-campaigns-settings-list.php</file>
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>
@@ -144,7 +145,6 @@
             <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
             <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
             <setting key="multipleAccountsMode" type="text" label="Run plugin in one account per manager mode" required="1"  visible="0">@multipleAccountsMode@</setting>
-            <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -153,6 +153,7 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
         </configuration>
         <schema>
             <mdb2schema>tables_oxMarket</mdb2schema>

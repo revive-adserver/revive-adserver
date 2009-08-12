@@ -25,6 +25,11 @@
 $Id$
 */
 
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH .'/lib/OX/Admin/Redirect.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/DecimalPlaces.php';
+require_once MAX_PATH .'/lib/pear/HTML/QuickForm/Rule/Regex.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/Max.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
 
 /**
@@ -45,16 +50,15 @@ class OX_oxMarket_UI_CampaignsSettings
     private $campaigns;
 
     private $campaignType;
-    private $toOptIn;
-    private $minCpms;
-    
-    private $optedCount;
     private $search;
-    
+    private $minCpms;
     private $defaultMinCpm;
-    private $maxCpm;
-    
     private $itemsPerPage = 5;
+    private $currentPage;
+    
+    private $toOptIn;
+    private $optedCount;
+    private $maxCpm;
     
     
     public function __construct()
@@ -91,34 +95,32 @@ class OX_oxMarket_UI_CampaignsSettings
             
         // For POSTs, perform opt in/out and redirect
         if ('POST' == $_SERVER['REQUEST_METHOD']) { 
-            if (isset($_REQUEST['opt-in-submit'])) {
+            if (!empty($_REQUEST['action']) && 'refresh' == $_REQUEST['action']) {
+                return $this->displayAjaxList();
+            }
+            elseif (isset($_REQUEST['optInSubmit'])) {
                 $invalidCpmMessages = $this->validateCpms($this->campaigns);
                 if (empty($invalidCpmMessages)) {
                     $this->performOptIn();
                     return null;
                 }
             } 
-            elseif (isset($_REQUEST['optout'])) {
+            elseif (isset($_REQUEST['optOutSubmit'])) {
                 $this->performOptOut();
                 return null;
-            }
+            } 
         }
         
-        return $this->displayList($invalidCpmMessages);
+        return $this->displayFullList($invalidCpmMessages);
     }
 
-    private function displayList($invalidCpmMessages)
+    
+    private function displayFullList($invalidCpmMessages)
     {
-        // For others, display the screen
         $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
-        $oTpl->register_function('ox_campaign_type_tag', 
-            array($this, 'ox_campaign_type_tag_helper'));
-
+        $this->assignCampaignsListModel($oTpl);
         $this->assignContentStrings($oTpl);
-        $oTpl->assign('campaigns', $this->campaigns);
-        $oTpl->assign('campaignType', $this->campaignType);
-        $oTpl->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
-        $oTpl->assign('minCpms', $this->minCpms);
+        
         if ($_COOKIE['market-settings-info-box-hidden']) {
             $oTpl->assign('infoBoxHidden', true);
         }
@@ -129,14 +131,40 @@ class OX_oxMarket_UI_CampaignsSettings
             $oTpl->assign('minCpmsInvalid', $invalidCpmMessages);
         }
         
-        $oPager = OX_buildPager($this->campaigns, $this->itemsPerPage);
-        $oTopPager = OX_buildPager($this->campaigns, $this->itemsPerPage, false);
-        list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
-        $oTpl->assign('pager', $oPager);
-        $oTpl->assign('topPager', $oTopPager);
+        return $oTpl;
+    }
+
+    
+    private function displayAjaxList()
+    {
+        $oTpl = new OA_Plugin_Template('market-campaigns-settings-list.html','openXMarket');
+        $this->assignCampaignsListModel($oTpl);
+        return $oTpl;
+    }
+    
+    
+	public function assignCampaignsListModel($template)
+    {
+        $template->register_function('ox_campaign_type_tag', 
+            array($this, 'ox_campaign_type_tag_helper'));
+
+        $template->assign('campaignType', $this->campaignType);
+        $template->assign('search', $this->search);
+        $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
+        $template->assign('minCpms', $this->minCpms);
+        
+        $bottomPager = OX_buildPager($this->campaigns, $this->itemsPerPage, true, '', 4, $this->currentPage, 
+            'market-campaigns-settings-list.php');
+        $topPager = OX_buildPager($this->campaigns, $this->itemsPerPage, false, '', 4, $this->currentPage, 
+            'market-campaigns-settings-list.php');
+        list($itemsFrom, $itemsTo) = $bottomPager->getOffsetByPageId();
+        $template->assign('pager', $bottomPager);
+        $template->assign('topPager', $topPager);
+        $template->assign('page', $bottomPager->getCurrentPageID());
         
         $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1, 
             $this->itemsPerPage, true);
+        $template->assign('campaigns', $this->campaigns);
         
         $toOptInMap = self::arrayValuesToKeys($this->toOptIn);
         foreach ($this->campaigns as $campaignId => $campaign) {
@@ -144,10 +172,9 @@ class OX_oxMarket_UI_CampaignsSettings
                 $toOptInMap[$campaignId] = false;
             }
         }
-        $oTpl->assign('toOptIn', $toOptInMap);
-        
-        return $oTpl;
+        $template->assign('toOptIn', $toOptInMap);
     }
+
     
     private function performOptIn()
     {
@@ -164,10 +191,8 @@ class OX_oxMarket_UI_CampaignsSettings
     
         OA_Admin_UI::queueMessage('You have successfully opted <b>' . $actualOptedCount . ' campaign' .
             ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);         
-            
-        // Redirect back to the opt-in page
-        $params = array('campaignType' => $this->campaignType, 'optedCount' => $actualOptedCount);
-        OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
+
+        $this->redirect($actualOptedCount);
     }
     
     private function performOptOut()
@@ -183,22 +208,31 @@ class OX_oxMarket_UI_CampaignsSettings
             ($campaignsOptedOut > 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
     
         //we do not count here campaigns which floor price was only updated
-        $actualOptedOutCount = $beforeCount-$afterCount; //this should not be lower than 0 :)         
-            
-        // Redirect back to the opt-in page
-        $params = array('campaignType' => $this->campaignType, 'optedCount' => $actualOptedOutCount);
+        $actualOptedOutCount = $beforeCount-$afterCount; //this should not be lower than 0 :)
+
+        $this->redirect($actualOptedOutCount);
+    }
+    
+    
+	private function redirect($actualOptedOutCount)
+    {
+        $params = array(
+            'campaignType' => $this->campaignType, 
+            'optedCount' => $actualOptedOutCount, 
+            'p' => $this->currentPage
+        );
         OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
     }
-
     
 
     private function parseRequestParameters()
     {
-        $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'optedCount', 'search');
+        $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'optedCount', 'search', 'p');
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $this->toOptIn = isset($request['toOptIn']) ? $request['toOptIn'] : array();
         $this->optedCount = $request['optedCount'];
-        $this->search = $request['search'];
+        $this->search = !empty($request['search']) ? $request['search'] : null;
+        $this->currentPage = !empty($request['p']) ? $request['p'] : null;
 
         $this->minCpms = array();
         foreach ($_REQUEST as $param => $value) {
@@ -249,7 +283,8 @@ class OX_oxMarket_UI_CampaignsSettings
                     }
                 }
                 else {
-                    if (is_numeric($aCampaign['revenue']) && $value < $aCampaign['revenue']) {
+                    if (is_numeric($aCampaign['revenue']) && $value < $aCampaign['revenue']
+                        && $aCampaign['revenue_type'] == MAX_FINANCE_CPM) {
                         $valueValid = false;
                         $message = $this->getValidationMessage('compare-rate', $aCampaign['revenue']);
                     }

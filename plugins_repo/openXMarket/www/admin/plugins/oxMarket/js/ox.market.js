@@ -314,13 +314,16 @@
         var settings = $.extend({}, defaults, options);
         var $optIn = this;
         
-        this.find("table input.cpm").keyup(function(event) {
-            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
-                var $input = $(this);
-                var $checkbox = $input.parent().parent().find(":checkbox");
-                var previous = $checkbox.attr("checked");
-                var next = $input.val().length > 0;
-                $checkbox.attr("checked", next);
+        $optIn.keyup(function(event) {
+            var $target = $(event.target);
+            if ($target.is("input.cpm")) {
+	            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
+	                var $input = $target;
+	                var $checkbox = $input.parent().parent().find(":checkbox");
+	                var previous = $checkbox.attr("checked");
+	                var next = $input.val().length > 0;
+	                $checkbox.attr("checked", next);
+	            }
             }
         });
         
@@ -332,7 +335,55 @@
         	return false;
         });
         
+        $("#search").typeWatch({callback: function() {
+        	refresh('market-campaigns-settings-list.php');
+        }});
+        
+        $optIn.click(function(event) {
+            var $target = $(event.target);
+            if ($target.is("a.page") || $target.is("a.dropDownLink")) {
+            	refresh($target.attr('href'));
+            	return false;
+            }
+        });
+        
+        $optIn.find("a.dropDownLink").click(function() {
+        	refresh(this.href);
+        	$optIn.find(".dropDown").trigger("close").find("span > span").html($(this).text());
+        	return false;
+        });
+        
+        function refresh(url) {
+        	var data = $optIn.elementValues({"p": true, "campaignType": true});
+        	data["action"] = "refresh";
+        	$.ajax({
+        		data: data,
+        		type: 'POST',
+        		url: url,
+        		success: function(data) {
+        		  $("#tableContent").html(data);
+        		  $optIn.find(".tableWrapper").trigger("dataUpdate");
+        		}
+        	});
+        }
+        
         return this;
+    };
+    
+    $.fn.elementValues = function(ignored) {
+        var values = {};
+        this.find(":input").not(":checkbox:not(:checked)").not(":radio:not(:checked)").each(function () {
+          var $this = $(this);
+          var name = $this.attr("name");
+          if (ignored[name]) {
+        	  return true;
+          }
+          if (!values[name]) {
+            values[name] = [];
+          }
+          values[name].push($this.val());
+        });
+        return values ;
     };
 })(jQuery);
 

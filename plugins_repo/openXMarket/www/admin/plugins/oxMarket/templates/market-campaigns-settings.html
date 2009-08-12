@@ -46,7 +46,82 @@ $Id$
     {/if}
 
     <div class="mainOptionContent{if !$infoBoxHidden} has-info-box{/if}">
-      {include file=market-campaigns-settings-list.html from=$campaigns}
+      <div class="content">
+        <div class="hide" id="market-cpm-callout" style="height: auto; width: 270px;">
+          <p>
+            The minimum CPM you provide for a specific campaign will 
+            be the floor price OpenX Market uses for that campaign. 
+            If the highest bid from OpenX Market exceeds the campaign's floor price, 
+            OpenX Market will serve the ad and pay you the higher revenue. 
+            Otherwise, your campaign's existing ad will be delivered.
+          </p>
+          <p>
+            We recommend that you specify a CPM that represents 
+            the effective CPM that you expect to get from your campaign.
+          </p>
+        </div>
+        <div class='tableWrapper'>
+          <div class='tableHeader'>
+            <ul class='tableFilters'>
+              <li>
+                <div class='label'>Show:</div>
+        
+                <div class='dropDown'>
+                  <span><span>
+                    {if $campaignType == 'remnant'}
+                        Remnant campaigns
+                    {elseif $campaignType == 'contract'}
+                        Contract campaigns
+                    {else}
+                        Remnant and contract campaigns
+                    {/if}
+                  </span></span>
+
+                  <div class='panel'>
+                    <div>
+                      <ul>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=remnant' class="dropDownLink">Remnant campaigns</a></li>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=contract' class="dropDownLink">Contract campaigns</a></li>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=all' class="dropDownLink">Remnant and contract campaigns</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class='mask'></div>
+                </div>
+                
+                <label class="search">Search <input id="search" type="text" name="search" value=""></label>
+              </li>            
+            </ul>
+            <div class='clear'></div>
+            <div class='corner left'></div>
+            <div class='corner right'></div>
+          </div>
+    
+          <div id="tableContent">{include file=market-campaigns-settings-list.html campaigns=$campaigns}</div>
+        </div>
+      </div>
+
+      <div class='info-box'{if $infoBoxHidden} style="display: none"{/if}>
+        <div class='panel'>
+          <a id="market-info-box-close" href="#" title="Close">Close</a>
+          <h3>Opting in your campaigns to OpenX Market</h3>
+          <p>
+            OpenX Market competes with your campaigns to provide you with higher paying ads. 
+            Select which campaigns to opt in and set a floor price for each one. OpenX Market 
+            must pay higher than the floor or the campaign's original ad is served.
+          </p>
+          <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
+          CPM it is already earning.
+          </p>
+          <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif"/>
+          <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+          <div class='corner top-left'></div>
+          <div class='corner top-right'></div>
+          <div class='corner bottom-left'></div>
+          <div class='corner bottom-right'></div>
+        </div>
+      </div>
     </div>
     
   </form>
@@ -54,6 +129,7 @@ $Id$
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.typewatch.js" ></script>
 <script type="text/javascript">
 {literal}
 //<!--
