@@ -61,10 +61,10 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
             exit(1);
         }
-        $host = trim($GLOBALS['argv'][1]);
-    } else {
-        $host = OX_getHostName();
+        $_SERVER['HTTP_HOST'] = trim($GLOBALS['argv'][1]);
     }
+    $host = OX_getHostName();
+
     // Is the system running the test environment?
     if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
         // Does the test environment config exist?
