@@ -224,7 +224,40 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertFalse($aResult[$aCampaignsIds[4]]['optin_status']);
         $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
         $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '');
-        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], ''); 
+        $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], '');
+        $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[2], 2=> $aCampaignsIds[4]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+
+        $aExpected = $aResult;
+        //get all campaigns use sorting by name
+        $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all', null, null, 'name');
+        $this->assertEqual($aResult, $aExpected);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
+        //get all campaigns try to put unknown sorting (it should use default)
+        $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all', null, null, 'unknown');
+        $this->assertEqual($aResult, $aExpected);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+
+        $aExpectedSorting = array_reverse($aExpectedSorting);
+        //get all campaigns use reverse sorting by name
+        $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all', null, null, '-name');
+        $this->assertEqual($aResult, $aExpected);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all', null, null, '-');
+        $this->assertEqual($aResult, $aExpected);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
+        //get all campaigns try to put reverse unknown sorting (it should use reverse default)
+        $aResult = $oDalCampaignsOptIn->getCampaigns(0.5, 'all', null, null, '-unknown');
+        $this->assertEqual($aResult, $aExpected);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
 
         // Opt in two campaigns
         $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[2]);
@@ -260,8 +293,41 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[1]]['floor_price'], '');
         $this->assertEqual($aResult[$aCampaignsIds[2]]['floor_price'], '0.56');
         $this->assertEqual($aResult[$aCampaignsIds[4]]['floor_price'], '1.23');
+
+        // Clear optin tables
+        $doMarketCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doMarketCampaignPref->whereAdd('1=1');
+        $doMarketCampaignPref->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        //Opt in first and last campaign
+        $toOptIn = array($aCampaignsIds[4], $aCampaignsIds[1]);
+        $minCpms = array($aCampaignsIds[4] => 1.23, $aCampaignsIds[1] => 0.56);
+        $result = $oDalCampaignsOptIn->performOptIn('selected', $minCpms, $toOptIn, null);
         
-        // test seach prhrase
+        // sort by optin status
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 'optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[2], 1=> $aCampaignsIds[1], 2=> $aCampaignsIds[4]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
+        // optout campaing 4
+        $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[4]));
+        
+        // sort by optin status
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 'optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[2], 1=> $aCampaignsIds[4], 2=> $aCampaignsIds[1]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
+        // optout campaing 1
+        $oDalCampaignsOptIn->performOptOut(array($aCampaignsIds[1]));
+        
+        // sort by optin status (should sort properly unifying 0 and null values as not opted in)
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 'optinstatus');
+        $aExpectedSorting = array(0=>$aCampaignsIds[1], 1=> $aCampaignsIds[2], 2=> $aCampaignsIds[4]);
+        $aSorting = $this->_getSorting($aResult);
+        $this->assertEqual($aSorting, $aExpectedSorting);
+        
+        // test seach phrase
         $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, 'ign 4');
         $this->assertEqual(1, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
@@ -273,16 +339,33 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
         
         // test limit
-        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 2);
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, null, 2);
         $this->assertEqual(2, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[1]]['campaignid'], $aCampaignsIds[1]);
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
         
         // test limit, offset
-        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, 2, 1);
+        $aResult = $oDalCampaignsOptIn->getCampaigns(2, 'all', null, null, null, 2, 1);
         $this->assertEqual(2, count($aResult));
         $this->assertEqual($aResult[$aCampaignsIds[2]]['campaignid'], $aCampaignsIds[2]);
         $this->assertEqual($aResult[$aCampaignsIds[4]]['campaignid'], $aCampaignsIds[4]);
+    }
+    
+    /**
+     * Returns array with campaigns ids in same order as given input array
+     * 
+     * @param array $aCampaigns result of getCampaigns methods
+     * @return array array order ordinal number => campaign id
+     */
+    private function _getSorting($aCampaigns)
+    {
+        $sorting = array();
+        $i = 0;
+        foreach ($aCampaigns as $id => $data) {
+            $sorting[$i] = $id;
+            $i++;
+        }
+        return $sorting;
     }
     
     

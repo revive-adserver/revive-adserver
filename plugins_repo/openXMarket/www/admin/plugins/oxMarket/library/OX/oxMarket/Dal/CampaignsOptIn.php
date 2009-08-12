@@ -126,7 +126,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
      * @return array of campaigns info: campaignid, campaignname, type, minCpm, minCpmCalculated, optin_status
      */
     public function getCampaigns($defaultMinCpm, $campaignType = null, $minCpms=array(),
-                                 $searchPhrase = null, $limit = null, $offset = null)
+                                 $searchPhrase = null, $orderBy = null, $limit = null, $offset = null)
     {
         $campaigns = array();
 
@@ -135,10 +135,24 @@ class OX_oxMarket_Dal_CampaignsOptIn
 
         // Is campaign already optedin ext_market_campaign_pref
         $doCampaigns->joinAdd($doMarketCampaignPref, 'LEFT');
-// query below is returning 'f','t' on postgresql and 0, 1 on mysql
-//        $doCampaigns->selectAdd('('.OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NOT NULL AND '
-//                                .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled <> 0) AS optin_status');
-        $doCampaigns->orderBy('campaignname, campaign_id');
+// query below is returning 'f','t' on postgresql and 0, 1 on mysql, but is good for sorting by
+        $doCampaigns->selectAdd('('.OA_Dal::getTablePrefix() .'ext_market_campaign_pref.is_enabled IS NOT NULL AND '
+                                .OA_Dal::getTablePrefix().'ext_market_campaign_pref.is_enabled <> 0) AS optin_status');
+        //orderBy options
+        $direction = 'asc';
+        if (substr($orderBy,0,1) == '-') {
+            $orderBy = substr($orderBy,1);
+            $direction = 'desc';
+        }
+        switch ($orderBy) {
+            case ('optinstatus') :
+                $doCampaigns->orderBy("optin_status {$direction}, campaignname {$direction}, campaign_id {$direction}" );
+                break;
+            case ('name') : 
+            default:
+                $doCampaigns->orderBy("campaignname {$direction}, campaign_id {$direction}");
+        }
+        
         // Add selectAs to create fileds used by MAX_getPlacementName method
         $doCampaigns->selectAs(array('campaignid'), 'placement_id');
         $doCampaigns->selectAs(array('campaignname'), 'name');
