@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 
-set terminal png size 1200,800 tiny
+set terminal png size 2000,600 tiny
 set output 'times.png~'
 system "./extract > times"
 set xtics rotate

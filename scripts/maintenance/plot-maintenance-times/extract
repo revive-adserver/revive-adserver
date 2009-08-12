@@ -101,7 +101,7 @@ for task in tasks:
   if not runs.has_key(task): continue
   if runs[task].has_key('Maintenance Engine not run: could not acquire lock'): continue
   last=runs[task]['t0']
-  taskLegend = datetime.fromtimestamp(last).strftime("%d/%m/%y %H:%M") + task.replace("OX-maintenance","")
+  taskLegend = datetime.fromtimestamp(last).strftime("%Y-%m-%d %H:%M") + task.replace("OX-maintenance","")
   line="\"%s\"" % taskLegend
   for phase in mphases:
     if runs[task].has_key(phase):
