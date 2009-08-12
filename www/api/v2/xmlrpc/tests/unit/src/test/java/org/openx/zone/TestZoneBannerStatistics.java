@@ -100,7 +100,7 @@ public class TestZoneBannerStatistics extends ZoneTestCase {
 		Object[] params = new Object[] { sessionId };
 		executeZoneBannerStatisticsWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
-				"4, 3, or 2", "1"));
+				"5, 4, 3, or 2", "1"));
 	}
 
 	/**

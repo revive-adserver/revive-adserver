@@ -226,13 +226,13 @@ class BannerServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getBannerDailyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$aData)
+    function getBannerDailyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerDailyStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $aData));
+                    $bannerId, $oStartDate, $oEndDate, $localTZ, $aData));
         } else {
 
             return false;
@@ -254,13 +254,13 @@ class BannerServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getBannerPublisherStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerPublisherStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerPublisherStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;
@@ -282,13 +282,13 @@ class BannerServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getBannerZoneStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    function getBannerZoneStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerZoneStatistics(
-                    $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
+                    $bannerId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
         } else {
 
             return false;

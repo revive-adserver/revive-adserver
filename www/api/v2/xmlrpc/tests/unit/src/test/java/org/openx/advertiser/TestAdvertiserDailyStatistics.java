@@ -117,7 +117,7 @@ public class TestAdvertiserDailyStatistics extends AdvertiserTestCase {
 
 		executeAdvertiserDailyStatisticsWithError(params, ErrorMessage
 					.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
-							"4, 3, or 2", "1"));
+							"5, 4, 3, or 2", "1"));
 
 	}
 

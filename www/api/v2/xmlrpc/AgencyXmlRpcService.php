@@ -179,7 +179,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $aData = null;
         if ($this->_oAgencyServiceImp->getAgencyDailyStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $aData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $aData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
                                                                 'requests' => 'integer',
@@ -215,7 +215,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyAdvertiserStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
@@ -252,7 +252,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyCampaignStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
@@ -291,7 +291,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyBannerStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
@@ -332,7 +332,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyPublisherStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
                                                                 'publisherName' => 'string',
@@ -369,7 +369,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyZoneStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+                $agencyId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
                                                                 'publisherName' => 'string',
