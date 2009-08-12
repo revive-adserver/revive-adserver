@@ -314,6 +314,7 @@
         var settings = $.extend({}, defaults, options);
         var $optIn = this;
         
+        // Select campaign if typing its floor price
         $optIn.keyup(function(event) {
             var $target = $(event.target);
             if ($target.is("input.cpm")) {
@@ -323,10 +324,12 @@
 	                var previous = $checkbox.attr("checked");
 	                var next = $input.val().length > 0;
 	                $checkbox.attr("checked", next);
+	                $checkbox.parents("tr").eq(0).addClass("selected");
 	            }
             }
         });
         
+        // Info box closing
         $("#market-info-box-close").click(function() {
         	$optIn.find(".info-box").fadeOut(300, function() {
         		$optIn.find(".mainOptionContent").removeClass("has-info-box");
@@ -335,39 +338,103 @@
         	return false;
         });
         
+        // AJAX search
         $("#search").typeWatch({callback: function() {
         	refresh('market-campaigns-settings-list.php');
         }});
         
+        // AJAX paging
         $optIn.click(function(event) {
             var $target = $(event.target);
-            if ($target.is("a.page") || $target.is("a.dropDownLink")) {
+            if ($target.is("a.page")) {
+            	// Show a different page
             	refresh($target.attr('href'));
             	return false;
             }
+            if ($target.is("a")) {
+            	// Select really all
+            	if ($target.parent().is("#selectAllCampaigns")) {
+                    $("#selectAllCampaigns").hide();
+                    $("#allSelected").show();
+                    $("#allSelectedHidden").val("true");
+                    return false;
+            	}
+            	
+            	// Clear really all selection
+            	if ($target.parent().is("#allSelected")) {
+                    cancelAllSelection();
+                    $optIn.find(":checkbox").attr("checked", false);
+                    $optIn.find("tr.selected").removeClass("selected");
+                    return false;
+            	}
+            }
         });
         
+        // AJAX filtering
         $optIn.find("a.dropDownLink").click(function() {
         	refresh(this.href);
         	$optIn.find(".dropDown").trigger("close").find("span > span").html($(this).text());
         	return false;
         });
         
+        $optIn.find(".tableWrapper").bind("multichange", function() {
+        	if ($("#toggleAll").is(":checked")) {
+        		$("#selectAllContainer, #selectAllCampaigns").show();
+        	} else {
+        		cancelAllSelection();
+        	}
+        });
+        
+        return this;
+        
         function refresh(url) {
-        	var data = $optIn.elementValues({"p": true, "campaignType": true});
+        	var ignored = getGetParams(url);
+        	ignored['p'] = true;
+        	var data = $optIn.elementValues(ignored);
         	data["action"] = "refresh";
+        	var $indicator = $("#loading-indicator").fadeIn(200);
         	$.ajax({
         		data: data,
         		type: 'POST',
         		url: url,
         		success: function(data) {
-        		  $("#tableContent").html(data);
-        		  $optIn.find(".tableWrapper").trigger("dataUpdate");
+        		  if (!checkReload(data)) {
+		    		  $("#tableContent").html(data);
+		    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
+		    		  $indicator.fadeOut(200);
+        		  }
         		}
         	});
         }
         
-        return this;
+        function cancelAllSelection() {
+            $("#selectAllContainer, #selectAllCampaigns, #allSelected").hide();
+            $("#allSelectedHidden").val("");
+        }
+          
+          
+        function checkReload(data) {
+          if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
+            document.location.reload();
+            return true;
+          }
+          return false;
+        }
+        
+        function getGetParams(url) {
+        	var questionMarkIndex = url.indexOf("?");
+        	var params = {};
+        	if (questionMarkIndex < 0) {
+        		return params;
+        	}
+        	var paramString = url.substring(questionMarkIndex + 1);
+        	var pairs = paramString.split("&");
+        	for (var i = 0; i < pairs.length; i++) {
+        		var nameValue = pairs[i].split("=");
+        		params[nameValue[0]] = nameValue[1];
+        	}
+        	return params;
+        }
     };
     
     $.fn.elementValues = function(ignored) {

@@ -292,6 +292,11 @@ ul.column li.rejected {
   padding-left: 0;
 }
 
+/** Search box */
+.market-campaign-settings #search {
+  padding: 2px;
+}
+
 /**tag **/
 .campaign-type-tag {
     float:left;
@@ -400,8 +405,31 @@ ul.column li.rejected {
   -padding-left:11px;    
 }
 
+/** AJAX loading */
+#loading-indicator {
+  position: absolute;
+  top: 10px;
+  left: 7px;
+  padding-left: 33px;
+  background-position: 2px 0;
+  background-color: white;
+}
 
+/** Select all */
+#selectAllContainer td {
+  text-align: center;
+  background-color: #fef2bc;
+  color: #222;
+}
 
+#selectAllContainer td em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+.tableWrapper table tbody tr.selected {
+  background-color: #D1E6F6;
+}
 
 /** info box **/
 .market-campaign-settings .info-box {

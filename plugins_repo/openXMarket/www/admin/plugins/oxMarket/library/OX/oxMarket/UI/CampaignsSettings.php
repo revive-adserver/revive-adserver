@@ -119,7 +119,7 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
         $this->assignCampaignsListModel($oTpl);
-        $this->assignContentStrings($oTpl);
+//        $this->assignContentStrings($oTpl);
         
         if ($_COOKIE['market-settings-info-box-hidden']) {
             $oTpl->assign('infoBoxHidden', true);
@@ -162,9 +162,11 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('topPager', $topPager);
         $template->assign('page', $bottomPager->getCurrentPageID());
         
+        $template->assign('allMatchingCount', count($this->campaigns));
         $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1, 
             $this->itemsPerPage, true);
         $template->assign('campaigns', $this->campaigns);
+        $template->assign('showingCount', count($this->campaigns));
         
         $toOptInMap = self::arrayValuesToKeys($this->toOptIn);
         foreach ($this->campaigns as $campaignId => $campaign) {

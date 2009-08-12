@@ -29,7 +29,6 @@ $Id$
 -->*}
 <div class="market-campaign-settings">
   <form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
-    <input type="hidden" name="campaignType" value="{$campaignType|escape}" /> 
     {if $topMessage}
       {$topMessage}
     {else}    
@@ -64,7 +63,8 @@ $Id$
           <div class='tableHeader'>
             <ul class='tableFilters'>
               <li>
-                <div class='label'>Show:</div>
+                <span id="loading-indicator" class="ajax-loading hide"></span>
+                <div class='label'>Show</div>
         
                 <div class='dropDown'>
                   <span><span>

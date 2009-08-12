@@ -26,6 +26,9 @@ $Id$
 -->*}
 
 <input type="hidden" name="p" value="{$page|escape}" /> 
+<input type="hidden" name="campaignType" value="{$campaignType|escape}" />
+<input type="hidden" name="allSelected" value="" id="allSelectedHidden" />
+ 
 {if !empty($topPager->links)}
   <div class="pager pager-top">
     <span class="controls">{$topPager->links}</span>
@@ -63,7 +66,20 @@ $Id$
       </th>
     </tr>
   </thead>
-
+  
+  <tbody id="selectAllContainer" class="hide">
+    <tr class="header">
+      <td colspan="6">
+        <div id="selectAllCampaigns" class="selectAllInAccount hide">
+          All <em>{$showingCount}</em> campaigns on this page selected. <a href="#">Select all <em>{$allMatchingCount}</em> matching campaigns from this account</a>
+        </div>
+        <div id="allSelected" class="selectAllInAccount hide">
+          All <em>{$allMatchingCount}</em> matching campaigns from this account selected. <a href="#">Clear selection</a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  
   {if $campaigns|@count}
     <tbody>
       {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
