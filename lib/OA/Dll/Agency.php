@@ -574,7 +574,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
             array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),

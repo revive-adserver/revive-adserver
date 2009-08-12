@@ -489,16 +489,20 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         // Get no data
         $rsBannerStatistics = null;
         $this->assertTrue($dllBannerPartialMock->$methodName(
-            $oBannerInfo->bannerId, new Date('2001-12-01'), new Date('2007-09-19'),
+            $oBannerInfo->bannerId, new Date('2001-12-01'), new Date('2007-09-19'), false,
             $rsBannerStatistics), $dllBannerPartialMock->getLastError());
 
-        $this->assertTrue(isset($rsBannerStatistics) &&
-            ($rsBannerStatistics->getRowCount() == 0), 'No records should be returned');
+        $this->assertTrue(isset($rsBannerStatistics));
+        if (is_array($rsBannerStatistics)) {
+            $this->assertEqual(count($rsBannerStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsBannerStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsBannerStatistics = null;
         $this->assertTrue((!$dllBannerPartialMock->$methodName(
-                $oBannerInfo->bannerId, new Date('2007-09-19'),  new Date('2001-12-01'),
+                $oBannerInfo->bannerId, new Date('2007-09-19'),  new Date('2001-12-01'), false,
                 $rsBannerStatistics) &&
             $dllBannerPartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
@@ -510,7 +514,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         // Test statistics for not existing id
         $rsBannerStatistics = null;
         $this->assertTrue((!$dllBannerPartialMock->$methodName(
-                $oBannerInfo->bannerId, new Date('2001-12-01'),  new Date('2007-09-19'),
+                $oBannerInfo->bannerId, new Date('2001-12-01'),  new Date('2007-09-19'), false,
                 $rsBannerStatistics) &&
             $dllBannerPartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));

@@ -248,18 +248,21 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $rsPublisherStatistics = null;
         $this->assertTrue($dllPublisherPartialMock->$methodName(
                 $oPublisherInfo->publisherId, new Date('2001-12-01'),
-                new Date('2007-09-19'), $rsPublisherStatistics),
+                new Date('2007-09-19'), false, $rsPublisherStatistics),
                 $dllPublisherPartialMock->getLastError());
 
-        $this->assertTrue(isset($rsPublisherStatistics) &&
-            ($rsPublisherStatistics->getRowCount() == 0),
-             'No records should be returned');
+        $this->assertTrue(isset($rsPublisherStatistics));
+        if (is_array($rsPublisherStatistics)) {
+            $this->assertEqual(count($rsPublisherStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsPublisherStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsPublisherStatistics = null;
         $this->assertTrue((!$dllPublisherPartialMock->$methodName(
                 $oPublisherInfo->publisherId, new Date('2007-09-19'),
-                new Date('2001-12-01'), $rsPublisherStatistics) &&
+                new Date('2001-12-01'), false, $rsPublisherStatistics) &&
             $dllPublisherPartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
 
@@ -272,7 +275,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $rsPublisherStatistics = null;
         $this->assertTrue((!$dllPublisherPartialMock->$methodName(
                 $oPublisherInfo->publisherId, new Date('2001-12-01'),
-                new Date('2007-09-19'), $rsPublisherStatistics) &&
+                new Date('2007-09-19'), false, $rsPublisherStatistics) &&
             $dllPublisherPartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));
 

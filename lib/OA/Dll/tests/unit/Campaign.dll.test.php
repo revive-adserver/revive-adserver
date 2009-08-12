@@ -263,16 +263,20 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Get no data
         $rsCampaignStatistics = null;
         $this->assertTrue($dllCampaignPartialMock->$methodName(
-            $oCampaignInfo->campaignId, new Date('2001-12-01'), new Date('2007-09-19'),
+            $oCampaignInfo->campaignId, new Date('2001-12-01'), new Date('2007-09-19'), false,
             $rsCampaignStatistics), $dllCampaignPartialMock->getLastError());
 
-        $this->assertTrue(isset($rsCampaignStatistics) &&
-            ($rsCampaignStatistics->getRowCount() == 0), 'No records should be returned');
+        $this->assertTrue(isset($rsCampaignStatistics));
+        if (is_array($rsCampaignStatistics)) {
+            $this->assertEqual(count($rsCampaignStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsCampaignStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsCampaignStatistics = null;
         $this->assertTrue((!$dllCampaignPartialMock->$methodName(
-                $oCampaignInfo->campaignId, new Date('2007-09-19'),  new Date('2001-12-01'),
+                $oCampaignInfo->campaignId, new Date('2007-09-19'),  new Date('2001-12-01'), false,
                 $rsCampaignStatistics) &&
             $dllCampaignPartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
@@ -284,7 +288,7 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Test statistics for not existing id
         $rsCampaignStatistics = null;
         $this->assertTrue((!$dllCampaignPartialMock->$methodName(
-                $oCampaignInfo->campaignId, new Date('2001-12-01'),  new Date('2007-09-19'),
+                $oCampaignInfo->campaignId, new Date('2001-12-01'),  new Date('2007-09-19'), false,
                 $rsCampaignStatistics) &&
             $dllCampaignPartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));

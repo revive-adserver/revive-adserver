@@ -103,18 +103,12 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
-        $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
+        $aData = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
             $doCampaign->campaignid, new Date('2007-08-01'),  new Date('2007-08-20'));
 
-        $rsCampaignStatistics->find();
-        $this->assertTrue($rsCampaignStatistics->getRowCount() == 2,
-            '2 records should be returned');
-
-        $rsCampaignStatistics->fetch();
-        $aRow1 = $rsCampaignStatistics->toArray();
-
-        $rsCampaignStatistics->fetch();
-        $aRow2 = $rsCampaignStatistics->toArray();
+        $this->assertEqual(count($aData), 2, '2 records should be returned');
+        $aRow1 = current($aData);
+        $aRow2 = next($aData);
 
         $this->ensureRowSequence($aRow2, $aRow1, 'day', $dayForRecord2);
 
@@ -134,14 +128,10 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow2, 'day', $dayForRecord2);
 
         // 4. Get data in not existing range
-        $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
+        $aData = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
             $doCampaign->campaignid, new Date('2007-01-01'),  new Date('2007-01-20'));
 
-        $rsCampaignStatistics->find();
-
-        $this->assertTrue($rsCampaignStatistics->getRowCount() == 0,
-            'Recordset should be empty');
-
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
     /**

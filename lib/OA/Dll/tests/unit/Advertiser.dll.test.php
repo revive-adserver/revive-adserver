@@ -248,16 +248,20 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         // Get no data
         $rsAdvertiserStatistics = null;
         $this->assertTrue($dllAdvertiserPartialMock->$methodName(
-            $oAdvertiserInfo->advertiserId, new Date('2001-12-01'), new Date('2007-09-19'),
+            $oAdvertiserInfo->advertiserId, new Date('2001-12-01'), new Date('2007-09-19'), false,
             $rsAdvertiserStatistics), $dllAdvertiserPartialMock->getLastError());
 
-        $this->assertTrue(isset($rsAdvertiserStatistics) &&
-            ($rsAdvertiserStatistics->getRowCount() == 0), 'No records should be returned');
+        $this->assertTrue(isset($rsAdvertiserStatistics));
+        if (is_array($rsAdvertiserStatistics)) {
+            $this->assertEqual(count($rsAdvertiserStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsAdvertiserStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsAdvertiserStatistics = null;
         $this->assertTrue((!$dllAdvertiserPartialMock->$methodName(
-                $oAdvertiserInfo->advertiserId, new Date('2007-09-19'),  new Date('2001-12-01'),
+                $oAdvertiserInfo->advertiserId, new Date('2007-09-19'),  new Date('2001-12-01'), false,
                 $rsAdvertiserStatistics) &&
             $dllAdvertiserPartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
@@ -269,7 +273,7 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         // Test statistics for not existing id
         $rsAdvertiserStatistics = null;
         $this->assertTrue((!$dllAdvertiserPartialMock->$methodName(
-                $oAdvertiserInfo->advertiserId, new Date('2001-12-01'),  new Date('2007-09-19'),
+                $oAdvertiserInfo->advertiserId, new Date('2001-12-01'),  new Date('2007-09-19'), false,
                 $rsAdvertiserStatistics) &&
             $dllAdvertiserPartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));

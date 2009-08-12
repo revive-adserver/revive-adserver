@@ -256,18 +256,21 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $rsZoneStatistics = null;
         $this->assertTrue($dllZonePartialMock->$methodName(
                 $oZoneInfo->zoneId, new Date('2001-12-01'),
-                new Date('2007-09-19'), $rsZoneStatistics),
+                new Date('2007-09-19'), false, $rsZoneStatistics),
             $dllZonePartialMock->getLastError());
 
-        $this->assertTrue(isset($rsZoneStatistics) &&
-                ($rsZoneStatistics->getRowCount() == 0),
-                'No records should be returned');
+        $this->assertTrue(isset($rsZoneStatistics));
+        if (is_array($rsZoneStatistics)) {
+            $this->assertEqual(count($rsZoneStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsZoneStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsZoneStatistics = null;
         $this->assertTrue((!$dllZonePartialMock->$methodName(
                     $oZoneInfo->zoneId, new Date('2007-09-19'),
-                    new Date('2001-12-01'),
+                    new Date('2001-12-01'), false,
                 $rsZoneStatistics) &&
             $dllZonePartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
@@ -280,7 +283,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $rsZoneStatistics = null;
         $this->assertTrue((!$dllZonePartialMock->$methodName(
                     $oZoneInfo->zoneId, new Date('2001-12-01'),
-                    new Date('2007-09-19'),
+                    new Date('2007-09-19'), false,
                 $rsZoneStatistics) &&
             $dllZonePartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));

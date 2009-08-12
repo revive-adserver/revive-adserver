@@ -85,15 +85,11 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
 
         // 1. Get data existing range
-        $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
+        $aData = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
             $doPublisher->affiliateid, new Date('2007-08-20'),  new Date('2007-08-20'));
 
-        $rsPublisherStatistics->find();
-        $this->assertTrue($rsPublisherStatistics->getRowCount() == 1,
-            'Some records should be returned');
-
-        $rsPublisherStatistics->fetch();
-        $aRow = $rsPublisherStatistics->toArray();
+            $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow, 'day');
@@ -110,12 +106,10 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow, 'day', '2007-08-20');
 
         // 4. Get data in not existing range
-        $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
+        $aData = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
             $doPublisher->affiliateid,  new Date('2001-12-01'),  new Date('2006-09-19'));
-        $rsPublisherStatistics->find();
-        $this->assertTrue($rsPublisherStatistics->getRowCount() == 0,
-            'Recordset should be empty');
 
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
     /**

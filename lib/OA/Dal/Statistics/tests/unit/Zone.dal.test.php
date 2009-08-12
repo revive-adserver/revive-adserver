@@ -85,15 +85,11 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
 
         // 1. Get data existing range
-        $rsZoneStatistics = $this->_dalZoneStatistics->getZoneDailyStatistics(
+        $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
             $doZone->zoneid, new Date('2005-08-20'),  new Date('2007-08-20'));
 
-        $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 1,
-            'Some records should be returned');
-
-        $rsZoneStatistics->fetch();
-        $aRow = $rsZoneStatistics->toArray();
+        $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow, 'day');
@@ -110,12 +106,10 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow, 'day', '2006-06-06');
 
         // 4. Get data in not existing range
-        $rsZoneStatistics = $this->_dalZoneStatistics->getZoneDailyStatistics(
+        $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
             $doZone->zoneid,  new Date('2001-12-01'),  new Date('2006-01-19'));
-        $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty');
 
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
     /**
@@ -409,7 +403,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             'Recordset should be empty');
 
     }
-    
+
     /**
      * Test zones performance statistics.
      *
@@ -423,16 +417,16 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly1    = null;
         $doDataSummaryAdHourly2    = null;
         $doDataSummaryAdHourly3    = null;
-        
+
         $this->_generateDataForPerformanceStatisticsTests(
-                    $doCampaign1, $doCampaign2, 
-                    $doZone1, $doZone2, 
+                    $doCampaign1, $doCampaign2,
+                    $doZone1, $doZone2,
                     $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
-        
-        // Get statistics for 2 zones 
+
+        // Get statistics for 2 zones
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , null, new Date('2008-04-27'),  new Date('2008-05-27'));
-            
+
         $this->assertTrue(count($aZonesStatistics) == 2,
             '2 rows should be returned');
 
@@ -442,24 +436,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
                        ), 4);
         $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['CTR'], $expectedCTR);
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
-        
+
         $expectedECPM = round( (
-                          ($doDataSummaryAdHourly1->total_revenue+$doDataSummaryAdHourly2->total_revenue)*1000 / 
+                          ($doDataSummaryAdHourly1->total_revenue+$doDataSummaryAdHourly2->total_revenue)*1000 /
                           ($doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions)
                         ), 4 );
         $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['eCPM'], $expectedECPM);
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round( ($doDataSummaryAdHourly3->total_revenue*1000/$doDataSummaryAdHourly3->impressions), 4 ));
-        
+
         $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['CR'], round( ($doDataSummaryAdHourly1->conversions/$doDataSummaryAdHourly1->impressions), 4 ));
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round( ($doDataSummaryAdHourly3->conversions/$doDataSummaryAdHourly3->impressions), 4 ));
-        
+
         // Get statistics for 2 zones - increase impressions threshold to 100000 (only one zone meets requirements)
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ), null, new Date('2008-04-27'),  new Date('2008-05-27'), 100000);
 
         $this->assertTrue(count($aZonesStatistics) == 2,
             '2 rows should be returned');
-        
+
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CTR']);
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
@@ -467,11 +461,11 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round( ($doDataSummaryAdHourly3->total_revenue*1000/$doDataSummaryAdHourly3->impressions), 4 ));
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CR']);
         $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round( ($doDataSummaryAdHourly3->conversions/$doDataSummaryAdHourly3->impressions), 4 ));
-        
+
         // Get statistics - time span <30 days, one zone
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
             array( $doZone1->zoneid ), null, new Date('2008-05-01'),  new Date('2008-05-27'));
-            
+
         $this->assertTrue(count($aZonesStatistics) == 1,
             '1 row should be returned');
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
@@ -479,7 +473,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['eCPM']);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CR']);
     }
-    
+
     /**
      * Test zones CR statistics.
      *
@@ -493,13 +487,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly1    = null;
         $doDataSummaryAdHourly2    = null;
         $doDataSummaryAdHourly3    = null;
-        
+
         $this->_generateDataForPerformanceStatisticsTests(
-                    $doCampaign1, $doCampaign2, 
-                    $doZone1, $doZone2, 
+                    $doCampaign1, $doCampaign2,
+                    $doZone1, $doZone2,
                     $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
 
-        // Get statistics for 2 zones 
+        // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
         $rsZonesStatistics->find();
@@ -510,28 +504,28 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aRow1 = $rsZonesStatistics->toArray();
         $rsZonesStatistics->fetch();
         $aRow2 = $rsZonesStatistics->toArray();
-        
+
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
-        
+
         $this->assertFieldExists($aRow1, 'zone_id');
         $this->assertFieldExists($aRow1, 'conversions');
         $this->assertFieldExists($aRow1, 'impressions');
         $this->assertFieldExists($aRow2, 'zone_id');
         $this->assertFieldExists($aRow2, 'conversions');
         $this->assertFieldExists($aRow2, 'impressions');
-        
+
         $this->assertFieldEqual($aRow1, 'conversions', $doDataSummaryAdHourly1->conversions);
         $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly1->impressions);
         $this->assertFieldEqual($aRow2, 'conversions', $doDataSummaryAdHourly3->conversions);
         $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
-        
+
         // Get statistics for 2 zones and campaign 2 (CPM)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid);
         $rsZonesStatistics->find();
         $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
             'Recordset should be empty');
-        
+
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
             array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-16'));
@@ -539,7 +533,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
             'Recordset should be empty');
     }
-    
+
     /**
      * Test zones eCPM statistics.
      *
@@ -555,13 +549,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly1    = null;
         $doDataSummaryAdHourly2    = null;
         $doDataSummaryAdHourly3    = null;
-        
+
         $this->_generateDataForPerformanceStatisticsTests(
-            $doCampaign1, $doCampaign2, 
-            $doZone1, $doZone2, 
+            $doCampaign1, $doCampaign2,
+            $doZone1, $doZone2,
             $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
 
-        // Get statistics for 2 zones 
+        // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
         $rsZonesStatistics->find();
@@ -572,28 +566,28 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aRow1 = $rsZonesStatistics->toArray();
         $rsZonesStatistics->fetch();
         $aRow2 = $rsZonesStatistics->toArray();
-        
+
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
-        
+
         $this->assertFieldExists($aRow1, 'zone_id');
         $this->assertFieldExists($aRow1, 'total_revenue');
         $this->assertFieldExists($aRow1, 'impressions');
         $this->assertFieldExists($aRow2, 'zone_id');
         $this->assertFieldExists($aRow2, 'total_revenue');
         $this->assertFieldExists($aRow2, 'impressions');
-        
+
         $this->assertFieldEqual($aRow1, 'total_revenue', $doDataSummaryAdHourly1->total_revenue);
         $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly1->impressions);
         $this->assertFieldEqual($aRow2, 'total_revenue', $doDataSummaryAdHourly3->total_revenue);
         $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
-        
+
         // Get statistics for 2 zones and campaign 2 (MT)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid);
         $rsZonesStatistics->find();
         $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
             'Recordset should be empty');
-        
+
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
             array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-16'));
@@ -612,7 +606,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doCampaign2                           = null;
         $doZone1                               = null;
         $doZone2                               = null;
-        
+
         $doDataSummaryAdHourly1                = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly1->impressions   = 9000;
         $doDataSummaryAdHourly1->requests      = 20000;
@@ -628,15 +622,15 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly2->clicks        = 50;
         $doDataSummaryAdHourly2->conversions   = 0;
         $doDataSummaryAdHourly2->date_time     = '2008-05-20';
-        
+
         $doDataSummaryAdHourly3                = null;
-        
+
         $this->_generateDataForPerformanceStatisticsTests(
-            $doCampaign1, $doCampaign2, 
-            $doZone1, $doZone2, 
+            $doCampaign1, $doCampaign2,
+            $doZone1, $doZone2,
             $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
 
-        // Get statistics for 2 zones 
+        // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
         $rsZonesStatistics->find();
@@ -647,7 +641,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aRow1 = $rsZonesStatistics->toArray();
         $rsZonesStatistics->fetch();
         $aRow2 = $rsZonesStatistics->toArray();
-        
+
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
 
         $this->assertFieldExists($aRow1, 'zone_id');
@@ -656,14 +650,14 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertFieldExists($aRow2, 'zone_id');
         $this->assertFieldExists($aRow2, 'clicks');
         $this->assertFieldExists($aRow2, 'impressions');
-        
+
         $clicksZone1 = $doDataSummaryAdHourly1->clicks+$doDataSummaryAdHourly2->clicks;
         $impressionsZone1 = $doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions;
         $this->assertFieldEqual($aRow1, 'clicks', $clicksZone1);
         $this->assertFieldEqual($aRow1, 'impressions', $impressionsZone1);
         $this->assertFieldEqual($aRow2, 'clicks', $doDataSummaryAdHourly3->clicks);
         $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
-                
+
         // Get statistics for 2 zones for capmaign 1
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign1->campaignid );
@@ -673,11 +667,11 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
-        
+
         $this->assertFieldEqual($aRow1, 'clicks', $doDataSummaryAdHourly3->clicks);
         $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly3->impressions);
-        
-        // Get statistics for 2 zones for capmaign 2 
+
+        // Get statistics for 2 zones for capmaign 2
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid );
         $rsZonesStatistics->find();
@@ -688,24 +682,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid, 100);
         $rsZonesStatistics->find();
-        
+
         $this->assertTrue($rsZonesStatistics->getRowCount() == 1,
             '1 record should be returned');
-        
+
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
-        
+
         $this->assertFieldEqual($aRow1, 'clicks', $doDataSummaryAdHourly2->clicks);
         $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly2->impressions);
-        
-        // Get statistics for zone 2, but start date didn't catch any stats for this zone 
+
+        // Get statistics for zone 2, but start date didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-20'));
         $rsZonesStatistics->find();
         $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
             'Recordset should be empty');
-        
-        // Try to get statistics for zones when time span is less than 30 days 
+
+        // Try to get statistics for zones when time span is less than 30 days
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-05-01'),  new Date('2008-05-30'));
         $rsZonesStatistics->find();
@@ -713,12 +707,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             'Recordset should be empty');
 
     }
-    
+
     /**
      * Method to generate sample data to statistics
      * It by default generate 2 zones, 2 campaigns (with revene type MAX_FINANCE_CPA and MAX_FINANCE_CPC)
      * and 3 statistics object
-     * 
+     *
      * To change default values pass object with this values to this function.
      *
      * @param DataObjects_Campaigns $doCampaign1 campaign object
@@ -732,7 +726,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
     function _generateDataForPerformanceStatisticsTests(
                      &$doCampaign1, &$doCampaign2,
                      &$doZone1, &$doZone2,
-                     &$doDataSummaryAdHourly1, &$doDataSummaryAdHourly2, &$doDataSummaryAdHourly3) 
+                     &$doDataSummaryAdHourly1, &$doDataSummaryAdHourly2, &$doDataSummaryAdHourly3)
     {
         $doAgency                  = OA_Dal::factoryDO('agency');
         $doAdvertiser              = OA_Dal::factoryDO('clients');
@@ -741,8 +735,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             $doCampaign1->revenue_type = MAX_FINANCE_CPA;
         }
         $doBanner1                 = OA_Dal::factoryDO('banners');
-        $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign1, $doBanner1);       
-        
+        $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign1, $doBanner1);
+
         $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerForCampaign($doCampaign1, $doBanner2);
 
@@ -753,14 +747,14 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         }
         $doBanner3 = OA_Dal::factoryDO('banners');
         $this->generateBannerAndCampaignForAdvertiser($doAdvertiser, $doCampaign2, $doBanner3);
-        
+
         $doAgency    = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
         if (!isset($doZone1)) {
             $doZone1      = OA_Dal::factoryDO('zones');
         }
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone1);
-        
+
         if (!isset($doZone2)) {
             $doZone2     = OA_Dal::factoryDO('zones');
         }
@@ -812,33 +806,33 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $result = $this->_dalZoneStatistics->_setImpressionsThreshold(1212);
         $this->assertEqual($result, 1212);
     }
-    
+
     /**
      * Test checking date span
      *
      */
     function test_checkDaysIntervalThreshold()
     {
-        // Test 30 full days 
+        // Test 30 full days
         $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01'),  new Date('2008-05-31') ));
         // Test almost 30 days
         $this->assertFalse($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01 00:00:01'),  new Date('2008-05-31') ));
         // Test 29 and 1/2 days and 29 days interval
         $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01 12:00:00'),  new Date('2008-05-31'), 29));
     }
-    
+
     /**
-     * Test generating empty RecordSet 
+     * Test generating empty RecordSet
      *
      */
-    function test_emptyRecordSet() 
+    function test_emptyRecordSet()
     {
         $rsEmpty = $this->_dalZoneStatistics->_emptyRecordSet();
         $this->assertIsA($rsEmpty, "MDB2RecordSet");
         $rsEmpty->find();
         $this->assertTrue($rsEmpty->getRowCount() == 0);
     }
-    
+
 }
 
 ?>

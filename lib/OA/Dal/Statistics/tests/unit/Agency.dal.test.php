@@ -83,16 +83,11 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
-        $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
+        $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
             $doAgency->agencyid, new Date('2001-12-01'),  new Date('2007-09-19'));
 
-        $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 1,
-            'Some records should be returned');
-
-        $rsAgencyStatistics->fetch();
-
-        $aRow = $rsAgencyStatistics->toArray();
+        $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow, 'day');
@@ -105,11 +100,10 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow, 'requests', 20);
 
         // 4. Get data in not existing range
-        $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
+        $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
             $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
-        $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
     /**

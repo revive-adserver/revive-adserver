@@ -307,16 +307,20 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Get no data
         $rsAgencyStatistics = null;
         $this->assertTrue($dllAgencyPartialMock->$methodName(
-            $oAgencyInfo->agencyId, new Date('2001-12-01'), new Date('2007-09-19'),
+            $oAgencyInfo->agencyId, new Date('2001-12-01'), new Date('2007-09-19'), false,
             $rsAgencyStatistics), $dllAgencyPartialMock->getLastError());
 
-        $this->assertTrue(isset($rsAgencyStatistics) &&
-            ($rsAgencyStatistics->getRowCount() == 0), 'No records should be returned');
+        $this->assertTrue(isset($rsAgencyStatistics));
+        if (is_array($rsAgencyStatistics)) {
+            $this->assertEqual(count($rsAgencyStatistics), 0, 'No records should be returned');
+        } else {
+            $this->assertEqual($rsAgencyStatistics->getRowCount(), 0, 'No records should be returned');
+        }
 
         // Test for wrong date order
         $rsAgencyStatistics = null;
         $this->assertTrue((!$dllAgencyPartialMock->$methodName(
-                $oAgencyInfo->agencyId, new Date('2007-09-19'),  new Date('2001-12-01'),
+                $oAgencyInfo->agencyId, new Date('2007-09-19'),  new Date('2001-12-01'), false,
                 $rsAgencyStatistics) &&
             $dllAgencyPartialMock->getLastError() == $this->wrongDateError),
             $this->_getMethodShouldReturnError($this->wrongDateError));
@@ -328,7 +332,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Test statistics for not existing id
         $rsAgencyStatistics = null;
         $this->assertTrue((!$dllAgencyPartialMock->$methodName(
-                $oAgencyInfo->agencyId, new Date('2001-12-01'),  new Date('2007-09-19'),
+                $oAgencyInfo->agencyId, new Date('2001-12-01'),  new Date('2007-09-19'), false,
                 $rsAgencyStatistics) &&
             $dllAgencyPartialMock->getLastError() == $this->unknownIdError),
             $this->_getMethodShouldReturnError($this->unknownIdError));

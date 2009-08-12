@@ -86,16 +86,11 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
-        $rsDailyStatistics = $this->_dalBannerStatistics->getBannerDailyStatistics(
+        $aData = $this->_dalBannerStatistics->getBannerDailyStatistics(
             $doBanner->bannerid, new Date('2001-12-01'),  new Date('2007-09-19'));
 
-        $rsDailyStatistics->find();
-        $this->assertTrue($rsDailyStatistics->getRowCount() == 1,
-            'Some records should be returned');
-
-        $rsDailyStatistics->fetch();
-
-        $aRow = $rsDailyStatistics->toArray();
+        $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow, 'day');
@@ -111,13 +106,10 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow, 'revenue', 10.0000);
 
         // 4. Get data in not existing range
-        $rsDailyStatistics = $this->_dalBannerStatistics->getBannerDailyStatistics(
+        $aData = $this->_dalBannerStatistics->getBannerDailyStatistics(
             $doBanner->bannerid,  new Date('2001-12-01'),  new Date('2006-09-19'));
 
-        $rsDailyStatistics->find();
-
-        $this->assertTrue($rsDailyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
     /**
