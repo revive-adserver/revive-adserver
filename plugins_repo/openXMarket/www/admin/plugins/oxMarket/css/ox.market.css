@@ -336,17 +336,29 @@ ul.column li.rejected {
 .tag-remnant .t-b {
     background-color: #727272; 
 }
-
-.tag-contract .t-b {
-    background-color: #f58615; 
-}
-
 .tag-remnant .t-b, .tag-remnant .l-r {
   border-color: #727272;
 }
 
+.tag-contract .t-b {
+    background-color: #f58615; 
+}
 .tag-contract .t-b, .tag-contract .l-r {
   border-color: #f58615;
+}
+
+.tag-cpm .t-b {
+    background-color: #ebbc3c; 
+}
+.tag-cpm .t-b, .tag-cpm .l-r {
+  border-color: #ebbc3c;
+}
+
+.tag-ecpm .t-b {
+    background-color: #c17600; 
+}
+.tag-ecpm .t-b, .tag-ecpm .l-r {
+  border-color: #c17600;
 }
 
 /** tag end **/
@@ -408,7 +420,7 @@ ul.column li.rejected {
 /** AJAX loading */
 #loading-indicator {
   position: absolute;
-  top: 10px;
+  top: 8px;
   left: 7px;
   padding-left: 33px;
   background-position: 2px 0;

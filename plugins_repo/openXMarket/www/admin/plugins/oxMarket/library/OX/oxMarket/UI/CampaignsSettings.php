@@ -51,6 +51,8 @@ class OX_oxMarket_UI_CampaignsSettings
 
     private $campaignType;
     private $search;
+    private $order = 'optinstatus';
+    private $descending = false;
     private $minCpms;
     private $defaultMinCpm;
     private $itemsPerPage = 5;
@@ -86,12 +88,12 @@ class OX_oxMarket_UI_CampaignsSettings
             $this->marketComponent->setMarketSettingsAlreadyShown();
         }
         
-        //
         $this->parseRequestParameters();
 
         // Prepare a list of campaigns involved
         $this->campaigns = $this->campaignsOptInDal->getCampaigns($this->defaultMinCpm, 
-            $this->campaignType, $this->minCpms, $this->search);
+            $this->campaignType, $this->minCpms, $this->search, 
+            ($this->descending ? '-' : '') . $this->order);
             
         // For POSTs, perform opt in/out and redirect
         if ('POST' == $_SERVER['REQUEST_METHOD']) { 
@@ -119,7 +121,7 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
         $this->assignCampaignsListModel($oTpl);
-//        $this->assignContentStrings($oTpl);
+        $this->assignContentStrings($oTpl);
         
         if ($_COOKIE['market-settings-info-box-hidden']) {
             $oTpl->assign('infoBoxHidden', true);
@@ -148,11 +150,15 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->register_function('ox_campaign_type_tag', 
             array($this, 'ox_campaign_type_tag_helper'));
 
+        // Filtering criteria
         $template->assign('campaignType', $this->campaignType);
         $template->assign('search', $this->search);
-        $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
-        $template->assign('minCpms', $this->minCpms);
+
+        // Sorting
+        $template->assign('order', $this->order);
+        $template->assign('desc', $this->descending);
         
+        // Pager
         $bottomPager = OX_buildPager($this->campaigns, $this->itemsPerPage, true, '', 4, $this->currentPage, 
             'market-campaigns-settings-list.php');
         $topPager = OX_buildPager($this->campaigns, $this->itemsPerPage, false, '', 4, $this->currentPage, 
@@ -161,13 +167,16 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('pager', $bottomPager);
         $template->assign('topPager', $topPager);
         $template->assign('page', $bottomPager->getCurrentPageID());
-        
+
+        // Counts
         $template->assign('allMatchingCount', count($this->campaigns));
         $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1, 
             $this->itemsPerPage, true);
-        $template->assign('campaigns', $this->campaigns);
         $template->assign('showingCount', count($this->campaigns));
         
+        // Campaigns
+        $template->assign('campaigns', $this->campaigns);
+        $template->assign('minCpms', $this->minCpms);
         $toOptInMap = self::arrayValuesToKeys($this->toOptIn);
         foreach ($this->campaigns as $campaignId => $campaign) {
             if (!isset($toOptInMap[$campaignId])) {
@@ -175,6 +184,9 @@ class OX_oxMarket_UI_CampaignsSettings
             }
         }
         $template->assign('toOptIn', $toOptInMap);
+        
+        // For validation
+        $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
     }
 
     
@@ -229,12 +241,23 @@ class OX_oxMarket_UI_CampaignsSettings
 
     private function parseRequestParameters()
     {
-        $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'optedCount', 'search', 'p');
+        $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'optedCount', 
+            'search', 'p', 'order', 'desc');
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $this->toOptIn = isset($request['toOptIn']) ? $request['toOptIn'] : array();
         $this->optedCount = $request['optedCount'];
         $this->search = !empty($request['search']) ? $request['search'] : null;
         $this->currentPage = !empty($request['p']) ? $request['p'] : null;
+        
+        if (!empty($request['order'])) {
+            $order = $request['order'];
+            if ('optinstatus' == $order || 'name' == $order) {
+                $this->order = $order;
+            }
+        }
+        if ($request['desc']) {
+            $this->descending = true;
+        }
 
         $this->minCpms = array();
         foreach ($_REQUEST as $param => $value) {
@@ -381,15 +404,18 @@ class OX_oxMarket_UI_CampaignsSettings
             $type = $aParams['type'];
             $translation = new OX_Translation ();
             
-            
-            if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+            if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
                 $class = 'tag-contract';
                 $text = $translation->translate('Contract');
             } 
-            elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
-                $class = 'tag-remnant';
-                $text = $translation->translate('eCPM');
-            } 
+            elseif ($type == 'ui-ecpm') { // UI-internal constant
+                $class = 'tag-ecpm';
+                $text = $translation->translate('ECPM');
+            }
+            elseif ($type == 'ui-cpm') { // UI-internal constant
+                $class = 'tag-cpm';
+                $text = $translation->translate('FinanceCPM');
+            }
             else {
                 $class = 'tag-remnant';
                 $text = $translation->translate('Remnant');

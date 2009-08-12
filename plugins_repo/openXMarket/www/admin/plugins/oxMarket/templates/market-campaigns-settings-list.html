@@ -27,7 +27,11 @@ $Id$
 
 <input type="hidden" name="p" value="{$page|escape}" /> 
 <input type="hidden" name="campaignType" value="{$campaignType|escape}" />
-<input type="hidden" name="allSelected" value="" id="allSelectedHidden" />
+<input type="hidden" name="order" value="{$order|escape}" />
+<input type="hidden" name="desc" value="{$desc|escape}" />
+{if !empty($pager->links)}
+    <input type="hidden" name="allSelected" value="" id="allSelectedHidden" />
+{/if}
  
 {if !empty($topPager->links)}
   <div class="pager pager-top">
@@ -42,11 +46,13 @@ $Id$
       <th class='first toggleAll'>
         <input type='checkbox' id="toggleAll" />
       </th>
-      <th class="name">
-        <label for="toggleAll">Campaign</label>
+      <th class="name{if $order == 'name'}{if $desc} sortDown{else} sortUp{/if}{/if}">
+        <a href="market-campaigns-settings-list.php?order=name&amp;desc={if $order == 'name' && !$desc}1{else}0{/if}">Campaign</a>
       </th>
       
-      <th class="mkt-status">OpenX Market Settings</th>
+      <th class="mkt-status{if $order == 'optinstatus'}{if $desc} sortDown{else} sortUp{/if}{/if}">
+        <a href="market-campaigns-settings-list.php?order=optinstatus&amp;desc={if $order == 'optinstatus' && !$desc}1{else}0{/if}">OpenX Market Settings</a>
+      </th>
       <th class='cpm last'>
         Floor Price (CPM)&nbsp;<span class="link" help="market-cpm-callout"><span class="icon icon-info">&nbsp;</span></span>
         {literal}
@@ -67,6 +73,7 @@ $Id$
     </tr>
   </thead>
   
+  {if !empty($pager->links)}
   <tbody id="selectAllContainer" class="hide">
     <tr class="header">
       <td colspan="6">
@@ -79,13 +86,14 @@ $Id$
       </td>
     </tr>
   </tbody>
+  {/if}
   
   {if $campaigns|@count}
     <tbody>
       {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
       {foreach key=campaignId item=campaign from=$campaigns}
         {cycle name=bgcolor assign=bgColor}
-        <tr class='{$bgColor}'>
+        <tr class='{$bgColor}{if $toOptIn[$campaignId]} selected{/if}'>
           <td class='toggleSelection'>
             <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
                    id="c{$campaignId}"{if $toOptIn[$campaignId]} checked="checked"{/if} />
@@ -104,18 +112,22 @@ $Id$
              {/if} 
           </td>                
           <td>
-            $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
-                     name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
+            <span style="float: left; padding-right: 3px">
+              $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
+                       name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
+            </span>
             {if $minCpmsInvalid[$campaignId]}
               <label class="error" for="cpm{$campaignId}">
               {$minCpmsInvalid[$campaignId]}
               </label>
             {else}     
+              <small style="float: left"><span class="campaign-type-tag">
               {if $campaign.minCpmCalculated}
-              <small>(eCPM)</small>
+                {ox_campaign_type_tag type='ui-ecpm'}
               {elseif $campaign.minCpmSpecified}
-              <small>(CPM)</small>
+                {ox_campaign_type_tag type='ui-cpm'}
               {/if}
+              </span></small>
             {/if}
           </td>
         </tr>

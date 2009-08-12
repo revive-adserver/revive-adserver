@@ -203,6 +203,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
             //if user has specified same floor as current eCPM/CPM or have not 
             //touched the proposed eCPM/CPM at all and submitted, we should preserve the ecpm marker
             if (self::isECPMEnabledCampaign($row_campaigns) 
+                && is_numeric($row_campaigns['ecpm'])
                 && $campaignMinCpm == $row_campaigns['ecpm']) {
                 $minCpmCalculated = true;     
             }

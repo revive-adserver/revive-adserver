@@ -320,7 +320,7 @@
             if ($target.is("input.cpm")) {
 	            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
 	                var $input = $target;
-	                var $checkbox = $input.parent().parent().find(":checkbox");
+	                var $checkbox = $input.parent().parent().parent().find(":checkbox");
 	                var previous = $checkbox.attr("checked");
 	                var next = $input.val().length > 0;
 	                $checkbox.attr("checked", next);
@@ -341,7 +341,9 @@
         // AJAX search
         $("#search").typeWatch({callback: function() {
         	refresh('market-campaigns-settings-list.php');
-        }});
+        	},
+            wait: 500
+        });
         
         // AJAX paging
         $optIn.click(function(event) {
@@ -367,6 +369,12 @@
                     $optIn.find("tr.selected").removeClass("selected");
                     return false;
             	}
+            	
+            	// Sorting
+            	if ($target.parent().is("th")) {
+                	refresh($target.attr('href'));
+                	return false;
+            	}
             }
         });
         
@@ -389,8 +397,14 @@
         
         function refresh(url) {
         	var ignored = getGetParams(url);
-        	ignored['p'] = true;
-        	var data = $optIn.elementValues(ignored);
+        	var allowed = {
+        	    "action": true, 
+        	    "campaignType": true, 
+        	    "search": true, 
+        	    "order": true, 
+        	    "desc": true 
+        	};
+        	var data = $optIn.elementValues(allowed, ignored);
         	data["action"] = "refresh";
         	var $indicator = $("#loading-indicator").fadeIn(200);
         	$.ajax({
@@ -437,12 +451,12 @@
         }
     };
     
-    $.fn.elementValues = function(ignored) {
+    $.fn.elementValues = function(allowed, ignored) {
         var values = {};
         this.find(":input").not(":checkbox:not(:checked)").not(":radio:not(:checked)").each(function () {
           var $this = $(this);
           var name = $this.attr("name");
-          if (ignored[name]) {
+          if (!allowed[name] || ignored[name]) {
         	  return true;
           }
           if (!values[name]) {
