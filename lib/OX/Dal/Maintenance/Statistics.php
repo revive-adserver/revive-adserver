@@ -841,47 +841,30 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
             if ($rows == 0) {
+                // Unable to UPDATE, try INSERT instead
                 $query = "
-                    UPDATE
+                    INSERT INTO
                         ".$this->oDbh->quoteIdentifier($toTable,true)."
-                    SET
-                        actual_impressions = {$row['actual_impressions']}
-                    WHERE
-                        operation_interval = {$row['operation_interval']}
-                        AND operation_interval_id = {$row['operation_interval_id']}
-                        AND interval_start = '{$row['interval_start']}'
-                        AND interval_end = '{$row['interval_end']}'
-                        AND zone_id = {$row['zone_id']}";
+                        (
+                            operation_interval,
+                            operation_interval_id,
+                            interval_start,
+                            interval_end,
+                            zone_id,
+                            actual_impressions
+                        )
+                    VALUES
+                        (
+                            {$row['operation_interval']},
+                            {$row['operation_interval_id']},
+                            '{$row['interval_start']}',
+                            '{$row['interval_end']}',
+                            {$row['zone_id']},
+                            {$row['actual_impressions']}
+                        )";
                 $rows = $this->oDbh->exec($query);
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                }
-                if ($rows == 0) {
-                    // Unable to UPDATE, try INSERT instead
-                    $query = "
-                        INSERT INTO
-                            ".$this->oDbh->quoteIdentifier($toTable,true)."
-                            (
-                                operation_interval,
-                                operation_interval_id,
-                                interval_start,
-                                interval_end,
-                                zone_id,
-                                actual_impressions
-                            )
-                        VALUES
-                            (
-                                {$row['operation_interval']},
-                                {$row['operation_interval_id']},
-                                '{$row['interval_start']}',
-                                '{$row['interval_end']}',
-                                {$row['zone_id']},
-                                {$row['actual_impressions']}
-                            )";
-                    $rows = $this->oDbh->exec($query);
-                    if (PEAR::isError($rows)) {
-                        return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                    }
                 }
             }
         }
