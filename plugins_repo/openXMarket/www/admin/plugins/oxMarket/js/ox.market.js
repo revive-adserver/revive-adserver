@@ -320,7 +320,7 @@
             if ($target.is("input.cpm")) {
 	            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
 	                var $input = $target;
-	                var $checkbox = $input.parent().parent().parent().find(":checkbox");
+	                var $checkbox = $input.parent().parent().find(":checkbox");
 	                var previous = $checkbox.attr("checked");
 	                var next = $input.val().length > 0;
 	                $checkbox.attr("checked", next);

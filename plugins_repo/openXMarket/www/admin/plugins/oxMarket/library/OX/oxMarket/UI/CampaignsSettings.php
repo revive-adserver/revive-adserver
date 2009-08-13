@@ -63,6 +63,15 @@ class OX_oxMarket_UI_CampaignsSettings
     private $optedCount;
     private $maxCpm;
     
+    private $contentKeys;
+    
+    /** 
+     * Numbers of opted in campaigns for tracking reasons. The numbers are calculated
+     * when handling the opt in/out POST requests and displayed on the subsequent campaigns
+     * list view.
+     */
+    private $remnantOptedIn;
+    private $contractOptedIn;
     
     public function __construct()
     {
@@ -72,6 +81,11 @@ class OX_oxMarket_UI_CampaignsSettings
         // Get configuration defaults
         $this->defaultMinCpm = $this->marketComponent->getConfigValue('defaultFloorPrice');
         $this->maxCpm = $this->marketComponent->getMaxFloorPrice(); //used for validation purpose only
+        
+        $this->contentKeys = $this->marketComponent->retrieveCustomContent('market-quickstart');
+        if (!$this->contentKeys) {
+            $this->contentKeys = array();
+        }
     }
 
 
@@ -120,17 +134,20 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function displayFullList($invalidCpmMessages)
     {
-        $oTpl = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
-        $this->assignCampaignsListModel($oTpl);
-        $this->assignContentStrings($oTpl);
+        $template = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
+        $this->assignCampaignsListModel($template);
+        $this->assignContentStrings($template);
         
         if (!empty($invalidCpmMessages)) {
             OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to ' . 
                 'opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
-            $oTpl->assign('minCpmsInvalid', $invalidCpmMessages);
+            $template->assign('minCpmsInvalid', $invalidCpmMessages);
+        } else {
+            // Don't show trackers on validation
+            $this->assignTrackers($template);
         }
         
-        return $oTpl;
+        return $template;
     }
 
     
@@ -189,74 +206,105 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function performOptIn()
     {
-        //for tracking reasons: count all currently opted in before additional optin
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
         
         if ($this->allSelected) {
-            $campaignsOptedIn = $this->campaignsOptInDal->performOptInAll(
+            $updated = $this->campaignsOptInDal->performOptInAll(
                 $this->defaultMinCpm, $this->campaignType, $this->minCpms, $this->search);
         } else {
-            $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
+            $updated = $this->campaignsOptInDal->performOptIn(
                 $this->toOptIn, $this->minCpms);
         }
+        $this->prepareAfterStatusChangeCounts();
         
-        //for tracking reasons: count all currently opted in after additional optin
-        $afterCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
-        
-        //we do not count here campaigns which floor price was only updated
-        $actualOptedCount = $afterCount - $beforeCount; //this should not be lower than 0 :)
+        $afterCount = $this->contractOptedIn + $this->remnantOptedIn;
+        $actualOptedCount = $afterCount - $beforeCount;
+        $updatedCount = $updated - $actualOptedCount;
     
-        OA_Admin_UI::queueMessage('You have successfully opted <b>' . $actualOptedCount . ' campaign' .
-            ($campaignsOptedIn > 1 ? 's' : '') . '</b> into OpenX Market', 'local', 'confirm', 0);         
+        $message = '';
+        if ($actualOptedCount > 0) {
+            $message .= 'You have successfully opted <b>' . $actualOptedCount . ' campaign' .
+                ($actualOptedCount > 1 ? 's' : '') . '</b> into OpenX Market';
+        }
+        if ($actualOptedCount > 0 && $updatedCount) {
+            $message .= '. ';
+        }
+        if ($updatedCount > 0)
+        {
+            $suffix = ($updatedCount > 1 ? 's' : '');
+            $message .= 'Floor price' . $suffix . ' of ' . $updatedCount . ' campaign' . $suffix . 
+                ' ' . ($updatedCount > 1 ? 'have' : 'has') . ' been updated.';
+        }
+        OA_Admin_UI::queueMessage($message, 'local', 'confirm', 0);         
 
-        $this->redirect($actualOptedCount);
+        $this->redirect();
     }
     
     private function performOptOut()
     {
-        //for tracking reasons: count all currently opted in before additional optin
-        $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
-        
         if ($this->allSelected) {
             $campaignsOptedOut = $this->campaignsOptInDal->performOptOutAll(
                 $this->campaignType, $this->search);
         } else {
             $campaignsOptedOut = $this->campaignsOptInDal->performOptOut($this->toOptIn);
         }
-        
-        //for tracking reasons: count all currently opted in after additional optin
-        $afterCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
+        $this->prepareAfterStatusChangeCounts();
         
         OA_Admin_UI::queueMessage('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
             ($campaignsOptedOut > 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
     
-        //we do not count here campaigns which floor price was only updated
-        $actualOptedOutCount = $beforeCount-$afterCount; //this should not be lower than 0 :)
-
-        $this->redirect($actualOptedOutCount);
+        $this->redirect();
     }
     
     
-	private function redirect($actualOptedOutCount)
+    private function prepareAfterStatusChangeCounts()
+    {
+        $this->remnantOptedIn = $this->campaignsOptInDal->numberOfOptedCampaigns('remnant');
+        $this->contractOptedIn = $this->campaignsOptInDal->numberOfOptedCampaigns('contract');
+    }
+    
+    
+	private function redirect()
     {
         $params = array(
             'campaignType' => $this->campaignType, 
-            'optedCount' => $actualOptedOutCount, 
-            'p' => $this->currentPage
+            'search' => $this->search, 
+            'order' => $this->order, 
+            'desc' => $this->descending, 
+            'p' => $this->currentPage,
+            'remnantOptedIn' => $this->remnantOptedIn,
+            'contractOptedIn' => $this->contractOptedIn
         );
-        OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php?' . http_build_query($params));
+        
+        global $session;
+        $session['oxMarket-quickstart-params'] = $params;
+        phpAds_SessionDataStore();
+        
+        OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php');
     }
     
 
     private function parseRequestParameters()
     {
-        $request = phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 'optedCount', 
-            'search', 'p', 'order', 'desc');
+        // Retrieve values passed by the previous request making a redirect after POST
+        global $session;
+        $fromRedirecingRequest = isset($session['oxMarket-quickstart-params']) ? $session['oxMarket-quickstart-params'] : array();
+        if (!empty($fromRedirecingRequest)) {
+            unset($session['oxMarket-quickstart-params']);
+            phpAds_SessionDataStore();
+        }
+         
+        // Merge with params from the current request. We explicitly overwrite current
+        // request parameters with the ones from session and on the other way round
+        // to make sure that the values we pass through the session are not tampered with.
+        $request = array_merge(phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 
+                'search', 'p', 'order', 'desc', 'allSelected'), $fromRedirecingRequest);
+        
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $this->toOptIn = isset($request['toOptIn']) ? $request['toOptIn'] : array();
         $this->optedCount = $request['optedCount'];
-        $this->search = !empty($request['search']) ? $request['search'] : null;
-        $this->currentPage = !empty($request['p']) ? $request['p'] : null;
+        $this->search = $request['search'];
+        $this->currentPage = $request['p'];
         
         if (!empty($request['order'])) {
             $order = $request['order'];
@@ -267,7 +315,10 @@ class OX_oxMarket_UI_CampaignsSettings
         if ($request['desc']) {
             $this->descending = true;
         }
-        $this->allSelected = !empty($request['allSelected']) && $request['allSelected'] == 'true'; 
+        $this->allSelected = !empty($request['allSelected']) && $request['allSelected'] == 'true';
+
+        $this->remnantOptedIn = $request['remnantOptedIn']; 
+        $this->contractOptedIn = $request['contractOptedIn']; 
 
         $this->minCpms = array();
         foreach ($_REQUEST as $param => $value) {
@@ -372,39 +423,42 @@ class OX_oxMarket_UI_CampaignsSettings
 
     function assignContentStrings($oTpl)
     {
-        $aContentKeys = $this->marketComponent->retrieveCustomContent('market-quickstart');
-        if (!$aContentKeys) {
-            $aContentKeys = array();
+        $oTpl->assign('topMessage', $this->getContentKeyValue('top-message'));
+        $oTpl->assign('optInSubmitLabel', $this->getContentKeyValue('radio-opt-in-submit-label'));
+        $oTpl->assign('optOutSubmitLabel', $this->getContentKeyValue('radio-opt-out-submit-label'));
+    }
+    
+    
+    private function assignTrackers($template)
+    {
+        if (isset($this->remnantOptedIn) && isset($this->contractOptedIn)) {
+            $this->assignTracker($template, 'tracker-optin-iframe', array(
+                '$REMNANT_OPTED_IN' => $this->remnantOptedIn,
+                '$CONTRACT_OPTED_IN' => $this->contractOptedIn
+            ));
+        } else {
+            $this->assignTracker($template, 'tracker-view-iframe', array(
+                '$REMNANT_ALL' => $this->campaignsOptInDal->getCampaignsCount('remnant'),
+                '$CONTRACT_ALL' => $this->campaignsOptInDal->getCampaignsCount('contract')
+            ));
         }
-        
-        $topMessage = isset($aContentKeys['top-message'])
-            ? $aContentKeys['top-message']
-            : '';
-            
-        $optInSubmitLabel = isset($aContentKeys['radio-opt-in-submit-label'])
-            ? $aContentKeys['radio-opt-in-submit-label']
-            : '';        
-            
-        $optOutSubmitLabel = isset($aContentKeys['radio-opt-out-submit-label'])
-            ? $aContentKeys['radio-opt-out-submit-label']
-            : '';        
-            
-        $optedCount = 10;
-        if (isset($optedCount) && $optedCount > 0) { //use opted count tracker
-            $trackerFrame = isset($aContentKeys['tracker-optin-iframe'])
-                ? str_replace('$COUNT', $optedCount, $aContentKeys['tracker-optin-iframe'])
-                : '';
+    }
+    
+    
+    private function assignTracker($template, $key, $replacements)
+    {
+        $trackerFrame = $this->getContentKeyValue($key);
+        foreach ($replacements as $param => $value)
+        {
+            $trackerFrame = str_replace($param, $value, $trackerFrame);
         }
-        else {
-            $trackerFrame = isset($aContentKeys['tracker-view-iframe'])
-                ? $aContentKeys['tracker-view-iframe']
-                : '';
-        }    
-        
-        $oTpl->assign('topMessage', $topMessage);
-        $oTpl->assign('optInSubmitLabel', $optInSubmitLabel);
-        $oTpl->assign('optOutSubmitLabel', $optOutSubmitLabel);
-        $oTpl->assign('trackerFrame', $trackerFrame);
+        $template->assign('trackerFrame', $trackerFrame);
+    }
+    
+    
+    private function getContentKeyValue($key, $default = '')
+    {
+        return isset($this->contentKeys[$key]) ? $this->contentKeys[$key] : $default; 
     }
     
     
