@@ -168,6 +168,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
             $campaigns[$campaignId]['ecpm_enabled'] = $row_campaigns['ecpm_enabled'];
             $campaigns[$campaignId]['optin_status'] = !empty($row_campaigns['is_enabled']);
             $campaigns[$campaignId]['floor_price'] = $row_campaigns['floor_price']; 
+            $campaigns[$campaignId]['revenue_type'] = $row_campaigns['revenue_type']; 
             
             $minCpmCalculated = false;
             $minCpmSpecified = false;

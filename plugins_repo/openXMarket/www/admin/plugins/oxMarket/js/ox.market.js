@@ -329,15 +329,6 @@
             }
         });
         
-        // Info box closing
-        $("#market-info-box-close").click(function() {
-        	$optIn.find(".info-box").fadeOut(300, function() {
-        		$optIn.find(".mainOptionContent").removeClass("has-info-box");
-        		$.cookie("market-settings-info-box-hidden", true, {expires: 365 * 10});
-        	});
-        	return false;
-        });
-        
         // AJAX search
         $("#search").typeWatch({callback: function() {
         	refresh('market-campaigns-settings-list.php');
@@ -393,6 +384,7 @@
         	}
         });
         
+		installHelp();
         return this;
         
         function refresh(url) {
@@ -406,19 +398,32 @@
         	};
         	var data = $optIn.elementValues(allowed, ignored);
         	data["action"] = "refresh";
-        	var $indicator = $("#loading-indicator").fadeIn(200);
+        	var $indicator = $("#loading-indicator").attr("title", "").removeClass("ajax-error").fadeIn(200);
         	$.ajax({
         		data: data,
         		type: 'POST',
         		url: url,
         		success: function(data) {
         		  if (!checkReload(data)) {
-		    		  $("#tableContent").html(data);
-		    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
-		    		  $indicator.fadeOut(200);
+        			  if (data.indexOf("<!-- market-quickstart-campaigns -->") >= 0) {
+			    		  $("#tableContent").html(data);
+			    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
+			    		  installHelp();
+			    		  $indicator.fadeOut(200);
+        			  } else {
+        				  showError(data.substring(0, Math.min(data.length, 64)) + "...");
+        			  }
         		  }
+        		},
+        		error: function(XMLHttpRequest, textStatus, errorThrown) {
+        			showError();
         		}
         	});
+        	
+        	function showError(error) {
+        		$indicator.attr("title", "Could not load campaigns. Please try again. " + 
+        				(error ? "Error: " + error : "")).addClass("ajax-error");
+        	}
         }
         
         function cancelAllSelection() {
@@ -426,13 +431,20 @@
             $("#allSelectedHidden").val("");
         }
           
-          
         function checkReload(data) {
           if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
             document.location.reload();
             return true;
           }
           return false;
+        }
+        
+        function installHelp() {
+            $("#market-cpm-callout").help({
+                'parentXOffset' : 695,
+                'parentYOffset' : 500
+                }
+            );
         }
         
         function getGetParams(url) {

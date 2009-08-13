@@ -25,6 +25,9 @@ $Id$
 
 -->*}
 
+{* AJAX response marker, do not remove *}
+<!-- market-quickstart-campaigns -->
+
 <input type="hidden" name="p" value="{$page|escape}" /> 
 <input type="hidden" name="campaignType" value="{$campaignType|escape}" />
 <input type="hidden" name="order" value="{$order|escape}" />
@@ -40,6 +43,19 @@ $Id$
 {/if}
           
   
+<div class="hide info-box" id="market-cpm-callout" style="height: auto; width: 500px;">
+  <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" />
+  <h3>Opting in your campaigns to OpenX Market</h3>
+  <p>
+    OpenX Market competes with your campaigns to provide you with higher paying ads. 
+    Select which campaigns to opt in and set a floor price for each one. OpenX Market 
+    must pay higher than the floor or the campaign's original ad is served.
+  </p>
+  <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
+  CPM it is already earning.
+  </p>
+  <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+</div>
 <table cellspacing='0' summary=''>
   <thead>
     <tr>
@@ -54,21 +70,7 @@ $Id$
         <a href="market-campaigns-settings-list.php?order=optinstatus&amp;desc={if $order == 'optinstatus' && !$desc}1{else}0{/if}">OpenX Market Settings</a>
       </th>
       <th class='cpm last'>
-        Floor Price (CPM)&nbsp;<span class="link" help="market-cpm-callout"><span class="icon icon-info">&nbsp;</span></span>
-        {literal}
-          <script type="text/javascript">
-          <!--
-           $(document).ready(function(){
-              //init help, apply offset for thirdLevelContent to get abs positioning right
-              $("#market-cpm-callout").help({
-                  'parentXOffset' : 400,
-                  'parentYOffset' : 400
-                  }
-              );
-           });
-          //-->
-          </script>                    
-        {/literal}
+        Floor Price (CPM)&nbsp;<span class="icon icon-info pointer" help="market-cpm-callout">&nbsp;</span>
       </th>
     </tr>
   </thead>
@@ -112,22 +114,18 @@ $Id$
              {/if} 
           </td>                
           <td>
-            <span style="float: left; padding-right: 3px">
-              $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
-                       name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
-            </span>
+            $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
+                     name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
             {if $minCpmsInvalid[$campaignId]}
               <label class="error" for="cpm{$campaignId}">
               {$minCpmsInvalid[$campaignId]}
               </label>
             {else}     
-              <span style="float: left" class="campaign-type-tag">
               {if $campaign.minCpmCalculated}
-                {ox_campaign_type_tag type='ui-ecpm'}
+                <small title="This is the campaign's calculated eCPM">Campaign's eCPM</small>
               {elseif $campaign.minCpmSpecified}
-                {ox_campaign_type_tag type='ui-cpm'}
+                <small title="This is the campaign's specified CPM">Campaign's CPM</small>
               {/if}
-              </span>
             {/if}
           </td>
         </tr>
@@ -154,18 +152,6 @@ $Id$
             <span class="controls">{$pager->links}</span>
           </div>
           {/if}
-        </td>
-      </tr>
-      <tr>
-        <td colspan="4" style="text-align: right; line-height: 1.2; padding-right: 1.7em">
-            <div style="clear: both; margin-bottom: 7px">
-            <span style="float: right; position: relative; top: -2px; margin-left: 2px" class="campaign-type-tag">{ox_campaign_type_tag type='ui-cpm'}</span>
-            floor price value equal to the campaign's secified CPM
-            </div>
-            <div style="clear: both">
-            <span style="float: right; position: relative; top: -2px; margin-left: 2px" class="campaign-type-tag">{ox_campaign_type_tag type='ui-ecpm'}</span>
-            floor price value equal to the campaign's calculated eCPM
-            </div>
         </td>
       </tr>
     </tbody>

@@ -47,6 +47,10 @@ p.wide {
   margin-bottom: 2em;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /* quasi form */
 ul.form {
     margin: 0px;
@@ -154,6 +158,14 @@ ul.column li.rejected {
 }
 
 
+.market-campaign-settings h2 {
+  margin-top: 6px;
+}
+
+.market-campaign-settings .section {
+  margin-bottom: 1em;
+}
+
 .market-campaign-settings small {
   font-size: 10px;
   color: #808080;
@@ -169,6 +181,11 @@ ul.column li.rejected {
   clear: both;
   padding: 0;
   padding-top: 5px;
+  font-size: 10px;
+}
+
+.market-campaign-settings td small {
+  display: block;
 }
 
 .market-campaign-settings #submit {
@@ -212,36 +229,6 @@ ul.column li.rejected {
   overflow-x: hidden;
   max-height: 380px;
   position: relative;
-}
-
-.market-campaign-settings .has-info-box  {
-  position: relative;
-}
-
-.market-campaign-settings .has-info-box .content {
-  padding-right: 260px;
-}
-
-.market-campaign-settings .has-info-box .tableWrapper {
-  padding: 0px;
-}
-
-#market-info-box-close {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 0;
-  margin-top: 5px;
-  margin-right: 5px;
-  text-decoration: none;
-  color: white;
-  background: transparent url(../images/close.gif) no-repeat scroll left top;
-}
-
-#market-info-box-close:hover {
-  background: transparent url(../images/close-hl.gif) no-repeat scroll left top;
 }
 
 /* updated table dropdown **/
@@ -354,37 +341,15 @@ ul.column li.rejected {
   border-color: #f58615;
 }
 
-.tag-cpm .t-b {
-    background-color: #ebbc3c; 
-}
-.tag-cpm .t-b, .tag-cpm .l-r {
-  border-color: #ebbc3c;
-}
-
-.tag-ecpm .t-b {
-    background-color: #c17600; 
-}
-.tag-ecpm .t-b, .tag-ecpm .l-r {
-  border-color: #c17600;
-}
-
 /** tag end **/
 .market-campaign-settings .tableWrapper th.mkt-status {
-  width: 9em;
+  width: 13em;
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
   width: 12em;
 }
-/*
-.market-campaign-settings .has-info-box .tableWrapper .mkt-status {
-  width: 15%;
-}
 
-.market-campaign-settings .has-info-box .tableWrapper .cpm {
-  width: 25%;
-}
-*/
 .market-campaign-settings .tableWrapper .tableFooter .tableActions {
   padding: 0px;
 }
@@ -451,11 +416,12 @@ ul.column li.rejected {
 }
 
 /** info box **/
-.market-campaign-settings .info-box {
-  font-size: 10px;
-  position: absolute;
-  right: 0px;
-  top: 0px;
+.market-campaign-settings .info-box img {
+  float: left; 
+  padding: 5px; 
+  border: 1px solid #ccc; 
+  margin-right: 10px; 
+  background-color: white;
 }
 
 .market-campaign-settings .info-box .panel {

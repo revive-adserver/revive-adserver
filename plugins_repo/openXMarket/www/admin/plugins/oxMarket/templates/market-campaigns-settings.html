@@ -32,33 +32,17 @@ $Id$
     {if $topMessage}
       {$topMessage}
     {else}    
-      <div class="section" style="width: 785px;">
+      <div class="section">
           <h2>Earn more revenue from your existing campaigns with OpenX Market</h2>
           <p>
-          OpenX Market is a free service that places higher paying ads on your site. 
-          Use it to make more money without taking on more risk.<br />
-
           To participate, select the campaigns you want OpenX Market to compete with and 
           assign a floor price (minimum CPM) to each campaign. You do not need to retag your zones.
           </p>
       </div>
     {/if}
 
-    <div class="mainOptionContent{if !$infoBoxHidden} has-info-box{/if}">
+    <div class="mainOptionContent">
       <div class="content">
-        <div class="hide" id="market-cpm-callout" style="height: auto; width: 270px;">
-          <p>
-            The minimum CPM you provide for a specific campaign will 
-            be the floor price OpenX Market uses for that campaign. 
-            If the highest bid from OpenX Market exceeds the campaign's floor price, 
-            OpenX Market will serve the ad and pay you the higher revenue. 
-            Otherwise, your campaign's existing ad will be delivered.
-          </p>
-          <p>
-            We recommend that you specify a CPM that represents 
-            the effective CPM that you expect to get from your campaign.
-          </p>
-        </div>
         <div class='tableWrapper'>
           <div class='tableHeader'>
             <ul class='tableFilters'>
@@ -101,29 +85,7 @@ $Id$
           <div id="tableContent">{include file=market-campaigns-settings-list.html campaigns=$campaigns}</div>
         </div>
       </div>
-
-      <div class='info-box'{if $infoBoxHidden} style="display: none"{/if}>
-        <div class='panel'>
-          <a id="market-info-box-close" href="#" title="Close">Close</a>
-          <h3>Opting in your campaigns to OpenX Market</h3>
-          <p>
-            OpenX Market competes with your campaigns to provide you with higher paying ads. 
-            Select which campaigns to opt in and set a floor price for each one. OpenX Market 
-            must pay higher than the floor or the campaign's original ad is served.
-          </p>
-          <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
-          CPM it is already earning.
-          </p>
-          <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif"/>
-          <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
-          <div class='corner top-left'></div>
-          <div class='corner top-right'></div>
-          <div class='corner bottom-left'></div>
-          <div class='corner bottom-right'></div>
-        </div>
-      </div>
     </div>
-    
   </form>
 </div>
 

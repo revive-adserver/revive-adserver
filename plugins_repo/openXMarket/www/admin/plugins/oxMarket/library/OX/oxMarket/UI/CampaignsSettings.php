@@ -124,10 +124,6 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->assignCampaignsListModel($oTpl);
         $this->assignContentStrings($oTpl);
         
-        if ($_COOKIE['market-settings-info-box-hidden']) {
-            $oTpl->assign('infoBoxHidden', true);
-        }
-            
         if (!empty($invalidCpmMessages)) {
             OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to ' . 
                 'opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
@@ -197,11 +193,11 @@ class OX_oxMarket_UI_CampaignsSettings
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
         
         if ($this->allSelected) {
-            $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
-                $this->toOptIn, $this->minCpms);
-        } else {
             $campaignsOptedIn = $this->campaignsOptInDal->performOptInAll(
                 $this->defaultMinCpm, $this->campaignType, $this->minCpms, $this->search);
+        } else {
+            $campaignsOptedIn = $this->campaignsOptInDal->performOptIn(
+                $this->toOptIn, $this->minCpms);
         }
         
         //for tracking reasons: count all currently opted in after additional optin
@@ -422,14 +418,6 @@ class OX_oxMarket_UI_CampaignsSettings
                 $class = 'tag-contract';
                 $text = $translation->translate('Contract');
             } 
-            elseif ($type == 'ui-ecpm') { // UI-internal constant
-                $class = 'tag-ecpm';
-                $text = $translation->translate('ECPM');
-            }
-            elseif ($type == 'ui-cpm') { // UI-internal constant
-                $class = 'tag-cpm';
-                $text = $translation->translate('FinanceCPM');
-            }
             else {
                 $class = 'tag-remnant';
                 $text = $translation->translate('Remnant');
