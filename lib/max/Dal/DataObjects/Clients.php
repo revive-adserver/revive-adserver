@@ -60,7 +60,6 @@ class DataObjects_Clients extends DB_DataObjectCommon
     public $reportdeactivate;                // ENUM('t','f') => openads_enum => 130 
     public $comments;                        // TEXT() => openads_text => 34 
     public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $lb_reporting;                    // TINYINT(1) => openads_tinyint => 145 
     public $an_adnetwork_id;                 // INT(11) => openads_int => 1 
     public $as_advertiser_id;                // INT(11) => openads_int => 1 
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
@@ -78,7 +77,6 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'reportlastdate' => '%NO_DATE_TIME%',
                 'reportdeactivate' => 't',
                 'updated' => '%DATE_TIME%',
-                'lb_reporting' => 0,
                 'advertiser_limitation' => 0,
                 );
 
