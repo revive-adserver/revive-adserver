@@ -725,13 +725,17 @@ class Migration_308 extends Migration
 	}
 
 
-	function createConfigDirectory($dir)
+	function createConfigDirectory($dir, $recursive = true)
 	{
-	    if (file_exists($dir) && !is_dir($dir)) {
-	        return false;
+	    if (file_exists($dir)) {
+	        return is_dir($dir);
 	    }
-	    elseif (file_exists($dir)) {
-	        return true;
+	    $parent = dirname($dir);
+	    if ($recursive && !file_exists($parent)) {
+	        $result = $this->createConfigDirectory($parent, false);
+	        if (!$result) {
+                return $this->_logErrorAndReturnFalse('Could not create the '.$parent.' directory');
+	        }
 	    }
 	    $old_umask = umask(0);
         $result = mkdir($dir, 0777);
