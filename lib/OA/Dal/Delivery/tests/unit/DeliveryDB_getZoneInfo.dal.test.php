@@ -100,6 +100,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Create a zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->zonename                = 'Zone 1';
+        $doZones->affiliateid             = $aTrafficker['affiliateid'];
         $doZones->delivery                = 0;
         $doZones->description             = 'Zone Description';
         $doZones->width                   = 468;
@@ -123,13 +124,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         or preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 18);
+        $this->assertEqual(count($aResult), 20);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
 
         // Add the "default_banner_image_url" preference
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -141,13 +144,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         no preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 18);
+        $this->assertEqual(count($aResult), 20);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
 
         // Add a "default_banner_image_url" preference value for the admin user
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
@@ -160,13 +165,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 18);
+        $this->assertEqual(count($aResult), 20);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
 
         // Add the "default_banner_destination_url" preference
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -178,13 +185,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 19);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/service_with_a_smile.jpg');
 
         // Overload the "default_banner_image_url" preference value for the admin user
@@ -199,13 +208,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         two preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 19);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/ikea-cat-some-assembly-required.jpg');
 
         // Overload the "default_banner_image_url" preference value for the admin and
@@ -220,13 +231,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 19);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
 
         // Add a "default_banner_destination_url" preference value for an account that isn't one of
@@ -241,13 +254,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 19);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
 
         // Add a "default_banner_destination_url" preference value for the admin account
@@ -261,13 +276,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          four preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
         $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.fornax.net/');
 
@@ -283,13 +300,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          five preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
         $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.fornax.net/blog/');
 
@@ -305,13 +324,15 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          six preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
         $this->assertEqual($aResult['description'], 'Zone Description');
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
+        $this->assertEqual($aResult['publisher_id'], $aTrafficker['affiliateid']);
+        $this->assertEqual($aResult['agency_id'], $aTrafficker['agencyid']);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
         $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.openx.org/');
 
