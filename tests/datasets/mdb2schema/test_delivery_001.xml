@@ -86843,11 +86843,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -86924,11 +86919,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87011,11 +87001,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87092,11 +87077,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87179,11 +87159,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87263,11 +87238,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87344,11 +87314,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87431,11 +87396,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87512,11 +87472,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87599,11 +87554,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87680,11 +87630,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87767,11 +87712,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -87848,11 +87788,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -87935,11 +87870,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88016,11 +87946,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88103,11 +88028,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88184,11 +88104,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88271,11 +88186,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88352,11 +88262,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88439,11 +88344,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88520,11 +88420,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88607,11 +88502,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88688,11 +88578,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88775,11 +88660,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -88856,11 +88736,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -88943,11 +88818,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -89024,11 +88894,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -89111,11 +88976,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -89192,11 +89052,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -89279,11 +89134,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -89360,11 +89210,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -89447,11 +89292,6 @@
     </field>
 
     <field>
-     <name>lb_reporting</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>an_adnetwork_id</name>
      <value>1</value>
     </field>
@@ -89528,11 +89368,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>lb_reporting</name>
-     <value>0</value>
     </field>
 
     <field>
