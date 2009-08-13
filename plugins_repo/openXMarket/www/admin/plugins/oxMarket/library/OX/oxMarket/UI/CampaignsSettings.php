@@ -55,7 +55,7 @@ class OX_oxMarket_UI_CampaignsSettings
     private $descending = false;
     private $minCpms;
     private $defaultMinCpm;
-    private $itemsPerPage = 5;
+    private $itemsPerPage = 50;
     private $currentPage;
     
     private $toOptIn;
