@@ -328,7 +328,14 @@ class OA_Dll_Banner extends OA_Dll
                             list($result, $params) = phpAds_SWFConvert($this->oImage->content, true, $aLinks);
                             if ($result != $this->oImage->content) {
                                 $this->oImage->content = $result;
-                                $bannerData['parameters'] = serialize(array('swf' => $params));
+                                $bannerData['parameters'] = array('swf' => array());
+                                foreach ($params as $key) {
+                                    $bannerData['parameters']['swf'][$key] = array(
+                                        'link' => $this->oImage->hardcodedLinks[$key][0],
+                                        'tar'  => $this->oImage->hardcodedLinks[$key][1]
+                                    );
+                                }
+                                $bannerData['parameters'] = serialize($bannerData['parameters']);
                                 $bannerData['url']        = $this->oImage->hardcodedLinks[1][0];
                                 $bannerData['target']     = $this->oImage->hardcodedLinks[1][1];
                             }

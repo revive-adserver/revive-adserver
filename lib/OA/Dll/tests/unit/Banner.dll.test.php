@@ -301,7 +301,14 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $this->assertEqual($doBanners->width, 468);
         $this->assertEqual($doBanners->height, 60);
         $this->assertEqual($doBanners->contenttype, 'swf');
-        $this->assertTrue($doBanners->parameters);
+        $this->assertEqual(unserialize($doBanners->parameters), array(
+            'swf' => array(
+                1 => array(
+                    'link' => 'http://www.example.com',
+                    'tar'  => '_blank',
+                )
+            )
+        ));
         $this->assertTrue($doBanners->url);
         $this->assertTrue($doBanners->target);
 
