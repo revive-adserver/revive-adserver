@@ -86,6 +86,13 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $emailAddress;
 
     /**
+     * This field provides the website address of the publisher.
+     *
+     * @var string $website
+     */
+    var $website;
+
+    /**
      * This field provides any additional comments to be stored.
      *
      * @var string $comments
@@ -118,6 +125,7 @@ class OA_Dll_PublisherInfo extends OA_Info
                     'publisherName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
+                    'website' => 'string',
                     'comments' => 'string',
                 );
     }

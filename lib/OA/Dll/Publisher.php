@@ -60,6 +60,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['publisherName']  = $publisherData['name'];
         $publisherData['contactName']    = $publisherData['contact'];
         $publisherData['emailAddress']   = $publisherData['email'];
+        $publisherData['website']        = $publisherData['website'];
         $publisherData['agencyId']       = $publisherData['agencyid'];
         $publisherData['publisherId']    = $publisherData['affiliateid'];
         $publisherData['accountId']      = $publisherData['account_id'];
@@ -106,6 +107,7 @@ class OA_Dll_Publisher extends OA_Dll
             !$this->checkEmail($oPublisher->emailAddress)) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255) ||
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'website', 255) ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'emailAddress', 64)) {
 
             return false;
@@ -156,11 +158,11 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @param OA_Dll_PublisherInfo &$oPublisher <br />
      *          <b>For adding</b><br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, Website<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> publisherId<br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, Website<br />
      *
      * @return success boolean True if the operation was successful
      *
