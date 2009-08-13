@@ -42,6 +42,18 @@ define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
  */
 class Migration_tables_core_108Test extends MigrationTest
 {
+    function setUp()
+    {
+        parent::setUp();
+        mkdir(MAX_PATH . '/var/plugins/config', 0777, true);
+    }
+    
+    function tearDown()
+    {
+        Util_File_remove(MAX_PATH . '/var/plugins/config');        
+        parent::tearDown();
+    }
+    
     function testMigrateData()
     {
         $prefix = $this->getPrefix();

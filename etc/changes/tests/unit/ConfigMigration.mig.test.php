@@ -26,6 +26,7 @@ $Id: StatMigration.mig.test.php 7421 2007-06-08 15:33:23Z monique.szpak@openads.
 */
 
 require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
+require_once MAX_PATH . '/lib/util/file/file.php';
 
 
 /**
@@ -56,11 +57,11 @@ class ConfigMigrationTest extends UnitTestCase
 		// set up test folders
     	$this->moduleDir = MAX_PATH . '/var/plugins/config/testModule';
     	if(!file_exists($this->moduleDir)) {
-    		mkdir($this->moduleDir);
+    		mkdir($this->moduleDir, 0777, true);
     	}
     	$this->packageDir = $this->moduleDir.'/testType';
     	if (!file_exists($this->packageDir)) {
-    		mkdir($this->packageDir);
+    		mkdir($this->packageDir, 0777, true);
     	}
 	}
 
@@ -74,6 +75,9 @@ class ConfigMigrationTest extends UnitTestCase
             @unlink(MAX_PATH.'/var/'.OX_getHostName().'.conf.php');
         }
 	    $_SERVER['HTTP_HOST'] = $this->host;
+
+	    // Clean up
+	    Util_File_remove(MAX_PATH . '/var/plugins/config/');
 	}
 
     function testGetGeotargetingConfig()
@@ -160,4 +164,5 @@ class ConfigMigrationTest extends UnitTestCase
     }
 
 }
+
 ?>

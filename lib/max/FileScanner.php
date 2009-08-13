@@ -125,6 +125,10 @@ class MAX_FileScanner
 		    }
 		    $recursive--;
 		}
+		// Don't try and scan non-dirs :)
+		if (!is_dir($dir)) {
+		    return;
+		}
 	    if ($handle = opendir($dir)) {
             while ($file = readdir($handle)) {
                 if (is_dir($dir.'/'.$file) && $file != '.' && $file != '..') {
