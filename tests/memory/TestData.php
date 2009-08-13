@@ -110,7 +110,6 @@ class Memory_TestData
         $doClients->reportdeactivate    = 't';
         $doClients->comments            = '';
         $doClients->updated             = OA::getNow();
-        $doClients->lb_reporting        = 0;
         $this->clientId = DataGenerator::generateOne($doClients);
     }
 

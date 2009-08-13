@@ -190,7 +190,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('reportinterval', $aClients));
         $this->assertTrue(array_key_exists('reportlastdate', $aClients));
         $this->assertTrue(array_key_exists('updated', $aClients));
-        $this->assertTrue(array_key_exists('lb_reporting', $aClients));
         $this->assertTrue(array_key_exists('an_adnetwork_id', $aClients));
         $this->assertTrue(array_key_exists('as_advertiser_id', $aClients));
         $this->assertTrue(array_key_exists('advertiser_limitation', $aClients));

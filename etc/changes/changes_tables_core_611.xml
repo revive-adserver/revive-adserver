@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>611</version>
+  <comments>Removed now useless field lb_reporting</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>611</version>
+      <change>
+        <table>
+          <name>clients</name>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>611</version>
+    <change>
+      <table>
+        <name>clients</name>
+      <remove>
+        <field>
+          <name>lb_reporting</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>
