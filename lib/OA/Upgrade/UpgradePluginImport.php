@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/OX/Plugin/PluginExport.php';
 
 /**
  * This class deals with importing plugin files from one location to another
- * 
+ *
  * It extends the export class to make use of the plugin-XML parsing and file collecting routines
  *
  */
@@ -38,7 +38,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
     public $aMissingFiles    = array();
     public $basePath; // The path to look for file in
     public $destPath = MAX_PATH; // The path to look to place files in
-    
+
     /**
      * Initialise the plugin
      *
@@ -49,7 +49,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
     {
         return true;
     }
-    
+
     /**
      * This method takes the plugin name, and looks for the files declared in the XML
      *
@@ -62,7 +62,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
 
         $this->oPluginManager   = new OX_PluginManager();
         $this->oPluginManager->basePath = $this->basePath;
-        
+
         if (!$this->oPluginManager->_parsePackage($name))
         {
             $this->aErrors = $this->oPluginManager->aErrors;
@@ -76,7 +76,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
         }
         $this->aGroups = &$this->oPluginManager->aParse['plugins'];
         $this->_compileContents($name);
-        
+
         // Check if any of the registered files are DataObject files
         foreach ($this->aFileList as $file) {
             if (preg_match('#.*etc/DataObjects/.*\.php$#', $file)) {
@@ -88,7 +88,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
 
     /**
      * This method takes the file-list from the (potential) old path
-     * and 
+     * and
      *
      * @param unknown_type $name
      * @return unknown
@@ -102,10 +102,12 @@ class OX_UpgradePluginImport extends OX_PluginExport
                 $sourceFile = $this->basePath . $file;
                 // If the sourceFile can't be found, try looking in /extensions/ instead
                 if (!file_exists($sourceFile)) {
+                    $sourceFile = str_replace(DIRECTORY_SEPARATOR, '/', $sourceFile);
                     $sourceFile = str_replace('/plugins/', '/extensions/', $sourceFile);
                 }
                 // Ensure that the destination file is placed in /plugins/
-                $destFile   = str_replace('/extensions/', '/plugins/', $this->destPath . $file);
+                $destFile = str_replace(DIRECTORY_SEPARATOR, '/', $this->destPath . $file);
+                $destFile = str_replace('/extensions/', '/plugins/', $destFile);
                 $this->_makeDirectory(dirname($destFile));
                 @copy($sourceFile, $destFile);
                 // Deal with deliveryLimitation plugins which may reference phpSniff from core not the plugin
@@ -120,7 +122,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
         }
         return $sucess;
     }
-    
+
     function verifyAll($aPlugins = array(), $checkDataObjects = true)
     {
         $sucess = true;
@@ -140,7 +142,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
         $this->_log('Finished file-check for plugins');
         return $sucess;
     }
-    
+
     /**
      * This method verifies that all the files declared in the plugin's XML are present under MAX_PATH
      *
@@ -152,9 +154,10 @@ class OX_UpgradePluginImport extends OX_PluginExport
         $sucess = true;
         if ($this->prepare($name)) {
             foreach ($this->aFileList as $file) {
-                $filename = $this->basePath . DIRECTORY_SEPARATOR . substr($file, strlen($this->basePath));
+                $filename = $this->basePath . substr($file, strlen($this->basePath));
                 if (!file_exists($filename)) {
                     // Check for a pre 2.7.31 path (extensions not plugins)
+                    $filename = str_replace(DIRECTORY_SEPARATOR, '/', $filename);
                     $filename = str_replace('/plugins/', '/extensions/', $filename);
                     if (!file_exists($filename)) {
                         $this->_log("Plugin: {$name} - Unable to locate file: " . $filename);
@@ -168,7 +171,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
         }
         return $sucess;
     }
-    
+
     /**
      * write a message to the logfile
      *

@@ -26,7 +26,7 @@ $Id$
 */
 
 
-require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.7.30-beta-rc11.php';
+require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.7.31-beta-rc1.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  * @subpackage TestSuite
  * @author     Chris Nutting <chris.nutting@openx.org>
  */
-class Migration_postscript_2_7_30_beta_RC11Test extends MigrationTest
+class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
 {
     function setUp()
     {
@@ -51,8 +51,8 @@ class Migration_postscript_2_7_30_beta_RC11Test extends MigrationTest
         $oUpgrade->oConfiguration = new OA_Upgrade_Config();
         
         Mock::generatePartial(
-            'OA_UpgradePostscript_2_7_30_beta_rc11',
-            $mockName = 'OA_UpgradePostscript_2_7_30_beta_rc11'.rand(),
+            'OA_UpgradePostscript_2_7_31_beta_rc1',
+            $mockName = 'OA_UpgradePostscript_2_7_31_beta_rc1'.rand(),
             array('logOnly','logError')
         );
         $doMockPostUpgrade = new $mockName($this);
