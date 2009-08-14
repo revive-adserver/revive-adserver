@@ -250,15 +250,17 @@ class OA_Admin_Settings
                 $mainConfig[$section] = $this->aConf[$section];
             }
             // Check if any of the in-memory items have been removed from the $this->aConf array, and remove them from the appropriate file if necessary
-            $reverseDiff = array_diff_assoc(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
-            foreach ($reverseDiff as $deletedSectionKey) {
-                if (isset($adminConfig[$section][$deletedSectionKey])) {
-                    // This setting exists in the wrapper config file, remove it from there
-                    unset($adminConfig[$section][$deletedSectionKey]);
-                    $adminConfigChanged = true;
-                } else {
-                    // This setting doesn't exist in the wrapper config file, remove it from the delivery config file only
-                    unset($mainConfig[$section][$deletedSectionKey]);
+            if (!$GLOBALS['installing']) {
+                $reverseDiff = array_diff_assoc(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
+                foreach ($reverseDiff as $deletedSectionKey) {
+                    if (isset($adminConfig[$section][$deletedSectionKey])) {
+                        // This setting exists in the wrapper config file, remove it from there
+                        unset($adminConfig[$section][$deletedSectionKey]);
+                        $adminConfigChanged = true;
+                    } else {
+                        // This setting doesn't exist in the wrapper config file, remove it from the delivery config file only
+                        unset($mainConfig[$section][$deletedSectionKey]);
+                    }
                 }
             }
         }
