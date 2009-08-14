@@ -233,8 +233,8 @@ class OA_Admin_Settings
         // changed /there/, additionally, write only changes/new items to the delivery config file, not the in-memory merged array
         foreach ($this->aConf as $section => $sectionArray) {
             // Compare the value to be written against that in memory (merged admin/delivery configs)
-            if (is_array($GLOBALS['_MAX']['CONF'][$section])) {
-                $sectionDiff = array_diff_assoc($this->aConf[$section], $GLOBALS['_MAX']['CONF'][$section]);
+            if (is_array($aConf[$section])) {
+                $sectionDiff = array_diff_assoc($this->aConf[$section], $aConf[$section]);
                 foreach ($sectionDiff as $configKey => $configValue) {
                     if (isset($adminConfig[$section][$configKey])) {
                         // This setting exists in the wrapper config file, change it's value there
@@ -249,8 +249,20 @@ class OA_Admin_Settings
                 // This section didn't/doesnt exist in the in-memory array, assume it is a new section and write to the delivery conf file
                 $mainConfig[$section] = $this->aConf[$section];
             }
+            // Check if any of the in-memory items have been removed from the $this->aConf array, and remove them from the appropriate file if necessary
+            $reverseDiff = array_diff_assoc(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
+            foreach ($reverseDiff as $deletedSectionKey) {
+                if (isset($adminConfig[$section][$deletedSectionKey])) {
+                    // This setting exists in the wrapper config file, remove it from there
+                    unset($adminConfig[$section][$deletedSectionKey]);
+                    $adminConfigChanged = true;
+                } else {
+                    // This setting doesn't exist in the wrapper config file, remove it from the delivery config file only
+                    unset($mainConfig[$section][$deletedSectionKey]);
+                }
+            }
         }
-
+        
         // Write out the new main configuration file
         $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
         if (!$this->writeConfigArrayToFile($mainConfigFile, $mainConfig)) {
