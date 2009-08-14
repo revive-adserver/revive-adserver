@@ -122,21 +122,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     ###END_AUTOCODE
 
     /**
-     * A method to reset daily targets according to the campaign type
-     *
-     */
-    function resetTargets()
-    {
-        // Reset targets if not contract or contract with an end date set
-        if ($this->priority < 0 || ($this->priority > 0 && !empty($this->expire_time) && $this->expire_time != OX_DATAOBJECT_NULL)) {
-            // Auto-targeted
-            $this->target_impression = 0;
-            $this->target_click      = 0;
-            $this->target_conversion = 0;
-        }
-    }
-
-    /**
      * A method to set the correct status based on the other campaign properties
      *
      * If you ever need to disable this in a test, please use a Mock overriding this method
@@ -188,7 +173,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
             $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
             $weightOk     = $this->weight > 0;
-            $autotargeted = !empty($this->expire_time) && $this->expire_time != OX_DATAOBJECT_NULL &&
+            $autotargeted = !empty($this->expire_time) && $this->expire_time != 'NULL' &&
                 ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
@@ -302,14 +287,13 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function update($dataObject = false)
     {
+//        $this->setEcpmEnabled();
+
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();
         }
 
         if (isset($this->campaignid)) {
-            // Reset daily targets when not needed
-            $this->resetTargets();
-
             // Set the correct campaign status, loading the old data
             $this->recalculateStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
         }
@@ -321,12 +305,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
+//        $this->setEcpmEnabled();
+
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();;
         }
-
-        // Reset daily targets when not needed
-        $this->resetTargets();
 
         // Set the correct campaign status
         $this->recalculateStatus();

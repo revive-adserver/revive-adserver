@@ -545,6 +545,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
     }
 
+
     function testUpdateHighWithNoTargetSet()
     {
         //test for OX-3635
@@ -571,71 +572,6 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
     }
-
-    function testUpdateAndTargetReset()
-    {
-        // Test for OX-5687
-        $expire = '2020-01-01';
-
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->name = 'Some test campaign';
-        $doCampaigns->views  = -1;
-        $doCampaigns->clicks = -1;
-        $doCampaigns->conversions = -1;
-        $doCampaigns->priority = 5;
-        $doCampaigns->weight = 0;
-        $doCampaigns->target_impression = 300;
-        $campaignId = DataGenerator::generateOne($doCampaigns);
-
-        // Get campaign. It should be active with a daily limit
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
-
-        // Add expiration and lifetime limit
-        $doCampaigns->expire_time = $expire;
-        $doCampaigns->views = 50;
-        $doCampaigns->update();
-
-        // Get campaign. It should be active with a lifetime limit and no daily limit
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
-        $this->assertEqual($doCampaigns->target_impression, 0);
-
-        // Add a banner some stats
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $campaignId;
-        $bannerId  = DataGenerator::generateOne($doBanners);
-        $doDia = OA_Dal::factoryDO('data_intermediate_ad');
-        $doDia->date_time             = '2008-01-01';
-        $doDia->operation_interval    = 1;
-        $doDia->operation_interval_id = 1;
-        $doDia->interval_start        = '2008-01-01';
-        $doDia->interval_end          = '2008-01-01';
-        $doDia->ad_id       = $bannerId;
-        $doDia->zone_id     = 0;
-        $doDia->creative_id = 0;
-        $doDia->impressions = 100;
-        $doDia->clicks      = 100;
-        $doDia->conversions = 100;
-        DataGenerator::generateOne($doDia);
-
-        // Re-run status update
-        $doCampaigns->views = 50;
-        $doCampaigns->update();
-
-        // Get campaign. It should be inactive as expired with a lifetime limit and no daily limit
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
-
-        // Change to Exclusive
-        $doCampaigns->priority = -1;
-        $doCampaigns->weight = 1;
-
-        // Get campaign. It should be inactive as it has reached the lifetime limit
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
-    }
-
 
 
 }

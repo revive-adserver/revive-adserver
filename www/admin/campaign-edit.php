@@ -788,7 +788,7 @@ function processCampaignForm($form, &$oComponent = null)
         //check booked limits values
 
         // If this is a remnant, ecpm or exclusive campaign with an expiry date, set the target's to unlimited
-        if (OA_Dal::isValidDate($expire) &&
+        if (!empty($expire) &&
             ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT
                 || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM
                 || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
@@ -864,9 +864,6 @@ function processCampaignForm($form, &$oComponent = null)
             if (!isset($aFields['weight']) || $aFields['weight'] == '-' || $aFields['weight'] == '') {
                 $aFields['weight'] = 0;
             }
-            $target_impression = 0;
-            $target_click = 0;
-            $target_conversion = 0;
         }
 
         if ($aFields['anonymous'] != 't') {
