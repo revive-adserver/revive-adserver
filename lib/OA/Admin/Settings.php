@@ -250,7 +250,7 @@ class OA_Admin_Settings
                 $mainConfig[$section] = $this->aConf[$section];
             }
             // Check if any of the in-memory items have been removed from the $this->aConf array, and remove them from the appropriate file if necessary
-            if (!$GLOBALS['installing']) {
+            if (!$GLOBALS['installing'] && is_array($aConf[$section]) && is_array($this->aConf[$section])) {
                 $reverseDiff = array_diff_assoc(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
                 foreach ($reverseDiff as $deletedSectionKey) {
                     if (isset($adminConfig[$section][$deletedSectionKey])) {
