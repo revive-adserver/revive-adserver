@@ -394,7 +394,7 @@ class OA_Dal
         }
 
         // Create file path using hostname and table name
-        $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-'.$tableName.'.csv';
+        $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-'.$qTableName.'.csv';
         if (DIRECTORY_SEPARATOR == '\\') {
             // On windows, MySQL expects slashes as directory separators
             $filePath = str_replace('\\', '/', $filePath);
