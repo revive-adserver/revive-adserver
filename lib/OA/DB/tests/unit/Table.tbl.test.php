@@ -694,10 +694,12 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable =& OA_DB_Table_Core::singleton();
         $oTable->createRequiredTables('banners');
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        $this->assertEqual($aExistingTables[0], 'agency');
-        $this->assertEqual($aExistingTables[1], 'banners');
-        $this->assertEqual($aExistingTables[2], 'campaigns');
-        $this->assertEqual($aExistingTables[3], 'clients');
+        $this->assertEqual($aExistingTables[0], 'accounts');
+        $this->assertEqual($aExistingTables[1], 'agency');
+        $this->assertEqual($aExistingTables[2], 'banners');
+        $this->assertEqual($aExistingTables[3], 'campaigns');
+        $this->assertEqual($aExistingTables[4], 'clients');
+        $oTable->dropTable('accounts');
         $oTable->dropTable('agency');
         $oTable->dropTable('banners');
         $oTable->dropTable('campaigns');

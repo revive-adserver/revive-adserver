@@ -167,6 +167,10 @@ class DataGenerator
     	    }
     		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
     		$table = $do->getTableWithoutPrefix($linkedTable);
+    	    if ($table == 'accounts') {
+    	        // Don't create accounts via DataGenerator. DataObjects already take care of it.
+    	        continue;
+    	    }
 	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
 	        if (!empty($this) && is_a($this, 'DataGenerator')) {
     	       $do->$foreignKey = $this->addAncestor($table, $linkedPrimaryKeyVal);
@@ -285,6 +289,10 @@ class DataGenerator
     	foreach ($links as $foreignKey => $linkedTableField) {
     		list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
     		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
+    	    if ($ancestorTable == 'accounts') {
+    	        // Don't create accounts via DataGenerator. DataObjects already take care of it.
+    	        continue;
+    	    }
     		if (isset($this) && is_a($this, 'DataGenerator')) {
     		    $fieldValue = $this->getFieldValueFromDataContainer($table, $foreignKey);
     		} else {
