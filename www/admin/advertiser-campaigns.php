@@ -244,7 +244,11 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
 
 function getAdvertiserMap()
 {
+    $doAccounts = OA_Dal::factoryDO('accounts');
+    $doAccounts->whereAdd('account_type <> '. DBC::makeLiteral(OA_ACCOUNT_SYSTEM));
+
     $doClients = OA_Dal::factoryDO('clients');
+    $doClients->joinAdd($doAccounts);
     // Unless admin, restrict results shown.
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $doClients->clientid = OA_Permission::getEntityId();

@@ -119,7 +119,7 @@ class Test_OA_Permission extends UnitTestCase
         $this->assertTrue(OA_Permission::isUsernameAllowed('newname', 'foo'));
     }
 
-    // hasAccessToObject($objectTable, $objectId, $accountId = null)
+    // hasAccessToObject($objectTable, $objectId, $allowSystem = false, $accountId = null, $accountType = null)
     function testHasAccessToObject()
     {
         $userTables = array(
@@ -130,7 +130,7 @@ class Test_OA_Permission extends UnitTestCase
 
         // Test if all users have access to new objects
         foreach ($userTables as $userType => $userTable) {
-            $this->assertTrue(OA_Permission::hasAccessToObject('banners', null, rand(1,100), $userType));
+            $this->assertTrue(OA_Permission::hasAccessToObject('banners', null, false, rand(1,100), $userType));
         }
 
         // Create some record
@@ -150,11 +150,11 @@ class Test_OA_Permission extends UnitTestCase
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
 
         // Test that admin doesn't have access anymore to all objects
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', 1, OA_ACCOUNT_ADMIN));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', false, 1, OA_ACCOUNT_ADMIN));
 
         // Test accounts have access
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, $doClient->account_id, OA_ACCOUNT_ADVERTISER));
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, false, $doClient->account_id, OA_ACCOUNT_ADVERTISER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, false, $doAgency->account_id, OA_ACCOUNT_MANAGER));
 
         // Create users who don't have access
         $doClients = OA_Dal::factoryDO('clients');
@@ -165,9 +165,74 @@ class Test_OA_Permission extends UnitTestCase
         $doClientId2 = OA_Dal::staticGetDO('clients', $clientId2);
         $doAgency2 = OA_Dal::staticGetDO('agency', $agencyId2);
 
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $fakeId = 123, OA_ACCOUNT_TRAFFICKER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doClientId2->account_id, OA_ACCOUNT_ADVERTISER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doAgency2->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, false, $fakeId = 123, OA_ACCOUNT_TRAFFICKER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, false, $doClientId2->account_id, OA_ACCOUNT_ADVERTISER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, false, $doAgency2->account_id, OA_ACCOUNT_MANAGER));
+
+        // Test allowSystem
+        $this->assertTrue(OA_Permission::hasAccessToObject('clients', $clientId, false, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('clients', $clientId, true, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+
+        // Switch client to system
+        $doClientIdSys = OA_Dal::staticGetDO('clients', $clientId);
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_id = $doClientIdSys->account_id;
+        $doAccounts->account_type = OA_ACCOUNT_SYSTEM;
+        $doAccounts->update();
+
+        // Clear cache
+        OA_Permission::$aSystemAccounts = null;
+
+        // Test again
+        $this->assertFalse(OA_Permission::hasAccessToObject('clients', $clientId, false, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('clients', $clientId, true, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+    }
+
+    function testIsSystemAccount()
+    {
+        // Clear cache
+        OA_Permission::$aSystemAccounts = null;
+
+        $doClients  = OA_Dal::factoryDO('clients');
+        $aClientIds = DataGenerator::generate($doClients, 20, true);
+
+        // Prepare accounts array and decide who's gonna be a system account later
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->whereInAdd('clientid', $aClientIds);
+        $doClients->find();
+        $i = 0;
+        $aAccountIds = array();
+        $aSystemAccounts = array();
+        while ($doClients->fetch()) {
+            $aAccountIds[$doClients->account_id] = (bool)($i++ % 2);
+            if ($aAccountIds[$doClients->account_id]) {
+                $aSystemAccounts[] = $doClients->account_id;
+            }
+        }
+
+        // Verify that no system account is present
+        foreach ($aAccountIds as $accountId => $isSystem) {
+            $this->assertFalse(OA_Permission::isSystemAccountId($accountId));
+        }
+
+        // Update some of the accounts to SYSTEM
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_SYSTEM;
+        $doAccounts->whereInAdd('account_id', $aSystemAccounts);
+        $doAccounts->update(DB_DATAOBJECT_WHEREADD_ONLY);
+
+        // Verify that no system account is present yet (using cache)
+        foreach ($aAccountIds as $accountId => $isSystem) {
+            $this->assertFalse(OA_Permission::isSystemAccountId($accountId));
+        }
+
+        // Clear cache
+        OA_Permission::$aSystemAccounts = null;
+
+        // Verify that everything matches
+        foreach ($aAccountIds as $accountId => $isSystem) {
+            $this->assertEqual(OA_Permission::isSystemAccountId($accountId), $isSystem);
+        }
     }
 }
 ?>

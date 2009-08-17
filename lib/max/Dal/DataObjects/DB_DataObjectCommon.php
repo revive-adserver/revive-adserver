@@ -260,7 +260,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *                          account, false if doesn't, or null if it was not
      *                          possible to find the required object references.
      */
-    function belongsToAccount($accountId = null)
+    function belongsToAccount($accountId = null, $allowSystem = false)
     {
         // Set the account ID, if not passed in
         if (empty($accountId)) {
@@ -279,8 +279,12 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         // Does the table have an account_id field?
         $aFields = $this->table();
-        if (isset($aFields['account_id']) && $this->account_id == $accountId) {
-            return true;
+        if (isset($aFields['account_id'])) {
+            if ($this->account_id == $accountId) {
+                return true;
+            } elseif (!$allowSystem && OA_Permission::isSystemAccountId($this->account_id)) {
+                return false;
+            }
         }
         $found = null;
         $links = $this->links();
