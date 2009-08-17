@@ -207,9 +207,13 @@ class OA_Admin_Settings
         $adminConfig = $deliverySslConfig = array('realConfig' => $newDeliveryHost);
         $adminConfigChanged = false;
         $mainConfig = array();
-        
+
+        // Has the use changed from a single host to a multi-host setup?
+        if (($newDeliveryHost != $oldDeliveryHost) && ($oldDeliveryHost = $oldAdminHost)) {
+            $adminConfigChanged = true;
+        }
         // Collect any values from existing wrapper config files
-        if (($newDeliveryHost != $oldAdminHost) && file_exists($configPath . '/' . $oldAdminHost . '.conf.php')) {
+        if (!$adminConfigChanged && ($newDeliveryHost != $oldAdminHost) && file_exists($configPath . '/' . $oldAdminHost . '.conf.php')) {
             $adminConfig = @parse_ini_file($configPath . '/' . $oldAdminHost . '.conf.php', true);
             // (re)set the realConfig for the admin conf file
             if (isset($adminConfig['realConfig'])) {
