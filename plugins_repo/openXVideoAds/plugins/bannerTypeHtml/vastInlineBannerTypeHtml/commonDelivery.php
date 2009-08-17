@@ -157,13 +157,10 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
     
     if( isset( $aBanner['vast_video_outgoing_filename'] )
         && $aBanner['vast_video_outgoing_filename'] ) {
-
-       $fullPathToVideo = $aBanner['vast_video_outgoing_filename'];
-       $aOutputParams['fullPathToVideo']  = $fullPathToVideo;
        
        $aAdminParamsNotUsed = array();
        
-       parseVideoUrl( $fullPathToVideo, $aOutputParams, $aAdminParamsNotUsed );
+       parseVideoUrl($aBanner, $aOutputParams, $aAdminParamsNotUsed );
        
        $aOutputParams['vastVideoDuration'] = secondsToVASTDuration( $aBanner['vast_video_duration'] );
        $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
@@ -172,8 +169,7 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
        $aOutputParams['vastVideoId'] =  $aBanner['vast_video_id'];
        $aOutputParams['vastVideoType'] = $aBanner['vast_video_type'];
        $aOutputParams['vastVideoDelivery'] = $aBanner['vast_video_delivery'];
-       
-       
+
     }
     else{
         //debuglog( "no video associated with the comment field for this banner id: $aBanner" );
@@ -223,7 +219,16 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
             
             $aOutputParams['companionWidth'] = $companionOutput['width'];
             $aOutputParams['companionHeight'] = $companionOutput['height'];
-            $aOutputParams['companionClickUrl'] ='http://openxhasalreadywrappedhtmlwithclickurl.com';
+            
+            // OXPL-379 - dont show any url, if the companion has no url
+            if ( $companionOutput['url'] !== '' ){
+
+                $aOutputParams['companionClickUrl'] ='http://openxhasalreadywrappedhtmlwithclickurl.com'; 
+            }
+            else {
+                
+                $aOutputParams['companionClickUrl'] = '';
+            }
         }
     }
 }
@@ -234,21 +239,6 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
     // Get the image beacon...
     
     $aOutputParams['impressionUrl'] =  _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-    // Create the anchor tag..
-    $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-    //debuglog( "CLICKURL: $clickUrl");
-    /*
-    if (!empty($aOutputParams['clickUrl'])) {  // There is a link
-
-        //$status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-
-    } else {
-        $clickTag = '';
-        $clickTagEnd = '';
-    }
-    */
-
 
     if ( $aOutputParams['format'] == 'vast' ){
 
@@ -264,10 +254,41 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
        $aOutputParams['trackReplay'] = $trackingUrl . '&vast_event=replay';
        $aOutputParams['trackUrlFullscreen'] = $trackingUrl . '&vast_event=fullscreen';
        $aOutputParams['trackUrlStop'] = $trackingUrl . '&vast_event=stop';
+       $aOutputParams['trackUrlUnmute'] = $trackingUrl . '&vast_event=unmute';
+       $aOutputParams['trackUrlResume'] = $trackingUrl . '&vast_event=resume';
+       $aOutputParams['trackUrlPause'] = $trackingUrl . '&vast_event=pause';  
+
+       $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
+
     }
+    
+    $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+    
+    
 }
 
+/**
+ * This function builds the Click through URL for this ad
+ *
+ * @param array   $aBanner      The ad-array for the ad to render code for
+ * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
+ * @param string  $source       The "source" parameter passed into the adcall
+ * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
+ * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
+ *
+ * @return string The click URL
+ */
+function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true){
 
+    // We dont pass $aBanner by reference - so the changes to this $aBanner are lost - which is a good thing
+    // we need the url attribute of aBanner to contain the url we want created
+    $aBanner['url'] = $aBanner['vast_video_clickthrough_url'];
+
+    $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+
+    return $clickUrl;
+}
+    
 function getVastVideoAdOutput($aO){
 
     $vastVideoMarkup =<<<VAST_VIDEO_AD_TEMPLATE
@@ -302,13 +323,23 @@ function getVastVideoAdOutput($aO){
                     <Tracking event="stop">
                         <URL id="myadsever"><![CDATA[${aO['trackUrlStop']}]]></URL>
                     </Tracking>
+                    <Tracking event="unmute">
+                        <URL id="myadsever"><![CDATA[${aO['trackUrlUnmute']}]]></URL>
+                    </Tracking> 
+                   <Tracking event="resume">
+                        <URL id="myadsever"><![CDATA[${aO['trackUrlResume']}]]></URL>
+                    </Tracking>
+                   <Tracking event="pause">
+                        <URL id="myadsever"><![CDATA[${aO['trackUrlPause']}]]></URL>
+                    </Tracking>
+                    
                 </TrackingEvents>
                 <Video>
                     <Duration>${aO['vastVideoDuration']}</Duration>
                     <AdID><![CDATA[${aO['vastVideoId']}]]></AdID>
                     <VideoClicks>
                         <ClickThrough>
-                            <URL id="destination"><![CDATA[${aO['clickUrl']}]]></URL>
+                            <URL id="destination"><![CDATA[${aO['vastVideoClickThroughUrl']}]]></URL>
                         </ClickThrough>
                     </VideoClicks>
                     <MediaFiles>
@@ -388,9 +419,14 @@ function renderPlayerInPage($aOut)
 
 			<a class="player" id="player"></a>
 PLAYER;
-            
+
+		// encode data before echoing to the browser to prevent xss
+		$aOut['videoFileName'] = encodeUserSuppliedData( $aOut['videoFileName'] );
+        $aOut['videoNetConnectionUrl'] = encodeUserSuppliedData( $aOut['videoNetConnectionUrl'] );
+		
 		$httpPlayer = <<<HTTP_PLAYER
 
+		    <!-- http flowplayer setup -->
             <script language="JavaScript">
             flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
                playlist: [ '${aOut['videoFileName']}' ],
@@ -410,6 +446,7 @@ HTTP_PLAYER;
         
         $rtmpPlayer = <<<RTMP_PLAYER
 
+            <!-- rmtp flowplayer setup -->
             <script language="JavaScript">
             flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
                clip: {
@@ -422,7 +459,7 @@ HTTP_PLAYER;
                    streamer: {
                         // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
                         url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
-                        netConnectionUrl: '${aOut['videoFilePath']}'
+                        netConnectionUrl: '${aOut['videoNetConnectionUrl']}'
                    },
                    controls: {
                         url: escape('${aOut['videoPlayerControlsPluginUrl']}')

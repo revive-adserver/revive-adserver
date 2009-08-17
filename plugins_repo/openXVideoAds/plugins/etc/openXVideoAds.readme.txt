@@ -30,6 +30,12 @@ Feature requests Video Plugin
 - add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
 - add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
 
+Schema changes
+==============
+Users upgrading from versions < RC43 need to run the following SQL against the database:
+ALTER table ox_banner_vast_element ADD column vast_video_clickthrough_url text;
+ALTER table ox_banner_vast_element DROP column vast_net_connection_url;
+
 Developers
 ==========
 See the file openXVideoAds/www/admin/plugins/videoReport/stats-debug.php for some debugging tools

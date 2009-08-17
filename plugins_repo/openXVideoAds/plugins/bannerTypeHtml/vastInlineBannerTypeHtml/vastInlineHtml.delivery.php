@@ -143,7 +143,7 @@ if ( !empty($format) && $format == 'vast'){
                 // Store the html2js'd output for this ad
                 $spc_output .= $output['html'] . "\n";
             }
-            
+  
             // Help the player (requestor of VAST) to match the ads in the response with his request by using his id in the Ad xml node
             $spc_output = str_replace( '{player_allocated_ad_id}', $varname, $spc_output );
         }

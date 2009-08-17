@@ -118,13 +118,6 @@
    </index>
 
    <field>
-    <name>vast_net_connection_url</name>
-    <type>openads_text</type>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>vast_overlay_height</name>
     <type>openads_mediumint</type>
     <length>9</length>
@@ -140,6 +133,12 @@
     <default></default>
    </field>
 
+   <field>
+    <name>vast_video_clickthrough_url</name>
+    <type>openads_text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
 
   </declaration>
 

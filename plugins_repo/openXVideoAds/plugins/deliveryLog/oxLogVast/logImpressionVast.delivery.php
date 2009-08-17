@@ -31,6 +31,9 @@ $aVastEventStrToIdMap = array(
      'replay' => 7,
      'fullscreen' => 8,
      'stop' => 9,
+     'unmute' => 10,
+     'resume' => 11,
+     'pause' => 12,
 );
 
 function getVastEventIdFromVastEventStr($eventIdStr)

@@ -111,8 +111,8 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
 
                 // clear the value
                 $("#vast_video_outgoing_filename").attr('value', '');
-
-
+                $("#vast_net_connection_url").attr('value', '');
+                $("#vast_video_filename").attr('value', '');
             }
             function phpAds_formClickToVideoMode()
             {

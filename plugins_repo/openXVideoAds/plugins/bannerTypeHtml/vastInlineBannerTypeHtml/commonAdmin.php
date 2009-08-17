@@ -66,8 +66,9 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         //$aVariables['comments']     = $this->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid']));
 
         // Determine everything about the files delivery and format simply from the format of the url
-        $aDelivery = array();    
-        parseVideoUrl(  $aFields['vast_video_outgoing_filename'], $aDelivery,  $aFields);
+        $aDelivery = array();  
+
+        combineVideoUrl( $aFields );
         
         $aVastVariables = array();
 
@@ -83,10 +84,10 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $aVastVariables['vast_video_width'] = $aFields['vast_video_width'];
         $aVastVariables['vast_video_outgoing_filename'] = $aFields['vast_video_outgoing_filename'];
         $aVastVariables['vast_companion_banner_id'] = $aFields['vast_companion_banner_id'];
-        $aVastVariables['vast_net_connection_url'] = $aFields['vast_net_connection_url'];
         $aVastVariables['vast_overlay_height'] = $aFields['vast_overlay_height'];
         $aVastVariables['vast_overlay_width'] = $aFields['vast_overlay_width'];
-
+        $aVastVariables['vast_video_clickthrough_url'] = $aFields['vast_video_clickthrough_url'];        
+       
         // We serialise all the data into an array which is part of the ox_banners table.
         // This is used by the deliveryEngine for serving ads and is faster then all joins
         // plus it gives us automatic caching
@@ -110,6 +111,8 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
      */
     function processForm($insert, $bannerid, $aFields)
     {
+        xdebug_break();
+        
 //        var_dump($bannerid);var_dump($aFields);exit;
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
         $rowId = $aFields['banner_vast_element_id'];
@@ -123,10 +126,10 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
         $doBanners->vast_video_width                = $aFields['vast_video_width'];
         $doBanners->vast_video_outgoing_filename    = $aFields['vast_video_outgoing_filename'];
         $doBanners->vast_companion_banner_id        = $aFields['vast_companion_banner_id'];
-        $doBanners->vast_net_connection_url         = $aFields['vast_net_connection_url'];
         $doBanners->vast_overlay_height             = $aFields['vast_overlay_height'];
         $doBanners->vast_overlay_width              = $aFields['vast_overlay_width'];
-
+        $doBanners->vast_video_clickthrough_url     = $aFields['vast_video_clickthrough_url'];
+        
         if ( !$insert && ($rowId == 'banner_vast_element_id') ){
             // If the mode was update, but we dont have a valid pk value for $rowId
             // it probably because the user removed the plugin, cleaned out the table
@@ -158,6 +161,9 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_B
                 $elementRow = $vastElements[0];
                 $banner = array_merge( $banner, $elementRow );
             }
+            
+            $aDeliveryFieldsNotUsed = array();
+            parseVideoUrl( $banner, $aDeliveryFieldsNotUsed, $banner );
         }
         return $banner;
     }
@@ -222,15 +228,20 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     
     // Users are confused by the use of the Id thinking its a number
     // changed this to "description" in the GUI
-    $form->addElement('text', 'vast_video_id', "Your internal video description");
-    $vastDeliveryOptions = array( 'streaming' =>  'streaming',
-                                  'progressive' => 'progressive',
-                                );
-    $formElementDeliveryType = $form->addElement('select', 'vast_video_delivery', "Video delivery", $vastDeliveryOptions );
-    $formElementDeliveryType->setAttribute( 'disabled', false );
+    if ( false ){
+         $form->addElement('text', 'vast_video_id', "Your internal video description");
+    }
+    
+    addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
+         
+  
+    // we now disable this field in javascript as part of js progressive-enhancement
+    //$formElementDeliveryType->setAttribute( 'disabled', false );
+    
     $vastVideoType = getVastVideoTypes();
     $formElementVideoType = $form->addElement('select', 'vast_video_type', "Video type", $vastVideoType );
-    $formElementVideoType->setAttribute( 'disabled', false );
+    //$formElementVideoType->setAttribute( 'disabled', false );
+    
     $advancedUser = false;
     if ( $advancedUser ){
         // Bitrate of encoded video in Kbps
@@ -252,34 +263,39 @@ function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
         $bannerRow['vast_video_width'] = '640';
         $bannerRow['vast_video_height'] = '480';
     }
-
-    $showNetConnectionUrl = false;
-    if ( $showNetConnectionUrl ){
-        $form->addElement('text', 'vast_net_connection_url', "Video net connection url");
-        // $form->addElement('html', 'video_status_info4', '<span style="font-size:80%;">**<strong>outgoing video filename</strong> format should be: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4</span>' );
-    }
-
-    $form->addElement('text', 'vast_video_outgoing_filename', "Outgoing Video URL");
-    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For streamed rmtp, use the filename format: rtmp://cdn-domain/path-to-cdn-account/mp4:filename.mp4 or rtmp://cdn-domain/path-to-cdn-account/flv:filename.flv)</span>" );
-    $form->addElement('html', 'video_filename_format_info', "<span style=\"font-size:100%;\">(For progressive http, use the filename format: http://cdn-domain/path-to-cdn-account/filename.mp4 or http://cdn-domain/path-to-cdn-account/filename.flv)</span>" );
     
     $form->addElement('text', 'vast_video_duration', "Video duration in seconds");
-    $form->addElement('html', 'video_status_info2', '<span style="font-size:80%;">* video upload and transcode not yet supported</span>' );
-    $sampleUrlMp4 = "rtmp://cp67126.edgefcs.net/ondemand/mp4:mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4";
-    $sampleUrlFlv = "rtmp://cp67126.edgefcs.net/ondemand/mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K.flv";
-    $form->addElement('html', 'video_status_info3', "<span style=\"font-size:80%;\">** <strong>Outgoing video filename</strong> supports rtmp streaming/http progressive download URLs to mp4/flv files. For a sample filename, try using: 
-    <br/><strong>$sampleUrlMp4</strong>
-    </span>" );
-    // We should also add the following:
-    // <br/><strong>$sampleUrlFlv</strong>
-    // but as of rc26 this URL doesn't work as expected
+    $form->addElement('text', 'vast_video_clickthrough_url', "Video click-through url");
+    error_log( "vast_video_clickthrough_url3=" . print_r($bannerRow, true ) );
+    
 
+    $sampleUrlMp4NetConnection = "rtmp://cp67126.edgefcs.net/ondemand/";
+    $sampleUrlMp4Filename = "mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4";
+    
+    $sampleUrlFlvNetConnection = "rtmp://cp67126.edgefcs.net/ondemand/";
+    $sampleUrlFlvFilename = "mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K";
+    
+    $sampleUrlHttpMp4Filename = "http://static.bouncingminds.com/ads/30secs/bigger_badminton_600.mp4";
+    
+    $form->addElement('html', 'video_status_info_rtmp_mp4', "<span style=\"font-size:90%;\">** <strong>Rtmp mp4 video example</strong>, try using:  
+    <br/>Net connection url:<strong>$sampleUrlMp4NetConnection</strong><br/>Outgoing filename:<strong>$sampleUrlMp4Filename</strong>
+    </span>" );
+
+    $form->addElement('html', 'video_status_info_rtmp_flv', "<span style=\"font-size:90%;\">** <strong>Rtmp flv video example</strong>, try using: 
+    <br/>Net connection url:<strong>$sampleUrlFlvNetConnection</strong><br/>Outgoing filename:<strong>$sampleUrlFlvFilename</strong>
+    </span>" ); 
+    
+    $form->addElement('html', 'video_status_info_http_mp4', "<span style=\"font-size:90%;\">** <strong>Http mp4 video example</strong>, try using: 
+    <br/>Filename:<strong>$sampleUrlHttpMp4Filename</strong>
+    </span>" );     
+    
+    
     $enableDefaultValues = true;
     if ( $isNewBanner && $enableDefaultValues ) {
         $bannerRow['vast_video_outgoing_filename'] = '';
         $bannerRow['vast_video_duration'] = '30';
         $bannerRow['vast_overlay_width'] = '600';
-        $bannerRow['vast_overlay_height'] = '400';
+        $bannerRow['vast_overlay_height'] = '40';
         $bannerRow['vast_video_delivery'] = 'streaming';
         $bannerRow['vast_video_type'] = 'video/x-mp4';
     }
@@ -302,4 +318,82 @@ function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension)
         $bannerRow['height'] = $dimension;
         $form->addElement('hidden', 'width' );
         $form->addElement('hidden', 'height');
+}
+
+function addVastVideoUrlFields(&$form, &$bannerRow, $isNewBanner){
+
+        define( 'VAST_VIDEO_URL_STREAMING_FORMAT', 'streaming' );
+        define( 'VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive' );
+        
+        $urlFormatMode = VAST_VIDEO_URL_STREAMING_FORMAT;
+        
+        
+        $videoUrlFormatOptionToRunOnPageLoad = "phpAds_formRtmpStreamingVideoUrlMode()";
+
+        if ( $bannerRow['vast_video_delivery'] == 'streaming' ){
+
+            //click to page
+            $urlFormatMode  = VAST_VIDEO_URL_STREAMING_FORMAT;
+            $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formRtmpStreamingVideoUrlMode();";
+        }
+        elseif ( $bannerRow['vast_video_delivery'] == 'progressive' ) {
+            
+            // click to video
+            $urlFormatMode  = VAST_VIDEO_URL_PROGRESSIVE_FORMAT;
+            $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formHttpProgressiveVideoUrlMode();";
+        }
+
+        $videoUrlFomatOptionJs = <<<VIDEO_FORMAT_OPTION_JS
+            <script type="text/javascript">
+
+            function phpAds_formRtmpStreamingVideoUrlMode()
+            {
+
+                $("#vast_video_delivery").attr('value', 'streaming');
+                $("label[for=vast_net_connection_url]").show('slow'); 
+                $("#vast_net_connection_url").show('slow'); 
+                                       
+            }
+            function phpAds_formHttpProgressiveVideoUrlMode()
+            {
+
+                // clear the value
+                $("#vast_net_connection_url").attr('value', '');
+                
+                $("#vast_video_delivery").attr('value', 'progressive'); 
+                
+                $("label[for=vast_net_connection_url]").hide('slow'); 
+                $("#vast_net_connection_url").hide('slow');
+               
+            }
+
+            ${videoUrlFormatOptionToRunOnPageLoad};
+
+            </script>
+VIDEO_FORMAT_OPTION_JS;
+
+        $videoUrlFormats[] = $form->createElement('radio', 'vast_video_delivery', '',
+            "streaming (RTMP)",
+            VAST_VIDEO_URL_STREAMING_FORMAT, array('id' => 'video-url-format-streaming',
+                'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ));
+
+        $videoUrlFormats[] = $form->createElement('radio', 'vast_video_delivery', '',
+            "progressive / pseudo-streaming (HTTP)",
+            VAST_VIDEO_URL_PROGRESSIVE_FORMAT, array('id' => 'video-url-format-progressive',
+                'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ));
+
+
+        $form->setDefaults(array('vast_video_delivery' => $urlFormatMode));
+
+
+        $form->addGroup($videoUrlFormats, 'VideoFormatAction', 'Video delivery mechanism', "<br/>");
+
+        $form->addElement('text', 'vast_net_connection_url', "Video net connection url" );
+        $form->addElement('text', 'vast_video_filename', "Video filename");
+        
+        // vast_video_outgoing_filename is used in the db - but presented as vast_net_connection_url and vast_video_filename
+        //$form->addElement('text', 'vast_video_outgoing_filename', "Video outgoing filename");
+
+        $form->addElement('html', 'jsForVideoFormat', $videoUrlFomatOptionJs );
+        
 }

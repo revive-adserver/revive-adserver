@@ -20,11 +20,11 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     public $vast_video_bitrate;              // VARCHAR(20) => openads_varchar => 2 
     public $vast_video_height;               // MEDIUMINT(9) => openads_mediumint => 1 
     public $vast_video_width;                // MEDIUMINT(9) => openads_mediumint => 1 
-    public $vast_video_outgoing_filename;    // VARCHAR(255) => openads_varchar => 2 
+    public $vast_video_outgoing_filename;    // TEXT() => openads_text => 34 
     public $vast_companion_banner_id;        // MEDIUMINT(9) => openads_mediumint => 1 
-    public $vast_net_connection_url;         // VARCHAR(255) => openads_varchar => 2 
     public $vast_overlay_height;             // MEDIUMINT(9) => openads_mediumint => 1 
     public $vast_overlay_width;              // MEDIUMINT(9) => openads_mediumint => 1 
+    public $vast_video_clickthrough_url;     // TEXT() => openads_text => 34 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banner_vast_element',$k,$v); }
