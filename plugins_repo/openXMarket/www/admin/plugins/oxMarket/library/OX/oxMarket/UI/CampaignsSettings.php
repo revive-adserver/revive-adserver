@@ -115,16 +115,17 @@ class OX_oxMarket_UI_CampaignsSettings
             if (!empty($_REQUEST['action']) && 'refresh' == $_REQUEST['action']) {
                 return $this->displayAjaxList();
             }
-            elseif (isset($_REQUEST['optInSubmit'])) {
-                $invalidCpmMessages = $this->validateCpms($this->campaigns);
-                if (empty($invalidCpmMessages)) {
-                    $this->performOptIn();
+            elseif (!empty($this->toOptIn) || $this->allSelected) {
+                if (isset($_REQUEST['optInSubmit'])) {
+                    $invalidCpmMessages = $this->validateCpms($this->campaigns);
+                    if (empty($invalidCpmMessages)) {
+                        $this->performOptIn();
+                        return null;
+                    }
+                } elseif(isset($_REQUEST['optOutSubmit'])) {
+                    $this->performOptOut();
                     return null;
                 }
-            } 
-            elseif (isset($_REQUEST['optOutSubmit'])) {
-                $this->performOptOut();
-                return null;
             } 
         }
         
@@ -153,9 +154,10 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function displayAjaxList()
     {
-        $oTpl = new OA_Plugin_Template('market-campaigns-settings-list.html','openXMarket');
-        $this->assignCampaignsListModel($oTpl);
-        return $oTpl;
+        $template = new OA_Plugin_Template('market-campaigns-settings-list.html','openXMarket');
+        $this->assignCampaignsListModel($template);
+        $this->assignContentStrings($template);
+        return $template;
     }
     
     
@@ -201,6 +203,9 @@ class OX_oxMarket_UI_CampaignsSettings
         
         // For validation
         $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
+        
+        // Plugin version for CSS/JS versioning
+        $template->assign('pluginVersion', $this->getPluginVersion());
     }
 
     
@@ -421,11 +426,13 @@ class OX_oxMarket_UI_CampaignsSettings
     }
     
 
-    function assignContentStrings($oTpl)
+    private function assignContentStrings($template)
     {
-        $oTpl->assign('topMessage', $this->getContentKeyValue('top-message'));
-        $oTpl->assign('optInSubmitLabel', $this->getContentKeyValue('radio-opt-in-submit-label'));
-        $oTpl->assign('optOutSubmitLabel', $this->getContentKeyValue('radio-opt-out-submit-label'));
+        $template->assign('topMessage', $this->getContentKeyValue('top-message'));
+        $template->assign('optInSubmitLabel', $this->getContentKeyValue('radio-opt-in-submit-label'));
+        $template->assign('optOutSubmitLabel', $this->getContentKeyValue('radio-opt-out-submit-label'));
+        $template->assign('floorPriceColumnContextHelp', $this->getContentKeyValue('floor-price-column-context-help'));
+        $template->assign('selectAllExplanation', $this->getContentKeyValue('select-all-explanation'));
     }
     
     
@@ -478,7 +485,7 @@ class OX_oxMarket_UI_CampaignsSettings
             }
             $text = strtolower($text);
             
-            return '<div class="'.$class.' tag"><div class="t-b"><div class="l-r"><div class="val">'.$text.'</div></div></div></div>';
+            return '<span class="'.$class.' tag"><span class="t-b"><span class="l-r"><span class="val">'.$text.'</span></span></span></span>';
         } 
         else {
             $smarty->trigger_error("t: missing 'type' parameter");
@@ -500,5 +507,10 @@ class OX_oxMarket_UI_CampaignsSettings
             $result[$value] = $valueToFillIn;
         }
         return $result;
+    }
+    
+    public function getPluginVersion()
+    {
+        return $this->marketComponent->getPluginVersion();
     }
 }

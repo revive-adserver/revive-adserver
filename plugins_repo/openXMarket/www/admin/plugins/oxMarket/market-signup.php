@@ -249,7 +249,8 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
 {
     //header
     $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+    $oUI->registerStylesheetFile(MAX::constructURL(
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
     phpAds_PageHeader("openx-market",'','../../');
 
     //get template and display form
@@ -261,7 +262,8 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
 
     $oTpl->assign('captchaBaseUrl', buildCaptchaUrl($oMarketComponent));
     $oTpl->assign('trackerFrame', $aStrings['tracker_iframe']);
-
+    $oTpl->assign('pluginVersion', $oMarketComponent->getPluginVersion());
+    
     foreach ($aStrings as $stringKey => $stringValue) {
         $oTpl->assign($stringKey, $stringValue);
     }

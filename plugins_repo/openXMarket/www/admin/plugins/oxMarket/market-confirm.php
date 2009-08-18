@@ -46,7 +46,8 @@ $oMarketComponent->updateSSLMessage();
 
 //header
 $oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+$oUI->registerStylesheetFile(MAX::constructURL(
+    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
 phpAds_PageHeader("openx-market",'','../../');
 
 //check the type of the signup (exisitng OpenX account or new account)
@@ -75,6 +76,7 @@ $content = $aContentKeys['content'];
 $oTpl = new OA_Plugin_Template('market-confirm.html','openXMarket');
 $oTpl->assign('content', $content);
 $oTpl->assign('trackerFrame', $trackerFrame);
+$oTpl->assign('pluginVersion', $oMarketComponent->getPluginVersion());
 
 $oTpl->display();
 

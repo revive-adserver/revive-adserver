@@ -43,20 +43,28 @@ $Id$
 {/if}
           
   
-<div class="hide info-box" id="market-cpm-callout" style="height: auto; width: 500px;">
-  <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" />
-  <h3>Opting in your campaigns to OpenX Market</h3>
-  <p>
-    OpenX Market competes with your campaigns to provide you with higher paying ads. 
-    Select which campaigns to opt in and set a floor price for each one. OpenX Market 
-    must pay higher than the floor or the campaign's original ad is served.
-  </p>
-  <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
-  CPM it is already earning.
-  </p>
-  <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+<div class="hide info-box" id="market-cpm-callout" style="height: auto; width: auto">
+  {if $floorPriceColumnContextHelp}
+    {$floorPriceColumnContextHelp}
+  {else}
+  <div style="width: 500px">
+    <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" alt="OpenX Market competes with your campaigns to provide you with higher paying ads" />
+    <h3>Opting in your campaigns to OpenX Market</h3>
+    <p>
+      OpenX Market competes with your campaigns to provide you with higher paying ads. 
+      Select which campaigns to opt in and set a floor price for each one. OpenX Market 
+      must pay higher than the floor or the campaign's original ad is served.
+    </p>
+    <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
+    CPM it is already earning.
+    </p>
+    <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+  </div>
+  {/if}
 </div>
+
 <table cellspacing='0' summary=''>
+  {if $campaigns|@count}
   <thead>
     <tr>
       <th class='first toggleAll'>
@@ -74,17 +82,19 @@ $Id$
       </th>
     </tr>
   </thead>
-  
+  {/if}
+    
   {if !empty($pager->links)}
   <tbody id="selectAllContainer" class="hide">
     <tr class="header">
-      <td colspan="6">
+      <td colspan="4">
         <div id="selectAllCampaigns" class="selectAllInAccount hide">
           All <em>{$showingCount}</em> campaigns on this page selected. <a href="#">Select all <em>{$allMatchingCount}</em> matching campaigns from this account</a>
         </div>
         <div id="allSelected" class="selectAllInAccount hide">
           All <em>{$allMatchingCount}</em> matching campaigns from this account selected. <a href="#">Clear selection</a>
         </div>
+        {$selectAllExplanation}
       </td>
     </tr>
   </tbody>
@@ -131,30 +141,6 @@ $Id$
         </tr>
       {/foreach}
     </tbody>
-    <tbody class="tableFooter">
-      <tr>
-        <td colspan="4">
-          <ul class='tableActions'>
-            <li>
-              <button class="left green-dot" type="submit" name="optInSubmit">
-                <span>&nbsp;</span>
-                {if $optInSubmitLabel}$optInSubmitLabel{else}Opt in to OpenX Market{/if} 
-              </button>
-              <button class="left red-dot" type="submit" name="optOutSubmit">
-                <span>&nbsp;</span>
-                {if $optOutSubmitLabel}$optoutSubmitLabel{else}Opt out of OpenX Market{/if} 
-              </button>
-            </li>
-          </ul>                  
-          {if !empty($pager->links)}
-          <div class="pager">
-            <span class="summary">{$pager->summary}</span>
-            <span class="controls">{$pager->links}</span>
-          </div>
-          {/if}
-        </td>
-      </tr>
-    </tbody>
   {else}
     <tbody>
       <tr class='odd'>
@@ -171,8 +157,13 @@ $Id$
                     contract
                 {/if} 
               {/capture}
+              {capture assign=searchString}
+                {if $search}
+                    with "{$search|escape}" in name
+                {/if} 
+              {/capture}
               
-              There are no {$typeString} campaigns to opt in to OpenX Market in your inventory.
+              There are no {$typeString} campaigns {$searchString} in your inventory
 
               <div class='corner top-left'></div>
               <div class='corner top-right'></div>
@@ -189,4 +180,28 @@ $Id$
       </tr>
     </tbody>
 {/if}
+  <tbody class="tableFooter">
+    <tr>
+      <td colspan="4">
+        <ul class='tableActions'>
+          <li>
+            <button class="left green-dot" type="submit" name="optInSubmit">
+              <span>&nbsp;</span>
+              {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if} 
+            </button>
+            <button class="left red-dot" type="submit" name="optOutSubmit">
+              <span>&nbsp;</span>
+              {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
+            </button>
+          </li>
+        </ul>                  
+        {if !empty($pager->links)}
+        <div class="pager">
+          <span class="summary">{$pager->summary}</span>
+          <span class="controls">{$pager->links}</span>
+        </div>
+        {/if}
+      </td>
+    </tr>
+  </tbody>
 </table>

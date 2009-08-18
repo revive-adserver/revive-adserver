@@ -43,7 +43,8 @@ $template = $handler->handle();
 if ($template) {
     // Header
     $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+    $oUI->registerStylesheetFile(MAX::constructURL(
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($handler->getPluginVersion())));
     
     $oMenu = OA_Admin_Menu::singleton();
     $oCurrentSection = $oMenu->get("market-campaigns-settings");

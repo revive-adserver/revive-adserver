@@ -50,7 +50,8 @@ $pubconsolePageName = $oMarketComponent->createMenuForPubconsolePage($p_url);
 //header
 $pageId = "openx-market";
 $oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+$oUI->registerStylesheetFile(MAX::constructURL(
+    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
 
 if (!empty($pubconsolePageName)) {
     $oMenu = OA_Admin_Menu::singleton();

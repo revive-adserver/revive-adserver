@@ -441,10 +441,18 @@
         
         function installHelp() {
             $("#market-cpm-callout").help({
-                'parentXOffset' : 695,
-                'parentYOffset' : 500
+                'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
+                'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500
                 }
             );
+            if ($.browser.msie && $.browser.version < 7) {
+	            $("button[name=optInSubmit]").click(function() {
+	            	$("button[name=optOutSubmit]").attr("disabled", "disabled");
+	            });
+	            $("button[name=optOutSubmit]").click(function() {
+	            	$("button[name=optInSubmit]").attr("disabled", "disabled");
+	            });
+            }
         }
         
         function getGetParams(url) {

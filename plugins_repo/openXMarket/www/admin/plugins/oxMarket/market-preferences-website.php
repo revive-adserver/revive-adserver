@@ -59,14 +59,16 @@ function processMarketplacePreferences($affiliateId, $aType, $aAttribute, $aCate
     else {
             OA_Admin_UI::queueMessage('Unable to update website settings', 'local', 'error', 0);
     }
-    
-    OX_Admin_Redirect::redirect('plugins/' . $oComponent->group . '/market-preferences-website.php?affiliateid='.$affiliateId);
+
+    //TODO redirect to the same page for now just redisplay
+    displayPage($affiliateId, $oComponent);
 }
 
 function displayPage($affiliateid, &$oComponent)
 {
     $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+    $oUI->registerStylesheetFile(MAX::constructURL(
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oComponent->getPluginVersion())));
     
     phpAds_PageHeader("market-preferences-website",'','../../');
     $oTpl    = new OA_Plugin_Template('market-preferences-website.html','openXMarket');
@@ -102,7 +104,8 @@ function displayPage($affiliateid, &$oComponent)
     $oTpl->assign('aCreativeAttributes', $aAttrCols);
     $oTpl->assign('aAdCategories', $aAdCatCols);
     $oTpl->assign('affiliateId', $affiliateid);
-
+    $oTpl->assign('pluginVersion', $oComponent->getPluginVersion());
+    
 
     $oTpl->display();
 

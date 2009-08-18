@@ -50,7 +50,7 @@ $Id$
                 <span id="loading-indicator" class="ajax-loading hide"></span>
                 <div class='label'>Show</div>
         
-                <div class='dropDown'>
+                <div class='dropDown' style="z-index: 2"> {* Hack for IE stacking context bug *}
                   <span><span>
                     {if $campaignType == 'remnant'}
                         Remnant campaigns
@@ -77,6 +77,18 @@ $Id$
                 <label class="search">Search <input id="search" type="text" name="search" value=""></label>
               </li>            
             </ul>
+            <ul class='tableFilters' style="margin: 10px 0">
+              <li>
+                <button class="left green-dot" type="submit" name="optInSubmit">
+                  <span>&nbsp;</span>
+                  {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if} 
+                </button>
+                <button class="left red-dot" type="submit" name="optOutSubmit">
+                  <span>&nbsp;</span>
+                  {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
+                </button>
+              </li>
+            </ul>
             <div class='clear'></div>
             <div class='corner left'></div>
             <div class='corner right'></div>
@@ -89,9 +101,9 @@ $Id$
   </form>
 </div>
 
-<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
-<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js" ></script>
-<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.typewatch.js" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js?v={$pluginVersion|escape}" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js?v={$pluginVersion|escape}" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.typewatch.js?v={$pluginVersion|escape}" ></script>
 <script type="text/javascript">
 {literal}
 //<!--

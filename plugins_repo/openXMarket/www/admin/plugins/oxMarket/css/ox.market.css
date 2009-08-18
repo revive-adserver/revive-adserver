@@ -180,12 +180,8 @@ ul.column li.rejected {
   display: block;
   clear: both;
   padding: 0;
-  padding-top: 5px;
+  padding-top: 2px;
   font-size: 10px;
-}
-
-.market-campaign-settings td small {
-  display: block;
 }
 
 .market-campaign-settings #submit {
@@ -195,10 +191,15 @@ ul.column li.rejected {
 
 .market-campaign-settings label.search {
   margin-left: 12px;
+  *position: relative;
+  *top: -2px;
 }
 
 .market-campaign-settings label.search input{
   width: 95px;
+  padding: 2px;
+  *position: relative;
+  *top: 2px;
 }
 
 
@@ -212,8 +213,21 @@ ul.column li.rejected {
 }
 
 /** table modifications **/
+.market-campaign-settings .tableWrapper table {
+  table-layout: fixed;
+}
+
 .market-campaign-settings .tableWrapper td {
   vertical-align: middle;
+}
+
+.market-campaign-settings .tableWrapper td.toggleSelection {
+  padding-top: 1px;
+}
+
+.market-campaign-settings .tableWrapper td label {
+  position: relative;
+  top: 2px;
 }
 
 .market-campaign-settings .tableWrapper table th {
@@ -224,50 +238,9 @@ ul.column li.rejected {
   vertical-align: middle;
 }
 
-.market-campaign-settings .tableWrapper .scroll {
-  overflow: auto;
-  overflow-x: hidden;
-  max-height: 380px;
-  position: relative;
-}
-
-/* updated table dropdown **/
-.market-campaign-settings .tableWrapper .dropDown span {
-  background:transparent url(../images/dropdown-background.png) no-repeat scroll left top;
-  cursor:pointer;
-  display:block;
-  height:20px;
-  line-height:20px;
-  padding:0 0 4px;
-  position:relative;
-  top:4px;
-}
-
-.market-campaign-settings .tableWrapper .dropDown {
-  position: relative;
-  top: -1px;
-}
-
-.market-campaign-settings .tableWrapper .dropDown span span {
-  background-position:right -24px;
-  color:#444444;
-  display:block;
-  padding:0 26px 0 8px;
-  position:relative;
-  top:0;
-}
-
-.market-campaign-settings .tableWrapper .dropDown div.panel {
-  top:23px;
-}
-
-.market-campaign-settings .tableWrapper .dropDown.active span {
-  background-position:left -49px;
-}
-
-.market-campaign-settings .tableWrapper .dropDown.active span span {
-  background-position:right -73px;
-  color:#FFFFFF;
+.market-campaign-settings .tableWrapper table td small {
+  margin-top: 2px;
+  display: block;
 }
 
 /** Top pager */
@@ -286,11 +259,6 @@ ul.column li.rejected {
   padding-left: 0;
 }
 
-/** Search box */
-.market-campaign-settings #search {
-  padding: 2px;
-}
-
 /**tag **/
 .campaign-type-tag {
     float:left;
@@ -298,10 +266,11 @@ ul.column li.rejected {
 
 .tag {
   margin-right: 5px;
+  display: block;
 }
 
 .tag .t-b {
-    overflow:visible;
+  overflow:visible;
 }
 
 .t-b {
@@ -319,9 +288,11 @@ ul.column li.rejected {
 .val {
     padding:0 5px 1px 5px;
     color: white;
+  display: block;
 }
 
 .t-b, .l-r {
+  display: block;
   border-style:solid;
   font-weight:normal;
   font-size: 10px;
@@ -343,11 +314,11 @@ ul.column li.rejected {
 
 /** tag end **/
 .market-campaign-settings .tableWrapper th.mkt-status {
-  width: 13em;
+  width: 14em;
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
-  width: 12em;
+  width: 13em;
 }
 
 .market-campaign-settings .tableWrapper .tableFooter .tableActions {
@@ -359,7 +330,7 @@ ul.column li.rejected {
   vertical-align:middle;
   line-height:16px;
   margin:0 6px 0 0;
-  padding:3px;
+  padding: 2px 3px 2px 3px;
   *line-height: 12px;
   
   /** Fix extra button padding in IE7 */
@@ -418,10 +389,8 @@ ul.column li.rejected {
 /** info box **/
 .market-campaign-settings .info-box img {
   float: left; 
-  padding: 5px; 
-  border: 1px solid #ccc; 
+  padding: 3px 5px 5px 5px; 
   margin-right: 10px; 
-  background-color: white;
 }
 
 .market-campaign-settings .info-box .panel {

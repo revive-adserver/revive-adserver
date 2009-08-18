@@ -55,6 +55,9 @@ define('SETTING_TYPE_CREATIVE_CATEGORY', 2);
 class Plugins_admin_oxMarket_oxMarket extends OX_Component
 {
     protected $aDefaultRestrictions;
+    
+    /** Cached plugin version string */
+    private $pluginVersion;
 
     /**
      * @var Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
@@ -1098,9 +1101,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     public function getPluginVersion()
     {
-        $oPluginManager = new OX_PluginManager();
-        $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);    
-        return strtolower($aInfo['version']);        
+        if (!isset($this->pluginVersion)) {
+            $oPluginManager = new OX_PluginManager();
+            $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);    
+            $this->pluginVersion = strtolower($aInfo['version']);
+        }
+        return $this->pluginVersion;        
     }    
     
     

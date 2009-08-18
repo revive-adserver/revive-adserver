@@ -55,7 +55,8 @@ if (!isset($aDeactivationStatus['code'])) {
 
 //header
 $oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
+$oUI->registerStylesheetFile(MAX::constructURL(
+    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
 phpAds_PageHeader("openx-market",'','../../');
 
 //get template and display form
@@ -63,6 +64,7 @@ $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
 
 $oTpl->assign('deactivationStatus', $aDeactivationStatus['code']);
 $oTpl->assign('deactivationStatusMessage', $aDeactivationStatus['message']);
+$oTpl->assign('pluginVersion', $oMarketComponent->getPluginVersion());
 
 if (isset($oForm)) {
     // Add form for relinking to the market

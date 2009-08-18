@@ -49,8 +49,9 @@ displayPage($affiliateid, $oMarketComponent);
 function displayPage($affiliateid, &$oMarketComponent)
 {
     $oUI = OA_Admin_UI::getInstance();
-    $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-    
+    $oUI->registerStylesheetFile(MAX::constructURL(
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+        
     
     phpAds_PageHeader("market-website-qualitytool",'','../../');
 //    phpAds_PageHeader($pageId, new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName().': '.$pubconsolePageName, "iconMarketLarge"), '../../');
