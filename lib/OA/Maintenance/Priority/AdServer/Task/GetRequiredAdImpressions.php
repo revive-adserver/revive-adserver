@@ -249,6 +249,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function _getInventoryImpressionsRequired($inventory, $defaultRatio, $inventoryToDate = 0, $impressionsToDate = 0)
     {
+        if($inventoryToDate >= $inventory) {
+            return 0;
+        }
         $requiredImpressions = 0;
         if ($inventory > 0) {
             // If historical information exists
@@ -257,7 +260,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             } else {
                 $inventoryPerImpression = $defaultRatio;
             }
-            $requiredImpressions = (int)$inventory / $inventoryPerImpression;
+            $requiredImpressions = (int)($inventory - $inventoryToDate) / $inventoryPerImpression;
         }
         return ceil($requiredImpressions);
     }
