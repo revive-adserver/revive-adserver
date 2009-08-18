@@ -201,7 +201,7 @@
     float: left;
     position: relative;
     
-    top: 0;
+    top: -1px;
     left: 0;
     
     white-space: nowrap;
@@ -216,14 +216,14 @@
     top: 4px;
     padding: 0 0 4px;
     
-    height: 18px;
-    line-height: 18px;
+    height: 20px;
+    line-height: 20px;
     
     -width: 0%;
 }
 .tableWrapper .dropDown span span {
     display: block;
-    background-position: right -25px;
+    background-position: right -24px;
     padding: 0 26px 0 8px;
 
     position: relative;
@@ -232,10 +232,10 @@
 	color: #444;
 }
 .tableWrapper .dropDown.active span {
-    background-position: left -50px;
+    background-position: left -49px;
 }
 .tableWrapper .dropDown.active span span {
-    background-position: right -75px;
+    background-position: right -73px;
     color: #fff;
 }
 .tableWrapper .dropDown div.panel {

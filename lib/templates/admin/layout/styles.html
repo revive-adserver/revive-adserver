@@ -25,14 +25,14 @@ $Id$
 
 -->*}
 {if $combineAssets}
-    <link rel="stylesheet" type="text/css" href="{$assetPath}/min.php?g={$cssGroup}&v={$oxpVersion}" />
+    <link rel="stylesheet" type="text/css" href="{$assetPath}/min.php?g={$cssGroup}&v={$oxpVersion}">
 {else}
   {foreach from=$aCssFiles item=stylesheet}
-<link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}" />
+<link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}">
   {/foreach}
 {/if}
 
 {foreach from=$aOtherCssFiles item=stylesheet}
-    <link rel="stylesheet" type="text/css" href="{$stylesheet}" />
+    <link rel="stylesheet" type="text/css" href="{$stylesheet}">
 {/foreach}
 

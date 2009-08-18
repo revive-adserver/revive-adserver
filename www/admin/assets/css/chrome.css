@@ -903,11 +903,11 @@ body.hasGradient #firstLevelContent {
     cursor: pointer;
     
     position: relative;
-    top: 0;
+    top:4px;
     padding: 0 0 4px;
     
-    height: 32px;
-    line-height: 26px;
+    height:20px;
+    line-height:20px;
     
     -width: 0%;
 }
@@ -1945,7 +1945,7 @@ div.dropDown div.panel div div.column {
     float: left;
     z-index: 2002;
     
-    background: transparent url(../images/dropdown-background.png) repeat scroll left 2px;
+    background: transparent url(../images/dropdown-background.png) repeat scroll left 1px;
     
     line-height: 20px;
     padding: 0;
@@ -1954,11 +1954,11 @@ div.dropDown div.panel div div.column {
     top: -1px;
     left: -1px;
 
-		-display: inline;
-		-float: none;    
+	-display: inline;
+	-float: none;    
 }
 .breadcrumb .dropDown.active span {
-		background-color: #e5f0f8;
+  		background-color: #e5f0f8;
 		background-image: url(../images/message-background.png);
 		background-position: left -2px;
 		background-repeat: repeat-x;
@@ -1988,10 +1988,10 @@ div.dropDown div.panel div div.column {
     background-repeat: no-repeat;
     color: #444;
     border: none;
-
-	  padding: 1px 12px 1px 0;
-	  *padding: 1px 12px 2px 0;
-	  -padding: 3px 12px 3px 0;
+    
+	  padding: 1px 16px 1px 0;
+	  *padding: 1px 16px 2px 0;
+	  -padding: 3px 16px 3px 0;
 }
 
 .breadcrumb .dropDown.active span span {
