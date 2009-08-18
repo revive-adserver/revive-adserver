@@ -96,10 +96,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
 
         $aWheres = array(
-            array("($table.activate_time IS NULL OR $table.activate_time <= '$dateYMD')", 'AND'),
-            array("$table.expire_time >= '$dateYMD'", 'AND'),
             array("$table.priority >= 1", 'AND'),
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
+            array("$table.expire_time >= '$dateYMD'", 'AND'),
             array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
         );
         return $this->_getAllCampaigns($aWheres);

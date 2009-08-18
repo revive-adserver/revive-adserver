@@ -87,9 +87,10 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
         $oDbh = OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
         $aWheres = array(
-            array("($table.target_impression > 0 OR $table.target_click > 0 OR $table.target_conversion > 0)", 'AND'),
             array("$table.priority >= 1", 'AND'),
-            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND')
+            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
+            array("($table.target_impression > 0 OR $table.target_click > 0 OR $table.target_conversion > 0)", 'AND'),
+            array("($table.expire_time IS NULL OR ($table.views = -1 AND $table.clicks = -1 AND $table.conversions = -1))", 'AND'),
         );
         return $this->_getAllCampaigns($aWheres);
     }
