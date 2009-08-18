@@ -3695,9 +3695,6 @@ MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row[
 // Store the last view action event om the cookie as well (if required)
 MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
 }
-// post adSelect hook
-OX_Delivery_Common_hook('postAdSelect', array(&$output));
-return $output;
 } else {
 // No banner found
 if (!empty($row['default'])) {
@@ -3708,13 +3705,16 @@ $target = '_blank';  // Default
 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
-return array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
+$output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
 } else {
 // No default banner was returned, return no banner
 $outputbuffer = $g_prepend . $g_append;
-return array('html' => $outputbuffer, 'bannerid' => '' );
+$output = array('html' => $outputbuffer, 'bannerid' => '' );
 }
 }
+// post adSelect hook
+OX_Delivery_Common_hook('postAdSelect', array(&$output));
+return $output;
 }
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
