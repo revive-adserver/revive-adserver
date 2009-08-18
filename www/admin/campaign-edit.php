@@ -796,19 +796,19 @@ function processCampaignForm($form, &$oComponent = null)
             $aFields['impressions'] = $aFields['clicks'] = $aFields['conversions'] = -1;
         } else {
             if ((!empty($aFields['impr_unlimited']) && $aFields['impr_unlimited'] == 't')) {
-                $aFields['impressions'] = - 1;
+                $aFields['impressions'] = -1;
             } else if (empty($aFields['impressions']) || $aFields['impressions'] == '-') {
                 $aFields['impressions'] = 0;
             }
 
             if (!empty($aFields['click_unlimited']) && $aFields['click_unlimited'] == 't') {
-                $aFields['clicks'] = - 1;
+                $aFields['clicks'] = -1;
             } else if (empty($aFields['clicks']) || $aFields['clicks'] == '-') {
                 $aFields['clicks'] = 0;
             }
 
             if (!empty($aFields['conv_unlimited']) && $aFields['conv_unlimited'] == 't') {
-                $aFields['conversions'] = - 1;
+                $aFields['conversions'] = -1;
             } else if (empty( $aFields['conversions']) || $aFields['conversions'] == '-') {
                 $aFields['conversions'] = 0;
             }
@@ -838,12 +838,15 @@ function processCampaignForm($form, &$oComponent = null)
             $aFields['priority'] = - 2; //ecpm
         }
 
+        // Set target
+        $target_impression = 0;
+        $target_click = 0;
+        $target_conversion = 0;
         if ($aFields['priority'] > 0) {
-            // Set target
-            $target_impression = 0;
-            $target_click = 0;
-            $target_conversion = 0;
-            if ((isset ( $aFields['target_value'])) && ($aFields['target_value'] != '-')) {
+            // Daily targets need to be set only if the campaign doesn't have both expiration and lifetime targets
+            $hasExpiration = !empty($expire);
+            $hasLifetimeTargets = $aFields['impressions'] != -1 || $aFields['clicks'] != -1 || $aFields['conversions'] != -1;
+            if (!($hasExpiration && $hasLifetimeTargets) && (isset($aFields['target_value'])) && ($aFields['target_value'] != '-')) {
                 switch ( $aFields['target_type']) {
                     case 'target_impression':
                         $target_impression = $aFields['target_value'];
