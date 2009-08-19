@@ -116,13 +116,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price', 'maxlength' => 3 + strlen($maxFloorPriceValue)));
-        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
+        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', '<label for="floor_price">'.$this->translate("USD").'</label>');
         $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
             array('defaultFloorPrice' => $defaultFloorPrice,
-                'floorValidationRateMessage' => $this->translate("The Market floor price cannot be lower than the campaign's specified CPM."), 
-                'floorValidationECPMMessage' => $this->translate("The Market floor price cannot be lower than the campaign's eCPM.") 
+                'floorValidationRateMessage' => $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."), 
+                'floorValidationECPMMessage' => $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.") 
             ));
 
         
@@ -140,14 +140,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             ));
         }        
 
-       global $pref;
-       if (!empty($pref['campaign_ecpm_enabled']) || !empty($pref['contract_ecpm_enabled']) ) {
-        $floorValidationMessage = $this->translate('Floor price must be greater or equal to %s', array($GLOBALS ['strECPM'])); 
-       }
-       else {
-        $floorValidationMessage = $this->translate('Floor price must be greater or equal to %s', array($GLOBALS ['strRatePrice']));
-       } 
-        
        $form->addGroupRule('floor_price_group', array(
                 'floor_price' => array(
                     array('----', 'floor_price_compare'), //message here is set from JS
@@ -170,11 +162,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 && $submitValues['remnant_ecpm_enabled'] == 1 
                 && $submitValues['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
                 $comparedValue = $submitValues['last_ecpm'];
-                $floorValidationMessage = $this->translate("The Market floor price cannot be lower than the campaign's eCPM.");
+                $floorValidationMessage = $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.");
             }
             else { //use rate/price .ie revenue for comparison
                 $comparedValue = $submitValues['revenue'];
-                $floorValidationMessage = $this->translate("The Market floor price cannot be lower than the campaign's specified CPM."); 
+                $floorValidationMessage = $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."); 
             }
             
             if (is_numeric($comparedValue) && is_numeric($floorPrice) && $floorPrice < $comparedValue) {
