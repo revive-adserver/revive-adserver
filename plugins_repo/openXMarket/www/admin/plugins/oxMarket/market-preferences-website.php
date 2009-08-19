@@ -59,9 +59,8 @@ function processMarketplacePreferences($affiliateId, $aType, $aAttribute, $aCate
     else {
             OA_Admin_UI::queueMessage('Unable to update website settings', 'local', 'error', 0);
     }
-
-    //TODO redirect to the same page for now just redisplay
-    displayPage($affiliateId, $oComponent);
+    
+    OX_Admin_Redirect::redirect('plugins/' . $oComponent->group . '/market-preferences-website.php?affiliateid='.$affiliateId);    
 }
 
 function displayPage($affiliateid, &$oComponent)
