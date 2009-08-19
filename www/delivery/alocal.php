@@ -1864,36 +1864,62 @@ return 0;
 }
 function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
 {
+// Initialise result
 $totals = array();
-$blank_priority = 1;
+// Initialise array of total priorities by campaign priority level
 $total_priority_cp = array();
+// Blank priority is the portion of inventory that MPE didn't allocate
+// to contract campaigns which will be available to remnant campaigns,
+// In this context it's called "blank" as no contract banners will be
+// served. Priority starts with 1 (100% chance) and decreases.
+$blank_priority = 1;
 foreach ($aAdsByCP as $campaign_priority => $aAds) {
 $total_priority_cp[$campaign_priority] = 0;
 foreach ($aAds as $key => $aAd) {
+// MPE assigne a certain amount of priority to this banner,
+// remove it from the blank priority
 $blank_priority -= (double)$aAd['priority'];
 if ($aAd['to_be_delivered']) {
+// Banner is marked as deliverable, use compensation factor
 $priority = $aAd['priority'] * $aAd['priority_factor'];
 } else {
+// Banner is not marked to be delivered. The available
+// forecasted inventory has already been taken by higher-pri
+// banners. Still we use a low number here to make a little
+// room for it in case it get served because of limitation
+// applied to the higher-pri ones.
 $priority = 0.00001;
 }
+// Add the calculated priority number to the total for this
+// campaign priority level.
 $total_priority_cp[$campaign_priority] += $priority;
-$aAdsByCP[$campaign_priority][$key]['priority'] = $priority;
 }
 }
-// Sort by ascending CP
-ksort($total_priority_cp);
+// Initialise total priority accumulator
 $total_priority = 0;
+// Should the "blank" priority be taken into account?
 if ($includeBlank) {
 // Store blank priority, ensuring that small rounding errors are
 // not taken into account
 $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 }
+// The following code can seem a bit of a mistery and to be broken.
+// Of course it isn't! What we need to do at this point is to calculate
+// the total priority of each priority level, including the ones before
+// (or that follow, when delivery runs through them sequentially).
+// That value can be subsequently used during delivery to rescale
+// priority values so that probability matches the MPE expectations.
+// Sort priority levels in reverse priority order (1 to 10)
+ksort($total_priority_cp);
 // Calculate totals for each campaign priority
 foreach($total_priority_cp as $campaign_priority => $priority) {
+// Add priority to the accumulator
 $total_priority += $priority;
 if ($total_priority) {
+// Scale total priority of the current priority level
 $totals[$campaign_priority] = $priority / $total_priority;
 } else {
+// Set total to 0
 $totals[$campaign_priority] = 0;
 }
 }
@@ -3819,6 +3845,8 @@ if (!empty($aAds['cAds'][$i])) {
 $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'cAds', $i), $adSelectFunction);
 // Did we pick an ad from this campaign-priority level?
 if (is_array($aLinkedAd)) { break; }
+// Should we skip the next campaign-priority level?
+if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
 }
 }
 // If still no ad selected...
@@ -3836,6 +3864,8 @@ if (!empty($aAds['ads'][$i])) {
 $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'ads', $i), $adSelectFunction);
 // Did we pick an ad from this campaign-priority level?
 if (is_array($aLinkedAd)) { break; }
+// Should we skip the next campaign-priority level?
+if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
 }
 }
 }
@@ -3868,6 +3898,15 @@ $aAds = array();
 }
 // If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
+if (isset($cp)) {
+// Calculate total priority
+$total_priority_orig = 0;
+foreach ($aAds as $ad) {
+$total_priority_orig += $ad['priority'] * $ad['priority_factor'];
+}
+// If thre's no active ad, we can return
+if (!$total_priority_orig) { return; }
+}
 // Build preconditions
 $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 // New delivery algorithm: discard all invalid ads before iterating over them
@@ -3875,27 +3914,19 @@ $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 // If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
-if (!is_null($cp)) {
-// Scale priorities
+if (isset($cp)) {
+// Scale priorities and sum
 $total_priority = 0;
-foreach ($aAds as $ad) {
-$total_priority += $ad['priority'] * $ad['priority_factor'];
-}
-if ($total_priority) {
-if ($adArrayVar == 'eAds') {
+$level_priority = $aLinkedAds['priority'][$adArrayVar][$cp];
 foreach ($aAds as $key => $ad) {
-$aAds[$key]['priority'] = $ad['priority']
-* $ad['priority_factor'] / $total_priority;
-}
-} else {
-foreach ($aAds as $key => $ad) {
-$aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'];
-}
-}
+$aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
+$level_priority / $total_priority_orig;
+$total_priority += $aAds[$key]['priority'];
 }
 } else {
 // Rescale priorities by weights
-_setPriorityFromWeights($aAds);
+$total_priority = _setPriorityFromWeights($aAds);
+$level_priority = 0;
 }
 // Seed the random number generator
 global $n;
@@ -3903,6 +3934,16 @@ mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[
 $conf = $GLOBALS['_MAX']['CONF'];
 // Pick a float random number between 0 and 1, inclusive.
 $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
+// Is it higher than the sum of all the priority values?
+if ($ranweight > $total_priority) {
+if ($level_priority && $ranweight <= $level_priority) {
+// Special return value, skip other campaign levels
+return -1;
+} else {
+// No suitable ad found, proceed as usual
+return;
+}
+}
 // Perform selection of an ad, based on the random number
 $low = 0;
 $high = 0;

@@ -1863,36 +1863,62 @@ return 0;
 }
 function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
 {
+// Initialise result
 $totals = array();
-$blank_priority = 1;
+// Initialise array of total priorities by campaign priority level
 $total_priority_cp = array();
+// Blank priority is the portion of inventory that MPE didn't allocate
+// to contract campaigns which will be available to remnant campaigns,
+// In this context it's called "blank" as no contract banners will be
+// served. Priority starts with 1 (100% chance) and decreases.
+$blank_priority = 1;
 foreach ($aAdsByCP as $campaign_priority => $aAds) {
 $total_priority_cp[$campaign_priority] = 0;
 foreach ($aAds as $key => $aAd) {
+// MPE assigne a certain amount of priority to this banner,
+// remove it from the blank priority
 $blank_priority -= (double)$aAd['priority'];
 if ($aAd['to_be_delivered']) {
+// Banner is marked as deliverable, use compensation factor
 $priority = $aAd['priority'] * $aAd['priority_factor'];
 } else {
+// Banner is not marked to be delivered. The available
+// forecasted inventory has already been taken by higher-pri
+// banners. Still we use a low number here to make a little
+// room for it in case it get served because of limitation
+// applied to the higher-pri ones.
 $priority = 0.00001;
 }
+// Add the calculated priority number to the total for this
+// campaign priority level.
 $total_priority_cp[$campaign_priority] += $priority;
-$aAdsByCP[$campaign_priority][$key]['priority'] = $priority;
 }
 }
-// Sort by ascending CP
-ksort($total_priority_cp);
+// Initialise total priority accumulator
 $total_priority = 0;
+// Should the "blank" priority be taken into account?
 if ($includeBlank) {
 // Store blank priority, ensuring that small rounding errors are
 // not taken into account
 $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 }
+// The following code can seem a bit of a mistery and to be broken.
+// Of course it isn't! What we need to do at this point is to calculate
+// the total priority of each priority level, including the ones before
+// (or that follow, when delivery runs through them sequentially).
+// That value can be subsequently used during delivery to rescale
+// priority values so that probability matches the MPE expectations.
+// Sort priority levels in reverse priority order (1 to 10)
+ksort($total_priority_cp);
 // Calculate totals for each campaign priority
 foreach($total_priority_cp as $campaign_priority => $priority) {
+// Add priority to the accumulator
 $total_priority += $priority;
 if ($total_priority) {
+// Scale total priority of the current priority level
 $totals[$campaign_priority] = $priority / $total_priority;
 } else {
+// Set total to 0
 $totals[$campaign_priority] = 0;
 }
 }
