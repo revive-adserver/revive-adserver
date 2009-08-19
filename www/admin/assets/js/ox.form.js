@@ -32,7 +32,13 @@
                         }
 		            }
 		            else {
-		                $error.insertAfter($element);
+                        $nextSibling = $element.next();
+                        if ($nextSibling.is("label[for="+$element.attr('id')+"]")) {
+                            $error.insertAfter($nextSibling);
+                        }
+                        else {
+		                  $error.insertAfter($element);
+                        }
 		            }
 		        },
                 errorContainer: '#errors',
