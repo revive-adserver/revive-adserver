@@ -25,6 +25,7 @@
 $Id$
 */
 require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 /**
  * The MSE process task class that import statistics data from Publisher Console
@@ -45,10 +46,19 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     protected $oMarketComponent;
     
     /**
-     * The constructor method.
+     * Was script initiated from separate (dedicated) maintenance script?
+     * @var bool
      */
-    function __construct()
+    private $calledFromSeparateMaintenace;
+    
+    /**
+     * The constructor method.
+     *
+     * @param unknown_type $calledFromSeparateMaintenace
+     */
+    function __construct($calledFromSeparateMaintenace = false)
     {
+        $this->calledFromSeparateMaintenace = $calledFromSeparateMaintenace;
         parent::OX_Maintenance_Statistics_Task();
     }
 
@@ -58,25 +68,29 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      */
     function run()
     {
+        // check if it's allowed to run this task in given maintenance (common, or separate script)
+        if (!$this->canRunTask()) {
+            return false;
+        }
         OA::debug('Started oxMarket_ImportMarketStatistics');
         try {
             $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();
+            // select only registered and active accounts (skip isPluginActive() method)
             $oAccount = OA_Dal::factoryDO('ext_market_assoc_data');
+            $oAccount->status = 0;  
+            $oAccount->whereAdd('api_key IS NOT NULL');
             $oAccount->find();
             while ($oAccount->fetch()) {
                 $accountId = (int)$oAccount->account_id;
                 $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
-                //is plugin active is checked per account
-                if ($this->isPluginActive()) { 
-                    $last_update = $this->getLastUpdateVersionNumber($accountId);
-                    $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
-                    if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
-                        // Download statistics only if there are registered websites
-                        do {
-                            $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
-                            $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
-                        } while ($endOfData === false);
-                    }
+                $last_update = $this->getLastUpdateVersionNumber($accountId);
+                $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
+                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
+                    // Download statistics only if there are registered websites
+                    do {
+                        $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
+                        $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
+                    } while ($endOfData === false);
                 }
             }
         } catch (Exception $e) {
@@ -87,6 +101,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oPublisherConsoleApiClient->setWorkAsAccountId(null);
         }
         OA::debug('Finished oxMarket_ImportMarketStatistics');
+        return true;
     }
 
     
@@ -213,6 +228,17 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         if (!isset($this->oMarketComponent)) {
             $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket');
         }
+    }
+    
+    /**
+     * Check if it is allowed to run task in maintenance or separate script
+     *
+     * @return bool true if it's allowed
+     */
+    public function canRunTask()
+    {
+        return ($this->calledFromSeparateMaintenace ==
+                (bool)$GLOBALS['_MAX']['CONF']['oxMarket']['separateImportStatsScript']);
     }
 }
 

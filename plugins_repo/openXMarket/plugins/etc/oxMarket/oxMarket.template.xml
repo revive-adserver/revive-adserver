@@ -154,6 +154,7 @@
                                          
             <!-- End spacer for the 4096 byte boundary -->
             <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
+            <setting key="separateImportStatsScript" type="checkbox" label="Allow run import statistics as separate maintenance script" required="0"  visible="0">@separateImportStatsScript@</setting>
         </configuration>
         <schema>
             <mdb2schema>tables_oxMarket</mdb2schema>

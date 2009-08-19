@@ -20,6 +20,7 @@
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">ImportMarketStatistics.php</file>
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenanceUpdateWebsites.class.php</file>
             <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">UpdateWebsites.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/scripts/">importMarketStats.php</file>
         </files>
 
         <components>

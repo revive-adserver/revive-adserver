@@ -76,7 +76,7 @@ class DataObjects_Ext_market_website_pref extends DB_DataObjectCommon
     function getRegisteredWebsitesIds($accountId)
     {
         if (isset($accountId) && 
-            $accountId !== DataObjects_Accounts::getAdminAccountId())
+            (int)$accountId !== (int)DataObjects_Accounts::getAdminAccountId())
         {
             $agency = OA_Dal::factoryDO('agency');
             $agency->account_id = $accountId;

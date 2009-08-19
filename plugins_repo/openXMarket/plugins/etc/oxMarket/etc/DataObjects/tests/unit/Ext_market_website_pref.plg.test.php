@@ -127,6 +127,13 @@ class Plugins_TestOfPDataObjects_Ext_market_website_pref extends UnitTestCase
         $expected = array('my-uuid2');
         sort($aResult);
         $this->assertEqual($expected, $aResult);
+        
+        // test int value as input
+        $doWebsite = OA_Dal::factoryDO('ext_market_website_pref');
+        $aResult = $doWebsite->getRegisteredWebsitesIds((int)$accountId2);
+        $expected = array('my-uuid2');
+        sort($aResult);
+        $this->assertEqual($expected, $aResult);
     }
 
 }
