@@ -247,12 +247,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Manually set the remaining inventory that would normally be
         // set by the mocked setSummaryStatisticsToDate() method above
-        $oCampaign->deliveredImpressions = 10000;
-        $oCampaign->deliveredClicks      = 100;
+        $oCampaign->deliveredImpressions = 1000;
+        $oCampaign->deliveredClicks      = 50;
         $oCampaign->deliveredConversions = 10;
 
         // Set the target impressions, clicks and conversions
-        $oCampaign->clickTargetTotal      = 10;
+        $oCampaign->clickTargetTotal      = 100;
         $oCampaign->conversionTargetTotal = 0;
 
         // Test the method
@@ -380,6 +380,86 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         TestEnv::restoreConfig();
     }
 
+    /**
+     * A method to test the _getInventoryImpressionsRequired() method.
+     *
+     * Test 1: Test with no inventory required, and ensure that 0 is returned.
+     * Test 2: Test with inventory required, but no past data, and ensure that
+     *         the default ratio is used correctly.
+     * Test 3: Test with inventory required, but no past data, and ensure that
+     *         the default ratio is used correctly, and that values are rounded
+     *         up.
+     * Test 4: Test with past data, and ensure that real ratio is calculated
+     *         and used correctly.
+     */
+    function test_getInventoryImpressionsRequired()
+    {
+        $oGetRequiredAdImpressionsLifetime = new OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
+
+        // Test 1
+        $inventory = 0;
+        $defaultRatio = 0.1;
+        $result = $oGetRequiredAdImpressionsLifetime->_getInventoryImpressionsRequired($inventory, $defaultRatio);
+        $this->assertEqual($result, 0);
+
+        // Test 2
+        $inventory = 1;
+        $defaultRatio = 0.1;
+        $result = $oGetRequiredAdImpressionsLifetime->_getInventoryImpressionsRequired($inventory, $defaultRatio);
+        $this->assertEqual($result, 10);
+
+        // Test 3
+        $inventory = 1;
+        $defaultRatio = 0.3;
+        $result = $oGetRequiredAdImpressionsLifetime->_getInventoryImpressionsRequired($inventory, $defaultRatio);
+        $this->assertEqual($result, 4);
+
+        // Test 4
+        $inventory = 100;
+        $defaultRatio = 0.3;
+        $inventoryToDate = 50;
+        $impressionsToDate = 1000;
+        $result = $oGetRequiredAdImpressionsLifetime->_getInventoryImpressionsRequired(
+            $inventory,
+            $defaultRatio,
+            $inventoryToDate,
+            $impressionsToDate
+        );
+        $this->assertEqual($result, 1000);
+        
+        // Test 5
+        $inventory = 100;
+        $defaultRatio = 0.3;
+        $inventoryToDate = 200;
+        $impressionsToDate = 1000;
+        $result = $oGetRequiredAdImpressionsLifetime->_getInventoryImpressionsRequired(
+            $inventory,
+            $defaultRatio,
+            $inventoryToDate,
+            $impressionsToDate
+        );
+        $this->assertEqual($result, 0);
+    }
+
+    /**
+     * A method to test the _getSmallestNonZeroInteger() method.
+     */
+    function test_getSmallestNonZeroInteger()
+    {
+        $oGetRequiredAdImpressionsLifetime = new OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(0,0,0)));
+        $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(1,0,0)));
+        $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(-1,1,1)));
+        $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(1,1,1)));
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(-1,-1,-1)));
+        $this->assertEqual(4, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(32,18,4)));
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(-1,'what','string')));
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger('foo'));
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(5000));
+        $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger());
+        $this->assertEqual(748, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(748,849,35625)));
+    }
+    
     /**
      * A method to test the _getAdImpressions() method.
      *
