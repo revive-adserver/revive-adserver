@@ -295,10 +295,10 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             $output = array('html' => $outputbuffer, 'bannerid' => '' );
         }
     }
-    
+
 	// post adSelect hook
     OX_Delivery_Common_hook('postAdSelect', array(&$output));
-    
+
     return $output;
 }
 
@@ -319,10 +319,10 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
     $aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
-    
+
     // Set a flag to let the selection algorithm know that this is a direct request
     $GLOBALS['_MAX']['DIRECT_SELECTION'] = true;
-    
+
     $aLinkedAd = _adSelectCommon($aDirectLinkedAds, $context, $source, $richMedia);
 
     if (is_array($aLinkedAd)) {
@@ -473,6 +473,8 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
                     $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'cAds', $i), $adSelectFunction);
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
+                    // Should we skip the next campaign-priority level?
+                    if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
                 }
             }
             // If still no ad selected...
@@ -490,6 +492,8 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
                     $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'ads', $i), $adSelectFunction);
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
+                    // Should we skip the next campaign-priority level?
+                    if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
                 }
             }
         }
@@ -543,6 +547,17 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     // If there are no linked ads of the specified type, we can return
     if (count($aAds) == 0) { return; }
 
+    if (isset($cp)) {
+        // Calculate total priority
+        $total_priority_orig = 0;
+        foreach ($aAds as $ad) {
+            $total_priority_orig += $ad['priority'] * $ad['priority_factor'];
+        }
+
+        // If thre's no active ad, we can return
+        if (!$total_priority_orig) { return; }
+    }
+
     // Build preconditions
     $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 
@@ -553,28 +568,19 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     // If there are no linked ads of the specified type, we can return
     if (count($aAds) == 0) { return; }
 
-    if (!is_null($cp)) {
-        // Scale priorities
+    if (isset($cp)) {
+        // Scale priorities and sum
         $total_priority = 0;
-        foreach ($aAds as $ad) {
-            $total_priority += $ad['priority'] * $ad['priority_factor'];
-        }
-
-        if ($total_priority) {
-            if ($adArrayVar == 'eAds') {
-                foreach ($aAds as $key => $ad) {
-                    $aAds[$key]['priority'] = $ad['priority']
-                        * $ad['priority_factor'] / $total_priority;
-                }
-            } else {
-                foreach ($aAds as $key => $ad) {
-                    $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'];
-                }
-            }
+        $level_priority = $aLinkedAds['priority'][$adArrayVar][$cp];
+        foreach ($aAds as $key => $ad) {
+            $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
+                $level_priority / $total_priority_orig;
+            $total_priority += $aAds[$key]['priority'];
         }
     } else {
         // Rescale priorities by weights
-        _setPriorityFromWeights($aAds);
+        $total_priority = _setPriorityFromWeights($aAds);
+        $level_priority = 0;
     }
 
     // Seed the random number generator
@@ -585,6 +591,17 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     // Pick a float random number between 0 and 1, inclusive.
     $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
+
+    // Is it higher than the sum of all the priority values?
+    if ($ranweight > $total_priority) {
+        if ($level_priority && $ranweight <= $level_priority) {
+            // Special return value, skip other campaign levels
+            return -1;
+        } else {
+            // No suitable ad found, proceed as usual
+            return;
+        }
+    }
 
     // Perform selection of an ad, based on the random number
     $low = 0;
