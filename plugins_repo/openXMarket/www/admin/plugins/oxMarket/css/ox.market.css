@@ -239,8 +239,8 @@ ul.column li.rejected {
 }
 
 .market-campaign-settings .tableWrapper table td small {
-  margin-top: 2px;
-  display: block;
+  font-size: 11px;
+  padding-left: 1.5em;
 }
 
 /** Top pager */
@@ -318,7 +318,7 @@ ul.column li.rejected {
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
-  width: 13em;
+  width: 20em;
 }
 
 .market-campaign-settings .tableWrapper .tableFooter .tableActions {

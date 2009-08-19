@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -140,8 +140,26 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->assignContentStrings($template);
         
         if (!empty($invalidCpmMessages)) {
-            OA_Admin_UI::queueMessage('Specified CPM values contain errors. In order to ' . 
-                'opt in campaigns to Market, please correct the errors below.', 'local', 'error', 0);
+            $hasCpmRateError = false;
+            $hasEcpmRateError = false;
+            foreach ($invalidCpmMessages as $message) {
+                $hasCpmRateError = $hasCpmRateError || $message[0] == 'compare-rate'; 
+                $hasEcpmRateError = $hasEcpmRateError || $message[0] == 'compare-ecpm'; 
+            }
+            
+            $prefix = '';
+            if ($hasCpmRateError || $hasEcpmRateError) {
+                $model = ($hasCpmRateError ? 'CPM' : '') . 
+                         ($hasCpmRateError && $hasEcpmRateError ? ' / ' : '') .
+                         ($hasEcpmRateError ? 'eCPM' : '');
+                $prefix = 'For your benefit, we require a campaign\'s floor price to be greater ' . 
+                          'than or equal to that campaign\'s ' . $model . '.<br />';
+            } else {
+                $prefix = 'The specified floor prices contain errors. ';
+            }
+            
+            OA_Admin_UI::queueMessage($prefix . 
+                'To opt in campaigns to OpenX Market, please correct the errors below.', 'local', 'error', 0);
             $template->assign('minCpmsInvalid', $invalidCpmMessages);
         } else {
             // Don't show trackers on validation
@@ -185,6 +203,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('page', $bottomPager->getCurrentPageID());
 
         // Counts
+        $template->assign('allSelected', $this->allSelected);
         $template->assign('allMatchingCount', count($this->campaigns));
         $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1, 
             $this->itemsPerPage, true);
@@ -336,7 +355,6 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function validateCpms($campaigns)
     {
-        $valid = true;
         $zero = false;
         $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
         $maxValidator = new OA_Admin_UI_Rule_Max();
@@ -347,12 +365,12 @@ class OX_oxMarket_UI_CampaignsSettings
             //is number
             $valueValid = is_numeric($value);
             
-            $message = $valueValid ?  null : $message = $this->getValidationMessage('format');
+            $message = $valueValid ?  null : $this->getValidationMessage('format');
             
             //is greater than zero
             if ($valueValid) {
                 $valueValid = ($value > 0);
-                $message = $valueValid ?  null : $message = $this->getValidationMessage('too-small');
+                $message = $valueValid ?  null : $this->getValidationMessage('too-small');
             }
             //less than arbitrary maxcpm 
             if ($valueValid) {
@@ -362,7 +380,7 @@ class OX_oxMarket_UI_CampaignsSettings
             //max 2decimal places?
             if ($valueValid) {
                 $valueValid = $decimalValidator->validate($value, 2);
-                $message = $valueValid ?  null : $message = $this->getValidationMessage('format');                
+                $message = $valueValid ?  null : $this->getValidationMessage('format');                
             }
             //not smaller than eCPM or campaigns CPM ('revenue')
             if ($valueValid) {
@@ -384,7 +402,6 @@ class OX_oxMarket_UI_CampaignsSettings
             if (!$valueValid) {
                 $invalidCpms[$campaignId] = $message;
             }
-            $valid = $valid && $valueValid;
         }
         return $invalidCpms;
     }
@@ -394,29 +411,29 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         switch($cause) {
             case 'too-small' : {
-                $message = 'Please provide CPM value greater than zero';
+                $message = 'Please provide a floor price greater than zero';
                 break;
             }
             case 'too-big' : {
-                $message = 'Please provide CPM value smaller than ' . self::formatCpm($this->maxCpm); 
+                $message = 'Please provide a floor price smaller than ' . self::formatCpm($this->maxCpm); 
                 break;
             }
             case 'compare-ecpm' : {
-                $message = "Please provide minimum CPM greater or equal to " . self::formatCpm($value) . " (the campaign's eCPM)."; 
+                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's eCPM)."; 
                 break;
             }
             case 'compare-rate' : {
-                $message = "Please provide minimum CPM greater or equal to " . self::formatCpm($value) . " (the campaign's specified CPM)."; 
+                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's specified CPM)."; 
                 break;
             }
             
             case 'format' : 
             default : {
-                $message = 'Please provide CPM values as decimal numbers with two digit precision'; 
+                $message = 'Please a floor price as a decimal number with two digit precision'; 
             }
         }
         
-        return $message;
+        return array($cause, $message);
     }
     
     

@@ -399,6 +399,7 @@
         	var data = $optIn.elementValues(allowed, ignored);
         	data["action"] = "refresh";
         	var $indicator = $("#loading-indicator").attr("title", "").removeClass("ajax-error").fadeIn(200);
+  		  	$("#thirdLevelTools > div.messagePlaceholder > div.localMessage").hide();
         	$.ajax({
         		data: data,
         		type: 'POST',

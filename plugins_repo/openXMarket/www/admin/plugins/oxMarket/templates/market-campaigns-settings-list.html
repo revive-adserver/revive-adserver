@@ -33,7 +33,7 @@ $Id$
 <input type="hidden" name="order" value="{$order|escape}" />
 <input type="hidden" name="desc" value="{$desc|escape}" />
 {if !empty($pager->links)}
-    <input type="hidden" name="allSelected" value="" id="allSelectedHidden" />
+    <input type="hidden" name="allSelected" value="{if $allSelected}true{/if}" id="allSelectedHidden" />
 {/if}
  
 {if !empty($topPager->links)}
@@ -68,7 +68,7 @@ $Id$
   <thead>
     <tr>
       <th class='first toggleAll'>
-        <input type='checkbox' id="toggleAll" />
+        <input type='checkbox' id="toggleAll"{if $allSelected} checked="checked"{/if} />
       </th>
       <th class="name{if $order == 'name'}{if $desc} sortDown{else} sortUp{/if}{/if}">
         <a href="market-campaigns-settings-list.php?order=name&amp;desc={if $order == 'name' && !$desc}1{else}0{/if}">Campaign</a>
@@ -85,16 +85,16 @@ $Id$
   {/if}
     
   {if !empty($pager->links)}
-  <tbody id="selectAllContainer" class="hide">
+  <tbody id="selectAllContainer"{if !$allSelected} class="hide"{/if}>
     <tr class="header">
       <td colspan="4">
         <div id="selectAllCampaigns" class="selectAllInAccount hide">
           All <em>{$showingCount}</em> campaigns on this page selected. <a href="#">Select all <em>{$allMatchingCount}</em> matching campaigns from this account</a>
         </div>
-        <div id="allSelected" class="selectAllInAccount hide">
+        <div id="allSelected" class="selectAllInAccount{if !$allSelected} hide{/if}">
           All <em>{$allMatchingCount}</em> matching campaigns from this account selected. <a href="#">Clear selection</a>
         </div>
-        {$selectAllExplanation}
+        {if $selectAllExplanation}{$selectAllExplanation}{else}If you opt the selected campaigns into OpenX Market, they will be given the floor prices displayed below.{/if}
       </td>
     </tr>
   </tbody>
@@ -128,7 +128,7 @@ $Id$
                      name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
             {if $minCpmsInvalid[$campaignId]}
               <label class="error" for="cpm{$campaignId}">
-              {$minCpmsInvalid[$campaignId]}
+              {$minCpmsInvalid[$campaignId][1]}
               </label>
             {else}     
               {if $campaign.minCpmCalculated}
