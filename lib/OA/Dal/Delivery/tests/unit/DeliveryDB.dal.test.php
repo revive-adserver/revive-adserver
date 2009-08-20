@@ -476,6 +476,131 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertEqual($aAds[1]['priority'], 0.8);
         $this->assertEqual($aAds[2]['priority'], 0);
     }
+
+    function test_getTotalPrioritiesByCP()
+    {
+        // Test an empty array
+        $aAds = array();
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array();
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array();
+        $this->assertEqual($aResult, $aExpected);
+
+        // Test a single ad at CP 5 with 0.5 priority and pf 1
+        $aAds = array(
+            5 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+        );
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array(
+            5 => 0.5,
+        );
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array(
+            5 => 1,
+        );
+        $this->assertEqual($aResult, $aExpected);
+
+        // Test two ads at CP 1/5 with 0.5 priority and pf 1
+        $aAds = array(
+            1 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+            5 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+        );
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array(
+            1 => 1,
+            5 => 0.5,
+        );
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array(
+            1 => 1,
+            5 => 0.5,
+        );
+        $this->assertEqual($aResult, $aExpected);
+
+        // Test three ads at CP 1/5/10 with 0.5 priority and pf 1 (cp 1 not to be delivered)
+        $aAds = array(
+            1 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 0),
+            ),
+            5 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+            10 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+        );
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array(
+            1  => 1,
+            5  => 0.5 / 0.50001,
+            10 => 0.5 / 1.00001,
+        );
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array(
+            1  => 1,
+            5  => 0.5 / 0.50001,
+            10 => 0.5 / 1.00001,
+        );
+        $this->assertEqual($aResult, $aExpected);
+
+        // Test three ads at CP 5 with 0.3 priority and pf 1,10,100
+        $aAds = array(
+            5 => array(
+                array('priority' => 0.3, 'priority_factor' => 1, 'to_be_delivered' => 1),
+                array('priority' => 0.3, 'priority_factor' => 10, 'to_be_delivered' => 1),
+                array('priority' => 0.3, 'priority_factor' => 100, 'to_be_delivered' => 1),
+            ),
+        );
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array(
+            5  => (0.3 + 3 + 30) / (0.1 + 0.3 + 3 + 30),
+        );
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array(
+            5  => 1,
+        );
+        $this->assertEqual($aResult, $aExpected);
+
+        // Test three ads at CP 1/5/10 with 0.5 priority and decreasing pf (cp 1 not to be delivered)
+        $aAds = array(
+            1 => array(
+                array('priority' => 0.5, 'priority_factor' => 100, 'to_be_delivered' => 0),
+            ),
+            5 => array(
+                array('priority' => 0.5, 'priority_factor' => 10, 'to_be_delivered' => 1),
+            ),
+            10 => array(
+                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
+            ),
+        );
+        $aResult = _getTotalPrioritiesByCP($aAds, true);
+        $aExpected = array(
+            1  => 1,
+            5  => 5 / (5 + 0.00001),
+            10 => 0.5 / (0.5 + 5 + 0.00001),
+        );
+        $this->assertEqual($aResult, $aExpected);
+        $aResult = _getTotalPrioritiesByCP($aAds, false);
+        $aExpected = array(
+            1  => 1,
+            5  => 5 / (5 + 0.00001),
+            10 => 0.5 / (0.5 + 5 + 0.00001),
+        );
+        $this->assertEqual($aResult, $aExpected);
+
+    }
 }
 
 ?>

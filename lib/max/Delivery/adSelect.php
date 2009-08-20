@@ -88,6 +88,16 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+
+/**
+ * A "constant" that is used by _adSelect() to inform the caller _adSelectCommon()
+ * that any other remaining campaign priority levels need to be skipped.
+ *
+ * @var int
+ */
+$GLOBALS['OX_adSelect_SkipOtherPriorityLevels'] = -1;
+
+
 /**
  * This is the main ad selection and rendering function
  *
@@ -474,7 +484,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
                     // Should we skip the next campaign-priority level?
-                    if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
+                    if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) { break; }
                 }
             }
             // If still no ad selected...
@@ -493,7 +503,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) { break; }
                     // Should we skip the next campaign-priority level?
-                    if ($aLinkedAd == -1) { $aLinkedAd = null; break; }
+                    if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) { break; }
                 }
             }
         }
@@ -548,14 +558,20 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     if (count($aAds) == 0) { return; }
 
     if (isset($cp)) {
-        // Calculate total priority
-        $total_priority_orig = 0;
+        // Calculate the sum of all priority values
+        $total_priority = 0;
         foreach ($aAds as $ad) {
-            $total_priority_orig += $ad['priority'] * $ad['priority_factor'];
+            $total_priority += $ad['priority'] * $ad['priority_factor'];
         }
 
         // If thre's no active ad, we can return
-        if (!$total_priority_orig) { return; }
+        if (!$total_priority) { return; }
+
+        // The sum of priority values as previously calculated by _getTotalPrioritiesByCP()
+        // divided by the current total priority is the scaling factor to be used later.
+        // This step is required to compensate the probability when sequential ad selections
+        // are made for various campaign priorities.
+        $scaling_factor = $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
     }
 
     // Build preconditions
@@ -569,12 +585,11 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     if (count($aAds) == 0) { return; }
 
     if (isset($cp)) {
-        // Scale priorities and sum
         $total_priority = 0;
-        $level_priority = $aLinkedAds['priority'][$adArrayVar][$cp];
         foreach ($aAds as $key => $ad) {
-            $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] *
-                $level_priority / $total_priority_orig;
+            // Calculate again the sum of all the scaled priority values after discarding
+            // non matching ads
+            $aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] * $scaling_factor;
             $total_priority += $aAds[$key]['priority'];
         }
     } else {
@@ -590,13 +605,20 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Pick a float random number between 0 and 1, inclusive.
-    $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
+    $random_num = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
 
     // Is it higher than the sum of all the priority values?
-    if ($ranweight > $total_priority) {
-        if ($level_priority && $ranweight <= $level_priority) {
-            // Special return value, skip other campaign levels
-            return -1;
+    if ($random_num > $total_priority) {
+        if ($level_priority && $random_num <= $level_priority) {
+            // Looks like a non-matching campaign would have been selected. We need
+            // to instruct the caller to skip the remaining priority levels.
+            // If we don't do this, their probability would be artificially
+            // increased.
+            //
+            // If we stack up all the probabilities, the result would look like:
+            // 0 <= matching-ads <= non-matching-ads <= 1
+            //
+            return $GLOBALS['OX_adSelect_SkipOtherPriorityLevels'];
         } else {
             // No suitable ad found, proceed as usual
             return;
@@ -610,7 +632,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
         if (!empty($aLinkedAd['priority'])) {
             $low = $high;
             $high += $aLinkedAd['priority'];
-            if ($high > $ranweight && $low <= $ranweight) {
+            if ($high > $random_num && $low <= $random_num) {
                 return $aLinkedAd;
             }
         }
