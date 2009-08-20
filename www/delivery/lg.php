@@ -1908,6 +1908,26 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // (or that follow, when delivery runs through them sequentially).
 // That value can be subsequently used during delivery to rescale
 // priority values so that probability matches the MPE expectations.
+//
+// For example: two campaigns at CP5 and CP4 both with 0.4 priority would
+// be delivered respectively 40% and 24% ((1-0.4)*0.4), which is not what
+// we want. Both should have 40%, so we need to compensate for the lost
+// probability in the following way:
+//
+// $total_priority_cp[3] = 0.4 / 0.6 <- blank + cp3
+// $total_priority_cp[4] = 0.4 / 1 <- blank + cp3 + cp4
+//
+// During a later step of delivery, priority values are calculated as:
+// CP4 priority = 0.4 * 0.4 / 1 / 0.4   = 0.4.
+// If CP4 is not selected:
+// CP3 priority = 0.4 * 0.4 / 0.6 / 0.4 = 0.4/0.6 (~= 0.6667)
+//
+// Probability wise:
+// CP4           = 0.4                         = 40%
+// CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
+// Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
+//
+// Et voil?!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
@@ -1915,7 +1935,7 @@ foreach($total_priority_cp as $campaign_priority => $priority) {
 // Add priority to the accumulator
 $total_priority += $priority;
 if ($total_priority) {
-// Scale total priority of the current priority level
+// Calculate total priority of the current priority level
 $totals[$campaign_priority] = $priority / $total_priority;
 } else {
 // Set total to 0
