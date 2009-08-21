@@ -559,19 +559,24 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     if (isset($cp)) {
         // Calculate the sum of all priority values
-        $total_priority = 0;
+        $total_priority_orig = 0;
         foreach ($aAds as $ad) {
-            $total_priority += $ad['priority'] * $ad['priority_factor'];
+            $total_priority_orig += $ad['priority'] * $ad['priority_factor'];
         }
 
         // If thre's no active ad, we can return
-        if (!$total_priority) { return; }
+        if (!$total_priority_orig) { return; }
 
-        // The sum of priority values as previously calculated by _getTotalPrioritiesByCP()
-        // divided by the current total priority is the scaling factor to be used later.
+        // Get the sum of priority values as previously calculated by _getTotalPrioritiesByCP()
+        $level_priority = $aLinkedAds['priority'][$adArrayVar][$cp];
+
+        // Divide it by the current total priority to get the scaling factor to be used later.
         // This step is required to compensate the probability when sequential ad selections
         // are made for various campaign priorities.
-        $scaling_factor = $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
+        $scaling_factor = $level_priority / $total_priority_orig;
+    } else {
+        // Use 0 level priority for non-contract
+        $level_priority = 0;
     }
 
     // Build preconditions
@@ -595,7 +600,6 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     } else {
         // Rescale priorities by weights
         $total_priority = _setPriorityFromWeights($aAds);
-        $level_priority = 0;
     }
 
     // Seed the random number generator
