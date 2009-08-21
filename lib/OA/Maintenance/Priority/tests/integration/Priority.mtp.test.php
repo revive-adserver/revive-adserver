@@ -152,18 +152,6 @@ class Test_Priority extends UnitTestCase
         // Test 1: Store the date after the MPE runs
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oTest1AfterUpdateDate = new Date();
-        // Test 1: Ensure one row in the data_summary_zone_impression_history table per zone
-        //         and operation interval covered so far by the MPE
-        $this->assertEqual($this->_dszihRows(), $this->intervalsPerWeek * 4);
-        // Test 1: Ensure that the rows in the data_summary_zone_impression_history table
-        //         are corect
-        $oStartDate = new Date('2005-06-08 14:00:00');
-        $oEndDate   = new Date('2005-06-11 23:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-
-        $oStartDate = new Date('2005-06-12 00:00:00');
-        $oEndDate   = new Date('2005-06-15 13:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
         // Test 1: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 1: Ensure correct number of links in the ad_zone_assoc table with priority > 0
@@ -340,26 +328,10 @@ class Test_Priority extends UnitTestCase
         // Test 2: Store the date after the MPE runs
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oTest2AfterUpdateDate = new Date();
-        // Test 2: Ensure one row in the data_summary_zone_impression_history table per zone
-        //         and operation interval covered so far by the MPE
-        $oLastUpdatedTo = new Date('2005-06-15 14:00:00');
-        $oNowUpdatedTo  = new Date('2005-06-15 15:00:00');
-        $oSpan = new Date_Span();
-        $oLastUpdatedToCopy = new Date();
-        $oLastUpdatedToCopy->copy($oLastUpdatedTo);
-        $oNowUpdatedToCopy = new Date();
-        $oNowUpdatedToCopy->copy($oNowUpdatedTo);
-        $oSpan->setFromDateDiff($oLastUpdatedToCopy, $oNowUpdatedToCopy);
-        $hours = $oSpan->toHours();
-        $this->assertEqual($this->_dszihRows(), ($this->intervalsPerWeek + $hours) * 4);
         // Test 2: Ensure that the rows in the data_summary_zone_impression_history table
         //         are corect
-        $oStartDate = new Date('2005-06-08 14:00:00');
-        $oEndDate   = new Date('2005-06-11 23:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-        $oStartDate = new Date('2005-06-12 00:00:00');
-        $oEndDate   = new Date('2005-06-15 13:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
+        $oDate = new Date('2005-06-15 13:00:00');
+        $this->_validateDszihRowsSpecific($oDate);
         $oDate = new Date('2005-06-15 14:00:00');
         $this->_validateDszihRowsSpecific($oDate);
         // Test 2: Ensure correct number of links in the ad_zone_assoc table
@@ -546,20 +518,13 @@ class Test_Priority extends UnitTestCase
         $oNowUpdatedTo2Copy->copy($oNowUpdatedTo2);
         $oSpan->setFromDateDiff($oLastUpdatedTo2Copy, $oNowUpdatedTo2Copy);
         $hours2 = $oSpan->toHours();
-        $this->assertEqual($this->_dszihRows(), ($this->intervalsPerWeek + $hours1 + $hours2) * 4);
+        $this->assertEqual($this->_dszihRows(), 12);
         // Test 3: Ensure that the rows in the data_summary_zone_impression_history table
         //         are corect
-        $oStartDate = new Date('2005-06-08 14:00:00');
-        $oEndDate   = new Date('2005-06-11 23:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-        $oStartDate = new Date('2005-06-12 00:00:00');
-        $oEndDate   = new Date('2005-06-15 13:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
         $oDate = new Date('2005-06-15 14:00:00');
         $this->_validateDszihRowsSpecific($oDate);
         $oStartDate = new Date('2005-06-15 15:00:00');
         $oEndDate   = new Date('2005-06-18 23:00:00');
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
         $oDate = new Date('2005-06-19 00:00:00');
         $this->_validateDszihRowsSpecific($oDate);
         // Test 3: Ensure correct number of links in the ad_zone_assoc table

@@ -74,140 +74,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oDalMaintenancePriority =& $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
 
-    /**
-     * A method to test the _getUpdateTypeRequired() method.
-     *
-     * Requirements:
-     * Test 1: Test when mtceStatsLastRun date is null, mtcePriorityLastRun is null
-     * Test 2: Test when mtceStatsLastRun date is not null, mtcePriorityLastRun is null
-     * Test 3: Test when mtceStatsLastRun date is null, mtcePriorityLastRun is not null
-     * Test 4: Test when mtceStatsLastRun, mtcePriorityLastRun is not null, but current
-     *         and past operation intervals differ
-     * Test 5: Test that when stats last updated before priority last updated, false
-     *         is returned
-     * Test 6: Test that when stats last updated 7 or more days after priority last
-     *         updated, true is returned
-     * Test 7: Test that when stats last updated after priority last update, but
-     *         less than 7 days after, the correct array(s) are returned
-     */
-    function test_getUpdateTypeRequired()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-        // Test 1
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oStatisticsUpdatedToDate = null;
-        $oTask->oPriorityUpdatedToDate   = null;
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        // Test 2
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oStatisticsUpdatedToDate = new Date();
-        $oTask->oPriorityUpdatedToDate   = null;
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        // Test 3
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oStatisticsUpdatedToDate = null;
-        $oTask->oPriorityUpdatedToDate   = new Date();
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        // Test 4
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oStatisticsUpdatedToDate = new Date();
-        $oTask->oPriorityUpdatedToDate   = new Date();
-        $testOperationInterval = $aConf['maintenance']['operationInterval'] + 1;
-        $oTask->priorityOperationInterval = $testOperationInterval;
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        // Test 5
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oDate = new Date();
-        $oTask->oDateNow = new Date();$oDate;
-        $oTask->oDateNow->copy($oDate);
-        $oTask->oStatisticsUpdatedToDate = new Date();
-        $oTask->oStatisticsUpdatedToDate->copy($oDate);
-        $oDate->addSeconds(1);
-        $oTask->oPriorityUpdatedToDate = new Date();
-        $oTask->oPriorityUpdatedToDate->copy($oDate);
-        $oTask->priorityOperationInterval = $aConf['maintenance']['operationInterval'];
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, false);
-        unset($oTask);
-
-        // Test 6
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oDate = new Date();
-        $oTask->oDateNow = new Date();$oDate;
-        $oTask->oDateNow->copy($oDate);
-        $oTask->oStatisticsUpdatedToDate = new Date();
-        $oTask->oStatisticsUpdatedToDate->copy($oDate);
-        $oDate->subtractSeconds(SECONDS_PER_WEEK);
-        $oTask->oPriorityUpdatedToDate = new Date();
-        $oTask->oPriorityUpdatedToDate->copy($oDate);
-        $oTask->priorityOperationInterval = $aConf['maintenance']['operationInterval'];
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oDate = new Date();
-        $oTask->oDateNow = new Date();$oDate;
-        $oTask->oDateNow->copy($oDate);
-        $oTask->oStatisticsUpdatedToDate = new Date();
-        $oTask->oStatisticsUpdatedToDate->copy($oDate);
-        $oDate->subtractSeconds(SECONDS_PER_WEEK + 1);
-        $oTask->oPriorityUpdatedToDate = new Date();
-        $oTask->oPriorityUpdatedToDate->copy($oDate);
-        $oTask->priorityOperationInterval = $aConf['maintenance']['operationInterval'];
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertIdentical($result, true);
-        unset($oTask);
-
-        // Test 7
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oDate = new Date('2006-10-10 12:59:59');
-        $oTask->oDateNow = $oDate;
-        $oTask->oStatisticsUpdatedToDate    = $oDate;
-        $oDate = new Date('2006-10-09 12:59:59');
-        $oTask->oPriorityUpdatedToDate = $oDate;
-        $oTask->priorityOperationInterval = $aConf['maintenance']['operationInterval'];
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertTrue(is_array($result));
-        $this->assertEqual($result[0], 36);
-        $this->assertEqual($result[1], 61);
-        unset($oTask);
-
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oDate = new Date('2006-10-08 12:59:59');
-        $oTask->oDateNow = $oDate;
-        $oTask->oStatisticsUpdatedToDate    = $oDate;
-        $oDate = new Date('2006-10-07 12:59:59');
-        $oTask->oPriorityUpdatedToDate = $oDate;
-        $oTask->priorityOperationInterval = $aConf['maintenance']['operationInterval'];
-        $result = $oTask->_getUpdateTypeRequired();
-        $this->assertTrue(is_array($result));
-        $this->assertEqual($result[0], 156);
-        $this->assertEqual($result[1], 13);
-        unset($oTask);
-    }
 
     /**
      * A method to test the _getOperationIntervalRanges() method.
-     *
-     * Requirements:
-     * Test 1: Test when updating all operation intervals
-     * Test 2: Test when updating all operation intervals
-     * Test 3: Test when updating a single continuous range
-     * Test 4: Test when updating a non-continuous range
      */
     function test_getOperationIntervalRanges()
     {
@@ -217,120 +86,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $intervals = OX_OperationInterval::operationIntervalsPerWeek();
 
         // Test 1
-        $oDate = new Date('2006-10-07 23:07:01');
+        $oDate = new Date('2009-08-20 21:10:00');
         $oServiceLocator->register('now', $oDate);
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $type = true;
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), $intervals);
-        $oStartDate = new Date('2006-10-01 00:00:00');
-        $oEndDate   = new Date('2006-10-01 00:59:59');
-        for ($count = 0; $count < $intervals; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate);
-            $this->assertEqual($result[0][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
-        unset($oTask);
-
-        $oDate = new Date('2006-10-08 23:07:01');
-        $oServiceLocator->register('now', $oDate);
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $type = true;
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertTrue(is_array($result[1]));
-        $this->assertEqual(count($result[0]) + count($result[1]), $intervals);
-        $oStartDate = new Date('2006-10-02 00:00:00');
-        $oEndDate   = new Date('2006-10-02 00:59:59');
-        for ($count = 24; $count < $intervals; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate);
-            $this->assertEqual($result[0][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
-        for ($count = 0; $count < count($result[1]); $count++) {
-            $this->assertEqual($result[1][$count]['start'], $oStartDate);
-            $this->assertEqual($result[1][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
-        unset($oTask);
-
-        // Test 2
-        $oDate = new Date('2006-10-07 23:07:01');
-        $oServiceLocator->register('now', $oDate);
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $type = false;
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
-        unset($oTask);
-
-        $oDate = new Date('2006-10-08 23:07:01');
-        $oServiceLocator->register('now', $oDate);
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $type = false;
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
-        unset($oTask);
-
-        // Test 3
-        $oDate = new Date('2006-10-07 23:07:01');
-        $oServiceLocator->register('now', $oDate);
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oPriorityUpdatedToDate = new Date('2006-10-08 00:59:59');
-        $oTask->oPriorityUpdatedToDate->addSeconds(23 * OX_OperationInterval::secondsPerOperationInterval());
-        $type = array(23, 56);
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 33);
-        $oStartDate = new Date('2006-10-09 00:00:00');
-        $oEndDate   = new Date('2006-10-09 00:59:59');
-        for ($count = 24; $count < 57; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate);
-            $this->assertEqual($result[0][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
-        unset($oTask);
-
-        // Test 4
-        $oDate = new Date('2006-10-08 23:07:01');
-        $oServiceLocator->register('now', $oDate);
-        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->oPriorityUpdatedToDate = new Date('2006-10-01 00:59:59');
-        $oTask->oPriorityUpdatedToDate->addSeconds(112 * OX_OperationInterval::secondsPerOperationInterval());
-        $type = array(112, 23);
-        $result = $oTask->_getOperationIntervalRanges($type);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 55);
-        $this->assertTrue(is_array($result[1]));
-        $this->assertEqual(count($result[1]), 24);
-        $oStartDate = new Date('2006-10-05 17:00:00');
-        $oEndDate   = new Date('2006-10-05 17:59:59');
-        for ($count = 113; $count < 168; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate);
-            $this->assertEqual($result[0][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
-        for ($count = 0; $count < 24; $count++) {
-            $this->assertEqual($result[1][$count]['start'], $oStartDate);
-            $this->assertEqual($result[1][$count]['end'], $oEndDate);
-            $oStartDate->addSeconds(SECONDS_PER_HOUR);
-            $oEndDate->addSeconds(SECONDS_PER_HOUR);
-        }
+        $result = $oTask->_getOperationIntervalRanges();
+        $expected = array( 
+            'intervalId' => 117,
+            'dates' => array(
+            	'start' => new Date('2009-08-20 21:00:00'),
+            	'end'   => new Date('2009-08-20 21:59:59'),
+            )
+        );
+        $this->assertEqual( $result, $expected );     
         unset($oTask);
 
         TestEnv::restoreConfig();
@@ -338,4 +105,3 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
 
 }
 
-?>
