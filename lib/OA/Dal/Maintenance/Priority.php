@@ -49,18 +49,6 @@ define('DAL_PRIORITY_UPDATE_ZIF',                   0);
 define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
 define('DAL_PRIORITY_UPDATE_ECPM', 2);
 
-// Set the default number of impressions to use as a forecast value when there
-// is simply no other data to use for calculation of forecasts, based on an
-// operation interval of 60 minutes (the value will be reduced for smaller
-// operation intervals)
-if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS')) {
-    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 1000);
-}
-// Set the minimum value of an operation interval's zone impression forecast,
-// even when using operation intervals less than 60 minutes
-if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM')) {
-    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM', 10);
-}
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the
  * Maintenance Priority Engine (MPE).
@@ -145,7 +133,45 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         return $this->getProcessLastRunInfo($table, $aFields, $whereClause);
     }
-
+    
+    /*
+     * Set the minimum value of an operation interval's zone impression forecast,
+     * even when using operation intervals less than 60 minutes
+     */
+    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM = 10;
+    
+    /*
+     * Set the default number of impressions to use as a forecast value when there
+     * is simply no other data to use for calculation of forecasts, based on an
+     * operation interval of 60 minutes (the value will be reduced for smaller OIs 
+     */
+    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 1000;
+    
+    /*
+     * Returns the default minimum value for a forecast for a zone in one OI
+     * 
+     * @return int 
+     */
+    function getZoneForecastDefaultZoneImpressionsMinimum()
+    {
+        return self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
+    }
+    
+    /*
+     * Returns the default forecast to use, for a given zone in a given OI.
+     * 
+     * @return int Number of impressions 
+     */
+    function getZoneForecastDefaultZoneImpressions()
+    {
+        $multiplier = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 60;
+        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
+        if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < $this->getZoneForecastDefaultZoneImpressionsMinimum()) {
+            $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = $this->getZoneForecastDefaultZoneImpressionsMinimum();
+        }
+        return $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
+    }
+    
     /**
      * A method to return an array of Campaign objects.
      *
@@ -2137,29 +2163,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             if (!isset($aResult[$doZones->zoneid])) {
                 // There is no forecast for this zone, set the forecast to the default value
                 $aResult[$doZones->zoneid] = $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
-            } else if ($aResult[$doZones->zoneid] < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
+            } else if ($aResult[$doZones->zoneid] < $this->getZoneForecastDefaultZoneImpressionsMinimum()) {
                 // The forecast for this zone is less than the permitted minimum, set it
                 // to the minimum permitted value
-                $aResult[$doZones->zoneid] = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
+                $aResult[$doZones->zoneid] = $this->getZoneForecastDefaultZoneImpressionsMinimum();
             }
         }
         // Return the result
         return $aResult;
-    }
-    
-    /*
-     * Returns the default forecast to use, for a given zone in a given OI.
-     * 
-     * @return int Number of impressions 
-     */
-    function getZoneForecastDefaultZoneImpressions()
-    {
-        $multiplier = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 60;
-        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
-        if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
-            $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
-        }
-        return $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
     }
 
     /**

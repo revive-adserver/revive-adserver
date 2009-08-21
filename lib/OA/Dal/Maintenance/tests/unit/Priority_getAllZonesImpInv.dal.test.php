@@ -51,6 +51,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    
     /**
      * A method to generate data for testing.
      *
@@ -107,6 +108,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+        $zoneForecastDefaultZoneImpressions = $oMaxDalMaintenance->getZoneForecastDefaultZoneImpressions();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -120,7 +122,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 1); // Zone 0
         $this->assertEqual($result[0]['zone_id'], 0);
-        $this->assertEqual($result[0]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[0]['forecast_impressions'], $zoneForecastDefaultZoneImpressions);
         $this->assertEqual($result[0]['actual_impressions'], 0);
 
         // Test 3
@@ -142,7 +144,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 1); // Zone 0
         $this->assertEqual($result[0]['zone_id'], 0);
-        $this->assertEqual($result[0]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[0]['forecast_impressions'], $zoneForecastDefaultZoneImpressions);
         $this->assertEqual($result[0]['actual_impressions'], 0);
 
         $oDate =& $oServiceLocator->get('now');
@@ -181,7 +183,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
         $this->assertEqual($result[0]['zone_id'], 0);
-        $this->assertEqual($result[0]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[0]['forecast_impressions'], $zoneForecastDefaultZoneImpressions);
         $this->assertEqual($result[0]['actual_impressions'], 0);
 
         $oDate =& $oServiceLocator->get('now');
@@ -224,10 +226,10 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
         $this->assertEqual($result[3]['zone_id'], 3);
-        $this->assertEqual($result[3]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[3]['forecast_impressions'], $zoneForecastDefaultZoneImpressions);
         $this->assertEqual($result[3]['actual_impressions'], 0);
         $this->assertEqual($result[0]['zone_id'], 0);
-        $this->assertEqual($result[0]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[0]['forecast_impressions'], $zoneForecastDefaultZoneImpressions);
         $this->assertEqual($result[0]['actual_impressions'], 0);
         DataGenerator::cleanUp();
     }

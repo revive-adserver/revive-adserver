@@ -98,6 +98,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $storedForecasts   = $doData_summary_zone_impression_history->getRowCount();
         $expectedForecasts = OX_OperationInterval::operationIntervalsPerWeek() * 1;
         $this->assertEqual($storedForecasts, $expectedForecasts);
+        
+        
+        $oDal = new OA_Dal_Maintenance_Priority();
+        $this->zoneForecastDefaultZoneImpressions = $oDal->getZoneForecastDefaultZoneImpressions();
+        
         // For the Zone ID 0 zone...
         for ($zoneId = 0; $zoneId < 1; $zoneId++) {
             // Set the start date and start operation interval ID based on the
@@ -118,7 +123,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 $this->assertEqual($aRow['operation_interval_id'], $operationIntervalId);
                 $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                 $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-                $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+                $this->assertEqual($aRow['forecast_impressions'], $this->zoneForecastDefaultZoneImpressions);
                 $this->assertEqual($aRow['actual_impressions'], '');
                 // Move on to the next operation interval start date and ID
                 $aDates = OX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
@@ -205,7 +210,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                     'interval_start' => $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
                     'interval_end' => $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
                     'zone_id' => (string)$zoneId,
-                    'forecast_impressions' => (string)ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                    'forecast_impressions' => (string)$this->zoneForecastDefaultZoneImpressions,
                     'actual_impressions' => '',
                 );
                 // Move on to the next operation interval start date and ID
@@ -317,7 +322,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 if ($aRow['zone_id'] == $idZoneFirst) {
                     $this->assertEqual($aRow['forecast_impressions'], 2000);
                 } else {
-                    $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+                    $this->assertEqual($aRow['forecast_impressions'], $this->zoneForecastDefaultZoneImpressions);
                 }
                 if (($aRow['zone_id'] == $idZoneFirst) && ($aRow['operation_interval_id'] == 63)) {
                     $this->assertEqual($aRow['actual_impressions'], 2000);
@@ -365,7 +370,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $this->assertEqual($aRow['operation_interval_id'], $operationIntervalId);
             $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
             $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+            $this->assertEqual($aRow['forecast_impressions'], $this->zoneForecastDefaultZoneImpressions);
             $this->assertEqual($aRow['actual_impressions'], '');
         }
     }
@@ -402,7 +407,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $this->assertEqual($aRow['operation_interval_id'], $operationIntervalId);
             $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
             $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($aRow['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+            $this->assertEqual($aRow['forecast_impressions'], $this->zoneForecastDefaultZoneImpressions);
             $this->assertEqual($aRow['actual_impressions'], '');
         }
     }

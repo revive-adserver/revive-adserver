@@ -25,12 +25,6 @@
 $Id$
 */
 
-// This test was written with a ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS value
-// of 10 in mind. As a result, this needs to be defined at the start of the
-// test to ensure that the current version of the constant, defined in the
-// ZIF class, is not used instead
-define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 10);
-
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
@@ -55,6 +49,12 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
     {
         $this->UnitTestCase();
     }
+    
+    function setUp()
+    {
+        // This test was written with a ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS value of 10 in mind. 
+        OA_Dal_Maintenance_Priority::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 10;
+    }
 
     /**
      * The method to test the getZoneImpressionForecasts() method.
@@ -78,6 +78,7 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
+        $this->zoneForecastDefaultZoneImpressions = $oDal->getZoneForecastDefaultZoneImpressions();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -97,8 +98,8 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
-        $this->assertEqual($result[$aZoneIds[0]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
-        $this->assertEqual($result[$aZoneIds[1]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[$aZoneIds[0]], $this->zoneForecastDefaultZoneImpressions);
+        $this->assertEqual($result[$aZoneIds[1]], $this->zoneForecastDefaultZoneImpressions);
 
         $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
@@ -113,8 +114,8 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
-        $this->assertEqual($result[$aZoneIds[0]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS + 20);
-        $this->assertEqual($result[$aZoneIds[1]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS + 40);
+        $this->assertEqual($result[$aZoneIds[0]], $this->zoneForecastDefaultZoneImpressions + 20);
+        $this->assertEqual($result[$aZoneIds[1]], $this->zoneForecastDefaultZoneImpressions + 40);
 
         $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
@@ -129,8 +130,8 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
-        $this->assertEqual($result[$aZoneIds[0]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
-        $this->assertEqual($result[$aZoneIds[1]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS + 40);
+        $this->assertEqual($result[$aZoneIds[0]], $this->zoneForecastDefaultZoneImpressions);
+        $this->assertEqual($result[$aZoneIds[1]], $this->zoneForecastDefaultZoneImpressions + 40);
 
         $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
@@ -148,9 +149,9 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 3);
-        $this->assertEqual($result[$aZoneIds[0]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
-        $this->assertEqual($result[$aZoneIds[1]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS + 40);
-        $this->assertEqual($result[$aZoneIds[2]], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+        $this->assertEqual($result[$aZoneIds[0]], $this->zoneForecastDefaultZoneImpressions);
+        $this->assertEqual($result[$aZoneIds[1]], $this->zoneForecastDefaultZoneImpressions + 40);
+        $this->assertEqual($result[$aZoneIds[2]], $this->zoneForecastDefaultZoneImpressions);
         DataGenerator::cleanUp();
 
     }
@@ -188,7 +189,7 @@ class Test_OA_Dal_Maintenance_Priority_getZoneImpressionForecasts extends UnitTe
         $this->doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $this->doHist->zone_id = $idZone;
-        $this->doHist->forecast_impressions = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS + $adjustment;
+        $this->doHist->forecast_impressions = $this->zoneForecastDefaultZoneImpressions + $adjustment;
         $idHist = DataGenerator::generateOne($this->doHist);
     }
 

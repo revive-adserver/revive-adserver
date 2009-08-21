@@ -25,12 +25,6 @@
 $Id$
 */
 
-// This test was written with a ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS value
-// of 10 in mind. As a result, this needs to be defined at the start of the
-// test to ensure that the current version of the constant, defined in the
-// ZIF class, is not used instead
-define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 10);
-
 require_once MAX_PATH . '/variables.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
@@ -99,6 +93,9 @@ class Test_Priority extends UnitTestCase
 
         // Discover the number of operation intervals per week
         $this->intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
+        
+        // This test was written with a ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS value of 10 in mind.
+        OA_Dal_Maintenance_Priority::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 10;
     }
 
     /**
@@ -818,6 +815,8 @@ class Test_Priority extends UnitTestCase
         while($aRow = $rc->fetchRow()) {
             $aData[] = $aRow;
         }
+        $priority = new OA_Dal_Maintenance_Priority;
+        $zoneForecastDefaultZoneImpressions = $priority->getZoneForecastDefaultZoneImpressions();
         $aExpectedData = array();
         for ($counter = $startOperationIntervalID; $counter <= $endOperationIntervalID; $counter++) {
             for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
@@ -830,7 +829,7 @@ class Test_Priority extends UnitTestCase
                 	'interval_start' => $oTestStartDate->format('%Y-%m-%d %H:%M:%S'),
                 	'interval_end' => $oTestEndDate->format('%Y-%m-%d %H:%M:%S'),
                 	'zone_id' => (string)$zoneID,
-                	'forecast_impressions' => (string)ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                	'forecast_impressions' => (string)$zoneForecastDefaultZoneImpressions,
                 	'actual_impressions' => null,
                 );
             }
