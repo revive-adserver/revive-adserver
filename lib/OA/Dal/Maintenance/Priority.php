@@ -49,6 +49,18 @@ define('DAL_PRIORITY_UPDATE_ZIF',                   0);
 define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
 define('DAL_PRIORITY_UPDATE_ECPM', 2);
 
+// Set the default number of impressions to use as a forecast value when there
+// is simply no other data to use for calculation of forecasts, based on an
+// operation interval of 60 minutes (the value will be reduced for smaller
+// operation intervals)
+if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS')) {
+    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 1000);
+}
+// Set the minimum value of an operation interval's zone impression forecast,
+// even when using operation intervals less than 60 minutes
+if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM')) {
+    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM', 10);
+}
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the
  * Maintenance Priority Engine (MPE).
@@ -557,7 +569,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 if (!isset($aResult[$aRow['zone_id']])) {
                     $aResult[$aRow['zone_id']] = array(
                     'zone_id'               => $aRow['zone_id'],
-                    'forecast_impressions'  => ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                    'forecast_impressions'  => $this->getZoneForecastDefaultZoneImpressions(),
                     'actual_impressions'    => 0
                     );
                 }
@@ -2105,11 +2117,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $aResult = array();
         // Prepare the default zone impression forecast value
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-        $multiplier = $aConf['maintenance']['operationInterval'] / 60;
-        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
-        if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
-            $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
-        }
+        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = $this->getZoneForecastDefaultZoneImpressions();
         // Get the zone impression forecasts for the current operation interval, where they exist
         $currentOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aCurrentDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
@@ -2137,6 +2145,21 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Return the result
         return $aResult;
+    }
+    
+    /*
+     * Returns the default forecast to use, for a given zone in a given OI.
+     * 
+     * @return int Number of impressions 
+     */
+    function getZoneForecastDefaultZoneImpressions()
+    {
+        $multiplier = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 60;
+        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
+        if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
+            $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
+        }
+        return $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
     }
 
     /**
@@ -2239,7 +2262,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     /**
      * A method to return the forcast impressions for a zone, indexed by operation interval,
      * from the current operation interval through the past week. If no forecast stored in
-     * the database, uses the defualt value from the configuration file.
+     * the database for a given OI, uses average of forecasts found.
      *
      * @param integer $zoneId The Zone ID.
      * @return mixed An array on success, false on failure. The array is of the format:
@@ -2298,6 +2321,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             ORDER BY
                 interval_start";
             $rc = $this->oDbh->query($query);
+            
+            
+            $totalForecastImpressions = 0;
+            $count = 0;
             if (!(PEAR::isError($rc))) {
                 // Sort the results into an array indexed by the operation interval ID
                 $aFinalResult = array();
@@ -2308,7 +2335,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         'forecast_impressions'  => $aRow['forecast_impressions'],
                         'operation_interval_id' => $aRow['operation_interval_id']
                     );
+                    $count++;
+                    $totalForecastImpressions += $aRow['forecast_impressions'];
                 }
+            }
+            
+            $averageForecastImpressions = 0;
+            if($count > 0) {
+                $averageForecastImpressions = floor($totalForecastImpressions / $count);
+            }
+            if($averageForecastImpressions == 0) { 
+                $averageForecastImpressions = $this->getZoneForecastDefaultZoneImpressions();
             }
             // Check each operation interval ID has a forecast impression value,
             // and if not, set to the system default.
@@ -2316,7 +2353,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 if (!isset($aFinalResult[$operationIntervalID])) {
                     $aFinalResult[$operationIntervalID] = array(
                     'zone_id'               => $zoneId,
-                    'forecast_impressions'  => ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                    'forecast_impressions'  => $averageForecastImpressions,
                     'operation_interval_id' => $operationIntervalID,
                     );
                 }

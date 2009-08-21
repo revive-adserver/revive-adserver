@@ -31,19 +31,6 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
-// Set the default number of impressions to use as a forecast value when there
-// is simply no other data to use for calculation of forecasts, based on an
-// operation interval of 60 minutes (the value will be reduced for smaller
-// operation intervals)
-if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS')) {
-    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 1000);
-}
-// Set the minimum value of an operation interval's zone impression forecast,
-// even when using operation intervals less than 60 minutes
-if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM')) {
-    define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM', 10);
-}
-
 /**
  * A class used to forecast the expected number of impressions in each
  * operation interval, for each zone.
@@ -93,16 +80,6 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
     var $aForecastResults;
 
     /**
-     * A store of the default zone forecast value, as appropriate
-     * to the current operation interval length (the constant
-     * ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS is defined for an
-     * operation interval of 60 minutes).
-     *
-     * @var integer
-     */
-    var $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
-
-    /**
      * The constructor method.
      */
     function OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions()
@@ -125,13 +102,6 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
 
         // Set the results arrays to an empty arrays
         $this->aForecastResults = array();
-
-        // Set the default forecast value
-        $multiplier = $this->aConf['maintenance']['operationInterval'] / 60;
-        $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
-        if ($this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
-            $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
-        }
     }
 
     /**
@@ -244,7 +214,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      *
      * - Uses latest available OI actual_impressions if found
      * - If the zone never served anything, then the expected number of impressions for that
-     *   zone is set to ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS.
+     *   zone is set to the default forecast for a zone .
      *
      * Note also:
      *  - If the zone ID exists in the $this->aNewZoneIDs array, then all operation
@@ -285,7 +255,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 $zoneId,
                 $intervalId,
                 $aInterval,
-                $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS,
+                $this->oDal->getZoneForecastDefaultZoneImpressions(),
                 true
             );
         }

@@ -57,6 +57,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
         $oServiceLocator =& OA_ServiceLocator::instance();
+        
 
         ////////////////////////////////////////////////////////////////////////////////
         // Start off with two zones, but no linked banners, and a clean installation  //

@@ -86,7 +86,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
             $this->assertTrue(is_array($aResult[$operationIntervalID]));
             $this->assertEqual(count($aResult[$operationIntervalID]), 3);
             $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);
-            $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+            $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], $oDal->getZoneForecastDefaultZoneImpressions());
             $this->assertEqual($aResult[$operationIntervalID]['operation_interval_id'], $operationIntervalID);
         }
 
@@ -145,7 +145,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
             } elseif ($operationIntervalID == $secondIntervalID) {
                 $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], 5000);
             } else {
-                $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
+                $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], 4500); // average between both known forecast
             }
             $this->assertEqual($aResult[$operationIntervalID]['operation_interval_id'], $operationIntervalID);
         }
