@@ -8,7 +8,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server Interface</description>
-    <version>1.1.0-rc6</version>
+    <version>1.1.0-rc7</version>
     <oxversion>2.8.2-rc19</oxversion>
     <extends>admin</extends>
     <install>
@@ -154,7 +154,9 @@
                                          
             <!-- End spacer for the 4096 byte boundary -->
             <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
-            <setting key="separateImportStatsScript" type="checkbox" label="Allow run import statistics as separate maintenance script" required="0"  visible="0">@separateImportStatsScript@</setting>
+            <setting key="separateImportStatsScript" type="checkbox" label="Allow run import statistics as separate maintenance script" required="1"  visible="0">@separateImportStatsScript@</setting>
+            <setting key="allowSkipAccountsInImportStats" type="checkbox" label="Allow to skip accounts without local statistics for last 7 days" required="1"  visible="0">@allowSkipAccountsInImportStats@</setting>
+            <setting key="maxSkippingPeriodInDays" type="text" label="Download statistics for skipped account at least every [x] days" required="1"  visible="0">@maxSkippingPeriodInDays@</setting>
         </configuration>
         <schema>
             <mdb2schema>tables_oxMarket</mdb2schema>

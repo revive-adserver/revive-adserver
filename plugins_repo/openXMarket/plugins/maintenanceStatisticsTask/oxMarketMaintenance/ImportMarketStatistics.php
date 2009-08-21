@@ -38,6 +38,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
 class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics extends OX_Maintenance_Statistics_Task
 {
     const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version';
+    
+    const LAST_IMPORT_STATS_DATE = 'last_import_stats_date';
 
     /**
      * Market plugin
@@ -50,6 +52,13 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      * @var bool
      */
     private $calledFromSeparateMaintenace;
+    
+    
+    /**
+     * Array of active accounts returned by getActiveAccounts method
+     * @var array
+     */
+    protected $aActiveAccounts;
     
     /**
      * The constructor method.
@@ -85,12 +94,15 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
                 $last_update = $this->getLastUpdateVersionNumber($accountId);
                 $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
-                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0) {
+                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0
+                    && !$this->shouldSkipAccount($accountId)) {
                     // Download statistics only if there are registered websites
+                    // and account is locally active  
                     do {
                         $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
                         $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
                     } while ($endOfData === false);
+                    $this->setLastUpdateDate($accountId);
                 }
             }
         } catch (Exception $e) {
@@ -240,6 +252,94 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         return ($this->calledFromSeparateMaintenace ==
                 (bool)$GLOBALS['_MAX']['CONF']['oxMarket']['separateImportStatsScript']);
     }
+    
+    
+    /**
+     * Check if given account could be ommited during statistics update (
+     *
+     * @param int $accountId
+     * @return bool true if account doesn't have local stats and can be skipped
+     */
+    protected function shouldSkipAccount($accountId)
+    {
+        $this->initMarketComponent();
+        // check if this is multiple account mode and skipping account is allowed
+        // are statistics collected
+        if($this->oMarketComponent->isMultipleAccountsMode() && 
+           $this->oMarketComponent->getConfigValue('allowSkipAccountsInImportStats') == '1') {
+            $aActiveAccounts = $this->getActiveAccounts();
+            // check if account is inactive
+            if (!isset($aActiveAccounts[$accountId])) {
+                // get date of last stats update for this account 
+                $value = OA_Dal::factoryDO('ext_market_general_pref')
+                 ->findAndGetValue($accountId, self::LAST_IMPORT_STATS_DATE);
+                if (isset($value)) {
+                    $oCurrDate = new Date();
+                    $oUserDate = new Date($value);
+                    $span = new Date_Span();
+                    $span->setFromDateDiff($oCurrDate, $oUserDate);
+                    // if last update was in past x days, skip this account
+                    $skipDays = $this->oMarketComponent->getConfigValue('maxSkippingPeriodInDays');
+                    if ($span->toDays()<$skipDays) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Get array of active accounts
+     * Active account has any local stats in last 7 days period
+     *
+     * @return array array of active accounts
+     */
+    protected function getActiveAccounts()
+    {
+        if (!isset($this->aActiveAccounts)) {
+            $oSumAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+            $oBanners = OA_Dal::factoryDO('banners');
+            $oCampaigns = OA_Dal::factoryDO('campaigns');
+            $oClients = OA_Dal::factoryDO('clients');
+            $oAgency = OA_Dal::factoryDO('agency');
+            $oClients->joinAdd($oAgency);
+            $oCampaigns->joinAdd($oClients);
+            $oBanners->joinAdd($oCampaigns);
+            $oSumAdHourly->joinAdd($oBanners);
+            // check activity one week before now
+            $oDate = new Date();
+            $oDateSpan = new Date_Span();
+            $oDateSpan->setFromDays(7); 
+            $oDate->subtractSpan($oDateSpan); 
+            $oDbh = OA_DB::singleton();
+            $oSumAdHourly->whereAdd('date_time > '.
+                $oDbh->quote($oDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
+            $oSumAdHourly->selectAdd();
+            $oSumAdHourly->selectAdd($oAgency->tableName().'.account_id');
+            $oSumAdHourly->groupBy($oAgency->tableName().'.account_id');
+            $oSumAdHourly->find();
+            $this->aActiveAccounts = array();
+            while($oSumAdHourly->fetch()) {
+                $this->aActiveAccounts[$oSumAdHourly->account_id] = $oSumAdHourly->account_id;
+            }
+        }
+        return $this->aActiveAccounts;
+    }
+    
+    
+    /**
+     * Set last import statistics update date to now
+     *
+     * @param int $accountId
+     */
+    protected function setLastUpdateDate($accountId)
+    {
+        $oCurrDate = new Date();
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $oPluginSettings->insertOrUpdateValue($accountId, 
+                            self::LAST_IMPORT_STATS_DATE, $oCurrDate->getDate());
+    }
 }
-
 ?>

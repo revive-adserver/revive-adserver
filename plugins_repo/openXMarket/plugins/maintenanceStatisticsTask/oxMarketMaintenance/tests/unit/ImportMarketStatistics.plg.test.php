@@ -41,6 +41,7 @@ class MockExceptionPublisherConsoleMarketPluginClient {
     }
 }
 
+
 /**
  * A class for testing the openXMarket
  *
@@ -60,6 +61,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
 
     function tearDown()
     {
+        DataGenerator::cleanUp();
         TestEnv::uninstallPluginPackage('openXMarket',false);
     }
     
@@ -91,336 +93,166 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
+            
+        // Crate admin market association (status disabled)
+        $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $adminAccountId;
+        $doMarketAssoc->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::ACCOUNT_DISABLED_STATUS;
+        DataGenerator::generateOne($doMarketAssoc);
         
-        // get plugin version
-        $oPluginManager = new OX_PluginManager();
-        $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);    
-        $pluginVersion = strtolower($aInfo['version']);
-
-        if (version_compare($pluginVersion, '1.1.0-rc6', '<')) 
-        {
-            // TODO: delete this old tests after release of 1.1.0-rc6 
-            
-            // Crate admin market association
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $adminAccountId;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            
-            // Test when plugin is inactive (for admin account)
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->setReturnValue('isPluginActive', false);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 0);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            // Test when plugin is active but there is no registered websites
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->setReturnValue('isPluginActive', true);
-            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
-            $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
-            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', array());
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            // Test get statistics in two steps
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $response1 = "1\t0\n".
-                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
-            $response2 = "223746234762347623\t1\n".
-                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
-            $websiteUuids = array('website-uuidid1', 'website-uuidid2');
-            $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('1', $websiteUuids));
-            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
-            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->setReturnValue('isPluginActive', true);
-            $oImportMarketStatistics->expectCallCount('isPluginActive', 1);
-            $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
-            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', $websiteUuids);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $aWebsiteStat = $oWebsiteStat->getAll();
-            $this->assertEqual(2, count ($aWebsiteStat));
-            $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
-            $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
-            
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                            ->findAndGetValue($adminAccountId,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('223746234762347623',$lastUpdate);
-            
-            // Clear statistics
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            // clear market association
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            
-            // Test for multiple manager accounts
-            // Prepare managers and websites
-            $aIds = $this->prepareManagersAndWebsites();
-            $accountId1 = (int)$aIds['accountId'][0];
-            $accountId2 = (int)$aIds['accountId'][1];
-            $affiliateId = $aIds['affiliateId'];
-            
-            // Register managers to market
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $accountId1;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $accountId2;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            
-            // Test get statistics
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $response1 = "2\t1\n".
-                        "website-manager1-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
-            $response2 = "1\t1\n".
-                        "website-manager2-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
-            $websiteUuids1 = array('website-manager1-uuidid1');
-            $websiteUuids2 = array('website-manager2-uuidid2');
-            $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids1));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('0', $websiteUuids2));
-            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
-            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($accountId1));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array($accountId2));
-            $oPubConsoleMarketPluginClient->expectAt(2, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 3);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->setReturnValue('isPluginActive', true);
-            $oImportMarketStatistics->expectCallCount('isPluginActive', 2);
-            $oImportMarketStatistics->expectAt(0, 'getRegisteredWebsitesIds', array($accountId1));
-            $oImportMarketStatistics->expectAt(1, 'getRegisteredWebsitesIds', array($accountId2));
-            $oImportMarketStatistics->setReturnValueAt(0, 'getRegisteredWebsitesIds', $websiteUuids1);
-            $oImportMarketStatistics->setReturnValueAt(1, 'getRegisteredWebsitesIds', $websiteUuids2);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 2);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $aWebsiteStat = $oWebsiteStat->getAll();
-            $this->assertEqual(2, count ($aWebsiteStat));
-            $this->assertEqual('website-manager1-uuidid1', $aWebsiteStat[0]['p_website_id']);
-            $this->assertEqual('website-manager2-uuidid2', $aWebsiteStat[1]['p_website_id']);
-            
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                                ->findAndGetValue($accountId1,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('2',$lastUpdate);
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                                ->findAndGetValue($accountId2,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('1',$lastUpdate);
-            
-            // Clear statistics
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            // clear market associations
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-        } else {
-            // for version 1.1.0-rc6
-            
-            // Crate admin market association (status disabled)
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $adminAccountId;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::ACCOUNT_DISABLED_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            
-            // Test when plugin is inactive (for admin account)
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            //$oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 1);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('isPluginActive', 0);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 0);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            // activate admin account
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $adminAccountId;
-            $doMarketAssoc->find();
-            $doMarketAssoc->status =
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            $doMarketAssoc->update();
-            
-            // Test when plugin is active but there is no registered websites
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
-            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', array());
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            // Test get statistics in two steps
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $response1 = "1\t0\n".
-                        "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
-            $response2 = "223746234762347623\t1\n".
-                        "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
-            $websiteUuids = array('website-uuidid1', 'website-uuidid2');
-            $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('1', $websiteUuids));
-            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
-            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
-            $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', $websiteUuids);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $aWebsiteStat = $oWebsiteStat->getAll();
-            $this->assertEqual(2, count ($aWebsiteStat));
-            $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
-            $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
-            
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                            ->findAndGetValue($adminAccountId,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('223746234762347623',$lastUpdate);
-            
-            // Clear statistics
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            // clear market association
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            
-            // Test for multiple manager accounts
-            // Prepare managers and websites
-            $aIds = $this->prepareManagersAndWebsites();
-            $accountId1 = (int)$aIds['accountId'][0];
-            $accountId2 = (int)$aIds['accountId'][1];
-            $affiliateId = $aIds['affiliateId'];
-            
-            // Register managers to market
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $accountId1;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssoc->account_id = $accountId2;
-            $doMarketAssoc->status = 
-                Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-            DataGenerator::generateOne($doMarketAssoc);
-            
-            // Test get statistics
-            $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
-            $response1 = "2\t1\n".
-                        "website-manager1-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
-            $response2 = "1\t1\n".
-                        "website-manager2-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
-            $websiteUuids1 = array('website-manager1-uuidid1');
-            $websiteUuids2 = array('website-manager2-uuidid2');
-            $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids1));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('0', $websiteUuids2));
-            $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
-            $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
-            $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($accountId1));
-            $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array($accountId2));
-            $oPubConsoleMarketPluginClient->expectAt(2, 'setWorkAsAccountId', array(null));
-            $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
-            $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 3);
-            
-            $oImportMarketStatistics = new MockImportMarketStatistics($this);
-            $oImportMarketStatistics->expectAt(0, 'getRegisteredWebsitesIds', array($accountId1));
-            $oImportMarketStatistics->expectAt(1, 'getRegisteredWebsitesIds', array($accountId2));
-            $oImportMarketStatistics->setReturnValueAt(0, 'getRegisteredWebsitesIds', $websiteUuids1);
-            $oImportMarketStatistics->setReturnValueAt(1, 'getRegisteredWebsitesIds', $websiteUuids2);
-            $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 2);
-            $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
-            $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
-            $oImportMarketStatistics->run();
-            
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $aWebsiteStat = $oWebsiteStat->getAll();
-            $this->assertEqual(2, count ($aWebsiteStat));
-            $this->assertEqual('website-manager1-uuidid1', $aWebsiteStat[0]['p_website_id']);
-            $this->assertEqual('website-manager2-uuidid2', $aWebsiteStat[1]['p_website_id']);
-            
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                                ->findAndGetValue($accountId1,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('2',$lastUpdate);
-            $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
-                                ->findAndGetValue($accountId2,
-                Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
-            $this->assertEqual('1',$lastUpdate);
-            
-            // Clear statistics
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-            // clear market associations
-            $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
-            $oWebsiteStat->whereAdd('1=1');
-            $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
-        }
+        // Test when plugin is inactive (for admin account)
+        $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+        //$oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
+        $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array(null));
+        $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
+        $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 1);
+        
+        $oImportMarketStatistics = new MockImportMarketStatistics($this);
+        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+        $oImportMarketStatistics->expectCallCount('isPluginActive', 0);
+        $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 0);
+        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+        $oImportMarketStatistics->run();
+        
+        // activate admin account
+        $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $adminAccountId;
+        $doMarketAssoc->find();
+        $doMarketAssoc->status =
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doMarketAssoc->update();
+        
+        // Test when plugin is active but there is no registered websites
+        $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+        $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
+        $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
+        $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 0);
+        $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
+        
+        $oImportMarketStatistics = new MockImportMarketStatistics($this);
+        $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
+        $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', array());
+        $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
+        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+        $oImportMarketStatistics->run();
+        
+        // Test get statistics in two steps
+        $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+        $response1 = "1\t0\n".
+                    "website-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
+        $response2 = "223746234762347623\t1\n".
+                    "website-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
+        $websiteUuids = array('website-uuidid1', 'website-uuidid2');
+        $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids));
+        $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('1', $websiteUuids));
+        $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
+        $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
+        $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($adminAccountId));
+        $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array(null));
+        $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
+        $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 2);
+        
+        $oImportMarketStatistics = new MockImportMarketStatistics($this);
+        $oImportMarketStatistics->expect('getRegisteredWebsitesIds', array($adminAccountId));
+        $oImportMarketStatistics->setReturnValue('getRegisteredWebsitesIds', $websiteUuids);
+        $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 1);
+        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+        $oImportMarketStatistics->run();
+        
+        
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+        $aWebsiteStat = $oWebsiteStat->getAll();
+        $this->assertEqual(2, count ($aWebsiteStat));
+        $this->assertEqual('website-uuidid1', $aWebsiteStat[0]['p_website_id']);
+        $this->assertEqual('website-uuidid2', $aWebsiteStat[1]['p_website_id']);
+        
+        $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
+                        ->findAndGetValue($adminAccountId,
+            Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+        $this->assertEqual('223746234762347623',$lastUpdate);
+        
+        // Clear statistics
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+        $oWebsiteStat->whereAdd('1=1');
+        $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // clear market association
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
+        $oWebsiteStat->whereAdd('1=1');
+        $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        
+        // Test for multiple manager accounts
+        // Prepare managers and websites
+        $aIds = $this->prepareManagersAndWebsites();
+        $accountId1 = (int)$aIds['accountId'][0];
+        $accountId2 = (int)$aIds['accountId'][1];
+        $affiliateId = $aIds['affiliateId'];
+        
+        // Register managers to market
+        $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $accountId1;
+        $doMarketAssoc->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        DataGenerator::generateOne($doMarketAssoc);
+        $doMarketAssoc = OA_Dal::factoryDO('ext_market_assoc_data');
+        $doMarketAssoc->account_id = $accountId2;
+        $doMarketAssoc->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        DataGenerator::generateOne($doMarketAssoc);
+        
+        // Test get statistics
+        $oPubConsoleMarketPluginClient = new MockPublisherConsoleMarketPluginClient($this);
+        $response1 = "2\t1\n".
+                    "website-manager1-uuidid1\t120\t100\t2009-12-02T01:00:00\t1234\t123.56\t\n";
+        $response2 = "1\t1\n".
+                    "website-manager2-uuidid2\t120\t100\t2009-12-02T02:00:00\t4321\t233.44\t\n";
+        $websiteUuids1 = array('website-manager1-uuidid1');
+        $websiteUuids2 = array('website-manager2-uuidid2');
+        $oPubConsoleMarketPluginClient->expectAt(0, 'getStatistics', array('0', $websiteUuids1));
+        $oPubConsoleMarketPluginClient->expectAt(1, 'getStatistics', array('0', $websiteUuids2));
+        $oPubConsoleMarketPluginClient->setReturnValueAt(0, 'getStatistics',$response1);
+        $oPubConsoleMarketPluginClient->setReturnValueAt(1, 'getStatistics',$response2);
+        $oPubConsoleMarketPluginClient->expectAt(0, 'setWorkAsAccountId', array($accountId1));
+        $oPubConsoleMarketPluginClient->expectAt(1, 'setWorkAsAccountId', array($accountId2));
+        $oPubConsoleMarketPluginClient->expectAt(2, 'setWorkAsAccountId', array(null));
+        $oPubConsoleMarketPluginClient->expectCallCount('getStatistics', 2);
+        $oPubConsoleMarketPluginClient->expectCallCount('setWorkAsAccountId', 3);
+        
+        $oImportMarketStatistics = new MockImportMarketStatistics($this);
+        $oImportMarketStatistics->expectAt(0, 'getRegisteredWebsitesIds', array($accountId1));
+        $oImportMarketStatistics->expectAt(1, 'getRegisteredWebsitesIds', array($accountId2));
+        $oImportMarketStatistics->setReturnValueAt(0, 'getRegisteredWebsitesIds', $websiteUuids1);
+        $oImportMarketStatistics->setReturnValueAt(1, 'getRegisteredWebsitesIds', $websiteUuids2);
+        $oImportMarketStatistics->expectCallCount('getRegisteredWebsitesIds', 2);
+        $oImportMarketStatistics->setReturnValue('getPublisherConsoleApiClient',$oPubConsoleMarketPluginClient);
+        $oImportMarketStatistics->expectCallCount('getPublisherConsoleApiClient', 1);
+        $oImportMarketStatistics->run();
+        
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+        $aWebsiteStat = $oWebsiteStat->getAll();
+        $this->assertEqual(2, count ($aWebsiteStat));
+        $this->assertEqual('website-manager1-uuidid1', $aWebsiteStat[0]['p_website_id']);
+        $this->assertEqual('website-manager2-uuidid2', $aWebsiteStat[1]['p_website_id']);
+        
+        $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
+                            ->findAndGetValue($accountId1,
+            Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+        $this->assertEqual('2',$lastUpdate);
+        $lastUpdate = OA_Dal::factoryDO('ext_market_general_pref')
+                            ->findAndGetValue($accountId2,
+            Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics::LAST_STATISTICS_VERSION_VARIABLE);
+        $this->assertEqual('1',$lastUpdate);
+        
+        // Clear statistics
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
+        $oWebsiteStat->whereAdd('1=1');
+        $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // clear market associations
+        $oWebsiteStat = OA_Dal::factoryDO('ext_market_assoc_data');
+        $oWebsiteStat->whereAdd('1=1');
+        $oWebsiteStat->delete(DB_DATAOBJECT_WHEREADD_ONLY);
     }
     
     function testGetLastUpdateVersionNumber()
@@ -498,6 +330,129 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         $aResult = $oImportMarketStatistics->getRegisteredWebsitesIds(null);
         $expected = array('my-uuid2');
         $this->assertEqual($expected, sort($aResult));
+    }
+    
+    
+    function testShouldSkipAccount()
+    {
+        // We can mockup classes after plugin is installed 
+        require_once dirname(dirname(__FILE__)) . '/util/ImportMarketStatisticsTestTask.php';
+        
+        $oImportMarketStatistics = new ImportMarketStatisticsTestTask();
+        // Prepare test data
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = true;
+        $GLOBALS['_MAX']['CONF']['oxMarket']['allowSkipAccountsInImportStats'] = true;
+        $GLOBALS['_MAX']['CONF']['oxMarket']['maxSkippingPeriodInDays'] = 7;
+        $accountId = 4;
+        $oImportMarketStatistics->setActiveAccounts(array());
+        
+        // didn't update recently this account, skipping not allowed
+        $this->assertFalse($oImportMarketStatistics->shouldSkipAccount($accountId));
+        
+        // set import stats date to 4 days ago
+        $oDate = new Date();
+        $oDate->subtractSpan(new Date_Span(4 * 86400));
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $oPluginSettings->insertOrUpdateValue($accountId, 
+                            ImportMarketStatisticsTestTask::LAST_IMPORT_STATS_DATE, $oDate->getDate());
+                            
+        // now we can skipp account
+        $this->assertTrue($oImportMarketStatistics->shouldSkipAccount($accountId));
+        
+        $GLOBALS['_MAX']['CONF']['oxMarket']['maxSkippingPeriodInDays'] = 3;
+        // allowed period is shorten than last update 
+        $this->assertFalse($oImportMarketStatistics->shouldSkipAccount($accountId));
+        // restore period
+        $GLOBALS['_MAX']['CONF']['oxMarket']['maxSkippingPeriodInDays'] = 7;
+        
+        // account is active
+        $oImportMarketStatistics->setActiveAccounts(array($accountId => $accountId));
+        $this->assertFalse($oImportMarketStatistics->shouldSkipAccount($accountId));
+        // unset active account
+        $oImportMarketStatistics->setActiveAccounts(array());
+        
+        // skipping is not allowed
+        $GLOBALS['_MAX']['CONF']['oxMarket']['allowSkipAccountsInImportStats'] = false; 
+        $this->assertFalse($oImportMarketStatistics->shouldSkipAccount($accountId));
+        // restore setting
+        $GLOBALS['_MAX']['CONF']['oxMarket']['allowSkipAccountsInImportStats'] = true;
+        
+        // this is not MultipleAccountsMode
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = false;
+        $this->assertFalse($oImportMarketStatistics->shouldSkipAccount($accountId));
+    }
+    
+    
+    function testGetActiveAccounts()
+    {
+        // We can mockup classes after plugin is installed 
+        require_once dirname(dirname(__FILE__)) . '/util/ImportMarketStatisticsTestTask.php';
+        
+        // Should get empty list        
+        $oImportMarketStatistics = new ImportMarketStatisticsTestTask();
+        $aResult = $oImportMarketStatistics->getActiveAccounts();
+        $this->assertEqual($aResult, array());
+        
+        // Should use stored value
+        $aTestAccounts = array( 1=>1, 2=>2);
+        $oImportMarketStatistics->setActiveAccounts($aTestAccounts );
+        $aResult = $oImportMarketStatistics->getActiveAccounts();
+        $this->assertEqual($aResult, $aTestAccounts);
+
+        // create test data
+        // create managers, campaigns, banners
+        for ($i=1; $i<=2; $i++) {
+            $doAgency = OA_Dal::factoryDO('agency');
+            $agencyId[$i] = DataGenerator::generateOne($doAgency);
+            $doAgency->get($agencyId[$i]);
+            $accountId[$i] = $doAgency->account_id;
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->agencyid = $agencyId[$i];
+            $clientsId[$i] = DataGenerator::generateOne($doClients);
+            $doCampaigns = OA_Dal::factoryDO('campaigns');
+            $doCampaigns->clientid = $clientsId[$i];
+            $campaignsId[$i] = DataGenerator::generateOne($doCampaigns);
+            $doBanners = OA_Dal::factoryDO('banners');
+            $doBanners->campaignid = $campaignsId[$i];
+            $bannersId[$i] = DataGenerator::generateOne($doBanners);
+        }
+        
+        $oOldDate = new Date();
+        $oOldDate->subtractSpan(new Date_Span(8 * 86400));
+        $oRecentDate = new Date();
+        $oRecentDate->subtractSpan(new Date_Span(3 * 86400));
+            
+        // add stats
+        $doStats = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doStats->date_time = $oOldDate->format('%Y-%m-%d %H:%M:%S');
+        $doStats->ad_id = $bannersId[1];
+        DataGenerator::generateOne($doStats);
+        $doStats = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doStats->date_time = $oRecentDate->format('%Y-%m-%d %H:%M:%S');
+        $doStats->ad_id = $bannersId[2];
+        DataGenerator::generateOne($doStats);
+        
+        $oImportMarketStatistics = new ImportMarketStatisticsTestTask();
+        $aResult = $oImportMarketStatistics->getActiveAccounts();
+        $aExpected = array( $accountId[2] => $accountId[2] );
+        $this->assertEqual($aResult, $aExpected);
+    }
+    
+    
+    function testSetLastUpdateDate()
+    {
+         // We can mockup classes after plugin is installed 
+        require_once dirname(dirname(__FILE__)) . '/util/ImportMarketStatisticsTestTask.php';
+        
+        $oImportMarketStatistics = new ImportMarketStatisticsTestTask();
+        $oImportMarketStatistics->setLastUpdateDate(1);
+                    
+        $value = OA_Dal::factoryDO('ext_market_general_pref')
+                 ->findAndGetValue($accountId, ImportMarketStatisticsTestTask::LAST_IMPORT_STATS_DATE);
+        $oDate = new Date($value);
+        $oSpan = new Date_Span();
+        $oSpan->setFromDateDiff(new Date(), $oDate);
+        $this->assertTrue($oSpan->toSeconds()<5);
     }
     
     private function prepareManagersAndWebsites()
