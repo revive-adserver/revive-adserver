@@ -911,6 +911,11 @@ body.hasGradient #firstLevelContent {
     
     -width: 0%;
 }
+#thirdLevelTools .contextContainer .dropDown span {
+  top: 0px;
+  line-height: 26px;
+  height: 26px;
+}
 #thirdLevelTools .dropDown span span {
     display: block;
     background-position: right -32px;
@@ -950,7 +955,9 @@ body.hasGradient #firstLevelContent {
 	right: 0;
 	margin-top: 6px;
 }
-
+#thirdLevelTools .contextContainer .alignRight .dropDown div.panel {
+  margin-top: 4px;
+}
 
 #thirdLevelTools .dropDown.active div.panel {
     display: block;
