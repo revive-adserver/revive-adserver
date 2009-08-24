@@ -313,6 +313,10 @@ ul.column li.rejected {
 }
 
 /** tag end **/
+.market-campaign-settings .tableWrapper th.toggleAll {
+  width: 2em;
+}
+
 .market-campaign-settings .tableWrapper th.mkt-status {
   width: 14em;
 }

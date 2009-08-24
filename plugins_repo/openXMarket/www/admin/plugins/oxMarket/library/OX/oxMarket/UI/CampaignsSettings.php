@@ -223,6 +223,9 @@ class OX_oxMarket_UI_CampaignsSettings
         // For validation
         $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
         
+        // For context help
+        $template->assign('defaultMinCpm', $this->defaultMinCpm);
+        
         // Plugin version for CSS/JS versioning
         $template->assign('pluginVersion', $this->getPluginVersion());
     }
@@ -429,7 +432,7 @@ class OX_oxMarket_UI_CampaignsSettings
             
             case 'format' : 
             default : {
-                $message = 'Please a floor price as a decimal number with two digit precision'; 
+                $message = 'Please provide a floor price as a decimal number with two digit precision'; 
             }
         }
         

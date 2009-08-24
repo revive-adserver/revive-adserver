@@ -51,9 +51,11 @@ $Id$
     <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" alt="OpenX Market competes with your campaigns to provide you with higher paying ads" />
     <h3>Opting in your campaigns to OpenX Market</h3>
     <p>
-      OpenX Market competes with your campaigns to provide you with higher paying ads. 
-      Select which campaigns to opt in and set a floor price for each one. OpenX Market 
-      must pay higher than the floor or the campaign's original ad is served.
+      OpenX Market competes with your campaigns to provide higher paying ads. When you 
+      opt in a campaign, OpenX Market will serve an ad only if it can pay higher than the 
+      floor price you assign, otherwise the campaign's original ad is served. By default, 
+      the floor price is set to the campaign's specified CPM or eCPM. If these are 
+      unavailable, a default floor price of ${$defaultMinCpm|escape} USD is used.    
     </p>
     <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
     CPM it is already earning.
@@ -94,7 +96,7 @@ $Id$
         <div id="allSelected" class="selectAllInAccount{if !$allSelected} hide{/if}">
           All <em>{$allMatchingCount}</em> matching campaigns from this account selected. <a href="#">Clear selection</a>
         </div>
-        {if $selectAllExplanation}{$selectAllExplanation}{else}If you opt the selected campaigns into OpenX Market, they will be given the floor prices displayed below.{/if}
+        {$selectAllExplanation}
       </td>
     </tr>
   </tbody>

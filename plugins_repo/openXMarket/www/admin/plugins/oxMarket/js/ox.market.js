@@ -443,7 +443,7 @@
         function installHelp() {
             $("#market-cpm-callout").help({
                 'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
-                'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500
+                'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500 + ($.browser.msie ? 10 : 0)
                 }
             );
             if ($.browser.msie && $.browser.version < 7) {
