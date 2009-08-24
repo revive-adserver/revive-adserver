@@ -277,7 +277,62 @@
             return $eCPMSpan.length > 0 && $eCPMSpan.height() > 0;        
         }
     });
-  };
+  }
+  
+  $.fn.zoneMarket = function(options) {
+    return this.each(function() {
+        var defaults = {
+            enableMarketId: "enable_mktplace"
+        };
+        var settings = $.extend({}, defaults, options);
+        
+        $marketCheckbox = $('#' + settings.enableMarketId);
+        $customSizeRadio = $('#size-c');
+        $definedSizeRadio = $('#size-d');
+        $widthField = $('#width');
+        $heightField = $('#height');
+        $bannerZoneRadio = $('#delivery-b');
+        $typeRadios = $('input[name=delivery]');
+        $sizetypeRadios = $('input[sizetype]');
+        $sizeSelect = $('#size');
+        
+        init();
+        
+        function init()
+        {
+            $sizetypeRadios.change(updateMarketOptinAvailability);
+            $widthField.keyup(updateMarketOptinAvailability);
+            $heightField.keyup(updateMarketOptinAvailability);
+            $typeRadios.change(updateMarketOptinAvailability);
+            $sizeSelect.change(updateMarketOptinAvailability);
+            
+            if ($.browser.msie) {
+                $typeRadios.click(updateMarketOptinAvailability);
+                $sizetypeRadios.click(updateMarketOptinAvailability);
+            }
+            
+            
+            updateMarketOptinAvailability();
+        }
+        
+        function updateMarketOptinAvailability()
+        {
+            //market work for banner zone with width and height specified
+            if ($bannerZoneRadio.attr("checked") != true ||  //if other than banner zone is selected 
+                (
+                    ($customSizeRadio.attr("checked") == true || ($definedSizeRadio.attr('checked') == true && $sizeSelect.val() == '-'))  //if  custom size is choosen 
+                    && ($.trim($widthField.val()) == '*' || $.trim($heightField.val()) == '*')
+                )) { //and width or height is set to *
+                $marketCheckbox.attr('disabled', true);
+                
+            }
+            else {
+                $marketCheckbox.attr('disabled', false);
+             }
+        }
+    });
+  }
+      
 })(jQuery);
 
 

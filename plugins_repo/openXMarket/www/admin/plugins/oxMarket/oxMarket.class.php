@@ -31,13 +31,15 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 require_once MAX_PATH. '/lib/JSON/JSON.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once MAX_PATH . '/lib/OA.php';
 
 require_once dirname(__FILE__) . '/var/config.php';
 require_once dirname(__FILE__) . '/pcApiClient/oxPublisherConsoleMarketPluginClient.php';
+require_once dirname(__FILE__) . '/library/OX/oxMarket/Dal/ZoneOptIn.php';
+require_once dirname(__FILE__) . '/library/OX/oxMarket/UI/EntityFormManager.php';
+
 
 define('OWNER_TYPE_AFFILIATE',  0);
 define('OWNER_TYPE_CAMPAIGN',   1);
@@ -63,214 +65,184 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @var Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public $oMarketPublisherClient;
+    
+    /**
+     * A manager for forms enhanced by market plugin
+     *
+     * @var OX_oxMarket_UI_EntityFormManager
+     */
+    private $oEntityFormManager;
+    
+    
+    /**
+     * An instance of DAL for zone opt in
+     *
+     * @var OX_oxMarket_Dal_ZoneOptIn
+     */
+    private $zoneOptInDal;
+    
 
-    function __construct()
+    public function __construct()
     {
         $this->oMarketPublisherClient =
             new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient(
                     $this->isMultipleAccountsMode());
+                    
+        $this->oFormManager = new OX_oxMarket_UI_EntityFormManager($this);                    
     }
     
 
-    function afterPricingFormSection(&$form, $campaign, $newCampaign)
+    public function afterLogin()
     {
-        if (!$this->isActive()) {
-            $this->afterPricingFormSectionForInactive($form, $campaign, $newCampaign);
+        // Try to link hosted accounts for current user
+        $this->linkHostedAccounts();
+        
+        // If the user is manager or admin try to show him the OpenX Market Settings
+        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
+            $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
+
+            $this->setMarketSettingsAlreadyShown();
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
+            exit;
+        }
+
+        // Show only to unregistered users and... 
+        if ($this->isRegistered()) {
+            return;
+        }
+         
+        if ($this->isMultipleAccountsMode()) { 
+            // ... and those who are logged as manager (multiple accounts mode)
+            if (OA_Permission::isUserLinkedToAdmin() || !OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                return;
+            }
+        } 
+        elseif (!OA_Permission::isUserLinkedToAdmin()) {
+            // ... and those who are linked to admin (normal mode)
             return;
         }
 
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->scheduleRegisterNotification();
 
-        $defaultFloorPrice = !empty($aConf['oxMarket']['defaultFloorPrice'])
-            ? (float) $aConf['oxMarket']['defaultFloorPrice']
-            : NULL;
-        $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);
-        $maxFloorPriceValue = $this->getMaxFloorPrice();
-        
-        //register custom floor price vs CPM check jquery rule adaptors
-        $form->registerRule('floor_price_compare', 'rule', 'OX_oxMarket_UI_rule_FloorPriceCompare',
-            dirname(__FILE__).'/library/OX/oxMarket/UI/rule/FloorPriceCompare.php');
-
-        $form->registerJQueryRuleAdaptor('floor_price_compare', 
-            dirname(__FILE__).'/library/OX/oxMarket/UI/rule/QuickFormFloorPriceCompareRuleAdaptor.php',
-            'OX_oxMarket_UI_rule_JQueryFloorPriceCompareRule');        
-
-        $aFields = array(
-            'mkt_is_enabled' => 'f',
-            'floor_price' => $defaultFloorPrice
-        );
-        $dboExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
-        if ($dboExt_market_campaign_pref->get($campaign['campaignid'])) {
-            $aFields = array(
-                'mkt_is_enabled' => $dboExt_market_campaign_pref->is_enabled ? 't' : 'f',
-                'floor_price' => !empty($dboExt_market_campaign_pref->floor_price) ? (float) $dboExt_market_campaign_pref->floor_price : ''
-            );
+        // Only splash if not shown already
+        if (empty($GLOBALS['installing']) && !$this->isSplashAlreadyShown()) {
+            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
+            exit;
         }
-        $aFields['floor_price'] = $this->formatCpm($aFields['floor_price']);
+    }    
+    
+    
+    public function onEnable()
+    {
+        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
+            $this->scheduleRegisterNotification();
+        }
 
-        $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
+        try {
+            // Run registerwebsites script as background process
+            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/market-run-registerwebsites.php');
+            $ctx = stream_context_create(array('http' => array(
+                   'method' => 'POST',
+                   'header' => "Cookie: sessionID=".$_COOKIE['sessionID']."\r\n")));
+            $fp = @fopen($url, 'rb', false, $ctx);
+            if ($fp) {
+                stream_set_timeout($fp, 1); // 1s timeout
+                stream_get_contents($fp); 
+            } else {
+                // register 10 websites if can't run background script 
+                $this->initialUpdateWebsites();
+            }
+        } catch (Exception $e) {
+            OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
+        }
+        return true; // we allow to enable plugin
+    }
 
-        $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->translate("Allow OpenX Market to show ads for this campaign if it beats the CPM below (RECOMMENDED)"), array('id' => 'enable_mktplace'), array("f", "t"));
-        $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
-        $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
-        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
-        $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price', 'maxlength' => 3 + strlen($maxFloorPriceValue)));
-        $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', '<label for="floor_price">'.$this->translate("USD").'</label>');
-        $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
-        $form->addGroup($aFloorPrice, 'floor_price_group', '');
-        $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
-            array('defaultFloorPrice' => $defaultFloorPrice,
-                'floorValidationRateMessage' => $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."), 
-                'floorValidationECPMMessage' => $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.") 
-            ));
+    public function onDisable()
+    {
+        $this->removeRegisterNotification();
 
-        
-        //in order to get conditional validation, check if it is POST 
-        //and if market was enabled and add group rules
-        if (isset($_POST['mkt_is_enabled']) && $_POST['mkt_is_enabled'] == 't') { 
-            //Form validation rules
-            $form->addGroupRule('floor_price_group', array(
-                'floor_price' => array(
-                    array($this->translate('%s is required', array($this->translate('Campaign floor price'))), 'required'),
-                    array($this->translate("%s must be a minimum of at least 0.01", array($this->translate('Campaign floor price'))), 'min', 0.01),
-                    array($this->translate("Must be a decimal with maximum %s decimal places", array('2')), 'decimalplaces', 2),
-                    array($this->translate("%s must be less than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
-                )
-            ));
-        }        
-
-       $form->addGroupRule('floor_price_group', array(
-                'floor_price' => array(
-                    array('----', 'floor_price_compare'), //message here is set from JS
-                )
-       ));
-       
-       $form->addFormRule(array($this, 'compareFloorPrice'));
-
-        $form->setDefaults($aFields);
+        return true;
     }
     
     
-    function compareFloorPrice($submitValues)
+    public function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
-        if ($submitValues['mkt_is_enabled'] == 't') {
-            $floorPrice = trim($submitValues['floor_price']);
-            
-            //if ecpm is enabled use the hidden added by JS
-            if (isset($submitValues['remnant_ecpm_enabled']) 
-                && $submitValues['remnant_ecpm_enabled'] == 1 
-                && $submitValues['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
-                $comparedValue = $submitValues['last_ecpm'];
-                $floorValidationMessage = $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.");
-            }
-            else { //use rate/price .ie revenue for comparison
-                $comparedValue = $submitValues['revenue'];
-                $floorValidationMessage = $this->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."); 
-            }
-            
-            if (is_numeric($comparedValue) && is_numeric($floorPrice) && $floorPrice < $comparedValue) {
-                return array('floor_price_group' => $floorValidationMessage);
-            }
-        }
-        return true;        
-    }
-
-
-    function afterPricingFormSectionForInactive(&$form, $campaign, $newCampaign)
-    {
-        $oUI = OA_Admin_UI::getInstance();
-        $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css'));
-
-        $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
-
-        if (OA_Permission::isUserLinkedToAdmin()) {
-            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-info.php');
-            $message =
-                "<div class='market-invite'>
-                    Earn more revenue by activating OpenX Market for your instance  of OpenX Ad Server.
-                    <a href='".$url."'><b>Get started now &raquo;</b></a>
-                </div>";
-        }
-        else {
-            $aMailContents = $this->buildAdminEmail();
-            $url =  "mailto:".$aMailContents['to']."?subject=".$aMailContents['subject']."&body=".$aMailContents['body'];
-            $message = "You can earn more revenue by having your OpenX Administrator activate OpenX Market for your instance of OpenX Ad Server.
-            <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
+        if (!$this->isActive()) {
+            $this->oFormManager->buildCampaignFormPartForInactive($form, $campaign, $newCampaign);
+            return;
         }
 
-
-        $form->addElement('html', 'get_started', $message);
+        $this->oFormManager->buildCampaignFormPart($form, $campaign, $newCampaign);
     }
-
-
-    function buildAdminEmail()
-    {
-        $aMail = array();
-        $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-info.php');
-
-        $oUser = OA_Permission::getCurrentUser();
-        $userFullName = $oUser->aUser['contact_name'].' ('.OA_Permission::getUserName().')';
-
-        $aMail['to'] = join(',', $this->getAdminEmails());
-        $aMail['subject'] = "Please activate OpenX Market for our instance of OpenX Ad Server";
-        $aMail['body'] = "Help earn more revenue by activating OpenX Market for our ad server. Click this link to get started:%0D%0D<$url>%0D%0DThanks,%0D$userFullName";
-
-        return $aMail;
-    }
-
-
-    function getAdminEmails()
-    {
-        $doUsers = OA_Dal::factoryDO('users');
-        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-
-        $doAccount_user_assoc->account_id = DataObjects_Accounts::getAdminAccountId();
-        $doUsers->joinAdd($doAccount_user_assoc);
-        $doUsers->active = 1;
-        $doUsers->selectAdd();
-        $doUsers->selectAdd('email_address');
-        $doUsers->find();
-
-        $aEmails = array();
-        while ($doUsers->fetch()) {
-            $aEmails[] = $doUsers->email_address;
-        };
-
-        return $aEmails;
-    }
-
-
-    function processCampaignForm(&$aFields)
+    
+    
+    public function processCampaignForm(&$aFields)
     {
         if (!$this->isActive()) {
             return;
         }
 
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-        $oExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
-        $oExt_market_campaign_pref->campaignid = $aFields['campaignid'];
-        $recordExist = false;
-        if ($oExt_market_campaign_pref->find()) {
-            $oExt_market_campaign_pref->fetch();
-            $recordExist = true;
-        }
-        $oExt_market_campaign_pref->is_enabled = $aFields['mkt_is_enabled'] == 't' ? 1 : 0;
-        $oExt_market_campaign_pref->floor_price = $aFields['floor_price'];
-        if ($recordExist) {
-            $oExt_market_campaign_pref->update();
-        } else {
-            $oExt_market_campaign_pref->insert();
-        }
-        // invalidate campaign-market delivery cache
-        if (!function_exists('OX_cacheInvalidateGetCampaignMarketInfo')) {
-            require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . 'deliveryAdRender/oxMarketDelivery/oxMarketDelivery.delivery.php';
-        }
-        OX_cacheInvalidateGetCampaignMarketInfo($aFields['campaignid']);
+        $this->oFormManager->processCampaignForm($aFields);
     }
+    
 
+    public function processAffiliateForm(&$aFields)
+    {
+        if (!$this->isActive()) {
+            return;
+        }
 
+        $this->oFormManager->processWebsiteForm($aFields);
+    }
+    
+    
+    public function extendZoneForm($form, $zone, $newZone)
+    {
+        if (!$this->isActive()) {
+            return;
+        }
+
+        $this->oFormManager->buildZoneFormPart($form, $zone, $newZone);        
+    }
+    
+    
+    public function extendZoneAdvancedForm($form, $zone)
+    {
+        if (!$this->isActive()) {
+            return;
+        }
+
+        $this->oFormManager->buildZoneAdvancedFormPart($form, $zone);                
+    }
+    
+    
+    public function processZoneForm(&$aFields)
+    {
+        if (!$this->isActive()) {
+            return;
+        }
+
+        $this->oFormManager->processZoneForm($aFields);
+    }    
+    
+    
+    /**
+     * Return DAL which allows manipulation of zone opt in status
+     *
+     * @return OX_oxMarket_Dal_ZoneOptIn
+     */
+    public function getZoneOptInManager()
+    {
+        if (empty($this->zoneOptInDal)) {
+            $this->zoneOptInDal = new OX_oxMarket_Dal_ZoneOptIn();
+        }
+            
+        return $this->zoneOptInDal;    
+    }
+    
+    
     /**
      * Set default restriction to given website
      *
@@ -293,69 +265,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_TYPE],
                 $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_ATTRIB],
                 $this->aDefaultRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]);
-    }
-
-
-    function processAffiliateForm(&$aFields)
-    {
-        if (!$this->isActive()) {
-            return;
-        }
-
-        $affiliateId = $aFields['affiliateid'];
-        $websiteUrl = $aFields['website'];
-        if ($this->getAccountId()) {
-            //get current market website id if any, do not autogenerate
-            $websiteId = $this->getWebsiteId($affiliateId, false);
-
-            //genereate new id if it does not exist
-            if (empty($websiteId)) {
-                try {
-                    $websiteId = $this->generateWebsiteId($websiteUrl);
-                    $this->setWebsiteId($affiliateId, $websiteId);
-                    $restricted = $this->insertDefaultRestrictions($affiliateId);
-                    $message =  'Website has been registered in OpenX Market';
-                    if ($restricted) {
-                        $message.= ' and its default restrictions have been set.';
-                    }
-                    else {
-                        $message.= ', but there was an error when setting default restrictions.';
-                    }
-
-                    OA_Admin_UI::queueMessage($message, 'local', $restricted ?'confirm' : 'error', $restricted ? 5000 : 0);
-                } catch (Exception $e) {
-                    OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
-                    $message = 'Unable to register website in OpenX Market.';
-                    $aError = split(':',$e->getMessage());
-                    if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
-                        $message .= " Market account is blocked.";
-                    }
-                    OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
-                }
-            }
-            else {
-                $oWebsite = & OA_Dal::factoryDO('affiliates');
-                $oWebsite->get($affiliateId);
-                $currentWebsiteUrl = $oWebsite->website;
-                if ($currentWebsiteUrl != $websiteUrl) { //url changed
-                    try {
-                        $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl, false);
-                        if ($result!== true) {
-                            throw new Exception($result);
-                        }
-                    }
-                    catch (Exception $e) {
-                        OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
-                        $message = 'There was an error during updating website url in OpenX Market.';
-                        $aError = split(':',$e->getMessage());
-                        if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
-                            $message .= " Market account is blocked.";
-                        }
-                        OA_Admin_UI::queueMessage($message, 'local', 'error', 0);
-                    }
-                }
-            }
-        }
     }
 
 
@@ -472,44 +381,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }    
 
 
-    function afterLogin()
-    {
-        // Try to link hosted accounts for current user
-        $this->linkHostedAccounts();
-        
-        // If the user is manager or admin try to show him the OpenX Market Settings
-        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
-            $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
 
-            $this->setMarketSettingsAlreadyShown();
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
-            exit;
-        }
-
-        // Show only to unregistered users and... 
-        if ($this->isRegistered()) {
-            return;
-        }
-         
-        if ($this->isMultipleAccountsMode()) { 
-            // ... and those who are logged as manager (multiple accounts mode)
-            if (OA_Permission::isUserLinkedToAdmin() || !OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                return;
-            }
-        } 
-        elseif (!OA_Permission::isUserLinkedToAdmin()) {
-            // ... and those who are linked to admin (normal mode)
-            return;
-        }
-
-        $this->scheduleRegisterNotification();
-
-        // Only splash if not shown already
-        if (empty($GLOBALS['installing']) && !$this->isSplashAlreadyShown()) {
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
-            exit;
-        }
-    }
 
 
     function storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
@@ -948,39 +820,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function onEnable()
-    {
-        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
-            $this->scheduleRegisterNotification();
-        }
-
-        try {
-            // Run registerwebsites script as background process
-            $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/market-run-registerwebsites.php');
-            $ctx = stream_context_create(array('http' => array(
-                   'method' => 'POST',
-                   'header' => "Cookie: sessionID=".$_COOKIE['sessionID']."\r\n")));
-            $fp = @fopen($url, 'rb', false, $ctx);
-            if ($fp) {
-                stream_set_timeout($fp, 1); // 1s timeout
-                stream_get_contents($fp); 
-            } else {
-                // register 10 websites if can't run background script 
-                $this->initialUpdateWebsites();
-            }
-        } catch (Exception $e) {
-            OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
-        }
-        return true; // we allow to enable plugin
-    }
-
-
-    function onDisable()
-    {
-        $this->removeRegisterNotification();
-
-        return true;
-    }
 
 
     function scheduleRegisterNotification()
@@ -1161,11 +1000,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
     }
     
-    
-    function formatCpm($cpm)
-    {
-        return number_format($cpm, 2, '.', '');
-    }    
     
     function isMultipleAccountsMode()
     {

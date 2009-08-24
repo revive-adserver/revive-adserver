@@ -64,5 +64,34 @@ class DataObjects_Ext_market_campaign_pref extends DB_DataObjectCommon
     {
         return false;
     }
+
+    
+    /**
+     * Updates campaign's market opt in status to the given one.
+     * 
+     * @param int $campaignId 
+     * @param boolean $optedIn indicates whether this campaign has market enabled
+     * @param float $floorPrice campaigns floor price
+     */
+    function updateCampaignStatus($campaignId, $optedIn, $floorPrice)
+    {
+        $oExt_market_campaign_pref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $oExt_market_campaign_pref->campaignid = $campaignId;
+        $recordExist = false;
+        if ($oExt_market_campaign_pref->find()) {
+            $oExt_market_campaign_pref->fetch();
+            $recordExist = true;
+        }
+        $oExt_market_campaign_pref->is_enabled = $optedIn == true ? 1 : 0;
+        $oExt_market_campaign_pref->floor_price = $floorPrice;
+        if ($recordExist) {
+            $oExt_market_campaign_pref->update();
+        } 
+        else {
+            $oExt_market_campaign_pref->insert();
+        }
+        
+        return $oExt_market_campaign_pref;
+    }
 }
 ?>

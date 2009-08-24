@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>oxMarket</name>
+	<type>plugin</type>
+    <creationDate>2009-08-24</creationDate>
+    <author>Lukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>GNU General Public License</license>
+    <description>>OpenX Market for OpenX Ad Server (Download) Interface</description>
+    <versionFrom>1.1.0</versionFrom>
+    <versionTo>1.2.0-RC1</versionTo>
+    <oxversion>2.8.2-rc20</oxversion>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>006</version>
+            <schema>tables_oxMarket</schema>
+            <file>schema_tables_oxMarket_006.xml</file>
+            <file>changes_tables_oxMarket_006.xml </file>
+            <file>migration_tables_oxMarket_006.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>prescript_oxMarket_upgrade_1.0.0-dev.php</prescript-->
+    <!--postscript>postscript_oxMarket_upgrade_1.2.0-RC1.php</postscript-->
+
+</upgrade>

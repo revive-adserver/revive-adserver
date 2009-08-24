@@ -52,13 +52,110 @@ function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_post
     OX_Delivery_Common_hook('oxMarketPostAdRender', array(&$code, $aBanner, $aMarketInfo));
 }
 
+
+/**
+ * delivery postAdSelect hook for OpenX Market
+ *
+ * @param string $output
+ */
+function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect(&$output)
+{
+    // Check if there was no banner selected
+    if (empty($output['bannerid']) && !empty($GLOBALS['_MAX']['considered_ads']))
+    {
+        // Check if invocation tag was read zone info, and zone has set witdth, height
+        $zoneInfo = $GLOBALS['_MAX']['considered_ads'][0];
+        if (isset($zoneInfo['zone_id']) && 
+            $zoneInfo['width'] > 0  && $zoneInfo['height'] > 0) 
+        {
+            $aAd = array(
+                    'width'  => $zoneInfo['width'],
+                    'height' => $zoneInfo['height'],
+                    'agency_id' => $zoneInfo['agency_id'],
+                    'affiliate_id' => $zoneInfo['publisher_id'],
+                    //'placement_id' => -1, // we do not log request for blank, so there is no need to create logUrl
+                   );
+            //$aAd['logUrl'] = _adRenderBuildLogURL($aAd, $zoneInfo['zone_id'], $GLOBALS['source'], $GLOBALS['loc'], $GLOBALS['referer'], '&');
+            $aWebsiteMarketInfo = _marketNeededZoneLevel($GLOBALS['_OA']['invocationType'], $aAd, $zoneInfo['zone_id']);
+            if ($aWebsiteMarketInfo !== false) {
+                $aCampaignMarketInfo = array('floor_price' => 0.0);
+                if ($html = OX_marketProcess($output['html'], $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo)) {
+                    //PostAdRender (yep, we are rendering now banner in postAdSelect) hook enriched with $aMarketInfo
+                    $aMarketInfo = array('campaign' => $aCampaignMarketInfo, 'website' => $aWebsiteMarketInfo);
+                    OX_Delivery_Common_hook('oxMarketPostAdRender', array(&$html, $aAd, $aMarketInfo));
+                    
+                    // Do same things as in MAX_adRender after postAdRender hook
+                    $output['html'] = MAX_commonConvertEncoding($html, $GLOBALS['charset']);
+                }
+            }
+        }
+    }
+}
+
+
 /**
  * This function checks to see if market processing is needed for the current impression:
  *
+ * @param string $scriptFile invocationType (e.g. 'js', 'frame')
  * @param string $code The rendered HTML to display the banner
- * @param array $aBanner The array of banner properties
+ * @param array $aAd The array of banner properties
+ * @return array of two elements 'campaign' - campaign market info array and 'website' - website market info array; return false if any check failed
  */
 function _marketNeeded($scriptFile, $code, $aAd) {
+    // Run common checks and get Website Market Info
+    $aWebsiteMarketInfo = _commonMarketNeeded($scriptFile, $aAd);
+    if ($aWebsiteMarketInfo == false) {
+        return false;
+    }
+    
+    // Check if this campaign has the market enabled
+    $aCampaignMarketInfo = OX_cacheGetCampaignMarketInfo($aAd['campaignid']);
+    if (empty($aCampaignMarketInfo['is_enabled'])) {
+        return false;
+    }
+    
+    // If we got this far, then this campaign should be processed for the market
+    return array('campaign' => $aCampaignMarketInfo, 'website' => $aWebsiteMarketInfo);
+}
+
+
+/**
+ * This function checks to see if market processing is needed for the zone level:
+ *
+ * @param string $scriptFile invocationType (e.g. 'js', 'frame')
+ * @param array $aAd The array of banner properties
+ * @param int $zone_id zone id to check if need market   
+ * @return array website market info array; return false if any check failed
+ */
+function _marketNeededZoneLevel($scriptFile, $aAd, $zone_id)
+{
+    // Run common checks and get Website Market Info
+    $aWebsiteMarketInfo = _commonMarketNeeded($scriptFile, $aAd);
+    if ($aWebsiteMarketInfo == false) {
+        return false;
+    }
+
+    // Check if this zone has the market enabled
+    $aZoneMarketInfo = OX_cacheGetZoneMarketInfo($zone_id);
+    if (empty($aZoneMarketInfo['is_enabled'])) {
+        return false;
+    }
+    
+    // If we got this far, then this zone should be processed for the market
+    return $aWebsiteMarketInfo;
+}
+
+
+/**
+ * This function process common checks to see if market processing is needed 
+ *  for the current impression or for the zone level
+ *
+ * @param string $scriptFile invocationType (e.g. 'js', 'frame')
+ * @param array $aAd The array of banner properties
+ * @return array website market info array or false if any check failed
+ */
+function _commonMarketNeeded($scriptFile, $aAd)
+{
     // Only process requests if the oxMarketDelivery component is enabled
     if (!_marketDeliveryEnabled()) {
         return false;
@@ -77,20 +174,14 @@ function _marketNeeded($scriptFile, $code, $aAd) {
         return false;
     }
     
-    // Check if this campaign has the market enabled
-    $aCampaignMarketInfo = OX_cacheGetCampaignMarketInfo($aAd['campaignid']);
-    if (empty($aCampaignMarketInfo['is_enabled'])) {
-        return false;
-    }
-    
     // Check if this website is market enabled
     $aWebsiteMarketInfo = OX_cacheGetWebsiteMarketInfo(@$aAd['affiliate_id']);
     if (empty($aWebsiteMarketInfo['website_id'])) {
         return false;
     }
     
-    // If we got this far, then this campaign should be processed for the market
-    return array('campaign' => $aCampaignMarketInfo, 'website' => $aWebsiteMarketInfo);
+    
+    return $aWebsiteMarketInfo;
 }
 
 function _marketDeliveryEnabled()
@@ -103,7 +194,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
     $output = '';
 
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])
+    if (!empty($aAd['width']) && !empty($aAd['height'])
         && !empty($aWebsiteMarketInfo['website_id']))
     {
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
@@ -130,7 +221,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
 
-        if ($aConf['logging']['adImpressions']) {
+        if ($aConf['logging']['adImpressions'] && !empty($aAd['logUrl'])) {
             // overwrite the original banner Id
             $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl'].'&bannerid=-1');
             $beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
@@ -341,5 +432,59 @@ function OX_Dal_Delivery_getPlatformMarketInfo($agency_id = null, $account_id = 
     }
     return true;
 }
+
+function OX_cacheGetZoneMarketInfo($zoneId, $cached = true)
+{
+    if (!function_exists('OA_Delivery_Cache_getName')) {
+        require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    }
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRow = OX_Dal_Delivery_getZoneMarketInfo($zoneId);
+        $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
+    }
+
+    return $aRow;
+}
+
+/**
+ * Recieve market zone preferences 
+ *
+ * @param $zoneId
+ * @return array of market_zone_pref (is_enabled param is transated to bool value)
+ */
+function OX_Dal_Delivery_getZoneMarketInfo($zoneId)
+{
+    if (isset($zoneId)) {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $query = "
+            SELECT
+                is_enabled
+            FROM
+                {$aConf['table']['prefix']}ext_market_zone_pref
+            WHERE
+                zoneid = {$zoneId}";
+        $res = OA_Dal_Delivery_query($query);
+    
+        if (is_resource($res)) {
+            $aRes = OA_Dal_Delivery_fetchAssoc($res);
+            if ($aRes) {
+                return array('is_enabled' => !empty($aRes['is_enabled']));
+            }
+        }
+    }
+    return array('is_enabled' => false);
+}
+
+
+function OX_cacheInvalidateGetZoneMarketInfo($zoneId)
+{
+    require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    $oCache = new OA_Cache_DeliveryCacheCommon();
+    $sName  = OA_Delivery_Cache_getName('OX_cacheGetZoneMarketInfo', $zoneId);
+    return $oCache->invalidateFile($sName);
+}
+
 
 ?>

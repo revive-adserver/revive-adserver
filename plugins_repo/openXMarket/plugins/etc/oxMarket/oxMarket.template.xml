@@ -8,8 +8,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server Interface</description>
-    <version>1.1.0-rc7</version>
-    <oxversion>2.8.2-rc19</oxversion>
+    <version>1.2.0-rc1</version>
+    <oxversion>2.8.2-rc20</oxversion>
     <extends>admin</extends>
     <install>
 
@@ -31,6 +31,7 @@
             <file path="{ADMINPATH}/templates/">market-campaigns-settings.html</file>
             <file path="{ADMINPATH}/templates/">market-campaigns-settings-list.html</file>
             <file path="{ADMINPATH}/templates/">market-callout.html</file>
+            <file path="{ADMINPATH}/templates/">market-callout-zone.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
             <file path="{ADMINPATH}/templates/">market-cpm-callout.html</file>
             <file path="{ADMINPATH}/templates/">market-inactive.html</file>
@@ -42,6 +43,10 @@
             <file path="{ADMINPATH}/templates/">market-stats-zone.html</file>
             <file path="{ADMINPATH}/templates/">stats-zone-row.html</file>
 			<file path="{ADMINPATH}/templates/">market-quality-tool.html</file>
+            <file path="{ADMINPATH}/templates/">zone-chaining-disabled-info.html</file>
+            <file path="{ADMINPATH}/templates/">zone-script.html</file>
+            
+            
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
             <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
@@ -49,15 +54,13 @@
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityFormManager.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">FloorPriceCompare.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">QuickFormFloorPriceCompareRuleAdaptor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>
-            <file path="{ADMINPATH}/library/Zend/Http/Client/Adapter/">Curl.php</file>
-            <file path="{ADMINPATH}/var/">config.php</file>
-            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_AdCategories</file>
             <!-- Spacer for the 4096 byte boundary -->
                                          
                                          
@@ -65,6 +68,10 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->            
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>
+            <file path="{ADMINPATH}/library/Zend/Http/Client/Adapter/">Curl.php</file>
+            <file path="{ADMINPATH}/var/">config.php</file>
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_AdCategories</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeAttributes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeTypes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
@@ -109,10 +116,6 @@
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
             </admin>
-            <manager>
-                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
-                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>
-                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>                
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -121,6 +124,10 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <manager>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
+                <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>
+                <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>                
                 <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Ad Quality Tool</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market</menu>
             </manager>
@@ -141,10 +148,6 @@
             <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
             <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
             <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
-            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
-            <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
-            <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
-            <setting key="multipleAccountsMode" type="text" label="Run plugin in one account per manager mode" required="1"  visible="0">@multipleAccountsMode@</setting>
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -153,6 +156,10 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
+            <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
+            <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
+            <setting key="multipleAccountsMode" type="text" label="Run plugin in one account per manager mode" required="1"  visible="0">@multipleAccountsMode@</setting>
             <!--setting key="curlAllowAnyCertificate" type="checkbox" label="Should curl allow to connect using ssl without checking peer's certificate and host" required="0"  visible="0">0</setting-->
             <setting key="separateImportStatsScript" type="checkbox" label="Allow run import statistics as separate maintenance script" required="1"  visible="0">@separateImportStatsScript@</setting>
             <setting key="allowSkipAccountsInImportStats" type="checkbox" label="Allow to skip accounts without local statistics for last 7 days" required="1"  visible="0">@allowSkipAccountsInImportStats@</setting>
@@ -169,6 +176,7 @@
             <dataobject>Ext_market_website_pref.php</dataobject>
             <dataobject>Ext_market_general_pref.php</dataobject>
             <dataobject>Ext_market_plugin_variable.php</dataobject>
+			<dataobject>Ext_market_zone_pref.php</dataobject>
         </schema>
     </install>
 </plugin>
