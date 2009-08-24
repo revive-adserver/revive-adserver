@@ -52,8 +52,9 @@ else {
 
 function processMarketplacePreferences($affiliateId, $aType, $aAttribute, $aCategory, &$oComponent)
 {
-    if ($oComponent->updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
-        && $oComponent->storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)) {
+    $websiteManager = $oComponent->getWebsiteManager();
+    if ($websiteManager->updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
+        && $websiteManager->storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)) {
             OA_Admin_UI::queueMessage('Website settings has been updated', 'local', 'confirm', 3000);
     }
     else {
@@ -72,7 +73,7 @@ function displayPage($affiliateid, &$oComponent)
     phpAds_PageHeader("market-preferences-website",'','../../');
     $oTpl    = new OA_Plugin_Template('market-preferences-website.html','openXMarket');
 
-    $aSelected = $oComponent->getWebsiteRestrictions($affiliateid);
+    $aSelected = $oComponent->getWebsiteManager()->getWebsiteRestrictions($affiliateid);
 
     $aCreativeAttributes = getCreativeAttributes($aSelected[SETTING_TYPE_CREATIVE_ATTRIB], $oComponent);
     $aCreativeTypes = getCreativeTypes($aSelected[SETTING_TYPE_CREATIVE_TYPE], $oComponent);

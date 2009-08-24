@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OX/M2M/M2MProtectedRpc.php';
 require_once MAX_PATH . '/lib/OX/M2M/XmlRpcExecutor.php';
 require_once MAX_PATH . '/lib/OA/Central/M2MProtectedRpc.php';
 
-require_once dirname(__FILE__) . '/../../../var/config.php';
+require_once dirname(__FILE__) . '/../../../../../../var/config.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/M2M/PearXmlRpcCustomClientExecutor.php';
 
 /**

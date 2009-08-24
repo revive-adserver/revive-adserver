@@ -47,13 +47,13 @@
             <file path="{ADMINPATH}/templates/">zone-script.html</file>
             
             
-            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClient.php</file>
-            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleClientException.php</file>
-            <file path="{ADMINPATH}/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
-
+            <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleClient.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleClientException.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Website.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityFormManager.php</file>

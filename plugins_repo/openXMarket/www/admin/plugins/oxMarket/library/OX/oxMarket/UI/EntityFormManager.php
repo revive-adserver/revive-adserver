@@ -169,14 +169,15 @@ class OX_oxMarket_UI_EntityFormManager
         $websiteUrl = $aFields['website'];
         if ($this->marketComponent->getAccountId()) {
             //get current market website id if any, do not autogenerate
-            $websiteId = $this->marketComponent->getWebsiteId($affiliateId, false);
+            $websiteManager = $this->marketComponent->getWebsiteManager();
+            $websiteId = $websiteManager->getWebsiteId($affiliateId, false);
 
             //genereate new id if it does not exist
             if (empty($websiteId)) {
                 try {
-                    $websiteId = $this->marketComponent->generateWebsiteId($websiteUrl);
-                    $this->marketComponent->setWebsiteId($affiliateId, $websiteId);
-                    $restricted = $this->marketComponent->insertDefaultRestrictions($affiliateId);
+                    $websiteId = $websiteManager->generateWebsiteId($websiteUrl);
+                    $websiteManager->setWebsiteId($affiliateId, $websiteId);
+                    $restricted = $websiteManager->insertDefaultRestrictions($affiliateId);
                     $message =  'Website has been registered in OpenX Market';
                     if ($restricted) {
                         $message.= ' and its default restrictions have been set.';
@@ -202,7 +203,7 @@ class OX_oxMarket_UI_EntityFormManager
                 $currentWebsiteUrl = $oWebsite->website;
                 if ($currentWebsiteUrl != $websiteUrl) { //url changed
                     try {
-                        $result = $this->marketComponent->updateWebsiteUrl($affiliateId, $websiteUrl, false);
+                        $result = $websiteManager->updateWebsiteUrl($affiliateId, $websiteUrl, false);
                         if ($result!== true) {
                             throw new Exception($result);
                         }
