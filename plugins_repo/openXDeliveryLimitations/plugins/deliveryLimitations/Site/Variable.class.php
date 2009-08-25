@@ -124,6 +124,20 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
     {
         return $this->compileData($this->_preCompile($this->data));
     }
+
+    /**
+     * Override precompile not to lowercase the variable name.
+     *
+     * @param string $sData
+     * @return string
+     */
+    function _preCompile($sData)
+    {
+        $aData = $this->_expandData($sData);
+        $aData[0] = MAX_limitationsGetQuotedString(trim($aData[0]));
+        $aData[1] = MAX_limitationsGetPreprocessedString($aData[1]);
+        return $this->_flattenData($aData);
+    }
 }
 
 ?>

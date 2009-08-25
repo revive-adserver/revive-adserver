@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin.php';
 // Using multi-dirname so that the tests can run from either plugins or plugins_repo
 require_once dirname(dirname(dirname(__FILE__))) . '/Site/Variable.delivery.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Site/Variable.class.php';
 
 /**
  * A class for testing the Plugins_Delivery_Site_Variable class.
@@ -53,6 +54,20 @@ class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
     function Plugins_TestOfPlugins_Delivery_Site_Variable()
     {
         $this->UnitTestCase();
+    }
+
+    /**
+     * A method to test the _preCompile() method of the delivery limitation class
+     *
+     */
+    function testPreCompile()
+    {
+        $oClass = new Plugins_DeliveryLimitations_Site_Variable();
+
+        $this->assertEqual($oClass->_preCompile('foo|bar'), 'foo|bar');
+        $this->assertEqual($oClass->_preCompile(' foo | bar '), 'foo|bar');
+        $this->assertEqual($oClass->_preCompile('Foo|Bar'), 'Foo|bar');
+        $this->assertEqual($oClass->_preCompile('FOO|baR'), 'FOO|bar');
     }
 
     /**
