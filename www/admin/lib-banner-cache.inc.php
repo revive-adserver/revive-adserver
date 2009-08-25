@@ -38,6 +38,10 @@ function processBanners($commit = false)
     $same      = 0;
     $errors    = array();
 
+    // Disable audit
+    $audit = $GLOBALS['_MAX']['CONF']['audit'];
+    $GLOBALS['_MAX']['CONF']['audit'] = false;
+
     while ($doBanners->fetch())
     {
     	// Rebuild filename
@@ -49,6 +53,7 @@ function processBanners($commit = false)
             $doBannersClone = clone($doBanners);
             $doBannersClone->update();
             $newCache = $doBannersClone->htmlcache;
+            unset($doBannersClone);
     	} else {
     	    $newCache = phpAds_getBannerCache($doBanners->toArray());
     	}
@@ -62,6 +67,10 @@ function processBanners($commit = false)
     	    $errors[] = $doBanners->toArray();
     	}
     }
+
+    // Enable audit if needed
+    $GLOBALS['_MAX']['CONF']['audit'] = $audit;
+
     return array('errors' => $errors, 'different' => $different, 'same' => $same);
 }
 ?>
