@@ -160,7 +160,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
                 $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['impressions'];
@@ -347,7 +346,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             }
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $thisZoneImpressions;
-            $oZone->pastActualImpressions = $previousZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
                 $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['impressions'];
@@ -534,7 +532,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             }
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $thisZoneImpressions;
-            $oZone->pastActualImpressions = $previousZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
                 $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['impressions'];

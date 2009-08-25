@@ -827,7 +827,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
     }
 
     /**
-     * A private method to fill an array of ZIF data with 1 as the default forecast
+     * A private method to fill an array with 1 as the default forecast
      * for and operation interval that is not yet set.
      *
      * @param array $aArray

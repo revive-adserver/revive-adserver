@@ -67,13 +67,6 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
             $this->oController->report .= $message . "\n";
             OA::debug($message, PEAR_LOG_DEBUG);
         }
-        if ($this->oController->updateIntermediate) {
-            // Update the zone impression history table
-            $oStartDate = new Date();
-            $oStartDate->copy($this->oController->oLastDateIntermediate);
-            $oStartDate->addSeconds(1);
-            $this->_saveHistory($oStartDate, $this->oController->oUpdateIntermediateToDate);
-        }
         if ($this->oController->updateFinal) {
             // Update the hourly summary table
             $oStartDate = new Date();
@@ -81,25 +74,6 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
             $oStartDate->addSeconds(1);
             $this->_saveSummary($oStartDate, $this->oController->oUpdateFinalToDate);
         }
-    }
-
-    /**
-     * A private method for summarising data into the final tables when
-     * at least one operation interval is complete.
-     *
-     * @access private
-     * @param PEAR::Date $oStartDate The start date of the complete operation interval(s).
-     * @param PEAR::Date $oEndDate The end date of the complete operation interval(s).
-     */
-    function _saveHistory($oStartDate, $oEndDate)
-    {
-        $message = '- Updating the data_summary_zone_impression_history table for data after ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();
-        $this->oController->report .= $message . ".\n";
-        OA::debug($message, PEAR_LOG_DEBUG);
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
-        $oDal->saveHistory($oStartDate, $oEndDate);
     }
 
     /**

@@ -272,7 +272,6 @@ function list_maint_tables()
              'data_summary_ad_hourly',
              'data_summary_ad_zone_assoc',
              'data_summary_channel_daily',
-             'data_summary_zone_impression_history',
              'log_maintenance_forecasting',
              'log_maintenance_priority',
              'log_maintenance_statistics'

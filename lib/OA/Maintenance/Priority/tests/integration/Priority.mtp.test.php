@@ -125,8 +125,6 @@ class Test_Priority extends UnitTestCase
      */
     function testAdServer()
     {
-        // Test 0: Ensure no data in the data_summary_zone_impression_history table
-        $this->assertEqual($this->_dszihRows(), 0);
         // Test 0: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 0: Ensure no links in the ad_zone_assoc table have priority > 0
@@ -278,19 +276,11 @@ class Test_Priority extends UnitTestCase
         $this->_assertPriority($aTestThreeFour);
         // Test 1: Ensure that the values in the log_maintenance_priority table are correct
         $this->_assertLogMaintenance(
-            1,
-            $oTest1BeforeUpdateDate,
-            $oTest1AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-15 13:59:59'
-        );
-        $this->_assertLogMaintenance(
             2,
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
+            DAL_PRIORITY_UPDATE_ECPM
         );
 
         // Insert data that indicates that the Maintenance Statistics Engine
@@ -325,12 +315,6 @@ class Test_Priority extends UnitTestCase
         // Test 2: Store the date after the MPE runs
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oTest2AfterUpdateDate = new Date();
-        // Test 2: Ensure that the rows in the data_summary_zone_impression_history table
-        //         are corect
-        $oDate = new Date('2005-06-15 13:00:00');
-        $this->_validateDszihRowsSpecific($oDate);
-        $oDate = new Date('2005-06-15 14:00:00');
-        $this->_validateDszihRowsSpecific($oDate);
         // Test 2: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 2: Ensure correct number of links in the ad_zone_assoc table with priority > 0
@@ -435,35 +419,19 @@ class Test_Priority extends UnitTestCase
         $this->_assertPriority($aTestThreeFour);
         // Test 2: Ensure that the values in the log_maintenance_priority table are correct
         $this->_assertLogMaintenance(
-            1,
-            $oTest1BeforeUpdateDate,
-            $oTest1AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-15 13:59:59'
-        );
-        $this->_assertLogMaintenance(
             2,
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
+            DAL_PRIORITY_UPDATE_ECPM
         );
 
-        $this->_assertLogMaintenance(
-            5,
-            $oTest2BeforeUpdateDate,
-            $oTest2AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-15 14:59:59'
-        );
         $this->_assertLogMaintenance(
             6,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
+            DAL_PRIORITY_UPDATE_ECPM
         );
 
         // Insert data that indicates that the Maintenance Statistics Engine
@@ -495,8 +463,6 @@ class Test_Priority extends UnitTestCase
         // Test 3: Store the date after the MPE runs
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oTest3AfterUpdateDate = new Date();
-        // Test 3: Ensure one row in the data_summary_zone_impression_history table per zone
-        //         and operation interval covered so far by the MPE
         $oLastUpdatedTo1 = new Date('2005-06-15 14:00:00');
         $oNowUpdatedTo1  = new Date('2005-06-15 15:00:00');
         $oSpan = new Date_Span();
@@ -515,15 +481,6 @@ class Test_Priority extends UnitTestCase
         $oNowUpdatedTo2Copy->copy($oNowUpdatedTo2);
         $oSpan->setFromDateDiff($oLastUpdatedTo2Copy, $oNowUpdatedTo2Copy);
         $hours2 = $oSpan->toHours();
-        $this->assertEqual($this->_dszihRows(), 12);
-        // Test 3: Ensure that the rows in the data_summary_zone_impression_history table
-        //         are corect
-        $oDate = new Date('2005-06-15 14:00:00');
-        $this->_validateDszihRowsSpecific($oDate);
-        $oStartDate = new Date('2005-06-15 15:00:00');
-        $oEndDate   = new Date('2005-06-18 23:00:00');
-        $oDate = new Date('2005-06-19 00:00:00');
-        $this->_validateDszihRowsSpecific($oDate);
         // Test 3: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 3: Ensure correct number of links in the ad_zone_assoc table with priority > 0
@@ -629,49 +586,18 @@ class Test_Priority extends UnitTestCase
         $this->_assertPriority($aTestThreeFour);
         // Test 3: Ensure that the values in the log_maintenance_priority table are correct
         $this->_assertLogMaintenance(
-            1,
-            $oTest1BeforeUpdateDate,
-            $oTest1AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-15 13:59:59'
-        );
-        $this->_assertLogMaintenance(
             2,
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
-        );
-        $this->_assertLogMaintenance(
-            5,
-            $oTest2BeforeUpdateDate,
-            $oTest2AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-15 14:59:59'
+            DAL_PRIORITY_UPDATE_ECPM
         );
         $this->_assertLogMaintenance(
             6,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
-        );
-        $this->_assertLogMaintenance(
-            9,
-            $oTest3BeforeUpdateDate,
-            $oTest3AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_ZIF,
-            '2005-06-19 00:59:59'
-        );
-        $this->_assertLogMaintenance(
-            10,
-            $oTest3BeforeUpdateDate,
-            $oTest3AfterUpdateDate,
-            60,
-            DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
+            DAL_PRIORITY_UPDATE_ECPM
         );
     }
 
@@ -708,22 +634,6 @@ class Test_Priority extends UnitTestCase
     }
 
     /**
-     * A private method to get the number of rows currently in the
-     * data_summary_zone_impression_history table.
-     *
-     * @access private
-     * @param boolean $limit Limit the rows counted to those where
-     *                       the priority value is > 0? Default is false.
-     * @return integer The number of rows in the table.
-     */
-    function _dszihRows($limit = false)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $tableName = $aConf['table']['prefix'] . 'data_summary_zone_impression_history';
-        return $this->_getRows($tableName, $limit);
-    }
-
-    /**
      * A private function to get the number of rows from a
      * specified table.
      *
@@ -751,100 +661,6 @@ class Test_Priority extends UnitTestCase
         $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         return $aRow['number'];
-    }
-
-    /**
-     * A private method to validate one specific operation interval's
-     * values in the data_summary_zone_impression_history table.
-     *
-     * @access private
-     * @param PEAR::Date $oDate The operation interval start date for the
-     *                          operation interval to test.
-     */
-    function _validateDszihRowsSpecific($oDate)
-    {
-        $oStartDate = new Date();
-        $oStartDate->copy($oDate);
-        $oEndDate = new Date();
-        $oEndDate->copy($oDate);
-        $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-    }
-
-    /**
-     * A private method to validate a range of values in the
-     * data_summary_zone_impression_history table. Requires that
-     * the range exist within a single week!
-     *
-     * @access private
-     * @param PEAR::Date $oStartDate The start date of the operation interval to begin
-     *                               testing with.
-     * @param PEAR::Date $oEndDate The start date of the operation interval to end
-     *                             testing with.
-     */
-    function _validateDszihRowsRange($oStartDate, $oEndDate)
-    {
-        $startOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oStartDate);
-        $endOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oEndDate);
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $tableName = $aConf['table']['prefix'] . 'data_summary_zone_impression_history';
-        $table = $this->oDbh->quoteIdentifier($tableName, true);
-        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
-        $query = "
-            SELECT
-                operation_interval AS operation_interval,
-                operation_interval_id AS operation_interval_id,
-                interval_start AS interval_start,
-                interval_end AS interval_end,
-                zone_id AS zone_id,
-                forecast_impressions AS forecast_impressions,
-                actual_impressions AS actual_impressions
-            FROM
-                $table
-            WHERE
-                interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
-                AND interval_start <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'
-            ORDER BY
-                interval_start, zone_id";
-        $rc = $this->oDbh->query($query);
-        $oTestStartDate = new Date();
-        $oTestStartDate->copy($oStartDate);
-        $oTestEndDate = new Date();
-        $oTestEndDate->copy($oStartDate);
-        $oTestEndDate->addSeconds(($aConf['maintenance']['operationInterval'] * 60) - 1);
-        $aData = array();
-        while($aRow = $rc->fetchRow()) {
-            $aData[] = $aRow;
-        }
-        $priority = new OA_Dal_Maintenance_Priority;
-        $zoneForecastDefaultZoneImpressions = $priority->getZoneForecastDefaultZoneImpressions();
-        $aExpectedData = array();
-        for ($counter = $startOperationIntervalID; $counter <= $endOperationIntervalID; $counter++) {
-            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
-                if ($zoneID == 2) {
-                    continue;
-                }
-                $aExpectedData[] = array(
-                	'operation_interval' => $aConf['maintenance']['operationInterval'],
-                	'operation_interval_id' => (string)OX_OperationInterval::convertDateToOperationIntervalID($oTestStartDate),
-                	'interval_start' => $oTestStartDate->format('%Y-%m-%d %H:%M:%S'),
-                	'interval_end' => $oTestEndDate->format('%Y-%m-%d %H:%M:%S'),
-                	'zone_id' => (string)$zoneID,
-                	'forecast_impressions' => (string)$zoneForecastDefaultZoneImpressions,
-                	'actual_impressions' => null,
-                );
-            }
-            $oTestStartDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
-            $oTestEndDate->addSeconds(OX_OperationInterval::secondsPerOperationInterval());
-        }
-        $this->assertEqual($aData, $aExpectedData);
-        
-        // some debug goodness when things go wrong..
-/*        if($aData != $aExpectedData) {
-            file_put_contents('actual', var_export($aData, true));
-            file_put_contents('expected', var_export($aExpectedData, true));
-            exit;
-        }
-*/   
     }
 
     /**

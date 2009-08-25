@@ -83,40 +83,69 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
-            $this->assertTrue(is_array($aResult[$operationIntervalID]));
-            $this->assertEqual(count($aResult[$operationIntervalID]), 3);
-            $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);
-            $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], $oDal->getZoneForecastDefaultZoneImpressions());
-            $this->assertEqual($aResult[$operationIntervalID]['operation_interval_id'], $operationIntervalID);
+            $expected =  array( 
+                        'zone_id' => 1,
+                        'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
+                        'operation_interval_id' => $operationIntervalID
+            );
+            $this->assertEqual($aResult[$operationIntervalID], $expected);
         }
 
         // Test 4
 
-        // Insert forcast for this operation interval
+        // Insert impressions for the previous operation interval
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $firstIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
-        $doHist = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doHist->zone_id = 1;
-        $doHist->forecast_impressions = 4000;
-        $doHist->operation_interval = $aConf['maintenance']['operationInterval'];
-        $doHist->operation_interval_id = $firstIntervalID;
-        $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-        $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-        $idHist = DataGenerator::generateOne($doHist);
-
-        // Insert forcast for the previous operation interval
+        $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        
+        $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');
+        $aDIAs = DataGenerator::generate($doDIA, 4);
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
+        
+        $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $doDIA->date_time = $startDate;
+        $doDIA->interval_start = $startDate;
+        $doDIA->interval_end = $endDate;
+        $doDIA->operation_interval = $aConf['maintenance']['operationInterval'];
+        $doDIA->operation_interval_id = $firstIntervalID;
+        $doDIA->zone_id = 1;
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 4000;
+        $doDIA->update();
+        
+        // Insert forcast for the (N - 2) OI
+        // for two different ads in this OI
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $secondIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
-        $doHist->zone_id = 1;
-        $doHist->forecast_impressions = 5000;
-        $doHist->operation_interval = $aConf['maintenance']['operationInterval'];
-        $doHist->operation_interval_id = $secondIntervalID;
-        $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-        $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-        $idHist = DataGenerator::generateOne($doHist);
+        $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[1]);
+        $doDIA->date_time = $startDate;
+        $doDIA->interval_start = $startDate;
+        $doDIA->interval_end = $endDate;
+        $doDIA->operation_interval = $aConf['maintenance']['operationInterval'];
+        $doDIA->operation_interval_id = $secondIntervalID;
+        $doDIA->zone_id = 1;
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 4990;
+        $doDIA->update();
 
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[2]);
+        $doDIA->date_time = $startDate;
+        $doDIA->interval_start = $startDate;
+        $doDIA->interval_end = $endDate;
+        $doDIA->operation_interval = $aConf['maintenance']['operationInterval'];
+        $doDIA->operation_interval_id = $secondIntervalID;
+        $doDIA->zone_id = 1;
+        $doDIA->ad_id = 2;
+        $doDIA->impressions = 10;
+        $doDIA->update();
+        
         // Insert forcast for the second previous operation interval, but
         // one week ago (so it should not be in the result set)
         $oNewDate = new Date();
@@ -125,14 +154,19 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNewDate);
         $intervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
 
-        $doHist->zone_id = 1;
-        $doHist->forecast_impressions = 1000;
-        $doHist->operation_interval = $aConf['maintenance']['operationInterval'];
-        $doHist->operation_interval_id = $intervalID;
-        $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-        $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-        $idHist = DataGenerator::generateOne($doHist);
-
+        $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[3]);
+        $doDIA->date_time = $startDate;
+        $doDIA->interval_start = $startDate;
+        $doDIA->interval_end = $endDate;
+        $doDIA->operation_interval = $aConf['maintenance']['operationInterval'];
+        $doDIA->operation_interval_id = $intervalID;
+        $doDIA->zone_id = 1;
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 1000;
+        $doDIA->update();
+        
         $aResult = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());

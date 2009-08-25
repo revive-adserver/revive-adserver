@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsDaily.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsLifetime.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
@@ -70,9 +69,6 @@ class OA_Maintenance_Priority_AdServer
 
         // Create the task runner object, for running the MPE tasks
         $this->oTaskRunner = new OA_Task_Runner();
-        // Add a task to update the zone impression forecasts
-        $oForecastZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $this->oTaskRunner->addTask($oForecastZoneImpressions);
         // Add tasks to get the required ad impressions
         $oGetRequiredAdImpressionsLifetime = new OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $this->oTaskRunner->addTask($oGetRequiredAdImpressionsLifetime);

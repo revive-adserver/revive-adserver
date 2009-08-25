@@ -64,11 +64,6 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             $doDataSummaryAdHourly->date_time = $aDates['start']->format('%Y-%m-%d %H:00:00');
             $aDataSummaryAdHourlyId[$key] = DataGenerator::generateOne($doDataSummaryAdHourly);
             
-            $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-            $doDataSummaryZoneImpressionHistory->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-            $doDataSummaryZoneImpressionHistory->interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-            $aDataSummaryZoneImpressionHistoryId[$key] = DataGenerator::generateOne($doDataSummaryZoneImpressionHistory);
-    
             $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
             $doDataSummaryAdZoneAssoc->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
             $doDataSummaryAdZoneAssoc->interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
@@ -83,7 +78,6 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             $adoDataIntermediateAdVariableValue[$key] = OA_Dal::staticGetDO('data_intermediate_ad_variable_value', $aDataIntermediateAdVariableValueId[$key]);
             $adoDataIntermediateAd[$key] = OA_Dal::staticGetDO('data_intermediate_ad', $aDataIntermediateAdId[$key]);
             $adoDataSummaryAdHourly[$key] = OA_Dal::staticGetDO('data_summary_ad_hourly', $aDataSummaryAdHourlyId[$key]);
-            $adoDataSummaryZoneImpressionHistory[$key] = OA_Dal::staticGetDO('data_summary_zone_impression_history', $aDataSummaryZoneImpressionHistoryId[$key]);
             $adoDataSummaryAdZoneAssoc[$key] = OA_Dal::staticGetDO('data_summary_ad_zone_assoc', $aDataSummaryAdZoneAssocId[$key]);
         }
         
@@ -91,21 +85,18 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
         $this->assertFalse($adoDataIntermediateAdVariableValue[1]);
         $this->assertFalse($adoDataIntermediateAd[1]);
         $this->assertFalse($adoDataSummaryAdHourly[1]);
-        $this->assertFalse($adoDataSummaryZoneImpressionHistory[1]);
         $this->assertFalse($adoDataSummaryAdZoneAssoc[1]);
         
         $this->assertNotNull($adoIntermediateAdConnection[2]);
         $this->assertNotNull($adoDataIntermediateAdVariableValue[2]);
         $this->assertNotNull($adoDataIntermediateAd[2]);
         $this->assertNotNull($adoDataSummaryAdHourly[2]);
-        $this->assertNotNull($adoDataSummaryZoneImpressionHistory[2]);
         $this->assertNotNull($adoDataSummaryAdZoneAssoc[2]);
         
         $this->assertFalse($adoIntermediateAdConnection[3]);
         $this->assertFalse($adoDataIntermediateAdVariableValue[3]);
         $this->assertFalse($adoDataIntermediateAd[3]);
         $this->assertFalse($adoDataSummaryAdHourly[3]);
-        $this->assertFalse($adoDataSummaryZoneImpressionHistory[3]);
         $this->assertFalse($adoDataSummaryAdZoneAssoc[3]);
     }    
 }

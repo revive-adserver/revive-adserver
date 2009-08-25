@@ -159,17 +159,15 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         // Obtain the forecast impression & actual impression inventory for
         // every zone in the system for the "current" operation interval,
         // including Zone ID 0 (for direct selection)
-        $aZoneImpInvs =& $this->oDal->getAllZonesImpInv();
+        $aZoneForecasts =& $this->oDal->getZonesForecastsForAllZones();
         // Create an array of all of the zones, indexed by zone ID
         $aZones = array();
-        if (is_array($aZoneImpInvs) && !empty($aZoneImpInvs)) {
-            foreach ($aZoneImpInvs as $aZoneImpInv) {
+        if (is_array($aZoneForecasts) && !empty($aZoneForecasts)) {
+            foreach ($aZoneForecasts as $zoneId => $forecastImpressions) {
                 // Create and store the Zone object
-                $aZones[$aZoneImpInv['zone_id']] = new OX_Maintenance_Priority_Zone(array('zoneid' => $aZoneImpInv['zone_id']));
+                $aZones[$zoneId] = new OX_Maintenance_Priority_Zone(array('zoneid' => $zoneId));
                 // Record the zone's forecast impression inventory
-                $aZones[$aZoneImpInv['zone_id']]->availableImpressions = $aZoneImpInv['forecast_impressions'];
-                // Record the zone's previous operation interval actual impressions
-                $aZones[$aZoneImpInv['zone_id']]->pastActualImpressions = $aZoneImpInv['actual_impressions'];
+                $aZones[$zoneId]->availableImpressions = $forecastImpressions;
             }
         }
         // Obtain the creative/zone combinations where creatives have impressions
@@ -396,10 +394,14 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         $result = $this->initialPriorities($oZone);
         // Adjust each creative's priority value based on past data
         foreach ($oZone->aAdverts as $oAdvert) {
-            // Calculate the creative's priority adjustment factor
+            // Because of the simple model we use, forecast = previous OI delivered impressions, 
+            // we can write the simple:
+            $pastActualImpressions = $oZone->availableImpressions;
+            
+            // which is then used to process the priority factor
             list($factor, $limited, $fraction, $to_be_delivered) =
                 $this->_getPriorityAdjustment($oAdvert,
-                                              $oZone->pastActualImpressions,
+                                              $pastActualImpressions,
                                               $oZone->id);
             // Store if the creative is meant to be delivered, or not
             $result['ads'][$oAdvert->id]['to_be_delivered'] = $to_be_delivered;

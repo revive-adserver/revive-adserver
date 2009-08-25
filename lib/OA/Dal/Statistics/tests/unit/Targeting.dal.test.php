@@ -423,32 +423,6 @@ class Test_OA_Dal_Statistics_Targeting extends UnitTestCase
         $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
         $this->_testGetAdTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
 
-        // Test 8: Test as for Test 7, but now with zone data in the wrong OI
-        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
-        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
-        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
-        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
-        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-
-        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->_testGetAdTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
-
-        // Test 9: Test as for Test 7, but now with zone data in the right OI
-        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
-        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
-        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
-        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
-        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-
-        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->_testGetAdTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150, 444, 555);
-
         TestEnv::restoreEnv();
     }
 

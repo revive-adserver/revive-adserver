@@ -41,8 +41,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 {
     var $doBanners = null;
     var $doDSAH = null;
-    var $doDSZIH = null;
-    //var $doDSCD = null;
 
     /**
      * The constructor method.
@@ -55,8 +53,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->UnitTestCase();
         $this->doBanners   = OA_Dal::factoryDO('banners');
         $this->doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $this->doDSZIH = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        //$this->doDSCD = OA_Dal::factoryDO('data_summary_channel_daily');
     }
 
     function _insertBanner($aData)
@@ -80,25 +76,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             $this->doDSAH->$key = $val;
         }
         return DataGenerator::generateOne($this->doDSAH);
-    }
-
-// THIS DOES NOT HAVE A DATAOBJECT AND MAY BE DEPRECATED
-//    function _insertDataSummaryChannelDaily($aData)
-//    {
-//        foreach ($aData AS $key => $val)
-//        {
-//            $this->doDSCD->$key = $val;
-//        }
-//        return DataGenerator::generateOne($this->doDSCD);
-//    }
-
-    function _insertDataSummaryZoneImpressionHistory($aData)
-    {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doDSZIH->$key = $val;
-        }
-        return DataGenerator::generateOne($this->doDSZIH);
     }
 
     /**

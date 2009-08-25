@@ -78,9 +78,9 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      */
     public $aAdsEcpmPowAlpha = array();
     public $aZonesEcpmPowAlphaSums = array();
-    public $aZonesAvailableImpressions = array();
     public $aCampaignsEcpms = array();
     public $aCampaignsDeliveries = array();
+    public $aZonesAvailableImpressions = null;
 
     /**
      * The array of dates when the MPE last ran
@@ -194,21 +194,26 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
 
     /**
      * Calculates zones contracts for a given agency (for today).
-     * A contract is a result of forecasting (ZIF) minus
+     * A contract is a result of forecasting minus
      * requested impressions in a given zone by high priority
      * campaigns.
      *
      * @param integer $agencyId  Agency ID
+     * @return bool true if the data was loaded during this call, false if the data was already cached
      */
     public function preloadZonesAvailableImpressionsForAgency($agencyId)
     {
-        $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
-        $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
-
-        $this->aZonesAvailableImpressions = $this->oDal->getZonesForecastsByAgency($agencyId,
-            $startDateString, $endDateString);
-        if (!$this->aZonesAvailableImpressions) {
-            $this->aZonesAvailableImpressions = array();
+        $dataJustFetched = false;
+        // because the query is the same for all agencies, we run it only once
+        if(is_null($this->aZonesAvailableImpressions)) {
+            $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
+            $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
+    
+            $this->aZonesAvailableImpressions = $this->oDal->getZonesForecasts( $startDateString, $endDateString);
+            if (!$this->aZonesAvailableImpressions) {
+                $this->aZonesAvailableImpressions = array();
+            }
+            $dataJustFetched = true;
         }
         $aZonesAllocations = $this->getZonesAllocationByAgency($agencyId);
         // Substract allocations from forecasts to get the number of available impressions
@@ -221,6 +226,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
                 }
             }
         }
+        return $dataJustFetched;
     }
 
     /**

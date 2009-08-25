@@ -49,39 +49,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
-
-    /**
-     * the installPlugins() method was moved to a post upgrade task
-     * see etc/changes/tasks/openads_upgrade_task_Install_Plugins.php
-     */
-    /*function test_installPlugins()
-    {
-        $oUpgrade  = new OA_Upgrade();
-        $oUpgrade->defaultPluginsFile = MAX_PATH.'/lib/OA/Upgrade/tests/data/default_plugins.php';
-
-        unset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']);
-        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
-
-        $oUpgrade->installPlugins();
-        $aErrors = $oUpgrade->getErrors();
-        if (count($aErrors))
-        {
-            foreach ($aErrors AS $error)
-            {
-                $this->fail($error);
-            }
-        }
-        $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']));
-        $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']));
-
-        //uninstall
-        $oPkgMgr = new OX_PluginManager();
-        $oPkgMgr->aErrors = array();
-        $this->assertTrue($oPkgMgr->uninstallPackage('testPluginPackage'));
-
-        TestEnv::restoreConfig();
-    }*/
-
     function test_constructor()
     {
         $oUpgrade = new OA_Upgrade();
@@ -792,30 +759,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('channelid',$aDBFields), 'channelid was found');
         $this->assertTrue(in_array('channel_id',$aDBFields), 'channel_id was not found');
         $this->assertTrue(in_array('newfield',$aDBFields), 'newfield was not found');
-
-//        $this->_dropTestTable($oUpgrade->oDbh, 'aardvark');
-//        $this->_dropTestTable($oUpgrade->oDbh, 'bandicoot');
     }
-
-//    function _checkTablesRolledBack($oUpgrade)
-//    {
-//        $aDBTables = $oUpgrade->oDBUpgrader->_listTables();
-//
-//        $this->assertFalse(in_array($this->prefix.'aardvark',$aDBTables), 'aardvark was not found');
-//        $this->assertFalse(in_array($this->prefix.'bandicoot',$aDBTables), 'bandicoot was not found');
-//        $this->assertTrue(in_array($this->prefix.'affiliates',$aDBTables), 'affiliates was found');
-//
-//        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'campaigns');
-//
-//        $this->assertTrue(in_array('campaignid',$aDBFields), 'campaignid was not found');
-//        $this->assertFalse(in_array('campaign_id',$aDBFields), 'campaign_id was found');
-//
-//        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'acls_channel');
-//
-//        $this->assertTrue(in_array('channelid',$aDBFields), 'channelid was not found');
-//        $this->assertFalse(in_array('channel_id',$aDBFields), 'channel_id was found');
-//        $this->assertFalse(in_array('newfield',$aDBFields), 'newfield was found');
-//    }
 
     function _createTestAppVarRecord($name, $value)
     {

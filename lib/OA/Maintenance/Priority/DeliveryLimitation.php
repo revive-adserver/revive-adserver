@@ -305,11 +305,11 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $oEndDateCopy->setSecond(59);
 
         // Ensure that the $aCumulativeZoneForecast array is sorted by key, so that it can
-        // be accessed by array_slice, regardless of the order that the ZIF data was added
+        // be accessed by array_slice, regardless of the order that the forecast data was added
         // to the array
         ksort($aCumulativeZoneForecast);
 
-        // Step 1: Calculate the sum of the ZIF values from "now" until the end of "today"
+        // Step 1: Calculate the sum of the forecast values from "now" until the end of "today"
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
         $oEndOfToday = new Date();
         $oEndOfToday->copy($aDates['start']);
@@ -321,7 +321,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             // Find the Operation Interval ID for this Operation Interval
             $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oStart);
             // As iteration over every OI is required anyway, test to see if
-            // the ad is blocked in this OI; if not, add the ZIF values to the
+            // the ad is blocked in this OI; if not, add the forecast values to the
             // running total
             if (empty($this->aBlockedOperationIntervalDates[$oStart->format('%Y-%m-%d %H:%M:%S')])) {
                 $totalAdLifetimeZoneImpressionsRemaining += $aCumulativeZoneForecast[$operationIntervalID];
@@ -348,7 +348,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         }
 
         // Step 3: For every possible day of the week (assuming that day of the week is in the
-        //         ad's remaining lifetime), calculate the sum of the ZIF values for every
+        //         ad's remaining lifetime), calculate the sum of the forecast values for every
         //         operation interval in that day
         if (!empty($aDays)) {
             $operationIntervalsPerDay = OX_OperationInterval::operationIntervalsPerDay();
@@ -377,7 +377,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         if ($this->blockedOperationIntervalCount > 0) {
             OA::debug("      - Subtracting {$this->blockedOperationIntervalCount} blocked intervals", PEAR_LOG_DEBUG);
             // Iterate over the blocked interval dates, exclude those that are "today",
-            // and use these to subtract the required ZIF values from the running total
+            // and use these to subtract the required forecast values from the running total
             $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
             $oEndOfToday = new Date();
             $oEndOfToday->copy($aDates['start']);

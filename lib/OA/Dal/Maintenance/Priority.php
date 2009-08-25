@@ -45,7 +45,6 @@ define('MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT', MINUTES_PER_WEEK);
  * Definitions for different types of Maintenance Priority process
  * log information.
  */
-define('DAL_PRIORITY_UPDATE_ZIF',                   0);
 define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
 define('DAL_PRIORITY_UPDATE_ECPM', 2);
 
@@ -119,9 +118,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $aFields = array_merge($aFields, $aAdditionalFields);
         }
         if (!is_null($type)) {
-            if ($type == DAL_PRIORITY_UPDATE_ZIF) {
-                $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_ZIF . ')';
-            } elseif ($type == DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION) {
+            if ($type == DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION) {
                 $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION . ')';
             } elseif ($type == DAL_PRIORITY_UPDATE_ECPM) {
                 $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_ECPM . ')';
@@ -509,21 +506,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         );
         return $this->_get($query);
     }
-
+    
     /**
-     * A method to get the available impression inventory for all zones
-     * for the current operation interval, and the actual impressions
-     * for the previous operation interval.
+     * Returns an array of forecasts for the current OI, for all zones in the system.
+     * Forecast for a given zone is the number of impressions received by this zone in the previous OI.
+     * @see getZonesForecasts()
      *
-     * Requires that a current day/time (as a Date object) be registered
-     * with the OA_ServiceLocator (as "now").
-     *
-     * @access public
-     * @return mixed An array of arrays, each one representing a zone found,
-     *               in zone ID order, or false if no Date object registered
-     *               with the OA_ServiceLocator.
+     * @return array|false array( zoneId => forecastImpressions, ... )
      */
-    function &getAllZonesImpInv()
+    function &getZonesForecastsForAllZones()
     {
         OA::debug('  - Getting the impression inventory data for all zones', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -532,75 +523,27 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (!$oDate) {
             return false;
         }
-        // Get the zone impression forecasts for the current operation interval, and the actual zone
-        // impressions for the previous operation interval, where they exist
-        $currentOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aCurrentDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $previousOptIntID = OX_OperationInterval::previousOperationIntervalID($currentOpIntID);
-        $aPreviousDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $table = $this->_getTablename('data_summary_zone_impression_history');
+    
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+        $interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');        
+        $aResult = $this->getZonesForecasts($interval_start, $interval_end);
 
-        $query = "SELECT
-                zone_id AS zone_id,
-                forecast_impressions AS forecast_impressions
-            FROM
-            $table
-            WHERE
-                operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND
-                operation_interval_id = $currentOpIntID
-                AND
-                interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND
-                interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                ;";
-
-            $rc = $this->oDbh->query($query);
-            while ($aRow = $rc->fetchRow()) {
-                $aResult[$aRow['zone_id']] = $aRow;
+        // Get all possible zones in the system, plus zone 0
+        $table = $this->_getTablename('zones');
+        $query = "
+        SELECT
+            zoneid AS zone_id
+        FROM
+        {$table}
+        UNION ALL SELECT 0";
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
+            if (!isset($aResult[$aRow['zone_id']])) {
+                $aResult[$aRow['zone_id']] = $this->getZoneForecastDefaultZoneImpressions();
             }
-
-            $query = "SELECT
-                zone_id AS zone_id,
-                actual_impressions AS actual_impressions
-            FROM
-            $table
-            WHERE
-                operation_interval = {$aConf['maintenance']['operationInterval']}
-                AND
-                operation_interval_id = $previousOptIntID
-                AND
-                interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND
-                interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                ;";
-            $rc = $this->oDbh->query($query);
-            while ($aRow = $rc->fetchRow()) {
-                // we only select impressions for zones that have previous impressions
-                if(isset($aResult[$aRow['zone_id']])) {
-                    $aResult[$aRow['zone_id']] = array_merge($aResult[$aRow['zone_id']], $aRow);
-                }
-            }
-
-            // Get all possible zones in the system, plus zone 0
-            $table = $this->_getTablename('zones');
-            $query = "
-            SELECT
-                zoneid AS zone_id
-            FROM
-            {$table}
-            UNION ALL SELECT 0";
-            $rc = $this->oDbh->query($query);
-            while ($aRow = $rc->fetchRow()) {
-                if (!isset($aResult[$aRow['zone_id']])) {
-                    $aResult[$aRow['zone_id']] = array(
-                    'zone_id'               => $aRow['zone_id'],
-                    'forecast_impressions'  => $this->getZoneForecastDefaultZoneImpressions(),
-                    'actual_impressions'    => 0
-                    );
-                }
-            }
-            return $aResult;
+        }
+        return $aResult;
     }
 
     /**
@@ -1870,88 +1813,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to obtain a zone's forecast and actual impressions for the latest available OI.
-     *
-     * @param integer $zoneId The zone ID to obtain the information for.
-     * @return int|false actual_impressions served in the latest available OI
-     */
-    function getLatestAvailableActualImpressionsForZone($zoneId)
-    {
-        $aResult = array();
-        // Check parameters
-        if ((!is_integer($zoneId)) || ($zoneId < 0)) {
-            return $aResult;
-        }
-        $table = $this->_getTablename('data_summary_zone_impression_history');
-        $query = "
-            SELECT *
-            FROM $table
-            WHERE operation_interval = ".$this->conf['maintenance']['operationInterval']."
-            	AND zone_id = $zoneId
-            ORDER BY data_summary_zone_impression_history_id DESC
-            LIMIT 1
-        ";
-        $rc = $this->oDbh->query($query);
-        $row = $rc->fetchRow();
-        if(is_array($row)) {
-            return $row['actual_impressions'];
-        }
-        return false;
-    }
-
-    /**
-     * A method to save zone impression forecasts to the data_summary_zone_impression_history table.
-     *
-     * @param array $aForecasts A reference to an array that contains the zone impression
-     *                          forecasts, indexed by zone ID, and then operation interval
-     *                          ID. Each entry is expected to be an array with the the
-     *                          following indicies:
-     *      "forecast_impressions" => The forecast number of impressions for the zone/operation interval;
-     *      "interval_start"       => A string representing the start date of the operation interval;
-     *      "interval_end"         => A string representing the end date of the operation interval;
-     *      "est"                  => Value 1 if the forecast is the default value, 0 otherwise.
-     * @return void
-     */
-    function saveZoneImpressionForecasts($aForecasts)
-    {
-        OA::debug('- Saving zone impression forecasts', PEAR_LOG_DEBUG);
-
-        // Check the parameter
-        if (!is_array($aForecasts) || !count($aForecasts)) {
-            OA::debug('     - No forecasts to save', PEAR_LOG_DEBUG);
-            return;
-        }
-        reset($aForecasts);
-        $data = array();
-        foreach($aForecasts as $zoneId => $aOperationIntervals) {
-            reset($aOperationIntervals);
-            $operationIntervals = count($aOperationIntervals);
-            foreach($aOperationIntervals as $operationIntervalId => $aValues) {
-                $aRow = array(
-                    $zoneId,
-                    $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'],
-                    $operationIntervalId,
-                    $aValues['interval_start'],
-                    $aValues['interval_end'],
-                    $aValues['forecast_impressions'],
-                    $aValues['est']
-                );
-                $data[] = $aRow;
-            }
-        }
-        $fields = array(
-        	'zone_id',
-            'operation_interval',
-            'operation_interval_id',
-            'interval_start',
-            'interval_end',
-            'forecast_impressions',
-            'est'
-        );
-        $this->batchInsert($this->_getTablenameUnquoted('data_summary_zone_impression_history'), $data, $fields);
-    }
-
-    /**
      * A method to get all active zones in the system.
      *
      * An active zone is a zone that is linked to at least one advertisement
@@ -2117,63 +1978,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get current zone impression forecast(s) for every zone in the
-     * system. Where no impression forecast exists for a zone, the default zone
-     * impression forecast value (adjusted for the operation interval length) is
-     * used. Similarly, if the zone forecast is less that the minimum default
-     * zone impression forecast value, then the minimum defauly forecast value
-     * is used.
-     *
-     * Requires that a current day/time (as a Date object) be registered
-     * with the OA_ServiceLocator (as "now").
-     *
-     * @return mixed An array, indexed by zone ID, of the current impression
-     *               forecasts, or false if the current datetime not registered
-     *               with the OA_ServiceLocator.
-     */
-    function getZoneImpressionForecasts()
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate =& $oServiceLocator->get('now');
-        if (!$oDate) {
-            return false;
-        }
-        // Prepare the result array
-        $aResult = array();
-        // Prepare the default zone impression forecast value
-        require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = $this->getZoneForecastDefaultZoneImpressions();
-        // Get the zone impression forecasts for the current operation interval, where they exist
-        $currentOpIntID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aCurrentDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->operation_interval = $aConf['maintenance']['operationInterval'];
-        $doData_summary_zone_impression_history->operation_interval_id = $currentOpIntID;
-        $doData_summary_zone_impression_history->interval_start = $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S');
-        $doData_summary_zone_impression_history->interval_end = $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S');
-        $doData_summary_zone_impression_history->find();
-        while ($doData_summary_zone_impression_history->fetch()) {
-            $aResult[$doData_summary_zone_impression_history->zone_id] = $doData_summary_zone_impression_history->forecast_impressions;
-        }
-        // Get all possible zones in the system
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->find();
-        while ($doZones->fetch()) {
-            if (!isset($aResult[$doZones->zoneid])) {
-                // There is no forecast for this zone, set the forecast to the default value
-                $aResult[$doZones->zoneid] = $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
-            } else if ($aResult[$doZones->zoneid] < $this->getZoneForecastDefaultZoneImpressionsMinimum()) {
-                // The forecast for this zone is less than the permitted minimum, set it
-                // to the minimum permitted value
-                $aResult[$doZones->zoneid] = $this->getZoneForecastDefaultZoneImpressionsMinimum();
-            }
-        }
-        // Return the result
-        return $aResult;
-    }
-
-    /**
      * A method to get the ad/zone associations, based on a list of advertisement IDs.
      * Only returns normal ad/zone associations (ie. link_type = MAX_AD_ZONE_LINK_NORMAL),
      * not special direct selection associations, or category associations.
@@ -2280,7 +2084,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                   array(
      *                       [operation_interval_id] => array(
      *                                                      ['zone_id']               => zone_id,
-     *                                                      ['forecast_impressions']  => forecast_impressions,
+     *                                                      ['_impressions']  => forecast_impressions,
      *                                                      ['operation_interval_id'] => operation_interval_id
      *                                                  )
      *                       [operation_interval_id] => array(
@@ -2313,11 +2117,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oDateWeekEnd = new Date();
         $oDateWeekEnd->copy($aDates['end']);
         // Select the zone forecasts from the database
-        $tableName = $this->_getTablename('data_summary_zone_impression_history');
+        $tableName = $this->_getTablename('data_intermediate_ad');
+        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
             SELECT
                 zone_id AS zone_id,
-                forecast_impressions AS forecast_impressions,
+                sum(impressions) AS forecast_impressions,
                 operation_interval_id AS operation_interval_id,
                 interval_start AS interval_start,
                 interval_end AS interval_end
@@ -2328,11 +2133,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end <= '" . $oDateWeekEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                AND date_time > DATE_SUB('" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval) 
+                AND date_time < DATE_ADD('" . $oDateWeekEnd->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval)
                 AND zone_id != 0
+            GROUP BY 
+            	interval_start
             ORDER BY
                 interval_start";
             $rc = $this->oDbh->query($query);
-            
             
             $totalForecastImpressions = 0;
             $count = 0;
@@ -2615,47 +2423,39 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * Get all zones forecasts by agency
-     *
-     * @todoradek Limit the query to get forecasts only for required campaigns
-     * (either ecpm low or ecpm hpc)
-     *
-     * @param integer $agencyId  Agency ID
-     * @param string $intervalStart  Interval start date (format: YY-MM-DD HH:MM:SS)
-     * @param string $intervalEnd  Interval end date (format: YY-MM-DD HH:MM:SS)
-     * @return array  Array of zones forecasts, indexed by zone Ids with the
-     *                values of forecasts for each zone
+     * Get all zones forecasts by querying last hour's impressions for each zone
+     * This function will look at the hour before the specified OI 
+     * to determine how much traffic to expected in the specified OI.
+     * 
+     * @param string $intervalStart  Interval start date of OI to forecast
+     * @param string $intervalEnd  Interval end date of OI to forecast
+     * @return array  array( zoneId => forecastForThisZone, ... )
      */
-    public function getZonesForecastsByAgency($agencyId, $intervalStart, $intervalEnd)
+    public function getZonesForecasts($intervalStart, $intervalEnd)
     {
-        OA::debug('  - Selecting Zones forecasts for manager '.$agencyId, PEAR_LOG_INFO);
+        OA::debug('  - Selecting Zones forecasts for all managers for OI from '.$intervalStart.' to '.$intervalEnd, PEAR_LOG_INFO);
+        
+        $operationInterval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
+        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
+	        
         $query = "SELECT
-                      h.zone_id AS zone_id,
-                      h.forecast_impressions AS forecast_impressions
+                      d.zone_id AS zone_id,
+                      sum(impressions) AS impressions
                   FROM
-                  {$this->_getTablename('affiliates')} AS a,
-                  {$this->_getTablename('zones')} AS z,
-                  {$this->_getTablename('data_summary_zone_impression_history')} AS h
+                  {$this->_getTablename('data_intermediate_ad')} AS d
                   WHERE
-                      a.agencyid = {$agencyId}
-                      AND z.affiliateid = a.affiliateid
-                      AND h.zone_id = z.zoneid
-                      AND h.interval_start = '{$intervalStart}'
-                      AND h.interval_end = '{$intervalEnd}'";
-                  $rc = $this->oDbh->query($query);
-                  $aResult = array();
-                  if (PEAR::isError($rc)) {
-                      OA::debug('  - Error getting zones allocations from database', PEAR_LOG_DEBUG);
-                      return false;
-                  }
-                  while ($aRow = $rc->fetchRow()) {
-                      if (PEAR::isError($aRow)) {
-                          OA::debug('  - Error retreiving zone forecast record from database', PEAR_LOG_DEBUG);
-                          continue;
-                      }
-                      $aResult[$aRow['zone_id']] = $aRow['forecast_impressions'];
-                  }
-                  return $aResult;
+                          d.operation_interval = '{$operationInterval}'
+                      AND d.date_time < '{$intervalStart}'
+                      AND d.date_time >= DATE_SUB('{$intervalStart}', $oneHourInterval)    
+                  GROUP BY d.zone_id
+                  ORDER BY NULL
+                  ";
+        $rc = $this->oDbh->query($query);
+        $aResult = array();
+        while ($aRow = $rc->fetchRow()) {
+            $aResult[$aRow['zone_id']] = $aRow['impressions'];
+        }
+        return $aResult;
     }
 
     /**

@@ -71,7 +71,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         $oStartDate = new Date('2005-06-21 15:00:01');
         $oEndDate   = new Date('2005-06-21 15:01:01');
         $oUpdatedTo = new Date('2005-06-21 15:59:59');
-        $result = $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ZIF);
+        $result = $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ECPM);
         $this->assertEqual($result, 1);
         $query = "
             SELECT
@@ -91,7 +91,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['duration'], 60);
-        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ZIF);
+        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ECPM);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
 
         // Test 2
@@ -118,7 +118,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['duration'], 60);
-        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ZIF);
+        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ECPM);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
         $query = "
             SELECT
@@ -160,15 +160,15 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
-        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
+        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ECPM);
         $this->assertFalse($result);
 
         // Test 2
         $oStartDate = new Date('2005-06-21 15:00:01');
         $oEndDate   = new Date('2005-06-21 15:01:01');
         $oUpdatedTo = new Date('2005-06-21 15:59:59');
-        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ZIF);
-        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
+        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ECPM);
+        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ECPM);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 15:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
@@ -177,16 +177,16 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         $oStartDate = new Date('2005-06-21 14:00:01');
         $oEndDate   = new Date('2005-06-21 14:01:01');
         $oUpdatedTo = new Date('2005-06-21 14:59:59');
-        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ZIF);
-        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
+        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ECPM);
+        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ECPM);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 15:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
         $oStartDate = new Date('2005-06-21 16:00:01');
         $oEndDate   = new Date('2005-06-21 16:01:01');
         $oUpdatedTo = new Date('2005-06-21 16:59:59');
-        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ZIF);
-        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
+        $oMaxDalMaintenance->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo, DAL_PRIORITY_UPDATE_ECPM);
+        $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ECPM);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 16:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);

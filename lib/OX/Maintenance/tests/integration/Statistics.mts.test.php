@@ -87,10 +87,6 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_summary_ad_hourly->find();
         $this->assertEqual($doData_summary_ad_hourly->getRowCount(), 0);
 
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 0);
-
         $doData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $doData_bkt_r->find();
         $this->assertEqual($doData_bkt_r->getRowCount(), 0);
@@ -149,10 +145,6 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_summary_ad_hourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doData_summary_ad_hourly->find();
         $this->assertEqual($doData_summary_ad_hourly->getRowCount(), 0);
-
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 0);
 
         $doData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $doData_bkt_r->find();
@@ -504,10 +496,6 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_summary_ad_hourly->find();
         $this->assertEqual($doData_summary_ad_hourly->getRowCount(), 2);
 
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 2);
-
         $doData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $doData_bkt_r->find();
         $this->assertEqual($doData_bkt_r->getRowCount(), 0);
@@ -544,7 +532,6 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
 
 - Migrating bucket-based logged data to the statistics tables.
 - Saving request, impression, click and conversion data into the final tables.
-- Updating the data_summary_zone_impression_history table for data after 2008-08-28 14:00:00 UTC.
 - Updating the data_summary_ad_hourly table for data after 2008-08-28 14:00:00 UTC.
 - Logging the completion of the maintenance statistics run.";
 
@@ -1185,39 +1172,6 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $this->assertNull($doData_summary_ad_hourly->total_revenue);
         $this->assertNull($doData_summary_ad_hourly->total_cost);
         $this->assertNull($doData_summary_ad_hourly->total_techcost);
-
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 2);
-
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->interval_start = '2008-08-28 14:00:00';
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 1);
-        $doData_summary_zone_impression_history->fetch();
-        $this->assertEqual($doData_summary_zone_impression_history->operation_interval,    60);
-        $this->assertEqual($doData_summary_zone_impression_history->operation_interval_id, 110);
-        $this->assertEqual($doData_summary_zone_impression_history->interval_start,        '2008-08-28 14:00:00');
-        $this->assertEqual($doData_summary_zone_impression_history->interval_end,          '2008-08-28 14:59:59');
-        $this->assertEqual($doData_summary_zone_impression_history->zone_id,               1);
-        $this->assertNull($doData_summary_zone_impression_history->forecast_impressions);
-        $this->assertEqual($doData_summary_zone_impression_history->actual_impressions,    999);
-        $this->assertEqual($doData_summary_zone_impression_history->est,                   0);
-
-        $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-        $doData_summary_zone_impression_history->interval_start = '2008-08-28 15:00:00';
-        $doData_summary_zone_impression_history->find();
-        $this->assertEqual($doData_summary_zone_impression_history->getRowCount(), 1);
-        $doData_summary_zone_impression_history->fetch();
-        $this->assertEqual($doData_summary_zone_impression_history->operation_interval,    60);
-        $this->assertEqual($doData_summary_zone_impression_history->operation_interval_id, 111);
-        $this->assertEqual($doData_summary_zone_impression_history->interval_start,        '2008-08-28 15:00:00');
-        $this->assertEqual($doData_summary_zone_impression_history->interval_end,          '2008-08-28 15:59:59');
-        $this->assertEqual($doData_summary_zone_impression_history->zone_id,               1);
-        $this->assertNull($doData_summary_zone_impression_history->forecast_impressions);
-        $this->assertEqual($doData_summary_zone_impression_history->actual_impressions,    1099);
-        $this->assertEqual($doData_summary_zone_impression_history->est,                   0);
-
         /**********************************************************************/
 
         // Remove the installed plugin

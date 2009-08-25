@@ -94,9 +94,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         // Prepare the DAL return values for the tests
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oDal->setReturnValueAt(0, 'getZoneImpressionForecasts', array());
-        $oDal->setReturnValueAt(1, 'getZoneImpressionForecasts', array(1 => 5, 2 => 7, 9 => 9));
-        $oDal->expectCallCount('getZoneImpressionForecasts', 2);
+        $oDal->setReturnValueAt(0, 'getZonesForecastsForAllZones', array());
+        $oDal->setReturnValueAt(1, 'getZonesForecastsForAllZones', array(1 => 5, 2 => 7, 9 => 9));
+        $oDal->expectCallCount('getZonesForecastsForAllZones', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing

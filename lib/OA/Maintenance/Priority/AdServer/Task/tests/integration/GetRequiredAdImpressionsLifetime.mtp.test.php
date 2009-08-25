@@ -810,7 +810,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     }
 
     /**
-     * A private method to fill an array of ZIF data with 0 as the default forecast
+     * A private method to fill an array of with 0 as the default forecast
      * for and operation interval that is not yet set.
      *
      * @param array $aArray

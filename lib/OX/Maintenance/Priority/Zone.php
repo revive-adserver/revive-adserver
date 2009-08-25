@@ -44,7 +44,6 @@ class OX_Maintenance_Priority_Zone
     var $averageImpressions   = 0;
     var $aAdverts             = array();
     var $aOperationIntId      = array();
-    var $pastActualImpressions;
 
     /**
      * The constructor method.

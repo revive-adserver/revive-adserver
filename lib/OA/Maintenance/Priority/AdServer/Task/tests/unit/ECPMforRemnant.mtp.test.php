@@ -111,7 +111,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
             2 => 20,
             3 => 50,
         );
-        $oDal->setReturnReference('getZonesForecastsByAgency', $aZonesForecasts);
+        $oDal->setReturnReference('getZonesForecasts', $aZonesForecasts);
         $aZonesAllocations = array(
             1 => 10,
             2 => 30,
@@ -133,8 +133,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
             2 => 0, // 20 - 30 = -10, so it should be 0
             3 => 50, // 50 - no allocations for this zone
         );
-        $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
+        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
         $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
+        $this->assertTrue($dataJustLoaded);
+        
+        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
+        $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
+        $this->assertFalse($dataJustLoaded);
     }
 
     /**
@@ -159,6 +164,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         $oEcpm->OA_Maintenance_Priority_AdServer_Task();
 
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(123);
+        $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);
+        
+        // preload another agency and check that array is unchanged
+        $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(255);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);
     }
 

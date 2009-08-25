@@ -97,7 +97,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     {
         // Set the total number of initially avaiable (forecast) zone impressions,
         // from the previously calculated values now stored in the database
-        $this->aAvailableForecastZoneImpressions = $this->oDal->getZoneImpressionForecasts();
+        $this->aAvailableForecastZoneImpressions = $this->oDal->getZonesForecastsForAllZones();
         // Subtract one impression from each zone forecast, so that the "blank" ad
         // is always allocated at least one impression
         if (!empty($this->aAvailableForecastZoneImpressions)) {

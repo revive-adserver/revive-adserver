@@ -171,7 +171,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
@@ -239,7 +238,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
@@ -482,7 +480,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
@@ -550,7 +547,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
@@ -910,7 +906,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
@@ -978,7 +973,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             // Prepare the ads/zone for the next iteration
             $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
-            $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
             foreach ($aAds as $adKey => $aAdData) {
                 if (!(($iteration > (($initialIterations + $finalIterations) / 2)) && ($adKey == 2))) {

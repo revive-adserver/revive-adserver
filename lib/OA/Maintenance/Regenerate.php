@@ -108,7 +108,6 @@ class OA_Maintenance_Regenerate
     *  - data_intermediate_ad_variable_value
     *  - data_intermediate_ad
     *  - data_summary_ad_hourly
-    *  - data_summary_zone_impression_history
     *  - data_summary_ad_zone_assoc
     *
     * @static
@@ -167,15 +166,6 @@ class OA_Maintenance_Regenerate
             WHERE
                 date_time >= '" . $oStartDate->format('%Y-%m-%d %H:00:00') . "'
                 AND date_time <= '" . $oEndDate->format('%Y-%m-%d %H:00:00') . "'";
-        $rows = $oDbh->exec($query);
-
-        // Delete any impression history data from the data_summary_zone_impression_history table
-        $query = "
-            DELETE FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
-            WHERE
-                interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
-                AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rows = $oDbh->exec($query);
 
         // Delete any impression history data from the data_summary_ad_zone_assoc table

@@ -54,14 +54,6 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     var $type;
 
     /**
-     * For storing weekly zone impression forecasts, if zone
-     * patterning is used, to save on database queries.
-     *
-     * @var array
-     */
-    var $aZoneForecasts;
-
-    /**
      * A variable for storing a local instance of the
      * OA_DB_Table_Priority class.
      *
@@ -77,7 +69,6 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     function OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions()
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
-        $this->aZoneForecasts = array();
         $this->oTable =& $this->_getMaxTablePriorityObj();
     }
 
@@ -572,13 +563,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // Get the forcast impressions for the previous week
         if (!empty($aAdZones)) {
             foreach ($aAdZones as $aZone) {
-                if (!is_array($this->aZoneForecasts[$aZone['zone_id']])) {
-                    $this->aZoneForecasts[$aZone['zone_id']] =
+                if (!is_array($aZoneForecasts[$aZone['zone_id']])) {
+                    $aZoneForecasts[$aZone['zone_id']] =
                         $this->oDal->getPreviousWeekZoneForcastImpressions($aZone['zone_id']);
                 }
-                if (is_array($this->aZoneForecasts[$aZone['zone_id']]) &&
-                    !empty($this->aZoneForecasts[$aZone['zone_id']])) {
-                    foreach ($this->aZoneForecasts[$aZone['zone_id']] as $aValues) {
+                if (is_array($aZoneForecasts[$aZone['zone_id']]) &&
+                    !empty($aZoneForecasts[$aZone['zone_id']])) {
+                    foreach ($aZoneForecasts[$aZone['zone_id']] as $aValues) {
                         $aResults[$aValues['operation_interval_id']] +=
                             (int)$aValues['forecast_impressions'];
                     }

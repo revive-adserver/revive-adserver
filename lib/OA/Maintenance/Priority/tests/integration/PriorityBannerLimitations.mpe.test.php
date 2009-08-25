@@ -150,25 +150,6 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         $doAd_zone_assoc->ad_id   = $bannerId2;
         DataGenerator::generateOne($doAd_zone_assoc);
 
-        // Prepare the required past week+ zone impression
-        // history information, so that zone patterning-based
-        // distribution will work
-        $oZoneHistoryDate = new Date('2008-02-19 00:00:01');
-        for ($counter = 1; $counter <= (7 + 2) * 24; $counter++) { // 7 days for first week, then 2 days for test range
-            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oZoneHistoryDate);
-            $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oZoneHistoryDate);
-            $doData_summary_zone_impression_history = OA_Dal::factoryDO('data_summary_zone_impression_history');
-            $doData_summary_zone_impression_history->zone_id               = $zoneId;
-            $doData_summary_zone_impression_history->forecast_impressions  = 1000;
-            $doData_summary_zone_impression_history->operation_interval    = $aConf['maintenance']['operationInteval'];
-            $doData_summary_zone_impression_history->operation_interval_id = $operationIntervalId;
-            $doData_summary_zone_impression_history->interval_start        = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-            $doData_summary_zone_impression_history->interval_end          = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-            DataGenerator::generateOne($doData_summary_zone_impression_history);
-            // Move on to the next hour
-            $oZoneHistoryDate->addSeconds(SECONDS_PER_HOUR);
-        }
-
         // Run the code to get the required ad impressions over
         // the 48 hour period of the test
         for ($counter = 1; $counter <= 48; $counter++) {

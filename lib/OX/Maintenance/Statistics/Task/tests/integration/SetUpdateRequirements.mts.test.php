@@ -48,12 +48,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $this->UnitTestCase();
     }
 
-    function test_testForCrashedTables()
-    {
-        $oSetUpdateRequirements = new OX_Maintenance_Statistics_Task_SetUpdateRequirements();
-        $this->assertTrue($oSetUpdateRequirements->_checkTables());
-    }
-
     /**
      * Tests the _getMaintenanceStatisticsLastRunInfo() method.
      */
