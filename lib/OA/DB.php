@@ -357,10 +357,10 @@ class OA_DB
         }
         $dbType = $aConf['database']['type'];
         if (strcasecmp($dbType, 'mysql') === 0) {
-            if ($aConf['database']['ssl'] && !empty($aConf['database']['ca']) && !empty($aConf['database']['capth'])) {
+            if ($aConf['database']['ssl'] && !empty($aConf['database']['ca']) && !empty($aConf['database']['capath'])) {
                 $aDriverOptions['ssl'] = true;
                 $aDriverOptions['ca'] = $aConf['database']['ca'];
-                $aDriverOptions['capath'] = $aConf['database']['capth'];
+                $aDriverOptions['capath'] = $aConf['database']['capath'];
             }
             if ($aConf['database']['compress']) {
                 $aDriverOptions['compress'] = true;

@@ -22,6 +22,11 @@ persistent                          = false
 mysql4_compatibility                = false
 protocol                            = tcp
 
+compress                            = false
+ssl                                 = false
+capath                              =
+ca                                  =
+
 ;------------------------------------------------------------------------------------------;
 ; Do NOT Change Any Of The Following!                                                      ;
 ;------------------------------------------------------------------------------------------;

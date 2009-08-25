@@ -1642,6 +1642,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $oDbh = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
         $aFields = $_DB_DATAOBJECT['INI'][$oDbh->database_name][$this->_tableName];
 
+        $aAuditFields = array();
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:
