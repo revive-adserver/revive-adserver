@@ -80,7 +80,6 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectNever('saveHistory');
         $oDal->expectNever('saveSummary');
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
@@ -102,7 +101,6 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectOnce('saveHistory', array($oStartDate, $oUpdateIntermediateToDate));
         $oDal->expectNever('saveSummary');
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
@@ -126,7 +124,6 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectNever('saveHistory');
         $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
@@ -155,7 +152,6 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectOnce('saveHistory', array($oStartDate, $oUpdateIntermediateToDate));
         $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class

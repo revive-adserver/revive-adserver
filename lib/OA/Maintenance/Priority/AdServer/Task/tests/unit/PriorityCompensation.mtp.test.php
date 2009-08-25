@@ -87,8 +87,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             4 => 400,
             5 => 500
         );
-        $oDal->setReturnReference('getZonesForecasts', $returnGetAllZonesImpInv);
-        $oDal->expectOnce('getZonesForecasts');
+        $oDal->setReturnReference('getZonesForecastsForAllZones', $returnGetAllZonesImpInv);
+        $oDal->expectOnce('getZonesForecastsForAllZones');
         $returnGetAllDeliveryLimitationChangedCreatives = array(
             1 => '0000-00-00 00:00:00',
             2 => '2006-04-27 12:00:05'
