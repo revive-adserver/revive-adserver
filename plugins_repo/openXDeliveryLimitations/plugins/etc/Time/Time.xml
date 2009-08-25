@@ -10,7 +10,7 @@
     <license>GNU General Public License</license>
     <description>Time Delivery Limitations for OpenX</description>
     <version>1.0.2</version>
-    <oxversion>2.8.2</oxversion>
+    <oxversion>2.8.2-rc7</oxversion>
     <extends>deliveryLimitations</extends>
 
     <install>
