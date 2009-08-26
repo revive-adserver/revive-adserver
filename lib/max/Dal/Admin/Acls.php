@@ -64,7 +64,7 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
      * @param string $table Either 'acls' or 'acls_channels'
      * @return RecordSet
      */
-    function &getRsAcls($table)
+    function &getRsAcls($table, $orderBy = false)
     {
         $table = $this->oDbh->quoteIdentifier($this->getTablePrefix().$table);
         $query = "
@@ -72,6 +72,9 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
                 *
             FROM
                 {$table}";
+        if ($orderBy) {
+            $query .= " ORDER BY ".$this->oDbh->quoteIdentifier($orderBy);
+        }
         return DBC::NewRecordSet($query);
     }
 }

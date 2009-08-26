@@ -434,13 +434,13 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     $dbh =& OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $table = $dbh->quoteIdentifier($prefix.$objectTable, true);
-    $result = $dbh->exec("UPDATE {$table} SET compiledlimitation = 'true', acl_plugins = ''");
+    $result = $dbh->exec("UPDATE {$table} SET compiledlimitation = '', acl_plugins = ''");
     if (PEAR::isError($result)) {
         return $result;
     }
 
     $dalAcls =& OA_Dal::factoryDAL('acls');
-    $rsAcls = $dalAcls->getRsAcls($aclsTable);
+    $rsAcls = $dalAcls->getRsAcls($aclsTable, $idColumn);
     if (PEAR::isError($rsAcls)) {
         return $rsAcls;
     }
@@ -449,24 +449,44 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
         return $result;
     }
 
+    // Init variable to store limitation types to be upgraded
+    $aUpgradeByType = array();
+    // Init array to store all banner ACLs
     $aAcls = array();
-    while ($rsAcls->fetch()) {
+
+    // Fetch first row
+    if (!$rsAcls->fetch()) {
+        // No rows, exit
+        return true;
+    }
+
+    do {
         $row = $rsAcls->toArray();
-        $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($row);
-        if ($deliveryLimitationPlugin)
-        {
-            if ($upgrade || $deliveryLimitationPlugin->isAllowed($page))
-            {
-                $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
+        if (!isset($aUpgradeByType[$row['type']])) {
+            // Plugin not loaded yet
+            $oPlugin = OA_aclGetComponentFromRow($row);
+            if ($oPlugin) {
+                // Upgrade requested or plugin allowed
+                $aUpgradeByType[$row['type']] = $upgrade || $oPlugin->isAllowed($page);
+                unset($oPlugin);
+            } else {
+                $aUpgradeByType[$row['type']] = false;
             }
         }
-    }
-    // OK so we've updated all the data values, now the hard part, we need to recompile limitations for all banners
-    foreach ($aAcls as $id => $acl)
-    {
-        $aEntities = array($idColumn => $id);
-        MAX_AclSave($acl, $aEntities, $page);
-    }
+        if ($aUpgradeByType[$row['type']]) {
+            $aAcls[$row['executionorder']] = $row;
+        }
+        // Fetch next record
+        $result = $rsAcls->fetch();
+        // Was this the last one? Is the next record linked to another entity?
+        if (!$result || $row[$idColumn] != $rsAcls->get($idColumn)) {
+            // Yes, we need to save!
+            $aEntities = array($idColumn => $row[$idColumn]);
+            MAX_AclSave($aAcls, $aEntities, $page);
+            $aAcls = array();
+        }
+    } while ($result);
+
     return true;
 }
 
