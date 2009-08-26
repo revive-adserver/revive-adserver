@@ -514,6 +514,10 @@ function OA_aclRecompileCampaigns($upgrade = false)
  */
 function MAX_AclReCompileAll($upgrade = false)
 {
+    // Disable audit
+    $audit = $GLOBALS['_MAX']['CONF']['audit'];
+    $GLOBALS['_MAX']['CONF']['audit'] = false;
+
     $result = OA_aclRecompileBanners($upgrade);
     if (PEAR::isError($result)) {
         return $result;
@@ -522,6 +526,10 @@ function MAX_AclReCompileAll($upgrade = false)
     if (PEAR::isError($result)) {
         return $result;
     }
+
+    // Enable audit if needed
+    $GLOBALS['_MAX']['CONF']['audit'] = $audit;
+
     return true;
 }
 
