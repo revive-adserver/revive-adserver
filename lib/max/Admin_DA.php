@@ -44,7 +44,6 @@ $GLOBALS['_MAX']['Admin_DA']['cacheGroups'] = array(
     'getAdsStats'            => 'stats',
     'getEntitiesStats'       => 'stats',
     'getHistorySpan'         => 'stats',
-    'getTargetingSpan'       => 'stats',
     'getDayHistory'          => 'stats',
     'getMonthHistory'        => 'stats',
     'getDayOfWeekHistory'    => 'stats',
@@ -845,13 +844,6 @@ class Admin_DA
     function getHistorySpan($aParams)
     {
         $span = Admin_DA::_getEntities('history_span', $aParams, false, 'start_date');
-
-        return current($span);
-    }
-
-    function getTargetingSpan($aParams)
-    {
-        $span = Admin_DA::_getEntities('targeting_span', $aParams, false, 'start_date');
 
         return current($span);
     }

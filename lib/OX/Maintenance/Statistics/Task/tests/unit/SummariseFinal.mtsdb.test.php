@@ -170,5 +170,3 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
     }
 
 }
-
-?>

@@ -102,22 +102,13 @@ class OA_Admin_Statistics_Factory
             $aSecondary[$key] = ucfirst(strtolower($string));
         }
 
-        // Generate the file and class names
-        if ($aSecondary[0] == 'Targeting') {
-            $file = MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Controller/';
-        } else {
-            $file = MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Controller/';
-        }
+        $file = MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Controller/';
         $file .= $primary;
         foreach ($aSecondary as $string) {
             $file .= $string;
         }
         $file .= '.php';
-        if ($aSecondary[0] == 'Targeting') {
-            $class = 'OA_Admin_Statistics_Targeting_Controller_';
-        } else {
-            $class = 'OA_Admin_Statistics_Delivery_Controller_';
-        }
+        $class = 'OA_Admin_Statistics_Delivery_Controller_';
         $class .= $primary;
         foreach ($aSecondary as $string) {
             $class .= $string;

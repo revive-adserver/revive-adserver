@@ -70,7 +70,6 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'campaign-banners'              => 'OA_Admin_Statistics_Delivery_Controller_CampaignBanners',
         //'campaign-daily'                => 'OA_Admin_Statistics_Delivery_Controller_CampaignDaily',
         'campaign-history'              => 'OA_Admin_Statistics_Delivery_Controller_CampaignHistory',
-        //'campaign-targeting'            => 'OA_Admin_Targeting_Controller_CampaignTargeting',
         'campaign-zone-history'         => 'OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory',
 
         'global-advertiser'             => 'OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser',
@@ -83,13 +82,6 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'zone-campaign-history'         => 'OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory',
         //'zone-daily'                    => 'OA_Admin_Statistics_Delivery_Controller_ZoneDaily',
         'zone-history'                  => 'OA_Admin_Statistics_Delivery_Controller_ZoneHistory'
-    );
-
-    var $testTypesTargeting = array(
-        'banner-targeting'         => 'OA_Admin_Statistics_Targeting_Controller_BannerTargeting',
-        'banner-targeting-daily'  => 'OA_Admin_Statistics_Targeting_Controller_BannerTargetingDaily',
-        'campaign-targeting'          => 'OA_Admin_Statistics_Targeting_Controller_CampaignTargeting',
-        'campaign-targeting-daily'            => 'OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily',
     );
 
     /**
@@ -115,18 +107,6 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
             $this->assertEqual($class, $expectedClassName);
             $this->assertPattern("(\/Statistics\/Delivery\/Controller\/{$expectFile}\.php)",$file);
         }
-        foreach ($this->testTypesTargeting as $controllerType => $expectedClassName)
-        {
-            $aType = explode('-',$controllerType);
-            $expectFile= '';
-            foreach ($aType AS $string)
-            {
-                $expectFile.= ucfirst($string);
-            }
-            OA_Admin_Statistics_Factory::_getControllerClass($controllerType, null, $class, $file);
-            $this->assertEqual($class, $expectedClassName);
-            $this->assertPattern("(\/Statistics\/Targeting\/Controller\/{$expectFile}\.php)",$file);
-        }
     }
 
     function test_instantiateController()
@@ -139,14 +119,6 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $this->assertEqual(count($oObject->aPlugins),2);
         $this->assertTrue(isset($oObject->aPlugins['default']));
         $this->assertTrue(isset($oObject->aPlugins['affiliates']));
-
-        $file = MAX_PATH.'/lib/OA/Admin/Statistics/Targeting/Common.php';
-        $aParams = array();
-        $class = 'OA_Admin_Statistics_Targeting_Common';
-        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
-        $this->assertIsA($oObject, $class);
-        $this->assertEqual(count($oObject->aPlugins),1);
-        $this->assertTrue(isset($oObject->aPlugins['default']));
 
         $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
         $aParams = array();

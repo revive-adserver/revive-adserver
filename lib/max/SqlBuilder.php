@@ -434,23 +434,6 @@ class SqlBuilder
             if (!empty($aParams['publisher_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['zones'] => 'z');
             break;
 
-        case 'targeting_span' :
-            if (isset($aParams['custom_table'])) {
-                $aTables += array($conf['table']['prefix'].$conf['table'][$aParams['custom_table']] => 's');
-            } else {
-                $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'] => 's');
-            }
-
-            if (!empty($aParams['agency_id'])) $aTables += array(
-                $conf['table']['prefix'].$conf['table']['clients'] => 'a',
-                $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd', $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
-                $conf['table']['prefix'].$conf['table']['zones'] => 'z');
-
-            if (!empty($aParams['advertiser_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd');
-            if (!empty($aParams['placement_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['banners'] => 'd');
-            if (!empty($aParams['publisher_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['zones'] => 'z');
-            break;
-
         case 'stats_by_entity' :
             if (isset($aParams['include']) && is_array($aParams['include'])) {
                 // Fake needed parameters

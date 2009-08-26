@@ -91,10 +91,6 @@ $plugins = array(
                  'pluginName' =>'statisticsFieldsDelivery',
                  'packages' => MAX_Plugin::getPlugins('statisticsFieldsDelivery')
                  ),
-           '7' => array(
-                 'pluginName' =>'statisticsFieldsTargeting',
-                 'packages' => MAX_Plugin::getPlugins('statisticsFieldsTargeting')
-                 )
 );
 
 foreach ($languages as $languageKey => $languageName) {
