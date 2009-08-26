@@ -27,6 +27,14 @@
 $Id$
 
 -->*}
+{* Nasty hacks to get around stacking context mess and IE z-index bugs *}
+<style type="text/css">{literal}
+#oaNavigation { *border-bottom: none; }
+#firstLevelContent { *border-top: 1px solid #D1D1D1; }
+#thirdLevelContent { *z-index: 3; }
+.contextContainer { *display: none; }
+{/literal}</style>
+
 <div class="market-campaign-settings">
   <form class="flat" id="massOptIn" action="market-campaigns-settings.php" method="POST">
     {if $topMessage}
@@ -37,6 +45,7 @@ $Id$
           <p>
           To participate, select the campaigns you want OpenX Market to compete with and 
           assign a floor price (minimum CPM) to each campaign. You do not need to retag your zones.
+          <a class="pointer" help="market-cpm-callout">Learn more</a>
           </p>
       </div>
     {/if}
