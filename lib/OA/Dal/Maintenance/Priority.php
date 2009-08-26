@@ -130,34 +130,34 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         return $this->getProcessLastRunInfo($table, $aFields, $whereClause);
     }
-    
+
     /*
      * Set the minimum value of an operation interval's zone impression forecast,
      * even when using operation intervals less than 60 minutes
      */
     static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM = 10;
-    
+
     /*
      * Set the default number of impressions to use as a forecast value when there
      * is simply no other data to use for calculation of forecasts, based on an
-     * operation interval of 60 minutes (the value will be reduced for smaller OIs 
+     * operation interval of 60 minutes (the value will be reduced for smaller OIs
      */
     static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 1000;
-    
+
     /*
      * Returns the default minimum value for a forecast for a zone in one OI
-     * 
-     * @return int 
+     *
+     * @return int
      */
     function getZoneForecastDefaultZoneImpressionsMinimum()
     {
         return self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
     }
-    
+
     /*
      * Returns the default forecast to use, for a given zone in a given OI.
-     * 
-     * @return int Number of impressions 
+     *
+     * @return int Number of impressions
      */
     function getZoneForecastDefaultZoneImpressions()
     {
@@ -168,7 +168,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         return $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
     }
-    
+
     /**
      * A method to return an array of Campaign objects.
      *
@@ -506,7 +506,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         );
         return $this->_get($query);
     }
-    
+
     /**
      * Returns an array of forecasts for the current OI, for all zones in the system.
      * Forecast for a given zone is the number of impressions received by this zone in the previous OI.
@@ -523,10 +523,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (!$oDate) {
             return false;
         }
-    
+
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-        $interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');        
+        $interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $aResult = $this->getZonesForecasts($interval_start, $interval_end);
 
         // Get all possible zones in the system, plus zone 0
@@ -934,9 +934,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $table2 = $this->_getTablename('data_intermediate_ad');
 
 	        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
-	        
+
             // we have to do this complicated MINUS query (mysql doesn't support MINUS so we do a LEFT JOIN exclude not matching)
-            // and we do two subqueries in order to use the INDEXes as expected 
+            // and we do two subqueries in order to use the INDEXes as expected
             // note the trick that we use range lookup on the date_time field as this is the one that is indexed
             $query = "
             SELECT dsaza.*
@@ -973,12 +973,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     ad_id,
                     zone_id
             ) as dsaza
-            LEFT JOIN 
+            LEFT JOIN
             (
-            	SELECT 
-            		ad_id, 
+            	SELECT
+            		ad_id,
             		zone_id
-            	FROM 
+            	FROM
             	{$table2} AS dia
                 WHERE
                     operation_interval = {$aConf['maintenance']['operationInterval']}
@@ -989,8 +989,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     AND
                     interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                     AND
-                    date_time > DATE_SUB('" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval) 
-                    AND 
+                    date_time > DATE_SUB('" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval)
+                    AND
                     date_time < DATE_ADD('" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval)
                 ORDER BY
                     ad_id,
@@ -1000,7 +1000,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 dsaza.ad_id = dia.ad_id
                 AND
                 dsaza.zone_id = dia.zone_id
-            WHERE                 
+            WHERE
                 dia.ad_id IS NULL
                 AND
                 dia.zone_id IS NULL
@@ -2121,7 +2121,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
             SELECT
-                sum(impressions) AS forecast_impressions,
+                SUM(impressions) AS forecast_impressions,
                 operation_interval_id AS operation_interval_id,
                 interval_start AS interval_start,
                 interval_end AS interval_end
@@ -2132,15 +2132,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end <= '" . $oDateWeekEnd->format('%Y-%m-%d %H:%M:%S') . "'
-                AND date_time > DATE_SUB('" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval) 
+                AND date_time > DATE_SUB('" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval)
                 AND date_time < DATE_ADD('" . $oDateWeekEnd->format('%Y-%m-%d %H:%M:%S') . "', $oneHourInterval)
                 AND zone_id != 0
-            GROUP BY 
-            	interval_start
+            GROUP BY
+            	interval_start,
+            	interval_end,
+            	operation_interval_id
             ORDER BY
                 interval_start";
             $rc = $this->oDbh->query($query);
-            
+
             $totalForecastImpressions = 0;
             $count = 0;
             if (!(PEAR::isError($rc))) {
@@ -2157,12 +2159,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     $totalForecastImpressions += $aRow['forecast_impressions'];
                 }
             }
-            
+
             $averageForecastImpressions = 0;
             if($count > 0) {
                 $averageForecastImpressions = floor($totalForecastImpressions / $count);
             }
-            if($averageForecastImpressions == 0) { 
+            if($averageForecastImpressions == 0) {
                 $averageForecastImpressions = $this->getZoneForecastDefaultZoneImpressions();
             }
             // Check each operation interval ID has a forecast impression value,
@@ -2423,9 +2425,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
     /**
      * Get all zones forecasts by querying last hour's impressions for each zone
-     * This function will look at the hour before the specified OI 
+     * This function will look at the hour before the specified OI
      * to determine how much traffic to expected in the specified OI.
-     * 
+     *
      * @param string $intervalStart  Interval start date of OI to forecast
      * @param string $intervalEnd  Interval end date of OI to forecast
      * @return array  array( zoneId => forecastForThisZone, ... )
@@ -2433,10 +2435,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getZonesForecasts($intervalStart, $intervalEnd)
     {
         OA::debug('  - Selecting Zones forecasts for all managers for OI from '.$intervalStart.' to '.$intervalEnd, PEAR_LOG_INFO);
-        
+
         $operationInterval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
-	    
+
         $query = "SELECT
                       d.zone_id AS zone_id,
                       sum(impressions) AS impressions,
@@ -2446,7 +2448,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                   WHERE
                           d.operation_interval = '{$operationInterval}'
                       AND d.date_time < '{$intervalStart}'
-                      AND d.date_time >= DATE_SUB('{$intervalStart}', $oneHourInterval)    
+                      AND d.date_time >= DATE_SUB('{$intervalStart}', $oneHourInterval)
                   GROUP BY d.zone_id
                   ";
         $rc = $this->oDbh->query($query);
