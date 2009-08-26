@@ -2121,7 +2121,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
             SELECT
-                zone_id AS zone_id,
                 sum(impressions) AS forecast_impressions,
                 operation_interval_id AS operation_interval_id,
                 interval_start AS interval_start,
@@ -2150,7 +2149,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 while ($aRow = $rc->fetchRow()) {
                     $aFinalResult[$aRow['operation_interval_id']] =
                     array(
-                        'zone_id'               => $aRow['zone_id'],
+                        'zone_id'               => $zoneId,
                         'forecast_impressions'  => $aRow['forecast_impressions'],
                         'operation_interval_id' => $aRow['operation_interval_id']
                     );
@@ -2437,10 +2436,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         
         $operationInterval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
-	        
+	    
         $query = "SELECT
                       d.zone_id AS zone_id,
-                      sum(impressions) AS impressions
+                      sum(impressions) AS impressions,
+                      count(DISTINCT operation_interval_id) as count
                   FROM
                   {$this->_getTablename('data_intermediate_ad')} AS d
                   WHERE
@@ -2452,7 +2452,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $rc = $this->oDbh->query($query);
         $aResult = array();
         while ($aRow = $rc->fetchRow()) {
-            $aResult[$aRow['zone_id']] = $aRow['impressions'];
+            // we divide by count in the case where we picked up several OIs that last less than one hour
+            $aResult[$aRow['zone_id']] = round($aRow['impressions'] / $aRow['count']);
         }
         return $aResult;
     }
@@ -2488,7 +2489,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
                   GROUP BY
                       t.zone_id";
-                  return $this->getZonesAllocationsByQuery($query);
+        return $this->getZonesAllocationsByQuery($query);
     }
 
     /**
@@ -2525,7 +2526,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
                   GROUP BY
                       t.zone_id";
-                  return $this->getZonesAllocationsByQuery($query);
+        return $this->getZonesAllocationsByQuery($query);
     }
 
     /**
