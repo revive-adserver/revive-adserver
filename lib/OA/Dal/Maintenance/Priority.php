@@ -2448,7 +2448,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND d.date_time < '{$intervalStart}'
                       AND d.date_time >= DATE_SUB('{$intervalStart}', $oneHourInterval)    
                   GROUP BY d.zone_id
-                  ORDER BY NULL
                   ";
         $rc = $this->oDbh->query($query);
         $aResult = array();
