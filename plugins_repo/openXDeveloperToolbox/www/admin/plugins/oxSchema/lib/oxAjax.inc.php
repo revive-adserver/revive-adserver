@@ -467,7 +467,7 @@ $xajax->processRequests();
 
 $overwrite=true;
 
-$jspath = MAX_PATH.'/var/plugins/cache/';
+$jspath = MAX_PATH.'/var/templates_compiled/';
 $jsfile = 'oxSchema.js';
 if (!file_exists($jspath.$jsfile) || $overwrite)
 {
