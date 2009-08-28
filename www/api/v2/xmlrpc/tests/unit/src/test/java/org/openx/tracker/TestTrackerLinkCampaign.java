@@ -25,6 +25,8 @@ $Id$
 package org.openx.tracker;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
@@ -72,6 +74,30 @@ public class TestTrackerLinkCampaign extends TrackerTestCase {
         } catch (XmlRpcException e) {
             assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, errorMsg, e.getMessage());
         }
+    }
+
+    public void testLinkCampaignDifferentAdvertiserError()
+            throws XmlRpcException, MalformedURLException {
+
+        // Create a new advertiser
+        Integer newAdvertiserId = createAdvertiser();
+
+        // Create a tracker for the new advertiser
+        Map<String, Object> trackerParams = new HashMap<String, Object>();
+        trackerParams.put(CLIENT_ID, newAdvertiserId);
+        trackerParams.put(TRACKER_NAME, "test" + TRACKER_NAME);
+        trackerParams.put(DESCRIPTION, "test" + DESCRIPTION);
+        trackerParams.put(VIEW_WINDOW, 0);
+        trackerParams.put(CLICK_WINDOW, 0);
+        trackerParams.put(BLOCK_WINDOW, 0);
+        trackerParams.put(STATUS, 4);
+        trackerParams.put(TYPE, 1);
+        trackerParams.put(LINK_CAMPAIGNS, false);
+        trackerParams.put(VARIABLE_METHOD, "default");
+        Integer newTrackerId = createTracker(trackerParams);
+
+        Object[] params = new Object[] {sessionId, newTrackerId, campaignId, MAX_CONNECTION_STATUS_APPROVED};
+        executeLinkCampaignWithError(params, ErrorMessage.getMessage(ErrorMessage.CAMPAIGN_ADVERTISER_MISMATCH));
     }
 
     /**

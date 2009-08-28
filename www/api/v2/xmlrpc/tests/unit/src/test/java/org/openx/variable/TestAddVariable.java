@@ -78,7 +78,12 @@ public class TestAddVariable extends VariableTestCase {
             MalformedURLException {
         Map<String, Object> struct = new HashMap<String, Object>();
         struct.put(TRACKER_ID, trackerId);
-        struct.put(VARIABLE_NAME, TextUtils.getString(250));
+
+        // To allow for the: var VARIABLE_NAME = escape(\\''%%VARIABLE_NAME%%\\'')
+        // that is set in variablecode we must set VARIABLE_NAME length to be:
+        // 250 = (33 + VAR_NAME_LEN) + VAR_NAME_LEN
+        // --> 217 / 2 = 108
+        struct.put(VARIABLE_NAME, TextUtils.getString(108));
         struct.put(DESCRIPTION, TextUtils.getString(250));
         Object[] params = new Object[]{sessionId, struct};
         final Integer result = (Integer) execute(ADD_VARIABLE_METHOD, params);

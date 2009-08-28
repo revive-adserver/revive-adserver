@@ -61,18 +61,6 @@ public class TrackerTestCase extends CampaignTestCase {
 
         protected static final Integer MAX_CONNECTION_STATUS_APPROVED = 4;
 
-	protected Integer clientId;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		clientId = createAdvertiser();
-	}
-
-	protected void tearDown() throws Exception {
-		deleteAdvertiser(clientId);
-		super.tearDown();
-	}
-
 	public Integer createTracker() throws XmlRpcException,
 			MalformedURLException {
 
@@ -116,7 +104,7 @@ public class TrackerTestCase extends CampaignTestCase {
 
 	public Map<String, Object> getTrackerParams(String prefix) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put(CLIENT_ID, clientId);
+		params.put(CLIENT_ID, advertiserId);
 		params.put(TRACKER_NAME, prefix + TRACKER_NAME);
                 params.put(DESCRIPTION, prefix + DESCRIPTION);
                 params.put(VIEW_WINDOW, 0);

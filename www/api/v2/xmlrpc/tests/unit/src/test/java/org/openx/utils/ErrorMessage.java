@@ -64,6 +64,7 @@ public class ErrorMessage {
 	public static final String INVOCATION_TAG_PLUGIN_ERROR = "Error while factory invocationTag plugin";
 	public static final String FIELD_MUST_BE_ONE_OF_ENUM = "Field ''{0}'' must be one of the enum: {1}";
 	public static final String INVALID_SESSION_ID = "Session ID is invalid";
+        public static final String CAMPAIGN_ADVERTISER_MISMATCH = "Campaign must be owned by same advertiser";
 	
 	public static String getMessage(final String message,
 			final String... parameters) {

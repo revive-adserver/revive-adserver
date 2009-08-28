@@ -51,9 +51,9 @@ public class TestAddTracker extends TrackerTestCase {
     public void testAddTrackerAllReqAndSomeOptionalFields()
             throws XmlRpcException, MalformedURLException {
 
-        assertNotNull(clientId);
+        assertNotNull(advertiserId);
         Map<String, Object> struct = new HashMap<String, Object>();
-        struct.put(CLIENT_ID, clientId);
+        struct.put(CLIENT_ID, advertiserId);
         struct.put(TRACKER_NAME, "testTracker");
         struct.put(DESCRIPTION, "I am tracker");
 
@@ -66,7 +66,7 @@ public class TestAddTracker extends TrackerTestCase {
     public void testAddTrackerWithoutSomeRequiredFields()
             throws MalformedURLException {
         Map<String, Object> struct = new HashMap<String, Object>();
-        struct.put(CLIENT_ID, clientId);
+        struct.put(CLIENT_ID, advertiserId);
 
         Object[] params = new Object[]{sessionId, struct};
 
@@ -77,7 +77,7 @@ public class TestAddTracker extends TrackerTestCase {
     public void testAddTrackerMaxValues() throws XmlRpcException,
             MalformedURLException {
         Map<String, Object> struct = new HashMap<String, Object>();
-        struct.put(CLIENT_ID, clientId);
+        struct.put(CLIENT_ID, advertiserId);
         struct.put(TRACKER_NAME, TextUtils.getString(255));
         struct.put(DESCRIPTION, TextUtils.getString(255));
         Object[] params = new Object[]{sessionId, struct};
@@ -93,7 +93,7 @@ public class TestAddTracker extends TrackerTestCase {
         final String strGreaterThan255 = TextUtils.getString(256);
 
         Map<String, Object> struct = new HashMap<String, Object>();
-        struct.put(CLIENT_ID, clientId);
+        struct.put(CLIENT_ID, advertiserId);
         struct.put(TRACKER_NAME, strGreaterThan255);
         Object[] XMLMethodParameters = new Object[]{sessionId, struct};
         executeAddTrackerWithError(XMLMethodParameters, ErrorMessage.getMessage(
@@ -117,7 +117,7 @@ public class TestAddTracker extends TrackerTestCase {
             XmlRpcException {
 
         Map<String, Object> struct = new HashMap<String, Object>();
-        struct.put(CLIENT_ID, clientId);
+        struct.put(CLIENT_ID, advertiserId);
         struct.put(TRACKER_NAME, TextUtils.NOT_STRING);
         Object[] params = new Object[]{sessionId, struct};
         executeAddTrackerWithError(params, ErrorMessage.getMessage(
