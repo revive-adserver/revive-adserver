@@ -202,8 +202,6 @@ list($micro_seconds, $seconds) = explode(" ", microtime());
 $GLOBALS['_MAX']['NOW_ms'] = round(1000 *((float)$micro_seconds + (float)$seconds));
 // Always use UTC when outside the installer
 if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
-// Save server timezone for auto-maintenance
-$GLOBALS['serverTimezone'] = date_default_timezone_get();
 OA_setTimeZoneUTC();
 }
 }
