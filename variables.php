@@ -66,7 +66,7 @@ function setupConfigVariables()
         // This request should be treated as if it was received over an SSL connection
         $GLOBALS['_MAX']['SSL_REQUEST'] = true;
     }
-    
+
     // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
     $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
@@ -76,6 +76,8 @@ function setupConfigVariables()
 
     // Always use UTC when outside the installer
     if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+        // Save server timezone for auto-maintenance
+        $GLOBALS['serverTimezone'] = date_default_timezone_get();
         OA_setTimeZoneUTC();
     }
 }
