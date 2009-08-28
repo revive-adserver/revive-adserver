@@ -199,7 +199,7 @@ public class TestAddPublisher extends PublisherTestCase {
 		final Integer id = createAgency();
 		deleteAgency(id);
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(PUBLISHER_NAME, TextUtils.MIN_ALLOWED_STRING);

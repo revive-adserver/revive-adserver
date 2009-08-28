@@ -48,6 +48,9 @@ public class UserTestCase extends WebServiceTestCase {
 	protected static final String GET_USER_LIST_BY_ACCOUNT_ID_METHOD = "ox.getUserListByAccountId";
 	protected static final String UPDATE_SSO_USER_ID_METHOD = "ox.updateSsoUserId";
 	protected static final String UPDATE_USER_EMAIL_BY_SSO_ID_METHOD = "ox.updateUserEmailBySsoId";
+	protected static final String LINK_USER_TO_ADVERTISER_METHOD = "ox.linkUserToAdvertiserAccount";
+	protected static final String LINK_USER_TO_TRAFFICKER_METHOD = "ox.linkUserToTraffickerAccount";
+	protected static final String LINK_USER_TO_MANAGER_METHOD = "ox.linkUserToManagerAccount";
 
 	protected static final String USER_ID = "userId";
 	protected static final String USER_NAME = "userName";
@@ -62,6 +65,10 @@ public class UserTestCase extends WebServiceTestCase {
 	protected static final String OLD_SSO_USER_ID = "oldSsoUserId";
 	protected static final String NEW_SSO_USER_ID = "newSsoUserId";
 	protected static final String SSO_EMAIL = "email";
+
+        protected static final Integer OA_PERM_SUPER_ACCOUNT = 10;
+        protected static final Integer OA_PERM_ZONE_EDIT = 7;
+        protected static final Integer OA_PERM_BANNER_EDIT = 4;
 	
 	protected static final String TEST_DATA_PREFIX = "test_";
 	
@@ -70,7 +77,7 @@ public class UserTestCase extends WebServiceTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getUserServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		userId = createUser();
 	}
 

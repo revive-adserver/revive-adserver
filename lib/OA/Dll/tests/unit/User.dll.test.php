@@ -49,14 +49,6 @@ class OA_Dll_UserTest extends DllUnitTestCase
     var $accountId;
 
     /**
-     * Errors
-     *
-     */
-    var $unknownIdError = 'Unknown userId Error';
-    var $notUniqueError = 'Username must be unique';
-    var $wrongParmError = 'Wrong Parameters';
-
-    /**
      * The constructor method.
      */
     function OA_Dll_UserTest()
@@ -124,8 +116,8 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         // Add a user with the same username
         $this->assertTrue((!$dllUserPartialMock->modify($oUserInfo2) &&
-                          $dllUserPartialMock->getLastError() == $this->notUniqueError),
-            $this->_getMethodShouldReturnError($this->notUniqueError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE));
 
         // Delete
         $this->assertTrue($dllUserPartialMock->delete($oUserInfo->userId),
@@ -133,13 +125,13 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         // Modify not existing id
         $this->assertTrue((!$dllUserPartialMock->modify($oUserInfo) &&
-                          $dllUserPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID));
 
         // Delete not existing id
         $this->assertTrue((!$dllUserPartialMock->delete($oUserInfo->userId) &&
-                           $dllUserPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError));
+                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID));
 
         $dllUserPartialMock->tally();
     }
@@ -232,8 +224,8 @@ class OA_Dll_UserTest extends DllUnitTestCase
         // Get not existing id
         $this->assertTrue((!$dllUserPartialMock->getUser($oUserInfo1->userId,
                                                                      $oUserInfo1Get) &&
-                          $dllUserPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID));
 
         $dllAgencyPartialMock->tally();
         $dllUserPartialMock->tally();
@@ -263,12 +255,12 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         // Test errors
         $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(0, 'email@example.com') &&
-                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
-            $this->_getMethodShouldReturnError($this->wrongParmError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS));
 
         $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(1, '') &&
-                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
-            $this->_getMethodShouldReturnError($this->wrongParmError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS));
 
         $dllUserPartialMock->tally();
     }
@@ -297,15 +289,117 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         // Test errors
         $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(0, 1) &&
-                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
-            $this->_getMethodShouldReturnError($this->wrongParmError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS));
 
         $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(1, 0) &&
-                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
-            $this->_getMethodShouldReturnError($this->wrongParmError));
+                          $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS));
 
         $dllUserPartialMock->tally();
     }
+
+    function testLinkUser()
+    {
+        $dllUserPartialMock = new PartialMockOA_Dll_User($this);
+        $dllUserPartialMock->setReturnValue('checkPermissions', true);
+
+        // create user
+        $userId = DataGenerator::generateOne('users');
+
+        // Invalid advertiser account
+        $this->assertTrue((!$dllUserPartialMock->linkUserToAdvertiserAccount($userId, 9999) &&
+            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_ACC_ID),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_ACC_ID));
+        
+        // Create advertiser
+        $advertiserId = DataGenerator::generateOne('clients');
+        $doAdvertiser = OA_Dal::staticGetDO('clients', $advertiserId);
+        $advertiserAccountId = $doAdvertiser->account_id;
+        $aAdvertiserPermissions = array(OA_PERM_SUPER_ACCOUNT, OA_PERM_BANNER_EDIT,
+            OA_PERM_BANNER_DEACTIVATE, OA_PERM_BANNER_ACTIVATE, OA_PERM_USER_LOG_ACCESS);
+
+        // Invalid user 
+        $this->assertTrue((!$dllUserPartialMock->linkUserToAdvertiserAccount(9999, $advertiserAccountId) &&
+            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID));
+        
+        // linkUserToAdvertiserAccount
+        $this->assertTrue($dllUserPartialMock->linkUserToAdvertiserAccount(
+            $userId, $advertiserAccountId, $aAdvertiserPermissions));
+
+        // Check the link was made
+        $this->assertLink($userId, $advertiserAccountId);
+
+        // Check the correct permissions were added
+        $this->assertPermissions($userId, $advertiserAccountId, $aAdvertiserPermissions);
+
+        // Re-link should not give an error
+        $this->assertTrue($dllUserPartialMock->linkUserToAdvertiserAccount(
+            $userId, $advertiserAccountId, $aAdvertiserPermissions));
+
+        // linkUserToTraffickerAccount
+        $websiteId = DataGenerator::generateOne('affiliates');
+        $doWebsite = OA_Dal::staticGetDO('affiliates', $websiteId);
+        $traffickerAccountId = $doWebsite->account_id;
+        $aTraffickerPermissions = array(OA_PERM_SUPER_ACCOUNT, OA_PERM_ZONE_EDIT,
+            OA_PERM_ZONE_ADD, OA_PERM_ZONE_DELETE, OA_PERM_ZONE_LINK,
+            OA_PERM_ZONE_INVOCATION, OA_PERM_USER_LOG_ACCESS);
+        $this->assertTrue($dllUserPartialMock->linkUserToTraffickerAccount(
+            $userId, $traffickerAccountId, $aTraffickerPermissions));
+
+        $this->assertLink($userId, $traffickerAccountId);
+        $this->assertPermissions($userId, $traffickerAccountId, $aTraffickerPermissions);
+
+        // linkUserToManagerAccount
+        $agencyId = DataGenerator::generateOne('agency');
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        $managerAccountId = $doAgency->account_id;
+        $aManagerPermissions = array(OA_PERM_SUPER_ACCOUNT);
+        $this->assertTrue($dllUserPartialMock->linkUserToManagerAccount(
+            $userId, $managerAccountId, $aManagerPermissions));
+
+        $this->assertLink($userId, $managerAccountId);
+        $this->assertPermissions($userId, $traffickerAccountId, $aManagerPermissions);
+
+        // Link to the wrong types of accounts
+        $this->assertTrue((!$dllUserPartialMock->linkUserToAdvertiserAccount($userId, $managerAccountId) &&
+            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH));
+
+        $this->assertTrue((!$dllUserPartialMock->linkUserToTraffickerAccount($userId, $advertiserAccountId) &&
+            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH));
+
+        $this->assertTrue((!$dllUserPartialMock->linkUserToManagerAccount($userId, $advertiserAccountId) &&
+            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH));
+    }
+
+    private function assertLink($userId, $accountId)
+    {
+        $doAua = OA_Dal::factoryDO('account_user_assoc');
+        $doAua->account_id = $accountId;
+        $doAua->user_id = $userId;
+
+        $expectedRows = 1;
+        $actualRows = $doAua->find();
+        $this->assertEqual($expectedRows, $actualRows);
+    }
+
+    private function assertPermissions($userId, $accountId, $aPermissions)
+    {
+        foreach ($aPermissions as $permissionId) {
+            $doAupa = OA_Dal::factoryDO('account_user_permission_assoc');
+            $doAupa->account_id = $accountId;
+            $doAupa->user_id = $userId;
+            $doAupa->permission_id = $permissionId;
+            $expectedRows = 1;
+            $actualRows = $doAupa->find();
+            $this->assertEqual($expectedRows, $actualRows);
+        }
+    }
+
 }
 
 ?>

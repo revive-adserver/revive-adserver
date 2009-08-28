@@ -88,7 +88,7 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param string $sessionId
      * @param OA_Dll_CampaignInfo &$oCampaign <br />
      *          <b>Required properties:</b> advertiserId<br />
-     *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
+     *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight, viewWindow, clickWindow<br />
      *
      * @return boolean
      */
@@ -115,7 +115,7 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param string $sessionId
      * @param OA_Dll_CampaignInfo &$oCampaign <br />
      *          <b>Required properties:</b> campaignId<br />
-     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
+     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight, viewWindow, clickWindow<br />
      *
      * @return boolean
      */

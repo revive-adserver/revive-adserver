@@ -256,6 +256,35 @@ class UserServiceImpl extends BaseServiceImpl
         }
     }
 
+    function linkUserToAdvertiserAccount($sessionId, $userId, $advertiserAccountId, $aPermissions)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult(
+                $this->_dllUser->linkUserToAdvertiserAccount($userId, $advertiserAccountId, $aPermissions));
+        } else {
+            return false;
+        }
+    }
+
+    function linkUserToTraffickerAccount($sessionId, $userId, $traffickerAccountId, $aPermissions)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult(
+                $this->_dllUser->linkUserToTraffickerAccount($userId, $traffickerAccountId, $aPermissions));
+        } else {
+            return false;
+        }
+    }
+
+    function linkUserToManagerAccount($sessionId, $userId, $managerAccountId, $aPermissions)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult(
+                $this->_dllUser->linkUserToManagerAccount($userId, $managerAccountId, $aPermissions));
+        } else {
+            return false;
+        }
+    }
 }
 
 

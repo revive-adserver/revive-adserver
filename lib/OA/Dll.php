@@ -360,6 +360,12 @@ class OA_Dll extends OA_BaseObjectWithErrors
             case 'users' :
                 $tableId = 'user';
                 break;
+            case 'trackers' :
+                $tableId = 'tracker';
+                break;
+            case 'variables' :
+                $tableId = 'variable';
+                break;
         }
 
         $doObject = OA_Dal::factoryDO($table);
@@ -423,6 +429,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
                 $isError = true;
             }
         }
+
+        // Should this check also be part of checkPermissions?
         if (!empty($id) && !$this->checkIdExistence($table, $id)) {
             return false;
         }

@@ -38,7 +38,9 @@ require_once 'BannerXmlRpcService.php';
 require_once 'CampaignXmlRpcService.php';
 require_once 'ChannelXmlRpcService.php';
 require_once 'PublisherXmlRpcService.php';
+require_once 'TrackerXmlRpcService.php';
 require_once 'UserXmlRpcService.php';
+require_once 'VariableXmlRpcService.php';
 require_once 'ZoneXmlRpcService.php';
 
 /**
@@ -417,6 +419,37 @@ class XmlRpcFrontController
         return $service->publisherZoneStatistics($message);
     }
 
+    // Tracker functions
+    public function addTracker($message)
+    {
+        $service = new TrackerXmlRpcService();
+        return $service->addTracker($message);
+    }
+
+    public function modifyTracker($message)
+    {
+        $service = new TrackerXmlRpcService();
+        return $service->modifyTracker($message);
+    }
+
+    public function deleteTracker($message)
+    {
+        $service = new TrackerXmlRpcService();
+        return $service->deleteTracker($message);
+    }
+
+    public function linkTrackerToCampaign($message)
+    {
+        $service = new TrackerXmlRpcService();
+        return $service->linkTrackerToCampaign($message);
+    }
+
+    public function getTracker($message)
+    {
+        $service = new TrackerXmlRpcService();
+        return $service->getTracker($message);
+    }
+
     // User functions
     public function addUser($message)
     {
@@ -458,6 +491,48 @@ class XmlRpcFrontController
     {
         $service = new UserXmlRpcService();
         return $service->updateUserEmailBySsoId($message);
+    }
+
+    public function linkUserToAdvertiserAccount($message)
+    {
+        $service = new UserXmlRpcService();
+        return $service->linkUserToAdvertiserAccount($message);
+    }
+
+    public function linkUserToTraffickerAccount($message)
+    {
+        $service = new UserXmlRpcService();
+        return $service->linkUserToTraffickerAccount($message);
+    }
+    public function linkUserToManagerAccount($message)
+    {
+        $service = new UserXmlRpcService();
+        return $service->linkUserToManagerAccount($message);
+    }
+
+    // Variable functions
+    public function addVariable($message)
+    {
+        $service = new VariableXmlRpcService();
+        return $service->addVariable($message);
+    }
+
+    public function modifyVariable($message)
+    {
+        $service = new VariableXmlRpcService();
+        return $service->modifyVariable($message);
+    }
+
+    public function deleteVariable($message)
+    {
+        $service = new VariableXmlRpcService();
+        return $service->deleteVariable($message);
+    }
+
+    public function getVariable($message)
+    {
+        $service = new VariableXmlRpcService();
+        return $service->getVariable($message);
     }
 
     // Zone functions

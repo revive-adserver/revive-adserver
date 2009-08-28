@@ -167,6 +167,9 @@ class OA_Dll_CampaignInfo extends OA_Info
      */
     var $comments;
 
+    var $viewWindow;
+    var $clickWindow;
+
     /**
      * This method sets all default values when adding a new campaign.
      *
@@ -231,6 +234,14 @@ class OA_Dll_CampaignInfo extends OA_Info
         if (is_null($this->block)) {
             // Leave null
         }
+
+         if (empty($this->viewWindow)) {
+            $this->viewWindow = 0;
+        }
+
+        if (empty($this->clickWindow)) {
+            $this->clickWindow = 0;
+        }
     }
 
     /**
@@ -261,6 +272,8 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'sessionCapping' => 'integer',
                     'block' => 'integer',
                     'comments' => 'string',
+                    'viewWindow' => 'integer',
+                    'clickWindow' => 'integer'
                 );
     }
 }

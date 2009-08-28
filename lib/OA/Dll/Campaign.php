@@ -68,6 +68,8 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['capping']            = $campaignData['capping'];
         $campaignData['sessionCapping']     = $campaignData['session_capping'];
         $campaignData['block']              = $campaignData['block'];
+        $campaignData['viewWindow']         = $campaignData['viewwindow'];
+        $campaignData['clickWindow']        = $campaignData['clickwindow'];
 
         // Don't send revenue & revenueType if the are null values in DB
         if (!is_numeric($campaignData['revenue'])) {
@@ -162,7 +164,9 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block') ||
-            !$this->checkStructureNotRequiredStringField($oCampaign,  'comments')
+            !$this->checkStructureNotRequiredStringField($oCampaign,  'comments') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'viewWindow') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clickWindow')
             ) {
             return false;
         } else {
@@ -226,7 +230,7 @@ class OA_Dll_Campaign extends OA_Dll
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> campaignId<br />
-     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
+     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight, viewWindow, clickWindow<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -293,6 +297,9 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['block']              = $oCampaign->block > 0
                                             ? $oCampaign->block
                                             : 0;
+
+        $campaignData['viewwindow'] = $oCampaign->viewWindow;
+        $campaignData['clickwindow'] = $oCampaign->clickWindow;
 
         if ($this->_validate($oCampaign)) {
             $doCampaign = OA_Dal::factoryDO('campaigns');

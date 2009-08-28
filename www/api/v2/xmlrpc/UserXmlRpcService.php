@@ -256,6 +256,78 @@ class UserXmlRpcService extends BaseUserService
         }
     }
 
+    function linkUserToAdvertiserAccount($oParams)
+    {
+        $sessionId = null;
+        $userId = null;
+        $advertiserAccountId = null;
+        $aPermissions = array();
+        $oResponseWithError = null;
+
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$advertiserAccountId),
+            array(true, true, true), $oParams, $oResponseWithError) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
+                $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->linkUserToAdvertiserAccount($sessionId, $userId,
+                $advertiserAccountId, $aPermissions)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    function linkUserToTraffickerAccount($oParams)
+    {
+        $sessionId = null;
+        $userId = null;
+        $traffickerAccountId = null;
+        $aPermissions = array();
+        $oResponseWithError = null;
+
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$traffickerAccountId),
+            array(true, true, true), $oParams, $oResponseWithError) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
+                $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->linkUserToTraffickerAccount($sessionId, $userId,
+                $traffickerAccountId, $aPermissions)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    function linkUserToManagerAccount($oParams)
+    {
+        $sessionId = null;
+        $userId = null;
+        $managerAccountId = null;
+        $aPermissions = array();
+        $oResponseWithError = null;
+
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$managerAccountId),
+            array(true, true, true), $oParams, $oResponseWithError) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
+                $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->linkUserToManagerAccount($sessionId, $userId,
+                $managerAccountId, $aPermissions)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
 }
 
 ?>

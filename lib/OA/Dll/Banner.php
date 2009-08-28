@@ -76,6 +76,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['bannerText']       = $bannerData['bannertext'];
         $bannerData['sessionCapping']   = $bannerData['session_capping'];
         $bannerData['block']            = $bannerData['block'];
+        $bannerData['alt']              = $bannerData['alt'];
 
         $oBanner->readDataFromArray($bannerData);
         return  true;
@@ -203,7 +204,8 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'block') ||
-            !$this->checkStructureNotRequiredStringField($oBanner,  'comments')
+            !$this->checkStructureNotRequiredStringField($oBanner,  'comments') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'alt')
             ) {
             return false;
         }
@@ -262,11 +264,11 @@ class OA_Dll_Banner extends OA_Dll
      * @param OA_Dll_BannerInfo &$oBanner <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> campaignId<br />
-     *          <b>Optional properties:</b> bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url<br />
+     *          <b>Optional properties:</b> bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, alt<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> bannerId<br />
-     *          <b>Optional properties:</b> campaignId, bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url<br />
+     *          <b>Optional properties:</b> campaignId, bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, altText<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -299,6 +301,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['storagetype']  = $oBanner->storageType;
         $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
+        $bannerData['alt']          = $oBanner->alt;
 
         $bannerData['capping']          = $oBanner->capping > 0
                                         ? $oBanner->capping
@@ -308,7 +311,7 @@ class OA_Dll_Banner extends OA_Dll
                                         : 0;
         $bannerData['block']            = $oBanner->block > 0
                                         ? $oBanner->block
-                                        : 0;
+                                        : 0;        
 
         if ($this->_validate($oBanner)) {
             $bannerData['storagetype'] = $oBanner->storageType;
@@ -355,7 +358,7 @@ class OA_Dll_Banner extends OA_Dll
                             $bannerData['alt_contenttype'] = '';
                             $bannerData['alt_filename']   = '';
                         }
-                    }
+                    }                    
                     break;
             }
 

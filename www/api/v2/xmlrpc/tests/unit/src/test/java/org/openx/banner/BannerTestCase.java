@@ -114,7 +114,7 @@ public class BannerTestCase extends CampaignTestCase {
 	public Integer createBanner(Map<String, Object> params)
 			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_BANNER_METHOD,
@@ -132,7 +132,7 @@ public class BannerTestCase extends CampaignTestCase {
 			MalformedURLException {
 		// set URL
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		return (Boolean) client.execute(DELETE_BANNER_METHOD, new Object[] {
 				sessionId, id });
@@ -142,7 +142,7 @@ public class BannerTestCase extends CampaignTestCase {
 			throws XmlRpcException, MalformedURLException {
 		// set URL
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		return client.execute(method, params);
 	}

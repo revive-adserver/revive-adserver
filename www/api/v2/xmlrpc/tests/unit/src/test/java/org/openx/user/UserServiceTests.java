@@ -14,6 +14,8 @@ public class UserServiceTests {
 		suite.addTestSuite(TestAddUser.class);
 		suite.addTestSuite(TestModifyUser.class);
 		suite.addTestSuite(TestDeleteUser.class);
+                suite.addTestSuite(TestLinkUserToAdvertiser.class);
+                suite.addTestSuite(TestLinkUserToManager.class);
 		//$JUnit-END$
 		return suite;
 	}

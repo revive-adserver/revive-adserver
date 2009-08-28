@@ -34,6 +34,7 @@ $Id$
 // Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/UserInfo.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 
 /**
@@ -43,6 +44,16 @@ require_once MAX_PATH . '/lib/OA/Dll/UserInfo.php';
 
 class OA_Dll_User extends OA_Dll
 {
+    const ERROR_USERNAME_NOT_UNIQUE = 'Username must be unique';
+    const ERROR_DEFAULT_ACC_NOT_LINKED = 'The specified default account is not linked to the user';
+    const ERROR_COULD_NOT_LINK_USER_TO_DEFAULT_ACC = 'Could not link the user to the default account';
+    const ERROR_UNKNOWN_USER_ID = 'Unknown userId Error';
+    const ERROR_UNKNOWN_ACC_ID = 'Unknown accountId Error';
+    const ERROR_WRONG_PARAMS = 'Wrong Parameters';
+    const ERROR_UNKNOWN_SSO_ID = 'Unknown ssoUserId Error';
+    const ERROR_UNKNOWN_SSO_ID_EMAIL = 'Unknown ssoUserId Error while updating user email';
+    const ERROR_ACCOUNT_TYPE_MISMATCH = 'Account type mismatch';
+
     /**
      * This method sets UserInfo from a data array.
      *
@@ -91,7 +102,7 @@ class OA_Dll_User extends OA_Dll
             $oldUsername = empty($oOldUser) ? '' : $oOldUser->username;
 
             if (!OA_Permission::isUsernameAllowed($oUser->username, $oldUsername)) {
-                $this->raiseError('Username must be unique');
+                $this->raiseError(self::ERROR_USERNAME_NOT_UNIQUE);
                 return false;
             }
         }
@@ -108,7 +119,7 @@ class OA_Dll_User extends OA_Dll
     function _validateDefaultAccount($oUser)
     {
         if (!OA_Permission::isUserLinkedToAccount($oUser->defaultAccountId, $oUser->userId)) {
-            $this->raiseError('The specified default account is not linked to the user');
+            $this->raiseError(self::ERROR_DEFAULT_ACC_NOT_LINKED);
             return false;
         }
 
@@ -217,7 +228,7 @@ class OA_Dll_User extends OA_Dll
                 $oUser->userId = $doUser->insert();
                 if ($oUser->userId) {
                     if (!OA_Permission::setAccountAccess($oUser->defaultAccountId, $oUser->userId)) {
-                        $this->raiseError('Could not link the user to the default account');
+                        $this->raiseError(self::ERROR_COULD_NOT_LINK_USER_TO_DEFAULT_ACC);
                         return false;
                     }
                 }
@@ -254,7 +265,7 @@ class OA_Dll_User extends OA_Dll
         }
 
         if (!$result) {
-            $this->raiseError('Unknown userId Error');
+            $this->raiseError(self::ERROR_UNKNOWN_USER_ID);
             return false;
         }
 
@@ -344,7 +355,7 @@ class OA_Dll_User extends OA_Dll
         }
 
         if (empty($oldSsoUserId) || empty($newSsoUserId)) {
-            $this->raiseError('Wrong Parameters');
+            $this->raiseError(self::ERROR_WRONG_PARAMS);
             return false;
         }
 
@@ -353,7 +364,7 @@ class OA_Dll_User extends OA_Dll
         $doUsers->sso_user_id = $newSsoUserId;
 
         if (!$doUsers->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
-            $this->raiseError('Unknown ssoUserId Error');
+            $this->raiseError(self::ERROR_UNKNOWN_SSO_ID);
             return false;
         }
 
@@ -374,7 +385,7 @@ class OA_Dll_User extends OA_Dll
         }
 
         if (empty($ssoUserId) || empty($email)) {
-            $this->raiseError('Wrong Parameters');
+            $this->raiseError(self::ERROR_WRONG_PARAMS);
             return false;
         }
 
@@ -385,11 +396,154 @@ class OA_Dll_User extends OA_Dll
         if (!$doUsers->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
             // this will be quite common message
             // maybe we shouln't consider different handling in this case?
-            $this->raiseError('Unknown ssoUserId Error while updating user email');
+            $this->raiseError(self::ERROR_UNKNOWN_SSO_ID_EMAIL);
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Links a user to an account.
+     *
+     * @param int $userId
+     * @param int $accountId
+     * @param array $aPermissions array of permissions to set (see OA_Permission.) eg:
+     *                            array(OA_PERM_SUPER_ACCOUNT, OA_PERM_BANNER_EDIT)
+     * @param array $aAllowedPermissions array of permissions that are allowed to be set.
+     *                                   Confusingly, the array format is different from
+     *                                   $aPermissions in that the permission is set in the
+     *                                   array key. The array value is not used and should be set to true. eg:
+     *                                   array(OA_PERM_SUPER_ACCOUNT => true, OA_PERM_BANNER_EDIT => true)
+     * @return boolean true on successful linking, false otherwise.
+     */
+    private function linkUserToAccount($userId, $accountId, $aPermissions = null, $aAllowedPermissions = null)
+    {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
+            return false;
+        }
+
+        if (!$this->checkIdExistence('users', $userId)) {
+            $this->raiseError(self::ERROR_UNKNOWN_USER_ID);
+            return false;
+        }
+
+        $result = OA_Permission::setAccountAccess($accountId, $userId);
+        if (PEAR::isError($result)) {
+            $this->raiseError($result->getMessage());
+            return false;
+        }
+
+        if (!empty($aPermissions)) {
+            $result = OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId,
+                $userId, $aAllowedPermissions);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getMessage());
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Links a user to an advertiser account.
+     *
+     * @param int $userId
+     * @param int $accountId
+     * @param array $aPermissions array of permissions to set (see OA_Permission.) eg:
+     *                            array(OA_PERM_SUPER_ACCOUNT, OA_PERM_BANNER_EDIT)
+     * @return boolean true on successful linking, false otherwise.
+     */
+    function linkUserToAdvertiserAccount($userId, $advertiserAccountId, $aPermissions = null)
+    {
+        if (!$this->checkIdExistence('accounts', $advertiserAccountId)) {
+            $this->raiseError(self::ERROR_UNKNOWN_ACC_ID);
+            return false;
+        }
+
+        if (!$this->checkAccountType($advertiserAccountId, OA_ACCOUNT_ADVERTISER)) {
+            $this->raiseError(self::ERROR_ACCOUNT_TYPE_MISMATCH);
+            return false;
+        }
+
+        $aAllowedPermissions = array();
+        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
+        $aAllowedPermissions[OA_PERM_BANNER_EDIT] = true;
+        $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = true;
+        $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = true;
+        $aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = true;
+
+        return $this->linkUserToAccount(
+            $userId, $advertiserAccountId, $aPermissions, $aAllowedPermissions);
+    }
+
+    /**
+     * Links a user to a trafficker account.
+     *
+     * @param int $userId
+     * @param int $accountId
+     * @param array $aPermissions array of permissions to set (see OA_Permission.) eg:
+     *                            array(OA_PERM_SUPER_ACCOUNT, OA_PERM_ZONE_EDIT)
+     * @return boolean true on successful linking, false otherwise.
+     */
+    function linkUserToTraffickerAccount($userId, $traffickerAccountId, $aPermissions = null)
+    {
+        if (!$this->checkIdExistence('accounts', $traffickerAccountId)) {
+            $this->raiseError(self::ERROR_UNKNOWN_ACC_ID);
+            return false;
+        }
+
+        if (!$this->checkAccountType($traffickerAccountId, OA_ACCOUNT_TRAFFICKER)) {
+            $this->raiseError(self::ERROR_ACCOUNT_TYPE_MISMATCH);
+            return false;
+        }
+
+        $aAllowedPermissions = array();
+        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
+        $aAllowedPermissions[OA_PERM_ZONE_EDIT] = true;
+        $aAllowedPermissions[OA_PERM_ZONE_ADD] = true;
+        $aAllowedPermissions[OA_PERM_ZONE_DELETE] = true;
+        $aAllowedPermissions[OA_PERM_ZONE_LINK] = true;
+        $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = true;
+        $aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = true;
+
+        return $this->linkUserToAccount(
+            $userId, $traffickerAccountId, $aPermissions, $aAllowedPermissions);
+    }
+
+    /**
+     * Links a user to a manager account.
+     *
+     * @param int $userId
+     * @param int $accountId
+     * @param array $aPermissions array of permissions to set (see OA_Permission.) eg:
+     *                            array(OA_PERM_SUPER_ACCOUNT)
+     * @return boolean true on successful linking, false otherwise.
+     */
+    function linkUserToManagerAccount($userId, $managerAccountId, $aPermissions = null)
+    {
+        if (!$this->checkIdExistence('accounts', $managerAccountId)) {
+            $this->raiseError(self::ERROR_UNKNOWN_ACC_ID);
+            return false;
+        }
+
+        if (!$this->checkAccountType($managerAccountId, OA_ACCOUNT_MANAGER)) {
+            $this->raiseError(self::ERROR_ACCOUNT_TYPE_MISMATCH);
+            return false;
+        }
+
+        $aAllowedPermissions = array();
+        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
+
+        return $this->linkUserToAccount(
+            $userId, $managerAccountId, $aPermissions, $aAllowedPermissions);
+    }
+
+    private function checkAccountType($accountId, $accountType)
+    {
+        $doAccount = OA_Dal::staticGetDO('accounts', $accountId);
+        return $doAccount->account_type == $accountType;
     }
 }
 

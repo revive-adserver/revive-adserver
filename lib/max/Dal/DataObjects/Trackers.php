@@ -32,6 +32,11 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Trackers extends DB_DataObjectCommon
 {
+    const TRACKER_VARIABLE_METHOD_DEFAULT = 'default';
+    const TRACKER_VARIABLE_METHOD_JS = 'js';
+    const TRACKER_VARIABLE_METHOD_DOM = 'dom';
+    const TRACKER_VARIABLE_METHOD_CUSTOM = 'custom';
+    
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
     ###START_AUTOCODE
@@ -65,7 +70,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
                 'status' => 1,
                 'type' => 1,
                 'linkcampaigns' => 'f',
-                'variablemethod' => 'default',
+                'variablemethod' => self::TRACKER_VARIABLE_METHOD_DEFAULT,
                 'appendcode' => '',
                 'updated' => '%DATE_TIME%',
                 );
@@ -176,6 +181,6 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         }
     }
 
-}
+        }
 
 ?>

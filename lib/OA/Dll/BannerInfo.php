@@ -68,7 +68,7 @@ class OA_Dll_BannerInfo extends OA_Info
      * This field provides the storageType for the banner, which is one of
      * 'sql','web','url','html','txt'.
      *
-     * @var enum $storageType
+     * @var string $storageType
      */
     var $storageType;
 
@@ -210,6 +210,13 @@ class OA_Dll_BannerInfo extends OA_Info
     var $comments;
 
     /**
+     * This field provides the alt value for SQL/Web/External banners.
+     *
+     * @var string $alt
+     */
+    var $alt;
+
+    /**
      * This method sets all default values when adding a new banner.
      *
      * @access public
@@ -305,6 +312,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'aImage' => 'custom',
                     'aBackupImage' => 'custom',
                     'comments' => 'string',
+                    'alt' => 'string'
                 );
     }
 }

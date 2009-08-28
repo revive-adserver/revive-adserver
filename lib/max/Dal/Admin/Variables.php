@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Trackers.php';
 
 class MAX_Dal_Admin_Variables extends MAX_Dal_Common
 {
@@ -75,6 +76,29 @@ class MAX_Dal_Admin_Variables extends MAX_Dal_Common
 
         return DBC::NewRecordSet($query);
     }
+
+    /**
+     * Update the variablecode for all variables linked to the given trackerId.
+     *
+     * @param int $trackerId the trackerId to update variables for.
+     * @param string $variableMethod see DataObjects_Trackers.
+     * @return boolean true on successful update, false otherwise.
+     */
+    public function updateVariableCode($trackerId, $variableMethod = null)
+    {
+        // Get all variables for this tracker.
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->trackerid = $trackerId;
+        $doVariables->find();
+        while ($doVariables->fetch()) {
+            $doVariables->setCode($variableMethod);
+            if (!$doVariables->update()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 ?>

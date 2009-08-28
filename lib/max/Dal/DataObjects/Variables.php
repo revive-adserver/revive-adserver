@@ -29,6 +29,7 @@ $Id$
  * Table Definition for variables
  */
 require_once 'DB_DataObjectCommon.php';
+require_once 'Trackers.php';
 
 class DataObjects_Variables extends DB_DataObjectCommon
 {
@@ -125,6 +126,31 @@ class DataObjects_Variables extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']   = $this->name;
+    }
+
+    /**
+     * Sets the variablecode value based on a given tracker variable method.
+     *
+     * @param string $variableMethod
+     */
+    public function setCode($variableMethod)
+    {
+        $variableCode = '';
+        switch ($variableMethod) {
+            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS:
+                $variableCode = "var {$this->name} = \\'%%".strtoupper($this->name)."_VALUE%%\\'";
+                break;
+            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM:
+                $variableCode = '';
+                break;
+            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM:
+                $variableCode = "var {$this->name} = \\'".$this->variablecode."\\'";
+                break;
+            default:
+                $variableCode = "var {$this->name} = escape(\\'%%".strtoupper($this->name)."_VALUE%%\\')";
+                break;
+        }
+        $this->variablecode = $variableCode;
     }
 
 }

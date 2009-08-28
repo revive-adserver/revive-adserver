@@ -116,7 +116,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		int bannerId = createBanner(bannerParams);
 		
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getZoneServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		final Boolean result = (Boolean) client

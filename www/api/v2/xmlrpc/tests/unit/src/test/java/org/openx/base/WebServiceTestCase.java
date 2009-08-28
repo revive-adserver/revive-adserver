@@ -58,7 +58,7 @@ public class WebServiceTestCase extends TestCase {
 		// create & config XML-RPC client
 		final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 
-		config.setServerURL(new URL(GlobalSettings.getLogonServiceUrl()));
+		config.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		client = new XmlRpcClient();
 		//client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
         final XmlRpcTransport transport = new ErrorLoggingXmlRpcSunHttpTransport(client);
@@ -82,7 +82,7 @@ public class WebServiceTestCase extends TestCase {
 	protected void tearDown() throws Exception {
 		// logoff
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getLogonServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		client.execute(LOGOFF_METHOD, new Object[] { sessionId });
 
 		super.tearDown();

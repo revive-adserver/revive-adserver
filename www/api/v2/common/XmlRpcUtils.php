@@ -185,7 +185,7 @@ class XmlRpcUtils
         $aReturnData = array();
 
         foreach ($aInfoData as $fieldName => $fieldValue) {
-            $aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
+            $aReturnData[$fieldName] = self::_setRPCTypeForField(
                         $oInfoObject->getFieldType($fieldName), $fieldValue);
         }
         return new XML_RPC_Value($aReturnData,
@@ -330,6 +330,9 @@ class XmlRpcUtils
             case 'double':
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
+            case 'boolean':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Boolean']);
+
             case 'date':
 
                 if (!is_object($variable) || !is_a($variable, 'Date')) {
@@ -339,6 +342,9 @@ class XmlRpcUtils
 
                 $value = $variable->format('%Y%m%d') . 'T00:00:00';
                 return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
+
+            case 'array':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Array']);
 
             case 'custom':
                 return $variable;
@@ -432,18 +438,41 @@ class XmlRpcUtils
     /**
      * Get non-scalar value from parameter
      *
-     * @access private
-     *
      * @param mixed &$result
      * @param XML_RPC_Value &$oParam
      * @param XML_RPC_Response &$oResponseWithError
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _getNonScalarValue(&$result, &$oParam, &$oResponseWithError)
+    public function getNonScalarValue(&$result, &$oParam, &$oResponseWithError)
     {
         $result = XML_RPC_decode($oParam);
         return true;
+    }
+
+    /**
+     * Get not required non-scalar value
+     *
+     * @param mixed &$result value or null
+     * @param XML_RPC_Message  &$oParams
+     * @param integer $idxParam
+     * @param XML_RPC_Response &$oResponseWithError
+     *
+     * @return boolean  shows true if method was executed successfully
+     */
+    public function getNotRequiredNonScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
+    {
+        $cParams = $oParams->getNumParams();
+        if ($cParams > $idxParam) {
+            $oParam = $oParams->getParam($idxParam);
+
+            return XmlRpcUtils::getNonScalarValue($result, $oParam, $oResponseWithError);
+        } else {
+
+            $result = null;
+            return true;
+        }
+
     }
 
     /**
@@ -584,7 +613,7 @@ class XmlRpcUtils
         if (isset($oParam)) {
             if ($oParam->kindOf() != 'scalar') {
 
-                return XmlRpcUtils::_getNonScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
+                return XmlRpcUtils::getNonScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
 
             } else {
 

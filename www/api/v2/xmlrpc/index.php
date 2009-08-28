@@ -586,6 +586,48 @@ $dispatches = array(
         'docstring' => 'Get Publishers List By Agency Id'
     ),
 
+    // Tracker functions
+    'ox.addTracker' => array(
+        'function' => array($fc, 'addTracker'),
+        'signature' => array(
+            array('int', 'string', 'struct')
+        ),
+        'docstring' => 'Add tracker'
+    ),
+
+    'ox.modifyTracker' => array(
+        'function'  => array($fc, 'modifyTracker'),
+        'signature' => array(
+            array('boolean', 'string', 'struct')
+        ),
+        'docstring' => 'Modify tracker'
+    ),
+
+    'ox.deleteTracker' => array(
+        'function' => array($fc, 'deleteTracker'),
+        'signature' => array(
+            array('boolean', 'string', 'int')
+        ),
+        'docstring' => 'Delete tracker'
+    ),
+
+    'ox.linkTrackerToCampaign' => array(
+        'function' => array($fc, 'linkTrackerToCampaign'),
+        'signature' => array(
+            array('boolean', 'string', 'int', 'int'),
+            array('boolean', 'string', 'int', 'int', 'int')
+        ),
+        'docstring' => 'Link tracker to campaign'
+    ),
+
+    'ox.getTracker' => array(
+        'function'  => array($fc, 'getTracker'),
+        'signature' => array(
+            array('struct', 'string', 'int')
+        ),
+        'docstring' => 'Get Tracker Information'
+    ),
+
     // User functions
     'ox.addUser' => array(
         'function'  => array($fc, 'addUser'),
@@ -641,6 +683,66 @@ $dispatches = array(
             array('array', 'string', 'int', 'string')
         ),
         'docstring' => 'Change users email for the user who match the SSO User ID'
+    ),
+
+    'ox.linkUserToAdvertiserAccount' => array(
+        'function'  => array($fc, 'linkUserToAdvertiserAccount'),
+        'signature' => array(
+            array('boolean', 'string', 'int', 'int', 'array'),
+            array('boolean', 'string', 'int', 'int')
+        ),
+        'docstring' => 'link a user to an advertiser account'
+    ),
+
+    'ox.linkUserToTraffickerAccount' => array(
+        'function'  => array($fc, 'linkUserToTraffickerAccount'),
+        'signature' => array(
+            array('boolean', 'string', 'int', 'int', 'array'),
+            array('boolean', 'string', 'int', 'int')
+        ),
+        'docstring' => 'link a user to a trafficker account'
+    ),
+
+    'ox.linkUserToManagerAccount' => array(
+        'function'  => array($fc, 'linkUserToManagerAccount'),
+        'signature' => array(
+            array('boolean', 'string', 'int', 'int', 'array'),
+            array('boolean', 'string', 'int', 'int')
+        ),
+        'docstring' => 'link a user to a manager account'
+    ),
+
+    // Variable functions
+    'ox.addVariable' => array(
+        'function' => array($fc, 'addVariable'),
+        'signature' => array(
+            array('int', 'string', 'struct')
+        ),
+        'docstring' => 'Add variable'
+    ),
+
+    'ox.modifyVariable' => array(
+        'function'  => array($fc, 'modifyVariable'),
+        'signature' => array(
+            array('boolean', 'string', 'struct')
+        ),
+        'docstring' => 'Modify variable'
+    ),
+
+    'ox.deleteVariable' => array(
+        'function' => array($fc, 'deleteVariable'),
+        'signature' => array(
+            array('boolean', 'string', 'int')
+        ),
+        'docstring' => 'Delete variable'
+    ),
+
+    'ox.getVariable' => array(
+        'function'  => array($fc, 'getVariable'),
+        'signature' => array(
+            array('struct', 'string', 'int')
+        ),
+        'docstring' => 'Get variable information'
     ),
 
     // Zone functions

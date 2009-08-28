@@ -64,7 +64,7 @@ public class PublisherTestCase extends BannerTestCase {
 		//agencyId = createAgency();
 
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 	}
 
 	protected void tearDown() throws Exception {
@@ -93,7 +93,7 @@ public class PublisherTestCase extends BannerTestCase {
 			throws XmlRpcException, MalformedURLException {
 		
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_PUBLISHER_METHOD, paramsWithId);
@@ -110,7 +110,7 @@ public class PublisherTestCase extends BannerTestCase {
 	public boolean deletePublisher(Integer id) throws XmlRpcException,
 			MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		return (Boolean) client.execute(DELETE_PUBLISHER_METHOD, new Object[] {
 				sessionId, id });
 	}
@@ -119,7 +119,7 @@ public class PublisherTestCase extends BannerTestCase {
 			throws XmlRpcException, MalformedURLException {
 		// set URL
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		return client.execute(method, params);
 	}

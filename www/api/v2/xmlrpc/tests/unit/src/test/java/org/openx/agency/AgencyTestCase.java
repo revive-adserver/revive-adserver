@@ -69,7 +69,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 		super.setUp();
 
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 			throws XmlRpcException, MalformedURLException {
 
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
@@ -108,7 +108,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 	public boolean deleteAgency(Integer id) throws XmlRpcException,
 			MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 		return (Boolean) client.execute(DELETE_AGENCY_METHOD, new Object[] {
 				sessionId, id });
 	}
@@ -121,7 +121,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 			throws XmlRpcException, MalformedURLException {
 		// set URL
 		((XmlRpcClientConfigImpl) client.getClientConfig())
-				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
+				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
 
 		return client.execute(method, params);
 	}
