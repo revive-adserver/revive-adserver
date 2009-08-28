@@ -104,7 +104,12 @@ public class TestModifyVariable extends VariableTestCase {
             MalformedURLException {
         Map<String, Object> struct = new HashMap<String, Object>();
         struct.put(VARIABLE_ID, variableId);
-        struct.put(VARIABLE_NAME, TextUtils.getString(250));
+
+        // To allow for the: var VARIABLE_NAME = escape(\\''%%VARIABLE_NAME%%\\'')
+        // that is set in variablecode we must set VARIABLE_NAME length to be:
+        // 250 = (33 + VAR_NAME_LEN) + VAR_NAME_LEN
+        // --> 217 / 2 = 108
+        struct.put(VARIABLE_NAME, TextUtils.getString(108));
         Object[] params = new Object[]{sessionId, struct};
         final Boolean result = (Boolean) execute(MODIFY_VARIABLE_METHOD, params);
         assertTrue(result);
