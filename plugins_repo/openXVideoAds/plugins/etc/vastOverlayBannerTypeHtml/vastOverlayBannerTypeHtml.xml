@@ -9,7 +9,7 @@
     <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>license.txt</license>
     <description>Vast Overlay Ad for OpenX</description>
-    <version>1.0.0-RC43</version>
+    <version>1.0.0-RC53</version>
     <oxversion>2.7.8-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 
@@ -21,6 +21,19 @@
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
+
+        <configuration>
+            <!-- only administrator has permissions to change settings in config file -->
+
+            <setting key="isVastOverlayAsTextEnabled" type="checkbox" label="Allow overlay video banners to be defined as text" required="0" size="1" visible="1">1</setting>
+
+            <setting key="isVastOverlayAsSwfEnabled" type="checkbox" label="Allow overlay video banners to be defined as a SWF" required="0" size="1" visible="1">1</setting>
+
+            <setting key="isVastOverlayAsImageEnabled" type="checkbox" label="Allow overlay video banners to be defined as an Image" required="0" size="1" visible="1">1</setting>
+
+            <setting key="isVastOverlayAsHtmlEnabled" type="checkbox" label="Allow overlay video banners to be defined as html" required="0" size="1" visible="1">1</setting>
+
+        </configuration>
 
     </install>
 

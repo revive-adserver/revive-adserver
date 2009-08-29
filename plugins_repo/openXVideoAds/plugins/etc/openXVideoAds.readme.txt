@@ -33,8 +33,35 @@ Feature requests Video Plugin
 Schema changes
 ==============
 Users upgrading from versions < RC43 need to run the following SQL against the database:
-ALTER table ox_banner_vast_element ADD column vast_video_clickthrough_url text;
-ALTER table ox_banner_vast_element DROP column vast_net_connection_url;
+or 
+alternatively uninstall the plugin (which will delete associated tables and data) and reinstall it.
+
+ALTER TABLE ox_banner_vast_element
+drop column vast_net_connection_url;
+     
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_video_clickthrough_url text;
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_overlay_action varchar(20);
+        
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_overlay_format varchar(20);
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_video_delivery varchar(20);
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_overlay_text_title text;
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_overlay_text_description text;
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_overlay_text_call text;
+
+ALTER TABLE ox_banner_vast_element
+ADD COLUMN vast_creative_type varchar(20);
 
 Developers
 ==========

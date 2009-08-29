@@ -139,9 +139,54 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <field>
+    <name>vast_overlay_action</name>
+    <type>openads_varchar</type>
+    <length>20</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>vast_overlay_format</name>
+    <type>openads_varchar</type>
+    <length>20</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>   
+   
+   <field>
+    <name>vast_overlay_text_title</name>
+    <type>openads_text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>   
+   
+   <field>
+    <name>vast_overlay_text_description</name>
+    <type>openads_text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field> 
 
+   <field>
+    <name>vast_overlay_text_call</name>
+    <type>openads_text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field> 
+
+   <field>
+    <name>vast_creative_type</name>
+    <type>openads_varchar</type>
+    <length>20</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+         
   </declaration>
-
+  
  </table>
 
  <table>

@@ -27,10 +27,18 @@
 define( 'VAST_OVERLAY_DIMENSIONS', -2 );
 define( 'VAST_INLINE_DIMENSIONS', -3 );
 
-
 define( 'VAST_RTMP_MP4_DELIMITER', 'mp4:' );
 define( 'VAST_RTMP_FLV_DELIMITER', 'flv:' );
 
+// Definition of different overlay formats supported
+define( 'VAST_OVERLAY_FORMAT_TEXT', 'text_overlay' );
+define( 'VAST_OVERLAY_FORMAT_SWF', 'swf_overlay' );
+define( 'VAST_OVERLAY_FORMAT_IMAGE', 'image_overlay' );
+define( 'VAST_OVERLAY_FORMAT_HTML', 'html_overlay' );
+
+// Definition of different actions supported as a result of a click
+define( 'VAST_OVERLAY_CLICK_TO_PAGE', 'click_to_page' );
+define( 'VAST_OVERLAY_CLICK_TO_VIDEO', 'click_to_video' );
 
 if ( !function_exists('xdebug_break') ){
     function xdebug_break(){
@@ -60,8 +68,6 @@ function xmlspecialchars($text) {
 
 function combineVideoUrl( &$aAdminFields )
 {    
-    xdebug_break();
-    
     // If either of these fields are set we know that its a form submit (as these fields do not exist in db)
     if ( $aAdminFields['vast_net_connection_url'] || $aAdminFields['vast_video_filename'] ){
         
@@ -138,89 +144,6 @@ function parseVideoUrl( $inFields, &$aDeliveryFields, &$aAdminFields )
        
       $aAdminFields['vast_video_filename'] = $inFields['vast_video_outgoing_filename'];  
     }
-    
-    
-    //vastIntelligentParseVideoUrl( $inFields, $aDeliveryFields, $aAdminFields );
-    
-}
-
-function vastIntelligentParseVideoUrl($inFields, $aDeliveryFields, $aAdminFields){
-   
-    $fullPathToVideo = $inFields['vast_video_outgoing_filename'];
-    $aParams = array();
-    
-    
-    // If the url starts with http we know its progressive
-    if ( ($fileDelimPosn = strpos($fullPathToVideo, 'http://' )) === 0 ){
-      
-      // parameters used at admin time
-      $aAdminFields['vast_video_delivery'] = 'progressive'; 
-    }
-    
-    // If the url starts with rtmp we know its streaming
-    
-    if ( ($fileDelimPosn = strpos($fullPathToVideo, 'rtmp://' )) === 0 ){
-
-      
-      // parameters used at admin time
-      $aAdminFields['vast_video_delivery'] = 'streaming';
-    }
-    
-/*
-    // get parameters off the url supplied
-    $aUrlParts = parse_url( $fullPathToVideo );
-    
-    if ( $aUrlParts['query'] ){
-        
-        parse_str( $aUrlParts['query'], $aParams ); 
-        
-        if ( isset($aParams['vast_video_id'] )){
-
-            $aAdminFields['vast_video_id'] = $aParams['vast_video_id'];   
-        }
-        
-        if ( isset($aParams['vast_video_delivery']) ) {
-
-            if (  $aParams['vast_video_delivery'] == 'progressive' ){
-
-                $aAdminFields['vast_video_delivery'] = 'progressive';
-                
-                $aAdminFields['vast_video_filename'] = $aUrlParts['scheme'] . ':' . $aUrlParts['port'] . '//' . $aUrlParts['host'] . $aUrlParts['path'];
-                
-            }
-            else if ( $aParams['vast_video_delivery'] == 'streaming') {
-                
-               $aAdminFields['vast_video_delivery'] = 'streaming';
-
-               $aAdminFields['vast_net_connection_url'] = $aUrlParts['scheme'] . ':' . $aUrlParts['port'] . '//' . $aUrlParts['host']  . $aUrlParts['path'];
-               
-               if ( isset($aParams['filename'])){
-            
-                   $aAdminFields['vast_video_filename'] = $aParams['filename'];
-               }
-            }
-        }
-        
-        if ( isset($aParams['vast_video_type'] ) ){
-            
-            if ( array_search( $aParams['vast_video_type'], getVastVideoTypes()) ){
-                
-               $aAdminFields['vast_video_type'] = $aParams['vast_video_type'];    
-            }
-        }  
-
-        if ( isset($aParams['vast_video_duration'])){
-            
-           $aAdminFields['vast_video_duration'] = $aParams['vast_video_duration'];
-        }
-
-        if ( isset($aParams['vast_video_clickthrough_url'])){
-            
-           $aAdminFields['vast_video_clickthrough_url'] = $aParams['vast_video_clickthrough_url'];
-        }   
-        
-        */
-    
 }
 
 function vastPluginErrorHandler($errNo, $errStr, $file, $line, $context){
@@ -296,3 +219,18 @@ function getClientMessages(){
     return $str;
 }
 
+function getVideoPlayerSetting($parameterId)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $value = $conf['vastServeVideoPlayer'][$parameterId];
+
+    return $value;
+}
+
+function getVideoOverlaySetting($parameterId)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $value = $conf['vastOverlayBannerTypeHtml'][$parameterId];
+
+    return $value;
+}

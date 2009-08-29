@@ -69,7 +69,7 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
             $player .= renderCompanionInAdminTool($aOutputParams);
         }
         else if ( $pluginType == 'vastOverlay' ) {
-            $player .= renderOverlayInAdminTool($aOutputParams);
+            $player .= renderOverlayInAdminTool($aOutputParams, $aBanner);
             $player .= renderCompanionInAdminTool($aOutputParams);
             $player .= renderPlayerInPage($aOutputParams);
         }
@@ -135,13 +135,7 @@ function getVideoPlayerUrl($parameterId)
     return $fullFileLocationUrl;
 }
 
-function getVideoPlayerSetting($parameterId)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $value = $conf['vastServeVideoPlayer'][$parameterId];
 
-    return $value;
-}
 
 function extractVastParameters( &$aBanner )
 {
@@ -176,17 +170,25 @@ function prepareVideoParams(&$aOutputParams, $aBanner)
     }
 }
 
-
-
 function prepareOverlayParams(&$aOutputParams, $aBanner)
 {
-    if ( isset( $aBanner['htmltemplate'] )){
+    $aOutputParams['overlayHeight'] = $aBanner['vast_overlay_height'];
+    $aOutputParams['overlayWidth'] = $aBanner['vast_overlay_width'];
+    $aOutputParams['overlayDestinationUrl'] = $aBanner['url'];
+    if (isset($aBanner['htmltemplate'])) {
         $aOutputParams['overlayMarkupTemplate'] = $aBanner['htmltemplate'];
-        //$aOutputParams['overlayMarkupCache'] = $aBanner['htmlcache'];
-        $aOutputParams['overlayHeight'] = $aBanner['vast_overlay_height'];
-        $aOutputParams['overlayWidth'] = $aBanner['vast_overlay_width'];
-        $aOutputParams['overlayDestinationUrl'] = $aBanner['url'];
-        $aOutputParams['overlayDestinationTarget'] = $aBanner['target'];
+    }
+    if(!empty($aBanner['filename'])) {
+        $aOutputParams['overlayFilename'] = $aBanner['filename'];
+    }
+    $aOutputParams['overlayFormat'] = $aBanner['vast_overlay_format'];
+    
+    switch($aOutputParams['overlayFormat']) {
+        case VAST_OVERLAY_FORMAT_TEXT:
+            $aOutputParams['overlayTextTitle'] = $aBanner['vast_overlay_text_title'];
+            $aOutputParams['overlayTextDescription'] = $aBanner['vast_overlay_text_description'];
+            $aOutputParams['overlayTextCall'] = $aBanner['vast_overlay_text_call'];
+        break;
     }
 }
 
@@ -211,24 +213,19 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
             $context = array();
         }
         $companionOutput = MAX_adSelect("bannerid:$companionBannerId", '', "", $source, $withText, '', $context, true, $ct0, $loc, $referer);
-        if ( $companionOutput['html'] ){
-            // We only regard  a companion existing, if we have some markup
-            // to output
-                       
-            $aOutputParams['companionMarkup'] = $companionOutput['html'];
+        //        $html = MAX_adRender($aBanner, $zoneId, $source, $target='', $ct0, $withText, $logClick, $logView, $loc, $referer, $context);
+        if ( !empty($companionOutput['html'] )){
+            // We only regard  a companion existing, if we have some markup to output
+            
+            $html = $companionOutput['html'];
+            
+            // deal with the case where the companion code itself contains a CDATA
+            $html = str_replace(']]>', ']]]]><![CDATA[>', $html);
+            $aOutputParams['companionMarkup'] = $html;
             
             $aOutputParams['companionWidth'] = $companionOutput['width'];
             $aOutputParams['companionHeight'] = $companionOutput['height'];
-            
-            // OXPL-379 - dont show any url, if the companion has no url
-            if ( $companionOutput['url'] !== '' ){
-
-                $aOutputParams['companionClickUrl'] ='http://openxhasalreadywrappedhtmlwithclickurl.com'; 
-            }
-            else {
-                
-                $aOutputParams['companionClickUrl'] = '';
-            }
+            $aOutputParams['companionClickUrl'] = $companionOutput['url'];
         }
     }
 }
@@ -282,16 +279,36 @@ function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId=0, $source='', $ct
 
     // We dont pass $aBanner by reference - so the changes to this $aBanner are lost - which is a good thing
     // we need the url attribute of aBanner to contain the url we want created
-    $aBanner['url'] = $aBanner['vast_video_clickthrough_url'];
-
-    $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-
+    $clickUrl = '';
+    if(!empty($aBanner['vast_video_clickthrough_url'])) {
+        $aBanner['url'] = $aBanner['vast_video_clickthrough_url'];
+        $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+    }
     return $clickUrl;
 }
     
-function getVastVideoAdOutput($aO){
-
+function getVastVideoAdOutput($aO)
+{
+    if(!empty($aO['vastVideoClickThroughUrl'])) {
+        $videoClicksVast = '<VideoClicks>
+                        <ClickThrough>
+                            <URL id="destination"><![CDATA['.$aO['vastVideoClickThroughUrl'].']]></URL>
+                        </ClickThrough>
+                    </VideoClicks>';
+    }
+                    
     $vastVideoMarkup =<<<VAST_VIDEO_AD_TEMPLATE
+			    <Video>
+                    <Duration>${aO['vastVideoDuration']}</Duration>
+                    <AdID><![CDATA[${aO['vastVideoId']}]]></AdID>
+                    $videoClicksVast
+                    <MediaFiles>
+                        <MediaFile delivery="${aO['vastVideoDelivery']}" bitrate="${aO['vastVideoBitrate']}" width="${aO['vastVideoWidth']}" height="${aO['vastVideoHeight']}" type="${aO['vastVideoType']}">
+                            <URL><![CDATA[${aO['fullPathToVideo']}]]></URL>
+                        </MediaFile>
+                    </MediaFiles>
+                </Video>
+                
                 <TrackingEvents>
                     <Tracking event="start">
                         <URL id="myadsever"><![CDATA[${aO['trackUrlStart']}]]></URL>
@@ -332,25 +349,15 @@ function getVastVideoAdOutput($aO){
                    <Tracking event="pause">
                         <URL id="myadsever"><![CDATA[${aO['trackUrlPause']}]]></URL>
                     </Tracking>
-                    
                 </TrackingEvents>
-                <Video>
-                    <Duration>${aO['vastVideoDuration']}</Duration>
-                    <AdID><![CDATA[${aO['vastVideoId']}]]></AdID>
-                    <VideoClicks>
-                        <ClickThrough>
-                            <URL id="destination"><![CDATA[${aO['vastVideoClickThroughUrl']}]]></URL>
-                        </ClickThrough>
-                    </VideoClicks>
-                    <MediaFiles>
-                        <MediaFile delivery="${aO['vastVideoDelivery']}" bitrate="${aO['vastVideoBitrate']}" width="${aO['vastVideoWidth']}" height="${aO['vastVideoHeight']}" type="${aO['vastVideoType']}">
-                            <URL><![CDATA[${aO['fullPathToVideo']}]]></URL>
-                        </MediaFile>
-                    </MediaFiles>
-                </Video>
 VAST_VIDEO_AD_TEMPLATE;
 
     return $vastVideoMarkup;
+}
+
+function getImageUrlFromFilename($filename)
+{
+    return _adRenderBuildImageUrlPrefix() . "/" . $filename;
 }
 
 function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
@@ -361,37 +368,69 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
     $player = "";
     $player .= "    <Ad id=\"{player_allocated_ad_id}\" >";
     $player .= "        <InLine>";
-    $player .= "            <AdSystem>openx</AdSystem>";
+    $player .= "            <AdSystem>OpenX</AdSystem>";
     $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>";
     $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>";
     $player .= "                    <Impression>";
     $player .= "                        <URL id=\"myadsever\"><![CDATA[${aOut['impressionUrl']}]]></URL>";
     $player .= "                    </Impression>";
-    if ( isset($aOut['fullPathToVideo']) ){
-        $player .= getVastVideoAdOutput($aOut);
-    }
 
     if ( isset($aOut['companionMarkup'])  ){
+        if(!empty($aOut['companionClickUrl'])) {
+            $CompanionClickThrough  = "                    <CompanionClickThrough>\n";
+            $CompanionClickThrough .= "                        <URL><![CDATA[${aOut['companionClickUrl']}]]></URL>\n";
+            $CompanionClickThrough .= "                    </CompanionClickThrough>\n";
+        }
         //debugdump( '$companionOutput', $companionOutput );
         $player .= "             <CompanionAds>\n";
         $player .= "                <Companion id=\"companion\" width=\"${aOut['companionWidth']}\" height=\"${aOut['companionHeight']}\" resourceType=\"HTML\">\n";
         $player .= "                    <Code><![CDATA[${aOut['companionMarkup']}]]></Code>\n";
-        $player .= "                    <CompanionClickThrough>\n";
-        $player .= "                        <URL><![CDATA[${aOut['companionClickUrl']}]]></URL>\n";
-        $player .= "                    </CompanionClickThrough>\n";
+        $player .= "					$CompanionClickThrough";
         $player .= "                </Companion>\n";
         $player .= "            </CompanionAds>\n";
     }
 
-    if ( $pluginType == 'vastOverlay' && isset( $aOut['overlayMarkupTemplate'] ) ){
+    if ( $pluginType == 'vastOverlay') {
+        $code = '';
+        $resourceType = '';
+        switch($aOut['overlayFormat']) {
+            case VAST_OVERLAY_FORMAT_HTML:
+                $code = "<![CDATA[". $aOut['overlayMarkupTemplate'] . "]]>";
+                $resourceType = 'HTML';
+            break;
+            
+            case VAST_OVERLAY_FORMAT_IMAGE:
+            case VAST_OVERLAY_FORMAT_SWF:
+                $code = getImageUrlFromFilename($aOut['overlayFilename']);
+                $resourceType = 'static';
+            break;
+            
+            case VAST_OVERLAY_FORMAT_TEXT:
+                $resourceType = 'TEXT';
+                $code = "<Title><![CDATA[".$aOut['overlayTextTitle']."]]></Title>
+                                           <Description><![CDATA[".$aOut['overlayTextDescription']."]]></Description>
+                                           <ClickThroughLinkText><![CDATA[".$aOut['overlayTextCall']."]]></ClickThroughLinkText>";
+            break;
+        }
+        
+        if(!empty($aOut['clickUrl'])) {
+            $nonLinearClickThrough = "<NonLinearClickThrough>
+                    <URL><![CDATA[${aOut['clickUrl']}]]></URL>
+                </NonLinearClickThrough>\n";
+        }
         $player .= "             <NonLinearAds>\n";
-        $player .= "                <NonLinear id=\"overlay\" width=\"${aOut['overlayWidth']}\" height=\"${aOut['overlayHeight']}\" resourceType=\"HTML\">\n";
-        $player .= "                    <Code><![CDATA[${aOut['overlayMarkupTemplate']}]]></Code>\n";
-        $player .= "                    <NonLinearClickThrough>\n";
-        $player .= "                        <URL><![CDATA[${aOut['clickUrl']}]]></URL>\n";
-        $player .= "                    </NonLinearClickThrough>\n";
+        $player .= "                <NonLinear id=\"overlay\" width=\"${aOut['overlayWidth']}\" height=\"${aOut['overlayHeight']}\" resourceType=\"$resourceType\">\n";
+        $player .= "                    <Code>
+        									$code
+        								</Code>\n";
+        $player .= "                    $nonLinearClickThrough";
         $player .= "                </NonLinear>\n";
         $player .= "            </NonLinearAds>\n";
+    }
+
+    
+    if ( isset($aOut['fullPathToVideo']) ){
+        $player .= getVastVideoAdOutput($aOut);
     }
     $player .= "        </InLine>\n";
     $player .= "    </Ad>\n";
@@ -405,7 +444,7 @@ function renderPlayerInPage($aOut)
 	$player = "";
 	if ( isset($aOut['fullPathToVideo'] ) ){
 		$player = <<<PLAYER
-			<b>Video:</><br>
+			<h3>Video ad preview</h3>
 			<script type="text/javascript" src="{$aOut['videoPlayerJsUrl']}"></script>
 			<style>
 			a.player {
@@ -491,28 +530,63 @@ RTMP_PLAYER;
 function renderCompanionInAdminTool($aOut)
 {
     $player = "";
-//    var_dump($aOut);
     if(isset($aOut['companionMarkup'])) {
-        $player .=  "<b>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . "):<br><br>";
+        $player .=  "<h3>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</h3>";
         $player .= $aOut['companionMarkup'];
         $player .= "<br>";
     }
     return $player;
 }
 
-function renderOverlayInAdminTool($aOut)
+function renderOverlayInAdminTool($aOut, $aBanner)
 {
-    $player = "";
-    if ( isset( $aOut['overlayMarkupTemplate'] )){
-        $player .=  "<b>Overlay Preview (" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . "):<br><br>";
-        if ( $aOut['overlayDestinationUrl'] ){
-            $player .=  "Clickable Overlay: <a target=\"${aOut['overlayDestinationTarget']}\" href=\"${aOut['overlayDestinationUrl']}\"> ${aOut['overlayMarkupTemplate']}</a>";
-        }
-        else {
-            $player .=  $aOut['overlayMarkupTemplate']; // Think this should be the templated output markup
-        }
-        $player .= "<br>";
+    $size = "(" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . ")";
+    $title =  "Overlay Preview";
+    $borderStart = "<div style='color:black;text-decoration:none;border:1px solid black;padding:15px;'>";
+    $borderEnd = "</div>";
+    $htmlOverlay = '';
+    switch($aOut['overlayFormat']) {
+        case VAST_OVERLAY_FORMAT_HTML:
+            $htmlOverlay = $borderStart . $aOut['overlayMarkupTemplate'] . $borderEnd;
+        break;
+        
+        case VAST_OVERLAY_FORMAT_IMAGE:
+            $title = "Image Overlay Preview";
+            $imagePath = getImageUrlFromFilename($aOut['overlayFilename']);
+            $htmlOverlay = "<img src='$imagePath' />";
+        break;
+
+        case VAST_OVERLAY_FORMAT_SWF:
+            $title = "SWF Overlay Preview";
+            // we need to set a special state for adRenderFlash to work (which tie us to this implementation...)
+            $aBanner['type'] = 'web'; 
+            $aBanner['width'] = $aOut['overlayWidth']; 
+            $aBanner['height'] = $aOut['overlayHeight']; 
+            $htmlOverlay = _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=false, $logView=false);
+        break;
+        
+        case VAST_OVERLAY_FORMAT_TEXT:
+            $title = "Text Overlay Preview";
+            $overlayTitle = $aOut['overlayTextTitle'];
+            $overlayDescription = str_replace("\n","<br/>",$aOut['overlayTextDescription']);
+            $overlayCall = $aOut['overlayTextCall'];
+            $htmlOverlay = "
+            	$borderStart
+                    <div style='font-family:arial;font-size:18pt;font-weight:bold;'>$overlayTitle </div>
+                    <div style='font-family:arial;font-size:15pt;'>$overlayDescription</div>
+                    <div style='font-family:arial;font-size:15pt;font-weight:bold;color:orange;'>$overlayCall</div>
+                $borderEnd
+            ";
+        break;
     }
+ 
+    if ($aOut['overlayDestinationUrl']) {
+        $htmlOverlay =  "<a target=\"_blank\" href=\"${aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
+        $title .= ' (this overlay is clickable)';
+    }
+    $player = "<h3>$title</h3>";
+    $player .= $htmlOverlay;
+    $player .= "<br>";
     return $player;
 }
 

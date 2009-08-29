@@ -25,6 +25,12 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     public $vast_overlay_height;             // MEDIUMINT(9) => openads_mediumint => 1 
     public $vast_overlay_width;              // MEDIUMINT(9) => openads_mediumint => 1 
     public $vast_video_clickthrough_url;     // TEXT() => openads_text => 34 
+    public $vast_overlay_action;             // VARCHAR(20) => openads_varchar => 2 
+    public $vast_overlay_format;             // VARCHAR(20) => openads_varchar => 2 
+    public $vast_overlay_text_title;         // TEXT() => openads_text => 34 
+    public $vast_overlay_text_description;    // TEXT() => openads_text => 34 
+    public $vast_overlay_text_call;          // TEXT() => openads_text => 34 
+    public $vast_creative_type;              // VARCHAR(20) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banner_vast_element',$k,$v); }
