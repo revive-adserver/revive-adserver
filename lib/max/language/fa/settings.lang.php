@@ -27,7 +27,7 @@ $GLOBALS['strDatabaseSettings']             = "تنظیمات دیتابیس";
 $GLOBALS['strAdminSettings']                = "تنظیمات مدیریت";
 $GLOBALS['strAdminAccount']                 = "اکانت مدیریت";
 $GLOBALS['strAdministrativeSettings']       = "تنظیمات مدیراجرایی";
-$GLOBALS['strAdvancedSettings']             = "تنظیمات پیشرفته";
+$GLOBALS['strAdvancedSettings']             = "تنظیمات پیشر�?ته";
 $GLOBALS['strOtherSettings']                = "سایر تنظیمات";
 $GLOBALS['strSpecifySyncSettings']          = "تنظیمات همگانی";
 $GLOBALS['strLicenseInformation']           = "اطلاعات لایسنس";
@@ -40,37 +40,37 @@ $GLOBALS['strBtnContinue']                  = "ادامه دادن »";
 $GLOBALS['strBtnRecover']                   = "دوباره »";
 $GLOBALS['strBtnStartAgain']                   = "شروع به روزرسانی مجدد";
 $GLOBALS['strBtnGoBack']                    = "« بازگشت";
-$GLOBALS['strBtnAgree']                     = "من موافقم »";
-$GLOBALS['strBtnDontAgree']                 = "« من موافق نیستم";
+$GLOBALS['strBtnAgree']                     = "من موا�?قم »";
+$GLOBALS['strBtnDontAgree']                 = "« من موا�?ق نیستم";
 $GLOBALS['strBtnRetry']                     = "مجدد";
-$GLOBALS['strUpdateDatabaseError']	= "به دلایل ناشناخته ساختار بانک اطلاعاتی بروزرسانی نشد. برای پردازش دوباره توصیه میشود که <b>تلاش دوباره</b> برای رفع این مشکل انجام دهید.اگر شما می دانید که این خطا از وظایف و توابع".$phpAds_productname." می باشد شما می توانید بر روی <b>نادیده گرفتن خطا</b>برای ادامه کلیک نمایید. نادیده گرفتن این خطاها ممکن است بعدا باعث مشکلات جدی در بانک اطلاعات و نحوه کارکرد سیستم برنامه شود!";
-$GLOBALS['strAlreadyInstalled']			= $phpAds_productname." قبلا بر روی این سیستم نصب شده است. اگر می خواهید برنامه را پیکر بندی نمایید بر روی گزینه <a href='settings-index.php'>تنظیمات</a> کلیک نمایید";
-$GLOBALS['strCouldNotConnectToDB']		= "قادر به اتصال به بانک اطلاعاتی نیستیم, تنظیماتی را که تعییر کرده اید رادوباره چک نمایید. همچنین مطمئن شوید که بانک اطلاعاتی با این نامی که مشخص کرده اید بر روی سرور شما موحود باشد. ".$phpAds_productname." یک بانک اطلاعاتی را برای شما ایجاد نکرده است, شما باید این بانک اطلاعاتی را قبل از شروع نصب ایجاد نماییید.";
-$GLOBALS['strCreateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کافی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
-$GLOBALS['strUpdateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کافی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
+$GLOBALS['strUpdateDatabaseError']	= "به دلایل ناشناخته ساختار بانک اطلاعاتی بروزرسانی نشد. برای پردازش دوباره توصیه میشود که <b>تلاش دوباره</b> برای ر�?ع این مشکل انجام دهید.اگر شما می دانید که این خطا از وظای�? و توابع".MAX_PRODUCT_NAME." می باشد شما می توانید بر روی <b>نادیده گر�?تن خطا</b>برای ادامه کلیک نمایید. نادیده گر�?تن این خطاها ممکن است بعدا باعث مشکلات جدی در بانک اطلاعات و نحوه کارکرد سیستم برنامه شود!";
+$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." قبلا بر روی این سیستم نصب شده است. اگر می خواهید برنامه را پیکر بندی نمایید بر روی گزینه <a href='settings-index.php'>تنظیمات</a> کلیک نمایید";
+$GLOBALS['strCouldNotConnectToDB']		= "قادر به اتصال به بانک اطلاعاتی نیستیم, تنظیماتی را که تعییر کرده اید رادوباره چک نمایید. همچنین مطمئن شوید که بانک اطلاعاتی با این نامی که مشخص کرده اید بر روی سرور شما موحود باشد. ".MAX_PRODUCT_NAME." یک بانک اطلاعاتی را برای شما ایجاد نکرده است, شما باید این بانک اطلاعاتی را قبل از شروع نصب ایجاد نماییید.";
+$GLOBALS['strCreateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کا�?ی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
+$GLOBALS['strUpdateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کا�?ی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
 $GLOBALS['strTablePrefixInvalid']		= "پیشوند جدول ها دارای کاراکتر غیر مجاز می باشد";
-$GLOBALS['strTableInUse']			= "بانک اطلاعاتی تعیین شده قبلا برای ".$phpAds_productname." ایجاد شده و مورد استفاده است, لطفا یک پیشوند متفاوت را برای جدول ها انتخاب نمایید, یا راهنما را برای انجام پردازش های بروزرسانی مطالعه نمایید.";
+$GLOBALS['strTableInUse']			= "بانک اطلاعاتی تعیین شده قبلا برای ".MAX_PRODUCT_NAME." ایجاد شده و مورد است�?اده است, لط�?ا یک پیشوند مت�?اوت را برای جدول ها انتخاب نمایید, یا راهنما را برای انجام پردازش های بروزرسانی مطالعه نمایید.";
 $GLOBALS['strNoVersionInfo']                = "Unable to select the database version";
 $GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database version";
 $GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
 $GLOBALS['strTableWrongType']		= "نوع جدول انتخاب شده توسط برنامه نصب کننده ".$phpAds_dbmsname." پشتیبانی نمی شود";
 $GLOBALS['strMayNotFunction']			= "قبل از ادامه این مشکل جدی را اصلاح نمایید:";
-$GLOBALS['strFixProblemsBefore']		= "قبل از ادامه نصب".$phpAds_productname."باید گزینه های زیر را اصلاح نمایید. اگر شما سوالی در مورد این پیام های خطا دارید, راهنمای مدیریت را که با بسته برنامه دانلود کرده اید را مطالعه فرمایید.";
-$GLOBALS['strFixProblemsAfter']			= "اگر شما قادر به اصلاح خطاهای لیست شده در بالا نیستید, با مدیریت سروری که شما می خواهید برنامه ".$phpAds_productname." را روی آن نصب کنید تماس بگیرید. مدیریت سرور ممکن است که بتواند شما را یاری نماید.";
-$GLOBALS['strIgnoreWarnings']			= "نادیده گرفتن هشدارها";
+$GLOBALS['strFixProblemsBefore']		= "قبل از ادامه نصب".MAX_PRODUCT_NAME."باید گزینه های زیر را اصلاح نمایید. اگر شما سوالی در مورد این پیام های خطا دارید, راهنمای مدیریت را که با بسته برنامه دانلود کرده اید را مطالعه �?رمایید.";
+$GLOBALS['strFixProblemsAfter']			= "اگر شما قادر به اصلاح خطاهای لیست شده در بالا نیستید, با مدیریت سروری که شما می خواهید برنامه ".MAX_PRODUCT_NAME." را روی آن نصب کنید تماس بگیرید. مدیریت سرور ممکن است که بتواند شما را یاری نماید.";
+$GLOBALS['strIgnoreWarnings']			= "نادیده گر�?تن هشدارها";
 $GLOBALS['strFixErrorsBeforeContinuing']    = "Please fix all errors before continuing.";
-$GLOBALS['strWarningDBavailable']		= "نسخه PHP  سرور شما از بانک اطلاعاتی ".$phpAds_dbmsname." پشتیبانی نمی کند. شما نیاز دارید که PHP ".$phpAds_dbmsname."را برای پردازش های بعدی فعال نمایید.";
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname." نیازمند نسخه PHP 4.0.3 یا بالاتر برای اجرای توابع به صورت صحیح می باشد. شما در حال حاضر استفاده می کنید از نسخه {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "نسخه PHP  سرور شما از بانک اطلاعاتی ".$phpAds_dbmsname." پشتیبانی نمی کند. شما نیاز دارید که PHP ".$phpAds_dbmsname."را برای پردازش های بعدی �?عال نمایید.";
+$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." نیازمند نسخه PHP 4.0.3 یا بالاتر برای اجرای توابع به صورت صحیح می باشد. شما در حال حاضر است�?اده می کنید از نسخه {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "گزینه register_globals در پیکربندی PHP نیاز دارد که بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningRegisterArgcArv']       = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "متغیر magic_quotes_gpc در پیکر بندی PHP باید بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "گزینه magic_quotes_runtime در پیکر بندی PHP نیاز دارد که بر روی گزینه off تنظیم شود.";
 $GLOBALS['strWarningFileUploads']		= "متغیر file_uploads در پیکربندیPHP نیاز دارد که بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningTrackVars']			= "متغیر track_vars در پیکربندیPHP  نیاز دارد که بر روی گزینه on تنظیم شود.";
-$GLOBALS['strWarningPREG']				= "نسخه PHP شما برای پشتیبانی از عبارت منطقی PERL همسازی ندارد. شما نیاز به فعال کردن PREG extension قبل از ادامه پردازش دارید.";
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname." شناسایی کرده که فایل <b>config.inc.php</b> برای سرور قابل نوشتن نمی باشد. شما باید سطح دسترسی به این فایل را تغییر دهید.اگر منظور این پیام را نمی فهمید راهنما و مستندات برنامه را مطالعه فرمایید.";
-$GLOBALS['strCantUpdateDB']  			= "در حال حاضر امکان بروزرسانی بانک اطلاعاتی وجود ندارد. اگر شما تصمیم جدی به این کار دارید کلیه اطلاعات بانک اطلاعاتی شما از بین خواهد رفت.";
-$GLOBALS['strIgnoreErrors']			= "نادیده گرفتن خطاها";
+$GLOBALS['strWarningPREG']				= "نسخه PHP شما برای پشتیبانی از عبارت منطقی PERL همسازی ندارد. شما نیاز به �?عال کردن PREG extension قبل از ادامه پردازش دارید.";
+$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." شناسایی کرده که �?ایل <b>config.inc.php</b> برای سرور قابل نوشتن نمی باشد. شما باید سطح دسترسی به این �?ایل را تغییر دهید.اگر منظور این پیام را نمی �?همید راهنما و مستندات برنامه را مطالعه �?رمایید.";
+$GLOBALS['strCantUpdateDB']  			= "در حال حاضر امکان بروزرسانی بانک اطلاعاتی وجود ندارد. اگر شما تصمیم جدی به این کار دارید کلیه اطلاعات بانک اطلاعاتی شما از بین خواهد ر�?ت.";
+$GLOBALS['strIgnoreErrors']			= "نادیده گر�?تن خطاها";
 $GLOBALS['strRetryUpdate']			= "تلاش برای بروزرسانی";
 $GLOBALS['strTableNames']			= "نام های جدول";
 $GLOBALS['strTablesPrefix']			= "پیشوند نام جدولها";
@@ -132,8 +132,8 @@ $GLOBALS['strServiceUnavalable']            = "The service is temporarily unavai
 
 // Global
 $GLOBALS['strChooseSection']                         = 'انتخاب بخش';
-$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا فایل پیکریندی به دلایل امنیتی قفل شده است. \nاگر مایل به ایجاد تغییرات هستید باید فایل config.inc.php را ازحالت قفل درآورید.\n";
-$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا فایل پیکربندی قفل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود. \nاگر مایلید که انتیت سیستم بالا برود باید فایل config.inc.php را قفل کنید.\n";
+$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا �?ایل پیکریندی به دلایل امنیتی ق�?ل شده است. \nاگر مایل به ایجاد تغییرات هستید باید �?ایل config.inc.php را ازحالت ق�?ل درآورید.\n";
+$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا �?ایل پیکربندی ق�?ل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود. \nاگر مایلید که انتیت سیستم بالا برود باید �?ایل config.inc.php را ق�?ل کنید.\n";
 $GLOBALS['strUnableToWriteConfig']                   = 'Unable to write changes to the config file';
 $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit preferences to the database';
 $GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
@@ -157,12 +157,12 @@ $GLOBALS['strCompanyName']                           = 'نام کمپانی';
 $GLOBALS['strAdminCheckUpdates']                     = 'چک برای به روزرسانی';
 $GLOBALS['strAdminCheckEveryLogin']                  = 'ورود  همه';
 $GLOBALS['strAdminCheckDaily']                       = 'روزانه';
-$GLOBALS['strAdminCheckWeekly']                      = 'هفتگی';
+$GLOBALS['strAdminCheckWeekly']                      = 'ه�?تگی';
 $GLOBALS['strAdminCheckMonthly']                     = 'ماهیانه';
 $GLOBALS['strAdminCheckNever']                       = 'همیشه';
 $GLOBALS['strAdminNovice']                           = 'مدیران نیاز هست که تایید کنند';
 $GLOBALS['strUserlogEmail']                          = 'همه خروجی پیامهای ایمیل';
-$GLOBALS['strEnableDashboard']                       = "فعال بودن داشبورد";
+$GLOBALS['strEnableDashboard']                       = "�?عال بودن داشبورد";
 $GLOBALS['strTimezoneInformation']                   = "اطلاعات زمان منطقه ای";
 $GLOBALS['strTimezone']                              = "ساعت";
 $GLOBALS['strTimezoneEstimated']                     = "قیمت ساعتی";
@@ -184,14 +184,14 @@ $GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . "
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'تنظیمات بنر';
-$GLOBALS['strDefaultBanners']                        = 'بنرهای پیش فرض';
-$GLOBALS['strDefaultBannerUrl']                      = 'آدرس عکس پیش فرض';
-$GLOBALS['strDefaultBannerDestination']              = 'آدرس مقصد پیش فرض';
+$GLOBALS['strDefaultBanners']                        = 'بنرهای پیش �?رض';
+$GLOBALS['strDefaultBannerUrl']                      = 'آدرس عکس پیش �?رض';
+$GLOBALS['strDefaultBannerDestination']              = 'آدرس مقصد پیش �?رض';
 $GLOBALS['strAllowedBannerTypes']                    = 'تایید انواع بنر';
 $GLOBALS['strTypeSqlAllow']                          = 'تایید بنرهای لوکال اس کیو ال';
 $GLOBALS['strTypeWebAllow']                          = 'مجاز بودن بنرهای وب سرور';
 $GLOBALS['strTypeUrlAllow']                          = 'مجاز بودن بنرهای خارجی';
-$GLOBALS['strTypeHtmlAllow']                         = 'مجاز بودن استفاده از  در بنرها';
+$GLOBALS['strTypeHtmlAllow']                         = 'مجاز بودن است�?اده از  در بنرها';
 $GLOBALS['strTypeTxtAllow']                          = 'تایید تبلیغات متنی';
 $GLOBALS['strTypeHtmlSettings']                      = 'انتخاب بنر HTML';
 $GLOBALS['strTypeHtmlAuto']                          = 'در ادامه به صورت اتوماتیک کدهای اچ تی ام ال را تغییر بدهد';
@@ -208,25 +208,25 @@ $GLOBALS['strDbUser']                                = 'نام کاربری دی
 $GLOBALS['strDbPassword']                            = 'پسورد دیتابیس';
 $GLOBALS['strDbName']                                = 'نام دیتابیس';
 $GLOBALS['strDatabaseOptimalisations']               = 'تنظیمات آپشنهای کلی دیتابیس';
-$GLOBALS['strPersistentConnections']                 = 'نسبت مانده مصرف';
+$GLOBALS['strPersistentConnections']                 = 'نسبت مانده مصر�?';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
-$GLOBALS['strDemoDataInstall']                       = 'نصب اطلاعات پیش فرض';
+$GLOBALS['strDemoDataInstall']                       = 'نصب اطلاعات پیش �?رض';
 $GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into ' . MAX_PRODUCT_NAME . ' to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
 // Debug Logging Settings
-$GLOBALS['strDebugSettings']                         = 'رفع اشکال ورود';
-$GLOBALS['strDebug']                                 = 'تنظیمات کلی رفع اشکال';
+$GLOBALS['strDebugSettings']                         = 'ر�?ع اشکال ورود';
+$GLOBALS['strDebug']                                 = 'تنظیمات کلی ر�?ع اشکال';
 $GLOBALS['strProduction']                            = 'خرورجی سرور';
-$GLOBALS['strEnableDebug']                           = 'فعال بودن رفع اشکال';
+$GLOBALS['strEnableDebug']                           = '�?عال بودن ر�?ع اشکال';
 $GLOBALS['strDebugMethodNames']                      = 'همراه بودن نام مشکل و دلیل آن';
 $GLOBALS['strDebugLineNumbers']                      = 'همراه بودن شماره خط ارور';
 $GLOBALS['strDebugType']                             = 'نوع اشکال زدا';
-$GLOBALS['strDebugTypeFile']                         = 'فایل';
+$GLOBALS['strDebugTypeFile']                         = '�?ایل';
 $GLOBALS['strDebugTypeMcal']                         = 'mCal';
 $GLOBALS['strDebugTypeSql']                          = 'دیتا بیس اس کیو ال';
 $GLOBALS['strDebugTypeSyslog']                       = 'سیستم ورود';
 $GLOBALS['strDebugName']                             = 'نام و تاریخ ارور در جدول دیتابیس با نام';
-$GLOBALS['strDebugPriority']                         = 'انتخاب مرحله اول رفع مشکل';
+$GLOBALS['strDebugPriority']                         = 'انتخاب مرحله اول ر�?ع مشکل';
 $GLOBALS['strPEAR_LOG_DEBUG']                        = 'PEAR_LOG_DEBUG - Most Information';
 $GLOBALS['strPEAR_LOG_INFO']                         = 'PEAR_LOG_INFO - Default Information';
 $GLOBALS['strPEAR_LOG_NOTICE']                       = 'PEAR_LOG_NOTICE';
@@ -247,28 +247,28 @@ $GLOBALS['strDeliveryPath']                          = 'آدرس خروجی';
 $GLOBALS['strImagePath']                             = 'آدرس عکسها';
 $GLOBALS['strDeliverySslPath']                       = 'Delivery SSL path';
 $GLOBALS['strImageSslPath']                          = 'Images SSL path';
-$GLOBALS['strImageStore']                            = 'فولدر عکسها';
+$GLOBALS['strImageStore']                            = '�?ولدر عکسها';
 $GLOBALS['strTypeWebSettings']                       = 'تنظیمات کلی بنرهای در لوکال سرور';
 $GLOBALS['strTypeWebMode']                           = 'روش ذخیره سازی';
 $GLOBALS['strTypeWebModeLocal']                      = 'لوکال دایرکتوری';
 $GLOBALS['strTypeDirError']                          = 'The local directory cannot be written to by the web server';
 $GLOBALS['strTypeWebModeFtp']                        = 'External FTP Server';
 $GLOBALS['strTypeWebDir']                            = 'لوکال دایرکتوری';
-$GLOBALS['strTypeFTPHost']                           = 'اف ت پی هاست';
+$GLOBALS['strTypeFTPHost']                           = 'ا�? ت پی هاست';
 $GLOBALS['strTypeFTPDirectory']                      = 'هاست دایرکتوری';
 $GLOBALS['strTypeFTPUsername']                       = 'ورود به سیستم';
 $GLOBALS['strTypeFTPPassword']                       = 'رمز ';
-$GLOBALS['strTypeFTPPassive']                        = 'استفاده اف تی پی غیرفعال';
+$GLOBALS['strTypeFTPPassive']                        = 'است�?اده ا�? تی پی غیر�?عال';
 $GLOBALS['strTypeFTPErrorDir']                       = 'The FTP Host Directory does not exist';
 $GLOBALS['strTypeFTPErrorConnect']                   = 'Could not connect to the FTP Server, the Login or Password is not correct';
 $GLOBALS['strTypeFTPErrorHost']                      = 'The FTP Host is not correct';
-$GLOBALS['strDeliveryFilenames']                     = 'کل نامهای فایل خروجی';
+$GLOBALS['strDeliveryFilenames']                     = 'کل نامهای �?ایل خروجی';
 $GLOBALS['strDeliveryFilenamesAdClick']              = 'کلیکها';
 $GLOBALS['strDeliveryFilenamesAdConversionVars']     = 'تغییر و متغییرها';
 $GLOBALS['strDeliveryFilenamesAdContent']            = 'گنجایش ( مثدار )';
 $GLOBALS['strDeliveryFilenamesAdConversion']         = 'تبدیلات';
 $GLOBALS['strDeliveryFilenamesAdConversionJS']       = 'تغییر (JavaScript)';
-$GLOBALS['strDeliveryFilenamesAdFrame']              = 'فریم';
+$GLOBALS['strDeliveryFilenamesAdFrame']              = '�?ریم';
 $GLOBALS['strDeliveryFilenamesAdImage']              = 'عکس';
 $GLOBALS['strDeliveryFilenamesAdJS']                 = 'جاوا اسکریپت';
 $GLOBALS['strDeliveryFilenamesAdLayer']              = 'لایه';
@@ -278,19 +278,19 @@ $GLOBALS['strDeliveryFilenamesAdView']               = 'نمایش';
 $GLOBALS['strDeliveryFilenamesXMLRPC']               = 'خروجی XML';
 $GLOBALS['strDeliveryFilenamesLocal']                = 'خروجی لوکال';
 $GLOBALS['strDeliveryFilenamesFrontController']      = 'جلو کنترل کننده';
-$GLOBALS['strDeliveryFilenamesFlash']                = 'همراه فلش';
+$GLOBALS['strDeliveryFilenamesFlash']                = 'همراه �?لش';
 $GLOBALS['strDeliveryCaching']                       = 'تنظیمات کلی خروجی';
 $GLOBALS['strDeliveryCacheEnable']                   = 'Enable Delivery Caching';
 $GLOBALS['strDeliveryCacheType']                     = 'Delivery Cache Type';
-$GLOBALS['strCacheFiles']                            = 'فایل';
+$GLOBALS['strCacheFiles']                            = '�?ایل';
 $GLOBALS['strCacheDatabase']                         = 'دیتابیس';
 $GLOBALS['strDeliveryCacheLimit']                    = 'زمان بین به روز رسانی (ثانیه)';
 
-$GLOBALS['strOrigin']                                = 'استفاده جزیی مبدا سرور';
+$GLOBALS['strOrigin']                                = 'است�?اده جزیی مبدا سرور';
 $GLOBALS['strOriginType']                            = 'نوع اصلی سرور';
 $GLOBALS['strOriginHost']                            = 'نام هاست برای سرور اصلی';
 $GLOBALS['strOriginPort']                            = 'شماره پرت برای دیتابیس اصلی';
-$GLOBALS['strOriginScript']                          = 'فایل اسکریپت برای دیتابیس اصلی';
+$GLOBALS['strOriginScript']                          = '�?ایل اسکریپت برای دیتابیس اصلی';
 $GLOBALS['strOriginTypeXMLRPC']                      = 'XMLRPC';
 $GLOBALS['strOriginTimeout']                         = 'زمان باقیمانده ( ثانیه )';
 $GLOBALS['strOriginProtocol']                        = 'قاعده سرور اصلی';
@@ -298,18 +298,18 @@ $GLOBALS['strOriginProtocol']                        = 'قاعده سرور اص
 $GLOBALS['strDeliveryBanner']                        = 'تنظیمات کلی خروجی بنرها';
 $GLOBALS['strDeliveryAcls']                          = 'تعیین کردن با محدودیت خروجی برای بنرها';
 $GLOBALS['strDeliveryObfuscate']                     = 'مبهم بودن خط مشی در هنگام خروجی تبلیغ';
-$GLOBALS['strDeliveryExecPhp']                       = 'مجاز بودن استفاده از کدهای پی اچ پی در آگهی ( از نظر امنیتی مشکل دارد )';
-$GLOBALS['strDeliveryCtDelimiter']                   = 'پیگیری فرد کلیک کننده';
-$GLOBALS['strP3PSettings']                           = 'کنترل کلی به صورت مخفیانه';
-$GLOBALS['strUseP3P']                                = 'کنترل مخفیانه';
-$GLOBALS['strP3PCompactPolicy']                      = 'کنترل به صورت فشرده';
+$GLOBALS['strDeliveryExecPhp']                       = 'مجاز بودن است�?اده از کدهای پی اچ پی در آگهی ( از نظر امنیتی مشکل دارد )';
+$GLOBALS['strDeliveryCtDelimiter']                   = 'پیگیری �?رد کلیک کننده';
+$GLOBALS['strP3PSettings']                           = 'کنترل کلی به صورت مخ�?یانه';
+$GLOBALS['strUseP3P']                                = 'کنترل مخ�?یانه';
+$GLOBALS['strP3PCompactPolicy']                      = 'کنترل به صورت �?شرده';
 $GLOBALS['strP3PPolicyLocation']                     = 'موقعیت کنترل';
 
 // General Settings
 $GLOBALS['generalSettings']                          = 'کل تنظیمات عمومی سیستم';
-$GLOBALS['uiEnabled']                                = 'فعال بودن کاربر';
-$GLOBALS['defaultLanguage']                          = 'زبان پیش فرض سیستم';
-$GLOBALS['requireSSL']                               = 'کاربر مجاز به استفاده از SSL می باشد';
+$GLOBALS['uiEnabled']                                = '�?عال بودن کاربر';
+$GLOBALS['defaultLanguage']                          = 'زبان پیش �?رض سیستم';
+$GLOBALS['requireSSL']                               = 'کاربر مجاز به است�?اده از SSL می باشد';
 $GLOBALS['sslPort']                                  = 'پرت SSL توسط وب سرور';
 
 // Geotargeting Settings
@@ -336,7 +336,7 @@ $GLOBALS['strGeotrackingGeoipIspLocationError']      = 'The MaxMind GeoIP ISP Da
 $GLOBALS['strGeotrackingGeoipNetspeedLocationError'] = 'The MaxMind GeoIP Netspeed Database does not exist in the location specified';
 
 // Interface Settings
-$GLOBALS['strInterfaceDefaults']                     = 'میانجی پیش فرض';
+$GLOBALS['strInterfaceDefaults']                     = 'میانجی پیش �?رض';
 $GLOBALS['strInventory']                             = 'صورت موجودی';
 $GLOBALS['strUploadConversions']                     = 'Upload Conversions';
 $GLOBALS['strShowCampaignInfo']                      = 'Show extra campaign info on <i>Campaign overview</i> page';
@@ -349,19 +349,19 @@ $GLOBALS['strGUIShowMatchingBanners']                = 'Show matching banners on
 $GLOBALS['strGUIShowParentCampaigns']                = 'Show parent campaigns on the <i>Linked banner</i> pages';
 $GLOBALS['strGUIAnonymousCampaignsByDefault']        = 'Default Campaigns to Anonymous';
 $GLOBALS['strStatisticsDefaults']                    = 'آمار';
-$GLOBALS['strBeginOfWeek']                           = 'آغاز هفته';
+$GLOBALS['strBeginOfWeek']                           = 'آغاز ه�?ته';
 $GLOBALS['strPercentageDecimals']                    = 'درصد اعشار';
-$GLOBALS['strWeightDefaults']                        = 'وزن پیش فرض';
-$GLOBALS['strDefaultBannerWeight']                   = 'حجم پیش فرض بنر';
-$GLOBALS['strDefaultCampaignWeight']                 = 'حجم پیش فرض داخلی';
+$GLOBALS['strWeightDefaults']                        = 'وزن پیش �?رض';
+$GLOBALS['strDefaultBannerWeight']                   = 'حجم پیش �?رض بنر';
+$GLOBALS['strDefaultCampaignWeight']                 = 'حجم پیش �?رض داخلی';
 $GLOBALS['strDefaultBannerWErr']                     = 'Default banner weight should be a positive integer';
 $GLOBALS['strDefaultCampaignWErr']                   = 'Default campaign weight should be a positive integer';
 
-$GLOBALS['strPublisherDefaults']                     = 'ناشر پیش فرض';
+$GLOBALS['strPublisherDefaults']                     = 'ناشر پیش �?رض';
 $GLOBALS['strModesOfPayment']                        = 'نحوه پرداخت وجه';
 $GLOBALS['strCurrencies']                            = 'پول رایج';
 $GLOBALS['strCategories']                            = 'مجموعه ها';
-$GLOBALS['strHelpFiles']                             = 'فایل راهنما';
+$GLOBALS['strHelpFiles']                             = '�?ایل راهنما';
 $GLOBALS['strHasTaxID']                              = 'Tax ID';
 $GLOBALS['strDefaultApproved']                       = 'چک کردن بسته تایید شده ها';
 
@@ -370,8 +370,8 @@ $GLOBALS['strChooseAdvertiser']                      = 'Choose Advertiser';
 $GLOBALS['strChooseCampaign']                        = 'Choose Campaign';
 $GLOBALS['strChooseCampaignBanner']                  = 'Choose Banner';
 $GLOBALS['strChooseTracker']                         = 'Choose Tracker';
-$GLOBALS['strDefaultConversionStatus']               = 'عملکرد تغییرات پیش فرض';
-$GLOBALS['strDefaultConversionType']                 = 'عملکرد تغییرات پیش فرض';
+$GLOBALS['strDefaultConversionStatus']               = 'عملکرد تغییرات پیش �?رض';
+$GLOBALS['strDefaultConversionType']                 = 'عملکرد تغییرات پیش �?رض';
 $GLOBALS['strCSVTemplateSettings']                   = 'CSV Template Settings';
 $GLOBALS['strIncludeCountryInfo']                    = 'Include Country Info';
 $GLOBALS['strIncludeBrowserInfo']                    = 'Include Browser Info';
@@ -383,8 +383,8 @@ $GLOBALS['strCSVTemplateIncVariables']               = 'Include Tracker Variable
 // Invocation Settings
 $GLOBALS['strInvocationAndDelivery']                 = 'تنظیمات مجوزهای خروجی';
 $GLOBALS['strAllowedInvocationTypes']                = 'انواع مجوز خروجی';
-$GLOBALS['strIncovationDefaults']                    = 'خروجی پیش فرض';
-$GLOBALS['strEnable3rdPartyTrackingByDefault']       = 'فعال شدن 3ار دی در قبال هر کلیک به صورت پیش فرض';
+$GLOBALS['strIncovationDefaults']                    = 'خروجی پیش �?رض';
+$GLOBALS['strEnable3rdPartyTrackingByDefault']       = '�?عال شدن 3ار دی در قبال هر کلیک به صورت پیش �?رض';
 
 // Statistics & Maintenance Settings
 $GLOBALS['strStatisticsSettings']                    = 'تنظیمات نگهداری و آمار';
@@ -436,22 +436,22 @@ $GLOBALS['strQmailPatch']                            = 'Enable qmail patch';
 $GLOBALS['strGuiSettings']                           = 'تنظیمات بین کاربر';
 $GLOBALS['strGeneralSettings']                       = 'تنظیمات عمومی';
 $GLOBALS['strAppName']                               = 'نام درخواست کننده';
-$GLOBALS['strMyHeader']                              = 'مکان فایل هدر';
+$GLOBALS['strMyHeader']                              = 'مکان �?ایل هدر';
 $GLOBALS['strMyHeaderError']                         = 'The header file does not exist in the location you specified';
-$GLOBALS['strMyFooter']                              = 'مکان فایل فوتر';
+$GLOBALS['strMyFooter']                              = 'مکان �?ایل �?وتر';
 $GLOBALS['strMyFooterError']                         = 'The footer file does not exist in the location you specified';
-$GLOBALS['strDefaultTrackerStatus']                  = 'وضعیت پیش فرض تراکر';
-$GLOBALS['strDefaultTrackerType']                    = 'نوع پیش فرض تراکر';
+$GLOBALS['strDefaultTrackerStatus']                  = 'وضعیت پیش �?رض تراکر';
+$GLOBALS['strDefaultTrackerType']                    = 'نوع پیش �?رض تراکر';
 
-$GLOBALS['strMyLogo']                                = 'نام مبدا فایل لوگو';
+$GLOBALS['strMyLogo']                                = 'نام مبدا �?ایل لوگو';
 $GLOBALS['strMyLogoError']                           = 'The logo file does not exist in the admin/images directory';
 $GLOBALS['strGuiHeaderForegroundColor']              = 'رنگ جلو هدر';
 $GLOBALS['strGuiHeaderBackgroundColor']              = 'رنگ بکگراند هدر';
-$GLOBALS['strGuiActiveTabColor']                     = 'رنگ تب فعال';
+$GLOBALS['strGuiActiveTabColor']                     = 'رنگ تب �?عال';
 $GLOBALS['strGuiHeaderTextColor']                    = 'رنگ متن هدر';
 $GLOBALS['strColorError']                            = 'Please enter colors in an RGB format, like \'0066CC\'';
 
-$GLOBALS['strGzipContentCompression']                = 'استفاده از زیپ کردن برای فشرده سازی';
+$GLOBALS['strGzipContentCompression']                = 'است�?اده از زیپ کردن برای �?شرده سازی';
 $GLOBALS['strClientInterface']                       = 'Advertiser Interface';
 $GLOBALS['strReportsInterface']                      = 'Reports Interface';
 $GLOBALS['strClientWelcomeEnabled']                  = 'Enable Advertiser Welcome Message';

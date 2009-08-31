@@ -36,7 +36,7 @@ $GLOBALS['strHighPriorityCampaigns']		= 'Campagnes avec une priorité haute';
 $GLOBALS['strAdViewsAssigned']			= 'Nbre d\'affichages assignés';
 $GLOBALS['strLowPriorityCampaigns']		= 'Campagnes avec une priorité basse';
 $GLOBALS['strPredictedAdViews']			= 'Nbre d\'affichages prévus';
-$GLOBALS['strPriorityDaysRunning']		= 'Il y a actuellement {days} jours de statistiques disponibles à partir desquels '.$phpAds_productname.' peut effectuer ses prévisions. ';
+$GLOBALS['strPriorityDaysRunning']		= 'Il y a actuellement {days} jours de statistiques disponibles à partir desquels '.MAX_PRODUCT_NAME.' peut effectuer ses prévisions. ';
 $GLOBALS['strPriorityBasedLastWeek']		= 'Les prévisions sont basées sur les données de cette semaine et de la semaine passée. ';
 $GLOBALS['strPriorityBasedLastDays']		= 'Les prévisions sont basées sur les données des derniers jours. ';
 $GLOBALS['strPriorityBasedYesterday']		= 'Les prévisions sont basées sur les données d\'hier. ';
@@ -100,14 +100,14 @@ $GLOBALS['strAvailableUpdates']			= 'Mise à jour disponibles';
 $GLOBALS['strDownloadZip']			= 'Télécharger (.zip)';
 $GLOBALS['strDownloadGZip']			= 'Télécharger (.tar.gz)';
 
-$GLOBALS['strUpdateAlert']			= 'Une nouvelle version d\'\". '.MAX_PRODUCT_NAME.' .\" est disponible.                 
+$GLOBALS['strUpdateAlert']			= 'Une nouvelle version d\'\". '.MAX_PRODUCT_NAME.' .\" est disponible.
 
-Voulez-vous obtenir plus d\'informations 
+Voulez-vous obtenir plus d\'informations
 au sujet de cette mise à jour ?';
-$GLOBALS['strUpdateAlertSecurity']		= 'Une nouvelle version d\'\". '.MAX_PRODUCT_NAME.' .\" est disponible.                 
+$GLOBALS['strUpdateAlertSecurity']		= 'Une nouvelle version d\'\". '.MAX_PRODUCT_NAME.' .\" est disponible.
 
-Il est hautement recommandé de mettre à jour 
-aussi vite que possible, car cette 
+Il est hautement recommandé de mettre à jour
+aussi vite que possible, car cette
 version contient un ou plusieurs correctifs de sécurité.';
 
 $GLOBALS['strUpdateServerDown']			= 'Pour une raison inconnue, il est impossible de récupérer <br>les informations concernant de possibles mises à jour. Veuillez réessayer plus tard.';

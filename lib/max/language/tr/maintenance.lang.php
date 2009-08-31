@@ -35,7 +35,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "Yüksek öncelikli kampanyalar";
 $GLOBALS['strAdViewsAssigned']			= "Belirlenen görünme";
 $GLOBALS['strLowPriorityCampaigns']		= "Düşük öncelikli kampanyalar";
 $GLOBALS['strPredictedAdViews']			= "Önceden belirtilmiş Görünme";
-$GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where ".$phpAds_productname." can base its daily prediction on. ";
+$GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where ".MAX_PRODUCT_NAME." can base its daily prediction on. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Bu tahmin bu hafta ve geçen haftanın istatistiklerinden hazırlanmıştır. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Bu tahmin son iki günün istatistiklerinden hazırlanmıştır. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Bu tahmin dünün istatistiklerinden hazırlanmıştır. ";
@@ -46,7 +46,7 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Bugün toplanan görüntilenmeler y�
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Banner hafızasını tekrar oluştur";
-$GLOBALS['strBannerCacheExplaination']		= "\n	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML\n	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası ".$phpAds_productname." programının direk adresini(URL)\n	ve bannerı bünyesinde bulundurur.\n";
+$GLOBALS['strBannerCacheExplaination']		= "\n	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML\n	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası ".MAX_PRODUCT_NAME." programının direk adresini(URL)\n	ve bannerı bünyesinde bulundurur.\n";
 
 
 // Zone cache
@@ -72,18 +72,18 @@ $GLOBALS['strAvailableUpdates']			= "Mevcut ürün güncellemeleri";
 $GLOBALS['strDownloadZip']			= "İndir (.zip)";
 $GLOBALS['strDownloadGZip']			= "İndir (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= $phpAds_productname." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
-$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
+$GLOBALS['strUpdateAlert']			= MAX_PRODUCT_NAME." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
+$GLOBALS['strUpdateAlertSecurity']		= MAX_PRODUCT_NAME." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
 
 $GLOBALS['strUpdateServerDown']			= "\n";
 
 $GLOBALS['strNoNewVersionAvailable']		=
-	$phpAds_productname." sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.
+	MAX_PRODUCT_NAME." sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.
 ";
 
-$GLOBALS['strNewVersionAvailable']		= "\n	<b>".$phpAds_productname." yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.\n	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
+$GLOBALS['strNewVersionAvailable']		= "\n	<b>".MAX_PRODUCT_NAME." yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.\n	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
 
-$GLOBALS['strSecurityUpdate']			= "\n	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.\n	.</b> Kullanmış olduğunuz ".$phpAds_productname." sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
+$GLOBALS['strSecurityUpdate']			= "\n	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.\n	.</b> Kullanmış olduğunuz ".MAX_PRODUCT_NAME." sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
 
 
 // Stats conversion

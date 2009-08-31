@@ -178,7 +178,7 @@ $GLOBALS['strAuthentification'] 					= "Autentifikasi";
 $GLOBALS['strWelcomeTo']							= "Selamat Datang di";
 $GLOBALS['strEnterUsername']						= "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth']							= "Silakan masukan Nama <i>dan</i> Kata Sandi";
-$GLOBALS['strEnableCookies']						= "Anda perlu aktifkan Cookies sebelum mengunakan ".$phpAds_productname;
+$GLOBALS['strEnableCookies']						= "Anda perlu aktifkan Cookies sebelum mengunakan ".MAX_PRODUCT_NAME;
 $GLOBALS['strLogin'] 								= "Login";
 $GLOBALS['strLogout'] 								= "Logout";
 $GLOBALS['strUsername'] 							= "Nama Pengguna";
@@ -472,7 +472,7 @@ $GLOBALS['strWarningMissingClosing']       			= 'penutup ujung \">\"';
 $GLOBALS['strWarningMissingOpening']       			= 'pembuka ujung \"<\"';
 $GLOBALS['strSubmitAnyway']       		   			= 'Tetap menyerahi';
 
-// Banner (Properties)	
+// Banner (Properties)
 $GLOBALS['strChooseBanner'] 						= "Silakan pilih jenis banner";
 $GLOBALS['strMySQLBanner'] 							= "Banner lokal (SQL)";
 $GLOBALS['strWebBanner'] 							= "Banner lokal (Webserver)";

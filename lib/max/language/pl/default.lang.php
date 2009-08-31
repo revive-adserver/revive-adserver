@@ -137,7 +137,7 @@ $GLOBALS['strAuthentification'] 		= "Autoryzacja";
 $GLOBALS['strWelcomeTo']			= "Witamy w";
 $GLOBALS['strEnterUsername']			= "Wpisz nazwę użytkownika i hasło, aby się zalogować";
 $GLOBALS['strEnterBoth']			= "Wpisz zarówno nazwę użytkownika jak i hasło";
-$GLOBALS['strEnableCookies']			= "Musisz włączyć cookies zanim będziesz mógł używać ".$phpAds_productname;
+$GLOBALS['strEnableCookies']			= "Musisz włączyć cookies zanim będziesz mógł używać ".MAX_PRODUCT_NAME;
 $GLOBALS['strLogin'] 				= "Login";
 $GLOBALS['strLogout'] 				= "Wyloguj";
 $GLOBALS['strUsername'] 			= "Nazwa użytkownika";
@@ -365,7 +365,7 @@ $GLOBALS['strContinent'] 			= "Kontynent";
 $GLOBALS['strDeliveryLimitations']		= "Limity dostarczania";
 $GLOBALS['strDeliveryCapping']			= "Capping na osobę";
 $GLOBALS['strTimeCapping']			= "Kiedy ten banner zostanie wyświetlony raz, nie pokazuj go ponownie temu samemu użytkownikowi przez:";
-$GLOBALS['strImpressionCapping']		= "Nie pokazuj tego bannera temu samemu użytkownikowi więcej niż˝:";
+$GLOBALS['strImpressionCapping']		= "Nie pokazuj tego bannera temu samemu użytkownikowi więcej niż�?:";
 
 
 // Publisher
@@ -418,7 +418,7 @@ $GLOBALS['strHideMatchingBanners']		= "Ukryj pasujące banery";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']				= "Zaawansowane";
-$GLOBALS['strChains']				= "Łańcuchy";
+$GLOBALS['strChains']				= "�?ańcuchy";
 $GLOBALS['strChainSettings']			= "Ustawienia łańcucha";
 $GLOBALS['strZoneNoDelivery']			= "Jeśli żaden baner z tej strefy <br />nie może być dostarczony...";
 $GLOBALS['strZoneStopDelivery']			= "Zaprzestań dostarczania i nie pokazuj banera";
@@ -1339,7 +1339,7 @@ $GLOBALS['strIncomeMarginShort'] = "Marża przych.";
 $GLOBALS['strProfitShort'] = "Zysk";
 $GLOBALS['strMarginShort'] = "Marża";
 $GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "AKTUALIZACJA ZAKOŃCZONA";
-$GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "AKTUALIZACJA NIE POWIODŁA SIĘ";
+$GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "AKTUALIZACJA NIE POWIOD�?A SIĘ";
 $GLOBALS['strConversionsShort'] = "Konw.";
 $GLOBALS['strPendingConversionsShort'] = "Konw. oczekujące";
 $GLOBALS['strClickSRShort'] = "Kliknięcie (współczynnik sprzedaży)";

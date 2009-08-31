@@ -36,7 +36,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "Magas prioritású kampány";
 $GLOBALS['strAdViewsAssigned']			= "Beosztott letöltés";
 $GLOBALS['strLowPriorityCampaigns']		= "Alacsony prioritású kampány";
 $GLOBALS['strPredictedAdViews']			= "Letöltések előrejelzése";
-$GLOBALS['strPriorityDaysRunning']		= "Jelenleg {days} napra vonatkozó statisztika áll rendelkezésre, melyből a ".$phpAds_productname." meg tudja állapítani a napi előrejelzést. ";
+$GLOBALS['strPriorityDaysRunning']		= "Jelenleg {days} napra vonatkozó statisztika áll rendelkezésre, melyből a ".MAX_PRODUCT_NAME." meg tudja állapítani a napi előrejelzést. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Az előrejelzés az e heti és a múlt heti adatok alapján történik. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Az előrejelzés az elmúlt néhány nap alapján történik. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Az előrejelzés a tegnapi adatok alapján történik. ";
@@ -67,7 +67,7 @@ $GLOBALS['strStorageExplaination']		= "\n	A helyi bannerek által használt kép
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "\n	Ön engedélyezte a <i>tömör statisztikát</i>, viszont a régi statisztika még részletes formában\n	létezik. Átalakítja az új tömörített formátumba a részletes statisztikát?\n";
+$GLOBALS['strStatisticsExplaination']		= "\n	Ön engedélyezte a <i>tömör statisztikát</i>, viszont a régi statisztika még részletes formában\n	létezik. �?talakítja az új tömörített formátumba a részletes statisztikát?\n";
 
 
 // Product Updates

@@ -38,20 +38,20 @@ $GLOBALS['strOtherSettings']			= 'Autres paramètres';
 
 $GLOBALS['strWarning']				= 'Attention';
 $GLOBALS['strFatalError']			= 'Une erreur fatale est survenue';
-$GLOBALS['strUpdateError']			= 'Une erreur est survenue en tentant de mettre à jour '. $phpAds_productname;
-$GLOBALS['strUpdateDatabaseError']		= 'Une erreur non identifiée étant survenue, la structure de la base de données n\'a pas pu être mise à jour. Il est recommandé de cliquer sur <b>Retenter la mise à jour</b>, afin d\'essayer de corriger ces problèmes potentiels; néanmoins, si vous êtes sur que ces erreurs ne vont pas affecter la bonne marche de '.$phpAds_productname.', vous pouvez cliquer sur <b>Ignorer les erreurs</b> et continuer. Ignorer ces erreurs peut entrainer de graves problèmes !';
-$GLOBALS['strAlreadyInstalled']			= $phpAds_productname.' est déjà installé sur ce système. Si vous souhaitez le configurer :<a href=\'settings-index.php\'>Paramètres de '.$phpAds_productname.'</a>.';
-$GLOBALS['strCouldNotConnectToDB']		= $phpAds_productname.' ne peut se connecter à la base de donnée. Veuillez vérifier les paramètres que vous avez entrés.';
+$GLOBALS['strUpdateError']			= 'Une erreur est survenue en tentant de mettre à jour '. MAX_PRODUCT_NAME;
+$GLOBALS['strUpdateDatabaseError']		= 'Une erreur non identifiée étant survenue, la structure de la base de données n\'a pas pu être mise à jour. Il est recommandé de cliquer sur <b>Retenter la mise à jour</b>, afin d\'essayer de corriger ces problèmes potentiels; néanmoins, si vous êtes sur que ces erreurs ne vont pas affecter la bonne marche de '.MAX_PRODUCT_NAME.', vous pouvez cliquer sur <b>Ignorer les erreurs</b> et continuer. Ignorer ces erreurs peut entrainer de graves problèmes !';
+$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME.' est déjà installé sur ce système. Si vous souhaitez le configurer :<a href=\'settings-index.php\'>Paramètres de '.MAX_PRODUCT_NAME.'</a>.';
+$GLOBALS['strCouldNotConnectToDB']		= MAX_PRODUCT_NAME.' ne peut se connecter à la base de donnée. Veuillez vérifier les paramètres que vous avez entrés.';
 $GLOBALS['strCreateTableTestFailed']		= 'L\'utilisateur que vous avez spécifié n\'a pas la permission de créer ou de mettre à jour la structure de la base de données. Veuillez contacter l\'administrateur de la base.';
 $GLOBALS['strUpdateTableTestFailed']		= 'L\'utilisateur que vous avez spécifié n\'a pas la permission de mettre à jour la structure de la base de données. Veuillez contacter l\'administrateur de la base.';
 $GLOBALS['strTablePrefixInvalid']		= 'Le préfixe des tables contient des caractères invalides';
-$GLOBALS['strTableInUse']			= 'La base de données que vous avez spécifiée est déjà utilisée pour '.$phpAds_productname.'. Veuillez utiliser un préfixe de table différent, ou lire le manuel pour les instructions de mise à jour.';
+$GLOBALS['strTableInUse']			= 'La base de données que vous avez spécifiée est déjà utilisée pour '.MAX_PRODUCT_NAME.'. Veuillez utiliser un préfixe de table différent, ou lire le manuel pour les instructions de mise à jour.';
 $GLOBALS['strTableWrongType']			= 'Le type de table que vous avez sélectionné n\'est pas supporté par votre installation de '.$phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']			= 'Avant de continuer, vous devriez corriger ce problème potentiel :';
-$GLOBALS['strFixProblemsBefore']		= 'Le(s) chose(s) suivante(s) doivent être corrigée(s) avant que vous ne puissiez installer '.$phpAds_productname.'. Si vous avez des questions à propos de ce message d\'erreur, lisez le <i>Guide de l\'administrateur</i> (Administrator guide, en anglais), qui est fourni avec l\'archive que vous avez téléchargée.';
-$GLOBALS['strFixProblemsAfter']			= 'Si vous ne pouvez pas corriger les problèmes ci-dessus, veuillez contacter l\'adminitrateur du serveur sur lequel vous tentez d\'installer '.$phpAds_productname.'. Il devrait être capable de vous aider.';
+$GLOBALS['strFixProblemsBefore']		= 'Le(s) chose(s) suivante(s) doivent être corrigée(s) avant que vous ne puissiez installer '.MAX_PRODUCT_NAME.'. Si vous avez des questions à propos de ce message d\'erreur, lisez le <i>Guide de l\'administrateur</i> (Administrator guide, en anglais), qui est fourni avec l\'archive que vous avez téléchargée.';
+$GLOBALS['strFixProblemsAfter']			= 'Si vous ne pouvez pas corriger les problèmes ci-dessus, veuillez contacter l\'adminitrateur du serveur sur lequel vous tentez d\'installer '.MAX_PRODUCT_NAME.'. Il devrait être capable de vous aider.';
 $GLOBALS['strIgnoreWarnings']			= 'Ignorer les avertissement';
-$GLOBALS['strWarningPHPversion']		= $phpAds_productname.' requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.';
+$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME.' requiert  PHP 4.0 (ou plus) pour fonctionner correctement. Vous utilisez actuellement {php_version}.';
 $GLOBALS['strWarningDBavailable']               = 'La version de PHP que vous utilisez n\'a pas le support nécessaire pour se connecter à une base de données '.$phpAds_dbmsname.'. Vous devez activer l\'extension '.$phpAds_dbmsname.' de PHP avant de pouvoir continuer.';
 $GLOBALS['strWarningRegisterGlobals']		= 'La variable de configuration globale PHP <i>register_globals</i> doit être activée.';
 $GLOBALS['strWarningMagicQuotesGPC']		= 'La variable de configuration globale PHP <i>magic_quotes_gpc</i> doit être activée.';
@@ -59,7 +59,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']  	= 'La variable de configuration globa
 $GLOBALS['strWarningFileUploads']		= 'La variable de configuration globale PHP <i>file_uploads</i> doit être activée.';
 $GLOBALS['strWarningTrackVars']			= 'La variable de configuration globale PHP <i>track_vars</i> doit être activée.';
 $GLOBALS['strWarningPREG']			= 'La version de PHP que vous utilisez ne dispose pas des PCRE (Expression rationnelles compatibles Perl). Vous devez activer l\'extension PCRE avant de pouvoir continuer.';
-$GLOBALS['strConfigLockedDetected']		= $phpAds_productname.' ne peut pas écrire sur le fichier <b>config.inc.php</b>.<br> Vous devez accorder avoir les privilèges d\'écriture sur ce fichier. <br>Veuillez lire la documentation fournie pour plus d\'informations.';
+$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME.' ne peut pas écrire sur le fichier <b>config.inc.php</b>.<br> Vous devez accorder avoir les privilèges d\'écriture sur ce fichier. <br>Veuillez lire la documentation fournie pour plus d\'informations.';
 $GLOBALS['strCantUpdateDB']  			= 'Il n\'est pas possible de mettre à jour la base de données. Si vous décidez de continuer, toutes les bannières existantes, les statistiques, et les annonceurs seront perdus.';
 $GLOBALS['strIgnoreErrors']			= 'Ignorer les erreurs';
 $GLOBALS['strRetryUpdate']			= 'Retenter la mise à jour';
@@ -67,15 +67,15 @@ $GLOBALS['strTableNames']			= 'Nom de la base';
 $GLOBALS['strTablesPrefix']			= 'Préfixe des noms des tables';
 $GLOBALS['strTablesType']			= 'Type de tables';
 
-$GLOBALS['strInstallWelcome']			= 'Bienvenue sur '.$phpAds_productname;
-$GLOBALS['strInstallMessage']			= 'Avant de pouvoir utiliser '.$phpAds_productname.', il est nécessaire de le configurer, et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.';
+$GLOBALS['strInstallWelcome']			= 'Bienvenue sur '.MAX_PRODUCT_NAME;
+$GLOBALS['strInstallMessage']			= 'Avant de pouvoir utiliser '.MAX_PRODUCT_NAME.', il est nécessaire de le configurer, et la base de données doit être crée. Cliquez sur <b>Continuer</b> pour poursuivre.';
 $GLOBALS['strInstallSuccess']			= 'Cliquez sur \'Continuer\' vous connectera à votre serveur publicitaire.	<p><strong>Et ensuite ?</strong></p>	<div class=\'psub\'>	  <p><b>Inscrivez-vous aux mises à jour produit</b><br>	    <a href=\'\". OX_PRODUCT_DOCSURL .\"/wizard/join\' target=\'_blank\'>Rejoignez la liste d\'envoi de \". MAX_PRODUCT_NAME .\"</a> pour des mises à jour produit, des alertes sécurité et des annonces sur les nouveaux produits.	  </p>	  <p><b>Distribuez votre première campagne</b><br>	    Utilisez notre <a href=\'\". OX_PRODUCT_DOCSURL .\"/wizard/qsg-firstcampaign\' target=\'_blank\'>guide de démarrage rapide pour commencer à distribuer votre première campagne publicitaire</a>.	  </p>	</div>	<p><strong>Étapes d\'installation facultatives</strong></p>	<div class=\'psub\'>	  <p><b>Verrouillez vos fichiers de configuration</b><br>	    Il s\'agit d\'une bonne mesure de sécurité supplémentaire pour empêcher que les paramètres de configuration de votre serveur publicitaire soient modifiés.  <a href=\'\". OX_PRODUCT_DOCSURL .\"/wizard/lock-config\' target=\'_blank\'>En savoir plus</a>.	  </p>	  <p><b>Paramétrez une tâche de maintenance régulière</b><br>	    un script de maintenance est recommandé afin d\'assurer des rapports ponctuels et la meilleure performance de distribution publicitaire possible.  <a href=\'\". OX_PRODUCT_DOCSURL .\"/wizard/setup-cron\' target=\'_blank\'>En savoir plus</a>	  </p>	  <p><b>Vérifez les paramètres de configuration de votre système</b><br>	    Avant de commencer à utiliser \". MAX_PRODUCT_NAME .\" nous vous recommandons de vérifier vos paramètres dans l\'onglet \'Paramètres\'.	  </p>	</div>';
 
-$GLOBALS['strUpdateSuccess']			= '<b>La mise à niveau de '.$phpAds_productname.' a réussie.</b><br><br>Afin que '.$phpAds_productname.' fonctionne correctement, '
+$GLOBALS['strUpdateSuccess']			= '<b>La mise à niveau de '.MAX_PRODUCT_NAME.' a réussie.</b><br><br>Afin que '.MAX_PRODUCT_NAME.' fonctionne correctement, '
 						 .'vous devez aussi faire en sorte que le fichier de maintenance soit exécuté chaque heure (précédemment c\'était chaque jour). '
 						 .'Vous trouverez plus d\'informations sur ce sujet dans la documentation.<br><br>Cliquez sur <b>Continuer</b> pour accéder '
-						 .'à l\'interfaçe de configuration, d\'où vous pourrez finir de paramétrer '.$phpAds_productname.'. Veuillez à ne pas oublier '
-						 .'de protéger en écriture le fichier <i>config.inc.php</i> lorsque vous aurez fini, afin de sécuriser '.$phpAds_productname.'.';
+						 .'à l\'interfaçe de configuration, d\'où vous pourrez finir de paramétrer '.MAX_PRODUCT_NAME.'. Veuillez à ne pas oublier '
+						 .'de protéger en écriture le fichier <i>config.inc.php</i> lorsque vous aurez fini, afin de sécuriser '.MAX_PRODUCT_NAME.'.';
 $GLOBALS['strInstallNotSuccessful']		= '<b>L\'installation d\'\".'.MAX_PRODUCT_NAME.'.\" n\'a pas réussi</b><br /><br />Certaines parties du processus d\'installation n\'ont pu être complétées.
                                                 Il est possible que ces problèmes soient seulement temporaires, dans ce cas vous pouvez simplement clique sur <b>Continuer</b>et retourner à la
                                                 première étape du processus d\'installation. Si vous voulez en savoir plus concernant la signification du message d\'erreur ci-dessous, et comment le rédoudre,
@@ -83,7 +83,7 @@ $GLOBALS['strInstallNotSuccessful']		= '<b>L\'installation d\'\".'.MAX_PRODUCT_N
 $GLOBALS['strErrorOccured']			= 'L\'erreur suivante est survenue :';
 $GLOBALS['strErrorInstallDatabase']		= 'La structure de la base de données n\'a pas pu être crée.';
 $GLOBALS['strErrorInstallConfig']		= 'Le fichier de configuration, ou la base de données n\'a pas pu être mis à jour.';
-$GLOBALS['strErrorInstallDbConnect']		= $phpAds_productname.' n\'a pas réussi à se connecter à la base de données '.$phpAds_dbmsname.'.';
+$GLOBALS['strErrorInstallDbConnect']		= MAX_PRODUCT_NAME.' n\'a pas réussi à se connecter à la base de données '.$phpAds_dbmsname.'.';
 
 $GLOBALS['strUrlPrefix']			= 'Préfixe d\'Url';
 
@@ -97,7 +97,7 @@ $GLOBALS['strSystemUpgradeBusy']		= 'Mise à jour du système en cours, merci de
 $GLOBALS['strSystemRebuildingCache']		= 'Reconstruction du cache, merci de patienter...';
 $GLOBALS['strServiceUnavalable']		= 'Le service est temporairement indisponible. Mise à jour du système en cours.';
 
-$GLOBALS['strConfigNotWritable']		= $phpAds_productname.' ne peut écrire dans le fichier config.inc.php';
+$GLOBALS['strConfigNotWritable']		= MAX_PRODUCT_NAME.' ne peut écrire dans le fichier config.inc.php';
 
 
 
@@ -171,7 +171,7 @@ $GLOBALS['strUseConditionalKeys']		= 'Autoriser l\'utilisation d\'opérateurs lo
 $GLOBALS['strUseMultipleKeys']			= 'Autoriser les mots clés multiples lors de la sélection directe';
 
 $GLOBALS['strZonesSettings']			= 'Récupération des zones';
-$GLOBALS['strZoneCache']			= 'Cacher les zones; cela peut accélérer '.$phpAds_productname.' lorsque l\'on utilise les zones';
+$GLOBALS['strZoneCache']			= 'Cacher les zones; cela peut accélérer '.MAX_PRODUCT_NAME.' lorsque l\'on utilise les zones';
 $GLOBALS['strZoneCacheLimit']			= 'Délai entre les mises à jour du cache (en secondes)';
 $GLOBALS['strZoneCacheLimitErr']		= 'Erreur: le délai entre les mises à jour du cache doit être un entier positif.';
 

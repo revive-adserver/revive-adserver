@@ -137,7 +137,7 @@ $GLOBALS['strAuthentification'] 		= 'Authentification';
 $GLOBALS['strWelcomeTo']			= 'Bienvenue sur';
 $GLOBALS['strEnterUsername']			= 'Entrez vos identifiant et mot de passe pour vous connecter';
 $GLOBALS['strEnterBoth']			= 'Veuillez entrer vos identifiant et mot de passe';
-$GLOBALS['strEnableCookies']			= 'Vous devez activer les cookies sur votre navigateur avant de pouvoir utiliser '.$phpAds_productname;
+$GLOBALS['strEnableCookies']			= 'Vous devez activer les cookies sur votre navigateur avant de pouvoir utiliser '.MAX_PRODUCT_NAME;
 $GLOBALS['strLogin'] 				= 'Connexion';
 $GLOBALS['strLogout'] 				= 'Déconnexion';
 $GLOBALS['strUsername'] 			= 'Identifiant';
@@ -268,7 +268,7 @@ $GLOBALS['strActivationDate']			= 'Date de début';
 $GLOBALS['strImpressionsPurchased']			= 'Nbre d\'affichages restant ';
 $GLOBALS['strClicksPurchased']			= 'Nbre de clics restant ';
 $GLOBALS['strCampaignWeight']			= 'Régler le poids de la campagne';
-$GLOBALS['strHighPriority']			= 'Montrer les bannières de cette campagne avec une priorité haute.<br> Si vous utilisez cette option, '.$phpAds_productname
+$GLOBALS['strHighPriority']			= 'Montrer les bannières de cette campagne avec une priorité haute.<br> Si vous utilisez cette option, '.MAX_PRODUCT_NAME
 						 .' essayera de répartir les affichages uniformément sur la durée totale de la campagne.';
 $GLOBALS['strLowPriority']			= 'Montrer les bannières de cette campagne avec une priorité basse.<br> Les affichages de cette campagne seront répartis en'
 						 .'fonction des objectifs  des campagne ayant une priorité haute.';
@@ -276,11 +276,11 @@ $GLOBALS['strTargetLimitAdviews']		= 'Limiter le nombre d\'affichages à ';
 $GLOBALS['strTargetPerDay']			= 'par jour.';
 $GLOBALS['strPriorityAutoTargeting']		= 'Automatique - Distribue l\'inventaire restant uniformément sur les jours restants.';
 $GLOBALS['strCampaignWarningNoWeight']		= 'La priorité de cette campagne a été réglée trop basse, ' . "\n" . 'mais le poids est à zéro, ou n\'a pas été spécifié. ' . "\n" . 'Cela va entrainer la désactivation de la campagne, et ses bannières ne seront pas affichées ' . "\n" . 'avant que le poids spécifié ne soit valide. ' . "\n\n" . 'Etes vous sur de vouloir continuer ?';
-$GLOBALS['strCampaignWarningNoTarget']		= 'La priorité de cette campagne a été déclarée Contractuelle, 
-mais la limite quotidienne n\'a pas été spécifiée. 
-Cela provoquera la désactivation de la campagne et 
-ses bannières ne seront pas distribuées jusqu\'à ce qu\'une 
-limite quotidienne correcte ait une valeur correcte. 
+$GLOBALS['strCampaignWarningNoTarget']		= 'La priorité de cette campagne a été déclarée Contractuelle,
+mais la limite quotidienne n\'a pas été spécifiée.
+Cela provoquera la désactivation de la campagne et
+ses bannières ne seront pas distribuées jusqu\'à ce qu\'une
+limite quotidienne correcte ait une valeur correcte.
 
 Êtes-vous certain de vouloir continuer ?';
 
@@ -556,8 +556,8 @@ $GLOBALS['strErrorNegClicks']			= 'Nombre de clics négatif non autorisé';
 $GLOBALS['strNoMatchesFound']			= 'Aucun résultat correspondant trouvé';
 $GLOBALS['strErrorOccurred']			= 'Une erreur est survenue';
 $GLOBALS['strErrorUploadSecurity']		= 'Détection d\'un possible problème de sécurité, téléchargement stoppé !';
-$GLOBALS['strErrorUploadBasedir']		= $phpAds_productname .' ne peut accéder au fichier envoyé; cela est probablement dû au mode de sécurité PHP (safemode), ou d\'une restriction de la fonction \'open_basedir\'.';
-$GLOBALS['strErrorUploadUnknown']		= $phpAds_productname .' ne peut accéder au fichier envoyé, et ce pour une raison inconnue. Veuillez vérifier votre configuration PHP.';
+$GLOBALS['strErrorUploadBasedir']		= MAX_PRODUCT_NAME .' ne peut accéder au fichier envoyé; cela est probablement dû au mode de sécurité PHP (safemode), ou d\'une restriction de la fonction \'open_basedir\'.';
+$GLOBALS['strErrorUploadUnknown']		= MAX_PRODUCT_NAME .' ne peut accéder au fichier envoyé, et ce pour une raison inconnue. Veuillez vérifier votre configuration PHP.';
 $GLOBALS['strErrorStoreLocal']			= 'Une erreur est survenue lors de la copie de la bannière dans le répertoire local. Cela est probablement dû à une mauvaise configuration des paramètres du répertoire local';
 $GLOBALS['strErrorStoreFTP']			= 'Une erreur est survenue lors de la copie de la bannière sur le serveur FTP. Cela est probablement dû à l\'indisponibilité du serveur FTP, ou à une mauvaise configuration des paramètres du serveur FTP.';
 $GLOBALS['strErrorDBPlain']			= 'Une erreur est survenue lors de l\'accès à la base de données';
@@ -567,11 +567,11 @@ $GLOBALS['strErrorDBNoDataSerious']		= 'En raison d\'un sérieux problème avec 
 $GLOBALS['strErrorDBCorrupt']			= 'La table de la base de données est sans doute corrompue et a besoin d\'être réparée. Pour plus d\'informations concernant la réparation de tables corrompues veuillez lire le chapitre ';
 $GLOBALS['strErrorDBContact']			= 'Veuillez contacter l\'administrateur de ce serveur et l\'informer du problème.';
 $GLOBALS['strErrorDBSubmitBug']			= 'Si ce problème peut être reproduit, il doit être causé par un bug dans \". '.MAX_PRODUCT_NAME.' .\". Veuillez rapporter les informations suivantes aux créateurs d\'\". '.MAX_PRODUCT_NAME.' .\". Essayez aussi de décrire les actions qui ont mené à cette erreur aussi clairement que possible.';
-$GLOBALS['strMaintenanceNotActive']             = 'Le script de maintenance n\'a pas été exécuté au cours des dernières 24 heures. 
-Pour que \". '.MAX_PRODUCT_NAME.' .\" fonctionne correctement, il doit être exécuté 
-toutes les heures. 
+$GLOBALS['strMaintenanceNotActive']             = 'Le script de maintenance n\'a pas été exécuté au cours des dernières 24 heures.
+Pour que \". '.MAX_PRODUCT_NAME.' .\" fonctionne correctement, il doit être exécuté
+toutes les heures.
 
-Veuillez lire le guide de l\'administrateur pour plus d\'informations 
+Veuillez lire le guide de l\'administrateur pour plus d\'informations
 concernant la configuration du script de maintenance.';
 
 // E-mail
@@ -590,7 +590,7 @@ $GLOBALS['strAfterExpire']			= 'la date d\'expiration a été atteinte';
 $GLOBALS['strNoMoreClicks']			= 'il ne reste plus de clics';
 $GLOBALS['strNoMoreViews']			= 'le nombre d\'affichages souhaités a été atteint';
 $GLOBALS['strWeightIsNull']			= 'son poids est réglé à 0';
-$GLOBALS['strWarnClientTxt']			= 'Les impressions, clics ou conversions restants pour vos bannières sont en-dessous de {limit}. 
+$GLOBALS['strWarnClientTxt']			= 'Les impressions, clics ou conversions restants pour vos bannières sont en-dessous de {limit}.
 Vos bannières seront désactivées quand il ne restera plus d\'impressions, clics ou conversions. ';
 $GLOBALS['strImpressionsClicksLow']			= 'Affichages et Clics sont bas';
 $GLOBALS['strNoViewLoggedInInterval']   	= 'Aucune impression n\'a été enregistrée pendant la période définie pour ce rapport';

@@ -33,54 +33,54 @@ $GLOBALS['phpAds_hlp_dbhost'] = '
 ';
 
 $GLOBALS['phpAds_hlp_dbuser'] = '
-	Spécifiez le nom d\'utilisateur avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
+	Spécifiez le nom d\'utilisateur avec lequel '.MAX_PRODUCT_NAME.' peut se connecter à la base '.$phpAds_dbmsname.'.
 ';
 
 $GLOBALS['phpAds_hlp_dbpassword'] = '
-	Spécifiez le mot de passe avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
+	Spécifiez le mot de passe avec lequel '.MAX_PRODUCT_NAME.' peut se connecter à la base '.$phpAds_dbmsname.'.
 ';
 
 $GLOBALS['phpAds_hlp_dbname'] = '
-	Spécifiez le nom de la base dans laquelle '.$phpAds_productname.' doit stocker ses données.
+	Spécifiez le nom de la base dans laquelle '.MAX_PRODUCT_NAME.' doit stocker ses données.
 ';
 
 $GLOBALS['phpAds_hlp_persistent_connections'] = '
-	L\'utilisation de connections persistantes peut accélérer considérablement '.$phpAds_productname.', et peut même diminuer la charge du serveur.
+	L\'utilisation de connections persistantes peut accélérer considérablement '.MAX_PRODUCT_NAME.', et peut même diminuer la charge du serveur.
 	Néanmoins, en cas de fortes charges du serveur Web, la charge du serveur SQL sera plus importe avec cette option. Le choix de cette option dépend du nombre de
-	visiteurs, et du matériel que vous utilisez. Si '.$phpAds_productname.' utilise trop de ressources, vous devriez regarder d\'abord cette option. Par défaut
+	visiteurs, et du matériel que vous utilisez. Si '.MAX_PRODUCT_NAME.' utilise trop de ressources, vous devriez regarder d\'abord cette option. Par défaut
 	cette option est désactivée, car elle peut-être incompatible avec certains systèmes.
 ';
 
 $GLOBALS['phpAds_hlp_insert_delayed'] = '
 	'.$phpAds_dbmsname.' bloque la table lorsque l\'on insère des données. Si vous avez beaucoup de visiteurs, il est possible
-	que '.$phpAds_productname.' soit obligé d\'attendre avant d\'insérer une nouvelle ligne, la table étant déjà
+	que '.MAX_PRODUCT_NAME.' soit obligé d\'attendre avant d\'insérer une nouvelle ligne, la table étant déjà
 	bloquée. Quand vous utilisez les insertions retardées, vous n\'avez pas à attendre, et la ligne sera insérée
 	plus tard, lorsque la table ne sera plus utilisée.
 ';
 
 $GLOBALS['phpAds_hlp_compatibility_mode'] = '
-	Si vous avez des problèmes d\'intégration de '.$phpAds_productname.' avec d\'autres produits, cela peut aider d\'activer
+	Si vous avez des problèmes d\'intégration de '.MAX_PRODUCT_NAME.' avec d\'autres produits, cela peut aider d\'activer
 	le mode de compatibilité de la base de données. Si vous utilisez le mode d\'invocation local, et que cette
-	option est activée, '.$phpAds_productname.' laisserat la connexion avec la base de données exactement comme
-	il l\'avait trouvé. Cette option ralentit un peu '.$phpAds_productname.' (seulement un peu), c\'est pourquoi elle est désactivée
+	option est activée, '.MAX_PRODUCT_NAME.' laisserat la connexion avec la base de données exactement comme
+	il l\'avait trouvé. Cette option ralentit un peu '.MAX_PRODUCT_NAME.' (seulement un peu), c\'est pourquoi elle est désactivée
 	par défaut.
 ';
 
 $GLOBALS['phpAds_hlp_table_prefix'] = '
-	Si la base de données que '.$phpAds_productname.' utilise est partagée par plusieurs produits, il est intéressant d\'ajouter
-	un préfixe aux noms des tables de '.$phpAds_productname.'. Si vous utilisez plusieurs '.$phpAds_productname.' avec la même base
-	de données, vous devez choisir un préfixe unique pour chaque installation de '.$phpAds_productname.'.
+	Si la base de données que '.MAX_PRODUCT_NAME.' utilise est partagée par plusieurs produits, il est intéressant d\'ajouter
+	un préfixe aux noms des tables de '.MAX_PRODUCT_NAME.'. Si vous utilisez plusieurs '.MAX_PRODUCT_NAME.' avec la même base
+	de données, vous devez choisir un préfixe unique pour chaque installation de '.MAX_PRODUCT_NAME.'.
 ';
 
 $GLOBALS['phpAds_hlp_tabletype'] = '
 	'.$phpAds_dbmsname.' supporte plusieurs types de table. Chacun de ces types a des propriétés particulières, et certains
-	peuvent accélérer '.$phpAds_productname.' considérablement. MyISAM est le type par défaut, et est présent dans
+	peuvent accélérer '.MAX_PRODUCT_NAME.' considérablement. MyISAM est le type par défaut, et est présent dans
 	toutes les installations '.$phpAds_dbmsname.'. Certains autres types de tables peuvent ne pas être présents sur votre serveur SQL.
 ';
 
 $GLOBALS['phpAds_hlp_url_prefix'] = '
-	'.$phpAds_productname.' a besoin de connaitre l\'adresse où il réside. Vous devez donc préciser l\'url publique à laquelle se trouve '.$phpAds_productname.'.
-	Par exemple : http://www.monsite.fr/'.$phpAds_productname.'
+	'.MAX_PRODUCT_NAME.' a besoin de connaitre l\'adresse où il réside. Vous devez donc préciser l\'url publique à laquelle se trouve '.MAX_PRODUCT_NAME.'.
+	Par exemple : http://www.monsite.fr/'.MAX_PRODUCT_NAME.'
 ';
 
 $GLOBALS['phpAds_hlp_my_header'] =
@@ -99,25 +99,25 @@ $GLOBALS['phpAds_hlp_language'] = '
 
 $GLOBALS['phpAds_hlp_name'] = '
 	Le nom de l\'application apparaîtrat sur toutes les pages de l\'administration,et de la gestion des publicité.
-	Si vous laissez ce champ vide (par défaut), un logo '.$phpAds_productname.' sera affiché à la place.
+	Si vous laissez ce champ vide (par défaut), un logo '.MAX_PRODUCT_NAME.' sera affiché à la place.
 ';
 
 $GLOBALS['phpAds_hlp_company_name'] = 'Ce nom est déjà utilisé dans l\'e-mail envoyé par \". '.MAX_PRODUCT_NAME.' .\". ';
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = '
-	Normalement, '.$phpAds_productname.' détecte automatiquement la présence, et les formats supportés par la librairie GD. Néanmoins, il se peut que la détection
-	soit érronée. Si '.$phpAds_productname.' ne parvient pas à trouver les bon paramètres, vous pouvez spécifier directement le bon format. Les valeurs autorisées sont:
+	Normalement, '.MAX_PRODUCT_NAME.' détecte automatiquement la présence, et les formats supportés par la librairie GD. Néanmoins, il se peut que la détection
+	soit érronée. Si '.MAX_PRODUCT_NAME.' ne parvient pas à trouver les bon paramètres, vous pouvez spécifier directement le bon format. Les valeurs autorisées sont:
 	none, png, jpeg, gif.
 ';
 
 $GLOBALS['phpAds_hlp_p3p_policies'] = '
-	Si vous souhaitez activer la politique de respect de la vie privée P3P de '.$phpAds_productname.', vous devez utiliser
+	Si vous souhaitez activer la politique de respect de la vie privée P3P de '.MAX_PRODUCT_NAME.', vous devez utiliser
 	cette option.
 ';
 
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = '
 	La politique compacte est envoyée avec les cookies. Ce réglage par défaut autorise Internet Explorer 6 à
-	accepter les cookies de '.$phpAds_productname.'. Si vous voulez, vous pouvez modifier ce paramètre afin qu\'il corresponde
+	accepter les cookies de '.MAX_PRODUCT_NAME.'. Si vous voulez, vous pouvez modifier ce paramètre afin qu\'il corresponde
 	à votre propre politique de respect de la vie privée.
 ';
 
@@ -128,15 +128,15 @@ $GLOBALS['phpAds_hlp_p3p_policy_location'] = '
 
 $GLOBALS['phpAds_hlp_log_beacon'] = '
 	Les balises sont de petites images invisibles qui sont placées sur la page où la bannière est affichée.
-	Si vous activez cette fonctionnalité, '.$phpAds_productname.' utilisera cette image-balise pour compter le nombre
+	Si vous activez cette fonctionnalité, '.MAX_PRODUCT_NAME.' utilisera cette image-balise pour compter le nombre
 	d\'affichages que la bannière a fait. Si vous désactivez cette fonctionnalité, les affichages seront comptés
 	à la distribution, mais ce n\'est pas entièrement fiable, puisque une bannière distribuée n\'est pas toujours
 	affichée à l\'écran du visiteur (manque de temps, page trop longue, ...).
 ';
 
 $GLOBALS['phpAds_hlp_compact_stats'] = '
-	Traditionnellement, '.$phpAds_productname.' utilise une journalisation assez intensive, extrêmement détaillée, mais très gourmande en espace disque SQL.
-	Pour s\'affranchir de ce problème, '.$phpAds_productname.' a introiduit un nouveau type de statistiques, les  statistiques résumées, qui consomme énormément
+	Traditionnellement, '.MAX_PRODUCT_NAME.' utilise une journalisation assez intensive, extrêmement détaillée, mais très gourmande en espace disque SQL.
+	Pour s\'affranchir de ce problème, '.MAX_PRODUCT_NAME.' a introiduit un nouveau type de statistiques, les  statistiques résumées, qui consomme énormément
 	mois de place, mais qui est moins détaillé. Les statistiques compactes ne journalisent non pas chaque clients, mais plutôt le nombre de client à chaque heure.
 	Si vous avez beaucoup de visiteurs, ou que votre base de données sature, essayer de passer en mode \'Résumé\'.
 ';
@@ -147,7 +147,7 @@ $GLOBALS['phpAds_hlp_log_adviews'] = '
 
 $GLOBALS['phpAds_hlp_block_adviews'] = '
 	Si un visiteur recharge une page, à chaque fois un affichage sera compté. Cette fonctionnalité est utilisée pour s\'assurer que un seul affichage est décompté pour
-	la même bannière, et pour le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à 300 secondes, '.$phpAds_productname.' ne comptera l\'affichage
+	la même bannière, et pour le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à 300 secondes, '.MAX_PRODUCT_NAME.' ne comptera l\'affichage
 	d\'une bannière que si elle n\'a pas été montrée à ce visiteur dans les 5 dernières minutes. Cette option n\'est valable que lorsque <i>Utiliser des balises invisibles
 	pour compter les affichages</i> est activé, et si le navigateur du visiteur accepte les cookies.
 ';
@@ -157,22 +157,22 @@ $GLOBALS['phpAds_hlp_log_adclicks'] = '
 ';
 
 $GLOBALS['phpAds_hlp_block_adclicks'] = '
-	Si un visiteur clique plusieurs fois sur une bannière, un clic sera compté par '.$phpAds_productname.' chaque fois.
+	Si un visiteur clique plusieurs fois sur une bannière, un clic sera compté par '.MAX_PRODUCT_NAME.' chaque fois.
 	Cette fonctionnalité est utilisée pour s\'assurer que seul un clic est compté pour une bannière unique,
 	pour un même visiteur, pendant le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à
-	300 secondes, '.$phpAds_productname.' ne comptera le clic d\'un visiteur que si celui ci n\'a pas déjà cliqué sur cette
+	300 secondes, '.MAX_PRODUCT_NAME.' ne comptera le clic d\'un visiteur que si celui ci n\'a pas déjà cliqué sur cette
 	bannière dans les 5 dernières minutes. Cette option ne marche que si le navigateur du visiteur accepte les
 	cookies.
 ';
 
 $GLOBALS['phpAds_hlp_reverse_lookup'] = '
-	Par défaut, '.$phpAds_productname.' journalise l\'adresse IP de chaque visiteur. Si vous préférez que '.$phpAds_productname.' journalise le nom de la machine, activez
-	cette option. La résolution inversée  des noms de domaine prend du temps; cela ralentira '.$phpAds_productname.'.
+	Par défaut, '.MAX_PRODUCT_NAME.' journalise l\'adresse IP de chaque visiteur. Si vous préférez que '.MAX_PRODUCT_NAME.' journalise le nom de la machine, activez
+	cette option. La résolution inversée  des noms de domaine prend du temps; cela ralentira '.MAX_PRODUCT_NAME.'.
 ';
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = '
-	Certains utilisateurs utilisent des Proxy pour accéder à l\'internet. Dans ce cas, '.$phpAds_productname.' va journaliser
-	le nom d\'hôte du Proxy, plutôt que celui de l\'utilisateur. Si vous activez cette option, '.$phpAds_productname.' essayera
+	Certains utilisateurs utilisent des Proxy pour accéder à l\'internet. Dans ce cas, '.MAX_PRODUCT_NAME.' va journaliser
+	le nom d\'hôte du Proxy, plutôt que celui de l\'utilisateur. Si vous activez cette option, '.MAX_PRODUCT_NAME.' essayera
 	de trouver l\'adresse IP, ou le nom d\'hôte de l\'utilisateur derrière ce proxy. Si ce n\'est pas possible
 	de récupérer l\'adresse exacte de l\'utilisateur, l\'adresse du Proxy sera utilisée à la place. Cette option
 	est désactivée par défaut, car elle ralentit la journalisation.
@@ -195,14 +195,14 @@ $GLOBALS['phpAds_hlp_percentage_decimals'] = '
 ';
 
 $GLOBALS['phpAds_hlp_warn_admin'] = '
-	'.$phpAds_productname.' peut vous envoyer un email si une campagne n\'a plus qu\'un nombre limité de clics ou d\'affichages
+	'.MAX_PRODUCT_NAME.' peut vous envoyer un email si une campagne n\'a plus qu\'un nombre limité de clics ou d\'affichages
 	restants. Cette option est activée par défaut.
 ';
 
 $GLOBALS['phpAds_hlp_warn_client'] = '\". '.MAX_PRODUCT_NAME.' .\" peut envoyer un e-mail à l\'annonceur si l\'une de ses campagnes a seulement un';
 
-$GLOBALS['phpAds_hlp_qmail_patch'] = 'Certaines versions de qmail sont affectées par un bug faisant que les e-mails envoyés par 
-". '.MAX_PRODUCT_NAME.' ." affichent les en-têtes dans le corps des e-mails. Si vous activez 
+$GLOBALS['phpAds_hlp_qmail_patch'] = 'Certaines versions de qmail sont affectées par un bug faisant que les e-mails envoyés par
+". '.MAX_PRODUCT_NAME.' ." affichent les en-têtes dans le corps des e-mails. Si vous activez
 ce paramètre, ". '.MAX_PRODUCT_NAME.' ." enverra les e-mails dans un format compatible avec qmail.';
 
 $GLOBALS['phpAds_hlp_warn_limit'] = 'La limite à partir de laquelle \". '.MAX_PRODUCT_NAME.' .\" commence à envoyer des e-mails d\'alerte. Il s\'agit de 100';
@@ -219,7 +219,7 @@ $GLOBALS['phpAds_hlp_allow_invocation_popup'] = '
 ';
 
 $GLOBALS['phpAds_hlp_con_key'] = '
-	'.$phpAds_productname.' inclut une puissante méthode de sélection des bannières. Pour plus d\'informations, reportez vous
+	'.MAX_PRODUCT_NAME.' inclut une puissante méthode de sélection des bannières. Pour plus d\'informations, reportez vous
 	à la documentation. Avec cette option, vous pouvez activer les mots clés conditionnels. Cette option
 	est activée par défaut.
 ';
@@ -230,25 +230,25 @@ $GLOBALS['phpAds_hlp_mult_key'] = '
 ';
 
 $GLOBALS['phpAds_hlp_acl'] = '
-	Si vous n\'utilisez pas les limitations d\'affichages des bannières, vous pouvez désactiver le contrôle de ces limites à chaque affichage, cela accélérera '.$phpAds_productname.'.
+	Si vous n\'utilisez pas les limitations d\'affichages des bannières, vous pouvez désactiver le contrôle de ces limites à chaque affichage, cela accélérera '.MAX_PRODUCT_NAME.'.
 ';
 
 $GLOBALS['phpAds_hlp_default_banner_url'] =
 $GLOBALS['phpAds_hlp_default_banner_target'] = '
-	Si '.$phpAds_productname.' n\'arrive pas à se connecter au serveur SQL, ou bien qu\'il ne trouve aucune bannière à afficher, il se tournera vers ces réglages.
+	Si '.MAX_PRODUCT_NAME.' n\'arrive pas à se connecter au serveur SQL, ou bien qu\'il ne trouve aucune bannière à afficher, il se tournera vers ces réglages.
 	Cette option est désactivée par défaut.
 ';
 
 $GLOBALS['phpAds_hlp_zone_cache'] = '
-	Si vous utilisez des zones, ce paramètre permet à '.$phpAds_productname.' de stocker les informations sur les bannières
-	dans un cache, qui sera ensuite réutilisé. Cela accélère un peu '.$phpAds_productname.', car plutôt que de récupérer toutes
-	les informations de la zone, de récupérer les bannières, et de sélectionner la bonne, '.$phpAds_productname.' a juste
+	Si vous utilisez des zones, ce paramètre permet à '.MAX_PRODUCT_NAME.' de stocker les informations sur les bannières
+	dans un cache, qui sera ensuite réutilisé. Cela accélère un peu '.MAX_PRODUCT_NAME.', car plutôt que de récupérer toutes
+	les informations de la zone, de récupérer les bannières, et de sélectionner la bonne, '.MAX_PRODUCT_NAME.' a juste
 	besoin de lire le cache. Cette option est activée par défaut.
 ';
 
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = '
 	Si vous utilisez le cachage des zones, les informations présentes dans le cache peuvent se périmer.
-	De temps en temps, '.$phpAds_productname.' a besoin de reconstruire le cache, afin que les nouvelles bannières soient incluses.
+	De temps en temps, '.MAX_PRODUCT_NAME.' a besoin de reconstruire le cache, afin que les nouvelles bannières soient incluses.
 	Ce paramètre vous laisse décider quand un cache doit être reconstruit, en spécifiant son âge maximum.
 	Par exemple, si vous mettez ici 600, le cache sera reconstruit à chaque fois qu\'il aura plus de 10 minutes
 	(600 secondes).
@@ -258,15 +258,15 @@ $GLOBALS['phpAds_hlp_type_sql_allow'] =
 $GLOBALS['phpAds_hlp_type_web_allow'] =
 $GLOBALS['phpAds_hlp_type_url_allow'] =
 $GLOBALS['phpAds_hlp_type_html_allow'] = '
-	'.$phpAds_productname.' peut utiliser différents types de bannières et les stocker de différentes façons.
+	'.MAX_PRODUCT_NAME.' peut utiliser différents types de bannières et les stocker de différentes façons.
 	Les deux premières options sont utilisées pour le stockage local des bannières.
-	Vous pouvez utilisez l\'interface d\'administration pour envoyer une bannière, et '.$phpAds_productname.'
+	Vous pouvez utilisez l\'interface d\'administration pour envoyer une bannière, et '.MAX_PRODUCT_NAME.'
 	la stockera dans une base SQL (Option 1), ou sur un serveur Web/FTP (Option 2).
 	Vous pouvez aussi utiliser des bannières stockées sur des serveurs Web externes (Option 3),
 	ou utiliser du HTML pour générer une bannière (Option 4). Vous pouvez désactiver n\'importe laquelle
 	de ces méthodes de stockage, en modifiant ces paramètres. Par défaut, tous les types de bannières
 	sont autorisés.
-	Si vous désactivez un certain type de bannière alors qu\'il en existe encore de ce type, '.$phpAds_productname.' les
+	Si vous désactivez un certain type de bannière alors qu\'il en existe encore de ce type, '.MAX_PRODUCT_NAME.' les
 	utilisera toujours, mais ne permettra plus leur création.
 ';
 
@@ -279,7 +279,7 @@ $GLOBALS['phpAds_hlp_type_web_mode'] = '
 ';
 
 $GLOBALS['phpAds_hlp_type_web_dir'] = '
-	Spécifiez le répertoire où '.$phpAds_productname.' a besoin de copier les bannières uploadées.
+	Spécifiez le répertoire où '.MAX_PRODUCT_NAME.' a besoin de copier les bannières uploadées.
 	Ce répertoire DOIT être inscriptible par PHP, cela peut signifier que vous soyez obligé
 	de changer les permissions UNIX de ce répertoire (chmod). Le répertoire que vous spécifiez ici DOIT
 	être situé sous la racine du serveur Web, ce qui veut dire qu le serveur Web doit servir les fichiers
@@ -289,40 +289,40 @@ $GLOBALS['phpAds_hlp_type_web_dir'] = '
 
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = '
 	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	l\'adresse IP ou le nom d\'hôte du serveur sur lequel '.$phpAds_productname.' copiera les bannières.
+	l\'adresse IP ou le nom d\'hôte du serveur sur lequel '.MAX_PRODUCT_NAME.' copiera les bannières.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = '
 	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	le chemin, sur le serveur FTP externe, du répertoire dans lequel '.$phpAds_productname.' copiera les bannières.
+	le chemin, sur le serveur FTP externe, du répertoire dans lequel '.MAX_PRODUCT_NAME.' copiera les bannières.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = '
 	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	le nom d\'utilisateur avec lequel '.$phpAds_productname.' se connectera au serveur FTP externe sur lequel '.$phpAds_productname.'
+	le nom d\'utilisateur avec lequel '.MAX_PRODUCT_NAME.' se connectera au serveur FTP externe sur lequel '.MAX_PRODUCT_NAME.'
 	copiera les bannières.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = '
 	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	le mot de passe avec lequel '.$phpAds_productname.' se connectera au serveur FTP externe sur lequel '.$phpAds_productname.'
+	le mot de passe avec lequel '.MAX_PRODUCT_NAME.' se connectera au serveur FTP externe sur lequel '.MAX_PRODUCT_NAME.'
 	copiera les bannières.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_url'] = '
-	Si vous stockez les bannière sur un serveur Web (local ou FTP), '.$phpAds_productname.' doit connaitre
+	Si vous stockez les bannière sur un serveur Web (local ou FTP), '.MAX_PRODUCT_NAME.' doit connaitre
 	l\'Url publique associée avec le répertoire que vous avez spécifié précédemment.
 	N\'ajoutez pas un slash (/) final au chemin du répertoire.
 ';
 
 $GLOBALS['phpAds_hlp_type_html_auto'] = '
-	Si cette option est activée, '.$phpAds_productname.' modifiera automatiquement les bannières HTML, afin
+	Si cette option est activée, '.MAX_PRODUCT_NAME.' modifiera automatiquement les bannières HTML, afin
 	de permettre le comptage des clics. Néanmoins, même si cette option est activée, il sera possible
 	de la désactiver pour certaines bannières.
 ';
 
 $GLOBALS['phpAds_hlp_type_html_php'] = '
-	Il est possible de laisser '.$phpAds_productname.' exécuter du code PHP inclus dans des bannières HTML.
+	Il est possible de laisser '.MAX_PRODUCT_NAME.' exécuter du code PHP inclus dans des bannières HTML.
 	Cette option est désactivée par défaut.
 ';
 
@@ -351,7 +351,7 @@ $GLOBALS['phpAds_hlp_admin_fullname'] = '
 $GLOBALS['phpAds_hlp_admin_email'] = 'L\'adresse e-mail de l\'administrateur. Elle est utilisée en tant qu\'adresse d\'expédition quand';
 
 $GLOBALS['phpAds_hlp_admin_email_headers'] = '
-	Vous pouvez ajouter des en-têtes email que '.$phpAds_productname.' ajoutera à tout mail sortant.
+	Vous pouvez ajouter des en-têtes email que '.MAX_PRODUCT_NAME.' ajoutera à tout mail sortant.
 ';
 
 $GLOBALS['phpAds_hlp_admin_novice'] = 'Si vous voulez recevoir une alerte avant la suppression des annonceurs, campagnes, bannières, sites web et zones, cette option doit être vraie.';
@@ -365,14 +365,14 @@ $GLOBALS['phpAds_hlp_client_welcome_msg'] = '
 ';
 
 $GLOBALS['phpAds_hlp_updates_frequency'] = '
-	Si vous souhaitez que '.$phpAds_productname.' vérifie si il existe des mises à jour, vous pouvez activer cette fonction.
+	Si vous souhaitez que '.MAX_PRODUCT_NAME.' vérifie si il existe des mises à jour, vous pouvez activer cette fonction.
 	Il est possible de spécifier l\'intervalle entre chaque vérification. Cette vérification s\'effectue par
 	une connexion au serveur de mise à jour. Si une nouvelle version est trouvée, une boite de dialogue
 	apparaîtra, avec d\'avantages d\'informations concernant la mise à jour.
 ';
 
 $GLOBALS['phpAds_hlp_userlog_email'] = '
-	Si vous souhaitez garder une copie de tous les emails sortant envoyés par '.$phpAds_productname.', vous pouvez activer
+	Si vous souhaitez garder une copie de tous les emails sortant envoyés par '.MAX_PRODUCT_NAME.', vous pouvez activer
 	cette fonctionnalité. Les emails sortants sont stockés dans le journal utilisateur.
 ';
 
