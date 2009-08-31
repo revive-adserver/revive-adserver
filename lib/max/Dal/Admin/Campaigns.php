@@ -45,8 +45,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     var $table = 'campaigns';
 
 	var $orderListName = array(
-        'name' => 'campaignname',
-        'id'   => array('clientid', 'campaignid'),
+        'name'   => 'campaignname',
+        'id'     => array('clientid', 'campaignid'),
+        'status' => 'status',
     );
 
     /**
