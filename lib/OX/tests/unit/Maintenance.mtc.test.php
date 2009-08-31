@@ -196,6 +196,8 @@ class Test_OA_Maintenance extends UnitTestCase
 
     function testIsMidnightMaintenance()
     {
+        unset($GLOBALS['serverTimezone']);
+
         $oNowDate = new Date('2008-01-28 00:00:10');
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oNowDate);

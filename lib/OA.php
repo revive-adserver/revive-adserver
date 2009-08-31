@@ -28,6 +28,7 @@ $Id$
 ###START_STRIP_DELIVERY
 require_once MAX_PATH . '/lib/pear/Log.php';
 require_once MAX_PATH . '/lib/pear/PEAR.php';
+require_once MAX_PATH . '/lib/OX/Admin/Timezones.php';
 
 /**
  * this is a method to capture select queries and write them to a logfile
@@ -147,7 +148,7 @@ class OA
         $logFile = ($ident == $aConf['log']['ident'] . '-delivery') ? $aConf['deliveryLog']['name'] : $aConf['log']['name'];
 
         $ident .= (!empty($GLOBALS['maintenance_id'])) ? '-' . $GLOBALS['maintenance_id'] : '';
-        
+
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $logFile,
