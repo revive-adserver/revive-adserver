@@ -448,6 +448,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $this->raiseError('Access forbidden');
             return false;
         } else {
+            // Set system timezone and return
+            OA_setTimeZoneLocal();
             return true;
         }
     }

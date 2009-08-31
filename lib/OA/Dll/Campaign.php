@@ -263,8 +263,10 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['campaignid']   = $oCampaign->campaignId;
         $campaignData['campaignname'] = $oCampaign->campaignName;
         $campaignData['clientid']     = $oCampaign->advertiserId;
+        $oNow = new Date();
         if (is_object($oStartDate)) {
             $oDate = new Date($oStartDate);
+            $oDate->setTZ($oNow->tz);
             $oDate->setHour(0);
             $oDate->setMinute(0);
             $oDate->setSecond(0);
@@ -273,6 +275,7 @@ class OA_Dll_Campaign extends OA_Dll
         }
         if (is_object($oEndDate)) {
             $oDate = new Date($oEndDate);
+            $oDate->setTZ($oNow->tz);
             $oDate->setHour(23);
             $oDate->setMinute(59);
             $oDate->setSecond(59);

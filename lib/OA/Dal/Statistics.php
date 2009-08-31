@@ -78,12 +78,13 @@ class OA_Dal_Statistics extends OA_Dal
     private function getTimeZone($localTZ = false)
     {
         if (empty($localTZ)) {
-            $tz = 'UTC';
+            $oTz = new Date_TimeZone('UTC');
         } else {
-            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
+            $oNow = new Date();
+            $oTz = $oNow->tz;
         }
 
-        return new Date_TimeZone($tz);
+        return $oTz;
     }
 
     /**
