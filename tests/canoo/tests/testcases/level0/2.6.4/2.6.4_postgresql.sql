@@ -27,7 +27,7 @@ SET default_with_oids = false;
 --
 -- TOC entry 1648 (class 1259 OID 1954483)
 -- Dependencies: 2012 3
--- Name: ox_account_preference_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_preference_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_account_preference_assoc (
@@ -40,7 +40,7 @@ CREATE TABLE ox_account_preference_assoc (
 --
 -- TOC entry 1649 (class 1259 OID 1954492)
 -- Dependencies: 3
--- Name: ox_account_user_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_user_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_account_user_assoc (
@@ -53,7 +53,7 @@ CREATE TABLE ox_account_user_assoc (
 --
 -- TOC entry 1650 (class 1259 OID 1954498)
 -- Dependencies: 2013 3
--- Name: ox_account_user_permission_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_user_permission_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_account_user_permission_assoc (
@@ -67,7 +67,7 @@ CREATE TABLE ox_account_user_permission_assoc (
 --
 -- TOC entry 1652 (class 1259 OID 1954506)
 -- Dependencies: 2015 2016 2017 2018 3
--- Name: ox_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_accounts (
@@ -82,7 +82,7 @@ CREATE TABLE ox_accounts (
 --
 -- TOC entry 1653 (class 1259 OID 1954517)
 -- Dependencies: 2019 2020 2021 2022 2023 2024 3
--- Name: ox_acls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_acls (
@@ -98,7 +98,7 @@ CREATE TABLE ox_acls (
 --
 -- TOC entry 1654 (class 1259 OID 1954532)
 -- Dependencies: 2025 2026 2027 2028 2029 2030 3
--- Name: ox_acls_channel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls_channel; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_acls_channel (
@@ -114,7 +114,7 @@ CREATE TABLE ox_acls_channel (
 --
 -- TOC entry 1656 (class 1259 OID 1954549)
 -- Dependencies: 3
--- Name: ox_ad_category_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_category_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_ad_category_assoc (
@@ -127,7 +127,7 @@ CREATE TABLE ox_ad_category_assoc (
 --
 -- TOC entry 1658 (class 1259 OID 1954557)
 -- Dependencies: 2033 2034 2035 2036 3
--- Name: ox_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_ad_zone_assoc (
@@ -144,7 +144,7 @@ CREATE TABLE ox_ad_zone_assoc (
 --
 -- TOC entry 1660 (class 1259 OID 1954571)
 -- Dependencies: 2038 2039 2040 2041 2042 2043 2044 3
--- Name: ox_affiliates; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_affiliates (
@@ -169,7 +169,7 @@ CREATE TABLE ox_affiliates (
 --
 -- TOC entry 1661 (class 1259 OID 1954590)
 -- Dependencies: 2045 2046 2047 2048 2049 2050 2051 2052 2053 2054 2055 2056 3
--- Name: ox_affiliates_extra; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates_extra; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_affiliates_extra (
@@ -196,7 +196,7 @@ CREATE TABLE ox_affiliates_extra (
 --
 -- TOC entry 1663 (class 1259 OID 1954612)
 -- Dependencies: 2058 2059 2060 2061 2062 3
--- Name: ox_agency; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_agency; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_agency (
@@ -214,7 +214,7 @@ CREATE TABLE ox_agency (
 --
 -- TOC entry 1664 (class 1259 OID 1954628)
 -- Dependencies: 2063 2064 3
--- Name: ox_application_variable; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_application_variable; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_application_variable (
@@ -226,7 +226,7 @@ CREATE TABLE ox_application_variable (
 --
 -- TOC entry 1666 (class 1259 OID 1954640)
 -- Dependencies: 2066 2067 2068 2069 2070 3
--- Name: ox_audit; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_audit (
@@ -249,7 +249,7 @@ CREATE TABLE ox_audit (
 --
 -- TOC entry 1668 (class 1259 OID 1954664)
 -- Dependencies: 2072 2073 2074 2075 2076 2077 2078 2079 2080 2081 2082 2083 2084 2085 2086 2087 2088 2089 2090 2091 2092 2093 2094 2095 2096 2097 2098 2099 2100 2101 2102 2103 2104 2105 2106 3
--- Name: ox_banners; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_banners; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_banners (
@@ -302,7 +302,7 @@ CREATE TABLE ox_banners (
 --
 -- TOC entry 1670 (class 1259 OID 1954711)
 -- Dependencies: 2108 2109 2110 2111 2112 2113 2114 2115 2116 2117 2118 2119 2120 2121 2122 2123 2124 2125 2126 2127 2128 3
--- Name: ox_campaigns; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_campaigns (
@@ -341,7 +341,7 @@ CREATE TABLE ox_campaigns (
 --
 -- TOC entry 1672 (class 1259 OID 1954744)
 -- Dependencies: 2130 2131 2132 2133 2134 3
--- Name: ox_campaigns_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_campaigns_trackers (
@@ -357,7 +357,7 @@ CREATE TABLE ox_campaigns_trackers (
 --
 -- TOC entry 1674 (class 1259 OID 1954759)
 -- Dependencies: 2136 3
--- Name: ox_category; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_category; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_category (
@@ -369,7 +369,7 @@ CREATE TABLE ox_category (
 --
 -- TOC entry 1676 (class 1259 OID 1954768)
 -- Dependencies: 2138 2139 2140 2141 2142 3
--- Name: ox_channel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_channel; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_channel (
@@ -390,7 +390,7 @@ CREATE TABLE ox_channel (
 --
 -- TOC entry 1678 (class 1259 OID 1954784)
 -- Dependencies: 2144 2145 2146 2147 2148 2149 2150 2151 2152 3
--- Name: ox_clients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_clients; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_clients (
@@ -416,7 +416,7 @@ CREATE TABLE ox_clients (
 --
 -- TOC entry 1680 (class 1259 OID 1954807)
 -- Dependencies: 2154 2155 2156 2157 2158 2159 3
--- Name: ox_data_intermediate_ad; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_intermediate_ad (
@@ -442,7 +442,7 @@ CREATE TABLE ox_data_intermediate_ad (
 --
 -- TOC entry 1682 (class 1259 OID 1954825)
 -- Dependencies: 2161 2162 2163 2164 2165 2166 2167 2168 2169 2170 2171 2172 2173 2174 2175 2176 2177 2178 2179 2180 2181 2182 2183 2184 2185 2186 2187 2188 2189 2190 2191 2192 2193 3
--- Name: ox_data_intermediate_ad_connection; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_intermediate_ad_connection (
@@ -499,7 +499,7 @@ CREATE TABLE ox_data_intermediate_ad_connection (
 --
 -- TOC entry 1684 (class 1259 OID 1954874)
 -- Dependencies: 2195 3
--- Name: ox_data_intermediate_ad_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_intermediate_ad_variable_value (
@@ -513,7 +513,7 @@ CREATE TABLE ox_data_intermediate_ad_variable_value (
 --
 -- TOC entry 1685 (class 1259 OID 1954884)
 -- Dependencies: 2196 2197 2198 2199 2200 2201 2202 2203 2204 2205 2206 2207 2208 2209 2210 2211 2212 2213 2214 2215 2216 2217 2218 2219 2220 2221 3
--- Name: ox_data_raw_ad_click; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_click; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_raw_ad_click (
@@ -555,7 +555,7 @@ CREATE TABLE ox_data_raw_ad_click (
 --
 -- TOC entry 1686 (class 1259 OID 1954920)
 -- Dependencies: 2222 2223 2224 2225 2226 2227 2228 2229 2230 2231 2232 2233 2234 2235 2236 2237 2238 2239 2240 2241 2242 2243 2244 2245 2246 2247 3
--- Name: ox_data_raw_ad_impression; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_impression; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_raw_ad_impression (
@@ -597,7 +597,7 @@ CREATE TABLE ox_data_raw_ad_impression (
 --
 -- TOC entry 1687 (class 1259 OID 1954956)
 -- Dependencies: 2248 2249 2250 2251 2252 2253 2254 2255 2256 2257 2258 2259 2260 2261 2262 3
--- Name: ox_data_raw_ad_request; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_request; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_raw_ad_request (
@@ -628,7 +628,7 @@ CREATE TABLE ox_data_raw_ad_request (
 --
 -- TOC entry 1689 (class 1259 OID 1954983)
 -- Dependencies: 2264 2265 2266 2267 2268 2269 2270 2271 2272 2273 2274 2275 2276 2277 2278 2279 2280 2281 2282 2283 2284 2285 2286 2287 2288 2289 2290 3
--- Name: ox_data_raw_tracker_impression; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_impression; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_raw_tracker_impression (
@@ -670,7 +670,7 @@ CREATE TABLE ox_data_raw_tracker_impression (
 --
 -- TOC entry 1690 (class 1259 OID 1955021)
 -- Dependencies: 2291 2292 3
--- Name: ox_data_raw_tracker_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_variable_value; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_raw_tracker_variable_value (
@@ -685,7 +685,7 @@ CREATE TABLE ox_data_raw_tracker_variable_value (
 --
 -- TOC entry 1692 (class 1259 OID 1955030)
 -- Dependencies: 2294 2295 2296 2297 2298 2299 2300 2301 3
--- Name: ox_data_summary_ad_hourly; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_hourly; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_summary_ad_hourly (
@@ -710,7 +710,7 @@ CREATE TABLE ox_data_summary_ad_hourly (
 --
 -- TOC entry 1694 (class 1259 OID 1955049)
 -- Dependencies: 2303 2304 3
--- Name: ox_data_summary_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_summary_ad_zone_assoc (
@@ -738,7 +738,7 @@ CREATE TABLE ox_data_summary_ad_zone_assoc (
 --
 -- TOC entry 1696 (class 1259 OID 1955064)
 -- Dependencies: 2306 2307 3
--- Name: ox_data_summary_channel_daily; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_channel_daily; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_summary_channel_daily (
@@ -754,7 +754,7 @@ CREATE TABLE ox_data_summary_channel_daily (
 --
 -- TOC entry 1698 (class 1259 OID 1955077)
 -- Dependencies: 3
--- Name: ox_data_summary_zone_impression_history; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_data_summary_zone_impression_history (
@@ -773,7 +773,7 @@ CREATE TABLE ox_data_summary_zone_impression_history (
 --
 -- TOC entry 1645 (class 1259 OID 1954447)
 -- Dependencies: 1999 2000 2001 2002 2003 2004 3
--- Name: ox_database_action; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_database_action; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_database_action (
@@ -795,7 +795,7 @@ CREATE TABLE ox_database_action (
 --
 -- TOC entry 1699 (class 1259 OID 1955085)
 -- Dependencies: 2309 3
--- Name: ox_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_images; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_images (
@@ -808,7 +808,7 @@ CREATE TABLE ox_images (
 --
 -- TOC entry 1700 (class 1259 OID 1955094)
 -- Dependencies: 3
--- Name: ox_lb_local; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_lb_local; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_lb_local (
@@ -819,7 +819,7 @@ CREATE TABLE ox_lb_local (
 --
 -- TOC entry 1702 (class 1259 OID 1955099)
 -- Dependencies: 3
--- Name: ox_log_maintenance_forecasting; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_forecasting; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_log_maintenance_forecasting (
@@ -835,7 +835,7 @@ CREATE TABLE ox_log_maintenance_forecasting (
 --
 -- TOC entry 1704 (class 1259 OID 1955107)
 -- Dependencies: 3
--- Name: ox_log_maintenance_priority; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_priority; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_log_maintenance_priority (
@@ -852,7 +852,7 @@ CREATE TABLE ox_log_maintenance_priority (
 --
 -- TOC entry 1706 (class 1259 OID 1955115)
 -- Dependencies: 3
--- Name: ox_log_maintenance_statistics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_statistics; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_log_maintenance_statistics (
@@ -870,7 +870,7 @@ CREATE TABLE ox_log_maintenance_statistics (
 --
 -- TOC entry 1707 (class 1259 OID 1955121)
 -- Dependencies: 2313 2314 3
--- Name: ox_password_recovery; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_password_recovery; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_password_recovery (
@@ -884,7 +884,7 @@ CREATE TABLE ox_password_recovery (
 --
 -- TOC entry 1709 (class 1259 OID 1955132)
 -- Dependencies: 3
--- Name: ox_placement_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_placement_zone_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_placement_zone_assoc (
@@ -897,7 +897,7 @@ CREATE TABLE ox_placement_zone_assoc (
 --
 -- TOC entry 1710 (class 1259 OID 1955140)
 -- Dependencies: 2316 2317 2318 3
--- Name: ox_plugins_channel_delivery_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_assoc; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_plugins_channel_delivery_assoc (
@@ -910,7 +910,7 @@ CREATE TABLE ox_plugins_channel_delivery_assoc (
 --
 -- TOC entry 1712 (class 1259 OID 1955153)
 -- Dependencies: 2320 3
--- Name: ox_plugins_channel_delivery_domains; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_domains; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_plugins_channel_delivery_domains (
@@ -922,7 +922,7 @@ CREATE TABLE ox_plugins_channel_delivery_domains (
 --
 -- TOC entry 1714 (class 1259 OID 1955163)
 -- Dependencies: 2322 2323 2324 3
--- Name: ox_plugins_channel_delivery_rules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_rules; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_plugins_channel_delivery_rules (
@@ -936,7 +936,7 @@ CREATE TABLE ox_plugins_channel_delivery_rules (
 --
 -- TOC entry 1716 (class 1259 OID 1955177)
 -- Dependencies: 2326 2327 3
--- Name: ox_preferences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_preferences; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_preferences (
@@ -949,7 +949,7 @@ CREATE TABLE ox_preferences (
 --
 -- TOC entry 1717 (class 1259 OID 1955188)
 -- Dependencies: 2328 2329 3
--- Name: ox_session; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_session; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_session (
@@ -962,7 +962,7 @@ CREATE TABLE ox_session (
 --
 -- TOC entry 1718 (class 1259 OID 1955198)
 -- Dependencies: 2330 2331 2332 2333 3
--- Name: ox_targetstats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_targetstats; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_targetstats (
@@ -977,7 +977,7 @@ CREATE TABLE ox_targetstats (
 --
 -- TOC entry 1720 (class 1259 OID 1955207)
 -- Dependencies: 2335 2336 2337 2338 2339 3
--- Name: ox_tracker_append; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_tracker_append; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_tracker_append (
@@ -993,7 +993,7 @@ CREATE TABLE ox_tracker_append (
 --
 -- TOC entry 1722 (class 1259 OID 1955224)
 -- Dependencies: 2341 2342 2343 2344 2345 2346 2347 2348 2349 2350 2351 3
--- Name: ox_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_trackers; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_trackers (
@@ -1016,7 +1016,7 @@ CREATE TABLE ox_trackers (
 --
 -- TOC entry 1647 (class 1259 OID 1954467)
 -- Dependencies: 2006 2007 2008 2009 2010 2011 3
--- Name: ox_upgrade_action; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_upgrade_action; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_upgrade_action (
@@ -1035,7 +1035,7 @@ CREATE TABLE ox_upgrade_action (
 --
 -- TOC entry 1724 (class 1259 OID 1955247)
 -- Dependencies: 2353 2354 2355 2356 3
--- Name: ox_userlog; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_userlog; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_userlog (
@@ -1052,7 +1052,7 @@ CREATE TABLE ox_userlog (
 --
 -- TOC entry 1726 (class 1259 OID 1955262)
 -- Dependencies: 2358 2359 2360 2361 2362 2363 3
--- Name: ox_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_users; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_users (
@@ -1075,7 +1075,7 @@ CREATE TABLE ox_users (
 --
 -- TOC entry 1727 (class 1259 OID 1955281)
 -- Dependencies: 3
--- Name: ox_variable_publisher; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variable_publisher; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_variable_publisher (
@@ -1088,7 +1088,7 @@ CREATE TABLE ox_variable_publisher (
 --
 -- TOC entry 1729 (class 1259 OID 1955288)
 -- Dependencies: 2365 2366 2367 2368 2369 2370 2371 2372 2373 3
--- Name: ox_variables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variables; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_variables (
@@ -1110,7 +1110,7 @@ CREATE TABLE ox_variables (
 --
 -- TOC entry 1731 (class 1259 OID 1955310)
 -- Dependencies: 2375 2376 2377 2378 2379 2380 2381 2382 2383 2384 2385 2386 2387 2388 2389 2390 2391 2392 2393 2394 2395 2396 2397 2398 3
--- Name: ox_zones; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_zones; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE ox_zones (
@@ -1581,7 +1581,7 @@ ALTER SEQUENCE ox_campaigns_trackers_campaign_trackerid_seq OWNED BY ox_campaign
 -- Name: ox_campaigns_trackers_campaign_trackerid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('ox_campaigns_trackers_campaign_trackerid_seq', 1, false);
+SELECT pg_catalog.setval('ox_campaigns_trackers_campaign_trackerid_seq', 1, true);
 
 
 --
@@ -3694,7 +3694,7 @@ INSERT INTO ox_zones (zoneid, affiliateid, zonename, description, delivery, zone
 --
 -- TOC entry 2408 (class 2606 OID 1954491)
 -- Dependencies: 1648 1648 1648
--- Name: ox_account_preference_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_preference_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_account_preference_assoc
@@ -3704,7 +3704,7 @@ ALTER TABLE ONLY ox_account_preference_assoc
 --
 -- TOC entry 2410 (class 2606 OID 1954496)
 -- Dependencies: 1649 1649 1649
--- Name: ox_account_user_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_user_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_account_user_assoc
@@ -3714,7 +3714,7 @@ ALTER TABLE ONLY ox_account_user_assoc
 --
 -- TOC entry 2413 (class 2606 OID 1954503)
 -- Dependencies: 1650 1650 1650 1650
--- Name: ox_account_user_permission_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_user_permission_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_account_user_permission_assoc
@@ -3724,7 +3724,7 @@ ALTER TABLE ONLY ox_account_user_permission_assoc
 --
 -- TOC entry 2416 (class 2606 OID 1954515)
 -- Dependencies: 1652 1652
--- Name: ox_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_accounts
@@ -3734,7 +3734,7 @@ ALTER TABLE ONLY ox_accounts
 --
 -- TOC entry 2419 (class 2606 OID 1954531)
 -- Dependencies: 1653 1653 1653
--- Name: ox_acls_bannerid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls_bannerid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_acls
@@ -3744,7 +3744,7 @@ ALTER TABLE ONLY ox_acls
 --
 -- TOC entry 2422 (class 2606 OID 1954546)
 -- Dependencies: 1654 1654 1654
--- Name: ox_acls_channel_channelid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls_channel_channelid_executionorder; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_acls_channel
@@ -3754,7 +3754,7 @@ ALTER TABLE ONLY ox_acls_channel
 --
 -- TOC entry 2424 (class 2606 OID 1954554)
 -- Dependencies: 1656 1656
--- Name: ox_ad_category_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_category_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_ad_category_assoc
@@ -3764,7 +3764,7 @@ ALTER TABLE ONLY ox_ad_category_assoc
 --
 -- TOC entry 2427 (class 2606 OID 1954566)
 -- Dependencies: 1658 1658
--- Name: ox_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_ad_zone_assoc
@@ -3774,7 +3774,7 @@ ALTER TABLE ONLY ox_ad_zone_assoc
 --
 -- TOC entry 2430 (class 2606 OID 1954589)
 -- Dependencies: 1660 1660
--- Name: ox_affiliates_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_affiliates
@@ -3784,7 +3784,7 @@ ALTER TABLE ONLY ox_affiliates
 --
 -- TOC entry 2435 (class 2606 OID 1954609)
 -- Dependencies: 1661 1661
--- Name: ox_affiliates_extra_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates_extra_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_affiliates_extra
@@ -3794,7 +3794,7 @@ ALTER TABLE ONLY ox_affiliates_extra
 --
 -- TOC entry 2433 (class 2606 OID 1954586)
 -- Dependencies: 1660 1660
--- Name: ox_affiliates_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_affiliates
@@ -3804,7 +3804,7 @@ ALTER TABLE ONLY ox_affiliates
 --
 -- TOC entry 2437 (class 2606 OID 1954627)
 -- Dependencies: 1663 1663
--- Name: ox_agency_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_agency_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_agency
@@ -3814,7 +3814,7 @@ ALTER TABLE ONLY ox_agency
 --
 -- TOC entry 2439 (class 2606 OID 1954625)
 -- Dependencies: 1663 1663
--- Name: ox_agency_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_agency_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_agency
@@ -3824,7 +3824,7 @@ ALTER TABLE ONLY ox_agency
 --
 -- TOC entry 2441 (class 2606 OID 1954637)
 -- Dependencies: 1664 1664
--- Name: ox_application_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_application_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_application_variable
@@ -3834,7 +3834,7 @@ ALTER TABLE ONLY ox_application_variable
 --
 -- TOC entry 2447 (class 2606 OID 1954653)
 -- Dependencies: 1666 1666
--- Name: ox_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_audit
@@ -3844,7 +3844,7 @@ ALTER TABLE ONLY ox_audit
 --
 -- TOC entry 2454 (class 2606 OID 1954707)
 -- Dependencies: 1668 1668
--- Name: ox_banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_banners
@@ -3854,7 +3854,7 @@ ALTER TABLE ONLY ox_banners
 --
 -- TOC entry 2457 (class 2606 OID 1954740)
 -- Dependencies: 1670 1670
--- Name: ox_campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_campaigns
@@ -3864,7 +3864,7 @@ ALTER TABLE ONLY ox_campaigns
 --
 -- TOC entry 2460 (class 2606 OID 1954754)
 -- Dependencies: 1672 1672
--- Name: ox_campaigns_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_campaigns_trackers
@@ -3874,7 +3874,7 @@ ALTER TABLE ONLY ox_campaigns_trackers
 --
 -- TOC entry 2463 (class 2606 OID 1954765)
 -- Dependencies: 1674 1674
--- Name: ox_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_category
@@ -3884,7 +3884,7 @@ ALTER TABLE ONLY ox_category
 --
 -- TOC entry 2465 (class 2606 OID 1954781)
 -- Dependencies: 1676 1676
--- Name: ox_channel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_channel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_channel
@@ -3894,7 +3894,7 @@ ALTER TABLE ONLY ox_channel
 --
 -- TOC entry 2467 (class 2606 OID 1954804)
 -- Dependencies: 1678 1678
--- Name: ox_clients_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_clients_account_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_clients
@@ -3904,7 +3904,7 @@ ALTER TABLE ONLY ox_clients
 --
 -- TOC entry 2470 (class 2606 OID 1954801)
 -- Dependencies: 1678 1678
--- Name: ox_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_clients
@@ -3914,7 +3914,7 @@ ALTER TABLE ONLY ox_clients
 --
 -- TOC entry 2479 (class 2606 OID 1954866)
 -- Dependencies: 1682 1682
--- Name: ox_data_intermediate_ad_connection_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad_connection
@@ -3924,7 +3924,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad_connection
 --
 -- TOC entry 2475 (class 2606 OID 1954818)
 -- Dependencies: 1680 1680
--- Name: ox_data_intermediate_ad_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad
@@ -3934,7 +3934,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad
 --
 -- TOC entry 2486 (class 2606 OID 1954880)
 -- Dependencies: 1684 1684
--- Name: ox_data_intermediate_ad_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_intermediate_ad_variable_value
@@ -3944,7 +3944,7 @@ ALTER TABLE ONLY ox_data_intermediate_ad_variable_value
 --
 -- TOC entry 2503 (class 2606 OID 1955018)
 -- Dependencies: 1689 1689 1689
--- Name: ox_data_raw_tracker_impression_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_raw_tracker_impression
@@ -3954,7 +3954,7 @@ ALTER TABLE ONLY ox_data_raw_tracker_impression
 --
 -- TOC entry 2506 (class 2606 OID 1955027)
 -- Dependencies: 1690 1690 1690 1690
--- Name: ox_data_raw_tracker_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_variable_value_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_raw_tracker_variable_value
@@ -3964,7 +3964,7 @@ ALTER TABLE ONLY ox_data_raw_tracker_variable_value
 --
 -- TOC entry 2510 (class 2606 OID 1955043)
 -- Dependencies: 1692 1692
--- Name: ox_data_summary_ad_hourly_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_summary_ad_hourly
@@ -3974,7 +3974,7 @@ ALTER TABLE ONLY ox_data_summary_ad_hourly
 --
 -- TOC entry 2517 (class 2606 OID 1955056)
 -- Dependencies: 1694 1694
--- Name: ox_data_summary_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_summary_ad_zone_assoc
@@ -3984,7 +3984,7 @@ ALTER TABLE ONLY ox_data_summary_ad_zone_assoc
 --
 -- TOC entry 2522 (class 2606 OID 1955071)
 -- Dependencies: 1696 1696
--- Name: ox_data_summary_channel_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_channel_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_summary_channel_daily
@@ -3994,7 +3994,7 @@ ALTER TABLE ONLY ox_data_summary_channel_daily
 --
 -- TOC entry 2526 (class 2606 OID 1955082)
 -- Dependencies: 1698 1698
--- Name: ox_data_summary_zone_impression_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_data_summary_zone_impression_history
@@ -4004,7 +4004,7 @@ ALTER TABLE ONLY ox_data_summary_zone_impression_history
 --
 -- TOC entry 2400 (class 2606 OID 1954461)
 -- Dependencies: 1645 1645
--- Name: ox_database_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_database_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_database_action
@@ -4014,7 +4014,7 @@ ALTER TABLE ONLY ox_database_action
 --
 -- TOC entry 2529 (class 2606 OID 1955093)
 -- Dependencies: 1699 1699
--- Name: ox_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_images
@@ -4024,7 +4024,7 @@ ALTER TABLE ONLY ox_images
 --
 -- TOC entry 2531 (class 2606 OID 1955104)
 -- Dependencies: 1702 1702
--- Name: ox_log_maintenance_forecasting_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_forecasting_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_log_maintenance_forecasting
@@ -4034,7 +4034,7 @@ ALTER TABLE ONLY ox_log_maintenance_forecasting
 --
 -- TOC entry 2533 (class 2606 OID 1955112)
 -- Dependencies: 1704 1704
--- Name: ox_log_maintenance_priority_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_priority_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_log_maintenance_priority
@@ -4044,7 +4044,7 @@ ALTER TABLE ONLY ox_log_maintenance_priority
 --
 -- TOC entry 2535 (class 2606 OID 1955120)
 -- Dependencies: 1706 1706
--- Name: ox_log_maintenance_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_log_maintenance_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_log_maintenance_statistics
@@ -4054,7 +4054,7 @@ ALTER TABLE ONLY ox_log_maintenance_statistics
 --
 -- TOC entry 2537 (class 2606 OID 1955127)
 -- Dependencies: 1707 1707 1707
--- Name: ox_password_recovery_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_password_recovery_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_password_recovery
@@ -4064,7 +4064,7 @@ ALTER TABLE ONLY ox_password_recovery
 --
 -- TOC entry 2539 (class 2606 OID 1955129)
 -- Dependencies: 1707 1707
--- Name: ox_password_recovery_recovery_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_password_recovery_recovery_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_password_recovery
@@ -4074,7 +4074,7 @@ ALTER TABLE ONLY ox_password_recovery
 --
 -- TOC entry 2541 (class 2606 OID 1955137)
 -- Dependencies: 1709 1709
--- Name: ox_placement_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_placement_zone_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_placement_zone_assoc
@@ -4084,7 +4084,7 @@ ALTER TABLE ONLY ox_placement_zone_assoc
 --
 -- TOC entry 2546 (class 2606 OID 1955147)
 -- Dependencies: 1710 1710 1710
--- Name: ox_plugins_channel_delivery_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_assoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_plugins_channel_delivery_assoc
@@ -4094,7 +4094,7 @@ ALTER TABLE ONLY ox_plugins_channel_delivery_assoc
 --
 -- TOC entry 2551 (class 2606 OID 1955159)
 -- Dependencies: 1712 1712
--- Name: ox_plugins_channel_delivery_domains_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_domains_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_plugins_channel_delivery_domains
@@ -4104,7 +4104,7 @@ ALTER TABLE ONLY ox_plugins_channel_delivery_domains
 --
 -- TOC entry 2553 (class 2606 OID 1955174)
 -- Dependencies: 1714 1714
--- Name: ox_plugins_channel_delivery_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_plugins_channel_delivery_rules
@@ -4114,7 +4114,7 @@ ALTER TABLE ONLY ox_plugins_channel_delivery_rules
 --
 -- TOC entry 2556 (class 2606 OID 1955184)
 -- Dependencies: 1716 1716
--- Name: ox_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_preferences
@@ -4124,7 +4124,7 @@ ALTER TABLE ONLY ox_preferences
 --
 -- TOC entry 2558 (class 2606 OID 1955186)
 -- Dependencies: 1716 1716
--- Name: ox_preferences_preference_name; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_preferences_preference_name; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_preferences
@@ -4134,7 +4134,7 @@ ALTER TABLE ONLY ox_preferences
 --
 -- TOC entry 2560 (class 2606 OID 1955197)
 -- Dependencies: 1717 1717
--- Name: ox_session_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_session_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_session
@@ -4144,7 +4144,7 @@ ALTER TABLE ONLY ox_session
 --
 -- TOC entry 2562 (class 2606 OID 1955220)
 -- Dependencies: 1720 1720
--- Name: ox_tracker_append_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_tracker_append_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_tracker_append
@@ -4154,7 +4154,7 @@ ALTER TABLE ONLY ox_tracker_append
 --
 -- TOC entry 2566 (class 2606 OID 1955243)
 -- Dependencies: 1722 1722
--- Name: ox_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_trackers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_trackers
@@ -4164,7 +4164,7 @@ ALTER TABLE ONLY ox_trackers
 --
 -- TOC entry 2405 (class 2606 OID 1954481)
 -- Dependencies: 1647 1647
--- Name: ox_upgrade_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_upgrade_action_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_upgrade_action
@@ -4174,7 +4174,7 @@ ALTER TABLE ONLY ox_upgrade_action
 --
 -- TOC entry 2568 (class 2606 OID 1955259)
 -- Dependencies: 1724 1724
--- Name: ox_userlog_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_userlog_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_userlog
@@ -4184,7 +4184,7 @@ ALTER TABLE ONLY ox_userlog
 --
 -- TOC entry 2570 (class 2606 OID 1955276)
 -- Dependencies: 1726 1726
--- Name: ox_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_users
@@ -4194,7 +4194,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2572 (class 2606 OID 1955280)
 -- Dependencies: 1726 1726
--- Name: ox_users_sso_user_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_users_sso_user_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_users
@@ -4204,7 +4204,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2574 (class 2606 OID 1955278)
 -- Dependencies: 1726 1726
--- Name: ox_users_username; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_users_username; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_users
@@ -4214,7 +4214,7 @@ ALTER TABLE ONLY ox_users
 --
 -- TOC entry 2576 (class 2606 OID 1955285)
 -- Dependencies: 1727 1727 1727
--- Name: ox_variable_publisher_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variable_publisher_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_variable_publisher
@@ -4224,7 +4224,7 @@ ALTER TABLE ONLY ox_variable_publisher
 --
 -- TOC entry 2579 (class 2606 OID 1955305)
 -- Dependencies: 1729 1729
--- Name: ox_variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_variables
@@ -4234,7 +4234,7 @@ ALTER TABLE ONLY ox_variables
 --
 -- TOC entry 2583 (class 2606 OID 1955342)
 -- Dependencies: 1731 1731
--- Name: ox_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY ox_zones
@@ -4244,7 +4244,7 @@ ALTER TABLE ONLY ox_zones
 --
 -- TOC entry 2411 (class 1259 OID 1954497)
 -- Dependencies: 1649
--- Name: ox_account_user_assoc_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_account_user_assoc_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_account_user_assoc_user_id ON ox_account_user_assoc USING btree (user_id);
@@ -4253,7 +4253,7 @@ CREATE INDEX ox_account_user_assoc_user_id ON ox_account_user_assoc USING btree 
 --
 -- TOC entry 2414 (class 1259 OID 1954516)
 -- Dependencies: 1652
--- Name: ox_accounts_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_accounts_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_accounts_account_type ON ox_accounts USING btree (account_type);
@@ -4262,7 +4262,7 @@ CREATE INDEX ox_accounts_account_type ON ox_accounts USING btree (account_type);
 --
 -- TOC entry 2417 (class 1259 OID 1954529)
 -- Dependencies: 1653
--- Name: ox_acls_bannerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls_bannerid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_acls_bannerid ON ox_acls USING btree (bannerid);
@@ -4271,7 +4271,7 @@ CREATE INDEX ox_acls_bannerid ON ox_acls USING btree (bannerid);
 --
 -- TOC entry 2420 (class 1259 OID 1954544)
 -- Dependencies: 1654
--- Name: ox_acls_channel_channelid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_acls_channel_channelid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_acls_channel_channelid ON ox_acls_channel USING btree (channelid);
@@ -4280,7 +4280,7 @@ CREATE INDEX ox_acls_channel_channelid ON ox_acls_channel USING btree (channelid
 --
 -- TOC entry 2425 (class 1259 OID 1954568)
 -- Dependencies: 1658
--- Name: ox_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_ad_zone_assoc_ad_id ON ox_ad_zone_assoc USING btree (ad_id);
@@ -4289,7 +4289,7 @@ CREATE INDEX ox_ad_zone_assoc_ad_id ON ox_ad_zone_assoc USING btree (ad_id);
 --
 -- TOC entry 2428 (class 1259 OID 1954567)
 -- Dependencies: 1658
--- Name: ox_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_ad_zone_assoc_zone_id ON ox_ad_zone_assoc USING btree (zone_id);
@@ -4298,7 +4298,7 @@ CREATE INDEX ox_ad_zone_assoc_zone_id ON ox_ad_zone_assoc USING btree (zone_id);
 --
 -- TOC entry 2431 (class 1259 OID 1954587)
 -- Dependencies: 1660
--- Name: ox_affiliates_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_affiliates_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_affiliates_agencyid ON ox_affiliates USING btree (agencyid);
@@ -4307,7 +4307,7 @@ CREATE INDEX ox_affiliates_agencyid ON ox_affiliates USING btree (agencyid);
 --
 -- TOC entry 2442 (class 1259 OID 1954659)
 -- Dependencies: 1666
--- Name: ox_audit_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_account_id ON ox_audit USING btree (account_id);
@@ -4316,7 +4316,7 @@ CREATE INDEX ox_audit_account_id ON ox_audit USING btree (account_id);
 --
 -- TOC entry 2443 (class 1259 OID 1954660)
 -- Dependencies: 1666
--- Name: ox_audit_advertiser_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_advertiser_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_advertiser_account_id ON ox_audit USING btree (advertiser_account_id);
@@ -4325,7 +4325,7 @@ CREATE INDEX ox_audit_advertiser_account_id ON ox_audit USING btree (advertiser_
 --
 -- TOC entry 2444 (class 1259 OID 1954658)
 -- Dependencies: 1666 1666
--- Name: ox_audit_context_actionid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_context_actionid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_context_actionid ON ox_audit USING btree (context, actionid);
@@ -4334,7 +4334,7 @@ CREATE INDEX ox_audit_context_actionid ON ox_audit USING btree (context, actioni
 --
 -- TOC entry 2445 (class 1259 OID 1954654)
 -- Dependencies: 1666 1666
--- Name: ox_audit_parentid_contextid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_parentid_contextid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_parentid_contextid ON ox_audit USING btree (parentid, contextid);
@@ -4343,7 +4343,7 @@ CREATE INDEX ox_audit_parentid_contextid ON ox_audit USING btree (parentid, cont
 --
 -- TOC entry 2448 (class 1259 OID 1954655)
 -- Dependencies: 1666
--- Name: ox_audit_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_updated; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_updated ON ox_audit USING btree (updated);
@@ -4352,7 +4352,7 @@ CREATE INDEX ox_audit_updated ON ox_audit USING btree (updated);
 --
 -- TOC entry 2449 (class 1259 OID 1954657)
 -- Dependencies: 1666
--- Name: ox_audit_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_username; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_username ON ox_audit USING btree (username);
@@ -4361,7 +4361,7 @@ CREATE INDEX ox_audit_username ON ox_audit USING btree (username);
 --
 -- TOC entry 2450 (class 1259 OID 1954656)
 -- Dependencies: 1666
--- Name: ox_audit_usertype; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_usertype; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_usertype ON ox_audit USING btree (usertype);
@@ -4370,7 +4370,7 @@ CREATE INDEX ox_audit_usertype ON ox_audit USING btree (usertype);
 --
 -- TOC entry 2451 (class 1259 OID 1954661)
 -- Dependencies: 1666
--- Name: ox_audit_website_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_audit_website_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_audit_website_account_id ON ox_audit USING btree (website_account_id);
@@ -4379,7 +4379,7 @@ CREATE INDEX ox_audit_website_account_id ON ox_audit USING btree (website_accoun
 --
 -- TOC entry 2452 (class 1259 OID 1954708)
 -- Dependencies: 1668
--- Name: ox_banners_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_banners_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_banners_campaignid ON ox_banners USING btree (campaignid);
@@ -4388,7 +4388,7 @@ CREATE INDEX ox_banners_campaignid ON ox_banners USING btree (campaignid);
 --
 -- TOC entry 2455 (class 1259 OID 1954741)
 -- Dependencies: 1670
--- Name: ox_campaigns_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_campaigns_clientid ON ox_campaigns USING btree (clientid);
@@ -4397,7 +4397,7 @@ CREATE INDEX ox_campaigns_clientid ON ox_campaigns USING btree (clientid);
 --
 -- TOC entry 2458 (class 1259 OID 1954755)
 -- Dependencies: 1672
--- Name: ox_campaigns_trackers_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_trackers_campaignid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_campaigns_trackers_campaignid ON ox_campaigns_trackers USING btree (campaignid);
@@ -4406,7 +4406,7 @@ CREATE INDEX ox_campaigns_trackers_campaignid ON ox_campaigns_trackers USING btr
 --
 -- TOC entry 2461 (class 1259 OID 1954756)
 -- Dependencies: 1672
--- Name: ox_campaigns_trackers_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_campaigns_trackers_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_campaigns_trackers_trackerid ON ox_campaigns_trackers USING btree (trackerid);
@@ -4415,7 +4415,7 @@ CREATE INDEX ox_campaigns_trackers_trackerid ON ox_campaigns_trackers USING btre
 --
 -- TOC entry 2468 (class 1259 OID 1954802)
 -- Dependencies: 1678
--- Name: ox_clients_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_clients_agencyid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_clients_agencyid ON ox_clients USING btree (agencyid);
@@ -4424,7 +4424,7 @@ CREATE INDEX ox_clients_agencyid ON ox_clients USING btree (agencyid);
 --
 -- TOC entry 2471 (class 1259 OID 1954819)
 -- Dependencies: 1680 1680
--- Name: ox_data_intermediate_ad_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_ad_id_date_time ON ox_data_intermediate_ad USING btree (ad_id, date_time);
@@ -4433,7 +4433,7 @@ CREATE INDEX ox_data_intermediate_ad_ad_id_date_time ON ox_data_intermediate_ad 
 --
 -- TOC entry 2477 (class 1259 OID 1954869)
 -- Dependencies: 1682
--- Name: ox_data_intermediate_ad_connection_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_ad_id ON ox_data_intermediate_ad_connection USING btree (ad_id);
@@ -4442,7 +4442,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_ad_id ON ox_data_intermediate_ad
 --
 -- TOC entry 2480 (class 1259 OID 1954867)
 -- Dependencies: 1682
--- Name: ox_data_intermediate_ad_connection_tracker_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_tracker_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_tracker_date_time ON ox_data_intermediate_ad_connection USING btree (tracker_date_time);
@@ -4451,7 +4451,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_tracker_date_time ON ox_data_int
 --
 -- TOC entry 2481 (class 1259 OID 1954868)
 -- Dependencies: 1682
--- Name: ox_data_intermediate_ad_connection_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_tracker_id ON ox_data_intermediate_ad_connection USING btree (tracker_id);
@@ -4460,7 +4460,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_tracker_id ON ox_data_intermedia
 --
 -- TOC entry 2482 (class 1259 OID 1954871)
 -- Dependencies: 1682
--- Name: ox_data_intermediate_ad_connection_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_viewer_id ON ox_data_intermediate_ad_connection USING btree (viewer_id);
@@ -4469,7 +4469,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_viewer_id ON ox_data_intermediat
 --
 -- TOC entry 2483 (class 1259 OID 1954870)
 -- Dependencies: 1682
--- Name: ox_data_intermediate_ad_connection_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_connection_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_connection_zone_id ON ox_data_intermediate_ad_connection USING btree (zone_id);
@@ -4478,7 +4478,7 @@ CREATE INDEX ox_data_intermediate_ad_connection_zone_id ON ox_data_intermediate_
 --
 -- TOC entry 2472 (class 1259 OID 1954821)
 -- Dependencies: 1680
--- Name: ox_data_intermediate_ad_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_date_time ON ox_data_intermediate_ad USING btree (date_time);
@@ -4487,7 +4487,7 @@ CREATE INDEX ox_data_intermediate_ad_date_time ON ox_data_intermediate_ad USING 
 --
 -- TOC entry 2473 (class 1259 OID 1954822)
 -- Dependencies: 1680
--- Name: ox_data_intermediate_ad_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_interval_start ON ox_data_intermediate_ad USING btree (interval_start);
@@ -4496,7 +4496,7 @@ CREATE INDEX ox_data_intermediate_ad_interval_start ON ox_data_intermediate_ad U
 --
 -- TOC entry 2484 (class 1259 OID 1954881)
 -- Dependencies: 1684
--- Name: ox_data_intermediate_ad_variable_value_data_intermediate_ad_con; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_data_intermediate_ad_con; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_data_intermediate_ad_con ON ox_data_intermediate_ad_variable_value USING btree (data_intermediate_ad_connection_id);
@@ -4505,7 +4505,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_data_intermediate_ad_con ON 
 --
 -- TOC entry 2487 (class 1259 OID 1954883)
 -- Dependencies: 1684
--- Name: ox_data_intermediate_ad_variable_value_tracker_value; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_tracker_value; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_value ON ox_data_intermediate_ad_variable_value USING btree (value);
@@ -4514,7 +4514,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_value ON ox_data_int
 --
 -- TOC entry 2488 (class 1259 OID 1954882)
 -- Dependencies: 1684
--- Name: ox_data_intermediate_ad_variable_value_tracker_variable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_variable_value_tracker_variable_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_variable_id ON ox_data_intermediate_ad_variable_value USING btree (tracker_variable_id);
@@ -4523,7 +4523,7 @@ CREATE INDEX ox_data_intermediate_ad_variable_value_tracker_variable_id ON ox_da
 --
 -- TOC entry 2476 (class 1259 OID 1954820)
 -- Dependencies: 1680 1680
--- Name: ox_data_intermediate_ad_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_intermediate_ad_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_intermediate_ad_zone_id_date_time ON ox_data_intermediate_ad USING btree (zone_id, date_time);
@@ -4532,7 +4532,7 @@ CREATE INDEX ox_data_intermediate_ad_zone_id_date_time ON ox_data_intermediate_a
 --
 -- TOC entry 2489 (class 1259 OID 1954918)
 -- Dependencies: 1685
--- Name: ox_data_raw_ad_click_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_click_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_click_ad_id ON ox_data_raw_ad_click USING btree (ad_id);
@@ -4541,7 +4541,7 @@ CREATE INDEX ox_data_raw_ad_click_ad_id ON ox_data_raw_ad_click USING btree (ad_
 --
 -- TOC entry 2490 (class 1259 OID 1954917)
 -- Dependencies: 1685
--- Name: ox_data_raw_ad_click_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_click_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_click_date_time ON ox_data_raw_ad_click USING btree (date_time);
@@ -4550,7 +4550,7 @@ CREATE INDEX ox_data_raw_ad_click_date_time ON ox_data_raw_ad_click USING btree 
 --
 -- TOC entry 2491 (class 1259 OID 1954916)
 -- Dependencies: 1685
--- Name: ox_data_raw_ad_click_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_click_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_click_viewer_id ON ox_data_raw_ad_click USING btree (viewer_id);
@@ -4559,7 +4559,7 @@ CREATE INDEX ox_data_raw_ad_click_viewer_id ON ox_data_raw_ad_click USING btree 
 --
 -- TOC entry 2492 (class 1259 OID 1954919)
 -- Dependencies: 1685
--- Name: ox_data_raw_ad_click_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_click_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_click_zone_id ON ox_data_raw_ad_click USING btree (zone_id);
@@ -4568,7 +4568,7 @@ CREATE INDEX ox_data_raw_ad_click_zone_id ON ox_data_raw_ad_click USING btree (z
 --
 -- TOC entry 2493 (class 1259 OID 1954954)
 -- Dependencies: 1686
--- Name: ox_data_raw_ad_impression_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_impression_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_impression_ad_id ON ox_data_raw_ad_impression USING btree (ad_id);
@@ -4577,7 +4577,7 @@ CREATE INDEX ox_data_raw_ad_impression_ad_id ON ox_data_raw_ad_impression USING 
 --
 -- TOC entry 2494 (class 1259 OID 1954953)
 -- Dependencies: 1686
--- Name: ox_data_raw_ad_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_impression_date_time ON ox_data_raw_ad_impression USING btree (date_time);
@@ -4586,7 +4586,7 @@ CREATE INDEX ox_data_raw_ad_impression_date_time ON ox_data_raw_ad_impression US
 --
 -- TOC entry 2495 (class 1259 OID 1954952)
 -- Dependencies: 1686
--- Name: ox_data_raw_ad_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_impression_viewer_id ON ox_data_raw_ad_impression USING btree (viewer_id);
@@ -4595,7 +4595,7 @@ CREATE INDEX ox_data_raw_ad_impression_viewer_id ON ox_data_raw_ad_impression US
 --
 -- TOC entry 2496 (class 1259 OID 1954955)
 -- Dependencies: 1686
--- Name: ox_data_raw_ad_impression_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_impression_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_impression_zone_id ON ox_data_raw_ad_impression USING btree (zone_id);
@@ -4604,7 +4604,7 @@ CREATE INDEX ox_data_raw_ad_impression_zone_id ON ox_data_raw_ad_impression USIN
 --
 -- TOC entry 2497 (class 1259 OID 1954979)
 -- Dependencies: 1687
--- Name: ox_data_raw_ad_request_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_request_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_request_ad_id ON ox_data_raw_ad_request USING btree (ad_id);
@@ -4613,7 +4613,7 @@ CREATE INDEX ox_data_raw_ad_request_ad_id ON ox_data_raw_ad_request USING btree 
 --
 -- TOC entry 2498 (class 1259 OID 1954978)
 -- Dependencies: 1687
--- Name: ox_data_raw_ad_request_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_request_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_request_date_time ON ox_data_raw_ad_request USING btree (date_time);
@@ -4622,7 +4622,7 @@ CREATE INDEX ox_data_raw_ad_request_date_time ON ox_data_raw_ad_request USING bt
 --
 -- TOC entry 2499 (class 1259 OID 1954977)
 -- Dependencies: 1687
--- Name: ox_data_raw_ad_request_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_request_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_request_viewer_id ON ox_data_raw_ad_request USING btree (viewer_id);
@@ -4631,7 +4631,7 @@ CREATE INDEX ox_data_raw_ad_request_viewer_id ON ox_data_raw_ad_request USING bt
 --
 -- TOC entry 2500 (class 1259 OID 1954980)
 -- Dependencies: 1687
--- Name: ox_data_raw_ad_request_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_ad_request_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_ad_request_zone_id ON ox_data_raw_ad_request USING btree (zone_id);
@@ -4640,7 +4640,7 @@ CREATE INDEX ox_data_raw_ad_request_zone_id ON ox_data_raw_ad_request USING btre
 --
 -- TOC entry 2501 (class 1259 OID 1955020)
 -- Dependencies: 1689
--- Name: ox_data_raw_tracker_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_tracker_impression_date_time ON ox_data_raw_tracker_impression USING btree (date_time);
@@ -4649,7 +4649,7 @@ CREATE INDEX ox_data_raw_tracker_impression_date_time ON ox_data_raw_tracker_imp
 --
 -- TOC entry 2504 (class 1259 OID 1955019)
 -- Dependencies: 1689
--- Name: ox_data_raw_tracker_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_raw_tracker_impression_viewer_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_raw_tracker_impression_viewer_id ON ox_data_raw_tracker_impression USING btree (viewer_id);
@@ -4658,7 +4658,7 @@ CREATE INDEX ox_data_raw_tracker_impression_viewer_id ON ox_data_raw_tracker_imp
 --
 -- TOC entry 2507 (class 1259 OID 1955045)
 -- Dependencies: 1692 1692
--- Name: ox_data_summary_ad_hourly_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_ad_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_ad_id_date_time ON ox_data_summary_ad_hourly USING btree (ad_id, date_time);
@@ -4667,7 +4667,7 @@ CREATE INDEX ox_data_summary_ad_hourly_ad_id_date_time ON ox_data_summary_ad_hou
 --
 -- TOC entry 2508 (class 1259 OID 1955044)
 -- Dependencies: 1692
--- Name: ox_data_summary_ad_hourly_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_date_time ON ox_data_summary_ad_hourly USING btree (date_time);
@@ -4676,7 +4676,7 @@ CREATE INDEX ox_data_summary_ad_hourly_date_time ON ox_data_summary_ad_hourly US
 --
 -- TOC entry 2511 (class 1259 OID 1955046)
 -- Dependencies: 1692 1692
--- Name: ox_data_summary_ad_hourly_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_hourly_zone_id_date_time; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_hourly_zone_id_date_time ON ox_data_summary_ad_hourly USING btree (zone_id, date_time);
@@ -4685,7 +4685,7 @@ CREATE INDEX ox_data_summary_ad_hourly_zone_id_date_time ON ox_data_summary_ad_h
 --
 -- TOC entry 2512 (class 1259 OID 1955059)
 -- Dependencies: 1694
--- Name: ox_data_summary_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_ad_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_ad_id ON ox_data_summary_ad_zone_assoc USING btree (ad_id);
@@ -4694,7 +4694,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_ad_id ON ox_data_summary_ad_zone_asso
 --
 -- TOC entry 2513 (class 1259 OID 1955061)
 -- Dependencies: 1694
--- Name: ox_data_summary_ad_zone_assoc_expired; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_expired; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_expired ON ox_data_summary_ad_zone_assoc USING btree (expired);
@@ -4703,7 +4703,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_expired ON ox_data_summary_ad_zone_as
 --
 -- TOC entry 2514 (class 1259 OID 1955058)
 -- Dependencies: 1694
--- Name: ox_data_summary_ad_zone_assoc_interval_end; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_interval_end; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_interval_end ON ox_data_summary_ad_zone_assoc USING btree (interval_end);
@@ -4712,7 +4712,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_interval_end ON ox_data_summary_ad_zo
 --
 -- TOC entry 2515 (class 1259 OID 1955057)
 -- Dependencies: 1694
--- Name: ox_data_summary_ad_zone_assoc_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_interval_start; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_interval_start ON ox_data_summary_ad_zone_assoc USING btree (interval_start);
@@ -4721,7 +4721,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_interval_start ON ox_data_summary_ad_
 --
 -- TOC entry 2518 (class 1259 OID 1955060)
 -- Dependencies: 1694
--- Name: ox_data_summary_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_ad_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_ad_zone_assoc_zone_id ON ox_data_summary_ad_zone_assoc USING btree (zone_id);
@@ -4730,7 +4730,7 @@ CREATE INDEX ox_data_summary_ad_zone_assoc_zone_id ON ox_data_summary_ad_zone_as
 --
 -- TOC entry 2519 (class 1259 OID 1955073)
 -- Dependencies: 1696
--- Name: ox_data_summary_channel_daily_channel_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_channel_daily_channel_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_channel_daily_channel_id ON ox_data_summary_channel_daily USING btree (channel_id);
@@ -4739,7 +4739,7 @@ CREATE INDEX ox_data_summary_channel_daily_channel_id ON ox_data_summary_channel
 --
 -- TOC entry 2520 (class 1259 OID 1955072)
 -- Dependencies: 1696
--- Name: ox_data_summary_channel_daily_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_channel_daily_day; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_channel_daily_day ON ox_data_summary_channel_daily USING btree (day);
@@ -4748,7 +4748,7 @@ CREATE INDEX ox_data_summary_channel_daily_day ON ox_data_summary_channel_daily 
 --
 -- TOC entry 2523 (class 1259 OID 1955074)
 -- Dependencies: 1696
--- Name: ox_data_summary_channel_daily_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_channel_daily_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_channel_daily_zone_id ON ox_data_summary_channel_daily USING btree (zone_id);
@@ -4757,7 +4757,7 @@ CREATE INDEX ox_data_summary_channel_daily_zone_id ON ox_data_summary_channel_da
 --
 -- TOC entry 2524 (class 1259 OID 1955083)
 -- Dependencies: 1698
--- Name: ox_data_summary_zone_impression_history_operation_interval_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_operation_interval_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_zone_impression_history_operation_interval_id ON ox_data_summary_zone_impression_history USING btree (operation_interval_id);
@@ -4766,7 +4766,7 @@ CREATE INDEX ox_data_summary_zone_impression_history_operation_interval_id ON ox
 --
 -- TOC entry 2527 (class 1259 OID 1955084)
 -- Dependencies: 1698
--- Name: ox_data_summary_zone_impression_history_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_data_summary_zone_impression_history_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_data_summary_zone_impression_history_zone_id ON ox_data_summary_zone_impression_history USING btree (zone_id);
@@ -4775,7 +4775,7 @@ CREATE INDEX ox_data_summary_zone_impression_history_zone_id ON ox_data_summary_
 --
 -- TOC entry 2401 (class 1259 OID 1954463)
 -- Dependencies: 1645 1645 1645 1645
--- Name: ox_database_action_schema_version_timing_action; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_database_action_schema_version_timing_action; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_database_action_schema_version_timing_action ON ox_database_action USING btree (schema_name, version, timing, action);
@@ -4784,7 +4784,7 @@ CREATE INDEX ox_database_action_schema_version_timing_action ON ox_database_acti
 --
 -- TOC entry 2402 (class 1259 OID 1954464)
 -- Dependencies: 1645
--- Name: ox_database_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_database_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_database_action_updated ON ox_database_action USING btree (updated);
@@ -4793,7 +4793,7 @@ CREATE INDEX ox_database_action_updated ON ox_database_action USING btree (updat
 --
 -- TOC entry 2403 (class 1259 OID 1954462)
 -- Dependencies: 1645 1645
--- Name: ox_database_action_upgrade_action_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_database_action_upgrade_action_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_database_action_upgrade_action_id ON ox_database_action USING btree (upgrade_action_id, database_action_id);
@@ -4802,7 +4802,7 @@ CREATE INDEX ox_database_action_upgrade_action_id ON ox_database_action USING bt
 --
 -- TOC entry 2542 (class 1259 OID 1955139)
 -- Dependencies: 1709
--- Name: ox_placement_zone_assoc_placement_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_placement_zone_assoc_placement_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_placement_zone_assoc_placement_id ON ox_placement_zone_assoc USING btree (placement_id);
@@ -4811,7 +4811,7 @@ CREATE INDEX ox_placement_zone_assoc_placement_id ON ox_placement_zone_assoc USI
 --
 -- TOC entry 2543 (class 1259 OID 1955138)
 -- Dependencies: 1709
--- Name: ox_placement_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_placement_zone_assoc_zone_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_placement_zone_assoc_zone_id ON ox_placement_zone_assoc USING btree (zone_id);
@@ -4820,7 +4820,7 @@ CREATE INDEX ox_placement_zone_assoc_zone_id ON ox_placement_zone_assoc USING bt
 --
 -- TOC entry 2544 (class 1259 OID 1955148)
 -- Dependencies: 1710
--- Name: ox_plugins_channel_delivery_assoc_domain_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_assoc_domain_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_plugins_channel_delivery_assoc_domain_id ON ox_plugins_channel_delivery_assoc USING btree (domain_id);
@@ -4829,7 +4829,7 @@ CREATE INDEX ox_plugins_channel_delivery_assoc_domain_id ON ox_plugins_channel_d
 --
 -- TOC entry 2547 (class 1259 OID 1955149)
 -- Dependencies: 1710
--- Name: ox_plugins_channel_delivery_assoc_rule_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_assoc_rule_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_plugins_channel_delivery_assoc_rule_id ON ox_plugins_channel_delivery_assoc USING btree (rule_id);
@@ -4838,7 +4838,7 @@ CREATE INDEX ox_plugins_channel_delivery_assoc_rule_id ON ox_plugins_channel_del
 --
 -- TOC entry 2548 (class 1259 OID 1955150)
 -- Dependencies: 1710
--- Name: ox_plugins_channel_delivery_assoc_rule_order; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_assoc_rule_order; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_plugins_channel_delivery_assoc_rule_order ON ox_plugins_channel_delivery_assoc USING btree (rule_order);
@@ -4847,7 +4847,7 @@ CREATE INDEX ox_plugins_channel_delivery_assoc_rule_order ON ox_plugins_channel_
 --
 -- TOC entry 2549 (class 1259 OID 1955160)
 -- Dependencies: 1712
--- Name: ox_plugins_channel_delivery_domains_domain_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_plugins_channel_delivery_domains_domain_name; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_plugins_channel_delivery_domains_domain_name ON ox_plugins_channel_delivery_domains USING btree (domain_name);
@@ -4856,7 +4856,7 @@ CREATE INDEX ox_plugins_channel_delivery_domains_domain_name ON ox_plugins_chann
 --
 -- TOC entry 2554 (class 1259 OID 1955187)
 -- Dependencies: 1716
--- Name: ox_preferences_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_preferences_account_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_preferences_account_type ON ox_preferences USING btree (account_type);
@@ -4865,7 +4865,7 @@ CREATE INDEX ox_preferences_account_type ON ox_preferences USING btree (account_
 --
 -- TOC entry 2563 (class 1259 OID 1955221)
 -- Dependencies: 1720 1720
--- Name: ox_tracker_append_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_tracker_append_tracker_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_tracker_append_tracker_id ON ox_tracker_append USING btree (tracker_id, rank);
@@ -4874,7 +4874,7 @@ CREATE INDEX ox_tracker_append_tracker_id ON ox_tracker_append USING btree (trac
 --
 -- TOC entry 2564 (class 1259 OID 1955244)
 -- Dependencies: 1722
--- Name: ox_trackers_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_trackers_clientid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_trackers_clientid ON ox_trackers USING btree (clientid);
@@ -4883,7 +4883,7 @@ CREATE INDEX ox_trackers_clientid ON ox_trackers USING btree (clientid);
 --
 -- TOC entry 2406 (class 1259 OID 1954482)
 -- Dependencies: 1647
--- Name: ox_upgrade_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_upgrade_action_updated; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_upgrade_action_updated ON ox_upgrade_action USING btree (updated);
@@ -4892,7 +4892,7 @@ CREATE INDEX ox_upgrade_action_updated ON ox_upgrade_action USING btree (updated
 --
 -- TOC entry 2577 (class 1259 OID 1955306)
 -- Dependencies: 1729
--- Name: ox_variables_is_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variables_is_unique; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_variables_is_unique ON ox_variables USING btree (is_unique);
@@ -4901,7 +4901,7 @@ CREATE INDEX ox_variables_is_unique ON ox_variables USING btree (is_unique);
 --
 -- TOC entry 2580 (class 1259 OID 1955307)
 -- Dependencies: 1729
--- Name: ox_variables_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_variables_trackerid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_variables_trackerid ON ox_variables USING btree (trackerid);
@@ -4910,7 +4910,7 @@ CREATE INDEX ox_variables_trackerid ON ox_variables USING btree (trackerid);
 --
 -- TOC entry 2581 (class 1259 OID 1955344)
 -- Dependencies: 1731
--- Name: ox_zones_affiliateid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_zones_affiliateid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_zones_affiliateid ON ox_zones USING btree (affiliateid);
@@ -4919,7 +4919,7 @@ CREATE INDEX ox_zones_affiliateid ON ox_zones USING btree (affiliateid);
 --
 -- TOC entry 2584 (class 1259 OID 1955343)
 -- Dependencies: 1731 1731
--- Name: ox_zones_zonenameid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: ox_zones_zonenameid; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE INDEX ox_zones_zonenameid ON ox_zones USING btree (zonename, zoneid);
