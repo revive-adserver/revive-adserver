@@ -135,11 +135,15 @@
                         updateFloorPrice();
                     }
                 });
-            
-            //register custom validation method used to validate floor price agains CMP, eCPM
-            //note that the message is not used - it will be overridden in validateFloorPrice
-            jQuery.validator.addMethod("floor_price_compare", validateFloorPrice,     
-                "Floor price must greater or equal to  CPM (or eCPM if used)"); //DUMMY message, not used
+            $floorPriceField.confirmFloorPriceUpdate(function() {
+            	if (isECPMEnabled()) {
+            		return parseFloat($eCPMSpan.text().replace(/,/, ''));
+            	} else {
+            		return $revenueField.val();
+            	}
+            }, function() {
+            	return $pricingField.val() == MODEL_CPM;
+            });
         }
         
         
@@ -163,43 +167,6 @@
         }
         
         
-        function validateFloorPrice(value, element)
-        {
-            var mplaceEnabled = $enableMarketChbx.attr('checked');
-            $floorPriceField.attr('disabled', !mplaceEnabled);
-            
-            if (!mplaceEnabled) {
-                return true;
-            }
-            var pricing = $pricingField.val();
-            var currentFloor = $.trim(value).replace(/,/, '');
-            var currentRevenue = $.trim($revenueField.val()).replace(/,/, '');
-
-//            console.log("VAL pricing:|"+pricing+"|, currentFloor:|"+currentFloor+"|, revenue:|"+currentRevenue);
-            
-                        //if eCPM is not enabled
-            if (!isECPMEnabled()) {
-//              console.log("VAL compare:|"+(currentFloor < currentRevenue));
-              if (MODEL_CPM == pricing && floorLessThen(currentFloor, currentRevenue)) {
-//                 console.log("invalid floor (R)" + currentFloor + " < " + currentRevenue);
-                 setValidatorMessage(settings.floorValidationRateMessage);
-                  return false;
-              }  
-            }
-            else {
-//               console.log("VAL compare (e):|"+(currentFloor < ecpm));
-                var ecpm = $eCPMSpan.text().replace(/,/, '');
-                if (floorLessThen(currentFloor, ecpm)) {
-//                    console.log("invalid floor (E) " + currentFloor + " < " + ecpm);
-                    setValidatorMessage(settings.floorValidationECPMMessage);
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-        
-        
         function updateFloorPrice()
         {
             var mplaceEnabled = $enableMarketChbx.attr('checked');
@@ -213,22 +180,16 @@
             var currentRevenue = $.trim($revenueField.val()).replace(/,/, '');
             var defaultFloor = settings.defaultFloorPrice;
 
-//            console.log("pricing:|"+pricing+"|, currentFloor:|"+currentFloor+"|, revenue:|"+currentRevenue+"|, defaultFloor:|"+defaultFloor+"|");
-          
             //if eCPM is not enabled
             if (!isECPMEnabled()) {
-//                console.log("compare:|"+(currentFloor < currentRevenue));
             
                 if (MODEL_CPM == pricing && floorLessThen(currentFloor, currentRevenue)) {
-//                   console.log("setting floor from " + currentFloor + " to " + currentRevenue);
                     $floorPriceField.val(parseFloat(currentRevenue));
                 } 
             }
             else {
                 var ecpm = $eCPMSpan.text().replace(/,/, '');
-//                console.log("compare (e):|"+(currentFloor < ecpm));
                  if (floorLessThen(currentFloor, ecpm)) {
-//                   console.log("setting floor from (E)" + currentFloor + " to " + ecpm);
                     $floorPriceField.val(parseFloat(ecpm));
                  }
             }
@@ -383,6 +344,15 @@
 	            }
             }
         });
+        $optIn.keypress(function(event) {
+            var $target = $(event.target);
+            if ($target.is("input.cpm")) {
+	            if (event.keyCode == 13) {
+	            	event.preventDefault();
+	            	return false;
+	            }
+            }
+        });
         
         // AJAX search
         $("#search").typeWatch({callback: function() {
@@ -439,7 +409,7 @@
         	}
         });
         
-		installHelp();
+		installListeners();
         return this;
         
         function refresh(url) {
@@ -464,7 +434,7 @@
         			  if (data.indexOf("<!-- market-quickstart-campaigns -->") >= 0) {
 			    		  $("#tableContent").html(data);
 			    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
-			    		  installHelp();
+			    		  installListeners();
 			    		  $indicator.fadeOut(200);
         			  } else {
         				  showError(data.substring(0, Math.min(data.length, 64)) + "...");
@@ -495,12 +465,16 @@
           return false;
         }
         
-        function installHelp() {
+        function installListeners() {
             $("#market-cpm-callout").help({
                 'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
                 'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500 + ($.browser.msie ? 10 : 0)
                 }
             );
+            $optIn.find("input.cpm").confirmFloorPriceUpdate(function() {
+            	return this.nextAll("input[type=hidden]").eq(0).val();
+            });
+            
             if ($.browser.msie && $.browser.version < 7) {
 	            $("button[name=optInSubmit]").click(function() {
 	            	$("button[name=optOutSubmit]").attr("disabled", "disabled");
@@ -543,6 +517,102 @@
         return values ;
     };
 })(jQuery);
+
+
+(function($) {
+	  var $dialog = $("#market-floor-price-dialog");
+	  var revertCpmCallback;
+
+	  $.fn.confirmFloorPriceDialog = function() {
+		  $dialog = $(this);
+		  
+		  $dontShowCheckbox = $dialog.find("#dont-show-again");
+		  $dontShowCheckbox.click(dontShowAgainChanged);
+		  dontShowAgainChanged();
+		  
+		  $dialog.find("#market-keep-entered").click(function() {
+		    if ($dontShowCheckbox.attr("checked")) {
+		        $.cookie('mqs-floor', 'keep', {expires: null} );
+		    }
+		    hideDialog()
+		  });
+		  
+		  $dialog.find("#market-change-to-cpm").click(function() { 
+		    if ($dontShowCheckbox.attr("checked")) {
+		        $.cookie('mqs-floor', 'revert', {expires: null} );
+		    }
+		    hideDialog()
+		    if (revertCpmCallback) {
+		    	revertCpmCallback.call(window);
+		    } 
+		  });
+	  };
+
+	  $.fn.confirmFloorPriceUpdate = function(revertValueCallback, revertCondition) {
+		return this.blur(function() {
+			var $cpmInput = $(this);
+			if ($.data($cpmInput.get(0), 'dialogShown')) {
+				return;
+			}
+			
+			var cookie = $.cookie('mqs-floor');
+		    if (cookie == 'keep') {
+		        return;
+		    }
+		    if (cookie == 'revert') {
+			    revert();
+		        return;
+		    }
+	
+		    checkAndRevert();
+		    return;
+		    
+		    function checkAndRevert() {
+			    if (!revertCondition || (revertCondition && revertCondition.call(window))) {
+			    	var value = $cpmInput.val();
+		        	if (value.match(/^\d+\.?\d*$/)) {
+			        	var currentValue = parseFloat(value);
+			    		var minRecommendedValue = revertValueCallback.call($cpmInput);
+			    		if (currentValue < minRecommendedValue) {
+					    	revertCpmCallback = function () {
+					          $cpmInput.val(minRecommendedValue);
+					    	};
+					    	$.data($cpmInput.get(0), 'dialogShown', true);
+					    	showDialog();
+			    		}
+		        	}
+			    }
+		    }
+		    
+		    function revert() {
+		    	var minRecommendedValue = revertValueCallback.call($cpmInput);
+		    	$cpmInput.val(minRecommendedValue);
+		    }
+	    }).change(function() {
+	    	$.data($(this).get(0), 'dialogShown', false);
+	    });
+	  }
+
+	  function dontShowAgainChanged() {
+		$dialog.find("#market-keep-entered").val(($dontShowCheckbox.attr("checked") ? "Always" : "Yes,") 
+	          + " keep the floor price I entered");
+		$dialog.find("#market-change-to-cpm").val(($dontShowCheckbox.attr("checked") ? "Always" : "No,") 
+	          + " change to campaign's CPM/eCPM");
+	  }
+
+	  function showDialog() {
+	    $dialog.modal({
+	        persist: true,
+	        overlayCss: { backgroundColor: "#000" },
+	        escClose: false
+	    });
+	  }
+
+	  function hideDialog() {
+		$.modal.close()
+	  }
+})(jQuery);
+
 
 (function($) {
   $.fn.getValidator = function() {

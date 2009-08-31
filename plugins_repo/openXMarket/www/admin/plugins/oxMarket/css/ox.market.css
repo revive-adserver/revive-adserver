@@ -318,7 +318,7 @@ ul.column li.rejected {
 }
 
 .market-campaign-settings .tableWrapper th.mkt-status {
-  width: 14em;
+  width: 15em;
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
@@ -423,4 +423,3 @@ ul.column li.rejected {
   font-weight: bold;
   margin: 0px 0px 5px 0px;
 }
-

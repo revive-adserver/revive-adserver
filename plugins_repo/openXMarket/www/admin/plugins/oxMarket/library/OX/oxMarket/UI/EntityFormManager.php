@@ -53,14 +53,6 @@ class OX_oxMarket_UI_EntityFormManager
         $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);
         $maxFloorPriceValue = $this->marketComponent->getMaxFloorPrice();
         
-        //register custom floor price vs CPM check jquery rule adaptors
-        $form->registerRule('floor_price_compare', 'rule', 'OX_oxMarket_UI_rule_FloorPriceCompare',
-            dirname(__FILE__).'/rule/FloorPriceCompare.php');
-
-        $form->registerJQueryRuleAdaptor('floor_price_compare', 
-            dirname(__FILE__).'/rule/QuickFormFloorPriceCompareRuleAdaptor.php',
-            'OX_oxMarket_UI_rule_JQueryFloorPriceCompareRule');        
-
         $aFields = array(
             'mkt_is_enabled' => 'f',
             'floor_price' => $defaultFloorPrice
@@ -86,10 +78,9 @@ class OX_oxMarket_UI_EntityFormManager
         $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
-            array('defaultFloorPrice' => $defaultFloorPrice,
-                'floorValidationRateMessage' => $this->marketComponent->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."), 
-                'floorValidationECPMMessage' => $this->marketComponent->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.") 
-            ));
+            array('defaultFloorPrice' => $defaultFloorPrice));
+        $form->addElement('plugin-script', 'market-floor-price-dialog', 'oxMarket', 
+            array());
 
         
         //in order to get conditional validation, check if it is POST 
@@ -106,16 +97,7 @@ class OX_oxMarket_UI_EntityFormManager
             ));
         }        
 
-       $form->addGroupRule('floor_price_group', array(
-                'floor_price' => array(
-                    array('----', 'floor_price_compare'), //message here is set from JS
-                )
-       ));
-       
-       $form->addFormRule(array($this, 'compareFloorPrice'));
-
         $form->setDefaults($aFields);
-        
     }
     
     
@@ -273,37 +255,6 @@ class OX_oxMarket_UI_EntityFormManager
         $chainGroup[] = $form->createElement('plugin-custom', 'zone-chaining-disabled-info', 'oxMarket', null, array('websiteId' => $zone['affiliateid'], 'zoneId' => $zone['zoneid']));
         $form->addGroup($chainGroup, 'g_market_chain', null, array("<BR>", '', ''));
     }    
-    
-    /**
-     * A custom validation function used on campaign edit screen. Function is 
-     * registered as a form validation callback - thus made public
-     *
-     * @param unknown_type $submitValues
-     * @return unknown
-     */
-    public function compareFloorPrice($submitValues)
-    {
-        if ($submitValues['mkt_is_enabled'] == 't') {
-            $floorPrice = trim($submitValues['floor_price']);
-            
-            //if ecpm is enabled use the hidden added by JS
-            if (isset($submitValues['remnant_ecpm_enabled']) 
-                && $submitValues['remnant_ecpm_enabled'] == 1 
-                && $submitValues['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
-                $comparedValue = $submitValues['last_ecpm'];
-                $floorValidationMessage = $this->marketComponent->translate("For your benefit, the Market floor price cannot be lower than the campaign's eCPM.");
-            }
-            else { //use rate/price .ie revenue for comparison
-                $comparedValue = $submitValues['revenue'];
-                $floorValidationMessage = $this->marketComponent->translate("For your benefit, the Market floor price cannot be lower than the campaign's specified CPM."); 
-            }
-            
-            if (is_numeric($comparedValue) && is_numeric($floorPrice) && $floorPrice < $comparedValue) {
-                return array('floor_price_group' => $floorValidationMessage);
-            }
-        }
-        return true;        
-    }
     
     
     /**

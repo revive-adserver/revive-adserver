@@ -386,7 +386,8 @@ class OX_oxMarket_UI_CampaignsSettings
                 $message = $valueValid ?  null : $this->getValidationMessage('format');                
             }
             //not smaller than eCPM or campaigns CPM ('revenue')
-            if ($valueValid) {
+            $validateCpms = false;
+            if ($validateCpms && $valueValid) {
                 $aCampaign = $campaigns[$campaignId];
                 if (OX_oxMarket_Dal_CampaignsOptIn::isECPMEnabledCampaign($aCampaign)) {
                     if (is_numeric($aCampaign['ecpm']) && $value < $aCampaign['ecpm']) {

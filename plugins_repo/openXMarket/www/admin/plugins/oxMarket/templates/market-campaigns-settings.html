@@ -33,6 +33,7 @@ $Id$
 #firstLevelContent { *border-top: 1px solid #D1D1D1; }
 #thirdLevelContent { *z-index: 3; }
 .contextContainer { *display: none; }
+div.breadcrumb { z-index: 0; }
 {/literal}</style>
 
 <div class="market-campaign-settings">
@@ -43,8 +44,10 @@ $Id$
       <div class="section">
           <h2>Earn more revenue from your existing campaigns with OpenX Market</h2>
           <p>
-          To participate, select the campaigns you want OpenX Market to compete with and 
-          assign a floor price (minimum CPM) to each campaign. You do not need to retag your zones.
+          Select the campaigns you want to participate in OpenX Market. OpenX Market will 
+          hold real-time auctions for the impressions in each selected campaign and serve 
+          ads only when it can beat the campaign's floor price. 
+          You do not need to retag your zones.
           <a class="pointer" help="market-cpm-callout">Learn more</a>
           </p>
       </div>
@@ -104,6 +107,7 @@ $Id$
           </div>
     
           <div id="tableContent">{include file=market-campaigns-settings-list.html campaigns=$campaigns}</div>
+          {include file=market-floor-price-dialog.html}
         </div>
       </div>
     </div>
@@ -113,6 +117,7 @@ $Id$
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js?v={$pluginVersion|escape}" ></script>
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js?v={$pluginVersion|escape}" ></script>
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.typewatch.js?v={$pluginVersion|escape}" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.simplemodal.min.js?v={$pluginVersion|escape}" ></script>
 <script type="text/javascript">
 {literal}
 //<!--
@@ -122,7 +127,7 @@ $(document).ready(function () {
       $("#thirdLevelContent").each(function() {
         $(this).css('zoom', 1);
       });
-    }      
+    } 
 });
 //-->
 {/literal}

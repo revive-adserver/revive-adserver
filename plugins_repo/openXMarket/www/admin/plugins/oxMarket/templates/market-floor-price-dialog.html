@@ -1,7 +1,7 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -27,34 +27,33 @@
 $Id$
 
 -->*}
-{* this is script which will be plugged on plugin page when added as a form element
- make sure the form element name adding this script is the same as template file without .html extension
- eg. this script should be added via 'campaign-script' name
- 
- When script is included it is assigned two variables:
-  - $plugin - contains plugin name, eg. 'oxMarket' 
-  - $pluginWebPath - absolute url to browser visible plugin directory eg. 'http://localhost/www/admin/plugins/oxMarket'. Can be used for to create a link to plugin's js/css
-  
- Also, there is a global variable available:
- - $adminPluginWebPath - absolute url to browser visible admin plugins directorory eg. 'http://localhost/www/admin/plugins' - this could be used if eg. to reference resources of another plugin
- 
- *}
-<script type="text/javascript" src="{$pluginWebPath}/js/ox.market.js" ></script>
-<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.cookie.js" ></script>
-<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/jquery.simplemodal.min.js" ></script>
+<div id="market-floor-price-dialog" class="jqmWindow" style="top: auto">
+  <div class="jqm-window-title">&nbsp;&nbsp;&nbsp;Your floor price may be too low</div>
+
+  <div class="jqm-window-body">
+    <div style="line-height: 1.8">
+      To maximize revenue, we recommend against setting your campaign floor price lower than your campaign's CPM/eCPM.<br /> 
+      Would you like to keep the floor price you entered?
+    </div>
+
+    <div class="jqm-controls">
+      <input id="market-keep-entered" type="button" value="Yes, keep the floor price I entered" 
+             class="main-submit" style="*width: auto; *overflow: visible; *padding: 2px 4px" {tabindex} />&nbsp;
+      <input id="market-change-to-cpm" type="button" value="No, change to campaign's CPM/eCPM" {tabindex} 
+             style="*width: auto; *overflow: visible; *padding: 2px 4px" /><br />
+      <div style="text-align: right; margin-top: 20px">
+        <label><input id="dont-show-again" class="checkbox" type="checkbox" /> Do not show this message again during my session</label>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
 {literal}
- <!--
-  $(document).ready(function() {
-    $('#campaignform').campaignMarket({
-{/literal}
-            defaultFloorPrice: "{$_e.vars.defaultFloorPrice}"
-            
-{literal}            
-    });
-  });
- //-->
+//<!--
+$(document).ready(function () {
+  $("#market-floor-price-dialog").confirmFloorPriceDialog();
+});
+//-->
 {/literal}
 </script>
- 
- 

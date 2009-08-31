@@ -173,17 +173,20 @@ class OX_oxMarket_Dal_CampaignsOptIn
             $minCpmCalculated = false;
             $minCpmSpecified = false;
             
+            $isEcpmAvailable = self::isECPMEnabledCampaign($row_campaigns) && is_numeric($row_campaigns['ecpm']);
+            $isCpmAvailable = $row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
+                && is_numeric($row_campaigns['revenue']);
+            
             if (isset($minCpms[$campaignId])) {
                 $campaignMinCpm = $minCpms[$campaignId];
             }
             else if (isset($campaigns[$campaignId]['floor_price']) && $campaigns[$campaignId]['optin_status']) {
                 $campaignMinCpm = self::formatCpm($campaigns[$campaignId]['floor_price']);
             }
-            else if (self::isECPMEnabledCampaign($row_campaigns) && is_numeric($row_campaigns['ecpm'])) {
+            else if ($isEcpmAvailable) {
                 $campaignMinCpm = self::formatCpm($row_campaigns['ecpm']);
             }
-            else if ($row_campaigns['revenue_type'] == MAX_FINANCE_CPM 
-                && is_numeric($row_campaigns['revenue'])) {
+            else if ($isCpmAvailable) {
                 $campaignMinCpm = self::formatCpm($row_campaigns['revenue']);
             }
             else {
@@ -192,8 +195,7 @@ class OX_oxMarket_Dal_CampaignsOptIn
                 
             //if user has specified same floor as current eCPM/CPM or have not 
             //touched the proposed eCPM/CPM at all and submitted, we should preserve the ecpm marker
-            if (self::isECPMEnabledCampaign($row_campaigns) 
-                && is_numeric($row_campaigns['ecpm'])
+            if ($isEcpmAvailable
                 && $campaignMinCpm == $row_campaigns['ecpm']) {
                 $minCpmCalculated = true;     
             }
@@ -205,6 +207,12 @@ class OX_oxMarket_Dal_CampaignsOptIn
             $campaigns[$campaignId]['minCpm'] = $campaignMinCpm;
             $campaigns[$campaignId]['minCpmCalculated'] = $minCpmCalculated;
             $campaigns[$campaignId]['minCpmSpecified'] = $minCpmSpecified;
+            
+            if ($isEcpmAvailable) {
+                $campaigns[$campaignId]['minRecommendedFloorPrice'] = self::formatCpm($row_campaigns['ecpm']);
+            } elseif ($isCpmAvailable) {
+                $campaigns[$campaignId]['minRecommendedFloorPrice'] = self::formatCpm($row_campaigns['revenue']);
+            }
         }
 
         return $campaigns;

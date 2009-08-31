@@ -18,6 +18,7 @@
             <file path="{ADMINPATH}/js/">ox.market.js</file>
             <file path="{ADMINPATH}/js/">jquery.cookie.js</file>
             <file path="{ADMINPATH}/js/">jquery.typewatch.js</file>
+            <file path="{ADMINPATH}/js/">jquery.simplemodal.min.js</file>
             <file path="{ADMINPATH}/js/">ox.usernamecheck.js</file>
             <file path="{ADMINPATH}/images/">button-dot-green.gif</file>
             <file path="{ADMINPATH}/images/">button-dot-red.gif</file>
@@ -34,6 +35,7 @@
             <file path="{ADMINPATH}/templates/">market-callout-zone.html</file>
             <file path="{ADMINPATH}/templates/">market-confirm.html</file>
             <file path="{ADMINPATH}/templates/">market-cpm-callout.html</file>
+            <file path="{ADMINPATH}/templates/">market-floor-price-dialog.html</file>
             <file path="{ADMINPATH}/templates/">market-inactive.html</file>
             <file path="{ADMINPATH}/templates/">market-info.html</file>
             <file path="{ADMINPATH}/templates/">market-include.html</file>
@@ -56,11 +58,6 @@
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Website.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityFormManager.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">FloorPriceCompare.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">QuickFormFloorPriceCompareRuleAdaptor.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
             <!-- Spacer for the 4096 byte boundary -->
                                          
                                          
@@ -68,6 +65,11 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->            
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityFormManager.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">FloorPriceCompare.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">QuickFormFloorPriceCompareRuleAdaptor.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientExecutor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">PearXmlRpcCustomClientException.php</file>
             <file path="{ADMINPATH}/library/Zend/Http/Client/Adapter/">Curl.php</file>
             <file path="{ADMINPATH}/var/">config.php</file>
@@ -112,10 +114,6 @@
                 <checker class="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker" include="oxMarketStandaloneModeChecker.php" />
                 <checker class="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker" include="oxMarketMultipleAccountsModeChecker.php" />
             </checkers>
-            <admin>
-                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
-            </admin>
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -123,7 +121,14 @@
                                          
                                          
                                          
+
+
+
             <!-- End spacer for the 4096 byte boundary -->
+            <admin>
+                <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
+                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
+            </admin>
             <manager>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
                 <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>

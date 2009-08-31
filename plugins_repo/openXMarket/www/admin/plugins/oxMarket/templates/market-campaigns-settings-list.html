@@ -47,11 +47,12 @@ $Id$
   {if $floorPriceColumnContextHelp}
     {$floorPriceColumnContextHelp}
   {else}
-  <div style="width: 500px">
+  <div style="width: 530px">
     <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" alt="OpenX Market competes with your campaigns to provide you with higher paying ads" />
     <h3>Opting in your campaigns to OpenX Market</h3>
     <p>
-      OpenX Market competes with your campaigns to provide higher paying ads. When you 
+      OpenX Market is a service that makes more money for you by holding real-time 
+      auctions for the impressions in your campaigns. When you 
       opt in a campaign, OpenX Market will serve an ad only if it can pay higher than the 
       floor price you assign, otherwise the campaign's original ad is served. By default, 
       the floor price is set to the campaign's specified CPM or eCPM. If these are 
@@ -139,6 +140,8 @@ $Id$
                 <small title="This is the campaign's specified CPM">Campaign's CPM</small>
               {/if}
             {/if}
+            <input type="hidden" disabled="disabled" 
+                   value="{$campaign.minRecommendedFloorPrice|escape}" />
           </td>
         </tr>
       {/foreach}
