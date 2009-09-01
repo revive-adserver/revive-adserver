@@ -413,6 +413,11 @@ class OA_Dal
         if (!$fp) {
             return MAX::raiseError('Error creating the tmp file '.$filePath.' containing the batch INSERTs.', PEAR_ERROR_RETURN);
         }
+        
+        // ensure that when maintenance is run in crontab, as root eg. 
+        // the file can still be overwritten by maintenance ran from the UI
+        @chmod($filePath, 0777);
+        
         foreach ($aValues as $aRow) {
             // Stringify row
             $row = '';
@@ -450,7 +455,9 @@ class OA_Dal
         	$fieldList
         ";
         $result = $oDbh->exec($query);
-
+        
+        @unlink($filePath);
+        
         // Enable error handler again
         OX::enableErrorHandling();
 
