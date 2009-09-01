@@ -108,15 +108,22 @@ else {
 }
 $zone['affiliateid']     = $affiliateid;
 
+
+if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
+    && $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket']) {
+    $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );
+}
+
+
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 //build form
-$zoneForm = buildZoneForm($zone);
+$zoneForm = buildZoneForm($zone, $oComponent);
 
 if ($zoneForm->validate()) {
     //process submitted values
-    $errors = processForm($zoneForm);
+    $errors = processForm($zoneForm, $oComponent);
 
     if(!empty($errors)) {
     }
@@ -128,9 +135,10 @@ displayPage($zone, $zoneForm, $errors);
 /*-------------------------------------------------------*/
 /* Build form                                            */
 /*-------------------------------------------------------*/
-function buildZoneForm($zone)
+function buildZoneForm($zone, $oComponent = null)
 {
     global $conf;
+    $newZone = empty($zone['zoneid']);    
     // Initialise Ad  Networks
     $oAdNetworks = new OA_Central_AdNetworks();
 
@@ -239,7 +247,11 @@ function buildZoneForm($zone)
     $form->addGroup($sizeTypes, 'size_types', $GLOBALS['strSize'], "<br/>");
 
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
-
+    
+    if ($oComponent && method_exists($oComponent, 'extendZoneForm')) {
+        $oComponent->extendZoneForm($form, $zone, $newZone);
+    }
+    
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
 
@@ -284,7 +296,7 @@ function buildZoneForm($zone)
  * @param OA_Admin_UI_Component_Form $form form to process
  * @return An array of Pear::Error objects if any
  */
-function processForm($form)
+function processForm($form, $oComponent = null)
 {
     $aFields = $form->exportValues();
 
@@ -424,6 +436,9 @@ function processForm($form)
                     }
                 }
             }
+            if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
+                $oComponent->processZoneForm($aFields);
+            }
 
             // Queue confirmation message
             $translation = new OX_Translation();
@@ -468,7 +483,11 @@ function processForm($form)
             	$oAdNetworks = new OA_Central_AdNetworks();
     			$oAdNetworks->updateZone($doZones, $anWebsiteId);
             }
-
+            
+            if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
+                $oComponent->processZoneForm($aFields);
+            }
+            
             // Queue confirmation message
             $translation = new OX_Translation ();
             $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenAdded'], array(

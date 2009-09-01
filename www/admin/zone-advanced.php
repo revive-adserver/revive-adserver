@@ -95,16 +95,21 @@ else {
     $aZone['chainzone'] = '';
 }
 
+if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
+    && $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket']) {
+    $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );
+}
+
 
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
 //build zone adv form
-$zoneForm = buildZoneForm($aZone);
+$zoneForm = buildZoneForm($aZone, $oComponent);
 
 if ($zoneForm->validate()) {
     //process submitted values
-    processForm($aZone, $zoneForm);
+    processForm($aZone, $zoneForm, $oComponent);
 }
 else { //either validation failed or form was not submitted, display the form
     displayPage($aZone, $zoneForm);
@@ -113,7 +118,7 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 /* Build form                                            */
 /*-------------------------------------------------------*/
-function buildZoneForm($aZone)
+function buildZoneForm($aZone, $oComponent = null)
 {
     $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
@@ -122,6 +127,10 @@ function buildZoneForm($aZone)
     $form->addElement('hidden', 'affiliateid', $aZone['affiliateid']);
 
     buildChainSettingsFormSection($form, $aZone);
+    
+    if ($oComponent && method_exists($oComponent, 'extendZoneAdvancedForm')) {
+        $oComponent->extendZoneAdvancedForm($form, $aZone);
+    }    
     buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
     buildAppendFormSection($form, $aZone);
     buildAlgorithmFormSection($form, $aZone);
@@ -216,7 +225,7 @@ function buildAlgorithmFormSection($form, $aZone)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($aZone, $form)
+function processForm($aZone, $form, $oComponent = null)
 {
     $aFields = $form->exportValues();
 
