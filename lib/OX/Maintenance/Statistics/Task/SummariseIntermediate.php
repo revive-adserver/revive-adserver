@@ -104,30 +104,32 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 $oNowDate = new Date();
             }
 
-            // Prepare an array of possible start and end dates for the migration
-            $this->aRunDates = array();
-            $oStartDate = new Date();
-            $oStartDate->copy($this->oController->oLastDateIntermediate);
-            $oStartDate->addSeconds(1);
-            while (Date::compare($oStartDate, $this->oController->oUpdateIntermediateToDate) < 0) {
-                // Calcuate the end of the operation interval
-                $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
-                $oEndDate = new Date();
-                $oEndDate->copy($aDates['end']);
-                // Store the dates
-                $oStoreStartDate = new Date();
-                $oStoreStartDate->copy($oStartDate);
-                $oStoreEndDate = new Date();
-                $oStoreEndDate->copy($oEndDate);
-                $this->aRunDates[] = array(
-                    'start' => $oStoreStartDate,
-                    'end'   => $oStoreEndDate
-                );
-                // Go to the next operation interval
-                $oStartDate->copy($oEndDate);
+            // Prepare an array of possible start and end dates for the migration, unless they have been set already
+            if (empty($this->aRunDates)) {
+                $this->aRunDates = array();
+                $oStartDate = new Date();
+                $oStartDate->copy($this->oController->oLastDateIntermediate);
                 $oStartDate->addSeconds(1);
+                while (Date::compare($oStartDate, $this->oController->oUpdateIntermediateToDate) < 0) {
+                    // Calcuate the end of the operation interval
+                    $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+                    $oEndDate = new Date();
+                    $oEndDate->copy($aDates['end']);
+                    // Store the dates
+                    $oStoreStartDate = new Date();
+                    $oStoreStartDate->copy($oStartDate);
+                    $oStoreEndDate = new Date();
+                    $oStoreEndDate->copy($oEndDate);
+                    $this->aRunDates[] = array(
+                        'start' => $oStoreStartDate,
+                        'end'   => $oStoreEndDate
+                    );
+                    // Go to the next operation interval
+                    $oStartDate->copy($oEndDate);
+                    $oStartDate->addSeconds(1);
+                }
             }
-
+            
             // Check to see if any historical raw data needs to be migrated,
             // post-upgrade, and if so, migrate the data; requires that the
             // default openXDeliveryLog plugin is installed, so the migration
@@ -329,6 +331,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 }
             }
         }
+        $this->aRunDates = array();
     }
 
     /**
