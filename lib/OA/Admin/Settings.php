@@ -335,7 +335,7 @@ class OA_Admin_Settings
         // Re-parse the config file?
         if ($reParse) {
             $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
-            $GLOBALS['_MAX']['CONF'] = @parse_ini_file($file, true);
+            $GLOBALS['_MAX']['CONF'] = parseIniFile();
             $this->aConf = $GLOBALS['_MAX']['CONF'];
             // Set the global $conf value -- normally set by the init
             // script -- to be the same as $GLOBALS['_MAX']['CONF']
