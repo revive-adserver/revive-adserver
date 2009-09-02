@@ -50,8 +50,9 @@ $Id$
  * The define statements below will need to be un-commented for the script
  * to be able to be run!
  */
-define('INTERVAL_START', '2009-08-27 11:00:00');
-define('INTERVAL_END',   '2009-08-29 11:59:59');
+
+//define('INTERVAL_START', '2009-08-27 11:00:00');
+//define('INTERVAL_END',   '2009-08-29 11:59:59');
 
 /***************************************************************************/
 
@@ -166,6 +167,27 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     $oOIStart = OX_OperationInterval::addOperationIntervalTimeSpan($oOIStart);
 }
 
+// The summariseFinal process requires complete hours (not OI's), so record these too
+$oOIStart = new Date(INTERVAL_START);
+$oOIEnd   = new Date(INTERVAL_START);
+$oOIEnd->addSeconds((60*60)-1);
+
+$aRunHours = array();
+while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
+    echo "Adding " . $oOIStart->format('%Y-%m-%d %H:%M:%S') . "' -> '" . $oOIEnd->format('%Y-%m-%d %H:%M:%S') . " to the list of run dates<br />\n";
+    // Store the dates
+    $oStoreStartDate = new Date();
+    $oStoreStartDate->copy($oOIStart);
+    $oStoreEndDate = new Date();
+    $oStoreEndDate->copy($oOIEnd);
+    $aRunHours[] = array(
+        'start' => $oStoreStartDate,
+        'end'   => $oStoreEndDate
+    );
+    $oOIEnd->addSeconds(60*60);
+    $oOIStart->addSeconds(60*60);
+}
+
 // Create and register an instance of the OA_Dal_Maintenance_Statistics DAL class for the following tasks to use
 $oServiceLocator =& OA_ServiceLocator::instance();
 if (!$oServiceLocator->get('OX_Dal_Maintenance_Statistics')) {
@@ -187,7 +209,7 @@ echo "Finished! \$result = " . $result . "<br />\n";
 $oDbh = OA_DB::singleton();
 $oMigratorFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
     
-foreach ($aRunDates as $aDates) {
+foreach ($aRunHours as $aDates) {
     echo "Recomputing data_summary_ad_hourly totals from " . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . " -> " . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "<br />\n"; 
     $query = "DELETE FROM ".$oDbh->quoteIdentifier('data_summary_ad_hourly',true)." WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
     $oDbh->exec($query);
