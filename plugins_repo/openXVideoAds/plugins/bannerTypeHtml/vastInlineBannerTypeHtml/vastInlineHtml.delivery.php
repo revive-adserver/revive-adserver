@@ -111,7 +111,6 @@ if ( !empty($format) && $format == 'vast'){
         OA::debug('$context='.print_r($context,true));
         ###END_STRIP_DELIVERY
 
-
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
@@ -130,16 +129,11 @@ if ( !empty($format) && $format == 'vast'){
                      ($output['width'] != VAST_INLINE_DIMENSIONS) 
                  )
                ){
-                
-                xdebug_break();
                 $badZoneId = $output['aRow']['zoneid'];
                 $badBannerId = $output['bannerid'];
-                
                 // Store the html2js'd output for this ad
                 $spc_output .= "<!-- You are requesting vast xml for zone $badZoneId which does not apear to be a video overlay banner nor a vast inline banner. -->\n";
-                                
-            }
-            else {
+            } else {
                 // Store the html2js'd output for this ad
                 $spc_output .= $output['html'] . "\n";
             }

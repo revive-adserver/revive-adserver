@@ -31,7 +31,16 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
  */
 class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase
 {
-
+    function getBannerShortName()
+    {
+        return 'Inline Video Ad';
+    }
+    
+    function getZoneToLinkShortName()
+    {
+        return $this->getBannerShortName();
+    }
+    
     /**
      * Return description of banner type
      * for the dropdown selection on the banner-edit screen
@@ -40,9 +49,14 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
      */
     function getOptionDescription()
     {
-        return $this->translate('OpenX VAST Inline Video Ad (pre/mid/post-roll)');
+        return $this->translate('OpenX '.$this->getBannerShortName().' (pre/mid/post-roll)');
     }
 
+    function getHelpAdTypeDescription()
+    {
+        return 'An '.$this->getBannerShortName().' is a video ad that can be presented before, in the middle of, or after the video content and takes over the full view of the video. ';
+    }
+    
     /**
      * Append type-specific form elements to the base form
      *
@@ -59,16 +73,16 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
             $isNewBanner = true;
         }
 
-        //parent::buildForm($form, $bannerId);
         $header = $form->createElement('header', 'header_txt', "Create an Inline Video Ad (pre/mid/post-roll)");
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
-        addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
-        $form->addElement('header', 'video_status', "VAST video parameters");
+        
+        $this->addIntroductionInlineHelp($form);
+        $this->addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
 
         $isVideoUploadSupported = false;
-        if ($isVideoUploadSupported){
+        if ($isVideoUploadSupported) {
             addUploadGroup($form, $row,
                 array(
                     'uploadName' => 'uploadalt',
@@ -82,8 +96,8 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
                   )
             );
         }
-        addVastParametersToForm($form, $bannerRow, $isNewBanner);
-        addVastCompanionsToForm($form, $selectableCompanions);
+        $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
+        $this->addVastCompanionsToForm($form, $selectableCompanions);
     }
 
     function onEnable()

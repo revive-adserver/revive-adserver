@@ -1,5 +1,4 @@
 <?php
-
 /*
  *    Copyright (c) 2009 Bouncing Minds - Option 3 Ventures Limited
  *
@@ -40,29 +39,27 @@ define( 'VAST_OVERLAY_FORMAT_HTML', 'html_overlay' );
 define( 'VAST_OVERLAY_CLICK_TO_PAGE', 'click_to_page' );
 define( 'VAST_OVERLAY_CLICK_TO_VIDEO', 'click_to_video' );
 
-if ( !function_exists('xdebug_break') ){
-    function xdebug_break(){
-        // xdebug not installed - do nothing
-    }
-}
-
-function getVastVideoTypes(){
-   static $videoEncodingTypes = array( 'video/x-mp4' =>  'video/x-mp4',
-                                       'video/x-flv' => 'video/x-flv',
-                                       // not supported by flowplayer -  'video/x-ms-wmv' => 'video/x-ms-wmv',
+define( 'VAST_VIDEO_URL_STREAMING_FORMAT', 'streaming' );
+define( 'VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive' );
+        
+function getVastVideoTypes()
+{
+   static $videoEncodingTypes = array( 'video/x-mp4' =>  'MP4',
+                                       'video/x-flv' => 'FLV',
+                                       // not supported by flowplayer -  'video/x-ms-wmv' => 'WMV',
                                        // not supported by flowplayer -  'video/x-ra' => 'video/x-ra',
-                                      );
+   );
    return $videoEncodingTypes;
 }
 
 
-function encodeUserSuppliedData($text) {
-    
+function encodeUserSuppliedData($text) 
+{
    return htmlspecialchars($text, ENT_QUOTES); 
 }
 
-function xmlspecialchars($text) {
-    
+function xmlspecialchars($text) 
+{
    return htmlspecialchars($text, ENT_QUOTES); 
 }
 
@@ -73,56 +70,46 @@ function combineVideoUrl( &$aAdminFields )
         
         // In the case of streaming - there are 2 seperate fields stored in the db field vast_video_outgoing_filename
         if ( $aAdminFields['vast_video_delivery'] == 'streaming'  ) {
-            
             $aSeek = array( VAST_RTMP_FLV_DELIMITER, VAST_RTMP_MP4_DELIMITER );
             str_replace( $aSeek, '', $aAdminFields['vast_net_connection_url'] );
             str_replace( $aSeek, '', $aAdminFields['vast_video_filename'] );
             
             if ( $aAdminFields['vast_video_type'] == 'video/x-flv' ){
-    
                 $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url']  . VAST_RTMP_FLV_DELIMITER  . $aAdminFields['vast_video_filename']; 
             }
             elseif ( $aAdminFields['vast_video_type'] == 'video/x-mp4' ){
-    
                 $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url'] . VAST_RTMP_MP4_DELIMITER  . $aAdminFields['vast_video_filename']; 
             } 
         } 
         // In the case of progressive - we just store vast_video_filename in the db field vast_video_outgoing_filename
         else {
-            
             $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_video_filename'];  
         }
     }
-  
 }
 
 function parseVideoUrl( $inFields, &$aDeliveryFields, &$aAdminFields )
 {    
-    // xdebug_break();
-    
     $fullPathToVideo = $inFields['vast_video_outgoing_filename'];
     $aDeliveryFields['fullPathToVideo'] = $fullPathToVideo; 
     
-    if ( ($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_MP4_DELIMITER)) !== false ) {
-        
+    if(($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_MP4_DELIMITER)) !== false ) 
+    {
       $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn ); 
       $filename = substr( $fullPathToVideo, $fileDelimPosn + strlen( VAST_RTMP_MP4_DELIMITER ), strlen($fullPathToVideo) );
       
       $aDeliveryFields['videoNetConnectionUrl'] = $netConnectionUrl;
       
       // for some unknown reason - I need to have mp4: at the start of the filename to play in the in Admin tool player..
-      
       $aDeliveryFields['videoFileName'] = 'mp4:' . $filename;
       $aDeliveryFields['videoDelivery'] =  'player_in_rtmp_mode';
       
       // parameters used at admin time
-      //$aAdminFields['vast_video_type'] = 'video/x-mp4';
-      //$aAdminFields['vast_video_delivery'] = 'streaming';
       $aAdminFields['vast_net_connection_url'] =  $netConnectionUrl;
       $aAdminFields['vast_video_filename'] = $filename;     
     }
-    else if ( ($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_FLV_DELIMITER)) !== false ){
-       
+    elseif ( ($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_FLV_DELIMITER)) !== false )
+    {
       $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn ); 
       $filename = substr( $fullPathToVideo, $fileDelimPosn + strlen( VAST_RTMP_FLV_DELIMITER ), strlen($fullPathToVideo) );
       
@@ -131,73 +118,22 @@ function parseVideoUrl( $inFields, &$aDeliveryFields, &$aAdminFields )
       $aDeliveryFields['videoDelivery'] = 'player_in_rtmp_mode';
       
       // parameters used at admin time
-      //$aAdminFields['vast_video_type'] = 'video/x-flv';
-      //$aAdminFields['vast_video_delivery'] = 'streaming';
       $aAdminFields['vast_net_connection_url'] = $netConnectionUrl;
       $aAdminFields['vast_video_filename'] = $filename; 
- 
     }
-    else {
-        
+    else 
+    {
       $aDeliveryFields['videoDelivery'] = 'player_in_http_mode';
       $aDeliveryFields['videoFileName'] = $inFields['vast_video_outgoing_filename'];
-       
       $aAdminFields['vast_video_filename'] = $inFields['vast_video_outgoing_filename'];  
     }
 }
 
-function vastPluginErrorHandler($errNo, $errStr, $file, $line, $context){
-    
-    xdebug_break();
-    
-    if ( strpos( $errStr, 'should not be called statically')
-        || strpos( $errStr, 'is_a()')){
-        // ignore
-    }
-    else {
-        // Other errors - I like to know about
-        appendDebugMessage("ERROR No: $errNo, $errStr, $file, $line, $context<br>" );
-    }
-}
-
-if ( !function_exists('debugDump') ){
-    
-    function debugDump($id, $value){
-        $message = "ID:$id VALUE:" . print_r( $value, true);
-        
-        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
-        //OA::debug("[VAST]" . $message);
-    }
-
-    function debugLog($message){
-        
-        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
-        //OA::debug("[VAST]" . $message);
-    }
-
-    function appendDebugMessage($message){
-        
-        // In some cases the class OA - is not in existance yet - hence comment this out - see OXPL-345
-        //OA::debug("[VAST]" . $message);
-        
-    }
-}
-
-function activatePluginErrorHandler(){
-    set_error_handler('vastPluginErrorHandler');
-}
-
-function dectivatePluginErrorHandler(){
-    restore_error_handler();
-}
-
-
 // This will be used to send debug messages to the requesting client
-//  I have already implemented this code
-//  just need a nice way to integrate it and get it pulled into the core
 $aClientMessages = array();
 
-function appendClientMessage( $message, $variableToDump = null ){
+function appendClientMessage( $message, $variableToDump = null )
+{
     global $aClientMessages;
     if ( $variableToDump ){
         $message .= '<pre>' . print_r( $variableToDump, true ) . '</pre>';
@@ -205,7 +141,8 @@ function appendClientMessage( $message, $variableToDump = null ){
     $aClientMessages[] = $message;
 }
 
-function getClientMessages(){
+function getClientMessages()
+{
     global $aClientMessages;
     global $clientdebug;
     $str = "";

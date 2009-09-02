@@ -8,7 +8,7 @@
     <authorUrl>http://www.bouncingminds.com</authorUrl>
     <license>GPL</license>
     <description>Delivery Log Vast Plugin</description>
-    <version>1.0.0-RC60</version>
+    <version>1.0-rc61</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>
