@@ -49,11 +49,14 @@ class Test_OA_Cache extends UnitTestCase
     function setup()
     {
         $this->aData = $this->_createTestArray();
+        $this->serverSave = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = 'servername';
     }
 
     function teardown()
     {
         $this->aData = null;
+        $_SERVER['HTTP_HOST'] = $this->serverSave;
     }
 
     function test_Cache()
@@ -62,7 +65,7 @@ class Test_OA_Cache extends UnitTestCase
         $oCache = new OA_Cache('testId', 'testGroup');
 
         $this->assertEqual($oCache->id,'testId');
-        $this->assertEqual($oCache->group,'testGroup');
+        $this->assertEqual($oCache->group,'servername_testGroup');
         $this->assertEqual($oCache->oCache->_cacheDir,MAX_PATH . '/var/cache/');
         $this->assertIsA($oCache->oCache,'Cache_Lite');
         $this->assertNull($oCache->oCache->_lifeTime);
