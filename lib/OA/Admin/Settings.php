@@ -166,7 +166,7 @@ class OA_Admin_Settings
         if (!is_null($configFile)) {
             $configFile = '.' . $configFile;
         }
-        if (defined('TEST_ENVIRONMENT_RUNNING') && !$GLOBALS['override_TEST_ENVIRONMENT_RUNNING']) {
+        if (defined('TEST_ENVIRONMENT_RUNNING') && empty($GLOBALS['override_TEST_ENVIRONMENT_RUNNING'])) {
             // Special case! The test environment is running, so just write the
             // configuration to the test configuration file...
             $testConfigFile = $configPath . '/test.conf.php';
@@ -334,8 +334,11 @@ class OA_Admin_Settings
         }
         // Re-parse the config file?
         if ($reParse) {
-            $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
-            $GLOBALS['_MAX']['CONF'] = parseIniFile();
+            if (!is_null($configFile)) {
+                // The code above will have prefixed a '.' to the configFile value, strip it off before passing along
+                $configFile = substr($configFile, 1);
+            }
+            $GLOBALS['_MAX']['CONF'] = parseIniFile($configPath, $configFile);
             $this->aConf = $GLOBALS['_MAX']['CONF'];
             // Set the global $conf value -- normally set by the init
             // script -- to be the same as $GLOBALS['_MAX']['CONF']

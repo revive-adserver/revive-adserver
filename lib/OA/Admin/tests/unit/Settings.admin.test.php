@@ -42,12 +42,14 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // file writing method, not the one reserved for the test
         // environment...
         $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+        $this->serverSave = $_SERVER['HTTP_HOST'];
     }
 
     function tearDown()
     {
         // Resume normal service with regards to the configuration file writer...
         unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+        $_SERVER['HTTP_HOST'] = $this->serverSave;
     }
 
     function testIsConfigWritable()
@@ -145,17 +147,21 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Test 2.0
         // Write out a new "single host" config file
         $oConf = new OA_Admin_Settings(true);
-
+        
         // Build the local conf array manually.
         $oConf->aConf['webpath']['admin'] = 'dummy';
         $oConf->aConf['webpath']['delivery'] = 'dummy';
         $oConf->aConf['webpath']['deliverySSL'] = 'dummy';
+        $_SERVER['HTTP_HOST'] = $oConf->aConf['webpath']['delivery'];
+        
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
         $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Config file does not exist');
 
         // Modify delivery settings to a different host
         $oConf->aConf['webpath']['delivery'] = 'delivery';
         $oConf->aConf['webpath']['deliverySSL'] = 'delivery';
+        $_SERVER['HTTP_HOST'] = $oConf->aConf['webpath']['delivery'];
+
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
         $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Dummy config file does not exist');
         $this->assertTrue(file_exists($this->basePath . '/delivery.conf.php'), 'Real config file does not exist');
@@ -173,6 +179,8 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->aConf['webpath']['admin'] = 'admin';
         $oConf->aConf['webpath']['delivery'] = 'newhost';
         $oConf->aConf['webpath']['deliverySSL'] = 'newSSLhost';
+        $_SERVER['HTTP_HOST'] = $oConf->aConf['webpath']['delivery'];
+
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
 
         // Test the files have been correctly created/deleted

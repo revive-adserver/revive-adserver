@@ -59,12 +59,14 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         // file writing method, not the one reserved for the test
         // environment...
         $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
+        $this->serverSave = $_SERVER['HTTP_HOST'];
     }
 
     function tearDown()
     {
         // Resume normal service with regards to the configuration file writer...
         unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
+        $_SERVER['HTTP_HOST'] = $this->serverSave;
     }
 
     function test_writeConfig()
@@ -74,7 +76,7 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         // TEST 1
 
         $hostAdmin      = 'admin.mydomain.net';
-        $hostDelivery   = 'delivery.mydomain.net';
+        $_SERVER['HTTP_HOST'] = $hostDelivery = 'delivery.mydomain.net';
 
         $fileDefault    = MAX_PATH . '/var/default.conf.php';
         $fileFake       = MAX_PATH . '/var/'.$hostAdmin.'.conf.php';
