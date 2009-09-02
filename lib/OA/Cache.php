@@ -66,7 +66,7 @@ class OA_Cache
         ));
 
         $this->id    = $id;
-        $this->group = $group;
+        $this->group = OX_getHostName() . ((!empty($group)) ? '_' . $group : '');
     }
 
     /**
