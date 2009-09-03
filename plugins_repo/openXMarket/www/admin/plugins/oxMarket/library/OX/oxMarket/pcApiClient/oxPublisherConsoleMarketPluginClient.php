@@ -639,11 +639,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         if ($this->multipleAccountsMode == true) {
             if (isset($this->workAsAccountId)) {
                 $accountId = $this->workAsAccountId;
-            }
-            // multiple accounts mode, get manager account
-            $oUser = OA_Permission::getCurrentUser();
-            if ($oUser->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
-                $accountId = $oUser->aAccount['account_id'];
+            } else {
+                // multiple accounts mode, get manager account
+                $oUser = OA_Permission::getCurrentUser();
+                if (isset($oUser) && $oUser->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
+                    $accountId = $oUser->aAccount['account_id'];
+                }            
             }            
         } else {
             // Normal mode, get admin account
