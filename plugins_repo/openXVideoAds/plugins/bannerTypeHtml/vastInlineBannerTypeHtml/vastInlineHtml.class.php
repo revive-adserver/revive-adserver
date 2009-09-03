@@ -17,8 +17,6 @@
  *    You should have received a copy of the GNU General Public License
  *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonAdmin.php';
 require_once MAX_PATH . '/lib/OA.php';
@@ -65,6 +63,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
      */
     function buildForm(&$form, &$bannerRow)
     {
+        parent::buildForm($form, $bannerRow);
     	$selectableCompanions = $this->getPossibleCompanions();
     	// for some bizarre reason $bannerid is all the fields
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
@@ -97,6 +96,11 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
             );
         }
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
+        $this->setElementIsRequired('vast_video_delivery', 'ext_bannertype', $this->getComponentIdentifier());                                
+        $this->setElementIsRequired('vast_video_filename', 'ext_bannertype', $this->getComponentIdentifier());
+        $this->setElementIsRequired('vast_video_type', 'ext_bannertype', $this->getComponentIdentifier());
+        $this->setElementIsRequired('vast_video_duration', 'ext_bannertype', $this->getComponentIdentifier());
+        
         $this->addVastCompanionsToForm($form, $selectableCompanions);
     }
 

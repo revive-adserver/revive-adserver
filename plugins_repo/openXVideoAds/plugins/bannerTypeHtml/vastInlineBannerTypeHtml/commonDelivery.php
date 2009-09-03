@@ -83,7 +83,7 @@ function getVastXMLFooter()
 
 /*
  * By default we return something like this:
- * http://dev.hccorp.co.uk/openx/www/delivery_dev/fc.php?script=deliveryLog:logVastEvent:logVastEvent&banner_id=7&zone_id=2&source=&vast_event=start
+ * http://.../openx/www/delivery_dev/fc.php?script=deliveryLog:logVastEvent:logVastEvent&banner_id=7&zone_id=2&source=&vast_event=start
  */
 function getVideoPlayerUrl($parameterId)
 {
@@ -144,7 +144,6 @@ function prepareOverlayParams(&$aOutputParams, $aBanner)
     $aOutputParams['overlayHeight'] = $aBanner['vast_overlay_height'];
     $aOutputParams['overlayWidth'] = $aBanner['vast_overlay_width'];
     $aOutputParams['overlayDestinationUrl'] = $aBanner['url'];
-    
     if (isset($aBanner['htmltemplate'])) {
         $aOutputParams['overlayMarkupTemplate'] = $aBanner['htmltemplate'];
     }
@@ -205,13 +204,8 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
 function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc, $ct0, $logClick, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    // Get the image beacon...
-    
     $aOutputParams['impressionUrl'] =  _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-
     if ( $aOutputParams['format'] == 'vast' ){
-
-       //$trackingUrl = "http://pathtofctracking/";
        $trackingUrl = 'http://' . $conf['webpath']['delivery'] . "/fc.php?script=deliveryLog:oxLogVast:logImpressionVast&banner_id=" . $aBanner['bannerid'] . "&zone_id=$zoneId&source=$source";
        $aOutputParams['trackUrlStart'] = $trackingUrl . '&vast_event=start';
        $aOutputParams['trackUrlMidPoint'] = $trackingUrl . '&vast_event=midpoint';
@@ -225,15 +219,9 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
        $aOutputParams['trackUrlStop'] = $trackingUrl . '&vast_event=stop';
        $aOutputParams['trackUrlUnmute'] = $trackingUrl . '&vast_event=unmute';
        $aOutputParams['trackUrlResume'] = $trackingUrl . '&vast_event=resume';
-       $aOutputParams['trackUrlPause'] = $trackingUrl . '&vast_event=pause';  
-
        $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
-
     }
-    
     $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-    
-    
 }
 
 /**
@@ -384,9 +372,12 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
             
             case VAST_OVERLAY_FORMAT_TEXT:
                 $resourceType = 'TEXT';
-                $code = "<Title><![CDATA[".$aOut['overlayTextTitle']."]]></Title>
-                                           <Description><![CDATA[".$aOut['overlayTextDescription']."]]></Description>
-                                           <ClickThroughLinkText><![CDATA[".$aOut['overlayTextCall']."]]></ClickThroughLinkText>";
+                $code = "<![CDATA[
+                	<Title>".xmlspecialchars($aOut['overlayTextTitle'])."</Title>
+               		<Description>".xmlspecialchars($aOut['overlayTextDescription'])."</Description>
+               		<CallToAction>".xmlspecialchars($aOut['overlayTextCall'])."</CallToAction>
+               		]]>
+               ";
             break;
         }
         
@@ -536,7 +527,7 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         case VAST_OVERLAY_FORMAT_IMAGE:
             $title = "Image Overlay Preview";
             $imagePath = getImageUrlFromFilename($aOut['overlayFilename']);
-            $htmlOverlay = "<img src='$imagePath' />";
+            $htmlOverlay = "<img border='0' src='$imagePath' />";
         break;
 
         case VAST_OVERLAY_FORMAT_SWF:
@@ -563,10 +554,14 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         break;
     }
  
+    $htmlOverlayPrepend = 'The overlay will appear on top of video content during video play.';
     if ($aOut['overlayDestinationUrl']) {
+        $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
         $htmlOverlay =  "<a target=\"_blank\" href=\"${aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
-        $title .= ' (this overlay is clickable)';
     }
+    
+    $htmlOverlay = $htmlOverlayPrepend . '<br/><br/>' . $htmlOverlay;
+    
     $player = "<h3>$title</h3>";
     $player .= $htmlOverlay;
     $player .= "<br>";

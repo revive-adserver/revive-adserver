@@ -21,12 +21,39 @@
 require_once LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtml.php';
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
+class VideoAdsHelper
+{
+    static function getWarningMessage($message)
+    {
+        return "<div class='errormessage' style='width:750px;'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>
+              <span class='tab-r' style='font-weight:normal;'>&nbsp;". $message ."</span>
+              </div>";
+    }
+    
+    static function displayWarningMessage( $message )
+    {
+        echo self::getWarningMessage($message); 
+    }
+
+    static function getErrorMessage($message)
+    {
+        return '<div style="" id="errors" class="form-message form-message-error">'. $message .'</div>';
+    }
+    
+    static function getHelpLinkVideoPlayerConfig()
+    {
+        //TODO
+        return '';
+    }
+}
 
 abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_BannerTypeHTML
 {
     abstract function getBannerShortName();
     abstract function getZoneToLinkShortName();
     abstract function getHelpAdTypeDescription();
+    private $requiredElement = array();
+    
     /**
      * Return the media (content) type
      */
@@ -42,6 +69,17 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     function getStorageType()
     {
         return 'html';
+    }
+
+
+    
+    private $validationFailed = false;
+    
+    function buildForm(&$form, &$bannerRow)
+    {
+        if($form->isSubmitted()) {
+            $form->addElement('html', 'video_form_error', VideoAdsHelper::getWarningMessage('Validation failed!'));
+        }
     }
     /**
      * This method is executed BEFORE the core banners table is written to
@@ -183,6 +221,32 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      */
     function validateForm(&$form)
     {
+        if($form->isSubmitted()) {
+            $errors = array();
+            foreach($this->requiredElement as $requiredElement) {
+                $fieldName = $requiredElement[0];
+                $fieldNameWhenRequired = $requiredElement[1];
+                $fieldValueWhenRequired = $requiredElement[2];
+                $fieldValueWhenRequiredSubmittedValue = $form->getSubmitValue($fieldNameWhenRequired);
+                if($fieldValueWhenRequiredSubmittedValue == $fieldValueWhenRequired) {
+                    $submittedValue = $form->getSubmitValue($fieldName);
+                    if(empty($submittedValue)) {
+                        $errors[] = $this->getFieldLabel($fieldName);
+                    }
+                }
+            }
+            
+            if(count($errors) == 0) {
+                $form->removeElement('video_form_error');
+            } else {
+                $errorString = 'Please provide values for all required fields: <ul><li>';
+                $errorString .= implode('</li><li>', $errors);
+                $errorString .= '</li></ul>';
+                $form->getElement('video_form_error')->setText(VideoAdsHelper::getErrorMessage($errorString));
+                return false;
+            }
+        } 
+        
         return true;
     }
 
@@ -202,30 +266,112 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         return $selectableCompanions;
     }
     
-    function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
+    
+    function getAllFieldsLabels()
     {
-        
-        $fieldsDescription = array(
+        $labels = array(
             'vast_video_type' => "Video type",
             'vast_video_duration' => "Video duration in seconds",
+            'vast_net_connection_url' => "RTMP server URL",
+            'vast_video_filename' => 'Video filename',
+            'vast_video_filename_http' => 'Video URL', // not submitted in the form itself, but string is displayed to
+            'vast_video_delivery' => 'Video delivery method',
         );
+        return $labels;
+    }
+    
+    function getFieldLabel($fieldName)
+    {
+        $labels = $this->getAllFieldsLabels();
+        return $labels[$fieldName];
+    }
+    
+    /**
+     * Set a given form field "required". We can't use the required feature of quickform,
+     * because this form is JS based, and depending on the selection, fields might not be required.
+     * 
+     *  This function is used to define which fields are required ($element)
+     *  and when they are required: when $fieldNameWhenRequired == $fieldValueWhenRequired
+     *  
+     * @param $form 
+     * @param $element array of info that is being passed to QuickForm->addElement
+     * @param $fieldNameWhenRequired string
+     * @param $fieldValueWhenRequired string
+     */
+    function addFormRequiredElement(&$form, $element, $fieldNameWhenRequired = null, $fieldValueWhenRequired = null)
+    {
+        // add the red star in the name
+        $element[2] = $this->getLabelWithRequiredStar($element[2]);
         
+        // we do not add the element as "required" in the form, as we need to test which fields 
+        // are required depending on overlay types, video delivery types, etc. 
+        call_user_func_array(array($form, 'addElement'), $element);
+        
+        $fieldName = $element[1];
+        $this->setElementIsRequired($fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired);
+    }
+
+    function getLabelWithRequiredStar($label)
+    {
+        return $label . ' <font color="red">*</font>';
+    }
+    function setElementIsRequired($fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired)
+    {
+        $this->requiredElement[] = array( $fieldName , $fieldNameWhenRequired, $fieldValueWhenRequired);
+    }
+    
+    function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
+    {
         $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id");
         $form->addElement('hidden', 'vast_element_type', "singlerow");
         
         $this->addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
-             
-        $vastVideoType = getVastVideoTypes();
-        // adding empty SELECT entry to ensure user selects the right Video type
-        $vastVideoType = array_merge( array( '' => ''), $vastVideoType);
-         
-        $formElementVideoType = $form->addElement('select', 'vast_video_type', $fieldsDescription['vast_video_type'], $vastVideoType );
-    
+
+        $sampleUrls = array(
+            'HTTP FLV' => array(
+            	"http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.flv",
+                '10',
+            ),
+
+            'HTTP MP4' => array(
+            	"http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.mp4",
+                '10'
+            ),
+            
+            'RTMP MP4' => array(
+        		"rtmp://cp67126.edgefcs.net/ondemand/",
+        		"mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4",
+                '30'
+            ),
+            
+            'RTMP FLV' => array(
+            	"rtmp://cp67126.edgefcs.net/ondemand/",
+                "mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K",
+                '30'
+            ),
+            
+        );
+        
+        $sampleAdsString = 'You can try using any of the following sample ads<br/>';
+        foreach($sampleUrls as $what => $urls) {
+            $sampleAdsString .= "<b>$what sample ads</b><ul>";
+            if(count($urls) == 2) {
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename_http') . ': '. $urls[0];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[1];
+            } else {
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_net_connection_url') . ': '. $urls[0];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename') . ': '. $urls[1];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[2];
+            }
+            $sampleAdsString .= "</ul>";
+        }
+        $sampleAdsString .= '';
+        $form->addElement('html', 'video_status_info_rtmp_mp4', VideoAdsHelper::getWarningMessage($sampleAdsString) );
+        
         $advancedUser = false;
         if ( $advancedUser ){
             // Bitrate of encoded video in Kbps
             $form->addElement('text', 'vast_video_bitrate', "vast_video_bitrate");
-    
             // Pixel dimensions of video
             $form->addElement('text', 'vast_video_width', "vast_video_width");
             $form->addElement('text', 'vast_video_height', "vast_video_height");
@@ -242,49 +388,6 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
             $bannerRow['vast_video_width'] = '640';
             $bannerRow['vast_video_height'] = '480';
         }
-        
-        $form->addElement('text', 'vast_video_duration', $fieldsDescription['vast_video_duration']);
-        $form->addElement('text', 'vast_video_clickthrough_url', "Destination URL (incl. http://) <br />when user clicks on the video");
-
-        $requiredFields = array(
-            'vast_video_type',
-            'vast_video_duration',
-        );
-        foreach($requiredFields as $field) {
-//            $form->addRule($field, $fieldsDescription[$field], 'required');
-        }
-        
-        $sampleUrlMp4NetConnection = "rtmp://cp67126.edgefcs.net/ondemand/";
-        $sampleUrlMp4Filename = "mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4";
-        
-        $sampleUrlFlvNetConnection = "rtmp://cp67126.edgefcs.net/ondemand/";
-        $sampleUrlFlvFilename = "mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K";
-    
-        $sampleUrlHttpMp4Filename = "http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.flv";
-        $sampleUrlHttpFlvFilename = "http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.mp4";
-        
-        $form->addElement('html', 'video_status_info_rtmp_mp4', "<span style=\"font-size:90%;\">** <strong>Rtmp mp4 video example</strong>, try using:  
-        <br/>Net connection url:<strong>$sampleUrlMp4NetConnection</strong><br/>Outgoing filename:<strong>$sampleUrlMp4Filename</strong>
-        
-        </span>" );
-    
-        $form->addElement('html', 'video_status_info_rtmp_flv', "<span style=\"font-size:90%;\">** <strong>Rtmp flv video example</strong>, try using: 
-        <br/>Net connection url:<strong>$sampleUrlFlvNetConnection</strong><br/>Outgoing filename:<strong>$sampleUrlFlvFilename</strong>
-        </span>" ); 
-        
-        $form->addElement('html', 'video_status_info_http_mp4', "<span style=\"font-size:90%;\">** <strong>Http mp4 video example</strong>, try using: 
-        <br/>Filename:<strong>$sampleUrlHttpMp4Filename</strong>
-        </span>" );   
-          
-         $form->addElement('html', 'video_status_info_http_flv', "<span style=\"font-size:90%;\">** <strong>Http flv video example</strong>, try using: 
-        <br/>Filename:<strong>$sampleUrlHttpFlvFilename</strong>
-        </span>" );      
-        
-        $enableDefaultValues = true;
-        if ( $isNewBanner && $enableDefaultValues ) {
-            $bannerRow['vast_video_outgoing_filename'] = '';
-            $bannerRow['vast_video_delivery'] = 'streaming';
-        }
     }
 
     function addVastCompanionsToForm( &$form, $selectableCompanions)
@@ -300,81 +403,108 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     
     function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension)
     {
-        // $form->setDefaults( $defaultFormValues ); will make these values the default.
         $bannerRow['width'] = $dimension;
         $bannerRow['height'] = $dimension;
         $form->addElement('hidden', 'width' );
         $form->addElement('hidden', 'height');
     }
-
     
     function addIntroductionInlineHelp(&$form)
     {
         $helpString = $this->getHelpAdTypeDescription();
+        $crossdomainUrl = MAX_commonConstructDeliveryUrl('crossdomain.xml');
         $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
         <ul style='list-style-type:decimal'>
         <li>Enter the information about your Ad in the form below.</li>
         <li>Link this ".$this->getBannerShortName()." to the desired zone. The zone must be of the type \"".$this->getZoneToLinkShortName()."\".</li>
-        <li>Include the zone in the Ad Schedule of the video player plugin configuration in your webpage. <a href='' target='_blank'>Learn more</a></li>
+        <li>Include the zone in the Ad Schedule of the video player plugin configuration in your webpage. <a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Learn more</a></li>
+        <li>Make sure that the flash player is allowed to request ads on this adserver. The <a href='$crossdomainUrl' target='_blank'>crossdomain.xml on your adserver</a> should look similar to the <a href='https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml'>recommended crossdomain.xml</a></li>
     	</ul>";
         $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">'.$helpString.'</span>' );
     }
 
     function addVastVideoUrlFields(&$form, &$bannerRow, $isNewBanner)
     {
-        $urlFormatMode = VAST_VIDEO_URL_STREAMING_FORMAT;
-        $videoUrlFormatOptionToRunOnPageLoad = "phpAds_formRtmpStreamingVideoUrlMode()";
-    
-        if ( $bannerRow['vast_video_delivery'] == 'streaming' ){
-            //click to page
-            $urlFormatMode  = VAST_VIDEO_URL_STREAMING_FORMAT;
-            $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formRtmpStreamingVideoUrlMode();";
-        } elseif ( $bannerRow['vast_video_delivery'] == 'progressive' ) {
-            // click to video
+        $vastVideoDelivery = $form->getSubmitValue('vast_video_delivery');
+        if(empty($vastVideoDelivery)
+            && !empty($bannerRow['vast_video_delivery'])) {
+            $vastVideoDelivery = $bannerRow['vast_video_delivery'];
+        } 
+        
+        if ( $vastVideoDelivery == 'progressive' ) {
             $urlFormatMode  = VAST_VIDEO_URL_PROGRESSIVE_FORMAT;
             $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formHttpProgressiveVideoUrlMode();";
-        }
+        } else {
+            $urlFormatMode  = VAST_VIDEO_URL_STREAMING_FORMAT;
+            $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formRtmpStreamingVideoUrlMode();";
+        } 
     
-        $httpVideoUrlString = 'Video URL';
-        $rtmpVideoFilenameString = 'Video filename';
+        $httpVideoUrlString = $this->getLabelWithRequiredStar($this->getFieldLabel('vast_video_filename_http'));
+        $videoFilenameString = $this->getLabelWithRequiredStar($this->getFieldLabel('vast_video_filename'));
         
         $videoUrlFomatOptionJs = <<<VIDEO_FORMAT_OPTION_JS
             <script type="text/javascript">
             function phpAds_formRtmpStreamingVideoUrlMode()
             {
                 $("#vast_video_delivery").attr('value', 'streaming');
-                $("label[for=vast_net_connection_url]").show('slow'); 
-                $("#vast_net_connection_url").show('slow'); 
-                $("label[for=vast_video_filename]").text('${rtmpVideoFilenameString}');
+                $("label[for=vast_net_connection_url]").show(); 
+                $("#vast_net_connection_url").show(); 
+                $("label[for=vast_video_filename]").html('${videoFilenameString}');
             }
             function phpAds_formHttpProgressiveVideoUrlMode()
             {
                 $("#vast_net_connection_url").attr('value', '');
                 $("#vast_video_delivery").attr('value', 'progressive'); 
-                $("label[for=vast_net_connection_url]").hide('slow'); 
-                $("#vast_net_connection_url").hide('slow');
-                $("label[for=vast_video_filename]").text('${httpVideoUrlString}');
+                $("label[for=vast_net_connection_url]").hide(); 
+                $("#vast_net_connection_url").hide();
+                $("label[for=vast_video_filename]").html('${httpVideoUrlString}');
             }
-            ${videoUrlFormatOptionToRunOnPageLoad};
+            $(document).ready( function(){
+                ${videoUrlFormatOptionToRunOnPageLoad};
+            });
             </script>
 VIDEO_FORMAT_OPTION_JS;
     
-        $videoUrlFormats[] = $form->createElement('radio', 'vast_video_delivery', '',
-            "streaming (RTMP)",
-            VAST_VIDEO_URL_STREAMING_FORMAT, array('id' => 'video-url-format-streaming',
-                'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ));
+        $videoUrlFormats[] = $form->createElement(
+        										'radio', 'vast_video_delivery', '',
+                                                'streaming (RTMP)',
+                                                VAST_VIDEO_URL_STREAMING_FORMAT, 
+                                                array('id' => 'video-url-format-streaming', 'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ));
     
-        $videoUrlFormats[] = $form->createElement('radio', 'vast_video_delivery', '',
-            "progressive / pseudo-streaming (HTTP)",
-            VAST_VIDEO_URL_PROGRESSIVE_FORMAT, array('id' => 'video-url-format-progressive',
-                'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ));
-    
-        $form->setDefaults(array('vast_video_delivery' => $urlFormatMode));
-        $form->addGroup($videoUrlFormats, 'VideoFormatAction', 'Video delivery method', "<br/>");
-        $form->addElement('text', 'vast_net_connection_url', "RTMP server URL" );
-        $form->addElement('text', 'vast_video_filename', $rtmpVideoFilenameString);
-//        $form->addRule('vast_video_filename', $rtmpVideoFilenameString . ' required', 'required');
+        $videoUrlFormats[] = $form->createElement(
+        								'radio', 'vast_video_delivery', '',
+                                        'progressive / pseudo-streaming (HTTP)',
+                                        VAST_VIDEO_URL_PROGRESSIVE_FORMAT, 
+                                        array('id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ));
+        $this->setElementIsRequired('vast_video_delivery',  'vast_overlay_action', VAST_OVERLAY_CLICK_TO_VIDEO);                                
+        $form->addGroup($videoUrlFormats, 'VideoFormatAction', $this->getLabelWithRequiredStar($this->getFieldLabel('vast_video_delivery')), "<br/>");
+        $this->addFormRequiredElement(    
+                                $form, 
+                                array('text', 'vast_net_connection_url', $this->getFieldLabel('vast_net_connection_url')), 
+                                'vast_video_delivery', 
+                                VAST_VIDEO_URL_STREAMING_FORMAT);
+        $this->addFormRequiredElement(
+                                $form, 
+                                array('text', 'vast_video_filename', $this->getFieldLabel('vast_video_filename')), 
+                                'vast_overlay_action',
+                                VAST_OVERLAY_CLICK_TO_VIDEO);
         $form->addElement('html', 'jsForVideoFormat', $videoUrlFomatOptionJs );
+        
+        $vastVideoType = getVastVideoTypes();
+        // adding empty SELECT entry to ensure users make a decision and select the right Video type
+        $vastVideoType = array_merge( array( '' => ''), $vastVideoType);
+        
+        $this->addFormRequiredElement(
+                                $form, 
+                                array('select', 'vast_video_type', $this->getFieldLabel('vast_video_type'), $vastVideoType),
+                                'vast_overlay_action',
+                                VAST_OVERLAY_CLICK_TO_VIDEO);
+        $this->addFormRequiredElement(
+                                $form, 
+                                array('text', 'vast_video_duration', $this->getFieldLabel('vast_video_duration')),
+                                'vast_overlay_action',
+                                VAST_OVERLAY_CLICK_TO_VIDEO);
+        $form->addElement('text', 'vast_video_clickthrough_url', "Destination URL (incl. http://) <br />when user clicks on the video");
     }
 }
 

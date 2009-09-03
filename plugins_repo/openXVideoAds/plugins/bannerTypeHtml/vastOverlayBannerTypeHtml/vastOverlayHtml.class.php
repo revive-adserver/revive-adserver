@@ -66,12 +66,12 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
     function addVastOverlayFormatsRadioButton($form, $bannerRow, &$overlayFormatValue, &$overlayFormatJs )
     {
         $overlayFormatToHandler = array(
-            VAST_OVERLAY_FORMAT_TEXT => 'phpAds_formOverlayIsTextMode();',
-            VAST_OVERLAY_FORMAT_SWF => 'phpAds_formOverlayIsSwfMode();',
             VAST_OVERLAY_FORMAT_IMAGE => 'phpAds_formOverlayIsImageMode();',
+            VAST_OVERLAY_FORMAT_SWF => 'phpAds_formOverlayIsSwfMode();',
+            VAST_OVERLAY_FORMAT_TEXT => 'phpAds_formOverlayIsTextMode();',
             VAST_OVERLAY_FORMAT_HTML => 'phpAds_formOverlayIsHtmlMode();',
         );
-        $overlayFormatValue = VAST_OVERLAY_FORMAT_TEXT;
+        $overlayFormatValue = VAST_OVERLAY_FORMAT_IMAGE;
         $overlayFormatOptionToRunOnPageLoad = $overlayFormatToHandler[$overlayFormatValue];
 
         if ( empty( $bannerRow['vast_overlay_format'] ) ){
@@ -84,12 +84,12 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
             $overlayFormatOptionToRunOnPageLoad = $overlayFormatToHandler[$overlayFormatValue];
         }
         
-        if ( getVideoOverlaySetting( 'isVastOverlayAsTextEnabled' ) ) {
+        if ( getVideoOverlaySetting( 'isVastOverlayAsImageEnabled' ) ) {
             $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
-                "Text Overlay",
-                VAST_OVERLAY_FORMAT_TEXT, array('id' => 'vast-overlay-format-text',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ));            
-        }
+                "Image Overlay",
+                VAST_OVERLAY_FORMAT_IMAGE, array('id' => 'vast-overlay-format-image',
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ));            
+        }        
         
         if ( getVideoOverlaySetting( 'isVastOverlayAsSwfEnabled' ) ) { 
             $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
@@ -98,13 +98,13 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                     'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_SWF] ));            
         }
         
-        if ( getVideoOverlaySetting( 'isVastOverlayAsImageEnabled' ) ) {
-            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
-                "Image Overlay",
-                VAST_OVERLAY_FORMAT_IMAGE, array('id' => 'vast-overlay-format-image',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ));            
-        }        
         
+        if ( getVideoOverlaySetting( 'isVastOverlayAsTextEnabled' ) ) {
+            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
+                "Text Overlay",
+                VAST_OVERLAY_FORMAT_TEXT, array('id' => 'vast-overlay-format-text',
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ));            
+        }
         if ( getVideoOverlaySetting( 'isVastOverlayAsHtmlEnabled' ) ) {
             $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
                 "Html Overlay",
@@ -171,8 +171,14 @@ OVERLAY_FORMAT_JS;
         );  
         
         $overlayClickModeValue = VAST_OVERLAY_CLICK_TO_PAGE;
-        $overlayOptionToRunOnPageLoad = $overlayActionToClickHandler[$overlayClickModeValue];
 
+        $overlayClickModeValue = $form->getSubmitValue('vast_overlay_action');
+        if(empty($overlayClickModeValue)
+            && !empty($bannerRow['vast_overlay_action'])) {
+            $overlayClickModeValue = $bannerRow['vast_overlay_action'];
+        } 
+        $overlayOptionToRunOnPageLoad = $overlayActionToClickHandler[$overlayClickModeValue];
+        
         // (For backward compatabilty / migration) 
         // we now store the vast_overlay_action explicitely
         // and do not need to derive it from the parameters stored against the banner
@@ -183,11 +189,6 @@ OVERLAY_FORMAT_JS;
             // cover migration of old overlay banners
             $bannerRow['vast_overlay_action'] = $overlayClickModeValue;    
         }
-        if ( $bannerRow['vast_overlay_action'] ){
-            $overlayClickModeValue  = $bannerRow['vast_overlay_action'];
-            $overlayOptionToRunOnPageLoad = $overlayActionToClickHandler[$overlayClickModeValue];
-        }
-
         $overlayOptionJs = <<<OVERLAY_OPTION_JS
             <script type="text/javascript">
             function phpAds_formClickToWebPageMode()
@@ -198,7 +199,7 @@ OVERLAY_FORMAT_JS;
                 $("#vast_video_filename").attr('value', '');
                 $("#div-overlay-action-open").show('slow');
                 $("#div-overlay-action-play").hide('slow');
-
+				$('input[name=vast_video_delivery]').attr('checked',false);
             }
             function phpAds_formClickToVideoMode()
             {
@@ -249,8 +250,11 @@ OVERLAY_OPTION_JS;
         }
         $supportedTagString = implode(', ', $supportedTags);
         $form->addElement('html', 'overlay_html_info1', 
-        	'The following HTML tags are supported: <code>'.$supportedTagString.'</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay or SWF Overlay instead. 
-        	<br/>For more information, read the <a href="'.self::URL_FLASH_HELP_HTML_SUPPORTED.'" target="_blank">Adobe ActionScript documentation</a>.' );
+        	'The following HTML tags are supported: <code>'.$supportedTagString.'</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay or SWF Overlay instead.
+        	<br/>All links <code>&lt;a href=""&gt</code> will be ignored: the flash player will automatically add a click layer on top of the overlay, that will initiate a video or open a page in a new window.
+        	<br/>For more information about the supported HTML tags, read the <a href="'.self::URL_FLASH_HELP_HTML_SUPPORTED.'" target="_blank">Adobe ActionScript documentation</a>.
+        	
+        	' );
         $htmlG['textarea'] = $form->createElement('textarea', 'htmltemplate', null,
             array( 'class' =>'code', 'cols'=>'45', 'rows'=>'10', 'wrap'=>'off', 'dir' => 'ltr', 'style'=>'width:550px;')
         );
@@ -279,7 +283,7 @@ OVERLAY_OPTION_JS;
         	<ul>
         	<li>Clicks: the SWF should not react to any click. The video player will automatically add a click layer on top of the SWF that will initiate a video ad, or open a page in a new window</li> 
         	<li>Width: SWF width should be the width of the video content or smaller</li>
-        	<li>Height: SWF height should not exceed 20% of the video content height. For example, if your video is 
+        	<li>Height: SWF height should not exceed 20% of the video content height.  
         	<li>Audio: no sound</li>
         	<li>Scaling: creative should scale when the video is set to full screen mode</li>
         	<li>Size: we recommend to keep the size below 100 KB </li>
@@ -309,6 +313,11 @@ OVERLAY_OPTION_JS;
             $filename = $aBanner['filename'];
         }
 
+        if(!empty($aBanner['vast_overlay_width']) 
+            && !empty($aBanner['vast_overlay_height'])) {
+            $form->addElement('hidden', 'vast_overlay_width', $aBanner['vast_overlay_width']);
+            $form->addElement('hidden', 'vast_overlay_height', $aBanner['vast_overlay_height']);
+        }
         addUploadGroup($form, $aBanner,
             array(
                 'uploadName' => $fileFieldName,
@@ -331,6 +340,8 @@ OVERLAY_OPTION_JS;
      */
     function buildForm(&$form, &$bannerRow)
     {
+        parent::buildForm($form, $bannerRow);
+        
     	$selectableCompanions = $this->getPossibleCompanions();
 
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
@@ -365,13 +376,13 @@ OVERLAY_OPTION_JS;
 
         $this->addVastOverlayActionRadioButton( $form, $bannerRow, $overlayClickModeValue, $overlayOptionJs );
 
-        $form->addElement('header', 'video_status1', "When the user clicks the above overlay, the browser will open the following url");
+        $form->addElement('header', 'video_status1', "When the user clicks the above overlay, the browser will open a page in a new window");
         $form->addDecorator ( 'video_status1', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-open' ) ) );
-        $form->addElement('text', 'url', $GLOBALS['strURL']);
+        $this->addFormRequiredElement($form, array('text', 'url', $this->getFieldLabel('url')), 'vast_overlay_action', VAST_OVERLAY_CLICK_TO_PAGE);
         // Need to just open page in a new window - OXPL-344
         //$form->addElement('text', 'target', $GLOBALS['strTarget']);
 
-        $form->addElement('header', 'video_status2', "When the user clicks the above overlay, this video will play");
+        $form->addElement('header', 'video_status2', "When the user clicks the above overlay, the following video ad will play");
         $form->addDecorator ( 'video_status2', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-play') ) );
 
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
@@ -381,12 +392,20 @@ OVERLAY_OPTION_JS;
         $form->addElement('html', 'jsForOverlayAction', $overlayOptionJs );
     }
     
+    function getFieldLabel($fieldName)
+    {
+        $labels = array(
+            'url' => $GLOBALS['strURL'],
+            
+        );
+        if(isset($labels[$fieldName])) {
+            return $labels[$fieldName];
+        }
+        return parent::getFieldLabel($fieldName);
+    }
+    
     function processNewUploadedFile( &$aFields, &$aVariables )
     {
-        // if the user has not replaced the creative, do not process
-        if( $aFields['replaceimage'] != 't') {
-//            return;
-        }
         $incomingFieldName = null;
         // Deal with any files that are uploaded - 
         // cant use the default banners handler for this upload field because this field 
@@ -401,7 +420,7 @@ OVERLAY_OPTION_JS;
                 $incomingFieldName = VAST_OVERLAY_FORMAT_SWF . '_upload';
             break;
         }
-        if (empty($_FILES[$incomingFieldName])){
+        if (empty($_FILES[$incomingFieldName]['name'])){
             return;
         }
         $oFile = OA_Creative_File::factoryUploadedFile( $incomingFieldName );
@@ -411,12 +430,10 @@ OVERLAY_OPTION_JS;
     
         if (!empty($aFile)) {
             // using $aVariables here - as this is an attribute of the base class banner row
-            $aVariables['filename']  = $aFile['filename'];
-            
+            $aVariables['filename']                  = $aFile['filename'];
             $aFields['vast_creative_type']           = $aFile['contenttype'];
             $aFields['vast_overlay_width']           = $aFile['width'];
             $aFields['vast_overlay_height']          = $aFile['height'];
-            $aFields['vast_swf_plugin_version']      = $aFile['pluginversion'];
         }
     }
     
