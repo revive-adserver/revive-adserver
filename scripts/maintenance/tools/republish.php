@@ -51,8 +51,8 @@ $Id$
  * to be able to be run!
  */
 
-//define('INTERVAL_START', '2009-08-27 11:00:00');
-//define('INTERVAL_END',   '2009-08-29 11:59:59');
+define('INTERVAL_START', $argv[2]);
+define('INTERVAL_END',   $argv[3]);
 
 /***************************************************************************/
 
@@ -101,7 +101,7 @@ if (PEAR::isError($result)) {
 $oStartDate = new Date(INTERVAL_START);
 $result = OX_OperationInterval::checkDateIsStartDate($oStartDate);
 if (!$result) {
-    $message = "\nThe start date defined in the " . basename(__FILE__) . " script is not a valid operation interval start date.\nPlease edit the " . basename(__FILE__) . " script before running.\n";
+    $message = "\nThe start date passed into the " . basename(__FILE__) . " script is not a valid operation interval start date.\nPlease pass in the start date in '%Y-%M-%d %H:%m:%s' format\n";
     echo $message;
     echo $haltMessage;
     exit;
@@ -109,7 +109,7 @@ if (!$result) {
 $oEndDate   = new Date(INTERVAL_END);
 $result = OX_OperationInterval::checkDateIsEndDate($oEndDate);
 if (!$result) {
-    $message = "\nThe end date defined in the " . basename(__FILE__) . " script is not a valid operation interval start date.\nPlease edit the " . basename(__FILE__) . " script before running.\n";
+    $message = "\nThe end date passed into the " . basename(__FILE__) . " script is not a valid operation interval end date.\nPlease pass in the end date in '%Y-%M-%d %H:%m:%s' format.\n";
     echo $message;
     echo $haltMessage;
     exit;
