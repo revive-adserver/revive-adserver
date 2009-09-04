@@ -154,7 +154,7 @@ class OA_Dll_VariableInfo extends OA_Info {
         $aVariableData['variableId'] = $aVariableData['variableid'];
         $aVariableData['trackerId'] = $aVariableData['trackerid'];
         $aVariableData['variableName'] = $aVariableData['name'];
-        $aVariableData['dataType'] = $aVariableData['dataype'];
+        $aVariableData['dataType'] = $aVariableData['datatype'];
 
         // Convert to boolean.
         $aVariableData['rejectIfEmpty'] = $aVariableData['reject_if_empty'] == 1 ? true : false;
