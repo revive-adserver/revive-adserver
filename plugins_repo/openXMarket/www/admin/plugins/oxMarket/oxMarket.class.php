@@ -363,28 +363,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isMarketSettingsAlreadyShown()
     {
-        $oMarketPluginVariable = & OA_Dal::factoryDO('ext_market_plugin_variable');
-        $oMarketPluginVariable->user_id = intval(OA_Permission::getUserId());
-        $oMarketPluginVariable->name = 'campaign_settings_shown_to_user';
-        $oMarketPluginVariable->find();
-
-        $marketSettingsShown = false;
-
-        while($oMarketPluginVariable->fetch()) {
-            $marketSettingsShown = $oMarketPluginVariable->value;
-        }
-
-        return $marketSettingsShown;
+        $oMarketPluginVariable = OA_Dal::factoryDO('ext_market_plugin_variable');
+        $marketSettingsShown = $oMarketPluginVariable->findAndGetValue(
+                                                intval(OA_Permission::getUserId()), 
+                                                'campaign_settings_shown_to_user');
+        return isset($marketSettingsShown) ? $marketSettingsShown : false; 
     }
 
 
     function setMarketSettingsAlreadyShown()
     {
-        $oMarketPluginVariable = & OA_Dal::factoryDO('ext_market_plugin_variable');
-        $oMarketPluginVariable->user_id = intval(OA_Permission::getUserId());
-        $oMarketPluginVariable->name = 'campaign_settings_shown_to_user';
-        $oMarketPluginVariable->value = '1';
-        $oMarketPluginVariable->insert();
+        $oMarketPluginVariable = OA_Dal::factoryDO('ext_market_plugin_variable');
+        $oMarketPluginVariable->insertOrUpdateValue(intval(OA_Permission::getUserId()),
+                                        'campaign_settings_shown_to_user', '1');
     }
 
 
