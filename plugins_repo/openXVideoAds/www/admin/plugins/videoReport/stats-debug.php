@@ -11,7 +11,7 @@
 		look and set $outputAllCallGetStatistics to true in  "/openx/www/admin/plugins/videoReport/stats-debug.php" 
 	
 	NOTE: To trigger the data generator or the data check, you just have to visit 
-	any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-api.php
+	any of the "Video Report" tabs, in the Statistics section. Don't try and access stats-debug.php
 	directly in your browser as it will fail.
 */
 
@@ -23,7 +23,7 @@ $videoReport = new OX_Video_Report;
 $generateFakeStatistics = false;
 if($generateFakeStatistics) {
     $bannerIds = range($minBannerId = 1, $maxBannerId = 3, $step = 1);
-    $zoneIds = range($minZoneId = 1, $maxZoneId = 3, $step = 1);
+    $zoneIds = range($minZoneId = 4, $maxZoneId = 5, $step = 1);
     $pastDays = 17;
 	echo "generating fake data for ". count($bannerIds)." banners and ".count($zoneIds)." zones for the last ".$pastDays." days...<br>";
 	flush();

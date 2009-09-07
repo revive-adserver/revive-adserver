@@ -41,6 +41,9 @@ define( 'VAST_OVERLAY_CLICK_TO_VIDEO', 'click_to_video' );
 
 define( 'VAST_VIDEO_URL_STREAMING_FORMAT', 'streaming' );
 define( 'VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive' );
+
+define('VAST_OVERLAY_DEFAULT_WIDTH', 600);
+define('VAST_OVERLAY_DEFAULT_HEIGHT', 40);
         
 function getVastVideoTypes()
 {

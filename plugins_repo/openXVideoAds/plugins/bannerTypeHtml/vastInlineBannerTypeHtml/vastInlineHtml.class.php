@@ -64,7 +64,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
     function buildForm(&$form, &$bannerRow)
     {
         parent::buildForm($form, $bannerRow);
-    	$selectableCompanions = $this->getPossibleCompanions();
+    	$selectableCompanions = $this->getPossibleCompanions($bannerRow);
     	// for some bizarre reason $bannerid is all the fields
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
         $isNewBanner = false;

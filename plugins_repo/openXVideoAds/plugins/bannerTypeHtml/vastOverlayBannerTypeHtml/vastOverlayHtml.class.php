@@ -342,7 +342,7 @@ OVERLAY_OPTION_JS;
     {
         parent::buildForm($form, $bannerRow);
         
-    	$selectableCompanions = $this->getPossibleCompanions();
+    	$selectableCompanions = $this->getPossibleCompanions($bannerRow);
 
     	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
     	$isNewBanner = false;

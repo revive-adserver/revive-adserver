@@ -42,9 +42,19 @@ class VideoAdsHelper
     
     static function getHelpLinkVideoPlayerConfig()
     {
-        //TODO
-        return '';
+        return 'http://www.openx.org/en/docs/2.8/userguide/video+ads+player+configuration';
     }
+    
+    static function getHelpLinkOpenXPlugin()
+    {
+        return 'http://www.openx.org/en/docs/2.8/userguide/banners+video+ads';
+    }
+    
+    static function getLinkCrossdomainExample()
+    {
+        return 'https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml';
+    }
+    
 }
 
 abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_BannerTypeHTML
@@ -250,10 +260,9 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         return true;
     }
 
-    function getPossibleCompanions()
+    function getPossibleCompanions($aBannerRow)
     {
-        phpAds_registerGlobal('campaignid');
-        $aParams = array( 'placement_id' => $campaignid );
+        $aParams = array( 'placement_id' => $aBannerRow['campaignid'] );
         $possibleCompanions = Admin_DA::_getEntities('ad', $aParams, true);
         $selectableCompanions = array( 0 => 'none' );
         foreach( $possibleCompanions as $currentCompanion ){
@@ -393,8 +402,8 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     function addVastCompanionsToForm( &$form, $selectableCompanions)
     {
         $form->addElement('header', 'companion_status', "Companion banner");
-        //TODO get help link dynamically
-        $helpLinkPlayer = 'http://www.openx.org/en/docs/2.8/userguide/video+ads+player+configuration';
+        $helpLinkPlayer = VideoAdsHelper::getHelpLinkVideoPlayerConfig();
+        
         $form->addElement('html', 'companion_help', 'To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. <br/>
         					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration. <a href="'.$helpLinkPlayer.'" target="_blank">Learn more</a>');
         $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
@@ -416,9 +425,9 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
         <ul style='list-style-type:decimal'>
         <li>Enter the information about your Ad in the form below.</li>
-        <li>Link this ".$this->getBannerShortName()." to the desired zone. The zone must be of the type \"".$this->getZoneToLinkShortName()."\".</li>
+        <li>Link this ".$this->getBannerShortName()." to the desired zone. The zone must be of the type \"".$this->getZoneToLinkShortName()."\". <a href='".VideoAdsHelper::getHelpLinkOpenXPlugin() ."' target='_blank'>Learn more</a></li>
         <li>Include the zone in the Ad Schedule of the video player plugin configuration in your webpage. <a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Learn more</a></li>
-        <li>Make sure that the flash player is allowed to request ads on this adserver. The <a href='$crossdomainUrl' target='_blank'>crossdomain.xml on your adserver</a> should look similar to the <a href='https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml'>recommended crossdomain.xml</a></li>
+        <li>Make sure that the flash player is allowed to request ads on this adserver. The <a href='$crossdomainUrl' target='_blank'>crossdomain.xml on your adserver</a> should look similar to the <a href='".VideoAdsHelper::getLinkCrossdomainExample()."' target='_blank'>recommended crossdomain.xml</a></li>
     	</ul>";
         $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">'.$helpString.'</span>' );
     }

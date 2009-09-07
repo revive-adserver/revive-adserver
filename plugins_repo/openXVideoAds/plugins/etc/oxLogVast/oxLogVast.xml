@@ -4,12 +4,12 @@
 <plugin>
     <name>oxLogVast</name>
     <creationDate>2009-03-10</creationDate>
-    <author>BouncingMinds</author>
-    <authorEmail>enquiries@bouncingminds.com</authorEmail>
-    <authorUrl>http://www.bouncingminds.com</authorUrl>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>Delivery Log Vast Plugin</description>
-    <version>1.0-rc62</version>
+    <version>1.0-rc63</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLog</extends>
 

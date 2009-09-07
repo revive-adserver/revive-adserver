@@ -29,13 +29,20 @@ body {
   line-height: 1;
 }
 
+.tableWrapper table th.num, .tableWrapper table td.num {
+	padding-right:1em;
+}
+
+.iconDate {
+  background-image: url("../../../assets/images/icon-date.gif");
+}
+
+
 #date-range, #date-range-view, 
 #date-range-picker {
-  right: 20px;
-  margin-top: -130px;
-  *margin-top: -108px;
   margin-top:-63px;
-  right:19px;
+  *margin-top: -39px;
+  right:110px;
 }
 
 .inlineIcon {

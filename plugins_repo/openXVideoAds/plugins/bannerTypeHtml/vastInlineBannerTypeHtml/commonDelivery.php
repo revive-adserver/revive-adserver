@@ -159,6 +159,13 @@ function prepareOverlayParams(&$aOutputParams, $aBanner)
             $aOutputParams['overlayTextTitle'] = $aBanner['vast_overlay_text_title'];
             $aOutputParams['overlayTextDescription'] = $aBanner['vast_overlay_text_description'];
             $aOutputParams['overlayTextCall'] = $aBanner['vast_overlay_text_call'];
+            $aOutputParams['overlayHeight'] = VAST_OVERLAY_DEFAULT_HEIGHT;
+            $aOutputParams['overlayWidth'] = VAST_OVERLAY_DEFAULT_WIDTH;
+        break;
+
+        case VAST_OVERLAY_FORMAT_HTML:
+            $aOutputParams['overlayHeight'] = VAST_OVERLAY_DEFAULT_HEIGHT;
+            $aOutputParams['overlayWidth'] = VAST_OVERLAY_DEFAULT_WIDTH;
         break;
     }
 }
@@ -306,9 +313,6 @@ function getVastVideoAdOutput($aO)
                    <Tracking event="resume">
                         <URL id="primaryAdServer"><![CDATA[${aO['trackUrlResume']}]]></URL>
                     </Tracking>
-                   <Tracking event="pause">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlPause']}]]></URL>
-                    </Tracking>
                 </TrackingEvents>
 VAST_VIDEO_AD_TEMPLATE;
 
@@ -360,6 +364,10 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
             
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $creativeType = strtoupper($aOut['overlayContentType']);
+                // BC when the overlay_creative_type field is not set in the DB
+                if(empty($creativeType)) {
+                    $creativeType = strtoupper(substr($aOut['overlayFilename'], -3));
+                }
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
             break;
@@ -514,7 +522,7 @@ function renderCompanionInAdminTool($aOut)
 
 function renderOverlayInAdminTool($aOut, $aBanner)
 {
-    $size = "(" . $aOut['overlayWidth'] . "x" . $aOut['overlayHeight'] . ")";
+    
     $title =  "Overlay Preview";
     $borderStart = "<div style='color:black;text-decoration:none;border:1px solid black;padding:15px;'>";
     $borderEnd = "</div>";
@@ -554,7 +562,15 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         break;
     }
  
+    
     $htmlOverlayPrepend = 'The overlay will appear on top of video content during video play.';
+
+    switch($aOut['overlayFormat']) {
+        case VAST_OVERLAY_FORMAT_IMAGE:
+        case VAST_OVERLAY_FORMAT_SWF:
+            $htmlOverlayPrepend .= " This overlay has the following dimensions: width = " . $aOut['overlayWidth'] . ", height = " . $aOut['overlayHeight'] . ".";
+        break;
+    }
     if ($aOut['overlayDestinationUrl']) {
         $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
         $htmlOverlay =  "<a target=\"_blank\" href=\"${aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
