@@ -90,19 +90,24 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oAccount->whereAdd('api_key IS NOT NULL');
             $oAccount->find();
             while ($oAccount->fetch()) {
-                $accountId = (int)$oAccount->account_id;
-                $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
-                $last_update = $this->getLastUpdateVersionNumber($accountId);
-                $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
-                if (is_array($aWebsitesIds) && count($aWebsitesIds)>0
-                    && !$this->shouldSkipAccount($accountId)) {
-                    // Download statistics only if there are registered websites
-                    // and account is locally active  
-                    do {
-                        $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
-                        $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
-                    } while ($endOfData === false);
-                    $this->setLastUpdateDate($accountId);
+                try {
+                    $accountId = (int)$oAccount->account_id;
+                    $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
+                    $last_update = $this->getLastUpdateVersionNumber($accountId);
+                    $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
+                    if (is_array($aWebsitesIds) && count($aWebsitesIds)>0
+                        && !$this->shouldSkipAccount($accountId)) {
+                        // Download statistics only if there are registered websites
+                        // and account is locally active  
+                        do {
+                            $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
+                            $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
+                        } while ($endOfData === false);
+                        $this->setLastUpdateDate($accountId);
+                    }
+                } catch (Exception $e) {
+                    OA::debug('Following exception occured for account ['. $oAccount->account_id .']: [' 
+                              . $e->getCode() .'] '. $e->getMessage());
                 }
             }
         } catch (Exception $e) {
