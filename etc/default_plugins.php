@@ -1,7 +1,5 @@
 <?php
 
-// TODO: refactor for remote paths?
-
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXBannerTypes','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLimitations','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openX3rdPartyServers','ext'=>'zip');
@@ -11,4 +9,4 @@ $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMaxMin
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXInvocationTags','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLog','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMarket','ext'=>'zip');
-//$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip', 'disabled'=>'true');
+$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip', 'disabled'=>'true');
