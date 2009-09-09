@@ -1129,6 +1129,8 @@ div.breadcrumb h3 {
     margin: 0px;
     padding-top: 2px;
     color: #666666;
+  height: 22px;
+  overflow: hidden;
 }
 
 div.breadcrumb h3 span.label {
