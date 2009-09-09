@@ -262,7 +262,7 @@
             if (! SimpleReporter::inCli()) {
                 header('Content-type: text/xml');
             }
-            print "<?xml version=\"1.0\"";
+            print "<?xml version=\"1.0\" encoding=\"UTF-8\"";
             if ($this->_namespace) {
                 print " xmlns:" . $this->_namespace .
                         "=\"www.lastcraft.com/SimpleTest/Beta3/Report\"";
