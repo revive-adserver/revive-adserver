@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$aBanner = Admin_DA::getAd($bannerid);
+$aBanner = Admin_DA::getAd((int) $bannerid);
 $aBanner['bannerid'] = $aBanner['ad_id'];
 
 if (!empty($aBanner))
