@@ -55,10 +55,11 @@
          *    @access public
          */
         function toParsedXml($text) {
-            return str_replace(
+        	$string = str_replace(
                     array('&', '<', '>', '"', '\''),
                     array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'),
-                    $text);
+                    $text); 
+            return preg_replace('/[^(\x20-\x7F)]/','?', $string);
         }
 
         /**
