@@ -1,12 +1,6 @@
 &universal;
 <verifyText description="Check text on page"
 	text="OpenX plugins" />
-<sleep seconds="5" />
-
-<retry description="retry nested steps until plugins installed" maxcount="20">
-	<sleep seconds="5" />
-	<verifyElementText htmlId="job_status_8" text="OK|OK, Enabled" regex="true" />
-</retry>
 
 <storeProperty name="jobStatusElementsXpath" value="//div[@id = 'jobs']/table/tbody/tr[td[1]/@class = 'jobName' and contains(td[2]/span/@class, 'status') and contains(td[2]/span/@id, 'job_status_')]" propertyType="dynamic" />
 
