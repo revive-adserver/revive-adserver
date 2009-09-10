@@ -31,7 +31,8 @@ class OA_Admin_UI_NotificationManager
     
     function __construct()
     {
-        $session['messageQueue'] = array();
+        global $session;
+        $session['notificationQueue'] = array();
     }
     
     /**
