@@ -2,43 +2,34 @@
 <verifyText description="Check text on page"
 	text="OpenX plugins" />
 <sleep seconds="5" />
+
 <retry description="retry nested steps until plugins installed" maxcount="20">
 	<sleep seconds="5" />
 	<verifyElementText htmlId="job_status_8" text="OK|OK, Enabled" regex="true" />
 </retry>
-<!-- TODO add Groovy method -->
-<!-- check plugins list -->
-<verifyText text="openXBannerTypes" description="openXBannerTypes"/>
-<verifyElementText htmlId="job_status_0" text="OK*" regex="true" description="openXBannerTypes installation status check"/>
 
-<verifyText text="openXDeliveryLimitations" description="openXDeliveryLimitations" />
-<verifyElementText htmlId="job_status_1" text="OK*" regex="true" description="openXDeliveryLimitations installation status check"/>
+<storeProperty name="jobStatusElementsXpath" value="//div[@id = 'jobs']/table/tbody/tr[td[1]/@class = 'jobName' and contains(td[2]/span/@class, 'status') and contains(td[2]/span/@id, 'job_status_')]" propertyType="dynamic" />
 
-<verifyText text="openX3rdPartyServers" description="openX3rdPartyServers" />
-<verifyElementText htmlId="job_status_2" text="OK*" regex="true" description="openX3rdPartyServers installation status check"/>
+<sleep seconds="5" />
 
-<verifyText text="openXReports" description="openXReports" />
-<verifyElementText htmlId="job_status_3" text="OK*" regex="true" description="openXReports installation status check"/>
+<macrodef name="checkIfPluginsInstalled">
+    <sequential>
+		<repeat xpath="#{jobStatusElementsXpath}" counterName="jobStatusElement">
+			<storeXPath xpath="$jobStatusElement/td[2]/span/@id" property="elementId" propertyType="dynamic"/>
+			<storeXPath xpath="normalize-space($jobStatusElement/td[2]/span/text())" property="status" propertyType="dynamic"/>
+			<storeXPath xpath="normalize-space($jobStatusElement/td[1]/text())" property="jobName" propertyType="dynamic"/>
+			<echo message="Element '#{elementId}' for '#{jobName}' has status = '#{status}'"/>
+			<verifyXPath xpath="contains(string($jobStatusElement/td[2]/span/text()), 'OK')" description="#{jobName} plugin installation status check"/> 
+		</repeat>
+    </sequential>
+</macrodef>
 
-<verifyText text="openXDeliveryCacheStore" description="openXDeliveryCacheStore" />
-<verifyElementText htmlId="job_status_4" text="OK*" regex="true" description="openXDeliveryCacheStore installation status check"/>
-
-<verifyText text="openXMaxMindGeoIP" description="openXMaxMindGeoIP" />
-<verifyElementText htmlId="job_status_5" text="OK*" regex="true" description="openXMaxMindGeoIP installation status check"/>
-
-<verifyText text="openXInvocationTags" description="openXInvocationTags" />
-<verifyElementText htmlId="job_status_6" text="OK*" regex="true" description="openXInvocationTags installation status check"/>
-
-<verifyText text="openXDeliveryLog" description="openXDeliveryLog" />
-<verifyElementText htmlId="job_status_7" text="OK*" regex="true" description="openXDeliveryLog installation status check"/>
-
-<verifyText text="openXMarket" description="openXMarket" />
-<verifyElementText htmlId="job_status_8" text="OK*" regex="true" description="openXMarket installation status check"/>
-
-<ifStep description="check if plugin video should be enabled" test="${plugin.video.enabled}">
-	<verifyText text="openXVideoAds" description="openXVideoAds" />
-	<verifyElementText htmlId="job_status_9" text="OK*" regex="true" description="openXVideoAds installation status check"/>
-</ifStep>
+<storeXPath xpath="count(#{jobStatusElementsXpath}) * 2" property="delay" propertyType="dynamic"/>
+<echo message="delay loop = #{delay}"/>
+<retry description="retry nested steps until plugins installed" maxcount="#{delay}">
+	<sleep seconds="5" />
+	<checkIfPluginsInstalled/>
+</retry>
 
 <!-- <verifyXPath xpath="/html/body/div[3]/div/div[3]/div[2]/table[2]/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/ul/li" text="Cookie not found" /> -->
 <not>
