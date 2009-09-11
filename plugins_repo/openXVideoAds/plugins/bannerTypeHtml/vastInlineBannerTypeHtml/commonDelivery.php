@@ -168,6 +168,8 @@ function prepareOverlayParams(&$aOutputParams, $aBanner)
             $aOutputParams['overlayWidth'] = VAST_OVERLAY_DEFAULT_WIDTH;
         break;
     }
+//    var_dump($aBanner);
+//    var_dump($aOutputParams);exit;
 }
 
 function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
@@ -191,10 +193,12 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
             $context = array();
         }
         $companionOutput = MAX_adSelect("bannerid:$companionBannerId", '', "", $source, $withText, '', $context, true, $ct0, $loc, $referer);
-        //        $html = MAX_adRender($aBanner, $zoneId, $source, $target='', $ct0, $withText, $logClick, $logView, $loc, $referer, $context);
+        
+        //$aBanner = _adSelectDirect("bannerid:$companionBannerId", '', $context, $source);
+        //$companionOutput = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+        //$aOutputParams['companionId'] = $companionBannerId;
         if ( !empty($companionOutput['html'] )){
             // We only regard  a companion existing, if we have some markup to output
-            
             $html = $companionOutput['html'];
             
             // deal with the case where the companion code itself contains a CDATA
@@ -367,6 +371,13 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 // BC when the overlay_creative_type field is not set in the DB
                 if(empty($creativeType)) {
                     $creativeType = strtoupper(substr($aOut['overlayFilename'], -3));
+                    // case of .jpeg files OXPL-493
+                    if($creativeType == 'PEG') {
+                        $creativeType = 'JPEG';
+                    }
+                }
+                if($creativeType == 'JPEG') {
+                    $creativeType = 'JPG';
                 }
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
@@ -492,29 +503,35 @@ HTTP_PLAYER;
 RTMP_PLAYER;
 
         if ( $aOut['videoDelivery'] == 'player_in_http_mode' ){
-
             $player .= $httpPlayer;
         }
         else if ( $aOut['videoDelivery'] == 'player_in_rtmp_mode' ) {
-
             $player .= $rtmpPlayer;
         }        
         else {
-
             // default to rtmp play format
             $player .= $rtmpPlayer;
         }
-}
-
-   return $player;
+    }
+    return $player;
 }
 
 function renderCompanionInAdminTool($aOut)
 {
     $player = "";
-    if(isset($aOut['companionMarkup'])) {
+    if(isset($aOut['companionId'])) {
         $player .=  "<h3>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</h3>";
         $player .= $aOut['companionMarkup'];
+        /*$aBanner = Admin_DA::getAd($aOut['companionId']);
+        $aBanner['bannerid'] = $aOut['companionId'];
+        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+        $player .=  "<h3>Companion Preview</h3>";
+        $player .= "This companion banner will appear during the duration of the Video Ad in the DIV specified in the video player plugin configuration. ";
+        if(!empty($aOut['companionWidth'])) {
+            $player .= " It has the following dimensions: width = ". $aOut['companionWidth'] .", height = ".$aOut['companionHeight'] .". ";
+        } 
+        $player .= "<a href='".VideoAdsHelper::getHelpLinkVideoPlayerConfig()."' target='_blank'>Learn more</a><br/><br/>";
+        $player .= $bannerCode;*/
         $player .= "<br>";
     }
     return $player;

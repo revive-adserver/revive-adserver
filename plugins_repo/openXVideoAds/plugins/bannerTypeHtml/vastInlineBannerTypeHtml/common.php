@@ -174,3 +174,39 @@ function getVideoOverlaySetting($parameterId)
 
     return $value;
 }
+
+
+class VideoAdsHelper
+{
+    static function getWarningMessage($message)
+    {
+        return "<div class='errormessage' style='width:750px;'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>
+              <span class='tab-r' style='font-weight:normal;'>&nbsp;". $message ."</span>
+              </div>";
+    }
+    
+    static function displayWarningMessage( $message )
+    {
+        echo self::getWarningMessage($message); 
+    }
+
+    static function getErrorMessage($message)
+    {
+        return '<div style="" id="errors" class="form-message form-message-error">'. $message .'</div>';
+    }
+    
+    static function getHelpLinkVideoPlayerConfig()
+    {
+        return 'http://www.openx.org/en/docs/2.8/userguide/video+ads+player+configuration';
+    }
+    
+    static function getHelpLinkOpenXPlugin()
+    {
+        return 'http://www.openx.org/en/docs/2.8/userguide/banners+video+ads';
+    }
+    
+    static function getLinkCrossdomainExample()
+    {
+        return 'https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml';
+    }
+}

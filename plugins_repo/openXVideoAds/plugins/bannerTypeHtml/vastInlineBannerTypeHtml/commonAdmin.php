@@ -21,42 +21,6 @@
 require_once LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtml.php';
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
-class VideoAdsHelper
-{
-    static function getWarningMessage($message)
-    {
-        return "<div class='errormessage' style='width:750px;'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>
-              <span class='tab-r' style='font-weight:normal;'>&nbsp;". $message ."</span>
-              </div>";
-    }
-    
-    static function displayWarningMessage( $message )
-    {
-        echo self::getWarningMessage($message); 
-    }
-
-    static function getErrorMessage($message)
-    {
-        return '<div style="" id="errors" class="form-message form-message-error">'. $message .'</div>';
-    }
-    
-    static function getHelpLinkVideoPlayerConfig()
-    {
-        return 'http://www.openx.org/en/docs/2.8/userguide/video+ads+player+configuration';
-    }
-    
-    static function getHelpLinkOpenXPlugin()
-    {
-        return 'http://www.openx.org/en/docs/2.8/userguide/banners+video+ads';
-    }
-    
-    static function getLinkCrossdomainExample()
-    {
-        return 'https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml';
-    }
-    
-}
-
 abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_BannerTypeHTML
 {
     abstract function getBannerShortName();
@@ -337,40 +301,46 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $this->addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
 
         $sampleUrls = array(
-            'HTTP FLV' => array(
-            	"http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.flv",
+            'RTMP - FLV' => array(
+            	"rtmp://cp81850.edgefcs.net/ondemand/",
+                "openx-ad",
+                'FLV',
+                '8',
+            ),
+            
+            'RTMP - MP4' => array(
+        		"rtmp://cp81850.edgefcs.net/ondemand/",
+        		"openx-ad.mp4",
+                'MP4',
                 '10',
             ),
+            
+            'HTTP - FLV' => array(
+            	"http://videoads.openx.org.edgesuite.net/openxvideos/openx-ad.flv",
+                'FLV',
+            	'8',
+            ),
 
-            'HTTP MP4' => array(
-            	"http://marketing.openx.org/video-ads-sample/OpenX-Ad-Sample-Koi-Fish.mp4",
+            'HTTP - MP4' => array(
+            	"http://videoads.openx.org.edgesuite.net/openxvideos/openx-ad.mp4",
+                'MP4',
                 '10'
-            ),
-            
-            'RTMP MP4' => array(
-        		"rtmp://cp67126.edgefcs.net/ondemand/",
-        		"mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_608kbps.mp4",
-                '30'
-            ),
-            
-            'RTMP FLV' => array(
-            	"rtmp://cp67126.edgefcs.net/ondemand/",
-                "mediapm/ovp/content/test/video/Akamai_10_Year_F8_512K",
-                '30'
             ),
             
         );
         
-        $sampleAdsString = 'You can try using any of the following sample ads<br/>';
+        $sampleAdsString = 'You can try using any of the following sample ads<br/><br/>';
         foreach($sampleUrls as $what => $urls) {
-            $sampleAdsString .= "<b>$what sample ads</b><ul>";
+            $sampleAdsString .= "<b>$what sample ads</b><ul style='margin-top:5px'>";
             if(count($urls) == 2) {
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename_http') . ': '. $urls[0];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[1];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_type') . ': '. $urls[1];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[2];
             } else {
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_net_connection_url') . ': '. $urls[0];
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename') . ': '. $urls[1];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[2];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_type') . ': '. $urls[2];
+               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[3];
             }
             $sampleAdsString .= "</ul>";
         }
@@ -402,10 +372,24 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     function addVastCompanionsToForm( &$form, $selectableCompanions)
     {
         $form->addElement('header', 'companion_status', "Companion banner");
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignid;
+        $doCampaigns->find();
+        $doCampaigns->fetch();
+        if(OX_Util_Utils::getCampaignType($doCampaigns->priority) == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL)
+        {
+            $form->addElement('html', 'companion_help_contract', 
+                            '<br/><b>Note:</b> OpenX currently doesn\'t support the display of a companion banner for Contract campaigns. 
+                            <br/>If you wish to display a companion banner, please select a "Contract (Exclusive)" or "Remnant" campaign.');
+            
+            return;
+        }
         $helpLinkPlayer = VideoAdsHelper::getHelpLinkVideoPlayerConfig();
         
         $form->addElement('html', 'companion_help', 'To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. <br/>
-        					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration. <a href="'.$helpLinkPlayer.'" target="_blank">Learn more</a>');
+        					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration. <a href="'.$helpLinkPlayer.'" target="_blank">Learn more</a>
+        					');
+        
         $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
     }
     
@@ -422,6 +406,10 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     {
         $helpString = $this->getHelpAdTypeDescription();
         $crossdomainUrl = MAX_commonConstructDeliveryUrl('crossdomain.xml');
+        // because flash apps look at http://domain/crossdomain.xml, we need to construct this URL and keep only the hostname
+        $crossdomainUrl = parse_url($crossdomainUrl);
+        $crossdomainUrl = $crossdomainUrl['scheme'] . '://' . $crossdomainUrl['host'] . '/crossdomain.xml';
+        
         $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
         <ul style='list-style-type:decimal'>
         <li>Enter the information about your Ad in the form below.</li>

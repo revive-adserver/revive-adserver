@@ -43,35 +43,12 @@ class VastMultiAreaGraph extends Graph_Flash_AreaGraph
     protected function setUpGraph()
     {
         parent::setUpGraph();
-        $chart = $this->getGraph();
-        
-        
         $aDataSets = $this->getDataSets();
-
         // if no data, or only one data point, we don't display the graph
         if(count($this->xLabels) <= 1) {
-            $title = new title('There is not enough data to display this Graph.');
-			$title->set_style('{font-size: 25px;}');
-			$chart->set_title($title);
+			return false;
         }
-        
-        $oColorHelper = new Graph_DataSetColorsHelper();
-        foreach ($aDataSets as $aDataSet) {
-            $values = $aDataSet['values'];
-            $name = $aDataSet['name'];
-
-            $aColors = $oColorHelper->getNextColors();
-            
-            $dotValues = $this->buildDotValues($aColors['line'], $values, $name);
-            $area = $this->createArea($aColors['line'], $aColors['fill']);
-            $area->set_fill_alpha("0.1");
-            $area->set_values($dotValues);
-            $area->set_text($name);
-            
-            // add the area object to the chart:
-            $chart->add_element($area);
-        }
-        
+        $chart = $this->getGraph();
         
         //set up the axes
         $y_axis = $this->createYAxis();
@@ -86,7 +63,7 @@ class VastMultiAreaGraph extends Graph_Flash_AreaGraph
         $chart->set_y_legend($y_legend);
                 
         $x_axis = $this->createXAxis();
-        
+    
         $x_values = $this->xLabels;
         $xSteps = 5;
         if(count($x_values) < $xSteps) {
@@ -107,7 +84,25 @@ class VastMultiAreaGraph extends Graph_Flash_AreaGraph
         
         
         $chart->add_y_axis( $y_axis );
+        
         $chart->x_axis = $x_axis;
+        
+        $oColorHelper = new Graph_DataSetColorsHelper();
+        foreach ($aDataSets as $aDataSet) {
+            $values = $aDataSet['values'];
+            $name = $aDataSet['name'];
+
+            $aColors = $oColorHelper->getNextColors();
+            
+            $dotValues = $this->buildDotValues($aColors['line'], $values, $name);
+            $area = $this->createArea($aColors['line'], $aColors['fill']);
+            $area->set_fill_alpha("0.1");
+            $area->set_values($dotValues);
+            $area->set_text($name);
+            
+            // add the area object to the chart:
+            $chart->add_element($area);
+        }
         
         return $chart;
     }

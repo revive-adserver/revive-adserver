@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Vast Inline banner for OpenX</description>
-    <version>1.0-rc63</version>
+    <version>1.0</version>
     <oxversion>2.7.8-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 

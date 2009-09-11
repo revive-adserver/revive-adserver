@@ -17,12 +17,14 @@ class Graph_Flash_BaseGraph
         $this->setUpGraph();
     }
     
-    
     public function getJSON()
     {
+        if($this->oChart == false) {
+            return false;
+        }
         return $this->oChart->toPrettyString();
     }
-    
+        
     /**
      * 
      * @return open_flash_chart

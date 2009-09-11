@@ -44,7 +44,7 @@
   
 {if !$isThereAnyData}
   <div class="video_plugin_header">
-	<h2> There is no Video Events data for this {$entityName} for the selected date range: {$range.0} - {$range.1}.</h2>
+	<h2> There is no Video Events data for this {$entityName} for the selected date range: {$startDate} - {$endDate}.</h2>
   </div>
 {else}
   {* Main chart *}
@@ -120,7 +120,7 @@
 	        <tr class="empty">
 	          <td>
 	            <div class="graph_table">
-	              <div id="multi_chart"></div>
+	              <div id="multi_chart">{if !$dataForBottomGraphInJsonFormat}<big>There is not enough data to display this graph.</big> {/if}</div>
 	              <div class="diagram_corner top_left"></div>
 	              <div class="diagram_corner top_right"></div>
 	              <div class="diagram_corner bottom_left"></div>
@@ -157,14 +157,16 @@
 	{/literal}
 	
 	{* Embeds the events history chart Flash *}
-	{literal}
-	swfobject.embedSWF(
-	  "lib/open-flash-chart.swf", "multi_chart",
-	  "100%", "250", "9.0.0", "lib/expressInstall.swf",
-	  {"get-data":"getDataBottomGraph"},
-	  {"wmode":"opaque"} 
-	);
-	{/literal}
+	{if $dataForBottomGraphInJsonFormat}
+		{literal}
+		swfobject.embedSWF(
+		  "lib/open-flash-chart.swf", "multi_chart",
+		  "100%", "250", "9.0.0", "lib/expressInstall.swf",
+		  {"get-data":"getDataBottomGraph"},
+		  {"wmode":"opaque"} 
+		);
+		{/literal}
+	{/if}
 	</script>
 {/if}
 </div>
