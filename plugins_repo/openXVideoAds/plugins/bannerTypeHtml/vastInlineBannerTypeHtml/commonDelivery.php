@@ -519,7 +519,7 @@ RTMP_PLAYER;
 function renderCompanionInAdminTool($aOut)
 {
     $player = "";
-    if(isset($aOut['companionId'])) {
+    if(isset($aOut['companionMarkup'])) {
         $player .=  "<h3>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</h3>";
         $player .= $aOut['companionMarkup'];
         /*$aBanner = Admin_DA::getAd($aOut['companionId']);
