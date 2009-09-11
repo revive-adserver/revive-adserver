@@ -373,7 +373,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     {
         $form->addElement('header', 'companion_status', "Companion banner");
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->campaignid = $campaignid;
+        $doCampaigns->campaignid = $GLOBALS['campaignid'];
         $doCampaigns->find();
         $doCampaigns->fetch();
         if(OX_Util_Utils::getCampaignType($doCampaigns->priority) == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL)
