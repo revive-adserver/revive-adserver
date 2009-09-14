@@ -532,14 +532,14 @@
 		  
 		  $dialog.find("#market-keep-entered").click(function() {
 		    if ($dontShowCheckbox.attr("checked")) {
-		        $.cookie('mqs-floor', 'keep', {expires: null} );
+		        $.cookie('mqs-floor', 'keep', {expires: null, path: '/'} );
 		    }
 		    hideDialog()
 		  });
 		  
 		  $dialog.find("#market-change-to-cpm").click(function() { 
 		    if ($dontShowCheckbox.attr("checked")) {
-		        $.cookie('mqs-floor', 'revert', {expires: null} );
+		        $.cookie('mqs-floor', 'revert', {expires: null, path: '/'} );
 		    }
 		    hideDialog()
 		    if (revertCpmCallback) {
@@ -560,25 +560,33 @@
 		        return;
 		    }
 		    if (cookie == 'revert') {
-			    revert();
+		    	checkAndRevert(false);
 		        return;
 		    }
 	
-		    checkAndRevert();
+		    checkAndRevert(true);
 		    return;
 		    
-		    function checkAndRevert() {
+		    function checkAndRevert(showDialog) {
 			    if (!revertCondition || (revertCondition && revertCondition.call(window))) {
 			    	var value = $cpmInput.val();
 		        	if (value.match(/^\d+\.?\d*$/)) {
 			        	var currentValue = parseFloat(value);
 			    		var minRecommendedValue = revertValueCallback.call($cpmInput);
 			    		if (currentValue < minRecommendedValue) {
-					    	revertCpmCallback = function () {
-					          $cpmInput.val(minRecommendedValue);
-					    	};
-					    	$.data($cpmInput.get(0), 'dialogShown', true);
-					    	showDialog();
+			    			if (showDialog) {
+						    	revertCpmCallback = revert;
+						    	$.data($cpmInput.get(0), 'dialogShown', true);
+						    	
+						    	// show dialog
+							    $dialog.modal({
+							        persist: true,
+							        overlayCss: { backgroundColor: "#000" },
+							        escClose: false
+							    });
+			    			} else {
+			    				revert();
+			    			}
 			    		}
 		        	}
 			    }
@@ -598,14 +606,6 @@
 	          + " keep the floor price I entered");
 		$dialog.find("#market-change-to-cpm").val(($dontShowCheckbox.attr("checked") ? "Always" : "No,") 
 	          + " change to campaign's CPM/eCPM");
-	  }
-
-	  function showDialog() {
-	    $dialog.modal({
-	        persist: true,
-	        overlayCss: { backgroundColor: "#000" },
-	        escClose: false
-	    });
 	  }
 
 	  function hideDialog() {

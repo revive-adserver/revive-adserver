@@ -100,6 +100,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     public function afterLogin()
     {
+        // Just unsets a cookie, so need to do it before any content is possibly output
+        OX_oxMarket_UI_CampaignsSettings::afterLogin();
+        
         // Try to link hosted accounts for current user
         $this->linkHostedAccounts();
         
