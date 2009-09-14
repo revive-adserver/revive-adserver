@@ -80,7 +80,7 @@ class OX_oxMarket_UI_EntityFormManager
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
             array('defaultFloorPrice' => $defaultFloorPrice));
         $form->addElement('plugin-script', 'market-floor-price-dialog', 'oxMarket', 
-            array());
+            array('cookiePath' => $this->marketComponent->getCookiePath()));
 
         
         //in order to get conditional validation, check if it is POST 
@@ -304,5 +304,4 @@ class OX_oxMarket_UI_EntityFormManager
 
         return $aEmails;
     }    
-
 }

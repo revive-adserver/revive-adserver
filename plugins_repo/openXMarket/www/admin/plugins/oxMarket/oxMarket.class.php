@@ -40,6 +40,7 @@ require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/pcApiClient/oxPublisherConsoleMa
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/ZoneOptIn.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Website.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityFormManager.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/CampaignsSettings.php';
 
 
 define('OWNER_TYPE_AFFILIATE',  0);
@@ -101,8 +102,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     public function afterLogin()
     {
         // Just unsets a cookie, so need to do it before any content is possibly output
-        OX_oxMarket_UI_CampaignsSettings::afterLogin();
-        
+        OX_oxMarket_UI_CampaignsSettings::removeSessionCookies($this->getCookiePath());
+                
         // Try to link hosted accounts for current user
         $this->linkHostedAccounts();
         
@@ -832,6 +833,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
         
         return $result;
+    }
+
+    
+    public function getCookiePath()
+    {
+        require_once MAX_PATH .'/lib/Max.php';
+        return parse_url(MAX::constructUrl(), PHP_URL_PATH);
     }
 }
 

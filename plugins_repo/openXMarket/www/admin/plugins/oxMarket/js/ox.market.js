@@ -523,7 +523,7 @@
 	  var $dialog = $("#market-floor-price-dialog");
 	  var revertCpmCallback;
 
-	  $.fn.confirmFloorPriceDialog = function() {
+	  $.fn.confirmFloorPriceDialog = function(cookiePath) {
 		  $dialog = $(this);
 		  
 		  $dontShowCheckbox = $dialog.find("#dont-show-again");
@@ -532,14 +532,14 @@
 		  
 		  $dialog.find("#market-keep-entered").click(function() {
 		    if ($dontShowCheckbox.attr("checked")) {
-		        $.cookie('mqs-floor', 'keep', {expires: null, path: '/'} );
+		        $.cookie('mqs-floor', 'keep', {expires: null, path: cookiePath} );
 		    }
 		    hideDialog()
 		  });
 		  
 		  $dialog.find("#market-change-to-cpm").click(function() { 
 		    if ($dontShowCheckbox.attr("checked")) {
-		        $.cookie('mqs-floor', 'revert', {expires: null, path: '/'} );
+		        $.cookie('mqs-floor', 'revert', {expires: null, path: cookiePath} );
 		    }
 		    hideDialog()
 		    if (revertCpmCallback) {
