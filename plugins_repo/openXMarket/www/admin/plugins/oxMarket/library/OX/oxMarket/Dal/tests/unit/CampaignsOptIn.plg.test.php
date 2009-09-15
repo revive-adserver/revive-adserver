@@ -27,7 +27,6 @@ $Id$
 
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
-require_once dirname(__FILE__).'/../../CampaignsOptIn.php';
 
 /**
  * A class for testing the CampaignOptIn DAL library
@@ -43,6 +42,10 @@ class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXMarket', false);
         TestEnv::installPluginPackage('openXMarket', false);
+        // OX_oxMarket_Dal_CampaignsOptIn is initialised from plugin directory during plugin installation
+        if (!class_exists('OX_oxMarket_Dal_CampaignsOptIn')) {
+            require_once dirname(__FILE__).'/../../CampaignsOptIn.php';
+        }
     }
 
     function tearDown()
