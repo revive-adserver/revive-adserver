@@ -60,7 +60,7 @@ if (!file_exists(MAX_PATH.'/var/UPGRADE') && !isset($_POST['btn_openads'])) {
 // Setup oUpgrader
 $oUpgrader = new OA_Upgrade();
 
-@set_time_limit(600);
+@set_time_limit(0);
 
 // required files for header & nav
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
