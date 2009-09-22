@@ -654,8 +654,21 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 aza.ad_zone_assoc_id IS NULL
         ";
         
-        // if there is more than one zone selected, we make sure 
-        // we don't bulk link email zones (that are limited to one banner)
+        // if only one zone is selected and this zone is an email zone
+        // we only link it if it was not previously linked to any banner (email zones can be linked to one banner only)
+        if(count($aZonesIds) == 1) {
+            $zoneId = current($aZonesIds);
+            $oZone = Admin_DA::getZone($zoneId);
+            if($oZone['type'] == MAX_ZoneEmail) {
+                $adZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+                if(count($adZones) >= 1) {
+                    return 0;
+                }
+            }
+        }
+        
+        // if there is more than one zone selected, we make sure we don't bulk link email zones 
+        // Email zones can only be linked to one banner and it is not possible to check for this integrity during bulk linking
         if(count($aZonesIds) > 1) {
             $fromWhereClause .= "
                 AND
