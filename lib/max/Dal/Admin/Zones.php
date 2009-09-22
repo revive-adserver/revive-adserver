@@ -651,10 +651,17 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                     )
                 )
                 AND
-                z.delivery <> " . MAX_ZoneEmail ."
-                AND
                 aza.ad_zone_assoc_id IS NULL
         ";
+        
+        // if there is more than one zone selected, we make sure 
+        // we don't bulk link email zones (that are limited to one banner)
+        if(count($aZonesIds) > 1) {
+            $fromWhereClause .= "
+                AND
+                z.delivery <> " . MAX_ZoneEmail ."
+            ";
+        }
         if ($fastLinking) {
             $query = "INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id)
                 SELECT z.zoneid, b.bannerid
