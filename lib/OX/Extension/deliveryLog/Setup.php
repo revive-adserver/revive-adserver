@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 /**
  * Global location for storing merged plugins files code
  */
-define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/mergedDeliveryFunctions.php');
+define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
 
 /**
  * Generates delivery log plugins cache and order the dependencies
