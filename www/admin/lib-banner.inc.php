@@ -41,6 +41,7 @@ function phpAds_getBannerCache($banner)
     // These properties will be set during invocation
 
     if($banner['adserver'] == 'none') {
+        $buffer = php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer);
         return $buffer;
     }
     
@@ -115,10 +116,7 @@ function phpAds_getBannerCache($banner)
         }
     }
 
-    // Wrap the banner inside a link if it doesn't seem to handle clicks itself
-    if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
-        $buffer = '<a href="{clickurl}" target="{target}">'.$buffer.'</a>';
-    }
+    $buffer = php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer);
 
     // Adserver processing complete, now replace the noscript values back:
     //$buffer = preg_replace("#{noframe}#", $noFrame[2], $buffer);
@@ -129,3 +127,11 @@ function phpAds_getBannerCache($banner)
     return $buffer;
 }
 
+function php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer)
+{
+    // Wrap the banner inside a link if it doesn't seem to handle clicks itself
+    if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
+        return '<a href="{clickurl}" target="{target}">'.$buffer.'</a>';
+    }
+    return $buffer;
+}
