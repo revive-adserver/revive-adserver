@@ -59,7 +59,7 @@
                     array('&', '<', '>', '"', '\''),
                     array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'),
                     $text); 
-            return preg_replace('/[^(\x20-\x7F)]/','?', $string);
+            return utf8_encode($string);
         }
 
         /**
