@@ -706,6 +706,7 @@ $GLOBALS['strStatusText']            = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
+$GLOBALS['strDoNotAlterHtml']  = "Do not alter HTML";
 $GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
