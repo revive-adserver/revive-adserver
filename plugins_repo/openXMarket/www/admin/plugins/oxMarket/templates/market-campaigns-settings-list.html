@@ -108,10 +108,10 @@ $Id$
       {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
       {foreach key=campaignId item=campaign from=$campaigns}
         {cycle name=bgcolor assign=bgColor}
-        <tr class='{$bgColor}{if $toOptIn[$campaignId]} selected{/if}'>
+        <tr class='{$bgColor}{if $selection[$campaignId]} selected{/if}'>
           <td class='toggleSelection'>
-            <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
-                   id="c{$campaignId}"{if $toOptIn[$campaignId]} checked="checked"{/if} />
+            <input type='checkbox' name="toOptIn[{$campaignId}]" value='1' 
+                   id="c{$campaignId}"{if $selection[$campaignId]} checked="checked"{/if} />
           </td>
           <td>
             <span class="campaign-type-tag">{ox_campaign_type_tag type=$campaign.type}</span>
@@ -133,12 +133,6 @@ $Id$
               <label class="error" for="cpm{$campaignId}">
               {$minCpmsInvalid[$campaignId][1]}
               </label>
-            {else}     
-              {if $campaign.minCpmCalculated}
-                <small title="This is the campaign's calculated eCPM">Campaign's eCPM</small>
-              {elseif $campaign.minCpmSpecified}
-                <small title="This is the campaign's specified CPM">Campaign's CPM</small>
-              {/if}
             {/if}
             <input type="hidden" disabled="disabled" 
                    value="{$campaign.minRecommendedFloorPrice|escape}" />
@@ -152,7 +146,7 @@ $Id$
         <td colspan='4'>&nbsp;</td>
       </tr>
       <tr class='even'>
-        <td colspan='4'>
+        <td colspan='4' class="hasPanel">
           <div class='tableMessage'>
             <div class='panel'>
               {capture assign=typeString}

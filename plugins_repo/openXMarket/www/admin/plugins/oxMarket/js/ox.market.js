@@ -413,15 +413,12 @@
         return this;
         
         function refresh(url) {
-        	var ignored = getGetParams(url);
-        	var allowed = {
-        	    "action": true, 
-        	    "campaignType": true, 
-        	    "search": true, 
-        	    "order": true, 
-        	    "desc": true 
-        	};
-        	var data = $optIn.elementValues(allowed, ignored);
+        	var ignored = $.extend({
+        		'allSelected': true, 
+        		'optInSubmit': true, 
+        		'optOutSubmit': true 
+        	}, getGetParams(url));
+        	var data = $optIn.elementValues(null, ignored);
         	data["action"] = "refresh";
         	var $indicator = $("#loading-indicator").attr("title", "").removeClass("ajax-error").fadeIn(200);
   		  	$("#thirdLevelTools > div.messagePlaceholder > div.localMessage").hide();
@@ -503,16 +500,23 @@
     
     $.fn.elementValues = function(allowed, ignored) {
         var values = {};
-        this.find(":input").not(":checkbox:not(:checked)").not(":radio:not(:checked)").each(function () {
+        this.find(":input").not(":radio:not(:checked)").each(function () {
           var $this = $(this);
           var name = $this.attr("name");
-          if (!allowed[name] || ignored[name]) {
+          if (name.indexOf('[') > 0) {
+        	  name = name.substring(0, name.indexOf('['));
+          }
+          if ((allowed && !allowed[name]) || ignored[name]) {
         	  return true;
           }
-          if (!values[name]) {
-            values[name] = [];
+          if ($this.is(":checkbox")) {
+        	  values[$this.attr("name")] = $this.is(":checked") ? 1 : 0;
+          } else {
+	          if (!values[name]) {
+	            values[name] = [];
+	          }
+	          values[name].push($this.val());
           }
-          values[name].push($this.val());
         });
         return values ;
     };
@@ -577,7 +581,7 @@
 			    			if (showDialog) {
 						    	revertCpmCallback = revert;
 						    	$.data($cpmInput.get(0), 'dialogShown', true);
-						    	
+						    	$dialog.find("#recommended-min-floor-price").html(minRecommendedValue);
 						    	// show dialog
 							    $dialog.modal({
 							        persist: true,

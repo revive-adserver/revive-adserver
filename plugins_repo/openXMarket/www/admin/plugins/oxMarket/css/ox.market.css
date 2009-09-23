@@ -314,7 +314,7 @@ ul.column li.rejected {
 
 /** tag end **/
 .market-campaign-settings .tableWrapper th.toggleAll {
-  width: 2em;
+  width: 23px;
 }
 
 .market-campaign-settings .tableWrapper th.mkt-status {
@@ -322,7 +322,7 @@ ul.column li.rejected {
 }
 
 .market-campaign-settings .tableWrapper th.cpm {
-  width: 20em;
+  width: 14em;
 }
 
 .market-campaign-settings .tableWrapper .tableFooter .tableActions {
