@@ -80,6 +80,7 @@ $Id$
     {
         var filename = o.value.toLowerCase();
         var bannerForm = findObj ('bannerForm');
+        $(o).siblings('input[value=t]').attr('checked', true);
 
         if (handleSWF) {
             // Show SWF Layer
@@ -103,13 +104,6 @@ $Id$
             }
         }
 
-        // Check upload option
-        if (o.name == 'upload' && bannerForm.replaceimage[1] && o.value != '') {
-            bannerForm.replaceimage[1].checked = true;
-        }
-        if (o.name == 'uploadalt' && bannerForm.replacealtimage[1] && o.value != '') {
-            bannerForm.replacealtimage[1].checked = true;
-        }
     }
 
     function oa_sizeChangeUpdateMessage(id)
