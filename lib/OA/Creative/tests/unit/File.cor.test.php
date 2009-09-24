@@ -77,9 +77,9 @@ class Test_OA_Creative_File extends UnitTestCase
 
         $fileName = $this->writeTempFile($this->imgPng);
 
-        $oCreative = OA_Creative_File::factory($fileName, 'foo');
+        $oCreative = OA_Creative_File::factory($fileName, 'foo.png');
         $this->assertIsA($oCreative, 'OA_Creative_File');
-        $this->assertEqual($oCreative->fileName, 'foo');
+        $this->assertEqual($oCreative->fileName, 'foo.png');
         $this->assertEqual($oCreative->contentType, 'png');
         $this->assertEqual($oCreative->content, $this->imgPng);
         $this->assertEqual($oCreative->width, 1);
@@ -87,9 +87,9 @@ class Test_OA_Creative_File extends UnitTestCase
 
         $fileName = $this->writeTempFile($this->imgJpeg);
 
-        $oCreative = OA_Creative_File::factory($fileName, 'foo');
+        $oCreative = OA_Creative_File::factory($fileName, 'foo.jpg');
         $this->assertIsA($oCreative, 'OA_Creative_File');
-        $this->assertEqual($oCreative->fileName, 'foo');
+        $this->assertEqual($oCreative->fileName, 'foo.jpg');
         $this->assertEqual($oCreative->contentType, 'jpeg');
         $this->assertEqual($oCreative->content, $this->imgJpeg);
         $this->assertEqual($oCreative->width, 1);
@@ -101,9 +101,9 @@ class Test_OA_Creative_File extends UnitTestCase
 
     function testFactoryString()
     {
-        $oCreative = OA_Creative_File::factoryString('foo', $this->imgGif);
+        $oCreative = OA_Creative_File::factoryString('foo.gif', $this->imgGif);
         $this->assertIsA($oCreative, 'OA_Creative_File');
-        $this->assertEqual($oCreative->fileName, 'foo');
+        $this->assertEqual($oCreative->fileName, 'foo.gif');
         $this->assertEqual($oCreative->contentType, 'gif');
         $this->assertEqual($oCreative->content, $this->imgGif);
         $this->assertEqual($oCreative->width, 1);
@@ -181,6 +181,9 @@ class Test_OA_Creative_File extends UnitTestCase
     function writeTempFile($content)
     {
         $fileName = tempnam(MAX_PATH . '/var', 'test_creative_file_');
+        $oldFilename = $fileName;
+        $fileName = $oldFilename . '.png';
+        rename($oldFilename, $fileName);
         $this->assertTrue($fp = fopen($fileName, 'w'), 'Cannot open file: '.$fileName);
         $this->assertTrue(fwrite($fp, $content), 'Cannot write to file: '.$fileName);
         $this->assertTrue(fclose($fp), 'Cannot close file: '.$fileName);
