@@ -51,12 +51,6 @@ class OA_Email
     var $aClientCache;
     var $aAgencyCache;
 
-    var $allowSendingEmails = true;
-    
-    function __construct() {
-        if($GLOBALS['_MAX']['CONF'][])
-        $this->allowSendingEmails = 
-    }
     function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate = null, $oEndDate = null) {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
