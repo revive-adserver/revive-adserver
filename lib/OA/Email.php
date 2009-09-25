@@ -51,6 +51,12 @@ class OA_Email
     var $aClientCache;
     var $aAgencyCache;
 
+    var $allowSendingEmails = true;
+    
+    function __construct() {
+        if($GLOBALS['_MAX']['CONF'][])
+        $this->allowSendingEmails = 
+    }
     function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate = null, $oEndDate = null) {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -1180,12 +1186,11 @@ class OA_Email
      */
     function sendMail($subject, $contents, $userEmail, $userName = null, $fromDetails = null)
     {
-        if (defined('DISABLE_ALL_EMAILS')) {
-            return true;
-        }
-
         $aConf = $GLOBALS['_MAX']['CONF'];
 
+        if (defined('DISABLE_ALL_EMAILS') || $aConf['debug']['disableSendEmails']) {
+            return true;
+        }
         global $phpAds_CharSet;
 
         // If not Agency details send email using Administrator's details
