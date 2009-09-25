@@ -323,6 +323,7 @@ email               = email@example.com     ; Where to send error reports
 emailAdminThreshold = PEAR_LOG_ERR          ; Email the error to admin if threshold reached
 errorOverride       = true                  ; If true do not show notices
 showBacktrace       = false                 ; If true print backtrace
+disableSendEmails   = false                 ; If true, no email will be sent from this instance (useful for debug, testing, staging)
 
 [var]
 prefix              = OA_           ; Used to prefix some variables and used in invocation codes
