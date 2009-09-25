@@ -59,7 +59,8 @@ function phpAds_getBannerCache($banner)
                 // Remove target parameters
                 $m[4][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
 
-                $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}http{$m[3][$k]}{$m[2][$k]}{$m[4][$k]} target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
+                $urlDest = urlencode("http" . $m[3][$k]);
+                $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}$urlDest{$m[2][$k]}{$m[4][$k]} target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
             }
         }
 
@@ -86,7 +87,11 @@ function phpAds_getBannerCache($banner)
         //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$aConf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
 
         // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
-        $buffer = preg_replace('#clickTAG\s?=\s?(.*?)([\'"])#', "clickTAG={clickurl}$1$2", $buffer);
+        // the clickTag is case insentive match, as it is correct to use clicktag, CLICKTAG, etc.
+        preg_match('/^(.*)(clickTAG)\s?=\s?(.*?)([\'"])(.*)$/is', $buffer, $matches);
+        if(count($matches) > 0) {
+            $buffer = $matches[1] . $matches[2] . "={clickurl}".urlencode($matches[3]).$matches[4].$matches[5];
+        }
 
         // Detect any JavaScript window.open() functions, and prepend the opened URL with our logurl
         $buffer = preg_replace('#window.open\s?\((.*?)\)#i', "window.open(\\\'{logurl}&maxdest=\\\'+$1)", $buffer);

@@ -42,6 +42,10 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
     function Test_OA_Admin_BannerCache()
     {
         $this->UnitTestCase();
+    }
+
+    function test_getBannerCache()
+    {
         $this->aBanners[] = $this->_getBanner1();
         $this->aBanners[] = $this->_getBanner2();
         $this->aBanners[] = $this->_getBanner3();
@@ -49,10 +53,8 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
         $this->aBanners[] = $this->_getBanner5();
         $this->aBanners[] = $this->_getBanner6();
         $this->aBanners[] = $this->_getBanner7();
-    }
-
-    function test_getBannerCache()
-    {
+        $this->aBanners[] = $this->_getBanner8();
+        $this->aBanners[] = $this->_getBanner9();
         foreach ($this->aBanners AS $k => $aBanner)
         {
             $expected = $aBanner['expected'];
@@ -91,7 +93,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['target'] = '_new';
          $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
-         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html' target='{target}'>Download Openads</a>";
+         $aBanner['expected'] = "<a href='{clickurl}".urlencode('http://www.openx.org/download.html')."' target='{target}'>Download Openads</a>";
          return $aBanner;
     }
 
@@ -178,6 +180,43 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['adserver'] = 'fake';
          $aBanner['expected'] = "<a href=\"\" target=\"\">Click Here</a>";
          return $aBanner;
+    }
+    
+    function _getBanner8()
+    {
+         $aBanner['bannerid'] = 8;
+         $aBanner['active'] =  't';
+         $aBanner['contenttype'] =  'html';
+         $aBanner['storagetype'] = 'html';
+         $aBanner['filename'] = '';
+         $aBanner['imageurl'] = '';
+         $url = 'http://localhost/i.php?a.b=1&c.d=2&whith space and ___ underscore&t[]=k1&t[]=EOF';
+         $encodedUrl = urlencode($url);
+         $aBanner['htmltemplate'] = '<a href=\''.$url.'\'> test my banner</a>
+<object>
+<embed src="http://__link_to_flash_video__.swf?clickTAG='.$encodedUrl.'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
+</object>';
+         $aBanner['htmlcache'] ='';
+         $aBanner['target'] = '_blank';
+         $aBanner['url'] = 'http://www.openx.org/';
+         $aBanner['adserver'] = 'fake';
+         $aBanner['expected'] = '<a href=\'{clickurl}'.$encodedUrl.'\' target=\'{target}\'> test my banner</a>
+<object>
+<embed src="http://__link_to_flash_video__.swf?clickTAG={clickurl}'.urlencode($encodedUrl).'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
+</object>';
+         return $aBanner;
+    }
+    
+    function _getBanner9()
+    {
+        $aBanner = $this->_getBanner8();
+        $search = 'clickTAG';
+        $replace = 'clicktag';
+        $this->assertTrue(strpos($aBanner['htmltemplate'],$search) !== false);
+        foreach(array('htmltemplate', 'expected') as $key) {
+            $aBanner[$key] = str_replace($search, $replace, $aBanner[$key]);
+        }
+        return $aBanner;
     }
 }
 

@@ -65,7 +65,7 @@ class Test_DeliveryQuerystring extends UnitTestCase
         $bannerid   = 789;
         $loc        = "http://www.example.com/page.html?name1=value1&name2=value2";
         $referer    = "http://www.example.com/referer.php?name3=value3&name4=value4";
-        $dest       = "http://www.example.com/landing.php?name5=value5&name6=value6";
+        $dest       = "http://www.example.com/landing.php?name5=value5&nam._e6=v.__[]alue6";
 
         $_COOKIE    = array();
         $_GET       = array();
