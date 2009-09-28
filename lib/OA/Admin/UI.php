@@ -283,6 +283,8 @@ class OA_Admin_UI
 
         //html header
         $this->_assignJavascriptandCSS();
+        $this->oTpl->assign('showContactUsLink', isset($conf['ui']['showContactUsLink']) ? 
+            $conf['ui']['showContactUsLink'] : false);
 
 
         /* DISPLAY */

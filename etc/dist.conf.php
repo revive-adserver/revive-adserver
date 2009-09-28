@@ -21,6 +21,7 @@ headerActiveTabColor                =
 headerTextColor                     =
 gzipCompression                     = true
 combineAssets                       = true
+showContactUsLink                   = false
 dashboardEnabled                    = true
 hideNavigator                       = false
 
