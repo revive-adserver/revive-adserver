@@ -4053,24 +4053,8 @@ $aAds = &$aLinkedAds[$adArrayVar];
 $aAds = array();
 }
 // If there are no linked ads of the specified type, we can return
-if (count($aAds) == 0) { return; }
-if (isset($cp)) {
-// Calculate the sum of all priority values
-$total_priority_orig = 0;
-foreach ($aAds as $ad) {
-$total_priority_orig += $ad['priority'] * $ad['priority_factor'];
-}
-// If thre's no active ad, we can return
-if (!$total_priority_orig) { return; }
-// Get the sum of priority values as previously calculated by _getTotalPrioritiesByCP()
-$level_priority = $aLinkedAds['priority'][$adArrayVar][$cp];
-// Divide it by the current total priority to get the scaling factor to be used later.
-// This step is required to compensate the probability when sequential ad selections
-// are made for various campaign priorities.
-$scaling_factor = $level_priority / $total_priority_orig;
-} else {
-// Use 0 level priority for non-contract
-$level_priority = 0;
+if (count($aAds) == 0) {
+return;
 }
 // Build preconditions
 $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
@@ -4078,14 +4062,54 @@ $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 // $aAds passed by ref here
 _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 // If there are no linked ads of the specified type, we can return
-if (count($aAds) == 0) { return; }
+if (count($aAds) == 0) {
+return;
+}
 if (isset($cp)) {
+// How much of the priority space have we already covered?
+$used_priority = 0;
+for ($i = 10; $i > $cp; $i--)
+{
+if (isset ($aLinkedAds['priority_used'][$adArrayVar][$i]))
+{
+$used_priority += $aLinkedAds['priority_used'][$adArrayVar][$i];
+}
+}
+// sanity check, in case there is no space left.
+if ($used_priority >= 1) {
+return $GLOBALS['OX_adSelect_SkipOtherPriorityLevels'];
+}
+$remaining_priority = 1 - $used_priority;
+// Calculate the sum of all priority values
+$total_priority_orig = 0;
+foreach ($aAds as $ad) {
+$total_priority_orig += $ad['priority'] * $ad['priority_factor'];
+}
+$aLinkedAds['priority_used'][$adArrayVar][$i] = $total_priority_orig;
+// If thre's no active ads, we can return
+if (!$total_priority_orig) {
+return;
+}
+if ($total_priority_orig > $remaining_priority)
+{
+// in this case, the sum of priorities is greater than the ratio
+// we have remaining, so just scale to fill the remaining space.
+$scaling_factor = 1 / $total_priority_orig;
+}
+else
+{
+// in this case, we don't need to use the whole of the remaining
+// space, but we scale to the remaining size, which leaves room to
+// select a lower level.
+$scaling_factor = 1 / $remaining_priority;
+}
+// recalculate the priorities (in place??), using the scaling factor.
 $total_priority = 0;
 foreach ($aAds as $key => $ad) {
-// Calculate again the sum of all the scaled priority values after discarding
-// non matching ads
-$aAds[$key]['priority'] = $ad['priority'] * $ad['priority_factor'] * $scaling_factor;
-$total_priority += $aAds[$key]['priority'];
+$newPriority =
+$ad['priority'] * $ad['priority_factor'] * $scaling_factor;
+$aAds[$key]['priority'] = $newPriority;
+$total_priority += $newPriority;
 }
 } else {
 // Rescale priorities by weights
@@ -4093,26 +4117,20 @@ $total_priority = _setPriorityFromWeights($aAds);
 }
 // Seed the random number generator
 global $n;
-mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (double)microtime()));
+mt_srand
+(floor
+((isset ($n) && strlen ($n) > 5
+? hexdec ($n[0].$n[2].$n[3].$n[4].$n[5])
+: 1000000) * (double) microtime ()));
 $conf = $GLOBALS['_MAX']['CONF'];
 // Pick a float random number between 0 and 1, inclusive.
-$random_num = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
+$random_num =
+mt_rand (0, $GLOBALS['_MAX']['MAX_RAND'])
+/ $GLOBALS['_MAX']['MAX_RAND'];
 // Is it higher than the sum of all the priority values?
 if ($random_num > $total_priority) {
-if ($level_priority && $random_num <= $level_priority) {
-// Looks like a non-matching campaign would have been selected. We need
-// to instruct the caller to skip the remaining priority levels.
-// If we don't do this, their probability would be artificially
-// increased.
-//
-// If we stack up all the probabilities, the result would look like:
-// 0 <= matching-ads <= non-matching-ads <= 1
-//
-return $GLOBALS['OX_adSelect_SkipOtherPriorityLevels'];
-} else {
 // No suitable ad found, proceed as usual
 return;
-}
 }
 // Perform selection of an ad, based on the random number
 $low = 0;
