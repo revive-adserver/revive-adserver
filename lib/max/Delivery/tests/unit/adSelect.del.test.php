@@ -27,6 +27,10 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
+function _override_mt_rand($low, $high){
+  return $GLOBALS['rand_val'] * $high;
+}
+
 /**
  * A class for testing the ad.php functions.
  *
@@ -159,6 +163,177 @@ class Test_DeliveryAdSelect extends UnitTestCase {
 		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_cAds['cAds'][5]));
 
 	}
+
+	/**
+	 * @todo identify more test cases!!!!
+	 *
+	 * Test1: if there are exclusive ads with no limitations one is selected
+	 * Test2: if there are no exclusive ads then an ad is selected from the ['ads'] array
+	 * Test3: if no exclusive and one companion with 100% probability
+	 */
+	function test_adSelect2()
+        {
+            $this->sendMessage('test_adSelect2');
+
+            require_once MAX_PATH . '/lib/max/Delivery/common.php';
+            require MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
+
+            // set up a small test data set
+            $context      = array();
+            $test_ads = $aLinked_ads;
+            $test_ads['ads'][4][1122] = $test_ads['ads'][5][1022];
+            $test_ads['ads'][4][1124] = $test_ads['ads'][5][1024];
+            $test_ads['ads'][5] = array();
+            $test_ads['ads'][5][1022] = $test_ads['ads'][4][1122];
+            $test_ads['ads'][5][1024] = $test_ads['ads'][4][1124];
+            $test_ads['ads'][4][1122]['ad_id'] = '1122';
+            $test_ads['ads'][4][1124]['ad_id'] = '1124';
+
+            // This function is provided by the apd module.
+            if (!function_exists ('override_function')) {
+                $this->fail ("override_function not defined.  skipping tests");
+                return;
+            }
+            override_function('mt_rand', '$low, $high', 'return _override_mt_rand($low, $high);');
+
+            // case 1: cp5, 2 ads both 0.7
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0.7;
+            $ads_copy['ads'][5][1024]['priority'] = 0.7;
+
+            // this should pick the first one
+            $GLOBALS['rand_val'] = 0.49;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][5]));
+            $this->assertTrue($ads_copy['priority_used']['ads'][5] >= 1);
+
+            // case 2: cp5, 2 ads both 0.7
+            $prev_return = $return;
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0.7;
+            $ads_copy['ads'][5][1024]['priority'] = 0.7;
+
+            // this should pick the second one
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][5]));
+            $this->assertNotEqual ($return['ad_id'], $prev_return['ad_id']);
+
+            // case 3: cp5, 2 ads both 0.4, cp4, 2 ads both 0.3
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0.4;
+            $ads_copy['ads'][5][1024]['priority'] = 0.4;
+            $ads_copy['ads'][4][1122]['priority'] = 0.3;
+            $ads_copy['ads'][4][1124]['priority'] = 0.3;
+
+            // this should not pick a cp5 ad
+            $GLOBALS['rand_val'] = 0.81;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+
+            // this should choose the first ad
+            $GLOBALS['rand_val'] = 0.49;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 4);
+            $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][4]));
+            $this->assertEqual($ads_copy['priority_used']['ads'][5], 0.8);
+            $this->assertEqual($ads_copy['priority_used']['ads'][4], 0.6);
+
+            // case 4: cp5, 2 ads both 0.4, cp4, 2 ads both 0.3
+            $ads_copy = $test_ads;
+            $prev_return = $return;
+            $ads_copy['ads'][5][1022]['priority'] = 0.4;
+            $ads_copy['ads'][5][1024]['priority'] = 0.4;
+            $ads_copy['ads'][4][1122]['priority'] = 0.3;
+            $ads_copy['ads'][4][1124]['priority'] = 0.3;
+
+            // this should not pick a cp5 ad
+            $GLOBALS['rand_val'] = 0.81;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+
+            // this should choose the second ad
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 4);
+            $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][4]));
+            $this->assertEqual($ads_copy['priority_used']['ads'][5], 0.8);
+            $this->assertEqual($ads_copy['priority_used']['ads'][4], 0.6);
+            // make sure it's not the same ad
+            $this->assertNotEqual ($return['ad_id'], $prev_return['ad_id']);
+
+            // case 5: cp5, 2 ads both 0.2, cp4, 2 ads both 0.2
+            $ads_copy = $test_ads;
+            $prev_return = $return;
+            $ads_copy['ads'][5][1022]['priority'] = 0.2;
+            $ads_copy['ads'][5][1024]['priority'] = 0.2;
+            $ads_copy['ads'][4][1122]['priority'] = 0.2;
+            $ads_copy['ads'][4][1124]['priority'] = 0.2;
+
+            // this will not pick from cp5 or cp4
+            $GLOBALS['rand_val'] = 0.41;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+            $GLOBALS['rand_val'] = 0.67;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 4);
+            $this->assertNull($return);
+            $this->assertEqual($ads_copy['priority_used']['ads'][5], 0.4);
+            $this->assertEqual($ads_copy['priority_used']['ads'][4], 0.4);
+
+            // case 6: cp5, 2 ads both 0.5, cp4, 2 ads both 0.2
+            // one of the cp5 ads will be filtered out
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0.5;
+            $ads_copy['ads'][5][1024]['priority'] = 0.5;
+            $ads_copy['ads'][4][1122]['priority'] = 0.2;
+            $ads_copy['ads'][4][1124]['priority'] = 0.2;
+            $context = array (array('!=' => 'bannerid:1024'));
+
+            // this will not pick from cp5 due to the ad exclusion
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+            $GLOBALS['rand_val'] = 0.79;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 4);
+            $this->assertNotNull($return);
+            $this->assertEqual($ads_copy['priority_used']['ads'][5], 0.5);
+            $this->assertEqual($ads_copy['priority_used']['ads'][4], 0.4);
+
+            // case 7: all ads get filtered out
+            $ads_copy = $test_ads;
+            unset ($ads_copy['ads'][5][1022]);
+            $ads_copy['ads'][5][1024]['priority'] = 0.5;
+            $context = array (array('!=' => 'bannerid:1024'));
+
+            // just expect null response
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+            $this->assertTrue(!isset($ads_copy['priority_used']['ads'][5]));
+
+            // case 8: priority_used limit reached
+            $ads_copy = $test_ads;
+            $ads_copy['priority_used']['ads'][9] = 0.5;
+            $ads_copy['priority_used']['ads'][8] = 0.3;
+            $ads_copy['priority_used']['ads'][6] = 0.3;
+
+            // this will return -1, since we've already used the entire priority space
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertEqual($return, $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']);
+            $this->assertTrue(!isset($ads_copy['priority_used']['ads'][5]));
+
+            // case 9: cp5, 2 ads both 0.5, cp4, 2 ads both 0.2
+            // one of the cp5 ads will be filtered out
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0;
+            $ads_copy['ads'][5][1024]['priority'] = 0;
+
+            // this will not pick from cp5 due to the ad exclusion
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
+            $this->assertNull($return);
+            $this->assertEqual($ads_copy['priority_used']['ads'][5], 0);
+
+        }
 
 	/**
 	 * This test tests the companion context building
