@@ -54,7 +54,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                       'getStatistics',
                       'getApiKey',
                       'getApiKeyByM2MCred',
-                      'linkHostedAccount')
+                      'linkHostedAccount',
+                      'newWebsite',
+                      'updateWebsite')
             );
         }
         
@@ -271,17 +273,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                                 'There is no association between PC and OXP accounts');
         }
         
-        // Create account and set publisher account association data
-        $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-        $adminAccountId = DataGenerator::generateOne($doAccounts);
-        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
-        $doExtMarket->account_id = $adminAccountId;
-        $doExtMarket->publisher_account_id = 'publisher_account_id';
-        $doExtMarket->api_key = 'api_key';
-        $doExtMarket->status = 
-            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
-        $doExtMarket->insert();
+        $doExtMarket = $this->createAdminAccountWithMarketAssoc();
         
         // Test null value for aWebsitesIds
         $result = $oPCMarketPluginClient->getStatistics($lastUpdate1);
@@ -662,6 +654,109 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         
         // clear cache
         $oCache->clear();
+    }
+    
+    function testNewWebsite()
+    {
+        $websiteUrl = 'http:\\test.url';
+        $websiteName = 'test website';
+        $website_id = 'thorium_website_id';
+        
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expectOnce('newWebsite', array($websiteUrl, $websiteName));
+        $PubConsoleClient->setReturnValue('newWebsite', $website_id);
+
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        
+        // Try to call method when plugin is not registered
+        try {
+            $result = $oPCMarketPluginClient->newWebsite($websiteUrl, $websiteName);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'There is no association between PC and OXP accounts');
+        }
+        
+        $doExtMarket = $this->createAdminAccountWithMarketAssoc();
+        
+        $result = $oPCMarketPluginClient->newWebsite($websiteUrl, $websiteName);
+        $this->assertEqual($result, $website_id);
+        
+        // clean up
+        $doExtMarket->delete();
+    }
+    
+    
+    function testUpdateWebsite()
+    {
+        $websiteUrl = 'http:\\test.url';
+        $websiteName = 'web name';
+        $website_id = 'thorium_website_id';
+        $att_ex = array(1,2); 
+        $cat_ex = null;
+        $typ_ex = array(3);
+    
+        // Create mockup for PubConsoleClient
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $call1 = array($website_id, $websiteUrl, $att_ex, array(), $typ_ex, null);
+        $call2 = array( $website_id, $websiteUrl, $att_ex, array(), $typ_ex, $websiteName);
+
+        $PubConsoleClient->expectAt(0, 'updateWebsite', $call1);
+        $PubConsoleClient->expectAt(1, 'updateWebsite', $call2);
+        $PubConsoleClient->setReturnValue('updateWebsite', $website_id);
+        $PubConsoleClient->expectCallCount('updateWebsite', 2);
+        
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        
+        // Try to call method when plugin is not registered
+        try {
+            $result = $oPCMarketPluginClient->updateWebsite(
+                $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
+            $this->fail('Should have thrown exception');
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
+            $this->assertEqual($e->getMessage(),
+                                'There is no association between PC and OXP accounts');
+        }
+        
+        // Use methods without sending websiteName
+        $doExtMarket = $this->createAdminAccountWithMarketAssoc();
+        $result = $oPCMarketPluginClient->updateWebsite(
+                    $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
+        $this->assertEqual($result, $website_id);
+        
+        // Send website name
+        $this->createAdminAccountWithMarketAssoc();
+        $result = $oPCMarketPluginClient->updateWebsite(
+                    $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex, $websiteName);
+        $this->assertEqual($result, $website_id);
+        
+        // clean up
+        $doExtMarket->delete();
+    }
+    
+    
+    /**
+     * Create admin account and add association to the market
+     *
+     * @return DataObjects_Ext_market_assoc_data
+     */
+    private function createAdminAccountWithMarketAssoc()
+    {
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->publisher_account_id = 'publisher_account_id';
+        $doExtMarket->api_key = 'api_key';
+        $doExtMarket->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doExtMarket->insert();
+        return $doExtMarket;
     }
 
 }

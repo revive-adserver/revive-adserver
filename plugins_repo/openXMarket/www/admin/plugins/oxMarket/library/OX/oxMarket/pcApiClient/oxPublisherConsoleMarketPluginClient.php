@@ -397,13 +397,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     
     /**
      * @param string $websiteUrl
-     * @return integer website id
+     * @param string $websiteName
+     * @return string thorium website id
      */
-    public function newWebsite($websiteUrl)
+    public function newWebsite($websiteUrl, $websiteName)
     {
         try {
             $this->ensureStatusAndUpdatePcAccountId();
-            return $this->pc_api_client->newWebsite($websiteUrl);
+            return $this->pc_api_client->newWebsite($websiteUrl, $websiteName);
         } catch (Exception $e) {
             $this->setStatusByException($e);
         }
@@ -415,16 +416,19 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * @param array $att_ex
      * @param array $cat_ex
      * @param array $typ_ex
+     * @param string $websiteName optional
+     * @return string thorium website id
      */
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
-        $cat_ex, $typ_ex)    
+        $cat_ex, $typ_ex, $websiteName = null)    
     {
         try {
             $this->ensureStatusAndUpdatePcAccountId();
             return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl,
                 $this->putEmptyArrayIfNull($att_ex), 
                 $this->putEmptyArrayIfNull($cat_ex), 
-                $this->putEmptyArrayIfNull($typ_ex));
+                $this->putEmptyArrayIfNull($typ_ex),
+                $websiteName);
         } catch (Exception $e) {
             $this->setStatusByException($e);
         }

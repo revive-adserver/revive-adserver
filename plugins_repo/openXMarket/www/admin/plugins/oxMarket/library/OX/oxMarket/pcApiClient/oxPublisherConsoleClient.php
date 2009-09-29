@@ -217,12 +217,13 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     
     /**
      * @param string $websiteUrl
-     * @return integer website id
+     * @param string $websiteName
+     * @return string thorium website id
      */
-    public function newWebsite($websiteUrl)
+    public function newWebsite($websiteUrl, $websiteName)
     {
         return $this->callApiKeyAuthXmlRpcFunction('registerWebsite', array(
-            $websiteUrl));
+            $websiteUrl, $websiteName));
     }
     
     /**
@@ -231,13 +232,17 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
      * @param array $att_ex
      * @param array $cat_ex
      * @param array $typ_ex
-     * @return integer website id
+     * @param string $websiteName (optional)
+     * @return string thorium website id
      */
     public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
-        $cat_ex, $typ_ex)    
+        $cat_ex, $typ_ex, $websiteName = null)    
     {
-        return $this->callApiKeyAuthXmlRpcFunction('updateWebsite', 
-            array($websiteId, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
+        $aParams = array($websiteId, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
+        if (isset($websiteName)) {
+            $aParams[] = $websiteName;
+        }
+        return $this->callApiKeyAuthXmlRpcFunction('updateWebsite', $aParams);
     }
     
     /**

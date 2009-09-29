@@ -73,8 +73,8 @@ class OX_oxMarket_Dal_Website
     }
     
     
-    protected function getWebsiteIdAndUrl($affiliateId, $autoGenerate = true, &$websiteId,
-        &$websiteUrl)
+    protected function getWebsiteData($affiliateId, $autoGenerate = true, &$websiteId,
+        &$websiteUrl, &$websiteName)
     {
         $oWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
         $oWebsitePref->get($affiliateId);
@@ -84,7 +84,7 @@ class OX_oxMarket_Dal_Website
 
         if (empty($oWebsitePref->website_id) && $autoGenerate) {
             try {
-                $websiteId = $this->generateWebsiteId($oWebsite->website);
+                $websiteId = $this->generateWebsiteId($oWebsite->website, $oWebsite->name);
                 if (!empty($websiteId)) {
                     $this->setWebsiteId($affiliateId, $websiteId);
                 }
@@ -94,7 +94,8 @@ class OX_oxMarket_Dal_Website
         } else {
             $websiteId = $oWebsitePref->website_id;
         }
-        $websiteUrl = $oWebsite->website;
+        $websiteUrl  = $oWebsite->website;
+        $websiteName = $oWebsite->name;
     }
     
     
@@ -129,14 +130,15 @@ class OX_oxMarket_Dal_Website
      * generate website_id (singup website to market)
      *
      * @param string $websiteUrl
+     * @param string $websiteName
      * @return string website_id
      * @throws Plugins_admin_oxMarket_PublisherConsoleClientException
      * @throws Zend_Http_Client_FaultException
      */
-    public function generateWebsiteId($websiteUrl)
+    public function generateWebsiteId($websiteUrl, $websiteName)
     {
         return $this->oMarketPlugin->getPublisherConsoleApiClient()
-               ->newWebsite($websiteUrl);
+               ->newWebsite($websiteUrl, $websiteName);
     }
     
     
@@ -200,17 +202,18 @@ class OX_oxMarket_Dal_Website
      */
     public function updateWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
-        $aType      = (is_array($aType)) ? array_values($aType) : array();
-        $aAttribute = (is_array($aAttribute)) ? array_values($aAttribute) : array();
-        $aCategory  = (is_array($aCategory)) ? array_values($aCategory) : array();
-        $websiteId  = null;
-        $websiteUrl = null;
-        $this->getWebsiteIdAndUrl($affiliateId, true, $websiteId, $websiteUrl);
+        $aType       = (is_array($aType)) ? array_values($aType) : array();
+        $aAttribute  = (is_array($aAttribute)) ? array_values($aAttribute) : array();
+        $aCategory   = (is_array($aCategory)) ? array_values($aCategory) : array();
+        $websiteId   = null;
+        $websiteUrl  = null;
+        $websiteName = null;
+        $this->getWebsiteData($affiliateId, true, $websiteId, $websiteUrl, $websiteName);
         try {
             $result = $this->oMarketPlugin->getPublisherConsoleApiClient()
                       ->updateWebsite($websiteId,
                 $websiteUrl, array_values($aAttribute), array_values($aCategory),
-                array_values($aType));
+                array_values($aType), $websiteName);
         } catch (Exception $e) {
             OA::debug('openXMarket: Error during updating website restriction in OpenX Market : '.$e->getMessage());
             return false;
@@ -277,15 +280,16 @@ class OX_oxMarket_Dal_Website
                 $affiliateId = $oWebsite->affiliateid;
                 $websiteId = $this->getWebsiteId($affiliateId, false);
                 $websiteUrl = $oWebsite->website;
+                $websiteName = $oWebsite->name;
                 if (empty($websiteId)) {
-                    if ($websiteId = $this->generateWebsiteId($websiteUrl)) {
+                    if ($websiteId = $this->generateWebsiteId($websiteUrl, $websiteName)) {
                         $this->setWebsiteId($affiliateId, $websiteId);
                         $this->insertDefaultRestrictions($affiliateId);
                         $updatedWebsites++;
                     }
                 } else {
-                    $result = $this->updateWebsiteUrl($affiliateId, $websiteUrl,
-                                            $skip_synchronized, $updatedWebsites);
+                    $result = $this->updateWebsiteUrlAndName($affiliateId, $websiteUrl, 
+                                    $websiteName, $skip_synchronized, $updatedWebsites);
                     if ($result!==true) {
                         throw new Exception($result);
                     }
@@ -298,15 +302,16 @@ class OX_oxMarket_Dal_Website
     
     
     /**
-     * Updates website url on PubConsole
+     * Updates website url and website name on PubConsole
      *
      * @param int $affiliateId Affiliate Id
      * @param string $url New website url
+     * @param string $name New website name
      * @param boolean $skip_synchronized Skip updating if url is synchronized
      * @param int $updatedWebsites increase counter if website was updated
      * @return boolean|string true or error message
      */
-    public function updateWebsiteUrl($affiliateId, $url, $skip_synchronized = false, &$updatedWebsites = null) {
+    public function updateWebsiteUrlAndName($affiliateId, $url, $name, $skip_synchronized = false, &$updatedWebsites = null) {
         $doWebsitePref = & OA_Dal::factoryDO('ext_market_website_pref');
         $doWebsitePref->get($affiliateId);
 
@@ -321,7 +326,8 @@ class OX_oxMarket_Dal_Website
                             array_values($aRestrictions[SETTING_TYPE_CREATIVE_ATTRIB]),
                             array_values(
                                 $aRestrictions[SETTING_TYPE_CREATIVE_CATEGORY]),
-                            array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]));
+                            array_values($aRestrictions[SETTING_TYPE_CREATIVE_TYPE]),
+                            $name);
                 } catch (Exception $e) {
                     $error = $e->getCode().':'.$e->getMessage();
                 }

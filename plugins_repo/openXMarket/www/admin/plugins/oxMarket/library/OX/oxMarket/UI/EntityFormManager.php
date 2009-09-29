@@ -149,6 +149,7 @@ class OX_oxMarket_UI_EntityFormManager
     {
         $affiliateId = $aFields['affiliateid'];
         $websiteUrl = $aFields['website'];
+        $websiteName = $aFields['name'];
         if ($this->marketComponent->getAccountId()) {
             //get current market website id if any, do not autogenerate
             $websiteManager = $this->marketComponent->getWebsiteManager();
@@ -157,7 +158,7 @@ class OX_oxMarket_UI_EntityFormManager
             //genereate new id if it does not exist
             if (empty($websiteId)) {
                 try {
-                    $websiteId = $websiteManager->generateWebsiteId($websiteUrl);
+                    $websiteId = $websiteManager->generateWebsiteId($websiteUrl, $websiteName);
                     $websiteManager->setWebsiteId($affiliateId, $websiteId);
                     $restricted = $websiteManager->insertDefaultRestrictions($affiliateId);
                     $message =  'Website has been registered in OpenX Market';
@@ -183,9 +184,11 @@ class OX_oxMarket_UI_EntityFormManager
                 $oWebsite = & OA_Dal::factoryDO('affiliates');
                 $oWebsite->get($affiliateId);
                 $currentWebsiteUrl = $oWebsite->website;
-                if ($currentWebsiteUrl != $websiteUrl) { //url changed
+                $currentWebsiteName = $oWebsite->name;
+                if ($currentWebsiteUrl != $websiteUrl || $currentWebsiteName != $websiteName) { //url or name changed
                     try {
-                        $result = $websiteManager->updateWebsiteUrl($affiliateId, $websiteUrl, false);
+                        $result = $websiteManager->updateWebsiteUrlAndName(
+                                      $affiliateId, $websiteUrl, $websiteName, false);
                         if ($result!== true) {
                             throw new Exception($result);
                         }

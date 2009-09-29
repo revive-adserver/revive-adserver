@@ -32,7 +32,7 @@ $className = 'oxMarket_UpgradePostscript_1_1_0_RC1';
  * Ensures that multiple accounts mode is off
  *
  * @package    Plugin
- * @subpackage openxDeliveryLimitations
+ * @subpackage openXMarket
  */
 class oxMarket_UpgradePostscript_1_1_0_RC1
 {

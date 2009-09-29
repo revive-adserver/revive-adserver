@@ -181,13 +181,14 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
     function testNewWebsite()
     {    
         $websiteUrl = 'http:\\test.url';
+        $websiteName = 'test website';
         $website_id = 'thorium_website_id';
         $apiKey = 'testApiKey';
     
         $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
         $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
     
-        $call = array('registerWebsite', array($apiKey, $websiteUrl));
+        $call = array('registerWebsite', array($apiKey, $websiteUrl, $websiteName));
         $response = $website_id;
 
         $oXmlRpcClient->expectOnce('call', $call);
@@ -197,7 +198,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
             new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
             
         try {
-            $result = $oPCClient->newWebsite($websiteUrl);
+            $result = $oPCClient->newWebsite($websiteUrl, $websiteName);
             $this->fail('should have thrown exception');
         } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $e) {
             $this->assertEqual($e->getMessage(),
@@ -205,7 +206,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         }
         
         $oPCClient->setApiKey($apiKey);
-        $result = $oPCClient->newWebsite($websiteUrl);
+        $result = $oPCClient->newWebsite($websiteUrl, $websiteName);
         
         $this->assertEqual($result, $response);
     }
@@ -214,6 +215,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
     {    
         $websiteUrl = 'http:\\test.url';
         $website_id = 'thorium_website_id';
+        $websiteName = 'web name';
         $apiKey = 'testApiKey';
         $att_ex = array(); 
         $cat_ex = array(1,2);
@@ -222,11 +224,14 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
         $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
     
-        $call = array('updateWebsite', array($apiKey, $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
+        $call1 = array('updateWebsite', array($apiKey, $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex));
+        $call2 = array('updateWebsite', array($apiKey, $website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex, $websiteName));
         $response = $website_id;
 
-        $oXmlRpcClient->expectOnce('call', $call);
+        $oXmlRpcClient->expectAt(0, 'call', $call1);
+        $oXmlRpcClient->expectAt(1, 'call', $call2);
         $oXmlRpcClient->setReturnValue('call', $response);
+        $oXmlRpcClient->expectCallCount('call', 2);
         
         $oPCClient = 
             new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
@@ -241,8 +246,11 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         
         $oPCClient->setApiKey($apiKey);
         $result = $oPCClient->updateWebsite($website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex);
-        
         $this->assertEqual($result, $response);
+        
+        $result = $oPCClient->updateWebsite($website_id, $websiteUrl, $att_ex, $cat_ex, $typ_ex, $websiteName);
+        $this->assertEqual($result, $response);
+        
     }
     
     function testGetApiKey()

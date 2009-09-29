@@ -25,36 +25,48 @@
 $Id$
 */
 
-$className = 'oxMarket_UpgradePostscript_1_0_0_RC3';
+$className = 'oxMarket_UpgradePostscript_1_2_0_RC1';
 
 /**
- * Updates the url conf setting
+ * Mark all websites as not synchronized, to update website names during next maintenanace.
  *
  * @package    Plugin
  * @subpackage openXMarket
  */
-class oxMarket_UpgradePostscript_1_0_0_RC3
+class oxMarket_UpgradePostscript_1_2_0_RC1
 {
-    
+    var $oUpgrade;
     
     function execute($aParams)
     {
-        $oManager   = & new OX_Plugin_ComponentGroupManager();
-        $aComponentSettings    = $oManager->getComponentGroupSettings('oxMarket', false);
-        foreach ($aComponentSettings as $setting) {
-            if ($setting['key'] == 'marketCaptchaUrl') {
-                $value = $setting['value'];
-                break; 
-            }
-        } 
+        $this->oUpgrade = & $aParams[0];
         
-        $oSettings  = new OA_Admin_Settings();
-        $oSettings->settingChange('oxMarket','marketCaptchaUrl',$value);
-        if (!$oSettings->writeConfigChange()) {
-            OA::debug('openXMarket plugin: Couldn\'t update marketCaptchaUrl');
+        $oDbh = &OA_DB::singleton();
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $prefTable = $oDbh->quoteIdentifier($prefix.'ext_market_website_pref', true);
+
+        $query = "UPDATE ".$prefTable."
+                  SET is_url_synchronized = 'f'";
+        $ret = $oDbh->query($query);
+    
+        if (PEAR::isError($ret))
+        {
+            $this->logError($ret->getUserInfo());
+            $this->logOnly('Cannot mark websites as not synchronized, to allow send proper website names.');
         }
         return true;
     }
+    
+    function logOnly($msg)
+    {
+        $this->oUpgrade->oLogger->logOnly($msg);
+    }
+    
+    function logError($msg)
+    {
+        $this->oUpgrade->oLogger->logError($msg);
+    }
+    
 }
 
 ?>
