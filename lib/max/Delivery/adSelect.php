@@ -473,55 +473,72 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
 
     // Are there any ads linked?
     if (!empty($aAds['count_active'])) {
-        // Get an ad from the any exclusive campaigns first...
-        $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'xAds'), $adSelectFunction);
-        // If no ad selected, and a previous ad on the page has set that companion ads should be selected...
-        if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
-            // The companion paid ads are now grouped by campaign-priority so we need to iterate over the
-            for ($i=10;$i>0;$i--) {
-                if (!empty($aAds['cAds'][$i])) {
-                    $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'cAds', $i), $adSelectFunction);
-                    // Did we pick an ad from this campaign-priority level?
-                    if (is_array($aLinkedAd)) { break; }
-                    // Should we skip the next campaign-priority level?
-                    if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) { break; }
-                }
-            }
-            // If still no ad selected...
-            if (!is_array($aLinkedAd)) {
-                // Select one of the low-priority companion ads
-                $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'clAds'), $adSelectFunction);
-            }
-        }
-        // If still no ad selected...
-        if (!is_array($aLinkedAd)) {
-            // Select one of the normal ads
-            // The normal ads are now grouped by campaign-priority so we need to iterate over the
-            for ($i=10;$i>0;$i--) {
-                if (!empty($aAds['ads'][$i])) {
-                    $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'ads', $i), $adSelectFunction);
-                    // Did we pick an ad from this campaign-priority level?
-                    if (is_array($aLinkedAd)) { break; }
-                    // Should we skip the next campaign-priority level?
-                    if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) { break; }
+        // Is this a companion request and can it be fullfilled?
+        if (isset($aAds['zone_companion'])) {
+            foreach ($context as $contextEntry) {
+                if (isset($contextEntry['==']) && preg_match('/^companionid:/', $contextEntry['=='])) {
+                    if ($aLinkedAd = _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMedia, true)) {
+                        return $aLinkedAd;
+                    }
                 }
             }
         }
-        // If still no ad selected...
-        if (!is_array($aLinkedAd)) {
-            // Select one of the low-priority ads
-            $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'lAds'), $adSelectFunction);
+        $aLinkedAd = _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMedia);
+        if (is_array($aLinkedAd)) {
+            return $aLinkedAd;
         }
-        if (!is_array($aLinkedAd)) {
-            // Select one of the low-priority ads
-            $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, 'eAds', -2), $adSelectFunction);
-            }
     }
+    return false;
+}
+
+/**
+ * This internal function selects an ad cyclying through exclusive, paid, low-pri etc.
+ * taking into account companion positioning as requested
+ *
+ * @param callback $adSelectFunction The plugin callback function
+ * @param string  $aAds         The array of ads to pick from
+ * @param array   $context      The context of this ad selection
+ *                              - used for companion positioning
+ *                              - and excluding banner/campaigns from this ad-call
+ * @param string  $source       The "source" parameter passed into the adcall
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
+ * @param boolean $companion    Should ad selection only return companion ads?
+ *
+ * @return array|false          Returns an ad-array (see page DocBlock) or false if no ad found
+ */
+function _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMedia, $companion = false)
+{
+    // Array of campaign types sorted by priority
+    $aCampaignTypes = array(
+        'xAds' => false,     // No priority levels
+        'ads'  => array(10, 9, 8, 7, 6, 5, 4, 3, 2, 1),
+        'lAds' => false,     // No priority levels
+        'eAds' => array(-2), // Priority level is fixed to -2
+    );
 
     $GLOBALS['_MAX']['considered_ads'][] = &$aAds;
 
-    if (is_array($aLinkedAd)) {
-      return $aLinkedAd;
+    foreach ($aCampaignTypes as $type => $aPriorities) {
+        if ($aPriorities) {
+            foreach ($aPriorities as $pri) {
+                $aLinkedAd = OX_Delivery_Common_hook('adSelect',
+                    array(&$aAds, &$context, &$source, &$richMedia, $companion, $type, $pri), $adSelectFunction);
+                // Did we pick an ad from this campaign-priority level?
+                if (is_array($aLinkedAd)) {
+                    return $aLinkedAd;
+        		}
+                // Should we skip the next campaign-priority level?
+                if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) {
+                    break;
+            	}
+            }
+        } else {
+            $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, $companion, $type), $adSelectFunction);
+            // Did we pick an ad from this campaign type?
+    		if (is_array($aLinkedAd)) {
+      			return $aLinkedAd;
+    		}
+    	}
     }
     return false;
 }
@@ -535,20 +552,21 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
  *                              - used for companion positioning
  *                              - and excluding banner/campaigns from this ad-call
  * @param string  $source       The "source" parameter passed into the adcall
- * @param boolean $richmedia    Does this invocation method allow for serving 3rd party/html ads
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
+ * @param boolean $companion    Should ad selection only return companion ads?
  * @param string  $adArrayVar   The collection of ads in $aLinkedAds to select the ad from
  * @param integer $cp
  *
  * @return array|void           The ad-array for the selected ad or void if no ad selected
  */
-function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'ads', $cp = null)
+function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $companion, $adArrayVar = 'ads', $cp = null)
 {
     // If there are no linked ads, we can return
     if (!is_array($aLinkedAds)) { return; }
 
     if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
         $aAds = &$aLinkedAds[$adArrayVar][$cp];
-    } elseif (isset($aLinkedAds[$adArrayVar])) {
+    } elseif (is_null($cp) && isset($aLinkedAds[$adArrayVar])) {
         $aAds = &$aLinkedAds[$adArrayVar];
     } else {
         $aAds = array();
@@ -560,7 +578,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     }
 
     // Build preconditions
-    $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
+    $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context, $companion);
 
     // New delivery algorithm: discard all invalid ads before iterating over them
     // $aAds passed by ref here
@@ -769,7 +787,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     return true;
 }
 
-function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
+function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context, $companion = false)
 {
     $aContext = array(
         'campaign' => array('exclude' => array(), 'include' => array()),
@@ -812,8 +830,18 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
                 break;
                 case 'companionid':
                     switch ($key) {
-                        case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
-                        case '==': $aContext['campaign']['include'][$value] = true; break;
+                        case '!=':
+                            // Exclusion list prevents competing companion ads from being displayed
+                            // even when a previous try to fatch a companion failed
+                            $aContext['campaign']['exclude'][$value] = true;
+                            break;
+                        case '==':
+                            // Inclusion list should be ignored if a previous try already failed
+                            // to return an ad
+                            if ($companion) {
+                                $aContext['campaign']['include'][$value] = true;
+                            }
+                       break;
                     }
                 break;
                 default:
@@ -840,10 +868,20 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
 function _adSelectBuildContext($aBanner, $context = array()) {
     if (!empty($aBanner['zone_companion'])) {
         // This zone call has companion banners linked to it.
-        // So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
+        // So pass into the next call that we would like a banner from this campaign
+        // and not from the other companion linked campaigns
         foreach ($aBanner['zone_companion'] AS $companionCampaign) {
-            $key = ($aBanner['placement_id'] == $companionCampaign) ? '==' : '!=';
-            $context[] = array($key => "companionid:$companionCampaign");
+            $value = 'companionid:'.$companionCampaign;
+            if ($aBanner['placement_id'] == $companionCampaign) {
+                $context[] = array('==' => $value);
+            } else {
+                // Did we previously deliver an ad from this campaign?
+                $key = array_search(array('==', $value), $context);
+                if ($key === false) {
+                    // Nope, we must exclude the campaign then!
+                    $context[] = array('!=' => $value);
+                }
+            }
         }
     }
     if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {

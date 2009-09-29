@@ -103,7 +103,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
 		$context      = array();
 		$source       = 'http://www.source.com';
 		$richMedia    = true;
-		$ret          = _adSelectDirect($what, $context, $source, $richMedia);
+		$ret          = _adSelectDirect($what, $campaignid = 1,$context, $source, $richMedia);
 		$this->assertTrue(TRUE);
 	}
 
@@ -151,17 +151,37 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $aLinked_ads['priority']['ads'][5] = 1;
 
         // Test1
-		$return   = _adSelect($aLinked_xAds, $context, $source, $richMedia, 'xAds');
-		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_xAds['xAds']));
+        //_adSelect(&$aLinkedAds, $context, $source, $richMedia, $companion, $adArrayVar = 'ads', $cp = null)
+		$return   = _adSelect($aLinked_xAds, $context, $source, $richMedia, $companion = false, 'xAds');
+		$this->assertTrue($return && array_key_exists($return['ad_id'], $aLinked_xAds['xAds']));
 
         // Test2
-		$return   = _adSelect($aLinked_ads, $context, $source, $richMedia, 'ads', 5);
-		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_ads['ads'][5]));
+		$return   = _adSelect($aLinked_ads, $context, $source, $richMedia, $companion = false, 'ads', 5);
+		$this->assertTrue($return && array_key_exists($return['ad_id'], $aLinked_ads['ads'][5]));
 
 		// Test3:
-		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, 'cAds', 5);
-		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_cAds['cAds'][5]));
+		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, $companion = false, 'cAds', 5);
+		$this->assertTrue($return && array_key_exists($return['ad_id'], $aLinked_cAds['cAds'][5]));
 
+		// Test4
+        $context = array(
+            // when the banner is a companion banner, subsequent calls should try to show banners from the same campaign
+            // here we set the campaign that was served as companion to a non existing campaign ID, to ensure
+            // that when companion = true, no banner is served
+            array('==' => 'companionid:148000') 
+        );
+        
+        // companion disabled, banners are served as usual
+		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, $companion = false, 'ads', 5);
+		$this->assertTrue($return && array_key_exists($return['ad_id'], $aLinked_cAds['ads'][5]));
+		
+		// companion enabled, no banner is served
+		$before = $GLOBALS['_MAX']['DIRECT_SELECTION'];
+		$GLOBALS['_MAX']['DIRECT_SELECTION'] = false;
+		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, $companion = true, 'ads', 5);
+		$GLOBALS['_MAX']['DIRECT_SELECTION'] = $before;
+		$this->assertEqual($return, false);
+		
 	}
 
 	/**
@@ -352,7 +372,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
                                                     'lAds' => 6,
                                                   )
 							);
-		$context	= '';
+		$context	= array();
 		$ret = _adSelectBuildContext($aBanner, $context);
 		$this->assertIsA($ret, 'array');
 		$this->assertIsA($ret[0], 'array');
