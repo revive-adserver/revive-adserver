@@ -2556,6 +2556,10 @@ $GLOBALS['_MAX']['NOW'] = time();
 }
 return $GLOBALS['_MAX']['NOW'];
 }
+function MAX_getRandomNumber($length = 10)
+{
+return substr(md5(uniqid(time(), true)), 0, $length);
+}
 function MAX_header($value)
 {
 header($value);
@@ -2875,7 +2879,7 @@ $code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source,
 list($usec, $sec) = explode(' ', microtime());
 $time = (float)$usec + (float)$sec;
 // Get a random number
-$random = substr(md5(uniqid($time, true)), 0, 10);
+$random = MAX_getRandomNumber();
 global $cookie_random;  // Temporary fix to get doubleclick tracking working (Bug # 88)
 $cookie_random = $random;
 // Get the click URL

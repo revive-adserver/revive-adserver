@@ -2555,6 +2555,10 @@ $GLOBALS['_MAX']['NOW'] = time();
 }
 return $GLOBALS['_MAX']['NOW'];
 }
+function MAX_getRandomNumber($length = 10)
+{
+return substr(md5(uniqid(time(), true)), 0, $length);
+}
 function MAX_header($value)
 {
 header($value);
