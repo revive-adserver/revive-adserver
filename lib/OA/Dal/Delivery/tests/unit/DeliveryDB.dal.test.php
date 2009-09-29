@@ -136,16 +136,12 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openx.org/themes/openx/images/header_logo.png");
         $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openx.org/");
         $this->assertIsA($aReturn['xAds'], 'array');
-        $this->assertIsA($aReturn['cAds'], 'array');
-        $this->assertIsA($aReturn['clAds'], 'array');
         $this->assertIsA($aReturn['ads'], 'array');
         $this->assertIsA($aReturn['lAds'], 'array');
         $this->assertIsA($aReturn['count_active'], 'integer');
         $this->assertIsA($aReturn['zone_companion'], 'boolean');
         $this->assertIsA($aReturn['priority'], 'array');
         $this->assertIsA($aReturn['priority']['xAds']   , 'integer');
-        $this->assertIsA($aReturn['priority']['cAds']   , 'array');
-        $this->assertIsA($aReturn['priority']['clAds']  , 'integer');
         $this->assertIsA($aReturn['priority']['ads']    , 'array');
         $this->assertIsA($aReturn['priority']['lAds']   , 'integer');
     }
