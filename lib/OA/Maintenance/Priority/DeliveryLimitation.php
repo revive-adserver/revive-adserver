@@ -294,6 +294,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         // Test the parameters, if invalid, return zero
         if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast) ||
             (count($aCumulativeZoneForecast) != OX_OperationInterval::operationIntervalsPerWeek())) {
+            OA::debug('  - Invalid parameters to getAdLifetimeZoneImpressionsRemaining, returning 0', PEAR_LOG_ERR);
             return $totalAdLifetimeZoneImpressionsRemaining;
         }
 

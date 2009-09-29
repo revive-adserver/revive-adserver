@@ -56,9 +56,6 @@ define('BASE_FACTOR', 10);
  * @package    OpenXMaintenance
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
- *
- * @TODO Remove code that emails details about problems with delivery - only in
- * place at present to assist with debugging...
  */
 class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Maintenance_Priority_AdServer_Task
 {

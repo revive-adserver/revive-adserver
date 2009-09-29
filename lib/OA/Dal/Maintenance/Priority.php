@@ -454,14 +454,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             'sum_clicks',
             'sum_conversions'
             );
-            foreach ($items as $item) {
-                if (!empty($aPlacementsStats[0][$item])) {
-                    $aPlacements[$item] = $aPlacementsStats[0][$item] ;
-                } else {
-                    $aPlacements[$item] = 0;
-                }
+        foreach ($items as $item) {
+            if (!empty($aPlacementsStats[0][$item])) {
+                $aPlacements[$item] = $aPlacementsStats[0][$item] ;
+            } else {
+                $aPlacements[$item] = 0;
             }
-            return $aPlacements;
+        }
+        return $aPlacements;
     }
 
     /**
@@ -1284,7 +1284,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         	        }
         	    }
         	}
-        	return $aFinalResult;
+        	return $aFinalResult; 
     }
 
     /**
@@ -2075,7 +2075,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
 
     /**
-     * A method to return the forcast impressions for a zone, indexed by operation interval,
+     * A method to return the forecast impressions for a zone, indexed by operation interval,
      * from the current operation interval through the past week. If no forecast stored in
      * the database for a given OI, uses average of forecasts found.
      *

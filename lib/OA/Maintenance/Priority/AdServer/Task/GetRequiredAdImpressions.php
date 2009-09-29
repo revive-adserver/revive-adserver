@@ -301,12 +301,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         foreach ($aCampaigns as $oCampaign) {
             OA::debug('  - Distributing impression inventory requirements for campaign ID: ' . $oCampaign->id, PEAR_LOG_DEBUG);
             $adsCount = count($oCampaign->aAds);
-            if ($adsCount == 1) {
-                $adsWord = 'ad';
-            } else {
-                $adsWord = 'ads';
-            }
-            OA::debug("    - Campaign has $adsCount $adsWord.", PEAR_LOG_DEBUG);
+            OA::debug("    - Campaign has $adsCount ads.", PEAR_LOG_DEBUG);
             // Get date object to represent campaign expiration date
             if (
                    ($oCampaign->impressionTargetDaily > 0)
@@ -326,7 +321,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // Unless the campaign has an expiry date and it happens before the end of today
                 if (!empty($oCampaign->expireTime)) {
                     if ($oCampaignExpiryDate->after($this->_getDate($oCampaign->expireTime))) {
-                        $oCampaignExpiryDate = $this->_getDate($oCampaign->expireTime);
+                        $oCampaignExpiryDate  = $this->_getDate($oCampaign->expireTime);
                     }
                 }
             } else if (
@@ -353,7 +348,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 continue;
             }
             // Determine number of remaining operation intervals for campaign
-            $message = "  - Calculating campaign remaining operation intervals.";
+            $message = "    - Calculating campaign remaining operation intervals.";
             OA::debug($message, PEAR_LOG_DEBUG);
             $campaignRemainingOperationIntervals =
                 OX_OperationInterval::getIntervalsRemaining(
@@ -419,10 +414,10 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             reset($oCampaign->aAds);
             while (list($key, $oAd) = each($oCampaign->aAds)) {
                 if (in_array($oAd->id, $aInvalidAdIds)) {
-                    OA::debug('    - Skipping ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                    OA::debug('       - Skipping ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                     continue;
                 }
-                OA::debug('    - Caclulating required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                OA::debug('     - Calculating required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                 // Get impressions required
                 $totalRequiredAdImpressions = 0;
                 if ($oAd->active && $oAd->weight > 0 && $aAdBlockedForCurrentOI[$oAd->id] !== true) {
@@ -430,13 +425,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                         ($aAdWeightRemainingOperationIntervals[$oAd->id] / $sumAdWeightRemainingOperationIntervals);
                 }
                 if ($totalRequiredAdImpressions <= 0) {
-                    OA::debug('      - No required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                    OA::debug('       - No required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                     continue;
                 }
                 // Based on the average zone pattern of the zones the ad is
                 // linked to, calculate how many of these impressions should
                 // be delivered in the next operation interval
-                OA::debug('      - Caclulating next OI required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                OA::debug('       - Calculating next OI required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                 $oAd->requiredImpressions = $this->_getAdImpressions(
                         $oAd,
                         $totalRequiredAdImpressions,
@@ -444,7 +439,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                         $oCampaignExpiryDate,
                         $aAdDeliveryLimitations[$oAd->id],
                         $aAdZones[$oAd->id]
-                    );
+                );
                 $aRequiredAdImpressions[] = array(
                     'ad_id'                => $oAd->id,
                     'required_impressions' => $oAd->requiredImpressions
@@ -492,6 +487,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             !is_a($oDate, 'Date') || !is_a($oCampaignExpiryDate, 'Date') ||
             !is_a($oDeliveryLimitation, 'OA_Maintenance_Priority_DeliveryLimitation') ||
             !is_array($aAdZones) || empty($aAdZones)) {
+            OA::debug('- Invalid parameters in _getAdImpressions, skipping...', PEAR_LOG_ERR);
             return 0;
         }
         if ($oDeliveryLimitation->deliveryBlocked($oDate) == true) {
