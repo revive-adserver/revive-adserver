@@ -129,7 +129,7 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     list($usec, $sec) = explode(' ', microtime());
     $time = (float)$usec + (float)$sec;
     // Get a random number
-    $random = substr(md5(uniqid($time, true)), 0, 10);
+    $random = MAX_getRandomNumber();
     global $cookie_random;  // Temporary fix to get doubleclick tracking working (Bug # 88)
     $cookie_random = $random;
     // Get the click URL
@@ -226,8 +226,8 @@ function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = nul
         $style = " style='width: 0px; height: 0px;'";
         $divEnd = '</div>';
     }
-    $beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
-    return $beacon;
+        $beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
+        return $beacon;
 }
 
 /**

@@ -474,6 +474,16 @@ function MAX_commonGetTimeNow()
 }
 
 /**
+ * Returns a random number of length $length
+ * @param length can be 32 max
+ * @return string
+ */
+function MAX_getRandomNumber($length = 10)
+{
+    return substr(md5(uniqid(time(), true)), 0, $length);
+}
+
+/**
  * send a header (for real)
  */
 function MAX_header($value)
