@@ -1195,6 +1195,7 @@ $GLOBALS['strRequiredFieldLegend']              = "denotes required field";
 $GLOBALS['strFormContainsErrors']               = "Form contains errors, please correct the marked fields below.";
 $GLOBALS['strRequiredField']                    = "Required field";
 $GLOBALS['strXRequiredField']                   = "%s is required";
+$GLOBALS['strMaxLengthField']                   = "Please enter maximum %s characters";
 $GLOBALS['strEmailField']                       = "Please enter a valid email";
 $GLOBALS['strNumericField']                     = "Please enter a number (only digits allowed)";
 $GLOBALS['strGreaterThanZeroField']             = "Must be greater than 0";

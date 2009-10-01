@@ -105,7 +105,8 @@ function buildSignupForm($oMarketComponent, $captchaRandom)
     $oForm->addElement('html', 'newAccountPrefix', $aStrings['no_account_header_text']);
     $oForm->addElement('text', 'm_new_email', $aStrings['signup_email_field_label'], array('class' => 'medium'));
 
-    $usernameGroup[] = $oForm->createElement('text', 'm_new_username', "", array('class' => 'medium'));
+    $userNameMaxLenght = 26;    
+    $usernameGroup[] = $oForm->createElement('text', 'm_new_username', "", array('class' => 'medium', 'maxlength' => $userNameMaxLenght));
     $usernameGroup[] = $oForm->createElement('html', 'm_username_check_indicator', '<span class="hide" id="user-check-indicator">
                                 <span class="available-int">Available</span>
                                 <span class="unavailable-int">Not available</span>
@@ -176,9 +177,15 @@ function buildSignupForm($oMarketComponent, $captchaRandom)
         $userNameRequiredRule = array($sgUserNameRequired, 'required');
         $oForm->registerRule('usernamecheck', 'callback', 'validateUserNameUnique');
         $userNameNotUnique = array($aStrings['signup_username_not_available_message'], 'usernamecheck');
+        $userNameLength = array($oMarketComponent->translate($GLOBALS['strMaxLengthField'], 
+            array($userNameMaxLenght)), 'maxlength', $userNameMaxLenght);
         $oForm->addGroupRule('g_new_username',
-            array('m_new_username' => array($userNameRequiredRule, $userNameNotUnique)
-        ));
+            array('m_new_username' => array(
+                $userNameRequiredRule,
+                $userNameLength, 
+                $userNameNotUnique)
+        ));            
+            
         $sgPasswordRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'],
             array($aStrings['signup_password_field_label']));
         $oForm->addRule('m_new_password', $sgPasswordRequired, 'required');
