@@ -23,4 +23,5 @@ class PublisherConsoleTestClient
     public function getCreativeTypes()      { return $this->testGetDictionaryData(); }
     public function getAdCategories()       { return $this->testGetDictionaryData(); }
     public function getDefaultRestrictions(){ return $this->testGetDictionaryData(); }
+    public function getCreativeSizes()      { return $this->testGetDictionaryData(); }
 }

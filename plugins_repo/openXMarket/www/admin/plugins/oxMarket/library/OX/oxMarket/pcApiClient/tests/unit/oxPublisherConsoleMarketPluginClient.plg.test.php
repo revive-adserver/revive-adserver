@@ -538,14 +538,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $result = $oPCMarketPluginClient->getAdCategories();
         $this->assertTrue(is_array($result));
         // There should be at least 30 categories
-        $this->assertTrue(count($result)>=30); 
+        $this->assertTrue(count($result)>=25); 
         // All categories have id and description
         foreach ($result as $k => $v) {
             $this->assertTrue(is_int($k));
             $this->assertTrue(is_string($v));
         }
         // Test few categories (shouldn't change)
-        $this->assertEqual($result[1], 'Adult Entertainment');
+        $this->assertEqual($result[1], 'Adult');
         $this->assertEqual($result[11], 'Food and Drink');
         $this->assertEqual($result[30], 'Personal Finance');
 
@@ -629,7 +629,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $PubConsoleClient->dictionaryData = new Exception('testException');
         $result = $oPCMarketPluginClient->getCreativeAttributes();
         $this->assertTrue(is_array($result));
-        // There should be at least 30 categories
+        // There should be at least 15 attributes
         $this->assertTrue(count($result)>=15); 
         // All categories have id and description
         foreach ($result as $k => $v) {
@@ -649,6 +649,70 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $PubConsoleClient->dictionaryData = $data;
         $result = $oPCMarketPluginClient->getCreativeAttributes();
         $this->assertEqual($result, $data);
+        // Cache file is created
+        $this->assertTrue($oCache->load(false));
+        
+        // clear cache
+        $oCache->clear();
+    }
+    
+    
+    function testGetCreativeSizes()
+    {
+        $GLOBALS['_MAX']['CONF']['oxMarket']['dictionaryCacheLifeTime'] = 60;
+
+        // Clear var/cache
+        $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', 
+            $GLOBALS['_MAX']['CONF']['oxMarket']['dictionaryCacheLifeTime']);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        
+        // Prepare test client
+        $PubConsoleClient = new PublisherConsoleTestClient();
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+        
+        // Test bundled var/data/dictionary cache
+        $PubConsoleClient->dictionaryData = new Exception('testException');
+        $result = $oPCMarketPluginClient->getCreativeSizes();
+        $this->assertTrue(is_array($result));
+        // There should be at least 15 sizes
+        $this->assertTrue(count($result)>=15); 
+        // All Sizes id and 
+        foreach ($result as $k => $v) {
+            $this->assertTrue(is_string($k));
+            $this->assertTrue(is_numeric($v['size_id']));
+            $this->assertTrue(is_string($v['name']));
+            $this->assertTrue(is_numeric($v['height']));
+            $this->assertTrue(is_numeric($v['width']));
+            $this->assertEqual(count($v),4);
+            $this->assertEqual($k, $v['width'].'x'.$v['height']);
+        }
+        // Test few sizes (shouldn't change)
+        $aSizes = array (
+            '468x60' => array( 'size_id' => 1,
+                               'name' => 'IAB Full Banner',
+                               'width' => 468,
+                               'height' => 60),
+            '125x125' => array( 'size_id' => 8,
+                               'name' => 'IAB Square Button',
+                               'width' => 125,
+                               'height' => 125),
+        );
+        $this->assertEqual($result['468x60'], $aSizes['468x60']);
+        $this->assertEqual($result['125x125'], $aSizes['125x125']);
+        
+        // Cache file shouldn't be created
+        $this->assertFalse($oCache->load(true));
+        
+        // Test creating own cache file
+        $aSizes['777x33'] = array( 'size_id' => 77,
+                               'name' => 'Test Banner Size',
+                               'width' => 777,
+                               'height' => 33);
+        $PubConsoleClient->dictionaryData = $aSizes;
+        $result = $oPCMarketPluginClient->getCreativeSizes();
+        $this->assertEqual($result, $aSizes);
         // Cache file is created
         $this->assertTrue($oCache->load(false));
         
@@ -759,4 +823,35 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         return $doExtMarket;
     }
 
+    
+    /**
+     * Can be run as test (simple rename method to testGenerateDictionaryFiles
+     * Will call PubConsole for dictionary data.
+     * 
+     */
+    function generateDictionaryFiles()
+    {
+        // Clear var/cache
+        $oCache = new OX_oxMarket_Common_Cache('AdCategories', 'oxMarket', 60);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        $oCache = new OX_oxMarket_Common_Cache('CreativeTypes', 'oxMarket', 60);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        $oCache = new OX_oxMarket_Common_Cache('CreativeAttributes', 'oxMarket', 60);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', 60);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        
+        // call all dictionary methods
+        $oPCMarketPluginClient = new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient(false);
+        $oPCMarketPluginClient->getAdCategories();
+        $oPCMarketPluginClient->getCreativeTypes();
+        $oPCMarketPluginClient->getCreativeAttributes();
+        $oPCMarketPluginClient->getDefaultRestrictions();
+        $oPCMarketPluginClient->getCreativeSizes();
+        
+    }
 }

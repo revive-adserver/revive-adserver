@@ -75,6 +75,7 @@
             <file path="{ADMINPATH}/var/">config.php</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_AdCategories</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeAttributes</file>
+            <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeSizes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeTypes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
 

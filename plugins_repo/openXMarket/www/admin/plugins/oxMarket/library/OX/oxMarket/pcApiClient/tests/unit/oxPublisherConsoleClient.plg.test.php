@@ -460,4 +460,27 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         $this->assertEqual($result, $response);
     }
 
+    
+    function testGetCreativeSizes()
+    {
+        // Prepare XmlRpc client mockup and test response
+        $response = array(
+            '468x60' => array(
+                            'size_id' => 1,
+                            'name' => 'IAB Full Banner',
+                            'width' => 468,
+                            'height' => 60));
+        $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+        $oXmlRpcClient->expectArgumentsAt(0, 'call', array('dictionary.getCreativeSizes', array()));
+        $oXmlRpcClient->setReturnValueAt(0, 'call', $response);
+        $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+        // Create PubConsole API client 
+        $oPCClient = 
+            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+            
+        // Test normal case
+        $result = $oPCClient->getCreativeSizes();        
+        $this->assertEqual($result, $response);
+    }
 }

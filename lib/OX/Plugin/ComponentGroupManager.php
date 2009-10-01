@@ -1965,6 +1965,7 @@ class OX_Plugin_ComponentGroupManager
             if ($oMenu->get($aMenu['add'],false))
             {
                 // menu already exists
+                $this->_logError('Menu already exists for '.$aMenu['add']);
                 return false;
             }
             $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'], $aMenu['helplink']);

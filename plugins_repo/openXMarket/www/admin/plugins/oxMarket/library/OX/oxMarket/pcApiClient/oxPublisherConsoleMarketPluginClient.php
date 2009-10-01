@@ -588,6 +588,19 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         return $this->getDictionaryData('CreativeAttributes', 'getCreativeAttributes');
     }
     
+    
+    /**
+     * Returns array of supported creative sizes each item is an array:
+     * key is a string 'width'x'height'
+     * each array contains fields: 'id' (int), 'name' (string), 'width' (int), 'size' (int)
+     *
+     * @return array array of attributes names where array keys are ids
+     */
+    function getCreativeSizes()
+    {
+        return $this->getDictionaryData('CreativeSizes', 'getCreativeSizes');
+    }
+    
     /**
      * Generic method to retrieve dictionary data.
      * 
