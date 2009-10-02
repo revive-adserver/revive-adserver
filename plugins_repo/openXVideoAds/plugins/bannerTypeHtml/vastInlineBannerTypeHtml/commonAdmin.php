@@ -332,7 +332,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $sampleAdsString = 'You can try using any of the following sample ads<br/><br/>';
         foreach($sampleUrls as $what => $urls) {
             $sampleAdsString .= "<b>$what sample ads</b><ul style='margin-top:5px'>";
-            if(count($urls) == 2) {
+            if(count($urls) == 3) {
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename_http') . ': '. $urls[0];
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_type') . ': '. $urls[1];
                $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[2];
@@ -470,7 +470,7 @@ VIDEO_FORMAT_OPTION_JS;
     
         $videoUrlFormats[] = $form->createElement(
         								'radio', 'vast_video_delivery', '',
-                                        'progressive / pseudo-streaming (HTTP)',
+                                        'progressive (HTTP)',
                                         VAST_VIDEO_URL_PROGRESSIVE_FORMAT, 
                                         array('id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ));
         $this->setElementIsRequired('vast_video_delivery',  'vast_overlay_action', VAST_OVERLAY_CLICK_TO_VIDEO);                                
