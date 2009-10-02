@@ -839,7 +839,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     public function getCookiePath()
     {
         require_once MAX_PATH .'/lib/Max.php';
-        return parse_url(MAX::constructUrl(), PHP_URL_PATH);
+        return parse_url(MAX::constructUrl(MAX_URL_ADMIN), PHP_URL_PATH);
     }
 }
 
