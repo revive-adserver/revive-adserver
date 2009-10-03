@@ -61,8 +61,8 @@ class OA_Task_Runner
         while ($oTask = array_shift($this->aTasks)) {
             OA::debug('Task begin: ' . get_class($oTask), PEAR_LOG_INFO); 
             $oTask->run();
-            unset($oTask);
             OA::debug('Task complete: ' . get_class($oTask), PEAR_LOG_INFO);
+            unset($oTask);
         }
     }
 
