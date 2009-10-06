@@ -218,8 +218,6 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
             }
         }
         
-        $aParams['channel'] = 'c'.$aAd['placement_id'].'z'.$aAd['zoneid'];
-        
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
 

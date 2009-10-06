@@ -65,7 +65,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $adHtml = 'test banner';
-        $aAd = array( 'width' => 468, 'height' => 60, 'placement_id' => 12, 'zoneid' =>7 );
+        $aAd = array( 'width' => 468, 'height' => 60 );
         $aCampaignMarketInfo = array();
         $website_id = 12;
         $aWebsiteMarketInfo = array('website_id' => $website_id);
@@ -94,7 +94,6 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0);
         $this->assertEqual($aOXM_ad->size, "468x60");
-        $this->assertEqual($aOXM_ad->channel, "c12z7");
         $this->assertTrue(isset($aOXM_ad->beacon));
         $this->assertEqual($aOXM_ad->fallback,$adHtml); 
        
@@ -325,7 +324,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $bannerCode = 'html banner';
-        $aBanner = array( 'width' => 468, 'height' => 60, );
+        $aBanner = array( 'width' => 468, 'height' => 60 );
         
         $code = $bannerCode;
         // Test postAdRender hook as entry point
