@@ -42,20 +42,20 @@ $Id$
         }
 
         function testIncludePluginLanguageFile() {
-            $module = 'nonExistingModule';
-            $package = 'nonExistingPackage';
+            $extension = 'nonExistingModule';
+            $group = 'nonExistingPackage';
             $language = 'nonExistingLanguage';
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module, null, $language);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, null, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], array());
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], array());
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, $group, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package], array());
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group], array());
 
             $translate = 'Some translation string';
-            $ret = MAX_Plugin_Translation::translate($translate, $module, $package);
+            $ret = MAX_Plugin_Translation::translate($translate, $extension, $group);
             // translation wasn't included so should return the same value
             $this->assertIdentical($ret, $translate);
 
@@ -66,27 +66,31 @@ $Id$
             include $path . 'pl.php';
             $plWords = $words;
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module,null,'en',$path);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension,null,'en',$path);
             $this->assertIdentical($ret, true);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], $enWords);
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], $enWords);
 
-            $ret = MAX_Plugin_Translation::translate('translate me', $module, $package);
+            $ret = MAX_Plugin_Translation::translate('translate me', $extension, $group);
             $this->assertIdentical($ret, 'translated text');
 
             // Clear the translation memory
             unset($GLOBALS['_MAX']['PLUGIN_TRANSLATION']);
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module,null,'pl',$path);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension,null,'pl',$path);
             $this->assertIdentical($ret, true);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], array_merge($enWords, $plWords));
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], array_merge($enWords, $plWords));
 
             // Check that a translation which doesn't exist in the selected language falls through to the english
-            $ret = MAX_Plugin_Translation::translate('translate me (fallback to english)', $module, $package);
+            $ret = MAX_Plugin_Translation::translate('translate me (fallback to english)', $extension, $group);
             $this->assertIdentical($ret, 'this is from the english pack');
 
             // Check that a translation key which doesn't exist in selected or english languages returns the key unchanged
-            $ret = MAX_Plugin_Translation::translate('this string does not exist in the language packs', $module, $package);
+            $ret = MAX_Plugin_Translation::translate('this string does not exist in the language packs', $extension, $group);
             $this->assertIdentical($ret, 'this string does not exist in the language packs');
+
+            // Check that the non-existent key with the same name as group returns the key unchanged.
+            $ret = MAX_Plugin_Translation::translate($group, $extension, $group);
+            $this->assertIdentical($ret, $group);
 
         }
 

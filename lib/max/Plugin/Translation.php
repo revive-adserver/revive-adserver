@@ -145,22 +145,24 @@ class MAX_Plugin_Translation
      *
      * @access  public
      * @static
-     * @param   string  $key        Translation term
-     * @param   string  $module     Module name
-     * @param   string  $package    Package name
+     * @param   string  $key Translation term
+     * @param   string  $extension extension name
+     * @param   string  $group group name
      *
-     * @return  string              translated text
+     * @return  string translated text
      */
-    function translate($key, $module, $package = null)
+    function translate($key, $extension, $group = null)
     {
-        MAX_Plugin_Translation::lazyInit($module, $package);
+        MAX_Plugin_Translation::lazyInit($extension, $group);
 
-        // First try and get a translation from the specific package...
-        if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package][$key])) {
-            return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package][$key];
-        // If there is no specific translation fall back to the module...
-        } elseif (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$key])) {
-            return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$key];
+        // First try and get a translation from the specific group...
+        if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group][$key])) {
+            return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group][$key];
+        // If there is no specific translation fall back to the extension...
+        // Check it is not an array in case the key is the same as the group name.
+        } elseif (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key])
+            && !is_array($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key])) {
+            return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key];
         // If all else fails, give up and return the un-translated string
         } else {
             return $key;
