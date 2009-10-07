@@ -140,6 +140,19 @@ class Plugins_BannerTypeHTML extends OX_Component
     {
 
     }
+
+    /**
+     * Modify the generated banner cache.
+     *
+     * @param string $buffer the banner cache.
+     * @param array $noScript
+     * @param array $banner
+     * @return string
+     */
+    function getBannerCache($buffer, &$noScript, $banner)
+    {
+        return $buffer;
+    }
 }
 
 ?>

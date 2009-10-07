@@ -129,6 +129,12 @@ function phpAds_getBannerCache($banner)
         $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
     }
 
+    // Allow custom banner types to alter the banner cache.
+    $bannerTypeComponent = OX_Component::factoryByComponentIdentifier($banner['ext_bannertype']);
+    if ($bannerTypeComponent) {
+        $buffer = $bannerTypeComponent->getBannerCache($buffer, $noScript, $banner);
+    }
+
     return $buffer;
 }
 
