@@ -86,7 +86,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
         $oPlugin->init(array()); // Assume it is called in the production after talking to Andrew
-        $this->assertEqual('Country / City', $oPlugin->displayName);
+        $this->assertEqual('Geo - Country / City', $oPlugin->displayName);
     }
 }
 
