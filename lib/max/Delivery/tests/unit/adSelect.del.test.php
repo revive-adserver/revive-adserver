@@ -325,6 +325,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
             $return   = _adSelect($ads_copy, $context, $source, $richMedia, 'ads', 5);
             $this->assertNull($return);
             $this->assertTrue(!isset($ads_copy['priority_used']['ads'][5]));
+            $context = "";
 
             // case 8: priority_used limit reached
             $ads_copy = $test_ads;
@@ -350,6 +351,24 @@ class Test_DeliveryAdSelect extends UnitTestCase {
             $this->assertNull($return);
             $this->assertEqual($ads_copy['priority_used']['ads'][5], 0);
 
+            // case 10: cp5, 2 ads both 0.7, cp4, 2 ads both 0.2
+            // cp5 ad will win, but confirm that the cp4 ads will be filtered
+            $ads_copy = $test_ads;
+            $ads_copy['ads'][5][1022]['priority'] = 0.7;
+            $ads_copy['ads'][5][1024]['priority'] = 0.7;
+            $ads_copy['ads'][4][1122]['priority'] = 0.2;
+            $ads_copy['ads'][4][1124]['priority'] = 0.2;
+            $context = array (array('!=' => 'bannerid:1124'));
+            $GLOBALS['_MAX']['considered_ads'] = array ();
+
+            // this will not pick from cp5 due to the ad exclusion
+            $GLOBALS['rand_val'] = 0.51;
+            $return   = _adSelectCommon($ads_copy, $context, $source, $richMedia);
+            $this->assertNotNull($return);
+            $ads_ret = &$GLOBALS['_MAX']['considered_ads'][0];
+            $this->assertEqual($ads_ret['priority_used']['ads'][5], 1.4);
+            $this->assertFalse(isset($ads_ret['ads'][4][1124]));
+            $this->assertTrue(isset($ads_ret['ads'][4][1122]));
         }
 
 	/**
