@@ -46,15 +46,10 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  */
 class Plugins_DeliveryLimitations_Geo_Netspeed extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
+    function __construct()
     {
-        return $this->translate('Net Speed');
+        parent::__construct();
+        $this->nameEnglish = 'Geo - Net Speed';
     }
 
     /**

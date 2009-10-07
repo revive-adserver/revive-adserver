@@ -47,17 +47,9 @@ class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimi
     {
         $this->Plugins_DeliveryLimitations();
         $this->columnName = 'referer';
+        $this->nameEnglish = 'Site - Referring Page';
     }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Refering Page');
-    }
 }
 
 ?>

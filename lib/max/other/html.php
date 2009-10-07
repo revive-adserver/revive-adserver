@@ -1129,7 +1129,7 @@ function MAX_displayAcls($acls, $aParams) {
     $deliveryLimitations = OX_Component::getComponents('deliveryLimitations', null, false);
     foreach ($deliveryLimitations as $pluginName => $plugin) {
         if ($plugin->isAllowed($page)) {
-            echo "<option value='{$pluginName}'>" . $plugin->group . ' - ' . $plugin->getName() . "</option>";
+            echo "<option value='{$pluginName}'>" . $plugin->getName() . "</option>";
         }
     }
 

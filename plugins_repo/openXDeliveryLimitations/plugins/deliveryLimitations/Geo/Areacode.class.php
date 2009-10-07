@@ -50,7 +50,7 @@ class Plugins_DeliveryLimitations_Geo_Areacode extends Plugins_DeliveryLimitatio
     {
         $this->Plugins_DeliveryLimitations();
         $this->columnName = 'geo_area_code';
-        $this->nameEnglish = 'US Area code';
+        $this->nameEnglish = 'Geo - US Area code';
     }
 
     /**

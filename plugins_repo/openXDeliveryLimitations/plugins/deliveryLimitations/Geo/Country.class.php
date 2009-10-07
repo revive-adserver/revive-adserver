@@ -48,15 +48,10 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
+    function __construct()
     {
-        return $this->translate("Country");
+        parent::__construct();
+        $this->nameEnglish = 'Geo - Country';
     }
 
     /**

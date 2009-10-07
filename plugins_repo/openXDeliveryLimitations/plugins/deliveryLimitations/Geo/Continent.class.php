@@ -51,7 +51,7 @@ class Plugins_DeliveryLimitations_Geo_Continent extends Plugins_DeliveryLimitati
     function Plugins_DeliveryLimitations_Geo_Continent()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
-        $this->nameEnglish = 'Continent';
+        $this->nameEnglish = 'Geo - Continent';
     }
 
 

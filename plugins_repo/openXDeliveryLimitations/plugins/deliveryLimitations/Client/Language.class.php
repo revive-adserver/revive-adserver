@@ -49,7 +49,7 @@ class Plugins_DeliveryLimitations_Client_Language extends Plugins_DeliveryLimita
     function Plugins_DeliveryLimitations_Client_Language()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
-        $this->nameEnglish = 'Language';
+        $this->nameEnglish = 'Client - Language';
     }
 
 

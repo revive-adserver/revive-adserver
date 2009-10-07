@@ -50,6 +50,11 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  */
 class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->nameEnglish = 'Geo - Country / Region';
+    }
 
     function init($data)
     {
@@ -59,16 +64,6 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
         }
     }
 
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Country / Region');
-    }
 
     /**
      * Return if this plugin is available in the current context

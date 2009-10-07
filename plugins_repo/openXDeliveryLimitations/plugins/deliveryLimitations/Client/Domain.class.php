@@ -50,7 +50,7 @@ class Plugins_DeliveryLimitations_Client_Domain extends Plugins_DeliveryLimitati
     function Plugins_DeliveryLimitations_Client_Domain()
     {
         $this->Plugins_DeliveryLimitations();
-        $this->nameEnglish = 'Domain';
+        $this->nameEnglish = 'Client - Domain';
     }
 }
 

@@ -47,17 +47,9 @@ class Plugins_DeliveryLimitations_Site_Source extends Plugins_DeliveryLimitation
     {
         parent::Plugins_DeliveryLimitations();
         $this->columnName = 'channel';
+        $this->nameEnglish = 'Site - Source';
     }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Source');
-    }
 }
 
 ?>

@@ -52,6 +52,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
     function Plugins_DeliveryLimitations_Geo_Latlong()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
+        $this->nameEnglish = 'Geo - Latitude/Longitude';
     }
 
     function init($data)
@@ -61,15 +62,6 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
             '==' => $this->translate('Is within'),
             '!=' => $this->translate('Is not within')
         );
-    }
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Latitude/Longitude');
     }
 
     /**

@@ -46,16 +46,7 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
     {
         $this->Plugins_DeliveryLimitations();
         $this->columnName = 'geo_postal_code';
-    }
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('US/Canada Postal Code');
+        $this->nameEnglish = 'Geo - US/Canada Postal Code';
     }
 
     /**

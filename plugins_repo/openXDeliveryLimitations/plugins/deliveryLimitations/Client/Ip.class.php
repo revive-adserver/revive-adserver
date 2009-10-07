@@ -55,17 +55,9 @@ class Plugins_DeliveryLimitations_Client_Ip extends Plugins_DeliveryLimitations
             '!=' => $GLOBALS['strDifferentFrom']);
         $this->aPatternOps = array('==' => 'LIKE', '!=' => 'NOT LIKE');
         $this->aStandardOps = array('==' => '=', '!=' => '!=');
+        $this->nameEnglish = 'Client - IP address';
     }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('IP address');
-    }
 }
 
 ?>

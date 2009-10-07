@@ -47,7 +47,7 @@ class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimit
     {
         $this->Plugins_DeliveryLimitations();
         $this->columnName = 'geo_organisation';
-        $this->nameEnglish = 'ISP/Organisation';
+        $this->nameEnglish = 'Geo - ISP/Organisation';
     }
 
     /**

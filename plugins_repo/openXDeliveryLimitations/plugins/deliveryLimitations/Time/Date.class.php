@@ -56,6 +56,8 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
             '<' => $GLOBALS['strEarlierThan'],
             '<=' => $GLOBALS['strEarlierThanOrEqual']
         );
+
+        $this->nameEnglish = 'Time - Date';
     }
 
 
@@ -63,16 +65,6 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
     {
         parent::init($data);
         $this->data = $this->_flattenData($this->data);
-    }
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Date');
     }
 
     /**

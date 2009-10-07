@@ -53,7 +53,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
     function Plugins_DeliveryLimitations_Geo_City()
     {
         parent::Plugins_DeliveryLimitations();
-        $this->nameEnglish = 'Country / City';
+        $this->nameEnglish = 'Geo - Country / City';
     }
 
     function init($data)

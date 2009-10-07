@@ -57,16 +57,8 @@ class Plugins_DeliveryLimitations_Time_Hour extends Plugins_DeliveryLimitations_
     function Plugins_DeliveryLimitations_Time_Hour()
     {
         $this->Plugins_DeliveryLimitations_Time_Base(0, 23);
-    }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Hour of day');
+        $this->nameEnglish = 'Time - Hour of day';
     }
 
     /**

@@ -53,7 +53,7 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
         $this->Plugins_DeliveryLimitations_ArrayData();
         $phpSniff = new phpSniff('', false);
         $this->setAValues($phpSniff->_browsers);
-        $this->nameEnglish = 'Browser';
+        $this->nameEnglish = 'Client - Browser';
     }
 
 

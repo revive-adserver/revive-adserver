@@ -57,16 +57,8 @@ class Plugins_DeliveryLimitations_Time_Day extends Plugins_DeliveryLimitations_A
     function Plugins_DeliveryLimitations_Time_Day()
     {
         $this->Plugins_DeliveryLimitations_Time_Base(0, 6);
-    }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Day of week');
+        $this->nameEnglish = 'Time - Day of week';
     }
 
     /**

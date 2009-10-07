@@ -54,6 +54,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     function Plugins_DeliveryLimitations_Site_Channel()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
+        $this->nameEnglish = 'Site - Channel';
     }
 
     function init($data)
@@ -61,17 +62,6 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         parent::init($data);
         $this->aOperations['=='] = $this->translate('Is all of');
     }
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Channel');
-    }
-
 
     /**
      * Return if this plugin is available in the current context

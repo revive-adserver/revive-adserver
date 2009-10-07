@@ -160,7 +160,7 @@ class Plugins_DeliveryLimitations extends OX_Component
             echo "</select>";
         }
         echo "</td><td width='130'>";
-		echo "<table cellpadding='2'><tr><td><img src='" . OX::assetPath() . "/images/icon-acl.gif' align='absmiddle'>&nbsp;</td><td><strong>{$this->group}</strong>:<br />{$this->displayName}</td></tr></table>";
+		echo "<table cellpadding='2'><tr><td><img src='" . OX::assetPath() . "/images/icon-acl.gif' align='absmiddle'>&nbsp;</td><td>{$this->displayName}</td></tr></table>";
 		echo "<input type='hidden' name='acl[{$this->executionorder}][type]' value='{$this->type}'>";
 		echo "<input type='hidden' name='acl[{$this->executionorder}][executionorder]' value='{$this->executionorder}'>";
 		echo "</td><td >";

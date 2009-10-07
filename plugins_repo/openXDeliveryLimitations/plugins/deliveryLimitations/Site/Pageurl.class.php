@@ -54,17 +54,10 @@ class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitatio
         } else {
             $this->columnName = 'IF(https=1, \'https://\', \'http://\') || domain || page || IF(query<>\'\', \'?\', \'\') || query';
         }
+
+        $this->nameEnglish = 'Site - Page URL';
     }
 
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Page URL');
-    }
 }
 
 ?>

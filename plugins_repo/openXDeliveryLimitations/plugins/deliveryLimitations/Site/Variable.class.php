@@ -46,16 +46,7 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
     {
         $this->delimiter = '|';
         $this->aOperations = MAX_limitationsGetAOperationsForString($this) + MAX_limitationsGetAOperationsForNumeric($this);
-    }
-
-    /**
-     * Return name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        return $this->translate('Variable');
+        $this->nameEnglish = 'Site - Variable';
     }
 
      /**
