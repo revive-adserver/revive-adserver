@@ -4138,10 +4138,13 @@ $cookie[$key] = $value;
 }
 }
 }
+if(isset($row['aSearch']) && isset($row['aReplace'])) {
 $cookie[$conf['var']['dest']] = str_replace($row['aSearch'], $row['aReplace'], $row['url']);
+}
 // if there is a fallback defined for this banner, we try and use it
 $creativeURL = '';
-if($row['contenttype'] == 'swf') {
+if(!empty($row['contenttype'])
+&& $row['contenttype'] == 'swf') {
 $filenameUseAltIfAvailable = _adRenderBuildFileUrl($row['aRow'], true);
 if(!empty($filenameUseAltIfAvailable)) {
 // this impression is a fallback impression (can be used in the logImpression hook)

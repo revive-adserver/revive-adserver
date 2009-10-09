@@ -4160,8 +4160,9 @@ MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
 // Derive the source parameter
 $source = MAX_commonDeriveSource($source);
-$zones = explode('|', $zones);
 $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
+if(!empty($zones)) {
+$zones = explode('|', $zones);
 foreach ($zones as $thisZone) {
 if (empty($thisZone)) continue;
 // nz is set when "named zones" are being used, this allows a zone to be selected more than once
@@ -4189,6 +4190,7 @@ if (!empty($output['context'])) {
 foreach ($output['context'] as $id => $contextArray) {
 if (!in_array($contextArray, $context)) {
 $context[] = $contextArray;
+}
 }
 }
 }
