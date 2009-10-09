@@ -53,55 +53,57 @@ MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign'
 // Derive the source parameter
 $source = MAX_commonDeriveSource($source);
 
-$zones = explode('|', $zones);
 $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
-foreach ($zones as $thisZone) {
-    if (empty($thisZone)) continue;
-    // nz is set when "named zones" are being used, this allows a zone to be selected more than once
-    if (!empty($nz)) {
-        list($zonename,$thisZoneid) = explode('=', $thisZone);
-        $varname = $zonename;
-    } else {
-        $thisZoneid = $varname = $thisZone;
-    }
 
-    $what = 'zone:'.$thisZoneid;
-
-    ###START_STRIP_DELIVERY
-    OA::debug('$what='.$what);
-    OA::debug('$context='.print_r($context,true));
-    ###END_STRIP_DELIVERY
-
-    // Get the banner
-    $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-
-    ###START_STRIP_DELIVERY
-    OA::debug('$block='.@$block);
-    //OA::debug(print_r($output, true));
-    OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
-    ###END_STRIP_DELIVERY
-
-    // Store the html2js'd output for this ad
-    $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
-
-    // Block this banner for next invocation
-    if (!empty($block) && !empty($output['bannerid'])) {
-        $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
-    }
-    // Block this campaign for next invocation
-    if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-        $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
-    }
-    // Pass the context array back to the next call, have to iterate over elements to prevent duplication
-    if (!empty($output['context'])) {
-        foreach ($output['context'] as $id => $contextArray) {
-            if (!in_array($contextArray, $context)) {
-                $context[] = $contextArray;
+if(!empty($zones)) {
+    $zones = explode('|', $zones);
+    foreach ($zones as $thisZone) {
+        if (empty($thisZone)) continue;
+        // nz is set when "named zones" are being used, this allows a zone to be selected more than once
+        if (!empty($nz)) {
+            list($zonename,$thisZoneid) = explode('=', $thisZone);
+            $varname = $zonename;
+        } else {
+            $thisZoneid = $varname = $thisZone;
+        }
+    
+        $what = 'zone:'.$thisZoneid;
+    
+        ###START_STRIP_DELIVERY
+        OA::debug('$what='.$what);
+        OA::debug('$context='.print_r($context,true));
+        ###END_STRIP_DELIVERY
+    
+        // Get the banner
+        $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+    
+        ###START_STRIP_DELIVERY
+        OA::debug('$block='.@$block);
+        //OA::debug(print_r($output, true));
+        OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
+        ###END_STRIP_DELIVERY
+    
+        // Store the html2js'd output for this ad
+        $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
+    
+        // Block this banner for next invocation
+        if (!empty($block) && !empty($output['bannerid'])) {
+            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+        }
+        // Block this campaign for next invocation
+        if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+        }
+        // Pass the context array back to the next call, have to iterate over elements to prevent duplication
+        if (!empty($output['context'])) {
+            foreach ($output['context'] as $id => $contextArray) {
+                if (!in_array($contextArray, $context)) {
+                    $context[] = $contextArray;
+                }
             }
         }
     }
 }
-
 MAX_cookieFlush();
 
 // Setup the banners for this page
