@@ -1654,7 +1654,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 UPDATE
                                 {$table}
                                 SET
-                                    priority = {$aAdZonePriority['priority']},
+                                    priority = ".(float)$aAdZonePriority['priority'].",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
                                     to_be_delivered = " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . "
                                 WHERE
@@ -1715,7 +1715,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 UPDATE
                                 {$table}
                                 SET
-                                    priority = {$aAdZonePriority['priority']},
+                                    priority = ".(float)$aAdZonePriority['priority'].",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
                                     to_be_delivered = " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . "
                                 WHERE
@@ -1959,22 +1959,22 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             {$tableTmp}
             WHERE
                 ad_id IN (" . implode(', ', $aAdvertID) . ')';
-            // Don't use a PEAR_Error handler
-            PEAR::pushErrorHandling(null);
-            // Execute the query
-            $rc = $this->oDbh->query($query);
-            // Resore the PEAR_Error handler
-            PEAR::popErrorHandling();
-            if (!PEAR::isError($rc)) {
-                $aResult = array();
-                while ($row = $rc->fetchRow()) {
-                    $aResult[$row['zone_id']][$row['ad_id']] = $row['required_impressions'];
-                }
-                return $aResult;
-            } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
-                return array();
+        // Don't use a PEAR_Error handler
+        PEAR::pushErrorHandling(null);
+        // Execute the query
+        $rc = $this->oDbh->query($query);
+        // Resore the PEAR_Error handler
+        PEAR::popErrorHandling();
+        if (!PEAR::isError($rc)) {
+            $aResult = array();
+            while ($row = $rc->fetchRow()) {
+                $aResult[$row['zone_id']][$row['ad_id']] = $row['required_impressions'];
             }
-            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            return $aResult;
+        } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
+            return array();
+        }
+        MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
     }
 
     /**
@@ -2247,7 +2247,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                   WHERE
                     cl.clientid = c.clientid
                     AND c.ecpm_enabled = 1";
-                  return $this->getAgenciesIdsFromQuery($query);
+        return $this->getAgenciesIdsFromQuery($query);
     }
 
     /**
