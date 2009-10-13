@@ -479,7 +479,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             $aRows['count_active']++;
         } elseif ($aAd['campaign_priority'] == -2) {
             // Creative is in a an eCPM campaign
-            $aRows['eAds'][$aAd['ad_id']] = $aAd;
+            $aRows['eAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } else {
             // Creative is in a contract campaign
@@ -579,7 +579,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             $totals['lAds'] += $aAd['priority'];
         } elseif ($aAd['campaign_priority'] == -2) {
             // Creative is in an eCPM campaign
-            $aRows['eAds'][$aAd['ad_id']] = $aAd;
+            $aRows['eAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         } else {
             // Creative is in a contract campaign
@@ -602,6 +602,10 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             // "Lower" level creatives do NOT exist, EXCLUDE the "blank" priority
             $totals['ads'] = _getTotalPrioritiesByCP($aRows['ads'], false);
         }
+    }
+    // eCPM remnant campaigns
+    if (is_array($aRows['eAds'])) {
+        $totals['eAds'] = _getTotalPrioritiesByCP($aRows['eAds']);
     }
     // If there are remnant campaign creatives, sort by priority
     if (isset($aRows['lAds']) && is_array($aRows['lAds'])) {
