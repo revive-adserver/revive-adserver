@@ -67,6 +67,10 @@ $GLOBALS['OA_Delivery_Cache'] = array(
  */
 function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
+    ###START_STRIP_DELIVERY
+    OA::debug("Cache fetch: {$name}");
+    ###END_STRIP_DELIVERY
+
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 
     $aCacheVar = OX_Delivery_Common_hook(
@@ -76,6 +80,10 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
     );
     if ($aCacheVar !== false) {
         if ($aCacheVar['cache_name'] != $name) {
+            ###START_STRIP_DELIVERY
+            OA::debug(" - Cache error ({$name} != {$aCacheVar['cache_name']}");
+            ###END_STRIP_DELIVERY
+
             return false;
         }
         // The method used to implement cache expiry imposes two cache writes if the cache is
@@ -90,10 +98,22 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
         {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $aCacheVar['cache_contents'], $isHash);
+            ###START_STRIP_DELIVERY
+            OA::debug(" - Cache EXPIRED");
+            ###END_STRIP_DELIVERY
+
             return false;
         }
+        ###START_STRIP_DELIVERY
+        OA::debug(" - Cache HIT");
+        ###END_STRIP_DELIVERY
+
         return $aCacheVar['cache_contents'];
     }
+    ###START_STRIP_DELIVERY
+    OA::debug(" - Cache MISS");
+    ###END_STRIP_DELIVERY
+
     return false;
 }
 
