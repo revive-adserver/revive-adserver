@@ -183,6 +183,7 @@ function setupConfigVariables()
 {
 $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
 $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
+$GLOBALS['_MAX']['thread_id'] = uniqid();
 // Set a flag if this request was made over an SSL connection (used more for delivery rather than UI)
 $GLOBALS['_MAX']['SSL_REQUEST'] = false;
 if (
