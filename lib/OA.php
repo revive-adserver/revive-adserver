@@ -145,9 +145,15 @@ class OA
             unset($GLOBALS['tempDebugPrefix']);
             return true;
         }
-        $logFile = ($ident == $aConf['log']['ident'] . '-delivery') ? $aConf['deliveryLog']['name'] : $aConf['log']['name'];
+        if ($ident == $aConf['log']['ident'] . '-delivery') {
+            $logFile = $aConf['deliveryLog']['name'];
+            list($micro_seconds, $seconds) = explode(" ", microtime());
+            $message = (round(1000 *((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message; 
+        } else {
+            $logFile = $aConf['log']['name'];
+        }
 
-        $ident .= (!empty($GLOBALS['maintenance_id'])) ? '-' . $GLOBALS['maintenance_id'] : '';
+        $ident .= (!empty($GLOBALS['_MAX']['thread_id'])) ? '-' . $GLOBALS['_MAX']['thread_id'] : '';
 
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
