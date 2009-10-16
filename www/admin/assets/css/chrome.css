@@ -1186,6 +1186,8 @@ div.breadcrumb h3 span.label {
 div.breadcrumb h3.noBreadcrumb {
  	padding-top: 14px;
  	margin: 0;
+	overflow: visible;
+	height: auto;
 }
 
 
