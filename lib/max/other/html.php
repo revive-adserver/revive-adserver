@@ -42,7 +42,7 @@ function MAX_getDisplayName($name, $length = 60, $append = '...')
 
 function MAX_buildName($id, $name)
 {
-    return $name;
+    return htmlentities($name);
 }
 
 function MAX_getEntityIcon($entity, $active=true, $type='')
