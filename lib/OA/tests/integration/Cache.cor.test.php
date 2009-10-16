@@ -156,6 +156,54 @@ class Test_OA_Cache extends UnitTestCase
             }
         }
     }
+    
+    function testLifeTime() 
+    {
+        $oCache = new OA_Cache('test', 'oxpTestCache', 1);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        
+        // File not exist
+        $result = $oCache->load(false);
+        $this->assertFalse($result);
+        
+        $data = 'test';
+        $oCache->save($data);
+        
+        // File exists
+        $result = $oCache->load(false);
+        $this->assertEqual($result, $data);
+        
+        // Wait 3 seconds and set cache lifetime to 1 second
+        sleep(3);
+        $oCache = new OA_Cache('test', 'oxpTestCache', 1);
+        $oCache->setFileNameProtection(false);
+        
+        // File exists but is not valid
+        $result = $oCache->load(false);
+        $this->assertFalse($result);
+        
+        // Try to retrive cache ignoring lifetime
+        $result = $oCache->load(true);
+        $this->assertEqual($result, $data);
+    }
+    
+    function testCacheDir() 
+    {
+        $oCache = new OA_Cache('test', 'oxpTestCache');
+        $oCache->clear();
+        
+        $result = $oCache->load(true);
+        $this->assertFalse($result);
+        
+        $newCacheDir = dirname(__FILE__) . '/../data/'; 
+        
+        $oCache = new OA_Cache('test', 'oxpTestCache', null, $newCacheDir);
+        $oCache->setFileNameProtection(false);
+        
+        $result = $oCache->load(true);
+        $this->assertEqual('test', $result);
+    }
 }
 
 ?>

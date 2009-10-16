@@ -120,6 +120,12 @@ class OA_Upgrade
     var $existing_installation_status = OA_STATUS_NOT_INSTALLED;
     var $upgrading_from_milestone_version = false;
     var $aToDoList = array();
+    
+    /**
+     * Static result of canUpgradeOrInstall
+     * @var array
+     */
+    static protected $canUpgradeOrInstall;
 
     function __construct()
     {
@@ -470,7 +476,7 @@ class OA_Upgrade
                 if ($noText) {
                     return 'unknown version';
                 } else {
-                    return 'An unknown version was';
+                    return 'An unknown version';
                 }
             case '0.100' :
                 if ($noText) {
@@ -513,15 +519,64 @@ class OA_Upgrade
         }
     }
 
+    
+    /**
+     * Look for existing installations (phpAdsNew, MMM, Openads)
+     * retrieve details and check for errors
+     * Allows to limit calls to canUpgradeInit in one thread by storing it's results
+     *
+     * @param boolean $forceCheck should canUpgradeInit be called anyway
+     * @return boolean true if can install or upgrade application, false if can't upgrade or it's current installation
+     */
+    public function canUpgradeOrInstall($forceCheck = false) {
+        if ($forceCheck || !isset(self::$canUpgradeOrInstall)) {
+            $result = $this->canUpgradeInit();
+            self::$canUpgradeOrInstall = array(
+                'result' => $result,
+                'existing_installation_status' => $this->existing_installation_status,
+                'versionInitialApplication' => isset($this->versionInitialApplication) ? $this->versionInitialApplication : null,
+                'tables_core' => isset($this->versionInitialSchema['tables_core']) ? $this->versionInitialSchema['tables_core'] : null,
+                'package0' => isset($this->aPackageList[0]) ? $this->aPackageList[0] : null,
+                'aDsn-database' => $this->aDsn['database'],
+                'aDsn-table' => $this->aDsn['table'],
+                'upgrading_from_milestone_version' => $this->upgrading_from_milestone_version,
+                'globals-database' => $GLOBALS['_MAX']['CONF']['database'],
+                'globals-table' => $GLOBALS['_MAX']['CONF']['table'],
+                'oLogger' => clone $this->oLogger,
+            );
+        } else {
+            // restore results from self::$canUpgradeOrInstall
+            $aResult = self::$canUpgradeOrInstall;
+            $this->existing_installation_status = $aResult['existing_installation_status'];
+            if (isset($aResult['versionInitialApplication'])) {
+                $this->versionInitialApplication = $aResult['versionInitialApplication'];
+            }
+            if (isset($aResult['tables_core'])) {
+                $this->versionInitialSchema['tables_core'] = $aResult['tables_core'];
+            }
+            if (isset($aResult['package0'])) {
+                $this->aPackageList[0] = $aResult['package0'];
+            }
+            $this->aDsn['database'] = $aResult['aDsn-database'];
+            $this->aDsn['table'] = $aResult['aDsn-table'];
+            $this->upgrading_from_milestone_version = $aResult['upgrading_from_milestone_version'];
+            $GLOBALS['_MAX']['CONF']['database'] = $aResult['globals-database'];
+            $GLOBALS['_MAX']['CONF']['table']    = $aResult['globals-table'];
+            $this->oLogger = $aResult['oLogger'];
+        }
+        return self::$canUpgradeOrInstall['result'];
+    }
+    
+    
     /**
      * look for existing installations (phpAdsNew, MMM, Openads)
      * retrieve details and check for errors
      *
      * @return boolean
      */
-    function canUpgrade()
+    protected function canUpgradeInit()
     {
-        $strDetected       = ' configuration file detected';
+        $strDetected       = 'configuration file detected';
         $strCanUpgrade     = 'This version can be upgraded';
         $strNoConnect      = 'Could not connect to the database';
         $strConnected      = 'Connected to the database ok';
@@ -538,10 +593,10 @@ class OA_Upgrade
                 $this->oLogger->logOnly('PAN not detected');
                 break;
             case OA_STATUS_PAN_CONFIG_DETECTED:
-                $this->oLogger->logError($strProductName.$strDetected);
+                $this->oLogger->logError($strProductName.' '.$strDetected);
                 break;
             case OA_STATUS_PAN_DBCONNECT_FAILED:
-                $this->oLogger->logError($strDetected);
+                $this->oLogger->logError($strProductName.' '.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_PAN_VERSION_FAILED:
@@ -576,13 +631,13 @@ class OA_Upgrade
             case OA_STATUS_M01_CONFIG_DETECTED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->logError($strProductName.$strDetected);
+                    $this->oLogger->logError($strProductName.' '.$strDetected);
                 }
                 break;
             case OA_STATUS_M01_DBCONNECT_FAILED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->logError($strProductName.$strDetected);
+                    $this->oLogger->logError($strProductName.' '.$strDetected);
                     $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 }
                 break;
@@ -613,10 +668,10 @@ class OA_Upgrade
                 $this->oLogger->logOnly('MMM v0.3 not detected');
                 break;
             case OA_STATUS_MAX_CONFIG_DETECTED:
-                $this->oLogger->logError($strProductName.$strDetected);
+                $this->oLogger->logError($strProductName.' '.$strDetected);
                 break;
             case OA_STATUS_MAX_DBCONNECT_FAILED:
-                $this->oLogger->logError($strProductName.$strDetected);
+                $this->oLogger->logError($strProductName.' '.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_MAX_DBINTEG_FAILED:
@@ -647,16 +702,16 @@ class OA_Upgrade
                 }
                 break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('Openads'.' '.$strDetected);
                 break;
             case OA_STATUS_OAD_DBCONNECT_FAILED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('Openads'.' '.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_OAD_CONFINTEG_FAILED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('Openads'.' '.$strDetected);
                 $this->oLogger->logError($strProductName.' detected');
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
@@ -676,7 +731,35 @@ class OA_Upgrade
         }
         return false;
     }
+    
 
+    /**
+     * Do quick check for existing installations (phpAdsNew, MMM, Openads)
+     * Is it this fresh install or upgrade?
+     *
+     * @return boolean
+     */
+    function isFreshInstall()
+    {
+        $freshInstall = true;
+        if (!empty($GLOBALS['_MAX']['CONF']['max']['installed'])) {
+            $freshInstall = false;
+        }
+        elseif ( (!empty($GLOBALS['_MAX']['CONF']['openads']['installed'])) || file_exists(MAX_PATH.'/var/INSTALLED')) {
+            $freshInstall = false;
+        }
+        else {
+            $this->oPAN->init();
+            if ($this->oPAN->detected)
+            {
+                $freshInstall = false;
+            }
+        }
+
+        return $freshInstall;
+    }
+    
+    
     /**
      * check existance of upgrade package file
      *
@@ -700,6 +783,7 @@ class OA_Upgrade
         $this->oLogger->logError('No upgrade package file specified');
         return false;
     }
+    
 
     /**
      * search for an existing phpAdsNew installation
@@ -1025,6 +1109,13 @@ class OA_Upgrade
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 $this->upgrading_from_milestone_version = false;
                 return true;
+            }
+            else if ($this->seekFantasyUpgradeFile()) {
+                // check if this is after fantasy upgrade
+                $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
+                $this->aPackageList = array();
+                $this->oLogger->log('Fantasy Upgrade detected');
+                return false;
             }
             $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
             return false;
@@ -1569,73 +1660,136 @@ class OA_Upgrade
         $this->aToDoList[] = $task;
     }
 
+    
     /**
-     * Create the admin user and account, plus a default manager
+     * Create the admin user and account, plus a default manager, also
+     * inserts admin default timezone preferences
      *
      * @param array $aAdmin
+     * @param array $aPrefs
      * @return boolean
      */
-    function putAdmin($aAdmin)
+    public function putAdmin($aAdmin, $aPrefs)
     {
-        // Create Admin account
-        $doAccount = OA_Dal::factoryDO('accounts');
-        $doAccount->account_name = 'Administrator account';
-        $doAccount->account_type = OA_ACCOUNT_ADMIN;
-        $adminAccountId = $doAccount->insert();
+        try {
+            // init transaction
+            $oDbh = OA_DB::singleton();
+            $useTransaction = $oDbh->supports('transactions');
+            if ($useTransaction) {
+                $oDbh->beginTransaction();
+            }
+            
+            // Create Admin account
+            $doAccount = OA_Dal::factoryDO('accounts');
+            $doAccount->account_name = 'Administrator account';
+            $doAccount->account_type = OA_ACCOUNT_ADMIN;
+            $adminAccountId = $doAccount->insert();
+    
+            if (!$adminAccountId) {
+                throw new Exception('error creating the admin account');
+            }
+    
+            // Create Manager entity
+            $doAgency = OA_Dal::factoryDO('agency');
+            $doAgency->name   = 'Default manager';
+            $doAgency->email  = $aAdmin['email'];
+            $doAgency->active = 1;
+            $agencyId = $doAgency->insert();
+    
+            if (!$agencyId) {
+                throw new Exception('error creating the manager entity');
+            }
+    
+            $doAgency = OA_Dal::factoryDO('agency');
+            if (!$doAgency->get($agencyId)) {
+                throw new Exception('error retrieving the manager account ID');
+            }
+    
+            $agencyAccountId = $doAgency->account_id;
+   
+            // Create Admin user
+            $doUser = OA_Dal::factoryDO('users');
+            $doUser->contact_name = 'Administrator';
+            $doUser->email_address = $aAdmin['email'];
+            $doUser->username = $aAdmin['name'];
+            $doUser->password = md5($aAdmin['pword']);
+            $doUser->default_account_id = $agencyAccountId;
+            $doUser->language = $aAdmin['language'];
+            $userId = $doUser->insert();
+    
+            if (!$userId) {
+                throw new Exception('error creating the admin user');
+            }
+    
+            $result = OA_Permission::setAccountAccess($adminAccountId, $userId);
+            if (!$result) {
+                throw new Exception("error creating access to admin account, account id: $adminAccountId, user ID: $userId");
+            }
+            $result = OA_Permission::setAccountAccess($agencyAccountId, $userId);
+            if (!$result) {
+                throw new Exception("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
+            }
 
-        if (!$adminAccountId) {
-            $this->oLogger->logError('error creating the admin account');
+            $this->putDefaultPreferences($adminAccountId);        
+            if (!$this->putTimezoneAccountPreference($aPrefs))
+            {
+                // rollback if fails 
+                throw new Exception();
+            }
+
+            if ($useTransaction) {
+                $oDbh->commit();
+            }
+        } catch (Exception $e) {
+            $this->oLogger->logErrorUnlessEmpty($e->getMessage());
+            if ($useTransaction) {
+                $oDbh->rollback();
+            } else {
+                $this->_rollbackPutAdmin();
+            }
             return false;
         }
-
-        // Create Manager entity
-        $doAgency = OA_Dal::factoryDO('agency');
-        $doAgency->name   = 'Default manager';
-        $doAgency->email  = $doUser->email_address;
-        $doAgency->active = 1;
-        $agencyId = $doAgency->insert();
-
-        if (!$agencyId) {
-            $this->oLogger->logError('error creating the manager entity');
-            return false;
-        }
-
-        $doAgency = OA_Dal::factoryDO('agency');
-        if (!$doAgency->get($agencyId)) {
-            $this->oLogger->logError('error retrieving the manager account ID');
-            return false;
-        }
-
-        $agencyAccountId = $doAgency->account_id;
-
-        // Create Admin user
+        return true;
+    }
+    
+    
+    /**
+     * MyISAM has no transaction, so we are reverting changes by truncating tables
+     * Assuming that this is install step and we have empty database!   
+     *
+     * @param int $adminAccountId
+     * @param int $agencyId
+     * @param int $userId
+     * @param bool $deletePreferences
+     */
+    protected function _rollbackPutAdmin()
+    {
+        // delete from account_preference_assoc
+        $doPreferencesAssoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doPreferencesAssoc->whereAdd('1=1');
+        $doPreferencesAssoc->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // delete from preferences
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->whereAdd('1=1');
+        $doPreferences->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // delete from account_user_assoc
+        $doUserAssoc = OA_Dal::factoryDO('account_user_assoc');
+        $doUserAssoc->whereAdd('1=1');
+        $doUserAssoc->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // delete from users
         $doUser = OA_Dal::factoryDO('users');
-        $doUser->contact_name = 'Administrator';
-        $doUser->email_address = $aAdmin['email'];
-        $doUser->username = $aAdmin['name'];
-        $doUser->password = md5($aAdmin['pword']);
-        $doUser->default_account_id = $agencyAccountId;
-        $doUser->language = $aAdmin['language'];
-        $userId = $doUser->insert();
-
-        if (!$userId) {
-            $this->oLogger->logError('error creating the admin user');
-            return false;
-        }
-
-        $result = OA_Permission::setAccountAccess($adminAccountId, $userId);
-        if (!$result) {
-            $this->oLogger->logError("error creating access to admin account, account id: $adminAccountId, user ID: $userId");
-            return false;
-        }
-        $result = OA_Permission::setAccountAccess($agencyAccountId, $userId);
-        if (!$result) {
-            $this->oLogger->logError("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
-            return false;
-        }
-
-        // Insert preferences and return
-        return $this->putDefaultPreferences($adminAccountId);
+        $doUser->whereAdd('1=1');
+        $doUser->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // delete from agency
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->whereAdd('1=1');
+        $doAgency->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // delete from accounts
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $doAccount->whereAdd('1=1');
+        $doAccount->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // remove admin_account_id from application variables
+        OA_Dal_ApplicationVariables::delete('admin_account_id');
     }
 
     /**
@@ -1730,6 +1884,7 @@ class OA_Upgrade
      *
      * @param int $adminAccountId
      * @return bool
+     * @throws Exception on errors
      */
     function putDefaultPreferences($adminAccountId)
     {
@@ -1745,8 +1900,7 @@ class OA_Upgrade
             $preferenceId = $doPreferences->insert();
 
             if (!$preferenceId) {
-                $this->oLogger->logError("error adding preference entry: $prefName");
-                return false;
+                throw new Exception("error adding preference entry: $prefName");
             }
 
             $doAPA = OA_Dal::factoryDO('account_preference_assoc');
@@ -1756,8 +1910,7 @@ class OA_Upgrade
             $result = $doAPA->insert();
 
             if (!$result) {
-                $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
-                return false;
+                throw new Exception("error adding preference default for $prefName: '".$aPref['default']."'");
             }
         }
 
@@ -1770,10 +1923,11 @@ class OA_Upgrade
      * @param boolean $syncEnabled
      * @return boolean
      */
-    function putSyncSettings($syncEnabled)
+    function putSyncSettings($syncEnabled, $newPlatformHash = null)
     {
         require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
         require_once MAX_PATH . '/lib/OA/Sync.php';
+        require_once MAX_PATH . '/lib/OX/Upgrade/Util/PlatformHashManager.php';
 
         $oSettings = new OA_Admin_Settings();
         $oSettings->settingChange('sync', 'checkForUpdates', $syncEnabled);
@@ -1789,11 +1943,16 @@ class OA_Upgrade
         }
 
         // Generate a new Platform Hash if empty
-        $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
-        if (empty($platformHash) && !OA_Dal_ApplicationVariables::set('platform_hash', OA_Dal_ApplicationVariables::generatePlatformHash()))
-        {
-            $this->oLogger->logError('Error inserting Platform Hash into database');
-            return false;
+        $currentPlatformHash = OA_Dal_ApplicationVariables::get('platform_hash');
+        if (empty($currentPlatformHash)) {
+            if (!isset($newPlatformHash) || 
+                $newPlatformHash == OX_Upgrade_Util_PlatformHashManager::$UNKNOWN_PLATFORM_HASH) {
+                $newPlatformHash = OA_Dal_ApplicationVariables::generatePlatformHash();
+            }
+            if (!OA_Dal_ApplicationVariables::set('platform_hash', $newPlatformHash)) {
+                $this->oLogger->logError('Error inserting Platform Hash into database');
+                return false;
+            }
         }
 
         $oSync = new OA_Sync();
@@ -2301,56 +2460,73 @@ class OA_Upgrade
         }
         return true;
     }
-
+    
+    
     /**
-     * retrieves a list of files to be included at the very end of the upgrade
-     * include each file
+     * Get array of post upgrade tasks
      *
-     * @return array | false
+     * @return array array of tasks
      */
-     function executePostUpgradeTasks()
+    public function getPostUpgradeTasks()
     {
-        $oldAudit = $GLOBALS['_MAX']['CONF']['audit']['enabled'];
-        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = 0;
+        $aTasks = array();
         if (file_exists($this->postTaskFile))
         {
             $aContent = array_unique(explode(';', trim(file_get_contents($this->postTaskFile))));
-            foreach ($aContent as $k => &$v)
+            foreach ($aContent as $v)
             {
-                if (trim($v))
-                {
-                    $file = $this->upgradePath."tasks/openads_upgrade_task_".trim($v).".php";
-                    if (file_exists($file))
-                    {
-                        $this->oLogger->logOnly('attempting to include file '.$file);
-                        include $file;
-                        $this->oLogger->logOnly('executed file '.$file);
-                    }
-                    else
-                    {
-                        $this->oLogger->logOnly('file not found '.$file);
-                    }
-                    $aResult[$k]['task']    = trim($v);
-                    $aResult[$k]['file']    = $file;
-                    $aResult[$k]['result']  = $upgradeTaskResult;
-                    $aResult[$k]['message'] = $upgradeTaskMessage;
-                    $aResult[$k]['error']   = $upgradeTaskError;
+                $taskname = trim($v);
+                if ($taskname) {
+                    $aTasks[]= $taskname;
                 }
             }
-            $this->_pickupPostUpgradeTasksFile();
-            $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $oldAudit;
-            return $aResult;
         }
+        return $aTasks;
+    }
+    
+    
+    /**
+     * Run single post upgrade task
+     *
+     * @param string $task task name
+     * @return array contains 'task' - task name, 'file' - executed file, 'result' - task result 'errors' - array of errors if any
+     */
+    public function runPostUpgradeTask($task) 
+    {
+        require_once MAX_PATH . '/lib/OX/Upgrade/PostUpgradeTask/MessagesCollector.php';
+        
+        $oldAudit = $GLOBALS['_MAX']['CONF']['audit']['enabled'];
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = 0;
+        
+        $file = $this->upgradePath."tasks/openads_upgrade_task_".$task.".php";
+        $upgradeTaskResult   = null;
+        $oMessages = new OX_Upgrade_PostUpgradeTask_MessagesCollector($this->oLogger);
+        if (file_exists($file))
+        {
+            $this->oLogger->logOnly('attempting to include file '.$file);
+            include $file;
+            $this->oLogger->logOnly('executed file '.$file);
+        }
+        else
+        {
+            $oMessages->logError('file not found '.$file);
+        }
+        $aResult['task']    = $task;
+        $aResult['file']    = $file;
+        $aResult['result']  = $upgradeTaskResult;
+        $aResult['errors']  = $oMessages->getErrors();
+
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $oldAudit;
-        return true;
+        return $aResult;
     }
 
+    
     /**
      * remove the nobackups file
      *
      * @return boolean
      */
-    function _pickupPostUpgradeTasksFile()
+    public function pickupPostUpgradeTasksFile()
     {
         @unlink($this->postTaskFile);
         return (!file_exists($this->postTaskFile));
@@ -2585,6 +2761,13 @@ class OA_Upgrade
         }
         return $aFiles;
     }
+    
+    
+    public function getLogger()
+    {
+        return $this->oLogger;
+    }
+    
 }
 
 ?>

@@ -1,0 +1,26 @@
+				&universal;
+				<verifyText description="Check text on page" 
+					text="Register with OpenX" />
+				<setRadioButton htmlid="has-account" />	
+				
+				<setinputfield description="set OpenX.org Username" 
+					name="l_username"
+					value="negativetest" />	
+				<setinputfield description="set Password" 
+					name="l_password"
+					value="negativetest" />				
+				<clickButton description="Click 'Continue »' button" 
+					name="login" />
+				<!-- <verifyTest text="Invalid user name or password"/> -->
+				<sleep seconds="5" />
+<!--				<verifyXPath xpath="@text['Invalid user name or password.']" /> -->
+				<verifyXPath xpath="//div[@class='body']/div/text()" />
+<!-- <verifyXPath xpath="contains(string("//div[@class='body']/div/text()"), "Invalid user name or password.")" /> -->
+				<setinputfield description="set OpenX.org Username" 
+					name="l_username"
+					value="${pc.login}" />	
+				<setinputfield description="set Password" 
+					name="l_password"
+					value="${pc.password}" />				
+				<clickButton description="Click 'Continue »' button" 
+					name="login" />

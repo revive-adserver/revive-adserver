@@ -53,12 +53,18 @@ class OA_Cache
      *
      * @param string $id
      * @param string $group
+     * @param int $lifeTime
+     * @param string $cacheDir // can be used to read cache backups from different directory
      * @return OA_Cache
      */
-    function OA_Cache($id, $group, $lifeTime = null)
+    function OA_Cache($id, $group, $lifeTime = null, $cacheDir = null)
     {
+        if (!isset($cacheDir)) {
+            $cacheDir = MAX_PATH . '/var/cache/';
+        }
+        
         $this->oCache = &new Cache_Lite(array(
-            'cacheDir'                      => MAX_PATH . '/var/cache/',
+            'cacheDir'                      => $cacheDir,
             'lifeTime'                      => $lifeTime,
             'readControlType'               => 'md5',
             'automaticSerialization'        => true

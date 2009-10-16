@@ -366,7 +366,7 @@ $GLOBALS['strDbSuccessIntro'] = "Az ". MAX_PRODUCT_NAME ." adatbázis frissíté
 $GLOBALS['strErrorWritePermissions'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.<br />A hibák kijavításához Linux rendszeren a következő parancs(ok) beírását érdemes megpróbálni:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.";
-$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." dokumentációt<a/>.";
+$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." dokumentációt</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "Az Adminisztrációs Felület URL-je";
 $GLOBALS['strDeliveryUrlPrefix'] = "A Kiszolgáló Motor URL-je";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "A Kiszoláló Motor URL-je (SSL)";

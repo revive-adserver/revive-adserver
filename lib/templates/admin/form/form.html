@@ -25,12 +25,17 @@ $Id$
 
 -->
 *}
-{*debug*}
-
-<div class='form-message form-message-error' id="errors" {if $form.errors}{else}style="display:none"{/if}>
-    {t str=FormContainsErrors}
+<div class="messagePlaceholder messagePlaceholderForm" id="errors_{$form.id}" {if $form.errors}{else}style="display:none"{/if}>
+  <div class="message localMessage">
+    <div class="panel error">
+      <div class="icon"></div><p>{t str=FormContainsErrors}</p>
+      <div class="topleft"></div>
+      <div class="topright"></div>
+      <div class="bottomleft"></div>
+      <div class="bottomright"></div>
+    </div>
+  </div>
 </div>
-
 
 <form {$form.attributes}>
 {$form.hidden}

@@ -239,6 +239,18 @@ form div.checkboxDesc {
 }
 
 /* Custom */
+
+/* login screen */
+form.login img, form.login td { 
+  vertical-align: bottom;
+}
+
+form.login img.break {
+  margin: 8px 0px;
+}
+
+
+
 .install {
   font-size: 1.1em;
   line-height: 21px;
@@ -654,6 +666,10 @@ div.filters {
 }
 
 .link {
+  cursor: pointer;
+}
+
+.pointer {
   cursor: pointer;
 }
 

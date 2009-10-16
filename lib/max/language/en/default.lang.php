@@ -155,6 +155,7 @@ $GLOBALS['strAdmin']                    = "Admin";
 $GLOBALS['strWarning']                  = "Warning";
 $GLOBALS['strNotice']                   = "Notice";
 $GLOBALS['strRequiredField']            = "Required field";
+$GLOBALS['strCloseWindow']              = "Close window";
 
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = "Community";

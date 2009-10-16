@@ -31,6 +31,7 @@ $installing = true;
 require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
+require_once MAX_PATH.'/lib/OX/Upgrade/Util/Job.php';
 
 // No upgrade file? No installer!
 if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
@@ -38,17 +39,14 @@ if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
     exit;
 }
 
-define('OA_UPGRADE_UPGRADE',                   35);
-define('OA_UPGRADE_INSTALL',                   36);
-
+$aErrors = array();
+$result = array('name'=>@$_REQUEST['plugin'],'status'=>'Invalid Request','errors'=>&$aErrors);
 if (OA_Upgrade_Login::checkLogin(false))
 {
     // Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
     $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'];
     $GLOBALS['_MAX']['CONF']['pluginPaths']['packages']   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . 'etc/';
 
-    $aErrors = array();
-    $result = array('name'=>'','status'=>'Invalid Request','errors'=>&$aErrors);
     if (validRequest($result))
     {
         if ($_REQUEST['status']==='0')
@@ -66,8 +64,12 @@ if (OA_Upgrade_Login::checkLogin(false))
     $oSettings = new OA_Admin_Settings();
     $oSettings->writeConfigChange();
 } else {
-    $result['errors'][] = 'Permissions error';
+    OX_Upgrade_Util_Job::logError($result, 'Permissions error');
+    $result['status'] = 'Permissions error';
 }
+$result['type'] = 'plugin';
+// Save job results in session
+OX_Upgrade_Util_Job::saveJobResult($result);
 
 require_once MAX_PATH.'/lib/JSON/JSON.php';
 $json = new Services_JSON();
@@ -113,7 +115,7 @@ function installPlugin($pluginName)
                 $aResult['status'] = 'Failed';
                 foreach ($oPluginManager->aErrors as $errmsg)
                 {
-                    $aErrors[] = $errmsg;
+                    OX_Upgrade_Util_Job::logError($aResult, $errmsg);
                 }
             }
             else
@@ -124,7 +126,7 @@ function installPlugin($pluginName)
         else
         {
             $aResult['status'] = 'Already Installed';
-            $aErrors[] = 'Could not be installed because previous installation (whole or partial) was found';
+            OX_Upgrade_Util_Job::logError($aResult, 'Could not be installed because previous installation (whole or partial) was found');
         }
         unset($oPluginManager);
         //OA::logMem('stop deliveryLog/installPlugin');
@@ -132,7 +134,7 @@ function installPlugin($pluginName)
     else
     {
         $aResult['status'] = 'Invalid';
-        $aErrors[] = 'Not a valid default plugin';
+        OX_Upgrade_Util_Job::logError($aResult, 'Not a valid default plugin');
     }
     return $aResult;
 }
@@ -154,7 +156,7 @@ function checkPlugin($pluginName)
             {
                 $aFile['name'] = $file;
                 $aFile['tmp_name'] = $file;
-                $aErrors[] = 'Exported plugin file found, attempting to import from '.$file;
+                OX_Upgrade_Util_Job::logError($aResult, 'Exported plugin file found, attempting to import from '.$file);
                 if (!$oPluginManager->installPackageCodeOnly($aFile))
                 {
                     if ($oPluginManager->countErrors())
@@ -162,7 +164,7 @@ function checkPlugin($pluginName)
                         $aResult['status'] = 'Failed';
                         foreach ($oPluginManager->aErrors as $errmsg)
                         {
-                            $aErrors[] = $errmsg;
+                            OX_Upgrade_Util_Job::logError($aResult, $errmsg);
                         }
                     }
                 }
@@ -190,7 +192,7 @@ function checkPlugin($pluginName)
                 if(!empty($oPluginManager->aErrors) && !empty($oPluginManager->previousVersionInstalled) &&
                           $oPluginManager->previousVersionInstalled != OX_PLUGIN_SAME_VERSION_INSTALLED) {
                     foreach ($oPluginManager->aErrors as $i => $msg) {
-                        $aErrors[] = $msg;
+                        OX_Upgrade_Util_Job::logError($aResult, $msg);
                     }
                 }
             }
@@ -204,7 +206,7 @@ function checkPlugin($pluginName)
         $aErrors[] = 'Problems found with plugin '.$pluginName.'.  The plugin has been disabled.  Go to the Configuration Plugins page for details ';
         foreach ($aDiag['plugin']['errors'] as $i => $msg)
         {
-            $aErrors[] = $msg;
+            OX_Upgrade_Util_Job::logError($aResult, $msg);
         }
     }
     foreach ($aDiag['groups'] as $idx => &$aGroup)
@@ -212,10 +214,10 @@ function checkPlugin($pluginName)
         if ($aGroup['error'])
         {
             $aDiag['plugin']['error'] = true;
-            $aErrors[] = 'Problems found with components in group '.$aGroup['name'].'.  The '.$pluginName.' plugin has been disabled.  Go to the Configuration->Plugins page for details ';
+            OX_Upgrade_Util_Job::logError($aResult, 'Problems found with components in group '.$aGroup['name'].'.  The '.$pluginName.' plugin has been disabled.  Go to the Configuration->Plugins page for details ');
             foreach ($aGroup['errors'] as $i => $msg)
             {
-                $aErrors[] = $msg;
+                OX_Upgrade_Util_Job::logError($aResult, $msg);
             }
         }
     }
@@ -288,16 +290,12 @@ function validRequest(&$result)
 {
     if ((!isset($_REQUEST['plugin'])) || (!isset($_REQUEST['status'])))
     {
-        $result['errors'][] = 'Bad arguments';
+        OX_Upgrade_Util_Job::logError($result, 'Bad arguments');
         return false;
     }
     $result['name'] = $_REQUEST['plugin'];
-    if (empty($_COOKIE['oat']) || (($_COOKIE['oat'] != OA_UPGRADE_INSTALL) && ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE)))
-    {
-        $result['errors'][] = 'Cookie not found';
-        return false;
-    }
-    return true;
+    
+    return OX_Upgrade_Util_Job::isInstallerStepCompleted('database', $result);
 }
 
 ?>

@@ -420,16 +420,4 @@ function phpAds_DelConfirm($msg)
     }
     return $str;
 }
-
-/**
- * Displays progress bar in the supposed centre of the screen. Accompanied by
- * the Javascript showLoader() function in the openx.js.
- *
- * @param string $message Message to be displayed with the progress bar.
- */
-function OA_GUI_getHtmlForDbLoader($message)
-{
-    echo "<div id=\"dbLoader\" class=\"pageLoader tab-s\" style=\"display: none;\"><div>$message</div></div>";
-}
-
 ?>

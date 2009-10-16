@@ -293,6 +293,10 @@ div.breadcrumb .inlineIcon {
     background-image: url("../images/icon-edit.gif");
 }
 
+.iconRefresh {
+    background-image: url("../images/icon-refresh.png");
+}
+
 /** test icon **/
 .iconDummyLarge {
     background-image: url("../images/icon-dummy-large.png");

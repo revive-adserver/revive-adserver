@@ -188,14 +188,25 @@ class OA_Admin_UI_Component_ArrayRenderer
         }
         
         //add suport for label-placement
-        $labelPlacement = $element->getAttribute("labelPlacement");
-        if (!empty($labelPlacement)) {
-            $ret['labelPlacement'] = $labelPlacement;
-            $element->removeAttribute("labelPlacement");
-        }
+        $ret = $this->setCustomAttribute('labelPlacement', $element, $ret);
+        $ret = $this->setCustomAttribute('prefix', $element, $ret);
+        $ret = $this->setCustomAttribute('suffix', $element, $ret);
+        
         
         //store all attributes so we can use them to generate html
         $ret['attributes'] = $element->getAttributes();
+        
+        return $ret;
+    }
+    
+    
+    private function setCustomAttribute($attributeName, $element, $ret)
+    {
+        $attrValue = $element->getAttribute($attributeName);
+        if (!empty($attrValue)) {
+            $ret[$attributeName] = $attrValue;
+            $element->removeAttribute($attributeName);
+        }        
         
         return $ret;
     }

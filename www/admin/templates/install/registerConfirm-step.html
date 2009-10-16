@@ -1,0 +1,21 @@
+<div class="install-wizard">
+  <div class="registerConfirmStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      <h2>{t str=RegisterConfirmTitle}</h2>
+      
+      <p>{t str=RegisterConfirmIntro}</p>
+  
+      <form action="" method="post">
+          <input type="hidden" name="action" value="registerConfirm" >
+          <div class="controls">
+            <input type="submit" id="continue" value="{t str=BtnContinue}" name="continue"/>
+          </div>    
+      </form>
+     </div>
+    </div>
+  </div>
+</div>
+
+{include file='tracker.html' step=register-confirm}

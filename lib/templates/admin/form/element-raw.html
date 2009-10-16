@@ -25,18 +25,18 @@ $Id$
 -->*}
 
 {if $elem.type == 'text' || $elem.type == 'password' || $elem.type == 'submit' || !$elem.type}
-  <input {oa_form_input_attributes elem=$elem parent=$parent} />
+  {if $elem.prefix}<span class="affix prefix">{$elem.prefix}</span>{/if}<input {oa_form_input_attributes elem=$elem parent=$parent} />{if $elem.suffix}<span class="affix suffix">{$elem.suffix}</span>{/if}
 
 {elseif $elem.type == 'checkbox' || $elem.type == 'radio'}
-  {$elem.html}
+  {if $elem.prefix}<span class="affix prefix">{$elem.prefix}</span>{/if}{$elem.html}{if $elem.suffix}<span class="affix suffix">{$elem.suffix}</span>{/if}
 
 {elseif $elem.type == 'textarea'}
-  <textarea {oa_form_input_attributes elem=$elem parent=$parent}>{$elem.value|escape}</textarea>
+  {if $elem.prefix}<span class="affix prefix">{$elem.prefix}</span>{/if}<textarea {oa_form_input_attributes elem=$elem parent=$parent}>{$elem.value|escape}</textarea>{if $elem.suffix}<span class="affix suffix">{$elem.suffix}</span>{/if}
 
 {elseif $elem.type == 'select'}
-  <select {oa_form_input_attributes elem=$elem parent=$parent} >
+  {if $elem.prefix}<span class="affix prefix">{$elem.prefix}</span>{/if}<select {oa_form_input_attributes elem=$elem parent=$parent} >
   {html_options options=$elem.options selected=$elem.value}
-  </select>
+  </select>{if $elem.suffix}<span class="affix suffix">{$elem.suffix}</span>{/if}
 {elseif $elem.type == 'plugin-custom'}
     {include file=$pluginBaseDir|cat:$elem.plugin|cat:$pluginTemplateDir|cat:$elem.templateId|cat:'.html'}
 {elseif $elem.type == 'script'}

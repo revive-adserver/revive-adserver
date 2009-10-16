@@ -351,6 +351,26 @@ function OX_checkSystemInitialRequirements(&$aErrors){
             }
         }
     }
+    
+    // Check magic_quotes_runtime and try to unset it
+    $GLOBALS['original_get_magic_quotes_runtime'] = OX_getMagicQuotesRuntime();
+    if ($GLOBALS['original_get_magic_quotes_runtime']) {
+        ini_set('magic_quotes_runtime', 0);
+        if (OX_getMagicQuotesRuntime()) {
+            // try deprecated set_magic_quotes_runtime
+            if (function_exists('set_magic_quotes_runtime')) {
+                @set_magic_quotes_runtime(0);
+            }
+        }
+        // check magic_quotes_runtime again, stop if still is set
+        if (OX_getMagicQuotesRuntime()) {
+            $aErrors[] = 'The PHP magic_quotes_runtime option is ON, and cannot be automatically turned off.';
+            $isSystemOK = false;
+            if ($return === true) {
+                $return = -5;
+            }
+        }
+    }
 
     if (!$isSystemOK) {
         return $return;
@@ -358,6 +378,17 @@ function OX_checkSystemInitialRequirements(&$aErrors){
     return true;
 }
 
-OX_initialSystemCheck();
+/**
+ * Get magic_quotes_runtime settings using get_magic_quotes_runtime or if function
+ * doesn't exist try to read from php.ini
+ *
+ * @return int Returns 0 if magic quotes gpc are off, 1 otherwise
+ */
+function OX_getMagicQuotesRuntime()
+{
+    return (function_exists('get_magic_quotes_runtime')) 
+            ? get_magic_quotes_runtime() : ini_get('magic_quotes_runtime');
+}
 
+OX_initialSystemCheck();
 ?>

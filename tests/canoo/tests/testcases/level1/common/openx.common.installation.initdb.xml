@@ -15,8 +15,7 @@
 		    >
 		   	<classpath>
 		    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
-		    </classpath>
-		    
+		    </classpath>		    
 				<transaction>
 					drop database if exists ${db.name};
 				</transaction>

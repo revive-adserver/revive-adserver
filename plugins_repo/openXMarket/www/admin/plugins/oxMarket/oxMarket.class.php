@@ -144,6 +144,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     public function onEnable()
     {
+        // Run autoregister method first
+        try {
+            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
+            OX_oxMarket_Dal_Installer::autoRegisterMarketPlugin($this->getPublisherConsoleApiClient());
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $exc) {
+            OA::debug('Error during autoRegisterMarketPlugin in onEnable method: ('.$exc->getCode().')'.$exc->getMessage());
+        }
+        
+        // Schedule Register Notification if needed
         if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
             $this->scheduleRegisterNotification();
         }
@@ -840,6 +849,18 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         require_once MAX_PATH .'/lib/Max.php';
         return parse_url(MAX::constructUrl(MAX_URL_ADMIN), PHP_URL_PATH);
+    }
+    
+    
+    /**
+     * Is registration required during upgrading/install process?
+     *
+     * @return bool
+     */
+    public function isRegistrationRequired()
+    {
+        require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
+        return OX_oxMarket_Dal_Installer::isRegistrationRequired();
     }
 }
 

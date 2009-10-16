@@ -272,7 +272,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * @return boolean
      * @throws Plugins_admin_oxMarket_PublisherConsoleClientException 
      */
-    protected function setNewPublisherAccount($publisher_account_id, $api_key)
+    public function setNewPublisherAccount($publisher_account_id, $api_key)
     {
         $account_id = $this->getAccountId();
         $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
@@ -681,6 +681,17 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function setWorkAsAccountId($accountId = null)
     {
         $this->workAsAccountId = $accountId;
+    }
+    
+    
+    /**
+     * Method to check in what mode publisher console client is running
+     *
+     * @return bool
+     */
+    public function isMultipleAccountsMode()
+    {
+        return $this->multipleAccountsMode;
     }
 
 }

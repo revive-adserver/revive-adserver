@@ -376,7 +376,7 @@ $GLOBALS['strDbSuccessIntroUpgrade'] = "Il tuo sistema è stato aggiornato con s
 $GLOBALS['strErrorWritePermissions'] = "E' stato riscontrato un errore nei permessi dei file che deve essere corretto prima procedere.<br />Per correggere l'errore su un sistema Linux, prova a digitare i seguenti comandi:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Sono stati rilevati errori nei permessi dei file, e devono essere corretti per procedere.";
-$GLOBALS['strCheckDocumentation'] = "Per maggiori informazioni, consulta la <a href='". OX_PRODUCT_DOCSURL ."'>documentazione di ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Per maggiori informazioni, consulta la <a href='". OX_PRODUCT_DOCSURL ."'>documentazione di ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL dell'interfaccia di amministrazione";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL sistema di consegna";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL sistema di consegna (SSL)";

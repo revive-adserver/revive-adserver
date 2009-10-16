@@ -381,7 +381,7 @@ $GLOBALS['strDbSuccessIntroUpgrade'] = "Votre système a été mis à jour avec 
 $GLOBALS['strErrorWritePermissions'] = "Des erreurs de permissions de fichiers ont été détectées et doivent être corrigées avant de pouvoir continuer.<br />Pour corriger ces erreur sur un système Linux, essayez de taper la(les) commande(s) suivante(s) :";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Des erreurs de permissions de fichiers ont été détectées et doivent être corrigées avant de pouvoir continuer.";
-$GLOBALS['strCheckDocumentation'] = "Pour plus d'aide, veuillez consulter la <a href='". OX_PRODUCT_DOCSURL ."'>documentation d'". MAX_PRODUCT_NAME ." <a/>.";
+$GLOBALS['strCheckDocumentation'] = "Pour plus d'aide, veuillez consulter la <a href='". OX_PRODUCT_DOCSURL ."'>documentation d'". MAX_PRODUCT_NAME ." </a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL de l'interface d'administration";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL du moteur de distribution";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL du moteur de distribution (SSL)";

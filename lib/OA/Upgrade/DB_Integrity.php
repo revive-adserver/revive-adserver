@@ -115,7 +115,7 @@ class OA_DB_Integrity
         {
             return false;
         }
-        $result = $this->oUpgrader->canUpgrade();
+        $result = $this->oUpgrader->canUpgradeOrInstall();
         return array('canUpgrade'=>$result,'versionApp'=>$this->oUpgrader->versionInitialApplication,'versionSchema'=>$this->oUpgrader->versionInitialSchema['tables_core']);
     }
 

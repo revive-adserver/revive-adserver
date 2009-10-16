@@ -109,7 +109,7 @@ $GLOBALS['strErrorWritePermissions']        = "File permission errors have been 
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Openads documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Openads documentation</a>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "آدرس ورود به مدیریت";
 $GLOBALS['strDeliveryUrlPrefix']            = "آدرس خروجی";

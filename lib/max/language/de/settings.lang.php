@@ -497,7 +497,7 @@ $GLOBALS['strWarningRegisterArgcArv'] = "Um das Maintenance-Wartungsscript von d
 $GLOBALS['strRecoveryRequiredTitle'] = "Der vorige Upgrade-Versuch hat Fehler hinterlassen.";
 $GLOBALS['strRecoveryRequired'] = "Bei der vorigen Upgrade-Prozedur sind Fehler aufgetreten. ".MAX_PRODUCT_NAME." wird versuchen den Zustand vor dem Upgrade wieder herzustellen. Bitte klicken Sie auf Wiederherstellen.";
 $GLOBALS['strErrorWritePermissionsWin'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.";
-$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='". OX_PRODUCT_DOCSURL ."'>".MAX_PRODUCT_NAME." Online-Dokumentation<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='". OX_PRODUCT_DOCSURL ."'>".MAX_PRODUCT_NAME." Online-Dokumentation</a>.";
 $GLOBALS['strEnableQmailPatch'] = "Kopfzeile auch für qmail lesbar machen";
 $GLOBALS['strNovice'] = "Löschvorgänge im Admin-Bereich nur mit Sicherheitsbestätigung";
 $GLOBALS['strEmailSettings'] = "Einstellungen E-Mail";

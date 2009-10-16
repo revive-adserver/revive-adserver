@@ -26,19 +26,14 @@ $Id$
 */
 
 require_once MAX_PATH . '/www/admin/lib-banner-cache.inc.php';
+//$oMessages initialized by runner OA_Upgrade::runPostUpgradeTask
 
-
-if (!$upgradeTaskMessage)
-{
-    $upgradeTaskMessage = array();
+$oMessages->logInfo('Starting Banner Cache Recompilation');
+$upgradeTaskResult  = processBanners(true);
+if (PEAR::isError($upgradeTaskResult)) {
+    $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
 }
-$upgradeTaskError[] = 'Starting Banner Cache Recompilation';
-$result  = processBanners(true);
-if (is_null($upgradeTaskResult) || $upgradeTaskResult)
-{
-    $upgradeTaskResult  = $result;
-}
-$upgradeTaskError[] = ' Banner Cache Recompilation: '.($result ? 'Complete' : 'Failed');
+$upgradeTaskError[] = ' Banner Cache Recompilation: '.($upgradeTaskResult ? 'Complete' : 'Failed');
 
 
 

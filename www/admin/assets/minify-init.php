@@ -66,12 +66,21 @@ $oxpCssRtl = array (
             'css/icons.css'
 );
 
+$oxpCssInstallLtr = array_merge($oxpCssLtr, array('css/install.css'));
+$oxpCssInstallRtl = array_merge($oxpCssRtl, array('css/install.css'));
+
+$oxpJsInstall = array_merge($oxpJs, array('js/jquery.simplemodal.min.js', 'js/ox.install.js'));
+
 
 //define groups used by minfier
 $MINIFY_JS_GROUPS = array (
-        'oxp-js' => array_merge($commonJs, $oxpJs));
+        'oxp-js' => array_merge($commonJs, $oxpJs),
+        'oxp-js-install' => array_merge($commonJs, $oxpJs, $oxpJsInstall)
+);
 
 $MINIFY_CSS_GROUPS = array (
         'oxp-css-ltr' => array_merge($commonCss, $oxpCssLtr),
-        'oxp-css-rtl' => array_merge($commonCss, $oxpCssRtl)
+        'oxp-css-rtl' => array_merge($commonCss, $oxpCssRtl),
+        'oxp-css-install-ltr' => array_merge($commonCss, $oxpCssInstallLtr),
+        'oxp-css-install-rtl' => array_merge($commonCss, $oxpCssInstallRtl)
 );

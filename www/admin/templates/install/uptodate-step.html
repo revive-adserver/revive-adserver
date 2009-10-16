@@ -1,0 +1,19 @@
+<div class="install-wizard">
+  <div class="upToDateStep">
+    <div class="content">
+      <h2>{t str=ProductUpToDateTitle}</h2>
+      {include file='messages.html' aMessages=$aMessages}
+        
+      <p>{t str=OaUpToDate}</p>
+  
+  
+      <form action="" method="post">
+          <input type="hidden" name="action" value="uptodate" >
+          <div class="controls">
+            <input type="submit" id="continue" value="{t str=BtnContinue}" name="continue"/>
+          </div>    
+      </form>
+     </div>
+    </div>
+  </div>
+</div>

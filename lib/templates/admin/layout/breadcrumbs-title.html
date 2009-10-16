@@ -102,6 +102,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         //-->
         {/literal}</script>
         {else}
+            {if $breadcrumbs|@count > 0}
             <span class="entityLinks">
             {section name=breadcrumbIndex loop=$breadcrumbs}
                 {if $breadcrumbs[breadcrumbIndex]->getUrl()}
@@ -115,6 +116,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                 {/if}
             {/section}
             </span>
+            {/if}
         {/if}
     </div>
 {/if}

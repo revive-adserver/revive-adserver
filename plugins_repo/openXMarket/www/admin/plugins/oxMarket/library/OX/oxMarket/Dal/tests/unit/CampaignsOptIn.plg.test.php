@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * @subpackage TestSuite
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class Plugins_TestOfPDataObjects_Ext_market_web_stats extends UnitTestCase
+class OX_oxMarket_Dal_CampaignsOptInTest extends UnitTestCase
 {
     function setUp()
     {

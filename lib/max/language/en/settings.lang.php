@@ -64,7 +64,6 @@ $GLOBALS['strMayNotFunction']               = "Before you continue, please corre
 $GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
 $GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']               = "Ignore warnings";
-$GLOBALS['strFixErrorsBeforeContinuing']    = "Please fix all errors before continuing.";
 $GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningPHPversion']            = "" . MAX_PRODUCT_NAME." requires PHP 5.1.4 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']       = "The PHP configuration variable register_globals needs to be turned on.";
@@ -82,26 +81,14 @@ $GLOBALS['strTableNames']                   = "Table Names";
 $GLOBALS['strTablesPrefix']                 = "Table names prefix";
 $GLOBALS['strTablesType']                   = "Table type";
 
-$GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
-<p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
-<p>To help you with the installation process we have created an <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Guide</a> to take you through the process of getting up and running.
-For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
+
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
-$GLOBALS['strTermsTitle']               = "Terms and Conditions of Use, Privacy Policy";
-$GLOBALS['strTermsIntro']               = "" . MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License. Please review and agree to the following documents to continue the installation.";
-$GLOBALS['strPolicyTitle']               = "Privacy Policy";
-$GLOBALS['strPolicyIntro']               = "Please review and agree to the following document to continue the installation.";
-$GLOBALS['strDbSetupTitle']               = "Database Settings";
-$GLOBALS['strDbSetupIntro']               = "Please enter the details to connect to your database. If you are unsure about these details, please contact your system administrator.
-<p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
-$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct.
-<p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
+
+$GLOBALS['strProductUpToDateTitle']     =  MAX_PRODUCT_NAME . " is up to date";
 $GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
-$GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
-$GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
+$GLOBALS['strOaUpToDateCantRemove']     = "The UPGRADE file is still present inside of your 'var' folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
+$GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the 'var' folder.";
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
 <p><strong>What next?</strong></p>
 <div class='psub'>";
@@ -126,9 +113,6 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
-$GLOBALS['strSystemCheck']                  = "System check";
-$GLOBALS['strSystemCheckIntro']             = "The install wizard is checking your web server settings to ensure that the installation process can complete successfully.
-<p>Please check any highlighted issues to complete the installation process.</p>";
 $GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
@@ -142,7 +126,7 @@ $GLOBALS['strErrorWritePermissions']        = "File permission errors have been 
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation</a>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
@@ -206,8 +190,6 @@ $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
 $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";
 $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
 $GLOBALS['strTimezoneDocumentation']                 = "documentation";
-$GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
-$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the administrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "Create an administrator account";
 $GLOBALS['strAdminSettingsIntro']                    = "Please complete this form to create your ad server administration account.";
 $GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding. If unsure, leave the default values.";
@@ -237,6 +219,8 @@ $GLOBALS['strCantConnectToDb']                       = "Can't Connect to Databas
 $GLOBALS['strCantConnectToDbDelivery']               = 'Can\'t Connect to Database for Delivery';
 $GLOBALS['strDemoDataInstall']                       = "Install Demo Data";
 $GLOBALS['strDemoDataIntro']                         = "Default setup data can be loaded into ". MAX_PRODUCT_NAME ." to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.";
+
+
 
 // Email Settings
 $GLOBALS['strEmailSettings']                         = "Email Settings";

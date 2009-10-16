@@ -8,6 +8,7 @@
 	<!ENTITY systemCheck  SYSTEM "../../level1/common/openx.common.installation.systemCheck.xml">
 	<!ENTITY finished SYSTEM "../../level1/common/openx.common.installation.finished.xml">
 	<!ENTITY plugins SYSTEM "../../level1/common/openx.common.installation.plugins.xml">
+	<!ENTITY registration SYSTEM "../../level1/common/openx.common.installation.registration.xml">
 ]>
 
 <project name="OpenX upgrade from ${upgrade.version}" basedir="." default="main">
@@ -15,41 +16,24 @@
 		<webtest name="Level0 - Setup test - upgrade test from ${upgrade.version}">
 			&config;
 			<steps>
-				<!-- <invoke description="First page:  upgrade start" url="/" save="start_" /> -->
 				<invoke url="/" />
-					&welcome;
-					<echo>${basedir}/../../../var</echo>
 					<exec executable="chmod">
 					    <arg value="-R"/>
 					    <arg value="a+rw"/>
 					    <arg value="${basedir}/../../../var"/>
-				 	</exec>					
-					
-					<storeCookie name="oat" property="sessid" />
-					&terms;
+				 	</exec>
 				
-					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
-					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
-					<storeCookie name="oat" property="sessid" />
-					&systemCheck;
+					&welcome;
 				
 					<setInputField name="username" value="${admin.login}"/>
 					<setInputField name="password" value="${admin.pass}"/>
-					<storeCookie name="oat" property="sessid" />
-					<clickButton label="Continue »"/>
+					<clickButton label="Login"/>
+				
+					&registration;
 				
 					<verifyText description="Check text on page: Database Settings" text="Database Settings" />
-					<storeCookie name="oat" property="sessid" />
-					<clickButton label="Continue »"/>
-				
-					<verifyText description="Check text on page: Congratulations, you have finished upgrading OpenX" text="Congratulations, you have finished upgrading OpenX" />	
-					<storeCookie name="oat" property="sessid" />
-					<clickButton label="Continue »"/>
-				
-					<verifyText description="Check text on page: Configuration checklist" text="Configuration checklist" />	
-					<storeCookie name="oat" property="sessid" />
-					<storeCookie name="PHPSESSID" property="sessid2" />
-					
+					<clickButton label="Continue »"/>		
+							
 					<ifStep description="if ver > 2.6">
 						<condition>
 				        	<verifyProperty description="Check version no."
@@ -63,8 +47,6 @@
 					</ifStep>					
 					<clickButton label="Continue »"/>
 				
-					<storeCookie name="oat" property="sessid" />
-					&plugins;					
 					&finished;
 			</steps>
 		</webtest>

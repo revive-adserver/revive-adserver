@@ -1,0 +1,18 @@
+{if $aMessages.error || $forceRender}
+    <div class="messagePlaceholder messagePlaceholderStatic {if $class}{$class}{/if}" {if $id}id={$id}{/if}>
+      <div class="message localMessage">
+        <div class="panel error">
+          <div class="icon"></div>
+          <div class="body">
+            {foreach from=$aMessages.error item=error name=messagesLoop}
+              {$error} {if !$smarty.foreach.messagesLoop.last}<br/>{/if}
+            {/foreach}
+          </div>
+          <div class="topleft"></div>
+          <div class="topright"></div>
+          <div class="bottomleft"></div>
+          <div class="bottomright"></div>
+        </div>
+      </div>
+    </div>    
+{/if}

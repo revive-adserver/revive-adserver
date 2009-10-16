@@ -1,25 +1,27 @@
 				&universal;
 				<verifyText description="Check text on page" 
-					text="Database Settings" />
+					text="Provide your database" />
 				<!-- TODO: Error&options support (ifstep for MyISAM/InnoDB) -->
 				<setinputfield description="set database username" 
-					name="aConfig[database][username]"
+					name="dbUser"
 					value="${db.login}" />
 
 				<setinputfield description="set database password" 
-					name="aConfig[database][password]"
+					name="dbPassword"
 					value="${db.password}" />
 					
 				<setinputfield description="set database name" 
-					name="aConfig[database][name]"
+					name="dbName"
 					value="${db.name}" />
 
 				<setinputfield description="set database host" 
-					name="aConfig[database][host]"
+					name="dbHost"
 					value="${db.host}" />
+				
+				<clickLink htmlid="showMoreFields" />
 
 				<setinputfield description="set database port" 
-					name="aConfig[database][port]"
+					name="dbPort"
 					value="${db.port}" />
 				
 				<ifStep description="if mysql">
@@ -31,17 +33,13 @@
 							regex="false" />
 					</condition>
 					<then>
-						<setSelectField name="aConfig[database][type]" text="MySQL"/>
+						<setSelectField name="dbType" text="MySQL"/>
 					</then>
 					<else>
-						<setSelectField name="aConfig[database][type]" text="PostgreSQL"/>
+						<setSelectField name="dbType" text="PostgreSQL"/>
 					</else>
 				</ifStep>	
 				
 				<clickButton description="Click 'Continue »' button" 
 					label="Continue »"
 					save="dbsetup_" />
-				<verifyText description="Check text on page" 
-					text="The OpenX database has now been created" />
-				<clickButton description="Click 'Continue »' button"
-					name="btn_configsetup" />

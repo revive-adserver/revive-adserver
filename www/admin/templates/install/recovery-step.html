@@ -1,0 +1,18 @@
+<div class="install-wizard">
+  <div class="recoveryStep">
+  
+    <div class="content">
+      <h2>{t str=RecoveryRequiredTitle}</h2>
+      <p>{t str=RecoveryRequired}</p>
+      
+      {include file='messages.html' aMessages=$aMessages}
+      
+      <form action="" method="post">
+          <input type="hidden" name="action" value="recovery" >
+          <div class="controls">
+            <input type="submit" id="recovery" value="{t str=BtnRecover}" name="recovery"/>
+          </div>    
+      </form>
+    </div>
+  </div>
+</div>

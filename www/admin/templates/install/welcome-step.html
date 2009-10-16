@@ -1,0 +1,39 @@
+<div class="install-wizard">
+  <div class="welcomeStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      <h2>{t str=WelcomeTitle} {$oxVersion}</h2>
+      
+      <p>{if $isUpgrade}{t str=UpgradeIntro}{else}{t str=InstallIntro}{/if}</p>
+      <p>{t str=InstallerHelpIntro}</p>
+      <p>{t str=TermsIntro}</p>
+      
+      <div class="terms">
+        <iframe frameborder="0" src="http://www.openx.org/ad-server/terms-policy-plain" ></iframe>
+      </div>
+
+  
+      <form action="" method="post">
+          <input type="hidden" name="action" value="welcome" >
+          <div class="controls">
+            <input type="submit" id="continue" value="{t str=BtnAgree}" name="continue"/>
+          </div>    
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".welcomeStep").welcomeStep({
+        {/literal}
+            'message' : '{$loaderMessage}'
+        {literal} 
+    });
+  });  
+{/literal}
+-->
+</script>

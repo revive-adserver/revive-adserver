@@ -1,3 +1,52 @@
+/** reset css **/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+}
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+
+
+body {
+    line-height: 1;
+    color: black;
+    background: white;
+}
+ol, ul {
+    list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+blockquote, q {
+    quotes: "" "";
+}
+/** reset end **/
+
+
+
 html {
   -filter: expression(document.execCommand("BackgroundImageCache", false, true));
 }
@@ -814,9 +863,6 @@ body.hasGradient #firstLevelContent {
   padding: 0px 0px 55px 55px;
 }
 
-
-
-
 /* Third level content */
 
 #thirdLevelContent {
@@ -1329,6 +1375,7 @@ td.required-explanation {
     margin-top: 12px;
 }
 
+
 /* Forms */
 form.flat {
   margin-bottom: 20px;
@@ -1421,6 +1468,16 @@ form.flat textarea.h-medium-h {
 form.flat textarea.h-large-h {
     height: 260px;  
 }
+
+form.flat .prefix {
+  margin-right: 5px;
+}
+
+form.flat .suffix {
+  margin-left: 5px;
+}
+
+
 
 /** Campaigns **/
 .campaign-type .sep {
@@ -1539,7 +1596,7 @@ padding: 0px 10px;
     margin-right: 5px;
 }
 
-/* rounded panel */
+/* rounded panel with gradient*/
 .panel {
     padding: 15px;
     border: 1px solid #ddd;
@@ -1637,6 +1694,50 @@ padding: 0px 10px;
 .panel .top-split {
     border-top: 1px solid #dddddd;
 }
+
+/** rounded panel without gradient **/ 
+.panel-plain {
+  border: 1px solid #d4d4d4;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+
+div.panel-plain div.topleft,
+div.panel-plain div.topright,
+div.panel-plain div.bottomleft,
+div.panel-plain div.bottomright {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-image: url("../images/corners.png");
+  background-repeat: no-repeat;
+
+  font-size: 0;
+}
+div.panel-plain div.topleft {
+  top: -1px;
+  left: -1px;
+  background-position: 0px 0px;
+}
+div.panel-plain div.topright {
+  top: -1px;
+  right: -1px;
+  background-position: -6px 0px;
+}
+div.panel-plain div.bottomleft {
+  bottom: -1px;
+  left: -1px;
+  background-position: 0px -6px;
+}
+div.panel-plain div.bottomright {
+  bottom: -1px;
+  right: -1px;
+  background-position: -6px -6px;
+}
+
 
 
 /* table */
@@ -2061,3 +2162,77 @@ p {
     margin:0pt 0pt 0.7em;
     line-height: 150%;
 }
+
+
+/** wizard steps indicator **/
+.wizard-steps {
+  line-height: 44px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  overflow: auto;
+  -zoom: 1; /*IE6 fix*/
+}
+
+.wizard-steps li {
+    height:44px;
+    padding: 0px;    
+    
+    list-style:none;
+    float:left;
+    background-color:#e4e4e4;
+    color: #898989;
+    background-image: url(../images/wizard-lead-out.png);
+    background-repeat: no-repeat;
+    background-position: right 0px;
+}
+
+.wizard-steps li div.body {
+    padding: 0px 32px 0px 12px;
+}
+
+.wizard-steps li.first div.body {
+    background-image: url(../images/wizard-lead-in.png);
+    background-repeat: no-repeat;
+    background-position: left 0px;
+}
+
+.wizard-steps li.current div.body {
+    background-position: left -44px;
+}
+
+.wizard-steps li.last {
+      background-position: right -44px;
+}
+
+.wizard-steps li.current, .wizard-steps li.current-last {
+    background-color: #2098c8;
+    color: white;
+}
+
+.wizard-steps li.current {
+    background-position: right -88px;
+}
+
+.wizard-steps li.current-last {
+    background-position: right -132px;
+}
+
+
+.wizard-steps li.done, .wizard-steps li.last-done {
+    background-color: #c3e4f1;
+    color: #2098c8;
+}
+
+.wizard-steps li.done {
+    background-position: right -176px;
+}
+
+.wizard-steps li.last-done {
+    background-position: right -220px;
+}
+
+.wizard-steps em {
+  font-style:normal;
+  font-weight:bold;  
+}
+

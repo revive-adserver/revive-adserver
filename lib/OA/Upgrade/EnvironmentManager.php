@@ -51,6 +51,7 @@ define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -16);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallUtils.php';
 
 define('OA_MEMORY_UNLIMITED', 'Unlimited');
 
@@ -144,7 +145,8 @@ class OA_Environment_Manager
         $aResult['enabled'] = false;
         $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
 
-        if (isset($_COOKIE['sessionID']) || isset($_COOKIE['oat']))
+        if (isset($_COOKIE['sessionID']) 
+            || isset($_COOKIE[OX_Admin_UI_Install_InstallUtils::$INSTALLER_SESSION_ID]))
         {
             $aResult['enabled'] = true;
             unset($this->aInfo['COOKIES']['error']['enabled']);
@@ -166,7 +168,9 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
+        // Magic_quotes_runtime can be overridden in pre-check.php, get orginal value  
+        $aResult['magic_quotes_runtime'] = isset($GLOBALS['original_get_magic_quotes_runtime']) 
+            ? $GLOBALS['original_get_magic_quotes_runtime'] : get_magic_quotes_runtime();
         $aResult['safe_mode']            = ini_get('safe_mode');
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
         $aResult['register_argc_argv']   = ini_get('register_argc_argv');
@@ -196,7 +200,6 @@ class OA_Environment_Manager
         {
             $aResult['timeout']          = $timeout;
         }
-
         return $aResult;
     }
 
@@ -320,37 +323,37 @@ class OA_Environment_Manager
      * warning, the value set is listed below:
      *
      *  - The PHP version
-     *      Sets: $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION]
+     *      Sets: $this->aInfo['PHP']['warning']['version']
      *
      *  - The PHP configuration's memory_limit value
-     *      Sets: $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY]
+     *      Sets: $this->aInfo['PHP']['warning']['memory_limit']
      *
      *  - The PHP configuration's safe_mode value
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE]
+     *      Sets: $this->aInfo['PHP']['error']['safe_mode']
      *
      *  - The PHP configuration's magic_quotes_runtime value
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ]
+     *      Sets: $this->aInfo['PHP']['error']['magic_quotes_runtime']
      *
      *  - The PHP configuration's file_uploads value
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS]
+     *      Sets: $this->aInfo['PHP']['error']['file_uploads']
      *
      *  - The PHP configuration's pcre extension
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE]
+     *      Sets: $this->aInfo['PHP']['error']['pcre']
      *
      *  - The PHP configuration's xml extension
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML]
+     *      Sets: $this->aInfo['PHP']['error']['xml']
      *
      *  - The PHP configuration's zlib extension
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB]
+     *      Sets: $this->aInfo['PHP']['error']['zlib']
      *
      *  - The PHP configuration's database (both mysql and pgsql) extensions
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL]
+     *      Sets: $this->aInfo['PHP']['error']['mysql']
      *
      *  - The PHP configuration's spl extension
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SPL]
+     *      Sets: $this->aInfo['PHP']['error']['spl']
      *
      *  - The PHP configuration's timeout settings
-     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]
+     *      Sets: $this->aInfo['PHP']['error']['timeout']
      *
      * Otherwise, if there are no errors or warnings, then $this->aInfo['PHP']['error']
      * is set to "false".
@@ -406,14 +409,14 @@ class OA_Environment_Manager
         }
         if ($result == OA_ENV_ERROR_PHP_VERSION)
         {
-            $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION] =
+            $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
                 "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
                 "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
         }
         elseif ($result == OA_ENV_ERROR_PHP_VERSION_NEWER)
         {
-            $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION_NEWER] =
+            $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is not supported yet." .
                 "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
                 "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
@@ -425,7 +428,7 @@ class OA_Environment_Manager
 
         // Test the original memory_limit
         if (!$this->checkOriginalMemory()) {
-            $this->aInfo['PHP']['warning'][OA_ENV_WARNING_MEMORY] =
+            $this->aInfo['PHP']['warning']['memory_limit'] =
                 MAX_PRODUCT_NAME . " requires a minimum of " . (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB to run successfully, although " .
                 "some parts of the application will increase this limitation if required. The current 'memory_limit' value is set to " .
                 ($this->aInfo['PHP']['actual']['original_memory_limit'] / 1048576) . " MB, so " . MAX_PRODUCT_NAME . " has automatically increased " .
@@ -439,43 +442,44 @@ class OA_Environment_Manager
         if ($this->aInfo['PHP']['actual']['safe_mode'])
         {
             $result = OA_ENV_ERROR_PHP_SAFEMODE;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE] = 'The safe_mode option must be OFF';
+            $this->aInfo['PHP']['error']['safe_mode'] = 'The safe_mode option must be OFF';
         }
 
         // Test the PHP configuration's magic_quotes_runtime value
         if ($this->aInfo['PHP']['actual']['magic_quotes_runtime'])
         {
             $result = OA_ENV_ERROR_PHP_MAGICQ;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'The magic_quotes_runtime option must be OFF';
+            $this->aInfo['PHP']['error']['magic_quotes_runtime'] = 'The magic_quotes_runtime option must be OFF';
         }
 
         // Test the PHP configuration's file_uploads value
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'The file_uploads option must be ON';
+            $this->aInfo['PHP']['error']['file_uploads'] = 'The file_uploads option must be ON';
         }
 
         // Test the required PHP extensions are loaded
         if (!$this->aInfo['PHP']['actual']['pcre']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE] = 'The pcre extension must be loaded';
+            $this->aInfo['PHP']['error']['pcre'] = 'The pcre extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['xml']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML] = 'The xml extension must be loaded';
+            $this->aInfo['PHP']['error']['xml'] = 'The xml extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'The zlib extension must be loaded';
+            $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
         }
         if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['pgsql'])) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL] = 'Either the mysql or the pgsql extension must be loaded';
+            $this->aInfo['PHP']['error']['mysql'] = 'Either the mysql or the pgsql extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['spl']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SPL] = 'The spl extension must be loaded';
+            $this->aInfo['PHP']['error']['spl'] = 'The spl extension must be loaded';
         }
         if ($this->aInfo['PHP']['actual']['mbstring.func_overload']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MBSTRING] = 'mbstring function overloading must be disabled';
+            $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';
         }
         if ($this->aInfo['PHP']['actual']['timeout']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT] = 'The PHP function set_time_limit() has been disabled and ';
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT].= 'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout'].' which may cause problems with functionality such as maintenance';
+            $this->aInfo['PHP']['error']['timeout'] = 'The PHP function set_time_limit() has been disabled and '
+                .'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout']
+                .' which may cause problems with functionality such as maintenance';
         }
 
         return $result;

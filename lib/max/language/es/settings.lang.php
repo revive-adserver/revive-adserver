@@ -326,7 +326,7 @@ $GLOBALS['strDbSuccessIntro'] = "La base de datos de ". MAX_PRODUCT_NAME ." ha s
 $GLOBALS['strDbSuccessIntroUpgrade'] = "Su sistema ha sido actualizado correctamente. Las siguientes pantallas le ayudarán a actualizar la configuración de su nuevo adserver.";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<p><strong>Seguridad</strong><br>";
 $GLOBALS['strErrorWritePermissionsWin'] = "La isntalación de Openads necesita que el archivo de configuración se pueda modificar. Al finalizar las modificaciones de configuración, es altamente recomendable mantener un simple acceso de lectura a este archivo, para mayor seguridad. Para más información sobre esto, por favor lea la referencia en la <a href='http://MAX_PRODUCT_DOCSURL' target='_blank'><strong>documentación</strong></a>.</p>";
-$GLOBALS['strCheckDocumentation'] = "Para más ayuda, por favor lea la <a href='". OX_PRODUCT_DOCSURL ."'>documentación de ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Para más ayuda, por favor lea la <a href='". OX_PRODUCT_DOCSURL ."'>documentación de ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL de la Interfaz de Administración";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL del Motor de Entrega";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL motor de entrega (SSL)";

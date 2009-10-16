@@ -1,6 +1,10 @@
+			<replace dir="${basedir}/../../../www/admin/templates/install" value="info"> <!-- /plugins -->
+				<include name="tracker.html"/>
+				<replacetoken>{if $isUpgrade}upgrade{else}install{/if}-{$step}</replacetoken>
+			</replace>
 				<!-- move universal -->
-				&universal;
+				&universal;				
 				<verifyText description="Check text on page" 
 					text="Welcome to OpenX" />
-				<clickButton description="Click 'Continue »' button" 
-					name="btn_terms" />
+				<clickButton description="Click 'I Agree »' button" 
+					name="continue" />

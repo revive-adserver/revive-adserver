@@ -1,0 +1,5 @@
+<ol class="wizard-steps">
+    {foreach from=$_aSteps name=steps item=aStep}
+      <li class="{if $aStep.done}done {/if}{if $aStep.beforeCurrent}last-done {/if}{if $smarty.foreach.steps.first}first {/if}{if $smarty.foreach.steps.last && $aStep.current}current-last {else}{if $smarty.foreach.steps.last}last{/if}{if $aStep.current}current {/if}{/if}"><div class="body"><em>{$aStep.name}</em></div></li>
+    {/foreach}
+</ol>

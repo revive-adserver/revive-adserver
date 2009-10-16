@@ -55,6 +55,7 @@
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Installer.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Website.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>

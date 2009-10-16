@@ -1,0 +1,75 @@
+<div class="install-wizard">
+  <div class="registerStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+    <h2>{t str=RegisterTitle}</h2>
+    
+    <p>{t str=RegisterIntro}</p>
+    
+    <ul class="account-benefits">
+        <li class="revenue"><em>{t str=MarketBenefitMonetizeTitle} <span id="show-market-info" class="icon icon-info pointer" >&nbsp;</span></em> 
+            {t str=MarketBenefitMonetizeDesc}
+        </li>
+        <li class="support"><em>{t str=MarketBenefitSupportTitle}</em>
+            {t str=MarketBenefitSupportDesc}
+        </li>
+        <li class="plugins"><em>{t str=MarketBenefitPluginsTitle}</em>
+            {t str=MarketBenefitPluginsDesc}
+        </li>
+        <li class="security"><em>{t str=MarketBenefitSecurityTitle}</em>
+            {t str=MarketBenefitSecurityDesc}
+        </li>
+    </ul> 
+
+    <h3>{t str=HaveOpenXAccountQuestion}</h3>   
+     <form class="question" action="">
+        <input type="radio" id="has-account" name="hasAccount" {if $accountMode=='login'}checked='checked'{/if}><label for="has-account">{t str=HaveOpenXAccount}</label>
+        <input type="radio" id="no-account" name="hasAccount" {if $accountMode=='signup'}checked='checked'{/if}><label for="no-account">{t str=DoNotHaveOpenXAccount}</label>
+     </form>
+     
+     {include file='messages.html' aMessages=$aMessages}
+     
+     <div id="login-form-container" class="hide">
+     {include file=$oaTemplateDir|cat:'form/form.html' form=$loginForm}
+     </div>
+    
+     <div id="signup-form-container" class="hide">
+     {include file=$oaTemplateDir|cat:'form/form.html' form=$signupForm}
+     </div>
+    </div>
+    
+    
+    <div id="market-info" class="marketInfo" style="top: auto">
+      <div class="jqm-window-title">&nbsp;&nbsp;&nbsp;{t str=MarketIntroTitle}
+      <a href="#" class="close-modal">[X]</a></div>
+      
+      
+    
+      <div class="jqm-window-body">
+        <p>{t str=MarketIntro}</p>
+           <img class="welcome" src="{$assetPath}/images/market-welcome.gif" alt='Market Welcome'>
+      </div>
+    </div>    
+  </div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".registerStep").registerStep({
+        {/literal}
+        'captchaBaseUrl' : '{$captchaBaseUrl}',
+        'usernameCheckUrl' : 'install.php?action=checkSsoNameAvailable',
+        'message' : '{$loaderMessage}'
+        {literal} 
+    });
+  });  
+{/literal}
+-->
+</script>
+
+{include file='tracker.html' step=register}
+

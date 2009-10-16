@@ -1,0 +1,20 @@
+<div class="install-wizard">
+  <div class="errorStep">
+  
+    <div class="content">
+    <h2>Unable to proceed with installation</h2>
+     {if $aMessages|@count>0}<p>Please correct the issues below before continuing</p>{/if}
+     {include file='messages.html' aMessages=$aMessages}
+    
+      <form action="" method="post">
+          <input type="hidden" name="action" value="error" >
+          <div class="controls">
+            <input type="submit" id="retry" value="{t str=BtnRetry}" name="retry"/>
+          </div>    
+      </form>
+     </div>
+    </div>
+  </div>
+</div>
+
+

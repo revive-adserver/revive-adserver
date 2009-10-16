@@ -25,22 +25,15 @@
 $Id$
 */
 
+//$oMessages initialized by runner OA_Upgrade::runPostUpgradeTask
 if (!class_exists('OA_Maintenance_Priority'))
 {
     require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 }
 
-if (!$upgradeTaskMessage)
-{
-    $upgradeTaskMessage = array();
+$oMessages->logInfo('Starting Maintenance Prioritisation');
+$upgradeTaskResult  = OA_Maintenance_Priority::run();
+if (PEAR::isError($upgradeTaskResult)) {
+    $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
 }
-$upgradeTaskError[] = 'Starting Maintenance Prioritisation';
-$result  = OA_Maintenance_Priority::run();
-if (is_null($upgradeTaskResult) || $upgradeTaskResult)
-{
-    $upgradeTaskResult  = $result;
-}
-$upgradeTaskError[] = ' Maintenance Prioritisation: '.($result ? 'Complete' : 'Failed');
-
-
-?>
+$oMessages->logInfo('Maintenance Prioritisation: '.($upgradeTaskResult ? 'Complete' : 'Failed'));

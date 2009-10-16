@@ -26,6 +26,19 @@ $Id$
 
 class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
 {
+    private $oAdaptorRegistry;
+    
+    public function __construct()
+    {
+        $this->oAdaptorRegistry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();
+    }
+    
+    protected function getAdaptorRegistry()
+    {
+        return $this->oAdaptorRegistry;
+    }
+    
+    
     /**
      * Return a JS rule definition applicable for JQuery validation plugin
      * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
@@ -68,28 +81,26 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      */
     public function getJQueryValidationRulesScript($rules)
     {
-        $registry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();        
+        $registry = $this->getAdaptorRegistry();        
         $rulesText .= "rules: {\n";
         $messagesText .= "messages: {\n";
         $rulesCount = count($rules);
-        $i = 0;
+        $i = 1;
         foreach($rules as $elementName => $elementRules) {
-            $i++;
             $rulesText.= " \"$elementName\": {\n";
             $messagesText.= " \"$elementName\": {\n";
+            $j = 1;
+            $elementRules = array_filter($elementRules, array($this, 'filterNonSupported'));
             $elemRulesCount = count($elementRules);
-            $j = 0;
             foreach ($elementRules as $rule) {
-                $j++;
                 $ruleAdaptor = $registry->getJQueryRuleAdaptor($rule['type']);
-                if (!empty($ruleAdaptor)) {
-                    $rulesText .= "  ".$ruleAdaptor->getJQueryValidationRule($rule);
-                    $messagesText .= "  ".$ruleAdaptor->getJQueryValidationMessage($rule);
-                    if ($j < $elemRulesCount) {
-                        $rulesText .= ",\n";
-                        $messagesText .= ",\n";
-                    }
+                $rulesText .= "  ".$ruleAdaptor->getJQueryValidationRule($rule);
+                $messagesText .= "  ".$ruleAdaptor->getJQueryValidationMessage($rule);
+                if ($j < $elemRulesCount) {
+                    $rulesText .= ",\n";
+                    $messagesText .= ",\n";
                 }
+                $j++;
             }
             $rulesText.= " }";
             $messagesText.= " }";
@@ -97,11 +108,20 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
                 $rulesText.= ",\n";
                 $messagesText.= ",\n"; //close element array
             }
+            $i++;
         }
         $rulesText .= "},\n"; //close rules array
         $messagesText .= "}\n"; //close messages array
         
         return $rulesText."\n".$messagesText;
+    }
+    
+    
+    protected function filterNonSupported($aRule)
+    {
+        $registry = $this->getAdaptorRegistry();
+        $ruleAdaptor = $registry->getJQueryRuleAdaptor($aRule['type']);
+        return !empty($ruleAdaptor);
     }
     
     

@@ -167,8 +167,7 @@ class OA_Admin_UI
      *
      * @param int $ID
      * @param OA_Admin_UI_Model_PageHeaderModel $headerModel
-     * @param int $imgPath A relative path to Images, CSS files. Used if calling function
-     *                     from anything other than admin folder
+     * @param int $imgPath deprecated 
      * @param bool $showSidebar Set to false if you do not wish to show the sidebar navigation
      * @param bool $showContentFrame Set to false if you do not wish to show the content frame
      * @param bool $showMainNavigation Set to false if you do not wish to show the main navigation
@@ -243,7 +242,7 @@ class OA_Admin_UI
         }
 
         //html header
-        $this->_assignLayout($pageTitle, $imgPath);
+        $this->_assignLayout($pageTitle);
         $this->_assignJavascriptandCSS();
 
         //layout stuff
@@ -294,7 +293,9 @@ class OA_Admin_UI
             $zlibCompression = ini_get('zlib.output_compression');
             if (!$zlibCompression && function_exists('ob_gzhandler')) {
                 // enable compression only if it wasn't enabled previously (e.g by widget)
-                if (ob_get_contents() === false) {
+                //also, we cannot enable gzip if session was started
+                $session_id = session_id(); //check if there's any session
+                if (ob_get_contents() === false && empty($session_id)) {
                     ob_start("ob_gzhandler");
                 }
             }
@@ -365,17 +366,17 @@ class OA_Admin_UI
 
     function _assignInstalling()
     {
-        global $phpAds_installing;
+        global $phpAds_installing, $installing;
         if (!defined('phpAds_installing')) {
             // Include the flashObject resource file
             $this->oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
         }
+        $this->oTpl->assign('installing', $installing);
     }
 
-    function _assignLayout($pageTitle, $imgPath)
+    function _assignLayout($pageTitle)
     {
         $this->oTpl->assign('pageTitle', $pageTitle);
-        $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
         $this->oTpl->assign('oxpVersion', OA_VERSION);
     }
@@ -561,8 +562,10 @@ class OA_Admin_UI
     {
         global $installing, $conf, $phpAds_TextDirection; //if installing no admin base URL is known yet
 
-        $jsGroup = 'oxp-js';
-        $cssGroup = $phpAds_TextDirection == 'ltr' ? 'oxp-css-ltr' : 'oxp-css-rtl';
+        $jsGroup = $installing ? 'oxp-js-install' : 'oxp-js';
+        $cssGroup = $phpAds_TextDirection == 'ltr' 
+            ? ($installing ? 'oxp-css-install-ltr' : 'oxp-css-ltr') 
+            : ($installing ? 'oxp-css-install-rtl' : 'oxp-css-rtl');
         
         //URL to combine script
         $this->oTpl->assign('adminBaseURL', $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, ''));
@@ -616,7 +619,8 @@ class OA_Admin_UI
                     $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
                 }
 
-            } else {
+            } 
+            else {
                 $this->oTpl->assign('buttonStartOver', true);
             }
         }

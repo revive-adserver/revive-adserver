@@ -34,17 +34,10 @@ class OA_Upgrade_Login
     /**
      * Check administrator login during the upgrade steps
      *
-     * @param $upgradeOnly boolean Only perform the check when upgrading
      * @return boolean True if login succeded
      */
-    function checkLogin($upgradeOnly = true)
+    function checkLogin()
     {
-        if ($upgradeOnly) {
-            if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
-                return true;
-            }
-        }
-
         // Clean up session
         $GLOBALS['session'] = array();
 
@@ -105,22 +98,18 @@ class OA_Upgrade_Login
             return;
         }
 
-        $doUser = OA_Dal::factoryDO('users');
-
-        if (!empty($_COOKIE['oat']) && $_COOKIE['oat'] == OA_UPGRADE_UPGRADE) {
-            // Upgrading, fetch the record using the username of the logged in user
-            $doUser->username = OA_Permission::getUsername();
-        } else {
-            // Installing, fetch the user linked to the admin account
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+        if (isset($adminAccountId)) {
+            // Fetch the user linked to the admin account
+            $doUser = OA_Dal::factoryDO('users');
             $doAUA = OA_Dal::factoryDO('account_user_assoc');
-            $doAUA->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
+            $doAUA->account_id = $adminAccountId;
             $doUser->joinAdd($doAUA);
-        }
-
-        $doUser->find();
-        if ($doUser->fetch()) {
-            phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
-            phpAds_SessionDataStore();
+            $doUser->find();
+            if ($doUser->fetch()) {
+                phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
+                phpAds_SessionDataStore();
+            }
         }
     }
 

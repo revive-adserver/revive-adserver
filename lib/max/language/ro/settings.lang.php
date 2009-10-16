@@ -80,7 +80,7 @@ $GLOBALS['strDbSuccessIntroUpgrade'] = "Sistemul tău a fost actualizat cu succe
 $GLOBALS['strErrorWritePermissions'] = "Au fost detectate erori legate de permisiunile fişierelor pe care trebuie să le corectezi înainte de a continua.<br />Pentru a repara aceste erori pe un sistem Linux, încearcă să introduci următoarele comenzi:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Au fost detectate erori legate de permisiunile fişierelor pe care trebuie să le corectezi înainte de a continua.";
-$GLOBALS['strCheckDocumentation'] = "Pentru mai multe informaţii, te rugăm să citeşti <a href='". OX_PRODUCT_DOCSURL ."'>documentaţia ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Pentru mai multe informaţii, te rugăm să citeşti <a href='". OX_PRODUCT_DOCSURL ."'>documentaţia ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL Interfaţă Admin";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL Motor de Livrare";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL Motor de Livrare (SSL)";

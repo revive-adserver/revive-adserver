@@ -28,7 +28,7 @@ $Id$
     <link rel="stylesheet" type="text/css" href="{$assetPath}/min.php?g={$cssGroup}&amp;v={$oxpVersion}">
 {else}
   {foreach from=$aCssFiles item=stylesheet}
-<link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}">
+<link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}?v={$oxpVersion}">
   {/foreach}
 {/if}
 

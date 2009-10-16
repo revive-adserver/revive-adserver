@@ -27,10 +27,11 @@ $Id$
 {if $_e.type == 'header'}
 {* open section *}
   <table class="section" border='0' width='100%' cellpadding='0' cellspacing='0'>
-  <tr><td height='25' colspan='3'>{if $_e.icon}<img src='{$assetPath}/images/{$_e.icon}' align='absmiddle'>&nbsp;{/if}<b>{$_e.header}</b></td></tr>
-  <tr height='1'><td width='30'><img src='{$assetPath}/images/break.gif' height='1' width='30'></td>
-  <td width='170'><img src='{$assetPath}/images/break.gif' height='1' width='170'></td>
-  <td width='100%'><img src='{$assetPath}/images/break.gif' height='1' width='100%'></td></tr>
+  <tr><td height='25' colspan='3'>{if $_e.icon}<img src='{$assetPath}/images/{$_e.icon}' align='absmiddle'>&nbsp;{/if}{if $_e.header}<b>{$_e.header}</b>{/if}</td></tr>
+  <tr style="height:1px;"><td width='30'><img src='{$assetPath}/images/break.gif' alt='' style="height:1px; width:30px;"></td>
+    <td width='170'><img src='{$assetPath}/images/break.gif' alt='' style="height:1px; width:170px;"></td>
+    <td width='100%'><img src='{$assetPath}/images/break.gif' alt='' style="height:1px;" width='100%'></td>
+  </tr>
   <tr><td height='10' colspan='3'>&nbsp;</td></tr>
       {if $_e.errors}
       {* section errors *}
@@ -41,8 +42,8 @@ $Id$
           <font color='#AA0000'><b>{$_eErr}</b></font><br />
       {/foreach}
       </td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>
-      <tr><td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
-      <td colspan='2'><img src='{$assetPath}/images/break-l.gif' height='1' width='170' vspace='6'></td></tr>
+      <tr><td><img src='{$assetPath}/images/spacer.gif' style="height:1px;" width='100%'></td>
+      <td colspan='2'><img src='{$assetPath}/images/break-l.gif' style="height:1px; width:170px;" vspace='6'></td></tr>
       {/if}
   
       {* display section content *}
@@ -72,7 +73,7 @@ $Id$
 
 {*break*}
 {if $_e.type != 'header' && $_e.type != 'controls' && $_e.type != 'hidden' && $_e.type != 'script' && $_e.type != 'plugin-script' && $_e.break}
-    <tr><td height='1' colspan='3'>&nbsp;</td></tr>
+    <tr class="spacer"><td style="height:1px;" colspan='3'>&nbsp;</td></tr>
 {/if}
 
 
@@ -124,7 +125,7 @@ $Id$
     <tr>
         <td width='30'>&nbsp;</td><td width='170'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
         <td width='100%'>
-           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e} {if $_e.error}<label class="error" for="{$_e.id|default:$_e.name|escape}">{$_e.error}</font>{/if}
+           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e} {if $_e.error}<label class="error" for="{$_e.id|default:$_e.name|escape}">{$_e.error}</label>{/if}
         </td>
     </tr>
 {/if}

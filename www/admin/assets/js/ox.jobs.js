@@ -1,13 +1,13 @@
 (function($) {
     $.fn.ajaxJobs = function(options) {
         return this.each(function() {
-            
             var $this = $(this);
             var $form = $(this);
             var defaults = {
                 debug: false,
                 responseDataType: 'json',
-                requestTimeout: 30000 //30sec
+                requestTimeout: 30000, //30sec
+                delay: null //delay between the requests
             };
             var settings = $.extend({}, defaults, options);
             
@@ -60,7 +60,7 @@
                         settings.allComplete(currentIndex);
                     }
                     catch(e) {
-                        //intentionally left blank - do not want external code to break the flow
+                        handleJSException(e); 
                     }
                 }            
             }
@@ -106,7 +106,7 @@
                         settings.success(currentIndex, currentUrl, resultData);
                     }
                     catch(e) {
-                        //intentionally left blank - do not want external code to break the flow
+                        handleJSException(e); 
                     }
                 }
             }
@@ -129,11 +129,21 @@
                         settings.complete(currentIndex, currentUrl, textStatus);
                     }
                     catch(e) {
-                        //intentionally left blank - do not want external code to break the flow
+                        handleJSException(e); 
                     }
                 }
-                currentIndex++;
-                nextJob();
+                
+                var runNext = function() {
+                  currentIndex++;
+                  nextJob();
+                };
+                
+                if (settings.delay) {
+                    setTimeout(runNext, settings.delay);
+                }
+                else {
+                    runNext();
+                } 
             }
             
             
@@ -148,11 +158,21 @@
                         settings.exception(currentIndex, url, e);
                     }
                     catch(e) {
-                        //intentionally left blank - do not want external code to break the flow
+                        handleJSException(e); 
                     }
                }
-               currentIndex++;
-               nextJob();                           
+               
+                var runNext = function() {
+                  currentIndex++;
+                  nextJob();
+                };
+                
+                if (settings.delay) {
+                    setTimeout(runNext, settings.delay);
+                }
+                else {
+                    runNext();
+                }                       
             }
             
             
@@ -176,180 +196,26 @@
 	                        httpStatusText = XMLHttpRequest.statusText;
 	                        httpStatus = XMLHttpRequest.status;
                         }
-                        settings.error(currentIndex, currentUrl, errorText, httpStatus, httpStatusText);
+                        settings.error(currentIndex, currentUrl, errorText, httpStatus, httpStatusText, XMLHttpRequest.responseText);
                     }
                     catch(e) {
-                        //intentionally left blank - do not want external code to break the flow
+                        handleJSException(e); 
                     }
                 }
             }
+            
+            
+            function handleJSException(e)
+            {
+                //just try to log to console if debug, otherwise, eat that exc,
+                //we do not want the external listener code to break the flow
+                if (settings.debug && window.console && window.console.error ) {
+                    console.error(e);
+                }
+            }
+            
         });
     };
 })(jQuery);
 
-
-(function($) {
-    $.fn.pluginJobs = function(options) {
-        return this.each(function() {
-            
-            var $this = $(this);
-            var $form = $(this);
-            var defaults = {
-                debug: false,
-                startText: 'Installing...',
-                responseDataType: 'json',
-                requestTimeout: 30000 //30sec
-            };
-            var settings = $.extend({}, defaults, options);
-            
-           
-            var jobsCount = settings.jobs.length;
-            if (jobsCount == 0) {
-               $this.append("No plugins to install");
-               return; //nothing to do here
-            }
-            
-            init();
-            
-            
-            function init()
-            {
-                /** setup some generic optional handlers **/
-                //$(document).ajaxStart(startLoading);
-                //$(document).ajaxStop(stopLoading);
-                
-                try {
-	                buildTable();
-	                disableContinue();
-	                
-		            $(document).ajaxJobs({
-		                jobs: settings.jobs,
-		                start: onStart,
-		                success: onSuccess,
-		                error: onError,
-                        exception: onException,
-		                complete: onComplete,
-		                allComplete: onAllComplete,
-                        debug: settings.debug,
-                        responseDataType: settings.responseDataType,
-                        requestTimeout: settings.requestTimeout 
-		                });
-		        }
-		        catch (e) {
-		          enableContinue();
-		        }
-            }
-            
-            
-            function buildTable()
-            {
-                $this.append("<table class='sysinfotable'><tbody></tbody></table>");
-                for( i = 0; i < jobsCount; i++) {
-                    $("table", $this).append("<tr><td class='jobName'>" 
-                    + settings.jobs[i].name
-                    +"</td><td><span class='status' id='job_status_" + i +"'></span></td></tr>");
-                }               
-            }
-            
-            
-            function enableContinue()
-            {
-                if (settings.continueButtonId) {
-                    $("#" + settings.continueButtonId).attr("disabled", false)
-                        .removeClass("disabled-button");
-                }
-            }
-            
-            function disableContinue()
-            {
-                if (settings.continueButtonId) {
-                    $("#" + settings.continueButtonId).attr("disabled", true)
-                        .addClass("disabled-button");
-                }
-            }
-            
-	        function onStart(jobIndex, url)
-	        {
-	            $("#job_status_" + jobIndex, $this).text(settings.startText)
-	               .addClass('status-installing');
-	        }
-	      
-	      
-	        function onSuccess(jobIndex, url, resultData)
-	        {
-	           try {
-		           $statusElem = $("#job_status_" + jobIndex, $this);  
-	               $statusTD = $statusElem.parent("td");
-	               
-	               if (typeof resultData != "object" || resultData.status == undefined || resultData.status == '') {
-	                    onError(jobIndex, url, "parsererror", 200, "OK")
-	                    return;
-	               } 
-	               
-	               $statusElem.removeClass('status-installing').text(resultData.status)
-	                 
-	               if (resultData.errors && resultData.errors.length && resultData.errors.length > 0) {
-	                    $statusElem.after("<ul class='errors'></ul>");
-	                    for (var i = 0;i< resultData.errors.length; i++) {
-	                       if (resultData.errors[i] != undefined && resultData.errors[i] != "" && resultData.errors[i] != null) { 
-	                       $("ul.errors", $statusTD).append("<li>" + resultData.errors[i] + "</li>");    
-	                      }
-	                    }
-	               }
-               }
-               catch(e) {
-                onError(jobIndex, url, "parsererror", 200, "OK")
-               }
-	        }
-	        
-	        
-	        function onError(jobIndex, url, errorText, HttpStatus, HttpStatusText)
-	        {
-	           if (errorText == "parsererror") {
-	             errorMessage = "(Parse error, server returned invalid response)";   
-	           }
-	           else if (errorText == "timeout"){
-	               errorMessage = "(Request timed out)";
-	           }
-	           else {
-                 errorMessage = "(Server returned: " + HttpStatus +" " + HttpStatusText + ")";	           
-	           }
-	        
-	            $("#job_status_" + jobIndex, $this).text("Failed " + errorMessage)
-	               .removeClass('status-installing').addClass('status-failed');
-	        }
-          
-          
-            function onException(jobIndex, url, e)
-            {
-                  errorMessage = e;
-                  $("#job_status_" + jobIndex, $this).text("Failed (" + errorMessage + ")")
-                     .removeClass('status-installing').addClass('status-failed');
-            }        
-	
-	        
-	        function onComplete(jobIndex, url, textStatus)
-	        {
-	        }
-	
-	        
-	        function onAllComplete(jobsCount)
-	        {
-	           enableContinue();
-	        }        
-        
-    
-            function startLoading()
-            {
-                   $("body").append("<div class='loading'>Loading...</div");
-            }
-            
-            
-            function stopLoading()
-            {
-                $("div.loading").remove();
-            }
-        });
-    };
-})(jQuery);
 

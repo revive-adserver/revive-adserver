@@ -90,7 +90,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/foreach}
 
 </head>
-<body class="hasInterface {if $showContentFrame || $showSidebar }hasGradient{/if} {if $showSidebar}hasSidebar{/if}" onload="initPage();">
+<body class="hasInterface {if $showContentFrame || $showSidebar }hasGradient{/if} {if $showSidebar}hasSidebar{/if} {if $installing}installer{/if}" onload="initPage();">
 
 
 {* Using insert to prevent caching *}
@@ -143,9 +143,9 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {include file=layout/navigation.html}
 {/if}
 
-    <ul id="oaNavigationExtra">
 
 {if $buttonLogout}
+    <ul id="oaNavigationExtra">
         <li class="accountSwitcher">
             <div class="triggerContainer"><div class="switchTrigger">{$accountName|escape}</div> <a href="#" accesskey="{$keyWorkingAs}">{$strWorkingAs}</a> </div>
             <div class="accountsPanel">
@@ -167,8 +167,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
               <div class="switchDown">&nbsp;</div>
             </div>
         </li>
-{/if}
     </ul>
+{/if}
 {if $buttonLogout}
     <script type='text/javascript'>
     {literal}

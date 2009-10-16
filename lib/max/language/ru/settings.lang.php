@@ -293,7 +293,7 @@ $GLOBALS['strErrorWritePermissions'] = "Прежде, чем вы сможете
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Прежде, чем вы сможете продолжить, необходимо исправить ошибки прав доступа к файлам.";
-$GLOBALS['strCheckDocumentation'] = "Для вызова справки, откройте <a href='". OX_PRODUCT_DOCSURL ."'>Документацию ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Для вызова справки, откройте <a href='". OX_PRODUCT_DOCSURL ."'>Документацию ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL административного интерфейса";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL движка доставки баннеров";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL движка доставки баннеров (SSL)";

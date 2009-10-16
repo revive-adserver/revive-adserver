@@ -26,7 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once OX_MARKET_LIB_PATH . '/Zend/Http/Client/Adapter/Curl.php';
+if (!class_exists('Zend_Http_Client_Adapter_Curl')) {
+    require_once OX_MARKET_LIB_PATH . '/Zend/Http/Client/Adapter/Curl.php';
+}
 require_once MAX_PATH . '/lib/Zend/Http/Client.php';
 
 class OX_oxMarket_Common_ConnectionUtils 

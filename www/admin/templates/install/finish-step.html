@@ -1,0 +1,108 @@
+<div class="install-wizard">
+  <div class="finishStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      <h2>
+      {if $isUpgrade}
+        {if empty($aStatuses)}
+            {t str=FinishUpgradeTitle}
+        {else}
+            {t str=FinishUpgradeWithErrorsTitle}
+        {/if}
+      {else}
+        {if empty($aStatuses)}
+            {t str=FinishInstallTitle}
+        {else}
+            {t str=FinishInstallWithErrorsTitle}
+        {/if}
+      {/if}
+      </h2>
+      
+      {include file='messages.html' aMessages=$aMessages}      
+      
+      {if $aStatuses}
+        <div class="messagePlaceholder messagePlaceholderStatic">
+          <div class="message localMessage">
+            <div class="panel warning">
+              <div class="icon"></div>
+              <div class="body">
+                {t str='InstallNonBlockingErrors' values=$logPath}
+              </div>
+              <div class="topleft"></div>
+              <div class="topright"></div>
+              <div class="bottomleft"></div>
+              <div class="bottomright"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="error-details" class="hide">
+          <ul class="syscheck">
+            <li class="checkSection hasError">
+              <h4 class="header error"><span class="inlineIcon iconCheckErr">{t str=DetailedTaskErrorList}</span></h4>
+              <ul class="check-list">
+              {* display particular installation errors *}       
+              {foreach from=$aStatuses item=aStatus}
+                <li class="section-error hasError">
+                  <div class="messageContainer">
+                    <div class="body error">
+                      <h4>
+                      {if $aStatus.type == 'plugin'}
+                        {t str=PluginInstallFailed values=$aStatus.name}
+                      {else}
+                        {t str=TaskInstallFailed values=$aStatus.name}
+                      {/if}
+                      </h4>
+                      <ol>
+                      {foreach from=$aStatus.errors item=message}
+                        <li>{$message}</li>
+                      {/foreach}
+                      </ol>
+                    </div>
+                  </div>
+                </li>
+              {/foreach}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      {/if}
+      
+      {if $isUpgrade}
+      <div class="market-info">
+        <h3>{t str=MarketIntroLongTitle}</h3>
+        <p>{t str=MarketIntroLong}</p>
+        <img class="welcome" src="{$assetPath}/images/market-auction.gif" alt="Market Auction Example">
+      </div>
+      {/if}
+      
+      
+      <p>{t str=ContinueToLogin}</p>
+    
+  
+      <form action="" method="post">
+          <input type="hidden" name="action" value="finish" >
+          <div class="controls">
+            <input type="submit" id="continue" value="{t str=BtnContinue}" name="continue"/>
+          </div>    
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".finishStep").finishStep({
+        {/literal}
+        {literal} 
+    });
+  });  
+{/literal}
+-->
+</script>
+
+{include file='tracker.html' step=finish}

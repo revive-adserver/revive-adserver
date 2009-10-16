@@ -373,7 +373,7 @@ $GLOBALS['strDbSuccessIntroUpgrade'] = "Aktualizacja systemu zakończyła się p
 $GLOBALS['strErrorWritePermissions'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.<br/>Aby naprawić błędy w systemie Linux, spróbuj wpisać następujące polecenie(a):";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.";
-$GLOBALS['strCheckDocumentation'] = "Więcej wskazówek uzyskasz w <a href='". OX_PRODUCT_DOCSURL ."'>Dokumentacji ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Więcej wskazówek uzyskasz w <a href='". OX_PRODUCT_DOCSURL ."'>Dokumentacji ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL interfejsu administratora";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL serwera";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL serwera (SSL)";

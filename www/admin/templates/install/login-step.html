@@ -1,0 +1,32 @@
+<div class="install-wizard">
+  <div class="loginStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      <h2>{t str=AdminLoginTitle}</h2>
+      
+      <p>{t str=AdminLoginIntro}</p>
+      
+       {include file='messages.html' aMessages=$aMessages}
+      
+       {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".loginStep").loginStep({
+        {/literal}
+            'message' : '{$loaderMessage}'
+        {literal} 
+    });
+  });  
+{/literal}
+-->
+</script>
+
+{include file='tracker.html' step=login}
+

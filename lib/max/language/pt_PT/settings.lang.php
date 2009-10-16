@@ -79,7 +79,7 @@ $GLOBALS['strDbSuccessIntroUpgrade'] = "Seu sistema foi atualizado com sucesso. 
 $GLOBALS['strErrorWritePermissions'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.<br />Para corrigir estes erros em um sistema Linux, tente digitar o(s) seguinte(s) comando(s):";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.";
-$GLOBALS['strCheckDocumentation'] = "Para mais ajuda, verifique a <a href='http://". OX_PRODUCT_DOCSURL ."'>documentação do ". MAX_PRODUCT_NAME ."<a/>.";
+$GLOBALS['strCheckDocumentation'] = "Para mais ajuda, verifique a <a href='http://". OX_PRODUCT_DOCSURL ."'>documentação do ". MAX_PRODUCT_NAME ."</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL da interface de administração";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL da engine de entrega";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL da engine de entrega (SSL)";

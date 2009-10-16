@@ -24,33 +24,21 @@
 $Id$
 */
 
-
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
+//$oMessages initialized by runner OA_Upgrade::runPostUpgradeTask
 
-
-$upgradeTaskError[] = 'Recompiling Acls';
+$oMessages->logInfo('Recompiling Acls');
 if (PEAR::isError($result))
 {
-    $upgradeTaskError[] = $result->getMessage();
-    $upgradeTaskError[]   = $result->getCode();
+    $oMessages->logError($result->getCode().': '.$result->getMessage());
 }
 else
 {
-    $upgradeTaskError[]   = 'OK';
+    $oMessages->logInfo('OK');
 }
-
-if (!$upgradeTaskMessage)
-{
-    $upgradeTaskMessage = array();
+$oMessages->logInfo('Starting Acls Recompilation');
+$upgradeTaskResult = MAX_AclReCompileAll(true);
+if (PEAR::isError($upgradeTaskResult)) {
+    $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
 }
-$upgradeTaskError[] = 'Starting Acls Recompilation';
-$result = MAX_AclReCompileAll(true);
-if (is_null($upgradeTaskResult) || $upgradeTaskResult)
-{
-    $upgradeTaskResult  = $result;
-}
-$upgradeTaskError[] = ' Acls Recompilation: '.($result ? 'Complete' : 'Failed');
-
-
-
-?>
+$oMessages->logInfo('Acls Recompilation: '.($upgradeTaskResult ? 'Complete' : 'Failed'));

@@ -4,8 +4,11 @@
 	<!ENTITY universal SYSTEM "./common/openx.common.installation.universal.xml">
 	<!ENTITY config  SYSTEM "../modules/config_openx.xml">
 	<!ENTITY connection  SYSTEM "../modules/connection.xml">
-	<!ENTITY init  SYSTEM "./common/openx.common.installation.init.xml">
 	<!ENTITY initdb  SYSTEM "./common/openx.common.installation.initdb.xml">
+	<!ENTITY init  SYSTEM "./common/openx.common.installation.init.xml">
+	<!ENTITY welcome  SYSTEM "./common/openx.common.installation.welcome.xml">
+	<!ENTITY registration SYSTEM "./common/openx.common.installation.registration.xml">
+
 	<!ENTITY welcome  SYSTEM "./common/openx.common.installation.welcome.xml">
 	<!ENTITY terms  SYSTEM "./common/openx.common.installation.terms.xml">
 	<!ENTITY systemCheck  SYSTEM "./common/openx.common.installation.systemCheck.xml">
@@ -27,12 +30,9 @@
 				&initdb;
 				&init;
 		  		&welcome;
-				&terms;
-				&systemCheck;
+				&registration;
 				&databaseSetup;
-				&configurationSetup;
 				&adminSetup;				
-				&plugins;
 				&finished;
 			</steps>
 		</webtest>

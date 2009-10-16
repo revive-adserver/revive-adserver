@@ -47,7 +47,7 @@ $Id$
 <script type="text/javascript" src="{$assetPath}/min.php?g={$jsGroup}&amp;v={$oxpVersion}"></script>
 {else}
   {foreach from=$aJsFiles item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
+<script type="text/javascript" src="{$assetPath}/{$javascript}?v={$oxpVersion}"></script>
   {/foreach}
 {/if}
 

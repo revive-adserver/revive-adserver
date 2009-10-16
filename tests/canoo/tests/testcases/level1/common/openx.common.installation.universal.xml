@@ -1,6 +1,6 @@
 				<group description="a group of steps (page title, help etc.) executed at every point of installation process">
 					<verifyText description="Check text on page" 
-						text="Progress" />
+						text="Contact us" />
 					<verifyTitle description="Check page title"
 						regex="true"
 						text="OpenX*" />

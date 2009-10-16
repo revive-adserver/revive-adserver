@@ -303,7 +303,7 @@ permCookieSeconds   = 31536000      ; 1 year in seconds
 
 [debug]
 logfile             =                       ; The delivery engine debugging file
-production          = true                  ; Is it production server? (do not show backtrace and error sourcecontext)
+production          = 1                     ; Is it production server? (do not show backtrace and error sourcecontext)
                                             ; If it is delivery do not show any errors
 sendErrorEmails     = false                 ; Send emails containing error reports - do not work in delivery
 emailSubject        = Error from OpenX      ; Error report subject
@@ -432,5 +432,17 @@ useMergedFunctions = true
 [audit]
 enabled=1
 enabledForZoneLinking=false
+
+;------------------------------------------------------------------------------------------;
+; Installer Settings                                                                       ;
+;------------------------------------------------------------------------------------------;
+
+[install]
+marketPcHost        = https://pc.openx.com
+marketPcApiHost     = https://api.pc.openx.com
+fallbackPcApiHost   = http://api.pc.openx.com
+marketPublicApiUrl  = api/public/v1
+marketCaptchaUrl    = https://pc.openx.com/api/captcha
+publisherSupportEmail = publisher-support@openx.org
 
 ;------------------------------------------------------------------------------------------;

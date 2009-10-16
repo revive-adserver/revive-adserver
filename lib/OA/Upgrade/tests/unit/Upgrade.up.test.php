@@ -30,6 +30,13 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/VersionController.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php';
+require_once MAX_PATH.'/lib/OA/Dal/DataGenerator.php';
+
+// change visibility of _rollbackPutAdmin method
+class OA_UpgradeRollbackTest extends OA_Upgrade {
+    public function _rollbackPutAdmin(){ parent::_rollbackPutAdmin(); }
+}
+
 
 /**
  * A class for testing the OpenX Upgrade class.
@@ -513,35 +520,80 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->_pickupRecoveryFile();
     }
 
-    /**
-     * method to test the PostUpgradeTask methods
-     * write file
-     * read file and execute
-     *
-     */
-    function test_PostUpgradeTasksFile()
+    function testGetPostUpgradeTasks()
     {
+        // create upgrade file
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->addPostUpgradeTask('Test_1');
         $oUpgrade->addPostUpgradeTask('Test_2');
         $oUpgrade->addPostUpgradeTask('Test_3');
-
         $this->assertTrue($oUpgrade->_writePostUpgradeTasksFile());
-
+        
+        $result = $oUpgrade->getPostUpgradeTasks();
+        $this->assertEqual($result, array('Test_1', 'Test_2', 'Test_3'));
+        
+        // clean upgrade file
+        $this->assertTrue($oUpgrade->pickupPostUpgradeTasksFile());
+    }
+    
+    
+    function testRunPostUpgradeTask()
+    {
+        $oUpgrade = new OA_Upgrade();
         $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-
-        $result = $oUpgrade->executePostUpgradeTasks();
-
-        $this->assertIsA($result, 'array', '');
-        $this->assertEqual(count($result),3);
-        for ($i=0,$x=1;$i<3;$i++,$x++)
-        {
-            $this->assertEqual($result[$i]['task'],'Test_'.$x);
-            $this->assertEqual($result[$i]['file'],$oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_'.$x.'.php');
-            $this->assertEqual($result[$i]['result'],'Result from Test_'.$x);
-            $this->assertEqual($result[$i]['error'],'Error from Test_'.$x);
-            $this->assertEqual($result[$i]['message'],'Message from Test_'.$x);
-        }
+        Mock::generatePartial(
+            'OA_UpgradeLogger',
+            $mockLogger = 'OA_UpgradeLoggerMock'.rand(),
+            array('logError', 'logOnly')
+        );
+        
+        
+        $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_1.php';
+        $oLogger1 = new $mockLogger();
+        $oLogger1->expectOnce('logError', array('Error from Test_1'));
+        $oLogger1->expectAt(0, 'logOnly', array('attempting to include file '.$file));
+        $oLogger1->expectAt(1, 'logOnly', array('Message from Test_1'));
+        $oLogger1->expectAt(2, 'logOnly', array('executed file '.$file));
+        $oLogger1->expectCallCount('logOnly', 3);
+        $oUpgrade->oLogger = $oLogger1;
+        $result = $oUpgrade->runPostUpgradeTask('Test_1');
+        $expected = array(
+            'task' => 'Test_1',
+            'file' => $file,
+            'result' => 'Result from Test_1',
+            'errors' => array('Error from Test_1')); 
+        $this->assertEqual($result, $expected);
+        
+        $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_2.php';
+        $oLogger2 = new $mockLogger();
+        $oLogger2->expectNever('logError');
+        $oLogger2->expectAt(0, 'logOnly', array('attempting to include file '.$file));
+        $oLogger2->expectAt(1, 'logOnly', array('Message from Test_2'));
+        $oLogger2->expectAt(2, 'logOnly', array('executed file '.$file));
+        $oLogger2->expectCallCount('logOnly', 3);
+        $oUpgrade->oLogger = $oLogger2;
+        $result = $oUpgrade->runPostUpgradeTask('Test_2');
+        $expected = array(
+            'task' => 'Test_2',
+            'file' => $file,
+            'result' => 'Result from Test_2',
+            'errors' => array()); 
+        $this->assertEqual($result, $expected);
+        
+        $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_3.php';
+        $oLogger3 = new $mockLogger();
+        $oLogger3->expectOnce('logError', array('Error from Test_3'));
+        $oLogger3->expectAt(0, 'logOnly', array('attempting to include file '.$file));
+        $oLogger3->expectAt(1, 'logOnly', array('executed file '.$file));
+        $oLogger3->expectCallCount('logOnly', 2);
+        $oUpgrade->oLogger = $oLogger3;
+        $result = $oUpgrade->runPostUpgradeTask('Test_3');
+        $expected = array(
+            'task' => 'Test_3',
+            'file' => $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_3.php',
+            'result' => null,
+            'errors' => array('Error from Test_3')); 
+        $this->assertEqual($result, $expected);
     }
 
     function test_createEmptyVarFile()
@@ -692,6 +744,140 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_recoverUpgrade()
     {
 
+    }
+    
+    function testPutAdmin()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        
+        // Prepare test data
+        $aAdmin = array(
+            'email'    => 'email@test.org',
+            'name'     => 'testadmin',
+            'pword'    => 'testpass',
+            'language' => 'es',
+        );
+        $aPrefs = array( 
+            'timezone' => 'Europe/Madrid'
+        );
+        
+        // there shouldn't be admin account
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+        $this->assertNull($adminAccountId);
+
+        // create admin
+        $result = $oUpgrade->putAdmin($aAdmin, $aPrefs);
+        $this->assertTrue($result);
+        
+        // admin account is set
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+        $this->assertNotNull($adminAccountId);
+        
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $doAccount->get($adminAccountId);
+        $this->assertEqual($doAccount->account_type, OA_ACCOUNT_ADMIN);
+        $this->assertEqual($doAccount->account_name, 'Administrator account');
+        
+        // user exists
+        $doUser =  OA_Dal::factoryDO('users');
+        $doUserAssoc = OA_Dal::factoryDO('account_user_assoc');
+        $doUserAssoc->account_id = $adminAccountId;
+        $doUser->joinAdd($doUserAssoc);
+        $doUser->find();
+        $this->assertTrue($doUser->fetch());
+        $this->assertEqual($doUser->contact_name, 'Administrator');
+        $this->assertEqual($doUser->email_address, $aAdmin['email']);
+        $this->assertEqual($doUser->username, $aAdmin['name']);
+        $this->assertEqual($doUser->password, md5($aAdmin['pword']));
+        $this->assertEqual($doUser->language, $aAdmin['language']); 
+        
+        // agency was created
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $doAccount->account_id = $doUser->default_account_id;
+        $doAgency->joinAdd($doAccount);
+        $doAgency->find();
+        $this->assertTrue($doAgency->fetch());
+        $this->assertEqual($doAgency->name, 'Default manager');
+        $this->assertEqual($doAgency->email, $aAdmin['email']);
+        $this->assertEqual($doAgency->active, 1);
+        
+        // Default preferences + custom timezone are set 
+        $oPreferences = new OA_Preferences();
+        $aDefPrefs = $oPreferences->getPreferenceDefaults();
+        $aExpected = array();
+        foreach ($aDefPrefs as $name => $values)
+        {
+            $aExpected[$name] = $values['default'];
+        }
+        $aExpected['timezone'] = $aPrefs['timezone'];
+        $aExpected['language'] = 'en'; //added by get admin account preferences
+        
+        $aAdminPreferences = OA_Preferences::loadAdminAccountPreferences(true);
+        $this->assertEqual($aExpected, $aAdminPreferences);
+        
+        // trunkate tables
+        DataGenerator::cleanUp(array('account_preference_assoc', 'preferences',
+            'account_user_assoc', 'users', 'agency', 'accounts'));
+        // remove admin_account_id from application variables
+        OA_Dal_ApplicationVariables::delete('admin_account_id');
+    }
+    
+    
+    function test_rollbackPutAdmin()
+    {        
+        $oUpgrade  = new OA_UpgradeRollbackTest();
+        
+        // Call putAdmin method
+        $aAdmin = array(
+            'email'    => 'email@test.org',
+            'name'     => 'testadmin',
+            'pword'    => 'testpass',
+            'language' => 'es',
+        );
+        $aPrefs = array( 
+            'timezone' => 'Europe/Madrid'
+        );
+        $oUpgrade->putAdmin($aAdmin, $aPrefs);
+        
+        // call rollback method
+        $oUpgrade->_rollbackPutAdmin();
+        
+        // check tables
+        $doPreferencesAssoc = OA_Dal::factoryDO('account_preference_assoc');
+        $this->assertEqual($doPreferencesAssoc->getAll(), array());
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $this->assertEqual($doPreferences->getAll(), array());
+        $doUserAssoc = OA_Dal::factoryDO('account_user_assoc');
+        $this->assertEqual($doUserAssoc->getAll(), array());
+        $doUser = OA_Dal::factoryDO('users');
+        $this->assertEqual($doUser->getAll(), array());
+        $doAgency = OA_Dal::factoryDO('agency');
+        $this->assertEqual($doAgency->getAll(), array());
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $this->assertEqual($doAccount->getAll(), array());
+        // admin_account_id in appliation variables should be deleted
+        $this->assertNull(OA_Dal_ApplicationVariables::get('admin_account_id'));
+    }
+    
+    
+    function testCanUpgradeOrInstall()
+    {
+        // run once upgrade or install
+        $oUpgrade  = new OA_Upgrade();
+        $firstResult = $oUpgrade->canUpgradeOrInstall();
+        $existing_installation_status = $oUpgrade->existing_installation_status;
+        $aPackageList = $oUpgrade->aPackageList;
+        $aMessages = $oUpgrade->getMessages();
+        $oUpgrade->oLogger->logClear();
+        $oUpgrade->aPackageList = array();
+        $oUpgrade->existing_installation_status = 235234;
+        
+        // run another one and check values
+        $this->assertEqual($oUpgrade->canUpgradeOrInstall(), $firstResult);
+        $this->assertEqual($oUpgrade->existing_installation_status, $existing_installation_status);
+        $this->assertEqual($oUpgrade->aPackageList, $aPackageList);
+        $this->assertEqual($oUpgrade->getMessages(), $aMessages);
     }
 
 }

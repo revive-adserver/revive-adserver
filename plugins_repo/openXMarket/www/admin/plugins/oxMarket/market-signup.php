@@ -43,7 +43,8 @@ $oMarketComponent->updateSSLMessage();
 
 // Try to automatically register user on multiple accounts mode is on
 // and we are working on hosted platform
-oxMarketAutoRegisterIfHosted($oMarketComponent);
+// Also try to run autoregister method based on data given in installation 
+oxMarketAutoRegister($oMarketComponent);
 
 $captchaRandom = mktime();
 $signupForm = buildSignupForm($oMarketComponent, $captchaRandom);
@@ -564,12 +565,23 @@ function updateCaptcha($oForm, $captchaRandom)
  *
  * @param Plugins_admin_oxMarket_oxMarket $oMarketComponent
  */
-function oxMarketAutoRegisterIfHosted($oMarketComponent)
+function oxMarketAutoRegister(&$oMarketComponent)
 { 
+    // auto register if Hosted
     $oUser = OA_Permission::getCurrentUser();
     $linkingResult = $oMarketComponent->linkHostedAccounts(
                                             $oUser->aUser['user_id'], 
                                             $oUser->aAccount['account_id']);
+    if ($linkingResult !== true) {
+        // Auto register based on install data
+        try {
+            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
+            $linkingResult = OX_oxMarket_Dal_Installer::autoRegisterMarketPlugin($oMarketComponent->getPublisherConsoleApiClient());
+        } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $exc) {
+            OA::debug('Error during autoRegisterMarketPlugin in market-signup.php: ('.$exc->getCode().')'.$exc->getMessage());
+            $linkingResult = false;
+        }
+    }
     if ($linkingResult === true) {
         // perform activation actions
         $oMarketComponent->removeRegisterNotification();

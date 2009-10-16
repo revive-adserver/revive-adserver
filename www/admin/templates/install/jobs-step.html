@@ -1,0 +1,40 @@
+<div class="install-wizard">
+  <div class="jobsStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      {if $isUpgrade}
+        <h2>{t str=JobsUpgradeTitle}</h2>
+        <p>{t str=JobsUpgradeIntro}</p>      
+      {else}
+        <h2>{t str=JobsInstallTitle}</h2>
+        <p>{t str=JobsInstallIntro}</p> 
+      {/if}
+      {include file='messages.html' aMessages=null forceRender=true id="errors" class="hide"}
+  
+      <form id="jobsForm" action="" method="post">
+          <div class='err'></div>
+          <input type="hidden" name="action" value="pluginTask" >
+          <div class="controls">
+            <input type="submit" id="continue" value="{t str=BtnContinue}" name="continue"/>
+          </div>    
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{$assetPath}/js/ox.jobs.js"></script>
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".jobsStep").jobsStep({
+        {/literal}
+            'message' : '{if $isUpgrade}{t str=JobsProgressUpgradeMessage}{else}{t str=JobsProgressInstallMessage}{/if}',
+            'jobs' : {$jobs}
+        {literal} 
+    });
+  });  
+{/literal}
+-->
+</script>

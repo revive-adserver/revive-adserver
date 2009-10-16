@@ -1,0 +1,37 @@
+<div class="install-wizard">
+  <div class="dbStep">
+    {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
+  
+    <div class="content">
+      {if $isUpgrade}
+      <h2>{t str=DbUpgradeTitle}</h2>
+      <p>{t str=DbUpgradeIntro}</p>
+      {else}
+      <h2>{t str=DbSetupTitle}</h2>
+      <p>{t str=DbSetupIntro}</p>
+      {/if}
+    
+      {include file='messages.html' aMessages=$aMessages}
+    
+      {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+{literal}
+  $(document).ready(function() {
+    $(".dbStep").dbStep({
+    {/literal}
+        'formFrozen' : {if $form.frozen || $isUpgrade}true{else}false{/if},
+        'message' : '{$loaderMessage}'
+    {literal}        
+    });
+  });  
+{/literal}
+-->
+</script>
+
+{include file='tracker.html' step=database}

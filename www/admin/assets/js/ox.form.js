@@ -41,7 +41,7 @@
                         }
 		            }
 		        },
-                errorContainer: '#errors',
+                errorContainer: '#errors_' + $this.attr('id'), //errors_{$form.id}
                 rules: settings.rules,
                 messages: settings.messages
             });
