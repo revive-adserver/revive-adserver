@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxMaxMindGeoIP</name>
+    <creationDate>2008-08-26</creationDate>
+    <author>Chris Nutting</author>
+    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>OpenX MaxMind GeoIP Geotargeting component</description>
+    <version>1.0.4</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>geoTargeting</extends>
+
+    <install>
+
+        <syscheck>
+            <!-- optional dbms compatibility declarations -->
+            <!-- if you know your components won't work with a dbms -->
+            <!-- set supported to 0 -->
+            <!--dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>1</supported>
+            </dbms-->
+
+            <!-- optional php setting requirement declarations -->
+            <!--php>
+                <setting name='phpini1'>phpval1</setting>
+                <setting name='phpini2'>phpval2</setting>
+            </php-->
+
+            <!-- optional plugin group dependency declaration -->
+            <!-- if this group depends on another group (not plugin!) -->
+            <!-- remember to set the group installation order in the plugin definition -->
+            <!--depends>
+                <plugin version="0.0.1" enabled="0">anotherPluginGroup</plugin>
+            </depends-->
+        </syscheck>
+
+        <files>
+            <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/">oxMaxMindGeoIP.class.php</file>
+            <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/">oxMaxMindGeoIP.delivery.php</file>
+            <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/data/">FreeGeoIPCountry.dat</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
+            <!--file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/_lang">en.mo</file-->
+        </files>
+
+
+
+        <!-- optional configuration settings and preferences -->
+        <configuration>
+            <!-- only administrator has permissions to change settings in config file -->
+            <!-- settings are written to a group section [oxMaxMindGeoIP] -->
+            <setting key="geoipCountryLocation" type="text" label="Path to geoipCountryLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipRegionLocation" type="text" label="Path to geoipRegionLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipCityLocation" type="text" label="Path to geoipCityLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipAreaLocation" type="text" label="Path to geoipAreaLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipDmaLocation" type="text" label="Path to geoipDmaLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipOrgLocation" type="text" label="Path to geoipOrgLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipIspLocation" type="text" label="Path to geoipIspLocation file" required="0" size="64" visible="1"></setting>
+            <setting key="geoipNetspeedLocation" type="text" label="Path to geoipNetspeedLocation file" required="0" size="64" visible="1"></setting>
+
+            <!-- preferences have role-based permissions-->
+            <!-- preferences are prefixed in the preference table with the group name e.g. oxMaxMindGeoIP_preference_Admin -->
+            <!-- type, label, size and visible govern the display of the preference for editing -->
+            <!-- required=1 for mandatory preferences ; required=0 for optional preferences -->
+            <!--preference name="preference_Admin"      permission="ADMIN"      type="text" label="Admin Colour"     required="1" size="7" visible="1">preference_Admin default value</preference>
+            <preference name="preference_Manager"    permission="MANAGER"    type="text" label="Manager Colour"   required="0" size="7" visible="1">preference_Manager default value</preference>
+            <preference name="preference_Advertiser" permission="ADVERTISER" type="text" label="Advertiser Colour" required="0" size="7" visible="1">preference_Advertiser default value</preference>
+            <preference name="preference_Trafficker" permission="TRAFFICKER" type="text" label="Trafficker Colour" required="0" size="7" visible="1">preference_Trafficker default value</preference-->
+        </configuration>
+
+        <!-- details of individual components in this group -->
+        <components>
+           <!--component-->
+                <!--name>{COMPONENT}</name-->
+                <!-- optional language file -->
+                <!--translations>{MODULEPATH}geoTargeting/oxMaxMindGeoIP/_lang/</translations-->
+                <!-- optional hooks -->
+                <!--hook>{HOOK}</hook-->
+           <!--/component-->
+           <component>
+               <name>oxMaxMindGeoIP</name>
+           </component>
+        </components>
+
+        <!-- optional database schema info -->
+
+
+        <!-- optional custom event scripts -->
+        <!--prescript>postscript_install_oxMaxMindGeoIP.php</prescript-->
+        <!--postscript>postscript_install_oxMaxMindGeoIP.php</postscript-->
+
+    </install>
+
+</plugin>

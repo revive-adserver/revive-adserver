@@ -1,0 +1,8 @@
+This plugin uses one (or more) of the MaxMind database files to perform viewer IP geo-location lookups.
+
+If you wish to use any of the additional MaxMind databases, you will need to upload them to your server
+and then set the /path/to/databasefile.dat in this plugin's settings screen.
+
+Note: If you do not set any paths, then the plugin will use the bundled GeoCountry database (you do not need to set this)
+
+Note: The current version of the bundled GeoCountry database is the one updated June 1st. 2009

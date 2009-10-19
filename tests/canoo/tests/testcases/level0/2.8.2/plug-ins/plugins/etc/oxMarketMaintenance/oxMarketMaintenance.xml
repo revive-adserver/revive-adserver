@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxMarketMaintenance</name>
+    <creationDate>2008-11-14</creationDate>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>OpenX Market for OpenX Ad Server (Download) Maintenace Statistics Tasks</description>
+    <version>0.3.0</version>
+    <oxversion>2.7.31-beta-rc2</oxversion>
+    <extends>maintenanceStatisticsTask</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenance.class.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">ImportMarketStatistics.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">oxMarketMaintenanceUpdateWebsites.class.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/">UpdateWebsites.php</file>
+            <file path="{MODULEPATH}maintenanceStatisticsTask/oxMarketMaintenance/scripts/">importMarketStats.php</file>
+        </files>
+
+        <components>
+           <component>
+                <name>oxMarketMaintenance</name>
+                <hook>addMaintenanceStatisticsTask</hook>
+           </component>
+           <component>
+                <name>oxMarketMaintenanceUpdateWebsites</name>
+                <hook>addMaintenanceStatisticsTask</hook>
+           </component>
+        </components>
+
+    </install>
+
+</plugin>

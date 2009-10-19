@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxReportsAdmin</name>
+    <creationDate>2008-09-08</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>Administrator Reports for OpenX</description>
+    <version>1.0.4</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>reports</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}reports/oxReportsAdmin/">breakdown.class.php</file>
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+
+        </files>
+
+    </install>
+
+</plugin>

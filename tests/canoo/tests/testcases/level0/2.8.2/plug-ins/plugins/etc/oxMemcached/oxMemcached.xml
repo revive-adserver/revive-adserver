@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxMemcached</name>
+    <creationDate>2008-07-21</creationDate>
+    <author>Łukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Memcached based Cache Store plugins for OpenX</description>
+    <version>1.0.2</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>deliveryCacheStore</extends>
+
+    <install>
+        <files>
+            <file path="{GROUPPATH}/">processSettings.php</file>
+
+            <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.class.php</file>
+            <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.delivery.php</file>
+
+            <file path="{PLUGINPATH}oxMemcached/_lang/">en.mo</file>
+            <file path="{PLUGINPATH}oxMemcached/_lang/po/">en.pot</file>
+            <file path="{PLUGINPATH}oxMemcached/_lang/po/">en.po</file>
+
+        </files>
+
+        <components>
+           <component>
+                <name>oxMemcached</name>
+                <translations>{MODULEPATH}deliveryCacheStore/oxMemcached/_lang/</translations>
+                <hook>cacheStore</hook>
+                <hook>cacheRetrieve</hook>
+           </component>
+        </components>
+
+	    <configuration>
+		    <setting key="memcachedServers" type="text" label="List of memcached servers (host:port, ...)" required="1" size="32" visible="1"></setting>
+		    <setting key="memcachedExpireTime" type="text" label="Expire time for garbage collector in Memcached (seconds)" required="0" size="32" visible="1"></setting>
+	    </configuration>
+    </install>
+
+</plugin>

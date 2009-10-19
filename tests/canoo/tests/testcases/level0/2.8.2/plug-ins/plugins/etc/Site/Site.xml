@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>Site</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>GNU General Public License</license>
+    <description>Site Delivery Limitations for OpenX</description>
+    <version>1.0.13</version>
+    <oxversion>2.7.30-beta-rc11</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Referingpage.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Referingpage.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Source.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Source.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.delivery.php</file>
+
+            <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">en.po</file>
+        </files>
+
+        <components>
+            <component><name>Channel</name></component>
+            <component><name>Pageurl</name></component>
+            <component><name>Referingpage</name></component>
+            <component><name>Source</name></component>
+            <component><name>Variable</name></component>
+        </components>
+    </install>
+
+</plugin>

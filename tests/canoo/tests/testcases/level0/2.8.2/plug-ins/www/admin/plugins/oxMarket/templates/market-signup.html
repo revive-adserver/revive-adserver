@@ -1,0 +1,116 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: market-signup.html 40924 2009-08-04 12:30:06Z lukasz.wikierski $
+
+-->*}
+
+<div class="content">
+
+{if $hasServerError}
+  <div class='form-message form-message-error' id="server-errors" >
+    {$errorMessage}
+  </div>
+{/if}
+
+  {*signup form*}
+  {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+  {*/signup form*}
+</div>
+
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.usernamecheck.js" ></script>
+
+<script type="text/javascript">
+{literal}
+<!--
+  $(document).ready(function() {
+    $("#market-signup-form")
+    .marketSignup({
+        {/literal}
+        captchaBaseUrl: "{$captchaBaseUrl}",
+        usernameCheckUrl: "market-sso-user-exists.php"
+        {literal} 
+    });
+    $("#market-signup-form")
+    .initForm({
+        rules: {
+            "g_accountMode": { "required": true },
+            "m_username": { "required": "#account-login:checked" },
+            "m_password": {"required": "#account-login:checked" },
+            "m_new_email": {"required": "#account-signup:checked", "email": true },
+            "m_new_username": { "required": "#account-signup:checked" },
+            "m_new_password": { "required": "#account-signup:checked" },
+            "m_new_confirm_password": { "required": "#account-signup:checked" },
+            "openx_terms_agree": { "required": "#account-signup:checked" },
+            "m_captcha": { "required": "#account-signup:checked" },
+            "market_terms_agree": { "required": function(element) {
+                    return $("#account-signup:checked,#account-login:checked").length > 0;
+                } 
+            }
+        },
+
+        messages: {
+            "g_accountMode": {
+                "required": {/literal}"{$account_question_required_message}"{literal} 
+            },
+            "m_username": {
+                "required": {/literal}"{$login_field_label} is required"{literal} 
+            },
+            "m_password": {
+                "required": {/literal}"{$password_field_label} is required"{literal} 
+            },
+            "m_new_email": {
+                "required": {/literal}"{$signup_email_field_label} is required"{literal}, 
+                "email": "Please enter a valid email" 
+            },
+            "m_new_username": {
+                "required": {/literal}"{$signup_username_field_label} is required"{literal}
+            },
+            "m_new_password": {
+                "required": {/literal}"{$signup_password_field_label} is required"{literal} 
+            },
+            "m_new_confirm_password": {
+                "required": {/literal}"{$signup_password_confirm_field_label} is required"{literal}
+            },
+            "openx_terms_agree": { 
+                "required": {/literal}"{$signup_openx_terms_field_invalid_message}"{literal} 
+            },
+            "m_captcha": {
+                "required": {/literal}"{$signup_captcha_field_required_message}"{literal} 
+            },
+            "market_terms_agree": {
+                "required": {/literal}"{$market_terms_field_invalid_message}"{literal} 
+            }
+        }
+    });
+  });
+-->
+{/literal}
+</script>
+
+
+{$trackerFrame}

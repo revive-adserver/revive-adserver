@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxMarket</name>
+  <version>003</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>oxMarket</name>
+      <version>003</version>
+      <change>
+        <table>
+          <name>ext_market_assoc_data</name>
+          <add>
+            <field>
+              <name>api_key</name>
+              <type>openads_varchar</type>
+              <length>255</length>
+              <notnull></notnull>
+              <was>api_key</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>oxMarket</name>
+      <version>003</version>
+    </changeset>
+  </destructive>
+</instructionset>
