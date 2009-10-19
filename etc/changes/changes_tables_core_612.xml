@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>612</version>
+  <comments>Adding type to campaigns and clients tables</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>612</version>
+      <change>
+        <table>
+          <name>campaigns</name>
+          <add>
+            <field>
+              <name>type</name>
+              <type>openads_tinyint</type>
+              <length>4</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>type</was>
+            </field>
+          </add>
+        </table>
+          <table>
+            <name>clients</name>
+            <add>
+              <field>
+                <name>type</name>
+                <type>openads_tinyint</type>
+                <length>4</length>
+                <notnull>1</notnull>
+                <default>0</default>
+                <was>type</was>
+              </field>
+            </add>
+            <index>
+              <add>
+                <name>clients_agencyid_type</name>
+                <was>clients_agencyid_type</was>
+                <indexfield>
+                  <name>agencyid</name>
+                  <sorting>ascending</sorting>
+                </indexfield>
+                <indexfield>
+                  <name>type</name>
+                  <sorting>ascending</sorting>
+                </indexfield>
+              </add>
+            </index>
+            <index>
+              <remove>
+                <name>clients_agencyid</name>
+            </remove>
+          </index>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>612</version>
+    </changeset>
+  </destructive>
+</instructionset>

@@ -48,6 +48,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      */
     const PRIORITY_ECPM_FROM = 6;
     const PRIORITY_ECPM_TO = 9;
+    
+    /**
+     * Defines campaign types
+     */
+    const CAMPAIGN_TYPE_DEFAULT = 0;
+    const CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN = 1;
+    const CAMPAIGN_TYPE_MARKET_ZONE_OPTIN = 2;
+    const CAMPAIGN_TYPE_MARKET_CONTRACT = 3;
+
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -86,6 +95,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $ecpm_enabled;                    // TINYINT(4) => openads_tinyint => 129 
     public $activate_time;                   // DATETIME() => openads_datetime => 14 
     public $expire_time;                     // DATETIME() => openads_datetime => 14 
+    public $type;                            // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
@@ -116,6 +126,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'clickwindow' => 0,
                 'min_impressions' => 0,
                 'ecpm_enabled' => 0,
+                'type' => self::CAMPAIGN_TYPE_DEFAULT,
                 );
 
     /* the code above is auto generated do not remove the tag below */

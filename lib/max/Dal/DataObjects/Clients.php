@@ -39,6 +39,12 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $refreshUpdatedFieldIfExists = true;
 
     /**
+     * Defines advertisers types
+     */
+    const ADVERTISER_TYPE_DEFAULT = 0;
+    const ADVERTISER_TYPE_MARKET = 1;
+    
+    /**
      * BC-compatible user details
      *
      * @todo Please remove later
@@ -64,6 +70,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     public $as_advertiser_id;                // INT(11) => openads_int => 1 
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
     public $advertiser_limitation;           // TINYINT(1) => openads_tinyint => 145 
+    public $type;                            // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Clients',$k,$v); }
@@ -78,6 +85,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'reportdeactivate' => 't',
                 'updated' => '%DATE_TIME%',
                 'advertiser_limitation' => 0,
+                'type' => ADVERTISER_TYPE_DEFAULT,
                 );
 
     /* the code above is auto generated do not remove the tag below */
