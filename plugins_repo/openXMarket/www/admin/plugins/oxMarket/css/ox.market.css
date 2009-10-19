@@ -31,10 +31,21 @@ $Id$
 }
 
 /** hack the message to look better on market screens **/
-div.messagePlaceholder {
+/*div.messagePlaceholder {
   height: auto;
   float: left;
+}*/
+
+div.messagePlaceholderStatic .body {
+  margin:0;
+  padding:5px 5px 4px 28px;
+  line-height: 150%;  
 }
+
+div.message div.panel  .body p {
+  padding: 0;
+}
+
 
 div.localMessage div.panel {
   width: 600px;
@@ -423,3 +434,28 @@ ul.column li.rejected {
   font-weight: bold;
   margin: 0px 0px 5px 0px;
 }
+
+/** custom market screens **/
+.market-campaign-edit-top, .market-campaign-edit-bottom, .market-campaign-acl {
+   width: 780px;
+}
+
+/** advertiser campaigns snippet **/
+.market-advertiser-campaigns, .market-campaigns-zone {
+  width: 780px;
+}
+
+.market-advertiser-campaigns div.localMessage div.panel {
+  width: 100%;
+}
+
+.market-advertiser-campaigns .messagePlaceholderStatic .body img {
+  vertical-align: text-top; 
+}
+
+
+/** market campaign-delivery limitations page **/
+.market-campaign-acl .note {
+  margin-top: 12px;
+}
+   

@@ -61,7 +61,7 @@
                 $("#userhint", $form).fadeIn();
             }*/
         };
-  }
+  };
 
 
     $.fn.captcha = function(options) {
@@ -70,7 +70,7 @@
             baseUrl: '',
             randomKeyName: 'reload',
             randomHiddenSelector: ''
-        };
+        };a
         var settings = $.extend({}, defaults, options);
         $image = $(this);
         
@@ -96,7 +96,7 @@
                 
                 return false;
         }
-    }
+    };
   
 
   $.fn.campaignMarket = function(options) {
@@ -238,7 +238,226 @@
             return $eCPMSpan.length > 0 && $eCPMSpan.height() > 0;        
         }
     });
-  }
+  };
+  
+  
+  $.fn.campaignContractMarket = function(options) {
+    return this.each(function() {
+        var defaults = {
+            impressions_delivered : 0
+        };
+        var settings = $.extend({}, defaults, options);
+        var $form = $(this);        
+        
+        init();
+        
+        function init()
+        {
+          setupCalendars(); 
+      
+          $("#startSet_immediate, #startSet_specific, #endSet_immediate, #endSet_specific")
+              .click(updateCampaignDateSection);
+              
+          $("#endSet_immediate, #endSet_specific, #impr_unlimited").click(function() {
+              updateCampaignPrioritySection();
+          });                
+              
+          initCampaignBookedInput($("#impressions"), $("#impr_unlimited"));
+          
+         $form.submit(function() {
+                 formUnFormat(this.impressions);
+    
+                 return campaignFormDatesRangeCheck(this) 
+                    && campaignFormPriorityCheck(this);
+         });
+            
+          updateCampaignDateSection();
+          updateCampaignPricingSection();
+          updateCampaignPrioritySection();
+        }
+        
+        
+        function setupCalendars()
+        {
+          //setup calendars
+          Calendar.setup({
+              inputField : 'start',
+              ifFormat   : '%d %B %Y',
+              button     : 'start_button',
+              align      : 'Bl',
+              weekNumbers: false,
+              firstDay   : settings.calendarBeginOfWeek,
+              electric   : false,
+              onUpdate   : function() {
+                  $("#start").change();
+              }
+          });
+          
+          Calendar.setup({
+             inputField : 'end',
+             ifFormat : '%d %B %Y',
+             button : 'end_button',
+             align : 'Bl',
+             weekNumbers: false,
+             firstDay : settings.calendarBeginOfWeek,
+             electric : false,
+             onUpdate : function() {
+                 $("#end").change();
+             }
+          });
+          
+          $("#start")
+              .change(function() {
+                  campaignFormDateCheck('start');
+              });
+      
+          $("#end")
+              .change(function() {
+                  campaignFormDateCheck('end');
+                  updateCampaignPrioritySection();
+              });
+        }
+        
+        
+        function updateCampaignDateSection()
+        {
+            var $startDateSpan = $("#specificStartDateSpan");
+            var $endDateSpan = $("#specificEndDateSpan");
+        
+            if ($("#startSet_immediate").attr("checked") == true) {
+                $startDateSpan.hide();
+            }
+            else {
+                $startDateSpan.show();
+            }
+        
+            if ($("#endSet_immediate").attr("checked") == true) {
+                $endDateSpan.hide();
+            }
+            else {
+                $endDateSpan.show();
+            }
+        }
+
+        
+        function updateCampaignPricingSection()
+        {
+                var impressionsField = $("#impressions").get(0);
+                var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+        
+                //now set proper state of booked fields
+                campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);
+                updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);
+        }
+        
+        
+        
+        function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
+        {
+            //set up listeners
+            $input
+                .focus(function() {
+                    formUnFormat(this);
+                  })
+                .keypress(maskNonNumeric)
+                .keyup(function() {
+                  updateCampaignPricingSectionNotes(this);
+                  updateCampaignPrioritySection();
+                  })
+                .blur(function() {
+                  formFormat(this, true);
+                  updateCampaignPricingSectionNotes(this);
+                  updateCampaignPrioritySection();
+                });
+        
+            $unlimitedField.click(function() {
+                campaignFormUnlimitedUpdate(this, $input.get(0), true);
+                updateCampaignPricingSectionNotes($input.get(0), this);
+            });
+        }
+        
+        
+        function campaignFormUnlimitedUpdate(unlimitedField, limitField, focus)
+        {
+            if (unlimitedField.checked == true) {
+                limitField.value = '-';
+                limitField.disabled = true;
+            }
+            else {
+                if (limitField.value == '-') {
+                    limitField.value = "";
+                }
+                limitField.disabled = false;
+                if (focus == true) {
+                    limitField.focus();
+                }
+            }
+        }
+        
+                
+        function updateCampaignPricingSectionNotes(field, unlimitedField)
+        {
+            var name = field.name;
+            var isUnlimited = unlimitedField != undefined && unlimitedField.checked;
+        
+            // Update remaining impressions/click/conversions note
+            var $remainingNoteSpan = $('#' +  name + '_remaining_span');
+            var delivered = settings[field.name + '_delivered'];
+            var booked = field.value;
+            if (booked == '-') {
+                booked = 0;
+            }
+            if (!isUnlimited && max_formattedNumberStringToFloat(booked) >= 0) {
+                var remaining = max_formattedNumberStringToFloat(booked) - delivered;
+                $('#' +  name + '_remaining_count').html(max_formatNumberIgnoreDecimals(remaining));
+                $remainingNoteSpan.show();
+            }
+            else {
+                $remainingNoteSpan.hide();
+            }
+        }
+        
+        
+        function updateCampaignPrioritySection()
+        {
+           var campaignType = getCampaignType();
+        
+            // date and limit set distribution will be automatic
+            if ($("#endSet_specific").attr("checked") == true && campaignHasLimitSet()) {
+                $("#high_distribution_span").hide();
+            }
+            else { //otherwise ask for limit per day
+                $("#high_distribution_span").show();
+            }
+        }
+        
+        
+        function campaignHasLimitSet()
+        {
+                var impressionsField = $("#impressions").get(0);
+                var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+                //not set to unlimited and impr value is fine
+                return campaignLimitIsSet(impressionsField, impressionsUnlimitedField);
+        }
+        
+        
+        function campaignFormPriorityCheck(form)
+        {
+          if (($("#endSet_immediate").attr("checked") == true || !campaignHasLimitSet())
+              && !parseInt($("#target_value").val()) ) {
+              return confirm (settings.strings.strCampaignWarningNoTargetMessage);
+          }
+        
+          return true;
+        }        
+        
+                
+    });
+  };
+    
+  
+  
+  
   
   $.fn.zoneMarket = function(options) {
     return this.each(function() {
@@ -254,7 +473,7 @@
         $heightField = $('#height');
         $bannerZoneRadio = $('#delivery-b');
         $typeRadios = $('input[name=delivery]');
-        $sizetypeRadios = $('input[sizetype]');
+        $sizetypeRadios = $('input[name=sizetype]');
         $sizeSelect = $('#size');
         
         init();
@@ -279,20 +498,73 @@
         function updateMarketOptinAvailability()
         {
             //market work for banner zone with width and height specified
-            if ($bannerZoneRadio.attr("checked") != true ||  //if other than banner zone is selected 
-                (
-                    ($customSizeRadio.attr("checked") == true || ($definedSizeRadio.attr('checked') == true && $sizeSelect.val() == '-'))  //if  custom size is choosen 
-                    && ($.trim($widthField.val()) == '*' || $.trim($heightField.val()) == '*')
-                )) { //and width or height is set to *
+            if ($bannerZoneRadio.attr("checked") != true) {   //if other than banner zone is selected 
                 $marketCheckbox.attr('disabled', true);
-                
             }
             else {
-                $marketCheckbox.attr('disabled', false);
+                if (checkSizeSupported()) {
+                    $marketCheckbox.attr('disabled', false);
+                }
+                else {            
+                    $marketCheckbox.attr('disabled', true);
+                }
              }
         }
+        
+        
+        function checkSizeSupported()
+        {
+            var isSupported = false;
+            var selectedSize = '';
+            
+            //custom
+            if ($customSizeRadio.attr("checked") == true 
+                || ($definedSizeRadio.attr('checked') == true && $sizeSelect.val() == '-')) {
+                var width = $.trim($widthField.val());
+                var height = $.trim($heightField.val());
+                
+                selectedSize = width + 'x' +  height;
+            }
+            //IAB dropdown
+            else {
+                selectedSize = $sizeSelect.val();
+            }
+            
+            if (settings.sizes[selectedSize] !== undefined) {
+                isSupported = true;    
+            }
+            
+            return isSupported;
+        }
     });
-  }
+  };
+  
+  $.fn.advertiserIndex = function(options) {
+    return this.each(function() {
+        var defaults = {
+            showHelp: false
+        };
+        var settings = $.extend({}, defaults, options);
+        
+        init();
+        
+        function init()
+        {
+            $("table tr.systemAdvertiser td span.iconAdvertiserSystem").after('<span id="market-callout-link" help="market-callout" class="icon icon-info pointer popup-help-link">&nbsp;</span>');
+            $("#market-callout").help({
+                'parentXOffset' : 200,
+                'parentYOffset' : 200
+                }
+            );
+            
+            if (settings.showHelp) {
+                $("#market-callout-link").trigger('click', [ 330, 300]);
+            }
+        }
+        
+    });
+  };  
+  
       
 })(jQuery);
 

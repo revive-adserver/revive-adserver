@@ -34,12 +34,16 @@ require_once MAX_PATH . '/lib/JSON/JSON.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Hooks.php';
 
 require_once dirname(__FILE__) . '/var/config.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/pcApiClient/oxPublisherConsoleMarketPluginClient.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/ZoneOptIn.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Website.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/PreferenceVariable.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityFormManager.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityHelper.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityScreenManager.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/CampaignsSettings.php';
 
 
@@ -72,6 +76,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @var OX_oxMarket_UI_EntityFormManager
      */
     private $oEntityFormManager;
+
+    
+    /**
+     * A manager for screens enhanced by market plugin (but not forms)
+     *
+     * @var OX_oxMarket_UI_EntityFormManager
+     */
+    private $oEntityScreenManager;    
     
     
     /**
@@ -88,6 +100,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     private $websiteDal;
     
+    
+    
+    /**
+     * An instance of DAL for market account preferences and user variables
+     *
+     * @var OX_oxMarket_Dal_PreferenceVariable
+     */
+    private $preferenceDal;
+    
+    
 
     public function __construct()
     {
@@ -95,7 +117,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient(
                     $this->isMultipleAccountsMode());
                     
-        $this->oFormManager = new OX_oxMarket_UI_EntityFormManager($this);                    
+        $this->oFormManager = new OX_oxMarket_UI_EntityFormManager($this);
+        $this->preferenceDal = new OX_oxMarket_Dal_PreferenceVariable($this);
     }
     
 
@@ -186,6 +209,34 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
     
+    /**
+     * RegisterUiHooks plugin hook
+     */
+    public function registerUiListeners()
+    {
+        if (!$this->isActive()) {
+            return; //no listeners active       
+        }
+        
+        $oViewListener = $this->getViewListener();
+        
+        OX_Admin_UI_Hooks::registerBeforePageHeaderListener(
+            array($oViewListener,
+                'beforePageHeader'
+            ));
+            
+        OX_Admin_UI_Hooks::registerBeforePageContentListener(
+            array($oViewListener,
+                'beforeContent'
+            ));
+            
+        OX_Admin_UI_Hooks::registerAfterPageContentListener(
+            array($oViewListener,
+                'afterContent'
+            ));
+    }
+    
+    
     public function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
         if (!$this->isActive()) {
@@ -247,6 +298,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }    
     
     
+    public function getViewListener() 
+    {
+        if (empty($this->oEntityScreenManager)) {
+            $this->oEntityScreenManager = new OX_oxMarket_UI_EntityScreenManager($this);
+        }
+            
+        return $this->oEntityScreenManager;    
+    }
+    
+    
     /**
      * Return DAL which allows manipulation of zone opt in status
      *
@@ -263,6 +324,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     
     /**
+     * Return DAL for market settings and preferences.
+     *
+     * @return OX_oxMarket_Dal_PreferenceVariable
+     */
+    public function getPreferenceManager()
+    {
+        return $this->preferenceDal;    
+    }
+        
+    
+    /**
      * Return website DAL
      *
      * @return OX_oxMarket_Dal_Website
@@ -277,6 +349,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
 
+    /**
+     * @return OX_oxMarket_UI_EntityHelper
+     */
+    public function getEntityHelper()
+    {
+        if (empty($this->entityHelper)) {
+            $this->entityHelper = new OX_oxMarket_UI_EntityHelper($this);
+        }
+            
+        return $this->entityHelper;        
+    }
+    
+
     function getAgencyDetails($agencyId = null)
     {
         if (is_null($agencyId)) {
@@ -287,24 +372,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aResult = $doAgency->toArray();
 
         return $aResult;
-    }
-
-
-    /**
-     * Retrieve the account id for market from associate  data
-     */
-    function getAccountId()
-    {
-        return $this->oMarketPublisherClient->getPcAccountId();
-    }
-
-
-    function setAccountId($publisherAccountId)
-    {
-        $oAccountMapping = & OA_Dal::factoryDO('ext_market_assoc_data');
-        $oAccountMapping->get('account_id', OA_Dal_ApplicationVariables::get('admin_account_id'));
-        $oAccountMapping->publisher_account_id = $publisherAccountId;
-        $oAccountMapping->save();
     }
 
 
@@ -322,7 +389,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      *
      * @return bool
      */
-    function isRegistered()
+    public function isRegistered()
     {
         return $this->oMarketPublisherClient->hasAssociationWithPc();
     }
@@ -336,7 +403,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * 
      * @return bool
      */
-    function isActive()
+    public function isActive()
     {
         // Account is active if is registered, has valid status and API key is set
         $result = $this->isRegistered() &&
@@ -359,42 +426,44 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function isSplashAlreadyShown()
+    public function isSplashAlreadyShown()
     {
-        $accountId = $this->oMarketPublisherClient->getAccountId();
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        return $oPluginSettings->findAndGetValue($accountId, 'splashAlreadyShown');
+        return $this->preferenceDal->getMarketAccountPreference('splashAlreadyShown');
     }
 
 
-    function setSplashAlreadyShown()
+    public function setSplashAlreadyShown()
     {
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $accountId = $this->oMarketPublisherClient->getAccountId();
-        $oPluginSettings->insertOrUpdateValue($accountId, 'splashAlreadyShown', '1');
+        $this->preferenceDal->setMarketAccountPreference('splashAlreadyShown', '1');
     }
 
-    function isMarketSettingsAlreadyShown()
+    
+    public function isMarketSettingsAlreadyShown()
     {
-        $oMarketPluginVariable = OA_Dal::factoryDO('ext_market_plugin_variable');
-        $marketSettingsShown = $oMarketPluginVariable->findAndGetValue(
-                                                intval(OA_Permission::getUserId()), 
-                                                'campaign_settings_shown_to_user');
+        $marketSettingsShown = $this->preferenceDal->
+            getMarketUserVariable('campaign_settings_shown_to_user');
+        
         return isset($marketSettingsShown) ? $marketSettingsShown : false; 
     }
 
 
-    function setMarketSettingsAlreadyShown()
+    public function setMarketSettingsAlreadyShown()
     {
-        $oMarketPluginVariable = OA_Dal::factoryDO('ext_market_plugin_variable');
-        $oMarketPluginVariable->insertOrUpdateValue(intval(OA_Permission::getUserId()),
-                                        'campaign_settings_shown_to_user', '1');
+        $this->preferenceDal->setMarketUserVariable('campaign_settings_shown_to_user', '1');
+    }
+    
+    
+    public function isMarketInfoAdvertisersAlreadyShown()
+    {
+        $marketInfoShown = $this->preferenceDal->getMarketUserVariable('advertiser_index_market_info_shown_to_user');
+        
+        return isset($marketInfoShown) ? $marketInfoShown : false; 
     }
 
 
-    function isSsoUserNameAvailable($userName)
+    public function setMarketInfoAdvertisersAlreadyShown()
     {
-        return $this->oMarketPublisherClient->isSsoUserNameAvailable($userName);
+        $this->preferenceDal->setMarketVariable('advertiser_index_market_info_shown_to_user', '1');
     }
 
 
@@ -467,7 +536,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $menuUrl = $this->buildPubconsoleApiUrl($this->getConfigValue('marketMenuUrl'));
             $oClient = $this->getHttpClient();
             $oClient->setUri($menuUrl);
-            $pubAccountId = $this->getAccountId();
+            $pubAccountId = $this->oMarketPublisherClient->getPcAccountId();
             $aRequestParams =  array(
                 $this->getConfigValue('marketAccountIdParamName') => $pubAccountId,
                 'h' => $this->isMultipleAccountsMode()? "1" : "0"
@@ -540,7 +609,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      *
      * @return Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
-    function getPublisherConsoleApiClient()
+    public function getPublisherConsoleApiClient()
     {
         return $this->oMarketPublisherClient;
     }
@@ -560,7 +629,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function scheduleRegisterNotification()
+    protected function scheduleRegisterNotification()
     {
         $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
         $oNotificationManager->removeNotifications('oxMarketRegister'); //avoid duplicates
@@ -578,7 +647,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function updateSSLMessage()
+    public function updateSSLMessage()
     {
         if (!OX_oxMarket_Common_ConnectionUtils::isSSLAvailable()) {
             $this->scheduleNoSSLWarning();
@@ -586,7 +655,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function scheduleNoSSLWarning()
+    protected function scheduleNoSSLWarning()
     {
         $aContentKeys = $this->retrieveCustomContent('market-messages');
 
@@ -601,7 +670,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function removeRegisterNotification()
+    public function removeRegisterNotification()
     {
         //clean up the bugging info message
         OA_Admin_UI::getInstance()->getNotificationManager()
@@ -609,7 +678,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    function retrieveCustomContent($pageName)
+    public function retrieveCustomContent($pageName)
     {
         require_once MAX_PATH.'/lib/Zend/Http/Client.php';
 
@@ -647,7 +716,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * @param string $responseText
      * @return an array key=>value when parsing ok, false otherwise
      */
-    function parseCustomContent($responseText)
+    protected function parseCustomContent($responseText)
     {
         require_once dirname(__FILE__) . '/XMLToArray.php';
 

@@ -212,7 +212,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     /**
      * Return publisher account id for OXP admin account
      *
-     * @return integer or null 
+     * @return string or null 
      */
     public function getPcAccountId()
     {

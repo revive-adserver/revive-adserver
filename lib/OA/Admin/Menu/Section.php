@@ -144,33 +144,43 @@ class OA_Admin_Menu_Section
 	{
         return $this->id;
 	}
+	
 
 	function setExclusive($exclusive)
 	{
         $this->exclusive = $exclusive;
 	}
+	
+	
 	function setHelpLink($helpLink)
 	{
 	    $this->helpLink = $helpLink;
 	}
+	
+	
 	function setNameKey($nameKey)
 	{
 	    $this->nameKey = $nameKey;
 	}
+	
+	
 	function setLink($link)
 	{
 	    $this->link = $link;
 	}
+	
 	
 	function setSectionHasBeenReplaced()
 	{
 	    $this->sectionHasBeenReplaced = true;
 	}
 	
+	
 	function hasSectionBeenReplaced()
 	{
 	    return $this->sectionHasBeenReplaced;
 	}
+	
 	
 	/**
 	 * Returns a translated name of this section
@@ -181,11 +191,13 @@ class OA_Admin_Menu_Section
 	{
 	   return $this->oTranslation->translate($this->nameKey);
 	}
+	
 
 	function getLink($aParams = array())
 	{
 	    return $this->setLinkParams($aParams);
 	}
+	
 
 	function setLinkParams($aParams)
 	{
@@ -342,6 +354,7 @@ class OA_Admin_Menu_Section
             return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
         }
 	}
+	
 
 	/**
 	 * Returns siblings of this section. If type is given, returns only siblings
@@ -357,7 +370,6 @@ class OA_Admin_Menu_Section
 	    }
 	    return $this->parentSection->getSections(true, $type);
 	}
-
 
 
 	function setParent(&$section)
@@ -408,6 +420,7 @@ class OA_Admin_Menu_Section
 
         return true;
     }
+    
 
     /**
      * Inserts new section before the section with the specified id. If the section

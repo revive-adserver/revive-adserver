@@ -18,7 +18,14 @@
   	   .bind('click', {'elementId' : $wrapper.get(0).id}, show);
   	 $wrapper.click(hide);      
     
-      function show(event) {
+      /**
+      * Handler to show help elemnt
+      * @param object event event object
+      * @param int pageX forced X coordinate (optional)
+      * @param int pageY forced Y coordinate (optional)
+      */
+      function show(event, pageX, pageY) 
+      {
         var $wrapper = $("#" + event.data['elementId']);
         
         //hide other help popups
@@ -26,7 +33,7 @@
 //        var posX = event.pageX - options.parentXOffset; 
 //        var posY = event.pageY + 5 - options.parentYOffset;
     
-        var clickPosition = getClickPositionInDocument(event);
+        var clickPosition = getClickPositionInDocument(event, pageX, pageY);
         var posX = clickPosition.X - options.parentXOffset; 
         var posY = clickPosition.Y + 5 - options.parentYOffset;
     
@@ -70,11 +77,14 @@
       }
 
   
-      function getClickPositionInDocument(e)
+      function getClickPositionInDocument(e, pageX, pageY)
       {
           //determine x click
           if (e.pageX) {
               clickX = e.pageX;
+          }
+          else if (pageX) {
+              clickX = pageX;
           }
           else if (e.clientX) {
               if (document.documentElement.scrollLeft) {
@@ -89,6 +99,9 @@
           //determine y click 
           if (e.pageY) {
               clickY = e.pageY;
+          }
+          else if (pageY) {
+              clickY = pageY;
           }
           else if (e.clientY) {
               if (document.documentElement.scrollTop) {

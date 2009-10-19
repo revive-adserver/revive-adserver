@@ -33,6 +33,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
 // Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
@@ -81,6 +82,10 @@ $aCategoriesIds = array_merge($aCategoriesIds, $aCategoriesIds2);
 $aCategories    = array('' => "- {$GLOBALS['strAllCategories']} -", -1 => $GLOBALS['strUncategorized']);
 $aCategories    = $aCategories + $oAdNetworks->getCategoriesSelect($aCategoriesIds, false);
 
+/** add view hooks **/
+OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'campaign-zone', 
+    array('advertiserId' => $advertiserId, 'campaignId' => $campaignId));
+
 
 $oTpl->assign('advertiserId', $advertiserId);
 $oTpl->assign('campaignId', $campaignId);
@@ -95,5 +100,7 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
+
+
 
 ?>

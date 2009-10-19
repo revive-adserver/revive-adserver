@@ -178,11 +178,19 @@ class OA_Admin_Template extends Smarty
     {
         return parent::is_cached($this->templateName, $this->cacheId);
     }
+    
 
     function display()
     {
         parent::display($this->templateName, $this->cacheId);
     }
+    
+    
+    function toString()
+    {
+        return parent::fetch($this->templateName, $this->cacheId, null, false);
+    }    
+    
 
     function _function_t($aParams, &$smarty)
     {
@@ -558,9 +566,10 @@ class OA_Admin_Template extends Smarty
 					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
 				} elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
 					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('eCPM') . "</span>";
-				} else {
+				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT){
 					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
                 }
+                return "<span class='campaign-type campaign-contract'>".$type. "</span>";
 			} else {
 				$smarty->trigger_error("t: missing 'type' parameter");
 			}

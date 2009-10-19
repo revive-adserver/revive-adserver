@@ -101,11 +101,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      */
     function getAllAdvertisers($listorder, $orderdirection, $agencyId = null)
     {
-        $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->whereAdd('account_type <> '. DBC::makeLiteral(OA_ACCOUNT_SYSTEM));
-
         $doClients = OA_Dal::factoryDO('clients');
-        $doClients->joinAdd($doAccounts);
         if (!empty($agencyId) && is_numeric($agencyId)) {
             $doClients->agencyid = $agencyId;
         }

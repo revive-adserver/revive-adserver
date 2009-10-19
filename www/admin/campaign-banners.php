@@ -294,11 +294,7 @@ function buildHeaderModel($aEntities)
 
 function getAdvertiserMap()
 {
-    $doAccounts = OA_Dal::factoryDO('accounts');
-    $doAccounts->whereAdd('account_type <> '. DBC::makeLiteral(OA_ACCOUNT_SYSTEM));
-
     $doClients = OA_Dal::factoryDO('clients');
-    $doClients->joinAdd($doAccounts);
     // Unless admin, restrict results shown.
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $doClients->clientid = OA_Permission::getEntityId();
@@ -309,6 +305,7 @@ function getAdvertiserMap()
 
     $doClients->find();
 
+    //TODO do we need to filter out system entities here, or will the DAO do that?
     $aAdvertiserMap = array();
     while ($doClients->fetch() && $row = $doClients->toArray()) {
         $aAdvertiserMap[$row['clientid']] = array('name' => $row['clientname'],

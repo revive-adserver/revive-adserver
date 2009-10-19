@@ -137,22 +137,27 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         $page = basename($_SERVER['SCRIPT_NAME']);
     }
 
-    if ('banner-acl.php' == $page)
-    {
-        $table      = 'banners';
-        $aclsTable  = 'acls';
-        $fieldId    = 'bannerid';
+    switch ($page) {
+        case 'banner-acl.php' :
+        case 'market-campaign-acl.php' : {
+            $table      = 'banners';
+            $aclsTable  = 'acls';
+            $fieldId    = 'bannerid';
+            
+            break;
+        }
+        
+        case 'channel-acl.php': {
+            $table      = 'channel';
+            $aclsTable  = 'acls_channel';
+            $fieldId    = 'channelid';
+        }
+        
+        default: {
+            return false;
+        }
     }
-    else if ('channel-acl.php' == $page)
-    {
-        $table      = 'channel';
-        $aclsTable  = 'acls_channel';
-        $fieldId    = 'channelid';
-    }
-    else
-    {
-        return false;
-    }
+    
 
     $aclsObjectId = $aEntities[$fieldId];
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
@@ -289,6 +294,7 @@ function MAX_AclValidate($page, $aParams) {
 
     switch($page) {
         case 'banner-acl.php':
+        case 'market-campaign-acl.php':            
             $doEntityTable = OA_Dal::factoryDO('banners');
             $doEntityTable->bannerid = $aParams['bannerid'];
             $doAclTable = OA_Dal::factoryDO('acls');

@@ -39,23 +39,23 @@ $Id$
                 <script type='text/javascript'>
                 <!--
         
-			    $('#deleteSelection').click(function(event) {
-					event.preventDefault();
-					
-					if (!$(this).parents('li').hasClass('inactive')) {
-					    var ids = [];
-					    $(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
-						    ids.push(this.value);
-					    });
-					  
-						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteClients}{literal}")) {
-					        window.location = 'advertiser-delete.php?clientid=' + ids.join(',');
-						}
-					}
-				});
-				
-				//-->
-				</script>
+                $('#deleteSelection').click(function(event) {
+                    event.preventDefault();
+                    
+                    if (!$(this).parents('li').hasClass('inactive')) {
+                        var ids = [];
+                        $(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
+                            ids.push(this.value);
+                        });
+                      
+                        if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteClients}{literal}")) {
+                            window.location = 'advertiser-delete.php?clientid=' + ids.join(',');
+                        }
+                    }
+                });
+                
+                //-->
+                </script>
                 {/literal}
             </li>
         </ul>
@@ -147,21 +147,27 @@ $Id$
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
         {cycle name=bgcolor assign=bgColor}
-            <tr class='{$bgColor}'>
+            <tr class='{$bgColor} {if $client.system}systemAdvertiser{/if}'>
                 <td class='toggleSelection'>
-                  <input type='checkbox' value='{$clientId}' />
+                  {if $client.system != true}
+                    <input type='checkbox' value='{$clientId}' />
+                  {/if}
                 </td>
                 <td>
+                  {if $client.system} {* no link, just name, and don't display system ids *}
+                    <span class='inlineIcon iconAdvertiserSystem'>{$client.clientname|escape:html}</span>
+                  {else}
                     <a href='advertiser-edit.php?clientid={$clientId}' class='inlineIcon iconAdvertiser'>{$client.clientname|escape:html}</a>
-                    {ox_entity_id type="Advertiser" id=$clientId} 
+                    {ox_entity_id type="Advertiser" id=$clientId}
+                  {/if}   
                 </td>
                 <td class='alignRight horizontalActions'>
                     <ul class='rowActions'>
                         <li>
-                            <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon iconCampaignAdd'>{t str=AddCampaign}</a>
+                            <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon {if $client.system == true}iconCampaignSystemAdd{else}iconCampaignAdd{/if}'>{t str=AddCampaign}</a>
                         </li>
                         <li>
-                            <a href='advertiser-campaigns.php?clientid={$clientId}' class='inlineIcon iconCampaigns'>{t str=Campaigns}</a>
+                            <a href='advertiser-campaigns.php?clientid={$clientId}' class='inlineIcon {if $client.system == true}iconCampaignsSystem{else}iconCampaigns{/if}'>{t str=Campaigns}</a>
                         </li>
                     </ul>
                 </td>

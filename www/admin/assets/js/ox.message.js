@@ -39,8 +39,8 @@
                 }
 
                 /* Try to find the proper container for local messages */
-                if (active.settings.location != 'global' && active.container.find('.messagePlaceholder').length > 0) {
-                    active.container = active.container.find('.messagePlaceholder');
+                if (active.settings.location != 'global' && active.container.find('#messagePlaceholder').length > 0) {
+                    active.container = active.container.find('#messagePlaceholder');
                     active.element.addClass(active.settings.location + 'Message');
                 } else {
                     active.settings.location = 'global';

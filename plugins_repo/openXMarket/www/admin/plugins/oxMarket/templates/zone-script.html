@@ -45,7 +45,11 @@ $Id$
 {literal}
  <!--
   $(document).ready(function() {
-    $('#zoneform').zoneMarket();
+    $('#zoneform').zoneMarket({
+{/literal}
+        'sizes' : {$_e.vars.sizes}
+{literal}
+    });
   });
  //-->
 {/literal}

@@ -35,6 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
 function _isBannerAssignedToCampaign($aBannerData)
 {
@@ -63,8 +64,8 @@ if (!isset($hideinactive)) {
     if (isset($session['prefs']['advertiser-index.php']['hideinactive'])) {
         $hideinactive = $session['prefs']['advertiser-index.php']['hideinactive'];
     } else {
-	    $pref = &$GLOBALS['_MAX']['PREF'];
-		$hideinactive = ($pref['ui_hide_inactive'] == true);
+        $pref = &$GLOBALS['_MAX']['PREF'];
+        $hideinactive = ($pref['ui_hide_inactive'] == true);
     }
 }
 
@@ -160,6 +161,16 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) &&
     }
 }
 
+//TODO remove this HACK TO SIMULATE SYSTEM ENTITY
+if (count($clients) > 0) {
+    reset($clients);
+    $key = key($clients);
+    $clients[$key]['system'] = true;
+}
+//END
+
+
+
 $itemsPerPage = 250;
 $oPager = OX_buildPager($clients, $itemsPerPage);
 $oTopPager = OX_buildPager($clients, $itemsPerPage, false);
@@ -189,6 +200,7 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'advertiser-index');
 
 $oTpl->display();
 phpAds_PageFooter();

@@ -65,7 +65,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $adHtml = 'test banner';
-        $aAd = array( 'width' => 468, 'height' => 60 );
+        $aAd = array( 'width' => 468, 'height' => 60, 'placement_id' => 12, 'zoneid' =>7 );
         $aCampaignMarketInfo = array();
         $website_id = 12;
         $aWebsiteMarketInfo = array('website_id' => $website_id);
@@ -94,6 +94,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0);
         $this->assertEqual($aOXM_ad->size, "468x60");
+        $this->assertEqual($aOXM_ad->channel, "c12z7");
         $this->assertTrue(isset($aOXM_ad->beacon));
         $this->assertEqual($aOXM_ad->fallback,$adHtml); 
        
@@ -324,7 +325,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $bannerCode = 'html banner';
-        $aBanner = array( 'width' => 468, 'height' => 60 );
+        $aBanner = array( 'width' => 468, 'height' => 60, );
         
         $code = $bannerCode;
         // Test postAdRender hook as entry point
@@ -338,12 +339,31 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $output = array('html' => 'test html', 'banner_id' => '');
+        $aBannerInfo = array (
+                            'ad_id' => '27',
+                            'placement_id' => '34',
+                            'type' => 'html',
+                            'width' => '468',
+                            'height' => '60',
+          // TODO: set proper values to bannertype and ext_bannertype
+                            'bannertype' => '0', 
+                            'ext_bannertype' => 'bannerTypeHtml:oxMarket:genericMarket',
+                            'campaign_id' => '34',
+                            'client_id' => '11',
+                            'account_id' => '2',
+                            'affiliate_id' => '56',
+                            'agency_id' => '45',
+                          );
         $GLOBALS['_MAX']['considered_ads'][0] =
             array('zone_id' => 12,
-                  'width'   => 23,
-                  'height'  => 34,
+                  'width'   => 468,
+                  'height'  => 60,
                   'agency_id' => 45,
-                  'publisher_id' => 56
+                  'publisher_id' => 56,
+                  'marketZoneOptinAds' =>
+                    array(
+                        27 => $aBannerInfo
+                    )
             );
         $admin_account_id = 1;
         // Add admin_account_id to application_variable
@@ -361,32 +381,32 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $doWebsitePref->affiliateid = 56;
         $website_id = 'website -0056-uuid-xxxx-xxxxxxxxxxxx';
         $doWebsitePref->website_id = $website_id;
-        DataGenerator::generateOne($doWebsitePref);
-        // register zone
-        $doZonePref = OA_Dal::factoryDO('ext_market_zone_pref');
-        $doZonePref->zoneid = 12;
-        $doZonePref->is_enabled = true;
-        DataGenerator::generateOne($doZonePref);
-        
+        DataGenerator::generateOne($doWebsitePref);       
+        // optin market default campaign
+        $doCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doCampaignPref->campaignid = 34;
+        $doCampaignPref->is_enabled = true;
+        $doCampaignPref->floor_price = 0.0;
+        DataGenerator::generateOne($doCampaignPref);
+
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect($output);
         $result = explode('|', $output['html']);
 
         $this->assertEqual(4, count($result));
         $this->assertTrue(strstr($result[0], 'test html')!==false); // find orginal banner in market request 
         $this->assertEqual($result[1], 'TestPlugin');
-        $aExpectedBanner = array (
-            'width' => 23,
-            'height' => 34,
-            'agency_id' => 45,
-            'affiliate_id' => 56,
-            );
+        $aExpectedBanner = $aBannerInfo;
+        $aExpectedBanner['campaignid']  = $aBannerInfo['placement_id'];
+        $aExpectedBanner['bannerid']    = $aBannerInfo['ad_id'];
+        $aExpectedBanner['storagetype'] = $aBannerInfo['type'];
+        $aExpectedBanner['zoneid']      = 12;
         $this->assertEqual(unserialize($result[2]), $aExpectedBanner);
         $aExpectedMarketInfo = array(
-                'campaign' => array('floor_price' => 0),
+                'campaign' => array('floor_price' => 0, 'is_enabled' => true),
                 'website'  => array('website_id' => $website_id)
             );
         $this->assertEqual(unserialize($result[3]), $aExpectedMarketInfo);
-        
+
         // restore hooks
         $GLOBALS['_MAX']['CONF']['deliveryHooks']['oxMarketPostAdRender'] = $oxMarketPostAdRenderHooks;
     }
@@ -394,12 +414,31 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
     function testPostAdSelectHookImplementation()
     {
         $output = array('html' => 'default banner', 'banner_id' => '');
+        $aBannerInfo = array (
+                    'ad_id' => '28',
+                    'placement_id' => '134',
+                    'type' => 'html',
+                    'width' => '468',
+                    'height' => '60',
+        // TODO: set proper values to bannertype and ext_bannertype
+                    'bannertype' => '0', 
+                    'ext_bannertype' => 'bannerTypeHtml:oxMarket:genericMarket',
+                    'campaign_id' => '134',
+                    'client_id' => '111',
+                    'account_id' => '12',
+                    'affiliate_id' => '156',
+                    'agency_id' => '145',
+                  );
         $GLOBALS['_MAX']['considered_ads'][0] =
             array('zone_id' => 112,
-                  'width'   => 123,
-                  'height'  => 134,
+                  'width'   => 468,
+                  'height'  => 60,
                   'agency_id' => 145,
-                  'publisher_id' => 156
+                  'publisher_id' => 156,
+                  'marketZoneOptinAds' =>
+                    array(
+                        28 => $aBannerInfo
+                    )
             );
         $admin_account_id = 1;
         // Add admin_account_id to application_variable
@@ -418,11 +457,12 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $website_id = 'website -156 -uuid-xxxx-xxxxxxxxxxxx';
         $doWebsitePref->website_id = $website_id;
         DataGenerator::generateOne($doWebsitePref);
-        // register zone
-        $doZonePref = OA_Dal::factoryDO('ext_market_zone_pref');
-        $doZonePref->zoneid = 112;
-        $doZonePref->is_enabled = true;
-        DataGenerator::generateOne($doZonePref);
+        // optin market default campaign
+        $doCampaignPref = OA_Dal::factoryDO('ext_market_campaign_pref');
+        $doCampaignPref->campaignid = 134;
+        $doCampaignPref->is_enabled = true;
+        $doCampaignPref->floor_price = 0.0;
+        DataGenerator::generateOne($doCampaignPref);
         
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect($output);
         $this->assertEqual($output['banner_id'], '');
@@ -441,7 +481,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $aOXM_ad = $oJson->decode($jsonOXM_ad);
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0);
-        $this->assertEqual($aOXM_ad->size, "123x134");
+        $this->assertEqual($aOXM_ad->size, "468x60");
         $this->assertTrue(isset($aOXM_ad->beacon));
         $this->assertEqual($aOXM_ad->fallback,'default banner'); 
        
@@ -457,11 +497,13 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $GLOBALS['_MAX']['considered_ads'][0]['width'] = -1;
         $output = array('html' => 'default banner', 'banner_id' => '');
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect($output);
-        $this->assertEqual($output['html'],'default banner');
-        $GLOBALS['_MAX']['considered_ads'][0]['width'] = 123;
+        // check if output html matches to market call pattern
+        $this->assertTrue(ereg($this->pattern, $output['html'], $aResult));
+        $GLOBALS['_MAX']['considered_ads'][0]['width'] = 468;
         
         // test not opted in zone
         $GLOBALS['_MAX']['considered_ads'][0]['zone_id'] = 1124;
+        unset($GLOBALS['_MAX']['considered_ads'][0]['marketZoneOptinAds']);
         $output = array('html' => 'default banner', 'banner_id' => '');
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect($output);
         $this->assertEqual($output['html'],'default banner');
@@ -469,11 +511,12 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // test not opted in website
         $GLOBALS['_MAX']['considered_ads'][0]['publisher_id'] = 1156;
-        $output = array('html' => 'default banner', 'banner_id' => '');
+        $GLOBALS['_MAX']['considered_ads'][0]['marketZoneOptinAds'] = $aBannerInfo;
+        $GLOBALS['_MAX']['considered_ads'][0]['marketZoneOptinAds']['affiliate_id'] = 1156;
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdSelect($output);
         $this->assertEqual($output['html'],'default banner');
         $GLOBALS['_MAX']['considered_ads'][0]['publisher_id'] = 156;
-        
+       
     }
 
     function testPostAdRenderHookImplementation()
@@ -552,32 +595,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdRender($code, $aBanner);
         $this->assertEqual($code, $banner);
         $aBanner['affiliate_id'] = 256;
- 
-    }
-    
-    function test_OX_Dal_Delivery_getZoneMarketInfo()
-    {
-        MAX_Dal_Delivery_Include();
-        $zoneId1 = 34;
-        $zoneId2 = 35;
-        // register zone
-        $doZonePref = OA_Dal::factoryDO('ext_market_zone_pref');
-        $doZonePref->zoneid = $zoneId1;
-        $doZonePref->is_enabled = true;
-        DataGenerator::generateOne($doZonePref);
-        // unregistered zone
-        $doZonePref = OA_Dal::factoryDO('ext_market_zone_pref');
-        $doZonePref->zoneid = $zoneId2;
-        $doZonePref->is_enabled = false;
-        DataGenerator::generateOne($doZonePref);
-        
-        $enabled = array('is_enabled' => true);
-        $disabled = array('is_enabled' => false);
-        
-        $this->assertEqual(OX_Dal_Delivery_getZoneMarketInfo(null), $disabled);
-        $this->assertEqual(OX_Dal_Delivery_getZoneMarketInfo(33), $disabled);
-        $this->assertEqual(OX_Dal_Delivery_getZoneMarketInfo($zoneId1), $enabled);
-        $this->assertEqual(OX_Dal_Delivery_getZoneMarketInfo($zoneId2), $disabled);
-    }
+     }
+
 }
 

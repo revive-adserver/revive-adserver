@@ -445,6 +445,7 @@ $GLOBALS['strInactiveCampaignsHidden']      = "inactive campaign(s) hidden";
 $GLOBALS['strContractDetails']              = "Contract details";
 $GLOBALS['strInventoryDetails']             = "Inventory details";
 $GLOBALS['strPriorityInformation']          = "Priority in relation to other campaigns";
+$GLOBALS['strImpressionGoal']               = "Impression Goal";
 $GLOBALS['strECPMInformation']              = "eCPM prioritization";
 $GLOBALS['strRemnantEcpmDescription']       = "eCPM is automatically calculated based on this campaign's performance.<br />It will be used to prioritise Remnant campaigns relative to each other.";
 $GLOBALS['strContractEcpmDescription']      = "eCPM is automatically calculated based on this campaign's performance.<br />It will be used to prioritise campaigns with priority levels %s through %s.";
@@ -519,7 +520,8 @@ $GLOBALS['strAnonymous']                = "Hide the advertiser and websites of t
 $GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
 $GLOBALS['strLowPriority']                = "Show banner in this campaign with low priority.<br /> This campaign is used to show the left over Impressions which aren't used by high priority campaigns.";
 $GLOBALS['strTargetPerDay']                = "per day.";
-$GLOBALS['strPriorityAutoTargeting']    = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
+$GLOBALS['strTargetLimitImpressionsTo']   = "Limit impressions to";
+$GLOBALS['strPriorityAutoTargeting']      = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
 $GLOBALS['strCampaignWarningRemnantNoWeight']   = "The type of this campaign has been set to Remnant, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningEcpmNoRevenue']   = "This campaign uses eCPM optimisation \nbut the 'revenue' is set to zero or it has not been specified. \nThis will cause the campaign to be deactivated \nand its banners won't be delivered until the \nrevenue has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningExclusiveNoWeight'] = "The type of this campaign has been set to Exclusive, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
@@ -1540,6 +1542,7 @@ $GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> has been 
 $GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> has been moved to advertiser <b>%s</b>";
 
 $GLOBALS['strCampaignHasBeenAdded'] = "Campaign <a href='%s'>%s</a> has been added, <a href='%s'>add a banner</a>";
+$GLOBALS['strCampaignHasBeenNoBanner'] = "Campaign <a href='%s'>%s</a> has been added";
 $GLOBALS['strCampaignHasBeenUpdated'] = "Campaign <a href='%s'>%s</a> has been updated";
 $GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "Linked trackers of campaign <a href='%s'>%s</a> have been updated";
 $GLOBALS['strCampaignHasBeenDeleted'] = "Campaign <b>%s</b> has been deleted";

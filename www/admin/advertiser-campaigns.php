@@ -38,6 +38,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
@@ -146,7 +147,8 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	   $oActivateDate->setTZbyID('UTC');
 	   $oActivateDate->convertTZ($oTz);
 	   $campaigns[$row_campaigns['campaignid']]['activate']  = $oActivateDate->format($date_format);
-    } else {
+    } 
+    else {
        $campaigns[$row_campaigns['campaignid']]['activate']  = '-';
     }
 	if (!empty($row_campaigns['expire_time'])) {
@@ -155,21 +157,48 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	   $oExpireDate->setTZbyID('UTC');
 	   $oExpireDate->convertTZ($oTz);
 	   $campaigns[$row_campaigns['campaignid']]['expire']    = $oExpireDate->format($date_format);
-    } else {
+    } 
+    else {
        $campaigns[$row_campaigns['campaignid']]['expire']    = '-';
     }
     if ($row_campaigns['priority'] == -1) {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strExclusive;
-    } elseif ($row_campaigns['priority'] == -2) {
+    } 
+    elseif ($row_campaigns['priority'] == -2) {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strCampaignECPM;
-    } elseif ($row_campaigns['priority'] == 0) {
+    } 
+    elseif ($row_campaigns['priority'] == 0) {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strLow;
-    } else {
+    } 
+    else {
         $campaigns[$row_campaigns['campaignid']]['priority'] = $strHigh . ' (' . $row_campaigns['priority'] . ')';
     }
 	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
-    $campaigns[$row_campaigns['campaignid']]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);
+    
+    //TODO remove this HACK TO SIMULATE SYSTEM ENTITY
+    if (!isset($hacked)) {
+        $row_campaigns['system'] = true;
+        $row_campaigns['systemtype'] = 'remnant';
+        $hacked = true;
+    }
+    //END
+    
+    $campaigns[$row_campaigns['campaignid']]['system'] = $row_campaigns['system'];
+    $campaigns[$row_campaigns['campaignid']]['systemtype'] = $row_campaigns['systemtype'];
+    if ($row_campaigns['system'] == true) {
+        $oComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
+        if ($oComponent) {           
+            $campaigns[$row_campaigns['campaignid']]['type'] = 
+                $oComponent->getEntityHelper()->getCampaignTypeName($row_campaigns);
+        }
+        else {
+            $campaigns[$row_campaigns['campaignid']]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);            
+        }
+    }
+    else {
+        $campaigns[$row_campaigns['campaignid']]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);
+    }
 }
 
 $aCount = array(
@@ -189,6 +218,7 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0) {
 		}
 	}
 }
+
 
 $oTpl->assign('clientId', $clientid);
 $oTpl->assign('aCampaigns', $campaigns);
@@ -216,6 +246,9 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+/** add view hooks **/
+OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'advertiser-campaigns', 
+    array('advertiserId' => $clientid));
 
 $oTpl->display();
 phpAds_PageFooter();
@@ -226,8 +259,19 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
 {
     if ($advertiserId) {
         $advertiser = phpAds_getClientDetails ($advertiserId);
+        
+        //TODO remove this HACK TO SIMULATE SYSTEM ENTITY
+        if (!isset($hacked)) {
+            $advertiser['system'] = true;
+            $hacked = true;
+        }
+        //END        
+        
+        
         $advertiserName = $advertiser ['clientname'];
-        $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
+        if ($advertiser['system'] != true) {
+            $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
+        }
     }
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(array(
@@ -237,6 +281,12 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
               ),
         array('name' => '')
     ), 'campaigns', 'list');
+    
+    
+    if ($advertiser['system'] == true) {
+        $oHeaderModel->setIconClass('iconCampaignsSystemLarge');    
+    }
+    
 
     return $oHeaderModel;
 }
@@ -244,11 +294,7 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
 
 function getAdvertiserMap()
 {
-    $doAccounts = OA_Dal::factoryDO('accounts');
-    $doAccounts->whereAdd('account_type <> '. DBC::makeLiteral(OA_ACCOUNT_SYSTEM));
-
     $doClients = OA_Dal::factoryDO('clients');
-    $doClients->joinAdd($doAccounts);
     // Unless admin, restrict results shown.
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $doClients->clientid = OA_Permission::getEntityId();

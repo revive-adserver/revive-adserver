@@ -13,6 +13,7 @@
     <extends>admin</extends>
     <install>
 
+
         <files>
             <file path="{ADMINPATH}/css/">ox.market.css</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>
@@ -25,10 +26,21 @@
             <file path="{ADMINPATH}/images/">campaign-cpm-info.gif</file>
             <file path="{ADMINPATH}/images/">close.gif</file>
             <file path="{ADMINPATH}/images/">close-hl.gif</file>
-            <file path="{ADMINPATH}/images/">dropdown-background.png</file>            
+            <file path="{ADMINPATH}/images/">dropdown-background.png</file>
+            <file path="{ADMINPATH}/images/">icon-break-media-small.png</file>
+            <file path="{ADMINPATH}/images/">icon-fim-small.png</file>
+            <file path="{ADMINPATH}/images/">icon-google-small.png</file>
+            <file path="{ADMINPATH}/images/">icon-tribal-fusion-small.png</file>            
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
+            <file path="{ADMINPATH}/images/">icon-value-click-small.png</file>
+            <file path="{ADMINPATH}/images/">market-3-ways.gif</file>            
+            <file path="{ADMINPATH}/images/">market-adnetworks.png</file>            
+            <file path="{ADMINPATH}/templates/">fragment-advertiser-campaigns.html</file>
+            <file path="{ADMINPATH}/templates/">fragment-advertiser-index.html</file>             
+            <file path="{ADMINPATH}/templates/">fragment-campaign-zone.html</file>            
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/templates/">market-campaign-edit.html</file>            
             <file path="{ADMINPATH}/templates/">market-campaigns-settings.html</file>
             <file path="{ADMINPATH}/templates/">market-campaigns-settings-list.html</file>
             <file path="{ADMINPATH}/templates/">market-callout.html</file>
@@ -47,18 +59,14 @@
 			<file path="{ADMINPATH}/templates/">market-quality-tool.html</file>
             <file path="{ADMINPATH}/templates/">zone-chaining-disabled-info.html</file>
             <file path="{ADMINPATH}/templates/">zone-script.html</file>
-            
-            
             <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleClient.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleClientException.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Campaign.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Installer.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Website.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
-            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>
             <!-- Spacer for the 4096 byte boundary -->
                                          
                                          
@@ -66,7 +74,14 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->            
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Website.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">ZoneOptIn.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">PreferenceVariable.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignForm.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">CampaignsSettings.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityFormManager.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityHelper.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/UI/">EntityScreenManager.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">FloorPriceCompare.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/UI/rule/">QuickFormFloorPriceCompareRuleAdaptor.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/M2M/">ZendXmlRpcCustomClientExecutor.php</file>
@@ -79,7 +94,8 @@
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeSizes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_CreativeTypes</file>
             <file path="{ADMINPATH}/var/data/dictionary/">cache_oxMarket_DefaultRestrictions</file>
-
+            <file path="{ADMINPATH}/">market-campaign-acl.php</file>
+            <file path="{ADMINPATH}/">market-campaign-edit.php</file>
             <file path="{ADMINPATH}/">market-campaigns-settings.php</file>
             <file path="{ADMINPATH}/">market-campaigns-settings-list.php</file>
             <file path="{ADMINPATH}/">market-common.php</file>
@@ -97,6 +113,7 @@
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
             <file path="{ADMINPATH}/">XMLToArray.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketActiveChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">oxMarketEntityChecker.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketAdminStatsChecker.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketStandaloneModeChecker.php</file>
             <file path="{ADMINPATH}/navigation/">oxMarketMultipleAccountsModeChecker.php</file>
@@ -107,15 +124,9 @@
            <component>
                 <name>oxMarket</name>
                 <hook>afterLogin</hook>
+                <hook>registerUiListeners</hook>
            </component>
         </components>
-        <navigation>
-            <checkers>
-                <checker class="Plugins_admin_oxMarket_oxMarketActiveChecker" include="oxMarketActiveChecker.php" />
-                <checker class="Plugins_admin_oxMarket_oxMarketAdminStatsChecker" include="oxMarketAdminStatsChecker.php" />
-                <checker class="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker" include="oxMarketStandaloneModeChecker.php" />
-                <checker class="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker" include="oxMarketMultipleAccountsModeChecker.php" />
-            </checkers>
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -127,6 +138,14 @@
 
 
             <!-- End spacer for the 4096 byte boundary -->
+        <navigation>
+            <checkers>
+                <checker class="Plugins_admin_oxMarket_oxMarketActiveChecker" include="oxMarketActiveChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketEntityChecker" include="oxMarketEntityChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketAdminStatsChecker" include="oxMarketAdminStatsChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker" include="oxMarketStandaloneModeChecker.php" />
+                <checker class="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker" include="oxMarketMultipleAccountsModeChecker.php" />
+            </checkers>
             <admin>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
@@ -137,6 +156,25 @@
                 <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>                
                 <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Ad Quality Tool</menu>
                 <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market</menu>
+                <menu insertbefore="campaign-edit" index="market-campaign-edit_new" link="plugins/oxMarket/market-campaign-edit.php?clientid={clientid}"  exclusive="true" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Add new campaign</menu>
+                <menu insertbefore="campaign-edit" index="market-campaign-edit" link="plugins/oxMarket/market-campaign-edit.php?clientid={clientid}&amp;campaignid={campaignid}" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Campaign Properties</menu>
+                <menu insertafter="campaign-zone" index="market-campaign-acl" link="plugins/oxMarket/market-campaign-acl.php?clientid={clientid}&amp;campaignid={campaignid}" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Delivery Options</menu>
+                
+                <!--  update exisiting entries for inventory booking entities -->
+                <menu replace="advertiser-edit"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="advertiser-trackers"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="advertiser-access"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="campaign-edit_new"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="campaign-edit"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="campaign-zone"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="campaign-trackers"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                
+                <!--  block bannner screens for market advertisers -->
+                <menu replace="campaign-banners"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="banner-edit"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="banner-acl"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="banner-zone"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
+                <menu replace="banner-advanced"  checker="Plugins_admin_oxMarket_oxMarketEntityChecker"></menu>
             </manager>
         </navigation>
         <configuration option="Market API">
@@ -148,13 +186,6 @@
             <setting key="marketPublicApiUrl" type="text" label="Market Public XmlRpc URL" required="1" size="32" visible="0">@marketPublicApiUrl@</setting>
             <setting key="marketCustomContentUrl" type="text" label="Market custom content URL" required="1" size="32" visible="0">@marketCustomContentUrl@</setting>
 			<setting key="marketMenuUrl" type="text" label="Market menu URL" required="1" size="32" visible="0">@marketMenuUrl@</setting>
-            <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
-            <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
-            <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
-            <setting key="marketCaptchaUrl" type="text" label="Captcha picture URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
-            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
-            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
-            <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
             <!-- Spacer for the 4096 byte boundary -->
                                                                                   
                                                                                   
@@ -163,6 +194,13 @@
                                          
                                          
             <!-- End spacer for the 4096 byte boundary -->
+            <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="0">@defaultFloorPrice@</setting>
+            <setting key="marketAccountIdParamName" type="text" label="Market Account Param Name" required="1" size="10" visible="0">@marketAccountIdParamName@</setting>
+            <setting key="marketWelcomeUrl" type="text" label="Market Welcome URL" required="1" size="100" visible="0">@marketWelcomeUrl@</setting>
+            <setting key="marketCaptchaUrl" type="text" label="Captcha picture URL" required="1" size="100" visible="0">@marketCaptchaUrl@</setting>
+            <setting key="marketTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@marketTermsUrl@</setting>
+            <setting key="marketPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@marketPrivacyUrl@</setting>
+            <setting key="openXTermsUrl" type="text" label="Market Terms and Conditions URL" required="1" size="100" visible="0">@openXTermsUrl@</setting>
             <setting key="publisherSupportEmail" type="text" label="OpenX Market Publisher support email" required="0" size="100" visible="0">@publisherSupportEmail@</setting>
             <setting key="openXPrivacyUrl" type="text" label="Market Data Privacy Policy URL" required="1" size="100" visible="0">@openXPrivacyUrl@</setting>
             <setting key="dictionaryCacheLifeTime" type="text" label="Dictionary cache life time (in seconds)" required="1"  visible="0">@dictionaryCacheLifeTime@</setting>
@@ -171,6 +209,7 @@
             <setting key="separateImportStatsScript" type="checkbox" label="Allow run import statistics as separate maintenance script" required="1"  visible="0">@separateImportStatsScript@</setting>
             <setting key="allowSkipAccountsInImportStats" type="checkbox" label="Allow to skip accounts without local statistics for last 7 days" required="1"  visible="0">@allowSkipAccountsInImportStats@</setting>
             <setting key="maxSkippingPeriodInDays" type="text" label="Download statistics for skipped account at least every [x] days" required="1"  visible="0">@maxSkippingPeriodInDays@</setting>
+            <setting key="adSizesPreviewUrl" type="text" label="adSizesPreviewUrl" required="1" size="32" visible="0">@adSizesPreviewUrl@</setting>
         </configuration>
         <schema>
             <mdb2schema>tables_oxMarket</mdb2schema>
@@ -183,7 +222,6 @@
             <dataobject>Ext_market_website_pref.php</dataobject>
             <dataobject>Ext_market_general_pref.php</dataobject>
             <dataobject>Ext_market_plugin_variable.php</dataobject>
-			<dataobject>Ext_market_zone_pref.php</dataobject>
         </schema>
     </install>
 </plugin>

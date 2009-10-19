@@ -872,17 +872,39 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _checkAccess($aParams)
     {
-        $aMap = array(
-            'advertiser' => 'clients',
-            'placement'  => 'campaigns',
-            'ad'         => 'banners',
-            'publisher'  => 'affiliates',
-            'zone'       => 'zones',
-        );
-        foreach ($aMap as $entity => $table) {
-            if (isset($aParams[$entity])) {
-                OA_Permission::enforceAccessToObjectReadOnly($table, $aParams[$entity]);
+        $access = false;
+        if (count($aParams) == 1) {
+            if (array_key_exists('advertiser', $aParams)) {
+                $access = MAX_checkAdvertiser($aParams['advertiser']);
+            } else if (array_key_exists('publisher', $aParams)) {
+                $access = MAX_checkPublisher($aParams['publisher']);
             }
+        } else if (count($aParams) == 2) {
+            if (array_key_exists('advertiser', $aParams) && array_key_exists('placement', $aParams)) {
+                $access = MAX_checkPlacement($aParams['advertiser'], $aParams['placement']);
+            } else if (array_key_exists('publisher', $aParams) && array_key_exists('zone', $aParams)) {
+                $access = MAX_checkZone($aParams['publisher'], $aParams['zone']);
+            }
+        } else if (count($aParams) == 3) {
+            if (array_key_exists('advertiser', $aParams) && array_key_exists('placement', $aParams) && array_key_exists('ad', $aParams)) {
+                $access = MAX_checkAd($aParams['advertiser'], $aParams['placement'], $aParams['ad']);
+            }
+        }
+        if (!$access) {
+            // Before blatting out an error, has the access failure come about from
+            // a manually generated account switch process?
+            if (OA_Permission::isManualAccountSwitch()) {
+                // Yup! Re-direct to the main stats page
+                OX_Admin_Redirect::redirect('stats.php', true);
+            }
+            // Not a manual account switch, just deny access for now...
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                phpAds_PageHeader('2');
+            }
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                phpAds_PageHeader('1');
+            }
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
     }
 

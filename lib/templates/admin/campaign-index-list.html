@@ -160,6 +160,7 @@ $Id$
         <tbody>
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=campaignId item=campaign from=$from}
+        {if $campaign.system != true || $campaign.systemtype == 'remnant'}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
                 {if $isAdvertiser == false}
@@ -172,12 +173,16 @@ $Id$
                         <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
                     {else}
                         {if $isAdvertiser && $canEdit == false}
-                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
+                            <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
                         {else}
-                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                            {if $campaign.systemtype == 'remnant'}
+                                <a href='campaign-zone.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconCampaignSystem'>{$campaign.campaignname|escape:html}</a>
+                            {else}
+                                <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                            {/if}    
                         {/if}
                     {/if}
-                    {ox_entity_id type="Campaign" id=$campaignId} 
+                    {ox_entity_id type="Campaign" id=$campaignId}
                 </td>
                 <td>
                     {ox_campaign_status clientid=$clientId campaignid=$campaignId status=$campaign.status}
@@ -186,6 +191,7 @@ $Id$
                     {ox_campaign_type type=$campaign.type}
                 </td>
                 <td class='alignRight verticalActions'>
+                  {if $campaign.system != true}
                     <ul class='rowActions'>
                     {if $isAdvertiser == false}
                         <li>
@@ -196,6 +202,7 @@ $Id$
                             <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBanners'>{t str=Banners}</a>
                         </li>
                     </ul>
+                  {/if}
                 </td>
                 <td class='hasPanel'>
                     <div class='panel'>
@@ -235,6 +242,7 @@ $Id$
                     </div>
                 </td>
             </tr>
+      {/if}
     {/foreach}
        </tbody>
 {/if}

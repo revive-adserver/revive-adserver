@@ -33,6 +33,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/AccountSwitch.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Hooks.php';
 require_once MAX_PATH . '/www/admin/assets/minify-init.php';
 
 require_once LIB_PATH . '/Admin/Redirect.php';
@@ -135,6 +136,13 @@ class OA_Admin_UI
                                     );
     }
 
+    
+    function getLinkParams()
+    {
+        return $this->aLinkParams;
+    }
+    
+    
     function setCurrentId($ID)
     {
         $this->currentSectionId = $ID;
@@ -179,6 +187,9 @@ class OA_Admin_UI
 
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
+        
+        OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams());        
+        
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         $aMainNav        = array();
@@ -303,6 +314,7 @@ class OA_Admin_UI
         // Send header with charset info and display
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
+        OX_Admin_UI_Hooks::afterPageHeader($id);        
     }
     
     // if the current menu section has been replaced (ie. some attributes of the menu were replaced in a plugin menu file definition)
@@ -323,7 +335,7 @@ class OA_Admin_UI
     	    if( !empty($currentPath)
     			&& $oCurrentSection->hasSectionBeenReplaced()
     			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
-    			    $urlToRedirectTo = $oCurrentSection->getLink($this->aLinkParams);
+    			    $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
     			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
     			    exit;
     	    }
@@ -346,7 +358,7 @@ class OA_Admin_UI
         $sectionId = OA_Admin_UI::getID($sectionId);
         $oMenu = OA_Admin_Menu::singleton();
         $nextSection = $oMenu->getNextSection($sectionId);
-        return $nextSection->getLink($this->aLinkParams);
+        return $nextSection->getLink($this->getLinkParams());
     }
 
     /**
@@ -426,7 +438,7 @@ class OA_Admin_UI
         for ($i = 0; $i < count($aRootPages); $i++) {
             $aMainNav[]= array(
               'title'    => $aRootPages[$i]->getName(),
-              'filename' => $aRootPages[$i]->getLink($this->aLinkParams),
+              'filename' => $aRootPages[$i]->getLink($this->getLinkParams()),
               'selected' => $aRootPages[$i]->getId() == $rootParentId
             );
         }
@@ -458,7 +470,7 @@ class OA_Admin_UI
 
                 $aLeftMenuNav[]= array(
                   'title'    => $aSecondLevelSections[$i]->getName(),
-                  'filename' => $aSecondLevelSections[$i]->getLink($this->aLinkParams),
+                  'filename' => $aSecondLevelSections[$i]->getLink($this->getLinkParams()),
                   'first'    => $first,
                   'last'     => $last,
                   'single'   => $single,
@@ -481,7 +493,7 @@ class OA_Admin_UI
             for ($i = 0; $i < $count; $i++) {
                 $aLeftMenuSubNav[]= array(
                   'title'    => $aLeftMenuSubSections[$i]->getName(),
-                  'filename' => $aLeftMenuSubSections[$i]->getLink($this->aLinkParams),
+                  'filename' => $aLeftMenuSubSections[$i]->getLink($this->getLinkParams()),
                   'selected' => $aLeftMenuSubSections[$i]->getId() == $oLeftMenuSub->getId()
                 );
             }
@@ -527,7 +539,7 @@ class OA_Admin_UI
         for ($i = 0; $i < count($aSections); $i++) {
         $aSectionNav[]= array(
           'title'    => $aSections[$i]->getName(),
-          'filename' => $aSections[$i]->getLink($this->aLinkParams),
+          'filename' => $aSections[$i]->getLink($this->getLinkParams()),
           'selected' => $aSections[$i]->getId() == $sectionID
           );
         }

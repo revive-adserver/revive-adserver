@@ -288,7 +288,7 @@ function validateUserNameUnique($userName)
                     //should fail anyway on linkOXP
     try {
         $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-        $result =  $oMarketComponent->isSsoUserNameAvailable($userName);
+        $result =  $oMarketComponent->getPublisherConsoleApiClient()->isSsoUserNameAvailable($userName);
     }
     catch (Exception $exc) {
         OA::debug('Error during checking SSO username uniqueness: ('

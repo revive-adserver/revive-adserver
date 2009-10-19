@@ -1116,7 +1116,8 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 <br />";
 }
 
-function MAX_displayAcls($acls, $aParams) {
+function MAX_displayAcls($acls, $aParams) 
+{
     $tabindex =& $GLOBALS['tabindex'];
     $page = basename($_SERVER['SCRIPT_NAME']);
     $conf = $GLOBALS['_MAX']['CONF'];
@@ -1405,8 +1406,6 @@ function MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherC
     $advertiserId = $aEntities['clientid'];
     $campaignDetails = Admin_DA::getPlacement($campaignId);
     $campaignName = $campaignDetails['name'];
-
-    $aCampaign = Admin_DA::getPlacement($campaignId);
 
     $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
     $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";

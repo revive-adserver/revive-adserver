@@ -38,6 +38,7 @@ class OX_oxMarket_Dal_ZoneOptIn
      * Updates zone's market opt in status to the given one.
      * 
      * @param int $zoneId 
+     * @param bool status
      * @package boolean $optedIn indicates whether this zone has market enabled
      */    
     public function updateZoneOptInStatus($zoneId, $optedIn)
@@ -47,25 +48,23 @@ class OX_oxMarket_Dal_ZoneOptIn
         }
         
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
-        $oExt_market_zone_pref = OA_Dal::factoryDO('ext_market_zone_pref');
-        $oExt_market_zone_pref->updateZoneStatus($zoneId, $optedIn);
-
+              
+        // Find system campaign to be linked to
+        $oCampaign = $this->findSystemCampaignForZoneOptIn($zoneId);
+        $dalZones = OA_Dal::factoryDAL('zones');
         if ($optedIn) {
-            //remove cached zone chaining (if any)
-            $cacheManager = new OA_Cache_DeliveryCacheManager();
-            $cacheManager->invalidateZoneCache($zoneId);
+            $result = $dalZones->linkZonesToCampaign(
+                                    array($zoneId), $oCampaign->campaignid);
+        } else { 
+            $result = $dalZones->unlinkZonesFromCampaign(
+                                    array($zoneId), $oCampaign->campaignid);
         }
-            
-        // invalidate zone-market delivery cache 
-        if (!function_exists('OX_cacheInvalidateGetZoneMarketInfo')) {
-            require_once MAX_PATH . $aConf['pluginPaths']['plugins'] . 'deliveryAdRender/oxMarketDelivery/oxMarketDelivery.delivery.php';
-        }
-        OX_cacheInvalidateGetZoneMarketInfo($zoneId);
-        
 
+        //refresh cache (zone chaining (if any), market banner)
+        $cacheManager = new OA_Cache_DeliveryCacheManager();
+        $cacheManager->invalidateZoneCache($zoneId);
 
-        return true;
+        return ($result != -1); // linking unlinking shouldn't return -1 (parameter error) 
     }
     
     
@@ -80,12 +79,47 @@ class OX_oxMarket_Dal_ZoneOptIn
         if (empty($zoneId)) {
             return false;
         }        
-        $marketEnabled = false;
-        $oExt_market_zone_pref = OA_Dal::factoryDO('ext_market_zone_pref');
-        if ($oExt_market_zone_pref->get($zoneId)) {
-            $marketEnabled = $oExt_market_zone_pref->is_enabled;
-        }
         
-        return $marketEnabled;
+        // Is market campaign linked to given zone?
+        $oCampaign = $this->findSystemCampaignForZoneOptIn($zoneId);
+        if ($oCampaign !== false) {
+            $doPlZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
+            $doPlZoneAssoc->zone_id = $zoneId;
+            $doPlZoneAssoc->campaignid = $oCampaign->campaignid;
+            
+            return $doPlZoneAssoc->count()>0;
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Find market zone opt-in campaign for given zone (same realm)
+     * TODO: to be finished after implementing system entities 
+     *
+     * @param int $zoneId
+     * @return DataObjects_Campaigns | false if not found
+     */
+    protected function findSystemCampaignForZoneOptIn($zoneId)
+    {
+        // Find system zone opt-in campaign (in same realm as given zone) 
+        $doZones       = OA_Dal::factoryDO('zones');
+        $doAffiliates  = OA_Dal::factoryDO('affiliates');
+        $doAgency      = OA_Dal::factoryDO('agency');
+        $doClients     = OA_Dal::factoryDO('clients');
+        $doCampaigns   = OA_Dal::factoryDO('campaigns');
+        
+        $doZones->zoneId = $zoneId;
+        $doAffiliates->joinAdd($doZones);
+        $doAgency->joinAdd($doAffiliates);
+        $doClients->joinAdd($doAgency);
+        $doClients->clientname = 'OpenX Market';      // TODO: select system market agency
+        $doCampaigns->joinAdd($doClients);
+        $doCampaigns->campaignname = 'OpenX Market - Default Campaign';  // TODO: select system market campaign
+        $doCampaigns->find();
+        if ($doCampaigns->fetch()) {
+            return $doCampaigns;
+        }
+        return false;
     }
 }

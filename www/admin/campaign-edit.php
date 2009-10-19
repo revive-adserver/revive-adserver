@@ -513,11 +513,6 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'g_specificEndDate', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'specificEndDateSpan', 'style' => 'display:none' ) ) );
 
     $form->addGroup ( $expDateGroup, 'exp_date', $GLOBALS ['strExpirationDate'], array ("<BR>", '', '' ) );
-
-    //decorators
-    $form->addDecorator ( 'activation_note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'revTypeSel', 'class' => 'hide' ) ) );
-
-    $form->addDecorator ( 'expiration_note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'startDateNote', 'class' => 'hide' ) ) );
 }
 
 function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)

@@ -1,0 +1,87 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+<div class="market-campaign-edit">
+  <div class="market-campaign-edit-top">
+    {if $content}
+      {$content}
+    {else}
+      <p>
+      You can book impressions directly for OpenX Market in the same way you would book a contract campaign.
+      OpenX Market will deliver the highest paying ad from its real-time auction 
+      or its optimized portfolio of ad networks. <a href="#">Learn more</a>
+      </p>
+      <p>
+      Ad networks included in OpenX Market:
+      </p>
+      <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks.png" />
+    {/if}
+  </div>
+
+{include file=$oaTemplateDir|cat:'form/general-errors.html' errors=$campaignErrors title=ErrorEditingCampaign text=UnableToChangeCampaign}
+
+{*campaign form*}
+{include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+{*/campaign form*}
+
+  <div class="market-campaign-edit-bottom">
+    <p>
+      <em>
+      Impression limits that you set here do not apply to OpenX Market impressions from existing campaigns
+      that you opted in to OpenX Market.
+      </em>
+    </p>
+  </div>
+</div>
+
+<script language='javascript' type='text/javascript' src='{$assetPath}/js/datecheck.js'></script>
+<script language='javascript' type='text/javascript' src='{$adminWebPath}numberFormat.js.php?lang={$language}'></script>
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js?v={$pluginVersion|escape}" ></script>
+<script type="text/javascript">
+<!--
+{literal}
+//<!--
+  $(document).ready(function() {
+      $("#marketcampaignform").campaignContractMarket({
+{/literal}      
+        impressions_delivered : {$impressionsDelivered},
+        calendarBeginOfWeek : {$calendarBeginOfWeek},
+{literal}
+        strings : {
+{/literal}        
+            strCampaignWarningNoTargetMessage : '{$strCampaignWarningNoTargetMessage}'
+{literal}            
+        }        
+      });
+  });
+//-->
+{/literal}
+//-->
+</script>
+

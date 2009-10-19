@@ -20,6 +20,9 @@ div.breadcrumb .inlineIcon {
 .iconAdvertiser {
     background-image: url("../images/icon-advertiser.png");
 }
+.iconAdvertiserSystem {
+    background-image: url("../images/icon-advertiser-openx.png");
+}
 .iconAdvertiserLarge {
     background-image: url("../images/icon-advertiser-large.png");
 }
@@ -34,6 +37,12 @@ div.breadcrumb .inlineIcon {
 }
 .iconCampaign {
     background-image: url("../images/icon-campaign.png");
+}
+.iconCampaignSystem {
+    background-image: url("../images/icon-campaign-openx.png");
+}
+.iconCampaignSystemLarge {
+    background-image: url("../images/icon-campaign-openx-large.png");
 }
 .iconCampaignDisabled {
     background-image: url("../images/icon-campaign-disabled.png");
@@ -50,6 +59,12 @@ div.breadcrumb .inlineIcon {
 .iconCampaignAddLarge {
     background-image: url("../images/icon-campaign-add-large.png");
 }
+.iconCampaignSystemAdd {
+    background-image: url("../images/icon-campaign-openx-add.png");
+}
+.iconCampaignSystemAddLarge {
+    background-image: url("../images/icon-campaign-openx-add-large.png");
+}
 .iconCampaignDuplicate {
     background-image: url("../images/icon-campaign-duplicate.png");
 }
@@ -64,6 +79,12 @@ div.breadcrumb .inlineIcon {
 }
 .iconCampaignsLarge {
     background-image: url("../images/icon-campaigns-large.png");
+}
+.iconCampaignsSystem {
+    background-image: url("../images/icon-campaigns-openx.png");
+}
+.iconCampaignsSystemLarge {
+    background-image: url("../images/icon-campaigns-openx-large.png");
 }
 .iconTracker {
   background-image: url("../images/icon-tracker.png");

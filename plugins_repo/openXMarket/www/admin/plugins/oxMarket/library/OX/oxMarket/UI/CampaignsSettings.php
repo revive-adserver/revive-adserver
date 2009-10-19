@@ -150,7 +150,7 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function displayFullList($invalidCpmMessages)
     {
-        $template = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
+        $template = new OA_Plugin_Template('market-campaigns-settings.html', 'oxMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
         
@@ -187,7 +187,7 @@ class OX_oxMarket_UI_CampaignsSettings
     
     private function displayAjaxList()
     {
-        $template = new OA_Plugin_Template('market-campaigns-settings-list.html','openXMarket');
+        $template = new OA_Plugin_Template('market-campaigns-settings-list.html', 'oxMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
         return $template;

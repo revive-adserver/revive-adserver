@@ -55,16 +55,26 @@ class OA_Plugin_Template
      */
     var $_tabIndex = 0;
 
-    function OA_Plugin_Template($templateName, $pluginName)
+    function OA_Plugin_Template($templateName, $adminGroupName)
     {
-        $this->init($templateName, $pluginName);
+        $this->init($templateName, $adminGroupName);
     }
 
 
-    function init($templateName, $pluginName)
+    function init($templateName, $adminGroupName)
     {
         parent::init($templateName);
-        $this->template_dir = 'templates';
+
+        //since previous version was using relative path and $adminGroupName was
+        //ignored (and thus could be incorect and cannot be relied on), for backward compatibility check if absolute path is correct
+        //if not use relative one
+        $pluginBaseDir = $this->get_template_vars('pluginBaseDir'); //with trailing /
+        $pluginTemplateDir = $this->get_template_vars('pluginTemplateDir'); //with trailing /
+        
+        $absoluteTemplateDir = $pluginBaseDir.$adminGroupName.$pluginTemplateDir;
+        
+        $this->template_dir = is_dir($absoluteTemplateDir) 
+            ? $absoluteTemplateDir : $pluginTemplateDir;
     }
 }
 

@@ -14,6 +14,7 @@ div.messagePlaceholder {
   -overflow: hidden;
 }
 
+
 div.messagePlaceholderForm, div.messagePlaceholderStatic {
   height: auto;
   margin-bottom: 1em;

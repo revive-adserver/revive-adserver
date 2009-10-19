@@ -42,7 +42,7 @@ $userName = $_REQUEST['userName'];
 
 try {
 
-    if ($oMarketComponent->isSsoUserNameAvailable($userName)) {
+    if ($oMarketComponent->getPublisherConsoleApiClient()->isSsoUserNameAvailable($userName)) {
         echo "available";
     }
     else {

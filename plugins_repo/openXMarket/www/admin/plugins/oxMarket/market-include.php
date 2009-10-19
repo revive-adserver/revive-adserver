@@ -69,7 +69,7 @@ $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
 //get template and display form
 $oTpl = new OA_Plugin_Template('market-include.html','openXMarket');
 $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
-$oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
+$oTpl->assign('pubconsoleAccountId', $oMarketComponent->getPublisherConsoleApiClient()->getPcAccountId());
 $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
 $oTpl->assign('pubconsolePageId', htmlspecialchars($p_url));
 $oTpl->assign('pageUrl', urlencode($pageUrl));

@@ -42,6 +42,14 @@ class OA_Admin_UI_Model_InventoryPageHeaderModelBuilder
     }
     
     
+    /**
+     * Builds entity header, with breadcrumbs, links proper classes etc.
+     *
+     * @param unknown_type $aEntityNamesUrls
+     * @param unknown_type $entityClass
+     * @param unknown_type $pageType
+     * @return OA_Admin_UI_Model_PageHeaderModel
+     */
     public function buildEntityHeader($aEntityNamesUrls, $entityClass, $pageType = "default")
     {
         

@@ -41,7 +41,6 @@ define('OA_ACCOUNT_ADMIN',      'ADMIN');
 define('OA_ACCOUNT_MANAGER',    'MANAGER');
 define('OA_ACCOUNT_ADVERTISER', 'ADVERTISER');
 define('OA_ACCOUNT_TRAFFICKER', 'TRAFFICKER');
-define('OA_ACCOUNT_SYSTEM',     'SYSTEM');
 
 /**
  * Account types constants defined as integers
@@ -51,7 +50,6 @@ define ("OA_ACCOUNT_ADMIN_ID", 1);
 define ("OA_ACCOUNT_ADVERTISER_ID", 2);
 define ("OA_ACCOUNT_TRAFFICKER_ID", 4);
 define ("OA_ACCOUNT_MANAGER_ID", 8);
-define ("OA_ACCOUNT_SYSTEM_ID", 16);
 
 /**
  * Per-account permissions
@@ -84,17 +82,6 @@ define('OA_PERM_USER_LOG_ACCESS',    11);
  */
 class OA_Permission
 {
-    const HAS_ACCESS_ALLOW_NONE     = 0;
-    const HAS_ACCESS_ALLOW_NEW      = 1;
-    const HAS_ACCESS_ALLOW_READONLY = 2;
-
-    /**
-     * Cache for isSystemAccount
-     *
-     * @var array
-     */
-    static $aSystemAccounts;
-
     /**
      * Helper method which checks whether $condition is true, if it is not true
      * it prints to the end user error message
@@ -102,7 +89,7 @@ class OA_Permission
      * @static
      * @param boolean $condition  Condition to check
      */
-    static function enforceTrue($condition)
+    function enforceTrue($condition)
     {
         if (!$condition) {
             // Queue confirmation message
@@ -124,15 +111,15 @@ class OA_Permission
      * @static
      * @param string $accountType user type
      */
-    static function enforceAccount($accountType)
+    function enforceAccount($accountType)
     {
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
-        $isAccount = self::isAccount($aArgs);
+        $isAccount = OA_Permission::isAccount($aArgs);
         if (!$isAccount) {
-            self::redirectIfManualAccountSwitch();
-            $isAccount = self::attemptToSwitchToAccount($aArgs);
+            OA_Permission::redirectIfManualAccountSwitch();
+            $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
         }
-        self::enforceTrue($isAccount);
+        OA_Permission::enforceTrue($isAccount);
     }
 
     /**
@@ -140,9 +127,9 @@ class OA_Permission
      * has been switched manually
      *
      */
-    static function redirectIfManualAccountSwitch()
+    function redirectIfManualAccountSwitch()
     {
-        if (self::isManualAccountSwitch()) {
+        if (OA_Permission::isManualAccountSwitch()) {
             require_once LIB_PATH . '/Admin/Redirect.php';
             OX_Admin_Redirect::redirect(null, true);
         }
@@ -153,7 +140,7 @@ class OA_Permission
      * (If user manually switched account he is redirected to referer url and
      * a accountSwitch parameter is set in session)
      */
-    static function isManualAccountSwitch()
+    function isManualAccountSwitch()
     {
         if (isset($GLOBALS['_OX']['accountSwtich'])) {
             return true;
@@ -169,9 +156,9 @@ class OA_Permission
      * @param int $accountId
      * @param int $userId  Get current user if null
      */
-    static function enforceAccess($accountId, $userId = null)
+    function enforceAccess($accountId, $userId = null)
     {
-        self::enforceTrue(self::hasAccess($accountId, $userId));
+        OA_Permission::enforceTrue(OA_Permission::hasAccess($accountId, $userId));
     }
 
     /**
@@ -182,9 +169,9 @@ class OA_Permission
      * @param string $permission  See OA_PERM_* constants
      * @param int $accountId Defaults to the current active account
      */
-    static function enforceAllowed($permission, $accountId = null)
+    function enforceAllowed($permission, $accountId = null)
     {
-        self::enforceTrue(self::hasPermission($permission, $accountId));
+        OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
     }
 
     /**
@@ -196,10 +183,10 @@ class OA_Permission
      * @param string $permission  See OA_PERM_* constants
      * @param int $accountId Defaults to the current active account
      */
-    static function enforceAccountPermission($accountType, $permission)
+    function enforceAccountPermission($accountType, $permission)
     {
-        if (self::isAccount($accountType)) {
-            self::enforceTrue(self::hasPermission($permission));
+        if (OA_Permission::isAccount($accountType)) {
+            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission));
         }
         return true;
     }
@@ -208,8 +195,6 @@ class OA_Permission
      * A method to show an error if the current user/account doesn't have access
      * to the specified DB_DataObject (defined by table name and entity ID).
      *
-     * Note: System entities defaults to no access
-     *
      * @static
      * @param string  $entityTable    The name of the table.
      * @param integer $entityId       Optional entity ID -- when set, tests if the current
@@ -218,61 +203,24 @@ class OA_Permission
      *                                table.
      * @param boolean $allowNewEntity Allow creation of a new entity, defaults to false.
      */
-    static function enforceAccessToObject($entityTable, $entityId = null, $allowNewEntity = false)
+    function enforceAccessToObject($entityTable, $entityId = null, $allowNewEntity = false)
     {
-        $accessType = $allowNewEntity ? self::HAS_ACCESS_ALLOW_NEW : self::HAS_ACCESS_ALLOW_NONE;
-        return self::_enforceAccessToObject($entityTable, $entityId, $accessType);
-    }
-
-    /**
-     * A method to show an error if the current user/account doesn't have access
-     * to the specified DB_DataObject (defined by table name and entity ID).
-     *
-     * Note: Allows access to system entities, handle with care!
-     *
-     * @static
-     * @param string  $entityTable    The name of the table.
-     * @param integer $entityId       The entity ID to be checked for access
-     */
-    static function enforceAccessToObjectReadOnly($entityTable, $entityId)
-    {
-        return self::_enforceAccessToObject($entityTable, $entityId, self::HAS_ACCESS_ALLOW_READONLY);
-    }
-
-    /**
-     * A private method to show an error if the current user/account doesn't have access
-     * to the specified DB_DataObject (defined by table name and entity ID), or create a new
-     * one, or has read-only access to a system entity
-     *
-     * @static
-     * @param string  $entityTable    The name of the table.
-     * @param integer $entityId       Optional entity ID -- when set, tests if the current
-     *                                account has access to the enity, when not set,  tests
-     *                                if the current account can create a new entity in the
-     *                                table.
-     * @param boolean $allowNewEntity Allow creation of a new entity, defaults to false.
-     */
-    static private function _enforceAccessToObject($entityTable, $entityId = null, $accessType = self::HAS_ACCESS_ALLOW_NONE)
-    {
-        if ($accessType != self::HAS_ACCESS_ALLOW_NEW) {
-            self::enforceTrue(!empty($entityId));
+        if (!$allowNewEntity) {
+            OA_Permission::enforceTrue(!empty($entityId));
         }
         // Verify that the ID is numeric
-        self::enforceTrue(preg_match('/^\d*$/D', $entityId));
+        OA_Permission::enforceTrue(preg_match('/^\d*$/D', $entityId));
         $entityId = (int)$entityId;
-        $hasAccess = self::hasAccessToObject($entityTable, $entityId, $accessType == self::HAS_ACCESS_ALLOW_READONLY);
+        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId);
         if (!$hasAccess) {
-            if(!self::isManualAccountSwitch()) {
-                if (self::isUserLinkedToAdmin()) {
+            if(!OA_Permission::isManualAccountSwitch()) {
+                if (OA_Permission::isUserLinkedToAdmin()) {
                     // Check object existence
-                    $accountId = self::getAccountIdForEntity($entityTable, $entityId);
-                    self::enforceTrue($accountId);
-                    // Check that it's not a system account
-                    self::enforceTrue(!self::isSystemAccountId($accountId));
+                    OA_Permission::enforceTrue(OA_Permission::getAccountIdForEntity($entityTable, $entityId));
                 }
                 // if has access switch to the manager account that owns this object
                 if ($hasAccess) {
-                    if (self::switchToManagerAccount($entityTable, $entityId)) {
+                    if (OA_Permission::switchToManagerAccount($entityTable, $entityId)) {
                         // Now that the admin user is working with the manager
                         // account that owns the object, show to him the page.
                         $url = $_SERVER['REQUEST_URI'];
@@ -287,10 +235,10 @@ class OA_Permission
             }
         }
         if (!$hasAccess) {
-            self::redirectIfManualAccountSwitch();
-            $hasAccess = self::attemptToSwitchForAccess($entityTable, $entityId);
+            OA_Permission::redirectIfManualAccountSwitch();
+            $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
         }
-        self::enforceTrue($hasAccess);
+        OA_Permission::enforceTrue($hasAccess);
     }
 
     /**
@@ -299,7 +247,7 @@ class OA_Permission
      *@param string  $entityTable    The name of the table.
      *@param integer $entityId       The entity ID.
      */
-    static function switchToManagerAccount($entityTable, $entityId)
+    function switchToManagerAccount($entityTable, $entityId)
     {
         if (empty($entityId)) {
             return false;
@@ -319,15 +267,7 @@ class OA_Permission
             $aDo = $do->toArray();
         }
         $owningAccounts = $do->_getOwningAccountIdsByAccountId($aDo['account_id']);
-
-        // Is this a system entity?
-        foreach ($owningAccounts as $accountId) {
-            if (self::isSystemAccountId($accountId)) {
-                return false;
-            }
-        }
-
-        self::switchAccount($owningAccounts['MANAGER'], true);
+        OA_Permission::switchAccount($owningAccounts['MANAGER'], true);
         return true;
     }
 
@@ -337,11 +277,10 @@ class OA_Permission
      * @static
      * @param string $entityTable  Table name
      * @param int $entityId  Id (or empty if new is created)
-     * @param bool $allowSystem A flag that decides if system object are allowed
      * @param int $accountId  Account Id (if null account from session is taken)
      * @return boolean  True if has access
      */
-    static function hasAccessToObject($entityTable, $entityId, $allowSystem = false, $accountId = null, $accountType = null)
+    function hasAccessToObject($entityTable, $entityId, $accountId = null, $accountType = null)
     {
         if (empty($entityId)) {
             // when a new object is created
@@ -360,45 +299,23 @@ class OA_Permission
             return false;
         }
         $do->$key = $entityId;
-        $accountTable = self::getAccountTable($accountType);
+        $accountTable = OA_Permission::getAccountTable($accountType);
         if (!$accountTable) {
             return false;
         }
         if ($entityTable == $accountTable) {
             // user has access to itself
             if ($accountId === null) {
-                return ($entityId == self::getEntityId());
+                return ($entityId == OA_Permission::getEntityId());
             } else {
-                $do->account_id = self::getAccountId();
+                $do->account_id = OA_Permission::getAccountId();
                 return (bool)$do->count();
             }
         }
         if ($accountId === null) {
-            $accountId = self::getAccountId();
+            $accountId = OA_Permission::getAccountId();
         }
-        return $do->belongsToAccount($accountId, $allowSystem);
-    }
-
-    /**
-     * A method to check if an account ID is a SYSTEM account
-     *
-     * @param int $accountId
-     * @return boolean
-     */
-    static function isSystemAccountId($accountId)
-    {
-        if (!isset(self::$aSystemAccounts)) {
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doAccounts->account_type = OA_ACCOUNT_SYSTEM;
-            $doAccounts->find();
-
-            self::$aSystemAccounts = array();
-            while ($doAccounts->fetch()) {
-                self::$aSystemAccounts[$doAccounts->account_id] = true;
-            }
-        }
-
-        return isset(self::$aSystemAccounts[$accountId]);
+        return $do->belongsToAccount($accountId);
     }
 
     /**
@@ -410,10 +327,10 @@ class OA_Permission
      *                            has access to the account he is switching to there is
      *                            no need to check it again
      */
-    static function switchAccount($accountId, $hasAccess = false)
+    function switchAccount($accountId, $hasAccess = false)
     {
-        if ($hasAccess || self::hasAccess($accountId)) {
-            $oUser = &self::getCurrentUser();
+        if ($hasAccess || OA_Permission::hasAccess($accountId)) {
+            $oUser = &OA_Permission::getCurrentUser();
             $oUser->loadAccountData($accountId);
         }
 
@@ -442,9 +359,9 @@ class OA_Permission
      * @param mixed $accountType
      * @return bool
      */
-    static function isAccount($accountType)
+    function isAccount($accountType)
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             $aArgs = is_array($accountType) ? $accountType : func_get_args();
             return in_array($oUser->aAccount['account_type'], $aArgs);
         }
@@ -452,14 +369,14 @@ class OA_Permission
     }
 
 
-    static function attemptToSwitchToAccount($accountType)
+    function attemptToSwitchToAccount($accountType)
     {
-        $oUser = self::getCurrentUser();
+        $oUser = OA_Permission::getCurrentUser();
         if (!$oUser) {
             return false;
         }
         $aAccountTypes = is_array($accountType) ? $accountType : func_get_args();
-        $aAccountIds = self::getLinkedAccounts(true);
+        $aAccountIds = OA_Permission::getLinkedAccounts(true);
         $defaultUserAccountId = $oUser->aUser['default_account_id'];
         foreach ($aAccountTypes as $accountType) {
             if (isset($aAccountIds[$accountType])) {
@@ -468,16 +385,16 @@ class OA_Permission
                 } else {
                     $accountId = array_shift(array_keys($aAccountIds[$accountType]));
                 }
-                self::switchAccount($accountId, $hasAccess = true);
+                OA_Permission::switchAccount($accountId, $hasAccess = true);
                 return true;
             }
         }
         return false;
     }
 
-    static function attemptToSwitchForAccess($entityTable, $entityId)
+    function attemptToSwitchForAccess($entityTable, $entityId)
     {
-        if (!($userId = self::getUserId())) {
+        if (!($userId = OA_Permission::getUserId())) {
             return false;
         }
         $doEntity = OA_Dal::staticGetDO($entityTable, $entityId);
@@ -485,15 +402,15 @@ class OA_Permission
            $aAccountIds = $doEntity->getOwningAccountIds();
 
             foreach ($aAccountIds as $accountId) {
-                if (self::hasAccess($accountId)) {
-                    self::switchAccount($accountId, $hasAccess = true);
+                if (OA_Permission::hasAccess($accountId)) {
+                    OA_Permission::switchAccount($accountId, $hasAccess = true);
                     return true;
                 }
             }
 
-            if (self::isUserLinkedToAdmin()) {
+            if (OA_Permission::isUserLinkedToAdmin()) {
                 $accountId = $doEntity->getRootAccountId();
-                self::switchAccount($accountId, $hasAccess = true);
+                OA_Permission::switchAccount($accountId, $hasAccess = true);
                 return true;
             }
         }
@@ -511,7 +428,7 @@ class OA_Permission
      * @param string $newUsername If not set, the method will restore the current user
      * @return string $oldUsername
      */
-    static function switchToSystemProcessUser($newUsername = null)
+    function switchToSystemProcessUser($newUsername = null)
     {
         static $oldUser = null;
         global $session;
@@ -543,10 +460,10 @@ class OA_Permission
      * @param mixed $accountType
      * @return bool
      */
-    static function isAccountTypeId($accountTypeId)
+    function isAccountTypeId($accountTypeId)
     {
-        if ($oUser = self::getCurrentUser()) {
-            $userAccountTypeId = self::convertAccountTypeToId($oUser->aAccount['account_type']);
+        if ($oUser = OA_Permission::getCurrentUser()) {
+            $userAccountTypeId = OA_Permission::convertAccountTypeToId($oUser->aAccount['account_type']);
             return $userAccountTypeId & $accountTypeId;
         }
         return false;
@@ -559,7 +476,7 @@ class OA_Permission
      * @param unknown_type $acountType
      * @return unknown
      */
-    static function convertAccountTypeToId($accountType)
+    function convertAccountTypeToId($accountType)
     {
         $accountTypeIdConstant = 'OA_ACCOUNT_' . $accountType . '_ID';
         if (!defined($accountTypeIdConstant)) {
@@ -580,13 +497,13 @@ class OA_Permission
      * @param int $accountId
      * @return boolean
      */
-    static function hasAccess($accountId, $userId = null)
+    function hasAccess($accountId, $userId = null)
     {
         if (empty($userId)) {
-            $userId = self::getUserId();
+            $userId = OA_Permission::getUserId();
         }
-        return self::isUserLinkedToAccount($accountId, $userId)
-            || self::isUserLinkedToAdmin($userId);
+        return OA_Permission::isUserLinkedToAccount($accountId, $userId)
+            || OA_Permission::isUserLinkedToAdmin($userId);
     }
 
     /**
@@ -595,7 +512,7 @@ class OA_Permission
      * @param integer $accountId
      * @return string  Account type
      */
-    static function getAccountTypeByAccountId($accountId)
+    function getAccountTypeByAccountId($accountId)
     {
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_id = $accountId;
@@ -613,7 +530,7 @@ class OA_Permission
      * @param int $userId
      * @return boolean
      */
-    static function isUserLinkedToAccount($accountId, $userId)
+    function isUserLinkedToAccount($accountId, $userId)
     {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = $userId;
@@ -629,7 +546,7 @@ class OA_Permission
      * @param boolean $setAccess  defines whether user should or shouldn't have an access to account
      * @return boolean  True on success else false
      */
-    static function setAccountAccess($accountId, $userId, $setAccess = true)
+    function setAccountAccess($accountId, $userId, $setAccess = true)
     {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->account_id = $accountId;
@@ -656,18 +573,18 @@ class OA_Permission
      * @param int $accountId
      * @return boolean
      */
-    static function hasPermission($permissionId, $accountId = null, $userId = null)
+    function hasPermission($permissionId, $accountId = null, $userId = null)
     {
         if (empty($userId)) {
-            $userId = self::getUserId();
+            $userId = OA_Permission::getUserId();
         }
-        if (self::isUserLinkedToAdmin($userId)) {
+        if (OA_Permission::isUserLinkedToAdmin($userId)) {
             return true;
         }
         static $aCache = array();
         if (empty($accountId)) {
-            $accountId   = self::getAccountId();
-            $accountType = self::getAccountType();
+            $accountId   = OA_Permission::getAccountId();
+            $accountType = OA_Permission::getAccountType();
         } else {
             $oAccounts   = OA_Dal::staticGetDO('accounts', $accountId);
             if ($oAccounts) {
@@ -678,9 +595,9 @@ class OA_Permission
                 return false;
             }
         }
-        if (self::isPermissionRelatedToAccountType($accountType, $permissionId)) {
+        if (OA_Permission::isPermissionRelatedToAccountType($accountType, $permissionId)) {
             $aCache[$userId][$accountId] =
-                self::getAccountUsersPermissions($userId, $accountId);
+                OA_Permission::getAccountUsersPermissions($userId, $accountId);
         } else {
             $aCache[$userId][$accountId][$permissionId] = true;
         }
@@ -688,7 +605,7 @@ class OA_Permission
             $aCache[$userId][$accountId][$permissionId] : false;
     }
 
-    static function getAccountUsersPermissions($userId, $accountId)
+    function getAccountUsersPermissions($userId, $accountId)
     {
         $aPermissions = array();
         $doAccount_user_permission_assoc =
@@ -710,10 +627,10 @@ class OA_Permission
      * @param int $userId
      * @return boolean True if the user is linked to the ADMIN account, false otherwise.
      */
-    static function isUserLinkedToAdmin($userId = null)
+    function isUserLinkedToAdmin($userId = null)
     {
-        if (!isset($userId) || $userId == self::getUserId()) {
-            $oUser = self::getCurrentUser();
+        if (!isset($userId) || $userId == OA_Permission::getUserId()) {
+            $oUser = OA_Permission::getCurrentUser();
         } else {
             $doUsers = OA_Dal::staticGetDO('users', $userId);
             if ($doUsers) {
@@ -745,10 +662,10 @@ class OA_Permission
      *                              name. Ignored when $groupByType is false.
      * @return array
      */
-    static function getLinkedAccounts($groupByType = false, $sort = false)
+    function getLinkedAccounts($groupByType = false, $sort = false)
     {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
-        $doAccount_user_Assoc->user_id = self::getUserId();
+        $doAccount_user_Assoc->user_id = OA_Permission::getUserId();
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->orderBy('account_name');
         $doAccount_user_Assoc->joinAdd($doAccounts);
@@ -761,7 +678,7 @@ class OA_Permission
         }
         uksort($aAccountsByType, array('OA_Permission', '_accountTypeSort'));
         if (isset($aAccountsByType[OA_ACCOUNT_ADMIN])) {
-            $aAccountsByType = self::mergeAdminAccounts($aAccountsByType);
+            $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
         }
         if (!$groupByType) {
             $aAccounts = array();
@@ -787,7 +704,7 @@ class OA_Permission
      * @param string $b
      * @return int
      */
-    static function _accountTypeSort($a, $b)
+    function _accountTypeSort($a, $b)
     {
         $aTypes = array(OA_ACCOUNT_ADMIN => 0, OA_ACCOUNT_MANAGER => 1, OA_ACCOUNT_ADVERTISER => 2, OA_ACCOUNT_TRAFFICKER => 3);
         $a = isset($aTypes[$a]) ? $aTypes[$a] : 1000;
@@ -796,7 +713,7 @@ class OA_Permission
         return $a - $b;
     }
 
-    static function mergeAdminAccounts($aAccountsByType)
+    function mergeAdminAccounts($aAccountsByType)
     {
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_type = OA_ACCOUNT_MANAGER;
@@ -814,7 +731,7 @@ class OA_Permission
      * @static
      * @return OA_Permission_User on success or false otherwise
      */
-    static function &getCurrentUser()
+    function &getCurrentUser()
     {
         global $session;
         if (isset($session['user'])) {
@@ -830,9 +747,9 @@ class OA_Permission
      * @static
      * @return int
      */
-    static function getUserId()
+    function getUserId()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return $oUser->aUser['user_id'];
         }
     }
@@ -843,9 +760,9 @@ class OA_Permission
      * @static
      * @return string
      */
-    static function getUsername()
+    function getUsername()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return $oUser->aUser['username'];
         }
     }
@@ -856,9 +773,9 @@ class OA_Permission
      * @static
      * @return int
      */
-    static function getAgencyId()
+    function getAgencyId()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return (int) $oUser->aAccount['agency_id'];
         }
         return 0;
@@ -871,10 +788,10 @@ class OA_Permission
      * @param boolean $returnAsString
      * @return string
      */
-    static function getAccountTable($type = null)
+    function getAccountTable($type = null)
     {
         if (!$type) {
-            if (!($oUser = self::getCurrentUser())) {
+            if (!($oUser = OA_Permission::getCurrentUser())) {
                 return false;
             }
             $type = $oUser->aAccount['account_type'];
@@ -907,9 +824,9 @@ class OA_Permission
      *               converted to "String" format,
      *               of, if no user is logged in, null, or the empty string.
      */
-    static function getAccountType($returnAsString = false)
+    function getAccountType($returnAsString = false)
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             $type = $oUser->aAccount['account_type'];
             if ($returnAsString) {
                 return ucfirst(strtolower($type));
@@ -925,9 +842,9 @@ class OA_Permission
      * @static
      * @return int
      */
-    static function getEntityId()
+    function getEntityId()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return (int) $oUser->aAccount['entity_id'];
         }
 
@@ -940,9 +857,9 @@ class OA_Permission
      * @static
      * @return integer
      */
-    static function getAccountId()
+    function getAccountId()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return $oUser->aAccount['account_id'];
         }
         return 0;
@@ -954,9 +871,9 @@ class OA_Permission
      * @static
      * @return String
      */
-    static function getAccountName()
+    function getAccountName()
     {
-        if ($oUser = self::getCurrentUser()) {
+        if ($oUser = OA_Permission::getCurrentUser()) {
             return $oUser->aAccount['account_name'];
         }
         return 0;
@@ -969,7 +886,7 @@ class OA_Permission
      * @param integer $entityId  Entity ID (client id, advertiser id, etc)
      * @return integer  Account ID or false on error
      */
-    static function getAccountIdForEntity($entity, $entityId)
+    function getAccountIdForEntity($entity, $entityId)
     {
         $doEntity = OA_Dal::staticGetDO($entity, $entityId);
         if (!$doEntity) {
@@ -989,12 +906,12 @@ class OA_Permission
      *                         the same username as existing username is allowed
      * @return boolean  True if allowed
      */
-    static function isUsernameAllowed($newName, $oldName = null)
+    function isUsernameAllowed($newName, $oldName = null)
     {
         if (!empty($oldName) && !strcasecmp($oldName, $newName)) {
             return true;
         }
-        return !self::userNameExists($newName);
+        return !OA_Permission::userNameExists($newName);
     }
 
     /**
@@ -1003,7 +920,7 @@ class OA_Permission
      * @param string $userName
      * @return boolean  True if such username exists else false
      */
-    static function userNameExists($userName)
+    function userNameExists($userName)
     {
         $doUser = OA_Dal::factoryDO('users');
         if (!PEAR::isError($doUser) && $doUser->userExists($userName)) {
@@ -1021,7 +938,7 @@ class OA_Permission
      *
      * @TODO Remove this method once its use will be removed from UI
      */
-    static function getUniqueUserNames($removeName = null)
+    function getUniqueUserNames($removeName = null)
     {
         $uniqueUsers = array();
         $doUser = OA_Dal::factoryDO('users');
@@ -1044,16 +961,16 @@ class OA_Permission
 	 * @param array $aAllowedPermissions  Array of allowed permissions - keys of array are permissions IDs
 	 * @return true on success else false
 	 */
-	static function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null,
+	function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null,
 	   $aAllowedPermissions = null)
 	{
 	    if (empty($userId)) {
-	        $userId = self::getUserId();
+	        $userId = OA_Permission::getUserId();
 	    }
 	    if (empty($accountId)) {
-	        $accountId = self::getAccountId();
+	        $accountId = OA_Permission::getAccountId();
 	    }
-	    self::deleteExistingPermissions($accountId, $userId, $aAllowedPermissions);
+	    OA_Permission::deleteExistingPermissions($accountId, $userId, $aAllowedPermissions);
 
 	    // add new permissions
 	    foreach ($aPermissions as $permissionId) {
@@ -1081,7 +998,7 @@ class OA_Permission
 	 * @param int $userId
 	 * @param array $allowedPermissions
 	 */
-	static function deleteExistingPermissions($accountId, $userId, $allowedPermissions)
+	function deleteExistingPermissions($accountId, $userId, $allowedPermissions)
 	{
 	    if (is_array($allowedPermissions)) {
 	        foreach ($allowedPermissions as $permissionId => $perm) {
@@ -1110,7 +1027,7 @@ class OA_Permission
 	 * @param int    $permissionId
 	 * @return bool
 	 */
-	static function isPermissionRelatedToAccountType($accountType, $permissionId)
+	function isPermissionRelatedToAccountType($accountType, $permissionId)
 	{
 	    static $aMap = array(
             OA_PERM_BANNER_ACTIVATE     => array(OA_ACCOUNT_ADVERTISER),
@@ -1153,9 +1070,9 @@ class OA_Permission
      *                       for all "owned" account IDs.
      * @return array An array of account IDs, including the account itself.
      */
-    static function getOwnedAccounts($accountId) {
+    function getOwnedAccounts($accountId) {
         $aAccountIds = array();
-        $accoutType = self::getAccountTypeByAccountId($accountId);
+        $accoutType = OA_Permission::getAccountTypeByAccountId($accountId);
         switch ($accoutType) {
             case OA_ACCOUNT_MANAGER:
                 $aAccountIds[] = $accountId;

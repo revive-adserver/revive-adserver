@@ -65,7 +65,7 @@ function displayPage($affiliateid, &$oMarketComponent)
     $oTpl->assign('pageUrl', urlencode($pageUrl));
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('pubconsolePageId', "publisher/ad-quality");
-    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getAccountId());
+    $oTpl->assign('pubconsoleAccountId', $oMarketComponent->getPublisherConsoleApiClient()->getPcAccountId());
     $oTpl->assign('pubconsoleAccountIdParamName', $oMarketComponent->getConfigValue('marketAccountIdParamName'));
     $oTpl->assign('websiteMarketId', $oMarketComponent->getWebsiteManager()->getWebsiteId($affiliateid, false));
     
