@@ -237,6 +237,45 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
     
     
+    /**
+     * A permission hook. Used to prevent access to market entities.
+     *
+     * @param string $entityTable  Table name
+     * @param int $entityId  Id (or empty if new is created)
+     * @param int $operationAccessType Indicate the operation being accessed see OA_Permission HAS_ACCESS consts.
+     * @param int $accountId  Account Id (if null account from session is taken)
+     * @param string $accountType either OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER 
+     * @return boolean  True if has access
+     */
+    public function hasAccessToObject($entityTable, $entityId, 
+                        $operationAccessType, $accountId, $accountType)
+    {
+        OA::debug("Access check: ". $entityTable . ":" . $entityId 
+            . " @" .  $operationAccessType . " AC:" . $accountId . "/" . $accountType);
+
+        $hasAccess = true;    
+        switch ($entityTable) {
+            case 'clients': {
+                switch ($operationAccessType) {
+                    case OA_Permission::OPERATION_VIEW : {
+                        $hasAccess = true;
+                        break;
+                    }
+                    default: {
+                        
+                    }
+                }
+                
+                
+                $hasAccess = !$this->getEntityHelper()->isMarketAdvertiser($entityId);    
+            }
+        }
+            
+            
+        return $hasAccess;
+    }
+    
+    
     public function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
         if (!$this->isActive()) {

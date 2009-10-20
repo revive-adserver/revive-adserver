@@ -130,6 +130,7 @@ $aCount = array(
     'advertisers_hidden' => 0,
 );
 
+
 if ($hideinactive && !empty($clients) && !empty($campaigns) && 
     !empty($banners)) {
 
@@ -153,23 +154,13 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) &&
     
     foreach (array_keys($clients) as $clientid) {
         $client = &$clients[$clientid];
-    
+        
         if (!array_key_exists('has_active_campaigns', $client)) {
             unset($clients[$clientid]);
             $aCount['advertisers_hidden']++;
         } 
     }
 }
-
-//TODO remove this HACK TO SIMULATE SYSTEM ENTITY
-if (count($clients) > 0) {
-    reset($clients);
-    $key = key($clients);
-    $clients[$key]['system'] = true;
-}
-//END
-
-
 
 $itemsPerPage = 250;
 $oPager = OX_buildPager($clients, $itemsPerPage);
@@ -185,6 +176,8 @@ $oTpl->assign('aCount', $aCount);
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
+$oTpl->assign('MARKET_TYPE', DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+
 
 
 /*-------------------------------------------------------*/

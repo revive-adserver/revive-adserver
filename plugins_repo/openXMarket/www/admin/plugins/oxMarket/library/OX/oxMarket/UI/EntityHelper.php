@@ -54,19 +54,18 @@ class OX_oxMarket_UI_EntityHelper
             return false;
         }
         
+        $aAdvertiser = array();
         if (!is_array($data)) {
-            $aAdvertiser = array();
             $doClients = OA_Dal::factoryDO('clients');
             if ($doClients->get($data)) {
                 $aAdvertiser = $doClients->toArray();
             }
         }
         else {
-            $aCampaign = $data;
+            $aAdvertiser = $data;
         }
         
-        
-        return $aCampaign['system'] == true;
+        return $aAdvertiser['type'] == DataObjects_Clients::ADVERTISER_TYPE_MARKET;
     }    
     
 

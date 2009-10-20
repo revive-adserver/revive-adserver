@@ -44,7 +44,7 @@ phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid)) { //check if can see given advertiser
+if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid, OA_Permission::OPERATION_VIEW)) { //check if can see given advertiser
     $page = basename($_SERVER['SCRIPT_NAME']);
     OX_Admin_Redirect::redirect($page);
 }
@@ -131,6 +131,12 @@ $doCampaigns->addListOrderBy($listorder, $orderdirection);
 $doCampaigns->find();
 
 while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
+    if ($row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN
+        || $row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
+        continue;        
+    }
+    
+    
 	$campaigns[$row_campaigns['campaignid']]['campaignid']   = $row_campaigns['campaignid'];
 
     // mask campaign name if anonymous campaign
@@ -176,17 +182,8 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
     
-    //TODO remove this HACK TO SIMULATE SYSTEM ENTITY
-    if (!isset($hacked)) {
-        $row_campaigns['system'] = true;
-        $row_campaigns['systemtype'] = 'remnant';
-        $hacked = true;
-    }
-    //END
-    
-    $campaigns[$row_campaigns['campaignid']]['system'] = $row_campaigns['system'];
-    $campaigns[$row_campaigns['campaignid']]['systemtype'] = $row_campaigns['systemtype'];
-    if ($row_campaigns['system'] == true) {
+    if ($row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
+        $campaigns[$row_campaigns['campaignid']]['system'] = true;
         $oComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
         if ($oComponent) {           
             $campaigns[$row_campaigns['campaignid']]['type'] = 
@@ -260,16 +257,8 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
     if ($advertiserId) {
         $advertiser = phpAds_getClientDetails ($advertiserId);
         
-        //TODO remove this HACK TO SIMULATE SYSTEM ENTITY
-        if (!isset($hacked)) {
-            $advertiser['system'] = true;
-            $hacked = true;
-        }
-        //END        
-        
-        
         $advertiserName = $advertiser ['clientname'];
-        if ($advertiser['system'] != true) {
+        if ($advertiser['type'] != DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
             $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
         }
     }
@@ -283,7 +272,7 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
     ), 'campaigns', 'list');
     
     
-    if ($advertiser['system'] == true) {
+    if ($advertiser['type'] == DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
         $oHeaderModel->setIconClass('iconCampaignsSystemLarge');    
     }
     

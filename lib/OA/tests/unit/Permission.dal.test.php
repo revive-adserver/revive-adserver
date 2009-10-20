@@ -130,7 +130,8 @@ class Test_OA_Permission extends UnitTestCase
 
         // Test if all users have access to new objects
         foreach ($userTables as $userType => $userTable) {
-            $this->assertTrue(OA_Permission::hasAccessToObject('banners', null, rand(1,100), $userType));
+            $this->assertTrue(OA_Permission::hasAccessToObject('banners', null, 
+                OA_Permission::OPERATION_ALL, rand(1,100), $userType));
         }
 
         // Create some record
@@ -150,11 +151,14 @@ class Test_OA_Permission extends UnitTestCase
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
 
         // Test that admin doesn't have access anymore to all objects
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', 1, OA_ACCOUNT_ADMIN));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', 
+            OA_Permission::OPERATION_ALL, 1, OA_ACCOUNT_ADMIN));
 
         // Test accounts have access
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, $doClient->account_id, OA_ACCOUNT_ADVERTISER));
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, 
+            OA_Permission::OPERATION_ALL, $doClient->account_id, OA_ACCOUNT_ADVERTISER));
+        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, 
+            OA_Permission::OPERATION_ALL, $doAgency->account_id, OA_ACCOUNT_MANAGER));
 
         // Create users who don't have access
         $doClients = OA_Dal::factoryDO('clients');
@@ -165,9 +169,12 @@ class Test_OA_Permission extends UnitTestCase
         $doClientId2 = OA_Dal::staticGetDO('clients', $clientId2);
         $doAgency2 = OA_Dal::staticGetDO('agency', $agencyId2);
 
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $fakeId = 123, OA_ACCOUNT_TRAFFICKER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doClientId2->account_id, OA_ACCOUNT_ADVERTISER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doAgency2->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
+            $fakeId = 123, OA_Permission::OPERATION_ALL, OA_ACCOUNT_TRAFFICKER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
+            $doClientId2->account_id, OA_Permission::OPERATION_ALL, OA_ACCOUNT_ADVERTISER));
+        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
+            $doAgency2->account_id, OA_Permission::OPERATION_ALL, OA_ACCOUNT_MANAGER));
     }
 }
 ?>

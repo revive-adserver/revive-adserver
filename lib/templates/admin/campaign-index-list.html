@@ -160,7 +160,6 @@ $Id$
         <tbody>
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=campaignId item=campaign from=$from}
-        {if $campaign.system != true || $campaign.systemtype == 'remnant'}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
                 {if $isAdvertiser == false}
@@ -175,8 +174,8 @@ $Id$
                         {if $isAdvertiser && $canEdit == false}
                             <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
                         {else}
-                            {if $campaign.systemtype == 'remnant'}
-                                <a href='campaign-zone.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconCampaignSystem'>{$campaign.campaignname|escape:html}</a>
+                            {if $campaign.system}
+                                <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconCampaignSystem'>{$campaign.campaignname|escape:html}</a>
                             {else}
                                 <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
                             {/if}    
@@ -242,7 +241,6 @@ $Id$
                     </div>
                 </td>
             </tr>
-      {/if}
     {/foreach}
        </tbody>
 {/if}

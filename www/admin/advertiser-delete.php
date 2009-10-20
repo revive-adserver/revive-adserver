@@ -49,7 +49,7 @@ if (!empty($clientid)) {
     while (list(,$clientid) = each($ids)) {
 
         // Security check
-        OA_Permission::enforceAccessToObject('clients', $clientid);
+        OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_DELETE);
 
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientid = $clientid;

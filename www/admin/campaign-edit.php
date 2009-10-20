@@ -50,8 +50,8 @@ phpAds_registerGlobalUnslashed ( 'start', 'startSet', 'anonymous', 'campaignname
 
 // Security check
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
-OA_Permission::enforceAccessToObject ( 'clients', $clientid );
-OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid, true );
+OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid, true, OA_Permission::OPERATION_EDIT);
 
 
 /*-------------------------------------------------------*/

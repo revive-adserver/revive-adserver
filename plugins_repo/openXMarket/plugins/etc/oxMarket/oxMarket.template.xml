@@ -125,6 +125,7 @@
                 <name>oxMarket</name>
                 <hook>afterLogin</hook>
                 <hook>registerUiListeners</hook>
+                <hook>objectAccess</hook>
            </component>
         </components>
             <!-- Spacer for the 4096 byte boundary -->

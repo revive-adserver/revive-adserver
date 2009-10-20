@@ -42,10 +42,15 @@ phpAds_registerGlobal ('campaignid', 'clientid', 'newclientid', 'returnurl', 'du
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
-OA_Permission::enforceAccessToObject('campaigns', $campaignid);
-if (!empty($newclientid)) {
-    OA_Permission::enforceAccessToObject('clients', $newclientid);
+
+if(!empty($duplicate)) {
+    OA_Permission::enforceAccessToObject('clients',   $clientid, false, OA_Permission::OPERATION_VIEW);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_DUPLICATE);
+}
+else if (!empty($newclientid)) {
+    OA_Permission::enforceAccessToObject('clients',   $clientid, false, OA_Permission::OPERATION_VIEW);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_MOVE);
+    OA_Permission::enforceAccessToObject('clients', $newclientid, false, OA_Permission::OPERATION_EDIT);
 }
 
 /*-------------------------------------------------------*/
@@ -146,6 +151,6 @@ if (!empty($campaignid)) {
     }
 }
 
-Header ("Location: ".$returnurl."?clientid=".(isset($newclientid) ? $newclientid : $clientid)."&campaignid=".$campaignid);
+//Header ("Location: ".$returnurl."?clientid=".(isset($newclientid) ? $newclientid : $clientid)."&campaignid=".$campaignid);
 exit;
 ?>
