@@ -188,8 +188,9 @@ class OA_Admin_UI
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
         
-        OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams());        
-        
+        if (!defined('phpAds_installing')) {
+            OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams());
+        }        
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         $aMainNav        = array();
@@ -314,7 +315,9 @@ class OA_Admin_UI
         // Send header with charset info and display
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
-        OX_Admin_UI_Hooks::afterPageHeader($id);        
+        if (!defined('phpAds_installing')) {
+            OX_Admin_UI_Hooks::afterPageHeader($id);        
+        }        
     }
     
     // if the current menu section has been replaced (ie. some attributes of the menu were replaced in a plugin menu file definition)
