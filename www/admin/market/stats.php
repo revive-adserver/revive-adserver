@@ -10,7 +10,6 @@ if($GENERATE_MARKET_STATS) {
 
 class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
 {
-    const BANNER_TYPE = 'market-optin-banner';
     const MARKET_STATS_TABLE = 'ext_market_stats';
 
     function __construct()
@@ -30,18 +29,20 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     
     function mergeAds($ads)
     {
+        $do = DB_DataObject::factory('Banners');
+        $bannerType = DataObjects_Banners::BANNER_TYPE_MARKET;
         // remove market banners from the  list - market banners are simple proxies
         // that are never displayed on screen
         foreach($ads as $key => $row) {
             $extBannerType = $row['ext_bannertype'];
-            if($extBannerType == self::BANNER_TYPE) {
+            if($extBannerType == $bannerType) {
                 unset($ads[$key]);
             }
         }
         $defaultMarketAd = array(
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'type' => self::BANNER_TYPE,
-            'ext_bannertype' => self::BANNER_TYPE,
+            'type' => $bannerType,
+            'ext_bannertype' => $bannerType,
         );
         foreach($this->marketRows as $row) {
             $adName = $row['ad_id'];
@@ -55,8 +56,6 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     
     function mergeData(&$aRows, $emptyRow, $method, $aParams)
     {
-//        unset($aParams['ad_id']);
-//        return;
         $aParams['market_stats'] = true;
         $aParams['custom_table'] = OX_oxMarket_Stats::MARKET_STATS_TABLE;
         $aParams['custom_columns'] = array(

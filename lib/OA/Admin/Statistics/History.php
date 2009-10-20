@@ -54,18 +54,8 @@ class OA_Admin_Statistics_History
      *                                  $oCaller->spanMonths  - Will be set by method
      * @param array  $aParams      An array of query parameters for
      *                             {@link Admin_DA::fromCache()}.
-     * @param string $type         The name of the method to pass to the
-     *                             {@link Admin_DA::fromCache()} method.
-     *                             Default is the name required for delivery
-     *                             statistics.
-     * @param string $pluginMethod The name of the method to call on the
-     *                             display plugins to determine if there
-     *                             are any custom parameters to pass to the
-     *                             {@link Admin_DA::fromCache()} method.
-     *                             Default is the name of the method for
-     *                             delivery statistics.
      */
-    function getSpan(&$oCaller, $aParams, $type = 'getHistorySpan', $pluginMethod = 'getHistorySpanParams')
+    function getSpan(&$oCaller, $aParams)
     {
         $oStartDate = new Date(date('Y-m-d'));
         $oStartDate->setHour(0);
@@ -73,8 +63,8 @@ class OA_Admin_Statistics_History
         $oStartDate->setSecond(0);
         // Check span using all plugins
         foreach ($oCaller->aPlugins as $oPlugin) {
-            $aPluginParams = call_user_func(array($oPlugin, $pluginMethod));
-            $aSpan = Admin_DA::fromCache($type, $aParams + $aPluginParams);
+            $aPluginParams = call_user_func(array($oPlugin, 'getHistorySpanParams'));
+            $aSpan = Admin_DA::fromCache('getHistorySpan', $aParams + $aPluginParams);
             if (!empty($aSpan['start_date'])) {
                 $oDate = new Date($aSpan['start_date']);
                 $oDate->setTZbyID('UTC');
@@ -225,7 +215,7 @@ class OA_Admin_Statistics_History
                         $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
                             'day='.str_replace('-', '', $key), 1);
                     }
-                    break;
+                     break;
 
                 case 'month' :
                     // Set the "month" value
@@ -312,15 +302,6 @@ class OA_Admin_Statistics_History
                 // Use the dates given by the period_start and period_end
                 $oStartDate = new Date($aDates['period_start']);
                 $oEndDate   = new Date($aDates['period_end']);
-            }
-            // Increase the start date if no stats are available from
-            // the original start date
-            if ($oStartDate->before($oStatsStartDate)) {
-                $oStartDate = new Date();
-                $oStartDate->copy($oStatsStartDate);
-                $aDates['day_begin'] = new Date();
-                $aDates['day_begin']->copy($oStatsStartDate);
-                $aDates['day_begin'] = $aDates['day_begin']->format('%Y-%m-%d');
             }
             // Adjust end date to be now, if it's in the future
             if ($oEndDate->isFuture()) {

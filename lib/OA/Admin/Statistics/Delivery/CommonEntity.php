@@ -89,6 +89,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         // Store the preferences
         $this->aPagePrefs['listorder']      = $this->listOrderField;
         $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
+        
+        // load the Banners DO class (to be used in entityLink)
+        $do = DB_DataObject::factory('Banners');
     }
 
     /**
@@ -195,8 +198,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function entityLink($key, $type = null)
     {
-        echo $type;
-        return empty($this->entityLinks[$key]) || $type == 'market-optin-banner' ? false : $this->entityLinks[$key];
+        return empty($this->entityLinks[$key]) || $type == DataObjects_Banners::BANNER_TYPE_MARKET ?  false : $this->entityLinks[$key];
     }
 
     /**
