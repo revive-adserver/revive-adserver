@@ -59,6 +59,7 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         foreach ($aDefaultPlugins as $idx => $aPlugin) {
             $GLOBALS['_MAX']['CONF']['plugins'][$aPlugin['name']] = true;
             $lastPlugin = $aPlugin['name'];
+            $lastPluginData = $aPlugin;
         }
         unset($GLOBALS['_MAX']['CONF']['plugins'][$lastPlugin]);
         
@@ -76,12 +77,12 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         $aExpected[] = array(
             'id' => 'plugin:'.$lastPlugin,
             'name' => $GLOBALS['strPluginTaskInstalling'].': '.$lastPlugin,
-            'url' => $baseInstallUrl.'install-plugin.php?status=0&plugin='.$lastPlugin
+            'url' => $baseInstallUrl.'install-plugin.php?status=0&plugin='.$lastPlugin.
+                     ((empty($lastPluginData['disabled'])) ? '' : '&disabled=1') 
         );
 
         $result = OX_Upgrade_InstallPlugin_Controller::getTasksUrls($baseInstallUrl);
         $this->assertEqual($result, $aExpected);
-        
         $oStatus = $oStorage->set('installStatus', null);
     }
 }

@@ -32,7 +32,10 @@ require_once MAX_PATH . '/lib/OA.php';
  * Unfortunately old market plugin have bundled Curl class, and if Curl class from core
  * gets loaded first, before marker plugin's copy, we get class redefinition error...
  */
-@include_once MAX_PATH . '/www/admin/plugins/oxMarket/library/Zend/Http/Client/Adapter/Curl.php';
+$curlLibPath = MAX_PATH . '/www/admin/plugins/oxMarket/library/Zend/Http/Client/Adapter/Curl.php';
+if (!class_exists('Zend_Http_Client_Adapter_Curl') && file_exists($curlLibPath)) {
+    @include_once $curlLibPath;
+}
 if (!class_exists('Zend_Http_Client_Adapter_Curl')) {
     require_once MAX_PATH . '/lib/Zend/Http/Client/Adapter/Curl.php';
 }

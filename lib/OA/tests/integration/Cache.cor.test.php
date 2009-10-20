@@ -198,11 +198,16 @@ class Test_OA_Cache extends UnitTestCase
         
         $newCacheDir = dirname(__FILE__) . '/../data/'; 
         
+        $serverName = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = 'myhost';
+        
         $oCache = new OA_Cache('test', 'oxpTestCache', null, $newCacheDir);
         $oCache->setFileNameProtection(false);
         
         $result = $oCache->load(true);
         $this->assertEqual('test', $result);
+        
+        $_SERVER['HTTP_HOST'] = $serverName;
     }
 }
 
