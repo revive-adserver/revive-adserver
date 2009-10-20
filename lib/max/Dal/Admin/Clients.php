@@ -106,7 +106,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             $doClients->agencyid = $agencyId;
         }
         $doClients->addListOrderBy($listorder, $orderdirection);
-        return $doClients->getAll(array('clientname', 'an_adnetwork_id'), $indexWitkPk = true, $flatten = false);
+        return $doClients->getAll(array('clientname', 'an_adnetwork_id', 'type'), $indexWitkPk = true, $flatten = false);
     }
 
     /**
