@@ -141,11 +141,13 @@ class Plugins_TestOfOX_oxMarket_Dal_ZoneOptIn extends UnitTestCase
         // Generate market advertisers and campaigns
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $result['agencyId'];
-        $doClients->clientname = 'OpenX Market'; // TODO: create proper system market agency
+        $doClients->clientname = 'OpenX Market';
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $result['clientId'] = DataGenerator::generateOne($doClients);
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $result['clientId'];
-        $doCampaigns->campaignname = 'OpenX Market - Default Campaign';  // TODO: create proper system market campaign
+        $doCampaigns->campaignname = 'OpenX Market - Default Campaign';
+        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
         $result['campaignId'] = DataGenerator::generateOne($doCampaigns);
         
         return $result;

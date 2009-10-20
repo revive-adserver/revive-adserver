@@ -113,9 +113,9 @@ class OX_oxMarket_Dal_ZoneOptIn
         $doAffiliates->joinAdd($doZones);
         $doAgency->joinAdd($doAffiliates);
         $doClients->joinAdd($doAgency);
-        $doClients->clientname = 'OpenX Market';      // TODO: select system market agency
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $doCampaigns->joinAdd($doClients);
-        $doCampaigns->campaignname = 'OpenX Market - Default Campaign';  // TODO: select system market campaign
+        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
         $doCampaigns->find();
         if ($doCampaigns->fetch()) {
             return $doCampaigns;
