@@ -16,21 +16,40 @@
 		        	</condition>
         	        <then>        	        	
 						&login;
+        	        	<macrodef name="checkIfNoErrorOccurred">
+        	        		<sequential>
+	        	        	<not>
+								<verifyText text="Not Found" />
+								<verifyText text="was not found on this server" />
+							</not>
+       	        			</sequential>
+        	        	</macrodef>
+        	        	
+        	        	<macrodef name="checkVideoPlayerInfo">
+        	        		<sequential>
+                	        	<clickLink label="Inventory"/>
+                	        	<clickLink label="Video Ads - Player Info"/>
+                	        	<checkIfNoErrorOccurred />
+                	        	<verifyXPath xpath="//span[@class=&quot;label&quot;]/text()" text="Video Ads - Player Info" />
+       	        			</sequential>
+        	        	</macrodef>
+        	        	
 						<clickLink label="Administrator account"/>
         	        	<clickLink label="Plugins"/>
         	        	<verifyText text="openXVideoAds"/>
-						<not>
-							<verifyText text="Not Found" />
-							<verifyText text="was not found on this server" />
-						</not>
+						<checkIfNoErrorOccurred />
         	        	<clickLink label="Enable" href="package=openXVideoAds" />
-        	        	
+        	        	<checkIfNoErrorOccurred />
         	        	<clickLink label="Details" href="package=openXVideoAds" />
         	        	<verifyText text="openXVideoAds"/>
-        	        	<not>
-							<verifyText text="Not Found" />
-							<verifyText text="was not found on this server" />
-						</not>
+        	        	<checkIfNoErrorOccurred />
+        	        	<checkVideoPlayerInfo />  	        	        	        	
+        	        	<clickLink label="Default manager"/>
+        	        	<checkVideoPlayerInfo />
+<!--         	        	
+        	        	<sleep seconds="5" />
+        	        	<verifyXPath xpath="id('player_table_body')/div[1]/div/h2/text()" text="Download the appropriate plugin for your video player" />
+-->
            	        </then>
 			    </ifStep>
 			</steps>
