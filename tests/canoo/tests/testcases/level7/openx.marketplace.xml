@@ -25,16 +25,13 @@
 							<verifyText text="Not Found" />
 							<verifyText text="was not found on this server" />
 						</not>
-        	        	<clickButton description="Click 'Get started' button"/>        	  
-        	        	<setRadioButton description="Check radio button accountMode: signup" name="accountMode" value="signup"/>
-        	        	<setInputField name="m_new_email" value="test@openx.org"/>
-        	        	<setInputField name="m_new_username" value="openx"/>
-        	        	<setInputField description="Set password field m_new_password: openx" name="m_new_password" value="openx"/>
-        	        	<setInputField description="Set password field m_new_confirm_password: openx" name="m_new_confirm_password" value="openx"/>
-        	        	<setCheckbox name="openx_terms_agree"/>
-        	        	<setCheckbox name="market_terms_agree"/>
-        	        	<setInputField name="m_captcha" value="openx"/>
-        	        	<clickButton label="Submit"/>
+        	        	<clickButton description="Click 'Get started' button"/>        
+        	        	<clickLink label="Opt in your existing campaigns to OpenX Market »" description="Click 'opt in' link"/>
+        	        	<verifyXPath xpath="//ul[1]/li/button[1]" description="Checks for the existence of 1st Opt in button"/>
+        	        	<verifyXPath xpath="//ul[2]/li/button[1]" description="Checks for the existence of 2nd Opt in button"/>
+        	        	<verifyXPath xpath="//ul[1]/li/button[2]" description="Checks for the existence of 1st Opt out button"/>        	        	
+        	        	<verifyXPath xpath="//ul[2]/li/button[2]" description="Checks for the existence of 2nd Opt out button"/>       	        	  
+        	        	<clickLink label="OpenX Market Quickstart"/>
            	        </then>
 			    </ifStep>		
 			</steps>
