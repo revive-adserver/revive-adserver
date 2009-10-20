@@ -176,6 +176,9 @@ $oStatsController = &OA_Admin_Statistics_Factory::getController($entity . "-" . 
 if (PEAR::isError($oStatsController)) {
     phpAds_Die('Error occured', htmlspecialchars($oStatsController->getMessage()));
 }
+
+require_once MAX_PATH . '/www/admin/market/stats.php';
+$oStatsController->addPlugin('openxMarket', new OX_oxMarket_Stats());
 $oStatsController->start();
 
 // Export to XLS...
@@ -188,14 +191,3 @@ if (isset($plugin) && $plugin != '') {
 // ... otherwise, output in HTML
 $oStatsController->output();
 
-// Erase stats graph file
-if (isset($GraphFile) && $GraphFile != '') {
-    $dirObject = dir($conf['store']['webDir'] . '/temp');
-    while (false !== ($entry = $dirObject->read())) {
-        if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
-            unlink($conf['store']['webDir'] . '/temp/' . $entry);
-        }
-    }
-}
-
-?>

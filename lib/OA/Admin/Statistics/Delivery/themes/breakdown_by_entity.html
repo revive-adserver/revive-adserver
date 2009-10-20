@@ -48,8 +48,9 @@
                     <img src="{assetPath}/images/spacer.gif" width="16" height="16" align="absmiddle" />
                     {end:}
                     <img src="{e[icon]}" align="absmiddle" />&nbsp;
-                    <a flexy:if="entityLink(e[prefix])" href="{entityLink(e[prefix])}&{e[linkparams]}">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</a>
-                    <span flexy:if="!entityLink(e[prefix])">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</span>
+                    {if:entityLink(e[prefix],e[type])}<a href="{entityLink(e[prefix])}&{e[linkparams]}">{else:}<span>{end:}
+                    {if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}
+                    {if:entityLink(e[prefix],e[type])}</a>{else:}</span>{end:}
                 </td>
                 {foreach:aColumns,ck,cv}
                 <td class="aright {e[htmlclass]}" flexy:if="showColumn(ck)">

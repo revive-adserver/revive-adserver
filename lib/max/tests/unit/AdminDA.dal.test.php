@@ -140,20 +140,6 @@ class Admin_DaTest extends DalUnitTestCase
         }
     }
 
-    function test_getPrimaryTable()
-    {
-        require MAX_PATH . '/tests/data/data.entities.php';
-        foreach ($entities as $entity => $hash) {
-            $ret = SqlBuilder::_getPrimaryTable($entity);
-            $this->assertTrue(is_array($ret));
-            $this->assertTrue(count($ret) == 1);
-            $keys = array_keys($ret);
-            $vals = array_values($ret);
-            $this->assertTrue(is_string($keys[0]));
-            $this->assertTrue(!is_null($vals[0]));
-        }
-    }
-
     function test_getTables()
     {
         require MAX_PATH . '/tests/data/data.entities.php';

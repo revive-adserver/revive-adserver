@@ -193,9 +193,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     /**
      * Return the appriopriate link for an entity -- helper function for Flexy
      */
-    function entityLink($key)
+    function entityLink($key, $type = null)
     {
-        return empty($this->entityLinks[$key]) ? false : $this->entityLinks[$key];
+        echo $type;
+        return empty($this->entityLinks[$key]) || $type == 'market-optin-banner' ? false : $this->entityLinks[$key];
     }
 
     /**
@@ -276,7 +277,12 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->childrendata = array();
             if (array_search('ad_id', $aggregates) !== false) {
                 $this->childrendata['ad_id'] = Admin_DA::fromCache('getAds', $aParams);
+                // Plugins can set their own ads in the array
+                foreach ($this->aPlugins as $oPlugin) {
+                    $oPlugin->mergeAds(&$this->childrendata['ad_id']);
+                }
             }
+//        var_dump($this->childrendata['ad_id']);exit;
             if (array_search('placement_id', $aggregates) !== false) {
                 $this->childrendata['placement_id'] = Admin_DA::fromCache('getPlacementsChildren', $aParams);
 
@@ -311,7 +317,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
             foreach ($aRows as $row) {
                 foreach ($aggregates as $agg) {
-                    $this->_prepareDataAdd($this->data[$agg], $row, $agg);
+                    $this->_prepareDataAdd($this->data[$agg], $row, $agg); 
                 }
             }
         }

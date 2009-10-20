@@ -2542,9 +2542,6 @@ class DB_DataObject extends DB_DataObject_Overload
      * @access private
      * @return DataObject|PEAR_Error
      */
-
-
-
     function factory($table = '') {
         global $_DB_DATAOBJECT;
         if (empty($_DB_DATAOBJECT['CONFIG'])) {

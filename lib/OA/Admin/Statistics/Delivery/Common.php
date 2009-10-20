@@ -102,6 +102,14 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         $aPlugins['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
         $this->aPlugins = $aPlugins;
     }
+    
+    /**
+     * Add a plugin in the list of registered stats plugin
+     */
+    function addPlugin($pluginName, $plugin) 
+    {
+        $this->aPlugins[$pluginName] = $plugin;
+    }
 
     /**
      * A private callback method to sort the delivery statistics columns by

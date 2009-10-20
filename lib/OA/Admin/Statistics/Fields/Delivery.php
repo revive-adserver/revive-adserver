@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class OA_statisticsFieldsDelivery
+class OA_StatisticsFieldsDelivery
 {
 
     /**
@@ -373,6 +373,10 @@ class OA_statisticsFieldsDelivery
     }
 
     function mergeData(&$aRows, $method, $aParams)
+    {
+    }
+    
+    function mergeAds($ads)
     {
     }
 

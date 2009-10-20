@@ -125,7 +125,7 @@ class SqlBuilder
         case 'stats' :
             $aColumns += array("DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
             break;
-
+            
         case 'stats_by_entity' :
             if (isset($aParams['include']) && is_array($aParams['include'])) {
                 if (array_search('advertiser_id', $aParams['include']) !== false) $aColumns += array('m.clientid' => 'advertiser_id');
@@ -161,7 +161,19 @@ class SqlBuilder
                 } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
                     unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
                     unset($aColumns['s.zone_id']);
-                    $aColumns["(s.ad_id)"] = 'pkey';
+        
+                    // core stats: the primary key is simply the ad_id (unique across all rows)
+                    if(empty($aParams['market_stats']))
+                    {
+                        $aColumns["(s.ad_id)"] = 'pkey';
+                    }
+                    // for market stats, the primary key was especially built, we reuse it
+                    else
+                    {
+                        $pkey = array_search('ad_id', $aParams['custom_columns']);
+                        // here is one more horrible hack because, well, there is no choice...
+                        $aColumns["($pkey)"] = 'pkey';
+                    }
                 }
             }
             break;
@@ -419,21 +431,46 @@ class SqlBuilder
         case 'history_hour' :
         case 'stats' :
             if (isset($aParams['custom_table'])) {
-                $aTables += array($conf['table']['prefix'].$conf['table'][$aParams['custom_table']] => 's');
+                $aTables += array($conf['table']['prefix'].$aParams['custom_table'] => 's');
             } else {
                 $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's');
             }
 
-            if (!empty($aParams['agency_id'])) $aTables += array(
+            // stats always require the join to advertiser table to ensure only core stats are displayed (excluding market advertiser)
+            $aTables += array(
                 $conf['table']['prefix'].$conf['table']['clients'] => 'a',
-                $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd', $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
-                $conf['table']['prefix'].$conf['table']['zones'] => 'z');
+                $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
+            );
+            
+            if (!empty($aParams['agency_id'])) {
+                $aTables += array(
+                    $conf['table']['prefix'].$conf['table']['clients'] => 'a',
+                    $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                    $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
+                    $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
+                    $conf['table']['prefix'].$conf['table']['zones'] => 'z'
+                );
+            }
 
-            if (!empty($aParams['advertiser_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd');
-            if (!empty($aParams['placement_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['banners'] => 'd');
-            if (!empty($aParams['publisher_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['zones'] => 'z');
+            if (!empty($aParams['advertiser_id'])) { 
+                $aTables += array(
+                    $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                    $conf['table']['prefix'].$conf['table']['banners'] => 'd'
+                );
+            }
+            if (!empty($aParams['placement_id'])) {
+                $aTables += array(
+                    $conf['table']['prefix'].$conf['table']['banners'] => 'd'
+                );
+            }
+            if (!empty($aParams['publisher_id'])) {
+                $aTables += array(
+                    $conf['table']['prefix'].$conf['table']['zones'] => 'z'
+                );
+            }
             break;
-
+        
         case 'stats_by_entity' :
             if (isset($aParams['include']) && is_array($aParams['include'])) {
                 // Fake needed parameters
@@ -443,7 +480,7 @@ class SqlBuilder
             }
             $aTables += SqlBuilder::_getTables('stats', $aParams);
             break;
-
+            
         case 'tracker' :
             $aTables += array($conf['table']['prefix'].$conf['table']['trackers'] => 't');
             if (!empty($aParams['agency_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['clients'] => 'a');
@@ -468,51 +505,6 @@ class SqlBuilder
             break;
         }
         return $aTables;
-    }
-
-    /**
-     * Returns an table name => alias pair.
-     *
-     * The output of this method is identical the _getTables() above, providing
-     * the second parameter, $aParams, is an empty array.
-     *
-     * @param string $entity
-     * @return array    An array of the prefixed table name and table alias
-     */
-    function _getPrimaryTable($entity)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        $aTable = '';
-        switch ($entity) {
-
-        case 'ad' :                     $aTable = array($conf['table']['banners'] => 'd'); break;
-        case 'advertiser' :             $aTable = array($conf['table']['clients'] => 'a'); break;
-        case 'ad_category_assoc' :      $aTable = array($conf['table']['ad_category_assoc'] => 'ac'); break;
-        case 'ad_zone_assoc' :          $aTable = array($conf['table']['ad_zone_assoc'] => 'az'); break;
-        case 'agency' :                 $aTable = array($conf['table']['agency'] => 'g'); break;
-        case 'category' :               $aTable = array($conf['table']['category'] => 'cat'); break;
-        case 'image' :                  $aTable = array($conf['table']['images'] => 'i'); break;
-        case 'limitation' :             $aTable = array($conf['table']['acls'] => 'l'); break;
-        case 'placement' :              $aTable = array($conf['table']['campaigns'] => 'm'); break;
-        case 'placement_tracker' :      $aTable = array($conf['table']['campaigns_trackers'] => 'mt'); break;
-        case 'placement_zone_assoc' :   $aTable = array($conf['table']['placement_zone_assoc'] => 'pz'); break;
-        case 'publisher' :              $aTable = array($conf['table']['affiliates'] => 'p'); break;
-        case 'history_span' :
-        case 'history_day_hour' :
-        case 'history_day' :
-        case 'history_month' :
-        case 'history_dow' :
-        case 'history_hour' :
-        case 'stats_by_entity' :
-        case 'stats' :
-                                        $aTable = array($conf['table']['data_summary_ad_hourly'] => 's');
-                                        break;
-        case 'tracker' :                $aTable = array($conf['table']['trackers'] => 't'); break;
-        case 'variable' :               $aTable = array($conf['table']['variables'] => 'v'); break;
-        case 'zone' :                   $aTable = array($conf['table']['zones'] => 'z'); break;
-        }
-        return $aTable;
     }
 
     /**
@@ -687,6 +679,17 @@ class SqlBuilder
                 }
                 SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
             }
+            
+			
+            $do = DB_DataObject::factory('Clients');
+            // Core stats exclude all Market advertiser activity
+			// Market stats only include the Market advertiser activity 
+			if(!empty($aParams['market_stats'])) {
+                $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+            } else {
+                $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
+            }
+            
             if (!empty($aParams['publisher_id'])) SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
             if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
             if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
@@ -856,6 +859,10 @@ class SqlBuilder
             $aTableLimitations[]='t.trackerid=mt.trackerid';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
+        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[OX_oxMarket_Stats::getTableName()])))
+            $aTableLimitations[]='d.bannerid=s.ad_id';
+        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aTables[OX_oxMarket_Stats::getTableName()])))
+            $aTableLimitations[]='z.zoneid=s.zone_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_intermediate_ad_connection']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['ad_category_assoc']])))
@@ -887,32 +894,20 @@ class SqlBuilder
     function _getGroupColumns($entity, $aParams)
     {
         $aGroupColumns = array();
-        switch ($entity) {
-
-        case 'history_day_hour' : $aGroupColumns[] = 'date_time'; break;
-        case 'history_day' :      $aGroupColumns[] = 'day'; break;
-        case 'history_month' :    $aGroupColumns[] = 'month'; break;
-        case 'history_dow' :      $aGroupColumns[] = 'dow'; break;
-        case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
-
-        case 'stats_by_entity' :
-            $aGroupColumns = array('ad_id', 'zone_id');
-            /*
-            if (isset($aParams['include']) && is_array($aParams['include'])) {
-                if (array_search('advertiser_id', $aParams['include']) !== false) $aGroupColumns[] = 'advertiser_id';
-                if (array_search('placement_id', $aParams['include']) !== false)  $aGroupColumns[] = 'placement_id';
-                if (array_search('ad_id', $aParams['include']) !== false)         $aGroupColumns[] = 'ad_id';
-                if (array_search('publisher_id', $aParams['include']) !== false)  $aGroupColumns[] = 'publisher_id';
-                if (array_search('zone_id', $aParams['include']) !== false)       $aGroupColumns[] = 'zone_id';
-            }
-            */
-            if (isset($aParams['include'])) $aGroupColumns = array_merge($aGroupColumns, $aParams['include']);
-            if (isset($aParams['exclude'])) $aGroupColumns = array_diff($aGroupColumns, $aParams['exclude']);
-            break;
-
+        switch ($entity) 
+        {
+            case 'history_day_hour' : $aGroupColumns[] = 'date_time'; break;
+            case 'history_day' :      $aGroupColumns[] = 'day'; break;
+            case 'history_month' :    $aGroupColumns[] = 'month'; break;
+            case 'history_dow' :      $aGroupColumns[] = 'dow'; break;
+            case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
+    
+            case 'stats_by_entity' :
+                $aGroupColumns = array('ad_id', 'zone_id');
+                if (isset($aParams['include'])) $aGroupColumns = array_merge($aGroupColumns, $aParams['include']);
+                if (isset($aParams['exclude'])) $aGroupColumns = array_diff($aGroupColumns, $aParams['exclude']);
+                break;
         }
-
-
         return count($aGroupColumns) ? $aGroupColumns : null;
     }
 
@@ -928,6 +923,7 @@ class SqlBuilder
         $conf = $GLOBALS['_MAX']['CONF'];
         $aLeftJoinedTables = array();
         switch ($entity) {
+
         case 'stats_by_entity' :
             if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
                 if (array_search('zone_id', $aParams['exclude']) !== false) {
@@ -1116,18 +1112,7 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-//        $rs = DBC::NewRecordSet($query);
-//        $aDataEntities = array();
-//        if ($rs->find()) {
-//            while ($rs->fetch()) {
-//                $dataEntity = $rs->toArray();
-//                $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
-//            }
-//            return $aDataEntities;
-//        } else {
-//            return false;
-//        }
-
+//        var_dump($query);
         $oDbh = OA_DB::singleton();
         $aResult =  $oDbh->queryAll($query);
         $aDataEntities = array();
