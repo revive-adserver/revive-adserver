@@ -833,9 +833,10 @@ class SqlBuilder
      * @todo Added some code specific for data_summary_ad_arrival_hourly table
      *
      * @param array $aTables
+     * @param array $aParams
      * @return array
      */
-    function _getTableLimitations($aTables)
+    function _getTableLimitations($aTables, $aParams = array())
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $aTableLimitations = array();
@@ -859,9 +860,9 @@ class SqlBuilder
             $aTableLimitations[]='t.trackerid=mt.trackerid';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
-        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[OX_oxMarket_Stats::getTableName()])))
+        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aParams['market_stats'])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
-        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aTables[OX_oxMarket_Stats::getTableName()])))
+        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aParams['market_stats'])))
             $aTableLimitations[]='z.zoneid=s.zone_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_intermediate_ad_connection']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';

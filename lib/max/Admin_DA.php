@@ -205,7 +205,7 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams);
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables)
+            SqlBuilder::_getTableLimitations($aTables, $aParams)
         );
         $aGroupColumns = SqlBuilder::_getGroupColumns($entity, $aParams);
         $aLeftJoinedTables = SqlBuilder::_getLeftJoinedTables($entity, $aParams);
@@ -259,7 +259,7 @@ class Admin_DA
         }
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables));
+            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables, $aParams));
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key, $aLeftJoinedTables);
     }
 
@@ -280,7 +280,7 @@ class Admin_DA
         $aColumns = SqlBuilder::_getStatsColumns($entity);
         $aTables = SqlBuilder::_getTables($entity, $aParams, true);
         $aLimitations = array_merge(SqlBuilder::_getStatsLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables));
+            SqlBuilder::_getTableLimitations($aTables, $aParams));
 
         // An ugly hack to get the alias used for the entity table so
         // the query works with Postgres.
