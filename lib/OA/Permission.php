@@ -1216,8 +1216,20 @@ class OA_Permission
         $accountId = null, $accountType = null)
     {
         static $componentCache;
-        $hasAccess = true;
         
+        /*
+         * Normally we would expect plugins to return true or false here.
+         * Problem arises if plugins create own entities which they protect
+         * and what should happen when such plugin is disabled and entities remain.
+         * 
+         * Solution used here is that plugin should return true/false only for entities
+         * it's interested in and NULL for entities that it is ignoring. 
+         * 
+         * If, after asking all plugins, result is NULL, that means there's no plugin
+         * active for such entity and if it's type is different from DEFAULT_SYSTEM it should
+         * be protected.
+         */
+        $hasAccess = NULL; //ignore by default
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('objectAccess');
         foreach ($aPlugins as $i => $id){
             $obj = $componentCache[$id];
@@ -1227,15 +1239,42 @@ class OA_Permission
             }
             
             if ($obj) {
-                $hasAccess = $obj->hasAccessToObject($entityTable, $entityId, 
+                $pluginResult = $obj->hasAccessToObject($entityTable, $entityId, 
                     $operationAccessType, $accountId, $accountType);
-                if (!$hasAccess) { //break on first plugin denying access
+                /*
+                 * Ignore NULL responses from plugins and update has access only
+                 * if plugin was interested in the entity
+                 */     
+                $hasAccess =  $pluginResult === NULL ? $hasAccess : $pluginResult;                     
+                    
+                if ($hasAccess === false) { //break on first plugin denying access
                     break;
                 }
             }
         }
         
-        return $hasAccess;
+        if ($hasAccess === NULL && 'clients' == $entityTable || 'campaigns' == $entityTable) {
+            $do = OA_Dal::factoryDO($entityTable);
+            $aEntity = null;
+            if ($do->get($entityId)) {
+                $aEntity = $do->toArray();
+            }
+
+            switch ($entityTable) {
+                case 'clients': {
+                    $hasAccess = $aEntity['type'] == DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
+                    break;
+                }
+                
+                case 'campaigns': {
+                    $hasAccess = $aEntity['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
+                    break;                
+                }
+            }
+        }
+        
+        
+        return $hasAccess === NULL ? true : $hasAccess;
     }
 
 }

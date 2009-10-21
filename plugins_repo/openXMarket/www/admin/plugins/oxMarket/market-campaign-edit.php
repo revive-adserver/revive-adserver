@@ -36,8 +36,8 @@ phpAds_registerGlobalUnslashed('start', 'startSet', 'anonymous', 'campaignname',
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER );
-OA_Permission::enforceAccessToObject('clients', $clientid );
-OA_Permission::enforceAccessToObject('campaigns', $campaignid, true );
+OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid, true, OA_Permission::OPERATION_EDIT);
 
 
 // Security check
@@ -314,7 +314,7 @@ function addMarketCampaignPageTools($clientid, $campaignid)
     global $phpAds_TextDirection;
     
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-modify.php?duplicate=1&clientid=$clientid&campaignid=$campaignid&returnurl=" . urlencode(basename($_SERVER['SCRIPT_NAME']))), "iconCampaignDuplicate");
+        addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-modify.php?duplicate=1&clientid=$clientid&campaignid=$campaignid&returnurl=" . urlencode('plugins/oxMarket/'.basename($_SERVER['SCRIPT_NAME']))), "iconCampaignDuplicate");
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteCampaign']);
         addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-delete.php?clientid=$clientid&campaignid=$campaignid&returnurl=advertiser-campaigns.php"), "iconDelete", null, $deleteConfirm);
     }

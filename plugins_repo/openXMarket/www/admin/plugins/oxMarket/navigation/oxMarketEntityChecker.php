@@ -95,11 +95,16 @@ class Plugins_admin_oxMarket_oxMarketEntityChecker
                 break;
             }
             
-            case 'market-campaign-edit_new':
+            case 'market-campaign-edit_new': {
+                $enabled = $oMarketComponent->isActive()
+                    && $oEntityHelper->isMarketAdvertiser($clientid); 
+                break;
+            }
             case 'market-campaign-edit':
             case 'market-campaign-acl': {
-                $enabled = $oMarketComponent->isActive() 
-                    &&  $oEntityHelper->isMarketContractCampaign($campaignid);  
+                $enabled = $oMarketComponent->isActive()
+                    && $oEntityHelper->isMarketAdvertiser($clientid) 
+                    && $oEntityHelper->isMarketContractCampaign($campaignid);
                 break;
             }
         }

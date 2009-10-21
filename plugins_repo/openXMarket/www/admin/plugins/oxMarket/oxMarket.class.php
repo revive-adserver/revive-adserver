@@ -250,27 +250,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     public function hasAccessToObject($entityTable, $entityId, 
                         $operationAccessType, $accountId, $accountType)
     {
-        OA::debug("Access check: ". $entityTable . ":" . $entityId 
-            . " @" .  $operationAccessType . " AC:" . $accountId . "/" . $accountType);
-
-        $hasAccess = true;    
-        switch ($entityTable) {
-            case 'clients': {
-                switch ($operationAccessType) {
-                    case OA_Permission::OPERATION_VIEW : {
-                        $hasAccess = true;
-                        break;
-                    }
-                    default: {
-                        
-                    }
-                }
-                
-                
-                $hasAccess = !$this->getEntityHelper()->isMarketAdvertiser($entityId);    
-            }
-        }
             
+        $hasAccess = $this->getEntityHelper()->hasAccessToObject($entityTable, $entityId, 
+                        $operationAccessType, $accountId, $accountType);
             
         return $hasAccess;
     }

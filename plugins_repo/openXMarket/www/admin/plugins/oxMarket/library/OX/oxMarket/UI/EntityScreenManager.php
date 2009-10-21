@@ -90,9 +90,6 @@ class OX_oxMarket_UI_EntityScreenManager
                 $result = $this->advertiserCampaignsBeforeContent($pageData, $smarty);
                 break;
             }
-            default: {
-               $result = 'beforeContent'.$pageId;         
-            }
         }
         
         return $result;
@@ -114,9 +111,6 @@ class OX_oxMarket_UI_EntityScreenManager
             case 'advertiser-index' : {
                 $result = $this->advertiserIndexAfterContent($pageData, $smarty);
                 break;
-            }
-            default: {
-               $result = 'afterContent'.$pageId;         
             }
         }
         

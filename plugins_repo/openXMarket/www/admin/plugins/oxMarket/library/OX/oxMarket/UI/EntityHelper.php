@@ -24,6 +24,7 @@
 +---------------------------------------------------------------------------+
 $Id: Website.php 41993 2009-08-24 15:18:37Z lukasz.wikierski $
 */
+require_once MAX_PATH .'/lib/max/Dal/DataObjects/Campaigns.php';
 
 /**
  * Website DAL Library. 
@@ -56,68 +57,53 @@ class OX_oxMarket_UI_EntityHelper
         
         $aAdvertiser = array();
         if (!is_array($data)) {
-            $doClients = OA_Dal::factoryDO('clients');
-            if ($doClients->get($data)) {
-                $aAdvertiser = $doClients->toArray();
-            }
+            $aAdvertiser = $this->getEntity('clients', $data); //should be an id
         }
         else {
             $aAdvertiser = $data;
         }
         
         return $aAdvertiser['type'] == DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-    }    
-    
-
-    /**
-     * Checks if given campaign is market campaign
-     *
-     * @param array|string|int $id
-     */
-    public function isMarketCampaign($data)
-    {
-        if (!isset($data)) {
-            return false;
-        }
-                
-        if (!is_array($data)) {
-            $aCampaign = array();
-            $doCampaigns = OA_Dal::factoryDO('campaigns');
-            if ($doCampaigns->get($data)) { //should be an id
-                $aCampaign = $doCampaigns->toArray ();
-            }            
-        }
-        else {
-            $aCampaign = $data;
-        }
-        
-        return $aCampaign['system'] == true;
     }
     
     
     /**
-     * Checks if given campaign is market campaign
+     * Checks if given campaign is any of market campaign types
      *
-     * @param array|string|int $id
+     * @param array|string|int $data
+     * @return boolean
      */
-    public function isMarketDefaultCampaign($data)
+    public function isMarketCampaign($data)
     {
-        if (!isset($data)) {
-            return false;
-        }
+        return $this->isMarketContractCampaign($data) 
+            || $this->isMarketCampaignOptInCampaign($data) 
+            || $this->isMarketZoneOptInCampaign($data);    
+    }    
         
-        if (!is_array($data)) {
-            // Get the campaign data from the campaign table, and store in $campaign
-            $doCampaigns = OA_Dal::factoryDO('campaigns');
-            $doCampaigns->get($data); //should be an id
-            $aCampaign = $doCampaigns->toArray ();            
-        }
-        else {
-            $aCampaign = $data;
-        }
-
-        return $aCampaign['system'] == true 
-            && $aCampaign['systemtype'] == self::$MARKET_CAMPAIGN_REMNANT;
+    
+    /**
+     * Checks if given campaign is Market Campaign Opt-in campaign
+     *
+     * @param array|string|int $data
+     * @return boolean
+     */
+    public function isMarketCampaignOptInCampaign($data)
+    {
+        return $this->isMarketCampaignOfType($data, 
+            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN);    
+    }
+    
+    
+    /**
+     * Checks if given campaign is Market Zone Opt-in campaign
+     *
+     * @param array|string|int $data
+     * @return boolean
+     */
+    public function isMarketZoneOptInCampaign($data)
+    {
+        return $this->isMarketCampaignOfType($data, 
+            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN);    
     }
     
     
@@ -128,24 +114,43 @@ class OX_oxMarket_UI_EntityHelper
      */
     public function isMarketContractCampaign($data)
     {
+        return $this->isMarketCampaignOfType($data, 
+            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT);    
+    }    
+    
+    
+    protected function isMarketCampaignOfType($data, $type)
+    {
         if (!isset($data)) {
             return false;
         }
         
+        //prevent mulitple DB calls
+        static $aResults;
+        if (is_array($data)) {
+            $key = $data['campaignid']; 
+        }
+        else {
+            $key = $data;
+        }
+        if (isset($aResults[$key.':'.$type])) {
+            return $aResults[$key.':'.$type];
+        }
+        
+        
         if (!is_array($data)) {
             // Get the campaign data from the campaign table, and store in $campaign
-            $doCampaigns = OA_Dal::factoryDO('campaigns');
-            $doCampaigns->get($data); //should be an id
-            $aCampaign = $doCampaigns->toArray ();            
+            $aCampaign = $this->getEntity('campaigns', $data); //should be an id            
         }
         else {
             $aCampaign = $data;
         }
 
-        return $aCampaign['system'] == true 
-            && $aCampaign['systemtype'] == self::$MARKET_CAMPAIGN_CONTRACT;
-    }    
-    
+        $isMarketType = $aCampaign['type'] == $type;
+        $aResults[$aCampaign['campaignid'].':'.$type] = $isMarketType;
+        
+        return $isMarketType;
+    }
     
     
     /**
@@ -157,17 +162,99 @@ class OX_oxMarket_UI_EntityHelper
     {
         $type = 'Unknown';
         
-        if ($aCampaign['system']) {
-            if ($aCampaign['systemtype'] == self::$MARKET_CAMPAIGN_REMNANT) {
-                $type = 'OpenX Market Remnant';                
-            }
-            else if($aCampaign['systemtype'] == self::$MARKET_CAMPAIGN_CONTRACT) {
-                $type = 'OpenX Market Contract';
-            }
+        if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
+            $type = 'OpenX Market Contract';
         }
-        
         
         return $type;
     }
+    
+    
+    /**
+     * Helper method used as Core Permission hook to prevent access to 
+     * market entities from within core pages like advertiser-edit, campaign-modify.
+     *
+     * @param unknown_type $entityTable
+     * @param unknown_type $entityId
+     * @param unknown_type $operationAccessType
+     * @param unknown_type $accountId
+     * @param unknown_type $accountType
+     * @return unknown
+     */
+    public function hasAccessToObject($entityTable, $entityId, 
+                        $operationAccessType, $accountId, $accountType)
+    {
+        $hasAccess = true;    
+        switch ($entityTable) {
+            case 'clients': {
+                /*
+                 * Ignore non market advertisers.
+                 * Market advertiser cannot be edited, deleted, moved etc.
+                 * Can only be viewed.
+                 */
+                if (!$this->isMarketAdvertiser($entityId)) {
+                    break;
+                }
+                
+                switch ($operationAccessType) {
+                    case OA_Permission::OPERATION_VIEW : {
+                        $hasAccess = true;
+                        break;
+                    }
+                    default: {
+                        $hasAccess = false;     
+                    }
+                }
+                break;
+            }
+            
+            case 'campaigns': {
+                /*
+                 * Ignore non market campaigns. Prevent any operations on campaign
+                 * opt in and zone opt in campaigns.
+                 */ 
+                if (!$this->isMarketCampaign($entityId)) {
+                    break;
+                }
+                
+                if (!$this->isMarketContractCampaign($entityId)) { 
+                    $hasAccess = false;
+                    break;
+                }
+                
+                switch ($operationAccessType) {
+                    case OA_Permission::OPERATION_MOVE : {
+                        $hasAccess = false;
+                        break;
+                    }
+                    
+                    default: {
+                        $hasAccess = true;
+                    }
+                }
+                break;
+            }
+        }
+        
+        /*OA::debug("Access check: ". $entityTable . ":" . $entityId 
+            . "@" .  $operationAccessType . " AC:" . $accountId . "/" 
+            . $accountType.' = '.$hasAccess);*/
+        
+        return $hasAccess;
+    }
+    
+    
+    protected function getEntity($entityTable, $entityId)
+    {
+        $do = OA_Dal::factoryDO($entityTable);
+        $aEntity = null;
+                
+        if ($do->get($entityId)) {
+            $aEntity = $do->toArray();
+        }
+        
+        return $aEntity;
+    }
+    
     
 }

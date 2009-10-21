@@ -127,7 +127,7 @@ elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 
 $aCount = array(
     'advertisers'        => count($clients),
-    'advertisers_hidden' => 0,
+    'advertisers_hidden' => 0
 );
 
 
