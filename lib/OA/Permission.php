@@ -1252,9 +1252,9 @@ class OA_Permission
                 }
             }
         }
-        
-        if ($hasAccess === NULL && 'clients' == $entityTable 
-            || 'campaigns' == $entityTable || 'banners' == $entityTable) {
+        //securing non-system entities if no plugin responsible found 
+        if ($hasAccess === NULL && ('clients' == $entityTable 
+            || 'campaigns' == $entityTable || 'banners' == $entityTable)) {
             $do = OA_Dal::factoryDO($entityTable);
             $aEntity = null;
             if ($do->get($entityId)) {
@@ -1274,6 +1274,7 @@ class OA_Permission
                 
                 case 'banners' : {
                     $hasAccess = $aEntity['ext_bannertype'] != DataObjects_Banners::BANNER_TYPE_MARKET;
+                    break;
                 }
             }
         }

@@ -194,17 +194,19 @@ class OX_oxMarket_UI_EntityHelper
      * Helper method used as Core Permission hook to prevent access to 
      * market entities from within core pages like advertiser-edit, campaign-modify.
      *
-     * @param unknown_type $entityTable
-     * @param unknown_type $entityId
-     * @param unknown_type $operationAccessType
-     * @param unknown_type $accountId
-     * @param unknown_type $accountType
-     * @return unknown
+     * @param string $entityTable
+     * @param int $entityId
+     * @param int $operationAccessType (see OA_Permission)
+     * @param int $accountId
+     * @param string $accountType (see OA_Permission)
+     * 
+     * @return true/false/null true or false when entity is market plugin and 
+     *   can/cannot be accessed, null if plugin is not interested in entity 
      */
     public function hasAccessToObject($entityTable, $entityId, 
                         $operationAccessType, $accountId, $accountType)
     {
-        $hasAccess = true;    
+        $hasAccess = null;    
         switch ($entityTable) {
             case 'clients': {
                 /*
@@ -266,7 +268,7 @@ class OX_oxMarket_UI_EntityHelper
         
         /*OA::debug("Access check: ". $entityTable . ":" . $entityId 
             . "@" .  $operationAccessType . " AC:" . $accountId . "/" 
-            . $accountType.' = '.$hasAccess);*/
+            . $accountType.' = '.($hasAccess === null ? 'null' : $hasAccess));*/
         
         return $hasAccess;
     }
