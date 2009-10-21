@@ -291,7 +291,6 @@ function getAdvertiserMap()
     else {
         $doClients->agencyid = OA_Permission::getEntityId();
     }
-    //$doClients->addSessionListOrderBy('advertiser-index.php');
     $doClients->find();
 
     $aAdvertiserMap = array();

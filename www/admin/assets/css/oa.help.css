@@ -22,6 +22,7 @@
   width: 190px;
   overflow-x: hidden;
   overflow-y: auto;
+  line-height: normal;
 }
 
 .popup-help .close {
