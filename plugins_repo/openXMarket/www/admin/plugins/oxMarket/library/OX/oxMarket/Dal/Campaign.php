@@ -54,12 +54,13 @@ class OX_oxMarket_Dal_Campaign
         
         //before save
         
-            if (empty($aFields['campaignid'])) {
+        if (empty($aFields['campaignid'])) {
             // The form is submitting a new campaign, so, the ID is not set;
             // set the ID to the string "null" so that the table auto_increment
             // or sequence will be used when the campaign is created
             $aFields['campaignid'] = "null";
-        } else {
+        } 
+        else {
             // The form is submitting a campaign modification; need to test
             // if any of the banners in the campaign are linked to an email zone,
             // and if so, if the link(s) would still be valid if the change(s)
@@ -86,7 +87,8 @@ class OX_oxMarket_Dal_Campaign
             $doCampaigns->campaignid = $aFields['campaignid'];
             $doCampaigns->setEcpmEnabled();
             $doCampaigns->update();
-        } else {
+        } 
+        else {
             $doCampaigns->setEcpmEnabled();
             $aFields['campaignid'] = $doCampaigns->insert();
         }
