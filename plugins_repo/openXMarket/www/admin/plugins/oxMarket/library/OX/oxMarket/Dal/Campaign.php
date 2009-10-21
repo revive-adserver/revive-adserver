@@ -26,24 +26,14 @@ $Id: Website.php 41993 2009-08-24 15:18:37Z lukasz.wikierski $
 */
 
 /**
- * Website DAL Library. 
- * Handles PC API calls and operations on DataObjects for various operation on websites 
+ * Campaign DAL Library. 
+ * Handles PC API calls and operations on DataObjects for various operation on campaigns 
  *
  * @package    openXMarket
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_oxMarket_Dal_Campaign
 {
-    /**
-     * @var Plugins_admin_oxMarket_oxMarket
-     */
-    protected $oMarketPlugin;
-    
-    
-    public function __construct(Plugins_admin_oxMarket_oxMarket $oMarketPlugin)
-    {
-        $this->oMarketPlugin = $oMarketPlugin;
-    }
 
     
     public function saveCampaign($aCampaign)
@@ -133,5 +123,53 @@ class OX_oxMarket_Dal_Campaign
         $group = 'campaign_' . $aFields['campaignid'];
         $cache->clean($group);        
         
+    }
+    
+    
+    /**
+     * Add market Campaign
+     *
+     * @param int $clientid
+     * @param int $type
+     * @param string $campaignname
+     * @param string $bannerdesc
+     * @return int campaign id
+     */
+    public function addMarketCampaign($clientid, $type, $campaignname, $bannerdesc = null)
+    {
+        $doCampaign = OA_DAl::factoryDO('campaigns');
+        $doCampaign->clientid = $clientid;
+        $doCampaign->type = $type;
+        $doCampaign->campaignname = $campaignname;
+        $doCampaign->ecpm_enabled = 0;
+        $doCampaign->revenue_type = OX_DATAOBJECT_NULL;
+        $doCampaign->priority = DataObjects_Campaigns::PRIORITY_MARKET_REMNANT;
+        $campaignId = $doCampaign->insert();
+        // add banner
+        $bannerdesc = isset($bannerdesc) ? $bannerdesc : $campaignname;    
+        $this->addMarketBanner($campaignId, $bannerdesc);
+        return $campaignId; 
+    }
+    
+    
+    /**
+     * create market banner
+     *
+     * @param int $campaignid
+     * @param string $description
+     * @return int banner id
+     */
+    protected function addMarketBanner($campaignid, $description)
+    {
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doBanner->campaignid = $campaignid;
+        $doBanner->width = -1;
+        $doBanner->height = -1;
+        $doBanner->contenttype = 'html';
+        $doBanner->storagetype = 'html';
+        $doBanner->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
+        $doBanner->status = OA_ENTITY_STATUS_RUNNING;
+        $doBanner->description = $description;
+        return $doBanner->insert();
     }
 }

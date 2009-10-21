@@ -40,6 +40,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     const PRIORITY_REMNANT = 0;
     const PRIORITY_ECPM = -2;
+    const PRIORITY_MARKET_REMNANT = -3;
 
     /**
      * Defines which campaigns priorities can be used together

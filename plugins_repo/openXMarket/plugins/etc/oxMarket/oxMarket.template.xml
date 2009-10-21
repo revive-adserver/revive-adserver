@@ -64,6 +64,7 @@
             <file path="{ADMINPATH}/library/OX/oxMarket/pcApiClient/">oxPublisherConsoleMarketPluginClient.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">Cache.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Common/">ConnectionUtils.php</file>
+            <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Advertiser.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Campaign.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">CampaignsOptIn.php</file>
             <file path="{ADMINPATH}/library/OX/oxMarket/Dal/">Installer.php</file>
