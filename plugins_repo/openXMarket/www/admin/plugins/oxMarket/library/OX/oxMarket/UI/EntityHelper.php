@@ -119,6 +119,26 @@ class OX_oxMarket_UI_EntityHelper
     }    
     
     
+    /**
+     * Checks if given banner is hidden market banner.
+     *
+     * @param unknown_type $data
+     * @return unknown
+     */
+    public function isMarketBanner($data)
+    {
+        if (!is_array($data)) {
+            // Get the campaign data from the campaign table, and store in $campaign
+            $aBanner = $this->getEntity('banners', $data); //should be an id            
+        }
+        else {
+            $aBanner = $data;
+        }
+        
+        return $aBanner['ext_bannertype'] == DataObjects_Banners::BANNER_TYPE_MARKET;        
+    }
+    
+    
     protected function isMarketCampaignOfType($data, $type)
     {
         if (!isset($data)) {
@@ -234,6 +254,14 @@ class OX_oxMarket_UI_EntityHelper
                 }
                 break;
             }
+            
+            case 'banners' : {
+                if (!$this->isMarketBanner($entityId)) {
+                    break;
+                }
+                $hasAccess = false;
+                break;
+            }            
         }
         
         /*OA::debug("Access check: ". $entityTable . ":" . $entityId 
