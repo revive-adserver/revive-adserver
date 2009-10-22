@@ -4042,10 +4042,15 @@ $aLinkedAds['priority_used'][$adArrayVar][$i] = $total_priority_orig;
 if (!$total_priority_orig) {
 return;
 }
-if ($total_priority_orig > $remaining_priority)
-{
-// in this case, the sum of priorities is greater than the ratio
+// In this case, the sum of priorities is greater than the ratio
 // we have remaining, so just scale to fill the remaining space.
+if ($total_priority_orig > $remaining_priority
+// Ecpm remnant ads should always serve if delivery reaches this point,
+// If some ecpm remnant ads were discarded earlier, we need to scale up the remaining ads
+// to ensure one will serve in all cases (refs OX-5800)
+|| $adArrayVar == 'eAds'
+)
+{
 $scaling_factor = 1 / $total_priority_orig;
 }
 else
