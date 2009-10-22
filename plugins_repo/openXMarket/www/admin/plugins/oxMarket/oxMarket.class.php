@@ -179,6 +179,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
             $this->scheduleRegisterNotification();
         }
+        
+        // Create missing market advertisers for newly added (market registered) managers
+        require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+        $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+        $oAdvertiserDal->createMissingMarketAdvertisers($this->isMultipleAccountsMode()); 
+       
 
         try {
             // Run registerwebsites script as background process

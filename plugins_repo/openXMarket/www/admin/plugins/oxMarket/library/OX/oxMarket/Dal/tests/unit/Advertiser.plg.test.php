@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 class OX_oxMarket_Dal_AdvertiserTest extends UnitTestCase
 {
 
-    function setUp()
+    public function setUp()
     {
         TestEnv::uninstallPluginPackage('openXMarket', false);
         TestEnv::installPluginPackage('openXMarket', false);
@@ -47,13 +47,13 @@ class OX_oxMarket_Dal_AdvertiserTest extends UnitTestCase
         }
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
         TestEnv::uninstallPluginPackage('openXMarket', false);
     }
     
-    function testCreateMarketAdvertiser(){
+    public function testCreateMarketAdvertiser(){
         $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
         $agencyid = 23;
         // create market advertiser
@@ -147,7 +147,7 @@ class OX_oxMarket_Dal_AdvertiserTest extends UnitTestCase
     }
     
     
-    function testGetMarketAdvertiser(){
+    public function testGetMarketAdvertiser(){
         $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
         $agencyid = 23;
         
@@ -170,6 +170,120 @@ class OX_oxMarket_Dal_AdvertiserTest extends UnitTestCase
         $doClients =  $oAdvertiserDal->getMarketAdvertiser($agencyid);
         $this->assertEqual($doClients->clientid, $clientId);
         
+    }
+    
+    public function testCreateMissingMarketAdvertisers()
+    {
+        $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+        // Test method when no account is associated
+        $oAdvertiserDal->createMissingMarketAdvertisers(true);
+        $oAdvertiserDal->createMissingMarketAdvertisers(false);
+        
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),0);
+        
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->insert();
+        
+        $oAdvertiserDal->createMissingMarketAdvertisers(false);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),0);
+        
+        // Create new managers
+        $doAgency = OA_Dal::factoryDO('agency');
+        $aAgencyId[1] = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::factoryDO('agency');
+        $aAgencyId[2] = DataGenerator::generateOne($doAgency);
+     
+        $oAdvertiserDal->createMissingMarketAdvertisers(false);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),2);
+        
+        // run again (should not add new advertisers)
+        $oAdvertiserDal->createMissingMarketAdvertisers(false);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),2);
+      
+        // add new manager
+        $doAgency = OA_Dal::factoryDO('agency');
+        $aAgencyId[3] = DataGenerator::generateOne($doAgency);
+
+        // run again (should add 1 new advertisers)
+        $oAdvertiserDal->createMissingMarketAdvertisers(false);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),3);
+
+        // Clear market advertisers
+        $doAdvertiserAccount = OA_Dal::factoryDO('accounts');
+        $doAdvertiserAccount->account_type = OA_ACCOUNT_ADVERTISER;
+        $doAdvertiserAccount->delete();
+
+        // clear admin account association
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->delete();
+      
+        // Test multiple account mode
+        $oAdvertiserDal->createMissingMarketAdvertisers(true);
+        // Count market advertisers
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),0);
+        
+        // get accounts ids for agencies
+        foreach ($aAgencyId as $i => $agencyid) {
+            $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
+            $aAgencyAccountId[$i] = $doAgency->account_id;
+        }
+        // register 2 advertisers
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $aAgencyAccountId[1];
+        $doExtMarket->insert();
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $aAgencyAccountId[2];
+        $doExtMarket->insert();
+
+        $oAdvertiserDal->createMissingMarketAdvertisers(true);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),2);
+
+        // add another one
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $aAgencyAccountId[3];
+        $doExtMarket->insert();
+        
+        $oAdvertiserDal->createMissingMarketAdvertisers(true);
+        // Count market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),3);
+
+        // Clean up
+        // clear market association
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->whereAdd('1=1');
+        $doExtMarket->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // Clear market advertisers
+        $doAdvertiserAccount = OA_Dal::factoryDO('accounts');
+        $doAdvertiserAccount->account_type = OA_ACCOUNT_ADVERTISER;
+        $doAdvertiserAccount->delete();
     }
     
 }

@@ -89,7 +89,7 @@ class OX_oxMarket_Dal_Advertiser
     public function getMarketAdvertiser($agencyId)
     {
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doAdvertiser->agencyid = $agencyid;
+        $doAdvertiser->agencyid = $agencyId;
         $doAdvertiser->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $doAdvertiser->find();
         if ($doAdvertiser->fetch()) {
@@ -98,4 +98,36 @@ class OX_oxMarket_Dal_Advertiser
         return null;
     }
 
+
+    /**
+     * Create missing market advertisers for newly added managers
+     */
+    public function createMissingMarketAdvertisers($multipleAccountMode)
+    {       
+        if (!$multipleAccountMode) {
+            // Is market registered
+            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+            $doMarketAssocData->account_id = DataObjects_Accounts::getAdminAccountId();
+            $doMarketAssocData->find();
+            if ($doMarketAssocData->fetch()) {
+                $doAgency = OA_Dal::factoryDO('agency');
+                $aManagers = $doAgency->getAll('agencyid');
+            } else {
+                $aManagers = array();
+            }
+        } else {
+            $doAgency = OA_Dal::factoryDO('agency');
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+            $doAccounts->joinAdd($doMarketAssocData);
+            $doAgency->joinAdd($doAccounts);
+            $aManagers = $doAgency->getAll('agencyid');
+        }
+        
+        foreach ($aManagers as $agencyid) {
+            // this method checks if given manager already have market advertiser
+            $this->createMarketAdvertiser($agencyid);
+        }
+    }
+    
 }
