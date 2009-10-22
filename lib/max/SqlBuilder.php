@@ -681,7 +681,7 @@ class SqlBuilder
             }
             
 			
-            $do = DB_DataObject::factory('Clients');
+            $do = OA_Dal::factoryDO('Clients');
             // Core stats exclude all Market advertiser activity
 			// Market stats only include the Market advertiser activity 
 			if(!empty($aParams['market_stats'])) {
