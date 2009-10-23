@@ -1622,6 +1622,10 @@ $GLOBALS['keyPrevious']        = "p";
 $GLOBALS['keyLinkUser']        = "u";
 $GLOBALS['keyWorkingAs']        = "w";
 
+// Market entities
+$GLOBALS['strMarketCampaignOptin'] = "OpenX Market ads served to opted in campaigns";
+$GLOBALS['strMarketZoneOptin'] = "OpenX Market ads served to zones by default";
+$GLOBALS['strMarketZoneBeforeOpenX2.8.3'] = "OpenX Market ads before OpenX 2.8.3";
 
 /*-------------------------------------------------------*/
 /* Languages Names                                       */

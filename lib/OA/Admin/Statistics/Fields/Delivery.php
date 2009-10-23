@@ -379,6 +379,10 @@ class OA_StatisticsFieldsDelivery
     function mergeAds($ads)
     {
     }
+    
+    function mergeZones($zones)
+    {
+    }
 
     /**
      * Add the fields which require calculations

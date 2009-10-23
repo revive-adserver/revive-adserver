@@ -198,7 +198,11 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function entityLink($key, $type = null)
     {
-        return empty($this->entityLinks[$key]) || $type == DataObjects_Banners::BANNER_TYPE_MARKET ?  false : $this->entityLinks[$key];
+        return empty($this->entityLinks[$key]) 
+            || $type == DataObjects_Banners::BANNER_TYPE_MARKET 
+            || $type == MAX_ZoneMarketMigrated
+                ?  false 
+                : $this->entityLinks[$key];
     }
 
     /**
@@ -284,7 +288,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $oPlugin->mergeAds(&$this->childrendata['ad_id']);
                 }
             }
-//        var_dump($this->childrendata['ad_id']);exit;
             if (array_search('placement_id', $aggregates) !== false) {
                 $this->childrendata['placement_id'] = Admin_DA::fromCache('getPlacementsChildren', $aParams);
 
@@ -306,6 +309,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             }
             if (array_search('zone_id', $aggregates) !== false) {
                 $this->childrendata['zone_id'] = Admin_DA::fromCache('getZones', $aParams);
+                // Plugins can set their own zones in the array
+                foreach ($this->aPlugins as $oPlugin) {
+                    $oPlugin->mergeZones(&$this->childrendata['zone_id']);
+                }
             }
             if (array_search('publisher_id', $aggregates) !== false) {
                 $this->childrendata['publisher_id'] = Admin_DA::fromCache('getPublishersChildren', $aParams);
@@ -411,7 +418,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
                 $advertiser['conversionslink'] = "stats.php?entity=conversions&clientid={$advertiserId}";
                 $advertiser['expanded'] = MAX_isExpanded($advertiserId, $expand, $this->aNodes, $advertiser['prefix']);
-                $advertiser['icon'] = MAX_getEntityIcon('advertiser', $advertiser['active']);
+                $advertiser['icon'] = MAX_getEntityIcon('advertiser', $advertiser['active'], $advertiser['type']);
 
                 if ($advertiser['expanded'] || $this->startLevel > $level) {
                     $aParams2 = $aParams + array('advertiser_id' => $advertiserId);
@@ -448,7 +455,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             ($this->listOrderField == 'id' ? 'placement_id' : $this->listOrderField),
             $this->listOrderDirection == 'up'
         );
-
+         
         $aEntitiesData = array();
         foreach ($aPlacements as $campaignId => $campaign) {
             $campaign['active'] = $this->_hasActiveStats($campaign);
@@ -470,15 +477,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     }
                 }
 
-                // mask anonymous campaigns
-                // a) mask campaign name
-                $campaign['name'] = MAX_getPlacementName($campaign);
-                // b) mask ad names
-                if(isset($campaign['children'])) {
-	                foreach ($campaign['children'] as $ad_id => $ad) {
-	                    $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
-	                }
-                }
                 $campaign['prefix'] = 'c';
                 $campaign['id'] = $campaignId;
                 $campaign['linkparams'] = "clientid={$campaign['advertiser_id']}&campaignid={$campaignId}&";
@@ -494,8 +492,34 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaign['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
-                $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active']);
+                $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
+                
+                $htmlToAppend = '';
+                if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
+                    //TODO MARKET 
+                    $htmlToAppend = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                } else if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
+                    //TODO MARKET 
+                    $htmlToAppend = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                } 
+                $campaign['html-append'] = $htmlToAppend;
+                
+            
+                // mask anonymous campaigns
+                // a) mask campaign name
+                $campaign['name'] = MAX_getPlacementName($campaign);
+                if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
+                    $campaign['name'] = $GLOBALS['strMarketCampaignOptin'];
+                } else if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
+                    $campaign['name'] = $GLOBALS['strMarketZoneOptin'];
+                } 
 
+                // b) mask ad names
+                if(isset($campaign['children'])) {
+	                foreach ($campaign['children'] as $ad_id => $ad) {
+	                    $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+	                }
+                }
                 if ($campaign['expanded'] || $this->startLevel > $level) {
                     $aParams2 = $aParams + array('placement_id' => $campaignId);
                     $campaign['subentities'] = $this->getBanners($aParams2, $level + 1, $expand);
@@ -542,7 +566,17 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 // mask banner name if anonymous campaign
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
+                
                 $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
+                if($banner['type'] == DataObjects_Banners::BANNER_TYPE_MARKET) {
+                    // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
+                    // across this manager
+                    $startRealBannerName = 1 + strpos($banner['name'], '-');
+                    if($startRealBannerName !== false) {
+                        $banner['name'] = substr($banner['name'], $startRealBannerName);
+                    }
+                }
+                
                 $banner['prefix'] = 'b';
                 $banner['id'] = $bannerId;
                 $banner['linkparams'] = "clientid={$banner['advertiser_id']}&campaignid={$banner['placement_id']}&bannerid={$bannerId}&";
@@ -675,7 +709,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $zone['expanded'] = MAX_isExpanded($zoneId, $expand, $this->aNodes, $zone['prefix']);;
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
-
+                
+                if($zone['type'] == MAX_ZoneMarketMigrated) {
+                    //TODO MARKET 
+                    $zone['html-append'] = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                    $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.3'];
+                } 
+                
                 $aEntitiesData[] = $zone;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;

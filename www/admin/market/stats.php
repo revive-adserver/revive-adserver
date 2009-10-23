@@ -1,7 +1,6 @@
 <?php
 
 $GENERATE_MARKET_STATS = false;
-$TEMP_DEBUG = false;
 
 if($GENERATE_MARKET_STATS) {
     $marketGenerator = new OX_oxMarket_Stats_DataGenerator();
@@ -12,10 +11,17 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
 {
     const MARKET_STATS_TABLE = 'ext_market_stats';
 
+    private $marketRowsOnlyZoneZero = array();
+    private $marketRows = array();
+    
     function __construct()
     {
         $this->_aFields = array();
         $this->displayOrder = -10;
+        
+        // loading the DO classes necessary to access DataObjects_*
+        $do = DB_DataObject::factory('Banners');
+        $do = DB_DataObject::factory('Zones');
     }
 
     function summarizeStats(&$row)
@@ -27,9 +33,24 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         return 'where is this used?';
     }
     
+    function mergeZones($zones)
+    {
+        if(empty($this->marketRowsOnlyZoneZero)) {
+            return;
+        }
+        
+        foreach($this->marketRowsOnlyZoneZero as $zoneKey => $zoneInfo) {
+            $zone = array(
+                'zone_id' => $zoneKey,
+                'publisher_id' => $zoneInfo['publisher_id'],
+                'name' => '', // will be set in lib/OA/Admin/Statistics/Delivery/CommonEntity.php getZones()
+                'type' => MAX_ZoneMarketMigrated,
+            );
+            $zones[$zoneKey] = $zone;
+        }
+    }
     function mergeAds($ads)
     {
-        $do = DB_DataObject::factory('Banners');
         $bannerType = DataObjects_Banners::BANNER_TYPE_MARKET;
         // remove market banners from the  list - market banners are simple proxies
         // that are never displayed on screen
@@ -58,28 +79,52 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     {
         $aParams['market_stats'] = true;
         $aParams['custom_table'] = OX_oxMarket_Stats::MARKET_STATS_TABLE;
-        $aParams['custom_columns'] = array(
-        				"CONCAT(market_advertiser_id, ' ',ad_width, 'x',ad_height)" => 'ad_id', 
-            			's.zone_id' => 'zone_id', 
+        $standardCustomColumns = array(
             			'SUM(s.impressions)' => 'sum_views', 
             			'SUM(s.clicks)' => 'sum_clicks',  
             			'SUM(s.revenue)' => 'sum_revenue'
         );
-        $this->marketRows = Admin_DA::fromCache($method, $aParams);
 
-        if($TEMP_DEBUG) {
-            var_dump($method);
-            var_dump($aParams);
-            echo "Core stats rows:";
-            var_dump($aRows);
-            echo "Returned market stats rows:";
-            var_dump($this->marketRows);
+        $aParams['custom_columns'] = $standardCustomColumns;
+        $aParams['custom_columns']["CONCAT(m.campaignid, '-', market_advertiser_id, ' ',ad_width, 'x',ad_height)"] = 'ad_id';
+        $this->marketRows = Admin_DA::fromCache($method, $aParams);
+        
+//var_dump($aParams);
+        $includeZoneZeroStats = false;
+        // for screens displaying websites/zone details, we will fetch the stats records for zone_id = 0
+        if(isset($aParams['exclude'])) {
+            $includeZoneZeroStats = (false === array_search('zone_id', $aParams['exclude']));
+        }    
+        if($includeZoneZeroStats) {
+            // because the query above joined the zones/publishers tables, they did not include the records
+            // for zone_id = 0 which is a contained for all market stats pre-2.8.3, where we did not know 
+            // what zones served Market ads. We will now select all stats for ads that served in zone_id = 0
+            // we will later merge them back in the stats array
+            $aParams['zone_id'] = 0;
+            $aParams['custom_columns'] = $standardCustomColumns;
+            $aParams['market_stats_including_zone_zero'] = true;
+    
+            $this->marketRowsOnlyZoneZero = Admin_DA::fromCache($method, $aParams);
+            foreach($this->marketRowsOnlyZoneZero as &$row) {
+                $row['zone_id'] = $row['publisher_id'].'-'.$row['zone_id'];
+            }
+            if(is_array($this->marketRowsOnlyZoneZero)) {
+                $this->marketRows += $this->marketRowsOnlyZoneZero;
+            }
         }    
             
+        if($TEMP_DEBUG = !true) {
+//            var_dump($this->marketRowsOnlyZoneZero);
+            var_dump($method);
+            var_dump($aParams);
+//            echo "Core stats rows:";
+//            var_dump($aRows);
+//            echo "Returned market stats rows:";            
+//            var_dump($this->marketRows);
+        }
+        
         $columnsToSum = array('sum_views', 'sum_clicks', 'sum_revenue');
         foreach($this->marketRows as $key => $marketValues) {
-            $adId = $marketValues['ad_id'];
-            
             // this is the core stats row for this entity (campaign, zone, website, etc.)
             $coreValues =& $aRows[$key];
             if(!empty($coreValues)) {
@@ -96,7 +141,6 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         }
     }
     
-    
     static function getTableName()
     {
 		$prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -108,7 +152,7 @@ class OX_oxMarket_Stats_DataGenerator
 {
     function main()
     {
-        $bannerIds = range($minBannerId = 50, $maxBannerId = 51, $step = 1);
+        $bannerIds = range($minBannerId = 50, $maxBannerId = 53, $step = 1);
         $websiteIds = range($minWebsiteId = 1, $maxWebsiteId = 2, $step = 1);
         $zoneIds = range($minZoneId = 1, $maxZoneId = 15, $step = 1);
         // insert a record for the catch-all zone after migration from previous market stats

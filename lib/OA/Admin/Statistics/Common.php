@@ -260,8 +260,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $aStatsData;
 
     /**
-     * A variable naming the output type. One of "deliveryHistory",
-     * "deliveryEntity" or "targetingHistory".
+     * A variable naming the output type. 
+     * One of "deliveryHistory", or "deliveryEntity"
      *
      * @var string
      */
@@ -502,16 +502,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $this->flattenEntities();
             $this->_output();
 
-        } else if (($this->outputType == 'deliveryHistory') || ($this->outputType == 'targetingHistory')) {
+        } else if ($this->outputType == 'deliveryHistory') {
 
             $aDisplayData =& $this->aStatsData;
             if ($this->outputType == 'deliveryHistory') {
                 $weekTemplate = 'breakdown_by_week.html';
                 $dateTemplate = 'breakdown_by_date.html';
-            } else if ($this->outputType == 'targetingHistory') {
-                $weekTemplate = 't_breakdown_by_week.html';
-                $dateTemplate = 't_breakdown_by_date.html';
-            }
+            } 
 
             // Add the day as a breadcrumb trail if looking at a day breakdown
             if (preg_match('/daily$/', $this->breakdown)) {
@@ -538,32 +535,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                             $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
                         }
                         $aDisplayData[$k]['htmlclass'] = $aTmpHtmlclass;
-                        if ($this->outputType == 'targetingHistory') {
-                            $htmlclass = $aDisplayData[$k]['htmlcolclass'];
-                            $aTmpHtmlclass  = array();
-                            foreach ($aRows as $r => $v) {
-                                $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
-                            }
-                            $aDisplayData[$k]['htmlcolclass'] = $aTmpHtmlclass;
-                            foreach (array_keys($aDisplayData[$k]['data']) as $l) {
-                                $htmlclass = $aDisplayData[$k]['data'][$l]['htmlcolclass'];
-                                $aTmpHtmlclass  = array();
-                                foreach ($aRows as $r => $v) {
-                                    $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
-                                }
-                                $aDisplayData[$k]['data'][$l]['htmlclass'] = $aTmpHtmlclass;
-                            }
-                            $htmlclass = $aDisplayData[$k]['avg']['htmlclass'];
-                            if (empty($htmlclass)) {
-                                $aTmpHtmlclass = $aDisplayData[$k]['htmlclass'];
-                            } else {
-                                $aTmpHtmlclass  = array();
-                                foreach ($aRows as $r => $v) {
-                                    $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
-                                }
-                            }
-                            $aDisplayData[$k]['avg']['htmlclass'] = $aTmpHtmlclass;
-                        }
                     }
                 }
             } else {

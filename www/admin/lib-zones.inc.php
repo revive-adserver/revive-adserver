@@ -41,6 +41,7 @@ define ("phpAds_ZonePopup", 2);
 define ("phpAds_ZoneText", 3);
 define ("MAX_ZoneEmail", 4);
 define ("MAX_ZoneClick", 5);
+define ("MAX_ZoneMarketMigrated", 'market-zone-migrated');
 define ("OX_ZoneVideoInstream", 6);
 define ("OX_ZoneVideoOverlay", 7);
 

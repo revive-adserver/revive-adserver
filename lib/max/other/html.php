@@ -51,8 +51,40 @@ function MAX_getEntityIcon($entity, $active=true, $type='')
 
     $icon = '';
     switch ($entity) {
-        case 'advertiser' : $icon = $active ? 'images/icon-advertiser.gif' : 'images/icon-advertiser-d.gif'; break;
-        case 'placement'  : $icon = $active ? 'images/icon-campaign.gif' : 'images/icon-campaign-d.gif'; break;
+        case 'advertiser' : 
+            $do = OA_Dal::factoryDO('Clients');
+            switch($type) {
+                case DataObjects_Clients::ADVERTISER_TYPE_MARKET:
+                    $icon = 'images/icon-advertiser-openx.png';
+                break;
+                default: 
+                    if($active) {
+                        $icon = 'images/icon-advertiser.gif';
+                    } else {
+                        $icon = 'images/icon-advertiser-d.gif';
+                    }
+                break;
+            }
+            break;
+                
+        case 'placement'  :
+            $do = OA_Dal::factoryDO('Campaigns');
+            switch($type) {
+                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN:
+                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT:
+                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN:
+                    $icon = 'images/icon-campaigns-openx.png';
+                break;
+                
+                default:
+                    if($active) {
+                        $icon = 'images/icon-campaign.gif';
+                    } else {
+                        $icon = 'images/icon-campaign-d.gif'; 
+                    }
+                break;
+                }
+            break;
         case 'publisher'  : $icon = 'images/icon-affiliate.gif'; break;
         case 'ad' :
             switch ($type) {
@@ -65,6 +97,7 @@ function MAX_getEntityIcon($entity, $active=true, $type='')
             break;
         case 'zone'       :
             switch ($type) {
+                case MAX_ZoneMarketMigrated  : $icon = 'images/icon-advertiser-openx.png'; break;
                 case phpAds_ZoneBanner       : $icon = 'images/icon-zone.gif'; break;
                 case phpAds_ZoneInterstitial : $icon = 'images/icon-interstitial.gif'; break;
                 case phpAds_ZonePopup        : $icon = 'images/icon-popup.gif'; break;

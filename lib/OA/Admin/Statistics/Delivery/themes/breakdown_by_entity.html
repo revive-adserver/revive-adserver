@@ -51,6 +51,7 @@
                     {if:entityLink(e[prefix],e[type])}<a href="{entityLink(e[prefix])}&{e[linkparams]}">{else:}<span>{end:}
                     {if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}
                     {if:entityLink(e[prefix],e[type])}</a>{else:}</span>{end:}
+                    {e[html-append]:h}
                 </td>
                 {foreach:aColumns,ck,cv}
                 <td class="aright {e[htmlclass]}" flexy:if="showColumn(ck)">
