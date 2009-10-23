@@ -2078,12 +2078,10 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 // Prepare the raw database IP address, depending on if OpenX is running
 // with multiple delivery servers, or just a single server
 $aConf = $GLOBALS['_MAX']['CONF'];
-if (empty($aConf['rawDatabase']['host'])) {
 if (!empty($aConf['lb']['enabled'])) {
 $aConf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
 } else {
 $aConf['rawDatabase']['host'] = 'singleDB';
-}
 }
 if (isset($aConf['rawDatabase']['serverRawIp'])) {
 $serverRawIp = $aConf['rawDatabase']['serverRawIp'];
