@@ -7,33 +7,27 @@
 ]>
 
 <project name="OpenX Level7 - Marketplace plugin test" basedir="." default="main">
-	<target name="main">
-		<webtest name="OpenX Level7 - Marketplace plugin test if requested">
+<!--	<target name="main" if="plugin.marketplace.enabled"> -->
+	<target name="main">		
+		<webtest name="OpenX Level7 - Marketplace plugin test">
 			&config;
-			<steps>				
-				<ifStep description="production tests">
-			        <condition>
-			        	<verifyProperty description="Check if marketplace plugin should be enabled" name="plugin.marketplace.enabled" propertyType="ant" text="true" />
-		        	</condition>
-        	        <then>        	        	
-						&login;
-        	        	<!-- &common_verification; -->
-						<clickLink label="Administrator account"/>
-        	        	<clickLink label="My Account"/>
-        	        	<clickLink label="OpenX Market"/>
-						<not>
-							<verifyText text="Not Found" />
-							<verifyText text="was not found on this server" />
-						</not>
-        	        	<clickButton description="Click 'Get started' button"/>        
-        	        	<clickLink label="Opt in your existing campaigns to OpenX Market »" description="Click 'opt in' link"/>
-        	        	<verifyXPath xpath="//ul[1]/li/button[1]" description="Checks for the existence of 1st Opt in button"/>
-        	        	<verifyXPath xpath="//ul[2]/li/button[1]" description="Checks for the existence of 2nd Opt in button"/>
-        	        	<verifyXPath xpath="//ul[1]/li/button[2]" description="Checks for the existence of 1st Opt out button"/>        	        	
-        	        	<verifyXPath xpath="//ul[2]/li/button[2]" description="Checks for the existence of 2nd Opt out button"/>       	        	  
-        	        	<clickLink label="OpenX Market Quickstart"/>
-           	        </then>
-			    </ifStep>		
+			<steps>				       	        	
+				&login;
+	        	<!-- &common_verification; -->
+				<clickLink label="Administrator account"/>
+	        	<clickLink label="My Account"/>
+	        	<clickLink label="OpenX Market"/>
+				<not>
+					<verifyText text="Not Found" />
+					<verifyText text="was not found on this server" />
+				</not>
+	        	<clickButton description="Click 'Get started' button"/>        
+	        	<clickLink label="Opt in your existing campaigns to OpenX Market »" description="Click 'opt in' link"/>
+	        	<verifyXPath xpath="//ul[1]/li/button[1]" description="Checks for the existence of 1st Opt in button"/>
+	        	<verifyXPath xpath="//ul[2]/li/button[1]" description="Checks for the existence of 2nd Opt in button"/>
+	        	<verifyXPath xpath="//ul[1]/li/button[2]" description="Checks for the existence of 1st Opt out button"/>        	        	
+	        	<verifyXPath xpath="//ul[2]/li/button[2]" description="Checks for the existence of 2nd Opt out button"/>       	        	  
+	        	<clickLink label="OpenX Market Quickstart"/>	
 			</steps>
 		</webtest>
 	</target>

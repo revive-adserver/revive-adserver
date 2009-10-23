@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+  <!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX Level7 - Video plugin test" basedir="." default="main">
+	<target name="main">
+		<webtest name="OpenX Level7 - Video plugin: banner test">
+			&config;
+			<steps>	   	        
+				&login;
+				<clickLink label="Default manager"/>
+				<clickLink label="Inventory"/>
+				<clickLink label="Campaigns"/>
+				<clickLink label="Add new campaign"/>
+				
+				<storeProperty description="setting campaign name as dynamic property" name="campaignName" value="Advertiser 1 - Campaign Video" />
+				<setRadioButton description="Set campaign type: Remnant" htmlId="priority-l"/>
+				<setInputField name="campaignname" value="#{campaignName}"/>
+				<clickButton label="Save Changes"/>
+				<not>
+					<verifyText text="Form contains errors, please correct the marked fields below"/>
+				</not>
+				<clickLink label="Campaigns"/>
+				<clickLink xpath="//a[contains(string(.), &quot;#{campaignName}&quot;)]/../..//a[contains(string(.), 'Add new banner')]" />
+
+				<setSelectField description="choose the type of the banner -> OpenX Inline Video Ad (pre/mid/post-roll)"
+				    name="type"
+					value="bannerTypeHtml:vastInlineBannerTypeHtml:vastInlineHtml" />
+				<setInputField name="description" value="Inline Video Ad 1"/>
+<!--				<setRadioButton description="Set Video delivery method to RTMP" name="vast_video_delivery" value="1"/> -->
+				<setRadioButton description="Set Video delivery method to RTMP" htmlId="video-url-format-streaming"/>
+				<setInputField name="vast_net_connection_url" value="rtmp://cp81850.edgefcs.net/ondemand/"/>
+				<setInputField name="vast_video_filename" value="openx-ad"/>
+				<setInputField name="vast_video_duration" value="8"/>				
+				<setSelectField description="choose the type of the banner -> OpenX Inline Video Ad (pre/mid/post-roll)"
+				    name="vast_video_type"
+					value="video/x-flv" />
+				<setInputField name="vast_video_clickthrough_url" value="http://www.openx.org"/>
+				<clickButton label="Save changes"/>
+<!--					
+				<not>
+					<verifyText text=".*error.*" regex="true"/>
+				</not>
+-->				
+			</steps>
+		</webtest>
+	</target>
+</project>

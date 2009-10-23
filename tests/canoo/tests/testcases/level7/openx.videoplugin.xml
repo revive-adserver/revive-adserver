@@ -1,58 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE project [
-  <!ENTITY config  SYSTEM "../modules/config_openx.xml">
-  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+<!DOCTYPE project SYSTEM "../../../dtd/WebTest.dtd"[
+
 ]>
 
-<project name="OpenX Level7 - Video plugin test" basedir="." default="main">
-	<target name="main">
-		<webtest name="OpenX Level7 - Video plugin test if requested">
-			&config;
-			<steps>				
-				<ifStep description="production tests">
-			        <condition>
-			        	<verifyProperty description="Check if video plugin should be enabled" name="plugin.video.enabled" propertyType="ant" text="true" />
-		        	</condition>
-        	        <then>        	        	
-						&login;
-        	        	<macrodef name="checkIfNoErrorOccurred">
-        	        		<sequential>
-	        	        	<not>
-								<verifyText text="Not Found" />
-								<verifyText text="was not found on this server" />
-							</not>
-       	        			</sequential>
-        	        	</macrodef>
-        	        	
-        	        	<macrodef name="checkVideoPlayerInfo">
-        	        		<sequential>
-                	        	<clickLink label="Inventory"/>
-                	        	<clickLink label="Video Ads - Player Info"/>
-                	        	<checkIfNoErrorOccurred />
-                	        	<verifyXPath xpath="//span[@class=&quot;label&quot;]/text()" text="Video Ads - Player Info" />
-       	        			</sequential>
-        	        	</macrodef>
-        	        	
-						<clickLink label="Administrator account"/>
-        	        	<clickLink label="Plugins"/>
-        	        	<verifyText text="openXVideoAds"/>
-						<checkIfNoErrorOccurred />
-        	        	<clickLink label="Enable" href="package=openXVideoAds" />
-        	        	<checkIfNoErrorOccurred />
-        	        	<clickLink label="Details" href="package=openXVideoAds" />
-        	        	<verifyText text="openXVideoAds"/>
-        	        	<checkIfNoErrorOccurred />
-        	        	<checkVideoPlayerInfo />  	        	        	        	
-        	        	<clickLink label="Default manager"/>
-        	        	<checkVideoPlayerInfo />
-<!--         	        	
-        	        	<sleep seconds="5" />
-        	        	<verifyXPath xpath="id('player_table_body')/div[1]/div/h2/text()" text="Download the appropriate plugin for your video player" />
--->
-           	        </then>
-			    </ifStep>
-			</steps>
-		</webtest>
-	</target>
+<project name="OpenX" basedir="." default="main">
+	<target name="main" if="plugin.video.enabled">
+		<subant inheritall="true">
+        	<filelist dir="${testcase.dir}/level7/videoplugin/">
+				<file name="openx.videoplugin.verifyinstallation.xml" />
+        		<file name="openx.videoplugin.add.banner.inline.rtmp.xml" />
+			</filelist>
+		</subant>
+	</target>	
 </project>
