@@ -241,6 +241,7 @@ class Admin_DA
         case 'advertiser' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['campaigns']] = 'm';
             $aGroupBy = $aColumns;
             $aColumns['COUNT(m.campaignid)'] = 'num_children';
+            $aGroupBy['a.type'] = 'a.type'; // Hack to allow this to work with Postgres
             break;
 
         case 'placement' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
