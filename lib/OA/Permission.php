@@ -1253,8 +1253,9 @@ class OA_Permission
             }
         }
         //securing non-system entities if no plugin responsible found 
-        if ($hasAccess === NULL && ('clients' == $entityTable 
-            || 'campaigns' == $entityTable || 'banners' == $entityTable)) {
+        if ($hasAccess === NULL && !empty($entityId) 
+            && ('clients' == $entityTable || 'campaigns' == $entityTable 
+                || 'banners' == $entityTable)) {
             $do = OA_Dal::factoryDO($entityTable);
             $aEntity = null;
             if ($do->get($entityId)) {
