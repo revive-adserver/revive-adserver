@@ -206,6 +206,10 @@ class OX_oxMarket_UI_EntityHelper
     public function hasAccessToObject($entityTable, $entityId, 
                         $operationAccessType, $accountId, $accountType)
     {
+        if (empty($entityId)) {
+             return NULL;
+        }
+        
         $hasAccess = null;    
         switch ($entityTable) {
             case 'clients': {
