@@ -303,6 +303,19 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      */
     protected function getActiveAccounts()
     {
+        /**
+         * TODO: orginal query based on data_summary_ad_hourly is very slow
+         * should be refactored to use last login date - something like that:
+         * 
+         *  select max(`date_last_login`) from ox_users u 
+         *  inner join ox_account_user_assoc aua on aua.user_id = u.user_id
+         *  inner join ox_accounts ac on aua.account_id = ac.account_id
+         *  where ac.account_type = 'MANAGER'
+         *  group by ac.account_id
+         *
+         * Or use active column in agency (how and when is it set/unset?)
+         */
+        
         if (!isset($this->aActiveAccounts)) {
             $oSumAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
             $oBanners = OA_Dal::factoryDO('banners');

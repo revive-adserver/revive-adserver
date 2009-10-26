@@ -298,6 +298,15 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $doExtMarket->api_key = $api_key;
             $doExtMarket->status = self::LINK_IS_VALID_STATUS;
             $doExtMarket->insert();
+            
+            // Create market advertiser(s)
+            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+            $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+            if ($this->multipleAccountsMode) {
+                $oAdvertiserDal->createMissingMarketAdvertisers();
+            } else {
+                $oAdvertiserDal->createMarketAdvertiserByManagerAccountId($account_id);
+            }
         }
         
         $this->pc_api_client->setPublisherAccountId($publisher_account_id);
@@ -371,6 +380,11 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $doMarketAssoc->api_key = $response['apiKey'];
         $doMarketAssoc->status = self::LINK_IS_VALID_STATUS;
         $doMarketAssoc->insert();
+        
+        // Create market advertiser
+        require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+        $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+        $oAdvertiserDal->createMarketAdvertiserByManagerAccountId($manager_account_id);
          
         $this->pc_api_client->setPublisherAccountId($response['accountUuid']);
         $this->pc_api_client->setApiKey($response['apiKey']);

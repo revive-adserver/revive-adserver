@@ -130,4 +130,17 @@ class OX_oxMarket_Dal_Advertiser
         }
     }
     
+    /**
+     * Creates market advertiser account with market campaigns and banners
+     *
+     * @param int $account_id Manager account id
+     * @return int clientid (advertiser) 
+     */
+    public function createMarketAdvertiserByManagerAccountId($account_id)
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->get('account_id', $account_id);
+        return $this->createMarketAdvertiser($doAgency->agencyid);        
+    }
+    
 }

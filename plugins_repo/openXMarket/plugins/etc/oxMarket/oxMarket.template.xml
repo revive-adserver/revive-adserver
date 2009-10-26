@@ -127,6 +127,7 @@
                 <hook>afterLogin</hook>
                 <hook>registerUiListeners</hook>
                 <hook>objectAccess</hook>
+                <hook>afterAgencyCreate</hook>
            </component>
         </components>
             <!-- Spacer for the 4096 byte boundary -->

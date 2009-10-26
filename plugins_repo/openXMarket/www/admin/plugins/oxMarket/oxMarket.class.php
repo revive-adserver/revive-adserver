@@ -958,6 +958,23 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
         return OX_oxMarket_Dal_Installer::isRegistrationRequired();
     }
+    
+    
+    /**
+     * Hook afterAgencyCreate
+     *
+     * @param int $agencyid
+     */
+    public function afterAgencyCreate($agencyid)
+    {
+        // Create market advertisers if this is not multiple accounts mode
+        // and market plugin is already registered
+        if (!$this->isMultipleAccountsMode() && $this->isRegistered()) {
+            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+            $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+            $oAdvertiserDal->createMarketAdvertiser($agencyid);
+        }
+    }
 }
 
 ?>

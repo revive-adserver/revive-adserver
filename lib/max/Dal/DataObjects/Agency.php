@@ -103,6 +103,14 @@ class DataObjects_Agency extends DB_DataObjectCommon
             $this->createUser($aUser);
         }
 
+        // Execute any components which have registered at the afterAgencyCreate hook
+        $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterAgencyCreate');
+        foreach ($aPlugins as $i => $id) {
+            if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
+                $obj->afterAgencyCreate($agencyid);
+            }
+        }
+        
         return $agencyid;
     }
 

@@ -357,6 +357,56 @@ class Plugins_admin_oxMarket_oxMarketTest extends UnitTestCase
         // Restore multiple account mode
         $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = $defaultMultipleAccountsMode;
     }
-}
+    
+    public function testAfterAgencyCreate()
+    {
+        $oMarketPlugin = OX_Component::factory('admin', 'oxMarket');
+        $defaultMultipleAccountsMode = $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'];
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = true;
+        
+        $doAgency  = OA_DAL::factoryDO('agency');
+        $agencyId  = DataGenerator::generateOne($doAgency);
+        
+        $oMarketPlugin->afterAgencyCreate($agencyId);
 
-?>
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = false;
+        $oMarketPlugin->afterAgencyCreate($agencyId);
+        
+        // Create account and set publisher account association data
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->account_id = $adminAccountId;
+        $doExtMarket->publisher_account_id = 'publisher_account_id';
+        $doExtMarket->api_key = 'api_key';
+        $doExtMarket->status = 
+            Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS;
+        $doExtMarket->insert();
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = true;
+        
+        // 3 cases above shouldn't add market advertisers
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),0);
+        
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = false;
+        $oMarketPlugin->afterAgencyCreate($agencyId);
+        
+        // one client
+        $doClients = OA_DAl::factoryDO('clients');
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->assertEqual($doClients->count(),1);
+        
+        // clear market association
+        $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
+        $doExtMarket->whereAdd('1=1');
+        $doExtMarket->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+        // Clear market advertisers
+        $doAdvertiserAccount = OA_Dal::factoryDO('accounts');
+        $doAdvertiserAccount->account_type = OA_ACCOUNT_ADVERTISER;
+        $doAdvertiserAccount->delete();       
+        // Restore multiple account mode
+        $GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode'] = $defaultMultipleAccountsMode;
+    }
+}

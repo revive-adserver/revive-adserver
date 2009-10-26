@@ -286,4 +286,25 @@ class OX_oxMarket_Dal_AdvertiserTest extends UnitTestCase
         $doAdvertiserAccount->delete();
     }
     
+    
+    public function testCreateMarketAdvertiserByManagerAccountId()
+    {
+        Mock::generatePartial(
+            'OX_oxMarket_Dal_Advertiser',
+            'PartialMockOX_oxMarket_Dal_Advertiser',
+            array('createMarketAdvertiser')
+        );
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        $accountId = $doAgency->account_id;
+        $marketAdvId = 12344321;
+        
+        $oAdvertiserDal = new PartialMockOX_oxMarket_Dal_Advertiser();
+        $oAdvertiserDal->setReturnValue('createMarketAdvertiser', $marketAdvId);
+        $oAdvertiserDal->expectOnce('createMarketAdvertiser', array($accountId));
+        
+        $result = $oAdvertiserDal->createMarketAdvertiserByManagerAccountId($accountId);
+        $this->assertEqual($result, $marketAdvId);
+    }
 }
