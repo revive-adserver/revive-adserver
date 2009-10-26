@@ -431,7 +431,21 @@ class OA_Permission
     }
     
 
-    public static function attemptToSwitchForAccess($entityTable, $entityId, $operationAccessType)
+    /**
+     * Attempts to find an account which has access to given entity and switch to 
+     * it if user is linked to that account.
+     * 
+     * Plugins hook for access checks is invoked when checking accounts access to
+     * the entity. Optional operation type can be used to indicate more granular 
+     * object access eg. edit, delete being requested.
+     *
+     * @static
+     * @param string  $entityTable    The name of the table.
+     * @param integer $entityId       entity ID
+     * @param int $operationAccessType Indicate the operation we need access for
+     */
+    public static function attemptToSwitchForAccess($entityTable, $entityId, 
+        $operationAccessType = self::OPERATION_ALL)
     {
         if (!($userId = self::getUserId())) {
             return false;
