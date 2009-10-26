@@ -2863,7 +2863,7 @@ function _areCookiesDisabled($filterActive = true)
 // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
-function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', &$context = array())
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 // Sanitize these user-inputted variables before passing to the _adRenderX calls
@@ -2939,7 +2939,7 @@ $aBanner['logUrl'] = $logUrl;
 $aBanner['aSearch']  = $search;
 $aBanner['aReplace'] = $replace;
 // post adRender hook
-OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner));
+OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner, &$context));
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
