@@ -49,12 +49,11 @@ if (!empty($clientid)) {
     }
   
     // Retrieve list of campaigns
-    $aCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $clientid));
+    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+    $aCampaigns = $dalCampaigns->getClientCampaigns($clientid);    
+    
     foreach ($aCampaigns as $campaignId => $aCampaign) {
         $campaignName = $aCampaign['name'];
-        // mask campaign name if anonymous campaign
-        $campaign_details = Admin_DA::getPlacement($campaignId);
-        $campaignName = MAX_getPlacementName($campaign_details);
         $aEntityMap[$campaignId] = $campaignName;
     }
 }

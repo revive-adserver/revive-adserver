@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 require_once LIB_PATH . '/OperationInterval.php';
 
@@ -548,7 +549,45 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         return DBC::NewRecordSet($query);
     }
-
+    
+    
+    /**
+     * Get list of campaigns for a given advertiser.
+     *
+     * @param int $clientid
+     * @param string $listorder Column name to use for sorting
+     * @param string $orderdirection soring direction 'up'/'down' 
+     * @param array $aIncludeSystemTypes an array of system types to be 
+     *              included apart from default campaigns
+     * @return array associative array $campaignId => array of campaign details 
+     */
+    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array())
+    {
+        $aIncludeSystemTypes = array_merge(
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
+            $aIncludeSystemTypes);
+        
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientid;
+        $doCampaigns->selectAs(array('campaignid'), 'placement_id');
+        $doCampaigns->selectAs(array('campaignname'), 'name');
+        $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
+        $doCampaigns->addListOrderBy($listorder, $orderdirection);
+        
+        $doCampaigns->find();
+        
+        $aCampaigns = array();
+        while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
+            // mask campaign name if anonymous campaign
+            $row_campaigns['campaignname'] = MAX_getPlacementName($row_campaigns);
+            $row_campaigns['name'] = $row_campaigns['campaignname'];
+            $aCampaigns[$row_campaigns['campaignid']] = $row_campaigns;
+        }
+        
+        return $aCampaigns;
+    }
+    
+    
     /**
      * @todo Consider removing order options (or making them optional)
      */

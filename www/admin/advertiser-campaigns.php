@@ -33,6 +33,7 @@ require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
@@ -124,78 +125,63 @@ $oTpl = new OA_Admin_Template('campaign-index.html');
 
 
 // Get clients & campaign and build the tree
-$doCampaigns = OA_Dal::factoryDO('campaigns');
-$doCampaigns->clientid = $clientid;
-
-$doCampaigns->addListOrderBy($listorder, $orderdirection);
-$doCampaigns->find();
-
-while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
-    if ($row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN
-        || $row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
-        continue;        
-    }
-    
-    
-	$campaigns[$row_campaigns['campaignid']]['campaignid']   = $row_campaigns['campaignid'];
-
-    // mask campaign name if anonymous campaign
-    $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
-    $row_campaigns['campaignname'] = MAX_getPlacementName($campaign_details);
-
-	$campaigns[$row_campaigns['campaignid']]['campaignname'] = $row_campaigns['campaignname'];
-	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['views']);
-	$campaigns[$row_campaigns['campaignid']]['clicks']       = phpAds_formatNumber($row_campaigns['clicks']);
-	$campaigns[$row_campaigns['campaignid']]['conversions']  = phpAds_formatNumber($row_campaigns['conversions']);
-	if (!empty($row_campaigns['activate_time'])) {
-	   $oActivateDate = new Date($row_campaigns['activate_time']);
-	   $oTz = $oActivateDate->tz;
-	   $oActivateDate->setTZbyID('UTC');
-	   $oActivateDate->convertTZ($oTz);
-	   $campaigns[$row_campaigns['campaignid']]['activate']  = $oActivateDate->format($date_format);
+$dalCampaigns = OA_Dal::factoryDAL('campaigns');
+$aCampaigns = $dalCampaigns->getClientCampaigns($clientid, $listorder, $orderdirection, array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT));
+foreach ($aCampaigns as $campaignId => $aCampaign) {
+    $aCampaign['impressions']  = phpAds_formatNumber($aCampaign['views']);
+    $aCampaign['clicks']       = phpAds_formatNumber($aCampaign['clicks']);
+    $aCampaign['conversions']  = phpAds_formatNumber($aCampaign['conversions']);
+  
+    if (!empty($aCampaign['activate_time'])) {
+        $oActivateDate = new Date($aCampaign['activate_time']);
+        $oTz = $oActivateDate->tz;
+        $oActivateDate->setTZbyID('UTC');
+        $oActivateDate->convertTZ($oTz);
+        $aCampaign['activate']  = $oActivateDate->format($date_format);
     } 
     else {
-       $campaigns[$row_campaigns['campaignid']]['activate']  = '-';
+        $aCampaign['activate']  = '-';
     }
-	if (!empty($row_campaigns['expire_time'])) {
-	   $oExpireDate = new Date($row_campaigns['expire_time']);
-	   $oTz = $oExpireDate->tz;
-	   $oExpireDate->setTZbyID('UTC');
-	   $oExpireDate->convertTZ($oTz);
-	   $campaigns[$row_campaigns['campaignid']]['expire']    = $oExpireDate->format($date_format);
+    
+    if (!empty($aCampaign['expire_time'])) {
+        $oExpireDate = new Date($aCampaign['expire_time']);
+        $oTz = $oExpireDate->tz;
+        $oExpireDate->setTZbyID('UTC');
+        $oExpireDate->convertTZ($oTz);
+        $aCampaign['expire']    = $oExpireDate->format($date_format);
     } 
     else {
-       $campaigns[$row_campaigns['campaignid']]['expire']    = '-';
+        $aCampaign['expire']    = '-';
     }
     if ($row_campaigns['priority'] == -1) {
-        $campaigns[$row_campaigns['campaignid']]['priority'] = $strExclusive;
+        $aCampaign['priority'] = $strExclusive;
     } 
     elseif ($row_campaigns['priority'] == -2) {
-        $campaigns[$row_campaigns['campaignid']]['priority'] = $strCampaignECPM;
+        $aCampaign['priority'] = $strCampaignECPM;
     } 
     elseif ($row_campaigns['priority'] == 0) {
-        $campaigns[$row_campaigns['campaignid']]['priority'] = $strLow;
+        $aCampaign['priority'] = $strLow;
     } 
     else {
-        $campaigns[$row_campaigns['campaignid']]['priority'] = $strHigh . ' (' . $row_campaigns['priority'] . ')';
+        $aCampaign['priority'] = $strHigh . ' (' . $row_campaigns['priority'] . ')';
     }
-	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
-    $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
     
-    if ($row_campaigns['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
-        $campaigns[$row_campaigns['campaignid']]['system'] = true;
+    if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
+        $aCampaign['system'] = true;
         $oComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
         if ($oComponent) {           
-            $campaigns[$row_campaigns['campaignid']]['type'] = 
-                $oComponent->getEntityHelper()->getCampaignTypeName($row_campaigns);
+            $aCampaign['type'] = $oComponent->getEntityHelper()->getCampaignTypeName($aCampaign);
         }
         else {
-            $campaigns[$row_campaigns['campaignid']]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);            
+            $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);            
         }
     }
     else {
-        $campaigns[$row_campaigns['campaignid']]['type'] = OX_Util_Utils::getCampaignType($row_campaigns['priority']);
+        $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
     }
+    
+    
+    $aCampaigns[$campaignId] = $aCampaign; 
 }
 
 $aCount = array(
@@ -204,21 +190,21 @@ $aCount = array(
 );
 
 $campaignshidden = 0;
-if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0) {
-	reset ($campaigns);
-	while (list ($key, $campaign) = each ($campaigns)) {
+if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
+	reset ($aCampaigns);
+	while (list ($key, $campaign) = each ($aCampaigns)) {
 		$aCount['campaigns']++;
 		if ($hideinactive == true && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || $campaign['status'] == OA_ENTITY_STATUS_RUNNING &&
 			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count'])) {
 			$aCount['campaigns_hidden']++;
-			unset($campaigns[$key]);
+			unset($aCampaigns[$key]);
 		}
 	}
 }
 
 
 $oTpl->assign('clientId', $clientid);
-$oTpl->assign('aCampaigns', $campaigns);
+$oTpl->assign('aCampaigns', $aCampaigns);
 $oTpl->assign('aCount', $aCount);
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
@@ -283,20 +269,30 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
 
 function getAdvertiserMap()
 {
-    $doClients = OA_Dal::factoryDO('clients');
-    // Unless admin, restrict results shown.
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $doClients->clientid = OA_Permission::getEntityId();
+    $aAdvertisers = array();
+    $dalClients = OA_Dal::factoryDAL('clients');
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $agency_id = OA_Permission::getEntityId();
+        $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
+        $aInludeSystemTypes = array();
+        //TODO well, hardcoded reference to market plugin again, it would be better
+        //to ask plugins for additional types to include via hook.
+        if ($oComponent->enabled && $oComponent->isActive()) {
+            $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+        }
+        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id, 
+            null, null, $aInludeSystemTypes);
     }
-    else {
-        $doClients->agencyid = OA_Permission::getEntityId();
+    else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $advertiserId = OA_Permission::getEntityId();
+        $aAdvertiser = $dalClients->getAdvertiserDetails($advertiserId);
+        $aAdvertisers[$advertiserId] = $aAdvertiser;
     }
-    $doClients->find();
-
+        
     $aAdvertiserMap = array();
-    while ($doClients->fetch() && $row = $doClients->toArray()) {
-        $aAdvertiserMap[$row['clientid']] = array('name' => $row['clientname'],
-            'url' => "advertiser-campaigns.php?clientid=".$row['clientid']);
+    foreach ($aAdvertisers as $clientid => $aClient) {
+        $aAdvertiserMap[$clientid] = array('name' => $aClient['clientname'],
+            'url' => "advertiser-campaigns.php?clientid=".$clientid);
     }
 
     return $aAdvertiserMap;

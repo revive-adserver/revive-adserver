@@ -27,6 +27,7 @@ $Id: Acls.dal.test.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Clients.php';
 
 class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 {
@@ -69,6 +70,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         }
         return DBC::NewRecordSet($query);
     }
+    
 
     /**
      * A method to retrieve all information about one advertiser from the database.
@@ -87,6 +89,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         }
         return null;
     }
+    
 
     /**
      * A method to retrieve a list of all advertiser names. Can be limited to
@@ -95,16 +98,26 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @param string  $listorder      The column name to sort the agency names by. One of "name" or "id".
      * @param string  $orderdirection The sort oder for the sort column. One of "up" or "down".
      * @param integer $agencyId       Optional. The agency ID to limit results to.
+     * @param array $aIncludeSystemTypes an array of system types to be 
+     *              included apart from default advertisers
+     *  
      * @return array
      *
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisers($listorder, $orderdirection, $agencyId = null)
+    function getAllAdvertisers($listorder, $orderdirection, $agencyId = null, $aIncludeSystemTypes = array())
     {
+        $aIncludeSystemTypes = array_merge(
+            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            $aIncludeSystemTypes);
+        
+        
+        
         $doClients = OA_Dal::factoryDO('clients');
         if (!empty($agencyId) && is_numeric($agencyId)) {
             $doClients->agencyid = $agencyId;
         }
+        $doClients->whereInAdd('type', $aIncludeSystemTypes);
         $doClients->addListOrderBy($listorder, $orderdirection);
         return $doClients->getAll(array('clientname', 'an_adnetwork_id', 'type'), $indexWitkPk = true, $flatten = false);
     }
@@ -119,9 +132,9 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @todo Update to MAX DB API
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection)
+    function getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = array())
     {
-        return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id);
+        return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id, $aIncludeSystemTypes);
     }
 
 }

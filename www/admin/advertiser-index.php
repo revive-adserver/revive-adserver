@@ -104,8 +104,18 @@ $dalBanners = OA_Dal::factoryDAL('banners');
 
 $campaigns = array();
 $banners = array();
+
+$oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
+$aInludeSystemTypes = array();
+//TODO well, hardcoded reference to market plugin again, it would be better
+//to ask plugins for additional types to include via hook.
+if ($oComponent->enabled && $oComponent->isActive()) {
+    $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+}
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection, 
+        null, $aInludeSystemTypes);
     if ($hideinactive) {
         $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
         $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
@@ -113,7 +123,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 } 
 elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
-    $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
+    $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, 
+        $orderdirection, $aInludeSystemTypes);
     if ($hideinactive) {
         $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, 
             $orderdirection);

@@ -294,22 +294,23 @@ function buildHeaderModel($aEntities)
 
 function getAdvertiserMap()
 {
-    $doClients = OA_Dal::factoryDO('clients');
-    // Unless admin, restrict results shown.
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $doClients->clientid = OA_Permission::getEntityId();
+    $aAdvertisers = array();
+    $dalClients = OA_Dal::factoryDAL('clients');
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $agency_id = OA_Permission::getEntityId();
+        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id);
     }
-    else {
-        $doClients->agencyid = OA_Permission::getEntityId();
+    else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $advertiserId = OA_Permission::getEntityId();
+        $aAdvertiser = $dalClients->getAdvertiserDetails($advertiserId);
+        $aAdvertisers[$advertiserId] = $aAdvertiser;
     }
-
-    $doClients->find();
 
     //TODO do we need to filter out system entities here, or will the DAO do that?
     $aAdvertiserMap = array();
-    while ($doClients->fetch() && $row = $doClients->toArray()) {
-        $aAdvertiserMap[$row['clientid']] = array('name' => $row['clientname'],
-            'url' => "advertiser-campaigns.php?clientid=".$row['clientid']);
+    foreach ($aAdvertisers as $clientid => $aClient) {
+        $aAdvertiserMap[$clientid] = array('name' => $aClient['clientname'],
+            'url' => "advertiser-campaigns.php?clientid=".$clientid);
     }
 
     return $aAdvertiserMap;
