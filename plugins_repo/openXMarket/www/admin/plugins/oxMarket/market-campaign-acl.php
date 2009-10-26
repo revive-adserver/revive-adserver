@@ -42,8 +42,8 @@ phpAds_registerGlobalUnslashed('acl', 'action', 'submit');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
-OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_EDIT);
 //TODO get banner id for that campaign
 //OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
