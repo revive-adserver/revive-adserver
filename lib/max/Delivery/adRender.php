@@ -105,7 +105,7 @@ $Id$
  *
  * @return string   The HTML to display this ad
  */
-function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', &$context = array())
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -194,7 +194,7 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     $aBanner['aReplace'] = $replace;
 
 	// post adRender hook
-	OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner));
+	OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner, &$context));
 
 //    return $code;
     return MAX_commonConvertEncoding($code, $charset);
