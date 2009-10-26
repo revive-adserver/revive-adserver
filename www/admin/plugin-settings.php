@@ -110,6 +110,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
         $result = $oSettings->processSettingsFromForm($aElements);
         if ($result)
         {
+            // Queue confirmation message
+            $title = $group . ' ' . $GLOBALS['strPluginSettings'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+            array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
             // The settings configuration file was written correctly,
             // go back to the plugins main page from here
             require_once LIB_PATH . '/Admin/Redirect.php';

@@ -99,6 +99,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
         $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
         if ($result)
         {
+            // Queue confirmation message
+            $title = $group . ' ' . $GLOBALS['strPluginPreferences'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+            array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
             // The settings configuration file was written correctly,
             // go back to the plugins main page from here
             OX_Admin_Redirect::redirect($backURL);

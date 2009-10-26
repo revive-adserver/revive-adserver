@@ -93,6 +93,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
         if ($result)
         {
+            // Queue confirmation message
+            $title = $group . ' ' . $GLOBALS['strPluginPreferences'];
+            $translation = new OX_Translation ();
+            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
+            array(htmlspecialchars($title)));
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
             OX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
         }
         // Could not write the settings configuration file, store this
