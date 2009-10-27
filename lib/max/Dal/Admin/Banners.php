@@ -46,9 +46,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
      *
      * @param string $keyword  the string to search for.
      * @param int $agencyId  restrict search to this agency ID.
+     * @param bool $filterMarketBanners filter banners created by market plugin
      * @return RecordSet
      */
-    function getBannerByKeyword($keyword, $agencyId = null)
+    function getBannerByKeyword($keyword, $agencyId = null, $filterMarketBanners = true)
     {
 
         $whereBanner = is_numeric($keyword) ? " OR b.bannerid=". DBC::makeLiteral($keyword) : '';
@@ -78,9 +79,11 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 OR b.description LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
                 $whereBanner)
             )
-            AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). //remove market banners
-            "
-        ";                                                                  
+        ";
+        if ($filterMarketBanners) {
+            //remove market banners
+            $query .= " AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET); 
+        }                                                                  
 
         if($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
@@ -93,12 +96,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
+     * @param bool $filterMarketBanners filter banners created by market plugin
      * @return Array of arrays representing a list of banners (keyed by id)
      *
      * @todo Verify ANSI compatible
      * @todo Consider removing listorder and orderdirection
      */
-    function getAllBanners($listorder, $orderdirection)
+    function getAllBanners($listorder, $orderdirection, $filterMarketBanners = true)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $prefix = $this->getTablePrefix();
@@ -110,8 +114,12 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",description".
         ",status".
         ",storagetype AS type".
-        " FROM ".$tableB.
-        " WHERE ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET); //remove market banners
+        " FROM ".$tableB;
+        if ($filterMarketBanners) {
+            //remove market banners
+            $query .= " WHERE ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET)." "; 
+        }
+        
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
         return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
@@ -121,12 +129,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
+     * @param bool $filterMarketBanners filter banners created by market plugin
      * @return Array of arrays representing a list of banners (keyed by id)
      *
      * @todo Verify ANSI compatible ("FROM table AS alias" probably isn't)
      * @todo Consider removing listorder and orderdirection
      */
-    function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
+    function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection, $filterMarketBanners = true)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
@@ -150,7 +159,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 b.campaignid = m.campaignid
                 AND m.clientid = c.clientid
                 AND c.agencyid = ". DBC::makeLiteral($agency_id) ." 
-                AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). //remove market banners
+                ". ( ($filterMarketBanners) ? 
+                    ("AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET)) : "") .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -166,15 +176,18 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
      * 'description'...
      * @param string $orderdirection Either 'up' or 'down'.
+     * @param bool $filterMarketBanners filter banners created by market plugin
      * @return Array of arrays representing a list of banners (keyed by id)
      */
-    function getAllBannersUnderCampaign($campaignid, $listorder, $orderdirection)
+    function getAllBannersUnderCampaign($campaignid, $listorder, $orderdirection, $filterMarketBanners = true)
     {
         if (!isset($campaignid)) {
             return array();
         }
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->whereAdd("ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET));
+        if ($filterMarketBanners) {
+            $doBanners->whereAdd("ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET));
+        }
         $doBanners->campaignid = $campaignid;
         $doBanners->addListOrderBy($listorder, $orderdirection);
         $doBanners->find();
@@ -295,10 +308,11 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
 
     /**
      * Join all banners, campaigns and clients and return it as RecordSet
+     * @param bool $filterMarketBanners filter banners created by market plugin
      *
      * @return RecordSet
      */
-    function getBannersCampaignsClients()
+    function getBannersCampaignsClients($filterMarketBanners = true)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
@@ -321,9 +335,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             WHERE
                 c.campaignid=b.campaignid
                 AND cl.clientid=c.clientid
-                AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). // remove market banners
-                "
         ";
+        if ($filterMarketBanners) {
+            $query .= " AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET);
+        }
 
         return DBC::NewRecordSet($query);
     }
