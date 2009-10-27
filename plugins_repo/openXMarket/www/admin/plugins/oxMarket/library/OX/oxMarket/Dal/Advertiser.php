@@ -104,7 +104,15 @@ class OX_oxMarket_Dal_Advertiser
      */
     public function createMissingMarketAdvertisers($multipleAccountMode)
     {       
-        if (!$multipleAccountMode) {
+        if ($multipleAccountMode) {
+            $doAgency = OA_Dal::factoryDO('agency');
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+            $doAccounts->joinAdd($doMarketAssocData);
+            $doAgency->joinAdd($doAccounts);
+            $aManagers = $doAgency->getAll('agencyid');
+        } 
+        else {
             // Is market registered
             $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
             $doMarketAssocData->account_id = DataObjects_Accounts::getAdminAccountId();
@@ -115,13 +123,6 @@ class OX_oxMarket_Dal_Advertiser
             } else {
                 $aManagers = array();
             }
-        } else {
-            $doAgency = OA_Dal::factoryDO('agency');
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doAccounts->joinAdd($doMarketAssocData);
-            $doAgency->joinAdd($doAccounts);
-            $aManagers = $doAgency->getAll('agencyid');
         }
         
         foreach ($aManagers as $agencyid) {

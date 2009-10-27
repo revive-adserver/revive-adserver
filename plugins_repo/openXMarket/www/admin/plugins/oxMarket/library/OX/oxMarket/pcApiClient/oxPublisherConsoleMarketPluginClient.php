@@ -303,9 +303,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
             $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
             if ($this->multipleAccountsMode) {
-                $oAdvertiserDal->createMissingMarketAdvertisers(true);
-            } else {
                 $oAdvertiserDal->createMarketAdvertiserByManagerAccountId($account_id);
+            } else {
+                $oAdvertiserDal->createMissingMarketAdvertisers(false);
             }
         }
         
