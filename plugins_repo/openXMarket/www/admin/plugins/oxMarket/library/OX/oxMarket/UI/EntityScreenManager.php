@@ -105,7 +105,9 @@ class OX_oxMarket_UI_EntityScreenManager
         $result = '';
         switch($pageId) {
             case 'campaign-zone' : {
-                $result = $this->campaignZoneAfterContent($pageData, $smarty);
+                if ($this->oMarketComponent->getEntityHelper()->isMarketCampaign($pageData['campaignId'])) {
+                    $result = $this->campaignZoneAfterContent($pageData, $smarty);
+                }
                 break;
             }
             case 'advertiser-index' : {

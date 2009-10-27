@@ -322,6 +322,7 @@ function addMarketCampaignPageTools($clientid, $campaignid)
     //shortcuts
     if (!empty($campaignid) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         addPageShortcut($GLOBALS['strBackToCampaigns'], MAX::constructUrl(MAX_URL_ADMIN, "advertiser-campaigns.php?clientid=$clientid"), "iconBack");
+        addPageShortcut($GLOBALS['strCampaignHistory'], MAX::constructUrl(MAX_URL_ADMIN, "stats.php?entity=campaign&breakdown=history&clientid=$clientid&campaignid=$campaignid"), 'iconStatistics');
     }
 }
 

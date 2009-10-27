@@ -249,10 +249,13 @@ class OX_oxMarket_UI_EntityHelper
                 }
                 
                 switch ($operationAccessType) {
-                    case OA_Permission::OPERATION_MOVE : {
+                    case OA_Permission::OPERATION_MOVE :
+                    case OA_Permission::OPERATION_ADD_CHILD:     
+                    case OA_Permission::OPERATION_VIEW_CHILDREN: {
                         $hasAccess = false;
                         break;
                     }
+                    
                     
                     default: {
                         $hasAccess = true;

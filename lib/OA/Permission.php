@@ -91,7 +91,9 @@ class OA_Permission
     const OPERATION_DELETE = 8;
     const OPERATION_DUPLICATE = 16;
     const OPERATION_MOVE = 32;
-    const OPERATION_ALL = 63;//1+2+4+8+16+32 
+    const OPERATION_ADD_CHILD = 64;
+    const OPERATION_VIEW_CHILDREN = 128;
+    const OPERATION_ALL = 255;//1+2+4+8+16+  32+64+128 
     
     
     /**
