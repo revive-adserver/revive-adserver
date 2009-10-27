@@ -277,7 +277,7 @@ function getAdvertiserMap()
         $aInludeSystemTypes = array();
         //TODO well, hardcoded reference to market plugin again, it would be better
         //to ask plugins for additional types to include via hook.
-        if ($oComponent->enabled && $oComponent->isActive()) {
+        if (isset($oComponent) && $oComponent->enabled && $oComponent->isActive()) {
             $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
         }
         $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id, 
