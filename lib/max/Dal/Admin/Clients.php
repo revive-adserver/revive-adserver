@@ -48,13 +48,22 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @param $agencyId integer Limit results to advertisers owned by a given Agency ID
      * @return RecordSet
      */
-    function getClientByKeyword($keyword, $agencyId = null)
+    function getClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = array())
     {
+        // always add default type
+        $aIncludeSystemTypes = array_merge(
+            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            $aIncludeSystemTypes);
+        foreach ($aIncludeSystemTypes as $k => $v) {
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+        }
+            
         $conf = $GLOBALS['_MAX']['CONF'];
         $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
         $oDbh = OA_DB::singleton();
         $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
 
+        
         $query = "
             SELECT
                 c.clientid AS clientid,
@@ -64,7 +73,8 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             WHERE
                 (
                     c.clientname LIKE ". DBC::makeLiteral('%'. $keyword. '%') . $whereClient ."
-                )";
+                )
+                AND c.type IN (". implode(',', $aIncludeSystemTypes) .")";
         if ($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
         }
@@ -110,8 +120,6 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         $aIncludeSystemTypes = array_merge(
             array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
             $aIncludeSystemTypes);
-        
-        
         
         $doClients = OA_Dal::factoryDO('clients');
         if (!empty($agencyId) && is_numeric($agencyId)) {

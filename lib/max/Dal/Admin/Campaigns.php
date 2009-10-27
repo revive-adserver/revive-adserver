@@ -519,8 +519,16 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return RecordSet
      * @access public
      */
-    function getCampaignAndClientByKeyword($keyword, $agencyId = null)
+    function getCampaignAndClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = array())
     {
+        // always add default type
+        $aIncludeSystemTypes = array_merge(
+            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            $aIncludeSystemTypes);
+        foreach ($aIncludeSystemTypes as $k => $v) {
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+        }
+            
         $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
@@ -540,6 +548,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             m.clientid=c.clientid
             AND (m.campaignname LIKE ".DBC::makeLiteral('%'.$keyword.'%')."
                 $whereCampaign)
+            AND m.type IN (". implode(',', $aIncludeSystemTypes) .")
             )
         ";
 

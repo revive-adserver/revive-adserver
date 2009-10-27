@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
 
 /**
  * @todo Consider renaming to Advert
@@ -77,7 +78,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 OR b.description LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
                 $whereBanner)
             )
-        ";
+            AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). //remove market banners
+            "
+        ";                                                                  
 
         if($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
@@ -107,7 +110,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",description".
         ",status".
         ",storagetype AS type".
-        " FROM ".$tableB;
+        " FROM ".$tableB.
+        " WHERE ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET); //remove market banners
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
         return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
@@ -145,7 +149,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             WHERE
                 b.campaignid = m.campaignid
                 AND m.clientid = c.clientid
-                AND c.agencyid = ". DBC::makeLiteral($agency_id) .
+                AND c.agencyid = ". DBC::makeLiteral($agency_id) ." 
+                AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). //remove market banners
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -287,6 +292,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             WHERE
                 c.campaignid=b.campaignid
                 AND cl.clientid=c.clientid
+                AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET). // remove market banners
+                "
         ";
 
         return DBC::NewRecordSet($query);
