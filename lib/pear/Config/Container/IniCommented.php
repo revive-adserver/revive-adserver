@@ -306,7 +306,7 @@ class Config_Container_IniCommented {
                 break;
             case 'section':
                 if (!$obj->isRoot()) {
-                    $string = '['.$obj->name."]\n";
+                    $string = "\n[".$obj->name."]\n";
                 }
                 if (count($obj->children) > 0) {
                     for ($i = 0; $i < count($obj->children); $i++) {
