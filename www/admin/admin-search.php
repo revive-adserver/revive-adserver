@@ -67,6 +67,20 @@ if (!isset($keyword)) {
     $keyword = '';
 }
 
+// Prepare for market entities filtering
+$oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
+$isMarketPluginActive = isset($oComponent) && $oComponent->enabled && $oComponent->isActive();
+//TODO well, hardcoded reference to market plugin again, it would be better
+//to ask plugins for additional types to include via hook.
+if ($isMarketPluginActive) {
+    $aIncludeClientsSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+    $aIncludeCampaignsSystemTypes = array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT);
+} 
+else {
+    $aIncludeClientsSystemTypes = array();
+    $aIncludeCampaignsSystemTypes = array();
+}
+
 
 // Send header with charset info
 header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
@@ -77,7 +91,7 @@ $aZones = $aAffiliates = $aClients = $aBanners = $aCampaigns = array();
 
 if ($client != false) {
     $dalClients = OA_Dal::factoryDAL('clients');
-    $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId);
+    $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId, $aIncludeClientsSystemTypes);
     $rsClients->find();
         
     while ($rsClients->fetch()) {
@@ -86,30 +100,27 @@ if ($client != false) {
         $aClient['campaigns'] = array();
     
         if (!$compact) {
-            $doCampaigns = OA_Dal::factoryDO('campaigns');
-            $doCampaigns->clientid = $aClient['clientid'];
-            $doCampaigns->find();
-    
-            while ($doCampaigns->fetch()) {
-                $aCampaign = $doCampaigns->toArray();
+            $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+            $aClientCampaigns = $dalCampaigns->getClientCampaigns(
+                                $aClient['clientid'], '', '', $aIncludeCampaignsSystemTypes);
+                                
+            foreach ($aClientCampaigns as $campaignId => $aCampaign) {
                 $aCampaign['campaignname'] = phpAds_breakString ($aCampaign['campaignname'], '30');
+                $aCampaign['campaignid'] = $campaignId;
                 $aCampaign['banners'] = array();
-    
-                $doBanners = OA_Dal::factoryDO('banners');
-                $doBanners->campaignid = $aCampaign['campaignid'];
-                $doBanners->find();
-    
-                while ($doBanners->fetch()) {
-                    $aBanner = $doBanners->toArray();
+                $dalBanners = OA_Dal::factoryDAL('banners');
+                $aCampaignBanners = $dalBanners->getAllBannersUnderCampaign($campaignId, '', '');
+                foreach ($aCampaignBanners as $aBanner) {
+
                     $aBanner['name'] = $GLOBALS['strUntitled'];
-                    if (isset($aBanner['alt']) && $aBanner['alt']) $aBanner['name'] = $aBanner['alt'];
-                    if (isset($aBanner['description']) && $aBanner['description']) $aBanner['name'] = $aBanner['description'];
+                    if (!empty($aBanner['alt'])) $aBanner['name'] = $aBanner['alt'];
+                    if (!empty($aBanner['description'])) $aBanner['name'] = $aBanner['description'];
                     
                     $aBanner['name'] = phpAds_breakString ($aBanner['name'], '30');
                     $aCampaign['banners'][] = $aBanner;
                 }
+                $aClient['campaigns'][] = $aCampaign;
             }
-            $aClient['campaigns'][] = $aCampaign;
         }
         $aClients[] = $aClient;
     }
@@ -117,7 +128,7 @@ if ($client != false) {
 
 if ($campaign != false) {
     $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId);
+    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId, $aIncludeCampaignsSystemTypes);
     $rsCampaigns->find();
     while ($rsCampaigns->fetch()) {
         $aCampaign = $rsCampaigns->toArray();
@@ -125,16 +136,12 @@ if ($campaign != false) {
         $aCampaign['banners'] = array();
     
         if (!$compact) {
-            $doBanners = OA_Dal::factoryDO('banners');
-            $doBanners->campaignid = $aCampaign['campaignid'];
-            $doBanners->find();
-    
-            while ($doBanners->fetch()) {
-                $aBanner = $doBanners->toArray();
-    
+            $dalBanners = OA_Dal::factoryDAL('banners');
+            $aCampaignBanners = $dalBanners->getAllBannersUnderCampaign($aCampaign['campaignid'], '', '');
+            foreach ($aCampaignBanners as $aBanner) {    
                 $aBanner['name'] = $GLOBALS['strUntitled'];
-                if (isset($aBanner['alt']) && $aBanner['alt']) $aBanner['name'] = $aBanner['alt'];
-                if (isset($aBanner['description']) && $aBanner['description']) $aBanner['name'] = $aBanner['description'];
+                if (!empty($aBanner['alt'])) $aBanner['name'] = $aBanner['alt'];
+                if (!empty($aBanner['description'])) $aBanner['name'] = $aBanner['description'];
                 $aBanner['name'] = phpAds_breakString ($aBanner['name'], '30');
     
                 $aCampaign['banners'][] = $aBanner;

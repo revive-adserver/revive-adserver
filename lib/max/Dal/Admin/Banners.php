@@ -159,6 +159,35 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         $aBanners = $this->_rekeyBannersArray($aBanners);
         return $aBanners;
     }
+    
+    
+    /**
+     * @param int $campaignid
+     * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
+     * 'description'...
+     * @param string $orderdirection Either 'up' or 'down'.
+     * @return Array of arrays representing a list of banners (keyed by id)
+     */
+    function getAllBannersUnderCampaign($campaignid, $listorder, $orderdirection)
+    {
+        if (!isset($campaignid)) {
+            return array();
+        }
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->whereAdd("ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET));
+        $doBanners->campaignid = $campaignid;
+        $doBanners->addListOrderBy($listorder, $orderdirection);
+        $doBanners->find();
+
+        $aBanners = array();
+        while ($doBanners->fetch() && $row_banners = $doBanners->toArray()) {
+            $row_banners['ad_id'] = $row_banners['bannerid'];
+            $row_banners['type'] = $row_banners['storagetype'];
+            $aBanners[$row_banners['bannerid']] = $row_banners;
+        }
+        
+        return $aBanners;
+    }
 
     /**
      * @return int The number of active banners

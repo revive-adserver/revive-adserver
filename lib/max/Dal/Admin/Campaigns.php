@@ -523,7 +523,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     {
         // always add default type
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
             $aIncludeSystemTypes);
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
@@ -600,8 +600,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllCampaigns($listorder, $orderdirection)
+    function getAllCampaigns($listorder, $orderdirection, $aIncludeSystemTypes = array())
     {
+        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
@@ -617,7 +618,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 priority AS priority,
                 revenue AS revenue
             FROM
-                {$tableM} " .
+                {$tableM} 
+            WHERE
+                type IN (". implode(',', $aIncludeSystemTypes) .") ".
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -633,8 +636,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
+    function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = array())
     {
+        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
@@ -654,7 +658,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$tableC} AS c
             WHERE
                 c.clientid=m.clientid
-                AND c.agencyid=". DBC::makeLiteral($agency_id) .
+                AND c.agencyid=". DBC::makeLiteral($agency_id) ."
+                AND m.type IN (". implode(',', $aIncludeSystemTypes) .") ".
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -671,6 +676,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         }
         return $aRetCampaigns;
     }
+    
 
     function countActiveCampaigns()
     {
@@ -770,6 +776,25 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         }
         $rsResult->free();
         return $aResult;
+    }
+    
+    
+    /**
+     * Prepare array of include system types for campaigns, include ADVERTISER_TYPE_DEFAULT
+     * All values are prepared by DBC::makeLiteral
+     *
+     * @param array $aIncludeSystemTypes input array
+     * @return array prepared array
+     */
+    private function _prepareIncludeSystemTypes($aIncludeSystemTypes) 
+    {
+        $aIncludeSystemTypes = array_merge(
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
+            $aIncludeSystemTypes);
+        foreach ($aIncludeSystemTypes as $k => $v) {
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+        }
+        return $aIncludeSystemTypes;
     }
 
 }
