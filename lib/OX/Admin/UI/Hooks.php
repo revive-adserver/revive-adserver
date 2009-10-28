@@ -55,14 +55,17 @@ class OX_Admin_UI_Hooks
      *   render any content after layout and before actual page content.)
      *
      * @param string $menuSectionId section id of page being rendered
+     * @param array $pageData array of page related parameters eg. clientid, campaignid
+     * @param OA_Admin_UI_Model_PageHeaderModel optional $headerModel 
      */
-    public static function beforePageHeader($menuSectionId, $pageData)
+    public static function beforePageHeader($menuSectionId, $pageData, $oHeaderModel = null)
     {
         self::init();
         
         $oContext = new OX_Admin_UI_Event_EventContext(array(
             'pageId' => $menuSectionId,
             'pageData' => $pageData,
+            'headerModel' => $oHeaderModel,
         ));         
         
         self::getDispatcher()->triggerEvent('beforePageHeader', $oContext); 

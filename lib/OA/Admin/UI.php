@@ -189,7 +189,7 @@ class OA_Admin_UI
         $this->setCurrentId($ID);
         
         if (!defined('phpAds_installing')) {
-            OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams());
+            OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams(), $oHeaderModel);
         }        
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
