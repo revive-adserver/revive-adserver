@@ -70,7 +70,7 @@
             baseUrl: '',
             randomKeyName: 'reload',
             randomHiddenSelector: ''
-        };a
+        };
         var settings = $.extend({}, defaults, options);
         $image = $(this);
         
