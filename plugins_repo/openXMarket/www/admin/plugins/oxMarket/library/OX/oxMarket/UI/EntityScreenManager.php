@@ -24,6 +24,7 @@
 +---------------------------------------------------------------------------+
 $Id:$
 */
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
 
 /**
  * A listener of UI events. eg. renders additional content before campaign list.
@@ -50,10 +51,17 @@ class OX_oxMarket_UI_EntityScreenManager
         $pageData = $oEventContext->data['pageData'];
         $oHeaderModel = $oEventContext->data['headerModel'];
         $oEntityHelper = $this->oMarketComponent->getEntityHelper();
+        $oUI = OA_Admin_UI::getInstance();
                 
         switch($pageId) {
+            case 'advertiser-index': {
+                $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
+                    'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                break;
+            }
+            
+            
             case 'advertiser-campaigns': {
-                $oUI = OA_Admin_UI::getInstance();
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
                     'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
                 if (isset($oHeaderModel) && $oEntityHelper->isMarketAdvertiser($pageData['clientid'])) {
@@ -172,6 +180,12 @@ class OX_oxMarket_UI_EntityScreenManager
             $oPreferenceDal->setMarketUserVariable('advertiser_index_market_info_shown_to_user', '1');
         }
         
+        $dalAdvertiser = new OX_oxMarket_Dal_Advertiser();
+        $agency_id = OA_Permission::getEntityId();
+        $oAdvertiser = $dalAdvertiser->getMarketAdvertiser($agency_id);
+        $marketClientId = $oAdvertiser->clientid;
+        
+        $oTpl->assign('marketClientId', $marketClientId);
         $oTpl->assign('content', $content);
         $oTpl->assign('showMarketInfo', !isset($infoShown) || !$infoShown);
         
@@ -201,6 +215,7 @@ class OX_oxMarket_UI_EntityScreenManager
         $oTpl = new OA_Plugin_Template('fragment-advertiser-campaigns.html','oxMarket');
         $oTpl->assign('content', $content);
         $oTpl->assign('before', true);
+        
         return $oTpl->toString();
     }
 }

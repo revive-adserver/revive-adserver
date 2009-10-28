@@ -550,16 +550,10 @@
         
         function init()
         {
-            $("table tr.systemAdvertiser td span.iconAdvertiserSystem").after('<span id="market-callout-link" help="market-callout" class="icon icon-info pointer popup-help-link">&nbsp;</span>');
-            $("#market-callout").help({
-                'parentXOffset' : 200,
-                'parentYOffset' : 200
-                }
-            );
-            
-            if (settings.showHelp) {
-                $("#market-callout-link").trigger('click', [ 330, 300]);
-            }
+            $advertiserIndexContent = $("#market-advertiser-index");
+            $("table tr.systemAdvertiser td span.iconAdvertiserSystem")
+                .after($advertiserIndexContent);
+            $advertiserIndexContent.show();
         }
         
     });

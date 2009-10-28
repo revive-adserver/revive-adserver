@@ -436,6 +436,24 @@ ul.column li.rejected {
 }
 
 /** custom market screens **/
+#market-advertiser-index {
+    margin-top: 5px;
+    margin-left: 20px;
+}
+
+#market-advertiser-index .three-ways-container {
+  width: 650px;
+}
+
+#market-advertiser-index .three-ways-container ul li {
+  width: 199px;
+  margin-right: 10px;
+  float: left;
+  position: relative;
+  top: -23px;
+  left: 41px; 
+}
+
 .market-campaign-edit-top, .market-campaign-edit-bottom, .market-campaign-acl {
    width: 780px;
 }

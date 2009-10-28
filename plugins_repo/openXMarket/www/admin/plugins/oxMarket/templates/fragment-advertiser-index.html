@@ -27,11 +27,11 @@
 $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
 
 -->*}
-<div class="market-advertiser-index market-advertiser-index-bottom">
+<div id="market-advertiser-index" class="hide">
   {if $content}
       {$content}
   {else}
-    <div class="hide" id="market-callout" style="height: auto; width: 620px;">
+    <div id="market-callout" style="height: auto; width: 630px;">
       <p>
         Openx Market provides ads for your sites through a real-time auction and various ad buyers.
         Your ad impression will be sold to the highest bidder. Ad buyers in OpenX Market include:
@@ -43,9 +43,15 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
         <em>and hundreds of others</em>.
       </p>
       <p>
-        <b>There are three ways you can make money from OpenX Market.
+        <a href="#" id="three-ways-link"><b>There are three ways you can make money from OpenX Market.</a>
       </p>
-      <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways.gif" alt='3 ways to use OpenX Market'/>
+      <div class="three-ways-container">
+        <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways.gif" alt='3 ways to use OpenX Market'/>
+        <ul>
+          <li><a href="http://localhost/oxp-public/www/admin/campaign-edit.php?clientid={$marketClientId}">Get started</a></li>
+          <li><a href="{$adminPluginWebPath}/oxMarket/market-campaigns-settings.php">Get started</a></li>
+          <li><a href="affiliate-zones.php">Get started</a></li>
+      </div>
     </div>
   {/if}
 </div>
@@ -55,7 +61,7 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
 {literal}
  <!--
   $(document).ready(function() {
-    $('.market-advertiser-index').advertiserIndex({
+    $('#market-advertiser-index').advertiserIndex({
 {/literal}
             showHelp: {if $showMarketInfo}true{else}false{/if}
             
