@@ -256,12 +256,6 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
               ),
         array('name' => '')
     ), 'campaigns', 'list');
-    
-    
-    if ($advertiser['type'] == DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
-        $oHeaderModel->setIconClass('iconCampaignsSystemLarge');    
-    }
-    
 
     return $oHeaderModel;
 }

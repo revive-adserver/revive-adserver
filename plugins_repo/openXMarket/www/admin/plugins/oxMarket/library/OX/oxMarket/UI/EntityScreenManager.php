@@ -48,21 +48,50 @@ class OX_oxMarket_UI_EntityScreenManager
     {
         $pageId = $oEventContext->data['pageId'];
         $pageData = $oEventContext->data['pageData'];
+        $oHeaderModel = $oEventContext->data['headerModel'];
+        $oEntityHelper = $this->oMarketComponent->getEntityHelper();
                 
         switch($pageId) {
             case 'advertiser-campaigns': {
                 $oUI = OA_Admin_UI::getInstance();
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
                     'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                if (isset($oHeaderModel) && $oEntityHelper->isMarketAdvertiser($pageData['clientid'])) {
+                    $oHeaderModel->setIconClass('iconCampaignsSystemLarge');
+                }
                 break;
             }
             
+
+            case 'market-campaign-edit_new': {
+                if (isset($oHeaderModel)) {
+                    $oHeaderModel->setIconClass('iconCampaignSystemAddLarge');
+                }
+                break;
+            }
+            
+            case 'market-campaign-edit':
+            case 'market-campaign-acl': {    
+                if (isset($oHeaderModel)) {
+                    $oHeaderModel->setIconClass('iconCampaignSystemLarge');
+                }
+                break;
+            }
+            
+            
+            case 'campaign-zone': {
+                if (isset($oHeaderModel) && $oEntityHelper->isMarketAdvertiser($pageData['clientid'])) {
+                    $oHeaderModel->setIconClass('iconCampaignSystemLarge');
+                }
+                break;
+            }
+            
+            
             case 'campaign-edit' : 
             case 'campaign-edit_new': {
-                $oEntityHelper = $this->oMarketComponent->getEntityHelper();
                 $hasMarket = $oEntityHelper->isMarketAdvertiser($pageData['clientid']);
                 if (!($hasMarket)) { //only redirect to proper screens if it is market
-                    return;
+                    break;
                 }
                 OX_Admin_Redirect::redirect('plugins/' . $this->oMarketComponent->group 
                     . '/market-campaign-edit.php?clientid='.$pageData['clientid']
@@ -82,10 +111,6 @@ class OX_oxMarket_UI_EntityScreenManager
         
         $result = '';
         switch($pageId) {
-            case 'campaign-zone' : {
-                $result = $this->campaignZoneBeforeContent($pageData, $smarty);
-                break;
-            }
             case 'advertiser-campaigns': {
                 $result = $this->advertiserCampaignsBeforeContent($pageData, $smarty);
                 break;
@@ -117,22 +142,6 @@ class OX_oxMarket_UI_EntityScreenManager
         }
         
         return $result;        
-    }
-
-    
-    protected function campaignZoneBeforeContent($pageData, $smarty)
-    {
-        //TODO get campaign here from db check if it's system and default
-        $isSystem = true;
-        $isDefault = true;
-        if (!($isSystem && $isDefault)) { //only default system campaign screen will be modified
-            return null;
-        }
-        
-        
-        $oTpl = new OA_Plugin_Template('fragment-campaign-zone.html','oxMarket');
-        $oTpl->assign('before', true);
-        return $oTpl->toString();
     }
     
     
