@@ -204,7 +204,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Requirements:
      * Test 1: Test with no advertisers.
      * Test 2: Test with one advertiser.
-     * Test 3: Test with two advertisers.
+     * Test 3: Test with two advertisers (one market advertiser).
      * Test 4: Test with two advertisers, reverse sort order.
      * Test 5: Test with two advertisers, but limit owning agency.
      */
@@ -243,6 +243,13 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         // Test 3
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up');
         $this->assertTrue(is_array($aClients));
+        $this->assertEqual(count($aClients), 1);
+        $this->assertEqual(count($aClients[1]), 3);
+        $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
+        $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
+        $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null, 
+                        array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
+        $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
         $this->assertTrue(is_array($aClients[1]));
         $this->assertEqual(count($aClients[1]), 3);
@@ -265,6 +272,13 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         // Test 4
         $aClients = $this->dalClients->getAllAdvertisers('name', 'down');
+        $this->assertTrue(is_array($aClients));
+        $this->assertEqual(count($aClients), 1);
+        $this->assertEqual(count($aClients[1]), 3);
+        $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
+        $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
+        $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null, 
+                        array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
         $this->assertTrue(is_array($aClients[1]));
