@@ -411,8 +411,8 @@ class DB_DataObjectCommon extends DB_DataObject
      * This method is used as a common way of sorting rows in OpenX UI
      *
      * @see MAX_Dal_Common::getSqlListOrder
-     * @param string|array $nameColumns
-     * @param string $direction
+     * @param string|array $nameColumns 
+     * @param string|array $direction 
      * @access public
      */
     function addListOrderBy($listOrder = '', $orderDirection = '')
@@ -421,14 +421,29 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!$dalModel) {
             return false;
         }
-        $nameColumns = $dalModel->getOrderColumn($listOrder);
-        $direction   = $dalModel->getOrderDirection($orderDirection);
-
-        if (!is_array($nameColumns)) {
-            $nameColumns = array($nameColumns);
+        if (!is_array($listOrder)) {
+            $listOrder = array($listOrder);
         }
+        if (!is_array($orderDirection)) { 
+            $orderDirection = array($orderDirection);
+        }
+        
+        $nameColumns = array();
+        foreach ($listOrder as $name) {
+            $nameColumns[] = $dalModel->getOrderColumn($name);
+        }
+        $orderDirections = array();
+        foreach ($orderDirection as $direction) {
+            $orderDirections[] = $dalModel->getOrderDirection($direction);
+        }
+
+        reset($orderDirections);
         foreach ($nameColumns as $nameColumn) {
+            $direction = current($orderDirections);
             $this->orderBy($nameColumn . ' ' . $direction);
+            if (next($orderDirections)){
+                end($orderDirections);
+            }
         }
     }
 

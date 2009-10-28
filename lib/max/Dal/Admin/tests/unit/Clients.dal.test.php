@@ -204,9 +204,9 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Requirements:
      * Test 1: Test with no advertisers.
      * Test 2: Test with one advertiser.
-     * Test 3: Test with two advertisers (one market advertiser).
-     * Test 4: Test with two advertisers, reverse sort order.
-     * Test 5: Test with two advertisers, but limit owning agency.
+     * Test 3: Test with tree advertisers (one market advertiser).
+     * Test 4: Test with tree advertisers, reverse sort order.
+     * Test 5: Test with tree advertisers, but limit owning agency.
      */
     function testGetAllAdvertisers()
     {
@@ -239,18 +239,28 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients->reportlastdate = '2007-04-03 19:14:59';
         $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $aClientId = DataGenerator::generateOne($doClients);
+        // Insert a third advertiser
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientname = 'Advertiser 3';
+        $doClients->agencyid = 2;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
+        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
+        $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 3
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up');
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 1);
+        $this->assertEqual(count($aClients), 2);
         $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
+        $this->assertEqual(count($aClients[3]), 3);
+        $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
+        $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null, 
                         array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 2);
+        $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
         $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
@@ -259,28 +269,38 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[2]), 3);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         $this->assertEqual($aClients[2]['type'], DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+        $this->assertEqual(count($aClients[3]), 3);
+        $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
+        $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
+        $aValue = array_pop($aClients);
+        $this->assertTrue(is_array($aValue));
+        $this->assertEqual(count($aValue), 3);
+        $this->assertEqual($aValue['clientname'], 'Advertiser 3');
+        $aValue = array_pop($aClients);
+        $this->assertTrue(is_array($aValue));
+        $this->assertEqual(count($aValue), 3);
+        $this->assertEqual($aValue['clientname'], 'Advertiser 1');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
         $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 2');
-        $aValue = array_pop($aClients);
-        $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 3);
-        $this->assertEqual($aValue['clientname'], 'Advertiser 1');
 
         // Test 4
         $aClients = $this->dalClients->getAllAdvertisers('name', 'down');
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 1);
+        $this->assertEqual(count($aClients), 2);
         $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
+        $this->assertEqual(count($aClients[3]), 3);
+        $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
+        $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null, 
                         array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 2);
+        $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
         $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
@@ -289,12 +309,19 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[2]), 3);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         $this->assertEqual($aClients[2]['type'], DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+        $this->assertEqual(count($aClients[3]), 3);
+        $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
+        $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
         $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 1');
+        $aValue = array_pop($aClients);
+        $this->assertTrue(is_array($aValue));
+        $this->assertEqual(count($aValue), 3);
+        $this->assertEqual($aValue['clientname'], 'Advertiser 3');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
         $this->assertEqual(count($aValue), 3);

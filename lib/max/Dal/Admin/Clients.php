@@ -35,7 +35,8 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 
     var $orderListName = array(
         'name' => 'clientname',
-        'id'   => 'clientid'
+        'id'   => 'clientid',
+        'type' => '(type=0)'
     );
 
 	/**
@@ -126,6 +127,15 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             $doClients->agencyid = $agencyId;
         }
         $doClients->whereInAdd('type', $aIncludeSystemTypes);
+        if (!is_array($listorder)) {
+            $listorder = array($listorder);
+        }
+        $aOrderdirection = array();
+        foreach($listorder as $elem) {
+            $aOrderdirection[] = $orderdirection; 
+        }
+        $listorder = array_merge(array('type'), $listorder);
+        $orderdirection = array_merge(array('up'), $aOrderdirection);
         $doClients->addListOrderBy($listorder, $orderdirection);
         return $doClients->getAll(array('clientname', 'an_adnetwork_id', 'type'), $indexWitkPk = true, $flatten = false);
     }
