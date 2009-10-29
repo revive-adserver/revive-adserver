@@ -534,6 +534,7 @@
         var settings = $.extend({}, defaults, options);
         
         $threeWays = $('.three-ways-container');
+        $threeWaysLink = $('#three-ways-link');
         
         init();
         
@@ -544,14 +545,27 @@
                 .after($advertiserIndexContent);
             $advertiserIndexContent.show();
         
-            
-            $('#three-ways-link').click(function() {
-                $threeWays.toggle();
+            $threeWaysLink.click(function() {
+                updateThreeWaysBox();
             });
 
             if (settings.showInfo) {
-                $threeWays.show();
+                updateThreeWaysBox();
             }
+        }
+        
+        
+        function updateThreeWaysBox()
+        {
+                //info box is hidden by default and has collapse class set
+                //toggling for the firts time
+                //- shows container
+                //-removes collapse class
+                //-adds expand class
+                //Subsequent calls do reverse
+                $threeWays.toggle();
+                $threeWaysLink.toggleClass('expand');
+                $threeWaysLink.toggleClass('collapse');
         }
         
     });

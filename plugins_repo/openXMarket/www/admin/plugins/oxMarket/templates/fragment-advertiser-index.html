@@ -43,7 +43,7 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
         <em>and hundreds of others</em>.
       </p>
       <p>
-        <a href="#" id="three-ways-link"><b>There are three ways you can make money from OpenX Market.</a>
+        <a href="#" id="three-ways-link" class="collapse"><b>There are three ways you can make money from OpenX Market</a>
       </p>
       <div class="three-ways-container hide">
         <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways.gif" alt='3 ways to use OpenX Market'/>
@@ -63,7 +63,7 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
   $(document).ready(function() {
     $('#market-advertiser-index').advertiserIndex({
 {/literal}
-       showInfo: {if $showMarketInfo}true{else}false{/if}
+       showInfo: false
 {literal}
     });            
   });

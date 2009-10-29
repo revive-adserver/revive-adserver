@@ -454,6 +454,20 @@ ul.column li.rejected {
   left: 41px; 
 }
 
+#market-advertiser-index .expand {
+    padding: 2px 0 2px 15px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image:url(../../../assets/images/arrow-d.gif);
+}
+
+#market-advertiser-index .collapse {
+    padding: 2px 0 2px 15px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image:url(../../../assets/images/arrow-r.gif);
+}
+
 .market-campaign-edit-top, .market-campaign-edit-bottom, .market-campaign-acl {
    width: 780px;
 }
