@@ -25,7 +25,6 @@
           indicatorSelector: '#user-check-indicator',
           availableClass: 'available',
           unavailableClass: 'unavailable',
-          callback: updateSubmitButton
         });
         
         updateForm();
@@ -49,18 +48,6 @@
                 $("#m_new_email").focus();
             }
         }
-        
-        
-        function updateSubmitButton(texElement, userNameAvailable) {
-            /*if (userNameAvailable) {
-                $("#save", $form).attr("disabled", false);
-                $("#userhint", $form).fadeOut();
-            } 
-            else {
-                $("#save", $form).attr("disabled", true);
-                $("#userhint", $form).fadeIn();
-            }*/
-        };
   };
 
 
@@ -542,9 +529,11 @@
   $.fn.advertiserIndex = function(options) {
     return this.each(function() {
         var defaults = {
-            showHelp: false
+            showInfo: false
         };
         var settings = $.extend({}, defaults, options);
+        
+        $threeWays = $('.three-ways-container');
         
         init();
         
@@ -554,6 +543,15 @@
             $("table tr.systemAdvertiser td span.iconAdvertiserSystem")
                 .after($advertiserIndexContent);
             $advertiserIndexContent.show();
+        
+            
+            $('#three-ways-link').click(function() {
+                $threeWays.toggle();
+            });
+
+            if (settings.showInfo) {
+                $threeWays.show();
+            }
         }
         
     });
