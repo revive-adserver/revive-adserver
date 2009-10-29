@@ -63,11 +63,14 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $numBanners = 2;
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $doBanners->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
         $aBannerId = DataGenerator::generate($doBanners, $numBanners);
 
         // Call method
         $aBanners = $this->dalBanners->getAllBanners('name', 'up');
-
+        $this->assertEqual(count($aBanners), 0);
+        
+        $aBanners = $this->dalBanners->getAllBanners('name', 'up', false);
         // Test same number of banners are returned.
         $this->assertEqual(count($aBanners), $numBanners);
     }
@@ -99,13 +102,44 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aCampaignId[1];
+        $doBanners->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aBannerId[] = DataGenerator::generateOne($doBanners);
 
-        $aBanners = $this->dalBanners->getAllBannersUnderAgency(1, 'name', 'up');
-
+        $aBanners = $this->dalBanners->getAllBannersUnderAgency(0, 'name', 'up');
         $this->assertEqual(count($aBanners), 1);
+        $aBanners = $this->dalBanners->getAllBannersUnderAgency(0, 'name', 'up', false);
+        $this->assertEqual(count($aBanners), 1);
+        
+        $aBanners = $this->dalBanners->getAllBannersUnderAgency(1, 'name', 'up');
+        $this->assertEqual(count($aBanners), 0);
+        $aBanners = $this->dalBanners->getAllBannersUnderAgency(1, 'name', 'up', false);
+        $this->assertEqual(count($aBanners), 1);
+    }
+    
+    
+    function testGetAllBannersUnderCampaign()
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = 0;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aBannerId[] = DataGenerator::generateOne($doBanners);
 
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = 0;
+        $doBanners->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = 1;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        
+        $aBanners = $this->dalBanners->getAllBannersUnderCampaign(0, 'name', 'up');
+        $this->assertEqual(count($aBanners), 1);
+        $aBanners = $this->dalBanners->getAllBannersUnderCampaign(0, 'name', 'up', false);
+        $this->assertEqual(count($aBanners), 2);
     }
 
     function testCountActiveBanners()
@@ -211,6 +245,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners->description = 'foo';
         $doBanners->alt = 'bar';
         $doBanners->campaignid = $campaignId;
+        $doBanners->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
@@ -221,22 +256,28 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $agencyId = $dg->getReferenceId('agency');
 
         // Search for banner by description
-        $expected = 1;
+        $expected = 0;
         $rsBanners = $this->dalBanners->getBannerByKeyword('foo');
+        $rsBanners->find();
+        $actual = $rsBanners->getRowCount();
+        $this->assertEqual($actual, $expected);
+        
+        $expected = 1;
+        $rsBanners = $this->dalBanners->getBannerByKeyword('foo',null, false);
         $rsBanners->find();
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
 
         // Search for banner by alt
         $expected = 1;
-        $rsBanners = $this->dalBanners->getBannerByKeyword('bar');
+        $rsBanners = $this->dalBanners->getBannerByKeyword('bar',null, false);
         $rsBanners->find();
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
 
         // Restrict to agency ID (client was created with default agency ID of 1)
         $expected = 1;
-        $rsBanners = $this->dalBanners->getBannerByKeyword('bar', $agencyId);
+        $rsBanners = $this->dalBanners->getBannerByKeyword('bar', $agencyId, false);
         $rsBanners->find();
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
