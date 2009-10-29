@@ -44,8 +44,6 @@ phpAds_registerGlobalUnslashed('acl', 'action', 'submit');
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_EDIT);
-//TODO get banner id for that campaign
-//OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 //check if you can see this page
@@ -53,6 +51,7 @@ $oMarketComponent->checkActive();
 
 
 // Initialise some parameters
+$bannerid = getMarketBannerId($campaignid);
 $tabindex = 1;
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
@@ -105,19 +104,16 @@ function displayPage($oMarketComponent, $aEntities, $acl)
         // When we move to DataObject this should be addressed
         ksort($acl);
     }
-    
     $aParams = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
-    echo "<div class='market-campaign-acl'>";
-    MAX_displayAcls($acl, $aParams);
     
-    echo "
-    <input type='submit' name='submit' value='{$GLOBALS['strSaveChanges']}' tabindex='".($tabindex++)."'>
-    </form>
-      <p class='note'>
-        <em>Delivery limitations that you set here, do not apply to OpenX Market impressions from existing campaigns that you opted in to OpenX Market.</em>
-      </p>
-    </div>    
-    ";
+    //MAX_displayAcls echoes delivery limitations table....
+    ob_start();
+    MAX_displayAcls($acl, $aParams);
+    $limitationsForm = ob_get_clean();
+    
+    $oTpl = new OA_Plugin_Template('market-campaign-acl.html', 'oxMarket');
+    $oTpl->assign('limitationsForm', $limitationsForm);
+    $oTpl->display();
     
     phpAds_PageFooter();    
 }
@@ -141,10 +137,10 @@ function saveLimitations($aEntities, $acl)
         // Queue confirmation message
         $translation = new OX_Translation ();
         $translated_message = $translation->translate($GLOBALS['strBannerAclHasBeenUpdated'], 
-            array('', htmlspecialchars($doBanners->description)
+            array("market-campaign-acl.php?clientid=".$advertiserId."&campaignid=".$campaignId, htmlspecialchars($doBanners->description)
         ));
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        OX_Admin_Redirect::redirect("plugins/oxMarket/market-campaign-acl.php?clientid=".$advertiserId."&campaignid=".$campaignId."&bannerid=".$bannerId);
+        OX_Admin_Redirect::redirect("plugins/oxMarket/market-campaign-acl.php?clientid=".$advertiserId."&campaignid=".$campaignId);
     }
 }
 
@@ -164,6 +160,22 @@ function addMarketCampaignPageTools($advertiserId, $campaignId)
         addPageShortcut($GLOBALS['strBackToCampaigns'], MAX::constructUrl(MAX_URL_ADMIN, "advertiser-campaigns.php?clientid=$advertiserId"), "iconBack");
         addPageShortcut($GLOBALS['strCampaignHistory'], MAX::constructUrl(MAX_URL_ADMIN, "stats.php?entity=campaign&breakdown=history&clientid=$clientid&campaignid=$campaignid"), 'iconStatistics');
     }
+}
+
+
+function getMarketBannerId($campaignid)
+{
+    $bannerId = null;
+    
+    $dalBanners = OA_Dal::factoryDAL('banners');
+    $aBanners = $dalBanners->getAllBannersUnderCampaign($campaignid, null, null, false);
+
+    if (!empty($aBanners)) {
+        $aBanner = array_shift($aBanners);
+        $bannerId = $aBanner['bannerid'];
+    }
+    
+    return $bannerId;
 }
 
 ?>

@@ -300,6 +300,12 @@ function displayPage($aCampaign, $oForm, $oMarketComponent, $campaignErrors = nu
     $oTpl->assign('language', $GLOBALS['_MAX']['PREF']['language']);
     $oTpl->assign('campaignErrors', $campaignErrors);
     
+    $aStrings = getCustomContent($oMarketComponent);
+    $oTpl->assign('top', $aStrings['content_top']);
+    $oTpl->assign('right', $aStrings['content_right']);
+    $oTpl->assign('bottom', $aStrings['content_bottom']);
+    
+    
     $oTpl->assign('pluginVersion', $oMarketComponent->getPluginVersion());
     $oTpl->assign('form', $oForm->serialize());
     $oTpl->display();
@@ -368,5 +374,34 @@ function processCampaignForm($form, &$oComponent)
     //return processing errors
     return $errors;
 }
+
+function getCustomContent($oMarketComponent)
+{
+    static $aContentStrings;
+
+    if ($aContentStrings != null) {
+        return $aContentStrings;
+    }
+
+    $aContentKeys = $oMarketComponent->retrieveCustomContent('market-campaign-edit');
+    if (!$aContentKeys) {
+        $aContentKeys = array();
+    }
+
+    //get the custom content and fallback to hardcoded if not found
+    $aContentStrings['content_top'] = isset($aContentKeys['content-top'])
+        ? $aContentKeys['content-top']
+        : '';
+    $aContentStrings['content_right'] = isset($aContentKeys['content-right'])
+        ? $aContentKeys['content-right']
+        : '';
+    $aContentStrings['content_bottom'] = isset($aContentKeys['content-bottom'])
+        ? $aContentKeys['content-bottom']
+        : '';
+        
+    return $aContentStrings;
+}
+
+
 
 ?>

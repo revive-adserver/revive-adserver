@@ -468,9 +468,54 @@ ul.column li.rejected {
     background-image:url(../../../assets/images/arrow-r.gif);
 }
 
-.market-campaign-edit-top, .market-campaign-edit-bottom, .market-campaign-acl {
+/** market campaign edit **/
+.market-campaign-edit, .market-campaign-acl {
    width: 780px;
 }
+
+.market-campaign-edit form, .market-campaign-edit .messagePlaceholderForm {
+    width: 565px;  
+}
+
+.market-campaign-edit-top {
+  overflow: auto;
+  margin-bottom: 5px;
+}
+
+
+.market-campaign-edit-top p img {
+  float: left;
+}
+
+.market-campaign-edit form, .market-campaign-edit form .section {
+  clear: left;
+}
+
+.market-campaign-edit div.localMessage div.panel {
+  margin-bottom:5px;
+  width:auto;
+}
+
+
+.market-campaign-edit .info-box {
+  width: 150px;
+  margin-left: 10px;
+  float:right;
+  text-align: center;
+  
+  padding: 10px;
+  *padding: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; /*CSS3*/
+  border: 1px solid #cfcfcf;
+}
+
+.market-campaign-edit .info-box img {
+  margin-top: 10px;
+}
+
+
 
 /** advertiser campaigns snippet **/
 .market-advertiser-campaigns, .market-campaigns-zone {
@@ -490,4 +535,8 @@ ul.column li.rejected {
 .market-campaign-acl .note {
   margin-top: 12px;
 }
+   
+
+
+   
    

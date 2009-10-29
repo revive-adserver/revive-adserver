@@ -24,7 +24,7 @@
           unavailableResultText: 'taken',
           indicatorSelector: '#user-check-indicator',
           availableClass: 'available',
-          unavailableClass: 'unavailable',
+          unavailableClass: 'unavailable'
         });
         
         updateForm();
@@ -185,8 +185,8 @@
         
         function addLastCPMHidden()
         {
-            var $lastECPMHidden = $("#last_ecpm")        
-            if ($lastECPMHidden.length == 0) {
+            var $lastECPMHidden = $("#last_ecpm");        
+            if ($lastECPMHidden.length === 0) {
                  $form.append('<input type="hidden" name="last_ecpm" id="last_ecpm" value="" />');
                  $lastECPMHidden = $("#last_ecpm");
             }
@@ -196,7 +196,7 @@
         
         function setValidatorMessage(message)
         {
-            var validator = $form.getValidator()
+            var validator = $form.getValidator();
             var floorPriceName = $floorPriceField.attr("name");
             messages = validator.settings.messages[floorPriceName];
             
@@ -311,14 +311,14 @@
             var $startDateSpan = $("#specificStartDateSpan");
             var $endDateSpan = $("#specificEndDateSpan");
         
-            if ($("#startSet_immediate").attr("checked") == true) {
+            if ($("#startSet_immediate").attr("checked") === true) {
                 $startDateSpan.hide();
             }
             else {
                 $startDateSpan.show();
             }
         
-            if ($("#endSet_immediate").attr("checked") == true) {
+            if ($("#endSet_immediate").attr("checked") === true) {
                 $endDateSpan.hide();
             }
             else {
@@ -366,7 +366,7 @@
         
         function campaignFormUnlimitedUpdate(unlimitedField, limitField, focus)
         {
-            if (unlimitedField.checked == true) {
+            if (unlimitedField.checked === true) {
                 limitField.value = '-';
                 limitField.disabled = true;
             }
@@ -385,7 +385,7 @@
         function updateCampaignPricingSectionNotes(field, unlimitedField)
         {
             var name = field.name;
-            var isUnlimited = unlimitedField != undefined && unlimitedField.checked;
+            var isUnlimited = unlimitedField !== undefined && unlimitedField.checked;
         
             // Update remaining impressions/click/conversions note
             var $remainingNoteSpan = $('#' +  name + '_remaining_span');
@@ -410,7 +410,7 @@
            var campaignType = getCampaignType();
         
             // date and limit set distribution will be automatic
-            if ($("#endSet_specific").attr("checked") == true && campaignHasLimitSet()) {
+            if ($("#endSet_specific").attr("checked") === true && campaignHasLimitSet()) {
                 $("#high_distribution_span").hide();
             }
             else { //otherwise ask for limit per day
@@ -430,7 +430,7 @@
         
         function campaignFormPriorityCheck(form)
         {
-          if (($("#endSet_immediate").attr("checked") == true || !campaignHasLimitSet())
+          if (($("#endSet_immediate").attr("checked") === true || !campaignHasLimitSet())
               && !parseInt($("#target_value").val()) ) {
               return confirm (settings.strings.strCampaignWarningNoTargetMessage);
           }
@@ -485,7 +485,7 @@
         function updateMarketOptinAvailability()
         {
             //market work for banner zone with width and height specified
-            if ($bannerZoneRadio.attr("checked") != true) {   //if other than banner zone is selected 
+            if ($bannerZoneRadio.attr("checked") !== true) {   //if other than banner zone is selected 
                 $marketCheckbox.attr('disabled', true);
             }
             else {
@@ -505,8 +505,8 @@
             var selectedSize = '';
             
             //custom
-            if ($customSizeRadio.attr("checked") == true 
-                || ($definedSizeRadio.attr('checked') == true && $sizeSelect.val() == '-')) {
+            if ($customSizeRadio.attr("checked") === true 
+                || ($definedSizeRadio.attr('checked') === true && $sizeSelect.val() == '-')) {
                 var width = $.trim($widthField.val());
                 var height = $.trim($heightField.val());
                 

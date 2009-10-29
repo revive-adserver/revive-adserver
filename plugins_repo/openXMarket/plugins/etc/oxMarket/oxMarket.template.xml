@@ -34,12 +34,14 @@
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
             <file path="{ADMINPATH}/images/">icon-value-click-small.png</file>
             <file path="{ADMINPATH}/images/">market-3-ways.gif</file>            
-            <file path="{ADMINPATH}/images/">market-adnetworks.png</file>            
+            <file path="{ADMINPATH}/images/">market-adnetworks.gif</file>            
+            <file path="{ADMINPATH}/images/">market-auction.gif</file>
             <file path="{ADMINPATH}/templates/">fragment-advertiser-campaigns.html</file>
             <file path="{ADMINPATH}/templates/">fragment-advertiser-index.html</file>             
             <file path="{ADMINPATH}/templates/">fragment-campaign-zone.html</file>            
             <file path="{ADMINPATH}/templates/">campaign-script.html</file>
             <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/templates/">market-campaign-acl.html</file>
             <file path="{ADMINPATH}/templates/">market-campaign-edit.html</file>            
             <file path="{ADMINPATH}/templates/">market-campaigns-settings.html</file>
             <file path="{ADMINPATH}/templates/">market-campaigns-settings-list.html</file>
