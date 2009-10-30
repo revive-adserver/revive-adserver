@@ -38,24 +38,13 @@ class OX_oxMarket_Dal_Campaign
 {
 
     
+    /**
+     * Save market contract campaign
+     *
+     * @param array $aCampaign
+     */
     public function saveCampaign($aCampaign)
     {
-
-        // Prepare date fields
-        if (!empty($aCampaign['start'])) {
-            $oDate = new Date(date('Y-m-d 00:00:00', strtotime($aCampaign['start'])));
-            $oDate->toUTC();
-            $activate = $oDate->getDate();
-        } else {
-            $activate = null;
-        }
-        if (!empty($aCampaign['end'])) {
-            $oDate = new Date(date('Y-m-d 23:59:59', strtotime($aCampaign['end'])));
-            $oDate->toUTC();
-            $expire = $oDate->getDate();
-        } else {
-            $expire = null;
-        }
 
         if (empty($aCampaign['campaignid'])) {
             // The form is submitting a new campaign, so, the ID is not set;
@@ -86,24 +75,6 @@ class OX_oxMarket_Dal_Campaign
             }
         }        
 
-        // Set impressions to unlimited
-        if ((!empty($aCampaign['impr_unlimited']) && $aCampaign['impr_unlimited'] == 't')) {
-            $aCampaign['impressions'] = -1;
-        } else if (empty($aCampaign['impressions']) || $aCampaign['impressions'] == '-') {
-            $aCampaign['impressions'] = 0;
-        }
-        // Set campaign priority
-        $aCampaign['priority'] = (isset($aCampaign['high_priority_value']) ? $aCampaign['high_priority_value'] : 5); //high
-
-        $hasExpiration = !empty($expire);
-        $hasLifetimeTargets = $aCampaign['impressions'] != -1;
-        if (!($hasExpiration && $hasLifetimeTargets) && (isset($aCampaign['target_impression'])) && ($aCampaign['target_impression'] != '-')) {
-            $target_impression = $aCampaign['target_impression'];
-        } else {
-            $target_impression = 0;   
-        }
-        $aCampaign['weight'] = 0;
-               
         // insert/edit campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $aCampaign['campaignname'];
@@ -117,12 +88,11 @@ class OX_oxMarket_Dal_Campaign
         //$doCampaigns->comments = $aCampaign['comments'];
         //$doCampaigns->revenue = $aCampaign['revenue'];
         //$doCampaigns->revenue_type = $aCampaign['revenue_type'];
-        //$doCampaigns->capping = $aCampaign['capping'];
-        //$doCampaigns->session_capping = $aCampaign['session_capping'];
-        
-        // Activation and expiration
+        $activate = $aCampaign['activate_time'];
+        $expire = $aCampaign['expire_time'];
         $doCampaigns->activate_time = isset($activate) ? $activate : OX_DATAOBJECT_NULL;
         $doCampaigns->expire_time = isset($expire) ? $expire : OX_DATAOBJECT_NULL;
+        // Activation and expiration
                 
         if (!empty($aCampaign['campaignid']) && $aCampaign['campaignid'] != "null") {
             $doCampaigns->campaignid = $aCampaign['campaignid'];
