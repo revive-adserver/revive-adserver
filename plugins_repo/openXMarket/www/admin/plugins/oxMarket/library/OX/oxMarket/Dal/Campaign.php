@@ -24,6 +24,8 @@
 +---------------------------------------------------------------------------+
 $Id: Website.php 41993 2009-08-24 15:18:37Z lukasz.wikierski $
 */
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 /**
  * Campaign DAL Library. 
@@ -38,25 +40,37 @@ class OX_oxMarket_Dal_Campaign
     
     public function saveCampaign($aCampaign)
     {
-        //TODO do some processing
-        return array();
-        
-        
-        //before save
-        
-        if (empty($aFields['campaignid'])) {
+
+        // Prepare date fields
+        if (!empty($aCampaign['start'])) {
+            $oDate = new Date(date('Y-m-d 00:00:00', strtotime($aCampaign['start'])));
+            $oDate->toUTC();
+            $activate = $oDate->getDate();
+        } else {
+            $activate = null;
+        }
+        if (!empty($aCampaign['end'])) {
+            $oDate = new Date(date('Y-m-d 23:59:59', strtotime($aCampaign['end'])));
+            $oDate->toUTC();
+            $expire = $oDate->getDate();
+        } else {
+            $expire = null;
+        }
+
+        if (empty($aCampaign['campaignid'])) {
             // The form is submitting a new campaign, so, the ID is not set;
             // set the ID to the string "null" so that the table auto_increment
             // or sequence will be used when the campaign is created
-            $aFields['campaignid'] = "null";
+            $aCampaign['campaignid'] = "null";
         } 
         else {
             // The form is submitting a campaign modification; need to test
             // if any of the banners in the campaign are linked to an email zone,
             // and if so, if the link(s) would still be valid if the change(s)
             // to the campaign were made...
+            // TODO: remove if market banner can't be linked to email zone
             $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-            $aCurrentLinkedEmalZoneIds = $dalCampaigns->getLinkedEmailZoneIds($aFields['campaignid']);
+            $aCurrentLinkedEmalZoneIds = $dalCampaigns->getLinkedEmailZoneIds($aCampaign['campaignid']);
             if (PEAR::isError($aCurrentLinkedEmalZoneIds)) {
                 OX::disableErrorHandling();
                 $errors[] = PEAR::raiseError($GLOBALS['strErrorDBPlain']);
@@ -64,7 +78,7 @@ class OX_oxMarket_Dal_Campaign
             }
             $errors = array();
             foreach ($aCurrentLinkedEmalZoneIds as $zoneId) {
-                $thisLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aFields['campaignid'], $activate, $expire);
+                $thisLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aCampaign['campaignid'], $activate, $expire);
                 if (PEAR::isError($thisLink)) {
                     $errors[] = $thisLink;
                     break;
@@ -72,21 +86,59 @@ class OX_oxMarket_Dal_Campaign
             }
         }        
 
-        //before save
-        if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
-            $doCampaigns->campaignid = $aFields['campaignid'];
+        // Set impressions to unlimited
+        if ((!empty($aCampaign['impr_unlimited']) && $aCampaign['impr_unlimited'] == 't')) {
+            $aCampaign['impressions'] = -1;
+        } else if (empty($aCampaign['impressions']) || $aCampaign['impressions'] == '-') {
+            $aCampaign['impressions'] = 0;
+        }
+        // Set campaign priority
+        $aCampaign['priority'] = (isset($aCampaign['high_priority_value']) ? $aCampaign['high_priority_value'] : 5); //high
+
+        $hasExpiration = !empty($expire);
+        $hasLifetimeTargets = $aCampaign['impressions'] != -1;
+        if (!($hasExpiration && $hasLifetimeTargets) && (isset($aCampaign['target_impression'])) && ($aCampaign['target_impression'] != '-')) {
+            $target_impression = $aCampaign['target_impression'];
+        } else {
+            $target_impression = 0;   
+        }
+        $aCampaign['weight'] = 0;
+               
+        // insert/edit campaign
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = $aCampaign['campaignname'];
+        $doCampaigns->clientid = $aCampaign['clientid'];
+        $doCampaigns->views = $aCampaign['impressions'];
+        $doCampaigns->priority = $aCampaign['priority'];
+        $doCampaigns->weight = $aCampaign['weight'];
+        $doCampaigns->target_impression = $target_impression;
+        $doCampaigns->min_impressions = $aCampaign['min_impressions'];
+        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT;
+        //$doCampaigns->comments = $aCampaign['comments'];
+        //$doCampaigns->revenue = $aCampaign['revenue'];
+        //$doCampaigns->revenue_type = $aCampaign['revenue_type'];
+        //$doCampaigns->capping = $aCampaign['capping'];
+        //$doCampaigns->session_capping = $aCampaign['session_capping'];
+        
+        // Activation and expiration
+        $doCampaigns->activate_time = isset($activate) ? $activate : OX_DATAOBJECT_NULL;
+        $doCampaigns->expire_time = isset($expire) ? $expire : OX_DATAOBJECT_NULL;
+                
+        if (!empty($aCampaign['campaignid']) && $aCampaign['campaignid'] != "null") {
+            $doCampaigns->campaignid = $aCampaign['campaignid'];
             $doCampaigns->setEcpmEnabled();
             $doCampaigns->update();
-        } 
-        else {
+        } else {
             $doCampaigns->setEcpmEnabled();
-            $aFields['campaignid'] = $doCampaigns->insert();
+            $aCampaign['campaignid'] = $doCampaigns->insert();
+            // create banner
+            $this->addMarketBanner($aCampaign['campaignid'],'OpenX Market contract campaign ads');
         }
         
-        
-        //after save
-        
-
+        // optin to the market
+        $oCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
+        $oCampaignsOptIn->insertOrUpdateMarketCampaignPref($aCampaign['campaignid'], 0.0);
+       
         // Recalculate priority only when editing a campaign
         // or moving banners into a newly created, and when:
         //
@@ -94,37 +146,32 @@ class OX_oxMarket_Dal_Campaign
         // - the campaign is active and target/weight are changed
         //
         if (!$newCampaign) {
-            $doCampaigns = OA_Dal::staticGetDO('campaigns', $aFields['campaignid']);
+            $doCampaigns = OA_Dal::staticGetDO('campaigns', $aCampaign['campaignid']);
             $status = $doCampaigns->status;
             switch (true) {
-                case ((bool) $status != (bool) $aFields['status_old']) :
+                case ((bool) $status != (bool) $aCampaign['status_old']) :
                     // Run the Maintenance Priority Engine process
                     OA_Maintenance_Priority::scheduleRun();
                     break;
                 
                 case ($status == OA_ENTITY_STATUS_RUNNING) :
-                    if ((!empty($aFields['target_type']) && ${$aFields['target_type']} != $aFields['target_old']) || (!empty($aFields['target_type']) && $aFields['target_type_old'] != $aFields['target_type']) || $aFields['weight'] != $aFields['weight_old'] || $aFields['clicks'] != $aFields['previousclicks'] || $aFields['conversions'] != $aFields['previousconversions'] || $aFields['impressions'] != $aFields['previousimpressions']) {
+                    if ((!empty($aCampaign['target_type']) && ${$aCampaign['target_type']} != $aCampaign['target_old']) || (!empty($aCampaign['target_type']) && $aCampaign['target_type_old'] != $aCampaign['target_type']) || $aCampaign['weight'] != $aCampaign['weight_old'] || $aCampaign['clicks'] != $aCampaign['previousclicks'] || $aCampaign['conversions'] != $aCampaign['previousconversions'] || $aCampaign['impressions'] != $aCampaign['previousimpressions']) {
                         // Run the Maintenance Priority Engine process
                         OA_Maintenance_Priority::scheduleRun();
                     }
                     break;
             }
         }
-        
-        // Rebuild cache
-        // include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-        // phpAds_cacheDelete();
-        
-    
+
         // Delete channel forecasting cache
         include_once 'Cache/Lite.php';
         $options = array ('cacheDir' => MAX_CACHE);
         $cache = new Cache_Lite($options);
-        $group = 'campaign_' . $aFields['campaignid'];
+        $group = 'campaign_' . $aCampaign['campaignid'];
         $cache->clean($group);        
         
     }
-    
+   
     
     /**
      * Add market Campaign
