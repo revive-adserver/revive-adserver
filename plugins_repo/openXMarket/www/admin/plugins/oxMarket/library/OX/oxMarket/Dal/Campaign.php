@@ -43,7 +43,7 @@ class OX_oxMarket_Dal_Campaign
      *
      * @param array $aCampaign
      */
-    public function saveCampaign($aCampaign)
+    public function saveCampaign(&$aCampaign)
     {
 
         if (empty($aCampaign['campaignid'])) {
@@ -59,19 +59,23 @@ class OX_oxMarket_Dal_Campaign
             // to the campaign were made...
             // TODO: remove if market banner can't be linked to email zone
             $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+            $errors = array();
             $aCurrentLinkedEmalZoneIds = $dalCampaigns->getLinkedEmailZoneIds($aCampaign['campaignid']);
             if (PEAR::isError($aCurrentLinkedEmalZoneIds)) {
                 OX::disableErrorHandling();
                 $errors[] = PEAR::raiseError($GLOBALS['strErrorDBPlain']);
                 OX::enableErrorHandling();
-            }
-            $errors = array();
-            foreach ($aCurrentLinkedEmalZoneIds as $zoneId) {
-                $thisLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aCampaign['campaignid'], $activate, $expire);
-                if (PEAR::isError($thisLink)) {
-                    $errors[] = $thisLink;
-                    break;
+            } else {
+                foreach ($aCurrentLinkedEmalZoneIds as $zoneId) {
+                    $thisLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aCampaign['campaignid'], $activate, $expire);
+                    if (PEAR::isError($thisLink)) {
+                        $errors[] = $thisLink;
+                        break;
+                    }
                 }
+            }
+            if (!empty($errors)) {
+                return $errors;
             }
         }        
 
@@ -82,7 +86,7 @@ class OX_oxMarket_Dal_Campaign
         $doCampaigns->views = $aCampaign['impressions'];
         $doCampaigns->priority = $aCampaign['priority'];
         $doCampaigns->weight = $aCampaign['weight'];
-        $doCampaigns->target_impression = $target_impression;
+        $doCampaigns->target_impression = $aCampaign['target_impression'];
         $doCampaigns->min_impressions = $aCampaign['min_impressions'];
         $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT;
         //$doCampaigns->comments = $aCampaign['comments'];
@@ -140,6 +144,7 @@ class OX_oxMarket_Dal_Campaign
         $group = 'campaign_' . $aCampaign['campaignid'];
         $cache->clean($group);        
         
+        return null;
     }
    
     
