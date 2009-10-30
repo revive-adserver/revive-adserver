@@ -100,28 +100,30 @@ $Id$
       {else}
       {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
       {foreach from=$aPackages key=name item=aitem}
-      {cycle name=bgclass assign=bgClass}
-          <tr class="{$bgClass}">
-              <td width="40%">
-                 <div class="item-info">
-                     <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
-                     <p>{$aitem.description}</p>
-                 </div>
-              </td>
-              <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
-              <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
-              <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
-              <td>
-                {if $configLocked}&nbsp;{else}
-                    {if $aitem.enabled > 0}
-                       <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
-                    {else}
-                       <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+          {if !$configLocked || $aitem.enabled}
+          {cycle name=bgclass assign=bgClass}
+              <tr class="{$bgClass}">
+                  <td width="40%">
+                     <div class="item-info">
+                         <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
+                         <p>{$aitem.description}</p>
+                     </div>
+                  </td>
+                  <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
+                  <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
+                  <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
+                  <td>
+                    {if $configLocked}&nbsp;{else}
+                        {if $aitem.enabled > 0}
+                           <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
+                        {else}
+                           <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+                        {/if}
                     {/if}
-                {/if}
-              </td>
-              {if $configLocked}&nbsp;{else}<td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>{/if}
-          </tr>
+                  </td>
+                  {if $configLocked}&nbsp;{else}<td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>{/if}
+              </tr>
+          {/if}
         {/foreach}
        {/if}
     </tbody>
