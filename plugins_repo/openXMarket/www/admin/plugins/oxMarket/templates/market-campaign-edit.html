@@ -42,12 +42,24 @@ $Id$
     {if $top}
       {$top}
     {else}
+    <div class="messagePlaceholder messagePlaceholderStatic">
+      <div class="message localMessage">
+        <div class="panel info">
+          <div class="icon"></div>
+            <div class="body">
       <p>
-      <img src="{$adminPluginWebPath}/oxMarket/images/market-auction.gif" />
       You can book impressions directly for OpenX Market in the same way you would book a contract campaign.
       OpenX Market will deliver the highest paying ad from its real-time auction 
       or its optimized portfolio of ad networks. 
       </p>
+            </div>  
+          <div class="topleft"></div>
+          <div class="topright"></div>
+          <div class="bottomleft"></div>
+          <div class="bottomright"></div>
+        </div>
+      </div>
+    </div>      
     {/if}
   </div>
 

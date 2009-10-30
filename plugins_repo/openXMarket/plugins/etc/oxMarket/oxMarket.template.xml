@@ -35,7 +35,6 @@
             <file path="{ADMINPATH}/images/">icon-value-click-small.png</file>
             <file path="{ADMINPATH}/images/">market-3-ways.gif</file>            
             <file path="{ADMINPATH}/images/">market-adnetworks.gif</file>            
-            <file path="{ADMINPATH}/images/">market-auction.gif</file>
             <file path="{ADMINPATH}/templates/">fragment-advertiser-campaigns.html</file>
             <file path="{ADMINPATH}/templates/">fragment-advertiser-index.html</file>             
             <file path="{ADMINPATH}/templates/">fragment-campaign-zone.html</file>            
