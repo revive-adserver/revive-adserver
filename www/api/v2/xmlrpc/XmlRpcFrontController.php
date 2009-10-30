@@ -285,6 +285,12 @@ class XmlRpcFrontController
         return $service->campaignZoneStatistics($message);
     }
 
+    public function campaignConversionStatistics($message)
+    {
+        $service = new CampaignXmlRpcService();
+        return $service->campaignConversionStatistics($message);
+    }
+
     public function deleteCampaign($message)
     {
         $service = new CampaignXmlRpcService();

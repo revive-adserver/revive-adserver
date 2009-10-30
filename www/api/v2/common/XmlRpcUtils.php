@@ -267,6 +267,16 @@ class XmlRpcUtils
     function _setRPCTypeWithDefaultValues($type, $variable)
     {
         switch ($type) {
+            case 'struct':
+                if (is_null($variable)) {
+                    $variable = array();
+                }
+                return XML_RPC_encode($variable);
+            case 'array':
+                if (is_null($variable)) {
+                    $variable = array();
+                }
+                return XML_RPC_encode($variable);
             case 'string':
                 if (is_null($variable)) {
                     $variable = '';
@@ -296,8 +306,7 @@ class XmlRpcUtils
                     }
 
                     if (!empty($variable)) {
-                        $dateArr = explode('-', $variable);
-                        $dateVariable = $dateArr[0] . $dateArr[1] . $dateArr[2] . 'T00:00:00';
+                        $dateVariable = date('Ymd\TH:i:s', strtotime($variable));
                     }
                 }
 

@@ -373,6 +373,40 @@ class CampaignXmlRpcService extends BaseCampaignService
         }
     }
 
+    /**
+     * Gets conversion statistics for
+     * a campaign for a specified period, or returns an error message.
+     *
+     * @param XML_RPC_Message &$oParams
+     * @return generated result (data or error)
+     */
+    public function campaignConversionStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $rsStatisticsData = null;
+        if ($this->_oCampaignServiceImp->getCampaignConversionStatistics($sessionId,
+                $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(
+                array('campaignID' => 'integer',
+                'trackerID' => 'integer',
+                'bannerID' => 'integer',
+                'conversionTime' => 'date',
+                'conversionStatus' => 'integer',
+                'userIp' => 'string',
+                'action' => 'integer',
+                'window' => 'integer',
+                'variables' => 'struct'), $rsStatisticsData);
+        } else {
+            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
+        }
+    }
 }
 
 ?>

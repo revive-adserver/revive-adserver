@@ -589,6 +589,46 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
+     * Gets conversion statistics for a campaign for a specified period.
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     * @param array &$rsStatisticsData The data returned by the function each row containing
+     * <ul>
+     *  <li><b>campaignID integer</b> The ID of the campaign</li>
+     *  <li><b>trackerID integer</b> The ID of the tracker</li>
+     *  <li><b>bannerID integer</b> The ID of the banner</li>
+     *  <li><b>conversionTime date</b> The time of the conversion</li>
+     *  <li><b>conversionStatus integer</b> The conversion status</li>
+     *  <li><b>userIp string</b> The IP address of the conversion</li>
+     *  <li><b>action integer</b> The conversion event type</li>
+     *  <li><b>window integer</b> The conversion window</li>
+     *  <li><b>variables array</b> array of variable values, indexed by variable name</li>
+      *</ul>
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
+    public function getCampaignConversionStatistics(
+        $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    {
+        if (!$this->checkStatisticsPermissions($campaignId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
+            $dalCampaign = new OA_Dal_Statistics_Campaign;
+            $rsStatisticsData = $dalCampaign->getCampaignConversionStatistics(
+                $campaignId, $oStartDate, $oEndDate, $localTZ);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Checks if a campaign is high priority.
      * High priority is between 1 and 10.
      *

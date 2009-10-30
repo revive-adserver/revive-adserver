@@ -49,6 +49,7 @@ public class CampaignTestCase extends AdvertiserTestCase {
 	protected static final String DELETE_CAMPAIGN_METHOD = "ox.deleteCampaign";
 	protected static final String MODIFY_CAMPAIGN_METHOD = "ox.modifyCampaign";
 	protected static final String CAMPAIGN_ZONE_STATISTICS_METHOD = "ox.campaignZoneStatistics";
+	protected static final String CAMPAIGN_CONVERSION_STATISTICS_METHOD = "ox.campaignConversionStatistics";
 	protected static final String CAMPAIGN_DAILY_STATISTICS_METHOD = "ox.campaignDailyStatistics";
 	protected static final String CAMPAIGN_PUBLISHER_STATISTICS_METHOD = "ox.campaignPublisherStatistics";
 	protected static final String CAMPAIGN_BANNER_STATISTICS_METHOD = "ox.campaignBannerStatistics";

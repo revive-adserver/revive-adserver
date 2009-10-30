@@ -41,30 +41,31 @@ class OA_Dal_Statistics extends OA_Dal
 {
     /**
      * Get SQL where for statistics methods.
+     * 
+     *  @access public
      *
-	 * @access public
-	 *
-     * @param Date $oStartDate
-     * @param Date $oEndDate
-     * @param bool $localTZ
+     * @param Date   $oStartDate
+     * @param Date   $oEndDate
+     * @param bool   $localTZ
+     * @param string $dateField
      *
      * @return string
      */
-    function getWhereDate($oStartDate, $oEndDate, $localTZ = false)
+    function getWhereDate($oStartDate, $oEndDate, $localTZ = false, $dateField = 's.date_time')
     {
         $where = '';
         if (isset($oStartDate)) {
             $oStart = $this->setTimeAndReturnUTC($oStartDate, $localTZ, 0, 0, 0);
             $where .= '
-                AND
-                s.date_time >= '.$this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
+                AND ' .
+                $dateField .' >= '.$this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
 
         if (isset($oEndDate)) {
             $oEnd = $this->setTimeAndReturnUTC($oEndDate, $localTZ, 23, 59, 59);
             $where .= '
-                AND
-                s.date_time <= '.$this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
+                AND ' .
+                $dateField .' <= '.$this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
         return $where;
     }

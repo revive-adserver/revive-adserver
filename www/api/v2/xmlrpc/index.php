@@ -409,6 +409,17 @@ $dispatches = array(
         'docstring' => 'Generate campaign Zone Statistics'
     ),
 
+    'ox.campaignConversionStatistics' => array(
+        'function'  => array($fc, 'campaignConversionStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate campaign Conversion Statistics'
+    ),
+
     'ox.getCampaign' => array(
         'function'  => array($fc, 'getCampaign'),
         'signature' => array(

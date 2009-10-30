@@ -324,6 +324,32 @@ class CampaignServiceImpl extends BaseServiceImpl
         }
     }
 
+    /**
+     * Gets conversion statistics for a campaign for a specified period.
+     *
+     * @param string $sessionId
+     * @param integer $campaignId
+     * @param date $oStartDate
+     * @param date $oEndDate
+     * @param bool $localTZ
+     * @param recordSet &$rsStatisticsData  return data
+     *
+     * @return boolean
+     */
+    public function getCampaignConversionStatistics(
+        $sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllCampaign->getCampaignConversionStatistics(
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+        } else {
+
+            return false;
+        }
+    }
+
 }
 
 

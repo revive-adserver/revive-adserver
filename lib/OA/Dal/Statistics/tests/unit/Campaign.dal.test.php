@@ -427,6 +427,227 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
     }
 
-}
 
+/**
+ *  $aResult = array(
+                         array('campaignid' => '25',
+                               'trackerid' => '200',
+                               'bannerid' => '33',
+                               'conversiontime' => '2009-10-22 10:00:20',
+                               'conversionstatus' => '1',
+                               'userip' => '192.168.0.8',
+                               'action' => '1',
+                               'window' => '30',
+                               'variables' => array('variableName' => 'variableValue',
+                                                    'variableName2' => 'variableValue2')
+                              ),
+                         array('campaignid' => '25',
+                               'trackerid' => '200',
+                               'bannerid' => '33',
+                               'conversiontime' => '2009-10-22 15:08:27',
+                               'conversionstatus' => '1',
+                               'userip' => '192.168.0.5',
+                               'action' => '0',
+                               'window' => '30',
+                               'variables' => array('variableName' => 'variableValue',
+                                                    'variableName2' => 'variableValue2')));
+ */
+    /**
+     * Test tGetCampaignConversionStatistics.
+     *
+     */
+    function testGetCampaignConversionStatistics()
+    {       
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $campaignId = DataGenerator::generateOne($doCampaign);
+        $doBanner->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanner);
+
+        // Test 1: Test with no data
+        $oStartDate = new Date('2004-06-06 12:00:00');
+        $oEndDate= new Date('2004-06-06 12:59:59');
+        $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
+        $this->assertEmpty($aResult, 'No records should be returned');
+
+        // Test 2: Test with data that is outside the range to manage
+        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
+        $doData_intermediate_ad_connection->tracker_date_time = '2004-06-05 11:59:59';
+        $doData_intermediate_ad_connection->tracker_id = 501;
+        $doData_intermediate_ad_connection->ad_id = $bannerId;
+        $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+        $doData_intermediate_ad_connection->connection_action  = MAX_CONNECTION_AD_CLICK;
+        $doData_intermediate_ad_connection->connection_window = 3600;
+        $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $connectionId1 = DataGenerator::generateOne($doData_intermediate_ad_connection);
+        
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId1;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 1;
+        $doData_intermediate_ad_variable_value->value = 'test_value1';
+        $conecctionVariableValueId = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId1;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 2;
+        $doData_intermediate_ad_variable_value->value = 'test_value2';
+        $conecctionVariableValueId2 = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->variableid = 1;
+        $doVariables->trackerid = 501;
+        $doVariables->name = 'test_variable1_name';
+        DataGenerator::generateOne($doVariables);
+        
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->variableid = 2;
+        $doVariables->trackerid = 501;
+        $doVariables->name = 'test_variable2_name';
+        DataGenerator::generateOne($doVariables);
+        
+        $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
+
+        // Get 0 Row
+        $this->assertEmpty($aResult, '0 records should be returned');
+
+        // Test 3: Test with data that is inside the range to manage,
+        //         with corresponding data_intermediate_ad_connection rows        
+        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');        
+        $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:15:00';
+        $doData_intermediate_ad_connection->connection_date_time = '2004-06-06 12:14:58';
+        $doData_intermediate_ad_connection->tracker_id = 501;
+        $doData_intermediate_ad_connection->ad_id = $bannerId;        
+        $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+        $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_CLICK;
+        $doData_intermediate_ad_connection->connection_window = 3600;
+        $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $connectionId2 = DataGenerator::generateOne($doData_intermediate_ad_connection);
+        
+        $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
+        
+        // Get 1 Row
+        $this->assertEqual(1, count($aResult), '1 records should be returned');
+
+        // Check return fields names
+        $aConversion = current($aResult);
+        $this->assertFieldExists($aConversion, 'campaignID');
+        $this->assertFieldExists($aConversion, 'trackerID');
+        $this->assertFieldExists($aConversion, 'bannerID');
+        $this->assertFieldExists($aConversion, 'conversionTime');
+        $this->assertFieldExists($aConversion, 'conversionStatus');
+        $this->assertFieldExists($aConversion, 'userIp');
+        $this->assertFieldExists($aConversion, 'action');
+        $this->assertFieldExists($aConversion, 'window');
+        $this->assertFieldExists($aConversion, 'variables');
+
+        // Check return fields value
+        $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
+        $this->assertFieldEqual($aConversion, 'trackerID', 501);
+        $this->assertFieldEqual($aConversion, 'bannerID', $bannerId);
+        $this->assertFieldEqual($aConversion, 'conversionTime', '2004-06-06 12:15:00');
+        $this->assertFieldEqual($aConversion, 'conversionStatus', MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertFieldEqual($aConversion, 'userIp', '127.0.0.1');
+        $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_CLICK);
+        $this->assertFieldEqual($aConversion, 'window', '2');
+        // Conversion without variables
+        $this->assertEmpty($aConversion['variables']);        
+
+        // Test 4: Test with data that is inside the range to manage and with
+        //         2 conversions
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId2;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 1;
+        $doData_intermediate_ad_variable_value->value = 'test_value3';
+        $conecctionVariableValueId = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId2;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 2;
+        $doData_intermediate_ad_variable_value->value = 'test_value4';
+        $conecctionVariableValueId2 = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
+        $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:20:00';
+        $doData_intermediate_ad_connection->connection_date_time = '2004-06-06 12:19:57';
+        $doData_intermediate_ad_connection->tracker_id = 501;
+        $doData_intermediate_ad_connection->ad_id = $bannerId;
+        $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.2';
+        $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_IMPRESSION;
+        $doData_intermediate_ad_connection->connection_window = 3600;
+        $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $connectionId3 = DataGenerator::generateOne($doData_intermediate_ad_connection);
+
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId3;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 1;
+        $doData_intermediate_ad_variable_value->value = 'test_value5';
+        $conecctionVariableValueId = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId3;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 2;
+        $doData_intermediate_ad_variable_value->value = 'test_value6';
+        $conecctionVariableValueId2 = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+
+        $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
+
+        // Get 2 Row
+        $this->assertEqual(2, count($aResult), '2 records should be returned');
+
+        $aConversion = current($aResult);
+        // Check return fields value
+        $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
+        $this->assertFieldEqual($aConversion, 'trackerID', '501');
+        $this->assertFieldEqual($aConversion, 'bannerID', $bannerId);
+        $this->assertFieldEqual($aConversion, 'conversionTime', '2004-06-06 12:15:00');
+        $this->assertFieldEqual($aConversion, 'conversionStatus', MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertFieldEqual($aConversion, 'userIp', '127.0.0.1');
+        $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_CLICK);
+        $this->assertFieldEqual($aConversion, 'window', '2');
+        $aVariables = $aConversion['variables'];
+        $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value3');
+        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value4');        
+
+        $aConversion = next($aResult);
+        // Check return fields value
+        $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
+        $this->assertFieldEqual($aConversion, 'trackerID', '501');
+        $this->assertFieldEqual($aConversion, 'bannerID', $bannerId);
+        $this->assertFieldEqual($aConversion, 'conversionTime', '2004-06-06 12:20:00');
+        $this->assertFieldEqual($aConversion, 'conversionStatus', MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertFieldEqual($aConversion, 'userIp', '127.0.0.2');
+        $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_IMPRESSION);
+        $this->assertFieldEqual($aConversion, 'window', '3');
+        $aVariables = $aConversion['variables'];
+        $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value5');
+        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value6');
+
+
+        // Test 5: Test with data that is inside the range to manage but doesn't
+        //         belong to the requested campaign
+        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
+        $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:20:00';
+        $doData_intermediate_ad_connection->tracker_id = 501;
+        $doData_intermediate_ad_connection->ad_id = 99999;
+        $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.2';
+        $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_IMPRESSION;
+        $doData_intermediate_ad_connection->connection_window = 3600;
+        $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $connectionId4 = DataGenerator::generateOne($doData_intermediate_ad_connection);
+
+        $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId4;
+        $doData_intermediate_ad_variable_value->tracker_variable_id = 1;
+        $doData_intermediate_ad_variable_value->value = 'test_value7';
+        $conecctionVariableValueId = DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+        $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
+
+        // Get 2 Row
+        $this->assertEqual(2, count($aResult), '2 records should be returned');
+        
+        // Clean Up
+        DataGenerator::cleanUp();       
+    }
+
+}
 ?>

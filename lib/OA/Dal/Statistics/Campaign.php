@@ -296,6 +296,93 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         return DBC::NewRecordSet($query);
     }
 
+    /**
+     * This method returns conversion statistics for a given campaign.
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return MDB2_Result_Common
+     *<ul>
+     *  <li><b>campaignID integer</b> The ID of the campaign
+     *  <li><b>trackerID integer</b> The ID of the tracker
+     *  <li><b>bannerID integer</b> The ID of the banner
+     *  <li><b>conversionTime date</b> The time of the conversion
+     *  <li><b>conversionStatus integer</b> The conversion status
+     *  <li><b>userIp string</b> The IP address of the conversion
+     *  <li><b>action integer</b> The conversion event type
+     *  <li><b>window integer</b> The conversion window
+     *  <li><b>variables array</b> Array of variables for this conversion
+     *                             with each variable as an array('variableName' => 'variableValue')
+     *</ul>
+     */
+    public function getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    {
+        $tableBanners = $this->quoteTableName('banners');
+        $tableVariables = $this->quoteTableName('variables');
+        $tableDataIntermadiateAdConnection = $this->quoteTableName('data_intermediate_ad_connection');
+        $tableDataIntermadiateAdVariableValue = $this->quoteTableName('data_intermediate_ad_variable_value');        
+
+        $localTZ = false;
+        $dateField = 'd.tracker_date_time';
+        
+        $query = "
+            SELECT
+                d.data_intermediate_ad_connection_id as conversionid,
+                b.campaignid as campaignid,                
+                d.tracker_id as trackerid,
+                d.ad_id as bannerid,
+                d.tracker_date_time as tracker_date_time,
+                d.connection_date_time as connection_date_time,
+                d.connection_status as conversionstatus,
+                d.tracker_ip_address as userip,
+                d.connection_action as action,                
+                v.name as variablename,
+                i.value as variablevalue
+            FROM
+                {$tableBanners} AS b
+                JOIN {$tableDataIntermadiateAdConnection} AS d ON (b.bannerid = d.ad_id)
+                left JOIN {$tableDataIntermadiateAdVariableValue} AS i ON (d.data_intermediate_ad_connection_id = i.data_intermediate_ad_connection_id)
+                left JOIN {$tableVariables} AS v ON (i.tracker_variable_id = v.variableid)
+            WHERE
+                TRUE " . // Bit of a hack due to how getWhereDate works.
+                $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField) . "
+            ";
+
+        OX::disableErrorHandling();        
+        $rsResult = $this->oDbh->query($query);
+        OX::enableErrorHandling();
+
+        $aResult = array();
+        while (($row = $rsResult->fetchRow())) {            
+            $aResult[$row['conversionid']] = array('campaignID' => $row['campaignid'],
+                                                   'trackerID' =>  $row['trackerid'],
+                                                   'bannerID' => $row['bannerid'],
+                                                   'conversionTime' => $row['tracker_date_time'],
+                                                   'conversionStatus' => $row['conversionstatus'],
+                                                   'userIp' => $row['userip'],
+                                                   'action' => $row['action'],
+                                                   'window' => strtotime($row['tracker_date_time']." ") - strtotime($row['connection_date_time']." "),
+                                                   'variables' => null,
+                                                  );
+           if (!empty($row['variablename'])) {
+               $aVariables[$row['conversionid']][] = array('name' => $row['variablename'],
+                                                       'value' => $row['variablevalue']);
+           }
+        }
+
+        if (isset ($aVariables)) {
+            foreach ($aVariables as $conversionId => $aConversionVariables) {
+                foreach ($aConversionVariables as $key => $aVariable) {
+                  $aResult[$conversionId]['variables'][$aVariable['name']] = $aVariable['value'];
+                }
+            }
+        }
+
+        return $aResult;
+    }
 }
 
 ?>
