@@ -82,8 +82,6 @@ if ($campaignid != "") {
     $aCampaign['priority'] = $data['priority'];
     $aCampaign['weight'] = $data['weight'];
     $aCampaign['target_impression'] = $data['target_impression'];
-    $aCampaign['target_click'] = $data['target_click'];
-    $aCampaign['target_conversion'] = $data['target_conversion'];
     $aCampaign['min_impressions'] = $data['min_impressions'];
     $aCampaign['ecpm'] = OA_Admin_NumberFormat::formatNumber($data['ecpm'], 4);
     $aCampaign['anonymous'] = $data['anonymous'];
@@ -136,14 +134,6 @@ if ($campaignid != "") {
     if ($aCampaign['target_impression'] > 0) {
         $aCampaign['target_value'] = $aCampaign['target_impression'];
         $aCampaign['target_type'] = 'target_impression';
-    }
-    elseif ($aCampaign['target_click'] > 0) {
-        $aCampaign['target_value'] = $aCampaign['target_click'];
-        $aCampaign['target_type'] = 'target_click';
-    }
-    elseif ($aCampaign['target_conversion'] > 0) {
-        $aCampaign['target_value'] = $aCampaign['target_conversion'];
-        $aCampaign['target_type'] = 'target_conversion';
     }
     else {
         $aCampaign['target_value'] = '-';
