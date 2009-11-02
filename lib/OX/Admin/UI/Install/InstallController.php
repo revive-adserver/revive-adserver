@@ -602,7 +602,7 @@ class OX_Admin_UI_Install_InstallController
         $this->setCurrentStepIfReachable($oWizard, 'finish');        
         
         $oUpgrader = $this->getUpgrader();
-        
+        $isUpgrade = $this->getInstallStatus()->isUpgrade();        
         //finalize - mark OpenX as installed, clear files etc.
         $this->finalizeInstallation();
         
@@ -618,11 +618,12 @@ class OX_Admin_UI_Install_InstallController
             }
         }
         
-        $oUpgrader = $this->getUpgrader();
         $oRequest = $this->getRequest();
         if ($oRequest->isPost()) {
             $this->resetInstaller();
             
+            global $installerIsUpgrade;
+            $installerIsUpgrade = $isUpgrade;
             // Execute any components which have registered at the afterLogin hook
             $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
             foreach ($aPlugins as $i => $id) {
@@ -630,18 +631,16 @@ class OX_Admin_UI_Install_InstallController
                     $obj->afterLogin();
                 }
             }
-            
             require_once LIB_PATH . '/Admin/Redirect.php';
             OX_Admin_Redirect::redirect('advertiser-index.php');
         }
         
         $logPath = str_replace('/', DIRECTORY_SEPARATOR, $oUpgrader->getLogFileName());
-
         
         $this->setModelProperty('logPath', $logPath);
         $this->setModelProperty('oWizard', $oWizard);
         $this->setModelProperty('aStatuses', $aStatuses);
-        $this->setModelProperty('isUpgrade', $this->getInstallStatus()->isUpgrade());
+        $this->setModelProperty('isUpgrade', $isUpgrade);
     }
     
     

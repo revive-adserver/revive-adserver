@@ -100,6 +100,9 @@ div.breadcrumb { z-index: 0; }
                   {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
                 </button>
               </li>
+              {if $showSkipLink}
+              <li><a href="{$adminWebPath}advertiser-index.php">{if $skipLinkLabel}{$skipLinkLabel}{else}Skip this step and do it later &raquo;{/if}</a></li>
+              {/if}
             </ul>
             <div class='clear'></div>
             <div class='corner left'></div>

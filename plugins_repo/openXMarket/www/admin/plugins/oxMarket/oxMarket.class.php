@@ -131,10 +131,18 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $this->linkHostedAccounts();
         
         // If the user is manager or admin try to show him the OpenX Market Settings
-        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
-            $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
-
+        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) 
+            && $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
             $this->setMarketSettingsAlreadyShown();
+
+                
+            /*on upgrade, provide option to skip on quickaccess screen */    
+            global $installing, $installerIsUpgrade;
+            if ($installing && $installerIsUpgrade) {
+                global $session;
+                $session['oxMarket-quickstart-params']['showSkip'] = 1;
+                phpAds_SessionDataStore();
+            }
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
             exit;
         }

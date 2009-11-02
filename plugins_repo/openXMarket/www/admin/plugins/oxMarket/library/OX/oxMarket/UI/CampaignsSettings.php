@@ -67,6 +67,9 @@ class OX_oxMarket_UI_CampaignsSettings
     private $maxCpm;
     
     private $contentKeys;
+
+    /** Indicates whether skip link leading to advertiser index should be shown **/
+    private $showSkipLink;
     
     /** 
      * Numbers of opted in campaigns for tracking reasons. The numbers are calculated
@@ -153,6 +156,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $template = new OA_Plugin_Template('market-campaigns-settings.html', 'oxMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
+        $this->assignSkipLink($template);
         
         if (!empty($invalidCpmMessages)) {
             $hasCpmRateError = false;
@@ -176,7 +180,8 @@ class OX_oxMarket_UI_CampaignsSettings
             OA_Admin_UI::queueMessage($prefix . 
                 'To opt in campaigns to OpenX Market, please correct the errors below.', 'local', 'error', 0);
             $template->assign('minCpmsInvalid', $invalidCpmMessages);
-        } else {
+        } 
+        else {
             // Don't show trackers on validation
             $this->assignTrackers($template);
         }
@@ -329,7 +334,9 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         // Retrieve values passed by the previous request making a redirect after POST
         global $session;
-        $fromRedirecingRequest = isset($session['oxMarket-quickstart-params']) ? $session['oxMarket-quickstart-params'] : array();
+        $fromRedirecingRequest = isset($session['oxMarket-quickstart-params']) 
+            ? $session['oxMarket-quickstart-params'] : array();
+            
         if (!empty($fromRedirecingRequest)) {
             unset($session['oxMarket-quickstart-params']);
         }
@@ -338,7 +345,7 @@ class OX_oxMarket_UI_CampaignsSettings
         // request parameters with the ones from session and on the other way round
         // to make sure that the values we pass through the session are not tampered with.
         $request = array_merge(phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 
-                'search', 'p', 'order', 'desc', 'allSelected'), $fromRedirecingRequest);
+                'search', 'p', 'order', 'desc', 'allSelected', 'showSkip'), $fromRedirecingRequest);
         
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $toOptInMap = isset($request['toOptIn']) ? $request['toOptIn'] : array();
@@ -351,6 +358,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->optedCount = $request['optedCount'];
         $this->search = $request['search'];
         $this->currentPage = $request['p'];
+        $this->showSkipLink = $request['showSkip'];
         
         if (!empty($request['order'])) {
             $order = $request['order'];
@@ -526,8 +534,15 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('topMessage', $this->getContentKeyValue('top-message'));
         $template->assign('optInSubmitLabel', $this->getContentKeyValue('radio-opt-in-submit-label'));
         $template->assign('optOutSubmitLabel', $this->getContentKeyValue('radio-opt-out-submit-label'));
+        $template->assign('skipLinkLabel', $this->getContentKeyValue('link-skip-label'));
         $template->assign('floorPriceColumnContextHelp', $this->getContentKeyValue('floor-price-column-context-help'));
         $template->assign('selectAllExplanation', $this->getContentKeyValue('select-all-explanation'));
+    }
+    
+    
+    private function assignSkipLink($template)
+    {
+         $template->assign('showSkipLink', $this->showSkipLink);
     }
     
     
