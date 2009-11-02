@@ -175,8 +175,9 @@ class OX_oxMarket_UI_EntityScreenManager
         
         $oPreferenceDal = $this->oMarketComponent->getPreferenceManager(); 
         $infoShown = $oPreferenceDal->getMarketUserVariable('advertiser_index_market_info_shown_to_user');
+        $showInfo = !isset($infoShown) || !$infoShown;
 
-        if (!isset($infoShown) || !$infoShown) {
+        if ($showInfo) {
             $oPreferenceDal->setMarketUserVariable('advertiser_index_market_info_shown_to_user', '1');
         }
         
@@ -187,7 +188,7 @@ class OX_oxMarket_UI_EntityScreenManager
         
         $oTpl->assign('marketClientId', $marketClientId);
         $oTpl->assign('content', $content);
-        $oTpl->assign('showMarketInfo', !isset($infoShown) || !$infoShown);
+        $oTpl->assign('showMarketInfo', $showInfo);
         
         return $oTpl->toString();
     }    
