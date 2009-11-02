@@ -63,7 +63,7 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
   $(document).ready(function() {
     $('#market-advertiser-index').advertiserIndex({
 {/literal}
-       showInfo: false
+       showInfo: {if $showMarketInfo}true{else}false{/if}
 {literal}
     });            
   });
