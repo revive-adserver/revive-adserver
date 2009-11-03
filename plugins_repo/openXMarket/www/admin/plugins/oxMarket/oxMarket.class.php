@@ -502,6 +502,20 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
+    public function setMarketUserVariable($name, $value)
+    {
+        $this->preferenceDal->setMarketUserVariable($name, $value);
+    }
+    
+    
+    public function getMarketUserVariable($name)
+    {
+        $value = $this->preferenceDal->getMarketUserVariable($name);
+        
+        return $value; 
+    }
+        
+    
     function getInactiveStatus()
     {
         if ($this->isActive()) {

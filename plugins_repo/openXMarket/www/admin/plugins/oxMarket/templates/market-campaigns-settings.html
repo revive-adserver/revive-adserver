@@ -41,6 +41,26 @@ div.breadcrumb { z-index: 0; }
     {if $topMessage}
       {$topMessage}
     {else}    
+      {if $showMarkerAdvertiserInfo}
+      <div class="messagePlaceholder messagePlaceholderStatic">
+        <div class="message localMessage">
+          <div class="panel info new">
+            <div class="icon"></div>
+              <div class="body">
+                <p>
+                    You can add a new type of campaign that gets ads directly from OpenX Market. 
+                    <a href="{$adminWebPath}advertiser-index.php">Go to Advertisers page.</a>
+                </p>
+              </div>  
+            <div class="topleft"></div>
+            <div class="topright"></div>
+            <div class="bottomleft"></div>
+            <div class="bottomright"></div>
+          </div>
+        </div>
+      </div>
+      {/if}
+    
       <div class="section">
           <h2>Earn more revenue from your existing campaigns with OpenX Market</h2>
           <p>

@@ -536,6 +536,15 @@ ul.column li.rejected {
   margin-top: 12px;
 }
    
+div.messagePlaceholderStatic div.new .body {
+  padding-left: 40px;
+}     
+
+div.message div.new div.icon {
+  background-position: center center;
+  background-image:url(../images/icon-new.png);
+  width: 32px;
+}
 
 
    

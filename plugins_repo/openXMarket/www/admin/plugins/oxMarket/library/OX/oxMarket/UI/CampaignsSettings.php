@@ -37,6 +37,9 @@ require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
  */
 class OX_oxMarket_UI_CampaignsSettings
 {
+    private static $MAX_ADVERTISER_INFO_SHOW_COUNT = 20;
+    
+    
     /**
      * @var Plugins_admin_oxMarket_oxMarket
      */
@@ -70,6 +73,9 @@ class OX_oxMarket_UI_CampaignsSettings
 
     /** Indicates whether skip link leading to advertiser index should be shown **/
     private $showSkipLink;
+    private $showMarkerAdvertiserInfo;
+    
+    
     
     /** 
      * Numbers of opted in campaigns for tracking reasons. The numbers are calculated
@@ -135,13 +141,12 @@ class OX_oxMarket_UI_CampaignsSettings
                 if (isset($_REQUEST['optInSubmit'])) {
                     $invalidCpmMessages = $this->validateCpms($this->campaigns);
                     if (empty($invalidCpmMessages)) {
-                        $this->performOptIn();
-                        $this->clearStored();            
+                        $this->performOptInAndRedirect();
                         return null;
                     }
-                } elseif(isset($_REQUEST['optOutSubmit'])) {
-                    $this->performOptOut();
-                    $this->clearStored();            
+                } 
+                elseif(isset($_REQUEST['optOutSubmit'])) {
+                    $this->performOptOutAndRedirect();
                     return null;
                 }
             } 
@@ -156,7 +161,8 @@ class OX_oxMarket_UI_CampaignsSettings
         $template = new OA_Plugin_Template('market-campaigns-settings.html', 'oxMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
-        $this->assignSkipLink($template);
+        $this->assignMarketAdvertisersLinks($template);
+        
         
         if (!empty($invalidCpmMessages)) {
             $hasCpmRateError = false;
@@ -251,7 +257,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('cookiePath', $this->marketComponent->getCookiePath());
     }
 
-    private function performOptIn()
+    private function performOptInAndRedirect()
     {
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
         
@@ -282,12 +288,14 @@ class OX_oxMarket_UI_CampaignsSettings
             $message .= 'Floor price' . $suffix . ' of ' . $updatedCount . ' campaign' . $suffix . 
                 ' ' . ($updatedCount != 1 ? 'have' : 'has') . ' been updated.';
         }
-        OA_Admin_UI::queueMessage($message, 'local', 'confirm', 0);         
+        
+        $this->scheduleMessages($message, 'local', 'confirm', 0);
 
         $this->redirect();
     }
     
-    private function performOptOut()
+    
+    private function performOptOutAndRedirect()
     {
         if ($this->allSelected) {
             $campaignsOptedOut = $this->campaignsOptInDal->performOptOutAll(
@@ -297,8 +305,8 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $this->prepareAfterStatusChangeCounts();
         
-        OA_Admin_UI::queueMessage('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
-            ($campaignsOptedOut != 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
+        $this->scheduleMessages('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
+            ($campaignsOptedOut != 1 ? 's' : '') . '</b> of OpenX Market');
     
         $this->redirect();
     }
@@ -329,6 +337,25 @@ class OX_oxMarket_UI_CampaignsSettings
         OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php');
     }
     
+    
+    private function scheduleMessages($message) 
+    {
+        OA_Admin_UI::queueMessage($message, 'local', 'confirm', 0);
+        
+        $submittedCount = $this->marketComponent->getMarketUserVariable('campaign_settings_submitted_count');
+        if (!isset($submittedCount)) {
+            $submittedCount = 0;
+        }
+        
+        if ($submittedCount < self::$MAX_ADVERTISER_INFO_SHOW_COUNT) {
+            global $session;
+            $session['oxMarket-quickstart-params']['showMarkerAdvertiserInfo'] = 1;
+            phpAds_SessionDataStore();
+            $submittedCount++;
+            $this->marketComponent->setMarketUserVariable('campaign_settings_submitted_count', $submittedCount);            
+        }
+    }
+    
 
     private function parseRequestParameters()
     {
@@ -345,7 +372,7 @@ class OX_oxMarket_UI_CampaignsSettings
         // request parameters with the ones from session and on the other way round
         // to make sure that the values we pass through the session are not tampered with.
         $request = array_merge(phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 
-                'search', 'p', 'order', 'desc', 'allSelected', 'showSkip'), $fromRedirecingRequest);
+                'search', 'p', 'order', 'desc', 'allSelected', 'showSkip', 'showMarkerAdvertiserInfo'), $fromRedirecingRequest);
         
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $toOptInMap = isset($request['toOptIn']) ? $request['toOptIn'] : array();
@@ -359,6 +386,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->search = $request['search'];
         $this->currentPage = $request['p'];
         $this->showSkipLink = $request['showSkip'];
+        $this->showMarkerAdvertiserInfo = $request['showMarkerAdvertiserInfo'];
         
         if (!empty($request['order'])) {
             $order = $request['order'];
@@ -540,9 +568,10 @@ class OX_oxMarket_UI_CampaignsSettings
     }
     
     
-    private function assignSkipLink($template)
+    private function assignMarketAdvertisersLinks($template)
     {
          $template->assign('showSkipLink', $this->showSkipLink);
+         $template->assign('showMarkerAdvertiserInfo', $this->showMarkerAdvertiserInfo);
     }
     
     
