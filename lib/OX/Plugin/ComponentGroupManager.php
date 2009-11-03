@@ -492,17 +492,17 @@ class OX_Plugin_ComponentGroupManager
                                              ),
                             );
         $aTaskList[] = array(
-                            'method' =>'_removeFiles',
-                            'params' => array(
-                                              $aGroup['name'],
-                                              $aGroup['allfiles'],
-                                             ),
-                            );
-        $aTaskList[] = array(
                             'method' =>'_runScript',
                             'params' => array(
                                               $aGroup['name'],
                                               $aGroup['uninstall']['postscript']
+                                             ),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'_removeFiles',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['allfiles'],
                                              ),
                             );
         return $aTaskList;

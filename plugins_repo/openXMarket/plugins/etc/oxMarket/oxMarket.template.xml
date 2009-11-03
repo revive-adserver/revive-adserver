@@ -229,4 +229,7 @@
             <dataobject>Ext_market_plugin_variable.php</dataobject>
         </schema>
     </install>
+    <uninstall>
+        <postscript>postscript_uninstall_oxMarket.php</postscript>
+    </uninstall>
 </plugin>
