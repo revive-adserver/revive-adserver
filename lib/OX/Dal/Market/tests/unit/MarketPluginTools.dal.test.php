@@ -45,6 +45,9 @@ class OX_Dal_Market_MarketPluginToolsTest extends UnitTestCase
     
     function testGetMarketPlugin()
     {
+        // make sure that plugin is uninstalled
+        TestEnv::uninstallPluginPackage('openXMarket', false);
+        
         // market plugin is not installed
         $this->assertFalse(OX_Dal_Market_MarketPluginTools::getMarketPlugin());
         
@@ -65,18 +68,19 @@ class OX_Dal_Market_MarketPluginToolsTest extends UnitTestCase
         
         // unistall market plugin
         TestEnv::uninstallPluginPackage('openXMarket', false);
+        $GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] = null;
     }
     
     
     function testIsRegistrationRequired()
     {
+        
         // market plugin is not installed
         $this->assertTrue(OX_Dal_Market_MarketPluginTools::isRegistrationRequired());
         
         // install market plugin
         TestEnv::uninstallPluginPackage('openXMarket', false);
         TestEnv::installPluginPackage('openXMarket', false);
-        
         // still registration required, no associated accounts
         $this->assertTrue(OX_Dal_Market_MarketPluginTools::isRegistrationRequired());
         
@@ -106,8 +110,8 @@ class OX_Dal_Market_MarketPluginToolsTest extends UnitTestCase
                 
         // unistall market plugin
         TestEnv::uninstallPluginPackage('openXMarket', false);
+        $GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] = null;
         $this->assertTrue(OX_Dal_Market_MarketPluginTools::isRegistrationRequired());
-        
         // Add association data to application variables (shouldn't require registration) 
         OX_Dal_Market_MarketPluginTools::storeMarketAccountAssocData('publisher_account_id', 'api_key');
         $this->assertFalse(OX_Dal_Market_MarketPluginTools::isRegistrationRequired());
