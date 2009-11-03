@@ -459,6 +459,13 @@ class OX_Plugin_ComponentGroupManager
                                              ),
                             );*/
         $aTaskList[] = array(
+                            'method' =>'_runScript',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['uninstall']['prescript']
+                                             ),
+                            );
+        $aTaskList[] = array(
                             'method' =>'_unregisterPluginVersion',
                             'params' => array(
                                               $aGroup['name']
@@ -489,6 +496,13 @@ class OX_Plugin_ComponentGroupManager
                             'params' => array(
                                               $aGroup['name'],
                                               $aGroup['allfiles'],
+                                             ),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'_runScript',
+                            'params' => array(
+                                              $aGroup['name'],
+                                              $aGroup['uninstall']['postscript']
                                              ),
                             );
         return $aTaskList;

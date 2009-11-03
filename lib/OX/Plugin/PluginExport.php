@@ -266,6 +266,14 @@ class OX_PluginExport
         {
             $this->_addToFileList($path.$aGroup['install']['postscript']);
         }
+        if ($aGroup['uninstall']['prescript'])
+        {
+            $this->_addToFileList($path.$aGroup['uninstall']['prescript']);
+        }
+        if ($aGroup['uninstall']['postscript'])
+        {
+            $this->_addToFileList($path.$aGroup['uninstall']['postscript']);
+        }
     }
 
     function _getChangesetFiles($aGroup)
