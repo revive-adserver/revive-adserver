@@ -409,7 +409,13 @@ class OA_Admin_UI
     function _assignBranding($aConf)
     {
         $this->oTpl->assign('applicationName', $aConf['applicationName']);
-        $this->oTpl->assign('logoFilePath', $aConf['logoFilePath']);
+        
+        if (count(parse_url($aConf['logoFilePath'])) > 1) {
+            $this->oTpl->assign('logoFileUrl', $aConf['logoFilePath']);
+        } else {
+            $this->oTpl->assign('logoFileUrl', OX::assetPath('images/' . $aConf['logoFilePath']));
+        }
+        
         if (!empty($aConf['headerForegroundColor'])) {
             $this->oTpl->assign('headerForegroundColor', $aConf['headerForegroundColor']);
         }

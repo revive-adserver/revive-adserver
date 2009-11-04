@@ -488,7 +488,7 @@ $GLOBALS['requireSSL']                               = "Force SSL Access on User
 $GLOBALS['sslPort']                                  = "SSL Port Used by Web Server";
 $GLOBALS['strDashboardSettings']                     = "Dashboard Settings";
 
-$GLOBALS['strMyLogo']                                = "Name of custom logo file";
+$GLOBALS['strMyLogo']                                = "Name/URL of custom logo file";
 $GLOBALS['strMyLogoError']                           = "The logo file does not exist in the admin/images directory";
 $GLOBALS['strGuiHeaderForegroundColor']              = "Color of the header foreground";
 $GLOBALS['strGuiHeaderBackgroundColor']              = "Color of the header background";
