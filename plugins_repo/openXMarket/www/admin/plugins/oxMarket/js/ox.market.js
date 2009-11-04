@@ -535,14 +535,14 @@
         
         $threeWays = $('.three-ways-container');
         $threeWaysLink = $('#three-ways-link');
+        $advertiserName = $("table tr.systemAdvertiser td span.iconAdvertiserSystem");
         
         init();
         
         function init()
         {
             $advertiserIndexContent = $("#market-advertiser-index");
-            $("table tr.systemAdvertiser td span.iconAdvertiserSystem")
-                .after($advertiserIndexContent);
+            $advertiserName.after($advertiserIndexContent);
             $advertiserIndexContent.show();
         
             $threeWaysLink.click(function() {
