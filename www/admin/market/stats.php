@@ -32,6 +32,16 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     {
         return 'where is this used?';
     }
+
+    function getHistorySpanParams()
+    {
+        $aParams = array();
+        $aParams['custom_table']   = self::MARKET_STATS_TABLE;
+        $aParams['add_columns'] = array("DATE_FORMAT(MIN(date_time), '%Y-%m-%d')" => 'start_date');
+        $aParams['market_stats_get_start_date'] = true;
+        $aParams['market_stats'] = true;
+        return $aParams;
+    }
     
     function mergeZones($zones)
     {
@@ -77,6 +87,15 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     
     function mergeData(&$aRows, $emptyRow, $method, $aParams)
     {
+        if($TEMP_DEBUG = !true) {
+            var_dump('mmarket ROW');
+            var_dump($method);
+            var_dump($aParams);
+//            echo "Core stats rows:";
+//            var_dump($aRows);
+//            echo "Returned market stats rows:";            
+//            var_dump($this->marketRows);
+        }
         $aParams['market_stats'] = true;
         $aParams['custom_table'] = OX_oxMarket_Stats::MARKET_STATS_TABLE;
         $standardCustomColumns = array(
@@ -86,15 +105,10 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         );
 
         $aParams['custom_columns'] = $standardCustomColumns;
-        $aParams['custom_columns']["CONCAT(m.campaignid, '-', market_advertiser_id, ' ',ad_width, 'x',ad_height)"] = 'ad_id';
+        $aParams['custom_columns']["CONCAT(m.campaignid, '-', market_advertiser_id, ' - ',ad_width, 'x',ad_height)"] = 'ad_id';
         $this->marketRows = Admin_DA::fromCache($method, $aParams);
         
-//var_dump($aParams);
-        $includeZoneZeroStats = false;
-        // for screens displaying websites/zone details, we will fetch the stats records for zone_id = 0
-        if(isset($aParams['exclude'])) {
-            $includeZoneZeroStats = (false === array_search('zone_id', $aParams['exclude']));
-        }    
+        $includeZoneZeroStats = !isset($aParams['zone_id']);
         if($includeZoneZeroStats) {
             // because the query above joined the zones/publishers tables, they did not include the records
             // for zone_id = 0 which is a contained for all market stats pre-2.8.3, where we did not know 
@@ -105,28 +119,29 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
             $aParams['market_stats_including_zone_zero'] = true;
     
             $this->marketRowsOnlyZoneZero = Admin_DA::fromCache($method, $aParams);
+//            var_dump('ROW ZERO');
+//            var_dump($this->marketRowsOnlyZoneZero);
             foreach($this->marketRowsOnlyZoneZero as &$row) {
                 $row['zone_id'] = $row['publisher_id'].'-'.$row['zone_id'];
             }
-            if(is_array($this->marketRowsOnlyZoneZero)) {
-                $this->marketRows += $this->marketRowsOnlyZoneZero;
-            }
+            $this->sumStatsArray($this->marketRowsOnlyZoneZero, $this->marketRows);
         }    
             
-        if($TEMP_DEBUG = !true) {
-//            var_dump($this->marketRowsOnlyZoneZero);
-            var_dump($method);
-            var_dump($aParams);
-//            echo "Core stats rows:";
-//            var_dump($aRows);
-//            echo "Returned market stats rows:";            
-//            var_dump($this->marketRows);
-        }
-        
+        $this->sumStatsArray($this->marketRows, $aRows);
+    }
+    
+    /**
+     * Sums stats array2 = array1 + array2 by summing columns sum_views, sum_clicks, sum_revenue
+     * @param $array1
+     * @param $array2
+     * @return void
+     */
+    protected function sumStatsArray($array1, &$array2)
+    {
         $columnsToSum = array('sum_views', 'sum_clicks', 'sum_revenue');
-        foreach($this->marketRows as $key => $marketValues) {
+        foreach($array1 as $key => $marketValues) {
             // this is the core stats row for this entity (campaign, zone, website, etc.)
-            $coreValues =& $aRows[$key];
+            $coreValues =& $array2[$key];
             if(!empty($coreValues)) {
                 // merge (sum) core and Market stats 
                 foreach($columnsToSum as $columnToSum) {
@@ -139,6 +154,8 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
                 $coreValues = $marketValues;
             } 
         }
+        // now set all rows not found in array2 from array1
+        $array2 += $array1;
     }
     
     static function getTableName()
@@ -156,7 +173,7 @@ class OX_oxMarket_Stats_DataGenerator
         $websiteIds = range($minWebsiteId = 1, $maxWebsiteId = 2, $step = 1);
         $zoneIds = range($minZoneId = 1, $maxZoneId = 15, $step = 1);
         // insert a record for the catch-all zone after migration from previous market stats
-        $zoneIds[] = null; 
+        $zoneIds = array(0); 
         
         $pastDays = 15;
         echo "hello world, generating market stats...";

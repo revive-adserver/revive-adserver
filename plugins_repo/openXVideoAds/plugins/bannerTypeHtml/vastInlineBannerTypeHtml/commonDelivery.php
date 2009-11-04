@@ -522,16 +522,6 @@ function renderCompanionInAdminTool($aOut)
     if(isset($aOut['companionMarkup'])) {
         $player .=  "<h3>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</h3>";
         $player .= $aOut['companionMarkup'];
-        /*$aBanner = Admin_DA::getAd($aOut['companionId']);
-        $aBanner['bannerid'] = $aOut['companionId'];
-        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
-        $player .=  "<h3>Companion Preview</h3>";
-        $player .= "This companion banner will appear during the duration of the Video Ad in the DIV specified in the video player plugin configuration. ";
-        if(!empty($aOut['companionWidth'])) {
-            $player .= " It has the following dimensions: width = ". $aOut['companionWidth'] .", height = ".$aOut['companionHeight'] .". ";
-        } 
-        $player .= "<a href='".VideoAdsHelper::getHelpLinkVideoPlayerConfig()."' target='_blank'>Learn more</a><br/><br/>";
-        $player .= $bannerCode;*/
         $player .= "<br>";
     }
     return $player;

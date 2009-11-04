@@ -61,13 +61,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
 
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -113,13 +106,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsZones = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -164,13 +150,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
 
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -216,13 +195,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsZones = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -267,13 +239,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
 
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -319,13 +284,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsZones = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -363,13 +321,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPlacements = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
 
@@ -401,13 +352,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsAds = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
 
@@ -445,13 +389,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPlacements = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
 
@@ -483,13 +420,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsAds = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-
-            if (isset($pluginParams['custom_table'])) {
-                $pluginParams = array('custom_table' => $pluginParams['custom_table']);
-            } else {
-                $pluginParams = array();
-            }
-
             $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
 
@@ -517,7 +447,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
     function addCrossBreadCrumbs($type, $entityId, $level = 0)
     {
         $cache = $this->crossEntitiesCache;
-
         switch ($type) {
 
         case 'campaign':

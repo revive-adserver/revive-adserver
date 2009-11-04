@@ -496,11 +496,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 
                 $htmlToAppend = '';
                 if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
-                    //TODO MARKET 
-                    $htmlToAppend = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                    $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-campaign');
                 } else if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
-                    //TODO MARKET 
-                    $htmlToAppend = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                    $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-zone');
                 } 
                 $campaign['html-append'] = $htmlToAppend;
                 
@@ -534,6 +532,16 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         return $aEntitiesData;
     }
 
+    /**
+     * Returns the HTML used to display the help icon triggering the tooltip
+     * @param $id ID of the html div to show on hover
+     * @return string
+     */
+    private function getHtmlHelpLink($id)
+    {
+        return '<span class="link" help="'. $id .'"><span class="icon icon-info"></span></span>';
+    }
+    
     /**
      * Get banner stats
      *
@@ -711,8 +719,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
                 
                 if($zone['type'] == MAX_ZoneMarketMigrated) {
-                    //TODO MARKET 
-                    $zone['html-append'] = '<span class="icon icon-info pointer popup-help-link" help="market-callout" id="market-callout-link"> </span>';
+                    $zone['html-append'] = $this->getHtmlHelpLink('help-market-zone-migrated-from-pre-283');
                     $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.3'];
                 } 
                 

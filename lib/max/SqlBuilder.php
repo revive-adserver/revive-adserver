@@ -127,67 +127,73 @@ class SqlBuilder
             break;
             
         case 'stats_by_entity' :
-            if (isset($aParams['include']) && is_array($aParams['include'])) {
-                if (array_search('advertiser_id', $aParams['include']) !== false) $aColumns += array('m.clientid' => 'advertiser_id');
-                if (array_search('placement_id', $aParams['include']) !== false)  $aColumns += array('d.campaignid' => 'placement_id');
-                if (array_search('publisher_id', $aParams['include']) !== false) {
-                    if(isset($aParams['market_stats_including_zone_zero'])) {
-                        $aColumns += array( 's.website_id' => 'publisher_id');
-                    } else {
-                        $aColumns += array('z.affiliateid' => 'publisher_id');
-                    }
-                }
-            }
-            $aColumns += array(
-            	"CONCAT(s.ad_id, '_', s.zone_id)" => 'pkey', 
-            	's.ad_id' => 'ad_id', 
-            	's.zone_id' => 'zone_id'
-                ) 
-                + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-
             if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
                 $aColumns += $aParams['add_columns'];
             }
-
-            // Remove unused columns to avoid implicit group by
-            if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
-                if (array_search('ad_id', $aParams['exclude']) !== false) {
-                    unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
-                    unset($aColumns['s.ad_id']);
-                    if (array_search('zone_id', $aParams['exclude']) !== false) {
+            
+            if(empty($aParams['market_stats_get_start_date'])) {
+                if (isset($aParams['include']) && is_array($aParams['include'])) {
+                    if (array_search('advertiser_id', $aParams['include']) !== false) $aColumns += array('m.clientid' => 'advertiser_id');
+                    if (array_search('placement_id', $aParams['include']) !== false)  $aColumns += array('d.campaignid' => 'placement_id');
+                    if (array_search('publisher_id', $aParams['include']) !== false) {
+                        if(!empty($aParams['market_stats'])) {
+                            $aColumns += array( 's.website_id' => 'publisher_id');
+                        } else {
+                            $aColumns += array('z.affiliateid' => 'publisher_id');
+                        }
+                    }
+                }
+                $aColumns += array(
+                	"CONCAT(s.ad_id, '_', s.zone_id)" => 'pkey', 
+                	's.ad_id' => 'ad_id', 
+                	's.zone_id' => 'zone_id'
+                    ) 
+                    + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+    
+    
+                // Remove unused columns to avoid implicit group by
+                if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
+                    if (array_search('ad_id', $aParams['exclude']) !== false) {
+                        unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
+                        unset($aColumns['s.ad_id']);
+                        if (array_search('zone_id', $aParams['exclude']) !== false) {
+                            unset($aColumns['s.zone_id']);
+                            if (count($aParams['include'])) {
+                                $tr = array(
+                                    'placement_id'  => 'd.campaignid',
+                                    'advertiser_id' => 'm.clientid',
+                                    'publisher_id' => 'z.affiliateid'
+                                );
+                                $aColumns["CONCAT(".strtr(join(", '_', ", $aParams['include']), $tr).")"] = 'pkey';
+                            } else {
+                                $aColumns["(0)"] = 'pkey';
+                            }
+                        } else {
+                            if(isset($aParams['market_stats_including_zone_zero'])) {
+                                $aColumns["CONCAT(s.website_id,'-',s.zone_id)"] = 'pkey';
+                            } else {
+                                $aColumns["(s.zone_id)"] = 'pkey';
+                            }
+                        }
+                    } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
+                        unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
                         unset($aColumns['s.zone_id']);
-                        if (count($aParams['include'])) {
-                            $tr = array(
-                                'placement_id'  => 'd.campaignid',
-                                'advertiser_id' => 'm.clientid',
-                                'publisher_id' => 'z.affiliateid'
-                            );
-                            $aColumns["CONCAT(".strtr(join(", '_', ", $aParams['include']), $tr).")"] = 'pkey';
-                        } else {
-                            $aColumns["(0)"] = 'pkey';
+            
+                        // core stats: the primary key is simply the ad_id (unique across all rows)
+                        if(empty($aParams['market_stats']))
+                        {
+                            $aColumns["(s.ad_id)"] = 'pkey';
                         }
-                    } else {
-                        if(isset($aParams['market_stats_including_zone_zero'])) {
-                            $aColumns["CONCAT(s.website_id,'-',s.zone_id)"] = 'pkey';
-                        } else {
-                            $aColumns["(s.zone_id)"] = 'pkey';
+                        // for market stats, the primary key was especially built, we reuse it
+                        else
+                        {
+                            $pkey = array_search('ad_id', $aParams['custom_columns']);
+                            if(empty($pkey)) {
+                                $pkey = 's.ad_id';
+                            }
+                            // here is one more ugly hack because, well, there is no choice...
+                            $aColumns["($pkey)"] = 'pkey';
                         }
-                    }
-                } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
-                    unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
-                    unset($aColumns['s.zone_id']);
-        
-                    // core stats: the primary key is simply the ad_id (unique across all rows)
-                    if(empty($aParams['market_stats']))
-                    {
-                        $aColumns["(s.ad_id)"] = 'pkey';
-                    }
-                    // for market stats, the primary key was especially built, we reuse it
-                    else
-                    {
-                        $pkey = array_search('ad_id', $aParams['custom_columns']);
-                        // here is one more ugly hack because, well, there is no choice...
-                        $aColumns["($pkey)"] = 'pkey';
                     }
                 }
             }
@@ -450,7 +456,7 @@ class SqlBuilder
             } else {
                 $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's');
             }
-
+            
             // stats always require the join to advertiser table to ensure only core stats are displayed (excluding market advertiser)
             $aTables += array(
                 $conf['table']['prefix'].$conf['table']['clients'] => 'a',
@@ -490,6 +496,7 @@ class SqlBuilder
             break;
         
         case 'stats_by_entity' :
+            
             if (isset($aParams['include']) && is_array($aParams['include'])) {
                 // Fake needed parameters
                 if (array_search('advertiser_id', $aParams['include']) !== false) $aParams['advertiser_id'] = 1;
@@ -703,47 +710,54 @@ class SqlBuilder
         case 'history_dow' :
         case 'history_hour' :
         case 'stats' :
-            if (!empty($aParams['agency_id'])) {
-
-                // join to affiliates if stats by zone
-                if (!empty($aParams['publisher_id']) ||
-                    !empty($aParams['zone_id']) ||
-                    isset($aParams['zone_type']) ||
-                    isset($aParams['zone_width']) ||
-                    isset($aParams['zone_height'])) {
-                        SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+            if(empty($aParams['market_stats_get_start_date'])) {
+                if (!empty($aParams['agency_id'])) {
+    
+                    // join to affiliates if stats by zone
+                    if (!empty($aParams['publisher_id']) ||
+                        !empty($aParams['zone_id']) ||
+                        isset($aParams['zone_type']) ||
+                        isset($aParams['zone_width']) ||
+                        isset($aParams['zone_height'])) {
+                            SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+                    }
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
                 }
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            
-			
-            $do = OA_Dal::factoryDO('Clients');
-            // Core stats exclude all Market advertiser activity
-			// Market stats only include the Market advertiser activity 
-			if(!empty($aParams['market_stats'])) {
-                $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-            } else {
-                $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
-            }
-            
-            if (!empty($aParams['publisher_id'])) {
-                if(isset($aParams['market_stats_including_zone_zero'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 's.website_id', $aParams['publisher_id']);
+                
+    			
+                $do = OA_Dal::factoryDO('Clients');
+                // Core stats exclude all Market advertiser activity
+    			// Market stats only include the Market advertiser activity 
+    			if(!empty($aParams['market_stats'])) {
+                    $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+                    // if we are not explicitely selecting zone_id = 0 stats, we exclude all zone_id stats
+                    if(empty($aParams['market_stats_including_zone_zero'])) {
+                        $aLimitations[] = 's.zone_id <> 0';
+                    }
+                    
                 } else {
-                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                    $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
                 }
-            } 
-            if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
-            if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
-            if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
-                $dateTimeCol = "s.tracker_date_time";
-            } else {
-                $dateTimeCol = "s.date_time";
+                
+                if (!empty($aParams['publisher_id'])) {
+                    if(!empty($aParams['market_stats'])) {
+                        SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 's.website_id', $aParams['publisher_id']);
+                    } else {
+                        SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                    }
+                } 
+                if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                if (isset($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
+                if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
+                if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
+                    $dateTimeCol = "s.tracker_date_time";
+                } else {
+                    $dateTimeCol = "s.date_time";
+                }
+                if (!empty($aParams['day_begin'])) $aLimitations[]="{$dateTimeCol}>='".SqlBuilder::_dayToDateTime($aParams['day_begin'], true)."'";
+                if (!empty($aParams['day_end'])) $aLimitations[]="{$dateTimeCol}<='".SqlBuilder::_dayToDateTime($aParams['day_end'], false)."'";
             }
-            if (!empty($aParams['day_begin'])) $aLimitations[]="{$dateTimeCol}>='".SqlBuilder::_dayToDateTime($aParams['day_begin'], true)."'";
-            if (!empty($aParams['day_end'])) $aLimitations[]="{$dateTimeCol}<='".SqlBuilder::_dayToDateTime($aParams['day_end'], false)."'";
             break;
 
         case 'stats_by_entity' :
@@ -946,12 +960,15 @@ class SqlBuilder
             case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
     
             case 'stats_by_entity' :
-                $aGroupColumns = array('ad_id', 'zone_id');
-                if (isset($aParams['include'])) $aGroupColumns = array_merge($aGroupColumns, $aParams['include']);
-                if (isset($aParams['exclude'])) $aGroupColumns = array_diff($aGroupColumns, $aParams['exclude']);
-                if ($aParams['market_stats']) {
-                    $aGroupColumns = array_diff($aGroupColumns, array('ad_id'));
-                    $aGroupColumns[] = 'pkey';
+                if(empty($aParams['market_stats_get_start_date'])) {
+                    
+                    $aGroupColumns = array('ad_id', 'zone_id');
+                    if (isset($aParams['include'])) $aGroupColumns = array_merge($aGroupColumns, $aParams['include']);
+                    if (isset($aParams['exclude'])) $aGroupColumns = array_diff($aGroupColumns, $aParams['exclude']);
+                    if ($aParams['market_stats']) {
+                        $aGroupColumns = array_diff($aGroupColumns, array('ad_id'));
+                        $aGroupColumns[] = 'pkey';
+                    }
                 }
                 break;
         }
@@ -975,8 +992,14 @@ class SqlBuilder
             if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
                 if (array_search('zone_id', $aParams['exclude']) !== false) {
                     // include deleted zones and direct selection in advertiser stats
-                    $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
-                    $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['affiliates']] = 'p';
+                    // except for market stats: it would otherwise include zoneid=0 which is the bucket for stats migrated from pre-2.8.3
+                    // these zoneid=0 stats will be selected in a separate query and should not be selected in the standard stats query,
+                    // or stats would be duplicated
+                    if(empty($aParams['market_stats']))
+                    {
+                        $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
+                        $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['affiliates']] = 'p';
+                    }
                 }
             }
             break;
@@ -987,8 +1010,11 @@ class SqlBuilder
         case 'history_dow' :
         case 'history_hour' :
             // include deleted zones and direct selection in history stats
-            $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
-            $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['affiliates']] = 'p';
+            if(empty($aParams['market_stats']))
+            {
+                $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
+                $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['affiliates']] = 'p';
+            }
             break;
         }
 
@@ -1159,7 +1185,7 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-//        var_dump($query);
+        //var_dump($query);
         $oDbh = OA_DB::singleton();
         $aResult =  $oDbh->queryAll($query);
         $aDataEntities = array();
