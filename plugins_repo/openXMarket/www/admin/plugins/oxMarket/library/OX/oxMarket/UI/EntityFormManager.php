@@ -235,7 +235,7 @@ class OX_oxMarket_UI_EntityFormManager
             array('sizes' => $sizesString));
         
         $aFields = array('mkt_is_enabled' => 'f');
-        if (!$newZone && $this->oMarketComponent->getZoneOptInManager()->isOptedIn($zone['zoneid'])) {
+        if ($newZone || $this->oMarketComponent->getZoneOptInManager()->isOptedIn($zone['zoneid'])) {
             $aFields['mkt_is_enabled'] = 't';
         }
         
