@@ -1,4 +1,3 @@
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
@@ -440,6 +439,7 @@ table tr.systemAdvertiser td span {
   font-weight: bold;
 }
 
+
 #market-advertiser-index {
     margin-top: 5px;
     margin-left: 20px;
@@ -458,14 +458,14 @@ table tr.systemAdvertiser td span {
   left: 41px; 
 }
 
-#market-advertiser-index .expand {
+a.expand {
     padding: 2px 0 2px 15px;
     background-position: left center;
     background-repeat: no-repeat;
     background-image:url(../../../assets/images/arrow-d.gif);
 }
 
-#market-advertiser-index .collapse {
+a.collapse {
     padding: 2px 0 2px 15px;
     background-position: left center;
     background-repeat: no-repeat;
@@ -550,6 +550,42 @@ table tr.systemAdvertiser td span {
 .market-advertiser-campaigns .messagePlaceholderStatic .body img {
   vertical-align: text-top; 
 }
+
+/*.market-advertiser-campaigns .expand, .market-advertiser-campaigns .collapse {
+   background-position: left 4px;
+}*/
+
+
+.market-advertiser-campaigns-top h3 {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.market-advertiser-campaigns-top .imageContainer {
+  overflow: auto;
+  margin-bottom: 12px;
+  margin-top: 15px;
+}
+
+
+.market-advertiser-campaigns-top .imageContainer .left,  
+.market-advertiser-campaigns-top .imageContainer .right {
+    float: left;      
+}
+
+.market-advertiser-campaigns-top .imageContainer .right {
+    margin-left: 25px;
+}
+
+.market-advertiser-campaigns-top .imageContainer .right img {
+    float: left;      
+}
+
+.market-advertiser-campaigns-top .imageContainer .right h4 {
+  font-size: 12px;
+}
+
 
 
 /** market campaign-delivery limitations page **/

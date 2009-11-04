@@ -33,31 +33,40 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
   {if $content}
       {$content}
   {else}
-    <div class="messagePlaceholder messagePlaceholderStatic">
-      <div class="message localMessage">
-        <div class="panel info">
-          <div class="icon"></div>
-            <div class="body">
-              <p>
-                Openx Market provides ads for your sites through a real-time auction and various ad buyers.
-                Your ad impression will be sold to the highest bidder. Ad buyers in OpenX Market include:
-                <img src="{$adminPluginWebPath}/oxMarket/images/icon-google-small.png" alt='Google' title='Google'/>
-                <img src="{$adminPluginWebPath}/oxMarket/images/icon-fim-small.png" alt='Fox Interactive Media' title='Fox Interactive Media'/>
-                <img src="{$adminPluginWebPath}/oxMarket/images/icon-tribal-fusion-small.png" alt='Tribal Fusion' title='Tribal Fusion'/>
-                <img src="{$adminPluginWebPath}/oxMarket/images/icon-break-media-small.png" alt='Break Media Network' title='Break Media Network'/>
-                <img src="{$adminPluginWebPath}/oxMarket/images/icon-value-click-small.png" alt='ValueClick media' title='ValueClick media'/>
-                <em>and hundreds of others</em>.
-              </p>
-            </div>  
-          <div class="topleft"></div>
-          <div class="topright"></div>
-          <div class="bottomleft"></div>
-          <div class="bottomright"></div>
+    <h3>Campaigns added here will get ads directly from OpenX Market</h3>
+    <p><a href="#" id="campaigns-info-link" class="expand">These campaigns will make money from hundreds of buyers bidding in OpenX Market's real-time auctions</a></p>
+    
+    <div class="campaigns-info-container">                                                                                               
+      <p>                                                                                                                                               
+          When you add a campaign under the OpenX Market Advertiser, your campaign will get ads from OpenX Market, which holds real-time auctions for
+          each impression. The campaign will have similar properties to a contract campaign but the ads will automatically be delivered by OpenX Market.
+      </p>
+      <div class="imageContainer">
+        <div class="left">
+            <img src="{$adminPluginWebPath}/oxMarket/images/market-auction.gif" alt='OpenX Market Auction' title='OpenX Market Auction'/>
         </div>
+        <div class="right">
+          <h4>Buyers include:</h4>
+          <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-horizontal.gif" alt='OpenX Market Advertisers' title='OpenX Market Advertisers'/>
+        </div>              
       </div>
     </div>
   {/if}
 </div>
 {/if}
+
+{if $after}
+<script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
+<script type="text/javascript">
+{literal}
+ <!--
+  $(document).ready(function() {
+    $('.market-advertiser-campaigns').advertiserCampaigns({
+       showInfo: true
+    });            
+  });
+ //-->
+{/literal}
+</script>{/if}
 
 

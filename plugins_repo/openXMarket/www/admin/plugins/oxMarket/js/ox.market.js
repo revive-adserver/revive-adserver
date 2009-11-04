@@ -376,7 +376,6 @@
         }
         
         
-        
         function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
         {
             //set up listeners
@@ -475,13 +474,8 @@
         
           return true;
         }        
-        
-                
     });
   };
-    
-  
-  
   
   
   $.fn.zoneMarket = function(options) {
@@ -564,6 +558,7 @@
     });
   };
   
+  
   $.fn.advertiserIndex = function(options) {
     return this.each(function() {
         var defaults = {
@@ -609,233 +604,270 @@
     });
   };  
   
-      
-})(jQuery);
-
-
-(function($) {
-    $.fn.updateSelection = function(options) {
+  
+  $.fn.advertiserCampaigns = function(options) {
+    return this.each(function() {
         var defaults = {
-            selectedClass: "selected"
+            showInfo: false
         };
         var settings = $.extend({}, defaults, options);
-    
-        return this.each(function() {
+
+        init();
+  
+        function init()
+        {
+            $("#campaigns-info-link").expandCollapse({toggledSelector: ".campaigns-info-container"});
+        }  
+    });
+  };  
+
+  $.fn.expandCollapse = function(options) {
+      var defaults = {
+        };
+        var settings = $.extend({}, defaults, options);
         
+        return this.each(function() {
             var $this = $(this);
-            $this.click(updateSelection);
+            var $toggled = $(settings.toggledSelector);
+            $this.click(updateToggled);
             
-            function updateSelection()
+            function updateToggled()
             {
-                if (this.checked) {
-                    $this.parent().addClass(settings.selectedClass);    
+                if ($(this).is('.expand')) {
+                    $toggled.hide();
                 }
                 else {
-                    $this.parent().removeClass(settings.selectedClass);
+                    $toggled.show();
                 }
+                $this.toggleClass('expand');
+                $this.toggleClass('collapse');
+                
+                return false;
             }
         });
-    };
-})(jQuery);
+  }
+    
 
-
-(function($) {
-    $.fn.marketOptIn = function(options) {
-        var defaults = {
-        };
-        var settings = $.extend({}, defaults, options);
-        var $optIn = this;
-        
-        // Select campaign if typing its floor price
-        $optIn.keyup(function(event) {
-            var $target = $(event.target);
-            if ($target.is("input.cpm")) {
-	            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
-	                var $input = $target;
-	                var $checkbox = $input.parent().parent().find(":checkbox");
-	                var previous = $checkbox.attr("checked");
-	                var next = $input.val().length > 0;
-	                $checkbox.attr("checked", next);
-	                $checkbox.parents("tr").eq(0).addClass("selected");
-	            }
+  $.fn.updateSelection = function(options) {
+      var defaults = {
+          selectedClass: "selected"
+      };
+      var settings = $.extend({}, defaults, options);
+  
+      return this.each(function() {
+      
+          var $this = $(this);
+          $this.click(updateSelection);
+          
+          function updateSelection()
+          {
+              if (this.checked) {
+                  $this.parent().addClass(settings.selectedClass);    
+              }
+              else {
+                  $this.parent().removeClass(settings.selectedClass);
+              }
+          }
+      });
+  };
+  
+  
+  $.fn.marketOptIn = function(options) {
+      var defaults = {
+      };
+      var settings = $.extend({}, defaults, options);
+      var $optIn = this;
+      
+      // Select campaign if typing its floor price
+      $optIn.keyup(function(event) {
+          var $target = $(event.target);
+          if ($target.is("input.cpm")) {
+            if (event.keyCode >= 48 || event.keyCode == 8 || event.keyCode == 46) {
+                var $input = $target;
+                var $checkbox = $input.parent().parent().find(":checkbox");
+                var previous = $checkbox.attr("checked");
+                var next = $input.val().length > 0;
+                $checkbox.attr("checked", next);
+                $checkbox.parents("tr").eq(0).addClass("selected");
             }
-        });
-        $optIn.keypress(function(event) {
-            var $target = $(event.target);
-            if ($target.is("input.cpm")) {
-	            if (event.keyCode == 13) {
-	            	event.preventDefault();
-	            	return false;
-	            }
-            }
-        });
-        
-        // AJAX search
-        $("#search").typeWatch({callback: function() {
-        	refresh('market-campaigns-settings-list.php');
-        	},
-            wait: 500
-        });
-        
-        // AJAX paging
-        $optIn.click(function(event) {
-            var $target = $(event.target);
-            if ($target.is("a.page")) {
-            	// Show a different page
-            	refresh($target.attr('href'));
+          }
+      });
+      $optIn.keypress(function(event) {
+          var $target = $(event.target);
+          if ($target.is("input.cpm")) {
+            if (event.keyCode == 13) {
+            	event.preventDefault();
             	return false;
             }
-            if ($target.is("a")) {
-            	// Select really all
-            	if ($target.parent().is("#selectAllCampaigns")) {
-                    $("#selectAllCampaigns").hide();
-                    $("#allSelected").show();
-                    $("#allSelectedHidden").val("true");
-                    return false;
-            	}
-            	
-            	// Clear really all selection
-            	if ($target.parent().is("#allSelected")) {
-                    cancelAllSelection();
-                    $optIn.find(":checkbox").attr("checked", false);
-                    $optIn.find("tr.selected").removeClass("selected");
-                    return false;
-            	}
-            	
-            	// Sorting
-            	if ($target.parent().is("th")) {
-                	refresh($target.attr('href'));
-                	return false;
-            	}
-            }
-        });
+          }
+      });
+      
+      // AJAX search
+      $("#search").typeWatch({callback: function() {
+      	refresh('market-campaigns-settings-list.php');
+      	},
+          wait: 500
+      });
+      
+      // AJAX paging
+      $optIn.click(function(event) {
+          var $target = $(event.target);
+          if ($target.is("a.page")) {
+          	// Show a different page
+          	refresh($target.attr('href'));
+          	return false;
+          }
+          if ($target.is("a")) {
+          	// Select really all
+          	if ($target.parent().is("#selectAllCampaigns")) {
+                  $("#selectAllCampaigns").hide();
+                  $("#allSelected").show();
+                  $("#allSelectedHidden").val("true");
+                  return false;
+          	}
+          	
+          	// Clear really all selection
+          	if ($target.parent().is("#allSelected")) {
+                  cancelAllSelection();
+                  $optIn.find(":checkbox").attr("checked", false);
+                  $optIn.find("tr.selected").removeClass("selected");
+                  return false;
+          	}
+          	
+          	// Sorting
+          	if ($target.parent().is("th")) {
+              	refresh($target.attr('href'));
+              	return false;
+          	}
+          }
+      });
+      
+      // AJAX filtering
+      $optIn.find("a.dropDownLink").click(function() {
+      	refresh(this.href);
+      	$optIn.find(".dropDown").trigger("close").find("span > span").html($(this).text());
+      	return false;
+      });
+      
+      $optIn.find(".tableWrapper").bind("multichange", function() {
+      	if ($("#toggleAll").is(":checked")) {
+      		$("#selectAllContainer, #selectAllCampaigns").show();
+      	} else {
+      		cancelAllSelection();
+      	}
+      });
+      
+	installListeners();
+      return this;
+      
+      function refresh(url) {
+      	var ignored = $.extend({
+      		'allSelected': true, 
+      		'optInSubmit': true, 
+      		'optOutSubmit': true 
+      	}, getGetParams(url));
+      	var data = $optIn.elementValues(null, ignored);
+      	data["action"] = "refresh";
+      	var $indicator = $("#loading-indicator").attr("title", "").removeClass("ajax-error").fadeIn(200);
+		  	$("#thirdLevelTools > div.messagePlaceholder > div.localMessage").hide();
+      	$.ajax({
+      		data: data,
+      		type: 'POST',
+      		url: url,
+      		success: function(data) {
+      		  if (!checkReload(data)) {
+      			  if (data.indexOf("<!-- market-quickstart-campaigns -->") >= 0) {
+		    		  $("#tableContent").html(data);
+		    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
+		    		  installListeners();
+		    		  $indicator.fadeOut(200);
+      			  } else {
+      				  showError(data.substring(0, Math.min(data.length, 64)) + "...");
+      			  }
+      		  }
+      		},
+      		error: function(XMLHttpRequest, textStatus, errorThrown) {
+      			showError();
+      		}
+      	});
+      	
+      	function showError(error) {
+      		$indicator.attr("title", "Could not load campaigns. Please try again. " + 
+      				(error ? "Error: " + error : "")).addClass("ajax-error");
+      	}
+      }
+      
+      function cancelAllSelection() {
+          $("#selectAllContainer, #selectAllCampaigns, #allSelected").hide();
+          $("#allSelectedHidden").val("");
+      }
         
-        // AJAX filtering
-        $optIn.find("a.dropDownLink").click(function() {
-        	refresh(this.href);
-        	$optIn.find(".dropDown").trigger("close").find("span > span").html($(this).text());
-        	return false;
-        });
-        
-        $optIn.find(".tableWrapper").bind("multichange", function() {
-        	if ($("#toggleAll").is(":checked")) {
-        		$("#selectAllContainer, #selectAllCampaigns").show();
-        	} else {
-        		cancelAllSelection();
-        	}
-        });
-        
-		installListeners();
-        return this;
-        
-        function refresh(url) {
-        	var ignored = $.extend({
-        		'allSelected': true, 
-        		'optInSubmit': true, 
-        		'optOutSubmit': true 
-        	}, getGetParams(url));
-        	var data = $optIn.elementValues(null, ignored);
-        	data["action"] = "refresh";
-        	var $indicator = $("#loading-indicator").attr("title", "").removeClass("ajax-error").fadeIn(200);
-  		  	$("#thirdLevelTools > div.messagePlaceholder > div.localMessage").hide();
-        	$.ajax({
-        		data: data,
-        		type: 'POST',
-        		url: url,
-        		success: function(data) {
-        		  if (!checkReload(data)) {
-        			  if (data.indexOf("<!-- market-quickstart-campaigns -->") >= 0) {
-			    		  $("#tableContent").html(data);
-			    		  $optIn.find(".tableWrapper").trigger("dataUpdate");
-			    		  installListeners();
-			    		  $indicator.fadeOut(200);
-        			  } else {
-        				  showError(data.substring(0, Math.min(data.length, 64)) + "...");
-        			  }
-        		  }
-        		},
-        		error: function(XMLHttpRequest, textStatus, errorThrown) {
-        			showError();
-        		}
-        	});
-        	
-        	function showError(error) {
-        		$indicator.attr("title", "Could not load campaigns. Please try again. " + 
-        				(error ? "Error: " + error : "")).addClass("ajax-error");
-        	}
+      function checkReload(data) {
+        if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
+          document.location.reload();
+          return true;
         }
-        
-        function cancelAllSelection() {
-            $("#selectAllContainer, #selectAllCampaigns, #allSelected").hide();
-            $("#allSelectedHidden").val("");
-        }
+        return false;
+      }
+      
+      function installListeners() {
+          $("#market-cpm-callout").help({
+              'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
+              'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500 + ($.browser.msie ? 10 : 0)
+              }
+          );
+          $optIn.find("input.cpm").confirmFloorPriceUpdate(function() {
+          	return this.nextAll("input[type=hidden]").eq(0).val();
+          });
           
-        function checkReload(data) {
-          if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
-            document.location.reload();
-            return true;
-          }
-          return false;
-        }
-        
-        function installListeners() {
-            $("#market-cpm-callout").help({
-                'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
-                'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500 + ($.browser.msie ? 10 : 0)
-                }
-            );
-            $optIn.find("input.cpm").confirmFloorPriceUpdate(function() {
-            	return this.nextAll("input[type=hidden]").eq(0).val();
+          if ($.browser.msie && $.browser.version < 7) {
+            $("button[name=optInSubmit]").click(function() {
+            	$("button[name=optOutSubmit]").attr("disabled", "disabled");
             });
-            
-            if ($.browser.msie && $.browser.version < 7) {
-	            $("button[name=optInSubmit]").click(function() {
-	            	$("button[name=optOutSubmit]").attr("disabled", "disabled");
-	            });
-	            $("button[name=optOutSubmit]").click(function() {
-	            	$("button[name=optInSubmit]").attr("disabled", "disabled");
-	            });
-            }
+            $("button[name=optOutSubmit]").click(function() {
+            	$("button[name=optInSubmit]").attr("disabled", "disabled");
+            });
+          }
+      }
+      
+      function getGetParams(url) {
+      	var questionMarkIndex = url.indexOf("?");
+      	var params = {};
+      	if (questionMarkIndex < 0) {
+      		return params;
+      	}
+      	var paramString = url.substring(questionMarkIndex + 1);
+      	var pairs = paramString.split("&");
+      	for (var i = 0; i < pairs.length; i++) {
+      		var nameValue = pairs[i].split("=");
+      		params[nameValue[0]] = nameValue[1];
+      	}
+      	return params;
+      }
+  };
+  
+  $.fn.elementValues = function(allowed, ignored) {
+      var values = {};
+      this.find(":input").not(":radio:not(:checked)").each(function () {
+        var $this = $(this);
+        var name = $this.attr("name");
+        if (name.indexOf('[') > 0) {
+      	  name = name.substring(0, name.indexOf('['));
         }
-        
-        function getGetParams(url) {
-        	var questionMarkIndex = url.indexOf("?");
-        	var params = {};
-        	if (questionMarkIndex < 0) {
-        		return params;
-        	}
-        	var paramString = url.substring(questionMarkIndex + 1);
-        	var pairs = paramString.split("&");
-        	for (var i = 0; i < pairs.length; i++) {
-        		var nameValue = pairs[i].split("=");
-        		params[nameValue[0]] = nameValue[1];
-        	}
-        	return params;
+        if ((allowed && !allowed[name]) || ignored[name]) {
+      	  return true;
         }
-    };
-    
-    $.fn.elementValues = function(allowed, ignored) {
-        var values = {};
-        this.find(":input").not(":radio:not(:checked)").each(function () {
-          var $this = $(this);
-          var name = $this.attr("name");
-          if (name.indexOf('[') > 0) {
-        	  name = name.substring(0, name.indexOf('['));
+        if ($this.is(":checkbox")) {
+      	  values[$this.attr("name")] = $this.is(":checked") ? 1 : 0;
+        } else {
+          if (!values[name]) {
+            values[name] = [];
           }
-          if ((allowed && !allowed[name]) || ignored[name]) {
-        	  return true;
-          }
-          if ($this.is(":checkbox")) {
-        	  values[$this.attr("name")] = $this.is(":checked") ? 1 : 0;
-          } else {
-	          if (!values[name]) {
-	            values[name] = [];
-	          }
-	          values[name].push($this.val());
-          }
-        });
-        return values ;
-    };
+          values[name].push($this.val());
+        }
+      });
+      return values ;
+  };
 })(jQuery);
 
 

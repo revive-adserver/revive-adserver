@@ -147,6 +147,10 @@ class OX_oxMarket_UI_EntityScreenManager
                 $result = $this->advertiserIndexAfterContent($pageData, $smarty);
                 break;
             }
+            case 'advertiser-campaigns': {
+                $result = $this->advertiserCampaignsAfterContent($pageData, $smarty);
+                break;
+            }
         }
         
         return $result;        
@@ -219,4 +223,26 @@ class OX_oxMarket_UI_EntityScreenManager
         
         return $oTpl->toString();
     }
+    
+    
+    /*
+     * A view listener function that inserts some market content on campaigns 
+     * screen only if current advertiser is OpenX Market.
+     */
+    protected function advertiserCampaignsAfterContent($pageData, $smarty)
+    {
+        $oEntityHelper = $this->oMarketComponent->getEntityHelper();
+        $hasMarket = $oEntityHelper->isMarketAdvertiser($pageData['advertiserId']);
+        if (!($hasMarket)) { //only default system campaign screen will be modified
+            return null;
+        }
+        
+        $oTpl = new OA_Plugin_Template('fragment-advertiser-campaigns.html','oxMarket');
+        $oTpl->assign('content', $content);
+        $oTpl->assign('after', true);
+        
+        return $oTpl->toString();
+    }
+    
+    
 }
