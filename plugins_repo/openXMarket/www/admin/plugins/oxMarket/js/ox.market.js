@@ -95,6 +95,8 @@
         var settings = $.extend({}, defaults, options);
         
         var $form = $(this);
+        
+        var $marketSection = $("#sect_market");
         var $revenueField = $('#revenue', $form);
         var $pricingField = $('#pricing_revenue_type', $form);
         var $eCPMSpan = $("#ecpm_val"); 
@@ -115,13 +117,18 @@
             $revenueField.blur(updateFloorPrice);
             $("#pricing_revenue_type").change(updateFloorPrice);
             
-            $("#priority-h, #priority-e, #priority-l", $form).click(onTypeClick);
+            $("#priority-h, #priority-e, #priority-l", $form).click(onTypeChange);
             $eCPMSpan.bind("ecpmUpdate", function(event, data) {
                     addLastCPMHidden(); 
                     if (data.userTriggered) {
                         updateFloorPrice();
                     }
                 });
+                
+            $("#endSet_immediate, #endSet_specific").click(function() {
+                onEndDateChange();
+            });                
+                
             $floorPriceField.confirmFloorPriceUpdate(function() {
             	if (isECPMEnabled()) {
             		return parseFloat($eCPMSpan.text().replace(/,/, ''));
@@ -131,12 +138,43 @@
             }, function() {
             	return $pricingField.val() == MODEL_CPM;
             });
+            
+            onTypeChange();            
         }
         
         
-        function onTypeClick()
+        function onEndDateChange()
         {
             var campaignType = getCampaignType();
+            var dateSet = $("#endSet_specific").attr('checked');
+            if (CAMPAIGN_TYPE_CONTRACT_NORMAL == campaignType) {
+                if (dateSet) { 
+                    $marketSection.hide();
+                    $enableMarketChbx.attr("disabled", true);
+                }
+                else {
+                    $marketSection.show();
+                    $enableMarketChbx.attr("disabled", false);
+                }
+            }
+        }        
+        
+        
+        function onTypeChange()
+        {
+            var campaignType = getCampaignType();
+        
+            //2.1.1    Contract (Exclusive) campaigns will no longer show the Market checkbox / floor price field.
+            if (CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE == campaignType) {
+                $marketSection.hide();
+                $enableMarketChbx.attr("disabled", true);
+            }
+            else {
+                $marketSection.show();
+                $enableMarketChbx.attr("disabled", false);
+            }
+            //2.1.2    Contract campaigns that have a specified end date will no longer show the Market checkbox / floor price field.
+            onEndDateChange();
         
             //if new campaign then disable/enable marketplace optin checbox
             //for existing campaigns do not touch it
@@ -146,7 +184,7 @@
                     $enableMarketChbx.attr("checked", true);
                     $enableMarketChbx.trigger("enableMarketplaceClick");
                 }
-                else if( CAMPAIGN_TYPE_CONTRACT_NORMAL == campaignType || CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE == campaignType) {
+                else if( CAMPAIGN_TYPE_CONTRACT_NORMAL == campaignType) {
                     $enableMarketChbx.attr("checked", false);
                     $enableMarketChbx.trigger("enableMarketplaceClick");
                 }

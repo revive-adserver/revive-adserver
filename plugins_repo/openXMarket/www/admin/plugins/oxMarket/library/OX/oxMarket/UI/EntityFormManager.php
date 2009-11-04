@@ -77,6 +77,11 @@ class OX_oxMarket_UI_EntityFormManager
         $aFields['floor_price'] = $this->formatCpm($aFields['floor_price']);
 
         $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
+        $form->addDecorator('h_marketplace', 'tag', array (
+                'attributes' => array (
+                        'id' => 'sect_market', 
+                        'class' => $isNewCampaign ? 'hide' : '')));
+        
 
         $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->oMarketComponent->translate("Allow OpenX Market to show ads for this campaign if it beats the CPM below (RECOMMENDED)"), array('id' => 'enable_mktplace'), array("f", "t"));
         $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
