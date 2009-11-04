@@ -241,8 +241,24 @@ else { //either validation failed or no form was not submitted, display the page
 /*-------------------------------------------------------*/
 function displayPage($aCampaign, $oForm, $oMarketComponent, $campaignErrors = null)
 {
+    $isNew = empty($aCampaign['campaignid']);
+    
     //header and breadcrumbs
-    if ($aCampaign['campaignid'] != "") { //edit campaign
+    if ($isNew) { //new campaign 
+        $advertiser = phpAds_getClientDetails($aCampaign['clientid']);
+        $advertiserName = $advertiser['clientname'];
+        
+        // New campaign
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader(array (
+                array (
+                        "name" => $advertiserName, 
+                        "url" => null), 
+                array ("name" => "")), "campaign", "edit-new");
+        phpAds_PageHeader("market-campaign-edit_new", $oHeaderModel);
+    }
+    else { 
+        //edit campaign
         // Initialise some parameters
         $agencyId = OA_Permission::getAgencyId();
         $aEntities = array ('clientid' => $aCampaign['clientid'], 
@@ -268,19 +284,6 @@ function displayPage($aCampaign, $oForm, $oMarketComponent, $campaignErrors = nu
                         "name" => $aCampaign['campaignname'])), "campaign", "edit");
         phpAds_PageHeader("market-campaign-edit", $oHeaderModel);
     }
-    else { //new campaign
-        $advertiser = phpAds_getClientDetails($aCampaign['clientid']);
-        $advertiserName = $advertiser['clientname'];
-        
-        // New campaign
-        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-        $oHeaderModel = $builder->buildEntityHeader(array (
-                array (
-                        "name" => $advertiserName, 
-                        "url" => null), 
-                array ("name" => "")), "campaign", "edit-new");
-        phpAds_PageHeader("market-campaign-edit_new", $oHeaderModel);
-    }
     
     //get template and display form
     $oTpl = new OA_Plugin_Template('market-campaign-edit.html', 'oxMarket');
@@ -289,6 +292,7 @@ function displayPage($aCampaign, $oForm, $oMarketComponent, $campaignErrors = nu
     $oTpl->assign('strCampaignWarningNoTargetMessage', str_replace("\n", '\n', addslashes($GLOBALS['strCampaignWarningNoTarget'])));
     $oTpl->assign('language', $GLOBALS['_MAX']['PREF']['language']);
     $oTpl->assign('campaignErrors', $campaignErrors);
+    $oTpl->assign('isNew', $isNew);
     
     $aStrings = getCustomContent($oMarketComponent);
     $oTpl->assign('top', $aStrings['content_top']);

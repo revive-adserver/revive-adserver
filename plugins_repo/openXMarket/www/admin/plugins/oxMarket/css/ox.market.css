@@ -436,6 +436,10 @@ ul.column li.rejected {
 }
 
 /** custom market screens **/
+table tr.systemAdvertiser td span {
+  font-weight: bold;
+}
+
 #market-advertiser-index {
     margin-top: 5px;
     margin-left: 20px;
@@ -478,14 +482,15 @@ ul.column li.rejected {
 }
 
 .market-campaign-edit-top {
-  overflow: auto;
   margin-bottom: 5px;
 }
 
-
-.market-campaign-edit-top p img {
-  float: left;
+.market-campaign-edit h3 {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 12px; 
 }
+
 
 .market-campaign-edit form, .market-campaign-edit form .section {
   clear: left;
