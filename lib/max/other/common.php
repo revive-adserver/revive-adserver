@@ -734,6 +734,8 @@ function MAX_getLinkedAdParams($zoneId)
             $aParams['ad_height'] = $aZone['height'];
         }
     }
+    // Allow linking *x* banners
+    $aParams['ad_nosize'] = true;
     return $aParams;
 }
 
