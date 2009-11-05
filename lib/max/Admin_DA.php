@@ -450,6 +450,8 @@ class Admin_DA
                 $aParams['ad_height'] = $aZone['height'];
             }
         }
+        // Allow linking *x* banners
+        $aParams['ad_nosize'] = true;
         return $aParams;
     }
 

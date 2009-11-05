@@ -549,22 +549,22 @@ class SqlBuilder
 
         // size limitation e.g. ((width = -1 AND height = -1) OR (width = 468 AND height = 60));
         $aSizeLimitations = array();
-        if (!empty($aParams['ad_nosize'])) {
-            $aNoSize = array();
-            SqlBuilder::_addLimitation($aNoSize, 'ad_width', 'd.width', -1);
-            SqlBuilder::_addLimitation($aNoSize, 'ad_height', 'd.height', -1);
-            $aSizeLimitations[] = '('.implode(' AND ',$aNoSize).')';
-        }
         $aZoneSize = array();
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aZoneSize, 'ad_width', 'd.width', $aParams['ad_width']);
         if (isset($aParams['ad_height'])) SqlBuilder::_addLimitation($aZoneSize, 'ad_height', 'd.height', $aParams['ad_height']);
         $zoneSize = implode(' AND ',$aZoneSize);
         if (!empty($zoneSize)) {
+            if (!empty($aParams['ad_nosize'])) {
+                $aNoSize = array();
+                SqlBuilder::_addLimitation($aNoSize, 'ad_width', 'd.width', -1);
+                SqlBuilder::_addLimitation($aNoSize, 'ad_height', 'd.height', -1);
+                $aSizeLimitations[] = '('.implode(' AND ',$aNoSize).')';
+            }
             $aSizeLimitations[] = '('.$zoneSize.')';
-        }
-        $sizeLimitation = implode(' OR ',$aSizeLimitations);
-        if (!empty($sizeLimitation)) {
-            $aLimitations[] = '('.$sizeLimitation.')';
+            $sizeLimitation = implode(' OR ',$aSizeLimitations);
+            if (!empty($sizeLimitation)) {
+                $aLimitations[] = '('.$sizeLimitation.')';
+            }
         }
         
         if (!empty($aParams['ad_type'])) {
@@ -599,6 +599,15 @@ class SqlBuilder
             if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'a.clientid', $aParams['advertiser_id']);
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+            // always filter by type
+            if (!class_exists(DataObjects_Clients)) {OA_Dal::factoryDO('Clients');}
+            if (empty($aParams['adveriser_type'])) {
+                $aParams['adveriser_type'] = DataObjects_Clients::ADVERTISER_TYPE_DEFAULT; //always add default type
+            } else {
+                $aParams['adveriser_type'] .= ",".DataObjects_Clients::ADVERTISER_TYPE_DEFAULT; //always add default type
+            }
+            SqlBuilder::_addLimitation($aLimitations, 'adveriser_type', 'a.type', $aParams['adveriser_type']);
+           
             break;
 
         case 'ad_category_assoc' :
@@ -672,6 +681,14 @@ class SqlBuilder
             if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+            // always filter by type
+            if (!class_exists(DataObjects_Clients)) {OA_Dal::factoryDO('Campaigns');}
+            if (empty($aParams['campaign_type'])) {
+                $aParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT; //always add default type
+            } else {
+                $aParams['campaign_type'] .= ",".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT; //always add default type
+            }
+            SqlBuilder::_addLimitation($aLimitations, 'campaign_type', 'm.type', $aParams['campaign_type']);
             break;
 
         case 'placement_tracker' :
@@ -1172,7 +1189,7 @@ class SqlBuilder
         }
 
         $query = $columns . $tables . $where . $group;
-
+//var_dump($query);
         return  SqlBuilder::_query($query, $primaryKey);
     }
 

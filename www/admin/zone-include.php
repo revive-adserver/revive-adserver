@@ -208,12 +208,23 @@ phpAds_SessionDataStore();
 
     MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $pageName, $tabIndex, $aOtherZones);
 
+    $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
+    //TODO well, hardcoded reference to market plugin again, it would be better
+    //to ask plugins for additional types to include via hook.
+    if (isset($oComponent) && $oComponent->enabled && $oComponent->isActive()) {
+        $inludeAdvertiserSystemTypes = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $includeCampaignSystemTypes = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT;
+    } else {
+        $inludeAdvertiserSystemTypes = '';
+        $includeCampaignSystemTypes = '';
+    }
+
     $aParams = MAX_getLinkedAdParams($zoneId);
     if ($view == 'placement') {
         $aDirectLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
-        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
-        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
-        $aZonesPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), true, 'placement_id');
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId, 'adveriser_type' => $inludeAdvertiserSystemTypes), false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId, 'campaign_type' => $includeCampaignSystemTypes), false) : null;
+        $aZonesPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId, 'campaign_type' => $includeCampaignSystemTypes), true, 'placement_id');
         MAX_displayZoneEntitySelection('placement', $aOtherAdvertisers, $aOtherPlacements, null, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectCampaignToLink'], $pageName, $tabIndex);
         if (!empty($aZonesPlacements)) {
 	        $aParams = array('placement_id' => implode(',', array_keys($aZonesPlacements)));
@@ -223,8 +234,8 @@ phpAds_SessionDataStore();
         }
         MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, $tabIndex, $aDirectLinkedAds);
     } elseif ($view == 'ad') {
-        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
-        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId, 'adveriser_type' => $inludeAdvertiserSystemTypes), false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId, 'campaign_type' => $includeCampaignSystemTypes), false) : null;
         $aOtherAds = !empty($placementId) ? Admin_DA::getAds($aParams + array('placement_id' => $placementId), false) : null;
         $aAdsZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
         MAX_displayZoneEntitySelection('ad', $aOtherAdvertisers, $aOtherPlacements, $aOtherAds, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectBannerToLink'], $pageName, $tabIndex);
