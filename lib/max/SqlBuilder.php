@@ -682,7 +682,7 @@ class SqlBuilder
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
             // always filter by type
-            if (!class_exists(DataObjects_Clients)) {OA_Dal::factoryDO('Campaigns');}
+            if (!class_exists(DataObjects_Campaigns)) {OA_Dal::factoryDO('Campaigns');}
             if (empty($aParams['campaign_type'])) {
                 $aParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT; //always add default type
             } else {
