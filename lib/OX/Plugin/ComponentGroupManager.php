@@ -1599,7 +1599,6 @@ class OX_Plugin_ComponentGroupManager
         } else {
             $className = $aClassNames[$path.$file]; 
         }
-        var_dump($file, $className);
         // $classname is declared in script
         $oScript = $this->_instantiateClass($className);
         if (!$oScript)
