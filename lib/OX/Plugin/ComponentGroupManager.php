@@ -1575,6 +1575,8 @@ class OX_Plugin_ComponentGroupManager
      */
     function _runScript($name, $file='')
     {
+        static $aClassNames;
+        
         if (!$file)
         {
             //OA::debug('No file to run');
@@ -1592,6 +1594,12 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to acquire file '.$path.$file);
             return false;
         }
+        if (!empty($className)) {
+            $aClassNames[$path.$file] = $className; 
+        } else {
+            $className = $aClassNames[$path.$file]; 
+        }
+        var_dump($file, $className);
         // $classname is declared in script
         $oScript = $this->_instantiateClass($className);
         if (!$oScript)
