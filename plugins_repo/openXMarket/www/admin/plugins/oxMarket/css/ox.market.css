@@ -445,6 +445,23 @@ table tr.systemAdvertiser td span {
     margin-left: 20px;
 }
 
+#market-advertiser-index p {
+  clear: left;
+  margin-bottom: 5px;
+}
+
+
+#market-advertiser-index p.market-advertisers {
+  line-height: 44px;
+  margin-bottom: 8px;
+  
+}
+
+#market-advertiser-index p.market-advertisers img {
+  float: left;
+}
+
+
 #market-advertiser-index .three-ways-container {
   width: 650px;
 }
@@ -462,14 +479,14 @@ a.expand {
     padding: 2px 0 2px 15px;
     background-position: left center;
     background-repeat: no-repeat;
-    background-image:url(../../../assets/images/arrow-d.gif);
+    background-image:url(../../../assets/images/icon-minus.png);
 }
 
 a.collapse {
     padding: 2px 0 2px 15px;
     background-position: left center;
     background-repeat: no-repeat;
-    background-image:url(../../../assets/images/arrow-r.gif);
+    background-image:url(../../../assets/images/icon-plus.png);
 }
 
 /** market campaign edit **/

@@ -36,6 +36,7 @@
             <file path="{ADMINPATH}/images/">icon-value-click-small.png</file>
             <file path="{ADMINPATH}/images/">market-3-ways.gif</file>            
             <file path="{ADMINPATH}/images/">market-adnetworks-horizontal.gif</file>            
+            <file path="{ADMINPATH}/images/">market-adnetworks-horizontal-wide.gif</file>
             <file path="{ADMINPATH}/images/">market-adnetworks-vertical.gif</file>
             <file path="{ADMINPATH}/images/">market-auction.gif</file>
             <file path="{ADMINPATH}/images/">market-auction-vertical.gif</file>
