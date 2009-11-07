@@ -25,7 +25,7 @@ function smarty_core_rmdir($params, &$smarty)
    if($_handle = @opendir($params['dirname'])) {
 
         while (false !== ($_entry = readdir($_handle))) {
-            if ($_entry != '.' && $_entry != '..') {
+            if (substr($_entry, 0, 1) != '.') {
                 if (@is_dir($params['dirname'] . DIRECTORY_SEPARATOR . $_entry)) {
                     $_params = array(
                         'dirname' => $params['dirname'] . DIRECTORY_SEPARATOR . $_entry,
