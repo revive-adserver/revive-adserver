@@ -412,7 +412,7 @@
                     limitField.value = "";
                 }
                 limitField.disabled = false;
-                if (focus == true) {
+                if (focus === true) {
                     limitField.focus();
                 }
             }
@@ -648,7 +648,7 @@
                 return false;
             }
         });
-  }
+  };
     
 
   $.fn.updateSelection = function(options) {

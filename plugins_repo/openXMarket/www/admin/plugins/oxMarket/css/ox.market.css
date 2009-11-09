@@ -1,3 +1,4 @@
+/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
@@ -374,7 +375,7 @@ ul.column li.rejected {
   -padding-left:11px;    
 }
 
-/** AJAX loading */
+/** AJAX loading **/
 #loading-indicator {
   position: absolute;
   top: 8px;
@@ -441,7 +442,7 @@ table tr.systemAdvertiser td span {
 
 
 #market-advertiser-index {
-    margin-top: 5px;
+    margin-top: 8px;
     margin-left: 20px;
 }
 
@@ -452,6 +453,10 @@ table tr.systemAdvertiser td span {
 
 #three-ways-link {
   margin-left: 8px;
+}
+
+#market-advertiser-index span {
+  font-weight: normal;
 }
 
 #market-advertiser-index  .popup-help {
