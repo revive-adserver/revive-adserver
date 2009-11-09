@@ -587,7 +587,7 @@
             });
 
             if (settings.showInfo) {
-                updateThreeWaysBox();
+                showThreeWaysBox();
             }
         }
         
