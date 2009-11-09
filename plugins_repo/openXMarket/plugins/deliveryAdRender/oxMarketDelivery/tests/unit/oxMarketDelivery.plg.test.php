@@ -65,7 +65,8 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         
         // Prepare test data
         $adHtml = 'test banner';
-        $aAd = array( 'width' => 468, 'height' => 60, 'placement_id' => 12, 'zoneid' =>7 );
+        $aAd = array( 'width' => 468, 'height' => 60, 'placement_id' => 12, 'zoneid' =>7,
+                      'client_id' => 3, 'ad_id' => 45, 'affiliate_id' => 8);
         $aCampaignMarketInfo = array();
         $website_id = 12;
         $aWebsiteMarketInfo = array('website_id' => $website_id);
@@ -94,7 +95,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0);
         $this->assertEqual($aOXM_ad->size, "468x60");
-        $this->assertEqual($aOXM_ad->channel, "c12z7");
+        $this->assertNull($aOXM_ad->channel);
         $this->assertTrue(isset($aOXM_ad->beacon));
         $this->assertEqual($aOXM_ad->fallback,$adHtml); 
        
@@ -177,6 +178,31 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $aOXM_ad = get_object_vars($oOXM_ad);
         $this->assertFalse(array_key_exists('url',$aOXM_ad));
         $this->assertFalse(array_key_exists('referer',$aOXM_ad));
+        
+        // test channel when banner type is set to market 
+        
+        $aAd['ext_bannertype'] = 'market-optin-banner';
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
+        // check ereg result
+        $this->assertEqual(4,count($aResult));
+        $oOXM_ad = $oJson->decode($aResult[1]);
+        $this->assertEqual($oOXM_ad->channel, 'oxpv1:3-12-45-8-7');
+        
+        // test channel when banner is non market
+        $sName  = OA_Delivery_Cache_getName('OX_cacheGetCampaignOptInBanner', $agency_id);
+        $aRow = array('client_id' => 112, 'placement_id' => 113, 'ad_id' => 114);
+        OA_Delivery_Cache_store_return($sName, $aRow);
+        unset($aAd['ext_bannertype']);
+        $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        
+        $this->assertTrue(ereg($this->pattern, $result, $aResult));
+        // check ereg result
+        $this->assertEqual(4,count($aResult));
+        $oOXM_ad = $oJson->decode($aResult[1]);
+        $this->assertEqual($oOXM_ad->channel, 'oxpv1:112-113-114-8-7');
+        OA_Delivery_Cache_store_return($sName, false);
         
         // restore setting
         $_SERVER['HTTPS'] = $serverHttps;
@@ -595,7 +621,54 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_postAdRender($code, $aBanner);
         $this->assertEqual($code, $banner);
         $aBanner['affiliate_id'] = 256;
-     }
+    }
 
+     
+    function testOX_Dal_Delivery_getCampaignOptInBanner()
+    {
+        // not existing agency
+        $result = OX_Dal_Delivery_getCampaignOptInBanner(0);
+        $this->assertEqual($result, array());
+        
+        // create agency
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId = DataGenerator::generateOne($doAgency);
+        $result = OX_Dal_Delivery_getCampaignOptInBanner($agencyId);
+        $this->assertEqual($result, array());
+        
+        // add normal advertiser, campaign and banner
+        $doClient = OA_Dal::factoryDO('clients');
+        $doClient->agencyid = $agencyId;
+        $clientId = DataGenerator::generateOne($doClient);
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->clientid = $clientId;
+        $campaignId = DataGenerator::generateOne($doCampaign);
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doBanner->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanner);
+        
+        $result = OX_Dal_Delivery_getCampaignOptInBanner($agencyId);
+        $this->assertEqual($result, array());
+        
+        // add market campaign and banner
+        require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+        $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+        $marketAdvertiserId = $oAdvertiserDal->createMarketAdvertiser($agencyId);
+        $expected = array('client_id' => $marketAdvertiserId);
+        
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->clientid = $marketAdvertiserId;
+        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
+        $doCampaign->find();
+        $doCampaign->fetch();
+        $expected['placement_id'] = $doCampaign->campaignid;
+        
+        $doBanner = OA_Dal::staticGetDO('banners','campaignid', $doCampaign->campaignid);
+        $expected['ad_id'] = $doBanner->bannerid;
+        
+        $result = OX_Dal_Delivery_getCampaignOptInBanner($agencyId);
+        $this->assertEqual($result, $expected);
+    }     
+     
 }
 

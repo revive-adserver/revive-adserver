@@ -169,9 +169,18 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
             }
         }
         
-        // TODO: detect if $aAd is not market banner and 
-        //       change bannerid to 'market campaign opt-in' campain banenr 
-        $aParams['channel'] = 'c'.$aAd['placement_id'].'z'.$aAd['zoneid'];
+        // detect if $aAd is not market banner and 
+        // get 'market campaign opt-in' campain banner to channel id
+        if ($aAd['ext_bannertype'] != 'market-optin-banner') // @see BANNER_TYPE_MARKET in DataObjects_Banners
+        {
+            // get bannerid, campaignid, clientid for market campaign opt-in
+            $aMarketAd = OX_cacheGetCampaignOptInBanner($aAd['agency_id']);
+        } else {
+            $aMarketAd = $aAd;            
+        }
+        if (!empty($aMarketAd)) {
+            $aParams['channel'] = 'oxpv1:'.$aMarketAd['client_id']."-".$aMarketAd['placement_id']."-".$aMarketAd['ad_id']."-".$aAd['affiliate_id']."-".$aAd['zoneid'];
+        }
         
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
@@ -386,4 +395,49 @@ function OX_Dal_Delivery_getPlatformMarketInfo($agency_id = null, $account_id = 
         return false;
     }
     return true;
+}
+
+function OX_cacheGetCampaignOptInBanner($agency_id, $cached = true)
+{
+    if (!function_exists('OA_Delivery_Cache_getName')) {
+        require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    }
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $agency_id);
+    if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRow = OX_Dal_Delivery_getCampaignOptInBanner($agency_id);
+        $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
+    }
+
+    return $aRow;
+}
+
+
+/**
+ * Search for bannerid form CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN type campaign for given agency
+ *
+ * @param int $agency_id agency
+ * @returns array array of client_id, placement_id, ad_id of market campaign optin or empty array if banner not found 
+ */
+function OX_Dal_Delivery_getCampaignOptInBanner($agency_id)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $query = "
+        SELECT 
+            a.clientid as client_id,
+            c.campaignid as placement_id,
+            b.bannerid as ad_id
+        FROM 
+            {$aConf['table']['prefix']}{$aConf['table']['clients']} a
+            INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['campaigns']} c ON a.clientid = c.clientid
+            INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['banners']} b ON c.campaignid = b.campaignid
+        WHERE
+            a.agencyid = {$agency_id} AND a.type = 1 AND c.type = 1
+            ";
+    $res = OA_Dal_Delivery_query($query);
+
+    if (!is_resource($res)) {
+        return array();
+    }
+    return OA_Dal_Delivery_fetchAssoc($res);
 }
