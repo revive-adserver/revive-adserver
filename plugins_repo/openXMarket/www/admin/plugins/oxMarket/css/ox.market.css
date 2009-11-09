@@ -467,12 +467,10 @@ table tr.systemAdvertiser td span {
 }
 
 #market-advertiser-index .three-ways-container ul li {
-  width: 199px;
+  width: 201px;
   margin-right: 10px;
   float: left;
   position: relative;
-  top: -23px;
-  left: 41px; 
 }
 
 a.expand {
