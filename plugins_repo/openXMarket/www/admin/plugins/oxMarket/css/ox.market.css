@@ -450,7 +450,33 @@ table tr.systemAdvertiser td span {
   margin-bottom: 5px;
 }
 
+#three-ways-link {
+  margin-left: 8px;
+}
 
+#market-advertiser-index  .popup-help {
+  position: static;
+  max-width: 700px;
+}
+
+#market-advertiser-index  .popup-help .close {
+  float: right;
+}
+
+#market-advertiser-index  .popup-help h3,
+#market-advertiser-index  .popup-help h4 {
+  margin-bottom: 8px;
+}
+
+#market-advertiser-index  .popup-help h3 {
+  font-size: 14px;
+}
+
+#market-advertiser-index  .popup-help h4 {
+  font-size: 12px;
+}
+    
+    
 #market-advertiser-index p.market-advertisers {
   line-height: 44px;
   margin-bottom: 8px;
@@ -464,6 +490,8 @@ table tr.systemAdvertiser td span {
 
 #market-advertiser-index .three-ways-container {
   width: 650px;
+  overflow: auto;
+  margin-top: 12px;
 }
 
 #market-advertiser-index .three-ways-container ul li {

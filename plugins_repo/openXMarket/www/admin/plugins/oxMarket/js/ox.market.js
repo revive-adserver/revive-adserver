@@ -566,20 +566,24 @@
         };
         var settings = $.extend({}, defaults, options);
         
-        $threeWays = $('.three-ways-container');
+        $threeWaysContainer = $('#market-advertiser-index');
         $threeWaysLink = $('#three-ways-link');
+        $closeThreeWaysLink = $("#market-advertiser-index .close");
         $advertiserName = $("table tr.systemAdvertiser td span.iconAdvertiserSystem");
         
         init();
         
         function init()
         {
-            $advertiserIndexContent = $("#market-advertiser-index");
-            $advertiserName.after($advertiserIndexContent);
-            $advertiserIndexContent.show();
+            $advertiserName.after($threeWaysContainer);
+            $advertiserName.after($threeWaysLink);
         
             $threeWaysLink.click(function() {
-                updateThreeWaysBox();
+                showThreeWaysBox();
+            });
+
+            $closeThreeWaysLink.click(function() {
+                hideThreeWaysBox();
             });
 
             if (settings.showInfo) {
@@ -588,19 +592,18 @@
         }
         
         
-        function updateThreeWaysBox()
+        function showThreeWaysBox()
         {
-                //info box is hidden by default and has collapse class set
-                //toggling for the firts time
-                //- shows container
-                //-removes collapse class
-                //-adds expand class
-                //Subsequent calls do reverse
-                $threeWays.toggle();
-                $threeWaysLink.toggleClass('expand');
-                $threeWaysLink.toggleClass('collapse');
+                $threeWaysContainer.show();
+                $threeWaysLink.hide();
         }
         
+        
+        function hideThreeWaysBox()
+        {
+                $threeWaysContainer.hide();
+                $threeWaysLink.show();
+        }
     });
   };  
   

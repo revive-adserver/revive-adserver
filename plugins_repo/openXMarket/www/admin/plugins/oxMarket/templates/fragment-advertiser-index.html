@@ -27,36 +27,38 @@
 $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
 
 -->*}
-<div id="market-advertiser-index" class="hide">
   {if $content}
       {$content}
   {else}
-    <div id="market-callout">
-      <p>
-        Openx Market provides ads for your sites through a real-time auction and various ad buyers including:
-      </p>
-      <p class="market-advertisers">
-        <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-horizontal-wide.gif" alt='OpenX Market Advertisers' title='OpenX Market Advertisers'/>
-        <em>and hundreds more</em>.
-      </p>
-      <p>
-        <a href="#" id="three-ways-link" class="collapse"><b>There are three ways you can make money from OpenX Market</a>
-      </p>
-      <div class="three-ways-container hide">
-        <ul>
-          <li><a href="{$adminWebPath}campaign-edit.php?clientid={$marketClientId}">
-            <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-optin.gif" alt='Create an OpenX Market campaign'/></a>
-          </li>
-          <li><a href="{$adminPluginWebPath}/oxMarket/market-campaigns-settings.php">
-            <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-quickstart.gif" alt='Opt in an existing campaign'/></a>
-          </li>
-          <li><a href="affiliate-zones.php">
-            <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-zone-optin.gif" alt='Allow your zones to default to OpenX Market'/></a>
-          </li>
+    <a href="#" id="three-ways-link"><b>Click for more info</b></a>
+    
+    <div id="market-advertiser-index" class="hide">
+      <div id="market-callout" class="popup-help">
+        <div class="close"> <span class="link">Close [x]</span> </div>      
+          <h3>New! OpenX Market gives you more ways to make money</h3>
+          <p>
+            Openx Market provides ads for your sites through a real-time auction and various ad buyers including:
+          </p>
+          <p class="market-advertisers">
+            <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-horizontal-wide.gif" alt='OpenX Market Advertisers' title='OpenX Market Advertisers'/>
+            <em>and hundreds more</em>.
+          </p>
+        <div class="three-ways-container">
+          <p>There are three ways to participate in OpenX Market</p>
+          <ul>
+            <li><a href="{$adminWebPath}campaign-edit.php?clientid={$marketClientId}">
+              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-optin.gif" alt='Create an OpenX Market campaign'/></a>
+            </li>
+            <li><a href="{$adminPluginWebPath}/oxMarket/market-campaigns-settings.php">
+              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-quickstart.gif" alt='Opt in an existing campaign'/></a>
+            </li>
+            <li><a href="affiliate-zones.php">
+              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-zone-optin.gif" alt='Allow your zones to default to OpenX Market'/></a>
+            </li>
+        </div>
       </div>
     </div>
   {/if}
-</div>
 
 <script type="text/javascript" src="{$adminPluginWebPath}/oxMarket/js/ox.market.js" ></script>
 <script type="text/javascript">
