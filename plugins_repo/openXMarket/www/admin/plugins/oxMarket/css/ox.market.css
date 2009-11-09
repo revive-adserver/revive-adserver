@@ -562,39 +562,24 @@ a.collapse {
   width: 100%;
 }
 
-.market-advertiser-campaigns .messagePlaceholderStatic .body img {
-  vertical-align: text-top; 
-}
-
-/*.market-advertiser-campaigns .expand, .market-advertiser-campaigns .collapse {
-   background-position: left 4px;
-}*/
-
-
 .market-advertiser-campaigns-top h3 {
   font-weight: bold;
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
+}
+
+#help-market-campaigns h4 {
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .market-advertiser-campaigns-top .imageContainer {
   overflow: auto;
   margin-bottom: 12px;
-  margin-top: 15px;
 }
 
-
-.market-advertiser-campaigns-top .imageContainer .left,  
-.market-advertiser-campaigns-top .imageContainer .right {
-    float: left;      
-}
-
-.market-advertiser-campaigns-top .imageContainer .right {
-    margin-left: 25px;
-}
-
-.market-advertiser-campaigns-top .imageContainer .right img {
-    float: left;      
+.market-advertiser-campaigns-top .imageContainer .left {
+  margin-bottom: 12px;
 }
 
 .market-advertiser-campaigns-top .imageContainer .right h4 {

@@ -34,7 +34,9 @@
             <file path="{ADMINPATH}/images/">icon-marketplace-large.png</file>
             <file path="{ADMINPATH}/images/">icon-new.png</file>
             <file path="{ADMINPATH}/images/">icon-value-click-small.png</file>
-            <file path="{ADMINPATH}/images/">market-3-ways.gif</file>            
+            <file path="{ADMINPATH}/images/">market-3-ways-campaign-optin.gif</file>
+            <file path="{ADMINPATH}/images/">market-3-ways-campaign-quickstart.gif</file>
+            <file path="{ADMINPATH}/images/">market-3-ways-zone-optin.gif</file>
             <file path="{ADMINPATH}/images/">market-adnetworks-horizontal.gif</file>            
             <file path="{ADMINPATH}/images/">market-adnetworks-horizontal-wide.gif</file>
             <file path="{ADMINPATH}/images/">market-adnetworks-vertical.gif</file>
