@@ -639,14 +639,22 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                         AND
                         b.storagetype <> 'txt'
                         AND
-                        ( z.width = -1
+                        (
+                          (
+                            ( z.width = -1
+                              OR
+                              z.width = b.width
+                            )
+                            AND
+                            ( z.height = -1
+                              OR
+                              z.height = b. height
+                            )
+                          )
                           OR
-                          z.width = b.width
-                        )
-                        AND
-                        ( z.height = -1
-                          OR
-                          z.height = b. height
+                          (
+                            b.height = -1 AND b.width = -1
+                          )
                         )
                     )
                 )

@@ -886,7 +886,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 </td>";
 }
 
-function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex, $inludeAdvertiserSystemTypes, $includeCampaignSystemTypes)
+function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes)
 {
     global $phpAds_TextDirection, $phpAds_TextAlignRight;
 
@@ -980,7 +980,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </table>";
 }
 
-function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false, $inludeAdvertiserSystemTypes, $includeCampaignSystemTypes)
+function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes)
     {
         echo "
     <br /><strong>{$GLOBALS['strCampaignLinkedAds']}:</strong><br />
@@ -1102,7 +1102,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         if (!empty($directLinkedAds)) {
             echo "<br /><strong>{$GLOBALS['strBannerLinkedAds']}:</strong><br />";
             $aParams = array('ad_id' => implode(',', array_keys($directLinkedAds)));
-            MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
+            MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes);
         }
     }
 

@@ -111,8 +111,13 @@ class Plugins_TestOfOX_oxMarket_Dal_ZoneOptIn extends UnitTestCase
         
         $dalZones->unlinkZonesFromCampaign(array($entitiesIds['zoneId']), 
                                        $entitiesIds['campaignId']);
+        $dalZones->linkZonesToCampaign(array($entitiesIds['zoneId']), 
+                                       $entitiesIds['campaignId2']);
         
         $this->assertFalse($zoneOptInDal->isOptedIn($entitiesIds['zoneId']));
+        
+        $dalZones->unlinkZonesFromCampaign(array($entitiesIds['zoneId']), 
+                                       $entitiesIds['campaignId2']);
     }
     
     
@@ -149,6 +154,11 @@ class Plugins_TestOfOX_oxMarket_Dal_ZoneOptIn extends UnitTestCase
         $doCampaigns->campaignname = 'OpenX Market - Default Campaign';
         $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
         $result['campaignId'] = DataGenerator::generateOne($doCampaigns);
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $result['clientId'];
+        $doCampaigns->campaignname = 'OpenX Market - User Campaign';
+        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT;
+        $result['campaignId2'] = DataGenerator::generateOne($doCampaigns);
         
         return $result;
     }

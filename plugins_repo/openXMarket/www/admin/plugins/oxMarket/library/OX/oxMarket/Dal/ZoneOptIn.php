@@ -85,7 +85,7 @@ class OX_oxMarket_Dal_ZoneOptIn
         if ($oCampaign !== false) {
             $doPlZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
             $doPlZoneAssoc->zone_id = $zoneId;
-            $doPlZoneAssoc->campaignid = $oCampaign->campaignid;
+            $doPlZoneAssoc->placement_id = $oCampaign->campaignid;
             
             return $doPlZoneAssoc->count()>0;
         }
