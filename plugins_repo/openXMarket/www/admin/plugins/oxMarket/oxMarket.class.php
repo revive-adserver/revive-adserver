@@ -132,19 +132,26 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         
         // If the user is manager or admin try to show him the OpenX Market Settings
         if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) 
-            && $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
-            $this->setMarketSettingsAlreadyShown();
+            && $this->isRegistered()) {
 
-                
-            /*on upgrade, provide option to skip on quickaccess screen */    
-            global $installing, $installerIsUpgrade;
-            if ($installing && $installerIsUpgrade) {
-                global $session;
-                $session['oxMarket-quickstart-params']['showSkip'] = 1;
-                phpAds_SessionDataStore();
+            $skipEarn = $this->getMarketUserVariable('earn_info_skip');    
+            if (!$skipEarn) {    
+                $this->scheduleEarnMoreNotification();    
             }
-            OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
-            exit;
+                
+            if (!$this->isMarketSettingsAlreadyShown()) {
+                $this->setMarketSettingsAlreadyShown();
+                
+                /*on upgrade, provide option to skip on quickaccess screen */    
+                global $installing, $installerIsUpgrade;
+                if ($installing && $installerIsUpgrade) {
+                    global $session;
+                    $session['oxMarket-quickstart-params']['showSkip'] = 1;
+                    phpAds_SessionDataStore();
+                }
+                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
+                exit;
+            }
         }
 
         // Show only to unregistered users and... 
@@ -188,6 +195,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $this->scheduleRegisterNotification();
         }
         
+        // If the user is manager or admin try to show hime earn more blurb
+        if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) 
+            && $this->isRegistered()) {
+
+            $skipEarn = $this->getMarketUserVariable('earn_info_skip');    
+            if (!$skipEarn) {    
+                $this->scheduleEarnMoreNotification();    
+            }
+        }
+        
         // Create missing market advertisers for newly added (market registered) managers
         require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
         $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
@@ -218,6 +235,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     public function onDisable()
     {
         $this->removeRegisterNotification();
+        $this->removeEarnMoreNotification();
 
         return true;
     }
@@ -694,7 +712,70 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $oNotificationManager->queueNotification($registerMessage, 'info', 'oxMarketRegister');
     }
+    
+    
+    public function scheduleEarnMoreNotification()
+    {
+        $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
+        $oNotificationManager->removeNotifications('oxMarketEarn'); //avoid duplicates
 
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-dismiss.php');
+
+        $aContentKeys = $this->retrieveCustomContent('market-messages');
+
+        $registerMessage = isset($aContentKeys['earn-messsage'])
+            ? $aContentKeys['earn-messsage']
+            : '<b>New!</b> OpenX Market now offers more ways to help you make more money. '
+             .'<a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">Learn more</a>'
+             .'<a class="dismiss block" style="display: none; font-size: 9px; margin-top: 8px; font-weight: normal; text-align: right;" href="#">Don\'t show again [x]</a>'
+            .'<script type="text/javascript">
+              <!--
+              $(document).ready(function() {
+                $scheduledMessage = $("#secondLevelNavigation .notificationPlaceholder");
+                $dismissLink = $("a.dismiss", $scheduledMessage);
+                $messagePanel = $dismissLink.parents(".panel");
+                
+                $dismissLink.click(function() {
+                    $messagePanel.hide(300);
+                    $.ajax({
+                      type: "GET",
+                      url: "'.$url.'"
+                    });
+                });
+                
+                if ($.browser.msie && $.browser.version > 6) {
+                    $dismissLink.show();    
+                }
+                else {
+                    $messagePanel
+                      .bind("mouseenter", function (event) {
+                        $dismissLink.slideDown(100);
+                        //console.log("in " + event.target.nodeName);
+                      })
+                      .bind("mouseleave", function (event) {
+                        $dismissLink.slideUp(100);
+                        //console.log("out " + event.target.nodeName);
+                      });                
+                }
+              });
+             //-->
+             </script>';             
+
+        $oNotificationManager->queueNotification($registerMessage, 'info', 'oxMarketEarn');
+    }    
+
+    
+    public function removeEarnMoreNotification($permament = false) 
+    {
+        //clean up the bugging info message
+        OA_Admin_UI::getInstance()->getNotificationManager()
+            ->removeNotifications('oxMarketEarn');
+            
+        if ($permament) {
+            $this->setMarketUserVariable('earn_info_skip', 1);                        
+        }
+    }
+    
 
     public function updateSSLMessage()
     {

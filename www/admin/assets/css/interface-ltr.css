@@ -665,6 +665,10 @@ div.filters {
   display: none;
 }
 
+.block {
+  display: block;
+}
+
 .link {
   cursor: pointer;
 }
