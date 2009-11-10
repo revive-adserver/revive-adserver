@@ -137,6 +137,7 @@ function processRelinkForm($oForm, $oMarketComponent)
         if ($linkingResult == true) {
             // perform activation actions
             $oMarketComponent->removeRegisterNotification();
+            $oMarketComponent->scheduleEarnMoreNotification();
         }
     }
     catch (Exception $exc) {

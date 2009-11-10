@@ -233,6 +233,7 @@ function processForm($oForm, $oMarketComponent)
         if ($linkingResult == true) {
             // perform activation actions
             $oMarketComponent->removeRegisterNotification();
+            $oMarketComponent->scheduleEarnMoreNotification();
         }
     }
     catch (Exception $exc) {
@@ -585,6 +586,7 @@ function oxMarketAutoRegister(&$oMarketComponent)
     if ($linkingResult === true) {
         // perform activation actions
         $oMarketComponent->removeRegisterNotification();
+        $oMarketComponent->scheduleEarnMoreNotification();
         OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
         exit;
     }

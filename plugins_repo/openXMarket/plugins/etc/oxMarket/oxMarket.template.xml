@@ -109,6 +109,7 @@
             <file path="{ADMINPATH}/">market-campaigns-settings-list.php</file>
             <file path="{ADMINPATH}/">market-common.php</file>
             <file path="{ADMINPATH}/">market-confirm.php</file>
+            <file path="{ADMINPATH}/">market-dismiss.php</file>
             <file path="{ADMINPATH}/">market-inactive.php</file>
             <file path="{ADMINPATH}/">market-include.php</file>
             <file path="{ADMINPATH}/">market-index.php</file>
