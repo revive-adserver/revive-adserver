@@ -441,3 +441,47 @@ function OX_Dal_Delivery_getCampaignOptInBanner($agency_id)
     }
     return OA_Dal_Delivery_fetchAssoc($res);
 }
+
+
+function OX_cacheGetCreativeSizes()
+{
+    if (!function_exists('OA_Delivery_Cache_getName')) {
+        require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
+    }
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    if (!$cached || ($aRow = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRow = OX_marketGetCreativeSizes();
+        $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
+    }
+
+    return $aRow;
+}
+
+
+/**
+ * Read IAB Banners data from cache created by UI or permament plugin cache files
+ * Returns array of supported creative sizes each item is an array:
+ * key is a string 'width'x'height'
+ * each array contains fields: 'id' (int), 'name' (string), 'width' (int), 'size' (int)
+ * 
+ * @return array 
+ */
+function OX_marketGetCreativeSizes()
+{
+    require_once MAX_PATH . '/www/admin/plugins/oxMarket/library/OX/oxMarket/Common/Cache.php';
+    $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', null);
+    $oCache->setFileNameProtection(false);
+    $aData = $oCache->load(true);
+    if ($aData == false) {
+        $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', 
+                                        null, MAX_PATH . '/www/admin/plugins/oxMarket/var/data/dictionary/');
+        $oCache->setFileNameProtection(false);
+        $aData = $oCache->load(true);
+        if ($aData == false) {
+            // Empty array if there is no permament dictionary data
+            $aData = array();
+        }
+    }
+    return $aData;
+}

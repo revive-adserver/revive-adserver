@@ -670,5 +670,33 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($result, $expected);
     }     
      
+    
+    function testOX_marketGetCreativeSizes()
+    {
+        $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', 
+            $GLOBALS['_MAX']['CONF']['oxMarket']['dictionaryCacheLifeTime']);
+        $oCache->setFileNameProtection(false);
+        $oCache->clear();
+        $result = OX_marketGetCreativeSizes();
+        
+        $this->assertTrue(count($result)>=15); 
+        // All Sizes id and 
+        foreach ($result as $k => $v) {
+            $this->assertTrue(is_string($k));
+            $this->assertTrue(is_numeric($v['size_id']));
+            $this->assertTrue(is_string($v['name']));
+            $this->assertTrue(is_numeric($v['height']));
+            $this->assertTrue(is_numeric($v['width']));
+            $this->assertEqual(count($v),4);
+            $this->assertEqual($k, $v['width'].'x'.$v['height']);
+        }
+        
+        $oCache->save(array('test'));
+        
+        $result = OX_marketGetCreativeSizes();
+        $this->assertEqual($result, array('test'));
+        
+        $oCache->clear();
+    }
 }
 
