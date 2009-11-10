@@ -32,7 +32,9 @@ class OA_Admin_UI_NotificationManager
     function __construct()
     {
         global $session;
-        $session['notificationQueue'] = array();
+        if (!isset($session['notificationQueue'])) {
+            $session['notificationQueue'] = array();
+        }
     }
     
     /**
@@ -69,7 +71,8 @@ class OA_Admin_UI_NotificationManager
 
         if (!isset($session['notificationId'])) {
             $session['notificationId'] = time();
-        } else {
+        } 
+        else {
             $session['notificationId']++;
         }
         
