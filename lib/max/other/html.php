@@ -886,7 +886,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 </td>";
 }
 
-function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex)
+function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex, $inludeAdvertiserSystemTypes, $includeCampaignSystemTypes)
 {
     global $phpAds_TextDirection, $phpAds_TextAlignRight;
 
@@ -902,7 +902,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
     $i = 0;
     $inactive = 0;
-    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : array();
+    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams + array('campaign_type' => $includeCampaignSystemTypes)) : array();
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + array('placement_id' => $placementId), true);
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
@@ -980,7 +980,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </table>";
 }
 
-function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false)
+function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false, $inludeAdvertiserSystemTypes, $includeCampaignSystemTypes)
     {
         echo "
     <br /><strong>{$GLOBALS['strCampaignLinkedAds']}:</strong><br />
@@ -997,7 +997,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
 
         $i = 0;
         $inactive = 0;
-        $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : array();
+        $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams + array('campaign_type' => $includeCampaignSystemTypes)) : array();
         foreach ($aPlacements as $placementId => $aPlacement) {
             $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
             if (!$hideInactive || $placementActive) {

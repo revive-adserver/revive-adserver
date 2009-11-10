@@ -607,6 +607,18 @@ class SqlBuilder
                 $aParams['adveriser_type'] .= ",".DataObjects_Clients::ADVERTISER_TYPE_DEFAULT; //always add default type
             }
             SqlBuilder::_addLimitation($aLimitations, 'adveriser_type', 'a.type', $aParams['adveriser_type']);
+            // filter by campaign types only if param given
+            if (isset($aParams['campaign_type']))
+            {
+                if (!class_exists(DataObjects_Campaigns)) {OA_Dal::factoryDO('Campaigns');}
+                if (empty($aParams['campaign_type'])) {
+                    $aParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT; //always add default type
+                } else {
+                    $aParams['campaign_type'] .= ",".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT; //always add default type
+                }
+                SqlBuilder::_addLimitation($aLimitations, 'campaign_type', 'm.type', $aParams['campaign_type']);
+            }
+            
            
             break;
 
