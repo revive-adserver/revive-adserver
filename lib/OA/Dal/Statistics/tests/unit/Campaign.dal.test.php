@@ -625,10 +625,16 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // Test 5: Test with data that is inside the range to manage but doesn't
         //         belong to the requested campaign
+        $doBanner2 = OA_Dal::factoryDO('banners');
+        $doCampaign2 = OA_Dal::factoryDO('campaigns');
+        $campaignId2 = DataGenerator::generateOne($doCampaign2);
+        $doBanner2->campaignid = $campaignId2;
+        $bannerId2 = DataGenerator::generateOne($doBanner2);        
+
         $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:20:00';
         $doData_intermediate_ad_connection->tracker_id = 501;
-        $doData_intermediate_ad_connection->ad_id = 99999;
+        $doData_intermediate_ad_connection->ad_id = $bannerId2;
         $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.2';
         $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_IMPRESSION;
         $doData_intermediate_ad_connection->connection_window = 3600;
@@ -644,6 +650,34 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // Get 2 Row
         $this->assertEqual(2, count($aResult), '2 records should be returned');
+        
+        $aConversion = current($aResult);
+        // Check return fields value
+        $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
+        $this->assertFieldEqual($aConversion, 'trackerID', '501');
+        $this->assertFieldEqual($aConversion, 'bannerID', $bannerId);
+        $this->assertFieldEqual($aConversion, 'conversionTime', '2004-06-06 12:15:00');
+        $this->assertFieldEqual($aConversion, 'conversionStatus', MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertFieldEqual($aConversion, 'userIp', '127.0.0.1');
+        $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_CLICK);
+        $this->assertFieldEqual($aConversion, 'window', '2');
+        $aVariables = $aConversion['variables'];
+        $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value3');
+        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value4');
+
+        $aConversion = next($aResult);
+        // Check return fields value
+        $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
+        $this->assertFieldEqual($aConversion, 'trackerID', '501');
+        $this->assertFieldEqual($aConversion, 'bannerID', $bannerId);
+        $this->assertFieldEqual($aConversion, 'conversionTime', '2004-06-06 12:20:00');
+        $this->assertFieldEqual($aConversion, 'conversionStatus', MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertFieldEqual($aConversion, 'userIp', '127.0.0.2');
+        $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_IMPRESSION);
+        $this->assertFieldEqual($aConversion, 'window', '3');
+        $aVariables = $aConversion['variables'];
+        $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value5');
+        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value6');
         
         // Clean Up
         DataGenerator::cleanUp();       

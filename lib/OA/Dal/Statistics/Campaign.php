@@ -349,6 +349,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
             WHERE
                 TRUE " . // Bit of a hack due to how getWhereDate works.
                 $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField) . "
+                AND b.campaignid = " . $campaignId . "
             ";
 
         OX::disableErrorHandling();        
