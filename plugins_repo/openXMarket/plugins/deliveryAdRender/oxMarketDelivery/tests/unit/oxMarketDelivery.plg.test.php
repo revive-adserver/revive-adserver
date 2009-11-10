@@ -66,7 +66,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         // Prepare test data
         $adHtml = 'test banner';
         $aAd = array( 'width' => 468, 'height' => 60, 'placement_id' => 12, 'zoneid' =>7,
-                      'client_id' => 3, 'ad_id' => 45, 'affiliate_id' => 8);
+                      'client_id' => 3, 'ad_id' => 45, 'affiliate_id' => 8, 'agency_id' => 13);
         $aCampaignMarketInfo = array();
         $website_id = 12;
         $aWebsiteMarketInfo = array('website_id' => $website_id);
@@ -191,11 +191,21 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $this->assertEqual($oOXM_ad->channel, 'oxpv1:3-12-45-8-7');
         
         // test channel when banner is non market
-        $sName  = OA_Delivery_Cache_getName('OX_cacheGetCampaignOptInBanner', $agency_id);
-        $aRow = array('client_id' => 112, 'placement_id' => 113, 'ad_id' => 114);
-        OA_Delivery_Cache_store_return($sName, $aRow);
+        function Plugin_test_cache_plugin_Delivery_cacheRetrieve()
+        {
+            $aCacheVar = array();
+            $aCacheVar['cache_contents'] = array('client_id' => 112, 'placement_id' => 113, 'ad_id' => 114);
+            $aCacheVar['cache_name'] = $sName  = OA_Delivery_Cache_getName('OX_cacheGetCampaignOptInBanner', 13);
+            $aCacheVar['cache_time'] = MAX_commonGetTimeNow();
+            $aCacheVar['cache_expire'] = null;
+            return $aCacheVar;
+        }
+        $cacheStorePlugin = isset($GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']) ?
+            $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'] : null;
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'] = 'test:cache:plugin';
         unset($aAd['ext_bannertype']);
         $result = OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo);
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'] = $cacheStorePlugin;
         
         $this->assertTrue(ereg($this->pattern, $result, $aResult));
         // check ereg result
