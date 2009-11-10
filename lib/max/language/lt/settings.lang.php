@@ -198,7 +198,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP DMA duomenų bazės
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP organizacijos duomenų bazės vieta";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP duomenų bazės vieta ";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP naršyklės duomenų bazės vieta ";
-$GLOBALS['strGeoSaveStats'] = "Išsaugoti GeoIP duomenų bazės duomenis";
 $GLOBALS['strGeoShowUnavailable'] = "Rodyti geotargeting pristatymo limitus net jei GeoIP duomenys negalimi";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "MaxMind GeoIP šalies duomenų bazė neegzistuoja nurodytoje vietoje";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "MaxMind GeoIP regiono duomenų bazė neegzistuoja nurodytoje vietoje";

@@ -218,7 +218,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "Locaţia Bazei de Date MaxMind Ge
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "Locaţia Bazei de Date MaxMind GeoIP cu Organizaţii";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "Locaţia Bazei de Date MaxMind GeoIP cu ISP";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "Locaţia Bazei de Date MaxMind GeoIP cu Viteza Internet-ului";
-$GLOBALS['strGeoSaveStats'] = "Salvează datele GeoIP în jurnalul bazei de date";
 $GLOBALS['strGeoShowUnavailable'] = "Afişează limitările de livrare în funcţie de localizare chiar dacă GeoIP nu este valabil";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "Baza de Date MaxMind GeoIP cu Ţări nu există în locaţia specificată ";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "Baza de Date MaxMind GeoIP cu Regiuni nu există în locaţia specificată ";

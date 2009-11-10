@@ -327,7 +327,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation']          = 'Speicherort der MaxMind 
 $GLOBALS['strGeotargetingGeoipOrgLocation']          = 'Speicherort der MaxMind GeoIP Organisationendatenbank';
 $GLOBALS['strGeotargetingGeoipIspLocation']          = 'Speicherort der MaxMind GeoIP ISP-Datenbank';
 $GLOBALS['strGeotargetingGeoipNetspeedLocation']     = 'Speicherort der MaxMind GeoIP Bandbreitendatenbank';
-$GLOBALS['strGeoSaveStats']                          = 'Speichere die GeoIP-Daten in den Datenbank-Logs';
 $GLOBALS['strGeoShowUnavailable']                    = 'Zeige die durch Geotargeting verursachten Auslieferungslimitierungen an, auch wenn keine GeoIP-Daten verfügbar sind';
 $GLOBALS['strGeotrackingGeoipCountryLocationError']  = 'Die MaxMind GeoIP Länderdatenbank konnte im angegebenen Verzeichnis nicht gefunden werden';
 $GLOBALS['strGeotrackingGeoipRegionLocationError']   = 'Die MaxMind GeoIP Regionendatenbank konnte im angegebenen Verzeichnis nicht gefunden werden';

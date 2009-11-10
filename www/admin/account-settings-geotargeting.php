@@ -57,10 +57,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Geotargeting Settings
     $aElements += array(
         'geotargeting_type' => array('geotargeting' => 'type'),
-        'geotargeting_saveStats' => array(
-            'geotargeting' => 'saveStats',
-            'bool'         => true
-        ),
         'geotargeting_showUnavailable' => array(
             'geotargeting' => 'showUnavailable',
             'bool'         => true
@@ -115,14 +111,6 @@ $aSettings = array (
                 'name'    => 'geotargeting_type',
                 'text'    => $strGeotargetingType,
                 'items'   => $aComponentItems
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'geotargeting_saveStats',
-                'text'    => $strGeoSaveStats,
             ),
             array (
                 'type'    => 'break'

@@ -405,7 +405,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "Путь к БД MaxMind GeoIP DM
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "Путь к БД MaxMind GeoIP Organisation";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "Путь к БД MaxMind GeoIP ISP";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "Путь к БД MaxMind GeoIP Netspeed";
-$GLOBALS['strGeoSaveStats'] = "Сохранять данные GeoIP в журнале БД";
 $GLOBALS['strGeoShowUnavailable'] = "Показать настройки гео-таргетинга даже есть БД GeoIP недоступна";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "БД MaxMind GeoIP Country недоступна по указанному адресу";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "БД MaxMind GeoIP Region недоступна по указанному адресу";

@@ -218,7 +218,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "Lokacija MaxMind GeoIP podatkovne
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "Lokacija MaxMind GeoIP podatkovne baze za organizacijo";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "Lokacija MaxMind GeoIP podatkovne baze za ISP-ja";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "Lokacija MaxMind GeoIP podatkovne baze za Netspeed";
-$GLOBALS['strGeoSaveStats'] = "Shrani GeoIP podatke v beležko podatkovne baze";
 $GLOBALS['strGeoShowUnavailable'] = "Prikaži geociljne dostavne omejitve, četudi GeoIP podatki niso na voljo";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "MaxMind GeoIP podatkovna baza za državo ne obstaja na določeni lokaciji";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "MaxMind GeoIP podatkovna baza za regijo ne obstaja na določeni lokaciji";

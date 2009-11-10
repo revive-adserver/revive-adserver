@@ -332,7 +332,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation']          = 'Lokasi dari database Max
 $GLOBALS['strGeotargetingGeoipOrgLocation']          = 'Lokasi dari database MaxMind GeoIP Organisation';
 $GLOBALS['strGeotargetingGeoipIspLocation']          = 'Lokasi dari database MaxMind GeoIP ISP';
 $GLOBALS['strGeotargetingGeoipNetspeedLocation']     = 'Lokasi dari database MaxMind GeoIP Netspeed';
-$GLOBALS['strGeoSaveStats']                          = 'Simpan data dari GeoIP dalam database log';
 $GLOBALS['strGeoShowUnavailable']                    = 'Tampilkan limitasi penyampaian dari geotargeting meskipun data GeoIP tidak tersedia';
 $GLOBALS['strGeotrackingGeoipCountryLocationError']  = 'Database MaxMind GeoIP Country tidak ditemukan pada lokasi yang ditunjukkan';
 $GLOBALS['strGeotrackingGeoipRegionLocationError']   = 'Database GeoIP Region tidak ditemukan pada lokasi yang ditunjukkan';

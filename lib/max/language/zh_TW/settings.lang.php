@@ -207,7 +207,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP DMA 數據庫地址
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP 組織數據庫地址";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP數據庫地址";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP網速數據地址";
-$GLOBALS['strGeoSaveStats'] = "在數據日誌中保存GeoIP數據";
 $GLOBALS['strGeoShowUnavailable'] = "如果沒有GeoIP數據，則提示地理定位發布條件";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "在指定位置沒有MaxMind GeoIP 國家數據庫";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "在指定位置沒有MaxMind GeoIP 區域數據庫";

@@ -479,7 +479,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "Posizione del database MaxMind Ge
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "Posizione del database MaxMind GeoIP Organisation";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "Posizione del database MaxMind GeoIP ISP";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "Posizione del database MaxMind GeoIP Netspeed";
-$GLOBALS['strGeoSaveStats'] = "Scrivi i dati GeoIP nel log del database";
 $GLOBALS['strGeoShowUnavailable'] = "Mostra le limitazioni sulla consegna geotargetizzata anche se le informazioni GeoIP non sono presenti";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "Il database MaxMind GeoIP Country non esiste nella posizione specificata";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "Il database MaxMind GeoIP Region Database non esiste nella posizione specificata";

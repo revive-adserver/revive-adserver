@@ -471,7 +471,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP DMA 数�?�库�
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP 组织数�?�库地�?�";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP数�?�库地�?�";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP网速数�?�地�?�";
-$GLOBALS['strGeoSaveStats'] = "在数�?�日志中�?存GeoIP数�?�";
 $GLOBALS['strGeoShowUnavailable'] = "如果没有GeoIP数�?�，则�??示地�?�定�?�?�布�?�件";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "在指定�?置没有MaxMind GeoIP 国家数�?�库";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "在指定�?置没有MaxMind GeoIP 区域数�?�库";

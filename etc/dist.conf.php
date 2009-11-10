@@ -402,7 +402,6 @@ deleteUnverifiedUsersAfter = 2419200   ; 28 days (in seconds)
 
 [geotargeting]
 type="none"
-saveStats=false
 showUnavailable=false
 
 [pluginPaths]

@@ -324,7 +324,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation']          = 'MaxMind製GeoIP地域・
 $GLOBALS['strGeotargetingGeoipOrgLocation']          = 'MaxMind製GeoIP企業データベースの場所';
 $GLOBALS['strGeotargetingGeoipIspLocation']          = 'MaxMind製GeoIP ISPデータベースの場所';
 $GLOBALS['strGeotargetingGeoipNetspeedLocation']     = 'MaxMind製GeoIP 回線速度データベースの場所';
-$GLOBALS['strGeoSaveStats']                          = 'GeoIPデータをログに保存する';
 $GLOBALS['strGeoShowUnavailable']                    = 'GeoIPにデータがない場合でも、ジオターゲティングの配信制限を表示する';
 $GLOBALS['strGeotrackingGeoipCountryLocationError']  = 'MaxMind製GeoIPの国別データベースが見つかりません';
 $GLOBALS['strGeotrackingGeoipRegionLocationError']   = 'MaxMind製GeoIPの地方・領域別データベースが見つかりません';

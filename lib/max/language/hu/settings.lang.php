@@ -123,7 +123,7 @@ $GLOBALS['strDbPassword']			= "Adatbázis jelszó";
 $GLOBALS['strDbName']				= "Adatbázis név";
 
 $GLOBALS['strDatabaseOptimalisations']		= "Adatbázis optimalizációs beállítások";
-$GLOBALS['strPersistentConnections']		= "�?llandó kapcsolat használata";
+$GLOBALS['strPersistentConnections']		= "�?llandó kapcsolat használata";
 $GLOBALS['strInsertDelayed']			= "Késleltetett beszúrások használata";
 $GLOBALS['strCompatibilityMode']		= "Adatbázis kompatibilitás mód használata";
 $GLOBALS['strCantConnectToDb']			= "Nem sikerült kapcsolódni az adatbázishoz";
@@ -211,7 +211,7 @@ $GLOBALS['strTypeHtmlPhp']			= "A PHP-leírások HTML-reklámból történő vé
 
 
 // Host information and Geotargeting
-$GLOBALS['strHostAndGeo']				= "�?llomás információja és geotargeting";
+$GLOBALS['strHostAndGeo']				= "�?llomás információja és geotargeting";
 
 $GLOBALS['strRemoteHost']				= "Távoli állomás";
 $GLOBALS['strReverseLookup']			= "Látogató kiszolgálónevének visszakeresése ha nincs megadva";
@@ -260,7 +260,7 @@ $GLOBALS['strAutoCleanUserlog']			= "Felhasználói napló kiürítése";
 $GLOBALS['strAutoCleanStatsWeeks']		= "A statisztika maximális kora <br>(minimum 3 hét)";
 $GLOBALS['strAutoCleanUserlogWeeks']	= "A felhasználói napló maximális <br>kora (minimum 3 hét)";
 $GLOBALS['strAutoCleanErr']				= "A maximális kor legalább 3 hét legyen";
-$GLOBALS['strAutoCleanVacuum']			= "A táblák V�?KUMOS ELEMZÉSE minden éjjel"; // only Pg
+$GLOBALS['strAutoCleanVacuum']			= "A táblák V�?KUMOS ELEMZÉSE minden éjjel"; // only Pg
 
 
 // Administrator settings
@@ -291,7 +291,7 @@ $GLOBALS['strUserlogAutoClean']			= "Az adatbázis automatikus karbantartásána
 // User interface settings
 $GLOBALS['strGuiSettings']			= "Felhasználói felület beállításai";
 
-$GLOBALS['strGeneralSettings']			= "�?ltalános beállítások";
+$GLOBALS['strGeneralSettings']			= "�?ltalános beállítások";
 $GLOBALS['strAppName']				= "Alkalmazás neve";
 $GLOBALS['strMyHeader']				= "Fejléc fájl helye";
 $GLOBALS['strMyHeaderError']		= "Az Ön által megadott helyen nem található fejléc fájl";
@@ -461,7 +461,6 @@ $GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP DMA adatbázis hely
 $GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP szervezet adatbázis helye";
 $GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP adatbázis helye";
 $GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP internetsebesség adatbázis helye";
-$GLOBALS['strGeoSaveStats'] = "GeoIP adatok mentése az adatbázis naplókba";
 $GLOBALS['strGeoShowUnavailable'] = "Geotargeting kézbesítési korlátok mutatása a GeoIP adatok elérhetetlensége esetén";
 $GLOBALS['strGeotrackingGeoipCountryLocationError'] = "A MaxMind GeoIP ország adatbázis nem elérhető a megadott helyen";
 $GLOBALS['strGeotrackingGeoipRegionLocationError'] = "A MaxMind GeoIP régió adatbázis nem elérhető a megadott helyen";

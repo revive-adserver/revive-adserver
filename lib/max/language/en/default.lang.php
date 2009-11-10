@@ -470,6 +470,7 @@ $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
 $GLOBALS['strCampaignsOfAdvertiser']        = "of"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie']           = "Show capped ads if cookies are disabled";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns']    = "Calculated for all campaigns";
