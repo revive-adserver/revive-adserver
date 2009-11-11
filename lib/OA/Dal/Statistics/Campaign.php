@@ -382,6 +382,10 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
             }
         }
 
+        // array_values function used for not being affected by a PEAR bug
+        // https://pear.php.net/bugs/bug.php?id=16780
+        $aResult = array_values($aResult);
+
         return $aResult;
     }
 }
