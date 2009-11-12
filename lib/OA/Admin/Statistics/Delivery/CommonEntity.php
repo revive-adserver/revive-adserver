@@ -575,15 +575,29 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
                 
-                $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
                 if($banner['type'] == DataObjects_Banners::BANNER_TYPE_MARKET) {
                     // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
                     // across this manager
                     $startRealBannerName = 1 + strpos($banner['name'], '-');
                     if($startRealBannerName !== false) {
                         $banner['name'] = substr($banner['name'], $startRealBannerName);
+                        // the banner name can be
+                        // - "$ADVERTISER_ID $AD_WIDTHx$AD_HEIGHT"
+                        // - or "$AD_WIDTHx$AD_HEIGHT"
+                        $startBannerDimension = strpos($banner['name'], ' ');
+                        if($startBannerDimension !== false) {
+                            $marketAdvertiserId = substr($banner['name'], 0, $startBannerDimension);
+                            $marketAdvertiserName = $this->getMarketAdvertiserNameFromId($marketAdvertiserId);
+                            $bannerDimensions = substr($banner['name'], $startBannerDimension);
+                            if($marketAdvertiserName) {
+                                $banner['name'] = $marketAdvertiserName . ' ' .$bannerDimensions;
+                            } else {
+                                $banner['name'] = $bannerDimensions;
+                            }
+                        }
                     }
                 }
+                $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
                 
                 $banner['prefix'] = 'b';
                 $banner['id'] = $bannerId;
@@ -611,6 +625,30 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         return $aEntitiesData;
     }
 
+    /**
+     * Loads the list of market advertisers once, and returns the name for the given market advertiser ID 
+     * @param $marketAdvertiserId
+     * @return string or false
+     */
+    protected function getMarketAdvertiserNameFromId($marketAdvertiserId)
+    {
+        static $advertiserList = null;
+        if(is_null($advertiserList)) {
+            $oDbh = OA_DB::singleton();
+            $query = 'SELECT id, name
+            			FROM '.$GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_advertisers 
+            			';
+            $rows = $oDbh->queryAll($query);
+            foreach($rows as $row) {
+                $advertiserList[$row['id']] = utf8_encode($row['name']);
+            }
+        }
+        if(isset($advertiserList[$marketAdvertiserId])) {
+            return $advertiserList[$marketAdvertiserId];
+        }
+        return false;
+    }
+    
     /**
      * Get publisher stats
      *
