@@ -31,7 +31,7 @@
    </field>
 
    <index>
-    <name>ext_market_advertiser_id_pkey</name>
+	<name>ext_market_advertiser_id_pkey</name>
     <field>
      <name>market_advertiser_id</name>
      <sorting>ascending</sorting>
@@ -294,8 +294,8 @@
 
    <field>
     <name>website_id</name>
-    <type>openads_char</type>
-    <length>36</length>
+    <type>openads_mediumint</type>
+    <length>9</length>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -313,7 +313,7 @@
     <type>openads_smallint</type>
     <length>6</length>
     <notnull>true</notnull>
-    <default>0</default>
+    <default></default>
    </field>
 
    <field>

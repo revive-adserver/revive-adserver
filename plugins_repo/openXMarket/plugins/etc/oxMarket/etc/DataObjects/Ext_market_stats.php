@@ -12,7 +12,7 @@ class DataObjects_Ext_market_stats extends DB_DataObjectCommon
     public $__table = 'ext_market_stats';                // table name
     public $date_time;                       // DATETIME() => openads_datetime => 142 
     public $market_advertiser_id;            // CHAR(36) => openads_char => 2 
-    public $website_id;                      // CHAR(36) => openads_char => 130 
+    public $website_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
     public $ad_width;                        // SMALLINT(6) => openads_smallint => 129 
     public $ad_height;                       // SMALLINT(6) => openads_smallint => 129 
     public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
