@@ -158,7 +158,7 @@ $GLOBALS['strInstallNonBlockingErrors']         = "An error occurred when perfor
 $GLOBALS['strDetailedTaskErrorList']            = 'Detailed list of errors found';
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin '%s' failed:";
 $GLOBALS['strTaskInstallFailed']                = "Error occured when running installation task '%s':";
-$GLOBALS['strContinueToLogin']                  = 'Click "Continue" to login to your OpenX instance.';
+$GLOBALS['strContinueToLogin']                  = 'For more information, visit our FAQ on <a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">how to make money with OpenX Market</a>. Click "Continue" to login to your OpenX instance.';
 
 $GLOBALS['strMarketIntroTitle']                 =
 
@@ -176,11 +176,9 @@ $GLOBALS['strTimezoneLocal']                    = MAX_PRODUCT_NAME . " has detec
                                                   "timezone of your server. This is because of a patch to PHP applied by some Linux distributions. " .
                                                   "Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the 'date.timezone' " .
                                                   "property to the correct value for your server."; 
-$GLOBALS['strMarketIntroLongTitle']             = "To optimize your revenue, OpenX Market will start serving ads in new zones which you create";
-$GLOBALS['strMarketIntroLong']                  = "OpenX Market is a free service that places ads on your site. It uses a real-time auction and an optimized portfolio
-                                                   of ad networks to deliver the highest paying ads to your zones. It will automatically serve ads to each new zone
-                                                   that you create as long as the zone doesn't have other ads to serve. This optimizes your revenue by helping you
-                                                   avoid blank ads. You can change this behavior by editing the zone.";
+$GLOBALS['strMarketIntroLongTitle']             = "To optimize your revenue, by default OpenX Market will serve ads in newly created zones if no other ads are to be served";
+$GLOBALS['strMarketIntroLong']                  = "OpenX Market is a service that helps place ads on your sites to make you more money. It uses a real-time auction of hundreds of ad buyers
+                                                   to get the highest paying ad for each of your ad impressions.";
 
                                                   
 

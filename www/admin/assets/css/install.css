@@ -443,7 +443,8 @@ li.section-warning div.messageContainer div.warning {
     line-height:normal;
 }
 
-.install-wizard .finishStep .marketInfo {
+.install-wizard .finishStep .market-info img {
+  margin-bottom: 8px;
 }
 
 

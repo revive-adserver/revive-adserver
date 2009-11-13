@@ -496,7 +496,7 @@ table tr.systemAdvertiser td span {
 #market-advertiser-index .three-ways-container {
   width: 650px;
   overflow: auto;
-  margin-top: 12px;
+  margin: 12px 0px 8px 0px;
 }
 
 #market-advertiser-index .three-ways-container ul li {
