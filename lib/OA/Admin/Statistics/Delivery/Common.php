@@ -411,6 +411,9 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      */
     function _summarizeStats(&$row)
     {
+        if(isset($row['children'])) {
+            $row['num_children'] = count($row['children']);
+        }
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->summarizeStats($row);
         }

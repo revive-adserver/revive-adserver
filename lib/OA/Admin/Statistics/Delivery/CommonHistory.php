@@ -149,21 +149,16 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         return true;
     }
 
-
-
-
-
-
-
-
     /**
      * Fetch and decorates the history stats using the specified parameters
      *
      * @param array  $aParams Query parameters
      * @param string $link    Optional link for the leftmost column content
      */
-    function prepare($aParams, $link = '')
+    function prepare(&$aParams, $link = '')
     {
+        parent::prepare(&$aParams);
+        
         // Set the span requirements
         $this->oHistory->getSpan($this, $aParams);
 

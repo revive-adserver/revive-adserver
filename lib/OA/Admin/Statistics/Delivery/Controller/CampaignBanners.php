@@ -153,7 +153,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignBanners extends OA_Admin_S
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
-        $aParams = array();
+        $aParams = $this->coreParams;
         $aParams['placement_id']  = $placementId;
 
         $this->aEntitiesData = $this->getBanners($aParams, $this->startLevel, $expand);

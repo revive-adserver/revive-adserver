@@ -254,8 +254,6 @@ class SqlBuilder
 
         case 'variable' :
             $aColumns += array('v.variableid' => 'variable_id', 'v.trackerid' => 'tracker_id', 'v.name' => 'name', 'v.datatype' => 'type');
-            //  variabletype field was removed in 0.2.0-alpha
-#            if ($allFields) $aColumns += array('v.description' => 'description', 'v.variabletype' => 'variable_type');
             if ($allFields) $aColumns += array('v.description' => 'description', 'v.variablecode' => 'variablecode');
             break;
 
@@ -330,6 +328,7 @@ class SqlBuilder
             if (isset($aParams['ad_width'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd');
             if (isset($aParams['ad_height'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd');
             if (!empty($aParams['ad_type'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['banners'] => 'd');
+            if (isset($aParams['campaign_type'])) $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm');
             if ($includeStats) $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'].$conf['table']['banners'] => 'd', $conf['table']['prefix'].$conf['table']['campaigns'] => 'm');
             break;
 
@@ -618,8 +617,6 @@ class SqlBuilder
                 }
                 SqlBuilder::_addLimitation($aLimitations, 'campaign_type', 'm.type', $aParams['campaign_type']);
             }
-            
-           
             break;
 
         case 'ad_category_assoc' :
@@ -1214,7 +1211,7 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-        //var_dump($query);
+//        var_dump($query);
         $oDbh = OA_DB::singleton();
         $aResult =  $oDbh->queryAll($query);
         $aDataEntities = array();

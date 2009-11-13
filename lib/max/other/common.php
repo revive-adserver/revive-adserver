@@ -74,19 +74,20 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
     return $allowed;
 }
 
-function MAX_checkAdvertiser($advertiserId)
+function MAX_checkAdvertiser($advertiserId, $aParams = array())
 {
     $allowed = false;
     if (MAX_checkGenericId($advertiserId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            $allowed = count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
+            $allowed = count(Admin_DA::getAdvertisers($aParams + array('advertiser_id' => $advertiserId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getAdvertisers(
+                $aParams +
                 array(  'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
-                        && count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
+                        && count(Admin_DA::getAdvertisers($aParams + array('advertiser_id' => $advertiserId)));
         }
     }
     return $allowed;
@@ -127,22 +128,25 @@ function MAX_checkPublisher($publisherId)
     return $allowed;
 }
 
-function MAX_checkPlacement($advertiserId, $placementId)
+function MAX_checkPlacement($advertiserId, $placementId, $aParams = array())
 {
     $allowed = false;
     if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($placementId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getPlacements(
+                $aParams + 
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPlacements(
+                $aParams + 
                 array(  'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getPlacements(
+                $aParams + 
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
         }

@@ -130,9 +130,6 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
             );
         }
 
-
-
-
         // Fix entity links
         $this->entityLinks['p'] = 'stats.php?entity=advertiser&breakdown=affiliate-history';
         $this->entityLinks['z'] = 'stats.php?entity=advertiser&breakdown=zone-history';
@@ -150,7 +147,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
-        $aParams = array();
+        $aParams = $this->coreParams;
         $aParams['advertiser_id'] = $advertiserId;
 
         // Limit by publisher

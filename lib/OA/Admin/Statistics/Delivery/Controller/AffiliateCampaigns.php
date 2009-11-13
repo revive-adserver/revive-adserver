@@ -150,7 +150,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
-        $aParams = array();
+        $aParams = $this->coreParams;
         $aParams['publisher_id'] = $publisherId;
 
         // Limit by advertiser

@@ -101,11 +101,11 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         $standardCustomColumns = array(
             			'SUM(s.impressions)' => 'sum_views', 
             			'SUM(s.clicks)' => 'sum_clicks',  
-            			'SUM(s.revenue)' => 'sum_revenue'
+            			'SUM(s.revenue)' => 'sum_revenue',
+            			"CONCAT(m.campaignid, IF( market_advertiser_id, CONCAT('-', market_advertiser_id, ' '), '-'), ad_width, 'x',ad_height)" => 'ad_id'
         );
 
         $aParams['custom_columns'] = $standardCustomColumns;
-        $aParams['custom_columns']["CONCAT(m.campaignid, IF( market_advertiser_id, CONCAT('-', market_advertiser_id, ' '), '-'), ad_width, 'x',ad_height)"] = 'ad_id';
         $this->marketRows = Admin_DA::fromCache($method, $aParams);
         
         $includeZoneZeroStats = !isset($aParams['zone_id']);

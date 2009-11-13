@@ -87,7 +87,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
         $placementId  = $this->_getId('placement');
-
+        
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkObjectsExist($advertiserId, $placementId);
@@ -157,6 +157,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
     {
         // Check if placement (campaign) exist 
         if (0 == count(Admin_DA::getPlacements(
+                $this->coreParams +
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)))) {
             phpAds_PageHeader('2'); 

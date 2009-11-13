@@ -107,11 +107,10 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
-        $aParams = array();
+        $aParams = $this->coreParams;
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
-
         switch ($this->startLevel)
         {
             case 2:

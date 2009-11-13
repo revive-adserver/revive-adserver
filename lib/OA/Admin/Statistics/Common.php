@@ -335,7 +335,16 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $this->$k = $v;
             }
         }
-
+        $do = OA_Dal::factoryDO('Clients');
+        $do = OA_Dal::factoryDO('Campaigns');
+        $coreParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.','.
+                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN.','.
+                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT.','.
+                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
+        $coreParams['advertiser_type'] =    DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.','.
+                                        DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        $this->coreParams = $coreParams;
+        
         // Ensure that the entity/breakdown values are set
         if (empty($this->entity)) {
             $this->entity = 'entity';
@@ -413,6 +422,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->__construct($aParams);
     }
 
+    function prepare(&$aParams)
+    {
+        $aParams = $this->coreParams + $aParams;
+    }
+    
     /********** METHODS THAT CHILDREN CLASS MUST OVERRRIDE **********/
 
     /**
@@ -846,13 +860,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $access = false;
         if (count($aParams) == 1) {
             if (array_key_exists('advertiser', $aParams)) {
-                $access = MAX_checkAdvertiser($aParams['advertiser']);
+                $access = MAX_checkAdvertiser($aParams['advertiser'], $aParams + $this->coreParams);
             } else if (array_key_exists('publisher', $aParams)) {
                 $access = MAX_checkPublisher($aParams['publisher']);
             }
         } else if (count($aParams) == 2) {
             if (array_key_exists('advertiser', $aParams) && array_key_exists('placement', $aParams)) {
-                $access = MAX_checkPlacement($aParams['advertiser'], $aParams['placement']);
+                $access = MAX_checkPlacement($aParams['advertiser'], $aParams['placement'], $aParams + $this->coreParams);
             } else if (array_key_exists('publisher', $aParams) && array_key_exists('zone', $aParams)) {
                 $access = MAX_checkZone($aParams['publisher'], $aParams['zone']);
             }

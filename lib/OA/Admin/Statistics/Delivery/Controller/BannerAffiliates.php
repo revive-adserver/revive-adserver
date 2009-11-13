@@ -173,7 +173,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
-        $aParams = array();
+        $aParams = $this->coreParams;
         $aParams['ad_id']  = $adId;
 
         switch ($this->startLevel)
