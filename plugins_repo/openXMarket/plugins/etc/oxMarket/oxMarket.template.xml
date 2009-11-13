@@ -8,8 +8,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server Interface</description>
-    <version>1.2.0-rc1</version>
-    <oxversion>2.8.3-rc1</oxversion>
+    <version>1.2.0-rc2</version>
+    <oxversion>2.8.3-rc2</oxversion>
     <extends>admin</extends>
     <install>
 
@@ -227,9 +227,11 @@
             <mdb2schema>tables_oxMarket</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
+			<dataobject>Ext_market_advertiser.php</dataobject>
             <dataobject>Ext_market_assoc_data.php</dataobject>
             <dataobject>Ext_market_campaign_pref.php</dataobject>
             <dataobject>Ext_market_setting.php</dataobject>
+			<dataobject>Ext_market_stats.php</dataobject>
             <dataobject>Ext_market_web_stats.php</dataobject>
             <dataobject>Ext_market_website_pref.php</dataobject>
             <dataobject>Ext_market_general_pref.php</dataobject>

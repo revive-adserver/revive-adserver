@@ -3,15 +3,19 @@
 <instructionset>
   <name>oxMarket</name>
   <version>006</version>
-  <comments></comments>
+  <comments>advertiser table and new stats table added</comments>
   <constructive>
     <changeset>
       <name>oxMarket</name>
       <version>006</version>
       <add>
         <table>
-        <name>ext_market_zone_pref</name>
-        <was>ext_market_zone_pref</was>
+        <name>ext_market_advertiser</name>
+        <was>ext_market_advertiser</was>
+      </table>
+        <table>
+        <name>ext_market_stats</name>
+        <was>ext_market_stats</was>
       </table>
     </add>
   </changeset>
