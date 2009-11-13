@@ -455,7 +455,7 @@ class SqlBuilder
             } else {
                 $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's');
             }
-            
+
             // stats always require the join to advertiser table to ensure only core stats are displayed (excluding market advertiser)
             $aTables += array(
                 $conf['table']['prefix'].$conf['table']['clients'] => 'a',
@@ -463,34 +463,36 @@ class SqlBuilder
                 $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
             );
             
-            if (!empty($aParams['agency_id'])) {
-                $aTables += array(
-                    $conf['table']['prefix'].$conf['table']['clients'] => 'a',
-                    $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
-                    $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
-                    $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
-                    $conf['table']['prefix'].$conf['table']['zones'] => 'z'
-                );
-            }
-
-            if (!empty($aParams['advertiser_id'])) { 
-                $aTables += array(
-                    $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
-                    $conf['table']['prefix'].$conf['table']['banners'] => 'd'
-                );
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += array(
-                    $conf['table']['prefix'].$conf['table']['banners'] => 'd'
-                );
-            }
-            if (!empty($aParams['publisher_id'])) {
-                $aTables += array(
-                    $conf['table']['prefix'].$conf['table']['zones'] => 'z'
-                );
-            }
-            if(isset($aParams['market_stats_including_zone_zero'])) {
-                unset($aTables[$conf['table']['prefix'].$conf['table']['zones']]);
+            if(empty($aParams['market_stats_get_start_date'])) {
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += array(
+                        $conf['table']['prefix'].$conf['table']['clients'] => 'a',
+                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                        $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
+                        $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
+                        $conf['table']['prefix'].$conf['table']['zones'] => 'z'
+                    );
+                }
+    
+                if (!empty($aParams['advertiser_id'])) { 
+                    $aTables += array(
+                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                        $conf['table']['prefix'].$conf['table']['banners'] => 'd'
+                    );
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += array(
+                        $conf['table']['prefix'].$conf['table']['banners'] => 'd'
+                    );
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    $aTables += array(
+                        $conf['table']['prefix'].$conf['table']['zones'] => 'z'
+                    );
+                }
+                if(isset($aParams['market_stats_including_zone_zero'])) {
+                    unset($aTables[$conf['table']['prefix'].$conf['table']['zones']]);
+                }
             }
             break;
         
@@ -736,20 +738,32 @@ class SqlBuilder
         case 'history_dow' :
         case 'history_hour' :
         case 'stats' :
-            if(empty($aParams['market_stats_get_start_date'])) {
-                if (!empty($aParams['agency_id'])) {
-    
-                    // join to affiliates if stats by zone
-                    if (!empty($aParams['publisher_id']) ||
-                        !empty($aParams['zone_id']) ||
-                        isset($aParams['zone_type']) ||
-                        isset($aParams['zone_width']) ||
-                        isset($aParams['zone_height'])) {
-                            SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
-                    }
-                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+            if (!empty($aParams['agency_id'])) {
+
+                // join to affiliates if stats by zone
+                if (!empty($aParams['publisher_id']) ||
+                    !empty($aParams['zone_id']) ||
+                    isset($aParams['zone_type']) ||
+                    isset($aParams['zone_width']) ||
+                    isset($aParams['zone_height'])) {
+                        SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
                 }
-                
+                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+            }
+            
+            if (!empty($aParams['publisher_id'])) {
+                if(!empty($aParams['market_stats'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 's.website_id', $aParams['publisher_id']);
+                } else {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                }
+            } 
+            if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+            if (isset($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
+            if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+            if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
+            
+            if(empty($aParams['market_stats_get_start_date'])) {
     			
                 $do = OA_Dal::factoryDO('Clients');
                 // Core stats exclude all Market advertiser activity
@@ -764,18 +778,6 @@ class SqlBuilder
                 } else {
                     $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
                 }
-                
-                if (!empty($aParams['publisher_id'])) {
-                    if(!empty($aParams['market_stats'])) {
-                        SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 's.website_id', $aParams['publisher_id']);
-                    } else {
-                        SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-                    }
-                } 
-                if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-                if (isset($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
-                if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-                if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
                 if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
                     $dateTimeCol = "s.tracker_date_time";
                 } else {

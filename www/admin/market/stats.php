@@ -36,7 +36,7 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
     function getHistorySpanParams()
     {
         $aParams = array();
-        $aParams['custom_table']   = self::MARKET_STATS_TABLE;
+        $aParams['custom_table'] = self::MARKET_STATS_TABLE;
         $aParams['add_columns'] = array("DATE_FORMAT(MIN(date_time), '%Y-%m-%d')" => 'start_date');
         $aParams['market_stats_get_start_date'] = true;
         $aParams['market_stats'] = true;
@@ -102,7 +102,7 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
             			'SUM(s.impressions)' => 'sum_views', 
             			'SUM(s.clicks)' => 'sum_clicks',  
             			'SUM(s.revenue)' => 'sum_revenue',
-            			"CONCAT(m.campaignid, IF( market_advertiser_id, CONCAT('-', market_advertiser_id, ' '), '-'), ad_width, 'x',ad_height)" => 'ad_id'
+            			"CONCAT(m.campaignid, IF( market_advertiser_id, CONCAT('-', market_advertiser_id, '-'), '-'), ad_width, ' x ',ad_height)" => 'ad_id'
         );
 
         $aParams['custom_columns'] = $standardCustomColumns;

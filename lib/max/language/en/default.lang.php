@@ -939,6 +939,8 @@ $GLOBALS['strIab']['IAB_MediumRectangle(300x250)*']  = "IAB Medium Rectangle (30
 $GLOBALS['strIab']['IAB_LargeRectangle(336x280)']    = "IAB Large Rectangle (336 x 280)";
 $GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB Vertical Rectangle (240 x 400)";
 $GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*']   = "IAB Wide Skyscraper (160 x 600)";
+$GLOBALS['strIab']['IAB_Pop-Under(720x300)']         = "IAB Pop-Under (720 x 300)";
+$GLOBALS['strIab']['IAB_3:1Rectangle(300x100)']      = "IAB 3:1 Rectangle (300 x 100)";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']                    = "Advanced";
@@ -1624,8 +1626,8 @@ $GLOBALS['keyLinkUser']        = "u";
 $GLOBALS['keyWorkingAs']        = "w";
 
 // Market entities
-$GLOBALS['strMarketCampaignOptin'] = "OpenX Market ads served to opted in campaigns";
-$GLOBALS['strMarketZoneOptin'] = "OpenX Market ads served to zones by default";
+$GLOBALS['strMarketCampaignOptin'] = "OpenX Market - Opted In Campaigns";
+$GLOBALS['strMarketZoneOptin'] = "OpenX Market - Zone Default Ads";
 $GLOBALS['strMarketZoneBeforeOpenX2.8.3'] = "OpenX Market ads before OpenX 2.8.3";
 
 /*-------------------------------------------------------*/

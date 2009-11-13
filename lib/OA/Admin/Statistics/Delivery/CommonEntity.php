@@ -552,6 +552,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function getBanners($aParams, $level, $expand = '')
     {
+        global $phpAds_IAB;
+        require_once MAX_PATH . '/www/admin/lib-size.inc.php';
+        
         $aParams['include'] = array('placement_id'); // Needed to fetch the advertiser_id
         $aParams['exclude'] = array('zone_id');
         $this->prepareData($aParams);
@@ -576,26 +579,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
                 
                 if($banner['type'] == DataObjects_Banners::BANNER_TYPE_MARKET) {
-                    // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
-                    // across this manager
-                    $startRealBannerName = 1 + strpos($banner['name'], '-');
-                    if($startRealBannerName !== false) {
-                        $banner['name'] = substr($banner['name'], $startRealBannerName);
-                        // the banner name can be
-                        // - "$ADVERTISER_ID $AD_WIDTHx$AD_HEIGHT"
-                        // - or "$AD_WIDTHx$AD_HEIGHT"
-                        $startBannerDimension = strpos($banner['name'], ' ');
-                        if($startBannerDimension !== false) {
-                            $marketAdvertiserId = substr($banner['name'], 0, $startBannerDimension);
-                            $marketAdvertiserName = $this->getMarketAdvertiserNameFromId($marketAdvertiserId);
-                            $bannerDimensions = substr($banner['name'], $startBannerDimension);
-                            if($marketAdvertiserName) {
-                                $banner['name'] = $marketAdvertiserName . ' ' .$bannerDimensions;
-                            } else {
-                                $banner['name'] = $bannerDimensions;
-                            }
-                        }
-                    }
+                    $banner['name'] = $this->getMarketBannerName($banner['name']);
                 }
                 $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
                 
@@ -625,6 +609,43 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         return $aEntitiesData;
     }
 
+    function getMarketBannerName($bannerName)
+    {
+        // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
+        // across this manager
+        $startRealBannerName = 1 + strpos($bannerName, '-');
+        if($startRealBannerName !== false) {
+            $bannerName = substr($bannerName, $startRealBannerName);
+            // the banner $NAME can be
+            // - "$ADVERTISER_ID-$AD_WIDTH x $AD_HEIGHT"
+            // - or "$AD_WIDTH x $AD_HEIGHT"
+            $startBannerDimension = strpos($bannerName, '-');
+            
+            $marketAdvertiserName = false;
+            if($startBannerDimension === false) {
+                $bannerDimensions = $bannerName;
+            } else {
+                $bannerDimensions = substr($bannerName, $startBannerDimension + 1);
+                $marketAdvertiserId = substr($bannerName, 0, $startBannerDimension);
+    
+                if(!empty($marketAdvertiserId)) {
+                    $marketAdvertiserName = $this->getMarketAdvertiserNameFromId($marketAdvertiserId);
+                }
+                if($marketAdvertiserName) {
+                    $bannerName = $marketAdvertiserName . ' - ' .$bannerDimensions;
+                } 
+            }
+            if($marketAdvertiserName === false)
+            {
+                $bannerDimensions = explode('x', $bannerDimensions);
+                $width = trim($bannerDimensions[0]);
+                $height = trim($bannerDimensions[1]);
+                $bannerName = phpAds_getBannerSize($width, $height);
+                $bannerName = $bannerName;
+            }
+        }
+        return $bannerName;
+    }
     /**
      * Loads the list of market advertisers once, and returns the name for the given market advertiser ID 
      * @param $marketAdvertiserId

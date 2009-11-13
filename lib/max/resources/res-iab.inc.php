@@ -40,5 +40,7 @@ $phpAds_IAB['IAB_LargeRectangle(336x280)']   	= array ('width' => 336, 'height' 
 $phpAds_IAB['IAB_VerticalRectangle(240x400)'] 	= array ('width' => 240, 'height' => 400);
 $phpAds_IAB['IAB_SquarePop-up(250x250)'] 	   	= array ('width' => 250, 'height' => 250);
 $phpAds_IAB['IAB_WideSkyscraper(160x600)*']     = array ('width' => 160, 'height' => 600);
+$phpAds_IAB['IAB_Pop-Under(720x300)']           = array ('width' => 720, 'height' => 300);
+$phpAds_IAB['IAB_3:1Rectangle(300x100)']        = array ('width' => 300, 'height' => 100);
 
 ?>
