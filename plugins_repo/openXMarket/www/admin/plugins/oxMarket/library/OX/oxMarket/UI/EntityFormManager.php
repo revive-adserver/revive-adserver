@@ -166,7 +166,7 @@ class OX_oxMarket_UI_EntityFormManager
         $affiliateId = $aFields['affiliateid'];
         $websiteUrl = $aFields['website'];
         $websiteName = $aFields['name'];
-        if ($this->marketComponent->getPublisherConsoleApiClient()->getPcAccountId()) {
+        if ($this->oMarketComponent->getPublisherConsoleApiClient()->getPcAccountId()) {
             //get current market website id if any, do not autogenerate
             $websiteManager = $this->oMarketComponent->getWebsiteManager();
             $websiteId = $websiteManager->getWebsiteId($affiliateId, false);
