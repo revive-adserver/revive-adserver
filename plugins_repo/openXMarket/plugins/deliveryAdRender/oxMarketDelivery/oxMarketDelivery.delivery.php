@@ -144,7 +144,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
     $output = '';
 
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($aAd['width']) && !empty($aAd['height'])
+    if (!empty($aAd['width']) && !empty($aAd['height']) && $aAd['width'] > 0 && $aAd['height'] >0 
         && !empty($aWebsiteMarketInfo['website_id']))
     {
         // TODO: Check if $aAd['width'] && $aAd['height'] are allowed 
@@ -443,7 +443,7 @@ function OX_Dal_Delivery_getCampaignOptInBanner($agency_id)
 }
 
 
-function OX_cacheGetCreativeSizes()
+function OX_cacheGetCreativeSizes($cached = true)
 {
     if (!function_exists('OA_Delivery_Cache_getName')) {
         require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
@@ -463,12 +463,13 @@ function OX_cacheGetCreativeSizes()
  * Read IAB Banners data from cache created by UI or permament plugin cache files
  * Returns array of supported creative sizes each item is an array:
  * key is a string 'width'x'height'
- * each array contains fields: 'id' (int), 'name' (string), 'width' (int), 'size' (int)
+ * each array contains fields: 'id' (int), 'name' (string), 'width' (int), 'height' (int)
  * 
  * @return array 
  */
 function OX_marketGetCreativeSizes()
 {
+    setupIncludePath(); // set PEAR path if not set
     require_once MAX_PATH . '/www/admin/plugins/oxMarket/library/OX/oxMarket/Common/Cache.php';
     $oCache = new OX_oxMarket_Common_Cache('CreativeSizes', 'oxMarket', null);
     $oCache->setFileNameProtection(false);
@@ -484,4 +485,56 @@ function OX_marketGetCreativeSizes()
         }
     }
     return $aData;
+}
+
+function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_preAdSelect(&$aAds, &$context, &$source, &$richMedia)
+{
+    if (!empty($aAds['zone_id']) && !empty($aAds['ads'])) 
+    {
+        $bestSize = OX_marketGetBestBannerSizeForZone($aAds);
+        foreach ($aAds['ads'] as $priority => &$aBanners) {
+            foreach ($aBanners as $bannerId => &$aBanner) {
+                if ($aBanner['width'] == -1 && $aBanner['width'] == -1) {
+                    if ($bestSize !== false) {
+                        $aBanner['width']  = $bestSize['width'];
+                        $aBanner['height'] = $bestSize['height'];
+                    }
+                    else {
+                        //remove market banners if zone size is not supported
+                        unset($aBanners[$bannerId]); 
+                    }
+                }
+            }
+        }
+        // separate zone opt in banners   
+        // -3 is DataObjects_Campaigns::PRIORITY_MARKET_REMNANT
+        if (!empty($aAds['ads'][-3])) {
+            $aAds['marketZoneOptinAds'] = $aAds['ads'][-3];
+            unset($aAds['ads'][-3]);
+        }
+    }
+}
+
+function OX_marketGetBestBannerSizeForZone($zoneInfo)
+{
+    $bestSize = array('width' => 0, 'height' => 0);
+    $sizes = OX_cacheGetCreativeSizes();
+    // find best matching market size  
+    foreach($sizes as $size) {
+        // only check matching sizes
+        if (($zoneInfo['width'] == -1 || $zoneInfo['width'] == $size['width']) &&
+         ($zoneInfo['height'] == -1 || $zoneInfo['height'] == $size['height']))
+        {
+            // best Size is longest one (width is more important than height)
+            if ($bestSize['width'] < $size['width'] ||
+                ($bestSize['width'] == $size['width'] && $bestSize['height'] < $size['height'])) {
+                $bestSize['width'] = $size['width'];
+                $bestSize['height'] = $size['height'];
+            }
+        }
+    } 
+    if ($bestSize['width'] != 0) {
+        return $bestSize;
+    }
+    return false;
 }

@@ -141,6 +141,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      */
     function recalculateStatus($oldDoCampaigns = null)
     {
+        // special market campaigns are always active
+        if ($this->type == self::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN ||
+            $this->type == self::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN)
+        {
+            $this->status = OA_ENTITY_STATUS_RUNNING;
+            return;
+        }
+        
         $this->_coalesce($oldDoCampaigns, array('expire_time'));
         if ($this->_isExpired()) {
             $this->status = OA_ENTITY_STATUS_EXPIRED;

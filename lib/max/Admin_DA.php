@@ -450,6 +450,8 @@ class Admin_DA
                 $aParams['ad_height'] = $aZone['height'];
             }
         }
+        // Allow linking *x* banners
+        $aParams['ad_nosize'] = true;
         return $aParams;
     }
 
@@ -986,6 +988,7 @@ class Admin_DA
                 return true;
             }
             $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
+            var_dump($azParams);
             $azParams['ad_id'] = $aVariables['ad_id'];
             $azAds = Admin_DA::getAds($azParams);
             if (!empty($azAds)) {

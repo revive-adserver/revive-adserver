@@ -21,6 +21,7 @@
         <components>
            <component>
                 <name>oxMarketDelivery</name>
+                <hook>preAdSelect</hook>
                 <hook>postAdRender</hook>
                 <hook>postAdSelect</hook>
            </component>
