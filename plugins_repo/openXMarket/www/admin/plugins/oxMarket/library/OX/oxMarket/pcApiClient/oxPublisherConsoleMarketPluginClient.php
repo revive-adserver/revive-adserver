@@ -498,7 +498,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             return false;
         }
         $doExtMarket->api_key = $apiKey;
-        $result = $doExtMarket->update();;
+        $result = $doExtMarket->update();
         return true;
     }
     /**
@@ -541,6 +541,31 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     public function isSsoUserNameAvailable($userName)
     {
         return $this->pc_api_client->isSsoUserNameAvailable($userName);
+    }
+    
+    
+    /**
+     * Get advertisers infos, updates ext_market_advertiser table
+     *
+     * @param array $aAdvertisersUuids array of advertisers UUIDs
+     * @return array array indexed by advertiserid of advertisers names
+     */
+    public function getAdvertiserInfos($aAdvertisersUuids)
+    {
+        $result = $this->pc_api_client->getAdvertiserInfos($aAdvertisersUuids);
+        foreach($result as $adveriserUuid => $advertiserName) {
+            $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+            $doAdvertiser->market_advertiser_id = $adveriserUuid;
+            $doAdvertiser->find();
+            $fetchResult = $doAdvertiser->fetch();
+            $doAdvertiser->name = $advertiserName;
+            if ($fetchResult == true) {
+                $doAdvertiser->update();
+            } else {
+                $doAdvertiser->insert();
+            }
+        }
+        return $result;
     }
     
     /**

@@ -306,6 +306,19 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
         return $this->callXmlRpcClient('isSsoUserNameAvailable', array($userName));
     }
     
+    
+    /**
+     * Get advertisers infos
+     *
+     * @param array $aAdvertisersUuids array of advertisers UUIDs
+     * @return array array indexed by advertiserid of advertisers names
+     */
+    public function getAdvertiserInfos($aAdvertisersUuids)
+    {
+        return $this->callApiKeyAuthXmlRpcFunction('getAdvertiserInfos', array($aAdvertisersUuids));
+    }
+    
+    
     /**
      * Returns array of Creative Attributes used in marketplace
      *
@@ -358,4 +371,6 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     {
         return $this->callXmlRpcClient('dictionary.getCreativeSizes', array());
     }
+    
+    
 }

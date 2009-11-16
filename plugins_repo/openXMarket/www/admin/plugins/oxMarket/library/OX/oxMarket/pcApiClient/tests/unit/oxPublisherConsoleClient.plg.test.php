@@ -55,8 +55,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
             'OA_Central_M2MProtectedRpc',
             'PartialMockOA_Central_M2MProtectedRpc',
             array('call')
-        );
-        
+        );       
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXMarket',false);
         TestEnv::installPluginPackage('openXMarket',false);
@@ -69,7 +68,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
     
     function setUp()
     {
-        
+
     }
 
     function tearDown()
@@ -351,6 +350,7 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         
         $this->assertEqual($result, $response);
     }
+
     
     function testIsSsoUserNameAvailable()
     {
@@ -374,6 +374,31 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         $result = $oPCClient->isSsoUserNameAvailable($userName2);
         $this->assertTrue($result);
     }
+    
+    
+    function testGetAdvertiserInfos()
+    {
+        // Prepare XmlRpc client mockup and test response
+        $response = array( 
+           '5f7d1600-d2aa-11de-8a39-0800200c9a66' => 'Advertiser 1',
+           '02d2db84-572d-42a1-be8b-77daab4d8f32' => 'Advertiser 2');
+        $apiKey = 'testApiKey';
+        $advUuids = array_keys($response);
+        $oXmlRpcClient = new PartialMock_PearXmlRpcCustomClientExecutor($this);
+        $oXmlRpcClient->expectArgumentsAt(0, 'call', array('getAdvertiserInfos', array($apiKey, $advUuids)));
+        $oXmlRpcClient->setReturnValueAt(0, 'call', $response);
+        $oM2MXmlRpc = new PartialMockOA_Central_M2MProtectedRpc($this);
+        
+        // Create PubConsole API client 
+        $oPCClient = 
+            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc, $oXmlRpcClient);
+        $oPCClient->setApiKey($apiKey);
+            
+        // Test call
+        $result = $oPCClient->getAdvertiserInfos($advUuids);
+        $this->assertEqual($result, $response);
+    }
+  
     
     function testGetCreativeAttributes()
     {
@@ -483,4 +508,5 @@ class Plugins_admin_oxMarket_PublisherConsoleClientTest extends UnitTestCase
         $result = $oPCClient->getCreativeSizes();        
         $this->assertEqual($result, $response);
     }
+
 }

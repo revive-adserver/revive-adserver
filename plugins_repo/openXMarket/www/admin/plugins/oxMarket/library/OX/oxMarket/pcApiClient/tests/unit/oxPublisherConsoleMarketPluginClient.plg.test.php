@@ -56,7 +56,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                       'getApiKeyByM2MCred',
                       'linkHostedAccount',
                       'newWebsite',
-                      'updateWebsite')
+                      'updateWebsite',
+                      'getAdvertiserInfos')
             );
         }
         
@@ -399,6 +400,61 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $result = $oPCMarketPluginClient->isSsoUserNameAvailable($testName2);
         $this->assertTrue($result);
     }
+    
+    
+   function testGetAdvertiserInfos()
+   {
+        $response1 = array( 
+            '5f7d1600-d2aa-11de-8a39-0800200c9a66' => 'Advertiser 1',
+            '02d2db84-572d-42a1-be8b-77daab4d8f32' => 'Advertiser 2');
+        $response2 = array( 
+            '02d2db84-572d-42a1-be8b-77daab4d8f32' => 'Advertiser 2 updated',
+            '90036c71-e489-4dba-b50f-c13a72d16aaa' => 'Advertiser 3');
+        $advUuids1 = array_keys($response1); 
+        $advUuids2 = array_keys($response2);
+        
+        $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
+        $PubConsoleClient->expectArgumentsAt(0, 'getAdvertiserInfos', array($advUuids1));
+        $PubConsoleClient->setReturnValueAt(0, 'getAdvertiserInfos', $response1);
+        $PubConsoleClient->expectArgumentsAt(1, 'getAdvertiserInfos', array($advUuids2));
+        $PubConsoleClient->setReturnValueAt(1, 'getAdvertiserInfos', $response2);
+        
+        $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
+        $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
+
+        $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+        $this->assertEqual($doAdvertiser->count(),0);
+        
+        $result = $oPCMarketPluginClient->getAdvertiserInfos($advUuids1);
+        $this->assertEqual($result, $response1);
+        
+        $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+        $doAdvertiser->orderBy('name');
+        $result = $doAdvertiser->getAll();
+        $expected = array(
+            array( 'market_advertiser_id' => '5f7d1600-d2aa-11de-8a39-0800200c9a66',
+                   'name' => 'Advertiser 1'),
+            array( 'market_advertiser_id' => '02d2db84-572d-42a1-be8b-77daab4d8f32',
+                   'name' => 'Advertiser 2')
+        );
+        $this->assertEqual($result, $expected);
+        
+        $result = $oPCMarketPluginClient->getAdvertiserInfos($advUuids2);
+        $this->assertEqual($result, $response2);
+        
+        $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+        $doAdvertiser->orderBy('name');
+        $result = $doAdvertiser->getAll();
+        $expected = array(
+            array( 'market_advertiser_id' => '5f7d1600-d2aa-11de-8a39-0800200c9a66',
+                   'name' => 'Advertiser 1'),
+            array( 'market_advertiser_id' => '02d2db84-572d-42a1-be8b-77daab4d8f32',
+                   'name' => 'Advertiser 2 updated'),
+            array( 'market_advertiser_id' => '90036c71-e489-4dba-b50f-c13a72d16aaa',
+                   'name' => 'Advertiser 3')
+        );
+        $this->assertEqual($result, $expected);
+   }
     
     function testGetDictionaryData()
     {
