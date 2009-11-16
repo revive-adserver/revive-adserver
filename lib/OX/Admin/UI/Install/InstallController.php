@@ -153,6 +153,10 @@ class OX_Admin_UI_Install_InstallController
             $oStorage->set('installStatus', $oStatus);
             $oWizard = new OX_Admin_UI_Install_Wizard($oStatus);
             $oWizard->reset();
+            // Rebild component hooks to avoid problems with previous plugin installation  
+            require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+            $oExtensionManager = new OX_Extension_Common();
+            $oExtensionManager->cacheComponentHooks();
         }
         $this->oInstallStatus = $oStatus;
     }
