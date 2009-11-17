@@ -400,7 +400,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $result = $oPCMarketPluginClient->isSsoUserNameAvailable($testName2);
         $this->assertTrue($result);
     }
-    
+
     
    function testGetAdvertiserInfos()
    {
@@ -410,14 +410,23 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         $response2 = array( 
             '02d2db84-572d-42a1-be8b-77daab4d8f32' => 'Advertiser 2 updated',
             '90036c71-e489-4dba-b50f-c13a72d16aaa' => 'Advertiser 3');
+        $response3a = array( 
+            '90036c71-e489-4dba-b50f-c13a72d16aaa' => 'Advertiser 3 updated');
+        $response3b = array( 
+            '35769231-ea89-c3ba-6004-aaaa7145aa56' => 'Advertiser 4');
         $advUuids1 = array_keys($response1); 
         $advUuids2 = array_keys($response2);
+        $advUuids3 = array_merge(array_keys($response3a),array_keys($response3b));
         
         $PubConsoleClient = new PartialMockPublisherConsoleClient($this);
         $PubConsoleClient->expectArgumentsAt(0, 'getAdvertiserInfos', array($advUuids1));
         $PubConsoleClient->setReturnValueAt(0, 'getAdvertiserInfos', $response1);
         $PubConsoleClient->expectArgumentsAt(1, 'getAdvertiserInfos', array($advUuids2));
         $PubConsoleClient->setReturnValueAt(1, 'getAdvertiserInfos', $response2);
+        $PubConsoleClient->expectArgumentsAt(2, 'getAdvertiserInfos', array(array_keys($response3a)));
+        $PubConsoleClient->setReturnValueAt(2, 'getAdvertiserInfos', $response3a);
+        $PubConsoleClient->expectArgumentsAt(3, 'getAdvertiserInfos', array(array_keys($response3b)));
+        $PubConsoleClient->setReturnValueAt(3, 'getAdvertiserInfos', $response3b);
         
         $oPCMarketPluginClient = new PublisherConsoleMarketPluginTestClient();
         $oPCMarketPluginClient->setPublisherConsoleClient($PubConsoleClient);
@@ -452,6 +461,24 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
                    'name' => 'Advertiser 2 updated'),
             array( 'market_advertiser_id' => '90036c71-e489-4dba-b50f-c13a72d16aaa',
                    'name' => 'Advertiser 3')
+        );
+        $this->assertEqual($result, $expected);
+        
+        $result = $oPCMarketPluginClient->getAdvertiserInfos($advUuids3,1);
+        $this->assertEqual($result, $response3a+$response3b);
+        
+        $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+        $doAdvertiser->orderBy('name');
+        $result = $doAdvertiser->getAll();
+        $expected = array(
+            array( 'market_advertiser_id' => '5f7d1600-d2aa-11de-8a39-0800200c9a66',
+                   'name' => 'Advertiser 1'),
+            array( 'market_advertiser_id' => '02d2db84-572d-42a1-be8b-77daab4d8f32',
+                   'name' => 'Advertiser 2 updated'),
+            array( 'market_advertiser_id' => '90036c71-e489-4dba-b50f-c13a72d16aaa',
+                   'name' => 'Advertiser 3 updated'),
+            array( 'market_advertiser_id' => '35769231-ea89-c3ba-6004-aaaa7145aa56',
+                   'name' => 'Advertiser 4')
         );
         $this->assertEqual($result, $expected);
    }
@@ -856,7 +883,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClientTest extends Unit
         // clean up
         $doExtMarket->delete();
     }
-    
+
     
     /**
      * Create admin account and add association to the market

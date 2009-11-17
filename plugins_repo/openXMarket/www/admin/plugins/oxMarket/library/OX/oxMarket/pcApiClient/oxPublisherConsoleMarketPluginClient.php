@@ -548,24 +548,31 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * Get advertisers infos, updates ext_market_advertiser table
      *
      * @param array $aAdvertisersUuids array of advertisers UUIDs
+     * @param int $chunksize max advertiser UUIDs chunk accepted by PC API
      * @return array array indexed by advertiserid of advertisers names
      */
-    public function getAdvertiserInfos($aAdvertisersUuids)
+    public function getAdvertiserInfos($aAdvertisersUuids, $chunksize = 1000)
     {
-        $result = $this->pc_api_client->getAdvertiserInfos($aAdvertisersUuids);
-        foreach($result as $adveriserUuid => $advertiserName) {
-            $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
-            $doAdvertiser->market_advertiser_id = $adveriserUuid;
-            $doAdvertiser->find();
-            $fetchResult = $doAdvertiser->fetch();
-            $doAdvertiser->name = $advertiserName;
-            if ($fetchResult == true) {
-                $doAdvertiser->update();
-            } else {
-                $doAdvertiser->insert();
+        $chunkedAdvertisers = array_chunk($aAdvertisersUuids, $chunksize);
+        $aResult = array();
+        foreach($chunkedAdvertisers as $aAdvertisersUuidsChunk)
+        {
+            $result = $this->pc_api_client->getAdvertiserInfos($aAdvertisersUuidsChunk);
+            foreach($result as $adveriserUuid => $advertiserName) {
+                $doAdvertiser = OA_DAL::factoryDO('ext_market_advertiser');
+                $doAdvertiser->market_advertiser_id = $adveriserUuid;
+                $doAdvertiser->find();
+                $fetchResult = $doAdvertiser->fetch();
+                $doAdvertiser->name = $advertiserName;
+                if ($fetchResult == true) {
+                    $doAdvertiser->update();
+                } else {
+                    $doAdvertiser->insert();
+                }
             }
+            $aResult = array_merge($aResult, $result);
         }
-        return $result;
+        return $aResult;
     }
     
     /**
