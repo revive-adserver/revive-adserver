@@ -128,6 +128,24 @@ class Test_DeliveryRemotehost extends UnitTestCase
         $return = MAX_remotehostProxyLookup();
         $this->assertTrue($_SERVER['REMOTE_ADDR'] == $_SERVER['HTTP_CLIENT_IP']);
 
+        // Check that with multiple X_FORWARDED_FOR entries, the leftmost value is used
+        $_SERVER = $sampleSERVER;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '111.111.111.111, 222.222.222.222';
+        $return = MAX_remotehostProxyLookup();
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == '111.111.111.111');
+
+        // Check that with multiple X_FORWARDED_FOR entries, the leftmost NON-PRIVATE value is used
+        $_SERVER = $sampleSERVER;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '10.10.10.10, 111.111.111.111, 222.222.222.222';
+        $return = MAX_remotehostProxyLookup();
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == '111.111.111.111');
+        
+        // Check that with multiple X_FORWARDED_FOR entries, the leftmost NON-PRIVATE value is used
+        $_SERVER = $sampleSERVER;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '10.10.10.10, 192.168.1.1, 111.111.111.111, 222.222.222.222';
+        $return = MAX_remotehostProxyLookup();
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == '111.111.111.111');
+        
         $_SERVER = $serverSave;
     }
 
