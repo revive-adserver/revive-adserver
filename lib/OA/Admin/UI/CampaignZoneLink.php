@@ -46,6 +46,7 @@ class OA_Admin_UI_CampaignZoneLink
         $categoryText = $GLOBALS["category$infix-text"];
         $text         = $GLOBALS["text$infix"];
         $linked       = ($panel == 'linked');
+        $showStats    = (empty($GLOBALS['_MAX']['CONF']['ui']['zoneLinkingStatistics'])) ? false : true;
 
         $websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignId, $linked, $text);
 
@@ -83,8 +84,10 @@ class OA_Admin_UI_CampaignZoneLink
         list ($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
         $websites = array_slice($websites, $itemsFrom - 1, self::WEBSITES_PER_PAGE, true);
 
-        // Add statistics for the displayed zones
-        $oDalZones->mergeStatistics($websites, $campaignId);
+        // Add statistics for the displayed zones if required
+        if ($showStats) {
+            $oDalZones->mergeStatistics($websites, $campaignId);
+        }
 
         // Count how many zone are displayed
         $showingCount = 0;
@@ -102,6 +105,8 @@ class OA_Admin_UI_CampaignZoneLink
         $oTpl->assign('text', $text);
         $oTpl->assign('status', $panel);
         $oTpl->assign('page', $oTopPager->getCurrentPageID());
+
+        $oTpl->assign('showStats', $showStats);
 
         return $oTpl;
     }

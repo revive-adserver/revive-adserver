@@ -24,6 +24,7 @@ combineAssets                       = true
 showContactUsLink                   = false
 dashboardEnabled                    = true
 hideNavigator                       = false
+zoneLinkingStatistics               = true
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;

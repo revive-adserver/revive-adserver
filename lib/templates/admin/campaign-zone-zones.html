@@ -46,9 +46,11 @@ $Id$
       <th class="name"><label><input type="checkbox" id="{$status}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
       <th class="link"></th>
       <th class="category">{t str=Category}</th>
-      <th class="ctr">{t str=FinanceCTR}</th>
-      <th class="cr">{t str=FinanceCR}</th>
-      <th class="ecpm last">{t str=FinanceCPM}</th>
+      {if !empty($showStats)}
+          <th class="ctr">{t str=FinanceCTR}</th>
+          <th class="cr">{t str=FinanceCR}</th>
+          <th class="ecpm last">{t str=FinanceCPM}</th>
+      {/if}
     </tr>
   </tbody>
   
@@ -80,9 +82,11 @@ $Id$
           <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
       </td>
       <td class="category" title="{$website.category}">{$website.category}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      {if !empty($showStats)}
+          <td></td>
+          <td></td>
+          <td></td>
+      {/if}
     </tr>
     
       {foreach from=$website.zones key=zoneid item=zone}
@@ -98,11 +102,13 @@ $Id$
             <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
         </td>
         <td class="category" title="{$zone.category}">{$zone.category}</td>
-        {assign var="ctr" value="`$zone.ctr*100`"}
-        {assign var="cr" value="`$zone.cr*100`"}
-        <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
-        <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
-        <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
+        {if !empty($showStats)}
+            {assign var="ctr" value="`$zone.ctr*100`"}
+            {assign var="cr" value="`$zone.cr*100`"}
+            <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
+            <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
+            <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
+        {/if}
       </tr>
       {/foreach}
     
