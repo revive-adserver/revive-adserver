@@ -270,6 +270,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                                                         'impressions' => 'integer',
                                                         'clicks' => 'integer',
                                                         'revenue' => 'float',
+                                                        'conversions' => 'integer'
                                                         ), $rsStatisticsData);
         } else {
 
@@ -308,6 +309,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                                                         'impressions' => 'integer',
                                                         'clicks' => 'integer',
                                                         'revenue' => 'float',
+                                                        'conversions' => 'integer'
                                                         ), $rsStatisticsData);
         } else {
 

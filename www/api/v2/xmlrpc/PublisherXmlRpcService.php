@@ -301,6 +301,7 @@ class PublisherXmlRpcService extends BasePublisherService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
+                                                                'conversions' => 'integer'
                                                                 ), $rsStatisticsData);
 
         } else {
@@ -342,6 +343,7 @@ class PublisherXmlRpcService extends BasePublisherService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
+                                                                'conversions' => 'integer'
                                                                 ), $rsStatisticsData);
 
         } else {

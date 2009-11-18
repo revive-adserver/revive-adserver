@@ -332,6 +332,7 @@ class BannerXmlRpcService extends BaseBannerService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
+                                                                'conversions' => 'integer'
                                                                 ), $rsStatisticsData);
 
         } else {

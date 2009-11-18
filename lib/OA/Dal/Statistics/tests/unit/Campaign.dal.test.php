@@ -257,6 +257,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 22;
         $doDataSummaryAdHourly->total_revenue = 33;
         $doDataSummaryAdHourly->clicks        = 44;
+        $doDataSummaryAdHourly->conversions   = 55;
         $doDataSummaryAdHourly->date_time     = '1986-04-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
@@ -265,6 +266,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
+        $doDataSummaryAdHourly->conversions   = 50;
         $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone2);
 
@@ -273,6 +275,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
+        $doDataSummaryAdHourly->conversions   = 50;
         $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone3);
 
@@ -304,11 +307,13 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow1, 'requests', 42);
         $this->assertFieldEqual($aRow1, 'revenue', 63);
         $this->assertFieldEqual($aRow1, 'clicks', 84);
+        $this->assertFieldEqual($aRow1, 'conversions', 105);
         $this->assertFieldEqual($aRow1, 'publishername', $doPublisher1->name);
         $this->assertFieldEqual($aRow2, 'impressions', 10);
         $this->assertFieldEqual($aRow2, 'requests', 20);
         $this->assertFieldEqual($aRow2, 'revenue', 30);
         $this->assertFieldEqual($aRow2, 'clicks', 40);
+        $this->assertFieldEqual($aRow2, 'conversions', 50);
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
@@ -354,6 +359,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 22;
         $doDataSummaryAdHourly->total_revenue = 33;
         $doDataSummaryAdHourly->clicks        = 44;
+        $doDataSummaryAdHourly->conversions   = 55;
         $doDataSummaryAdHourly->date_time     = '1986-04-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
@@ -362,6 +368,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
+        $doDataSummaryAdHourly->conversions   = 50;
         $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
@@ -370,6 +377,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
+        $doDataSummaryAdHourly->conversions   = 50;
         $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone2);
 
@@ -403,12 +411,14 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow1, 'requests', 42);
         $this->assertFieldEqual($aRow1, 'revenue', 63);
         $this->assertFieldEqual($aRow1, 'clicks', 84);
+        $this->assertFieldEqual($aRow1, 'conversions', 105);
         $this->assertFieldEqual($aRow1, 'publishername', $doPublisher->name);
         $this->assertFieldEqual($aRow1, 'zonename', $doZone1->zonename);
         $this->assertFieldEqual($aRow2, 'impressions', 10);
         $this->assertFieldEqual($aRow2, 'requests', 20);
         $this->assertFieldEqual($aRow2, 'revenue', 30);
         $this->assertFieldEqual($aRow2, 'clicks', 40);
+        $this->assertFieldEqual($aRow2, 'conversions', 50);
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(

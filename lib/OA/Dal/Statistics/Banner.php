@@ -191,6 +191,7 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 SUM(s.clicks) AS clicks,
                 SUM(s.requests) AS requests,
                 SUM(s.total_revenue) AS revenue,
+                SUM(s.conversions) AS conversions,
                 p.affiliateid AS publisherID,
                 p.name AS publisherName,
                 z.zoneid AS zoneID,
