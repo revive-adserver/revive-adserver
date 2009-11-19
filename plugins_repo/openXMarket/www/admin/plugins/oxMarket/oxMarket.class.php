@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -140,17 +140,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
                 
             if (!$this->isMarketSettingsAlreadyShown()) {
-                $this->setMarketSettingsAlreadyShown();
-                
-                /*on upgrade, provide option to skip on quickaccess screen */    
+                /*on upgrade redirect to campaign quickstart and provide an option to skip the screen */    
                 global $installing, $installerIsUpgrade;
+                
                 if ($installing && $installerIsUpgrade) {
                     global $session;
                     $session['oxMarket-quickstart-params']['showSkip'] = 1;
                     phpAds_SessionDataStore();
+                    $this->setMarketSettingsAlreadyShown();
+                    OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
+                    exit;
                 }
-                OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-campaigns-settings.php');
-                exit;
             }
         }
 

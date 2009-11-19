@@ -70,16 +70,17 @@
       {/if}
       
       {if $isUpgrade}
-      <div class="market-info">
-        <h3>{t str=MarketIntroLongTitle}</h3>
-        <p>{t str=MarketIntroLong}</p>
-        <img class="welcome" src="{$assetPath}/images/market-auction.gif" alt="Market Auction Example">
-      </div>
+        <div class="market-info">
+          <h3>{t str=MarketIntroLongTitle}</h3>
+          <p>{t str=MarketIntroLong}</p>
+          <img class="welcome" src="{$assetPath}/images/market-auction.gif" alt="Market Auction Example">
+        </div>
+      
+        <p>{t str=UpgradeContinueToLogin}</p>
+      {else}
+        <p>{t str=ContinueToLogin}</p>
       {/if}
       
-      
-      <p>{t str=ContinueToLogin}</p>
-    
   
       <form action="" method="post">
           <input type="hidden" name="action" value="finish" >
