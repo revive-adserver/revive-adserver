@@ -107,6 +107,7 @@ class OA_Admin_UI_CampaignZoneLink
         $oTpl->assign('page', $oTopPager->getCurrentPageID());
 
         $oTpl->assign('showStats', $showStats);
+        $oTpl->assign('colspan', ($showStats ? 6 : 3));
 
         return $oTpl;
     }

@@ -57,7 +57,7 @@ $Id$
   {if !empty($topPager->links)}
   <tbody id="select-all-container-{$status}" class="hide">
     <tr class="header">
-      <th colspan="6">
+      <th colspan="{$colspan}">
         <div id="zones-{$status}-select-all" class="selectAllInAccount hide">
           All <em>{$zonescounts.showing}</em> zones on this page selected. <a href="#">Select all <em>{$zonescounts.matching}</em> matching zones from this account.</a>
         </div>
@@ -114,7 +114,7 @@ $Id$
     
     {foreachelse}
     <tr class="empty">
-      <td colspan="5">
+      <td colspan="{$colspan}">
         {t str=NoWebsitesAndZones}
         {if $category}
           {t str=NoWebsitesAndZonesCategory} {$category}
@@ -135,7 +135,7 @@ $Id$
   {if !empty($pager->links)}
   <tfoot class="tableFooter">
       <tr>
-      <td  colspan="6">
+      <td  colspan="{$colspan}">
             <div class="pager">
               <span class="summary">{$pager->summary}</span>
               <span class="controls">{$pager->links}</span>
