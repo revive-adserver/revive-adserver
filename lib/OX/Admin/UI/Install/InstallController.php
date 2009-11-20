@@ -456,7 +456,7 @@ class OX_Admin_UI_Install_InstallController
         
         //process the request
         if ($oForm->isSubmitted() && $oForm->validate()) {
-            if ($this->processDatabaseAction($oForm)) {
+            if ($this->processDatabaseAction($oForm, $oWizard)) {
                 $oWizard->markStepAsCompleted();
                 if (!$oWizard->isStep('configuration')) {
                     $this->redirect('jobs');
@@ -874,8 +874,9 @@ class OX_Admin_UI_Install_InstallController
      * Process input from user and creates/upgrades DB etc....
      *
      * @param OA_Admin_UI_Component_Form $oForm
+     * @param OX_Admin_UI_Install_Wizard $oWizard
      */
-    protected function processDatabaseAction($oForm)
+    protected function processDatabaseAction($oForm, $oWizard)
     {
         $oUpgrader = $this->getUpgrader();
         $upgraderSuccess = false;
@@ -920,6 +921,10 @@ class OX_Admin_UI_Install_InstallController
         
         $dbSuccess = $upgraderSuccess && !$oUpgrader->oLogger->errorExists; 
         if ($dbSuccess) { //show success status
+            // Store market registration data
+            $registerStepData = $oWizard->getStepData('register');
+            OX_Dal_Market_MarketPluginTools::storeMarketAccountAssocData(
+                $registerStepData['accountUuid'], $registerStepData['apiKey']);
             OA_Admin_UI::getInstance()->queueMessage($message, 'global', 'info');
         }
         else { //sth went wrong, display messages from upgrader 
@@ -986,13 +991,7 @@ class OX_Admin_UI_Install_InstallController
             }
         }
         
-        //3) Store market registration data
-        if ($configStepSuccess) {
-            OX_Dal_Market_MarketPluginTools::storeMarketAccountAssocData(
-                $registerStepData['accountUuid'], $registerStepData['apiKey']);
-        }
-        
-        //4) config saved, go ahead and save admin when new install
+        //3) config saved, go ahead and save admin when new install
         if ($configStepSuccess && !$isUpgrade) {
             OA_Permission::switchToSystemProcessUser('Installer');
             // we set the default from: in OpenX emails to the administrator's email
@@ -1009,7 +1008,7 @@ class OX_Admin_UI_Install_InstallController
             OA_Permission::switchToSystemProcessUser(); //get back to normal user previously logged in
         }
         
-        //5) Register admin for updates
+        //4) Register admin for updates
         if ($configStepSuccess && !$isUpgrade) {
             //register admin email for updates (need to take value from register step for that)
             require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
