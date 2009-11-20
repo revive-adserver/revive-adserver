@@ -63,7 +63,9 @@ $append  = !empty($aZone['append']) ? $aZone['append'] : '';
 $title   = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
 
 echo "
-<html>
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
 <title>$title</title>";
 
@@ -83,8 +85,11 @@ if ($aBanner['contenttype'] == 'swf') {
 }
 
 echo "
+<style>
+body {margin:0; height:100%; width:100%}
+</style>
 </head>
-<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
+<body>
 {$prepend}{$html}{$append}
 </body>
 </html>";

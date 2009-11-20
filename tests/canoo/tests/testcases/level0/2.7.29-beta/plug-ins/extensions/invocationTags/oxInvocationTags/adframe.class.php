@@ -157,7 +157,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "?".implode ("&amp;", $mi->parameters);
         }
-        $buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
+        $buffer .= "' frameborder='0' scrolling='no'";
         if (isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1') {
             $buffer .= " width='".$mi->frame_width."'";
         }

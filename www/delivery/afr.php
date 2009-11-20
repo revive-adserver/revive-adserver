@@ -1879,7 +1879,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
 // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
 //
-// Et voil???!
+// Et voil�!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
@@ -4173,7 +4173,9 @@ $banner['html'] = preg_replace('#target\s*=\s*([\'"])_parent\1#i', "target='_top
 $banner['html'] = preg_replace('#target\s*=\s*([\'"])_self\1#i', "target='_parent'", $banner['html']);
 }
 // Build HTML
-$outputHtml = "<html>\n";
+$outputHtml = "<?xml version='1.0' encoding='utf-8'\n";
+$outputHtml .= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
+$outputHtml .= "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n";
 $outputHtml .= "<head>\n";
 $outputHtml .= "<title>".(!empty($banner['alt']) ? $banner['alt'] : 'Advertisement')."</title>\n";
 // Include the FlashObject script if required
@@ -4208,11 +4210,14 @@ $outputHtml .= "\t}\n";
 $outputHtml .= "// ]]> -->\n";
 $outputHtml .= "</script>\n";
 }
+$outputHtml .= "<style>\n";
+$outputHtml .= "body {margin:0; height:100%; background-color:transparent; width:100%; text-align:center;}\n";
+$outputHtml .= "</style>\n";
 $outputHtml .= "</head>\n";
 if (isset($resize) && $resize == 1) {
-$outputHtml .= "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;' onload=\"MAX_adjustframe(window);\">\n";
+$outputHtml .= "<body onload=\"MAX_adjustframe(window);\">\n";
 } else {
-$outputHtml .= "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;'>\n";
+$outputHtml .= "<body>\n";
 }
 $outputHtml .= $banner['html'];
 $outputHtml .= "\n</body>\n";

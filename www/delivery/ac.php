@@ -1879,7 +1879,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
 // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
 //
-// Et voil???!
+// Et voil�!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
@@ -4159,7 +4159,9 @@ $html    = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
 $append  = !empty($aZone['append']) ? $aZone['append'] : '';
 $title   = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
 echo "
-<html>
+<?xml version='1.0' encoding='utf-8'
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
 <title>$title</title>";
 if ($timeout > 0) {
@@ -4176,8 +4178,11 @@ if ($aBanner['contenttype'] == 'swf') {
 echo MAX_flashGetFlashObjectExternal();
 }
 echo "
+<style>
+body {margin:0; height:100%; width:100%}
+</style>
 </head>
-<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
+<body>
 {$prepend}{$html}{$append}
 </body>
 </html>";
