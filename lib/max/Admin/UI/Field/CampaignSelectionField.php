@@ -41,7 +41,7 @@ class Admin_UI_CampaignSelectionField extends Admin_UI_Field
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $aParams['publisher_id'] = OA_Permission::getEntityId();
         }
-      
+        $aParams += $this->coreParams;
         $aPlacements = Admin_DA::getPlacements($aParams, true);
         $aPlacements = $this->multiSort($aPlacements, "name", true);
 

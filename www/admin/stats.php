@@ -177,8 +177,6 @@ if (PEAR::isError($oStatsController)) {
     phpAds_Die('Error occured', htmlspecialchars($oStatsController->getMessage()));
 }
 
-require_once MAX_PATH . '/www/admin/market/stats.php';
-$oStatsController->addPlugin('openxMarket', new OX_oxMarket_Stats());
 $oStatsController->start();
 
 // Export to XLS...

@@ -62,6 +62,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     var $pageId;
 
+    
     /**
      * An arry of page ID "numbers" (eg. "2.1.1, 2.1.2, 2.1.3"), including
      * the page itself {@see $this->pageId} that should be on the navigation
@@ -335,15 +336,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $this->$k = $v;
             }
         }
-        $do = OA_Dal::factoryDO('Clients');
-        $do = OA_Dal::factoryDO('Campaigns');
-        $coreParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.','.
-                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN.','.
-                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT.','.
-                                    DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
-        $coreParams['advertiser_type'] =    DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.','.
-                                        DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-        $this->coreParams = $coreParams;
+        $this->coreParams = self::getCoreParams();
         
         $this->strMarketCampaignOptin = $GLOBALS['strMarketCampaignOptin'];
         $this->strMarketZoneOptin = $GLOBALS['strMarketZoneOptin'];
@@ -410,6 +403,26 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         }
     }
 
+    /**
+     * Returns the $aParams to include Market entities in the DAL returned values.
+     * @return array to be merged with $aParams
+     */
+    static function getCoreParams()
+    {
+        $coreParams = array();
+        $marketPluginEnabled = ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] ? true : false);
+        if($marketPluginEnabled) {
+            $do = OA_Dal::factoryDO('Clients');
+            $do = OA_Dal::factoryDO('Campaigns');
+            $coreParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.','.
+                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN.','.
+                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT.','.
+                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
+            $coreParams['advertiser_type'] =    DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.','.
+                                            DataObjects_Clients::ADVERTISER_TYPE_MARKET;
+        }
+        return $coreParams;
+    }
     /**
      * PHP4-style constructor
      *

@@ -58,6 +58,12 @@ class OA_Admin_Statistics_Factory
         PEAR::pushErrorHandling(null);
         $oStatsController = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         PEAR::popErrorHandling();
+        
+        $marketPluginEnabled = ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] ? true : false);
+        if($marketPluginEnabled) {
+            require_once MAX_PATH . '/www/admin/market/stats.php';
+            $oStatsController->addPlugin('openxMarket', new OX_oxMarket_Stats());
+        }
         return $oStatsController;
     }
 

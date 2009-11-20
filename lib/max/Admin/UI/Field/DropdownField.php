@@ -46,6 +46,7 @@ class Admin_UI_DropdownField extends Admin_UI_Field
      */
     function Admin_UI_DropdownField($aFieldSelectionNames = array(), $fieldSelectionDefault = '')
     {
+        parent::__construct();
         $this->_fieldSelectionNames = $aFieldSelectionNames;
         $this->_value = new OA_Admin_DaySpan($fieldSelectionDefault);
     }

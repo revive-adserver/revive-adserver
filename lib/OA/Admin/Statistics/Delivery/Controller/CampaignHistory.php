@@ -163,6 +163,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             phpAds_PageHeader('2'); 
             // Check if advertiser (clientid) exist
             if (0 == count(Admin_DA::getPlacements(
+                $this->coreParams +
                     array(  'advertiser_id' => $advertiserId)))) {
                 phpAds_Die($GLOBALS['strDeadLink'], str_replace('{link}', 'stats.php', $GLOBALS['strNoAdvertiser']));
             } else {

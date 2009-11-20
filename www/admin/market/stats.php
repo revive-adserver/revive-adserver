@@ -1,5 +1,8 @@
 <?php
 
+//$c = new OX_oxMarket_Stats_Migration();
+//$c->migrateFromPre283();
+//exit;
 $GENERATE_MARKET_STATS = false;
 
 if($GENERATE_MARKET_STATS) {
@@ -169,7 +172,7 @@ class OX_oxMarket_Stats_Migration
     function migrateFromPre283()
     {
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $query = '	INSERT INTO '.OX_oxMarket_Stats::getTableName().'
+        $query = '	INSERT INTO '.$prefix.OX_oxMarket_Stats::MARKET_STATS_TABLE.'
                     SELECT date_time, 
                     		NULL as market_advertiser_id, 
                     		t.width as ad_width, 
@@ -194,7 +197,8 @@ class OX_oxMarket_Stats_Migration
                     WHERE t4.type = 1
                     AND t5.type=1
                     ';
-		
+        $oDbh = OA_DB::singleton();
+        $rows = $oDbh->query($query);
 
     }
 }

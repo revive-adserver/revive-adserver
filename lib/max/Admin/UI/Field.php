@@ -32,6 +32,8 @@ define ('FILTER_ZONE_INVENTORY_COUNTRY_INDEXED',3);
 define ('FILTER_ZONE_INVENTORY_SOURCE_INDEXED',4);
 define ('FILTER_ZONE_INVENTORY_CHANNEL_INDEXED',5);
 
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
+
 /**
  * Abstract data field object, used to supply reports, statistics, and other admin UI screens with parameters.
  *
@@ -53,6 +55,10 @@ class Admin_UI_Field
     /* @var integer */
     var $_filter;
 
+    function __construct()
+    {
+        $this->coreParams = OA_Admin_Statistics_Common::getCoreParams();
+    }
 
     function setName($name)
     {

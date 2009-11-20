@@ -593,6 +593,8 @@ class SqlBuilder
             if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+            // never return the Market ad entity (in stats, UI)
+            $aLimitations[] = "d.ext_bannertype <> 'market-optin-banner'";
             break;
 
         case 'advertiser' :

@@ -55,6 +55,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                          $aFieldSelectionNames = null
                         )
     {
+        parent::__construct();
         if (is_null($aFieldSelectionNames)) {
             $aFieldSelectionNames = $this->getDefaultSelectionNames();
         }
