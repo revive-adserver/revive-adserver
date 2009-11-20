@@ -94,10 +94,10 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
             var_dump('mmarket ROW');
             var_dump($method);
             var_dump($aParams);
-//            echo "Core stats rows:";
-//            var_dump($aRows);
-//            echo "Returned market stats rows:";            
-//            var_dump($this->marketRows);
+            echo "Core stats rows:";
+            var_dump($aRows);
+            echo "Returned market stats rows:";            
+            var_dump($this->marketRows);
         }
         $aParams['market_stats'] = true;
         $aParams['custom_table'] = OX_oxMarket_Stats::MARKET_STATS_TABLE;
@@ -122,8 +122,6 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
             $aParams['market_stats_including_zone_zero'] = true;
     
             $this->marketRowsOnlyZoneZero = Admin_DA::fromCache($method, $aParams);
-//            var_dump('ROW ZERO');
-//            var_dump($this->marketRowsOnlyZoneZero);
             foreach($this->marketRowsOnlyZoneZero as &$row) {
                 $row['zone_id'] = $row['publisher_id'].'-'.$row['zone_id'];
             }

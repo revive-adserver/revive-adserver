@@ -97,6 +97,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function updateEcpmEnabledByAgency($agencyId)
     {
+        $do = OA_Dal::factoryDO('Campaigns');
         $aUpdatedCampaigns = array();
         $aCampaigns = $this->getAllCampaignsUnderAgency($agencyId, 'name', 'up');
         foreach ($aCampaigns as $campaignId => $aCampaign) {

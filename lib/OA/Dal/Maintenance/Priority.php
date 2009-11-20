@@ -308,9 +308,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $priority = (int) $priority;
         $table = $this->_getTablenameUnquoted('campaigns');
+        $do = OA_Dal::factoryDO('Campaigns');
         $aWheres = array(
         array("$table.priority = " . $priority, 'AND'),
         array("$table.ecpm_enabled = 1", 'AND'),
+        array("$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'),
         array("$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'),
         );
         return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
