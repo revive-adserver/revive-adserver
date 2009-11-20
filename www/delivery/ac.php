@@ -4178,7 +4178,7 @@ if ($aBanner['contenttype'] == 'swf') {
 echo MAX_flashGetFlashObjectExternal();
 }
 echo "
-<style>
+<style type='text'/css'>
 body {margin:0; height:100%; width:100%}
 </style>
 </head>

@@ -4210,7 +4210,7 @@ $outputHtml .= "\t}\n";
 $outputHtml .= "// ]]> -->\n";
 $outputHtml .= "</script>\n";
 }
-$outputHtml .= "<style>\n";
+$outputHtml .= "<style type='text/css'>\n";
 $outputHtml .= "body {margin:0; height:100%; background-color:transparent; width:100%; text-align:center;}\n";
 $outputHtml .= "</style>\n";
 $outputHtml .= "</head>\n";
