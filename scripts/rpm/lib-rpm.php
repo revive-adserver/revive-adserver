@@ -106,6 +106,9 @@ function unpackPlugin($pluginName)
  */
 function upgradePlugin($pluginName, $disabled = true)
 {
+    // Log in as the admin user for auditing purposes
+    OA_Upgrade_Login::autoLogin();
+    
     $result = array();
     if (!array_key_exists($pluginName, $GLOBALS['_MAX']['CONF']['plugins'])) {
        //echo "Installing Plugin $pluginName\n";
