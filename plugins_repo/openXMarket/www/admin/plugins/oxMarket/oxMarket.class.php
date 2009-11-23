@@ -124,9 +124,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     public function afterLogin()
     {
+        // check if proper version of onEnable was called (hack for OX-5823)
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $value = $oPluginSettings->findAndGetValue(0, 'ON_ENABLE_VERSION');
+        if ($value != 1) { // hardcoded value for onEnable version
+            $this->onEnable();
+        }
+        
+    
         // Just unsets a cookie, so need to do it before any content is possibly output
         OX_oxMarket_UI_CampaignsSettings::removeSessionCookies($this->getCookiePath());
-                
+        
         // Try to link hosted accounts for current user
         $this->linkHostedAccounts();
         
@@ -182,6 +190,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     public function onEnable()
     {
+        // onEnable was called 
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $oPluginSettings->insertOrUpdateValue(0, 'ON_ENABLE_VERSION', 1); // hardcoded value for onEnable version
+        
         // Run autoregister method first
         try {
             require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
@@ -236,6 +248,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         $this->removeRegisterNotification();
         $this->removeEarnMoreNotification();
+        
+        // delete onEnable market
+        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+        $oPluginSettings->findByAccountIdAndName(0, 'ON_ENABLE_VERSION');
+        $oPluginSettings->delete();
 
         return true;
     }
