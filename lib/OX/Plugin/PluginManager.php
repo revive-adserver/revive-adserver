@@ -130,7 +130,17 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return $this->aParse['plugins'];
     }
 
-    function upgradePackage($aFile, $name)
+    function _setParsedPluginVersionsFromDB()
+    {
+        foreach ($this->aParse['plugins'] as $idx => $aGroup) {
+            $dbVersion = $this->getComponentGroupVersion($aGroup['name']);
+            if (!empty($dbVersion)) {
+                $this->aParse['plugins'][$idx]['version'] = $dbVersion;
+            }
+        }
+    }
+    
+    function upgradePackage($aFile, $name, $allowEqualVersion = false)
     {
         $this->_switchToPluginLog();
         try {
@@ -151,6 +161,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 throw new Exception('Failed to parse the current plugins in package '.$name);
             }
+            $this->_setParsedPluginVersionsFromDB();
             $aPluginsOld = $this->_getParsedPlugins();
             $this->aParse = array();
 
@@ -171,7 +182,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->previousVersionInstalled = OX_PLUGIN_NEWER_VERSION_INSTALLED;
                 throw new Exception('Upgrade package '.$aPackageNew['name'].'" has a version stamp that is older than that of the package you have installed');
             }
-            elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'=='))
+            elseif (version_compare($aPackageOld['version'],$aPackageNew['version'],'==') && !$allowEqualVersion)
             {
                 $this->previousVersionInstalled = OX_PLUGIN_SAME_VERSION_INSTALLED;
                 throw new Exception('Upgrade package '.$aPackageNew['name'].'" has the same version stamp as that of the package you have installed');

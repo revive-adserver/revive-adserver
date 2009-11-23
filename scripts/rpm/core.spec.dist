@@ -1,0 +1,55 @@
+Name: openx-core
+Summary: OpenX Core System
+Version: {VERSION}
+Release: {BUILD}
+Group: System Environment/Base
+buildarch: noarch
+License: Commercial
+Requires: php-mysql
+Requires: php-cli
+Requires: php
+
+%description
+This package includes all the codes for openx download.
+If the client is the config master, the rpm build process
+will also upgrade database and the configuration file
+
+%pre
+if [ -L {DOCROOT}/openx ]; then
+  OLDPATH=`readlink {DOCROOT}/openx`
+  OLDPATH=`basename $OLDPATH`
+  if [ -d {DOCROOT}/openx.prev ]; then
+    rm -rf {DOCROOT}/openx.prev
+  fi
+  rsync -a {DOCROOT}/$OLDPATH/ {DOCROOT}/openx.prev/ 
+elif [ -d {DOCROOT}/openx ]; then
+    rm -rf {DOCROOT}/openx
+fi
+
+%post
+PHP=`which php`
+cd {DOCROOT}
+ln -snf {FOLDER} openx
+if [ -d {DOCROOT}/openx.prev ]; then
+  cp -p {DOCROOT}/openx.prev/var/*.conf.php {DOCROOT}/openx/var/ 2>/dev/null
+fi
+echo $PHP {DOCROOT}/openx/scripts/rpm/core-upgrade.php default
+$PHP {DOCROOT}/openx/scripts/rpm/core-upgrade.php default
+
+chmod -f -R a+w {DOCROOT}/openx/var 2>/dev/null
+chmod -f -R a+w {DOCROOT}/openx/plugins 2>/dev/null
+chmod -f -R a+w {DOCROOT}/openx/www/admin/plugins 2>/dev/null
+chmod -f -R a+w {DOCROOT}/openx/www/images 2>/dev/null
+#chmod -f a-w {DOCROOT}/openx/var/*.conf.php 2>/dev/null
+
+%preun
+rm -rf {DOCROOT}/{FOLDER}/var/cache/*
+rm -rf {DOCROOT}/{FOLDER}/var/templates_compiled/*
+rm -rf {DOCROOT}/{FOLDER}/var/*.log
+
+%files
+{DOCROOT}/{FOLDER}
+
+%changelog
+* Mon Jul 27 2009 Lun Li <lun.li@openx.org>
+- initial build

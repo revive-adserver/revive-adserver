@@ -327,7 +327,7 @@ class OA_Admin_Settings
             $file = $configPath . '/default' . $configFile . '.conf.php';
             $aConfig = array('realConfig' => $newDeliveryHost);
             if (!$this->writeConfigArrayToFile($file, $aConfig)) {
-                return false;
+                OA::debug('Unable to write default.conf.php file (check file/folder permissions', PEAR_LOG_DEBUG);
             }
         } else {
             OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_DEBUG);

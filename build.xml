@@ -5,6 +5,7 @@
   <property name="origin" value=""/>
   <property file="devel.properties"/>
   <property file="etc/version.properties"/>
+  <property name="rpm.basepath" value="opt/ox/adserver" />
 
   <!-- Import the include/exclude filelist -->
   <import file="build-filelist.xml"/>
@@ -157,7 +158,33 @@
     <zip destfile="${dir.test.results}/${release}${origin}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip"/>
+  <target name="package-rpm" depends="prepare-version-info">
+    <fail unless="build" message="You must specify a build number # when building an RPM package e.g. -Dbuild=1" />
+    <copy file="${basedir}/scripts/rpm/core.spec.dist" tofile="${basedir}/scripts/rpm/core.spec" overwrite="true" />
+    <replace file="${basedir}/scripts/rpm/core.spec" token="{VERSION}" value="${openx.version.major}.${openx.version.minor}.${openx.version.revision}.${openx.version.rc}"/>
+    <replace file="${basedir}/scripts/rpm/core.spec" token="{BUILD}" value="${build}"/>
+    <replace file="${basedir}/scripts/rpm/core.spec" token="{DOCROOT}" value="/${rpm.basepath}"/>
+    <replace file="${basedir}/scripts/rpm/core.spec" token="{FOLDER}" value="${release}"/>
+    
+    <!-- Relocate the files into the desired output path -->
+    <mkdir dir="${dir.test.results}/rpm/buildroot/${rpm.basepath}"/>
+    <move file="${dir.test.results}/${release}" toDir="${dir.test.results}/rpm/buildroot/${rpm.basepath}" />
+    
+    <mkdir dir="${dir.test.results}/rpm/builddir/RPMS/noarch"/>
+    <exec dir="${basedir}/scripts/rpm" executable="rpmbuild" failonerror="true">
+      <arg value="-bb" />
+      <arg value="--buildroot" />
+      <arg value="${dir.test.results}/rpm/buildroot" />
+      <arg value="${basedir}/scripts/rpm/core.spec" />
+    </exec>
+
+    <!-- clean up -->
+    <move file="${dir.test.results}/rpm/buildroot/${rpm.basepath}/${release}" toDir="${dir.test.results}/" />
+    <delete dir="${dir.test.results}/rpm/buildroot/${rpm.basepath}/${release}" />
+  </target>
+
+  <target name="package" depends="prepare-distribution, package-rpm"/>
+<!--  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip"/> -->
 
   <target name="write-origin-id" depends="prepare-version-info" if="originid">
     <echo message="${originid}" file="${dir.test.results}/${release}/etc/origin.txt" append="no"/>

@@ -1,0 +1,49 @@
+Name: {PLUGIN_NAME}
+Summary: OpenX Plugin = {PLUGIN_NAME}
+Version: {VERSION}
+Release: {BUILD}
+Group: System Environment/Base
+buildarch: noarch
+License: Commercial
+requires: openx-core
+
+%description
+This package will install {PLUGIN_NAME} into the (installed) OpenX
+
+%pre
+
+%post
+
+OPENX={DOCUMENT_ROOT}/openx
+
+PLUGIN={PLUGIN_NAME}
+
+PHP=`which php`
+
+# Make sure config files are writable before beginning the plugin install
+chmod -f a+w $OPENX/var/*.conf.php
+
+# Rename the file to remove the version number from the plugin.zip
+mv $OPENX/etc/plugins/{PLUGIN_NAME}-{VERSION}.zip $OPENX/etc/plugins/{PLUGIN_NAME}.zip
+
+# install this plugin (disabled) into the application
+if [ ! -e $OPENX ]; then
+    echo "Openx is not installed previous, Please install it through UI\n";
+    exit;
+fi
+$PHP $OPENX/scripts/rpm/plugin-upgrade.php default $PLUGIN
+    
+# Make sure plugin files are writable
+chmod -f -R a+w $OPENX/var
+chmod -f -R a+w $OPENX/plugins
+chmod -f -R a+w $OPENX/www/admin/plugins
+chmod -f -R a+w $OPENX/www/images
+# and config files are unwritable
+#chmod -f a-w $OPENX/var/*.conf.php
+
+%files
+{DOCUMENT_ROOT}/openx/etc/plugins/{PLUGIN_NAME}-{VERSION}.zip
+
+%changelog
+* Mon Jul 27 2009 Lun Li <lun.li@openx.org>
+- initial build
