@@ -100,7 +100,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         
         //cookie section 
         $aEnvCookie = $aSysInfo['COOKIES'];
-        $aSection = $this->buildCheckSection($aEnvCookie, 'Cookies');        
+        $aSection = $this->buildCheckSection($aEnvCookie,  $GLOBALS['strBrowserCookies']);        
         $aSection['checks']['enabled'] = $this->buildCheckEntry('enabled', $aEnvCookie, true, 'OK', 'DISABLED');
         $aSection = $this->buildCheckSectionMessages($aEnvCookie, $aSection);
         $aResult['cookies'] = $aSection;
@@ -110,7 +110,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         //for some reason installer discards timzone check and does its own..
         $timezone = OX_Admin_Timezones::getTimezone();
         $timezoneErr = 'System/Localtime' == $timezone;
-        $aSection = $this->buildCheckSection($aEnvPhp, 'PHP');        
+        $aSection = $this->buildCheckSection($aEnvPhp, $GLOBALS['strPHPConfiguration']);        
         $aSection['hasWarning'] = $timezoneErr; 
         $aSection['checks']['timezone'] =  array(
             'name' => 'timezone', 
@@ -166,11 +166,11 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             $aSection['checks'][$aVal['file']] = array(
                 'name' => $aVal['file'],
                 'value'=> $aVal['result'],
+                'errors'=> empty($aVal['message']) ? null : array($aVal['message']),
                 'hasError' => $aVal['error']
             );
         }
         $aSection = $this->buildCheckSectionMessages($aEnvPerms, $aSection);                
-        
         $aResult['perms'] = $aSection;
         
         foreach ($aResult as $aSection) {
@@ -185,8 +185,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
     
     
     /**
-     * Builds title for the section, conditionally appending error string to
-     * it if errors occured. Also, adds meta info if section contains errors
+     * Builds title for the section. Also, adds meta info if section contains errors
      * or warnings.
      *
      * @param array $aSysInfoPart part of OA_UPRGADE->checkSystem result
@@ -198,11 +197,9 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection = array();
         $aSection['header'] = $title;
         if(empty($aSysInfoPart['error'])) {
-            $aSection['header'].=' - OK';
             $aSection['hasError'] = false;
         }
         else {
-            $aSection['header'].=' - errors detected';
             $aSection['hasError'] = true;
         }
         $aSection['hasWarning'] = !empty($aSysInfoPart['warning']);
@@ -210,11 +207,60 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         return $aSection;
     }
     
+
+    
+    /**
+     * Updates section header appending error, warning, OK count. 
+     *
+     * @param array $aSysInfoPart
+     * @param array $aSection
+     * @return array updated $aSection
+     */
+    protected function updateSectionHeader($aSysInfoPart, $aSection)
+    {
+        $errCount = 0;
+        $warnCount = 0;
+        foreach ($aSection['checks'] as $check) {
+            if ($check['hasError'] || count($check['errors'])) {
+                $errCount++;
+            }
+            if ($check['hasWarning'] || count($check['warnings'])) {
+                $warnCount++;
+            }     
+        }
+        
+        $aSection['errCount'] = $errCount; 
+        $aSection['warnCount'] = $warnCount;
+        $okCount = count($aSection['checks']) - $errCount - $warnCount;
+        
+        $aStatus = array();
+        if ($errCount) {
+            $aStatus[] = " $errCount ".($errCount > 1 ? $GLOBALS['strCheckErrors'] : $GLOBALS['strCheckError']);
+        }
+        if ($warnCount) {
+            $aStatus[] = " $warnCount ".($warnCount > 1 ? $GLOBALS['strCheckWarnings'] : $GLOBALS['strCheckWarning']);
+        }
+        if ($okCount) {
+            $aStatus[] = " $okCount OK";
+        }
+        
+        $aSection['header'].= " - ".join(', ', $aStatus);
+        
+//        echo "<pre>";
+//        var_dump($aSection);
+//        echo "</pre>";        
+        
+        return $aSection;
+    }
+    
+    
     
     /**
      * Collects any section level warnings and errors (ie. ones which have not been
      * associated with a particular check) and updates given $aSection check model
      * with appropriate settings.
+     * 
+     * Also updates section header appending error, warning, OK count. 
      *
      * @param array $aSysInfoPart
      * @param array $aSection
@@ -239,6 +285,8 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
                 $aSection['infos'][$key] = $infoMessage;
             }
         }
+        
+        $aSection = $this->updateSectionHeader($aSysInfoPart, $aSection);
         
         return $aSection;
     }

@@ -58,7 +58,10 @@
         var settings = $.extend({}, defaults, options);
         $syscheck = $("ul.syscheck");
         $fullView = $("#full-view");
+        $shortView = $("#short-view");
         $checkForm = $("#checkForm");
+        $detailLinks = $(".detail-control  .detailed");
+        $compactLinks = $(".detail-control  .compact");
         
         init();
         
@@ -77,9 +80,23 @@
                 });
             }
         
+            $detailLinks.click(function() {
+                updateCheckTable.call(this, true);
+                return false;
+            });
+                  
+            $compactLinks.click(function() {
+                updateCheckTable.call(this, false);
+                return false;
+            });
+        
             $fullView.click(function() {
-                updateCheckTable(true);
-                $fullView.hide();
+                updateCheckTable.call(this, true);
+                return false;
+            });
+            
+            $shortView.click(function() {
+                updateCheckTable.call(this, false);
                 return false;
             });
             
@@ -89,11 +106,27 @@
         function updateCheckTable(fullView)
         {
             if (fullView) {
-              $syscheck.find("li.checkSection, li.checkItem").show();
+              $syscheck.find("li.checkSection, li.checkItem, tr.checkItem").show();
+              $detailLinks.hide();
+              $compactLinks.filter(function() {
+                return $(this).parents('.checkSection:visible').length > 0;
+              }).filter(":first").show();
+              
+              $fullView.hide();
+              $shortView.show();
             }
             else {
-              $syscheck.find("li.checkSection, li.checkItem").hide();
-              $syscheck.find("li.hasError,li.hasWarning").show();
+              $syscheck.find("li.checkSection, li.checkItem, tr.checkItem").hide();
+              $syscheck.find("li.hasError,li.hasWarning, tr.hasError, tr.hasWarning").show();
+
+              $detailLinks.filter(function() {
+                return $(this).parents('.checkSection:visible').length > 0;
+              }).filter(":first").show();
+
+              $compactLinks.hide();
+              
+              $fullView.show();
+              $shortView.hide();
             }
         
         }        

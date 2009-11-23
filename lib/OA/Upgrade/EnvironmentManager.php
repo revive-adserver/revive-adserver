@@ -266,9 +266,10 @@ class OA_Environment_Manager
             }
             if (!$this->checkFilePermission($aFile['file'], $aFile['recurse']))
             {
-                $aFile['result'] = 'NOT writeable';
+                $aFile['result'] = $GLOBALS['strNotWriteable'];
                 $aFile['error']  = true;
                 $aFile['string'] = ($aFile['recurse'] ? 'strErrorFixPermissionsRCommand' : 'strErrorFixPermissionsRCommand');
+                $aFile['message'] = $GLOBALS['strDirNotWriteableError'];
             }
             $aErrors[] = $aFile;
         }
@@ -481,6 +482,11 @@ class OA_Environment_Manager
                 .'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout']
                 .' which may cause problems with functionality such as maintenance';
         }
+        
+        if (!empty($this->aInfo['PHP']['error'])) {
+            $this->aInfo['PHP']['error']['badPhpConfiguration'] = $GLOBALS['strSystemCheckBadPHPConfig'];
+        }
+        
 
         return $result;
     }

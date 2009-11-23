@@ -21,143 +21,126 @@
     <ul class="syscheck">
       {foreach from=$aChecks item=section}
       <li class="checkSection {if $section.hasError}hasError{elseif $section.hasWarning}hasWarning{/if}">
-        <h4 class="header {if $section.hasError}error{/if}"><span class="inlineIcon {if $section.hasError}iconCheckErr{else}iconCheckOK{/if}">{$section.header}</span></h4>
-        <ul class="check-list">
-          {* display any general section errors/warnings not directly associated with particular check *}
-          {if $section.errors} 
-            <li class="section-error hasError">
-              <div class="messageContainer">
-                <div class="body error">
-                    {if $section.errors|@count > 1}
-                      <ol>
-                      {foreach from=$section.errors item=error}
-                          <li>- {$error}</li>
-                      {/foreach}
-                      </ol>
-                    {else}
-                      {foreach from=$section.errors item=error} {*it's one anyway*}
-                        {$error}
-                      {/foreach}
-                    {/if}
-                </div>
-              </div>
-            </li>
-          {/if}
-          {if $section.warnings}
-            <li class="section-warning hasWarning">
-              <div class="messageContainer">
-                <div class="body warning">
-                    {if $section.warnings|@count > 1}
-                      <ol>
-                      {foreach from=$section.warnings item=warning}
-                          <li>- {$warning}</li>
-                      {/foreach}
-                      </ol>
-                    {else}
-                      {foreach from=$section.warnings item=warning} {*it's one anyway*}
-                        {$warning}
-                      {/foreach}
-                    {/if}
-                </div>
-              </div>
-            </li>
-          {/if}
-          {if $section.infos}
-            <li class="section-info">
-              <div class="messageContainer">
-                <div class="body info">
-                    {if $section.infos|@count > 1}
-                      <ol>
-                      {foreach from=$section.infos item=info}
-                          <li>- {$info}</li>
-                      {/foreach}
-                      </ol>
-                    {else}
-                      {foreach from=$section.infos item=info} {*it's one anyway*}
-                        {$info}
-                      {/foreach}
-                    {/if}
-                </div>
-              </div>
-            </li>
-          {/if}
+        <h4 class="header {if $section.hasError}error{/if}"><span class="detail-control"><a href="#" class="detailed hide">{t str=SyscheckSeeFullReport}</a> <a href="#" class="compact hide">{t str=SyscheckSeeShortReport}</a></span><span class="inlineIcon {if $section.hasError}iconCheckErr{else}iconCheckOK{/if}">{$section.header}</span></h4>
         
-          {* display particular checks *}       
-          {foreach from=$section.checks item=check}
-            <li class="checkItem {if $check.hasError}check-error hasError{elseif $check.hasWarning}check-warning hasWarning{/if}">
-              <div class="check">
-                <span class="name">{$check.name}</span>
-                <span class="res"><span class="inlineIcon inlineIconRight {if $check.hasError}iconCheckErr{elseif $check.hasWarning}iconCheckWarn{else}iconCheckOK{/if}">{$check.value}</span></span>
+        {* display any general section errors/warnings not directly associated with particular check *}
+        <ul class="check-list">
+        {if $section.errors} 
+          <li class="section-error hasError">
+            <div class="messageContainer">
+              <div class="body error">
+                  {if $section.errors|@count > 1}
+                    <ol>
+                    {foreach from=$section.errors item=error}
+                        <li>- {$error}</li>
+                    {/foreach}
+                    </ol>
+                  {else}
+                    {foreach from=$section.errors item=error} {*it's one anyway*}
+                      {$error}
+                    {/foreach}
+                  {/if}
               </div>
-              {if $check.hasError && $check.errors}
-                <div class="messageContainer">
-                  <div class="body error">
-                      <div class="type">Error</div>
-                      <div class="message">
-                      {if $check.errors|@count > 1}
-                        <ol>
-                        {foreach from=$check.errors item=error}
-                            <li>- {$error}</li>
-                        {/foreach}
-                        </ol>
-                      {else}
-                        {foreach from=$check.errors item=error} {*it's one anyway*}
-                          {$error}
-                        {/foreach}
-                      {/if}
-                      </div>
-                  </div>
-                </div>
-              {/if}
-              {if $check.hasWarning && $check.warnings}
-                <div class="messageContainer">
-                  <div class="body warning">
-                      <div class="type">Warning</div>
-                      <div class="message">
-                      {if $check.warnings|@count > 1}
-                        <ol>
-                        {foreach from=$check.warnings item=warning}
-                            <li>- {$warning}</li>
-                        {/foreach}
-                        </ol>
-                      {else}
-                        {foreach from=$check.warnings item=warning} {*it's one anyway*}
-                          {$warning}
-                        {/foreach}
-                      {/if}
-                      </div>
-                  </div>
-                </div>
-              {/if}
-              {if $check.hasInfo && $check.infos}
-                <div class="messageContainer">
-                  <div class="body info">
-                      <div class="type">Info</div>
-                      <div class="message">
-                      {if $check.infos|@count > 1}
-                        <ol>
-                        {foreach from=$check.infos item=info}
-                            <li>- {$info}</li>
-                        {/foreach}
-                        </ol>
-                      {else}
-                        {foreach from=$check.infos item=info} {*it's one anyway*}
-                          {$info}
-                        {/foreach}
-                      {/if}
-                      </div>
-                  </div>
-                </div>
-              {/if}
-              
-            </li>
-          {/foreach}
+            </div>
+          </li>
+        {/if}
+        {if $section.warnings}
+          <li class="section-warning hasWarning">
+            <div class="messageContainer">
+              <div class="body warning">
+                  {if $section.warnings|@count > 1}
+                    <ol>
+                    {foreach from=$section.warnings item=warning}
+                        <li>- {$warning}</li>
+                    {/foreach}
+                    </ol>
+                  {else}
+                    {foreach from=$section.warnings item=warning} {*it's one anyway*}
+                      {$warning}
+                    {/foreach}
+                  {/if}
+              </div>
+            </div>
+          </li>
+        {/if}
+        {if $section.infos}
+          <li class="section-info">
+            <div class="messageContainer">
+              <div class="body info">
+                  {if $section.infos|@count > 1}
+                    <ol>
+                    {foreach from=$section.infos item=info}
+                        <li>- {$info}</li>
+                    {/foreach}
+                    </ol>
+                  {else}
+                    {foreach from=$section.infos item=info} {*it's one anyway*}
+                      {$info}
+                    {/foreach}
+                  {/if}
+              </div>
+            </div>
+          </li>
+        {/if}
         </ul>
+        
+        
+        <div class="tableContainer">
+          <table>
+              <thead>
+                  <tr>
+                      <th class="first name">{t str=SyscheckName}</th>
+                      <th class="value">{t str=SyscheckValue}</th>
+                      <th class="status">{t str=SyscheckStatus}</th>
+                  </tr>
+              </thead>
+              
+              <tbody>
+                {* display particular checks *}       
+                {foreach from=$section.checks item=check}
+                <tr class="checkItem {if $check.hasError}check-error hasError{elseif $check.hasWarning}check-warning hasWarning{/if}">
+                  <td class="first">
+                    <span class="name">{$check.name}</span>
+                    {if $check.hasError && $check.errors}
+                        {assign var='messages' value=$check.errors}
+                    {elseif $check.hasWarning && $check.warnings}
+                        {assign var='messages' value=$check.warnings} 
+                    {elseif $check.hasInfo && $check.infos}
+                        {assign var='messages' value=$check.infos}
+                    {else}    
+                        {assign var='messages' value=null}
+                    {/if}                    
+                      
+                    {if $messages}
+                      <div class="message">
+                        {if $messages|@count > 1}
+                          <ol>
+                          {foreach from=$messages item=message}
+                              <li>- {$message}</li>
+                          {/foreach}
+                          </ol>
+                        {else}
+                          {foreach from=$messages item=message} {*it's one anyway*}
+                            {$message}
+                          {/foreach}
+                        {/if}
+                      </div>
+                    {/if}
+                  </td>
+  
+                  <td class="value">{$check.value}</td>  
+                  
+                  <td class="status" title="{if $check.hasError}{t str=Error}{elseif $check.hasWarning}{t str=Warning}{else}{t str=OK}{/if}">
+                      <span class="inlineIcon {if $check.hasError}iconCheckErr{elseif $check.hasWarning}iconCheckWarn{else}iconCheckOK{/if}">&nbsp;</span>
+                  </td>  
+                </tr>
+                {/foreach}
+              </tbody>
+          </table>
+        </div>
       </li>
       {/foreach}      
     </ul>
-    <p><a id="full-view" href="#">See detailed system check</a></p>
-  
     
     <form action="" method="post" id="checkForm">
         <input type="hidden" name="action" value="check" >

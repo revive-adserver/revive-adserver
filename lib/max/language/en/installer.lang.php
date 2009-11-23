@@ -54,6 +54,20 @@ $GLOBALS['strAppCheckDbIntegrityError']        = "We have detected integrity iss
                                                   differs from what we expect it to be. This could be due to customization of your database.";
 
 $GLOBALS['strSyscheckProgressMessage']         = "Checking system parameters...";
+$GLOBALS['strError']                           = "Error";
+$GLOBALS['strWarning']                         = "Warning";
+$GLOBALS['strOK']                              = "OK";
+$GLOBALS['strSyscheckName']                    = "Check name";
+$GLOBALS['strSyscheckValue']                   = "Current value";
+$GLOBALS['strSyscheckStatus']                  = "Status";
+$GLOBALS['strSyscheckSeeFullReport']           = "Show detailed system check"; 
+$GLOBALS['strSyscheckSeeShortReport']          = "Show only errors and warnings";
+$GLOBALS['strBrowserCookies']                  = 'Browser Cookies';
+$GLOBALS['strPHPConfiguration']                = 'PHP Configuration';
+$GLOBALS['strCheckError']                      = 'error';
+$GLOBALS['strCheckErrors']                     = 'errors';
+$GLOBALS['strCheckWarning']                    = 'warning';
+$GLOBALS['strCheckWarnings']                   = 'warnings';
 
 
 /** admin login step **/
@@ -132,7 +146,6 @@ $GLOBALS['strPreviousInstallTitle']             = "Previous installation";
 $GLOBALS['strPathToPrevious']                   = "Path to previous " . MAX_PRODUCT_NAME . " installation";
 $GLOBALS['strPathToPreviousHint']               = "Plugin files must be copied from the path based on your previous install";
 $GLOBALS['strPathToPreviousError']              = "One or more plugin files couln't be located, check the install.log file for more information";
-
 $GLOBALS['strConfigureProgressMessage']         = 'Configuring ' . MAX_PRODUCT_NAME . '...';                                                  
 
 

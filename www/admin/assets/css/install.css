@@ -66,7 +66,8 @@ div.breadcrumb h3 {
 }
 
 .iconCheckErr {
-  background-image: url("../images/icon-x.gif");
+  background-image: url("../images/icon-stop.gif");
+  padding-left:17px;
 }
 
 .iconCheckWarn {
@@ -246,7 +247,7 @@ li.section-warning div.messageContainer div.warning {
     background: url("../images/icon-warning-large.png") center left no-repeat;
 }
 
-#full-view {
+#full-view, #short-view {
   font-size: 11px;
 }
 
@@ -304,6 +305,110 @@ li.section-warning div.messageContainer div.warning {
   -position: relative;
   -left: 10px;
 }
+
+.install-wizard .checkStep ul.syscheck li h4 .detail-control {
+  float: right;
+  font-weight: normal;
+  font-size: 90%;
+}
+
+
+.install-wizard .checkStep div.messageContainer div.body {
+  font-weight: normal;
+}
+
+.install-wizard .checkStep div.messageContainer div.error, .install-wizard .checkStep div.messageContainer div.warning {
+  background-color: none;
+}
+
+.install-wizard .checkStep ul.check-list li.section-error {
+  background-color: #fedcdd;
+}
+
+.install-wizard .checkStep .tableContainer {
+  margin:20px 0 20px 15px;  
+}
+
+
+.install-wizard .checkStep table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 1px 3px;
+}
+
+.install-wizard .checkStep .syscheck table tr {
+  background:#F0F0F0 none repeat scroll 0 0;
+  color:#333333;
+}
+
+.install-wizard .checkStep .checkSection table thead tr {
+  background: none;
+}
+
+.install-wizard .checkStep .checkSection table tr th.name {
+}
+
+.install-wizard .checkStep .checkSection table tr th.value {
+  width: 100px;
+  text-align: center;
+}
+
+.install-wizard .checkStep .checkSection table tr th.status {
+  width: 20px;
+  text-align: center;
+}
+
+.install-wizard .checkStep .checkSection table td, .install-wizard .checkStep .checkSection table th {
+  line-height:17px;
+  padding: 5px 10px;
+  border: 0px;
+}
+
+
+.install-wizard .checkStep .checkSection table tr td.first, .install-wizard .checkStep .checkSection table tr th.first {
+  border-left: 3px solid #AAAAAA;
+}
+
+.install-wizard .checkStep .checkSection table td.value {
+  background-color: #dbdbdb;
+}
+
+.install-wizard .checkStep .checkSection table tr.hasError {
+  background-color: #fedcdd;
+  color: #760605;
+}
+
+.install-wizard .checkStep .checkSection table tr.hasError td.first {
+  border-color:#9C0F0E;
+}
+
+.install-wizard .checkStep .checkSection table tr.hasError td.value {
+  background-color: #ff9798;
+}
+
+
+.install-wizard .checkStep .checkSection table tr.hasWarning {
+  background-color: #fee5c6;
+  color: #7d4605;
+}
+
+.install-wizard .checkStep .checkSection table tr.hasWarning td.first {
+  border-color:#F58615;
+}
+
+.install-wizard .checkStep .checkSection table tr.hasWarning td.value {
+  background-color: #fed39e;
+}
+
+
+.install-wizard .checkStep .checkItem .name {
+  font-weight: bold;
+}
+
+.install-wizard .checkStep .checkItem td.value, .install-wizard .checkStep .checkItem td.status {
+  text-align: center;
+}
+
 
 .install-wizard .loginStep form.flat {
   margin-top: 0px;
