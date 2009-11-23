@@ -407,6 +407,35 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>ext_market_stats_unique_row</name>
+    <unique>1</unique>
+    <field>
+     <name>date_time</name>
+     <sorting>ascending</sorting>
+    </field>
+	<field>
+     <name>website_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+	<field>
+     <name>ad_width</name>
+     <sorting>ascending</sorting>
+    </field>
+	<field>
+     <name>ad_height</name>
+     <sorting>ascending</sorting>
+    </field>
+	<field>
+     <name>market_advertiser_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
