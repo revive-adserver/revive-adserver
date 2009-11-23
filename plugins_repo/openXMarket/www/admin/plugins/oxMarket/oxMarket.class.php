@@ -130,7 +130,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if ($value != 1) { // hardcoded value for onEnable version
             $this->onEnable();
         }
-        
     
         // Just unsets a cookie, so need to do it before any content is possibly output
         OX_oxMarket_UI_CampaignsSettings::removeSessionCookies($this->getCookiePath());
@@ -197,7 +196,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         // Run autoregister method first
         try {
             require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
-            OX_oxMarket_Dal_Installer::autoRegisterMarketPlugin($this->getPublisherConsoleApiClient());
+            if (OX_oxMarket_Dal_Installer::autoRegisterMarketPlugin($this->getPublisherConsoleApiClient())) {
+                $this->removeRegisterNotification();
+            }
         } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $exc) {
             OA::debug('Error during autoRegisterMarketPlugin in onEnable method: ('.$exc->getCode().')'.$exc->getMessage());
         }
