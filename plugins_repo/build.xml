@@ -1,5 +1,5 @@
 <project name="openx-plugins-repo" default="help" basedir=".">
-
+	
     <property name="rpm.basepath" value="opt/ox/adserver" />
 	
     <target name="clean" description="Cleans all the files generated during the build.">
@@ -81,7 +81,7 @@
 		
 		<delete file="${basedir}/${name}.zip"/>
 		<zip destfile="${basedir}/${name}.zip" basedir="${basedir}/${name}" level="9"
-			excludes="**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/*.spec.dist"/>
+			excludes="**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/plugins/etc/override.properties,**/*.spec.dist"/>
 		
 		<echo>packaging of ${name} finished</echo>
 		

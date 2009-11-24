@@ -123,6 +123,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         
         if(!empty($this->marketAdvertiserIds)) {
             $advertiserIds = array_unique($this->marketAdvertiserIds);
+            sort($advertiserIds);
             $oPublisherConsoleApiClient->getAdvertiserInfos($advertiserIds);
         }
         
