@@ -1879,7 +1879,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
 // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
 //
-// Et voil???!
+// Et voil�!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
@@ -3129,6 +3129,10 @@ return;
 }
 zoneid = zones[name];
 }
+{$varprefix}p=location.protocol=='https:'?'".
+MAX_commonConstructSecureDeliveryUrl($aConf['file']['popup'], true).
+"':'".
+MAX_commonConstructDeliveryUrl($aConf['file']['popup'])."';
 var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
 {$varprefix}pop+=\"src='\"+{$varprefix}p+\"?zoneid=\"+zoneid;
 {$varprefix}pop+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
