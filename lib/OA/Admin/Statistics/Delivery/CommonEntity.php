@@ -656,8 +656,8 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         static $advertiserList = null;
         if(is_null($advertiserList)) {
             $oDbh = OA_DB::singleton();
-            $query = 'SELECT id, name
-            			FROM '.$GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_advertisers 
+            $query = 'SELECT market_advertiser_id, name
+            			FROM '.$GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_advertiser 
             			';
             $rows = $oDbh->queryAll($query);
             foreach($rows as $row) {

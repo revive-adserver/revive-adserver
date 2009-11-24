@@ -37,7 +37,7 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics extends OX_Maintenance_Statistics_Task
 {
-    const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version';
+    const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version_api_v2';
     
     const LAST_IMPORT_STATS_DATE = 'last_import_stats_date';
 
@@ -59,6 +59,13 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      * @var array
      */
     protected $aActiveAccounts;
+    
+    /**
+     * Array of advertiser Ids seen during stats import
+     * 
+     * @var array
+     */
+    protected $marketAdvertiserIds = array();
     
     /**
      * The constructor method.
@@ -113,6 +120,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
+        
+        if(!empty($this->marketAdvertiserIds)) {
+            $advertiserIds = array_unique($this->marketAdvertiserIds);
+            $oPublisherConsoleApiClient->getAdvertiserInfos($advertiserIds);
+        }
+        
         // always clear workAsAccountId
         if (isset($oPublisherConsoleApiClient)) {
             $oPublisherConsoleApiClient->setWorkAsAccountId(null);
@@ -120,7 +133,6 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         OA::debug('Finished oxMarket_ImportMarketStatistics');
         return true;
     }
-
     
     /**
      * Get LastUpdate version number for given account
@@ -149,6 +161,79 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     }
     
     /**
+     * Returns the website_id (affiliateid) from the website UUID 
+     * 
+     * @param $uuid
+     * @return int or false
+     */
+    protected function getWebsiteIdFromUUID($uuid)
+    {
+        static $UUIDToWebsiteId = null;
+        if(is_null($UUIDToWebsiteId)) {
+            $oWebsites = OA_Dal::factoryDO('ext_market_website_pref');
+            $return = $oWebsites->getAll();
+            foreach($return as $row ) {
+                $UUIDToWebsiteId[$row['website_id']] = $row['affiliateid'];
+            }
+        }
+        if(isset($UUIDToWebsiteId[$uuid])) {
+            return $UUIDToWebsiteId[$uuid];
+        }
+        return false;
+    }
+    
+    const NON_EMPTY_CHANNEL_EXPECTED = 'import-stats-non-empty-channel-expected-account-';
+    
+    protected function getMarketBannerIdFromAccountId($accountId)
+    {
+        static $accountToBannerId = array();
+        if(!isset($accountToBannerId[$accountId])) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $query = "
+            SELECT 
+                a.clientid as client_id,
+                c.campaignid as placement_id,
+                b.bannerid as ad_id
+            FROM 
+            	{$aConf['table']['prefix']}{$aConf['table']['agency']} agency 
+                INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['clients']} a ON agency.agencyid = a.agencyid
+                INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['campaigns']} c ON a.clientid = c.clientid
+                INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['banners']} b ON c.campaignid = b.campaignid
+            WHERE
+                agency.account_id = {$accountId} AND a.type = 1 AND c.type = 1";
+            $oDbh = OA_DB::singleton();
+            $return = $oDbh->query($query);
+            $return = $return->fetchRow();
+            $accountToBannerId[$accountId] = $return['ad_id'];
+        }
+        return $accountToBannerId[$accountId];
+    }
+    
+    /**
+     * Expects a channel at format: 
+     * oxpv1:$LOCAL_ADVERTISER_ID-$LOCAL_CAMPAIGN_ID-$LOCAL_BANNER_ID-$LOCAL_WEBSITE_ID-$LOCAL_ZONE_ID
+     * Returns an array of IDs, or false if the channel wasn't correctly formated
+     * 
+     * @return array or false 
+     */
+    protected function parseChannel($channel)
+    {
+        if(empty($channel)) {
+            return false;
+        }
+        $expected = 'oxpv1:';
+        if(substr($channel, 0, strlen($expected)) != $expected) {
+            return false;
+        }
+        $channel = substr($channel, strlen($expected));
+        $channel = explode("-", $channel);
+        if(count($channel) != 5) {
+            return false;
+        }
+        return $channel;
+    }
+    
+    /**
      * Insert data from getStatistics to database 
      *
      * @param string $data
@@ -160,12 +245,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     {
         if (!empty($data)) {
             try {
-                $oDB = OA_DB::singleton();
+                $oDB = OA_DB::singleton(); 
                 $supports_transactions = $oDB->supports('transactions');
                 if ($supports_transactions) {
                     $oDB->beginTransaction();
                 }
-                
+                 
                 $aLines = explode("\n", $data);
                 $aFirstRow = explode("\t", $aLines[0]); 
                 $last_update = $aFirstRow[0];
@@ -175,21 +260,72 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 }
                 $count = count($aLines) - 1;
                 
+                $nonEmptyChannelExpected = (bool)$this->oMarketComponent->getMarketUserVariable(self::NON_EMPTY_CHANNEL_EXPECTED.$accountId);
                 for ($i = 1; $i < $count; $i++) {
                     $aRow = explode("\t", $aLines[$i]);
-                    if (count($aRow) > 5) {
-                        $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-                        $oWebsiteStat->p_website_id = $aRow[0]; 
-                        $oWebsiteStat->height = $aRow[1]; 
-                        $oWebsiteStat->width = $aRow[2]; 
-                        $oWebsiteStat->date_time = $aRow[3]; 
-                        $oWebsiteStat->impressions = $aRow[4]; 
-                        $oWebsiteStat->revenue = $aRow[5];
-                        $oWebsiteStat->insert();  
+                    if (count($aRow) > 8) {
+                        $UUID = $aRow[0];
+                        $websiteId = $this->getWebsiteIdFromUUID($UUID);
+                        if($websiteId == false) {
+                            continue;
+                        }
+                        $channel = $aRow[8];
+                        
+                        if(empty($channel)) {
+                            if($nonEmptyChannelExpected) {
+                                // channel was empty, but we were expecting a non-empty channel string
+                                continue;
+                            }
+                            $zoneId = 0;
+                        } else {
+                            $channel = $this->parseChannel($channel);
+                            if($channel == false) {
+                                continue;
+                            }
+                            if(!$nonEmptyChannelExpected) {
+                                // channel was defined, but we were expecting an empty channel
+                                // we will, from now on, expect only non empty channels
+                                $this->oMarketComponent->setMarketUserVariable(self::NON_EMPTY_CHANNEL_EXPECTED.$accountId, '1');
+                                $nonEmptyChannelExpected = true;
+                            }
+                            $zoneId = $channel[4];
+                            $websiteIdFromChannel = $channel[3];
+                            if($websiteIdFromChannel != $websiteId) {
+                                continue;
+                            }
+                        }
+                        $adId = $this->getMarketBannerIdFromAccountId($accountId);
+                        $marketAdvertiserId = $aRow[9];
+                        if(!empty($marketAdvertiserId)) {
+                            $this->marketAdvertiserIds[] = $marketAdvertiserId;
+                            $this->marketAdvertiserIds = array_unique($this->marketAdvertiserIds);
+                        }
+                        
+                        $marketStatsRow = array(
+                            'website_id' => $websiteId, 
+                        	'ad_height' => $aRow[1], 
+                            'ad_width' => $aRow[2], 
+                            'date_time' => $aRow[3], 
+                            'impressions' => $aRow[4], 
+                            'revenue' => $aRow[5],
+                            'requests' => $aRow[6],
+                            'clicks' => $aRow[7],
+                            'market_advertiser_id' => $marketAdvertiserId,
+                            'website_id' => $websiteId,
+                            'zone_id' => $zoneId,
+                            'ad_id' => $adId
+                        );
+                        $marketStatsToRecord[] = $marketStatsRow;
                     }
                     else {
                         throw new Exception('Invalid amount of statistics items returned: ' . $aLines[$i]);
                     }
+                }
+                
+                if(!empty($marketStatsToRecord)) {
+                    $dal = new OA_Dal();
+                    $primaryKey = array('date_time', 'website_id', 'zone_id', 'ad_width', 'ad_height', 'market_advertiser_id');
+                    $dal->batchInsert($GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_stats', array_keys($marketStatsRow), $marketStatsToRecord, $replace = true, $primaryKey);
                 }
                 // Update last statistics version serial number in same DB transaction
                 $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');

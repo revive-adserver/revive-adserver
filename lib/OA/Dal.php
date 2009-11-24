@@ -352,13 +352,14 @@ class OA_Dal
      * @param string $tableName The unquoted table name
      * @param array  $aFields   The array of unquoted field names
      * @param array  $aValues   The array of data to be inserted
+     * @param bool $replace Should the data be UPDATEd when the primary key or unique key is already present in the table?
      *
      * @return int   The number of rows inserted or PEAR_Error on failure
      */
-    function batchInsert($tableName, $aFields, $aValues)
+    function batchInsert($tableName, $aFields, $aValues, $replace = false, $primaryKey = array())
     {
         if(!is_array($aFields) || !is_array($aValues)) {
-            return MAX::raiseError('$aFields and $aData must be arrays', PEAR_ERROR_RETURN);
+            return MAX::raiseError('$aFields and $aValues must be arrays', PEAR_ERROR_RETURN);
         }
 
         $oDbh = OA_DB::singleton();
@@ -371,9 +372,9 @@ class OA_Dal
 
         // Database custom stuff
         if ($oDbh->dbsyntax == 'mysql') {
-            $result = self::_batchInsertMySQL($qTableName, $fieldList, $aValues);
+            $result = self::_batchInsertMySQL($qTableName, $fieldList, $aValues, $replace);
         } else {
-            $result = self::_batchInsertPgSQL($qTableName, $fieldList, $aValues);
+            $result = self::_batchInsertPgSQL($qTableName, $fieldList, $aValues, $replace, $primaryKey);
         }
 
         if (PEAR::isError($result)) {
@@ -384,7 +385,7 @@ class OA_Dal
         return $result;
     }
 
-    private function _batchInsertMySQL($qTableName, $fieldList, $aValues)
+    private function _batchInsertMySQL($qTableName, $fieldList, $aValues, $replace)
     {
         $oDbh = OA_DB::singleton();
 
@@ -399,7 +400,11 @@ class OA_Dal
             // On windows, MySQL expects slashes as directory separators
             $filePath = str_replace('\\', '/', $filePath);
         }
-
+        if($replace) {
+            $replace = ' REPLACE ';
+        } else {
+            $replace = '';
+        }
         // Set up CSV delimiters, quotes, etc
         $delim = "\t";
         $quote = '"';
@@ -442,6 +447,7 @@ class OA_Dal
         $query = "
             LOAD DATA LOCAL INFILE
                 '$filePath'
+                $replace
             INTO TABLE
                 $qTableName
             FIELDS TERMINATED BY
@@ -472,10 +478,10 @@ class OA_Dal
      * @param string $tableName The unquoted table name
      * @param array  $aFields   The array of unquoted field names
      * @param array  $aValues   The array of data to be inserted
-     *
+     * @param bool $replace Should the primary key be replaced when already present?
      * @return int   The number of rows inserted or PEAR_Error on failure
      */
-    private function _batchInsertPgSQL($qTableName, $fieldList, $aValues)
+    private function _batchInsertPgSQL($qTableName, $fieldList, $aValues, $replace, $primaryKey)
     {
         $oDbh = OA_DB::singleton();
 
@@ -497,6 +503,17 @@ class OA_Dal
             return MAX::raiseError('Error issuing the COPY query for the batch INSERTs.', PEAR_ERROR_RETURN);
         }
         foreach ($aValues as $aRow) {
+            
+            // if replace is set to true, because Postgresql doesn't have the REPLACE keyword,
+            // we manually delete the rows with the primary key first
+            if($replace) {
+                $where = '';
+                foreach($primaryKey as $fieldName) {
+                    $where .= $fieldName .' = \''.$aRow[$fieldName] . '\'  AND ';
+                }
+                $where = substr($where, 0, strlen($where) - 5);
+                $oDbh->query('DELETE FROM '. $qTableName. ' WHERE '. $where);
+            }
             // Stringify row
             $row = '';
             foreach($aRow as $value) {
