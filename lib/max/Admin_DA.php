@@ -988,7 +988,6 @@ class Admin_DA
                 return true;
             }
             $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
-            var_dump($azParams);
             $azParams['ad_id'] = $aVariables['ad_id'];
             $azAds = Admin_DA::getAds($azParams);
             if (!empty($azAds)) {
