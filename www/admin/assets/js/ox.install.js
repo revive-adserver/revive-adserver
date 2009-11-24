@@ -100,7 +100,7 @@
                 return false;
             });
             
-            updateCheckTable(false);
+            updateCheckTable(true);
         }
         
         function updateCheckTable(fullView)
