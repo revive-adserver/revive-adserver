@@ -198,6 +198,14 @@ class OA_Dal
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
+    /**
+     * Clear the DataObject options cache
+     *
+     */
+    function cleanCache()
+    {
+        OA_Dal::_setupDataObjectOptions(false);
+    }
 
     /**
      * Set up the required DB_DataObject options.
@@ -206,10 +214,10 @@ class OA_Dal
      * @static
      * @access private
      */
-    function _setupDataObjectOptions()
+    function _setupDataObjectOptions($fromCache = true)
     {
         static $needsSetup;
-        if (isset($needsSetup)) {
+        if (isset($needsSetup) && $fromCache) {
             return;
         }
         $needsSetup = false;

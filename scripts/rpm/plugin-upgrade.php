@@ -61,8 +61,9 @@ if (file_exists('/opt/ox/adserver/etc/id') && trim(file_get_contents('/opt/ox/ad
                 continue;
             }
             
-            // Clear ApplicationVariables cache
+            // Clear various cached items
             OA_Dal_ApplicationVariables::cleanCache();
+            OA_Dal::cleanCache();
 
             echo "Installing {$argv[2]} for {$customer['shortname']}\n";
             upgradeplugin($argv[2], true);
