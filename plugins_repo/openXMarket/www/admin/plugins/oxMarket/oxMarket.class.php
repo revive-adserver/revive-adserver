@@ -250,10 +250,16 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $this->removeRegisterNotification();
         $this->removeEarnMoreNotification();
         
-        // delete onEnable market
-        $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
-        $oPluginSettings->findByAccountIdAndName(0, 'ON_ENABLE_VERSION');
-        $oPluginSettings->delete();
+        // delete onEnable market / catch errors - ext_market_general_pref could not exists, plugin broken etc.
+        $oTable = new OA_DB_Table();
+        if ($oTable->extistsTable($GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_general_pref')) {
+            OX::disableErrorHandling();
+            $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
+            $oPluginSettings->accountId = 0;
+            $oPluginSettings->name = 'ON_ENABLE_VERSION';
+            $oPluginSettings->delete();
+            OX::disableErrorHandling();
+        }
 
         return true;
     }
