@@ -141,7 +141,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @todo Update to MAX DB API
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = array())
+    function getAllAdvertisersForAgency($agency_id, $listorder = 'name', $orderdirection ='up', $aIncludeSystemTypes = array())
     {
         return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id, $aIncludeSystemTypes);
     }

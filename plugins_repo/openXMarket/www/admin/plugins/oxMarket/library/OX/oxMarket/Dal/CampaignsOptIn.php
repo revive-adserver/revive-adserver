@@ -321,6 +321,8 @@ class OX_oxMarket_Dal_CampaignsOptIn
 
         // Ignore already ended campaigns
         $doCampaigns->whereAdd(" expire_time >= '" . $this->getTodayDate() . "' OR expire_time IS NULL");
+        // allow only default campaigns
+        $doCampaigns->type =  DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
 
         // If not all campaigns selected set the selected campaign type
         if ($campaignType == 'remnant') {
