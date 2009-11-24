@@ -48,12 +48,22 @@ if (file_exists('/opt/ox/adserver/etc/id') && trim(file_get_contents('/opt/ox/ad
         foreach ($customers as $idx => $customer) {
             if (empty($customer['admin']) || !is_readable(MAX_PATH . '/var/' . $customer['admin'] . '.conf.php')) { continue; }
             // Re-init using the customers UI domain name
-            $GLOBALS['argv'][1] = $_SERVER['SERVER_NAME'] = $customer['admin'];
+            $GLOBALS['argv'][1] = $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'] = $customer['admin'];
             $GLOBALS['_MAX']['CONF'] = parseIniFile();     
 
-            OA_Dal_ApplicationVariables::cleanCache();
             // Skip uninitialized customers
             if (empty($GLOBALS['_MAX']['CONF']['openads']['installed'])) { continue; } 
+
+            // Verify that we can sucessfully connect to the database for this customer
+            $dbh = &OA_DB::singleton();
+            if (PEAR::isError($dbh)) {
+                echo "WARNING: Unable to connect to the db for {$customer['shortname']}... skipping this customer\n";
+                continue;
+            }
+            
+            // Clear ApplicationVariables cache
+            OA_Dal_ApplicationVariables::cleanCache();
+
             echo "Installing {$argv[2]} for {$customer['shortname']}\n";
             upgradeplugin($argv[2], true);
         }
