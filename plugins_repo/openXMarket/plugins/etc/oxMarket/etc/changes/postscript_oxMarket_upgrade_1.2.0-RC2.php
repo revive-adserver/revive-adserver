@@ -25,7 +25,7 @@
 $Id$
 */
 
-$className = 'oxMarket_UpgradePostscript_1_2_0_RC1';
+$className = 'oxMarket_UpgradePostscript_1_2_0_RC2';
 
 /**
  * Mark all websites as not synchronized, to update website names during next maintenanace.
@@ -33,29 +33,16 @@ $className = 'oxMarket_UpgradePostscript_1_2_0_RC1';
  * @package    Plugin
  * @subpackage openXMarket
  */
-class oxMarket_UpgradePostscript_1_2_0_RC1
+class oxMarket_UpgradePostscript_1_2_0_RC2
 {
     var $oUpgrade;
     
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-        
-        $oDbh = &OA_DB::singleton();
-        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $prefTable = $oDbh->quoteIdentifier($prefix.'ext_market_website_pref', true);
-
-        $query = "UPDATE ".$prefTable."
-                  SET is_url_synchronized = 'f'";
-        $ret = $oDbh->query($query);
-    
-        if (PEAR::isError($ret))
-        {
-            $this->logError($ret->getUserInfo());
-            $this->logOnly('Cannot mark websites as not synchronized, to allow send proper website names.');
-        }
-        
+        $this->migrateFromPre283();
         return true;
+
     }
     
     function logOnly($msg)
@@ -68,6 +55,44 @@ class oxMarket_UpgradePostscript_1_2_0_RC1
         $this->oUpgrade->oLogger->logError($msg);
     }
 
+    function migrateFromPre283()
+    {
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $query = '	INSERT INTO '.$prefix.OX_oxMarket_Stats::MARKET_STATS_TABLE.'
+                    SELECT date_time, 
+                    		NULL as market_advertiser_id, 
+                    		t.width as ad_width, 
+                    		t.height as ad_height, 
+                    		t2.affiliateid as website_id, 
+                    		0 as zone_id, 
+                    		t6.bannerid as ad_id, 
+                    		t.impressions as impressions, 
+                    		0 as clicks, 
+                    		t.revenue as revenue,
+                    		NULL as market_advertiser_id 
+                    FROM '.$prefix.'ext_market_web_stats t
+                    LEFT JOIN '.$prefix.'ext_market_website_pref t2
+                    ON t2.website_id = t.p_website_id 
+                    LEFT JOIN '.$prefix.'affiliates t3
+                    ON t3.affiliateid = t2.affiliateid
+                    LEFT JOIN '.$prefix.'clients t4
+                    ON t4.agencyid = t3.agencyid 
+                    LEFT JOIN '.$prefix.'campaigns t5
+                    ON t5.clientid=t4.clientid 
+                    LEFT JOIN '.$prefix.'banners t6
+                    ON t6.campaignid = t5.campaignid
+                    WHERE t4.type = 1
+                    AND t5.type=1
+                    ';
+        $oDbh = OA_DB::singleton();
+        $rows = $oDbh->query('TRUNCATE TABLE '.$prefix.OX_oxMarket_Stats::MARKET_STATS_TABLE);
+        $rows = $oDbh->query($query);
+        if (PEAR::isError($rows))
+        {
+            $this->logError($rows->getUserInfo());
+            $this->logOnly('Migration stats query failed. You can execute try to execute it manually: <br> '.$query);
+        }
+    }
 }
 
 ?>

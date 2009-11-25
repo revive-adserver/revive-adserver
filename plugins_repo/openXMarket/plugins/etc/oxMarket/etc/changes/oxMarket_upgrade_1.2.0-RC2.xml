@@ -27,6 +27,6 @@
 
     <!-- Custom Install Scripts to execute -->
     <!--prescript>prescript_oxMarket_upgrade_1.2.0-RC2.php</prescript-->
-    <!--postscript>postscript_oxMarket_upgrade_1.2.0-RC2.php</postscript-->
+    <postscript>postscript_oxMarket_upgrade_1.2.0-RC2.php</postscript-->
 
 </upgrade>
