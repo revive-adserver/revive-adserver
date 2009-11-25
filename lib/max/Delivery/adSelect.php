@@ -935,6 +935,9 @@ function _adSelectBuildContext($aBanner, $context = array()) {
             }
         }
     }
+    if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {
+        $context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
+    }
     return $context;
 }
 
