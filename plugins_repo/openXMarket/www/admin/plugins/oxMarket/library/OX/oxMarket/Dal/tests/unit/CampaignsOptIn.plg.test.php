@@ -712,7 +712,7 @@ class OX_oxMarket_Dal_CampaignsOptInTest extends UnitTestCase
         $aCampaignsIds[3] = DataGenerator::generateOne($doCampaigns);
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'campaign 4';
-        $doCampaigns->expire_time = $dateY[1];
+        $doCampaigns->expire_time = null;
         $doCampaigns->priority = 7;
         $doCampaigns->clientid = $aObjectsIds['managerClientID'];
         $doCampaigns->ecpm_enabled = true; //contract campaigns with priority 6-9 have this set to true
@@ -724,6 +724,13 @@ class OX_oxMarket_Dal_CampaignsOptInTest extends UnitTestCase
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_REMNANT;
         $doCampaigns->clientid = $doCampaigns->clientid = $aObjectsIds['managerClientID']-1;
         $aCampaignsIds[5] = DataGenerator::generateOne($doCampaigns);
+        $aCampaignsIds[6] = DataGenerator::generateOne($doCampaigns);
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'campaign 6';
+        $doCampaigns->expire_time = $dateY[7];
+        $doCampaigns->priority = 7;
+        $doCampaigns->clientid = $aObjectsIds['managerClientID'];
+        $doCampaigns->ecpm_enabled = true; //contract campaigns with priority 6-9 have this set to true
         return $aCampaignsIds;
     }
     
