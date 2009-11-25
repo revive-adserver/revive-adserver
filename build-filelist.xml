@@ -81,7 +81,7 @@
     <include name="scripts/delivery/**"/>
     <include name="scripts/plugins/**"/>
     <include name="scripts/upgrade/**"/>
-    <include name="scripts/rpm/*.spec" />
+    <include name="scripts/rpm/*.spec*" />
     <include name="scripts/updateDocs.sh"/>
     <include name="scripts/translations/**"/>
     <include name="tutorials/**"/>
