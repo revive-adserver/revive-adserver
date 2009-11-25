@@ -1879,7 +1879,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
 // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
 //
-// Et voil�!
+// Et voil???!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
