@@ -4563,6 +4563,9 @@ $context[] = array('!=' => $value);
 }
 }
 }
+if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {
+$context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
+}
 return $context;
 }
 function _adSelectDiscardNonMatchingAds(&$aAds, $aContext, $source, $richMedia)
