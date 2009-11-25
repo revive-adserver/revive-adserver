@@ -16,6 +16,7 @@
 	        	<!-- &common_verification; -->
 				<clickLink label="Administrator account"/>
 	        	<clickLink label="My Account"/>
+				<!--
 	        	<clickLink label="OpenX Market"/>
 				<not>
 					<verifyText text="Not Found" />
@@ -28,6 +29,7 @@
 	        	<verifyXPath xpath="//ul[1]/li/button[2]" description="Checks for the existence of 1st Opt out button"/>        	        	
 	        	<verifyXPath xpath="//ul[2]/li/button[2]" description="Checks for the existence of 2nd Opt out button"/>       	        	  
 	        	<clickLink label="OpenX Market Quickstart"/>	
+				-->
 			</steps>
 		</webtest>
 	</target>
