@@ -140,6 +140,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             z.block AS block_zone,
             z.capping AS cap_zone,
             z.session_capping AS session_cap_zone,
+            z.show_capped_no_cookie AS show_capped_no_cookie_zone,
             z.ext_adselection AS ext_adselection,
             z.affiliateid AS publisher_id,
             a.agencyid AS agency_id,
@@ -430,6 +431,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.block AS block_campaign,
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign,
+            c.show_capped_no_cookie AS show_capped_no_cookie,
             c.clientid AS client_id,
             c.clickwindow AS clickwindow,
             c.viewwindow AS viewwindow,
@@ -669,6 +671,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         c.block AS block_campaign,
         c.capping AS cap_campaign,
         c.session_capping AS session_cap_campaign,
+        c.show_capped_no_cookie AS show_capped_no_cookie,
         m.clientid AS client_id,
         m.advertiser_limitation AS advertiser_limitation,
         m.agencyid AS agency_id
@@ -964,6 +967,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.block AS block_campaign',
             'm.capping AS cap_campaign',
             'm.session_capping AS session_cap_campaign',
+            'm.show_capped_no_cookie AS show_capped_no_cookie',
             'm.clickwindow AS clickwindow',
             'm.viewwindow AS viewwindow',
             'cl.clientid AS client_id',
@@ -1390,7 +1394,7 @@ function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
     // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
     // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
     //
-    // Et voil�!
+    // Et voila!
 
     // Sort priority levels in reverse priority order (1 to 10)
     ksort($total_priority_cp);

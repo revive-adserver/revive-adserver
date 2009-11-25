@@ -847,6 +847,7 @@ z.inventory_forecast_type AS inventory_forecast_type,
 z.block AS block_zone,
 z.capping AS cap_zone,
 z.session_capping AS session_cap_zone,
+z.show_capped_no_cookie AS show_capped_no_cookie_zone,
 z.ext_adselection AS ext_adselection,
 z.affiliateid AS publisher_id,
 a.agencyid AS agency_id,
@@ -1092,6 +1093,7 @@ c.companion AS campaign_companion,
 c.block AS block_campaign,
 c.capping AS cap_campaign,
 c.session_capping AS session_cap_campaign,
+c.show_capped_no_cookie AS show_capped_no_cookie,
 c.clientid AS client_id,
 c.clickwindow AS clickwindow,
 c.viewwindow AS viewwindow,
@@ -1295,6 +1297,7 @@ c.campaignid AS campaign_id,
 c.block AS block_campaign,
 c.capping AS cap_campaign,
 c.session_capping AS session_cap_campaign,
+c.show_capped_no_cookie AS show_capped_no_cookie,
 m.clientid AS client_id,
 m.advertiser_limitation AS advertiser_limitation,
 m.agencyid AS agency_id
@@ -1535,6 +1538,7 @@ $aColumns = array(
 'm.block AS block_campaign',
 'm.capping AS cap_campaign',
 'm.session_capping AS session_cap_campaign',
+'m.show_capped_no_cookie AS show_capped_no_cookie',
 'm.clickwindow AS clickwindow',
 'm.viewwindow AS viewwindow',
 'cl.clientid AS client_id',
@@ -1879,7 +1883,7 @@ $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
 // CP3           = (1 - 0.4) * (0.4 / 0.6)     = 40%
 // Remnant/blank = (1 - 0.4) * (1 - 0.4 / 0.6) = 20%
 //
-// Et voil???!
+// Et voila!
 // Sort priority levels in reverse priority order (1 to 10)
 ksort($total_priority_cp);
 // Calculate totals for each campaign priority
@@ -3040,32 +3044,38 @@ function MAX_limitationsIsAdForbidden($aAd)
 {
 $adId = $aAd['ad_id'];
 $campaignId = $aAd['placement_id'];
-return (_limitationsIsAdCapped($adId, $aAd['cap_ad'], $aAd['session_cap_ad'], $aAd['block_ad']) ||
-_limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_cap_campaign'], $aAd['block_campaign']));
+$showCappedNoCookie = (bool)$aAd['show_capped_no_cookie'];
+return (_limitationsIsAdCapped($adId, $aAd['cap_ad'], $aAd['session_cap_ad'], $aAd['block_ad'], $showCappedNoCookie) ||
+_limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_cap_campaign'], $aAd['block_campaign'], $showCappedNoCookie));
 }
 function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
 {
 $capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
 $sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
 $blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
-return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone));
+$showCappedNoCookie = (bool)$aCapping['show_capped_no_cookie_zone'];
+return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone, $showCappedNoCookie));
 }
-function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block)
+function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block);
+return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
-function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0, $block)
+function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block);
+return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
-function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block)
+function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap, $block);
+// We set $showCappedNoCookie to false to keep zone capping behaviour the same as
+// in previous versions of OpenX, ie, if a zone is capped, don't show the ad to a
+// viewer without cookies.
+return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
-function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
+function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCappedNoCookie)
 {
 // Always return true (capped) if cookies have been disabled by the viewer
-if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0) || ($block > 0))) {
+// Return true if ( (capping has be set) && (do not show capped ads to users without cookies) )
+if (_areCookiesDisabled((($cap > 0) || ($sessionCap > 0) || ($block > 0)) && !$showCappedNoCookie)) {
 return true;
 }
 // Get the capping cookie name from the configuration file

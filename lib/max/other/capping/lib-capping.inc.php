@@ -268,6 +268,12 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
         ));
     }
 
+    $capG['showcapped'] = $form->createElement('checkbox', 'show_capped_no_cookie', null, $GLOBALS['strShowCappedNoCookie']);
+    $capG['info'] = $form->createElement('custom', 'capping-callout');
+    $form->addGroup($capG, 'cap_g', $GLOBALS['strCookies']);
+
+    $form->setDefaults(array('show_capped_no_cookie' => 1));
+
     return $form;
 }
 

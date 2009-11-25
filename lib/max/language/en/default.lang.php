@@ -201,7 +201,7 @@ $GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed dur
 $GLOBALS['strPriority']                 = "Priority";
 $GLOBALS['strPriorityLevel']            = "Priority level";
 $GLOBALS['strPriorityTargeting']        = "Distribution";
-$GLOBALS['strPriorityOptimisation']     = "Miscellaneous";
+$GLOBALS['strPriorityOptimisation']     = "Miscellaneous"; // Er, what?
 $GLOBALS['strExclusiveAds']             = "Exclusive Contract Advertisements";
 $GLOBALS['strHighAds']                  = "Contract Advertisements";
 $GLOBALS['strECPMAds']                  = "eCPM Advertisements";
@@ -578,6 +578,7 @@ $GLOBALS['strCannotSetBothDateAndLimit']    = "You cannot set both an end date a
 $GLOBALS['strWhyDisabled']                  = "why is it disabled?";
 $GLOBALS['strBackToCampaigns']              = "Back to campaigns";
 $GLOBALS['strCampaignBanners']              = "Campaign's banners";
+$GLOBALS['strCookies']                      = "Cookies";
 
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";

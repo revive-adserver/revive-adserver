@@ -86,7 +86,7 @@ $oCodeMunger = new OX_Util_CodeMunger();
 $oCodeMunger->setHeader($header);
 
 // Process all files in the www/delivery_dev folder (except those being explicitly ignored)
-while ($file = readdir($DIR_INPUT)) {
+while (false !== ($file = readdir($DIR_INPUT))) {
     // Skip hidden file, directories, and ignored files
     if ((substr($file, 0, 1) == '.') || is_dir($input_dir . $file) || in_array($file, $ignored_files)) { continue; }
     $ext = substr($file, strrpos($file, '.'));

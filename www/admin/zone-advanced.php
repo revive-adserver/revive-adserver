@@ -280,6 +280,10 @@ function processForm($aZone, $form, $oComponent = null)
     $doZones->block = $block;
     $doZones->capping = $aFields['capping'];
     $doZones->session_capping = $aFields['session_capping'];
+    if ($aFields['show_capped_no_cookie'] != 1) {
+        $aFields['show_capped_no_cookie'] = 0;
+    }
+    $doZones->show_capped_no_cookie = $aFields['show_capped_no_cookie'];
     $doZones->update();
 
     // Queue confirmation message

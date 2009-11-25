@@ -473,6 +473,8 @@ function processForm($form, $oComponent = null)
             $doZones->prepend = '';
             $doZones->append = '';
 
+            $doZones->show_capped_no_cookie = 1;
+
             $aFields['zoneid'] = $doZones->insert();
 
             // Ad  Networks

@@ -46,7 +46,7 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed ( 'start', 'startSet', 'anonymous', 'campaignname', 'clicks', 'companion', 'comments', 'conversions', 'end', 'endSet', 'priority', 'high_priority_value', 'revenue', 'revenue_type', 'submit', 'submit_status', 'target_old', 'target_type_old', 'target_value', 'target_type', 'rd_impr_bkd', 'rd_click_bkd', 'rd_conv_bkd', 'impressions', 'weight_old', 'weight', 'clientid', 'status', 'status_old', 'as_reject_reason', 'an_status', 'previousimpressions', 'previousconversions', 'previousclicks' );
+phpAds_registerGlobalUnslashed ( 'start', 'startSet', 'anonymous', 'campaignname', 'clicks', 'companion', 'show_capped_no_cookie', 'comments', 'conversions', 'end', 'endSet', 'priority', 'high_priority_value', 'revenue', 'revenue_type', 'submit', 'submit_status', 'target_old', 'target_type_old', 'target_value', 'target_type', 'rd_impr_bkd', 'rd_click_bkd', 'rd_conv_bkd', 'impressions', 'weight_old', 'weight', 'clientid', 'status', 'status_old', 'as_reject_reason', 'an_status', 'previousimpressions', 'previousconversions', 'previousclicks' );
 
 // Security check
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
@@ -68,9 +68,7 @@ if ($campaignid != "") {
     // Edit or Convert
     // Fetch exisiting settings
     // Parent setting for converting, campaign settings for editing
-    if ($campaignid != "") {
-        $ID = $campaignid;
-    }
+    $ID = $campaignid;
 
     // Get the campaign data from the campaign table, and store in $campaign
     $doCampaigns = OA_Dal::factoryDO ( 'campaigns' );
@@ -112,6 +110,7 @@ if ($campaignid != "") {
     $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber ( $data ['ecpm'], 4 );
     $campaign['anonymous'] = $data ['anonymous'];
     $campaign['companion'] = $data ['companion'];
+    $campaign['show_capped_no_cookie'] = $data ['show_capped_no_cookie'];
     $campaign['comments'] = $data ['comments'];
     $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber ( $data ['revenue'], 4 );
     $campaign['revenue_type'] = $data ['revenue_type'];
@@ -658,9 +657,9 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'h_misc', 'tag', array ('attributes' => array ('id' => 'sect_misc', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
     //priority misc
-    $miscG ['anonymous'] = $form->createElement ( 'advcheckbox', 'anonymous', null, $GLOBALS ['strAnonymous'], null, array ("f", "t" ) );
-    $miscG ['companion'] = $form->createElement ( 'checkbox', 'companion', null, $GLOBALS ['strCompanionPositioning'] );
-    $form->addGroup ( $miscG, 'misc_g', $GLOBALS ['strPriorityOptimisation'], "<BR>" );
+    $miscG['anonymous'] = $form->createElement('advcheckbox', 'anonymous', null, $GLOBALS['strAnonymous'], null, array("f", "t" ));
+    $miscG['companion'] = $form->createElement('checkbox', 'companion', null, $GLOBALS['strCompanionPositioning']);
+    $form->addGroup($miscG, 'misc_g', $GLOBALS['strMiscellaneous'], "<BR>");
 
     $commentsG ['comments']  = $form->createElement ( 'textarea', 'comments', null);
     $form->addGroup ( $commentsG, 'comments_g', $GLOBALS['strComments'], "<BR>" );
@@ -870,6 +869,9 @@ function processCampaignForm($form, &$oComponent = null)
         if ($aFields['companion'] != 1) {
             $aFields['companion'] = 0;
         }
+        if ($aFields['show_capped_no_cookie'] != 1) {
+            $aFields['show_capped_no_cookie'] = 0;
+        }
         $new_campaign = $aFields['campaignid'] == 'null';
 
         if (empty($aFields['revenue']) || ($aFields['revenue'] <= 0)) {
@@ -899,6 +901,7 @@ function processCampaignForm($form, &$oComponent = null)
         $doCampaigns->ecpm = $aFields['ecpm'];
         $doCampaigns->anonymous = $aFields['anonymous'];
         $doCampaigns->companion = $aFields['companion'];
+        $doCampaigns->show_capped_no_cookie = $aFields['show_capped_no_cookie'];
         $doCampaigns->comments = $aFields['comments'];
         $doCampaigns->revenue = $aFields['revenue'];
         $doCampaigns->revenue_type = $aFields['revenue_type'];

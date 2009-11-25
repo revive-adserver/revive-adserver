@@ -93,8 +93,9 @@ function MAX_limitationsIsAdForbidden($aAd)
 {
     $adId = $aAd['ad_id'];
     $campaignId = $aAd['placement_id'];
-	return (_limitationsIsAdCapped($adId, $aAd['cap_ad'], $aAd['session_cap_ad'], $aAd['block_ad']) ||
-	   _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_cap_campaign'], $aAd['block_campaign']));
+    $showCappedNoCookie = (bool)$aAd['show_capped_no_cookie'];
+    return (_limitationsIsAdCapped($adId, $aAd['cap_ad'], $aAd['session_cap_ad'], $aAd['block_ad'], $showCappedNoCookie) ||
+	   _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_cap_campaign'], $aAd['block_campaign'], $showCappedNoCookie));
 }
 
 /**
@@ -117,7 +118,8 @@ function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
     $capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
     $sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
     $blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
-    return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone));
+    $showCappedNoCookie = (bool)$aCapping['show_capped_no_cookie_zone'];
+    return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone, $showCappedNoCookie));
 }
 
 /**
@@ -131,9 +133,9 @@ function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
  *                            to a viewer in a session.
  * @return boolean True if the ad is capped, false otherwise.
  */
-function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block)
+function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-	return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block);
+	return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
 
 /**
@@ -147,9 +149,9 @@ function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block)
  *                            to a viewer in a session.
  * @return boolean True if the ad is capped, false otherwise.
  */
-function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0, $block)
+function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-	return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block);
+	return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
 
 /**
@@ -163,9 +165,12 @@ function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap = 0, $block
  *                            to a viewer in a session.
  * @return boolean True if the zone is capped, false otherwise.
  */
-function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block)
+function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
 {
-	return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap, $block);
+    // We set $showCappedNoCookie to false to keep zone capping behaviour the same as
+    // in previous versions of OpenX, ie, if a zone is capped, don't show the ad to a
+    // viewer without cookies.
+    return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
 
 /**
@@ -180,12 +185,14 @@ function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block)
  * @param integer $sessionCap Optional total number of times an ad or an ad from a zone is
  *                            to be shown to a viewer in a session.
  * @param integer $block The time period to use for capping tests (seconds)
+ * @param boolean $showCappedNoCookie true if we should show the ad even if there is no cookie.
  * @return boolean True if the ad or zone is capped, false otherwise.
  */
-function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
+function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCappedNoCookie)
 {
     // Always return true (capped) if cookies have been disabled by the viewer
-    if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0) || ($block > 0))) {
+    // Return true if ( (capping has be set) && (do not show capped ads to users without cookies) )
+    if (_areCookiesDisabled((($cap > 0) || ($sessionCap > 0) || ($block > 0)) && !$showCappedNoCookie)) {
         return true;
     }
     // Get the capping cookie name from the configuration file
