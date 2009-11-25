@@ -296,6 +296,37 @@ function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 }
 
 /**
+ * Cache-wrapper for OA_Dal_Delivery_getZoneLinkedAdInfos()
+ *
+ * The function to get and return the ads linked to a zone
+ *
+ * @param  int      $zoneid The id of the zone to get linked ads for
+ * @param boolean   $cached Should a cache lookup be performed?
+ * @return array|false
+ *                   The array containg zone information with nested arrays of linked ads
+ *                   or false on failure. Note that:
+ *                      - Exclusive ads are in "xAds"
+ *                      - Normal (paid) ads are in "ads"
+ *                      - Low-priority ads are in "lAds"
+ *                      - Companion ads, in addition to being in one of the above, are
+ *                        also in "cAds" and "clAds"
+ *                      - Exclusive and low-priority ads have had their priorities
+ *                        calculated on the basis of the placement and advertisement
+ *                        weight
+ */
+function MAX_cacheGetZoneLinkedAdInfos($zoneId, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRows = OA_Dal_Delivery_getZoneLinkedAdInfos($zoneId);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
+    }
+
+    return $aRows;
+}
+
+/**
  * Cache-wrapper for OA_Dal_Delivery_getZoneInfo
  *
  * This function gets zone properties from the database
@@ -335,6 +366,29 @@ function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
     if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
+        $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
+    }
+
+    return $aAds;
+}
+
+/**
+ * Cache-wrapper for OA_Dal_Delivery_getLinkedAdInfos
+ *
+ * The function to get and return the ads for direct selection
+ *
+ * @param  string       $search     The search string for this banner selection
+ *                                  Usually 'bannerid:123' or 'campaignid:123'
+ * @param boolean       $cached     Should a cache lookup be performed?
+ *
+ * @return array|false              The array of ads matching the search criteria
+ */
+function MAX_cacheGetLinkedAdInfos($search, $campaignid, $laspart, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
+    if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aAds = OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid, $laspart);
         $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
     }
 

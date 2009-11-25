@@ -1171,6 +1171,146 @@ $totals['lAds'] = _setPriorityFromWeights($aRows['lAds']);
 $aRows['priority'] = $totals;
 return $aRows;
 }
+function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
+$conf = $GLOBALS['_MAX']['CONF'];
+// Sanitise parameteres
+$zoneid = (int)$zoneid;
+$aRows['xAds']  = array();
+$aRows['ads']   = array();
+$aRows['lAds']  = array();
+$aRows['eAds']  = array();
+$aRows['zone_companion'] = false;
+$aRows['count_active'] = 0;
+$query =
+"SELECT "
+."d.bannerid AS ad_id, "              //MAX_limitationsIsZoneForbidden
+."d.campaignid AS placement_id, "     //MAX_limitationsIsZoneForbidden
+."d.status AS status, "               //self
+."d.storagetype AS type, "            //_adSelectCheckCriteria
+."d.contenttype AS contenttype, "     //_adSelectCheckCriteria
+."d.weight AS weight, "               //_setPriorityFromWeights
+."d.adserver AS adserver, "           //_adSelectCheckCriteria
+."d.block AS block_ad, "              //MAX_limitationsIsZoneForbidden
+."d.capping AS cap_ad, "              //MAX_limitationsIsZoneForbidden
+."d.session_capping AS session_cap_ad, "              //MAX_limitationsIsZoneForbidden
+."d.compiledlimitation AS compiledlimitation, "       //MAX_limitationsCheckAcl
+."d.acl_plugins AS acl_plugins, "             //MAX_limitationsCheckAcl
+."d.alt_filename AS alt_filename, "           //_adSelectCheckCriteria
+."az.priority AS priority, "                  //_adSelectInnerLoop
+."az.priority_factor AS priority_factor, "    //_adSelectInnerLoop
+."az.to_be_delivered AS to_be_delivered, "    //should be used, but isn't?
+."c.campaignid AS campaign_id, "              //logging
+."c.priority AS campaign_priority, "          //self
+."c.weight AS campaign_weight, "              //_setPriorityFromWeights
+."c.companion AS campaign_companion, "        //self
+."c.block AS block_campaign, "                //MAX_limitationsIsZoneForbidden
+."c.capping AS cap_campaign, "                //MAX_limitationsIsZoneForbidden
+."c.session_capping AS session_cap_campaign, "//MAX_limitationsIsZoneForbidden
+."c.show_capped_no_cookie AS show_capped_no_cookie, "
+."c.clientid AS client_id, "                  //_adSelectCheckCriteria
+."ct.status AS tracker_status, "
+.OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe, "
+.OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe "
+."FROM "
+.OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['banners'])." AS d JOIN "
+.OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'])." AS az ON (d.bannerid = az.ad_id) JOIN "
+.OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS c ON (c.campaignid = d.campaignid) LEFT JOIN "
+.OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'])." AS ct ON (ct.campaignid = c.campaignid) "
+."WHERE "
+."az.zone_id = {$zoneid} "
+."AND "
+."d.status <= 0 "
+."AND "
+."c.status <= 0 ";
+$rAds = OA_Dal_Delivery_query($query);
+if (!is_resource($rAds)) {
+if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
+return OA_DELIVERY_CACHE_FUNCTION_ERROR;
+} else {
+return null;
+}
+}
+while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
+// Is the creative from a contract (exclusive), contract or remnant campaign?
+if ($aAd['campaign_priority'] == -1) {
+// Creative is in a contract (exclusive) campaign
+$aRows['xAds'][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+} elseif ($aAd['campaign_priority'] == 0) {
+// Creative is in a remnant campaign
+$aRows['lAds'][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+} elseif ($aAd['campaign_priority'] == -2) {
+// Creative is in a an eCPM campaign
+$aRows['eAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+} else {
+// Creative is in a contract campaign
+$aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+}
+// Also store Companion ads in additional array
+if ($aAd['campaign_companion'] == 1) {
+$aRows['zone_companion'][] = $aAd['placement_id'];  // _adSelectZone
+}
+}
+return $aRows;
+}
+function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart = true) {
+$conf = $GLOBALS['_MAX']['CONF'];
+// Sanitise parameteres
+$campaignid = (int)$campaignid;
+if ($campaignid > 0) {
+$precondition = " AND d.campaignid = '".$campaignid."' ";
+} else {
+$precondition = '';
+}
+$aRows['xAds']  = array();
+$aRows['ads']   = array();
+$aRows['lAds']  = array();
+$aRows['count_active'] = 0;
+$aRows['zone_companion'] = false;
+$aRows['count_active'] = 0;
+$totals = array(
+'xAds'  => 0,
+'ads'   => 0,
+'lAds'  => 0
+);
+$query = OA_Dal_Delivery_buildAdInfoQuery($search, $lastpart, $precondition);
+$rAds = OA_Dal_Delivery_query($query);
+if (!is_resource($rAds)) {
+if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
+return OA_DELIVERY_CACHE_FUNCTION_ERROR;
+} else {
+return null;
+}
+}
+while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
+// Is the creative from a contract (exclusive), contract or remnant campaign?
+if ($aAd['campaign_priority'] == -1) {
+// Creative is in a contract (exclusive) campaign
+$aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
+$aRows['xAds'][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+$totals['xAds'] += $aAd['priority'];
+} elseif ($aAd['campaign_priority'] == 0) {
+// Creative is in a remnant campaign
+$aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
+$aRows['lAds'][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+$totals['lAds'] += $aAd['priority'];
+} elseif ($aAd['campaign_priority'] == -2) {
+// Creative is in an eCPM campaign
+$aRows['eAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+} else {
+// Creative is in a contract campaign
+$aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
+$aRows['count_active']++;
+}
+}
+return $aRows;
+}
 function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true) {
 $conf = $GLOBALS['_MAX']['CONF'];
 // Sanitise parameteres
@@ -1300,6 +1440,8 @@ c.capping AS cap_campaign,
 c.session_capping AS session_cap_campaign,
 c.show_capped_no_cookie AS show_capped_no_cookie,
 m.clientid AS client_id,
+c.clickwindow AS clickwindow,
+c.viewwindow AS viewwindow,
 m.advertiser_limitation AS advertiser_limitation,
 m.agencyid AS agency_id
 FROM
@@ -1777,6 +1919,275 @@ $tables = implode("\n    ", $aTables);
 $leftJoin = "
 LEFT JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['clients'])." AS c ON (c.clientid = m.clientid)
 LEFT JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['agency'])." AS a ON (a.agencyid = c.agencyid)
+";
+$query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . $leftJoin . "\nWHERE " . $select;
+return $query;
+}
+function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+$aColumns = array(
+'d.bannerid AS ad_id',
+'d.campaignid AS placement_id',
+'d.status AS status',
+'d.storagetype AS type',
+'d.contenttype AS contenttype',
+'d.weight AS weight',
+'d.width AS width',
+'d.height AS height',
+'d.adserver AS adserver',
+'d.block AS block_ad',
+'d.capping AS cap_ad',
+'d.session_capping AS session_cap_ad',
+'d.compiledlimitation AS compiledlimitation',
+'d.acl_plugins AS acl_plugins',
+'d.alt_filename AS alt_filename',
+'az.priority AS priority',
+'az.priority_factor AS priority_factor',
+'az.to_be_delivered AS to_be_delivered',
+'m.campaignid AS campaign_id',
+'m.priority AS campaign_priority',
+'m.weight AS campaign_weight',
+'m.companion AS campaign_companion',
+'m.block AS block_campaign',
+'m.capping AS cap_campaign',
+'m.session_capping AS session_cap_campaign',
+'m.show_capped_no_cookie AS show_capped_no_cookie',
+'cl.clientid AS client_id',
+'ct.status AS tracker_status',
+OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe",
+OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe",
+);
+$aTables = array(
+"".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['banners'])." AS d",
+"JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'])." AS az ON (d.bannerid = az.ad_id)",
+"JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS m ON (m.campaignid = d.campaignid) ",
+);
+$select = "
+az.zone_id = 0
+AND m.status <= 0
+AND d.status <= 0";
+// Add preconditions to query
+if ($precondition != '')
+$select .= " $precondition ";
+// Other
+if ($part != '')
+{
+$conditions = '';
+$onlykeywords = true;
+$part_array = explode(',', $part);
+for ($k=0; $k < count($part_array); $k++)
+{
+// Process switches
+if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_')
+{
+$operator = 'AND';
+$part_array[$k] = substr($part_array[$k], 1);
+}
+elseif (substr($part_array[$k], 0, 1) == '-')
+{
+$operator = 'NOT';
+$part_array[$k] = substr($part_array[$k], 1);
+}
+else
+$operator = 'OR';
+//  Test statements
+if($part_array[$k] != '' && $part_array[$k] != ' ')
+{
+// Banner dimensions, updated to support 2.3-only size keyword
+if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
+{
+list($width, $height) = explode('x', $m[1]);
+if ($operator == 'OR')
+$conditions .= "OR (d.width = $width AND d.height = $height) ";
+elseif ($operator == 'AND')
+$conditions .= "AND (d.width = $width AND d.height = $height) ";
+else
+$conditions .= "AND (d.width != $width OR d.height != $height) ";
+$onlykeywords = false;
+}
+// Banner Width
+elseif (substr($part_array[$k],0,6) == 'width:')
+{
+$part_array[$k] = substr($part_array[$k], 6);
+if ($part_array[$k] != '' && $part_array[$k] != ' ')
+{
+if (is_int(strpos($part_array[$k], '-')))
+{
+// Width range
+list($min, $max) = explode('-', $part_array[$k]);
+// Only upper limit, set lower limit to make sure not text ads are delivered
+if ($min == '')
+$min = 1;
+// Only lower limit
+if ($max == '')
+{
+if ($operator == 'OR')
+$conditions .= "OR d.width >= '".trim($min)."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.width >= '".trim($min)."' ";
+else
+$conditions .= "AND d.width < '".trim($min)."' ";
+}
+// Both lower and upper limit
+if ($max != '')
+{
+if ($operator == 'OR')
+$conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+elseif ($operator == 'AND')
+$conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+else
+$conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
+}
+}
+else
+{
+// Single value
+if ($operator == 'OR')
+$conditions .= "OR d.width = '".trim($part_array[$k])."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.width = '".trim($part_array[$k])."' ";
+else
+$conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+}
+}
+$onlykeywords = false;
+}
+// Banner Height
+elseif (substr($part_array[$k],0,7) == 'height:')
+{
+$part_array[$k] = substr($part_array[$k], 7);
+if ($part_array[$k] != '' && $part_array[$k] != ' ')
+{
+if (is_int(strpos($part_array[$k], '-')))
+{
+// Height range
+list($min, $max) = explode('-', $part_array[$k]);
+// Only upper limit, set lower limit to make sure not text ads are delivered
+if ($min == '')
+$min = 1;
+// Only lower limit
+if ($max == '')
+{
+if ($operator == 'OR')
+$conditions .= "OR d.height >= '".trim($min)."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.height >= '".trim($min)."' ";
+else
+$conditions .= "AND d.height < '".trim($min)."' ";
+}
+// Both lower and upper limit
+if ($max != '')
+{
+if ($operator == 'OR')
+$conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+elseif ($operator == 'AND')
+$conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+else
+$conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
+}
+}
+else
+{
+// Single value
+if ($operator == 'OR')
+$conditions .= "OR d.height = '".trim($part_array[$k])."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.height = '".trim($part_array[$k])."' ";
+else
+$conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+}
+}
+$onlykeywords = false;
+}
+// Banner ID, updated to support 2.3-only adid or ad_id
+elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?([0-9]+)$#', $part_array[$k], $m))
+{
+$part_array[$k] = $m[1];
+if ($part_array[$k])
+{
+if ($operator == 'OR')
+$conditions .= "OR d.bannerid='".$part_array[$k]."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.bannerid='".$part_array[$k]."' ";
+else
+$conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+}
+$onlykeywords = false;
+}
+// Campaign ID
+elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?([0-9]+)$#', $part_array[$k], $m))
+{
+$part_array[$k] = $m[1];
+if ($part_array[$k])
+{
+if ($operator == 'OR')
+$conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
+else
+$conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+}
+$onlykeywords = false;
+}
+// Format
+elseif (substr($part_array[$k], 0, 7) == 'format:')
+{
+$part_array[$k] = substr($part_array[$k], 7);
+if($part_array[$k] != '' && $part_array[$k] != ' ')
+{
+if ($operator == 'OR')
+$conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
+else
+$conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+}
+$onlykeywords = false;
+}
+// HTML
+elseif($part_array[$k] == 'html')
+{
+if ($operator == 'OR')
+$conditions .= "OR d.storagetype='html' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.storagetype='html' ";
+else
+$conditions .= "AND d.storagetype!='html' ";
+$onlykeywords = false;
+}
+// TextAd
+elseif($part_array[$k] == 'textad')
+{
+if ($operator == 'OR')
+$conditions .= "OR d.storagetype='txt' ";
+elseif ($operator == 'AND')
+$conditions .= "AND d.storagetype='txt' ";
+else
+$conditions .= "AND d.storagetype!='txt' ";
+$onlykeywords = false;
+}
+// Keywords
+else
+{
+$conditions .= OA_Dal_Delivery_getKeywordCondition($operator, $part_array[$k]);
+}
+}
+}
+// Strip first AND or OR from $conditions
+$conditions = strstr($conditions, ' ');
+// Add global keyword
+if ($lastpart == true && $onlykeywords == true)
+$conditions .= OA_Dal_Delivery_getKeywordCondition('OR', 'global');
+// Add conditions to select
+if ($conditions != '') $select .= ' AND ('.$conditions.') ';
+}
+$columns = implode(",\n    ", $aColumns);
+$tables = implode("\n    ", $aTables);
+$leftJoin = "
+LEFT JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'])." AS ct ON (ct.campaignid = m.campaignid)
+LEFT JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['clients'])." AS cl ON (cl.clientid = m.clientid)
+LEFT JOIN ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['agency'])." AS a ON (a.agencyid = cl.agencyid)
 ";
 $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . $leftJoin . "\nWHERE " . $select;
 return $query;
@@ -3434,6 +3845,16 @@ $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
 }
 return $aRows;
 }
+function MAX_cacheGetZoneLinkedAdInfos($zoneId, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$aRows = OA_Dal_Delivery_getZoneLinkedAdInfos($zoneId);
+$aRows = OA_Delivery_Cache_store_return($sName, $aRows);
+}
+return $aRows;
+}
 function MAX_cacheGetZoneInfo($zoneId, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
@@ -3450,6 +3871,16 @@ $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart
 if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
+$aAds = OA_Delivery_Cache_store_return($sName, $aAds);
+}
+return $aAds;
+}
+function MAX_cacheGetLinkedAdInfos($search, $campaignid, $laspart, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
+if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$aAds = OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid, $laspart);
 $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
 }
 return $aAds;
@@ -3720,10 +4151,10 @@ return $output;
 }
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
-$aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
+$aDirectLinkedAdInfos = MAX_cacheGetLinkedAdInfos($what, $campaignid, $lastpart);
 // Set a flag to let the selection algorithm know that this is a direct request
 $GLOBALS['_MAX']['DIRECT_SELECTION'] = true;
-$aLinkedAd = _adSelectCommon($aDirectLinkedAds, $context, $source, $richMedia);
+$aLinkedAd = _adSelectCommon($aDirectLinkedAdInfos, $context, $source, $richMedia);
 if (is_array($aLinkedAd)) {
 $aLinkedAd['zoneid'] = 0;
 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
@@ -3731,11 +4162,12 @@ $aLinkedAd['storagetype'] = $aLinkedAd['type'];
 $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 return $aLinkedAd;
 }
-if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
+// this looks broken...
+if (!empty($aDirectLinkedAdInfos['default_banner_image_url'])) {
 return array(
 'default'                        => true,
-'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
-'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
+'default_banner_image_url'       => $aDirectLinkedAdInfos['default_banner_image_url'],
+'default_banner_destination_url' => $aDirectLinkedAdInfos['default_banner_destination_url']
 );
 }
 return false;
@@ -3755,45 +4187,50 @@ global $g_append, $g_prepend;
 while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
 $appendedThisZone = false;
-// Get all ads which are linked to the zone
-$aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
-if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneLinkedAds)) {
-$zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
+// first get zone info and check zone level limitations
+$aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
+if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneInfo)) {
+$zoneId = _getNextZone($zoneId, $aZoneInfo);
 continue;
 }
-if (is_array($aZoneLinkedAds)) {
-if (isset($aZoneLinkedAds['forceappend']) && $aZoneLinkedAds['forceappend'] == 't') {
-$g_prepend .= $aZoneLinkedAds['prepend'];
-$g_append = $aZoneLinkedAds['append'] . $g_append;
+// Get all ads which are linked to the zone
+$aZoneLinkedAdInfos = MAX_cacheGetZoneLinkedAdInfos ($zoneId);
+if (is_array($aZoneInfo)) {
+if (isset($aZoneInfo['forceappend']) && $aZoneInfo['forceappend'] == 't') {
+$g_prepend .= $aZoneInfo['prepend'];
+$g_append = $aZoneInfo['append'] . $g_append;
 $appendedThisZone = true;
 }
-$aLinkedAd = _adSelectCommon($aZoneLinkedAds, $context, $source, $richMedia);
+// merge zone info and banner info
+$aZoneLinkedAdInfos += $aZoneInfo;
+$aLinkedAd = _adSelectCommon($aZoneLinkedAdInfos, $context, $source, $richMedia);
 if (is_array($aLinkedAd)) {
 $aLinkedAd['zoneid'] = $zoneId;
 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
 $aLinkedAd['storagetype'] = $aLinkedAd['type'];
 $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-$aLinkedAd['zone_companion'] = $aZoneLinkedAds['zone_companion'];
-$aLinkedAd['block_zone'] = @$aZoneLinkedAds['block_zone'];
-$aLinkedAd['cap_zone'] = @$aZoneLinkedAds['cap_zone'];
-$aLinkedAd['session_cap_zone'] = @$aZoneLinkedAds['session_cap_zone'];
+$aLinkedAd['zone_companion'] = $aZoneLinkedAdInfos['zone_companion'];
+$aLinkedAd['block_zone'] = @$aZoneInfo['block_zone'];
+$aLinkedAd['cap_zone'] = @$aZoneInfo['cap_zone'];
+$aLinkedAd['session_cap_zone'] = @$aZoneInfo['session_cap_zone'];
+$aLinkedAd['affiliate_id'] = @$aZoneInfo['publisher_id'];
 if (!$appendedThisZone) {
-$aLinkedAd['append'] .= @$aZoneLinkedAds['append'] . $g_append;
-$aLinkedAd['prepend'] = $g_prepend . @$aZoneLinkedAds['prepend'] . $aLinkedAd['prepend'];
+$aLinkedAd['append'] .= @$aZoneInfo['append'] . $g_append;
+$aLinkedAd['prepend'] = $g_prepend . @$aZoneInfo['prepend'] . $aLinkedAd['prepend'];
 } else {
 $aLinkedAd['append'] .= $g_append;
 $aLinkedAd['prepend'] = $g_prepend . $aLinkedAd['prepend'];
 }
 return ($aLinkedAd);
 }
-$zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
+$zoneId = _getNextZone($zoneId, $aZoneInfo);
 }
 }
-if (!empty($aZoneLinkedAds['default_banner_image_url'])) {
+if (!empty($aZoneInfo['default_banner_image_url'])) {
 return array(
 'default'                        => true,
-'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
-'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
+'default_banner_image_url'       => $aZoneInfo['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url']
 );
 }
 return false;
@@ -3811,7 +4248,7 @@ $adSelectFunction = '_adSelect';
 // Are there any ads linked?
 if (!empty($aAds['count_active'])) {
 // Is this a companion request and can it be fullfilled?
-if (isset($aAds['zone_companion'])) {
+if (isset($aAds['zone_companion']) && isset($context)) {
 foreach ($context as $contextEntry) {
 if (isset($contextEntry['==']) && preg_match('/^companionid:/', $contextEntry['=='])) {
 if ($aLinkedAd = _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMedia, true)) {
@@ -3839,17 +4276,36 @@ $aCampaignTypes = array(
 $GLOBALS['_MAX']['considered_ads'][] = &$aAds;
 foreach ($aCampaignTypes as $type => $aPriorities) {
 if ($aPriorities) {
+$ad_picked = false;
 foreach ($aPriorities as $pri) {
+// Even though we've selected an ad, we need to continue
+// applying filtering rules in order to construct a valid
+// qualified ad set, which MPE 2.x needs to know.
+if (!$ad_picked) {
 $aLinkedAd = OX_Delivery_Common_hook('adSelect',
 array(&$aAds, &$context, &$source, &$richMedia, $companion, $type, $pri), $adSelectFunction);
 // Did we pick an ad from this campaign-priority level?
 if (is_array($aLinkedAd)) {
-return $aLinkedAd;
+$ad_picked = true;
 }
 // Should we skip the next campaign-priority level?
 if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) {
-break;
+$ad_picked = true;
 }
+}
+else
+{
+if (!empty($aAds[$type][$pri])) {
+// Build preconditions
+$aContext = _adSelectBuildContextArray($aAds[$type][$pri], $type, $context);
+// New delivery algorithm: discard all invalid ads before iterating over them
+// $aAds passed by ref here
+_adSelectDiscardNonMatchingAds($aAds[$type][$pri], $aContext, $source, $richMedia);
+}
+}
+}
+if ($ad_picked && is_array ($aLinkedAd)) {
+return $aLinkedAd;
 }
 } else {
 $aLinkedAd = OX_Delivery_Common_hook('adSelect', array(&$aAds, &$context, &$source, &$richMedia, $companion, $type), $adSelectFunction);
@@ -3861,14 +4317,14 @@ return $aLinkedAd;
 }
 return false;
 }
-function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $companion, $adArrayVar = 'ads', $cp = null)
+function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, $adArrayVar = 'ads', $cp = null)
 {
 // If there are no linked ads, we can return
-if (!is_array($aLinkedAds)) { return; }
-if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
-$aAds = &$aLinkedAds[$adArrayVar][$cp];
-} elseif (is_null($cp) && isset($aLinkedAds[$adArrayVar])) {
-$aAds = &$aLinkedAds[$adArrayVar];
+if (!is_array($aLinkedAdInfos)) { return; }
+if (!is_null($cp) && isset($aLinkedAdInfos[$adArrayVar][$cp])) {
+$aAds = &$aLinkedAdInfos[$adArrayVar][$cp];
+} elseif (is_null($cp) && isset($aLinkedAdInfos[$adArrayVar])) {
+$aAds = &$aLinkedAdInfos[$adArrayVar];
 } else {
 $aAds = array();
 }
@@ -3890,9 +4346,9 @@ if (isset($cp)) {
 $used_priority = 0;
 for ($i = 10; $i > $cp; $i--)
 {
-if (isset ($aLinkedAds['priority_used'][$adArrayVar][$i]))
+if (isset ($aLinkedAdInfos['priority_used'][$adArrayVar][$i]))
 {
-$used_priority += $aLinkedAds['priority_used'][$adArrayVar][$i];
+$used_priority += $aLinkedAdInfos['priority_used'][$adArrayVar][$i];
 }
 }
 // sanity check, in case there is no space left.
@@ -3905,7 +4361,7 @@ $total_priority_orig = 0;
 foreach ($aAds as $ad) {
 $total_priority_orig += $ad['priority'] * $ad['priority_factor'];
 }
-$aLinkedAds['priority_used'][$adArrayVar][$i] = $total_priority_orig;
+$aLinkedAdInfos['priority_used'][$adArrayVar][$i] = $total_priority_orig;
 // If thre's no active ads, we can return
 if (!$total_priority_orig) {
 return;
@@ -3965,7 +4421,10 @@ if (!empty($aLinkedAd['priority'])) {
 $low = $high;
 $high += $aLinkedAd['priority'];
 if ($high > $random_num && $low <= $random_num) {
-return $aLinkedAd;
+$ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
+// Carry over for conversion tracking
+$ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
+return $ad;
 }
 }
 }
@@ -4007,11 +4466,11 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 return false;
 }
 if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
-(($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
+(($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || $aAd['html_ssl_unsafe'])) {
 // HTML Banners that contain 'http:' on SSL
 return false;
 }
-if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'url' && $aAd['url_ssl_unsafe']) {
 // It only matters if the initial call is to non-SSL (it can/could contain http:)
 return false;
 }
@@ -4103,9 +4562,6 @@ $context[] = array('!=' => $value);
 }
 }
 }
-}
-if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {
-$context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
 }
 return $context;
 }

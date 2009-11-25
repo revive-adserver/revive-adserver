@@ -147,6 +147,23 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     }
 
     /**
+     * return an array of zone properties and arrays of linked ads for a given zone
+     *
+     */
+    function test_OA_Dal_Delivery_getZoneLinkedAdInfos()
+    {
+        $zoneid     = $this->aIds['zones'][61];
+        $aReturn    = OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid);
+
+        $this->assertIsA($aReturn, 'array');
+        $this->assertIsA($aReturn['xAds'], 'array');
+        $this->assertIsA($aReturn['ads'], 'array');
+        $this->assertIsA($aReturn['lAds'], 'array');
+        $this->assertIsA($aReturn['count_active'], 'integer');
+        $this->assertIsA($aReturn['zone_companion'], 'boolean');
+    }
+
+    /**
      * @todo needs more test cases
      *
      * return an array of ads that match a given search term

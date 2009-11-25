@@ -161,6 +161,11 @@ function OX_escapeIdentifier($string)
     return '`'.$string.'`';
 }
 
+function OX_Dal_Delivery_regex($column, $regexp)
+{
+    return $column." REGEXP '".$regexp."'";
+}
+
 function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
