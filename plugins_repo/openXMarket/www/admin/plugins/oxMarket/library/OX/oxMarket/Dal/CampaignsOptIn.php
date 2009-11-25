@@ -330,8 +330,12 @@ class OX_oxMarket_Dal_CampaignsOptIn
                                    ' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM);
         } elseif ($campaignType == 'contract') {
             $doCampaigns->whereAdd('priority > 0');
+            $doCampaigns->whereAdd('expire_time IS NULL');
+            
         } else { // 'all' or null (or any not matching)
-            $doCampaigns->whereAdd('priority != -1');
+            $doCampaigns->whereAdd('priority = ' . DataObjects_Campaigns::PRIORITY_REMNANT 
+                                   .' OR priority = ' . DataObjects_Campaigns::PRIORITY_ECPM 
+                                   .' OR (priority > 0 AND expire_time IS NULL)');
         }
 
         if (isset($searchPhrase)) {
