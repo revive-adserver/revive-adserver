@@ -96,7 +96,7 @@ class OX_Admin_UI_Install_InstallController
             header("Location: index.php");
             exit();
         }
-        @set_time_limit(600);
+        @set_time_limit(0);
         
         //  load translations for installer
         Language_Loader::load('installer');
