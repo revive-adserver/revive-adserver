@@ -65,7 +65,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $block;                           // INT(11) => openads_int => 129 
     public $capping;                         // INT(11) => openads_int => 129 
     public $session_capping;                 // INT(11) => openads_int => 129
-    public $show_capped_no_cookie;           // TINYINT(4) => openads_int => 129
     public $what;                            // TEXT() => openads_text => 162 
     public $as_zone_id;                      // INT(11) => openads_int => 1 
     public $is_in_ad_direct;                 // TINYINT(1) => openads_tinyint => 145 
