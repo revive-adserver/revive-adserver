@@ -183,8 +183,8 @@
     <delete dir="${dir.test.results}/rpm/buildroot/${rpm.basepath}/${release}" />
   </target>
 
-  <target name="package" depends="prepare-distribution, package-rpm"/>
-<!--  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip"/> -->
+  <!--target name="package" depends="prepare-distribution, package-rpm"/-->
+  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip, package-rpm"/>
 
   <target name="write-origin-id" depends="prepare-version-info" if="originid">
     <echo message="${originid}" file="${dir.test.results}/${release}/etc/origin.txt" append="no"/>
