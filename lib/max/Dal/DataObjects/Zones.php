@@ -71,7 +71,8 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $rate;                            // DECIMAL(19,2) => openads_decimal => 1 
     public $pricing;                         // VARCHAR(50) => openads_varchar => 130 
     public $oac_category_id;                 // INT(11) => openads_int => 1 
-    public $ext_adselection;                 // VARCHAR(255) => openads_varchar => 130 
+    public $ext_adselection;                 // VARCHAR(255) => openads_varchar => 2 
+    public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Zones',$k,$v); }
@@ -98,6 +99,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
                 'what' => '',
                 'is_in_ad_direct' => 0,
                 'pricing' => 'CPM',
+                'show_capped_no_cookie' => 0,
                 'ext_adselection' => '',
                 );
 
