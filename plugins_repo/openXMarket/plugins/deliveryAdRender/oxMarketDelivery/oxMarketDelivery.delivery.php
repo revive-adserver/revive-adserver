@@ -109,6 +109,11 @@ function _marketNeeded($scriptFile, $code, $aAd) {
     if (!in_array($scriptFile, $aAllowedTypes)) {
         return false;
     }
+    // Only process if ad size is allowed by market
+    $sizes = OX_cacheGetCreativeSizes();
+    if (!array_key_exists($aAd['width'].'x'.$aAd['height'], $sizes)) {
+        return false;
+    }
     
     // Check that this OXP platform or manager is connected to the publisher console
     $aConf = $GLOBALS['_MAX']['CONF'];
@@ -147,7 +152,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
     if (!empty($aAd['width']) && !empty($aAd['height']) && $aAd['width'] > 0 && $aAd['height'] >0 
         && !empty($aWebsiteMarketInfo['website_id']))
     {
-        // TODO: Check if $aAd['width'] && $aAd['height'] are allowed 
+        // TODO: Check if $aAd['width'] && $aAd['height'] are allowed
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
 
         $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://'; 
@@ -454,7 +459,6 @@ function OX_cacheGetCreativeSizes($cached = true)
         $aRow = OX_marketGetCreativeSizes();
         $aRow = OA_Delivery_Cache_store_return($sName, $aRow);
     }
-
     return $aRow;
 }
 

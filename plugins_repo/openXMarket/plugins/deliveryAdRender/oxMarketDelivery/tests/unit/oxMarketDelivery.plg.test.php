@@ -584,8 +584,8 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
 
         $banner = 'test banner';
         $aBanner = array(
-            'width' => 123,
-            'height' => 234,
+            'width' => 468,
+            'height' => 60,
             'campaignid' => 345,
             'affiliate_id' => 256,
         );
@@ -607,7 +607,7 @@ class Plugins_deliveryAdRender_oxMarketDelivery_oxMarketDeliveryTest extends Uni
         $aOXM_ad = $oJson->decode($jsonOXM_ad);
         $this->assertEqual($aOXM_ad->website, $website_id);
         $this->assertEqual($aOXM_ad->floor, 0.12);
-        $this->assertEqual($aOXM_ad->size, "123x234");
+        $this->assertEqual($aOXM_ad->size, "468x60");
         $this->assertTrue(isset($aOXM_ad->beacon));
         $this->assertEqual($aOXM_ad->fallback, $banner); 
        
