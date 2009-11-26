@@ -159,9 +159,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 2: Cap of 3, not seen yet
@@ -170,9 +171,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 3: Cap of 3, seen two times
@@ -181,8 +183,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 2;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 4: Cap of 3, seen three times
@@ -191,8 +194,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 3;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 5: Cap of 3, seen four times
@@ -201,8 +205,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 4;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 6: Session cap of 3, not seen yet
@@ -211,9 +216,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
+        $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 7: Session cap of 3, seen two times
@@ -222,8 +228,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 8: Session cap of 3, seen three times
@@ -232,8 +239,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 3;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 9: Session cap of 3, seen four times
@@ -242,8 +250,9 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 4;
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 10: First impression (cap = 2, block = 60s)
@@ -251,10 +260,11 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 2;
         $block      = 60;
+        $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         unset($_COOKIE[$sessionCapCookieName][$id]);
         unset($_COOKIE[$blockCookieName][$id]);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 11: Second impression (cap = 2, block 60s)
@@ -262,10 +272,11 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 2;
         $block      = 60;
+        $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 1;
         $_COOKIE[$blockCookieName][$id] = $now - ($block - 1);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 12: Third impression within block (cap = 2, block 60s)
@@ -273,10 +284,11 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 2;
         $block      = 60;
+        $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
         $_COOKIE[$blockCookieName][$id] = $now - ($block - 1);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 13: Third impression outside block (cap = 2, block = 60s)
@@ -284,10 +296,11 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 0;
         $sessionCap = 2;
         $block      = 60;
+        $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
         $_COOKIE[$blockCookieName][$id] = $now - ($block + 1);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertFalse($return);
 
         // Test 10: newViewerId cookie set
@@ -295,10 +308,11 @@ class Test_DeliveryLimitations extends UnitTestCase
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
+        $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
-        $return = $functionName($id, $cap, $sessionCap, $block);
+        $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
     }
 }
