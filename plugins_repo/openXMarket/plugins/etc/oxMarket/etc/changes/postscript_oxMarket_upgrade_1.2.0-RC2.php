@@ -40,6 +40,22 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
+    
+        $oManager   = & new OX_Plugin_ComponentGroupManager();
+        $aComponentSettings    = $oManager->getComponentGroupSettings('oxMarket', false);
+        foreach ($aComponentSettings as $setting) {
+            if ($setting['key'] == 'marketPublicApiUrl') {
+                $value = $setting['value'];
+                break; 
+            }
+        } 
+        
+        $oSettings  = new OA_Admin_Settings();
+        $oSettings->settingChange('oxMarket','marketPublicApiUrl',$value);
+        if (!$oSettings->writeConfigChange()) {
+            OA::debug('openXMarket plugin: Couldn\'t update marketPublicApiUrl, value should be '.$value);
+        }
+        
         $this->migrateFromPre283();
         return true;
 
@@ -95,4 +111,3 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
     }
 }
 
-?>
