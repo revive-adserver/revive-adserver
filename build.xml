@@ -42,12 +42,9 @@
 
   <target name="generate-delivery"
     description="Merge delivery files into /www/delivery folder to optimize their speed.">
-    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
-      <deliveryfiles dir="${basedir}/www/delivery_dev">
-        <include name="*.php"/>
-        <exclude name="template.php"/>
-      </deliveryfiles>
-    </generatedelivery>
+    <exec dir="${basedir}/scripts/delivery" executable="php" failonerror="true">
+        <arg value="rebuild.php" />
+    </exec>
   </target>
 
   <target name="delivery-commit"
