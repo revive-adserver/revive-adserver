@@ -74,7 +74,7 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
     function migrateFromPre283()
     {
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $query = '	INSERT INTO '.$prefix.OX_oxMarket_Stats::MARKET_STATS_TABLE.'
+        $query = '	INSERT INTO '.$prefix.'ext_market_stats
                     SELECT date_time, 
                     		NULL as market_advertiser_id, 
                     		t.width as ad_width, 
@@ -101,7 +101,7 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
                     AND t5.type=1
                     ';
         $oDbh = OA_DB::singleton();
-        $rows = $oDbh->query('TRUNCATE TABLE '.$prefix.OX_oxMarket_Stats::MARKET_STATS_TABLE);
+        $rows = $oDbh->query('TRUNCATE TABLE '.$prefix.'ext_market_stats');
         $rows = $oDbh->query($query);
         if (PEAR::isError($rows))
         {
