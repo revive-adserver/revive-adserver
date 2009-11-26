@@ -124,7 +124,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         or preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -144,7 +144,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         no preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -165,7 +165,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 20);
+        $this->assertEqual(count($aResult), 21);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -185,7 +185,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -208,7 +208,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         two preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -231,7 +231,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -254,7 +254,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -276,7 +276,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          four preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -300,7 +300,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          five preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -324,7 +324,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          six preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
