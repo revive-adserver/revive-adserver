@@ -732,6 +732,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('block', $aZone2));
         $this->assertTrue(array_key_exists('capping', $aZone2));
         $this->assertTrue(array_key_exists('session_capping', $aZone2));
+        $this->assertTrue(array_key_exists('show_capped_no_cookie', $aZone2));
 
         $aZone2 = array_filter($aZone2, 'strlen');
         $this->assertEqual($aZone1, $aZone2);
@@ -772,6 +773,7 @@ class Admin_DaTest extends DalUnitTestCase
         unset($aZone1['is_in_ad_direct']);
         unset($aZone1['rate']);
         unset($aZone1['pricing']);
+        unset($aZone1['show_capped_no_cookie']);
         $aZone1 = array_filter($aZone1, 'strlen');
 
         $aZone2 = Admin_DA::getZones(array('zone_id' => $ret));
