@@ -186,6 +186,8 @@ blockAdClicks                       = 0      ; from the same viewer ID for them 
 
 channelForecasting                  = false
 pruneCompletedCampaignsSummaryData  = false
+pruneDataTables                     = true
+
 ;channelForecastingDaysBack          = 30     ; How many days from history should be used for forecasting
 ;channelForecastingDaysAhead         = 7      ; If campaign expire date is empty forecast for this number of days
 ;channelForecastingMaxDaysAhead      = 30     ; Even if campaign expire date is biger do not forecast more than

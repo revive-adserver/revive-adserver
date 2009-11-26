@@ -197,8 +197,10 @@ blockAdImpressions                  = 0      ; How many seconds must be between 
 blockAdClicks                       = 0      ; from the same viewer ID for them to count? Set to 0 seconds
                                              ; for all to count.
 
+channelForecasting                  = false
 pruneCompletedCampaignsSummaryData  = false
-channelForecasting                  = true
+pruneDataTables                     = true
+
 ;channelForecastingDaysBack          = 30     ; How many days from history should be used for forecasting
 ;channelForecastingDaysAhead         = 7      ; If campaign expire date is empty forecast for this number of days
 ;channelForecastingMaxDaysAhead      = 30     ; Even if campaign expire date is biger do not forecast more than

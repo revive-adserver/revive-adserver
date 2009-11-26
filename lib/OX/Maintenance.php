@@ -322,6 +322,9 @@ class OX_Maintenance
 
     function _runPriorityPruning()
     {
+        if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['pruneDataTables'])) {
+            return;
+        }
         $oDal = new OA_Maintenance_Pruning();
         $oDal->run();
     }
@@ -357,6 +360,9 @@ class OX_Maintenance
      */
     function _runGeneralPruning()
     {
+        if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['pruneDataTables'])) {
+            return;
+        }
         // Calculate the date before which it is valid to prune data
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oNowDate =& $oServiceLocator->get('now');
