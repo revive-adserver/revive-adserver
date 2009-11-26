@@ -241,10 +241,56 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
+        
+        $this->migrateStatsFromPre283();
+        
         return true; // we allow to enable plugin
     }
 
-
+    protected function migrateStatsFromPre283()
+    {
+        $oDbh = OA_DB::singleton();
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $countOldStatistics = $oDbh->getOne('SELECT count(*) FROM '.$prefix.'ext_market_web_stats');
+        $countNewStatistics = $oDbh->getOne('SELECT count(*) FROM '.$prefix.'ext_market_stats');
+		
+        if($countOldStatistics > 0
+            && $countNewStatistics == 0) {
+            $migrationQuery = '	INSERT INTO '.$prefix.'ext_market_stats
+                    SELECT date_time, 
+                    		NULL as market_advertiser_id, 
+                    		t2.affiliateid as website_id, 
+                    		t.width as ad_width, 
+                    		t.height as ad_height, 
+                    		0 as zone_id, 
+                    		t6.bannerid as ad_id, 
+                    		t.impressions as impressions, 
+                    		0 as clicks, 
+                    		0 as requests,
+                    		t.revenue as revenue
+                    FROM '.$prefix.'ext_market_web_stats t
+                    LEFT JOIN '.$prefix.'ext_market_website_pref t2
+                    ON t2.website_id = t.p_website_id 
+                    LEFT JOIN '.$prefix.'affiliates t3
+                    ON t3.affiliateid = t2.affiliateid
+                    LEFT JOIN '.$prefix.'clients t4
+                    ON t4.agencyid = t3.agencyid 
+                    LEFT JOIN '.$prefix.'campaigns t5
+                    ON t5.clientid=t4.clientid 
+                    LEFT JOIN '.$prefix.'banners t6
+                    ON t6.campaignid = t5.campaignid
+                    WHERE t4.type = 1
+                    AND t5.type=1
+                    ';
+            $rows = $oDbh->query($migrationQuery);
+            if (PEAR::isError($rows))
+            {
+                OA::debug($rows->getUserInfo());
+                OA::debug('Migration stats query failed. You can execute try to execute it manually: <br> '.$migrationQuery);
+            }
+        }
+    }
+    
     public function onDisable()
     {
         $this->removeRegisterNotification();

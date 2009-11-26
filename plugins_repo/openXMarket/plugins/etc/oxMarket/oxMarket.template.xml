@@ -117,7 +117,6 @@
             <file path="{ADMINPATH}/">market-preferences-website.php</file>
 			<file path="{ADMINPATH}/">market-signup.php</file>
 			<file path="{ADMINPATH}/">market-sso-user-exists.php</file>	
-            <file path="{ADMINPATH}/">market-stats.php</file>
 			<file path="{ADMINPATH}/">market-quality-tool.php</file>
 			<file path="{ADMINPATH}/">market-run-registerwebsites.php</file>
             <file path="{ADMINPATH}/">oxMarket.class.php</file>
@@ -160,14 +159,12 @@
             </checkers>
             <admin>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketStandaloneModeChecker">OpenX Market</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketAdminStatsChecker">OpenX Market</menu>
             </admin>
             <manager>
                 <menu addto="account-index" index="openx-market" link="plugins/oxMarket/market-index.php" checker="Plugins_admin_oxMarket_oxMarketMultipleAccountsModeChecker">OpenX Market</menu>
                 <menu addto="inventory" index="market-campaigns-settings" link="plugins/oxMarket/market-campaigns-settings.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market Quickstart</menu>
                 <menu addto="website-index" index="market-preferences-website" link="plugins/oxMarket/market-preferences-website.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Content Restrictions</menu>                
                 <menu addto="website-index" index="market-website-qualitytool" link="plugins/oxMarket/market-quality-tool.php?affiliateid={affiliateid}" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market - Ad Quality Tool</menu>
-                <menu addto="2" index="openx-market-stats" link="plugins/oxMarket/market-stats.php" checker="Plugins_admin_oxMarket_oxMarketActiveChecker">OpenX Market</menu>
                 <menu insertbefore="campaign-edit" index="market-campaign-edit_new" link="plugins/oxMarket/market-campaign-edit.php?clientid={clientid}"  exclusive="true" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Add new campaign</menu>
                 <menu insertbefore="campaign-edit" index="market-campaign-edit" link="plugins/oxMarket/market-campaign-edit.php?clientid={clientid}&amp;campaignid={campaignid}" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Campaign Properties</menu>
                 <menu insertafter="campaign-zone" index="market-campaign-acl" link="plugins/oxMarket/market-campaign-acl.php?clientid={clientid}&amp;campaignid={campaignid}" checker="Plugins_admin_oxMarket_oxMarketEntityChecker">Delivery Options</menu>
