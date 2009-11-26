@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Market for OpenX Ad Server (Download) Delivery</description>
-    <version>0.4.0</version>
-    <oxversion>2.7.31-beta-rc2</oxversion>
+    <version>0.4.1</version>
+    <oxversion>2.8.3-rc2</oxversion>
     <extends>deliveryAdRender</extends>
 
     <install>
