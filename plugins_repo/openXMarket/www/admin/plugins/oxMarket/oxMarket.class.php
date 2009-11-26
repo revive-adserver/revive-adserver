@@ -281,6 +281,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     ON t6.campaignid = t5.campaignid
                     WHERE t4.type = 1
                     AND t5.type=1
+                    AND t.impressions <> 0
                     ';
             $rows = $oDbh->query($migrationQuery);
             if (PEAR::isError($rows))
