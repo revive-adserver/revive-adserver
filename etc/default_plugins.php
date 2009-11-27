@@ -10,4 +10,4 @@ $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXInvoca
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLog','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMarket','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXWorkflow','ext'=>'zip');
-$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip', 'disabled'=>'true');
+$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip');
