@@ -613,13 +613,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     {
         // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
         // across this manager
-        $startRealBannerName = 1 + strpos($bannerName, '-');
+        $startRealBannerName = 1 + strpos($bannerName, '_');
         if($startRealBannerName !== false) {
             $bannerName = substr($bannerName, $startRealBannerName);
             // the banner $NAME can be
-            // - "$ADVERTISER_ID-$AD_WIDTH x $AD_HEIGHT"
+            // - "$ADVERTISERID_$ADWIDTH x $ADHEIGHT"
             // - or "$AD_WIDTH x $AD_HEIGHT"
-            $startBannerDimension = strpos($bannerName, '-');
+            $startBannerDimension = strpos($bannerName, '_');
             
             $marketAdvertiserName = false;
             if($startBannerDimension === false) {

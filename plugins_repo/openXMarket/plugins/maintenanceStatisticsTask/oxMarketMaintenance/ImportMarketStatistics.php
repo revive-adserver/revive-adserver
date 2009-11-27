@@ -185,7 +185,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     
     const NON_EMPTY_CHANNEL_EXPECTED = 'import-stats-non-empty-channel-expected-account-';
     
-    protected function getMarketBannerIdFromAccountId($accountId)
+    protected function getMarketBannerIdFromWebsiteId($websiteId)
     {
         static $accountToBannerId = array();
         if(!isset($accountToBannerId[$accountId])) {
@@ -196,12 +196,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 c.campaignid as placement_id,
                 b.bannerid as ad_id
             FROM 
-            	{$aConf['table']['prefix']}{$aConf['table']['agency']} agency 
-                INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['clients']} a ON agency.agencyid = a.agencyid
+            	{$aConf['table']['prefix']}{$aConf['table']['affiliates']} affiliates
+                INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['clients']} a ON affiliates.agencyid = a.agencyid
                 INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['campaigns']} c ON a.clientid = c.clientid
                 INNER JOIN {$aConf['table']['prefix']}{$aConf['table']['banners']} b ON c.campaignid = b.campaignid
             WHERE
-                agency.account_id = {$accountId} AND a.type = 1 AND c.type = 1";
+                affiliates.affiliateid = {$websiteId} AND a.type = 1 AND c.type = 1";
             $oDbh = OA_DB::singleton();
             $return = $oDbh->query($query);
             $return = $return->fetchRow();
@@ -295,7 +295,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                                 continue;
                             }
                         }
-                        $adId = $this->getMarketBannerIdFromAccountId($accountId);
+                        $adId = $this->getMarketBannerIdFromWebsiteId($websiteId);
                         $marketAdvertiserId = $aRow[9];
                         if(!empty($marketAdvertiserId)) {
                             $this->marketAdvertiserIds[] = $marketAdvertiserId;
@@ -482,7 +482,6 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         }
         return $this->aActiveAccounts;
     }
-    
     
     /**
      * Set last import statistics update date to now
