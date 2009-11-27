@@ -56,6 +56,8 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
             OA::debug('openXMarket plugin: Couldn\'t update marketPublicApiUrl, value should be '.$value);
         }
         
+        $this->optOutExclusiveCampaigns();
+        
         return true;
 
     }
@@ -70,5 +72,33 @@ class oxMarket_UpgradePostscript_1_2_0_RC2
         $this->oUpgrade->oLogger->logError($msg);
     }
 
+    /**
+     * Opt out Contract Exclusive and Contract with end date set campaigns
+     *
+     * @return bool
+     */
+    function optOutExclusiveCampaigns()
+    {
+        $oDbh = &OA_DB::singleton();
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $prefix = $aConf['table']['prefix'];
+        $campaignPrefTable = $oDbh->quoteIdentifier($prefix.'ext_market_campaign_pref', true);
+        $campaignsTable = $oDbh->quoteIdentifier($prefix.$aConf['table']['campaigns'], true);
+
+        $query = "UPDATE ".$campaignPrefTable."
+                  SET is_enabled = 0 
+                  WHERE campaignid IN (
+                    SELECT campaignid FROM ".$campaignsTable."
+                    WHERE priority = -1 OR (priority>0 AND expire_time is NOT NULL))";
+        $ret = $oDbh->query($query);
+
+        if (PEAR::isError($ret))
+        {
+            $this->logError($ret->getUserInfo());
+            $this->logOnly('Cannot opt out Contract Exclusive and Contract with end date set campaigns.');
+        }
+        
+        return true;
+    }
 }
 
