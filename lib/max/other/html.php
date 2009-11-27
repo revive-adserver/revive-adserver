@@ -45,7 +45,7 @@ function MAX_buildName($id, $name)
     return htmlentities($name);
 }
 
-function MAX_getEntityIcon($entity, $active=true, $type='')
+function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid = '')
 {
     include_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
@@ -92,6 +92,14 @@ function MAX_getEntityIcon($entity, $active=true, $type='')
                 case 'txt'  : $icon = $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif'; break;
                 case 'url'  : $icon = $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif'; break;
                 case 'web'  : $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
+                case 'market-optin-banner': 
+                    if(!isset($GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'])
+                        || empty($marketAdvertiserid)) {
+                        $icon = 'images/icon-banner-stored.gif';
+                    } else {
+                        $icon = $GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'] . '/api/advertiser/icon/id/'.$marketAdvertiserid;
+                    }
+                    break;
                 default     : $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
             }
             break;
@@ -108,7 +116,7 @@ function MAX_getEntityIcon($entity, $active=true, $type='')
             }
             break;
     }
-    return OX::assetPath() . "/" . $icon;
+    return substr($icon,0,4) == 'http' ? $icon : (OX::assetPath() . "/" . $icon);
 }
 
 function MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $entityIds=null, $anonymous=false)
