@@ -1430,6 +1430,16 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
                         OA::debug("  - Sending campaign deactivated email ", PEAR_LOG_DEBUG);
                         $oEmail->sendCampaignActivatedDeactivatedEmail($aCampaign['campaign_id'], $disableReason);
+
+                        // Also send campaignDeliveryEmail for the campaign we just deactivated.
+                        $doClients = OA_Dal::staticGetDO('clients', $aCampaign['advertiser_id']);
+                        $aAdvertiser = $doClients->toArray();
+                        OA::debug("  - Sending campaign delivery email ", PEAR_LOG_DEBUG);
+                        $oStart = new Date($aAdvertiser['reportlastdate']);
+                        $oEnd = new Date();
+                        // Set end date to tomorrow so we get stats for today.
+                        $oEnd->addSpan(new Date_Span('1-0-0-0')); 
+                        $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStart, $oEnd, $aCampaign['campaign_id']);
                     }
                 } else if ($canExpireSoon) {
                     // The campaign has NOT been deactivated - test to see if it will

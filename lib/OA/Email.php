@@ -51,7 +51,7 @@ class OA_Email
     var $aClientCache;
     var $aAgencyCache;
 
-    function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate = null, $oEndDate = null) {
+    function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate = null, $oEndDate = null, $campaignId = null) {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aAdvertiser['account_id'], true);
@@ -68,7 +68,7 @@ class OA_Email
                 $aFromDetails = $this->_getAgencyFromDetails($aAdvertiser['agencyid']);
             }
             foreach ($aLinkedUsers as $aUser) {
-                $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $aAdvertiser['clientid'], $oStartDate, $oEndDate);
+                $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $aAdvertiser['clientid'], $oStartDate, $oEndDate, $campaignId);
                 if ($aEmail !== false) {
                     if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
                         if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
@@ -113,7 +113,7 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate)
+    function prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate, $campaignId)
     {
 
         Language_Loader::load('default',$aUser['language']);
@@ -155,7 +155,7 @@ class OA_Email
         }
 
         // Prepare the email body
-        $aEmailBody = $this->_prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
+        $aEmailBody = $this->_prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate, $campaignId);
 
         // Was anything found?
         if ($aEmailBody['body'] == '') {
@@ -211,8 +211,9 @@ class OA_Email
      * @param integer    $advertiserId The advertiser's ID.
      * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
      * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
+     * @param integer    $campaignId   Restrict the report to a single campaign.
      */
-    function _prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
+    function _prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate, $campaignId)
     {
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
         global $strCampaign, $strBanner;
@@ -246,12 +247,19 @@ class OA_Email
         // Fetch all the advertiser's campaigns
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $advertiserId;
+
+        if (!empty($campaignId)) {
+            $doCampaigns->campaignid = $campaignId;
+        }
+
         $doCampaigns->orderBy('campaignid');
         $doCampaigns->find();
         if ($doCampaigns->getRowCount() > 0) {
             while ($doCampaigns->fetch()) {
             	$aCampaign = $doCampaigns->toArray();
-            	if ($aCampaign['status'] == '0') {
+
+                // If campaign is active or we are running the report for a single campaign.
+            	if ($aCampaign['status'] == '0' || !empty($campaignId)) {
             		// Add the name of the campaign to the report
             		$emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
                     $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
@@ -839,7 +847,7 @@ class OA_Email
                         }
                     }
                 }
-            }
+                        }
             // Restore the default language strings
             Language_Loader::load('default');
         }
