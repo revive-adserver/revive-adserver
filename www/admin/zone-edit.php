@@ -346,11 +346,10 @@ function processForm($form, $oComponent = null)
             $doZones->comments = $aFields['comments'];
             $doZones->delivery = $aFields['delivery'];
             if ($aFields['delivery'] != phpAds_ZoneText && $aFields['delivery'] != phpAds_ZoneBanner) {
+                $doZones->prepend = '';
                 $doZones->append = '';
             }
-            if ($aFields['delivery'] != phpAds_ZoneText) {
-                $doZones->prepend = '';
-            }
+
             $doZones->oac_category_id  = $aFields['oac_category_id'];
             $doZones->zoneid = $aFields['zoneid'];
             $doZones->update();
