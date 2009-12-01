@@ -236,7 +236,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
-            $oActivate = new Date($this->activate_time);
+            $oNow->toUTC();
+            $oActivate = new Date($this->activate_time);            
+            $oActivate->setTZbyID('UTC');
             if ($oNow->before($oActivate)) {
                 return true;
             }
@@ -261,7 +263,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
+            $oNow->toUTC();
             $oExpire = new Date($this->expire_time);
+            $oExpire->setTZbyID('UTC');
             if ($oNow->after($oExpire)) {
                 return true;
             }
