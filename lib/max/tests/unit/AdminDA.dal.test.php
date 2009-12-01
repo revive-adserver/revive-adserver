@@ -566,7 +566,8 @@ class Admin_DaTest extends DalUnitTestCase
             'bannertext' => 'text',
             'compiledlimitation' => '',
             'append' => '',
-            'acls_updated' => '2007-04-11'
+            'acls_updated' => '2007-04-11',
+            'status' => 1 // Added for OX-5712
             ));
 
         $ret = Admin_DA::getAd($id);
@@ -612,6 +613,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('ad_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
         $this->assertTrue(array_key_exists('status', $ret));
+        $this->assertEqual(1, $ret['status']);
         $this->assertTrue(array_key_exists('name', $ret));
         $this->assertTrue(array_key_exists('type', $ret));
         $this->assertTrue(array_key_exists('contenttype', $ret));
