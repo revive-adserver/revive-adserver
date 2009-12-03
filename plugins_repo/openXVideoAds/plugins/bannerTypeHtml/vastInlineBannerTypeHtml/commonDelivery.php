@@ -357,13 +357,12 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
     }
 
     if ( $pluginType == 'vastOverlay') {
-        $code = '';
-        $resourceType = '';
-        $creativeType = '';
+        $code = $resourceType = $creativeType = $elementName = '';
         switch($aOut['overlayFormat']) {
             case VAST_OVERLAY_FORMAT_HTML:
                 $code = "<![CDATA[". $aOut['overlayMarkupTemplate'] . "]]>";
                 $resourceType = 'HTML';
+                $elementName = 'Code';
             break;
             
             case VAST_OVERLAY_FORMAT_IMAGE:
@@ -379,14 +378,17 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 if($creativeType == 'JPEG') {
                     $creativeType = 'JPG';
                 }
+                $creativeType = 'image/'.$creativeType;
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
+                $elementName = 'URL';
             break;
             
             case VAST_OVERLAY_FORMAT_SWF:
-                $creativeType = 'SWF';
+                $creativeType = 'application/x-shockwave-flash';
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
+                $elementName = 'URL';
             break;
             
             case VAST_OVERLAY_FORMAT_TEXT:
@@ -397,6 +399,7 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                		<CallToAction>".xmlspecialchars($aOut['overlayTextCall'])."</CallToAction>
                		]]>
                ";
+                $elementName = 'Code';
             break;
         }
         
@@ -408,14 +411,15 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
         
         $creativeTypeAttribute = '';
         if(!empty($creativeType)) {
+            $creativeType = strtolower($creativeType);
             $creativeTypeAttribute = 'creativeType="'. $creativeType .'"';
         }
         
         $player .= "             <NonLinearAds>\n";
         $player .= "                <NonLinear id=\"overlay\" width=\"${aOut['overlayWidth']}\" height=\"${aOut['overlayHeight']}\" resourceType=\"$resourceType\" $creativeTypeAttribute>\n";
-        $player .= "                    <Code>
+        $player .= "                    <$elementName>
         									$code
-        								</Code>\n";
+        								</$elementName>\n";
         $player .= "                    $nonLinearClickThrough";
         $player .= "                </NonLinear>\n";
         $player .= "            </NonLinearAds>\n";
@@ -522,6 +526,16 @@ function renderCompanionInAdminTool($aOut)
     if(isset($aOut['companionMarkup'])) {
         $player .=  "<h3>Companion Preview (" .$aOut['companionWidth'] . "x" . $aOut['companionHeight'] . ")</h3>";
         $player .= $aOut['companionMarkup'];
+        /*$aBanner = Admin_DA::getAd($aOut['companionId']);
+        $aBanner['bannerid'] = $aOut['companionId'];
+        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+        $player .=  "<h3>Companion Preview</h3>";
+        $player .= "This companion banner will appear during the duration of the Video Ad in the DIV specified in the video player plugin configuration. ";
+        if(!empty($aOut['companionWidth'])) {
+            $player .= " It has the following dimensions: width = ". $aOut['companionWidth'] .", height = ".$aOut['companionHeight'] .". ";
+        } 
+        $player .= "<a href='".VideoAdsHelper::getHelpLinkVideoPlayerConfig()."' target='_blank'>Learn more</a><br/><br/>";
+        $player .= $bannerCode;*/
         $player .= "<br>";
     }
     return $player;

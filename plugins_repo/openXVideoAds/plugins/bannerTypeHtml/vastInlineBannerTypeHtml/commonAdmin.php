@@ -411,7 +411,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $crossdomainUrl = $crossdomainUrl['scheme'] . '://' . $crossdomainUrl['host'] . '/crossdomain.xml';
         
         $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
-        <ul style='list-style-type:decimal'>
+        <ul style='list-style-type:decimal;padding-left:20px;padding-top:5px'>
         <li>Enter the information about your Ad in the form below.</li>
         <li>Link this ".$this->getBannerShortName()." to the desired zone. The zone must be of the type \"".$this->getZoneToLinkShortName()."\". <a href='".VideoAdsHelper::getHelpLinkOpenXPlugin() ."' target='_blank'>Learn more</a></li>
         <li>Include the zone in the Ad Schedule of the video player plugin configuration in your webpage. <a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Learn more</a></li>

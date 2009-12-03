@@ -280,7 +280,7 @@ OVERLAY_OPTION_JS;
         $form->addElement('header', 'overlay_swf_header', "Overlay SWF");
         $form->addElement('html', 'overlay_swf_info', 
         	'Recommendations for SWF Overlay
-        	<ul>
+        	<ul style="line-height:1.2em;list-style-type:disc;padding-left:20px;padding-top:5px">
         	<li>Clicks: the SWF should not react to any click. The video player will automatically add a click layer on top of the SWF that will initiate a video ad, or open a page in a new window</li> 
         	<li>Width: SWF width should be the width of the video content or smaller</li>
         	<li>Height: SWF height should not exceed 20% of the video content height.  
