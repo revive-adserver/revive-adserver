@@ -748,7 +748,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
         $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId", 2));
-        $oEmailMock->expectOnce('sendCampaignDeliveryEmail', array($aAdvertiser, new Date($aAdvertiser['reportlastdate']), null, "$campaignId"));
+        $oEnd = new Date();
+        $oEnd->addSpan(new Date_Span('1-0-0-0'));
+        $oEmailMock->expectOnce('sendCampaignDeliveryEmail', array($aAdvertiser, new Date($aAdvertiser['reportlastdate']), $oEnd, "$campaignId"));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
