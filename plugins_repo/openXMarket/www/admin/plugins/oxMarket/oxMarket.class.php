@@ -40,11 +40,11 @@ require_once dirname(__FILE__) . '/var/config.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/pcApiClient/oxPublisherConsoleMarketPluginClient.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/ZoneOptIn.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Website.php';
-require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/PreferenceVariable.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/CampaignsSettings.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityFormManager.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityHelper.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/EntityScreenManager.php';
-require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/UI/CampaignsSettings.php';
+require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/PreferenceVariable.php';
 
 
 define('OWNER_TYPE_AFFILIATE',  0);
