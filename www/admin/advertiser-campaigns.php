@@ -153,18 +153,6 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     else {
         $aCampaign['expire']    = '-';
     }
-    if ($row_campaigns['priority'] == -1) {
-        $aCampaign['priority'] = $strExclusive;
-    } 
-    elseif ($row_campaigns['priority'] == -2) {
-        $aCampaign['priority'] = $strCampaignECPM;
-    } 
-    elseif ($row_campaigns['priority'] == 0) {
-        $aCampaign['priority'] = $strLow;
-    } 
-    else {
-        $aCampaign['priority'] = $strHigh . ' (' . $row_campaigns['priority'] . ')';
-    }
     
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;
@@ -179,7 +167,19 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     else {
         $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
     }
-    
+
+    if ($aCampaign['priority'] == -1) {
+        $aCampaign['priority'] = $strExclusive;
+    } 
+    elseif ($aCampaign['priority'] == -2) {
+        $aCampaign['priority'] = $strCampaignECPM;
+    } 
+    elseif ($aCampaign['priority'] == 0) {
+        $aCampaign['priority'] = $strLow;
+    } 
+    else {
+        $aCampaign['priority'] = $strHigh . ' (' . $aCampaign['priority'] . ')';
+    }
     
     $aCampaigns[$campaignId] = $aCampaign; 
 }
