@@ -75,6 +75,10 @@ function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_post
                 $aAd['zoneid']      = $zoneInfo['zone_id'];
                 $aAd['bannerid']    = $aAd['ad_id'];
                 $aAd['storagetype'] = $aAd['type'];
+                $aAd['width']       = $zoneInfo['width'];
+                $aAd['height']      = $zoneInfo['height'];
+                $aAd['affiliate_id'] = $zoneInfo['publisher_id'];
+                $aAd['agency_id'] = $zoneInfo['agency_id'];
                 $aMarketInfo = _marketNeeded($GLOBALS['_OA']['invocationType'], $output['html'], $aAd);
                 if ($aMarketInfo !== false) {
                     if ($html = OX_marketProcess($output['html'], $aAd, $aMarketInfo['campaign'], $aMarketInfo['website'])) {
@@ -176,7 +180,8 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         
         // detect if $aAd is not market banner and 
         // get 'market campaign opt-in' campain banner to channel id
-        if ($aAd['ext_bannertype'] != 'market-optin-banner') // @see BANNER_TYPE_MARKET in DataObjects_Banners
+        if (isset($aAd['ext_bannertype'])
+            && $aAd['ext_bannertype'] != 'market-optin-banner') // @see BANNER_TYPE_MARKET in DataObjects_Banners
         {
             // get bannerid, campaignid, clientid for market campaign opt-in
             $aMarketAd = OX_cacheGetCampaignOptInBanner($aAd['agency_id']);
@@ -190,13 +195,19 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
 
+        if(empty($aAd['logUrl'])) {
+            $aAd['logUrl'] = html_entity_decode(_adRenderBuildLogURL($aAd, $aAd['zoneid']));
+        }
         if ($aConf['logging']['adImpressions'] && !empty($aAd['logUrl'])) {
-            // overwrite the original banner Id 
-            $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl'].'&bannerid=-1');
-            $beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
+            $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl']);
+            if(isset($aAd['aSearch'])) {
+                $beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
+            }
         } else {
             $beaconHtml = '';
         }
+        
+        $beaconHtml = str_replace('{random}', MAX_getRandomNumber(), $beaconHtml);
 
         // Load JS library if needed
         if (!is_callable('MAX_javascriptEncodeJsonField')) {
@@ -221,7 +232,9 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         $url = $baseUrl.'/jstag';
 
         $output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>'."\n";
-        $output .= '<noscript>'.$adHtml.'</noscript>';
+        if(!empty($adHtml)) {
+            $output .= '<noscript>'.$adHtml.'</noscript>';
+        }
    }
    return $output;
 }
@@ -498,7 +511,7 @@ function Plugin_deliveryAdRender_oxMarketDelivery_oxMarketDelivery_Delivery_preA
         $bestSize = OX_marketGetBestBannerSizeForZone($aAds);
         foreach ($aAds['ads'] as $priority => &$aBanners) {
             foreach ($aBanners as $bannerId => &$aBanner) {
-                if ($aBanner['width'] == -1 && $aBanner['width'] == -1) {
+                if ($aBanner['width'] == -1 && $aBanner['height'] == -1) {
                     if ($bestSize !== false) {
                         $aBanner['width']  = $bestSize['width'];
                         $aBanner['height'] = $bestSize['height'];

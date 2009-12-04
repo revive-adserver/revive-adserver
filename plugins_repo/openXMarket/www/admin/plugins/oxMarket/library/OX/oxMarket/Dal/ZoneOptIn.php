@@ -24,7 +24,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheManager.php';
 
 /**
  * Zones DAL Library. Wraps plugin DO object
@@ -61,6 +60,9 @@ class OX_oxMarket_Dal_ZoneOptIn
         }
 
         //refresh cache (zone chaining (if any), market banner)
+        if(!class_exists('OA_Cache_DeliveryCacheManager')) {
+            require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheManager.php';
+        }
         $cacheManager = new OA_Cache_DeliveryCacheManager();
         $cacheManager->invalidateZoneCache($zoneId);
 
