@@ -167,7 +167,6 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             'scope'  => array(
                 'title'            => $GLOBALS['strLimitations'],
                 'type'             => 'scope',
-                'filter'           => 'tracker-present',
                 'scope_advertiser' => $default_scope_advertiser,
                 'scope_publisher'  => $default_scope_publisher
             ),
