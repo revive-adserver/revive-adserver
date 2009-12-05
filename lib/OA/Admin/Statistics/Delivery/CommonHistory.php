@@ -160,7 +160,8 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         parent::prepare(&$aParams);
         
         // Set the span requirements
-        $this->oHistory->getSpan($this, $aParams);
+        // Disable this for now, since these queries can be very slow
+        // $this->oHistory->getSpan($this, $aParams);
 
         // Get the historical stats
         $aStats = $this->getHistory($aParams, $link);
@@ -261,6 +262,28 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         // Fill unused plugins columns
         foreach (array_keys($aStats) as $k) {
             $aStats[$k] += $this->aEmptyRow;
+        }
+
+        // Set some of the variables that used to be set by getSpan
+        if (!empty($aStats)) {
+            $dates = array_keys ($aStats);
+
+            // assumes first row has earliest date
+            $firstDate = new Date ($dates[0]);
+
+            // are these steps really needed?
+            $firstDate->setTZbyID('UTC');
+            $firstDate->convertTZ($oNow->tz);
+            $firstDate->setHour(0);
+            $firstDate->setMinute(0);
+            $firstDate->setSecond(0);
+
+            if (empty($oCaller->aDates)) {
+                $oCaller->aDates['day_begin'] = $firstDate->format('%Y-%m-%d');
+                $oCaller->aDates['day_end']   = $oNow->format('%Y-%m-%d');
+            }
+
+            $this->oStartDate = new Date($firstDate);
         }
 
         $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);

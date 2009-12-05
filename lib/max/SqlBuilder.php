@@ -750,7 +750,13 @@ class SqlBuilder
                     isset($aParams['zone_height'])) {
                         SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
                 }
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+
+                $adIds = SqlBuilder::_getBannerIdsForAgency($aParams['agency_id']);
+                if (!empty($adIds)) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $adIds);
+                } else {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
             }
             
             if (!empty($aParams['publisher_id'])) {
@@ -1230,6 +1236,40 @@ class SqlBuilder
             $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
         }
         return $aDataEntities;
+    }
+
+    /**
+     * Retieves a list of banner ids linked to the given agency
+     *
+     * @param string $agencyId
+     * @return string A comma delimited list of banner ids
+     */
+    function _getBannerIdsForAgency($agencyId)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $query = 'select d.bannerid as ad_id from '.
+            $conf['table']['prefix'].$conf['table']['banners'] . ' AS d '.
+            'INNER JOIN '.
+            $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m '.
+            'ON (m.campaignid=d.campaignid) '.
+            'INNER JOIN '.
+            $conf['table']['prefix'].$conf['table']['clients'] . ' AS a '.
+            'ON (a.clientid=m.clientid) '.
+            'WHERE a.agencyid = ' . $agencyId . ' order by bannerid;';
+
+        $oDbh = OA_DB::singleton();
+        $aResult =  $oDbh->queryAll($query);
+        $aDataEntities = array();
+        if (PEAR::isError($aResult))
+        {
+            return false;
+        }
+
+        foreach ($aResult AS $k => $dataEntity)
+        {
+            $aDataEntities[] = $dataEntity['ad_id'];
+        }
+        return implode (',', $aDataEntities);
     }
 }
 
