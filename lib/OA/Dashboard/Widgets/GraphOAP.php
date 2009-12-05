@@ -77,11 +77,25 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
             $doBanners   = OA_Dal::factoryDO('banners');
             $doCampaigns = OA_Dal::factoryDO('campaigns');
             $doClients   = OA_Dal::factoryDO('clients');
-            $doClients->agencyid = OA_Permission::getEntityId();
 
+            $doClients->agencyid = OA_Permission::getEntityId();
             $doCampaigns->joinAdd($doClients);
             $doBanners->joinAdd($doCampaigns);
-            $doDsah->joinAdd($doBanners);
+
+            $doBanners->selectAdd ();
+            $doBanners->selectAdd("bannerid");
+            $doBanners->find();
+
+            $ad_ids = array();
+            while ($doBanners->fetch()) {
+                $ad_ids[] = $doBanners->bannerid;
+            }
+
+            if (empty ($ad_ids)) {
+                return array();
+            }
+
+            $doDsah->whereAdd("ad_id IN (".implode (",", $ad_ids).")");
         }
 
         $doDsah->groupBy('day');
