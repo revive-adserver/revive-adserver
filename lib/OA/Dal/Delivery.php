@@ -845,6 +845,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         d.capping AS cap_ad,
         d.session_capping AS session_cap_ad,
         d.compiledlimitation AS compiledlimitation,
+        d.acl_plugins AS acl_plugins,
         d.prepend AS prepend,
         d.append AS append,
         d.bannertype AS bannertype,
