@@ -708,6 +708,7 @@ function MAX_addLinkedAdsToZone($zoneId, $placementId)
     $aParams = MAX_getLinkedAdParams($zoneId);
     $aParams['placement_id'] = $placementId;
 
+    $aParams['market_ads_include'] = true;
     $aAds = Admin_DA::getAds($aParams);
     //  FIXME
     $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');

@@ -317,10 +317,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     public function registerUiListeners()
     {
-        if (!$this->isActive()) {
-            return; //no listeners active       
-        }
-        
         $oViewListener = $this->getViewListener();
         
         OX_Admin_UI_Hooks::registerBeforePageHeaderListener(
@@ -374,39 +370,29 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     public function processCampaignForm(&$aFields)
     {
-        if (!$this->isActive()) {
-            return;
-        }
-
         $this->oFormManager->processCampaignForm($aFields);
     }
     
 
     public function processAffiliateForm(&$aFields)
     {
-        if (!$this->isActive()) {
-            return;
-        }
-
         $this->oFormManager->processWebsiteForm($aFields);
     }
     
     
     public function extendZoneForm($form, $zone, $newZone)
     {
-        if (!$this->isActive()) {
-            return;
-        }
+        // we show the zone optin even when market plugin not registered yet
+//        if (!$this->isActive()) { return; }
 
         $this->oFormManager->buildZoneFormPart($form, $zone, $newZone);        
     }
     
     
     public function extendZoneAdvancedForm($form, $zone)
-    {
-        if (!$this->isActive()) {
-            return;
-        }
+    {        
+        // we show the zone optin even when market plugin not registered yet
+//        if (!$this->isActive()) { return; }
 
         $this->oFormManager->buildZoneAdvancedFormPart($form, $zone);                
     }
@@ -414,10 +400,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     public function processZoneForm(&$aFields)
     {
-        if (!$this->isActive()) {
-            return;
-        }
-
         $this->oFormManager->processZoneForm($aFields);
     }    
     
@@ -774,14 +756,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
 
-        $aContentKeys = $this->retrieveCustomContent('market-messages');
-
-        $registerMessage = isset($aContentKeys['register-messsage'])
-            ? vsprintf($aContentKeys['register-messsage'], array($url))
-            : 'Earn more revenue by activating OpenX Market for your ad server.<br>
+        $registerMessage = 'To enable OpenX Market to serve ads, you must register with OpenX.<br>
                 <a href="'.$url.'">Get started now &raquo;</a>';
 
-        $oNotificationManager->queueNotification($registerMessage, 'info', 'oxMarketRegister');
+        $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
     }
     
     

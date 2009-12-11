@@ -1780,8 +1780,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             ($aAdZonePriority['to_be_delivered'] ? 1 : 0),
                             $aAdZonePriority['priority'],
                             $aAdZonePriority['priority_factor'],
-                            $aAdZonePriority['priority_factor_limited'] ? 1 : 0,
-                            $aAdZonePriority['past_zone_traffic_fraction'],
+                            isset($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
+                            @$aAdZonePriority['past_zone_traffic_fraction'],
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
                             );

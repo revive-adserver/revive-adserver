@@ -51,6 +51,9 @@ class Language_Loader {
      * @param string $lang  language symbol
      */
     function load($section = 'default', $lang = null) {
+        if(!defined('phpAds_dbmsname')) {
+            define('phpAds_dbmsname','');
+        }
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (!empty($GLOBALS['_MAX']['PREF'])) {
             $aPref = $GLOBALS['_MAX']['PREF'];

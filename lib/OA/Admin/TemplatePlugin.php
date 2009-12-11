@@ -25,7 +25,9 @@
 $Id$
 */
 
-define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
+if(!defined('SMARTY_DIR')) {
+    define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
+}
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';

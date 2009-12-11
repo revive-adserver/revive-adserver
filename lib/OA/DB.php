@@ -164,7 +164,7 @@ class OA_DB
             // Is this a MySQL database connection?
             if (strcasecmp($databaseType, 'mysql') === 0) {
                 // Should this connection happen over SSL?
-                if ($aDriverOptions['ssl']) {
+                if (@$aDriverOptions['ssl']) {
                     $aOptions['ssl'] = true;
                 }
             }
@@ -181,11 +181,11 @@ class OA_DB
             if (strcasecmp($databaseType, 'mysql') === 0) {
                 $client_flags = 0;
                 // Should this connection happen over SSL?
-                if ($aDriverOptions['ssl']) {
+                if (@$aDriverOptions['ssl']) {
                     $client_flags = $client_flags | MYSQL_CLIENT_SSL;
                 }
                 // Should this connection use compression?
-                if ($aDriverOptions['compress']) {
+                if (@$aDriverOptions['compress']) {
                     $client_flags = $client_flags | MYSQL_CLIENT_COMPRESS;
                 }
                 // Are there any MySQL connection flags to set?

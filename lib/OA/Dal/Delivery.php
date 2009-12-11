@@ -549,6 +549,9 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         ."d.bannerid AS ad_id, "              //MAX_limitationsIsZoneForbidden
         ."d.campaignid AS placement_id, "     //MAX_limitationsIsZoneForbidden
         ."d.status AS status, "               //self
+        ."d.width AS width, "                 
+        ."d.ext_bannertype AS ext_bannertype, "                 
+        ."d.height AS height, "               
         ."d.storagetype AS type, "            //_adSelectCheckCriteria
         ."d.contenttype AS contenttype, "     //_adSelectCheckCriteria
         ."d.weight AS weight, "               //_setPriorityFromWeights
@@ -1463,6 +1466,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             'd.contenttype AS contenttype',
             'd.weight AS weight',
             'd.width AS width',
+            'd.ext_bannertype AS ext_bannertype',
             'd.height AS height',
             'd.adserver AS adserver',
             'd.block AS block_ad',

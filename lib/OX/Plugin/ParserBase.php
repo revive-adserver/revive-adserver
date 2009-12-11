@@ -130,7 +130,7 @@ class OX_ParserBase extends XML_Parser
         $this->aInstall['files']    = $this->aFiles;
         $this->aPlugin['install']   = $this->aInstall;
         $this->aPlugin['uninstall'] = $this->aUninstall;
-        $this->aPlugin['upgrade']   = $this->aUpgrade;
+        $this->aPlugin['upgrade']   = @$this->aUpgrade;
         $this->aPlugin['allfiles']  = $this->aAllFiles;
     }
 
@@ -215,44 +215,44 @@ class OX_ParserBase extends XML_Parser
         switch ($this->element)
         {
             case 'plugin-install-files-file':
-                $this->aData['name'] .= $data;
+                @$this->aData['name'] .= $data;
                 break;
             case 'plugin-install-syscheck-depends-plugin':
-                $this->aData['name'] .= $data;
+                @$this->aData['name'] .= $data;
                 break;
             case 'plugin-install-syscheck-php-setting':
-                $this->aData['value'] .= $data;
+                @$this->aData['value'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-name':
-                $this->aData['name'] .= $data;
+                @$this->aData['name'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-supported':
-                $this->aData['supported'] .= $data;
+                @$this->aData['supported'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-version':
-                $this->aData['version'] .= $data;
+                @$this->aData['version'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-engine':
-                $this->aData['engine'][] .= $data;
+                @$this->aData['engine'][] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-grant':
-                $this->aData['grant'][] .= $data;
+                @$this->aData['grant'][] .= $data;
                 break;
             case 'plugin-install-prescript':
-                $this->aInstall['prescript'] .= $data;
+                @$this->aInstall['prescript'] .= $data;
                 break;
             case 'plugin-install-postscript':
-                $this->aInstall['postscript'] .= $data;
+                @$this->aInstall['postscript'] .= $data;
                 break;
             case 'plugin-uninstall-prescript':
-                $this->aUninstall['prescript'] .= $data;
+                @$this->aUninstall['prescript'] .= $data;
                 break;
             case 'plugin-uninstall-postscript':
-                $this->aUninstall['postscript'] .= $data;
+                @$this->aUninstall['postscript'] .= $data;
                 break;
             case 'plugin-version':
                 // Fix potential issues with lowercase RC's
-                $this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
+                @$this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
                 break;
             case 'plugin-name':
             case 'plugin-creationdate':
@@ -263,7 +263,7 @@ class OX_ParserBase extends XML_Parser
             case 'plugin-oxversion':
             case 'plugin-extends':
             case 'plugin-description':
-                $this->aPlugin[str_replace('plugin-','',$this->element)] .= $data;
+                @$this->aPlugin[str_replace('plugin-','',$this->element)] .= $data;
                 break;
         }
     }

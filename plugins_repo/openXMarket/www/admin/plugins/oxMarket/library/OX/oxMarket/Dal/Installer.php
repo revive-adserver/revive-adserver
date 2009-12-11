@@ -94,9 +94,14 @@ class OX_oxMarket_Dal_Installer
                 // no problem detected (account found etc.) 
                 if ($result) { 
                     // assign publisher_account_id and api_key
-                    $marketClient->setNewPublisherAccount($aRegData['accountUuid'], $aRegData['apiKey']);
-                    // clear work as account if set
-                    $marketClient->setWorkAsAccountId();
+                    if(!empty($aRegData['accountUuid'])
+                        && !empty($aRegData['apiKey'])) {
+                            $marketClient->setNewPublisherAccount($aRegData['accountUuid'], $aRegData['apiKey']);
+                            // clear work as account if set
+                            $marketClient->setWorkAsAccountId();
+                        } else {
+                            $result = false;
+                        }
                 }
             }
         }

@@ -603,15 +603,12 @@ class MarketManager
         $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );
         $this->oMarketComponent = $oComponent != null 
             && $oComponent->enabled 
-            && method_exists($oComponent, 'isActive') 
-            && $oComponent->isActive()
             && $this->isZoneOptInAvailable() 
             ? $oComponent : null;
 
         $this->marketAvailable = !empty($this->oMarketComponent);
         $this->userAcceptedMarket = true;    
     }
-    
     
     private function isZoneOptInAvailable()
     {
@@ -623,12 +620,10 @@ class MarketManager
         
     }    
     
-    
     public function getMarketComponent()
     {
         return $this->oMarketComponent;
     }
-    
     
     public function isMarketAvailable()
     {

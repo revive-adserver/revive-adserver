@@ -113,16 +113,8 @@ class OX_oxMarket_Dal_Advertiser
             $aManagers = $doAgency->getAll('agencyid');
         } 
         else {
-            // Is market registered
-            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doMarketAssocData->account_id = DataObjects_Accounts::getAdminAccountId();
-            $doMarketAssocData->find();
-            if ($doMarketAssocData->fetch()) {
-                $doAgency = OA_Dal::factoryDO('agency');
-                $aManagers = $doAgency->getAll('agencyid');
-            } else {
-                $aManagers = array();
-            }
+            $doAgency = OA_Dal::factoryDO('agency');
+            $aManagers = $doAgency->getAll('agencyid');
         }
         
         foreach ($aManagers as $agencyid) {

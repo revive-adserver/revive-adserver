@@ -153,10 +153,6 @@ class OX_oxMarket_Dal_Website
     
     public function storeWebsiteRestrictions($affiliateId, $aType, $aAttribute, $aCategory)
     {
-        if (!$this->oMarketPlugin->isActive()) {
-            return;
-        }
-
         //  first remove all existing settings for $affiliateId
         $this->removeWebsiteRestrictions($affiliateId);
         $aData = array(
@@ -252,9 +248,6 @@ class OX_oxMarket_Dal_Website
      */
     public function updateAllWebsites($skip_synchronized = false, $limitUpdatedWebsites = 0)
     {
-        if (!$this->oMarketPlugin->isActive()) {
-            return;
-        }
         // get accountId can be null, if logged user isn't manager in multiple accounts mode
         $accountId = $this->oMarketPlugin->getPublisherConsoleApiClient()
                      ->getAccountId();

@@ -128,7 +128,7 @@ class OX_oxMarket_UI_EntityFormManager
             $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->oMarketComponent->group . '/market-info.php');
             $message =
                 "<div class='market-invite'>
-                    Earn more revenue by activating OpenX Market for your instance  of OpenX Ad Server.
+                    To enable OpenX Market to serve ads, you must register with OpenX.
                     <a href='".$url."'><b>Get started now &raquo;</b></a>
                 </div>";
         }

@@ -27,6 +27,7 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Controller/BaseController.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/Wizard.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/AdminLoginForm.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/SsoSignupForm.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Install/SkipSsoForm.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/SsoLoginForm.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/DbForm.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/ConfigForm.php';
@@ -365,7 +366,14 @@ class OX_Admin_UI_Install_InstallController
             //store defaults in session
             $oWizard->setStepData($aStepData);
         }
-            
+        $oRequest = $this->getRequest();
+        $skipRegistration = $oRequest->getParam('skipRegistration');
+        if(!empty($skipRegistration)) {
+            $oWizard->markStepAsCompleted();
+            $this->redirect($oWizard->getNextStep());
+            $oWizard->markStepAsCompleted();
+        }
+        
         $aConfig = OX_Upgrade_InstallConfig::getConfig();
         $captchaUrl = $aConfig['marketCaptchaUrl'];
         $oMarketClient = OX_Upgrade_MarketClientFactory::getMarketClient($aStepData['platformHash']);
@@ -377,7 +385,8 @@ class OX_Admin_UI_Install_InstallController
         $oLoginForm = new OX_Admin_UI_Install_SsoLoginForm($this->oTranslation, $oWizard->getCurrentStep(), $aStepData['platformHash']);          
         $oLoginForm->setDefaults($aStepData);
         
-        $oRequest = $this->getRequest();
+        $oSkipSsoForm = new OX_Admin_UI_Install_SkipSsoForm($this->oTranslation, $oWizard->getCurrentStep());
+
         if ($oRequest->isPost()) {
             $valid = $this->processRegisterAction($oMarketClient, $oWizard, $oSignupForm, $oLoginForm);
             
@@ -404,9 +413,14 @@ class OX_Admin_UI_Install_InstallController
         
         $this->setModelProperty('signupForm', $oSignupForm->serialize());
         $this->setModelProperty('loginForm', $oLoginForm->serialize());
+        $this->setModelProperty('skipSsoForm', $oSkipSsoForm->serialize());
         $this->setModelProperty('oxVersion', OA_VERSION);
         $this->setModelProperty('oWizard', $oWizard);
-        $this->setModelProperty('loaderMessage', $GLOBALS['strRegisterProgressMessage']);
+        $loadingMessage = $GLOBALS['strRegisterProgressMessage'];
+        if($this->getModelProperty('showSkipSsoForm')) {
+            $loadingMessage = $GLOBALS['strLoadingDatabaseConfiguration'];
+        }
+        $this->setModelProperty('loaderMessage', $loadingMessage);
         $this->setModelProperty('accountMode', $submit ? ($isSignup ? 'signup' : 'login') : 'signup');
         $this->setModelProperty('isUpgrade', $this->getInstallStatus()->isUpgrade());
     }
@@ -861,6 +875,13 @@ class OX_Admin_UI_Install_InstallController
                 'Error during Market signup: ('.$exc->getCode().')'.$exc->getMessage());
             $oBuilder = new OX_Admin_UI_Install_SsoErrorBuilder($aConfig['publisherSupportEmail']);
             $message = $oBuilder->getErrorMessage($exc); 
+            
+			// for "acceptable" error codes (invalid captcha, user already taken, etc.) we do not show the "Skip the registration" button
+            $acceptableErrorCodes = $oBuilder->getAcceptableErrorCodes();
+            $errorCode = $exc->getCode();
+            if(!in_array($errorCode, $acceptableErrorCodes)) {
+                $this->setModelProperty('showSkipSsoForm', true);
+            }
             $this->setModelProperty('aMessages', 
                 array('error' => array($message)));
         }

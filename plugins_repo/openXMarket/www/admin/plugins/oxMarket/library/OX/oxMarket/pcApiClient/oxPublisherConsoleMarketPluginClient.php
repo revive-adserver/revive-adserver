@@ -174,20 +174,23 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     protected function getAssociatedPcAccountData()
     {
+        $result = array(
+            'publisher_account_id' => null, 
+            'association_status'   => null,
+            'apiKey'               => null
+        );
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
         $accountId = $this->getAccountId();
         if (isset($accountId)) {
             $oAccountAssocData->get('account_id', $accountId);
-            $result = array();
-            $result['publisher_account_id'] = $oAccountAssocData->publisher_account_id;
-            $result['association_status']   = $oAccountAssocData->status;
-            $result['api_key']              = $oAccountAssocData->api_key;
-        } else {
-            $result = array(
-            'publisher_account_id' => null, 
-            'association_status'   => null,
-            'apiKey'               => null);
-        }
+            if(!empty($oAccountAssocData->publisher_account_id)
+                && !empty($oAccountAssocData->api_key)) {
+                $result = array();
+                $result['publisher_account_id'] = $oAccountAssocData->publisher_account_id;
+                $result['association_status']   = $oAccountAssocData->status;
+                $result['api_key']              = $oAccountAssocData->api_key;
+            }
+        } 
         return $result;
     }
     

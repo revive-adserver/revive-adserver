@@ -106,6 +106,7 @@ $GLOBALS['strCaptcha']                          = 'Type the text shown in the im
 $GLOBALS['strCaptchaReload']                    = 'Try a different image';
 $GLOBALS['strCaptchaLettersCaseInsensitive']    = 'Letters are not case sensitive';
 $GLOBALS['strBtnCreateAccountAndContinue']      = 'Create my account and continue »';
+$GLOBALS['strBtnContinueWithoutRegistering']      = 'Continue without registering »';
 
 $GLOBALS['strPasswordMismatch']                 = 'The given passwords do not match';
 $GLOBALS['strCaptchaRequired']                  = 'Please type the code shown';
@@ -114,6 +115,7 @@ $GLOBALS['strSSOUsernameNotAvailable']          = 'This OpenX.org username is no
 $GLOBALS['strRegisterConfirmTitle']             = "Registration successful";
 $GLOBALS['strRegisterConfirmIntro']             = "Your OpenX.org account has successfully been created.";
 $GLOBALS['strRegisterProgressMessage']         = 'Registering OpenX.org account...';
+$GLOBALS['strLoadingDatabaseConfiguration']         = 'Loading Database configuration...';
 
 /** database step **/
 $GLOBALS['strDbSetupTitle']                     = "Provide your database";

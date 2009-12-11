@@ -54,7 +54,7 @@ class OX_Admin_UI_Install_SsoErrorBuilder
     public function getErrorMessage($exc)
     {
         $errorCode = $exc->getCode();
-        $message  = $exc->getMessage();
+        $errorMessage  = $exc->getMessage();
         
         $aMessages = $this->getMessageTemplates();
         
@@ -64,10 +64,10 @@ class OX_Admin_UI_Install_SsoErrorBuilder
             $message = $aMessages[$errorCode];
             $aXmlRpcPearErrors = $this->getXmlRpcPearErrorsCodes();
             if ($errorCode == 0) {
-                $message = vsprintf($message, array($message, $publisherSupportEmail));
+                $message = vsprintf($message, array($errorMessage, $publisherSupportEmail));
             }
             elseif (in_array($errorCode, $aXmlRpcPearErrors)) {
-                $message = vsprintf($message, array($errorCode, $message, $publisherSupportEmail));
+                $message = vsprintf($message, array($errorCode, $errorMessage, $publisherSupportEmail));
             }
         }
         else {
@@ -78,6 +78,18 @@ class OX_Admin_UI_Install_SsoErrorBuilder
         return $message;
     }
 
+    /**
+     * Returns the list of XML RPC error codes that are "acceptable". All the other ones are temporarily or 
+     * permanently due to a misconfigured ad server, a non responding PC API, or other errors. 
+     * For error codes not belonging to this list, a button to skip registration will be displayed. 
+     * @return array of ints
+     */
+    public function getAcceptableErrorCodes()
+    {
+        return array(
+            701, 702, 703, 802, 901, 902
+        );
+    }
     
     protected function getMessageTemplates()
     {

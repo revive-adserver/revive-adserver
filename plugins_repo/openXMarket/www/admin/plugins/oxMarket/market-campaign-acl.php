@@ -77,13 +77,17 @@ function displayPage($oMarketComponent, $aEntities, $acl)
     // Display navigation
     $advertiserDetails = phpAds_getClientDetails($advertiserId);
     $advertiserName = $advertiserDetails['clientname'];
-    $aCampaignDetails = Admin_DA::getPlacement($campaignId);
     
+    $doCampaign = OA_Dal::factoryDO('campaigns');
+    $doCampaign->campaignid = $campaignId;
+    $doCampaign->find();
+    $doCampaign->fetch();
+        
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(array (
             array("name" => $advertiserName, 
                    "url" => null), 
-            array("name" => $aCampaignDetails['name'])), "campaign", "edit");    
+            array("name" => $doCampaign->campaignname)), "campaign", "edit");    
     
 
     addMarketCampaignPageTools($advertiserId, $campaignId);

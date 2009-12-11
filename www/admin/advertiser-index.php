@@ -109,7 +109,7 @@ $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
 $aInludeSystemTypes = array();
 //TODO well, hardcoded reference to market plugin again, it would be better
 //to ask plugins for additional types to include via hook.
-if (isset($oComponent) && $oComponent->enabled && $oComponent->isActive()) {
+if (isset($oComponent) && $oComponent->enabled) {
     $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
 }
 

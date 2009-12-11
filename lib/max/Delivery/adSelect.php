@@ -655,7 +655,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
             || $adArrayVar == 'eAds'
             // If this ad belongs to a companion campaign that was previously displayed on the page,
             // we scale up the priority factor as we want to ensure that companion ads are
-            // displayed together, potentially ignoring their banner weights 
+            // displayed together, potentially ignoring their banner weights (refs OX-4853)
             || $companion
             )
         {

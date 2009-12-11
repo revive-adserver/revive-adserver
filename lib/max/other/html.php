@@ -871,16 +871,22 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
         }
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
+        $adsCount = '';
         if ($entity == 'placement') {
             $aParams = array('placement_id' => $otherEntityId);
             $aParams += MAX_getLinkedAdParams($GLOBALS['zoneId']);
 
-            $translation = new OX_Translation();
-            $aStringParams["bannerCount"] = count(Admin_DA::getAds($aParams));
-            $translated = $translation->translate($GLOBALS['strWithXBanners'], $aStringParams);
-            $adsCount = "(" .$translated.")";
-        } else {
-            $adsCount = '';
+            $doCampaign = OA_Dal::factoryDO('campaigns');
+            $doCampaign->campaignid = $otherEntityId;
+            $doCampaign->find();
+            $doCampaign->fetch();
+          
+            if($doCampaign->type == DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT) {
+                $translation = new OX_Translation();
+                $aStringParams["bannerCount"] = count(Admin_DA::getAds($aParams));
+                $translated = $translation->translate($GLOBALS['strWithXBanners'], $aStringParams);
+                $adsCount = "(" .$translated.")";
+            }
         }
 
         $name = MAX_buildName($otherEntityId, $aOtherEntity['name']);
@@ -1445,9 +1451,14 @@ function MAX_displayNavigationTracker($advertiserId, $trackerId, $aOtherAdvertis
 function MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherCampaigns, $aEntities)
 {
     $advertiserId = $aEntities['clientid'];
-    $campaignDetails = Admin_DA::getPlacement($campaignId);
-    $campaignName = $campaignDetails['name'];
+    
 
+    $doCampaign = OA_Dal::factoryDO('campaigns');
+    $doCampaign->campaignid = $campaignId;
+    $doCampaign->find();
+    $doCampaign->fetch();
+    $campaignName = $doCampaign->campaignname;
+    
     $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
     $advertiserEditUrl = '';
     if (OA_Permission::hasAccessToObject('clients', $advertiserId, OA_Permission::OPERATION_EDIT)) {

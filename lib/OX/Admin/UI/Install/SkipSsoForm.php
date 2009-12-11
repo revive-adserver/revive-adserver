@@ -1,9 +1,8 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2009 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -24,47 +23,17 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once 'BaseForm.php';
 
-//hack to fix LIB_PATH inconsistency among projects
-if (!defined('LIB_PATH_')) {
-	define("LIB_PATH_", preg_replace("/OX$/", "", LIB_PATH));
-}
-
-require_once(LIB_PATH_ . '/Zend/Http/Client.php');
-require_once(LIB_PATH_ . '/Zend/XmlRpc/Client.php');
-
-class OX_M2M_ZendXmlRpcExecutor
-	implements OX_M2M_XmlRpcExecutor 
+class OX_Admin_UI_Install_SkipSsoForm 
+    extends OX_Admin_UI_Install_BaseForm
 {
-	/**
-	 * @var Zend_XmlRpc_Client
-	 */
-	private $rpcClient;
-	private $prefix = "";
-	
-	public function getPrefix()
-	{
-		return $this->prefix;
-	}
-	
-	
-	public function setPrefix($prefix)
-	{
-		$this->prefix = $prefix;
-	}
-	
-	
-	function __construct($server, $prefix = "")
-	{
-		$this->rpcClient = new Zend_XmlRpc_Client($server);
-		$this->prefix = $prefix;
-	}
-	
-	
-	function call($methodName, $params)
-	{
-		return $this->rpcClient->call($this->getPrefix() . $methodName, $params);	
-	}
+    public function __construct($oTranslation, $action)
+    {
+        parent::__construct('sso-login-form', 'POST', $_SERVER['SCRIPT_NAME'], null, $oTranslation);
+        $this->addElement('hidden', 'action', $action);
+        $this->addElement('submit', 'skipRegistration', $GLOBALS['strBtnContinueWithoutRegistering']);
+    }
+    
 }
-
-?>

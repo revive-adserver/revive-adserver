@@ -256,6 +256,33 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 }
             }
         }
+
+        // for Market campaigns, we need to remove all zones that are not IAB sized        
+		// or zones that are not Banner type
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->campaignid = $campaignId;
+        $doCampaign->find();
+        $doCampaign->fetch();
+        if($doCampaign->type == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
+            
+            $invalidIds = array();
+            $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
+
+            $allowedIabSizes = $oComponent->getPublisherConsoleApiClient()->getCreativeSizes();
+            foreach($aZones as $id => $zone) {
+                $zoneSizeKey = $zone['width'] . 'x' . $zone['height'];
+                if( (!isset($allowedIabSizes[$zoneSizeKey])
+                    && $zoneSizeKey != '-1x-1')
+                       || $zone['type'] != phpAds_ZoneBanner
+                       ) {
+                    $invalidIds[] = $id;
+                }
+            }
+            foreach($invalidIds as $invalidId) {
+                unset($aZones[$invalidId]);
+            }
+        }
+        
         return $aZones;
     }
 
@@ -314,6 +341,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 z.zonename,
                 z.oac_category_id as zone_oac_category_id,
                 a.affiliateid,
+                z.width as width,
+                z.height as height,
+                z.delivery as type,
                 a.oac_category_id as affiliate_oac_category_id,
                 a.name as affiliatename";
         $aQuery['from'] = "
