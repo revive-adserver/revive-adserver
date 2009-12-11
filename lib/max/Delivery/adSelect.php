@@ -653,6 +653,10 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
             // If some ecpm remnant ads were discarded earlier, we need to scale up the remaining ads
             // to ensure one will serve in all cases (refs OX-5800)
             || $adArrayVar == 'eAds'
+            // If this ad belongs to a companion campaign that was previously displayed on the page,
+            // we scale up the priority factor as we want to ensure that companion ads are
+            // displayed together, potentially ignoring their banner weights 
+            || $companion
             )
         {
             $scaling_factor = 1 / $total_priority_orig;
@@ -728,6 +732,11 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 $ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
                 // Carry over for conversion tracking
                 $ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
+                // Carry over for ad dimensions for market ads
+                if($ad['width'] == $ad['height'] && $ad['width'] == -1) {
+                   $ad['width'] = $aLinkedAd['width']; 
+                   $ad['height'] = $aLinkedAd['height']; 
+                }
                 return $ad;
             }
         }
@@ -958,16 +967,16 @@ function _adSelectDiscardNonMatchingAds(&$aAds, $aContext, $source, $richMedia)
     }
     foreach ($aAds as $adId => $aAd) {
         ###START_STRIP_DELIVERY
-        OA::debug('_adSelectDiscardNonMatchingAds: checking bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+        OA::debug('_adSelectDiscardNonMatchingAds: checking bannerid '.$aAd['ad_id'].' '.@$aAd['name']);
         ###END_STRIP_DELIVERY
         if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
             ###START_STRIP_DELIVERY
-            OA::debug('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+            OA::debug('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.@$aAd['name']);
             ###END_STRIP_DELIVERY
             unset($aAds[$adId]);
         } else {
             ###START_STRIP_DELIVERY
-            OA::debug('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.$aAd['name']);
+            OA::debug('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.@$aAd['name']);
             ###END_STRIP_DELIVERY
         }
     }
