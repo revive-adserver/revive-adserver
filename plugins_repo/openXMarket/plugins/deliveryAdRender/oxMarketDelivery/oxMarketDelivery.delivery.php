@@ -180,8 +180,8 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         
         // detect if $aAd is not market banner and 
         // get 'market campaign opt-in' campain banner to channel id
-        if (isset($aAd['ext_bannertype'])
-            && $aAd['ext_bannertype'] != 'market-optin-banner') // @see BANNER_TYPE_MARKET in DataObjects_Banners
+        if (!isset($aAd['ext_bannertype'])
+            || $aAd['ext_bannertype'] != 'market-optin-banner') // @see BANNER_TYPE_MARKET in DataObjects_Banners
         {
             // get bannerid, campaignid, clientid for market campaign opt-in
             $aMarketAd = OX_cacheGetCampaignOptInBanner($aAd['agency_id']);
