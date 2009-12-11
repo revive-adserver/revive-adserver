@@ -1,0 +1,30 @@
+<ul class="error-list">
+  <li>
+    {$exception->getMessage()|escape}
+    {if $productionMode}
+      {if $details}
+        {literal}<a href="#" onclick="javascript:return toggle('details')">(details)</a>{/literal}
+      {/if}
+      {literal}<a href="#" onclick="javascript:return toggle('trace')">(stack trace)</a>{/literal}
+    {/if}
+    <br />
+    {if $details}
+      <div class="details" id="details" {if $productionMode} style="display: none"{/if}>{$details|escape}</div>
+    {/if}
+    <div class="trace" id="trace"{if $productionMode} style="display: none"{/if}>{$exception->getTraceAsString()|escape}</div>
+  </li>
+</ul>
+
+{if $productionMode}
+<script>//<![CDATA[
+{literal}
+function toggle(id) {
+    var style = document.getElementById(id).style;
+    style.display = style.display == 'block' ? 'none' : 'block';
+    return false;
+}
+{/literal}
+//]]></script>
+{/if}
+
+<a href="{actionUrl action=index controller=index module=index}">Back to home page</a>

@@ -1,0 +1,803 @@
+
+
+/* Global form */
+
+form.main {
+    width: 624px;
+}
+
+
+
+/* Form section */
+
+form.main fieldset {
+    position: relative;
+    border: none;
+    padding: 0;
+    margin: 0 0 24px;
+    clear: right;
+}
+
+
+
+/* Form section header */
+
+form.main fieldset .header {
+    display: block;
+    color: #0468a4;
+    line-height: 180%;
+    border-bottom: 1px solid #c4c4c4;
+    margin: 0 0 8px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 452px;
+}
+form.main fieldset .header span.toggle {
+    position: absolute;
+    top: 8px;
+    right: 0px;
+    border: 5px solid #fff;
+    border-top: 5px solid #0968aa;
+    cursor: pointer;
+
+    line-height: 0;
+}
+
+
+
+/* Form section minimized */
+
+form.main fieldset.minimized {
+    margin: 0 0 48px;
+}
+form.main fieldset.minimized .header span.toggle {
+    top: 3px;
+    border-top: 5px solid #fff;
+    border-bottom: 5px solid #0968aa;
+}
+form.main fieldset.minimized ol {
+    display: none;
+}
+
+
+/* Form section with no legend */
+form.main fieldset.noLegend ol {
+  margin-top: 0;
+}
+form.main fieldset.noLegend fieldset {
+  padding-left: 0;
+}
+
+/* Vertical rows */
+
+form.main fieldset ol {
+    margin: 26px 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+form.main fieldset ol li {
+    margin: 0;
+    position: relative;
+    clear: left;
+}
+form.main fieldset div.linePrefix {
+  position: relative;
+  top: -22px;
+}
+form.main fieldset div.lineSuffix {
+  clear: both;
+}
+
+
+/* Group of related fields */
+
+form.main fieldset fieldset {
+    position: relative;
+    width: 424px;
+
+    margin: 0 0 1px;
+    padding: 24px 8px 0px 20px;
+
+    float: left;
+    clear: left;
+
+    line-height: 180%;
+}
+form.main fieldset fieldset.noTitle {
+    padding-top: 10px;
+}
+
+
+/* Individual fields within a group */
+
+form.main fieldset fieldset ol {
+    margin: 0;
+}
+
+form.main fieldset fieldset ol li {
+    float: left;
+    clear: none;
+    margin: 0 12px 0 0;
+    padding-bottom: 12px;
+    white-space: nowrap;
+}
+
+form.main fieldset fieldset ol li.error {
+    *padding-bottom: 0px;
+}
+
+form.main fieldset fieldset ol li .wrap {
+  white-space: normal;
+}
+  
+
+/** Line divider elements */
+
+form.main fieldset fieldset ol li.divider {
+    clear: both;
+    width: 100%;
+    height: 14px;
+    float: none;
+}
+
+form.main fieldset fieldset ol li.compact {
+  padding-bottom: 0;
+}
+
+form.main fieldset fieldset ol li.divider hr {
+  position: relative;
+  *top: -12px;
+}
+
+form.main fieldset fieldset ol li.no-rule {
+    height: 0px;
+}
+form.main fieldset fieldset ol li.no-rule hr {
+    display: none;
+}
+
+/** Compact form lines */
+
+form.main fieldset li.compact fieldset ol li {
+  padding-bottom: 2px;
+}
+form.main fieldset li.compact fieldset.noTitle {
+  padding-top: 2px;
+}
+
+form.main fieldset li.compact ul.error {
+  padding-top: 8px;
+}
+
+
+/* Field title */
+
+form.main fieldset fieldset .title {
+    display: block;
+    color: #545454;
+    position: absolute;
+    font-weight: bold;
+    top: -20px;
+    -top: 3px;
+}
+*:first-child+html form.main fieldset fieldset .title {
+    top: 3px;
+}
+form.main fieldset fieldset ol li .title {
+    -top: -20px;
+}
+*:first-child+html form.main fieldset fieldset ol li .title {
+    top: -20px;
+}
+
+label[for] {
+  cursor: pointer;
+}
+
+/* Standalone label */
+label.standalone {
+    color: #545454;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* A label that is an affix to a text field */
+label.affix {
+  *position: relative;
+  *top: -2px;
+}
+
+label.affixCheckbox {
+  *top: 0px;
+}
+
+/* A checkbox label */
+label.checkbox {
+  vertical-align: middle;
+}
+
+/* Field question */
+
+form.main fieldset fieldset .question {
+    display: block;
+    color: #545454;
+    font-weight: bold;
+    line-height: 150%;
+    margin: 0 0 6px;
+}
+
+
+
+/* Field required */
+
+form.main .required {
+    margin: 0 0 0 1px;
+    color: #7f7f7f;
+    font-weight: bold;
+    font-size: 140%;
+    line-height: 50%;
+    position: relative;
+    top: 3px;
+}
+
+
+
+/* Field hints */
+
+form.main .hint {
+    display: block;
+    color: #808080;
+    line-height: 160%;
+    font-size: 0.9em;
+    font-weight: normal;
+    text-align: right;
+    position: relative;
+}
+
+
+
+/* Errors */
+
+form.main fieldset fieldset.error {
+    background: #fce7e6;
+}
+form.main fieldset fieldset.error .title {
+    background: url("../images/message.gif") -73px -32px no-repeat;
+    padding-left: 16px;
+    color: #aa0000;
+}
+form.main fieldset fieldset.error ol li .title {
+    background: none;
+    padding-left: 0;
+    color: #545454;
+}
+form.main fieldset fieldset.error ol li.error .title {
+    background: url("../images/message.gif") -73px -32px no-repeat;
+    padding-left: 16px;
+    color: #aa0000;
+}
+form.main fieldset fieldset.error ol li.error div.typeDiv,
+form.main fieldset fieldset.error ol li.error div.typeContent,
+form.main fieldset fieldset.error ol li.error input.typeText,
+form.main fieldset fieldset.error ol li.error select,
+form.main fieldset fieldset.error ol li.error textarea,
+form.main fieldset fieldset.error ol li.error div.multiCheckbox {
+    border-top: 1px solid #a22828;
+    border-left: 1px solid #a22828;
+    border-bottom: 1px solid #e78686;
+    border-right: 1px solid #e78686;
+}
+form.main fieldset fieldset.error .required {
+    color: #aa0000;
+}
+form.main fieldset fieldset.error ol li .required {
+    color: #7f7f7f;
+}
+form.main fieldset fieldset.error ol li.error .required {
+    color: #aa0000;
+}
+form.main fieldset fieldset ul.error {
+    clear: left;
+    display: none;
+    color: #ba3838;
+    line-height: 160%;
+    font-size: 0.9em;
+    font-weight: normal;
+    white-space: normal;
+
+    position: relative;
+    top: -10px;
+
+    padding: 0;
+    list-style-type: none;
+}
+form.main fieldset fieldset ul.error.multiple {
+    list-style-type: disc;
+    padding: 0 0 0 12px;
+}
+form.main fieldset fieldset ul.error li {
+    margin: 0;
+    padding: 0;
+}
+form.main fieldset fieldset.error ul.error {
+    display: block;
+}
+
+
+form.main div.messagePlaceholder {
+    position: static;
+    top: 0;
+    height: auto;
+    line-height: 100%;
+    margin: 0 0 16px 0;
+}
+
+form.main fieldset div.messagePlaceholder div.message {
+    float:none;
+    position:static;
+    width: 424px;
+}
+
+form.main fieldset div.messagePlaceholder div.message div.panel {
+   width: 420px;
+}
+
+
+/* Currently active group */
+
+form.main fieldset fieldset.active {
+    background: #f2f6f9;
+}
+
+/** Highlighted fieldset */
+form.main fieldset fieldset.hl {
+    background: #fff3d0;
+}
+
+
+
+/* Field widget sizes */
+
+form.main .widthExtraSmall,
+form.main .widthExtraSmallHint {
+    width: 18px;
+}
+form.main .widthSmall {
+    width: 36px;
+}
+form.main .widthSmallHint {
+    width: 10px;
+}
+form.main .widthMediumSmall {
+    width: 68px;
+}
+form.main .widthMediumSmallHint {
+    width: 52px;
+}
+form.main .widthMedium {
+    width: 89px;
+}
+form.main .widthMediumHint {
+    width: 63px;
+}
+form.main .widthMediumLarge {
+    width: 124px;
+}
+form.main .widthMediumLargeHint {
+    width: 98px;
+}
+form.main .widthLarge {
+    width: 194px;
+}
+form.main .widthLargeHint {
+    width: 169px;
+}
+form.main .widthLarger {
+    width: 321px;
+}
+form.main .widthLargerHint {
+    width: 296px;
+}
+form.main .widthExtraLarge {
+    width: 407px;
+}
+form.main .widthExtraLargeHint {
+    width: 381px;
+}
+
+
+/* Field widget heights */
+
+form.main .heightExtraSmall {
+   height: 2ex;
+}
+form.main .heightSmall {
+   height: 4ex;
+}
+form.main .heightMedium {
+   height: 8ex;
+}
+form.main .heightLarge {
+   height: 12ex;
+}
+form.main .heightExtraLarge {
+   height: 20ex;
+}
+
+
+/* Field widget styles */
+
+form.main div.typeDiv,
+form.main div.typeContent,
+form.main input.typeText,
+form.main select,
+form.main textarea,
+form.main div.multiCheckbox {
+    background: #fff url("../images/form-background.gif") top left repeat-x;
+    border-top: 1px solid #707070;
+    border-left: 1px solid #707070;
+    border-bottom: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+    margin: 0 0 0px;
+}
+
+form.main select {
+    padding: 2px 0;
+}
+form.main div.typeDiv,
+form.main div.typeContent {
+    padding: 0 0 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+form.main div.typeDiv {
+    border-top: 1px solid #b0b0b0;
+    border-left: 1px solid #b0b0b0;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    color: #707070;
+}
+* html form.main div.typeDiv { 
+    margin-top: 1px;
+}
+*+ html form.main div.typeDiv { 
+    margin-top: 1px;
+}
+form.main input.typeText,
+form.main textarea {
+    padding: 3px 0 0 3px;
+    height: 17px;
+}
+
+input.checkbox,
+form.main input.typeCheckbox {
+  vertical-align: middle;
+  margin-left: 0;
+}
+
+form.main small {
+  color: #808080;
+}
+
+form.main small label {
+  color: #545454;
+}
+
+/* List for checkboxes or radiobuttons */
+
+form.main .optionList {
+    margin: 0;
+    padding: 0 0 8px;
+    list-style-type: none;
+    overflow: visible;
+}
+form.main .optionList li {
+    margin: 0;
+    padding: 0;
+    float: none;
+}
+
+form.main .optionList li input {
+  vertical-align: middle;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+
+/* Multi checkboxes */
+
+div.multiCheckbox {
+  border: 1px solid #e0e0e0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: white;
+}
+
+div.multiCheckbox > table {
+  width: 100%;
+}
+div.multiCheckbox > table > tbody > tr > td {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+div.multiCheckbox table {
+  table-layout: fixed;
+}
+
+div.multiCheckbox td table {
+  margin-left: 13px;
+}
+
+div.multiCheckbox td.handle {
+  width: 13px;
+  background-repeat: no-repeat;
+  background-position: 4px 6px;
+  background-image: url(../images/tree-branch.gif);
+  cursor: pointer;
+}
+
+div.multiCheckbox td.handle span {
+  display: block;
+  width: 13px;
+}
+
+div.multiCheckbox input {
+  vertical-align: middle;
+}
+
+/* Message inline in a form */
+
+form.main fieldset div.message {
+    float: right;
+    position: relative;
+    top: 8px;
+    width: 140px;
+}
+
+form.main fieldset div.messageOnFocus {
+  display: none;
+}
+
+
+/* Requirements */
+
+form.main .requirements {
+    width: 380px;
+    text-align: right;
+    padding: 0 0 4px;
+    color: #888;
+}
+
+
+
+/* Footer containing buttons */
+
+form.main fieldset.buttons {
+    border-top: 1px solid #c4c4c4;
+    padding: 8px 0 0;
+    width: 452px;
+}
+button,
+form.main fieldset.buttons * {
+  vertical-align: middle;
+}
+button {
+   color: #fff;
+   background: #91b0c5;
+   border: 1px solid #91b0c5;
+   border-bottom: 1px solid #023f78;
+   border-right: 1px solid #023f78;
+
+   margin: 0 6px 0 0;
+   padding: 3px 3px 3px 3px;
+   line-height: 16px;
+   *line-height: 14px;
+  
+   /** Fix extra button padding in IE7 */
+   *width: auto;
+   *overflow: visible;
+}
+body:last-child button {
+   background-color /*\**/: red\9;
+}
+button.back,
+input.back {
+    padding-left: 7px;
+}
+button.save,
+input.save {
+    background: #0867a7;
+    border: 1px solid #0867a7;
+    border-bottom: 1px solid #023f78;
+    border-right: 1px solid #023f78;
+}
+button.delete {
+    background: #bd1c1c;
+    border: 1px solid #bd1c1c;
+    border-bottom: 1px solid #6b0909;
+    border-right: 1px solid #6b0909;
+
+    text-align: right;
+}
+button[disabled], button.disabled {
+  color: #a0a0a0;
+  background: #d8d8d8;
+  border: 1px solid #f0f0f0;
+  border-bottom: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+button span {
+  background-repeat:no-repeat;
+  position:relative;
+  top:4px;
+  padding-left:5px;
+  line-height:10px;
+}
+button.right span {
+  background-image: url("../images/button-arrow-right.gif");
+  left: 5px;
+}
+button.left span {
+  background-image: url("../images/button-arrow-left.gif");
+  right: 5px;
+}
+form.main fieldset.buttons .requirements {
+    float: right;
+    width: auto;
+    padding: 6px 0 0;
+}
+/** Button inlined next to an input field */
+button.inline {
+  padding: 2px;
+  margin-right: 0;
+  vertical-align: top;
+}
+* + html button.inline {
+  height: 22px;
+  padding: 1px 2px 0 2px;
+  margin-top: 1px;
+}
+
+
+/* Inline help balloons */
+
+div.balloon {
+    position: relative;
+    left: -5px;
+}
+div.balloon div.panel {
+  position: absolute;
+  z-index: 2;
+  width: 210px;
+  right: -16px;
+  bottom: 34px;
+
+  display: none;
+  padding: 5px 8px 5px 8px;
+  
+  font-size: 1em;
+  line-height: 135%;
+  white-space: normal;
+  text-align: left;
+
+  cursor: pointer;
+
+  color: #255792;
+  border: 1px solid #a7cae0;
+  background: #b3def1 url("../images/message-background.png") top left repeat-x;
+
+  /* Fix IE bug: transparent PNG support */
+  -background: #b3def1;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/message-background.png', sizingMethod='scale');
+}
+
+div.balloon span.example {
+  color: #3E71AC;
+  font-weight: bold;
+}
+
+div.balloon div.icon {
+  margin: 4px 0 0;
+  width: 14px;
+  height: 14px;
+  background: url("../images/message.gif") -24px -34px no-repeat;
+  cursor: pointer;
+}
+div.balloon div.target {
+  position: absolute;
+  right: 22px;
+  width: 12px;
+  bottom: -18px;
+  height: 18px;
+  background: url("../images/message.gif") -97px -15px no-repeat;
+  background-repeat: no-repeat;
+}
+
+div.balloon div.topleft,
+div.balloon div.topright,
+div.balloon div.bottomleft,
+div.balloon div.bottomright {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-image: url("../images/message.gif");
+  background-repeat: no-repeat;
+
+  font-size: 0;
+}
+div.balloon div.topleft {
+  background-position: -24px 0px;
+  top: -1px;
+  left: -1px;
+  -top: 0px;
+}
+div.balloon div.topright {
+  background-position: -28px 0px;
+  top: -1px;
+  right: -1px;
+  -top: 0px;
+  -right: 0px;
+}
+div.balloon div.bottomleft {
+  background-position: -24px -4px;
+  bottom: -1px;
+  left: -1px;
+}
+div.balloon div.bottomright {
+  background-position: -28px -4px;
+  bottom: -1px;
+  right: -1px;
+  -right: 0px;
+}
+div.balloon div.panel p {
+width: 100%;
+    overflow: hidden;
+  margin: 0;
+}
+div.balloon div.panel a {
+  color: #255792;
+}
+
+
+/** Side bar for forms */
+div.formSide {
+  width: 750px;
+  position: relative;
+}
+
+div.formSide div.side {
+  position: absolute;
+  right: 0;
+  width: 190px;
+}
+
+div.formSide form {
+  border-right: 1px solid #c4c4c4;
+}
+
+/** Wizard progress info */
+ul.wizardProgress li {
+  display: block;
+  background-color: #d4f4dd;
+  border: 1px solid #8ad1a5;
+  -moz-border-radius: 5px;
+  padding: 10px;
+  color: #045123;
+}
+
+textarea.copyTextarea {
+  font-family: monospace;
+  font-size: 11px;
+  overflow-y: auto;
+}
+
+li.copyTextareaLinks {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  top: -8px;
+}

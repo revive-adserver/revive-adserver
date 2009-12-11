@@ -1,0 +1,15 @@
+{if $shortcuts|@count > 0}
+<li class="alignRight">
+  <div class="dropDown {$cssClass}"><span><span>{$title|escape}</span></span>
+    <div class="panel">
+      <div>
+        <ul>
+        {foreach from=$shortcuts item=shortcut}        
+          <li><a class="inlineIcon icon{$shortcut->getIcon()}" href="{$shortcut->getActionUrl()}">{$shortcut->getLabel()|escape}</a></li>
+        {/foreach}
+        </ul>
+      </div>
+    </div>
+  <div class="mask" /></div>
+</li>
+{/if}

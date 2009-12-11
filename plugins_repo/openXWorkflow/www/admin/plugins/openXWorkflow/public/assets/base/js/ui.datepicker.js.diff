@@ -1,0 +1,33 @@
+--- ui.datepicker-orig.js	Thu Mar 19 21:10:28 2009
++++ ui.datepicker.js	Thu Apr 09 12:59:49 2009
+@@ -64,6 +64,7 @@
+ 		appendText: '', // Display text following the input box, e.g. showing the format
+ 		buttonText: '...', // Text for trigger button
+ 		buttonImage: '', // URL for trigger button image
++		buttonImageElement: 'img', // Element for button image
+ 		buttonImageOnly: false, // True if the image appears alone, false if it appears on a button
+ 		hideIfNoPrevNext: false, // True to hide next/previous month links
+ 			// if not applicable, false to just disable them
+@@ -179,12 +180,18 @@
+ 		if (showOn == 'button' || showOn == 'both') { // pop-up date picker when button clicked
+ 			var buttonText = this._get(inst, 'buttonText');
+ 			var buttonImage = this._get(inst, 'buttonImage');
++			var buttonImageElement = this._get(inst, 'buttonImageElement');
++            var buttonImageAttrs = { title: buttonText };
++            if (buttonImageElement.toLowerCase() == 'img') {
++              buttonImageAttrs.alt = buttonText;
++              buttonImageAttrs.src = buttonImage;
++            }
+ 			inst.trigger = $(this._get(inst, 'buttonImageOnly') ?
+-				$('<img/>').addClass(this._triggerClass).
+-					attr({ src: buttonImage, alt: buttonText, title: buttonText }) :
++				$('<' + buttonImageElement + '/>').addClass(this._triggerClass).
++					attr(buttonImageAttrs) :
+ 				$('<button type="button"></button>').addClass(this._triggerClass).
+-					html(buttonImage == '' ? buttonText : $('<img/>').attr(
+-					{ src:buttonImage, alt:buttonText, title:buttonText })));
++					html(buttonImage == '' ? buttonText : $('<' + buttonImageElement + '/>').attr(
++					buttonImageAttrs)));
+ 			input[isRTL ? 'before' : 'after'](inst.trigger);
+ 			inst.trigger.click(function() {
+ 				if ($.datepicker._datepickerShowing && $.datepicker._lastInput == target)

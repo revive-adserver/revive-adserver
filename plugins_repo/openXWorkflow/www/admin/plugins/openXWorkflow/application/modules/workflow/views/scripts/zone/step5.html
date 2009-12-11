@@ -1,0 +1,14 @@
+<div class="wizard zone-wizard">
+  <div class="congratsStep">
+    {wizardSteps steps=$aSteps current=$current}
+       
+    <div class="content">
+    {capture assign='content'}
+    <h1>Congratulations!</h1>
+    <p>You are now serving ads.</p>
+    <p>Continue to the next step of <a href="{$adminWebPath}advertiser-edit.php">adding an advertiser</a></p>
+    {/capture}
+    {pcString p='zone-wizard-congrats-step' s='content' d=$content}        
+  </div>
+  {$form}
+</div>

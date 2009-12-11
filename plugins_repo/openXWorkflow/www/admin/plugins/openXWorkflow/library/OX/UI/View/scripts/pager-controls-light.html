@@ -1,0 +1,11 @@
+{if $pageCount > 1}
+  <div class="pager">
+      <span class="controls">
+          {if (isset($previous))}<a title="previous page" class="page" href="{pagerUrl page=$previous pagerAction=$pagerAction pagerController=$pagerController pagerModule=$pagerModule urlParams=$pagerUrlParams}">&lt; Previous</a>{/if}
+          <span class="summary">
+              <em>{$firstItemNumber}</em>-<em>{$lastItemNumber}</em> of <em>{$totalItemCount} {$entitiesName}</em>
+          </span>
+          {if (isset($next))}<a title="next page" class="page" href="{pagerUrl page=$next pagerAction=$pagerAction pagerController=$pagerController pagerModule=$pagerModule urlParams=$pagerUrlParams}">Next &gt;</a>{/if}
+      </span>
+  </div>
+{/if}

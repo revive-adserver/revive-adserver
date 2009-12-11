@@ -1,0 +1,58 @@
+<div class="wizard zone-wizard">
+  <div class="marketStep">
+   {wizardSteps steps=$aSteps current=$current}
+       
+    <div class="content">
+      <div class="info-box">
+        {capture assign='infoBoxContent'}
+        <p>
+          You can participate in OpenX Market in three ways.
+        </p>
+        
+        <ul class="three-ways">
+          <li>
+              <img class="point" src="{urlBase}/assets/wk/images/point_1.gif" />
+              <p>Serve OpenX Market ads instead of letting your zones serve blanks. 
+              <b>This is being done for you in this wizard step.</b>
+              </p>
+              <img src="{urlBase}/assets/wk/images/3-ways-zone-optin.gif">
+          </li>
+          <li>
+              <img class="point" src="{urlBase}/assets/wk/images/point_2.gif" />
+              <p>Create campaigns that exclusively serve OpenX Market ads</p>
+              <img src="{urlBase}/assets/wk/images/3-ways-market-campaigns.gif">
+          </li>
+          <li>
+              <img class="point" src="{urlBase}/assets/wk/images/point_3.gif" />
+              <p>Opt in existing campaigns to OpenX Market</p>
+              <img src="{urlBase}/assets/wk/images/3-ways-campaign-optin.gif">
+          </li>
+        </ul>
+        {/capture}
+        {pcString p='zone-wizard-market-step' s='info-box-content' d=$infoBoxContent}
+      </div>
+          
+      <h3>{pcString p='zone-wizard-market-step' s='header' d='Optimize ad revenue with OpenX Market'}</h3>
+      {capture assign='intro'}
+      <p>
+        By default OpenX Market will serve ads in your zones if no other ads are to be 
+        served. You can change this behavior for any zone by editing that zone.
+      </p>
+      <h3>What is OpenX Market?</h3>
+      <p>
+      OpenX Market is a service that helps place ads on your sites to make you more
+      money. It uses a real-time auction of hundreds of ad buyers to get the highest paying
+      ad for each of your ad impressions.
+      </p>
+      <img class="auction" src="{urlBase}/assets/wk/images/zone-step-3.gif" />
+      <img class="advertisers" src="{urlBase}/assets/wk/images/zone-step-3-adnetworks.gif" />
+      
+      {/capture}
+      {pcString p='zone-wizard-market-step' s='intro' d=$intro}
+      {$form}
+    </div>
+       
+  </div>
+</div>
+
+

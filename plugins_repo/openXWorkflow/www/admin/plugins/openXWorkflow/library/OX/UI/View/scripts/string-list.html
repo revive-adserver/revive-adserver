@@ -1,0 +1,66 @@
+<form id="stringsForm" class="main" action="{actionUrl action=$action controller=$controller module=$module params=$params}" 
+      method="post" enctype="application/x-www-form-urlencoded" style="width: auto">
+  <div class='tableWrapper' style="width: 503px">
+    {capture assign=tableHeaderContent}
+      <input type="hidden" name="operation" value="add" id="stringListOperation" />
+      <div style="float: left; margin-right: 4px">
+        <label style="color: #666; padding-right: 0.5ex" class="affix" for="string">{$inputPrefix}</label>
+        <input id="string" name="string" class="typeText widthLarge" type="text"{if $currentString} value="{$currentString|escape}"{/if} />
+      </div>
+      <div style="float: left; margin-right: 10px">
+      <button type="submit" name="addString" class="save inline">{$addButtonLabel}</button>
+      </div>
+      <div style="float: left; margin-right: 4px">
+        {if $helpText}{balloonHint hint=$helpText}{/if}
+      </div>
+    {/capture}
+    
+    {capture assign=removeLink}
+      <li class="activeIfSelected inactive">
+        <a class="inlineIcon iconDelete" href="#" id="deleteSelection" title="Remove selected">Remove</a>
+      </li>    
+    {/capture}
+    
+    {tableHeader actions=null contentBefore=$tableHeaderContent contentAfter=null contentBeforeActions=$removeLink}
+    <table class="fixedLayout" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="first toggleAll"><label><input type="checkbox" class="checkbox" /> {$listHeader}</label></th>
+          <th style="width: 7em">&nbsp;</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+    {foreach from=$strings item=string}
+        <tr class="{cycle values=even,odd}{if $addedString == $string.string} hl{/if}">
+          <td class="first no-click toggleSelection">
+            <label><input type="checkbox" class="checkbox" name="id[]" value="{$string.params.id}" /> {$string.formatted}</label> {* assumed to be escaped *}
+          </td>
+          <td>
+            <a class="inlineIcon iconDelete" href="{actionUrl action=$action controller=$controller module=$module params=$string.params}">Remove</a>
+          </td>
+        </tr>
+    {foreachelse}
+        <tr class="empty">
+          <td class="first" colspan="2">{$emptyListMessage}</td>
+        </tr>
+    {/foreach}
+      </tbody>
+    </table>
+  </div>
+</form>
+
+{inlineScript _method=captureStart()}
+{literal}
+$("#deleteSelection").click(function() {
+  if ($(this).parents('li').hasClass('inactive')) {
+    return false;
+  }
+  
+  $("#stringListOperation").val("bulkRemove");
+  $("#stringsForm").get(0).submit();
+  
+  return false;
+});
+{/literal}
+{inlineScript _method=captureEnd()}

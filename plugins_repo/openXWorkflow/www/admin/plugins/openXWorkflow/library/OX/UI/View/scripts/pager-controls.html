@@ -1,0 +1,24 @@
+{if $pageCount > 1}
+  <div class="pager">
+      <span class="controls">
+          <span class="summary">
+              <em>{$firstItemNumber}</em>-<em>{$lastItemNumber}</em> of <em>{$totalItemCount}</em>
+          </span>
+          {if isset($first)}<a title="first page" class="page" href="{pagerUrl a.page=$first}">First</a>{/if}
+          {if (isset($previous))}<a title="previous page" class="page" href="{pagerUrl a.page=$previous}">&lt; Previous</a>{/if}
+          
+          {*<!-- Numbered page links -->*}
+          
+          {foreach  item=page from=$pagesInRange}
+            {if ($page == $current)}
+              <span class="current">{$page|escape}</span> |
+            {else}
+              <a title="Page {$page|escape}" class="page" href="{pagerUrl a.page=$page}">{$page}</a> |
+            {/if}
+          {/foreach}          
+          
+          {if (isset($next))}<a title="next page" class="page" href="{pagerUrl a.page=$next}">Next &gt;</a>{/if}
+          {if isset($last)}<a title="last page" class="page" href="{pagerUrl a.page=$last}">Last</a>{/if}
+      </span>
+  </div>
+{/if}

@@ -1,0 +1,125 @@
+
+/** Retargeting editor */
+li.ruleExpr {
+  width: 30em;
+  white-space: normal !important;
+}
+
+li.ruleExpr em {
+  color: #545454;
+}
+
+li.ruleMessageLine fieldset {
+  margin: 0;
+  padding-right: 12px !important;
+  padding-left: 12px !important;
+  position: relative;
+  top: 10px;
+}
+
+li.ruleLine > fieldset {
+  -moz-border-radius: 4px;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  position: relative;
+  padding-right: 12px !important;
+  padding-left: 12px !important;
+}
+
+li.ruleViewLine > fieldset {
+  border: 1px solid #e4e5e4;
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+fieldset.ruleEditing li.ruleAddLine > fieldset li.ruleRemove,
+fieldset.ruleEditing li.ruleViewLine > fieldset li.ruleRemove {
+  border-color: #9d9d9d;
+} 
+
+a.disabled,
+fieldset.ruleEditing li.ruleAddLine > fieldset,
+fieldset.ruleEditing li.ruleAddLine a,
+fieldset.ruleEditing li.ruleViewLine > fieldset,
+fieldset.ruleEditing li.ruleViewLine > fieldset em,
+fieldset.ruleEditing li.ruleViewLine a {
+  color: #9d9d9d !important;
+}
+
+fieldset.ruleEditing li.ruleAddLine > fieldset,
+fieldset.ruleEditing li.ruleViewLine > fieldset {
+  border: 1px solid #f1f2f1;
+  background-color: #fbfbfb;
+}
+
+li.ruleAddLine > fieldset,
+li.ruleEditLine > fieldset {
+  border: 1px solid #e1e1e1;
+  background-color: #f2f6f9;
+}
+
+li.ruleSavedLine > fieldset {
+  border: 1px solid #89d2a5;
+  background-color: #d4f4de;
+}
+
+li.ruleSavedLine hr {
+  border-top-color: #bbe5cb;
+  border-bottom-color: #e9f4ed;
+}
+
+li.ruleLine li.ruleLoading, 
+li.ruleLine li.ruleRemove, 
+li.ruleLine li.ruleEdit {
+  margin: 0 0 10px 0;
+  padding: 0;
+  float: right;
+  top: 0;
+  right: 0;
+  line-height: 110%;
+  padding-left: 5px;
+  position: relative;
+  top: 3px;
+  right: 3px;
+}
+
+li.ruleLine li.ruleLoading {
+  text-align: right;
+  width: 7em;
+} 
+
+li.ruleViewLine li.ruleRemove {
+  border-right: 1px solid #3b3b3b;
+  padding-right: 5px;
+}
+
+li.ruleLine a.ruleAddLink,
+li.ruleLine a.ruleSaveLink {
+  background: #0867a7;
+  border: 1px solid #0867a7;
+  border-bottom: 1px solid #023f78;
+  border-right: 1px solid #023f78;
+  color: white;
+  padding: 5px;
+  *padding-bottom: 3px;
+}
+
+a.disabled {
+  border-color: #e1e1e1 !important;
+}
+
+li.ruleEditLine a.disabled {
+  background-color: #f2f6f9 !important;
+}
+
+li.ruleAddLine li.ruleAdd a.disabled,
+fieldset.ruleEditing li.ruleLine a.ruleAddLink {
+  background-color: #f2f6f9 !important;
+  border-color: #e1e1e1 !important;
+  color: #9d9d9d;
+}
+
+a.disabled:hover, 
+fieldset.ruleEditing li.ruleLine a.ruleAddLink:hover {
+  text-decoration: none !important;
+}

@@ -1,0 +1,522 @@
+/** reset css **/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+}
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+
+
+body {
+    line-height: 1;
+    color: black;
+    background: white;
+}
+ol, ul {
+    list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+blockquote, q {
+    quotes: "" "";
+}
+/** reset end **/
+
+/** code box **/
+pre.code {
+    color: #666666;
+    font-size: 12px;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    line-height: 160%;
+    
+    cursor: text;
+}
+
+pre.code {
+    display: block;
+
+    border: 1px solid #ededed;
+    padding: 10px 15px;
+    background-color: #f7f7f7;
+    margin: 0 0 1.5em;
+
+    /* First try to wrap */
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+    /* If that doesn't work anymore use a horizontal scrollbar */
+    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    /* Force layout on IE to prevent selection problems */
+    -height: 1%;
+}
+
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.iconZoneWizardLarge {
+    background-image: url("../images/icon-installer-wizard-large.png");
+}
+
+
+/** GENERIC WIZARD STYLES **/
+.wizard {
+  min-height:330px;
+  overflow: auto;
+  font-size: 12px;
+  clear:left;  
+}
+
+.wizard .info-box {
+  padding: 12px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; /*CSS3*/
+  border: 1px solid #cfcfcf;
+}
+
+.wizard .content h1
+{
+  color: #3a3a3a;
+  font-size: 27px;
+  margin-bottom: 12px;
+}
+
+
+.wizard .content h3, .wizard form.main fieldset .header
+{
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.wizard .content p {
+  margin-bottom: 12px;
+}
+
+.wizard .content p.compact {
+  margin-bottom: 0px;
+}
+
+.wizard .content p.last {
+  margin-bottom: 24px;
+}
+
+.wizard em {
+  font-style:normal;
+  font-weight:bold;  
+}
+
+/** narrowed form **/
+.wizard div.formMessage div.panel {
+    width: 430px;
+}
+
+.wizard form.main {
+  width: 430px;
+}
+
+.wizard form.main fieldset {
+    width: 324px;
+    clear:none; /*required since info-box is floated right */
+}
+
+.wizard form.main fieldset .header {
+  border-bottom: none;
+  color: #3a3a3a;
+  font-weight: bold;
+}
+
+.wizard form.main fieldset fieldset {
+  padding-left: 0px;
+  -float: none; /*IE6 hack*/
+}
+
+.wizard form.main fieldset div.message {
+   width: 285px;
+   top: 0px;
+}
+
+.wizard div.messagePlaceholder {
+  margin-bottom:10px;
+  height: auto;
+}
+
+/** wizard steps indicator **/
+.wizard .wizard-steps {
+  line-height: 44px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  overflow: auto;
+}
+
+.wizard .wizard-steps li {
+    height:44px;
+    padding: 0px;    
+    
+    list-style:none;
+    float:left;
+    background-color:#e4e4e4;
+    color: #898989;
+    background-image: url(../images/wizard-lead-out.png);
+    background-repeat: no-repeat;
+    background-position: right 0px;
+}
+
+.wizard .wizard-steps li div.body {
+    padding: 0px 32px 0px 12px;
+}
+
+.wizard .wizard-steps li.first div.body {
+    background-image: url(../images/wizard-lead-in.png);
+    background-repeat: no-repeat;
+    background-position: left 0px;
+}
+
+.wizard .wizard-steps li.current div.body {
+    background-position: left -44px;
+}
+
+.wizard .wizard-steps li.last {
+      background-position: right -44px;
+}
+
+.wizard .wizard-steps li.current, .wizard-steps li.current-last {
+    background-color: #2098c8;
+    color: white;
+}
+
+.wizard .wizard-steps li.current {
+    background-position: right -88px;
+}
+
+.wizard .wizard-steps li.current-last {
+    background-position: right -132px;
+}
+
+
+.wizard .wizard-steps li.done, .wizard-steps li.last-done {
+    background-color: #c3e4f1;
+    color: #2098c8;
+}
+
+.wizard .wizard-steps li.done {
+    background-position: right -176px;
+}
+
+.wizard .wizard-steps li.last-done {
+    background-position: right -220px;
+}
+
+
+
+/** ZONE WIZARD **/
+/** layout hacks **/
+#thirdLevelTools {
+    min-height: 0;
+}
+#thirdLevelTools ul.contextContainer {
+    display: none;
+}
+
+div.messagePlaceholder {
+  height: auto;
+}
+
+
+.zone-wizard-modal {
+  width: 860px;
+}
+
+.zone-wizard-page form.main {
+  width: 390px;
+}
+
+.zone-wizard-page div.formMessage div.panel {
+  width: 390px;
+}
+
+.zone-wizard .content {
+  width: 785px;
+}
+
+
+.zone-wizard .info-box {
+  width: 336px;
+  margin-left: 12px;
+  float:right;
+}
+
+.zone-wizard form.main fieldset.buttons .requirements, .zone-wizard form.main fieldset .header span.toggle {
+  display: none;
+}
+
+
+.zone-wizard .websiteStep form.main fieldset.buttons .requirements {
+  display: block; 
+}
+
+
+
+.zone-wizard .sizesStep a.size-preview-all {
+  display: block;
+  margin-top: 24px;
+  float: right;
+}
+
+.zone-wizard .sizesStep form.main {
+  -margin-bottom: 24px; /* IE6 */
+  *margin-bottom: 24px; /* IE7 */
+}
+
+.zone-wizard .sizesStep form.main .size-container fieldset.noTitle {
+  padding-top:0px;
+  margin-bottom: 1px;
+}
+
+.zone-wizard .sizesStep form.main fieldset {
+    width: 380px;
+    -width: 372px; /** as usual have IE6 problem **/
+}
+
+.zone-wizard .sizesStep .note {
+  font-weight: normal;
+  color:#888888;
+  font-size: 11px;
+}
+
+
+.zone-wizard .sizesStep #headers {
+  display: block;
+  overflow: auto;
+  vertical-align: middle;
+}
+
+.zone-wizard .sizesStep #headers .count {
+  float: left;
+  width: 180px;
+}
+
+.zone-wizard .sizesStep #headers .type, .zone-wizard .sizesStep #headers .count {
+  font-weight: bold;
+  white-space: normal;
+  line-height: normal;
+}
+
+.zone-wizard .sizesStep #headers .note {
+  font-size: 9px;
+}
+
+.zone-wizard .sizesStep .size-container label.prefix, .zone-wizard .sizesStep #headers .type {
+  float: left;
+  margin-right: 5px;
+  width: 175px;
+}
+
+.zone-wizard .sizesStep .size-container label.suffix {
+  font-size:0.9em;
+  font-weight:normal;
+  line-height:160%;
+  margin-left: 6px;
+  display: none; 
+}
+
+.zone-wizard .sizesStep .size-container li {
+  padding-bottom: 6px;  
+  width: 100%;
+}
+
+.zone-wizard .marketStep .content {
+  -margin-top: 12px; /* IE6 ... */
+}
+
+.zone-wizard .marketStep .content img.auction {
+  margin-bottom: 25px;
+}
+
+.zone-wizard .marketStep .content img.advertisers {
+  margin-bottom: 18px;
+}
+
+
+
+.zone-wizard .marketStep .info-box {
+  width: 238px;
+}
+
+.zone-wizard .marketStep .info-box ul.three-ways {
+}
+
+.zone-wizard .marketStep .info-box ul.three-ways li {
+  padding-left: 40px;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.zone-wizard .marketStep .info-box ul.three-ways li img.point{
+  position: absolute;
+  top: 0;
+  left: 0;
+  *top: 10px;
+  *left: -40px;
+}
+
+
+.zone-wizard .marketStep form.main, .zone-wizard .marketStep form.main fieldset {
+  width: 500px;
+}
+
+
+
+.zone-wizard .tagsStep .info-box {
+  width: 250px;
+}
+
+.wizard .tagsStep .content .tag {
+  padding: 0px;
+  margin-bottom: 12px;
+}
+
+.wizard .tagsStep .content .tag-highlight {
+  width: 490px;
+  padding-bottom: 6px;
+}
+
+.wizard .tagsStep .content .tag h4 {
+  position: relative;
+  font-size: 14px; 
+  font-family: Arial;
+  font-weight: normal;
+  color: #000000;
+  line-height: 33px;
+  padding-left: 35px;
+  margin-bottom: 6px;
+  /** IE has-layout HACK **/
+  zoom:1;
+}
+
+.wizard .tagsStep .content .tag .number {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background: url('../images/green_dot_zone.png') top left no-repeat;
+    width: 32px;
+    height: 33px;
+    text-align: center;
+}
+
+.wizard .tagsStep .content .tag-highlight .number {
+    background: url('../images/blue_dot_website.png') top left no-repeat;
+}
+
+.wizard .tagsStep .content .tag .number span {
+    font-size: 14px; 
+    font-family: Arial;
+    font-weight: bold;
+    color: #fff;
+    line-height: 33px;
+    letter-spacing: -1px;
+    position: relative;
+    left: -1px;
+}
+
+
+
+.zone-wizard .tagsStep .content .tag pre.code {
+  padding: 6px 6px;
+  font-size: 10px;
+  background-color: #ccecc1;
+}
+
+  
+.zone-wizard .tagsStep .content .tag-highlight pre.code {
+  background-color: #c3e4f1;
+}  
+  
+  
+.zone-wizard .tagsStep .content p {
+  margin-bottom: 3px;
+}
+
+.zone-wizard .congratsStep h1 {
+  margin-top: 1em;
+}
+
+.sizePreview {
+    position: relative;
+    border: 1px solid #349E3F; 
+    background-color: #66C761;
+    color: white;
+    font-weight: bold;
+    margin: 0 0 1.5em;
+}
+
+.sizePreview .watermark, #ad-unit-view .sizePreview .size {
+    font-size: 16px;
+    font-weight: bold;
+    
+    position: absolute;    
+}
+
+.sizePreviewSmallHeight .watermark, #ad-unit-view .sizePreviewSmallHeight .size {
+    font-size: 12px;
+}
+
+.sizePreview .watermark {
+    background: url(../images/watermark.gif) no-repeat top left;
+    left: 8px;
+    top: 5px;
+    color:#FFFFFF;
+    min-width: 75px;
+    min-height: 30px; 
+}
+
+.sizePreviewSmallHeight .watermark {
+    left: 3px;
+    top: 2px;
+}
+.sizePreview .size {
+    bottom: 5px;
+    right: 8px;
+    color: white;
+}
+
+.sizePreviewSmallHeight .size {
+    bottom: 2px;
+    right: 3px;
+}

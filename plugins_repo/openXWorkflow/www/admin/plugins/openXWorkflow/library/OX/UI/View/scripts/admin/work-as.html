@@ -1,0 +1,30 @@
+<div class="tableWrapper">
+  {tableHeader}
+  
+  <table cellpadding="0">
+    <thead>
+      <tr>
+        <th class="first">Switch to...</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+  {foreach from=$accounts item=account}
+      <tr class="{cycle values=even,odd}{if $account->getId() eq $loggedAccountId} active{/if}">
+        <td class="first">
+          {if $account->getId() eq $loggedAccountId}
+            {$account->getName()|escape}
+          {else}
+            <a href="{actionUrl action=switch-to controller=index module=admin params.accountId=$account->getId()}">{$account->getName()|escape}</a>
+          {/if}
+        </td>
+      </tr>
+  {foreachelse}
+      <tr>
+        <td>No accounts yet.</td>
+      </tr>
+  {/foreach}
+    </tbody>
+    
+  </table>
+</div>

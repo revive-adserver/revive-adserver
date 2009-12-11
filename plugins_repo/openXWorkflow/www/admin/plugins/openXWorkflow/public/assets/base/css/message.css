@@ -1,0 +1,237 @@
+
+div.messagePlaceholder {
+  position: relative;
+  top: 0;
+
+  overflow: visible;
+  line-height: 0px;
+}
+
+#thirdLevelTools div.messagePlaceholder {
+  padding-bottom: 10px;
+  width: 550px;
+  float: left;
+}
+
+div.message div.panel {
+  position: relative;
+  font-size: 1em;
+  line-height: 135%;
+
+  margin: 0;
+  padding: 0;
+  text-align: left;
+
+  background: transparent;
+}
+div.message div.panel div.icon {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+
+  background-image: url("../images/message.gif");
+  background-repeat: no-repeat;
+  padding: 0;
+}
+div.message div.topleft,
+div.message div.topright,
+div.message div.bottomleft,
+div.message div.bottomright {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-image: url("../images/message.gif");
+  background-repeat: no-repeat;
+
+  font-size: 0;
+}
+div.message div.topleft {
+  top: -1px;
+  left: -1px;
+  -top: 0px;
+}
+div.message div.topright {
+  top: -1px;
+  right: -1px;
+  -top: 0px;
+  -right: 0px;
+}
+div.message div.bottomleft {
+  bottom: -1px;
+  left: -1px;
+}
+div.message div.bottomright {
+  bottom: -1px;
+  right: -1px;
+  -right: 0px;
+}
+div.message div.panel div.text,
+div.message div.panel p {
+  padding: 5px 5px 4px 28px;
+  margin: 0;
+  line-height: 150%;
+}
+#thirdLevelContent div.message div.panel div.text ul {
+  list-style-type: disc;
+}
+#thirdLevelContent div.message div.panel div.text li {
+  float: none;
+}
+div.message div.panel.hasClose div.text,
+div.message div.panel.hasClose p {
+  padding-right: 32px;
+}
+div.message div.panel a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+div.message div.confirm {
+  color: #045222;
+  background-color: #d4f4de;
+  border: 1px solid #89d2a5;
+}
+div.message div.confirm a {
+  color: #045222;
+}
+div.message div.confirm div.icon {
+  background-position: 0px -8px;
+}
+div.message div.confirm div.topleft {
+  background-position: 0px 0px;
+}
+div.message div.confirm div.topright {
+  background-position: -4px 0px;
+}
+div.message div.confirm div.bottomleft {
+  background-position: 0px -4px;
+}
+div.message div.confirm div.bottomright {
+  background-position: -4px -4px;
+}
+
+div.message div.info {
+  color: #255792;
+  background-color: #e5f0f8;
+  border: 1px solid #bad5e6;
+}
+div.message div.info a {
+  color: #255792;
+}
+div.message div.info div.icon {
+  background-position: -24px -8px;
+}
+div.message div.info div.topleft {
+  background-position: -24px 0px;
+}
+div.message div.info div.topright {
+  background-position: -28px 0px;
+}
+div.message div.info div.bottomleft {
+  background-position: -24px -4px;
+}
+div.message div.info div.bottomright {
+  background-position: -28px -4px;
+}
+
+div.message div.warning {
+  color: #7d4605;
+  background-color: #ffe9ce;
+  border: 1px solid #f7b970 ;
+}
+div.message div.warning a {
+  color: #7d4605;
+}
+div.message div.warning div.icon {
+  background-position: -46px -8px;
+}
+div.message div.warning div.topleft {
+  background-position: -48px 0px;
+}
+div.message div.warning div.topright {
+  background-position: -52px 0px;
+}
+div.message div.warning div.bottomleft {
+  background-position: -48px -4px;
+}
+div.message div.warning div.bottomright {
+  background-position: -52px -4px;
+}
+
+div.message div.error {
+  color: #760605;
+  background-color: #ffbaba;
+  border: 1px solid #eb6767;
+}
+div.message div.error a {
+  color: #760605;
+}
+div.message div.error div.icon {
+  background-position: -73px -8px;
+  top: 2px;
+}
+div.message div.error div.topleft {
+  background-position: -72px 0px;
+}
+div.message div.error div.topright {
+  background-position: -76px 0px;
+}
+div.message div.error div.bottomleft {
+  background-position: -72px -4px;
+}
+div.message div.error div.bottomright {
+  background-position: -76px -4px;
+}
+
+
+div.message div.close {
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  width: 14px;
+  height: 14px;
+  background: url("../images/message.gif") -96px 0px no-repeat;
+
+  line-height: 14px;
+  text-indent: -2000em;
+
+  cursor: pointer;
+}
+
+div.localMessage {
+  padding: 0;
+  border: none;
+  width: 100%;
+}
+div.localMessage div.panel {
+  width: 500px;
+}
+div.formMessage {
+  overflow: hidden;
+}
+div.formMessage div.panel {
+  width: 450px;
+}
+
+
+div.globalMessage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  
+  padding: 0;
+  border: none;
+}
+div.globalMessage div.panel {
+  width: 400px;
+  border-top: none;
+}
+div.globalMessage div.panel div.topleft,
+div.globalMessage div.panel div.topright {
+  display: none;
+}
+

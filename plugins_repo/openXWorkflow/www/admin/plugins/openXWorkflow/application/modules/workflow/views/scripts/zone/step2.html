@@ -1,0 +1,44 @@
+<div class="wizard zone-wizard zone-wizard-page">
+  <div class="sizesStep">
+    {wizardSteps steps=$aSteps current=$current}
+     
+    <div class="content">
+      <div class="info-box">
+        {capture assign='infoBoxContent'}
+        <p>
+           A <em>zone</em> corresponds to an ad size and represents one or more places on your
+           site where ads will display. You can define more zones 
+           later by going to Inventory > Zones.
+        </p>
+        <img src="{urlBase}/assets/wk/images/zone-step-2.png" >
+        {if $allSizesPreviewUrl}
+            <a target="_blank" href="{$allSizesPreviewUrl}" class="size-preview-all" >Preview all ad sizes...</a>
+        {/if}
+        {/capture}
+        {pcString p='zone-wizard-zone-step' s='info-box-content' d=$infoBoxContent}
+      </div>
+      
+      {localMessage message=$pageLocalMessageContent messageType=$pageLocalMessageType messageScope=$pageLocalMessageScope}
+      <h3>{pcString p='zone-wizard-zone-step' s='header' d='Create zones in which ads will be displayed'}</h3>
+      <p class="compact">
+        To create a zone, select the number of times you'll display the corresponding 
+        ad size on a single page. A zone of that size will automatically be created.
+      </p>
+      {$form}
+      <p class="note">
+        <b>Note:</b> 
+        The number of times a zone is displayed on a page determines the number 
+        of tags generated for the zone. Each of these tags acts as a separate 
+        call to the zone. If you want these tags to be targeted differently 
+        from one another, you must create them as separate zones by going to Inventory > Zones.
+      </p>
+    </div>
+  </div>
+</div>
+{inlineScript _method=captureStart()}
+{literal}
+$(document).ready(function() {
+  $('#zoneWorkflowForm').zoneSizesForm();
+  });
+{/literal}
+{inlineScript _method=captureEnd()}  

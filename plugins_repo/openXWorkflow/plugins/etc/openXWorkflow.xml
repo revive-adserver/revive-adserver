@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+        <name>openXWorkflow</name>
+    <creationDate>2009-07-21</creationDate>
+    <author>OpenX</author>
+    <authorEmail>plugins@openx.org</authorEmail>
+    <authorUrl>www.openx.org</authorUrl>
+    <license>GPL</license>
+    <description>OpenX Workflow Wizard</description>
+    <version>0.0.1-rc2</version>
+    <oxversion>2.8.2-rc13</oxversion>
+    <type>package</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">openXWorkflow.readme.txt</file>
+        </files>
+
+        <!-- list the groups that are contained in this plugin -->
+        <!-- in the order they should be installed -->
+        <contents>
+                        <group name="openXWorkflow">0</group>
+
+        </contents>
+
+    </install>
+
+</plugin>

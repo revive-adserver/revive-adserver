@@ -1,0 +1,12 @@
+<h1>We're sorry, you do not have an account in {config section=application key=name}</h1>
+<p>
+In order to use {config section=application key=name}, you need to apply for an account.
+</p>
+<p>
+{if $supportEmail}
+  Please contact <a href="mailto:{$supportEmail|escape}">{$supportEmail|escape}</a>
+{else}
+  Please <a href="http://www.openx.org" target="_blank">contact us</a>
+{/if}for assistance.
+</p>
+<a href="{actionUrl action=logout controller=index module=default params.redirectUrl=$redirectUrl}">Back to login page</a>.

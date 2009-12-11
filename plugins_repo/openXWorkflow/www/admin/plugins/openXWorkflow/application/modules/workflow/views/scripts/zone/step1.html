@@ -1,0 +1,28 @@
+<div class="wizard zone-wizard zone-wizard-page">
+  <div class="websiteStep">
+      {wizardSteps steps=$aSteps current=$current}
+  
+      <div class="content">
+        <div class="info-box">
+          {capture assign='infoBoxContent'}
+          <p>
+            A <em>website</em> represents a collection of web pages on which you will display advertising. 
+            You can add more websites later by going to Inventory > Websites.
+          </p>
+          <img src="{urlBase}/assets/wk/images/zone-step-1.png" >
+          {/capture}
+          {pcString p='zone-wizard-website-step' s='info-box-content' d=$infoBoxContent}
+        </div>
+        {localMessage message=$pageLocalMessageContent messageType=$pageLocalMessageType messageScope=$pageLocalMessageScope}
+        <h3>{pcString p='zone-wizard-website-step' s='header' d='Enter your website information'}</h3>
+        {$form}
+      </div>   
+  </div>
+</div>
+{inlineScript _method=captureStart()}
+{literal}
+$(document).ready(function() {
+  $('#zoneWorkflowForm').websiteForm();
+  });
+{/literal}
+{inlineScript _method=captureEnd()}                

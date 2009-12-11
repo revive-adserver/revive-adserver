@@ -1,0 +1,30 @@
+{$form}
+{inlineScript _method=captureStart()}
+{literal}
+$(document).ready(function() {
+    $('input[name=hasSsoAccount]').click(function() {
+        var ssoAccountType = $(this).val();
+        
+        var $existingSsoAccountGroup = $('#existingSsoAccountGroup');
+        var $newSsoAccountGroup = $('#newSsoAccountGroup');
+        
+        $newSsoAccountGroup.stop(true, true);
+        $existingSsoAccountGroup.stop(true, true);
+        if (ssoAccountType == 'true') {
+           $newSsoAccountGroup.hideElement(true);
+           $existingSsoAccountGroup.showElement(true, function() {
+             $("#existingUsername").focus();
+           });
+        }
+        else {
+           $existingSsoAccountGroup.hideElement(true);
+           $newSsoAccountGroup.showElement(true, function() {
+             $("#newUsername").focus();
+           });
+        }
+        $('#termsGroup').showElement(true);
+        $('#submit').show();        
+    });
+  });
+{/literal}
+{inlineScript _method=captureEnd()}

@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Common\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bernard Lange <bernard@openx.org>\n"
+"Language-Team: OpenX <bernard@openx.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Test message 1"
+msgstr "Testowy komunikat nr 2 ze zrodla 2"
+
+msgid "Test message 2"
+msgstr "Testowy komunikat nr 2 ze zrodla 2"
+
+msgid "Test message 4"
+msgstr "Testowy komunikat nr 4 ze zrodla 2"
+

@@ -1,0 +1,538 @@
+/* UIDG tables */
+
+.tableWrapper {
+    position: relative; 
+    width: 100%;
+    padding-top: 2px;
+    clear: both;
+}
+
+.tableWrapper .tableHeader {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 6px 0 0;
+
+    position: relative; 
+    z-index: 1;
+    zoom: 1;
+}
+
+.tableWrapper .tableHeader .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.tableWrapper .tableHeader .left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.tableWrapper .tableHeader .right {
+    right: -1px;
+    top: -1px;
+    background-position: top right;
+    
+    -right: -1px;
+}
+
+.tableWrapper .clear {
+    clear: both;
+    height: 0px;
+    overflow: hidden;
+    margin: 6px 0 0;
+}
+
+
+
+.tableWrapper .tableActions,
+.tableWrapper .tableFilters {
+    display: block;
+    float: left;
+	clear: left;
+
+    margin: 0;
+    padding: 0 0 0 8px;
+    line-height: 22px;  
+    *line-height: 26px;  
+    height: 26px;
+}
+
+.tableWrapper tfoot .tableActions, .tableWrapper .tableFooter .tableActions {
+  padding: 0px;
+}
+
+.tableWrapper .tableFilters.alignRight {
+	clear: none;
+    float: right;
+}
+
+.tableWrapper .tableFilters.alignLeft {
+    clear: none;
+    float: left;
+}
+
+.tableWrapper .tableActions li,
+.tableWrapper .tableFilters li {
+    display: block;
+    float: left;
+    list-style-type: none;
+    padding: 0 12px 0 0;
+}
+
+
+
+
+.tableWrapper table {
+    width: 100%;
+    border-collapse: separate;
+    clear: left;
+
+    border-left: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+}
+.tableWrapper table.fixedLayout {
+    table-layout: fixed;
+}
+.tableWrapper table table {
+	border: none;
+}
+.tableWrapper table th {
+    background: url(../images/table-header.png) left -2px repeat-x;
+    border-top: 1px solid #f4f4f4;
+    border-bottom: 1px solid #c9c9c9;
+    line-height: 26px;
+    padding: 0 8px;
+    font-weight: bold;
+}
+
+.tableWrapper table .toggleSelection,
+.tableWrapper table .toggleAll {
+    padding: 5px 0 0 10px;
+    
+    /* IE 6 and IE7 have different metrics for checkboxes */
+    *padding: 0 0 0 6px;
+    -padding: 5px 0 0 6px;
+    vertical-align: middle;
+}
+.tableWrapper table .toggleAll {
+    padding: 0 0 0 10px; 
+    *padding: 0 0 0 6px;
+}
+
+
+.tableWrapper table td {
+    border-bottom: 1px solid #e6e6e6;
+    line-height: 1.2;
+    padding: 8px 8px 6px;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tableWrapper table .alignRight {
+    text-align: right;
+}
+.tableWrapper table .alignCenter {
+    text-align: center;
+}
+
+
+.tableWrapper table .sortDown a,
+.tableWrapper table .sortDown span {
+    background: url(../images/sort-arrow-down.gif) center right no-repeat;
+    padding: 2px 16px 2px 0;
+}
+.tableWrapper table .sortUp a,
+.tableWrapper table .sortUp span {
+    background: url(../images/sort-arrow-up.gif) center right no-repeat;
+    padding: 2px 16px 2px 0;
+}
+.tableWrapper table .sortDown.alignRight a,
+.tableWrapper table .sortDown.alignRight span,
+.tableWrapper table .sortUp.alignRight a,
+.tableWrapper table .sortUp.alignRight span {
+    background-position: center left;
+    padding: 2px 0 2px 16px;
+}
+
+.horizontalActions {
+    -width: 0;
+}
+
+.rowActions {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.rowActions li {
+    display: inline;
+    margin: 0 0 0 16px;
+}
+.tableWrapper table .alignRight .rowActions li a {
+    /* Required because a bug in IE CSS selectors make it overwrite the padding with other values */
+    padding: 2px 0 2px 20px;
+}
+.verticalActions {
+    width: 0;
+}
+.verticalActions .rowActions {
+    display: block;
+    margin: 2px 0 0;
+}
+.verticalActions .rowActions li {
+    display: block;
+    margin: 0;
+    text-align: left;
+    white-space: nowrap;
+    line-height: 22px;
+}
+
+.tableWrapper .tableHeader .label {
+    float: left;
+}
+
+
+.tableWrapper .dropDown {
+    display: block;
+    float: left;
+    position: relative;
+    
+    top: 0;
+    left: 0;
+    
+    white-space: nowrap;
+    margin: 0 0 0 4px;
+}
+.tableWrapper .dropDown span {
+    display: block;
+    background: url(../images/dropdown-background.png) left top no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 4px;
+    padding: 0 0 4px;
+    
+    height: 18px;
+    line-height: 18px;
+    
+    -width: 0%;
+}
+.tableWrapper .dropDown span span {
+    display: block;
+    background-position: right -25px;
+    padding: 0 26px 0 8px;
+
+    position: relative;
+    top: 0;
+	
+	color: #444;
+}
+.tableWrapper .dropDown.active span {
+    background-position: left -50px;
+}
+.tableWrapper .dropDown.active span span {
+    background-position: right -75px;
+    color: #fff;
+}
+.tableWrapper .dropDown div.panel {
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 22px;
+    left: -2px;
+    margin: 0;
+    padding: 0 6px 0 0;
+    z-index: 1001;
+
+    background: url(../images/dropdown-right.png) right bottom no-repeat;
+    border: none;
+
+    /* Unfortunately we need a fixed width for IE6 */
+    -width: 160px;
+
+    /* Non transparent version for IE */
+    -background: url(../images/dropdown-right.gif) right bottom no-repeat;
+}
+.tableWrapper .alignRight .dropDown div.panel {
+	left: auto;
+	right: -2px;
+}
+
+
+.tableWrapper .dropDown.active div.panel {
+    display: block;
+}
+.tableWrapper .dropDown div.panel div {
+    background: url(../images/dropdown-left.png) left bottom no-repeat;
+    padding: 0 0 8px;
+    overflow: visible;
+
+    /* Non transparent version for IE */
+    -background: url(../images/dropdown-left.gif) left bottom no-repeat;
+}
+.tableWrapper .dropDown ul {
+    display: block;
+    
+    border-top: 1px solid #ccc;
+    padding: 6px 0 0;
+    margin: 0 -3px 0 3px;
+}
+.tableWrapper .dropDown ul li {
+	float: none;
+    display: block;
+    line-height: 22px;
+	padding: 0;
+}
+.tableWrapper .tableWrapper .tableFilters .dropDown li {
+    float: none;
+    padding: 0;
+}
+.tableWrapper .dropDown ul li a {
+    display: block;
+    color: 0767a8;
+    padding: 0 40px 0 8px;
+    
+    -zoom: 1;
+}
+
+.tableWrapper .dropDown ul li a:hover {
+    background-color: #0767a8;
+    color: #fff;
+    text-decoration: none;
+}
+.tableWrapper .dropDown .mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    
+    background-color: transparent;
+    
+    z-index: 1000;
+}
+.tableWrapper .dropDown.active div.mask {
+    display: block;
+}
+
+
+
+
+
+
+/* rounded panel */
+.tableMessage .panel {
+    padding: 15px;
+    border: 1px solid #ddd;
+
+    position: relative;
+    top:0;
+    left:0;
+    background: #fff url("../images/panel-background.png") bottom left repeat-x;
+
+    -zoom: 1;
+
+    margin: 10px 0px 15px 0px;
+}
+
+.tableMessage .panel .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.tableMessage .panel .bottom-left {
+    left: -1px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom left;
+}
+
+.tableMessage .panel .bottom-right {
+    right: -1px;
+    -right: -2px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom right;
+}
+
+.tableMessage .panel .top-left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.tableMessage .panel .top-right {
+    right: -1px;
+    -right: -2px;
+    top: -1px;
+    background-position: top right;
+}
+
+.tableMessage {
+    position: relative;
+}
+.tableMessage .panel {
+    position: absolute;
+    float: left;
+    
+    top: -22px;
+    left: 100px;
+    right: 100px;
+    padding: 16px 10px;
+    
+    font-weight: bold;
+    text-align: center;
+	line-height: 140%;
+}
+
+
+.tableWrapper table td.hasPanel {
+    width: 0;
+}
+.tableWrapper table td.hasPanel div.panel {
+    padding: 6px 10px;
+    margin: 4px 0 6px;
+}
+.tableWrapper table td.hasPanel div.panel table {
+    width: 0;
+}
+.tableWrapper table td.hasPanel div.panel table td,
+.tableWrapper table td.hasPanel div.panel table th {
+    background: none;
+    border: none;
+    
+    text-align: left;
+    font-size: 0.9em;
+    white-space: nowrap;
+    line-height: 140%;
+    padding: 0;
+}
+.tableWrapper table td.hasPanel div.panel table th {
+    padding: 0 12px 0 0;
+    text-align: right;
+}
+
+
+
+.tableHeader .inactive a {
+    color: #999;
+    cursor: default;
+}
+.tableHeader .inactive a:hover {
+    text-decoration: none;
+}
+.tableHeader span {
+    color: #999;
+}
+
+.tableWrapper .tableFooter td, 
+.tableWrapper tfoot td {
+  line-height: 350%;
+}
+
+/** Indenting */
+.tableWrapper table tr.level0 td.indented {
+}
+
+.tableWrapper table tr.level1 td.indented {
+  padding-left: 26px;
+}
+
+.tableWrapper table tr.level2 td.indented {
+  padding-left: 52px;
+}
+
+/** Numeric entries aligned to the right */
+.tableWrapper table th.num,
+.tableWrapper table td.num {
+  text-align: right;
+  padding-right: 2em;
+}
+
+.tableWrapper table th.bool,
+.tableWrapper table td.bool {
+  text-align: center;
+}
+
+/** Secondary information */
+.tableWrapper small {
+  color: #b8b8b8;
+}
+
+/** Row highlighting */
+.tableWrapper table tbody tr.hl {
+  background-color: #d4f4de !important;
+}
+
+.tableWrapper table tbody tr.even {
+  background-color: #f6f6f6;
+}
+
+.tableWrapper table tbody tr.odd {
+  background-color: #ffffff;
+}
+
+.tableWrapper table tbody tr:hover {
+  background-color: #ffffeb;
+}
+
+.tableWrapper table tbody tr.empty:hover {
+  background-color: transparent;
+}
+
+.tableWrapper table tbody tr.active {
+  background-color: #ffffcc;
+}
+
+.tableWrapper table tbody tr td.cursor-pointer {
+  cursor: pointer;
+}
+  
+/** pager **/
+.tableWrapper .pager {
+  float: right;
+}
+
+.tableWrapper .pager .summary  {
+  color: #444444;
+  margin-right: 5px;
+}
+
+
+.tableWrapper .pager .summary em {
+  font-style: normal;
+  font-weight: bold;
+}
+
+.tableWrapper .pager .controls .current {
+  font-weight: bold;
+}
+
+.tableWrapper .pager .controls .current, .tableWrapper .pager .controls .page {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+
+
+
+
+

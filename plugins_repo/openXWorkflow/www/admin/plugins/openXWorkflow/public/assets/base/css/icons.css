@@ -1,0 +1,294 @@
+.titleIcon {
+  display: none;
+}
+
+#thirdLevelHeader .hasIcon {
+  background-position: left top;
+  background-repeat:no-repeat;
+  padding: 0 0 35px 55px;
+}
+
+.inlineIcon,
+.inlineIconHasNext {
+    padding: 2px 0 2px 20px;
+    background-position: left 1px;
+    background-repeat: no-repeat;
+}
+
+.inlineIconAfter {
+    padding: 2px 20px 2px 0;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+#thirdLevelHeader .title .inlineIcon {
+  line-height: 23px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+} 
+
+.inlineIconHasNext {
+    padding: 1px 5px 1px 20px;
+}
+
+div.breadcrumb .inlineIcon {
+    line-height:20px;
+    padding:2px 0 2px 20px;
+}
+
+/** Page icons **/
+.iconAccount {
+    background-image: url("../images/icon-account.png");
+}
+.iconAccountLarge {
+    background-image: url("../images/icon-account-large.png");
+}
+.iconAdvertiser {
+    background-image: url("../images/icon-advertiser.png");
+}
+.iconAdvertiserLarge {
+    background-image: url("../images/icon-advertiser-large.png");
+}
+.iconAdvertiserAdd {
+    background-image: url("../images/icon-advertiser-add.png");
+}
+.iconAdvertiserAddLarge {
+    background-image: url("../images/icon-advertiser-add-large.png");
+}
+.iconCampaign {
+    background-image: url("../images/icon-campaign.png");
+}
+.iconCampaignLarge {
+    background-image: url("../images/icon-campaign-large.png");
+}
+.iconCampaignAdd {
+    background-image: url("../images/icon-campaign-add.png");
+}
+.iconCampaignAddLarge {
+    background-image: url("../images/icon-campaign-add-large.png");
+}
+.iconCreative {
+    background-image: url("../images/icon-creative.png");
+}
+.iconCreativeLarge {
+    background-image: url("../images/icon-creative-large.png");
+}
+.iconCreativeAdd {
+    background-image: url("../images/icon-creative-add.png");
+}
+.iconCreativeAddLarge {
+    background-image: url("../images/icon-creative-add-large.png");
+}
+.iconPlacement {
+    background-image: url("../images/icon-placement.png");
+}
+.iconPlacementLarge {
+    background-image: url("../images/icon-placement-large.png");
+}
+.iconPlacementAdd {
+    background-image: url("../images/icon-placement-add.png");
+}
+.iconPlacementAddLarge {
+    background-image: url("../images/icon-placement-add-large.png");
+}
+.iconAdnetworkLarge {
+    background-image: url("../images/icon-adnetwork-large.png");
+}
+.iconUrlBlock {
+    background-image: url("../images/icon-url-block.png");
+}
+.iconUrlBlockLarge {
+    background-image: url("../images/icon-url-block-large.png");
+}
+.iconWebsite {
+  background-image: url("../images/icon-website.png");
+}
+.iconWebsiteLarge {
+  background-image: url("../images/icon-website-large.png");
+}
+.iconWebsiteAdd {
+  background-image: url("../images/icon-website-add.png");
+}
+.iconWebsiteAddLarge {
+  background-image: url("../images/icon-website-add-large.png");
+}
+.iconWebsitesLarge {
+  background-image: url("../images/icon-websites-large.png");  
+}
+.iconAdUnit {
+  background-image: url("../images/icon-adunit.png");
+}
+.iconAdUnitLarge {
+  background-image: url("../images/icon-adunit-large.png");  
+}
+.iconAdUnitAdd {
+  background-image: url("../images/icon-adunit-add.png");
+}
+.iconAdUnitAddLarge {
+  background-image: url("../images/icon-adunit-add-large.png");
+}
+.iconAdUnitsLarge {
+  background-image: url("../images/icon-adunits-large.png");  
+}
+.iconAdTag {
+  background-image: url("../images/icon-adtag.png");
+}
+.iconAdTagLarge {
+  background-image: url("../images/icon-adtag-large.png");  
+}
+.iconReports {
+  background-image: url("../images/icon-reports.png");
+}
+.iconReportsLarge {
+  background-image: url("../images/icon-reports-large.png");
+}
+.iconPayment {
+  background-image: url("../images/icon-payment.png");
+}
+.iconPaymentLarge {
+  background-image: url("../images/icon-payment-large.png");
+}
+.iconPaymentHistory {
+  background-image: url("../images/icon-payment-history.png");
+}
+.iconPaymentHistoryLarge {
+  background-image: url("../images/icon-payment-history-large.png");
+}
+.iconDirectSelectLarge {
+  background-image: url("../images/icon-direct-select-large.png");  
+}
+.iconDirectSelect {
+  background-image: url("../images/icon-direct-select.png");  
+}
+.iconDirectSelectAddLarge {
+  background-image: url("../images/icon-direct-select-add-large.png");  
+}
+.iconDirectSelectAdd {
+  background-image: url("../images/icon-direct-select-add.png");  
+}
+.iconTagLarge {
+  background-image: url("../images/icon-tag-large.png");  
+}
+.iconTag {
+  background-image: url("../images/icon-tag.png");  
+}
+.iconTagAddLarge {
+  background-image: url("../images/icon-tag-add-large.png");  
+}
+.iconTagAdd {
+  background-image: url("../images/icon-tag-add.png");  
+}
+.iconBillingInfoLarge {
+  background-image: url("../images/icon-billinginfo-large.png");  
+}
+.iconTargetingVariable,
+.iconTargetingVariables {
+  background-image: url("../images/icon-variable.png");  
+}
+.iconTargetingVariableAdd {
+  background-image: url("../images/icon-variable-add.png");  
+}
+.iconTargetingVariablesLarge {
+  background-image: url("../images/icon-targeting-channel-large.png");  
+}
+.iconValue {
+  background-image: url("../images/icon-value.png");  
+}
+.iconValueLarge {
+  background-image: url("../images/icon-zone-text-large.png");  
+}
+.iconPixel {
+  background-image: url("../images/icon-pixel.png");  
+}
+.iconPixelAdd {
+  background-image: url("../images/icon-pixel-add.png");  
+}
+.iconPixelRemove {
+  background-image: url("../images/icon-pixel-remove.png");  
+}
+.iconRealTimeLarge {
+  background-image: url("../images/icon-real-time-large.png");  
+}
+
+
+/** General */
+.iconDay {
+    background-image: url("../images/icon-day.png");
+}
+.iconDayLarge {
+    background-image: url("../images/icon-day-large.png");
+}
+.iconMonth {
+    background-image: url("../images/icon-month.png");
+}
+.iconMonthLarge {
+    background-image: url("../images/icon-month-large.png");
+}
+.iconBack {
+    background-image: url("../images/icon-back.gif");
+}
+.iconDelete {
+    background-image: url("../images/icon-cross.gif");
+}
+.inactive .iconDelete {
+    background-image:url(../images/icon-cross-d.gif);
+}
+.inactive .iconDelete {
+    background-image:url(../images/icon-cross-d.gif);
+}
+.iconPause {
+    background-image: url("../images/icon-pause.png");
+}
+.iconResume {
+    background-image: url("../images/icon-play.png");
+}
+.iconWarning {
+    background-image: url("../images/icon-warning.gif");
+}
+.iconCalendar {
+    background-image: url("../images/icon-calendar.gif");
+}
+.iconCut {
+    background-image: url("../images/icon-cut.gif");
+}
+.iconLogout {
+    background-image: url("../images/icon-logout.png");
+}
+.iconConfirm {
+    background-image: url("../images/icon-confirm.gif");
+}
+.iconInfo {
+    background-image: url("../images/icon-info.gif");
+}
+.iconCsv {
+    background-image: url("../images/icon-csv.gif");
+}
+.iconLoading {
+  background-image: url(../images/indicator.gif);
+}
+.iconReload {
+  background-image: url(../images/icon-reload.png);
+}
+
+
+
+
+
+/** Date picker icon */
+span.ui-datepicker-trigger {
+  position: absolute;
+  display: block;
+  background-image: url("../images/icon-calendar.gif");
+  width: 16px;
+  height: 16px;
+  top: 3px;
+  right: 3px;  
+}
+
+/** Icon next to external link */
+a.external {
+  background-image: url(../images/external-link.gif);
+  background-repeat: no-repeat;
+  background-position: 100% 60%;
+  padding-right: 10px;
+}

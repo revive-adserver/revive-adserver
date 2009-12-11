@@ -1,0 +1,43 @@
+<div class="wizard zone-wizard">
+  <div class="tagsStep">
+    {wizardSteps steps=$aSteps current=$current}
+  
+    <div class="content">
+      <div class="info-box">
+        {capture assign='infoBoxContent'}
+        <p>
+          Once you paste your <em>ad tags</em> to the desired areas of your site, your site will
+          begin serving ads. You can retrieve the ad tags for your site by going to the
+          website's Invocation Code tab.      
+        </p>
+        <img src="{urlBase}/assets/wk/images/zone-step-4.png" >
+        {/capture}
+        {pcString p='zone-wizard-tags-step' s='info-box-content' d=$infoBoxContent}
+      </div>  
+      <h3>{pcString p='zone-wizard-tags-step' s='header' d='Insert the following tags into your website.'}</h3>
+      <div class="tag tag-highlight">
+        <h4><div class="number"><span>1</span></div>{pcString p='zone-wizard-tags-step' s='header-tag-label' d='Header tag'}</h4>
+        <p>Paste the following at the <em>TOP of every page of {$websiteName|escape} in the page header</em></p>
+        <pre class="code">{$headerTag}</pre>
+      </div>
+      
+      <p>{pcString p='zone-wizard-tags-step' s='tags-intro' d='Paste the following code to your site anywhere you want your the ads to display:'}</p>
+      {foreach from=$aZoneTags item=aZoneTag name=adtags}
+      <div class="tag">
+        <h4><div class="number"><span>{$smarty.foreach.adtags.iteration+1}</span></div>Ad tag for your <em>{$aZoneTag.name|escape}</em></h4>
+        {pcString p='zone-wizard-tags-step' s='tag-intro' d=''}
+        <pre class="code">{$aZoneTag.tag}</pre>
+      </div>
+      {/foreach}
+      {$form}
+    </div>
+   
+  </div>
+</div>
+{inlineScript _method=captureStart()}
+{literal}
+$(document).ready(function() {
+  $(".content .code").selectElement();
+  });
+{/literal}
+{inlineScript _method=captureEnd()} 

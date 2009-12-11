@@ -1,0 +1,9 @@
+<ul class='navigation'>
+  {foreach from=$model item=tab}
+    <li class="{if $tab.active}active {else}passive {/if}{if $tab.first}first {/if}{if $tab.last}last {/if}{if $tab.afterActive}after-active{/if}">
+        <div class="left"><div class="right">
+        <a href="{actionUrl action=$tab.action controller=$tab.controller module=$tab.module params=$tab.params}">{$tab.section->getLabel()|escape}</a>
+        </div></div>
+    </li>
+  {/foreach}    
+</ul>

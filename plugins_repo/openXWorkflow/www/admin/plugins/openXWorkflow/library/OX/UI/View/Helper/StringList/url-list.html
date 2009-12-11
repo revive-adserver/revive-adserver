@@ -1,0 +1,61 @@
+<div class='tableWrapper' style="width: 503px">
+  {capture assign=tableHeaderContent}
+    <form class="main" action="{actionUrl action=$addAction controller=$controller module=$module params=$params}" style="position: relative; top: 1px; left: 8px" method="post" enctype="application/x-www-form-urlencoded">
+      <div style="float: left; margin-right: 4px">
+        <label style="color: #666; padding-right: 0.5ex" class="affix" for="url">http(s)://</label><input id="url" name="url" class="typeText widthLarge" type="text"{if $currentUrl} value="{$currentUrl|escape}"{/if}/>
+      </div>
+      <div style="float: left; margin-right: 10px">
+      <button type="submit" name="addUrl" class="save inline">{$addButtonLabel}</button>
+      </div>
+      <div style="float: left; margin-right: 4px">
+        {if $helpText}{balloonHint hint=$helpText}{/if}
+      </div>
+    </form>
+
+    <div class='clear'></div>
+    <div class='corner left'></div>
+    <div class='corner right'></div>
+  {/capture}
+  {tableHeader actions=null contentBefore=$tableHeaderContent}
+
+  <table class="fixedLayout" cellspacing="0">
+    <thead>
+      <tr>
+        <th class="first">{$listHeader}</th>
+        <th style="width: 7em">&nbsp;</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+  {foreach from=$urlsModel item=url}
+      <tr class="{cycle values=even,odd}{if $updatedUrl == $url.url} hl{/if}">
+        <td class="first no-click">
+          <a class="external" target="_blank" href="http://{$url.url|escape}">{$url.url|escape}</a>
+        </td>
+        <td>
+          <a class="inlineIcon iconDelete" href="{actionUrl action=$removeAction controller=$controller module=$module params=$url.removeParams}">Remove</a>
+        </td>
+      </tr>
+  {foreachelse}
+      <tr class="empty">
+        <td class="first" colspan="2">{$emptyListMessage}</td>
+      </tr>
+  {/foreach}
+    </tbody>
+  </table>
+</div>
+
+{capture assign="urlWildcardHintMessage"}
+This rule will not include <b>www.<span class="urlToFix"></span></b>. Did you mean <b>*.<span class="urlToFix"></span></b>? 
+If so, <a href="#" id="urlWildcardFix">click here</a> to change.
+{/capture}
+
+<div class="hide" id="urlWildcardHint">
+{localMessage text=$urlWildcardHintMessage type="warning"}
+</div>
+
+{inlineScript _method=captureStart()}
+{literal}
+$(".tableWrapper").urlList();
+{/literal}
+{inlineScript _method=captureEnd()}

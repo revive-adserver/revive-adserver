@@ -1,0 +1,1020 @@
+body, table, td, select, textarea, input, button  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+html {
+  -filter: expression(document.execCommand("BackgroundImageCache", false, true));
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+}
+body.hasInterface {
+  min-width: 1000px;
+
+  /* Fix IE bug: min-width not supported */
+  -width: expression((document.documentElement.offsetWidth < 1020)? "1000px": "auto" );
+}
+a {
+  color: #0767A8;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+hr {
+  display: block;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+  height: 2px;
+  margin: 4px 0 -8px;
+  padding: 0;
+}
+.hide {
+  display: none;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+em {
+  font-style: normal;
+  font-weight: bold;
+}
+tt {
+  font-family: monospace;
+}
+pre {
+  white-space: pre;
+  font-family: monospace;
+}
+
+/* First level header */
+
+#firstLevelHeader {
+  position: relative;
+  background-color: #fff;
+  height: 68px;
+}
+#firstLevelHeader ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+#firstLevelHeader .branding {
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  width: 270px;
+  height: 32px;
+  margin: 5px 0px 0px 8px;
+  text-indent: -1000px;
+}
+
+
+#firstLevelHeader .extra {
+  padding-top: 12px;
+  padding-right: 12px;
+  color: #505050;
+}
+#workingAs {
+  color: #b0b0b0
+}
+#logout {
+  /** For correct display of logout icon in IE */
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  position: relative;
+  top: -2px;
+}
+body.hasSearch #firstLevelHeader .extra {
+  padding-right: 225px;
+}
+#firstLevelHeader .extra ul {
+  float: right;
+}
+#firstLevelHeader .extra li {
+  float: left;
+  padding: 0 0px 0 14px;
+}
+#firstLevelHeader .extra li.infoUser, #firstLevelHeader .extra li.buttonHelp, #firstLevelHeader .extra li.buttonReportBugs {
+  border-right: 1px solid #9c9c9c;
+}
+#firstLevelHeader .extra .buttonStartOver {
+  font-weight: bold;
+}
+
+
+#firstLevelHeader .search {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 31px;
+  width: 194px;
+  color: #444;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background: url(../images/searchfull.png) 0px 0px no-repeat;
+}
+#firstLevelHeader .search form {
+  margin: 0;
+  padding: 0;
+}
+#firstLevelHeader .search input.search {
+  position: relative;
+  left: 32px;
+  top: 7px;
+  border: 0;
+  margin: 0;
+  width: 130px;
+  height: 13px;
+  background: none;
+}
+#firstLevelHeader .search input.submit {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  cursor: pointer;
+  background: url(../images/searchfull.png) -194px -9px no-repeat;
+}
+#firstLevelHeader .search input.submit:hover, #firstLevelHeader .search input.submit:focus{
+  background-position: -206px -9px;
+}
+
+
+
+/* First level navigation */
+
+#firstLevelNavigation{
+  position: relative;
+  top: -24px;
+  z-index: 2;
+  height: 24px;
+  border-bottom: 1px solid #d1d1d1;
+}
+#firstLevelNavigation ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+#firstLevelNavigation .navigation {
+  position: absolute;
+  top: 1px;
+  left: 175px;
+  line-height: 26px;
+  height: 29px;
+  min-width: 300px;
+  list-style-type: none;
+  white-space: nowrap;
+}
+#firstLevelNavigation .navigation * {
+  height: 29px;
+}
+#firstLevelNavigation .navigation li {
+  float: left;
+  margin: 0;
+  background: url(../images/tab-body.gif) left 0px repeat-x;
+}
+#firstLevelNavigation .navigation li div.left {
+  background: url(../images/tab-link.gif) left 0px no-repeat;
+}
+#firstLevelNavigation .navigation li.first div.left {
+  background: url(../images/tab-lead-in.gif) left 0px no-repeat;
+}
+#firstLevelNavigation .navigation li.last div.right {
+  background: url(../images/tab-lead-out.gif) right 0px no-repeat;
+}
+#firstLevelNavigation .navigation li.active,
+#firstLevelNavigation .navigation li.active div.left {
+  background-position: left -40px;
+}
+#firstLevelNavigation .navigation li.after-active div.left {
+  background-position: left -80px;
+}
+#firstLevelNavigation .navigation li.active div.right {
+  background-position: right -40px;
+}
+#firstLevelNavigation .navigation li div {
+  overflow: hidden;
+
+  /* Fix IE bug: div should wrap around contents */
+  -overflow: visible;
+  -width: 1px;
+}
+#firstLevelNavigation .navigation li span,
+#firstLevelNavigation .navigation li a {
+  display: block;
+  float: left;
+  font-size: 11px;
+  color: #444;
+  padding: 0 6px 0 17px;
+  white-space: nowrap;
+}
+#firstLevelNavigation .navigation li.last span,
+#firstLevelNavigation .navigation li.last a {
+  margin-right: 11px;
+  -margin-right: 5px;
+}
+#firstLevelNavigation .navigation li.active span,
+#firstLevelNavigation .navigation li.active a {
+  background: url(../images/tab-body.gif) center -80px no-repeat;
+  color: #fff;
+}
+body.hasMiniHeader #firstLevelNavigation .navigation {
+  left: 7px;
+}
+#firstLevelNavigation .extra {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    color: #9c9c9c;
+}
+#firstLevelNavigation .extra select:focus,
+#firstLevelNavigation .extra select:focus {
+    background-color: #fff;
+}
+#firstLevelNavigation .extra img {
+    position: relative;
+    border: none;
+}
+#firstLevelNavigation .extra a {
+    color: #0767A8;
+}
+#firstLevelNavigation .extra li {
+    float: left;
+    margin: 0 0 0 12px;
+}
+
+
+
+/* First level content */
+
+#firstLevelContent {
+    margin-top: -24px;
+}
+body.hasGradient #firstLevelContent {
+    background: #fff url(../images/background-gradient.gif) left -16px repeat-x;
+    -zoom: 1;
+}
+
+/* Second level navigation */
+
+#secondLevelNavigation {
+  position: absolute;
+  left: 0;
+  width: 160px;
+  margin: 12px 0 0 12px;
+}
+#secondLevelNavigation .navigation {
+  width: 160px;
+  margin: 0 0 12px 0;
+  padding: 0;
+  list-style-type: none;
+}
+#secondLevelNavigation .navigation li {
+  background: url(../images/button-navigation.gif) left -26px no-repeat;
+}
+#secondLevelNavigation .navigation li.first {
+  background-position: left 0;
+}
+#secondLevelNavigation .navigation li.last {
+  background-position: left -52px;
+}
+#secondLevelNavigation .navigation li.active {
+  background-position: -160px -52px;
+}
+
+#secondLevelNavigation .before-active div.left {
+  background: url(../images/button-navigation.gif) -160px 0px no-repeat;
+}
+#secondLevelNavigation .after-active div.left {
+  background: url(../images/button-navigation.gif) -160px -26px no-repeat;
+}
+#secondLevelNavigation .active div.left {
+  background: url(../images/button-navigation.gif) -320px bottom no-repeat;
+}
+#secondLevelNavigation .navigation li a {
+  display: block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  color: #444;
+}
+#secondLevelNavigation .navigation li.active a {
+  color: #fff;
+}
+#secondLevelNavigation .navigation li.active ul {
+  margin: 0;
+  padding: 0 0 9px;
+}
+#secondLevelNavigation .navigation li.active ul li.first,
+#secondLevelNavigation .navigation li.active ul li.last,
+#secondLevelNavigation .navigation li.active ul li.active
+#secondLevelNavigation .navigation li.active ul li {
+  width: 160px;
+  background: url(../images/button-navigation.gif) -480px -52px no-repeat;
+}
+#secondLevelNavigation .navigation li.active ul li div.left {
+  background-image: none;
+}
+#secondLevelNavigation .navigation li.active ul li.first div.left {
+  background: url(../images/button-navigation.gif) -480px -26px no-repeat;
+}
+#secondLevelNavigation .navigation li.active ul li a {
+  padding: 0 20px;
+  color: #444;
+}
+#secondLevelNavigation .navigation li.active ul li.active a {
+  font-weight: bold;
+}
+
+
+
+/* Second level content */
+#secondLevelContent {
+  margin: 0;
+}
+
+.hasGradient #secondLevelContent {
+  padding: 12px 12px 12px 12px;
+}
+
+.hasSidebar #secondLevelContent {
+  margin: 0 0 0 184px;
+  padding-left: 0px;
+}
+
+
+/* Third level navigation */
+
+#thirdLevelNavigation {
+    position: absolute;
+    margin: -21px 0 0 8px;
+    *z-index: 2;
+}
+#thirdLevelNavigation .navigation {
+  margin: 0;
+  padding: 0;
+
+  white-space: nowrap;
+  overflow: hidden;
+
+  height: 21px;
+  line-height: 21px;
+}
+#thirdLevelNavigation li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  background: url(../images/section-body.gif) left 0px repeat-x;
+  list-style-type: none;
+}
+#thirdLevelNavigation li div.left {
+  background: url(../images/section-link.gif) left 0px no-repeat;
+}
+#thirdLevelNavigation li.first div.left {
+  background: url(../images/section-lead-in-plain.gif) left 0px no-repeat;
+}
+#thirdLevelNavigation li.last div.right {
+  background: url(../images/section-lead-out.gif) right 0px no-repeat;
+}
+#thirdLevelNavigation li.active,
+#thirdLevelNavigation li.active div.left {
+  background-position: left -40px;
+}
+#thirdLevelNavigation li.after-active div.left {
+  background-position: left -80px;
+}
+#thirdLevelNavigation li.active div.right {
+  background-position: right -40px;
+}
+#thirdLevelNavigation li div {
+  overflow: hidden;
+
+  /* Fix IE bug: div should wrap around contents */
+  -overflow: visible;
+  -width: 1px;
+}
+#thirdLevelNavigation li span,
+#thirdLevelNavigation li a {
+  display: block;
+  float: left;
+  font-size: 11px;
+  color: #444;
+  padding: 0 6px 0 17px;
+  white-space: nowrap;
+}
+#thirdLevelNavigation li.last span,
+#thirdLevelNavigation li.last a {
+  padding-right: 17px;
+}
+#thirdLevelNavigation li.active span,
+#thirdLevelNavigation li.active a {
+  color: #0767A8;
+}
+
+/* Third level header */
+#thirdLevelHeader
+{
+  position: relative;
+  height: 68px;
+  margin: 0;
+  
+  border: 1px solid #ddd;
+  background: #fff url(../images/header-background.gif) left top repeat-x;
+}
+#thirdLevelHeader.hasTabs {
+  height: 88px;
+}
+
+#thirdLevelHeader .corner {
+  position: absolute;
+  overflow: hidden;
+  font-size: 0;
+    
+  height: 8px;
+  width: 8px;
+
+  background-image: url("../images/header-corners.png");
+  background-repeat: no-repeat;
+}
+#thirdLevelHeader .left {
+  left: -1px;
+  top: -1px;
+  background-position: top left;
+}
+#thirdLevelHeader .right {
+  right: -1px;
+  top: -1px;
+  background-position: top right;
+    
+  -right: -2px;
+}
+
+#thirdLevelHeader div.breadcrumb {
+  margin: 9px 0 0 9px;
+  padding: 0px 0px 0 3px;  
+  
+  min-height: 50px;
+  -height: 50px;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon {
+  padding-left: 59px;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon .titleIcon {
+  display: inline;
+  background-position: left top;
+  background-repeat: no-repeat;
+  padding: 0px 0px 55px 55px;
+}
+
+
+/* Third level content */
+
+#thirdLevelContent {
+  margin: 0;
+  padding: 12px;
+    
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+#thirdLevelContent.thirdLevelToolsEmpty {
+  padding-top: 12px;
+}
+#thirdLevelContent.thirdLevelToolsEmpty #thirdLevelTools {
+  display: none;
+}
+
+
+  
+/* Third level tools */
+
+#thirdLevelTools {
+    position: relative;
+
+    min-height: 38px;
+    -height: 38px;
+}
+#thirdLevelTools ul {
+    list-style-type: none;
+    line-height: 26px;
+    margin: 0;
+    padding: 0;
+}
+#thirdLevelTools ul li {
+    float: right;
+    padding: 0;
+    margin: 0 0 0 10px;
+}
+
+
+#thirdLevelTools a.buttonLink {
+    display: block;
+    background: url(../images/header-dropdown-background.png) left -128px no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 0;
+    padding: 0 0 4px;
+    
+    height: 26px;
+    line-height: 26px;
+    
+    -width: 0%;
+}
+#thirdLevelTools a.buttonLink span {
+    display: block;
+    background: url(../images/header-dropdown-background.png) right -160px no-repeat;
+    padding: 0 8px;
+
+    position: relative;
+    top: 0;
+    
+    font-weight: bold;
+    color: #255792;
+}
+
+
+#thirdLevelTools .dropDown {
+    display: block;
+    float: left;
+    position: relative;
+    
+    top: 0;
+    left: 0;
+    
+    white-space: nowrap;
+    margin: 0;
+}
+#thirdLevelTools .dropDown span {
+    display: block;
+    background: url(../images/header-dropdown-background.png) left top no-repeat;
+    cursor: pointer;
+    
+    position: relative;
+    top: 0;
+    padding: 0 0 4px;
+    
+    height: 32px;
+    line-height: 26px;
+    
+    -width: 0%;
+}
+#thirdLevelTools .dropDown span span {
+    display: block;
+    background-position: right -32px;
+    padding: 0 26px 0 8px;
+
+    position: relative;
+    top: 0;
+    
+    font-weight: bold;
+    color: #255792;
+}
+#thirdLevelTools .dropDown.active span {
+    background-position: left -64px;
+    z-index: 1002;
+}
+#thirdLevelTools .dropDown.active span span {
+    background-position: right -96px;
+}
+#thirdLevelTools .dropDown div.panel {
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 25px;
+    margin: 0;
+    padding: 0 6px 0 0;
+    z-index: 1001;
+
+    background: url(../images/header-dropdown-right.gif) right bottom no-repeat;
+    border: none;
+    border-top: 1px solid #e4e5e4;
+
+    /* Unfortunately we need a fixed width for IE6 */
+    -width: 160px;
+}
+#thirdLevelTools .alignRight .dropDown div.panel {
+    left: auto;
+    right: 0;
+    margin-top: 6px;
+}
+
+
+#thirdLevelTools .dropDown.active div.panel {
+    display: block;
+}
+#thirdLevelTools .dropDown div.panel div {
+    background: url(../images/header-dropdown-left.gif) left bottom no-repeat;
+    border: 0;
+}
+#thirdLevelTools .dropDown div.panel div div {
+    background: none;
+}
+#thirdLevelTools .dropDown ul {
+    display: block;
+    padding: 6px 0;
+}
+#thirdLevelTools .dropDown ul li {
+    float: none;
+    display: block;
+    line-height: 22px;
+    padding: 0;
+    margin: 0;
+}
+#thirdLevelTools .dropDown ul li a {
+    display: block;
+    color: #255792;
+    padding: 0 4px 0 8px;
+    
+    -zoom: 1;
+}
+#thirdLevelTools .dropDown ul li label {
+    display: block;
+    color: #888;
+    padding: 0 40px 0 8px;
+}
+#thirdLevelTools .dropDown ul li .inlineIcon {
+    padding-left: 30px;
+    background-position: 8px center;
+}
+#thirdLevelTools .dropDown ul li form {
+    padding: 0 6px 0 30px;
+}
+#thirdLevelTools .dropDown ul li form select {
+    width: 100px;
+    margin: 0 2px 0 0;
+}
+#thirdLevelTools .dropDown .mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    
+    background-color: transparent;
+    
+    z-index: 1000;
+}
+#thirdLevelTools .dropDown.active div.mask {
+    display: block;
+}
+
+/* Breadcrumbs */
+
+div.breadcrumb {
+    font-size: 10px;
+}
+
+div.breadcrumb h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0px;
+    padding-top: 3px;
+    color: #666666;
+}
+
+div.breadcrumb h3 span.label {
+  color: #333333;
+}
+
+div.breadcrumb h3.noBreadcrumb {
+  padding-top: 14px;
+  margin: 0;
+}
+
+
+div.breadcrumb h3 span.dest,
+div.breadcrumb h3 span.target {
+      color: #999999;
+}
+
+div.breadcrumb span.sep {
+    padding-left: 2ex;
+    padding-right: 2ex;
+    position: relative;
+    color: #606060;
+}
+
+div.breadcrumb form {
+  margin: 4px 0px 0px 0px;
+}
+
+
+div.breadcrumb select {
+    font-weight: normal;
+    font-size: 10px;
+    border: 1px solid #c0c0c0;
+    -moz-border-radius: 2px;
+    padding: 1px;
+    padding-left: 0px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+div.bannercode {
+    margin-left: 20px;
+}
+
+.ent {
+    font-weight: bold;
+    position: relative;
+    top: 4px;
+}
+
+/* Error Page */
+body.hasError #firstLevelContent {
+    padding-top: 70px;
+    padding-left: 93px;
+}
+body.hasError h1 {
+    width:80%;
+    font: 27px Arial;
+    color:#000; 
+    margin-bottom: 18px;
+}
+body.hasError h2 {
+    width:80%;
+    font:12px Arial;
+    color:#747474;
+    margin-top:20px;
+}
+body.hasError ul.error-list {
+    font: 12px Arial;
+    color: #747474;
+    
+    width: 80%;
+    padding: 15px 0 15px 33px;
+    line-height:18px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    list-style-type: none;
+    list-style-position: outside;
+    margin: 2ex 0;
+}
+body.hasError ul.error-list li {
+    background: url('../images/list-element.gif') no-repeat;
+    padding-left:10px;
+}
+div.trace {
+  margin-top: 1ex;
+  white-space: pre;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+
+/** Generic shaded box */
+.shadedBox {
+  position: relative;
+}
+
+.shadedBox .left,
+.shadedBox .right {
+  width: 5px;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.shadedBox .middle {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-repeat: repeat-x;
+  background-image: url(../images/box-middle.png);
+  padding: 15px 10px 10px 10px;
+}
+
+.shadedBox .left {
+  background-image: url(../images/box-left.png);
+  left: 0;
+}
+
+.shadedBox .right {
+  background-image: url(../images/box-right.png);
+  right: 0;
+}
+
+/* shaded rounded panel */
+.shadedPanel {
+    padding: 15px;
+    border: 1px solid #ddd;
+
+    position: relative;
+    top:0;
+    left:0;
+    background: #fff url("../images/panel-background.png") bottom left repeat-x;
+
+    -zoom: 1;
+
+    margin: 10px 0px 15px 0px;
+}
+
+.shadedPanel .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.shadedPanel .bottom-left {
+    left: -1px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom left;
+}
+
+.shadedPanel .bottom-right {
+    right: -1px;
+    -right: -2px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom right;
+}
+
+.shadedPanel .top-left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.shadedPanel .top-right {
+    right: -1px;
+    -right: -2px;
+    top: -1px;
+    background-position: top right;
+}
+
+/** Pop up dialogs */
+.dialog {
+  display: none;
+}
+
+.ui-dialog {
+  border: 1px solid #b1b3b6;
+  -moz-border-radius: 5px;
+}
+
+.ui-dialog-titlebar {
+  height: 37px;
+  background-image: url("../images/dialog-title-background.png");
+  background-repeat: repeat-x;
+  background-color: transparent;
+  line-height: 37px;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 14px;
+}
+
+.ui-dialog-titlebar-close {
+  float: right;
+  background-image: url("../images/icon-cross.gif");
+  background-repeat: no-repeat;
+  background-position: center left;
+  padding-left: 20px;
+}
+
+a.ui-dialog-titlebar-close:hover {
+  text-decoration: none; 
+}
+
+.ui-dialog-title {
+  float: left;
+}
+
+.ui-dialog-content {
+  width: auto !important;
+  padding: 15px 14px 0 14px;
+  background-image: url("../images/dialog-body-background.png");
+  background-repeat: repeat-x;
+  background-position: bottom left;
+}
+
+.ui-dialog-buttonpane {
+  position: relative !important;
+  top: -55px;
+  text-align: right;
+  margin: 10px;
+  padding-top: 11px;
+  border-top: 1px solid #c4c5c5;
+}
+
+/** code box **/
+pre.code {
+    color: #666666;
+    font-size: 12px;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    line-height: 160%;
+    
+    cursor: text;
+}
+
+pre.code {
+    display: block;
+
+    border: 1px solid #ededed;
+    padding: 10px 15px;
+    background-color: #f7f7f7;
+    margin: 0 0 1.5em;
+
+    /* First try to wrap */
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+    /* If that doesn't work anymore use a horizontal scrollbar */
+    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    /* Force layout on IE to prevent selection problems */
+    -height: 1%;
+}
+
+
+/** typography **/
+h1, h2, h3, h4 {
+  color: #444444;
+}
+
+h2.section {
+  border-bottom: 1px solid #dddddd;
+  padding: 4px 0px;
+  margin-bottom: 17px; 
+  
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p, ul.p {
+    margin:0pt 0pt 0.7em;
+    line-height: 150%;
+}
+
+/** The actual lists */
+ul.default, ol.default {
+  line-height: 130%;
+  margin-bottom: 2ex;
+}
+
+ul.default {
+  list-style: disc;
+}
+
+ol.default {
+  list-style: decimal;
+}
+
+ol.default li,
+ul.default li {
+  margin-left: 4ex;
+  margin-bottom: 1ex;
+}
+
+table.default {
+  line-height: 130%;
+}
+
+table.default th {
+  font-weight: bold;
+}
+
+table.default td,
+table.default th {
+  padding: 1ex;
+}
+
+.tick {
+  padding: 2px 0 2px 20px;
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-image: url(../images/icon-accept-mini.png);
+}
+
+.tick > span {
+  display: none;
+}

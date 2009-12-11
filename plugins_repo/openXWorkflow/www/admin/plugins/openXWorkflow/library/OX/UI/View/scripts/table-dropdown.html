@@ -1,0 +1,17 @@
+<div class='dropDown'>
+    <span><span>{$selected|escape}</span></span>
+
+    <div class='panel'>
+        <div>
+            <ul>
+                {foreach from=$aItems item=item}
+                  <li>
+                    <a href="{$item.link}">{$item.label|escape}</a>
+                  </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+
+    <div class='mask'></div>
+</div>

@@ -1,0 +1,61 @@
+<div class="tableWrapper">
+  {tableHeader}
+ 
+  <table cellspacing="0">
+    <thead>
+      <tr>
+        <th class="first">Module</th>
+        <th>Controller</th>
+        <th>Action</th>
+        <th>Views</th>
+        <th>App. Max</th>
+        <th>App. Min</th>
+        <th>App. Avg</th>
+        <th>Action Max</th>
+        <th>Action Min</th>
+        <th>Action Avg</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+  {foreach from=$aAppExecData item=aVal}
+      <tr class="{cycle values=even,odd}">
+        <td class="first">
+            {$aVal.module}
+        </td>
+        <td>
+            {$aVal.controller}
+        </td>
+        <td>
+            {$aVal.action}
+        </td>
+        <td>
+            {$aVal.views}
+        </td>
+        <td>
+            {$aVal.app_max_duration|string_format:"%.5f"}
+        </td>
+        <td>
+            {$aVal.app_min_duration|string_format:"%.5f"}
+        </td>
+        <td>
+            {$aVal.app_avg_duration|string_format:"%.5f"}
+        </td>
+        <td>
+            {$aVal.action_max_duration|string_format:"%.5f"}
+        </td>
+        <td>
+            {$aVal.action_min_duration|string_format:"%.5f"}
+        </td>
+        <td>
+            {$aVal.action_avg_duration|string_format:"%.5f"}
+        </td>
+      </tr>
+  {foreachelse}
+      <tr class="empty">
+        <td class="first" colspan="9">No application execution data found</td>
+      </tr>
+  {/foreach}
+    </tbody>
+  </table>
+</div>

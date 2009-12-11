@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>{$pageTitle|escape} - OpenX</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="{urlBase}/assets/base/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="{urlBase}/assets/base/css/chrome.css" />
+    <link rel="stylesheet" type="text/css" href="{urlBase}/assets/base/css/icons.css" />
+    {headLink}
+  </head>
+  
+  <body class="hasInterface hasGradient hasMiniHeader hasError">
+    <div id="firstLevelHeader">
+      <a href="{actionUrl action=index controller=index}"><span class="branding brandingMarketplace">OpenX Market</span></a>
+      {if $loggedUser}
+      <div class="extra">
+          <ul>
+              <li><a class="inlineIcon iconLogout" href="{actionUrl action=logout controller=index module=default}">Log out</a></li>
+          </ul>
+      </div>
+      {/if}
+    </div>
+    
+    <div id="firstLevelNavigation"></div>
+    
+    <div id="firstLevelContent">
+      {layout _method=content}
+    </div>
+  </body>
+</html>

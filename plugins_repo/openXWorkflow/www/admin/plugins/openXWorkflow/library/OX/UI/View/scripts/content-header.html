@@ -1,0 +1,12 @@
+{if $header}
+  {assign var=iconCss value=$header->getIconCssClass()}
+  <div class="breadcrumb {if !empty($iconCss)} hasIcon {$iconCss}{/if}">
+      <h3 {if $header->hasBreadcrumbs() === false} class='noBreadcrumb'{/if}>{$header->getTitleXhtml()}</h3>
+      {if $header->hasBreadcrumbs()}
+        {assign var=breadcrumbs value=$header->getBreadcrumbsXhtml()}
+        {foreach from=$breadcrumbs item=breadcrumb}
+          {$breadcrumb}
+        {/foreach}
+      {/if}
+  </div>          
+{/if}

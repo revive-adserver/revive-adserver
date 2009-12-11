@@ -1,0 +1,10 @@
+<div class="message{if $messageScope ne ''} {$messageScope}Message{/if}{if $messageClass} {$messageClass}{/if}"{if $messageId} id="{$messageId}"{/if}>
+  <div class="panel{if $messageType ne ''} {$messageType}{else} info{/if}">
+    <div class="icon"></div>
+    <div class="text">{$message}</div>
+    <div class="topleft"></div>
+    <div class="topright"></div>
+    <div class="bottomleft"></div>
+    <div class="bottomright"></div>
+  </div>
+</div>

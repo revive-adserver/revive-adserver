@@ -1,0 +1,34 @@
+{dateRangeButton dateRange=$dateRange}
+
+<div id="date-range-picker">
+  <div id="date-range-picker-controls">
+    <div id="date-range-picker-start-date">
+      Start date
+      <div></div>
+    </div>
+    <div id="date-range-picker-end-date">
+      End date
+      <div></div>
+      <button id="date-range-picker-done" class="save">Done</button>
+    </div>
+    <ul>
+      {foreach from=$dateRanges key=dateRangeId item=dateRangeLabel}
+        <li><a {if $dateRangeId == $dateRange->getRangeId()}class="current"{/if} id="{$dateRangeId|escape}" 
+               title="{dateRange dateRange=$dateRangeId useNames=false}"
+               href="{$rangeUrlTemplate|replace:'_range_':$dateRangeId}">{dateRange dateRange=$dateRangeId useNames=true}</a></li>
+      {/foreach}
+      <li><a href="#" class="range{if null == $dateRange->getRangeId()} current{/if}">Specific date range</a></li>
+    </ul>
+  </div>
+</div>
+
+{inlineScript _method=captureStart()}
+var urlTemplate = "{$customUrlTemplate}";
+var startDate = "{if $dateRange->getStartDate()}{dateFormat date=$dateRange->getStartDate() variant='' format=$dateFormat}{/if}";
+var endDate = "{if $dateRange->getEndDate()}{dateFormat date=$dateRange->getEndDate() variant='' format=$dateFormat}{/if}";
+{literal}
+  $(document).ready(function() {
+    $("#date-range").daterangepicker("#date-range-picker", "#date-range-picker-done", urlTemplate, startDate, endDate);
+  });
+{/literal}
+{inlineScript _method=captureEnd()}

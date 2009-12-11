@@ -1,0 +1,48 @@
+<ol class="wizard-steps">
+    {foreach from=$aSteps name=steps item=aStep}
+      <li class="{if $aStep.done}done {/if}{if $aStep.beforeCurrent}last-done {/if}{if $smarty.foreach.steps.first}first {/if}{if $smarty.foreach.steps.last && $aStep.current}current-last {else}{if $smarty.foreach.steps.last}last{/if}{if $aStep.current}current {/if}{/if}"><div class="body"><em>{$aStep.name}</em></div></li>
+    {/foreach}
+</ol>
+
+{*
+<ol class="wizard-steps">
+    <li class="current first"><div class="body"><em>1. Define your website</em></div></li>
+    <li><div class="body"><em>2. Define your zones</em></div></li>
+    <li><div class="body"><em>3. Maximize ad revenue</em></div></li>
+    <li><div class="body"><em>4. Insert your ad tags</em></div></li>
+    <li class="last"><div class="body"><em>5. Finish</em></div></li>
+</ol>
+
+<ol class="wizard-steps">
+    <li class="last-done first"><div class="body"><em>1. Define your website</em></div></li>
+    <li class="current"><div class="body"><em>2. Define your zones</em></div></li>
+    <li><div class="body"><em>3. Maximize ad revenue</em></div></li>
+    <li><div class="body"><em>4. Insert your ad tags</em></div></li>
+    <li class="last"><div class="body"><em>5. Finish</em></div></li>
+</ol> 
+
+<ol class="wizard-steps">
+    <li class="done first"><div class="body"><em>1. Define your website</em></div></li>
+    <li class="last-done"><div class="body"><em>2. Define your zones</em></div></li>
+    <li class="current"><div class="body"><em>3. Maximize ad revenue</em></div></li>
+    <li><div class="body"><em>4. Insert your ad tags</em></div></li>
+    <li class="last"><div class="body"><em>5. Finish</em></div></li>
+</ol>
+
+<ol class="wizard-steps">
+    <li class="done first"><div class="body"><em>1. Define your website</em></div></li>
+    <li class="done"><div class="body"><em>2. Define your zones</em></div></li>
+    <li  class="last-done"><div class="body"><em>3. Maximize ad revenue</em></div></li>
+    <li class="current"><div class="body"><em>4. Insert your ad tags</em></div></li>
+    <li class="last"><div class="body"><em>5. Finish</em></div></li>
+</ol>
+
+<ol class="wizard-steps">
+    <li class="done first"><div class="body"><em>1. Define your website</em></div></li>
+    <li class="done"><div class="body"><em>2. Define your zones</em></div></li>
+    <li class="done"><div class="body"><em>3. Maximize ad revenue</em></div></li>
+    <li class="last-done"><div class="body"><em>4. Insert your ad tags</em></div></li>
+    <li class="current-last"><div class="body"><em>5. Finish</em></div></li>
+</ol>
+*}
+

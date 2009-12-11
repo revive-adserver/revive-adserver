@@ -1,0 +1,11 @@
+--- jquery-1.3.2-orig.js.txt	Tue Mar 10 11:35:49 2009
++++ jquery-1.3.2.js	Thu Apr 09 13:02:16 2009
+@@ -2367,7 +2367,7 @@
+ jQuery.expr[":"] = jQuery.expr.filters;
+ 
+ Sizzle.selectors.filters.hidden = function(elem){
+-	return elem.offsetWidth === 0 || elem.offsetHeight === 0;
++	return elem.offsetWidth === 0 && elem.offsetHeight === 0;
+ };
+ 
+ Sizzle.selectors.filters.visible = function(elem){

@@ -1,0 +1,17 @@
+<div class='tableHeader'>
+  {$contentBefore}
+  {if $tableActions || $contentBeforeActions || $contentAfterActions}
+    <ul class='tableActions'>
+      {$contentBeforeActions}
+      {foreach from=$tableActions item=shortcut}
+        <li>{shortcutLink shortcut=$shortcut}</li>
+      {/foreach}
+      {$contentAfterActions}
+    </ul>
+  {/if}
+  {$contentAfter}
+
+  <div class='clear'></div>
+  <div class='corner left'></div>
+  <div class='corner right'></div>
+</div>

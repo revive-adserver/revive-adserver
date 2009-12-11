@@ -1,0 +1,10 @@
+<h1>An error has occurred.</h1>
+{if $supportEmail}
+  Please contact <a href="mailto:{$supportEmail|escape}">{$supportEmail|escape}</a>
+{else}
+  Please <a href="http://www.openx.org" target="_blank">contact us</a>
+{/if}
+for assistance. Please paste in the error message below to help resolve the issue as 
+quickly as possible.
+
+{exceptionStacktrace exception=$exception}

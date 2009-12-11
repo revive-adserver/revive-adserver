@@ -1,0 +1,12 @@
+<h1>We're sorry, page you're looking for cannot be found</h1>
+<p>
+The URL you have specified does not seem to be valid, or we have lost that page somewhere...
+If you think so,
+{if $supportEmail}
+  please contact <a href="mailto:{$supportEmail|escape}">{$supportEmail|escape}</a>.
+{else}
+  please <a href="http://www.openx.org" target="_blank">contact us</a>.
+{/if}
+</p>
+<a href="{actionUrl action=index controller=index module=index}">Back to home page</a>.
+
