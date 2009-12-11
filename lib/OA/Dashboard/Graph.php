@@ -69,7 +69,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function getCacheId()
     {
         // Cache the graphs for each locale.
-        return array(get_class($this), $GLOBALS['_MAX']['PREF']['language']);
+        return array(OX_getHostName(), get_class($this), $GLOBALS['_MAX']['PREF']['language']);
     }
 
     function isDataRequired()
