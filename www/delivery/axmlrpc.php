@@ -4522,6 +4522,7 @@ return;
 }
 if ($total_priority_orig > $remaining_priority
 || $adArrayVar == 'eAds'
+|| $companion
 )
 {
 $scaling_factor = 1 / $total_priority_orig;
@@ -4563,6 +4564,10 @@ $high += $aLinkedAd['priority'];
 if ($high > $random_num && $low <= $random_num) {
  $ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
 $ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
+if($ad['width'] == $ad['height'] && $ad['width'] == -1) {
+$ad['width'] = $aLinkedAd['width'];
+$ad['height'] = $aLinkedAd['height'];
+}
 return $ad;
 }
 }
