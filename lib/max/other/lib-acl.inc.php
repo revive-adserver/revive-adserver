@@ -151,6 +151,8 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'channel';
             $aclsTable  = 'acls_channel';
             $fieldId    = 'channelid';
+
+            break;
         }
         
         default: {
