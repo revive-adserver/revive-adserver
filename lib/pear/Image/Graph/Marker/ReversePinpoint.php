@@ -53,7 +53,7 @@ class Image_Graph_Marker_ReversePinpoint extends Image_Graph_Marker_Icon
      */
     function Image_Graph_Marker_ReversePinpoint()
     {
-        parent::Image_Graph_Marker_Icon(
+        parent::__construct(
             dirname(__FILE__).'/../Images/Icons/pinpointr.png'
         );
         $this->setPointX(10);

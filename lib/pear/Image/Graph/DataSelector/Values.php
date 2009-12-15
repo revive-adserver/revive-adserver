@@ -61,7 +61,7 @@ class Image_Graph_DataSelector_Values extends Image_Graph_DataSelector {
      */
     function &Image_Graph_DataSelector_Values($values)
     {
-        parent::Image_Graph_DataSelector();
+        parent::__construct();
         $this->_values = $values;
     }
 

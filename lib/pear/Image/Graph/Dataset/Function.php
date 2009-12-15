@@ -70,7 +70,7 @@ class Image_Graph_Dataset_Function extends Image_Graph_Dataset
      */
     function Image_Graph_Dataset_Function($minimumX, $maximumX, $function, $points)
     {
-        parent::Image_Graph_Dataset();
+        parent::__construct();
         $this->_minimumX = $minimumX;
         $this->_maximumX = $maximumX;
         $this->_dataFunction = $function;

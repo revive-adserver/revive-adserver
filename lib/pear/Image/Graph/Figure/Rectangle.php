@@ -58,7 +58,7 @@ class Image_Graph_Figure_Rectangle extends Image_Graph_Element
      */
     function Image_Graph_Figure_Rectangle($x, $y, $width, $height)
     {
-        parent::Image_Graph_Element();
+        parent::__construct();
         $this->_setCoords($x, $y, $x + $width, $y + $height);
     }
 

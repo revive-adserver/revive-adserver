@@ -78,7 +78,7 @@ class Image_Graph_DataPreprocessor_Array extends Image_Graph_DataPreprocessor
      */
     function Image_Graph_DataPreprocessor_Array($array)
     {
-        parent::Image_Graph_DataPreprocessor();
+        parent::__construct();
         $this->_dataArray = $array;
     }
 

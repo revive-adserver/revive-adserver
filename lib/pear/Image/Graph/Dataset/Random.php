@@ -61,7 +61,7 @@ class Image_Graph_Dataset_Random extends Image_Graph_Dataset_Trivial
      */
     function Image_Graph_Dataset_Random($count, $minimum, $maximum, $includeZero = false)
     {
-        parent::Image_Graph_Dataset_Trivial();
+        parent::__construct();
         $i = 0;
         while ($i < $count) {
             $this->addPoint(

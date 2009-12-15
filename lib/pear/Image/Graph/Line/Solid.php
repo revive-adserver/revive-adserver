@@ -71,7 +71,7 @@ class Image_Graph_Line_Solid extends Image_Graph_Common
      */
     function Image_Graph_Line_Solid($color)
     {
-        parent::Image_Graph_Common();
+        parent::__construct();
         $this->_color = $color;
     }
 

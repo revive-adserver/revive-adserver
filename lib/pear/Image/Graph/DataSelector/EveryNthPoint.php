@@ -73,7 +73,7 @@ class Image_Graph_DataSelector_EveryNthPoint extends Image_Graph_DataSelector
      */
     function Image_Graph_DataSelector_EveryNthpoint($pointInterval = 10)
     {
-        parent::Image_Graph_DataSelector();
+        parent::__construct();
         $this->_pointInterval = $pointInterval;
     }
 

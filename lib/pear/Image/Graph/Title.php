@@ -87,7 +87,7 @@ class Image_Graph_Title extends Image_Graph_Layout
      */
     function Image_Graph_Title($text, $fontOptions = false)
     {
-        parent::Image_Graph_Layout();
+        parent::__construct();
         if (is_object($fontOptions)) {
             $this->_font =& $fontOptions;
         } else {

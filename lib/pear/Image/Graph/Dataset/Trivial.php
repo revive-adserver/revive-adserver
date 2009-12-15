@@ -72,7 +72,7 @@ class Image_Graph_Dataset_Trivial extends Image_Graph_Dataset
      */
     function Image_Graph_Dataset_Trivial($dataArray = false)
     {
-        parent::Image_Graph_Dataset();
+        parent::__construct();
         $this->_data = array ();
         if (is_array($dataArray)) {
             reset($dataArray);

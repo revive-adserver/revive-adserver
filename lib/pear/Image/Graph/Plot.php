@@ -130,7 +130,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
             }
         }
 
-        parent::Image_Graph_Common();
+        parent::__construct();
         if ($dataset) {
             if (is_array($dataset)) {
                 $this->_dataset =& $dataset;

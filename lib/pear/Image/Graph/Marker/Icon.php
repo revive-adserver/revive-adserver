@@ -78,7 +78,7 @@ class Image_Graph_Marker_Icon extends Image_Graph_Marker
      */
     function Image_Graph_Marker_Icon($filename, $width = 0, $height = 0)
     {
-        parent::Image_Graph_Marker();
+        parent::__construct();
         $this->_filename = $filename;
     }
 

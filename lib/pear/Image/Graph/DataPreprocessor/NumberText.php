@@ -67,7 +67,7 @@ class Image_Graph_DataPreprocessor_NumberText extends Image_Graph_DataPreprocess
      */
     function Image_Graph_DataPreprocessor_NumberText($language = 'en_US')
     {
-        parent::Image_Graph_DataPreprocessor();
+        parent::__construct();
         $this->_language = $language;
         require_once 'Numbers/Words.php';
     }

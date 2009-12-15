@@ -91,7 +91,7 @@ class Image_Graph_Plot_Step extends Image_Graph_Plot
         if (($multiType != 'stacked') && ($multiType != 'stacked100pct')) {
             $multiType = 'stacked';
         }
-        parent::Image_Graph_Plot($dataset, $multiType, $title);
+        parent::__construct($dataset, $multiType, $title);
     }
 
     /**

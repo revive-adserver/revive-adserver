@@ -58,7 +58,7 @@ class Image_Graph_DataPreprocessor_RomanNumerals extends Image_Graph_DataPreproc
      */
     function Image_Graph_DataPreprocessor_RomanNumerals()
     {
-        parent::Image_Graph_DataPreprocessor();
+        parent::__construct();
         include_once 'Numbers/Roman.php';
     }
 

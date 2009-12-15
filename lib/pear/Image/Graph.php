@@ -133,7 +133,7 @@ class Image_Graph extends Image_Graph_Element
      */
     function Image_Graph($params, $height = false, $createTransparent = false)
     {
-        parent::Image_Graph_Element();
+        parent::__construct();
 
         $this->setFont(Image_Graph::factory('Image_Graph_Font'));
 

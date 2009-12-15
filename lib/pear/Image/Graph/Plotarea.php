@@ -131,7 +131,7 @@ class Image_Graph_Plotarea extends Image_Graph_Layout
      */
     function Image_Graph_Plotarea($axisX = 'Image_Graph_Axis_Category', $axisY = 'Image_Graph_Axis', $direction = 'vertical')
     {
-        parent::Image_Graph_Layout();
+        parent::__construct();
 
         $this->_padding = array('left' => 5, 'top' => 5, 'right' => 5, 'bottom' => 5);;
 

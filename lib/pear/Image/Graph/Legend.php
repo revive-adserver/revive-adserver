@@ -80,7 +80,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
      */
     function Image_Graph_Legend()
     {
-        parent::Image_Graph_Layout();
+        parent::__construct();
         $this->_padding = array('left' => 5, 'top' => 5, 'right' => 5, 'bottom' => 5);
     }
 

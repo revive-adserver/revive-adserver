@@ -69,7 +69,7 @@ class Image_Graph_DataPreprocessor_Formatted extends Image_Graph_DataPreprocesso
      */
     function Image_Graph_DataPreprocessor_Formatted($format)
     {
-        parent::Image_Graph_DataPreprocessor();
+        parent::__construct();
         $this->_format = $format;
     }
 

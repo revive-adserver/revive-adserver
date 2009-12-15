@@ -76,7 +76,7 @@ class Image_Graph_Fill_Image extends Image_Graph_Fill
      */
     function Image_Graph_Fill_Image($filename)
     {
-        parent::Image_Graph_Fill();
+        parent::__construct();
         $this->_filename = $filename;
     }
 

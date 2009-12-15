@@ -58,7 +58,7 @@ class Image_Graph_DataPreprocessor_Currency extends Image_Graph_DataPreprocessor
      */
     function Image_Graph_DataPreprocessor_Currency($currencySymbol)
     {
-        parent::Image_Graph_DataPreprocessor_Formatted("$currencySymbol %0.2f");
+        parent::__construct("$currencySymbol %0.2f");
     }
 
 }

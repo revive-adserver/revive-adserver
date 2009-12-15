@@ -94,7 +94,7 @@ class Image_Graph_Plotarea_Map extends Image_Graph_Plotarea
      */
     function Image_Graph_Plotarea_Map($map)
     {
-        parent::Image_Graph_Plotarea();
+        parent::__construct();
 
         $this->_imageMap = dirname(__FILE__)."/../Images/Maps/$map.png";
         $points = file(dirname(__FILE__)."/../Images/Maps/$map.txt");

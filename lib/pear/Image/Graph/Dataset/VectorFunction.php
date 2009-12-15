@@ -92,7 +92,7 @@ class Image_Graph_Dataset_VectorFunction extends Image_Graph_Dataset
      */
     function Image_Graph_Dataset_VectorFunction($minimumT, $maximumT, $functionX, $functionY, $points)
     {
-        parent::Image_Graph_Dataset();
+        parent::__construct();
         $this->_minimumT = $minimumT;
         $this->_maximumT = $maximumT;
         $this->_functionX = $functionX;

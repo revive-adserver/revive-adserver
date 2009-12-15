@@ -98,7 +98,7 @@ class Image_Graph_Fill_Gradient extends Image_Graph_Fill //Image_Graph_Fill_Imag
      */
     function Image_Graph_Fill_Gradient($direction, $startColor, $endColor)
     {
-        parent::Image_Graph_Fill();
+        parent::__construct();
         $this->_direction = $direction;
         $this->_startColor = $startColor;
         $this->_endColor = $endColor;

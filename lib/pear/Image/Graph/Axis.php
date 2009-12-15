@@ -269,7 +269,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      */
     function Image_Graph_Axis($type = IMAGE_GRAPH_AXIS_X)
     {
-        parent::Image_Graph_Element();
+        parent::__construct();
         $this->_type = $type;
         $this->_fillStyle = 'black';
     }

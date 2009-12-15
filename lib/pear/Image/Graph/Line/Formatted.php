@@ -66,7 +66,7 @@ class Image_Graph_Line_Formatted extends Image_Graph_Line_Solid
      */
     function Image_Graph_Line_Formatted($style)
     {
-        parent::Image_Graph_Line_Solid(reset($style));
+        parent::__construct(reset($style));
         $this->_style = $style;
     }
 

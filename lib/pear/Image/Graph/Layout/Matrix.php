@@ -80,7 +80,7 @@ class Image_Graph_Layout_Matrix extends Image_Graph_Layout
      */
     function Image_Graph_Layout_Matrix($rows, $cols, $autoCreate = true)
     {
-        parent::Image_Graph_Layout();
+        parent::__construct();
 
         $this->_rows = $rows;
         $this->_cols = $cols;

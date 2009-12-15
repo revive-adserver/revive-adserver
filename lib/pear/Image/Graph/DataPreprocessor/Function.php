@@ -70,7 +70,7 @@ class Image_Graph_DataPreprocessor_Function extends Image_Graph_DataPreprocessor
      */
     function Image_Graph_DataPreprocessor_Function($function)
     {
-        parent::Image_Graph_DataPreprocessor();
+        parent::__construct();
         $this->_dataFunction = $function;
     }
 

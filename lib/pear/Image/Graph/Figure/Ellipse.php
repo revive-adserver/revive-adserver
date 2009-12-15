@@ -58,7 +58,7 @@ class Image_Graph_Figure_Ellipse extends Image_Graph_Element
      */
     function Image_Graph_Figure_Ellipse($x, $y, $radiusX, $radiusY)
     {
-        parent::Image_Graph_Element();
+        parent::__construct();
         $this->_setCoords($x - $radiusX, $y - $radiusY, $x + $radiusX, $y + $radiusY);
     }
 

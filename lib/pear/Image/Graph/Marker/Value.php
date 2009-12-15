@@ -71,7 +71,7 @@ class Image_Graph_Marker_Value extends Image_Graph_Marker
      */
     function Image_Graph_Marker_Value($useValue = IMAGE_GRAPH_VALUE_X)
     {
-        parent::Image_Graph_Marker();
+        parent::__construct();
         $this->_padding = array('left' => 2, 'top' => 2, 'right' => 2, 'bottom' => 2);
         $this->_useValue = $useValue;
         $this->_fillStyle = 'white';

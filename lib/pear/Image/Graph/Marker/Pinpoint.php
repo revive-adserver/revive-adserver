@@ -53,7 +53,7 @@ class Image_Graph_Marker_Pinpoint extends Image_Graph_Marker_Icon
      */
     function Image_Graph_Marker_Pinpoint()
     {
-        parent::Image_Graph_Marker_Icon(
+        parent::__construct(
             dirname(__FILE__).'/../Images/Icons/pinpoint.png'
         );
         $this->setPointX(0);

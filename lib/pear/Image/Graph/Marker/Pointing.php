@@ -88,7 +88,7 @@ class Image_Graph_Marker_Pointing extends Image_Graph_Marker
      */
     function Image_Graph_Marker_Pointing($deltaX, $deltaY, & $markerEnd)
     {
-        parent::Image_Graph_Marker();
+        parent::__construct();
         $this->_deltaX = $deltaX;
         $this->_deltaY = $deltaY;
         $this->_markerStart = null;

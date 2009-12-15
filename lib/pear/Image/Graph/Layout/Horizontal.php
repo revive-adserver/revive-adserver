@@ -90,7 +90,7 @@ class Image_Graph_Layout_Horizontal extends Image_Graph_Layout
      */
     function Image_Graph_Layout_Horizontal(& $part1, & $part2, $percentage = 50)
     {
-        parent::Image_Graph_Layout();
+        parent::__construct();
         if (!is_a($part1, 'Image_Graph_Layout')) {
             $this->_error(
                 'Cannot create layout on non-layouable parts: ' . get_class($part1),

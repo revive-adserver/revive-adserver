@@ -54,7 +54,7 @@ class Image_Graph_Simple extends Image_Graph
      */
     function Image_Graph_Simple($width, $height, $plotType, $data, $title, $lineColor = 'black', $fillColor = 'white', $font = false)
     {
-        parent::Image_Graph($width, $height);
+        parent::__construct($width, $height);
 
         $plotarea =& Image_Graph::factory('plotarea');
 

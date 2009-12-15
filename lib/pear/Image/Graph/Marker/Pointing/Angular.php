@@ -69,7 +69,7 @@ class Image_Graph_Marker_Pointing_Angular extends Image_Graph_Marker_Pointing
      */
     function Image_Graph_Marker_Pointing_Angular($radius, & $markerEnd)
     {
-        parent::Image_Graph_Marker_Pointing(0, 0, $markerEnd);
+        parent::__construct(0, 0, $markerEnd);
         $this->_radius = $radius;
     }
 

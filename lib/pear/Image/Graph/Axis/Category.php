@@ -65,7 +65,7 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
      */
     function Image_Graph_Axis_Category($type = IMAGE_GRAPH_AXIS_X)
     {
-        parent::Image_Graph_Axis($type);
+        parent::__construct($type);
         $this->_labels = array();
         $this->setlabelInterval(1);
     }

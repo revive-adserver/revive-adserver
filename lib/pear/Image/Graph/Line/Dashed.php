@@ -59,7 +59,7 @@ class Image_Graph_Line_Dashed extends Image_Graph_Line_Formatted
      */
     function Image_Graph_Line_Dashed($color1, $color2)
     {
-        parent::Image_Graph_Line_Formatted(
+        parent::__construct(
             array(
                 $color1,
                 $color1,

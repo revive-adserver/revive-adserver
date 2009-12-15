@@ -59,7 +59,7 @@ class Image_Graph_Line_Dotted extends Image_Graph_Line_Formatted
      */
     function Image_Graph_Line_Dotted($color1, $color2)
     {
-        parent::Image_Graph_Line_Formatted(array ($color1, $color2));
+        parent::__construct(array ($color1, $color2));
     }
 
 }

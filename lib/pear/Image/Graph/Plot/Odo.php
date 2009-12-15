@@ -173,7 +173,7 @@ class Image_Graph_Plot_Odo extends Image_Graph_Plot
      */
     function Image_Graph_Plot_Odo(&$dataset)
     {
-        parent::Image_Graph_Plot($dataset);
+        parent::__construct($dataset);
         
         $keys = array_keys($this->_dataset);
         foreach ($keys as $key) {

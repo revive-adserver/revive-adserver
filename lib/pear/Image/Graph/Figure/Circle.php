@@ -57,7 +57,7 @@ class Image_Graph_Figure_Circle extends Image_Graph_Figure_Ellipse
      */
     function Image_Graph_Figure_Circle($x, $y, $radius)
     {
-        parent::Image_Graph_Ellipse($x, $y, $radius, $radius);
+        parent::__construct($x, $y, $radius, $radius);
     }
 
 }
