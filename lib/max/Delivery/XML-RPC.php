@@ -452,7 +452,10 @@ function OA_Delivery_XmlRpc_SPC($params)
         } else {
             $varname = $zoneid = $zone;
         }
-
+        
+        // Clear deiveryData between iterations
+        unset($GLOBALS['_MAX']['deliveryData']);
+        
         // Get the banner
         $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 

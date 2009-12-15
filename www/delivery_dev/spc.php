@@ -67,6 +67,9 @@ if(!empty($zones)) {
             $thisZoneid = $varname = $thisZone;
         }
     
+        // Clear deiveryData between iterations
+        unset($GLOBALS['_MAX']['deliveryData']);
+        
         $what = 'zone:'.$thisZoneid;
     
         ###START_STRIP_DELIVERY
