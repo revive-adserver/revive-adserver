@@ -221,30 +221,27 @@ class OA_Environment_Manager
 
     function checkFilePermission($file, $recurse)
     {
-        if ( (!file_exists($file)) || (!$this->isWritable($file)) )
-        {
+        if ((!file_exists($file)) || (!$this->isWritable($file))) {
             return false;
         }
-        if ($recurse)
-        {
+        $recurseWritable = true;
+        if ($recurse) {
             $dh = @opendir($file);
-            if ($dh)
-            {
-                while (false !== ($f = readdir($dh)))
-                {
-                    if ( ($f == '.') || ($f == '..') || ($f == '.svn') )
-                    {
+            if ($dh) {
+                while (false !== ($f = readdir($dh))) {
+                    if (($f == '.') || ($f == '..') || ($f == '.svn')) {
                         continue;
                     }
-                    if (!$this->checkFilePermission($file.'/'.$f, $recurse))
-                    {
-                        return false;
+                    $thisFile = $file . '/' . $f;
+                    if (!$this->checkFilePermission($thisFile, $recurse)) {
+                        OA::debug('Unwritable ' . ((is_dir($thisFile) ? 'folder ' : 'file ')) . $thisFile);
+                        $recurseWritable = false;
                     }
                 }
                 closedir($dh);
             }
         }
-        return true;
+        return $recurseWritable;
     }
 
     /**

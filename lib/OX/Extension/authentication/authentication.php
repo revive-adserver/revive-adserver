@@ -165,22 +165,15 @@ class Plugins_Authentication extends OX_Component
 
         foreach ($aSysInfo as $env => $vals) {
             $errDetails = '';
-            if (is_array($vals['error'])) {
-                $errDetails = '<ul>';
+            if (is_array($vals['error']) && !empty($vals['error'])) {
                 if ($env == 'PERMS') {
-                    foreach ($vals['actual'] as $key => $val) {
-                        if ($val['error']) {
-                            $errDetails .= '<li>' . htmlspecialchars($val['file']) . '  ' . htmlspecialchars($val['result']).'</li>';
-                        }
-                    }
+                    // Just note that some file/folders are unwritable and that more information can be found in the debug.log
+                    OA_Admin_UI::queueMessage('Error: File permission errors detected.<br />These <em>may</em> impact the accurate delivery of your ads,<br />See the debug.log file for the list of unwritable files', 'global', 'error', 0);
                 } else {
-                    foreach ($vals['actual'] as $key => $val) {
+                    foreach ($vals['error'] as $key => $val) {
                         $errDetails .= '<li>' . htmlspecialchars($key) . ' &nbsp; => &nbsp; ' . htmlspecialchars($val) . '</li>';
                     }
-                }
-                $errDetails .= '</ul>';
-                foreach ($vals['error'] as $key => $err) {
-                    phpAds_Die( ' Error: ' . $err, $errDetails );
+					phpAds_Die( ' Error: ' . $err, $errDetails );
                 }
             }
         }
