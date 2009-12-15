@@ -2533,7 +2533,7 @@ class OA_DB_Upgrade
         $aResult = $this->oSchema->db->queryAll($query);
         OX::enableErrorHandling();
 
-        if (!PEAR::isError($result) && count($aResult) > 0) {
+        if (!PEAR::isError($aResult) && count($aResult) > 0) {
             $warning = false;
             foreach ($aResult as $row) {
                 if ($v['revenue_type'] == MAX_FINANCE_CPM) {
