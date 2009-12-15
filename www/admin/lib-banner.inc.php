@@ -59,7 +59,7 @@ function phpAds_getBannerCache($banner)
                 // Remove target parameters
                 $m[4][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
 
-                $urlDest = urlencode("http" . $m[3][$k]);
+                $urlDest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode("http" . $m[3][$k]));
                 $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}$urlDest{$m[2][$k]}{$m[4][$k]} target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
             }
         }
