@@ -5267,6 +5267,7 @@ $zoneid = $data;
 } else {
 $varname = $zoneid = $zone;
 }
+unset($GLOBALS['_MAX']['deliveryData']);
 $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 $spc_output[$varname] = $output;
 if (!empty($block) && !empty($output['bannerid'])) {
