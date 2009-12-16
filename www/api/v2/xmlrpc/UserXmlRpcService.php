@@ -192,6 +192,34 @@ class UserXmlRpcService extends BaseUserService
     }
 
     /**
+     * The getUserList method returns a list of users
+     * or returns an error message.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getUserList(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId),
+                array(true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $aUserList = null;
+        if ($this->_oUserServiceImp->getUserList($sessionId, $aUserList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    /**
      * The getUserListByAccountId method returns a list of users
      * for an account, or returns an error message.
      *

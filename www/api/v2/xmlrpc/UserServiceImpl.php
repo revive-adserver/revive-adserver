@@ -188,6 +188,28 @@ class UserServiceImpl extends BaseServiceImpl
     }
 
     /**
+     * The getUserList method returns a list of users.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param array &$aUserList  Array of OA_Dll_UserInfo classes
+     *
+     * @return boolean
+     */
+    function getUserList($sessionId, &$aUserList)
+    {   
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllUser->getUserList($aUserList));
+        } else {
+
+            return false;
+        }
+    }
+
+    /**
      * The getUserListByAccountId method returns a list of users
      * for a specified account.
      *

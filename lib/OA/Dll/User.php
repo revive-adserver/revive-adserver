@@ -302,6 +302,40 @@ class OA_Dll_User extends OA_Dll
         return true;
     }
 
+    /** 
+     * This method returns a list of users.
+     *
+     * @access public
+     *
+     * @param array &$aUserList
+     *  
+     * @return boolean
+     */ 
+    function getUserList(&$aUserList)
+    {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
+            return false;
+        }
+
+	$aUserList = array();
+
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->find();
+
+        while ($doUser->fetch()) {
+            $userData = $doUser->toArray();
+
+            // Remove password
+            unset($userData['password']);
+
+            $oUser = new OA_Dll_UserInfo();
+            $this->_setUserDataFromArray($oUser, $userData);
+
+            $aUserList[] = $oUser;
+        }
+        return true;
+    }
+
     /**
      * This method returns a list of users for a publisher.
      *

@@ -672,6 +672,14 @@ $dispatches = array(
         'docstring' => 'Get User Information'
     ),
 
+    'ox.getUserList' => array(
+        'function'  => array($fc, 'getUserList'),
+        'signature' => array(
+            array('array', 'string')
+        ),
+        'docstring' => 'Get User List'
+    ),
+
     'ox.getUserListByAccountId' => array(
         'function'  => array($fc, 'getUserListByAccountId'),
         'signature' => array(

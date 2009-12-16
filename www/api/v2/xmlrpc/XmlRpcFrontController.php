@@ -475,6 +475,12 @@ class XmlRpcFrontController
         return $service->getUser($message);
     }
 
+    public function getUserList($message)
+    {
+        $service = new UserXmlRpcService();
+        return $service->getUserList($message);
+    }
+
     public function getUserListByAccountId($message)
     {
         $service = new UserXmlRpcService();
