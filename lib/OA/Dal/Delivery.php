@@ -268,8 +268,8 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
 
     if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
         // Set global default image if no preferences sets
-        if ($conf['defaultBanner']['imageUrl'] != '') {
-            $aZoneInfo['default_banner_image_url'] = $conf['defaultBanner']['imageUrl'];
+        if ($aConf['defaultBanner']['imageUrl'] != '') {
+            $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
         }
         // No default banner image or destination URLs to deal with
         return $aZoneInfo;
@@ -306,6 +306,11 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         }
     }
 
+    // Last try, see if there is a system-wide default banner defined
+//    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
+//        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
+//    }
+    
     // Done, at last!
     return $aZoneInfo;
 }
