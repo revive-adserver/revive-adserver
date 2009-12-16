@@ -254,7 +254,7 @@ if (isset($_REQUEST['ajax'])) {
         $endDate = null;
     }
 
-    if (is_null($deliveryDataLoaded)) {
+    if (is_null($deliveryDataLoaded) && !empty($campaignid)) {
         $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
         $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignid);
         $data = $record->toArray();
