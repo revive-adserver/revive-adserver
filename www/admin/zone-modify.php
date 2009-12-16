@@ -64,7 +64,7 @@ if (isset($zoneid) && $zoneid != '') {
         $zoneName = $doZones->zonename;
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($newaffiliateid)) {
-            $websiteName = $doAffiliates->website;
+            $websiteName = $doAffiliates->name;
         }    
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneHasBeenMoved'],
