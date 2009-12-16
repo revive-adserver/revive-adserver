@@ -815,8 +815,8 @@ if (!is_resource($rDefaultBannerInfo)) {
 return false;
 }
 if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
-if ($conf['defaultBanner']['imageUrl'] != '') {
-$aZoneInfo['default_banner_image_url'] = $conf['defaultBanner']['imageUrl'];
+if ($aConf['defaultBanner']['imageUrl'] != '') {
+$aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
 }
 return $aZoneInfo;
 }
