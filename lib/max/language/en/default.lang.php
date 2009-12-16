@@ -164,7 +164,7 @@ $GLOBALS['strDashboardForum']           = "OpenX Forum";
 $GLOBALS['strDashboardDocs']            = "OpenX Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
-$GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php'>check for updates</a> setting on the<br/><a href='account-settings-update.php'>update settings</a> page.";
+$GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php' target='_top'>check for updates</a> setting on the<br/><a href='account-settings-update.php' target='_top'>update settings</a> page.";
 $GLOBALS['strChoosenDisableHomePage']   = "You have choosen to disable your Home page.";
 $GLOBALS['strAccessHomePage']           = "Click here to access your Home page";
 $GLOBALS['strEditSyncSettings']         = "and edit your synchronization settings";
