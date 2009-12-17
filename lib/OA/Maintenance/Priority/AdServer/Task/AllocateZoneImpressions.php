@@ -102,7 +102,9 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         // is always allocated at least one impression
         if (!empty($this->aAvailableForecastZoneImpressions)) {
             foreach ($this->aAvailableForecastZoneImpressions as $zoneId => $availableImpressions) {
-                $this->aAvailableForecastZoneImpressions[$zoneId]--;
+                if ($availableImpressions > 0) {
+                    $this->aAvailableForecastZoneImpressions[$zoneId]--;
+                }
             }
         }
         // Save the data on the available impressions for use in dealing with
