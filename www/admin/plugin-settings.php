@@ -134,6 +134,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
 // output using the $oOption object
 $aSettings[0]['text'] = $group.' '.$strConfigurationSettings;
 
+$oTrans = new OX_Translation($GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $group . '/_lang');
+
 $count = count($aComponentSettings);
 $i = 0;
 foreach ($aComponentSettings as $k => $v)
@@ -141,7 +143,7 @@ foreach ($aComponentSettings as $k => $v)
     $aSettings[0]['items'][] = array(
                                      'type'    => $v['type'],
                                      'name'    => $group.'_'.$v['key'],
-                                     'text'    => $v['label'],
+                                     'text'    => $oTrans->translate($v['label']),
                                      'req'     => $v['required'],
                                      'size'    => $v['size'],
                                      'value'   => $v['value'],
