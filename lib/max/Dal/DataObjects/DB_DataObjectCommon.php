@@ -1382,7 +1382,8 @@ class DB_DataObjectCommon extends DB_DataObject
             if (!isset($aColumns['account_id'])) {
                 $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
                             "as the table is not directly linked to an account.";
-                MAX::raiseError($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
+                return false;
             }
 
             // Set the directly owning account ID based on the account_id
@@ -1401,7 +1402,8 @@ class DB_DataObjectCommon extends DB_DataObject
                 $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
                             "as the 'account_id' column was empty where column '$primaryKeyName' was " .
                             " equal to '{$this->$primaryKeyName}'.";
-                MAX::raiseError($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
+                return false;
             }
 
             // Convert the directly onwing account ID into an array of owning
@@ -1440,7 +1442,8 @@ class DB_DataObjectCommon extends DB_DataObject
                 $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
                             "as the parent key value could not be located where column " .
                             "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
-                MAX::raiseError($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
+                return false;
             }
 
             // Get the DB_DataObject for the parnet table
@@ -1449,7 +1452,8 @@ class DB_DataObjectCommon extends DB_DataObject
                 $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
                             "as the parent data object could not be created where column " .
                             "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
-                MAX::raiseError($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
+                return false;
             }
 
             // Get the result of calling the getOwningAccountIds() method on the
