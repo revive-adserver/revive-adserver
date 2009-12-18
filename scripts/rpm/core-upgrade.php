@@ -45,7 +45,7 @@ if (file_exists('/opt/ox/adserver/etc/id') && trim(file_get_contents('/opt/ox/ad
         $customers = getCustomersArrayFromXMLFile($customersFile);
         foreach ($customers as $idx => $customer) {
             // Re-init using the customers UI domain name
-            $GLOBALS['argv'][1] = $_SERVER['SERVER_NAME'] = $customer['admin'];
+            $GLOBALS['argv'][1] = $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'] = $customer['admin'];
             $GLOBALS['_MAX']['CONF'] = parseIniFile();     
             $result = upgradeCustomer();
             echo "Upgrade of customer: {$customer['shortname']} result: {$result}\n"; 
