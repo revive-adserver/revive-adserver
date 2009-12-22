@@ -54,6 +54,9 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
  */
 function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
+    // Only log requests if request logging is enabled
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adRequests'])) { return true; }
+
     // Call all registered plugins that use the "logRequest" hook
     OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)));
 }
@@ -66,6 +69,9 @@ function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
  */
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
+    // Only log impressions if impression logging is enabled
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adImpressions'])) { return true; }
+
     // Call all registered plugins that use the "logImpression" hook
     OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
@@ -78,6 +84,9 @@ function MAX_Delivery_log_logAdImpression($adId, $zoneId)
  */
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
+    // Only log clicks if click logging is enabled
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adClicks'])) { return true; }
+    
     // Call all registered plugins that use the "logClick" hook
     OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
@@ -93,6 +102,9 @@ function MAX_Delivery_log_logAdClick($adId, $zoneId)
  */
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
+    // Only log conversions if logging of tracker impressions logging is enabled
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) { return true; }
+    
     // Prepare the raw database IP address, depending on if OpenX is running
     // with multiple delivery servers, or just a single server
     $aConf = $GLOBALS['_MAX']['CONF'];
