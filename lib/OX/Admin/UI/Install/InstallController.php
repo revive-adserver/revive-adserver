@@ -154,9 +154,13 @@ class OX_Admin_UI_Install_InstallController
             $oStorage->set('installStatus', $oStatus);
             $oWizard = new OX_Admin_UI_Install_Wizard($oStatus);
             $oWizard->reset();
+
             // Rebild component hooks to avoid problems with previous plugin installation  
+
             require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+
             $oExtensionManager = new OX_Extension_Common();
+
             $oExtensionManager->cacheComponentHooks();
         }
         $this->oInstallStatus = $oStatus;
@@ -189,10 +193,11 @@ class OX_Admin_UI_Install_InstallController
 
         //check if market step should be shown
         $isMarketStepVisible = $oStorage->get('isMarketStepVisible');
+
         if (!isset($isMarketStepVisible) || !$isMarketStepVisible || $forceInit) {
              $isMarketStepVisible = OX_Dal_Market_MarketPluginTools
                     ::isRegistrationRequired();
-             $oStorage->set('isMarketStepVisible', $isMarketStepVisible);
+			$oStorage->set('isMarketStepVisible', $isMarketStepVisible);
         }
         
         //check if login step should be shown
@@ -352,6 +357,11 @@ class OX_Admin_UI_Install_InstallController
     {
         $oWizard = new OX_Admin_UI_Install_Wizard($this->getInstallStatus());
         $this->setCurrentStepIfReachable($oWizard, 'register');
+		if(!OX_Dal_Market_MarketPluginTools::isMarketPluginEnabledOrRegistrationRequired()) {
+            $oWizard->markStepAsCompleted();
+            $this->redirect($oWizard->getNextStep());
+            $oWizard->markStepAsCompleted();
+		}
             
         //generate hash and store in session
         $aStepData = $oWizard->getStepData();
@@ -895,6 +905,7 @@ class OX_Admin_UI_Install_InstallController
      * Process input from user and creates/upgrades DB etc....
      *
      * @param OA_Admin_UI_Component_Form $oForm
+
      * @param OX_Admin_UI_Install_Wizard $oWizard
      */
     protected function processDatabaseAction($oForm, $oWizard)
@@ -942,10 +953,15 @@ class OX_Admin_UI_Install_InstallController
         
         $dbSuccess = $upgraderSuccess && !$oUpgrader->oLogger->errorExists; 
         if ($dbSuccess) { //show success status
+
             // Store market registration data
+
             $registerStepData = $oWizard->getStepData('register');
+
             OX_Dal_Market_MarketPluginTools::storeMarketAccountAssocData(
+
                 $registerStepData['accountUuid'], $registerStepData['apiKey']);
+
             OA_Admin_UI::getInstance()->queueMessage($message, 'global', 'info');
         }
         else { //sth went wrong, display messages from upgrader 

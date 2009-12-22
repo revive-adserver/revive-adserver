@@ -83,9 +83,9 @@ class OX_Admin_UI_Install_Wizard
             $aSteps = array(
                 'welcome' => 'Welcome',
                 'login' => 'Administrator Login',
-                'register' => 'Registration',
                 'database' => 'Database', 
                 'configuration' => 'Configuration', 
+                'register' => 'Registration',
                 'finish' => 'Finish' 
             );
 

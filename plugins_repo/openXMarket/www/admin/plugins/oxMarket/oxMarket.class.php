@@ -202,6 +202,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         } catch (Plugins_admin_oxMarket_PublisherConsoleClientException $exc) {
             OA::debug('Error during autoRegisterMarketPlugin in onEnable method: ('.$exc->getCode().')'.$exc->getMessage());
         }
+        $this->isActive();
         
         // Schedule Register Notification if needed
         if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 

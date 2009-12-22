@@ -24,8 +24,7 @@
 +---------------------------------------------------------------------------+
 $Id: MarketPluginTools.php 43248 2009-09-16 09:20:00Z bernard.lange $
 */
-
-/**
+/**	
  * Utils to find market plugin, check if registration to PC is required,
  * methods to store in OXP database account association data (used later by market plugin)
  * 
@@ -47,7 +46,7 @@ class OX_Dal_Market_MarketPluginTools
         if (isset($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']))
         { 
             // check if can get marketplugin
-            $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );            
+            $oComponent = &OX_Component::factory('admin', 'oxMarket');        
             return $oComponent;
         }
         return false;
@@ -61,33 +60,39 @@ class OX_Dal_Market_MarketPluginTools
      */
     public static function isRegistrationRequired()
     {
-        $registrationRequired = true;
+	    $registrationRequired = true;
         // check self::getMarketAccountAssocData() (could be failed installation?)
         $data = self::getMarketAccountAssocData();
         if (isset($data)) {
             $registrationRequired = false;
         } else {
-            // check if can get marketplugin
-            $oMarketPlugin = self::getMarketPlugin();
-            if ($oMarketPlugin) {
-                // check if there is method in market plugin isRegistrationRequired (since oxMarket 1.2)
-                if (method_exists($oMarketPlugin, 'isRegistrationRequired')) {
-                    // yes: - use this method
-                    $registrationRequired = $oMarketPlugin->isRegistrationRequired();
-                } else {
-                    // no: - check database of market plugin (what to do with multi account?)
-                    $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-                    $result = $oAccountAssocData->count();
-                    if ($result>0) {
-                        $registrationRequired = false;
-                    }
-                }
-            }
+			$registrationRequired = self::isMarketPluginEnabledOrRegistrationRequired();
         }
         return $registrationRequired;
     }
     
-    
+    public static function isMarketPluginEnabledOrRegistrationRequired()
+	{
+		// check if can get marketplugin
+		$oMarketPlugin = self::getMarketPlugin();
+		if (!$oMarketPlugin) {
+			return true;
+		}
+		// check if there is method in market plugin isRegistrationRequired (since oxMarket 1.2)
+		if (method_exists($oMarketPlugin, 'isRegistrationRequired')) {
+			// yes: - use this method
+			$registrationRequired = $oMarketPlugin->isRegistrationRequired();
+		} else {
+			// no: - check database of market plugin (what to do with multi account?)
+			$oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
+			$result = $oAccountAssocData->count();
+			if ($result>0) {
+				$registrationRequired = false;
+			}
+		}
+		return $registrationRequired;
+	}
+
     /**
      * Store account assoc data in application variables
      *
