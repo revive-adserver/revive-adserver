@@ -2111,8 +2111,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (!$oDate) {
             return false;
         }
-        // Get the start and end ranges of the current week
-        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        // Get previous OI
+        $oPreviousOI = new Date($oDate);
+        $oPreviousOI->subtractSeconds(OX_OperationInterval::getOperationInterval() * 60);
+        // Get the start and end ranges of the current week, up to the previous OI
+        $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousOI);
         $oDateWeekStart = new Date();
         $oDateWeekStart->copy($aDates['end']);
         $oDateWeekStart->subtractSeconds(SECONDS_PER_WEEK - 1);
@@ -2122,7 +2125,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $tableName = $this->_getTablename('data_intermediate_ad');
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
-            SELECT
+            SELECT 
                 SUM(impressions) AS forecast_impressions,
                 operation_interval_id AS operation_interval_id,
                 interval_start AS interval_start,
