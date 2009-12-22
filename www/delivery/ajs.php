@@ -2131,18 +2131,22 @@ return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
 
 function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 {
+if (empty($GLOBALS['_MAX']['CONF']['logging']['adRequests'])) { return true; }
 OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
+if (empty($GLOBALS['_MAX']['CONF']['logging']['adImpressions'])) { return true; }
 OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
+if (empty($GLOBALS['_MAX']['CONF']['logging']['adClicks'])) { return true; }
 OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
+if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) { return true; }
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aConf['lb']['enabled'])) {
 $aConf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
