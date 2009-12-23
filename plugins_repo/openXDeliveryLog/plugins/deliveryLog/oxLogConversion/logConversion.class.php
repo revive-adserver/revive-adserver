@@ -73,7 +73,20 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
      */
     public function getBucketTableColumns()
     {
-        return array();
+        $aColumns = array(
+            'server_conv_id'          => self::INTEGER ,
+            'server_ip'               => self::CHAR,
+            'tracker_id'              => self::INTEGER ,
+            'date_time'               => self::TIMESTAMP_WITHOUT_ZONE,
+            'action_date_time'        => self::TIMESTAMP_WITHOUT_ZONE,
+            'creative_id'             => self::INTEGER ,
+            'zone_id'                 => self::INTEGER ,
+            'ip_address'              => self::CHAR  ,
+            'action'                  => self::INTEGER,
+            'window'                  => self::INTEGER,
+            'status'                  => self::INTEGER
+        );
+        return $aColumns;
     }
 
     /**
@@ -143,20 +156,10 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
         return $aMap;
     }
 
-    /**
-     * A method that returns the bucket to statistics column mapping
-     * for the component. Where multiple components migrate bucket data
-     * into the same statistics table, it is a requirement that the
-     * bucket source columns in the different components have identical
-     * names.
-     *
-     * @return array The array describing how the bucket data should
-     *               be migrated to the final statistics table. Contains
-     *               ..... to be completed
-     */
+    
     public function getEarliestLoggedDataDate()
     {
-        parent::getEarliestLoggedDataDate('date_time');
+        return parent::getEarliestLoggedDataDate('date_time');
     }
 
 }
