@@ -870,8 +870,11 @@ class OX_Admin_UI_Install_InstallController
             }
             else if ($oLoginForm->validate()) {
                 $aData = $oLoginForm->populateAccountData();
-                $pcAccountData = $oMarketClient->createAccountBySsoCred($aData['username'], 
-                    $aData['password']);
+				$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+				$oMarketClient = $oMarketComponent->getPublisherConsoleApiClient();
+				$pcAccountData = $oMarketClient->createAccountBySsoCred($aData['username'], $aData['password']);
+				$oMarketComponent->removeRegisterNotification();
+            
                 $isSuccess = true;
             }
             $aStepData = array_merge($aData, $pcAccountData);
