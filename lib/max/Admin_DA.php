@@ -937,9 +937,9 @@ class Admin_DA
             $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
 
             // Do not allow link if either start or end date is within another linked campaign dates
-            $otherCampaignStart = new Date($campaignVariables['activate_time']);
+            $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
             $otherCampaignStart->setTZbyID('UTC');
-            $otherCampaignStart = new Date($campaignVariables['expire_time']);
+            $otherCampaignStart = new Date($otherCampaignVariables['expire_time']);
             $otherCampaignStart->setTZbyID('UTC');
 
             if (($campaignStart->after($otherCampaignStart) && $campaignStart->before($otherCampaignEnd)) || ($campaignStart->equals($otherCampaignStart))) {
