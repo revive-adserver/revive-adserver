@@ -870,11 +870,15 @@ class OX_Admin_UI_Install_InstallController
             }
             else if ($oLoginForm->validate()) {
                 $aData = $oLoginForm->populateAccountData();
-				$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-				$oMarketClient = $oMarketComponent->getPublisherConsoleApiClient();
-				$pcAccountData = $oMarketClient->createAccountBySsoCred($aData['username'], $aData['password']);
-				$oMarketComponent->removeRegisterNotification();
-            
+				if($this->getInstallStatus()->isUpgrade()) {
+    				$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    				$oMarketClient = $oMarketComponent->getPublisherConsoleApiClient();
+				}
+			    $pcAccountData = $oMarketClient->createAccountBySsoCred($aData['username'], $aData['password']);
+			    
+				if($this->getInstallStatus()->isUpgrade()) {
+				    $oMarketComponent->removeRegisterNotification();
+				}
                 $isSuccess = true;
             }
             $aStepData = array_merge($aData, $pcAccountData);
