@@ -88,7 +88,7 @@ class Plugins_BannerTypeHTML extends OX_Component
                 'class' =>'code', 'cols'=>'45', 'rows'=>'10', 'wrap'=>'off',
                 'dir' => 'ltr', 'style'=>'width:550px;'
             ));
-        $aSelectAttributes = array('id'=>'adserver', 'style' => 'margin-left: 15px;width:115px');
+        $aSelectAttributes = array('id'=>'adserver', 'style' => 'margin-left: 15px;width:230px');
         $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
         $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", ""), false);
 
