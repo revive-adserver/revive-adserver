@@ -815,7 +815,7 @@
       
       function installListeners() {
           $("#market-cpm-callout").help({
-              'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 695,
+              'parentXOffset' : window.floorPriceColumnContextHelpXOffset || 400,
               'parentYOffset' : window.floorPriceColumnContextHelpXOffset || 500 + ($.browser.msie ? 10 : 0)
               }
           );
