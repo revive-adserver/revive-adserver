@@ -212,6 +212,7 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] * 100;
                 $usedHighProbability += $aLinkedAd['priority'];
                 $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
+                $probability = ($probability > 100) ? 100 : $probability;
                 echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['ui_percentage_decimals'])."%</acronym></td>";
 
                 // Priority
