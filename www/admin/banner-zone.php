@@ -106,11 +106,12 @@ phpAds_SessionDataStore();
         // Link zones
         if (count($aCurrentZones)) {
             $linked = $dalZones->linkZonesToBanner(array_keys($aCurrentZones), $bannerId);
-            if ($linked > 0) {
+            if (PEAR::isError($linked)
+                || $linked == -1) {
+                $error = $linked;
+            } elseif($linked > 0) {
                 $prioritise = true;
-            } elseif ($linked == -1) {
-                $error = true;
-            }
+            } 
         }
 
         if ($prioritise) {
@@ -165,10 +166,14 @@ phpAds_SessionDataStore();
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
     if ($error) {
+        $errorMoreInformation = '';
+        if (PEAR::isError($error)) {
+            $errorMoreInformation = $error->getMessage();
+        }
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span>";
+        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']} {$errorMoreInformation}</span>";
         echo "</div>";
     } else {
         echo "<br /><br />";

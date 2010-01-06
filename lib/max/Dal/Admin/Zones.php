@@ -698,10 +698,12 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $zoneId = current($aZonesIds);
             $oZone = Admin_DA::getZone($zoneId);
             if($oZone['type'] == MAX_ZoneEmail) {
-                $adZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
-                if(count($adZones) >= 1) {
-                    return 0;
-                }
+                
+                $aAd = Admin_DA::getAd($bannerId);
+                $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aAd['placement_id']);
+                if (PEAR::isError($okToLink)) {
+                    return $okToLink;
+                } 
             }
         }
         
