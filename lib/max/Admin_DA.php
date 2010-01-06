@@ -937,7 +937,7 @@ class Admin_DA
             $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
 
             if(empty($otherCampaignVariables['activate_time'])
-                || $otherCampaignVariables['expire_time']) {
+                || empty($otherCampaignVariables['expire_time'])) {
                 $okToLink = false;
                 break;
             }
