@@ -660,6 +660,15 @@ class OX_Admin_UI_Install_InstallController
                 }
             }
             require_once LIB_PATH . '/Admin/Redirect.php';
+
+            // if the market plugin was installed and hasn't yet been linked to PC (failed connectivity)
+            // we link to the Market info page after the install
+            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
+            $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+			if($oMarketComponent
+			    && OX_oxMarket_Dal_Installer::isRegistrationRequired()) {
+			    OX_Admin_Redirect::redirect('plugins/' . $oMarketComponent->group . '/market-info.php');
+			}
             OX_Admin_Redirect::redirect('advertiser-index.php');
         }
         
@@ -862,6 +871,10 @@ class OX_Admin_UI_Install_InstallController
         $isSuccess = false;
         
         try {
+			if($this->getInstallStatus()->isUpgrade()) {
+				$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+				$oMarketClient = $oMarketComponent->getPublisherConsoleApiClient();
+			}
             if ($oSignupForm->validate()) {
                 $aData = $oSignupForm->populateAccountData();
                 $pcAccountData = $oMarketClient->createAccount($aData['email'], $aData['username'], 
@@ -870,17 +883,13 @@ class OX_Admin_UI_Install_InstallController
             }
             else if ($oLoginForm->validate()) {
                 $aData = $oLoginForm->populateAccountData();
-				if($this->getInstallStatus()->isUpgrade()) {
-    				$oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-    				$oMarketClient = $oMarketComponent->getPublisherConsoleApiClient();
-				}
 			    $pcAccountData = $oMarketClient->createAccountBySsoCred($aData['username'], $aData['password']);
 			    
-				if($this->getInstallStatus()->isUpgrade()) {
-				    $oMarketComponent->removeRegisterNotification();
-				}
                 $isSuccess = true;
             }
+			if($this->getInstallStatus()->isUpgrade()) {
+			    $oMarketComponent->removeRegisterNotification();
+			}
             $aStepData = array_merge($aData, $pcAccountData);
             unset($aStepData['username']); //unset sensitive data              
             unset($aStepData['password']);
