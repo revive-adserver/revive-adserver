@@ -83,7 +83,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_mediaplex extends Plugins_3rdPar
 
         $buffer = str_replace($search, $replace, $buffer);
 
-        $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
+        $noScript[0] = str_replace($search[0], $replace[0], $noScript[0]);
 
         return $buffer;
     }
