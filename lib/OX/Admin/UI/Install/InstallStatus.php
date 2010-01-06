@@ -39,8 +39,10 @@ class OX_Admin_UI_Install_InstallStatus
             if ($oUpgrader->isFreshInstall()) {
                 $this->isInstall = true;    
             }
-            else {
+            else {        
+                PEAR::pushErrorHandling ( null );
                 $oUpgrader->canUpgradeOrInstall();
+                PEAR::popErrorHandling ();
                 if ($oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION) {
                     $this->isUpToDate = true;
                 }
