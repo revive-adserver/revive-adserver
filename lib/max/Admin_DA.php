@@ -944,8 +944,8 @@ class Admin_DA
             // Do not allow link if either start or end date is within another linked campaign dates
             $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
             $otherCampaignStart->setTZbyID('UTC');
-            $otherCampaignStart = new Date($otherCampaignVariables['expire_time']);
-            $otherCampaignStart->setTZbyID('UTC');
+            $otherCampaignEnd = new Date($otherCampaignVariables['expire_time']);
+            $otherCampaignEnd->setTZbyID('UTC');
 
             if (($campaignStart->after($otherCampaignStart) && $campaignStart->before($otherCampaignEnd)) || ($campaignStart->equals($otherCampaignStart))) {
                 $okToLink = false;
