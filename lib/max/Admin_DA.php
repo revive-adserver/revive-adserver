@@ -936,6 +936,11 @@ class Admin_DA
             }
             $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
 
+            if(empty($otherCampaignVariables['activate_time'])
+                || $otherCampaignVariables['expire_time']) {
+                $okToLink = false;
+                break;
+            }
             // Do not allow link if either start or end date is within another linked campaign dates
             $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
             $otherCampaignStart->setTZbyID('UTC');
