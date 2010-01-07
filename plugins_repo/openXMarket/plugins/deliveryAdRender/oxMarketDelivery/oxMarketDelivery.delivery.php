@@ -194,7 +194,12 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         
         // Add marketUrlParam hook
         OX_Delivery_Common_hook('addMarketParams', array(&$aParams));
-
+    
+        // add one extra function call defined in a plugin - used in events
+        if(function_exists('Plugin_deliveryLog_getExtraJsonVariables')) {
+             $aParams = array_merge($aParams, $hrid = Plugin_deliveryLog_getExtraJsonVariables());
+        }
+        
         if(empty($aAd['logUrl'])) {
             $aAd['logUrl'] = html_entity_decode(_adRenderBuildLogURL($aAd, $aAd['zoneid']));
         }
