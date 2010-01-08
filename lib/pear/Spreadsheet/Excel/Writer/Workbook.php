@@ -172,6 +172,12 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     var $_string_sizeinfo_size;
 
     /**
+    * input encoding for unicode sheetname
+    * @var string
+    */
+    var $_input_encoding;
+
+    /**
     * Class constructor
     *
     * @param string filename for storing the workbook. "-" for writing to stdout.
@@ -266,14 +272,17 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     * @access public
     * @param integer $version The BIFF version
     */
-    function setVersion($version)
+    function setVersion($version, $input_encoding = '')
     {
         if ($version == 8) { // only accept version 8
             $version = 0x0600;
             $this->_BIFF_version = $version;
+            $this->_codepage = 0x04B0;
             // change BIFFwriter limit for CONTINUE records
             $this->_limit = 8228;
+            $this->_input_encoding = strtoupper($input_encoding);
             $this->_tmp_format->_BIFF_version = $version;
+            $this->_tmp_format->_input_encoding = $this->_input_encoding;
             $this->_url_format->_BIFF_version = $version;
             $this->_parser->_BIFF_version = $version;
 
@@ -287,6 +296,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
             // change version for all formats too
             for ($i = 0; $i < $total_formats; $i++) {
                 $this->_formats[$i]->_BIFF_version = $version;
+                $this->_formats[$i]->_input_encoding = $this->_input_encoding;
             }
         }
     }
@@ -361,7 +371,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     */
     function &addFormat($properties = array())
     {
-        $format = new Spreadsheet_Excel_Writer_Format($this->_BIFF_version, $this->_xf_index, $properties);
+        $format = new Spreadsheet_Excel_Writer_Format($this->_BIFF_version, $this->_xf_index, $properties, $this->_input_encoding);
         $this->_xf_index += 1;
         $this->_formats[] = &$format;
         return $format;
@@ -640,7 +650,11 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
         $total_worksheets = count($this->_worksheets);
         // add the length of the BOUNDSHEET records
         for ($i = 0; $i < $total_worksheets; $i++) {
-            $offset += $boundsheet_length + strlen($this->_worksheets[$i]->name);
+            if ($this->_input_encoding != 'UTF-16LE' && $this->_input_encoding != '')
+                $name = mb_convert_encoding($this->_worksheets[$i]->name, "UTF-16LE", $this->_input_encoding);
+            else
+                $name = $this->_worksheets[$i]->name;
+            $offset += $boundsheet_length + strlen($name);
         }
         $offset += $EOF;
 
@@ -940,16 +954,26 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
         } else {
             $length = 0x07 + strlen($sheetname); // Number of bytes to follow
         }
-
         $grbit     = 0x0000;                    // Visibility and sheet type
-        $cch       = strlen($sheetname);        // Length of sheet name
-
-        $header    = pack("vv",  $record, $length);
         if ($this->_BIFF_version == 0x0600) {
-            $data      = pack("Vvv", $offset, $grbit, $cch);
+            if ($this->_input_encoding != '') {
+                if ($this->_input_encoding != 'UTF16-LE')
+                    $sheetname = mb_convert_encoding($sheetname, "UTF-16LE", $this->_input_encoding);
+                $cch       = mb_strlen($sheetname, "UTF-16LE");
+                $encoding  = 1;
+                $data      = pack("VvCC", $offset, $grbit, $cch, $encoding);
+            } else {
+                $cch       = strlen($sheetname);
+                $data      = pack("Vvv", $offset, $grbit, $cch);
+            }
+            $length    = 0x08 + strlen($sheetname); // Number of bytes to follow
         } else {
+            $length = 0x07 + strlen($sheetname); // Number of bytes to follow
+            $cch       = strlen($sheetname);        // Length of sheet name
             $data      = pack("VvC", $offset, $grbit, $cch);
         }
+        
+        $header    = pack("vv",  $record, $length);
         $this->_append($header.$data.$sheetname);
     }
 
@@ -1020,16 +1044,22 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     function _storeNumFormat($format, $ifmt)
     {
         $record    = 0x041E;                      // Record identifier
-
+        
         if ($this->_BIFF_version == 0x0600) {
+            if ($this->_input_encoding != '') {
+                if ($this->_input_encoding != 'UTF16-LE')
+                    $format    = mb_convert_encoding($format, "UTF-16LE", $this->_input_encoding);
+                $cch       = mb_strlen($format, "UTF-16LE");
+            }
+            else
+                $cch       = strlen($format);             // Length of format string
             $length    = 5 + strlen($format);      // Number of bytes to follow
-            $encoding = 0x0;
+            $encoding = 0x1;
         } elseif ($this->_BIFF_version == 0x0500) {
             $length    = 3 + strlen($format);      // Number of bytes to follow
+            $cch       = strlen($format);             // Length of format string
         }
-
-        $cch       = strlen($format);             // Length of format string
-
+        
         $header    = pack("vv", $record, $length);
         if ($this->_BIFF_version == 0x0600) {
             $data      = pack("vvC", $ifmt, $cch, $encoding);
@@ -1038,7 +1068,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
         }
         $this->_append($header . $data . $format);
     }
-
+    
     /**
     * Write DATEMODE record to indicate the date system in use (1904 or 1900).
     *
@@ -1294,7 +1324,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
         $this->_append($header . $data);
     }
 
-    /**
+   /**
     * Calculate
     * Handling of the SST continue blocks is complicated by the need to include an
     * additional continuation byte depending on whether the string is split between
@@ -1311,9 +1341,10 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
            8228 : Maximum Excel97 block size
              -4 : Length of block header
              -8 : Length of additional SST header information
-         = 8216
+		     -8 : Arbitrary number to keep within _add_continue() limit
+         = 8208
         */
-        $continue_limit     = 8216;
+        $continue_limit     = 8208;
         $block_length       = 0;
         $written            = 0;
         $this->_block_sizes = array();
@@ -1321,6 +1352,9 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
 
         foreach (array_keys($this->_str_table) as $string) {
             $string_length = strlen($string);
+			$headerinfo    = unpack("vlength/Cencoding", $string);
+			$encoding      = $headerinfo["encoding"];
+			$split_string  = 0;
 
             // Block length is the total length of the strings that will be
             // written out in a single SST or CONTINUE block.
@@ -1347,16 +1381,39 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
                 boundaries. Therefore, in some cases we need to reduce the
                 amount of available
                 */
+				$align = 0;
+
+				# Only applies to Unicode strings
+				if ($encoding == 1) {
+					# Min string + header size -1
+					$header_length = 4;
+
+					if ($space_remaining > $header_length) {
+						# String contains 3 byte header => split on odd boundary
+						if (!$split_string && $space_remaining % 2 != 1) {
+							$space_remaining--;
+							$align = 1;
+						}
+						# Split section without header => split on even boundary
+						else if ($split_string && $space_remaining % 2 == 1) {
+							$space_remaining--;
+							$align = 1;
+						}
+
+						$split_string = 1;
+					}
+				}
+
 
                 if ($space_remaining > $header_length) {
                     // Write as much as possible of the string in the current block
                     $written      += $space_remaining;
 
                     // Reduce the current block length by the amount written
-                    $block_length -= $continue_limit - $continue;
+                    $block_length -= $continue_limit - $continue - $align;
 
                     // Store the max size for this block
-                    $this->_block_sizes[] = $continue_limit;
+                    $this->_block_sizes[] = $continue_limit - $align;
 
                     // If the current string was split then the next CONTINUE block
                     // should have the string continue flag (grbit) set unless the
@@ -1398,13 +1455,19 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
          This length is required to set the offsets in the BOUNDSHEET records since
          they must be written before the SST records
         */
-        $total_offset = array_sum($this->_block_sizes);
-        // SST information
-        $total_offset += 8;
-        if (!empty($this->_block_sizes)) {
-            $total_offset += (count($this->_block_sizes)) * 4; // add CONTINUE headers
-        }
-        return $total_offset;
+
+		$tmp_block_sizes = array();
+		$tmp_block_sizes = $this->_block_sizes;
+
+		$length  = 12;
+		if (!empty($tmp_block_sizes)) {
+			$length += array_shift($tmp_block_sizes); # SST
+		}
+		while (!empty($tmp_block_sizes)) {
+			$length += 4 + array_shift($tmp_block_sizes); # CONTINUEs
+		}
+
+		return $length;
     }
 
     /**
@@ -1421,9 +1484,31 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
     function _storeSharedStringsTable()
     {
         $record  = 0x00fc;  // Record identifier
+		$length  = 0x0008;  // Number of bytes to follow
+		$total   = 0x0000;
+
+        // Iterate through the strings to calculate the CONTINUE block sizes
+        $continue_limit = 8208;
+        $block_length   = 0;
+        $written        = 0;
+        $continue       = 0;
+
         // sizes are upside down
-        $this->_block_sizes = array_reverse($this->_block_sizes);
-        $length = array_pop($this->_block_sizes) + 8; // First block size plus SST information
+		$tmp_block_sizes = $this->_block_sizes;
+//        $tmp_block_sizes = array_reverse($this->_block_sizes);
+
+		# The SST record is required even if it contains no strings. Thus we will
+		# always have a length
+		#
+		if (!empty($tmp_block_sizes)) {
+			$length = 8 + array_shift($tmp_block_sizes);
+		}
+		else {
+			# No strings
+			$length = 8;
+		}
+
+
 
         // Write the SST block header information
         $header      = pack("vv", $record, $length);
@@ -1431,18 +1516,14 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
         $this->_append($header . $data);
 
 
-        // Iterate through the strings to calculate the CONTINUE block sizes
-        $continue_limit = 8216;
-        $block_length   = 0;
-        $written        = 0;
-        $continue       = 0;
 
 
         /* TODO: not good for performance */
         foreach (array_keys($this->_str_table) as $string) {
 
             $string_length = strlen($string);
-            $encoding      = 0; // assume there are no Unicode strings
+			$headerinfo    = unpack("vlength/Cencoding", $string);
+			$encoding      = $headerinfo["encoding"];
             $split_string  = 0;
 
             // Block length is the total length of the strings that will be
@@ -1473,6 +1554,30 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
 
                 // Unicode data should only be split on char (2 byte) boundaries.
                 // Therefore, in some cases we need to reduce the amount of available
+	            // space by 1 byte to ensure the correct alignment.
+    	        $align = 0;
+
+				// Only applies to Unicode strings
+				if ($encoding == 1) {
+					// Min string + header size -1
+					$header_length = 4;
+
+					if ($space_remaining > $header_length) {
+						// String contains 3 byte header => split on odd boundary
+						if (!$split_string && $space_remaining % 2 != 1) {
+							$space_remaining--;
+							$align = 1;
+						}
+						// Split section without header => split on even boundary
+						else if ($split_string && $space_remaining % 2 == 1) {
+							$space_remaining--;
+							$align = 1;
+						}
+
+						$split_string = 1;
+					}
+				}
+
 
                 if ($space_remaining > $header_length) {
                     // Write as much as possible of the string in the current block
@@ -1483,7 +1588,7 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
                     $string = substr($string, $space_remaining);
 
                     // Reduce the current block length by the amount written
-                    $block_length -= $continue_limit - $continue;
+                    $block_length -= $continue_limit - $continue - $align;
 
                     // If the current string was split then the next CONTINUE block
                     // should have the string continue flag (grbit) set unless the
@@ -1503,7 +1608,8 @@ class Spreadsheet_Excel_Writer_Workbook extends Spreadsheet_Excel_Writer_BIFFwri
                 // Write the CONTINUE block header
                 if (!empty($this->_block_sizes)) {
                     $record  = 0x003C;
-                    $length  = array_pop($this->_block_sizes);
+                    $length  = array_shift($tmp_block_sizes);
+
                     $header  = pack('vv', $record, $length);
                     if ($continue) {
                         $header .= pack('C', $encoding);

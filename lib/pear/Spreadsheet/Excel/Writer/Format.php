@@ -243,16 +243,23 @@ class Spreadsheet_Excel_Writer_Format extends PEAR
     var $_right_color;
 
     /**
+    * input encoding for unicode
+    * @var string
+    */
+    var $_input_encoding;
+
+    /**
     * Constructor
     *
     * @access private
     * @param integer $index the XF index for the format.
     * @param array   $properties array with properties to be set on initialization.
     */
-    function Spreadsheet_Excel_Writer_Format($BIFF_version, $index = 0, $properties =  array())
+    function Spreadsheet_Excel_Writer_Format($BIFF_version, $index = 0, $properties =  array(), $input_encoding = '')
     {
         $this->_xf_index       = $index;
         $this->_BIFF_version   = $BIFF_version;
+        $this->_input_encoding = strtoupper($input_encoding);
         $this->font_index      = 0;
         $this->_font_name      = 'Arial';
         $this->_size           = 10;
@@ -455,12 +462,22 @@ class Spreadsheet_Excel_Writer_Format extends PEAR
         $bCharSet   = $this->_font_charset; // Character set
         $encoding   = 0;                    // TODO: Unicode support
 
-        $cch        = strlen($this->_font_name); // Length of font name
         $record     = 0x31;                      // Record identifier
         if ($this->_BIFF_version == 0x0500) {
+            $cch        = strlen($this->_font_name); // Length of font name
             $length     = 0x0F + $cch;            // Record length
         } elseif ($this->_BIFF_version == 0x0600) {
-            $length     = 0x10 + $cch;
+            if ($this->_input_encoding != '') {
+                $encoding   = 1;
+                if ($this->_input_encoding != 'UTF16-LE')
+                    $this->_font_name = mb_convert_encoding($this->_font_name, "UTF-16LE");
+                $cch        = mb_strlen($this->_font_name, "UTF-16LE");
+                $length     = 0x10 + strlen($this->_font_name);
+            }
+            else {
+                $cch        = strlen($this->_font_name); // Length of font name
+                $length     = 0x10 + $cch;            // Record length
+            }
         }
         $reserved   = 0x00;                // Reserved
         $grbit      = 0x00;                // Font attributes

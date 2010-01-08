@@ -66,6 +66,7 @@ class OA_Admin_ExcelWriter
     {
         $workbook =& $this->_getExcelWriter();
         $worksheet = $workbook->addWorksheet($name);
+        $worksheet->setInputEncoding('UTF-8');
         return $worksheet;
     }
 
@@ -166,6 +167,7 @@ class OA_Admin_ExcelWriter
             return;
         }
         $worksheet =&  $workbook->addWorksheet($name);
+        $worksheet->setInputEncoding('UTF-8');
 
         // Insert m3 bitmap
         // Note that a scale of (1, 0.8) is specified to work around an underlying scale bug
@@ -333,6 +335,7 @@ class OA_Admin_ExcelWriter
         require_once 'Spreadsheet/Excel/Writer.php';
 
         $workbook = new Spreadsheet_Excel_Writer();
+        $workbook->setVersion(8, 'UTF-8');
         $workbook->setTempDir(MAX_PATH .'/var/cache');
         $this->_setExcelWriter($workbook);
         $workbook->send($filename);
