@@ -102,7 +102,7 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
             			'SUM(s.impressions)' => 'sum_views', 
             			'SUM(s.clicks)' => 'sum_clicks',  
             			'SUM(s.revenue)' => 'sum_revenue',
-            			"CONCAT(m.campaignid, IF( market_advertiser_id, CONCAT('_', market_advertiser_id, '_'), '_'), ad_width, ' x ',ad_height)" => 'ad_id'
+            			"CONCAT(m.campaignid, IF( LENGTH(market_advertiser_id) > 0, CONCAT('_', market_advertiser_id, '_'), '_'), ad_width, ' x ',ad_height)" => 'ad_id'
         );
 
         $aParams['custom_columns'] = $standardCustomColumns;
