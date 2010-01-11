@@ -2,27 +2,26 @@
 
 <upgrade>
     <name>Openads</name>
-    <creationDate>2009-11-25</creationDate>
+    <creationDate>2009-10-19</creationDate>
     <author>OpenX Devs</author>
     <authorEmail>support@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
-    <description>OpenX Upgrade 2.8.3-rc3</description>
+    <description>OpenX Upgrade 2.8.3-rc2</description>
     <!-- versionFrom if it is a milestone upgrade package -->
     <versionFrom></versionFrom>
-    <versionTo>2.8.2-rc3</versionTo>
+    <versionTo>2.8.4-rc2</versionTo>
 
     <!-- Database Packages -->
     <database>
         <package>
-            <version>613</version>
-            <stamp>613</stamp>
+            <version>612</version>
+            <stamp>612</stamp>
             <schema>tables_core</schema>
-            <file>schema_tables_core_613.xml</file>
-            <file>changes_tables_core_613.xml</file>
-            <file>migration_tables_core_613.php</file>
+            <file>schema_tables_core_612.xml</file>
+            <file>changes_tables_core_612.xml</file>
+            <file>migration_tables_core_612.php</file>
         </package>
     </database>
 
 </upgrade>
-
