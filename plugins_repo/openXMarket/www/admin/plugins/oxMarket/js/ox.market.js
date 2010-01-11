@@ -949,6 +949,8 @@
 		    
 		    function revert() {
 		    	var minRecommendedValue = revertValueCallback.call($cpmInput);
+		    	// the floor price should have 2 decimals maximum
+		    	minRecommendedValue = Math.round(minRecommendedValue*100)/100;
 		    	$cpmInput.val(minRecommendedValue);
 		    }
 	    }).change(function() {
