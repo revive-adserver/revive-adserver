@@ -272,6 +272,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                         }
                         $channel = $aRow[8];
                         
+                        $adId = null;
                         if(empty($channel)) {
                             if($nonEmptyChannelExpected) {
                                 // channel was empty, but we were expecting a non-empty channel string
@@ -294,8 +295,11 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                             if($websiteIdFromChannel != $websiteId) {
                                 continue;
                             }
+                            $adId = $channel[2];
                         }
-                        $adId = $this->getMarketBannerIdFromWebsiteId($websiteId);
+                        if(empty($adId)) {
+                            $adId = $this->getMarketBannerIdFromWebsiteId($websiteId);
+                        }
                         $marketAdvertiserId = $aRow[9];
                         if(!empty($marketAdvertiserId)) {
                             $this->marketAdvertiserIds[] = $marketAdvertiserId;
