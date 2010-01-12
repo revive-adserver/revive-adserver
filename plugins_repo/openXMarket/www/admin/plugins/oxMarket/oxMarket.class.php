@@ -192,7 +192,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         // onEnable was called 
         $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
         $oPluginSettings->insertOrUpdateValue(0, 'ON_ENABLE_VERSION', 1); // hardcoded value for onEnable version
-        
+
         // Run autoregister method first
         try {
             require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
@@ -1112,7 +1112,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return OX_oxMarket_Dal_Installer::isRegistrationRequired();
     }
     
-    
+
     /**
      * Hook afterAgencyCreate
      *
@@ -1120,13 +1120,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     public function afterAgencyCreate($agencyid)
     {
-        // Create market advertisers if this is not multiple accounts mode
-        // and market plugin is already registered
-        if (!$this->isMultipleAccountsMode() && $this->isRegistered()) {
-            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
-            $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
-            $oAdvertiserDal->createMarketAdvertiser($agencyid);
-        }
+        require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+        $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
+        $oAdvertiserDal->createMarketAdvertiser($agencyid); 
     }
 }
 

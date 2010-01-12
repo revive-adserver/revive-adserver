@@ -107,8 +107,6 @@ class OX_oxMarket_Dal_Advertiser
         if ($multipleAccountMode) {
             $doAgency = OA_Dal::factoryDO('agency');
             $doAccounts = OA_Dal::factoryDO('accounts');
-            $doMarketAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
-            $doAccounts->joinAdd($doMarketAssocData);
             $doAgency->joinAdd($doAccounts);
             $aManagers = $doAgency->getAll('agencyid');
         } 
