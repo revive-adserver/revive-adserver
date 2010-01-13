@@ -786,7 +786,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 
                 if($zone['type'] == MAX_ZoneMarketMigrated) {
                     $zone['html-append'] = $this->getHtmlHelpLink('help-market-zone-migrated-from-pre-283');
-                    $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.3'];
+                    $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.4'];
                 } 
                 
                 $aEntitiesData[] = $zone;

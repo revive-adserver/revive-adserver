@@ -1629,7 +1629,7 @@ $GLOBALS['keyWorkingAs']        = "w";
 // Market entities
 $GLOBALS['strMarketCampaignOptin'] = "OpenX Market - Opted In Campaigns";
 $GLOBALS['strMarketZoneOptin'] = "OpenX Market - Zone Default Ads";
-$GLOBALS['strMarketZoneBeforeOpenX2.8.3'] = "OpenX Market ads before OpenX 2.8.3";
+$GLOBALS['strMarketZoneBeforeOpenX2.8.4'] = "OpenX Market ads before OpenX 2.8.4";
 
 /*-------------------------------------------------------*/
 /* Languages Names                                       */

@@ -111,7 +111,7 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         $includeZoneZeroStats = !isset($aParams['zone_id']);
         if($includeZoneZeroStats) {
             // because the query above joined the zones/publishers tables, they did not include the records
-            // for zone_id = 0 which is a contained for all market stats pre-2.8.3, where we did not know 
+            // for zone_id = 0 which is a contained for all market stats pre-2.8.4, where we did not know 
             // what zones served Market ads. We will now select all stats for ads that served in zone_id = 0
             // we will later merge them back in the stats array
             $aParams['zone_id'] = 0;

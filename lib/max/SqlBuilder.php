@@ -1030,7 +1030,7 @@ class SqlBuilder
             if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
                 if (array_search('zone_id', $aParams['exclude']) !== false) {
                     // include deleted zones and direct selection in advertiser stats
-                    // except for market stats: it would otherwise include zoneid=0 which is the bucket for stats migrated from pre-2.8.3
+                    // except for market stats: it would otherwise include zoneid=0 which is the bucket for stats migrated from pre-2.8.4
                     // these zoneid=0 stats will be selected in a separate query and should not be selected in the standard stats query,
                     // or stats would be duplicated
                     if(empty($aParams['market_stats']))
