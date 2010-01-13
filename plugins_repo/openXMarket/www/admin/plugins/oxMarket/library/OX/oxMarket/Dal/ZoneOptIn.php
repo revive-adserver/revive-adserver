@@ -49,7 +49,7 @@ class OX_oxMarket_Dal_ZoneOptIn
         $aConf = $GLOBALS['_MAX']['CONF'];
               
         // Find system campaign to be linked to
-        $oCampaign = $this->findSystemCampaignForZoneOptIn($zoneId);
+        $oCampaign = $this->findSystemCampaignForZoneOptIn($agencyId = OA_Permission::getAgencyId());
         $dalZones = OA_Dal::factoryDAL('zones');
         if ($optedIn) {
             $result = $dalZones->linkZonesToCampaign(
@@ -83,7 +83,7 @@ class OX_oxMarket_Dal_ZoneOptIn
         }        
         
         // Is market campaign linked to given zone?
-        $oCampaign = $this->findSystemCampaignForZoneOptIn($zoneId);
+        $oCampaign = $this->findSystemCampaignForZoneOptIn($agencyId = OA_Permission::getAgencyId());
         if ($oCampaign !== false) {
             $doPlZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
             $doPlZoneAssoc->zone_id = $zoneId;
@@ -99,21 +99,17 @@ class OX_oxMarket_Dal_ZoneOptIn
      * Find market zone opt-in campaign for given zone (same realm)
      * TODO: to be finished after implementing system entities 
      *
-     * @param int $zoneId
+     * @param int $agencyid
      * @return DataObjects_Campaigns | false if not found
      */
-    protected function findSystemCampaignForZoneOptIn($zoneId)
+    protected function findSystemCampaignForZoneOptIn($agencyid)
     {
         // Find system zone opt-in campaign (in same realm as given zone) 
-        $doZones       = OA_Dal::factoryDO('zones');
-        $doAffiliates  = OA_Dal::factoryDO('affiliates');
         $doAgency      = OA_Dal::factoryDO('agency');
         $doClients     = OA_Dal::factoryDO('clients');
         $doCampaigns   = OA_Dal::factoryDO('campaigns');
         
-        $doZones->zoneId = $zoneId;
-        $doAffiliates->joinAdd($doZones);
-        $doAgency->joinAdd($doAffiliates);
+        $doAgency->agencyid = $agencyid;
         $doClients->joinAdd($doAgency);
         $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $doCampaigns->joinAdd($doClients);
