@@ -94,7 +94,7 @@ class OX_oxMarket_UI_CampaignForm
     
         $specificStartDateGroup['date'] = $this->createElement('text', 'start', null, array ('id' => 'start', 'class' => 'small'));
         $specificStartDateGroup['cal_img'] = $this->createElement ('html', 'start_button', "<a href='#' id='start_button'><img src='".OX::assetPath () . "/images/icon-calendar.gif' align= 'absmiddle' /></a>");
-        $specificStartDateGroup['note'] = $this->createElement('html', 'activation_note', $GLOBALS['strActivationDateComment']);
+        $specificStartDateGroup['note'] = $this->createElement('html', 'activation_note', "<br><br>".$GLOBALS['strActivationDateComment']);
         $actDateGroup['specificDate'] = $this->createElement('group', 'g_specificStartDate', null, $specificStartDateGroup, null, false);
         $this->addDecorator('g_specificStartDate', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'specificStartDateSpan', 'style' => 'display:none')));
     
@@ -105,7 +105,7 @@ class OX_oxMarket_UI_CampaignForm
         $expDateGroup['radioSpecific'] = $this->createElement('radio', 'endSet', null, $GLOBALS['strSetSpecificDate'], 't', array ('id' => 'endSet_specific'));
         $specificEndDateGroup['date'] = $this->createElement('text', 'end', null, array ('id' => 'end', 'class' => 'small'));
         $specificEndDateGroup['cal_img'] = $this->createElement('html', 'end_button',    "<a href='#' id='end_button'><img src='".OX::assetPath () . "/images/icon-calendar.gif' align='absmiddle' /></a>");
-        $specificEndDateGroup['note'] = $this->createElement('html', 'expiration_note', $GLOBALS['strExpirationDateComment']);
+        $specificEndDateGroup['note'] = $this->createElement('html', 'expiration_note', "<br><br>".$GLOBALS['strExpirationDateComment']);
         $expDateGroup['specificDate'] = $this->createElement('group', 'g_specificEndDate', null, $specificEndDateGroup, null, false);
         $this->addDecorator('g_specificEndDate', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'specificEndDateSpan', 'style' => 'display:none')));
     

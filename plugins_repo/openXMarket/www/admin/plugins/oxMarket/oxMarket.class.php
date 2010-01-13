@@ -205,7 +205,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $this->isActive();
         
         // Schedule Register Notification if needed
-        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
+        if (!$this->isRegistered() 
+            && !$this->isMultipleAccountsMode() 
+            && OA_Permission::isUserLinkedToAdmin()) { 
             $this->scheduleRegisterNotification();
         }
         
@@ -512,12 +514,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     public function isActive()
     {
-        // Account is active if is registered, has valid status and API key is set
-        $result = $this->isRegistered() &&
-               ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==
-                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS);
-
-        if ($result && !($this->oMarketPublisherClient->hasApiKey() == true))
+        if ($this->oMarketPublisherClient->hasPublisherAccountId()
+            && !$this->oMarketPublisherClient->hasApiKey())
         {
             // If only API key is missing, try recive this key automatically
             try {
@@ -528,8 +526,15 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                           .$e->getCode().') '.$e->getMessage());
             }
         }
-        // Check if apikey is set
-        return $result && ($this->oMarketPublisherClient->hasApiKey() == true);
+        // Account is active if is registered, has valid status and API key is set
+        $result = $this->isRegistered() &&
+               ($this->oMarketPublisherClient->getAssociationWithPcStatus() ==
+                    Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS);
+
+        if($result) {
+            $this->removeRegisterNotification();
+        }
+        return $result;
     }
 
 
@@ -763,6 +768,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
     }
     
+
+    public function removeRegisterNotification()
+    {
+        //clean up the bugging info message
+        OA_Admin_UI::getInstance()->getNotificationManager()
+            ->removeNotifications('oxMarketRegister');
+    }
     
     public function scheduleEarnMoreNotification()
     {
@@ -814,7 +826,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oNotificationManager->queueNotification($registerMessage, 'info', 'oxMarketEarn');
     }    
 
-    
+
     public function removeEarnMoreNotification($permament = false) 
     {
         //clean up the bugging info message
@@ -850,12 +862,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     }
 
 
-    public function removeRegisterNotification()
-    {
-        //clean up the bugging info message
-        OA_Admin_UI::getInstance()->getNotificationManager()
-            ->removeNotifications('oxMarketRegister');
-    }
 
 
     public function retrieveCustomContent($pageName)

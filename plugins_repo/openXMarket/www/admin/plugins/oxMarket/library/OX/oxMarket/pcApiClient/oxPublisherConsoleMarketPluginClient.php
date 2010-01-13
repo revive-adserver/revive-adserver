@@ -49,7 +49,7 @@ require_once dirname(__FILE__) . '/oxPublisherConsoleClientException.php';
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  * @author     Lukasz Wikierski   <lukasz.wikierski@openx.net>
  */
-
+      
 class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
 {
     /**
@@ -168,11 +168,30 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     }
     
     /**
-     * Get basic data regarding associated PC account
+     * Get basic data regarding associated PC account.
+     * Difference with getPartialAssociatedPcAccountData is that this will only return
+     * values when both publisher_account_id and api_key are properly set
      * 
      * @return array with 'publisher_account_id', 'association_status' and 'api_key' values, 
      */
     protected function getAssociatedPcAccountData()
+    {
+        $result = $this->getPartialAssociatedPcAccountData();
+        if(!empty($result['publisher_account_id'])
+            && !empty($result['api_key'])) {
+            return $result;
+        }
+        return array(
+            'publisher_account_id' => null, 
+            'association_status'   => null,
+            'apiKey'               => null
+        );
+    }
+    
+    /**
+     * @return array with 'publisher_account_id', 'association_status' and optionally 'api_key'  
+     */
+    protected function getPartialAssociatedPcAccountData()
     {
         $result = array(
             'publisher_account_id' => null, 
@@ -183,8 +202,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $accountId = $this->getAccountId();
         if (isset($accountId)) {
             $oAccountAssocData->get('account_id', $accountId);
-            if(!empty($oAccountAssocData->publisher_account_id)
-                && !empty($oAccountAssocData->api_key)) {
+            if(!empty($oAccountAssocData->publisher_account_id)) {
                 $result = array();
                 $result['publisher_account_id'] = $oAccountAssocData->publisher_account_id;
                 $result['association_status']   = $oAccountAssocData->status;
@@ -196,7 +214,8 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
     
     /**
      * Check if there is already association between 
-     * OXP and PC accounts
+     * OXP and PC accounts, only return true if both the 
+     * publisher_account_id and the api_key are set
      * 
      * @return boolean
      */
@@ -206,10 +225,16 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         return isset($aPcAccountData['publisher_account_id']); 
     }
     
+    public function hasPublisherAccountId()
+    {
+        $aPcAccountData = $this->getPartialAssociatedPcAccountData();
+        return !empty($aPcAccountData['publisher_account_id']);
+    }
+    
     public function hasApiKey()
     {
-        $aPcAccountData = $this->getAssociatedPcAccountData();
-        return isset($aPcAccountData['api_key']);
+        $aPcAccountData = $this->getPartialAssociatedPcAccountData();
+        return !empty($aPcAccountData['api_key']);
     }
     
     /**
@@ -474,7 +499,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      */
     public function getApiKeyByM2MCred()
     {
-        $aPcAccountData = $this->getAssociatedPcAccountData();
+        $aPcAccountData = $this->getPartialAssociatedPcAccountData();
         $this->pc_api_client->setPublisherAccountId(
                    $aPcAccountData['publisher_account_id']);
         $apiKey = $this->pc_api_client->getApiKeyByM2MCred();
