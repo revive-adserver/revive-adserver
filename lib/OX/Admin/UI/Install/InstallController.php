@@ -661,14 +661,16 @@ class OX_Admin_UI_Install_InstallController
             }
             require_once LIB_PATH . '/Admin/Redirect.php';
 
-            // if the market plugin was installed and hasn't yet been linked to PC (failed connectivity)
-            // we link to the Market info page after the install
-            require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
-            $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-			if($oMarketComponent
-			    && OX_oxMarket_Dal_Installer::isRegistrationRequired()) {
-			    OX_Admin_Redirect::redirect('plugins/' . $oMarketComponent->group . '/market-info.php');
-			}
+            if(defined('OX_MARKET_LIB_PATH')) {
+                // if the market plugin was installed and hasn't yet been linked to PC (failed connectivity)
+                // we link to the Market info page after the install
+                require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Installer.php';
+                $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    			if($oMarketComponent
+    			    && OX_oxMarket_Dal_Installer::isRegistrationRequired()) {
+    			    OX_Admin_Redirect::redirect('plugins/' . $oMarketComponent->group . '/market-info.php');
+    			}
+            }
             OX_Admin_Redirect::redirect('advertiser-index.php');
         }
         

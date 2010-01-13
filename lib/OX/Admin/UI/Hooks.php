@@ -240,9 +240,11 @@ class OX_Admin_UI_Hooks
         
         //register UI listeners from plugins
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('registerUiListeners');
-        foreach ($aPlugins as $i => $id){
+        foreach ($aPlugins as $i => $id) {
             if ($obj = OX_Component::factoryByComponentIdentifier($id)) {
-                $obj->registerUiListeners();
+                if(is_callable(array($obj, 'registerUiListeners'))) {
+                    $obj->registerUiListeners();
+                }
             }
         }
                 
