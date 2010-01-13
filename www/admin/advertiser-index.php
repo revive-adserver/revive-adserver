@@ -166,7 +166,9 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) &&
     foreach (array_keys($clients) as $clientid) {
         $client = &$clients[$clientid];
         
-        if (!array_key_exists('has_active_campaigns', $client)) {
+        if (!array_key_exists('has_active_campaigns', $client)
+            // we do not hide the Market advertiser
+            && $client['type'] != DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
             unset($clients[$clientid]);
             $aCount['advertisers_hidden']++;
         } 
