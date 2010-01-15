@@ -202,9 +202,14 @@ function phpAds_showZoneBanners ($zoneId)
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".htmlspecialchars($name)."</a>";
-                } else {
+                    $isAdMarketAdvertiser = ($aLinkedAd['ext_bannertype'] == 'market-optin-banner');
+                    if(!$isAdMarketAdvertiser) {
+                        echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>";
+                    } 
                     echo htmlspecialchars($name);
+                    if($isAdMarketAdvertiser) {
+                        echo "</a>";
+                    } 
                 }
                 echo "</td>";
                 echo "<td height='25'>".$adId."</td>";
