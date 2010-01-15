@@ -1,8 +1,7 @@
 <?php
 
-require_once(LIB_PATH . '/simpletest/unit_tester.php');
-require_once(LIB_PATH . '/simpletest/reporter.php');
-
+require_once(MAX_PATH . '/lib/simpletest/unit_tester.php');
+require_once(MAX_PATH . '/lib/simpletest/reporter.php');
 
 class OX_Common_ConfigTest extends UnitTestCase
 {
