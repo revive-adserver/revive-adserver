@@ -55,12 +55,6 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     
     
     /**
-     * Array of active accounts returned by getActiveAccounts method
-     * @var array
-     */
-    protected $aActiveAccounts;
-    
-    /**
      * Array of advertiser Ids seen during stats import
      * 
      * @var array
@@ -96,19 +90,29 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oAccount->status = 0;  
             $oAccount->whereAdd('api_key IS NOT NULL');
             $oAccount->find();
+            OA::debug('Starting to download websites Market stats...');
+            $countWebsites = 0;
             while ($oAccount->fetch()) {
                 try {
                     $accountId = (int)$oAccount->account_id;
                     $oPublisherConsoleApiClient->setWorkAsAccountId($accountId);                
                     $last_update = $this->getLastUpdateVersionNumber($accountId);
                     $aWebsitesIds = $this->getRegisteredWebsitesIds($accountId);
+                    
                     if (is_array($aWebsitesIds) && count($aWebsitesIds)>0
                         && !$this->shouldSkipAccount($accountId)) {
                         // Download statistics only if there are registered websites
                         // and account is locally active  
                         do {
+                            OA::debug('Fetching stats for accountId = '.$accountId.'...');
                             $data = $oPublisherConsoleApiClient->getStatistics($last_update, $aWebsitesIds);
                             $endOfData = $this->getStatisticFromString($data, $last_update, $accountId);
+                            
+                            if($countWebsites % 10 == 0 && $countWebsites > 0) { 
+                                OA::debug('Downloaded stats for '.$countWebsites . ' websites...');
+                                $this->fetchMarketAdvertisers();
+                            }
+                            $countWebsites++;
                         } while ($endOfData === false);
                         $this->setLastUpdateDate($accountId);
                     }
@@ -120,12 +124,8 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         } catch (Exception $e) {
             OA::debug('Following exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
-        
-        if(!empty($this->marketAdvertiserIds)) {
-            $advertiserIds = array_unique($this->marketAdvertiserIds);
-            sort($advertiserIds);
-            $oPublisherConsoleApiClient->getAdvertiserInfos($advertiserIds);
-        }
+        $this->fetchMarketAdvertisers();
+        OA::debug('Finished, downloaded stats for '.$countWebsites . ' websites. ');
         
         // always clear workAsAccountId
         if (isset($oPublisherConsoleApiClient)) {
@@ -133,6 +133,20 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
         }
         OA::debug('Finished oxMarket_ImportMarketStatistics');
         return true;
+    }
+       
+    protected function fetchMarketAdvertisers()
+    {
+        if(!empty($this->marketAdvertiserIds)) {
+            OA::debug('Fetching '.$count.' market advertiser IDs...');
+            $count = count($this->marketAdvertiserIds);
+            $advertiserIds = array_unique($this->marketAdvertiserIds);
+            sort($advertiserIds);
+            $oPublisherConsoleApiClient = $this->getPublisherConsoleApiClient();
+            $oPublisherConsoleApiClient->getAdvertiserInfos($advertiserIds);
+            $this->marketAdvertiserIds = array();
+        }
+        return;
     }
     
     /**
@@ -297,6 +311,12 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                             }
                             $adId = $channel[2];
                         }
+                        $impressions = $aRow[4];
+                        
+                        // we do not download stats that don't have impressions but have requests 
+                        if($impressions <= 0) {
+                            continue;
+                        }
                         if(empty($adId)) {
                             $adId = $this->getMarketBannerIdFromWebsiteId($websiteId);
                         }
@@ -305,15 +325,14 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                             $this->marketAdvertiserIds[] = $marketAdvertiserId;
                             $this->marketAdvertiserIds = array_unique($this->marketAdvertiserIds);
                         }
-                        
                         $marketStatsRow = array(
                             'website_id' => $websiteId, 
                         	'ad_height' => $aRow[1], 
                             'ad_width' => $aRow[2], 
                             'date_time' => $aRow[3], 
-                            'impressions' => $aRow[4], 
+                            'impressions' => $impressions, 
                             'revenue' => $aRow[5],
-                            'requests' => $aRow[6],
+                            'requests' => '',
                             'clicks' => $aRow[7],
                             'market_advertiser_id' => $marketAdvertiserId,
                             'website_id' => $websiteId,
@@ -408,84 +427,10 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
      */
     protected function shouldSkipAccount($accountId)
     {
-        $this->initMarketComponent();
-        // check if this is multiple account mode and skipping account is allowed
-        // are statistics collected
-        if($this->oMarketComponent->isMultipleAccountsMode() && 
-           $this->oMarketComponent->getConfigValue('allowSkipAccountsInImportStats') == '1') {
-            $aActiveAccounts = $this->getActiveAccounts();
-            // check if account is inactive
-            if (!isset($aActiveAccounts[$accountId])) {
-                // get date of last stats update for this account 
-                $value = OA_Dal::factoryDO('ext_market_general_pref')
-                 ->findAndGetValue($accountId, self::LAST_IMPORT_STATS_DATE);
-                if (isset($value)) {
-                    $oCurrDate = new Date();
-                    $oUserDate = new Date($value);
-                    $span = new Date_Span();
-                    $span->setFromDateDiff($oCurrDate, $oUserDate);
-                    // if last update was in past x days, skip this account
-                    $skipDays = $this->oMarketComponent->getConfigValue('maxSkippingPeriodInDays');
-                    if ($span->toDays()<$skipDays) {
-                        return true;
-                    }
-                }
-            }
-        }
+        // in 2.8.4, we force download of stats for all accounts
         return false;
     }
     
-    
-    /**
-     * Get array of active accounts
-     * Active account has any local stats in last 7 days period
-     *
-     * @return array array of active accounts
-     */
-    protected function getActiveAccounts()
-    {
-        /**
-         * TODO: orginal query based on data_summary_ad_hourly is very slow
-         * should be refactored to use last login date - something like that:
-         * 
-         *  select max(`date_last_login`) from ox_users u 
-         *  inner join ox_account_user_assoc aua on aua.user_id = u.user_id
-         *  inner join ox_accounts ac on aua.account_id = ac.account_id
-         *  where ac.account_type = 'MANAGER'
-         *  group by ac.account_id
-         *
-         * Or use active column in agency (how and when is it set/unset?)
-         */
-        
-        if (!isset($this->aActiveAccounts)) {
-            $oSumAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
-            $oBanners = OA_Dal::factoryDO('banners');
-            $oCampaigns = OA_Dal::factoryDO('campaigns');
-            $oClients = OA_Dal::factoryDO('clients');
-            $oAgency = OA_Dal::factoryDO('agency');
-            $oClients->joinAdd($oAgency);
-            $oCampaigns->joinAdd($oClients);
-            $oBanners->joinAdd($oCampaigns);
-            $oSumAdHourly->joinAdd($oBanners);
-            // check activity one week before now
-            $oDate = new Date();
-            $oDateSpan = new Date_Span();
-            $oDateSpan->setFromDays(7); 
-            $oDate->subtractSpan($oDateSpan); 
-            $oDbh = OA_DB::singleton();
-            $oSumAdHourly->whereAdd('date_time > '.
-                $oDbh->quote($oDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp'));
-            $oSumAdHourly->selectAdd();
-            $oSumAdHourly->selectAdd($oAgency->tableName().'.account_id');
-            $oSumAdHourly->groupBy($oAgency->tableName().'.account_id');
-            $oSumAdHourly->find();
-            $this->aActiveAccounts = array();
-            while($oSumAdHourly->fetch()) {
-                $this->aActiveAccounts[$oSumAdHourly->account_id] = $oSumAdHourly->account_id;
-            }
-        }
-        return $this->aActiveAccounts;
-    }
     
     /**
      * Set last import statistics update date to now
