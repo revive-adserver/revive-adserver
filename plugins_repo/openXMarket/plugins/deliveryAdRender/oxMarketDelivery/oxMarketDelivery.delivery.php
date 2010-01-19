@@ -185,6 +185,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         {
             // get bannerid, campaignid, clientid for market campaign opt-in
             $aMarketAd = OX_cacheGetCampaignOptInBanner($aAd['agency_id']);
+            $aMarketAd = array_merge($aAd,$aMarketAd);
         } else {
             $aMarketAd = $aAd;            
         }
@@ -199,12 +200,14 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
         if(function_exists('Plugin_deliveryLog_getExtraJsonVariables')) {
              $aParams = array_merge($aParams, $hrid = Plugin_deliveryLog_getExtraJsonVariables());
         }
-        
+    
         if(empty($aAd['logUrl'])) {
             $aAd['logUrl'] = html_entity_decode(_adRenderBuildLogURL($aAd, $aAd['zoneid']));
         }
-        if ($aConf['logging']['adImpressions'] && !empty($aAd['logUrl'])) {
-            $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl']);
+        $localMarketImpressionBeacon = html_entity_decode(_adRenderBuildLogURL($aMarketAd, $aMarketAd['zoneid']));
+        if ($aConf['logging']['adImpressions'] 
+            && !empty($localMarketImpressionBeacon)) {
+            $beaconHtml = MAX_adRenderImageBeacon($localMarketImpressionBeacon);
             if(isset($aAd['aSearch'])) {
                 $beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
             }
