@@ -423,8 +423,12 @@
      <name>zone_id</name>
      <sorting>ascending</sorting>
     </field>
-	<field>
-     <name>ad_width</name>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+    <name>ad_width</name>
      <sorting>ascending</sorting>
     </field>
 	<field>
