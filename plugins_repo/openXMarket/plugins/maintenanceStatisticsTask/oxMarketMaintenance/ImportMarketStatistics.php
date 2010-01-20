@@ -202,7 +202,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     protected function getMarketBannerIdFromWebsiteId($websiteId)
     {
         static $accountToBannerId = array();
-        if(!isset($accountToBannerId[$accountId])) {
+        if(!isset($accountToBannerId[$websiteId])) {
             $aConf = $GLOBALS['_MAX']['CONF'];
             $query = "
             SELECT 
@@ -219,9 +219,9 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oDbh = OA_DB::singleton();
             $return = $oDbh->query($query);
             $return = $return->fetchRow();
-            $accountToBannerId[$accountId] = $return['ad_id'];
+            $accountToBannerId[$websiteId] = $return['ad_id'];
         }
-        return $accountToBannerId[$accountId];
+        return $accountToBannerId[$websiteId];
     }
     
     /**
