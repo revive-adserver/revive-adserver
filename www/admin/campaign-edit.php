@@ -224,6 +224,7 @@ if ($campaignid != "") {
     $campaign['comments'] = null;
     $campaign['target_type'] = null;
     $campaign['min_impressions'] = 100;
+    $campaign['show_capped_no_cookie'] = 0;
 }
 
 if ($campaign['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate ( $campaign['expire'] ) && $campaign['impressions'] > 0) {

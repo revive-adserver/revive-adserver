@@ -472,7 +472,7 @@ function processForm($form, $oComponent = null)
             $doZones->prepend = '';
             $doZones->append = '';
 
-            $doZones->show_capped_no_cookie = 1;
+            $doZones->show_capped_no_cookie = 0;
 
             $aFields['zoneid'] = $doZones->insert();
 
