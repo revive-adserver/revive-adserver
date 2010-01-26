@@ -67,6 +67,9 @@ if (!isset($keyword)) {
     $keyword = '';
 }
 
+OA_Dal::factoryDO('Campaigns');
+OA_Dal::factoryDO('Clients');
+
 // Prepare for market entities filtering
 $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
 $isMarketPluginActive = isset($oComponent) && $oComponent->enabled && $oComponent->isActive();
