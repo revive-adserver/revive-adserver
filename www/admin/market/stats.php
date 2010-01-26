@@ -98,11 +98,17 @@ class OX_oxMarket_Stats extends OA_StatisticsFieldsDelivery
         }
         $aParams['market_stats'] = true;
         $aParams['custom_table'] = OX_oxMarket_Stats::MARKET_STATS_TABLE;
+        
+        $db = OA_DB::singleton();
+        $ad_id = "CONCAT(m.campaignid, IF( LENGTH(market_advertiser_id) > 0, CONCAT('_', market_advertiser_id, '_'), '_'), ad_width, ' x ',ad_height)";
+        if($db->dbsyntax == 'pgsql') {
+            $ad_id = " m.campaignid || IF( LENGTH(market_advertiser_id) > 0, ('_' || market_advertiser_id || '_'),  '_') || ad_width || ' x ' || ad_height ";
+        }
         $standardCustomColumns = array(
             			'SUM(s.impressions)' => 'sum_views', 
             			'SUM(s.clicks)' => 'sum_clicks',  
             			'SUM(s.revenue)' => 'sum_revenue',
-            			"CONCAT(m.campaignid, IF( LENGTH(market_advertiser_id) > 0, CONCAT('_', market_advertiser_id, '_'), '_'), ad_width, ' x ',ad_height)" => 'ad_id'
+            			$ad_id => 'ad_id'
         );
 
         $aParams['custom_columns'] = $standardCustomColumns;
@@ -166,11 +172,11 @@ class OX_oxMarket_Stats_DataGenerator
 {
     function main()
     {
-        $bannerIds = range($minBannerId = 50, $maxBannerId = 53, $step = 1);
+        $bannerIds = range($minBannerId = 1, $maxBannerId = 3, $step = 1);
         $websiteIds = range($minWebsiteId = 1, $maxWebsiteId = 2, $step = 1);
         $zoneIds = range($minZoneId = 1, $maxZoneId = 15, $step = 1);
         // insert a record for the catch-all zone after migration from previous market stats
-        $zoneIds = array(0); 
+//        $zoneIds = array(0); 
         
         $pastDays = 15;
         echo "hello world, generating market stats...";
@@ -203,7 +209,7 @@ class OX_oxMarket_Stats_DataGenerator
 		    foreach($websiteIds as $websiteId) {
 		        foreach($zoneIds as $zoneId) {
 		            foreach($bannerIds as $bannerId) {
-		                $countRowsByHourByZone = rand(1,5);
+		                $countRowsByHourByZone = rand(1,1);
 		                while($countRowsByHourByZone > 0) {
 		                    $countRowsByHourByZone--;
 		                    

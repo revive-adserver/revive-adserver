@@ -108,7 +108,7 @@ class SqlBuilder
             break;
 
         case 'placement' :
-            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous', 'm.priority' => 'priority', 'm.type' => 'type');
+            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous', 'm.priority' => 'priority',  'm.type' => 'mtype');
             if ($allFields) $aColumns += array('m.views' => 'views', 'm.clicks' => 'clicks', 'm.conversions' => 'conversions', 'm.activate_time' => 'activate_time', 'm.expire_time' => 'expire_time', 'm.weight' => 'weight', 'm.target_impression' => 'target_impression', 'm.target_click' => 'target_click', 'm.target_conversion' => 'target_conversion', 'm.anonymous' => 'anonymous');
             break;
 
@@ -143,18 +143,23 @@ class SqlBuilder
                         }
                     }
                 }
+                $db = OA_DB::singleton();
+                $concat_pkey = "CONCAT(s.ad_id, '_', s.zone_id)";
+                if($db->dbsyntax == 'pgsql') {
+                    $concat_pkey = " s.ad_id || '_' || s.zone_id ";
+                }
                 $aColumns += array(
-                	"CONCAT(s.ad_id, '_', s.zone_id)" => 'pkey', 
-                	's.ad_id' => 'ad_id', 
+                	$concat_pkey => 'pkey', 
+//                	's.ad_id' => 'ad_id', 
                 	's.zone_id' => 'zone_id'
                     ) 
                     + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
     
     
-                // Remove unused columns to avoid implicit group by
+                // Remove unused columns to avoid implicit group by (otherwise postgresql errors out)
                 if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
                     if (array_search('ad_id', $aParams['exclude']) !== false) {
-                        unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
+                        unset($aColumns[$concat_pkey]);
                         unset($aColumns['s.ad_id']);
                         if (array_search('zone_id', $aParams['exclude']) !== false) {
                             unset($aColumns['s.zone_id']);
@@ -169,14 +174,21 @@ class SqlBuilder
                                 $aColumns["(0)"] = 'pkey';
                             }
                         } else {
+                            if(false !== ($found = array_search('ad_id',$aColumns))) {  
+                                unset($aColumns[$found]);
+                            }
                             if(isset($aParams['market_stats_including_zone_zero'])) {
-                                $aColumns["CONCAT(s.website_id,'-',s.zone_id)"] = 'pkey';
+                                $pkey = "CONCAT(s.website_id,'-',s.zone_id)";
+                                if($db->dbsyntax == 'pgsql') {
+                                    $pkey = " s.website_id || '-' || s.zone_id ";
+                                }
+                                $aColumns[$pkey] = 'pkey';
                             } else {
                                 $aColumns["(s.zone_id)"] = 'pkey';
                             }
                         }
                     } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
-                        unset($aColumns["CONCAT(s.ad_id, '_', s.zone_id)"]);
+                        unset($aColumns[$concat_pkey]);
                         unset($aColumns['s.zone_id']);
             
                         // core stats: the primary key is simply the ad_id (unique across all rows)
@@ -188,11 +200,13 @@ class SqlBuilder
                         else
                         {
                             $pkey = array_search('ad_id', $aParams['custom_columns']);
+                            
                             if(empty($pkey)) {
                                 $pkey = 's.ad_id';
-                            }
+                            } else {
                             // here is one more ugly hack because, well, there is no choice...
                             $aColumns["($pkey)"] = 'pkey';
+                            }
                         }
                     }
                 }
@@ -265,6 +279,17 @@ class SqlBuilder
         case 'placement_zone_assoc' :
             $aColumns += array('pz.placement_zone_assoc_id' => 'placement_zone_assoc_id', 'pz.placement_id' => 'placement_id', 'pz.zone_id' => 'zone_id');
             break;
+        }
+        
+        $matchingEntitiesToFix = 'history_';
+        if(substr($entity, 0, strlen($matchingEntitiesToFix)) == $matchingEntitiesToFix) {
+            // postgresql throws an error: column "m.campaignid" must appear in the GROUP BY clause or be used in an aggregate function
+            // we therefore remove the column ad_id built on a concatenation of various other fields, as this particular field
+            // is not in use in the Global History stats screen (when entity == history_*)
+            if(false !== ($found = array_search('ad_id',$aColumns))) {  
+                unset($aColumns[$found]);
+            }
+
         }
         return $aColumns;
     }

@@ -332,8 +332,8 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                             'date_time' => $aRow[3], 
                             'impressions' => $impressions, 
                             'revenue' => $aRow[5],
-                            'requests' => '',
-                            'clicks' => $aRow[7],
+                            'requests' => 0,
+                            'clicks' => empty($aRow[7]) ? 0 : $aRow[7],
                             'market_advertiser_id' => $marketAdvertiserId,
                             'website_id' => $websiteId,
                             'zone_id' => $zoneId,
@@ -348,7 +348,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 
                 if(!empty($marketStatsToRecord)) {
                     $dal = new OA_Dal();
-                    $primaryKey = array('date_time', 'website_id', 'zone_id', 'ad_width', 'ad_height', 'market_advertiser_id');
+                    $primaryKey = array('date_time', 'website_id', 'zone_id', 'ad_id','ad_width', 'ad_height', 'market_advertiser_id');
                     $dal->batchInsert($GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_stats', array_keys($marketStatsRow), $marketStatsToRecord, $replace = true, $primaryKey);
                 }
                 // Update last statistics version serial number in same DB transaction

@@ -500,6 +500,19 @@ class OA_Dal
         // Disable error handler
         OX::disableErrorHandling();
 
+        // we start by manually deleting conflicting unique rows
+        foreach ($aValues as $aRow) {
+            // because Postgresql doesn't have the REPLACE keyword, 
+            // we manually delete the rows with the primary key first
+            if($replace) {
+                $where = '';
+                foreach($primaryKey as $fieldName) {
+                    $where .= $fieldName .' = \''.$aRow[$fieldName] . '\'  AND ';
+                }
+                $where = substr($where, 0, strlen($where) - 5);
+                $oDbh->query('DELETE FROM '. $qTableName. ' WHERE '. $where);
+            }
+        }
         $pg = $oDbh->getConnection();
         $result = $oDbh->exec("
             COPY
@@ -511,17 +524,6 @@ class OA_Dal
             return MAX::raiseError('Error issuing the COPY query for the batch INSERTs.', PEAR_ERROR_RETURN);
         }
         foreach ($aValues as $aRow) {
-            
-            // if replace is set to true, because Postgresql doesn't have the REPLACE keyword,
-            // we manually delete the rows with the primary key first
-            if($replace) {
-                $where = '';
-                foreach($primaryKey as $fieldName) {
-                    $where .= $fieldName .' = \''.$aRow[$fieldName] . '\'  AND ';
-                }
-                $where = substr($where, 0, strlen($where) - 5);
-                $oDbh->query('DELETE FROM '. $qTableName. ' WHERE '. $where);
-            }
             // Stringify row
             $row = '';
             foreach($aRow as $value) {
