@@ -1506,7 +1506,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     }
 
     // Build ad preview
-    if ($bannerId && empty($_GET['nopreview'])) {
+    if ($bannerId && !empty($GLOBALS['_MAX']['PREF']['ui_show_banner_preview']) && empty($_GET['nopreview'])) {
         require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
         $aBanner = Admin_DA::getAd($bannerId);
         $aBanner['storagetype'] = $aBanner['type'];
