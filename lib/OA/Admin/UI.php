@@ -327,22 +327,28 @@ class OA_Admin_UI
     // we redirect the request to the URL that has been overwritten in the menu definition.
     private function redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection)
     {
-        $currentPath = @$_SERVER['SCRIPT_NAME'];
-        if($oCurrentSection) {
-    	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
-    	    $startQueryString = strpos($expectedPathForThisSection, '?');
-    	    
-    	    if($startQueryString !== false) {
-    	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
-    	    }
-    	    if( !empty($currentPath)
-    			&& $oCurrentSection->hasSectionBeenReplaced()
-    			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
-    			    $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
-    			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
-    			    exit;
-    	    }
+        if(!$oCurrentSection) {
+            return;
         }
+        $sectionNotRedirected = array('advertiser-access');
+        if(in_array($oCurrentSection->getId(), $sectionNotRedirected)) {
+            return;
+        }
+
+        $currentPath = @$_SERVER['SCRIPT_NAME'];
+	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
+	    $startQueryString = strpos($expectedPathForThisSection, '?');
+	    
+	    if($startQueryString !== false) {
+	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
+	    }
+	    if( !empty($currentPath)
+			&& $oCurrentSection->hasSectionBeenReplaced()
+			&& strpos($currentPath, $expectedPathForThisSection) === false ) {
+			    $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
+			    header('Location: ' . MAX::constructURL( MAX_URL_ADMIN, $urlToRedirectTo));
+			    exit;
+	    }
     }
     
     function getID($ID)
