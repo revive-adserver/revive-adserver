@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Developer Toolbox for OpenX</description>
-    <version>0.1.3-dev</version>
+    <version>0.1.3</version>
     <type>extension</type>
 
     <install>

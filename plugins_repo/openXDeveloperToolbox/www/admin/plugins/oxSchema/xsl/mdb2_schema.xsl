@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/mdb2_xsl.css"/>
 
-    <script type="text/javascript" src="../../../../var/plugins/cache/oxSchema.js"></script>
+    <script type="text/javascript" src="../../../../var/templates_compiled/oxSchema.js"></script>
     <script type="text/javascript" src="../../assets/js/xajax.js"></script>
     <!--script  type="text/javascript">xajax_oxAlert('template loaded')</script-->
 
