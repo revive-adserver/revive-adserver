@@ -90,7 +90,11 @@ function xmlencode($string) {
 
 function buildXmlTree($var, &$xml) {
     if (is_array($var)) {
-        foreach ($var as $key => $value) { $xml .= "<{$key}>" . buildXmlTree($value, $xml) . "</{$key}>\n"; }
+        foreach ($var as $key => $value) {
+            $xml .= "<{$key}>";
+            $inner = buildXmlTree($value, $xml);
+            $xml .= $inner . "</{$key}>\n";
+        }
     } else {
         return xmlencode($var);
     }
