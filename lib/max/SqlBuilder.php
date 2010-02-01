@@ -150,7 +150,7 @@ class SqlBuilder
                 }
                 $aColumns += array(
                 	$concat_pkey => 'pkey', 
-//                	's.ad_id' => 'ad_id', 
+                	's.ad_id' => 'ad_id', 
                 	's.zone_id' => 'zone_id'
                     ) 
                     + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
