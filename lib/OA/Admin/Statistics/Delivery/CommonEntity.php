@@ -495,9 +495,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
                 
                 $htmlToAppend = '';
-                if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
+                if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
                     $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-campaign');
-                } else if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
+                } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
                     $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-zone');
                 } 
                 $campaign['html-append'] = $htmlToAppend;
@@ -506,9 +506,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 // mask anonymous campaigns
                 // a) mask campaign name
                 $campaign['name'] = MAX_getPlacementName($campaign);
-                if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
+                if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
                     $campaign['name'] = $GLOBALS['strMarketCampaignOptin'];
-                } else if($campaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
+                } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
                     $campaign['name'] = $GLOBALS['strMarketZoneOptin'];
                 } 
 
