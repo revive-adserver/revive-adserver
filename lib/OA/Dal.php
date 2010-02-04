@@ -435,7 +435,7 @@ class OA_Dal
             // Stringify row
             $row = '';
             foreach($aRow as $value) {
-                if(!isset($value) || $value === false) {
+                if(!isset($value) || is_null($value) || $value === false) {
                     $row .= $null.$delim;
                 } else {
                     $row .= $quote.$value.$quote.$delim;
