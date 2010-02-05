@@ -131,7 +131,7 @@ class OX_Util_CodeMunger
         if ($pos = strrpos($filename, '/')) {
             $cwd = getcwd();
             $dir = substr($filename, 0, $pos);
-            if (!file_exists($dir . '/.') || !chdir($dir)) {
+            if (!file_exists($dir . '/.') || !chdir($dir) || (substr($dir, -8) == 'lib/pear')) {
                 if ($this->OA_Pear === false) {
                     return false;
                 }
