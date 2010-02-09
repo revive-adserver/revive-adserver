@@ -505,7 +505,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     return($xml_array);
 }
 
-function getCustomersArrayFromXMLFile($filename) 
+function getCustomersArrayFromXMLFile($filename, $includeInactive = false) 
 {
     $customers = array();
     $customersTable = xml2array(file_get_contents($filename));
@@ -513,6 +513,10 @@ function getCustomersArrayFromXMLFile($filename)
         foreach ($rowFields as $fieldIdx => $fieldData) {
             if (substr($fieldIdx, strlen($fieldIdx) - 5) == '_attr') { continue; }
             $customers[$rowIdx][$fieldIdx] = (empty($fieldData) ? '' : $fieldData);
+            if ($fieldIdx == 'active' && $fieldData != '1' && !$includeInactive) {
+                unset($customers[$rowIdx]);
+                break;
+            }
         }
     }
     return $customers;
