@@ -88,6 +88,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $aVastVariables['vast_overlay_action'] = $aFields['vast_overlay_action'];
         $aVastVariables['vast_companion_banner_id'] = $aFields['vast_companion_banner_id'];
         $aVastVariables['vast_creative_type'] = $aFields['vast_creative_type'];
+        $aVastVariables['vast_thirdparty_impression'] = $aFields['vast_thirdparty_impression'];
 
         // We serialise all the data into an array which is part of the ox_banners table.
         // This is used by the deliveryEngine for serving ads and is faster then all joins
@@ -130,6 +131,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $doBanners->vast_overlay_text_call          = $aFields['vast_overlay_text_call'];
         $doBanners->vast_companion_banner_id        = $aFields['vast_companion_banner_id'];
         $doBanners->vast_creative_type              = $aFields['vast_creative_type'];
+        $doBanners->vast_thirdparty_impression      = $aFields['vast_thirdparty_impression'];
         
         if ( !$insert && ($rowId == 'banner_vast_element_id') ){
             // If the mode was update, but we dont have a valid pk value for $rowId
@@ -369,6 +371,21 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         }
     }
 
+    function addThirdPartyImpressionTracking( &$form )
+    {
+        $form->addElement('header', 'thirdpartyimp_title', 'Third party impression tracking');
+        $form->addElement('html', 'thirdpartyimp_help', '
+        	When a video ad is displayed, OpenX will record the ad impression. 
+        	You can also specify a URL to a third party 1x1 transparent pixel. 
+        	The URL can contain any of the supported <a href="http://www.openx.org/en/docs/whitepapers/magic-macros" target="_blank">magic macros</a>.
+        					');
+        
+        $form->addElement(  'text', 
+        					'vast_thirdparty_impression', 
+        					'Impression tracking beacon URL <br>(incl. http://)');
+    }
+    
+    
     function addVastCompanionsToForm( &$form, $selectableCompanions)
     {
         $form->addElement('header', 'companion_status', "Companion banner");

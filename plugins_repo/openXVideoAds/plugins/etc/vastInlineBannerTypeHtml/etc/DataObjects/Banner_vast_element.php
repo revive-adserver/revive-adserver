@@ -31,12 +31,14 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     public $vast_overlay_text_description;    // TEXT() => openads_text => 34 
     public $vast_overlay_text_call;          // TEXT() => openads_text => 34 
     public $vast_creative_type;              // VARCHAR(20) => openads_varchar => 2 
+    public $vast_thirdparty_impression;      // TEXT() => openads_text => 162 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banner_vast_element',$k,$v); }
 
     var $defaultValues = array(
                 'vast_element_type' => '',
+                'vast_thirdparty_impression' => '',
                 );
 
     /* the code above is auto generated do not remove the tag below */

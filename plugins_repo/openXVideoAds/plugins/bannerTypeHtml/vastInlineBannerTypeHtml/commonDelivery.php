@@ -18,7 +18,6 @@
  *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
 function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
@@ -38,7 +37,9 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
     } else {
         $aOutputParams['isAutoPlayOfVideoInOpenXAdminToolEnabled'] = "false";
     }
-
+    if(!empty($aBanner['vast_thirdparty_impression'])) {
+        $aOutputParams['thirdPartyImpressionUrl'] = $aBanner['vast_thirdparty_impression'];
+    }
     prepareCompanionBanner($aOutputParams, $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
     prepareVideoParams( $aOutputParams, $aBanner );
     prepareOverlayParams( $aOutputParams, $aBanner );
@@ -334,12 +335,15 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
     $player = "";
     $player .= "    <Ad id=\"{player_allocated_ad_id}\" >";
     $player .= "        <InLine>";
-    $player .= "            <AdSystem>OpenX</AdSystem>";
-    $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>";
-    $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>";
-    $player .= "                    <Impression>";
-    $player .= "                        <URL id=\"primaryAdServer\"><![CDATA[${aOut['impressionUrl']}]]></URL>";
-    $player .= "                    </Impression>";
+    $player .= "            <AdSystem>OpenX</AdSystem>\n";
+    $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>\n";
+    $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>\n";
+    $player .= "                    <Impression>\n";
+    $player .= "                        <URL id=\"primaryAdServer\"><![CDATA[${aOut['impressionUrl']}]]></URL>\n";
+    if(!empty($aOut['thirdPartyImpressionUrl'])) {
+        $player .= "                        <URL id=\"secondaryAdServer\"><![CDATA[${aOut['thirdPartyImpressionUrl']}]]></URL>\n";
+    }
+    $player .= "                    </Impression>\n";
 
     if ( isset($aOut['companionMarkup'])  ){
         if(!empty($aOut['companionClickUrl'])) {

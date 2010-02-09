@@ -386,6 +386,7 @@ OVERLAY_OPTION_JS;
         $form->addDecorator ( 'video_status2', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-play') ) );
 
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
+        $this->addThirdPartyImpressionTracking($form);
         $this->addVastCompanionsToForm($form, $selectableCompanions);
         
         $form->addElement('html', 'jsForOverlayFormat', $overlayFormatJs );

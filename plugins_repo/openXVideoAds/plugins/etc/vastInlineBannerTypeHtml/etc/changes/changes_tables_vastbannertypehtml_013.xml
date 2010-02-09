@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>vastbannertypehtml</name>
+  <version>013</version>
+  <comments>adding a new field for third party impression tracking</comments>
+  <constructive>
+    <changeset>
+      <name>vastbannertypehtml</name>
+      <version>013</version>
+      <change>
+        <table>
+          <name>banner_vast_element</name>
+          <add>
+            <field>
+              <name>vast_thirdparty_impression</name>
+              <type>openads_text</type>
+              <notnull>1</notnull>
+              <was>vast_thirdparty_impression</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>vastbannertypehtml</name>
+      <version>013</version>
+    </changeset>
+  </destructive>
+</instructionset>

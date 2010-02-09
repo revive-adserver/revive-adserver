@@ -101,6 +101,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         $this->setElementIsRequired('vast_video_type', 'ext_bannertype', $this->getComponentIdentifier());
         $this->setElementIsRequired('vast_video_duration', 'ext_bannertype', $this->getComponentIdentifier());
         
+        $this->addThirdPartyImpressionTracking($form);
         $this->addVastCompanionsToForm($form, $selectableCompanions);
     }
 

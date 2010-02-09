@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GPL</license>
     <description>Vast Reporting Plugin</description>
-    <version>1.2</version>
+    <version>1.8.5</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>

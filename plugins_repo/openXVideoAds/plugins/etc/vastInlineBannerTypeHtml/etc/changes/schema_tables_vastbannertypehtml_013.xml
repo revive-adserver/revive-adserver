@@ -180,7 +180,7 @@
    <field>
     <name>vast_thirdparty_impression</name>
     <type>openads_text</type>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
