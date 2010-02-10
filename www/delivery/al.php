@@ -931,6 +931,9 @@ $query = "
             c.session_capping AS session_cap_campaign,
             c.show_capped_no_cookie AS show_capped_no_cookie,
             c.clientid AS client_id,
+            c.revenue_type AS revenue_type,
+            c.ecpm_enabled AS ecpm_enabled,
+            c.ecpm AS ecpm,
             c.clickwindow AS clickwindow,
             c.viewwindow AS viewwindow,
             m.advertiser_limitation AS advertiser_limitation,
@@ -1009,7 +1012,10 @@ $query =
 ."d.ext_bannertype AS ext_bannertype, "
 ."d.height AS height, "
 ."d.storagetype AS type, "  ."d.contenttype AS contenttype, "  ."d.weight AS weight, "  ."d.adserver AS adserver, "  ."d.block AS block_ad, "  ."d.capping AS cap_ad, "  ."d.session_capping AS session_cap_ad, "  ."d.compiledlimitation AS compiledlimitation, "  ."d.acl_plugins AS acl_plugins, "  ."d.alt_filename AS alt_filename, "  ."az.priority AS priority, "  ."az.priority_factor AS priority_factor, "  ."az.to_be_delivered AS to_be_delivered, "  ."c.campaignid AS campaign_id, "  ."c.priority AS campaign_priority, "  ."c.weight AS campaign_weight, "  ."c.companion AS campaign_companion, "  ."c.block AS block_campaign, "  ."c.capping AS cap_campaign, "  ."c.session_capping AS session_cap_campaign, " ."c.show_capped_no_cookie AS show_capped_no_cookie, "
-."c.clientid AS client_id, "  ."ct.status AS tracker_status, "
+."c.clientid AS client_id, "  ."c.revenue_type AS revenue_type, "
+."c.ecpm_enabled AS ecpm_enabled, "
+."c.ecpm AS ecpm, "
+."ct.status AS tracker_status, "
 .OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe, "
 .OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe "
 ."FROM "
@@ -1454,6 +1460,9 @@ $aColumns = array(
 'm.clickwindow AS clickwindow',
 'm.viewwindow AS viewwindow',
 'cl.clientid AS client_id',
+'m.revenue_type AS revenue_type',
+'m.ecpm_enabled AS ecpm_enabled',
+'m.ecpm AS ecpm',
 'cl.advertiser_limitation AS advertiser_limitation',
 'a.account_id AS account_id',
 'a.agencyid AS agency_id'
@@ -1698,6 +1707,9 @@ $aColumns = array(
 'm.session_capping AS session_cap_campaign',
 'm.show_capped_no_cookie AS show_capped_no_cookie',
 'cl.clientid AS client_id',
+'m.revenue_type AS revenue_type',
+'m.ecpm_enabled AS ecpm_enabled',
+'m.ecpm AS ecpm',
 'ct.status AS tracker_status',
 OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe",
 OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe",
@@ -3532,6 +3544,8 @@ return $functionName;
 }
 
 
+define ("PRI_ECPM_FROM", 6);
+define ("PRI_ECPM_TO", 9);
 $GLOBALS['OX_adSelect_SkipOtherPriorityLevels'] = -1;
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
@@ -3840,7 +3854,54 @@ _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 if (count($aAds) == 0) {
 return;
 }
-if (isset($cp)) {
+global $n;
+mt_srand
+(floor
+((isset ($n) && strlen ($n) > 5
+? hexdec ($n[0].$n[2].$n[3].$n[4].$n[5])
+: 1000000) * (double) microtime ()));
+$conf = $GLOBALS['_MAX']['CONF'];
+if ($adArrayVar == 'eAds') {
+if (!empty ($conf['delivery']['ecpmSelectionRate'])) {
+$selection_rate = floatval ($conf['delivery']['ecpmSelectionRate']);
+if (!_controlTrafficEnabled ($aAds) ||
+(mt_rand (0, $GLOBALS['_MAX']['MAX_RAND']) /
+$GLOBALS['_MAX']['MAX_RAND']) <= $selection_rate)
+{
+$max_ecpm = 0;
+$top_ecpms = array();
+foreach ($aAds as $key => $ad) {
+if ($ad['ecpm'] < $max_ecpm) {
+continue;
+} elseif ($ad['ecpm'] > $max_ecpm) {
+$top_ecpms = array();
+$max_ecpm = $ad['ecpm'];
+}
+$top_ecpms[$key] = 1;
+}
+if ($max_ecpm <= 0)
+{
+$GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+$total_priority = _setPriorityFromWeights($aAds);
+} else {
+$GLOBALS['_MAX']['ECPM_SELECTION'] = 1;
+$total_priority = count ($top_ecpms);
+foreach ($aAds as $key => $ad) {
+if (!empty ($top_ecpms[$key])) {
+$aAds[$key]['priority'] = 1 / $total_priority;
+} else {
+$aAds[$key]['priority'] = 0;
+}
+}
+}
+}
+else
+{
+$GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+$total_priority = _setPriorityFromWeights($aAds);
+}
+}
+} else if (isset($cp)) {
 $used_priority = 0;
 for ($i = 10; $i > $cp; $i--)
 {
@@ -3858,15 +3919,66 @@ foreach ($aAds as $ad) {
 $total_priority_orig += $ad['priority'] * $ad['priority_factor'];
 }
 $aLinkedAdInfos['priority_used'][$adArrayVar][$i] = $total_priority_orig;
-if (!$total_priority_orig) {
+if ($total_priority_orig <= 0) {
 return;
 }
 if ($total_priority_orig > $remaining_priority
-|| $adArrayVar == 'eAds'
 || $companion
 )
 {
-$scaling_factor = 1 / $total_priority_orig;
+$scaling_denom = $total_priority_orig;
+if ($cp >= PRI_ECPM_FROM &&
+$cp <= PRI_ECPM_TO &&
+!empty ($conf['delivery']['ecpmSelectionRate']))
+{
+$selection_rate = floatval ($conf['delivery']['ecpmSelectionRate']);
+if (!_controlTrafficEnabled ($aAds) ||
+(mt_rand (0, $GLOBALS['_MAX']['MAX_RAND']) /
+$GLOBALS['_MAX']['MAX_RAND']) <= $selection_rate)
+{
+$GLOBALS['_MAX']['ECPM_SELECTION'] = 1;
+foreach ($aAds as $key => $ad) {
+$ecpms[] = $ad['ecpm'];
+$adids[] = $key;
+}
+array_multisort ($ecpms, SORT_DESC, $adids);
+$p_avail = $remaining_priority;
+$ad_count = count ($aAds);
+$i = 0;
+while ($i < $ad_count) {
+$l = $i;
+while ($l < $ad_count - 1 &&
+$ecpms[$l + 1] == $ecpms[$i]) {
+$l++;
+}
+$p_needed = 0;
+for ($a_idx = $i; $a_idx <= $l; $a_idx++) {
+$id = $adids[$a_idx];
+$p_needed += $aAds[$id]['priority'] * $aAds[$id]['priority_factor'];
+}
+if ($p_needed > $p_avail) {
+$scale = $p_avail / $p_needed;
+for ($a_idx = $i; $a_idx <= $l; $a_idx++) {
+$id = $adids[$a_idx];
+$aAds[$id]['priority'] = $aAds[$id]['priority'] * $scale;
+}
+$p_avail = 0;
+for ($a_idx = $l + 1; $a_idx < $ad_count; $a_idx++) {
+$id = $adids[$a_idx];
+$aAds[$id]['priority'] = 0;
+}
+break;
+} else {
+$p_avail -= $p_needed;
+$i = $l + 1;
+}
+}
+$scaling_denom = $remaining_priority;
+} else {
+$GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+}
+}
+$scaling_factor = 1 / $scaling_denom;
 }
 else
 {
@@ -3892,8 +4004,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $random_num =
 mt_rand (0, $GLOBALS['_MAX']['MAX_RAND'])
 / $GLOBALS['_MAX']['MAX_RAND'];
-
-if ($random_num > $total_priority) {
+  if ($random_num > $total_priority) {
 return;
 }
 $low = 0;
@@ -3914,6 +4025,22 @@ return $ad;
 }
 }
 return;
+}
+function _controlTrafficEnabled (&$aAds)
+{
+$control_enabled = true;
+if (empty ($GLOBALS['_MAX']['CONF']['delivery']['enableControlOnPureCPM']))
+{
+$control_enabled = false;
+foreach ($aAds as $ad) {
+if ($ad['revenue_type'] != MAX_FINANCE_CPM)
+{
+$control_enabled = true;
+break;
+}
+}
+}
+return $control_enabled;
 }
 function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 {
