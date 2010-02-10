@@ -320,6 +320,32 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
     /**
      * A method to get the details of the total number of advertisements
+     * delivered, to date, for all campaigns withing given priority in a given agency.
+     * This method returns only the campaigns which revenue_type is not
+     * equal MAX_FINANCE_CPM and therefore whose eCPM needs to be calculated
+     * dynamically each time the maintenance is executed.
+     *
+     * @param integer $id The agency ID.
+     * @param integer $priority Campaign priority.
+     * @return array An array of arrays, with each containing the "placement_id",
+     *               "sum_requests", "sum_views", "sum_clicks" and "sum_conversions"
+     *               for that placement.
+     */
+    function getAgencyPriorityCampaignsDeliveriesToDate($id, $priority)
+    {
+        $priority = (int) $priority;
+        $table = $this->_getTablenameUnquoted('campaigns');
+        $do = OA_Dal::factoryDO('Campaigns');
+        $aWheres = array(
+        array("$table.priority = " . $priority, 'AND'),
+        array("$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'),
+        array("$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'),
+        );
+        return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
+    }
+
+    /**
+     * A method to get the details of the total number of advertisements
      * delivered, to date, for all placements in a given agency.
      *
      * @param integer $id The agency ID.
@@ -2256,6 +2282,24 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
+     * Returns an array of agencies (managers) IDs
+     *
+     * @return array  Array with IDs of agencies IDs
+     */
+    public function getAllAgenciesIds()
+    {
+        OA::debug('- Selecting All Managers', PEAR_LOG_INFO);
+        $query = "SELECT
+                    DISTINCT cl.agencyid AS agencyid
+                  FROM
+                  {$this->_getTablename('campaigns')} AS c,
+                  {$this->_getTablename('clients')} AS cl
+                  WHERE
+                    cl.clientid = c.clientid";
+        return $this->getAgenciesIdsFromQuery($query);
+    }
+
+    /**
      * Returns an array of agencies (managers) IDs using the provided
      * SQL query to retreive the data from the database.
      *
@@ -2359,6 +2403,47 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND b.status = ".OA_ENTITY_STATUS_RUNNING."
                       AND c.priority = ".$priority."
                       AND c.ecpm_enabled = 1
+                      AND aza.zone_id != 0
+                      AND cl.agencyid = " . $agencyId;
+                  return $this->getCampaignsInfoByQuery($query);
+    }
+
+    /**
+     * Retreives the list of all active campaigns for a given agency ID
+     * (manager) within given campaign priority.  This does not test
+     * for ecpm_enabled or priority = ECPM.
+     *
+     * @param integer $agencyId  Agency (manager) ID
+     * @param integer $priority  Campaign priority
+     * @return array  Array of campaigns, zones and
+     *                ads which are linked to each other for given agency.
+     *                Format, see method: getCampaignsInfoByQuery()
+     */
+    public function getAllCampaignsInfoByAgencyIdAndPriority($agencyId, $priority)
+    {
+        OA::debug('  - Selecting active campaigns with priority = \''.$priority.'\' for manager '.$agencyId, PEAR_LOG_INFO);
+        $query = "SELECT
+                      c.campaignid AS campaignid,
+                      c.revenue AS revenue,
+                      c.revenue_type AS revenue_type,
+                      c.min_impressions AS min_impressions,
+                      c.activate_time AS activate_time,
+                      c.expire_time AS expire_time,
+                      b.bannerid AS bannerid,
+                      b.weight AS weight,
+                      aza.zone_id AS zone_id
+                  FROM
+                  {$this->_getTablename('clients')} AS cl,
+                  {$this->_getTablename('campaigns')} AS c,
+                  {$this->_getTablename('banners')} AS b,
+                  {$this->_getTablename('ad_zone_assoc')} AS aza
+                  WHERE
+                      b.campaignid = c.campaignid
+                      AND aza.ad_id = b.bannerid
+                      AND cl.clientid = c.clientid
+                      AND c.status = ".OA_ENTITY_STATUS_RUNNING."
+                      AND b.status = ".OA_ENTITY_STATUS_RUNNING."
+                      AND c.priority = ".$priority."
                       AND aza.zone_id != 0
                       AND cl.agencyid = " . $agencyId;
                   return $this->getCampaignsInfoByQuery($query);
@@ -2474,6 +2559,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getZonesAllocationsForEcpmRemnantByAgency($agencyId)
     {
+        if (!count (OA_DB_Table::listOATablesCaseSensitive('tmp_ad_zone_impression')))
+        {
+            OA::debug('  - tmp_ad_zone_impression does not exist.  Aborting getZonesAllocationsForEcpmRemnantByAgency', PEAR_LOG_INFO);
+            return array();
+        }
+
         OA::debug('  - Selecting Zones allocations for remnant campaigns (impressions required in each zone) ', PEAR_LOG_INFO);
         $query = "SELECT
                       t.zone_id AS zone_id,

@@ -438,6 +438,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.session_capping AS session_cap_campaign,
             c.show_capped_no_cookie AS show_capped_no_cookie,
             c.clientid AS client_id,
+            c.revenue_type AS revenue_type,
+            c.ecpm_enabled AS ecpm_enabled,
+            c.ecpm AS ecpm,
             c.clickwindow AS clickwindow,
             c.viewwindow AS viewwindow,
             m.advertiser_limitation AS advertiser_limitation,
@@ -579,6 +582,9 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         ."c.session_capping AS session_cap_campaign, "//MAX_limitationsIsZoneForbidden
         ."c.show_capped_no_cookie AS show_capped_no_cookie, "
         ."c.clientid AS client_id, "                  //_adSelectCheckCriteria
+        ."c.revenue_type AS revenue_type, "
+        ."c.ecpm_enabled AS ecpm_enabled, "
+        ."c.ecpm AS ecpm, "
         ."ct.status AS tracker_status, "
         .OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe, "
         .OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe "
@@ -1169,6 +1175,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.clickwindow AS clickwindow',
             'm.viewwindow AS viewwindow',
             'cl.clientid AS client_id',
+            'm.revenue_type AS revenue_type',
+            'm.ecpm_enabled AS ecpm_enabled',
+            'm.ecpm AS ecpm',
             'cl.advertiser_limitation AS advertiser_limitation',
             'a.account_id AS account_id',
             'a.agencyid AS agency_id'
@@ -1492,6 +1501,9 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             'm.session_capping AS session_cap_campaign',
             'm.show_capped_no_cookie AS show_capped_no_cookie',
             'cl.clientid AS client_id',
+            'm.revenue_type AS revenue_type',
+            'm.ecpm_enabled AS ecpm_enabled',
+            'm.ecpm AS ecpm',
             'ct.status AS tracker_status',
             OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe",
             OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe",

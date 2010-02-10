@@ -226,13 +226,6 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $test_ads['ads'][4][1122]['ad_id'] = '1122';
         $test_ads['ads'][4][1124]['ad_id'] = '1124';
 
-        //            // This function is provided by the apd module.
-        //            if (!function_exists ('override_function')) {
-        //                $this->sendMessage ("override_function not defined.  skipping tests");
-        //                return;
-        //            }
-        //            override_function('mt_rand', '$low, $high', 'return _override_mt_rand($low, $high);');
-
         // case 1: cp5, 2 ads both 0.7
         $ads_copy = $test_ads;
         $ads_copy['ads'][5][1022]['priority'] = 0.7;
@@ -393,6 +386,170 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $this->assertEqual($ads_ret['priority_used']['ads'][5], (float) 1.4);
         $this->assertFalse(isset($ads_ret['ads'][4][1124]));
         $this->assertTrue(isset($ads_ret['ads'][4][1122]));
+
+        // case 11: cp5, 2 ads both 0.7, ecpm enabled
+        $GLOBALS['_MAX']['CONF']['delivery']['ecpmSelectionRate'] = 1;
+        $ads_copy = $test_ads;
+        $ads_copy['ads'][6] = $ads_copy['ads'][5];
+        $ads_copy['ads'][6][1022]['priority'] = 0.7;
+        $ads_copy['ads'][6][1022]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1022]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1024]['priority'] = 0.7;
+        $ads_copy['ads'][6][1024]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1024]['ecpm'] = 0.5;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['ads'][6];
+        $context = '';
+
+        // after ecpm optimization, the priorities should be
+        //   [1022] = 0.7 => 0.7
+        //   [1024] = 0.7 => 0.3
+        //
+        // this should pick the first one
+        $GLOBALS['rand_val'] = 0.49;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'ads', 6);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][6]));
+        $this->assertEqual($return['ad_id'], 1022);
+        $this->assertTrue($ads_copy['priority_used']['ads'][6] >= 1);
+
+        $ads_copy = $test_ads;
+        $ads_copy['ads'][6] = $ads_copy['ads'][5];
+        $ads_copy['ads'][6][1022]['priority'] = 0.7;
+        $ads_copy['ads'][6][1022]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1022]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1024]['priority'] = 0.7;
+        $ads_copy['ads'][6][1024]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1024]['ecpm'] = 0.5;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['ads'][6];
+
+        // this should pick the second one
+        $GLOBALS['rand_val'] = 0.71;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'ads', 6);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][6]));
+        $this->assertEqual($return['ad_id'], 1024);
+        $this->assertTrue($ads_copy['priority_used']['ads'][6] >= 1);
+
+        // case 12: cp5, 2 ads both 0.7, ecpm enabled
+        $GLOBALS['_MAX']['CONF']['delivery']['ecpmSelectionRate'] = 1;
+        $ads_copy = $test_ads;
+        $ads_copy['ads'][6] = $ads_copy['ads'][5];
+        $ads_copy['ads'][6][1122] = $ads_copy['ads'][5][1022];
+        $ads_copy['ads'][6][1124] = $ads_copy['ads'][5][1024];
+        $ads_copy['ads'][6][1222] = $ads_copy['ads'][5][1222];
+        $ads_copy['ads'][6][1022]['priority'] = 0.2;
+        $ads_copy['ads'][6][1022]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1022]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1024]['priority'] = 0.5;
+        $ads_copy['ads'][6][1024]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1024]['ecpm'] = 0.5;
+        $ads_copy['ads'][6][1122]['ad_id'] = 1122;
+        $ads_copy['ads'][6][1122]['priority'] = 0.7;
+        $ads_copy['ads'][6][1122]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1122]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1124]['ad_id'] = 1124;
+        $ads_copy['ads'][6][1124]['priority'] = 0.7;
+        $ads_copy['ads'][6][1124]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1124]['ecpm'] = 0.5;
+        $ads_copy['ads'][6][1222]['ad_id'] = 1222;
+        $ads_copy['ads'][6][1222]['priority'] = 0.7;
+        $ads_copy['ads'][6][1222]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1222]['ecpm'] = 0.4;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['ads'][6];
+
+        // this should result in the following
+        // [1022] = 0.2
+        // [1024] = 0.5 * (1-(0.2+0.7)) / (0.5+0.7) = 0.0417
+        // [1122] = 0.7
+        // [1124] = 0.7 * (1-(0.2+0.7)) / (0.5+0.7) = 0.0583
+        // [1222] = 0.0
+        // this should pick 1024
+        $GLOBALS['rand_val'] = 0.22;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'ads', 6);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][6]));
+        $this->assertEqual($return['ad_id'], 1024);
+        $this->assertTrue($ads_copy['priority_used']['ads'][6] >= 1);
+        $this->assertEqual($ads_copy['ads'][6][1022]['priority'], 0.2); //unchanged
+        $this->assertNotEqual($ads_copy['ads'][6][1024]['priority'], 0.5); //scaled
+        $this->assertEqual($ads_copy['ads'][6][1222]['priority'], 0); //zeroed
+        $this->assertEqual($ads_copy['ads'][6][1022]['priority'] +
+                $ads_copy['ads'][6][1024]['priority'] +
+                $ads_copy['ads'][6][1122]['priority'] +
+                $ads_copy['ads'][6][1124]['priority'],
+                1);
+
+        $ads_copy = $test_ads;
+        $ads_copy['eAds'][-2] = $ads_copy['ads'][5];
+        $ads_copy['eAds'][-2][1022]['priority'] = 0.2;
+        $ads_copy['eAds'][-2][1022]['ecpm_enabled'] = 1;
+        $ads_copy['eAds'][-2][1022]['ecpm'] = 2.0;
+        $ads_copy['eAds'][-2][1024]['priority'] = 0.1;
+        $ads_copy['eAds'][-2][1024]['ecpm_enabled'] = 1;
+        $ads_copy['eAds'][-2][1024]['ecpm'] = 2.0;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['eAds'][-2];
+
+        // this should pick the second one
+        $GLOBALS['rand_val'] = 0.51;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'eAds', -2);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['eAds'][-2]));
+        $this->assertEqual($return['ad_id'], 1024);
+
+        $ads_copy = $test_ads;
+        $ads_copy['eAds'][-2] = $ads_copy['ads'][5];
+        $ads_copy['eAds'][-2][1022]['priority'] = 0.7;
+        $ads_copy['eAds'][-2][1022]['ecpm_enabled'] = 1;
+        $ads_copy['eAds'][-2][1022]['ecpm'] = 1.0;
+        $ads_copy['eAds'][-2][1024]['priority'] = 0.1;
+        $ads_copy['eAds'][-2][1024]['ecpm_enabled'] = 1;
+        $ads_copy['eAds'][-2][1024]['ecpm'] = 2.0;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['eAds'][-2];
+
+        // this should pick the second one
+        $GLOBALS['rand_val'] = 0.01;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'eAds', -2);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['eAds'][-2]));
+        $this->assertEqual($return['ad_id'], 1024);
+
+        // case 13: cp6, 4 ads 2 0.7, 2 0.9, ecpm enabled
+        $GLOBALS['_MAX']['CONF']['delivery']['ecpmSelectionRate'] = 0.001;
+        $GLOBALS['_MAX']['CONF']['delivery']['enableControlOnPureCPM'] = 0;
+        $ads_copy = $test_ads;
+        $ads_copy['ads'][6] = $ads_copy['ads'][5];
+        $ads_copy['ads'][6][1122] = $ads_copy['ads'][5][1022];
+        $ads_copy['ads'][6][1124] = $ads_copy['ads'][5][1024];
+        $ads_copy['ads'][6][1122]['ad_id'] = 1122;
+        $ads_copy['ads'][6][1124]['ad_id'] = 1124;
+        $ads_copy['ads'][6][1022]['priority'] = 0.7;
+        $ads_copy['ads'][6][1022]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1022]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1022]['revenue_type'] = 1;
+        $ads_copy['ads'][6][1024]['priority'] = 0.9;
+        $ads_copy['ads'][6][1024]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1024]['ecpm'] = 0.5;
+        $ads_copy['ads'][6][1024]['revenue_type'] = 1;
+        $ads_copy['ads'][6][1122]['priority'] = 0.7;
+        $ads_copy['ads'][6][1122]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1122]['ecpm'] = 2.0;
+        $ads_copy['ads'][6][1122]['revenue_type'] = 1;
+        $ads_copy['ads'][6][1124]['priority'] = 0.9;
+        $ads_copy['ads'][6][1124]['ecpm_enabled'] = 1;
+        $ads_copy['ads'][6][1124]['ecpm'] = 0.5;
+        $ads_copy['ads'][6][1124]['revenue_type'] = 1;
+        $GLOBALS['test_MAX_cacheGetAd_val'] = $ads_copy['ads'][6];
+        $context = '';
+
+        // if control were enabled, 1124 would be picked.
+        // this should pick the 1122 after ecpm optimization
+        $GLOBALS['rand_val'] = 0.99;
+        $return   = _adSelect($ads_copy, $context, $source, $richMedia, false, 'ads', 6);
+        $this->assertTrue(array_key_exists($return['ad_id'], $ads_copy['ads'][6]));
+        $this->assertEqual($return['ad_id'], 1122);
+        $this->assertTrue($ads_copy['priority_used']['ads'][6] >= 1);
+
+        $this->assertEqual (_controlTrafficEnabled ($ads_copy['ads'][6]), false);
+        $GLOBALS['_MAX']['CONF']['delivery']['enableControlOnPureCPM'] = 1;
+        $this->assertEqual (_controlTrafficEnabled ($ads_copy['ads'][6]), true);
+        $ads_copy['ads'][6][1124]['revenue_type'] = 0;
+        $this->assertEqual (_controlTrafficEnabled ($ads_copy['ads'][6]), true);
+
     }
 
     /**

@@ -149,6 +149,8 @@ cgiForceStatusHeader                = false ; Set this to true if using a CGI sa
                                             ; and leaves the description empty
                                             ; (i.e. "HTTP/1.1 302" insead that 302 Found)
 clicktracking                       = "No"
+ecpmSelectionRate                   = 0.9
+enableControlOnPureCPM              = true
 
 [defaultBanner]
 imageUrl                            =       ; If banner was deleted and ai.php script
@@ -205,6 +207,9 @@ pruneDataTables                     = true
 ;channelForecastingDaysAhead         = 7      ; If campaign expire date is empty forecast for this number of days
 ;channelForecastingMaxDaysAhead      = 30     ; Even if campaign expire date is biger do not forecast more than
 ;channelForecastingMaxRunTime        = 40     ; Maximum time allowed for channel forecating maintenance (in minutes)
+
+ecpmCampaignLevels                  = "9|8|7|6" ; Pipe delimited list of campaign priority levels to calculate
+                                                ; eCPM values for in ECPMforContract
 
 [priority]
 instantUpdate                       = true

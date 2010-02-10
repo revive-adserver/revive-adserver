@@ -88,6 +88,8 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+define ("PRI_ECPM_FROM", 6);
+define ("PRI_ECPM_TO", 9);
 
 /**
  * A "constant" that is used by _adSelect() to inform the caller _adSelectCommon()
@@ -616,7 +618,69 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
         return;
     }
 
-    if (isset($cp)) {
+    // Seed the random number generator
+    global $n;
+    mt_srand
+        (floor
+         ((isset ($n) && strlen ($n) > 5
+           ? hexdec ($n[0].$n[2].$n[3].$n[4].$n[5])
+           : 1000000) * (double) microtime ()));
+
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    if ($adArrayVar == 'eAds') {
+        if (!empty ($conf['delivery']['ecpmSelectionRate'])) {
+            // we should still allow there to be some portion of control
+            // responses in order to avoid starving out any ad
+            $selection_rate = floatval ($conf['delivery']['ecpmSelectionRate']);
+
+            if (!_controlTrafficEnabled ($aAds) ||
+                    (mt_rand (0, $GLOBALS['_MAX']['MAX_RAND']) /
+                     $GLOBALS['_MAX']['MAX_RAND']) <= $selection_rate)
+            {
+                // Find the highest value eCPM ad(s) an naively select
+                // from that set.
+                $max_ecpm = 0;
+                $top_ecpms = array();
+                // build an eCPM sorted index for the ads
+                foreach ($aAds as $key => $ad) {
+                    if ($ad['ecpm'] < $max_ecpm) {
+                        continue;
+                    } elseif ($ad['ecpm'] > $max_ecpm) {
+                        $top_ecpms = array();
+                        $max_ecpm = $ad['ecpm'];
+                    }
+                    $top_ecpms[$key] = 1;
+                }
+
+                // fallback to weighted prioritization if ecpm weighting zeros out
+                if ($max_ecpm <= 0)
+                {
+                    $GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+                    $total_priority = _setPriorityFromWeights($aAds);
+                } else {
+                    // zero out the priority for all except ads with the
+                    // highest eCPM value
+                    $GLOBALS['_MAX']['ECPM_SELECTION'] = 1;
+                    $total_priority = count ($top_ecpms);
+                    foreach ($aAds as $key => $ad) {
+                        if (!empty ($top_ecpms[$key])) {
+                            $aAds[$key]['priority'] = 1 / $total_priority;
+                        } else {
+                            $aAds[$key]['priority'] = 0;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+                $total_priority = _setPriorityFromWeights($aAds);
+            }
+        }
+
+    } else if (isset($cp)) {
+
         // How much of the priority space have we already covered?
         $used_priority = 0;
         for ($i = 10; $i > $cp; $i--)
@@ -641,31 +705,110 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
         }
         $aLinkedAdInfos['priority_used'][$adArrayVar][$i] = $total_priority_orig;
 
-        // If thre's no active ads, we can return
-        if (!$total_priority_orig) {
+        // If there are no active ads, we can return
+        if ($total_priority_orig <= 0) {
             return;
         }
 
         // In this case, the sum of priorities is greater than the ratio
         // we have remaining, so just scale to fill the remaining space.
         if ($total_priority_orig > $remaining_priority
-            // Ecpm remnant ads should always serve if delivery reaches this point,
-            // If some ecpm remnant ads were discarded earlier, we need to scale up the remaining ads
-            // to ensure one will serve in all cases (refs OX-5800)
-            || $adArrayVar == 'eAds'
             // If this ad belongs to a companion campaign that was previously displayed on the page,
             // we scale up the priority factor as we want to ensure that companion ads are
             // displayed together, potentially ignoring their banner weights (refs OX-4853)
             || $companion
             )
         {
-            $scaling_factor = 1 / $total_priority_orig;
+            $scaling_denom = $total_priority_orig;
+
+            // In this case, the space has been oversold, so eCPM optimization
+            // is allowed to be applied.  The approach is to give priority to
+            // higher eCPM, but not to rescale priorities, unless there is a tie
+            // for a position at the edge of the dropoff.
+            if ($cp >= PRI_ECPM_FROM &&
+                $cp <= PRI_ECPM_TO &&
+                !empty ($conf['delivery']['ecpmSelectionRate']))
+            {
+
+                // we should still allow there to be some portion of control
+                // responses in order to avoid starving out any ad
+                $selection_rate = floatval ($conf['delivery']['ecpmSelectionRate']);
+
+                if (!_controlTrafficEnabled ($aAds) ||
+                        (mt_rand (0, $GLOBALS['_MAX']['MAX_RAND']) /
+                         $GLOBALS['_MAX']['MAX_RAND']) <= $selection_rate)
+                {
+                    // set flag to indicate this request has applied ecpm optimization
+                    $GLOBALS['_MAX']['ECPM_SELECTION'] = 1;
+
+                    // build an eCPM sorted index for the ads
+                    foreach ($aAds as $key => $ad) {
+                        $ecpms[] = $ad['ecpm'];
+                        $adids[] = $key;
+                    }
+                    array_multisort ($ecpms, SORT_DESC, $adids);
+
+                    $p_avail = $remaining_priority;
+                    $ad_count = count ($aAds);
+                    $i = 0;
+                    while ($i < $ad_count) {
+
+                        // find the range of consecutive ads with equal eCPMs
+                        $l = $i;
+                        while ($l < $ad_count - 1 &&
+                                $ecpms[$l + 1] == $ecpms[$i]) {
+                            $l++;
+                        }
+
+                        // how much priority space does this range of equal eCPM ads require?
+                        $p_needed = 0;
+                        for ($a_idx = $i; $a_idx <= $l; $a_idx++) {
+                            $id = $adids[$a_idx];
+                            $p_needed += $aAds[$id]['priority'] * $aAds[$id]['priority_factor'];
+                        }
+
+                        // if this range needs more priority space than is left, we'll scale
+                        // these and zero out all ads with lower eCPM values
+                        if ($p_needed > $p_avail) {
+                            $scale = $p_avail / $p_needed;
+
+                            for ($a_idx = $i; $a_idx <= $l; $a_idx++) {
+                                $id = $adids[$a_idx];
+                                $aAds[$id]['priority'] = $aAds[$id]['priority'] * $scale;
+                            }
+                            $p_avail = 0;
+
+                            // zero out remaining ads priorities
+                            for ($a_idx = $l + 1; $a_idx < $ad_count; $a_idx++) {
+                                $id = $adids[$a_idx];
+                                $aAds[$id]['priority'] = 0;
+                            }
+
+                            break;
+
+                        } else {
+                            $p_avail -= $p_needed;
+                            $i = $l + 1;
+                        }
+                    }
+
+                    $scaling_denom = $remaining_priority;
+                } else {
+                    // set flag to indicate this request was eligible for ecpm optimization,
+                    // but did not apply it in order to serve a control result set
+                    $GLOBALS['_MAX']['ECPM_CONTROL'] = 1;
+                }
+            }
+
+            // scaling_denom is either remaining_priority or total_priority_orig, both of which
+            // have been guarded against being 0, so there's no risk of div by 0 here
+            $scaling_factor = 1 / $scaling_denom;
         }
         else
         {
             // in this case, we don't need to use the whole of the remaining
             // space, but we scale to the remaining size, which leaves room to
-            // select a lower level.
+            // select a lower level, since $total_priority_orig / $remaining_priority < 1
             $scaling_factor = 1 / $remaining_priority;
         }
 
@@ -707,7 +850,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
         / $GLOBALS['_MAX']['MAX_RAND'];
     }
 ###END_STRIP_DELIVERY
-
     // Is it higher than the sum of all the priority values?
     if ($random_num > $total_priority) {
         // No suitable ad found, proceed as usual
@@ -744,6 +886,37 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
 
     return;
 }
+
+/**
+ * Return boolean indicating if this request is eligible for selection into a
+ * control group for ecpm optimization.  Having only CPM ads as being eligible
+ * may be a disqualifying criteria, given a configuration setting.
+ *
+ * @param unknown_type $aAds
+ */
+function _controlTrafficEnabled (&$aAds)
+{
+    $control_enabled = true;
+
+    // if enableControlOnPureCPM is not enabled, we will check to see if
+    // the ads are all only CPM, and disable control selection if they are
+    if (empty ($GLOBALS['_MAX']['CONF']['delivery']['enableControlOnPureCPM']))
+    {
+        // check for any non-CPM campaign in eligible set
+        $control_enabled = false;
+        foreach ($aAds as $ad) {
+            if ($ad['revenue_type'] != MAX_FINANCE_CPM)
+            {
+                $control_enabled = true;
+                break;
+            }
+        }
+
+    }
+
+    return $control_enabled;
+}
+
 
 /**
  * Enter description here...
