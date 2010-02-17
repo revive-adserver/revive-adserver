@@ -134,7 +134,7 @@ class OX_oxMarket_UI_EntityFormManager
         }
         else {
             $aMailContents = $this->buildAdminEmail();
-            $url =  "mailto:".$aMailContents['to']."?subject=".$aMailContents['subject']."&body=".$aMailContents['body'];
+            $url = $aMailContents['url'];
             $message = "You can earn more revenue by having your OpenX Administrator activate OpenX Market for your instance of OpenX Ad Server.
             <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
         }
@@ -290,7 +290,7 @@ class OX_oxMarket_UI_EntityFormManager
     }
 
     
-    protected function buildAdminEmail()
+    public function buildAdminEmail()
     {
         $aMail = array();
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-info.php');
@@ -301,7 +301,7 @@ class OX_oxMarket_UI_EntityFormManager
         $aMail['to'] = join(',', $this->getAdminEmails());
         $aMail['subject'] = "Please activate OpenX Market for our instance of OpenX Ad Server";
         $aMail['body'] = "Help earn more revenue by activating OpenX Market for our ad server. Click this link to get started:%0D%0D<$url>%0D%0DThanks,%0D$userFullName";
-
+        $aMail['url'] =  "mailto:".$aMail['to']."?subject=".$aMail['subject']."&body=".$aMail['body'];
         return $aMail;
     }
 

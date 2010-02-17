@@ -173,6 +173,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         } 
         elseif (!OA_Permission::isUserLinkedToAdmin()) {
+            $this->scheduleRegisterNotificationNormalUser();
             // ... and those who are linked to admin (normal mode)
             return;
         }
@@ -754,6 +755,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
          $this->getWebsiteManager()->updateAllWebsites($skip_synchronized, $limitUpdatedWebsites);
     }
 
+
+    protected function scheduleRegisterNotificationNormalUser()
+    {
+        $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
+        $oNotificationManager->removeNotifications('oxMarketRegister'); //avoid duplicates
+
+        $aMailContents = $this->oFormManager->buildAdminEmail();
+        $url = $aMailContents['url'];
+        $registerMessage = "To enable OpenX Market to serve ads, your OpenX Administrator must activate OpenX Market for your Ad Server.
+        <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
+
+        $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
+    }
 
     protected function scheduleRegisterNotification()
     {
