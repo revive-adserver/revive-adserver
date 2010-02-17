@@ -274,9 +274,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             WHERE
                 c.campaignid = b.campaignid
                 AND
-                b.bannerid = dsah.ad_id
-                AND
-                c.status = 0";
+                b.bannerid = dsah.ad_id";
         if ($spanIsForPlacementDates) {
             $query .= "
                 AND
@@ -324,7 +322,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 campaign_name,
                 campaign_priority,
                 campaign_is_active,
-                campaign_start,
+                campaign_start, 
                 campaign_end,
                 campaign_booked_impressions
             ORDER BY
