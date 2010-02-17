@@ -98,10 +98,12 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
 
-        $res = phpAds_dbQuery($query);
+        $oDbh = OA_DB::singleton();
+        $oRes = $oDbh->query($query);
 
-        while ($row = phpAds_dbFetchArray($res))
+        while ($row = $oRes->fetchRow()) {
             $affiliateArray[$row['affiliateid']] = phpAds_buildAffiliateName ($row['affiliateid'], $row['name']);;
+        }
 
         return ($affiliateArray);
     }

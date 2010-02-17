@@ -81,10 +81,12 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
 
-        $res = phpAds_dbQuery($query);
+        $oDbh = OA_DB::singleton();
+        $oRes = $oDbh->query($query);
 
-        while ($row = phpAds_dbFetchArray($res))
+        while ($row = $oRes->fetchRow()) {
             $clientArray[$row['clientid']] = phpAds_buildName ($row['clientid'], $row['clientname']);
+        }
 
         return ($clientArray);
     }
