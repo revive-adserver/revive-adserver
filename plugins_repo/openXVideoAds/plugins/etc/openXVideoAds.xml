@@ -8,7 +8,7 @@
     <authorEmail>plugins@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>Vast Banner type for OpenX</description>
+    <description>Inline Video ads and Overlay ads.</description>
     <version>1.8.5</version>
     <description>The OpenX Video Plugin enables you to set up, deliver and track video ads in accordance with the IAB Digital Video Ad Serving Template (VAST) standard. The plugin supports the following types of video ads: inline video ads and overlay video ads. Inline video ads include pre/mid/post-roll ads which take over the full view of the video. Overlay video ads include text or banners appearing within the video frame which click to initiate another video or to open a website. The video plugin also supports the display of up to one companion banner per video ad.</description>
     <type>extension</type>
