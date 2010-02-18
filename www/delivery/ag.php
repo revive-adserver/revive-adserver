@@ -934,6 +934,7 @@ $query = "
             c.session_capping AS session_cap_campaign,
             c.show_capped_no_cookie AS show_capped_no_cookie,
             c.clientid AS client_id,
+            c.expire_time AS expire_time,
             c.revenue_type AS revenue_type,
             c.ecpm_enabled AS ecpm_enabled,
             c.ecpm AS ecpm,
@@ -1015,7 +1016,8 @@ $query =
 ."d.ext_bannertype AS ext_bannertype, "
 ."d.height AS height, "
 ."d.storagetype AS type, "  ."d.contenttype AS contenttype, "  ."d.weight AS weight, "  ."d.adserver AS adserver, "  ."d.block AS block_ad, "  ."d.capping AS cap_ad, "  ."d.session_capping AS session_cap_ad, "  ."d.compiledlimitation AS compiledlimitation, "  ."d.acl_plugins AS acl_plugins, "  ."d.alt_filename AS alt_filename, "  ."az.priority AS priority, "  ."az.priority_factor AS priority_factor, "  ."az.to_be_delivered AS to_be_delivered, "  ."c.campaignid AS campaign_id, "  ."c.priority AS campaign_priority, "  ."c.weight AS campaign_weight, "  ."c.companion AS campaign_companion, "  ."c.block AS block_campaign, "  ."c.capping AS cap_campaign, "  ."c.session_capping AS session_cap_campaign, " ."c.show_capped_no_cookie AS show_capped_no_cookie, "
-."c.clientid AS client_id, "  ."c.revenue_type AS revenue_type, "
+."c.clientid AS client_id, "  ."c.expire_time AS expire_time, "
+."c.revenue_type AS revenue_type, "
 ."c.ecpm_enabled AS ecpm_enabled, "
 ."c.ecpm AS ecpm, "
 ."ct.status AS tracker_status, "
@@ -1463,6 +1465,7 @@ $aColumns = array(
 'm.clickwindow AS clickwindow',
 'm.viewwindow AS viewwindow',
 'cl.clientid AS client_id',
+'m.expire_time AS expire_time',
 'm.revenue_type AS revenue_type',
 'm.ecpm_enabled AS ecpm_enabled',
 'm.ecpm AS ecpm',
@@ -1710,6 +1713,7 @@ $aColumns = array(
 'm.session_capping AS session_cap_campaign',
 'm.show_capped_no_cookie AS show_capped_no_cookie',
 'cl.clientid AS client_id',
+'m.expire_time AS expire_time',
 'm.revenue_type AS revenue_type',
 'm.ecpm_enabled AS ecpm_enabled',
 'm.ecpm AS ecpm',
