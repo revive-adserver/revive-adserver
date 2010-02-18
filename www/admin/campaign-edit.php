@@ -738,7 +738,9 @@ function processCampaignForm($form, &$oComponent = null)
         $oDate->toUTC();
         $activate = $oDate->getDate();
     } else {
-        $activate = null;
+        $oDate = new Date(date('Y-m-d 00:00:00'));
+        $oDate->toUTC();
+        $activate = $oDate->getDate();
     }
     if (!empty($aFields['end'])) {
         $oDate = new Date(date('Y-m-d 23:59:59', strtotime($aFields['end'])));
