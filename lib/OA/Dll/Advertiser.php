@@ -276,7 +276,7 @@ class OA_Dll_Advertiser extends OA_Dll
     function getAdvertiser($advertiserId, &$oAdvertiser)
     {
         if ($this->checkIdExistence('clients', $advertiserId)) {
-            if (!$this->checkPermissions(null, 'clients', $advertiserId)) {
+            if (!$this->checkPermissions(null, 'clients', $advertiserId, null, OA_Permission::OPERATION_VIEW)) {
                 return false;
             }
             $doAdvertiser = OA_Dal::factoryDO('clients');

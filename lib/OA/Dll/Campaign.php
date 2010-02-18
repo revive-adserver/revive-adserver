@@ -405,7 +405,7 @@ class OA_Dll_Campaign extends OA_Dll
                 return false;
         }
 
-        if (!$this->checkPermissions(null, 'clients', $advertiserId)) {
+        if (!$this->checkPermissions(null, 'clients', $advertiserId, null, $operationAccessType = OA_Permission::OPERATION_VIEW)) {
             return false;
         }
 

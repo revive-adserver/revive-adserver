@@ -419,10 +419,12 @@ class OA_Dll extends OA_BaseObjectWithErrors
 	 * @param string $table  Table name
 	 * @param integer $id  Id (or empty if new is created)
 	 * @param unknown $allowed  check allowed
+	 * @param OA_Permission Does the current call require only a subset of the permissions? 
+	 * 						If set to null, equivalent to asking permission to do everything on the object
 	 *
 	 * @return boolean  True if has access
 	 */
-    function checkPermissions($permissions, $table = '', $id = null, $allowed = null) {
+    function checkPermissions($permissions, $table = '', $id = null, $allowed = null, $operationAccessType = OA_Permission::OPERATION_ALL) {
         $isError = false;
         if (isset($permissions) && !OA_Permission::isAccount($permissions)) {
             if (!OA_Permission::attemptToSwitchToAccount($permissions)) {
@@ -434,7 +436,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (!empty($id) && !$this->checkIdExistence($table, $id)) {
             return false;
         }
-        if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
+        if (isset($id) && !OA_Permission::hasAccessToObject($table, $id, $operationAccessType)) {
             if (!OA_Permission::attemptToSwitchForAccess($table, $id)) {
                 $isError = true;
             }

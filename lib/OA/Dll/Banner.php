@@ -424,7 +424,7 @@ class OA_Dll_Banner extends OA_Dll
     function getBanner($bannerId, &$oBanner)
     {
         if ($this->checkIdExistence('banners', $bannerId)) {
-            if (!$this->checkPermissions(null, 'banners', $bannerId)) {
+            if (!$this->checkPermissions(null, 'banners', $bannerId, null, $operationAccessType = OA_Permission::OPERATION_VIEW)) {
                 return false;
             }
             $doBanner = OA_Dal::factoryDO('banners');
