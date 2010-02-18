@@ -63,16 +63,10 @@ function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($
 
     if (isset($GLOBALS['_MAX']['GEO_IP'])) {
         $ip   = $GLOBALS['_MAX']['GEO_IP'];
-        if ($conf['deliveryLog']['enabled'])
-        {
-            OA::debug('['.$ip.'] : ip from cookie. Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo');
-        }
+        OX_Delivery_logMessage('['.$ip.'] : ip from cookie. Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo', 7);
     } else {
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($conf['deliveryLog']['enabled'])
-        {
-            OA::debug('['.$ip.'] : ip from remote addr. Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo');
-        }
+        OX_Delivery_logMessage('['.$ip.'] : ip from remote addr. Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo', 7);
     }
     $aGeoConf = (is_array($conf['oxMaxMindGeoIP'])) ? $conf['oxMaxMindGeoIP'] : array();
 

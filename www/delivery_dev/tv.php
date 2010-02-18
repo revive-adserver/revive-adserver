@@ -31,10 +31,6 @@ require_once '../../init-delivery.php';
 // Required files
 require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 
-###START_STRIP_DELIVERY
-OA::debug('starting delivery script '.__FILE__);
-###END_STRIP_DELIVERY
-
 // Register input variables
 if (!empty($_GET['server_conv_id']) && !empty($_GET['trackerid'])) {
     $serverConvId = $_GET['server_conv_id'];

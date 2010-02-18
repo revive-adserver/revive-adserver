@@ -34,10 +34,6 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 //require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
-###START_STRIP_DELIVERY
-OA::debug('starting delivery script '.__FILE__);
-###END_STRIP_DELIVERY
-
 MAX_commonSetNoCacheHeaders();
 
 /*-------------------------------------------------------*/
@@ -72,19 +68,15 @@ if(!empty($zones)) {
         
         $what = 'zone:'.$thisZoneid;
     
-        ###START_STRIP_DELIVERY
-        OA::debug('$what='.$what);
-        OA::debug('$context='.print_r($context,true));
-        ###END_STRIP_DELIVERY
+        //OX_Delivery_logMessage('$what='.$what, 7);
+        //OX_Delivery_logMessage('$context='.print_r($context,true), 7);
     
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
     
-        ###START_STRIP_DELIVERY
-        OA::debug('$block='.@$block);
-        //OA::debug(print_r($output, true));
-        OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
-        ###END_STRIP_DELIVERY
+        //OX_Delivery_logMessage('$block='.@$block, 7);
+        //OX_Delivery_logMessage(print_r($output, true), 7);
+        //OX_Delivery_logMessage('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']), 7);
     
         // Store the html2js'd output for this ad
         $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";

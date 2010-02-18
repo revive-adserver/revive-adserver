@@ -34,10 +34,6 @@ require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['
 // Require the XMLRPC classes
 require_once 'XML/RPC/Server.php';
 
-###START_STRIP_DELIVERY
-OA::debug('starting delivery script '.__FILE__);
-###END_STRIP_DELIVERY
-
 // function to handle the XML-RPC upgrade check request
 $server = new XML_RPC_Server(array(
     'getZoneLinkedAds'  => array('function' => '_getZoneLinkedAds'),

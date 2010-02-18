@@ -678,9 +678,7 @@ function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = 
             foreach ($hooks as $identifier) {
                 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
                 if (function_exists($functionName)) {
-                    ###START_STRIP_DELIVERY
-                    OA::debug('calling on '.$functionName);
-                    ###END_STRIP_DELIVERY
+                    OX_Delivery_logMessage('calling on '.$functionName, 7);
                     $return[$identifier] = call_user_func_array($functionName, $aParams);
                 }
             }
@@ -734,6 +732,25 @@ function _includeDeliveryPluginFile($fileName)
             include MAX_PATH . $fileName;
         }
     }
+}
+
+function OX_Delivery_logMessage($message, $priority = 6)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    // Don't even try if the deliveryLog is not enabled...
+    if (empty($conf['deliveryLog']['enabled'])) return true;
+    
+    // Only log messages above the configured priority level (See lib/pear/Log.php for a description of the levels)
+    $priorityLevel = is_numeric($conf['deliveryLog']['priority']) ? $conf['deliveryLog']['priority'] : 6;
+    if ($priority > $priorityLevel && empty($_REQUEST[$conf['var']['trace']])) { return true; }
+    
+    // Log the error message
+    error_log('[' . date('r') . "] {$conf['log']['ident']}-delivery-{$GLOBALS['_MAX']['thread_id']}: {$message}\n", 3, MAX_PATH . '/var/' . $conf['deliveryLog']['name']);
+    
+    // Call any plugins registered on the "logMessage" hook
+    OX_Delivery_Common_hook('logMessage', array($message, $priority));
+    
+    return true;
 }
 
 ?>

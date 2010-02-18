@@ -71,11 +71,7 @@ function MAX_remotehostProxyLookup()
     $conf = $GLOBALS['_MAX']['CONF'];
     // Should proxy lookup conversion be performed?
     if ($conf['logging']['proxyLookup']) {
-        ###START_STRIP_DELIVERY
-        if ($conf['deliveryLog']['enabled']) {
-            OA::debug('checking remote host proxy');
-        }
-        ###END_STRIP_DELIVERY
+        OX_Delivery_logMessage('checking remote host proxy', 7);
         // Determine if the viewer has come via an HTTP proxy
         $proxy = false;
         if (!empty($_SERVER['HTTP_VIA']) || !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -95,12 +91,8 @@ function MAX_remotehostProxyLookup()
         }
         // Has the viewer come via an HTTP proxy?
         if ($proxy) {
-            ###START_STRIP_DELIVERY
-            if ($conf['deliveryLog']['enabled']) {
-                OA::debug('proxy detected');
-            }
-            ###END_STRIP_DELIVERY
-
+            OX_Delivery_logMessage('proxy detected', 7);
+        
             // Try to find the "real" IP address the viewer has come from
             $aHeaders = array(
                 'HTTP_FORWARDED',
@@ -130,11 +122,7 @@ function MAX_remotehostProxyLookup()
                         $_SERVER['REMOTE_ADDR'] = $ip;
                         $_SERVER['REMOTE_HOST'] = '';
                         $_SERVER['HTTP_VIA']    = '';
-                        ###START_STRIP_DELIVERY
-                        if ($conf['deliveryLog']['enabled']) {
-                            OA::debug('real address set to '.$ip);
-                        }
-                        ###END_STRIP_DELIVERY
+                        OX_Delivery_logMessage('real address set to '.$ip, 7);
                         break;
                     }
                 }

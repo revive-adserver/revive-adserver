@@ -80,6 +80,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
 
         return $dbLink;
     }
+    OX_Delivery_logMessage('DB connection error: ' . mysql_error(), 4);
     return false;
 }
 
@@ -100,7 +101,12 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
         $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
-        return @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
+        $result = @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
+        if (!$result) {
+            OX_Delivery_logMessage('DB query error: ' . mysql_error(), 4);
+            OX_Delivery_logMessage(' - failing query: ' . $query, 5);
+        }
+        return $result;
     } else {
         return false;
     }
@@ -170,11 +176,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
-    if (!empty($GLOBALS['_MAX']['CONF']['deliveryLog']['enabled']))
-    {
-        require_once(MAX_PATH.'/lib/OA.php');
-        OA::debug('updating bucket '.$query);
-    }
+
     $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'

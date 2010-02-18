@@ -215,9 +215,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
                 break;
             }
         }
-        ###START_STRIP_DELIVERY
-        OA::debug('user-agent browser : '.$agent.' is '.($allowed ? '' : 'not ').'allowed');
-        ###END_STRIP_DELIVERY
+        OX_Delivery_logMessage('user-agent browser : '.$agent.' is '.($allowed ? '' : 'not ').'allowed', 7);
         if (!$allowed) {
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'enforceUserAgents';
             $okToLog = false;
@@ -229,9 +227,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
         $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
         foreach ($aKnownBots as $bot) {
             if (strpos($agent, $bot) !== false) {
-                ###START_STRIP_DELIVERY
-                OA::debug('user-agent '.$agent.' is a known bot '.$bot);
-                ###END_STRIP_DELIVERY
+                OX_Delivery_logMessage('user-agent '.$agent.' is a known bot '.$bot, 7);
                 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
                 $okToLog = false;
             }
@@ -248,24 +244,18 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
         $hosts = str_replace('*', '[^.]+', $hosts);
         // Check if the viewer's IP address is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
-            ###START_STRIP_DELIVERY
-            OA::debug('viewer\'s ip is in the ignore list '.$_SERVER['REMOTE_ADDR']);
-            ###END_STRIP_DELIVERY
+            OX_Delivery_logMessage('viewer\'s ip is in the ignore list '.$_SERVER['REMOTE_ADDR'], 7);
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_ip';
             $okToLog = false;
         }
         // Check if the viewer's hostname is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
-            ###START_STRIP_DELIVERY
-            OA::debug('viewer\'s host is in the ignore list '.$_SERVER['REMOTE_HOST']);
-            ###END_STRIP_DELIVERY
+            OX_Delivery_logMessage('viewer\'s host is in the ignore list '.$_SERVER['REMOTE_HOST'], 7);
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_host';
             $okToLog = false;
         }
     }
-    ###START_STRIP_DELIVERY
-    if ($okToLog) OA::debug('viewers host is OK to log');
-    ###END_STRIP_DELIVERY
+    if ($okToLog) OX_Delivery_logMessage('viewer\'s host is OK to log', 7);
     
     $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
     if (!empty($result) && is_array($result)) {
@@ -420,9 +410,7 @@ function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
         if (isset($aBlockLoggingClick[$adId])) {
             $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
             if ($endBlock >= MAX_commonGetTimeNow()) {
-                ###START_STRIP_DELIVERY
-                OA::debug('adID '.$adId.' click is still blocked by block logging window ');
-                ###END_STRIP_DELIVERY
+                OX_Delivery_logMessage('adID '.$adId.' click is still blocked by block logging window ', 7);
                 return true;
             }
         }

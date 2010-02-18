@@ -74,7 +74,7 @@ if ( !empty($format) && $format == 'vast'){
     require_once MAX_PATH . '/lib/max/Delivery/flash.php';
     require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
     ###START_STRIP_DELIVERY
-    OA::debug('starting delivery script '.__FILE__);
+    OX_Delivery_logMessage('starting delivery script '.__FILE__, 7);
     ###END_STRIP_DELIVERY
     MAX_commonSetNoCacheHeaders();
     MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
@@ -107,17 +107,17 @@ if ( !empty($format) && $format == 'vast'){
         $what = 'zone:'.$thisZoneid;
 
         ###START_STRIP_DELIVERY
-        OA::debug('$what='.$what);
-        OA::debug('$context='.print_r($context,true));
+        OX_Delivery_logMessage('$what='.$what, 7);
+        OX_Delivery_logMessage('$context='.print_r($context,true), 7);
         ###END_STRIP_DELIVERY
 
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
         ###START_STRIP_DELIVERY
-        OA::debug('$block='.$block);
-        //OA::debug(print_r($output, true));
-        OA::debug('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']));
+        OX_Delivery_logMessage('$block='.$block, 7);
+        //OX_Delivery_logMessage(print_r($output, true), 7);
+        OX_Delivery_logMessage('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']), 7);
         ###END_STRIP_DELIVERY
 
         // BM - output format is vast xml

@@ -83,6 +83,9 @@ function OA_Dal_Delivery_connect($database = 'database') {
     if ($dbLink && !empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
         @pg_client_encoding($dbLink, $conf['databaseCharset']['clientCharset']);
     }
+    if (!$dbLink) {
+        OX_Delivery_logMessage('DB connection error: ' . pg_last_error(), 4);
+    }
     return $dbLink;
 }
 
@@ -103,7 +106,12 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
         $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
-        return @pg_query($GLOBALS['_MAX'][$dbName], $query);
+        $result = @pg_query($GLOBALS['_MAX'][$dbName], $query);
+        if (!$result) {
+            OX_Delivery_logMessage('DB query error: ' . pg_last_error(), 4);
+            OX_Delivery_logMessage(' - failing query: ' . $query, 5);
+        }
+        return $result;
     } else {
         return false;
     }
@@ -170,11 +178,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
-    if (!empty($GLOBALS['_MAX']['CONF']['deliveryLog']['enabled']))
-    {
-        require_once(MAX_PATH.'/lib/OA.php');
-        OA::debug('updating bucket '.$query);
-    }
+    
     $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'

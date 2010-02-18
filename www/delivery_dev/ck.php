@@ -36,10 +36,6 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
-###START_STRIP_DELIVERY
-OA::debug('starting delivery script '.__FILE__);
-###END_STRIP_DELIVERY
-
 // Prevent click from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 
@@ -63,28 +59,23 @@ $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_
 $lastClick  = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : array();
 $aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : array();
 
-###START_STRIP_DELIVERY
-foreach ($adId as $k => $v)
-{
-    OA::debug('$adId['.$k.']='.$v);
+if (!empty($conf['deliveryLog']['enabled'])) {
+    foreach ($adId as $k => $v) {
+        OX_Delivery_logMessage('$adId['.$k.']='.$v, 7);
+    }
+    foreach ($zoneId as $k => $v) {
+        OX_Delivery_logMessage('$zoneId['.$k.']='.$v, 7);
+    }
+    foreach ($creativeId as $k => $v) {
+        OX_Delivery_logMessage('$creativeId['.$k.']='.$v, 7);
+    }
+    foreach ($lastClick as $k => $v) {
+        OX_Delivery_logMessage('$lastClick['.$k.']='.$v, 7);
+    }
+    foreach ($aBlockLoggingClick as $k => $v) {
+        OX_Delivery_logMessage('$aBlockLoggingClick['.$k.']='.$v, 7);
+    }
 }
-foreach ($zoneId as $k => $v)
-{
-    OA::debug('$zoneId['.$k.']='.$v);
-}
-foreach ($creativeId as $k => $v)
-{
-    OA::debug('$creativeId['.$k.']='.$v);
-}
-foreach ($lastClick as $k => $v)
-{
-    OA::debug('$lastClick['.$k.']='.$v);
-}
-foreach ($aBlockLoggingClick as $k => $v)
-{
-    OA::debug('$aBlockLoggingClick['.$k.']='.$v);
-}
-###END_STRIP_DELIVERY
 
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {

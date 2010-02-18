@@ -314,6 +314,7 @@ fileMode            = 0644
 enabled             = false
 name                = delivery.log
 fileMode            = 0644
+priority            = 6
 
 ;------------------------------------------------------------------------------------------;
 ; Non-configurable items for the Delivery Engine                                           ;
@@ -365,6 +366,7 @@ lastView            = OXLIA         ; Used to track the last time an ad was view
 lastClick           = OXLCA         ; Used to track the last time an ad was clicked
 blockLoggingClick   = OXBLC         ; Used to log the last time an ad was clicked
 fallBack            = oxfb          ; Used to flag if this impression was from a rich-media fallback creative
+trace               = OXTR          ; Used to trigger delivery engine tracing code (if enabled)
 
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;

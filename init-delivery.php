@@ -72,10 +72,10 @@ if (!empty($conf['debug']['production'])) {
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
-###START_STRIP_DELIVERY
-require_once MAX_PATH . '/lib/OA.php';
-OA::switchLogIdent('delivery');
-###END_STRIP_DELIVERY
+OX_Delivery_logMessage('starting delivery script: ' . basename($_SERVER['REQUEST_URI']), 7);
+if (!empty($_REQUEST[$conf['var']['trace']])) {
+    OX_Delivery_logMessage('trace enabled: ' . $_REQUEST[$conf['var']['trace']], 7);
+}
 
 // Set the viewer's remote information used in logging and delivery limitation evaluation
 MAX_remotehostSetInfo();

@@ -67,7 +67,7 @@ function bumpVastEventTrackingBucketCounter($data)
 }
 
 ###START_STRIP_DELIVERY
-OA::debug('starting delivery script '.__FILE__);
+OX_Delivery_logMessage('starting delivery script '.__FILE__, 7);
 ###END_STRIP_DELIVERY
 
 MAX_commonRegisterGlobalsArray(array('vast_event' ));
