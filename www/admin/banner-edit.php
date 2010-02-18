@@ -700,8 +700,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         }
 
         // Delete the old file for this banner
-        if (!empty($aBanner['filename']) && ($aBanner['storagetype'] == 'web' || $aBanner['storagetype'] == 'sql'))
+        if (!empty($aBanner['filename']) && ($aBanner['filename'] != $aFile['filename']) && ($aBanner['storagetype'] == 'web' || $aBanner['storagetype'] == 'sql')) {
             DataObjects_Banners::deleteBannerFile($aBanner['storagetype'], $aBanner['filename']);
+        }
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0
         &&  $aFields['replacealtimage'] == 't') {
