@@ -438,6 +438,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.session_capping AS session_cap_campaign,
             c.show_capped_no_cookie AS show_capped_no_cookie,
             c.clientid AS client_id,
+            c.expire_time AS expire_time,
             c.revenue_type AS revenue_type,
             c.ecpm_enabled AS ecpm_enabled,
             c.ecpm AS ecpm,
@@ -582,6 +583,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         ."c.session_capping AS session_cap_campaign, "//MAX_limitationsIsZoneForbidden
         ."c.show_capped_no_cookie AS show_capped_no_cookie, "
         ."c.clientid AS client_id, "                  //_adSelectCheckCriteria
+        ."c.expire_time AS expire_time, "
         ."c.revenue_type AS revenue_type, "
         ."c.ecpm_enabled AS ecpm_enabled, "
         ."c.ecpm AS ecpm, "
@@ -1175,6 +1177,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.clickwindow AS clickwindow',
             'm.viewwindow AS viewwindow',
             'cl.clientid AS client_id',
+            'm.expire_time AS expire_time',
             'm.revenue_type AS revenue_type',
             'm.ecpm_enabled AS ecpm_enabled',
             'm.ecpm AS ecpm',
@@ -1501,6 +1504,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             'm.session_capping AS session_cap_campaign',
             'm.show_capped_no_cookie AS show_capped_no_cookie',
             'cl.clientid AS client_id',
+            'm.expire_time AS expire_time',
             'm.revenue_type AS revenue_type',
             'm.ecpm_enabled AS ecpm_enabled',
             'm.ecpm AS ecpm',

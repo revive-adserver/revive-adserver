@@ -930,6 +930,16 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // Enforce campaign expirations
+    if (!empty ($aAd['expire_time'])) {
+        $expire = strtotime ($aAd['expire_time']);
+        $now = MAX_commonGetTimeNow ();
+        if ($expire > 0 && $now > $expire) {
+            OX_Delivery_logMessage('Campaign has expired for bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+            return false;
+        }
+    }
+
     // Excludelist banners
     if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
         OX_Delivery_logMessage('List of excluded banners list contains bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);

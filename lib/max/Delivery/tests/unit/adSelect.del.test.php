@@ -611,6 +611,34 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $arrZone['chain'] = 'blabla:15';
         $this->assertEqual(10, _getNextZone(10, $arrZone));
     }
+
+    function test_CheckCriteria ()
+    {
+        $context = array();
+        $source = array();
+        $richMedia = true;
+        $test_ad =
+            array(
+                    'ad_id' => 5,
+                    'name' => 'my ad',
+                    'expire_time' => '2010-02-02 07:59:59',
+                 );
+
+        // positive case
+        $GLOBALS['_MAX']['NOW'] = strtotime ('2010-02-02 00:00:00');
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+
+        // campaign expired
+        $GLOBALS['_MAX']['NOW'] = strtotime ('2010-02-02 08:00:00');
+        $this->assertFalse (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+
+        // invalid or unset expire_times should always pass
+        $test_ad['expire_time'] = '0000-00-00 00:00:00';
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+        $test_ad['expire_time'] = null;
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+    }
+
 }
 
 ?>
