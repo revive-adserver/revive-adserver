@@ -47,7 +47,6 @@ if (empty($_GET['script'])) {
 exit(1);
 }
 include_once '../../init-delivery.php';
-
 $script = str_replace("\0", '', $_GET['script']);
 $aPluginId = explode(':', $script);
 $scriptFileName = MAX_PATH . rtrim($conf['pluginPaths']['plugins'], '/') . '/' . implode('/', $aPluginId) . '.delivery.php';

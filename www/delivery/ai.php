@@ -535,7 +535,8 @@ function MAX_remotehostProxyLookup()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['logging']['proxyLookup']) {
-  $proxy = false;
+OX_Delivery_logMessage('checking remote host proxy', 7);
+$proxy = false;
 if (!empty($_SERVER['HTTP_VIA']) || !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 $proxy = true;
 } elseif (!empty($_SERVER['REMOTE_HOST'])) {
@@ -552,7 +553,7 @@ break;
 }
 }
 if ($proxy) {
-
+OX_Delivery_logMessage('proxy detected', 7);
 $aHeaders = array(
 'HTTP_FORWARDED',
 'HTTP_FORWARDED_FOR',
@@ -573,7 +574,8 @@ if (($ip != 'unknown') && (!MAX_remotehostPrivateAddress($ip))) {
 $_SERVER['REMOTE_ADDR'] = $ip;
 $_SERVER['REMOTE_HOST'] = '';
 $_SERVER['HTTP_VIA'] = '';
- break;
+OX_Delivery_logMessage('real address set to '.$ip, 7);
+break;
 }
 }
 }
@@ -2225,7 +2227,8 @@ $allowed = true;
 break;
 }
 }
- if (!$allowed) {
+OX_Delivery_logMessage('user-agent browser : '.$agent.' is '.($allowed ? '' : 'not ').'allowed', 7);
+if (!$allowed) {
 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'enforceUserAgents';
 $okToLog = false;
 }
@@ -2234,7 +2237,8 @@ if (!empty($aConf['logging']['ignoreUserAgents'])) {
 $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
 foreach ($aKnownBots as $bot) {
 if (strpos($agent, $bot) !== false) {
- $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
+OX_Delivery_logMessage('user-agent '.$agent.' is a known bot '.$bot, 7);
+$GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
 $okToLog = false;
 }
 }
@@ -2245,15 +2249,17 @@ $hosts = '#^('.$hosts.')$#i';
 $hosts = str_replace('.', '\.', $hosts);
 $hosts = str_replace('*', '[^.]+', $hosts);
 if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
- $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_ip';
+OX_Delivery_logMessage('viewer\'s ip is in the ignore list '.$_SERVER['REMOTE_ADDR'], 7);
+$GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_ip';
 $okToLog = false;
 }
 if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
- $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_host';
+OX_Delivery_logMessage('viewer\'s host is in the ignore list '.$_SERVER['REMOTE_HOST'], 7);
+$GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_host';
 $okToLog = false;
 }
 }
-
+if ($okToLog) OX_Delivery_logMessage('viewer\'s host is OK to log', 7);
 $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
 if (!empty($result) && is_array($result)) {
 foreach ($result as $pci => $value) {
@@ -2313,7 +2319,8 @@ if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf'
 if (isset($aBlockLoggingClick[$adId])) {
 $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
 if ($endBlock >= MAX_commonGetTimeNow()) {
- return true;
+OX_Delivery_logMessage('adID '.$adId.' click is still blocked by block logging window ', 7);
+return true;
 }
 }
 }
@@ -2753,7 +2760,8 @@ $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
 if (function_exists($functionName)) {
- $return[$identifier] = call_user_func_array($functionName, $aParams);
+OX_Delivery_logMessage('calling on '.$functionName, 7);
+$return[$identifier] = call_user_func_array($functionName, $aParams);
 }
 }
 }
@@ -2788,6 +2796,16 @@ include MAX_PATH . $fileName;
 }
 }
 }
+function OX_Delivery_logMessage($message, $priority = 6)
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+if (empty($conf['deliveryLog']['enabled'])) return true;
+$priorityLevel = is_numeric($conf['deliveryLog']['priority']) ? $conf['deliveryLog']['priority'] : 6;
+if ($priority > $priorityLevel && empty($_REQUEST[$conf['var']['trace']])) { return true; }
+error_log('[' . date('r') . "] {$conf['log']['ident']}-delivery-{$GLOBALS['_MAX']['thread_id']}: {$message}\n", 3, MAX_PATH . '/var/' . $conf['deliveryLog']['name']);
+OX_Delivery_Common_hook('logMessage', array($message, $priority));
+return true;
+}
 
 
 $file = '/lib/max/Delivery/cache.php';
@@ -2800,7 +2818,6 @@ $GLOBALS['OA_Delivery_Cache'] = array(
 );
 function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
-
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $aCacheVar = OX_Delivery_Common_hook(
 'cacheRetrieve',
@@ -2809,7 +2826,7 @@ $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
 );
 if ($aCacheVar !== false) {
 if ($aCacheVar['cache_name'] != $name) {
-
+OX_Delivery_logMessage("Cache ERROR: {$name} != {$aCacheVar['cache_name']}", 7);
 return false;
 }
 if ($expiryTime === null) {
@@ -2820,13 +2837,13 @@ if ( (isset($aCacheVar['cache_time']) && $aCacheVar['cache_time'] + $expiryTime 
 || (isset($aCacheVar['cache_expire']) && $aCacheVar['cache_expire'] < $now) )
 {
 OA_Delivery_Cache_store($name, $aCacheVar['cache_contents'], $isHash);
-
+OX_Delivery_logMessage("Cache EXPIRED: {$name}", 7);
 return false;
 }
-
+OX_Delivery_logMessage("Cache HIT: {$name}", 7);
 return $aCacheVar['cache_contents'];
 }
-
+OX_Delivery_logMessage("Cache MISS {$name}", 7);
 return false;
 }
 function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = null)
@@ -3046,7 +3063,10 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 return $output;
 }
 
-
+OX_Delivery_logMessage('starting delivery script: ' . basename($_SERVER['REQUEST_URI']), 7);
+if (!empty($_REQUEST[$conf['var']['trace']])) {
+OX_Delivery_logMessage('trace enabled: ' . $_REQUEST[$conf['var']['trace']], 7);
+}
 MAX_remotehostSetInfo();
 MAX_commonInitVariables();
 MAX_cookieLoad();
@@ -3078,7 +3098,6 @@ echo $aCreative['contents'];
 MAX_sendStatusCode(304);
 }
 }
-
 
 MAX_commonRegisterGlobalsArray(array('filename', 'contenttype'));
 if (!empty($filename)) {
