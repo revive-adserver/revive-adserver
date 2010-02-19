@@ -199,7 +199,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     }
     $doTable->acl_plugins = MAX_AclGetPlugins($acls);
     $doTable->compiledlimitation = $sLimitation;
-    $doTable->acls_updated = OA::getNow();
+    $doTable->acls_updated = OA::getNowUTC();
     $doTable->update();
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
@@ -225,7 +225,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $doBanners = OA_Dal::staticGetDO('banners', $row['bannerid']);
             if ($doBanners->bannerid == $row['bannerid'])
             {
-                $doBanners->acls_updated = OA::getNow();
+                $doBanners->acls_updated = OA::getNowUTC();
                 $doBanners->update();
             }
         }
