@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>3rd Party Server plugins for OpenX</description>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <type>package</type>
 
     <install>

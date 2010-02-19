@@ -64,8 +64,8 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_eyeblaster extends Plugins_3rdPa
         $replace = "$1.nFlightID = $2;\r\n//Interactions\n$1.interactions = new Object();\r\n\$1.interactions[\"_eyeblaster\"] = \"ebN={clickurl}\";\r\n";
         $buffer = preg_replace ($search, $replace, $buffer);
         
-        $search  = array("/(<script.*)\[timestamp\](.*<\/script>)/i");
-        $replace = array("$1{random}&ncu={clickurl}$2");
+        $search  = array("/(<script.*)bs.serving-sys.com(.*?)ord=.*?([&'\"].*<\/script>)/i");
+        $replace = array("$1bs.serving-sys.com$2{random}&ncu={clickurl}$3");
         $buffer = preg_replace ($search, $replace, $buffer);
         
         return $buffer;
