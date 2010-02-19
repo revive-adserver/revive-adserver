@@ -2800,7 +2800,7 @@ include MAX_PATH . $fileName;
 }
 }
 }
-function OX_Delivery_logMessage($message, $priority = 6)
+function OX_Delivery_logMessage(&$message, &$priority = 6)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 if (empty($conf['deliveryLog']['enabled'])) return true;
