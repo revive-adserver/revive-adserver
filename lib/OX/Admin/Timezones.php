@@ -85,7 +85,9 @@ $Id$
             }
         }
 
+        $tzSave = date_default_timezone_get();
         foreach ($aTimezoneKey as $key) {
+            if (!@date_default_timezone_set($key)) continue;
             if ((in_array($tz, $_aTimezoneBcData) && $key == $tz) || !in_array($key, $_aTimezoneBcData)) {
                 // Calculate the timezone offset
                 $offset = OX_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
@@ -99,7 +101,8 @@ $Id$
                 }
             }
         }
-
+        date_default_timezone_set($tzSave);
+        
         // Sort timezones with positive offsets descending, and negative
         // offests ascending.
 
