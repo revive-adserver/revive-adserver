@@ -3839,6 +3839,11 @@ $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 $output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
+} else if (!empty($conf['defaultBanner']['imageUrl'])) {
+if (empty($target)) {
+$target = '_blank';  }
+$outputbuffer = "{$g_prepend}<img src='{$conf['defaultBanner']['imageUrl']}' border='0' alt=''>{$g_append}";
+$output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $conf['defaultBanner']['imageUrl']);
 } else {
 $outputbuffer = $g_prepend . $g_append;
 $output = array('html' => $outputbuffer, 'bannerid' => '' );
