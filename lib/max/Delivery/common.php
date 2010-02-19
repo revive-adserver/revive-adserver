@@ -734,7 +734,7 @@ function _includeDeliveryPluginFile($fileName)
     }
 }
 
-function OX_Delivery_logMessage(&$message, &$priority = 6)
+function OX_Delivery_logMessage($message, $priority = 6)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // Don't even try if the deliveryLog is not enabled...
