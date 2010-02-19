@@ -138,12 +138,14 @@ disable your central maintenance script while this script runs.
 
 Do you want to proceed with the republishing? [y/N]: ";
 
-$response = trim(fgets(STDIN));
-if (!($response == 'y' || $response == 'Y')) {
-    echo $haltMessage;
-    exit;
+if (empty($argv[4]) || ($argv[4] != '-f')) {
+    $response = trim(fgets(STDIN));
+    if (!($response == 'y' || $response == 'Y')) {
+        echo $haltMessage;
+        exit;
+    }
+    echo "\n";
 }
-echo "\n";
 
 /***************************************************************************/
 
@@ -211,7 +213,7 @@ $oMigratorFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
     
 foreach ($aRunHours as $aDates) {
     echo "Recomputing data_summary_ad_hourly totals from " . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . " -> " . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "<br />\n"; 
-    $query = "DELETE FROM ".$oDbh->quoteIdentifier('data_summary_ad_hourly',true)." WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
+    $query = "DELETE FROM ".$oDbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly',true)." WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
     $oDbh->exec($query);
     
     $oMigratorFinal->_saveSummary($aDates['start'], $aDates['end']);
