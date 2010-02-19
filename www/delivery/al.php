@@ -4079,28 +4079,28 @@ if (!empty ($aAd['expire_time'])) {
 $expire = strtotime ($aAd['expire_time']);
 $now = MAX_commonGetTimeNow ();
 if ($expire > 0 && $now > $expire) {
-OX_Delivery_logMessage('Campaign has expired for bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('Campaign has expired for bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 }
 if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
-OX_Delivery_logMessage('List of excluded banners list contains bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('List of excluded banners list contains bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
-OX_Delivery_logMessage('List of excluded campaigns contains bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('List of excluded campaigns contains bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (isset($aContext['client']['exclude'][$aAd['client_id']])) {
-OX_Delivery_logMessage('List of excluded clients contains bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('List of excluded clients contains bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
-OX_Delivery_logMessage('List of included banners does not contain bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('List of included banners does not contain bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-OX_Delivery_logMessage('List of included campaigns does not contain bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('List of included campaigns does not contain bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (  $richMedia == false &&
@@ -4108,24 +4108,24 @@ $aAd['alt_filename'] == '' &&
 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
 !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
 ) {
-OX_Delivery_logMessage('No alt image specified for richmedia bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('No alt image specified for richmedia bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if (MAX_limitationsIsAdForbidden($aAd)) {
-OX_Delivery_logMessage('MAX_limitationsIsAdForbidden = true for bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('MAX_limitationsIsAdForbidden = true for bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
 (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || $aAd['html_ssl_unsafe'])) {
-OX_Delivery_logMessage('"http:" on SSL found for html bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('"http:" on SSL found for html bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'url' && $aAd['url_ssl_unsafe']) {
-OX_Delivery_logMessage('"http:" on SSL found in imagurl for url bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('"http:" on SSL found in imagurl for url bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
-OX_Delivery_logMessage('MAX_limitationsCheckAcl = false for bannerid '.$aAd['ad_id'].' '.$aAd['name'], 7);
+OX_Delivery_logMessage('MAX_limitationsCheckAcl = false for bannerid '.$aAd['ad_id'], 7);
 return false;
 }
 return true;
@@ -4212,12 +4212,12 @@ if (empty($GLOBALS['_MAX']['CONF']['delivery']['aclsDirectSelection']) && !empty
 return;
 }
 foreach ($aAds as $adId => $aAd) {
-OX_Delivery_logMessage('_adSelectDiscardNonMatchingAds: checking bannerid '.$aAd['ad_id'].' '.@$aAd['name'], 7);
+OX_Delivery_logMessage('_adSelectDiscardNonMatchingAds: checking bannerid '.$aAd['ad_id'], 7);
 if (!_adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)) {
-OX_Delivery_logMessage('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.@$aAd['name'], 7);
+OX_Delivery_logMessage('failed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'], 7);
 unset($aAds[$adId]);
 } else {
-OX_Delivery_logMessage('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'].' '.@$aAd['name'], 7);
+OX_Delivery_logMessage('passed _adSelectCheckCriteria: bannerid '.$aAd['ad_id'], 7);
 }
 }
 return;
