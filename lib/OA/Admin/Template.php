@@ -564,9 +564,7 @@ class OA_Admin_Template extends Smarty
 				
 				if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
-				} elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
-					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('eCPM') . "</span>";
-				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT){
+				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type = OX_CAMPAIGN_TYPE_ECPM){
 					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
                 }
                 return "<span class='campaign-type campaign-contract'>".$type. "</span>";
