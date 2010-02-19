@@ -199,6 +199,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     }
     $doTable->acl_plugins = MAX_AclGetPlugins($acls);
     $doTable->compiledlimitation = $sLimitation;
+    $doTable->acls_updated = OA::getNow();
     $doTable->update();
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
@@ -211,7 +212,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             FROM
                 {$table}
             WHERE
-                type = 'Site:Channel'
+                type = 'deliveryLimitations:Site:Channel'
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
         ";
         $res = $oDbh->query($query);
