@@ -326,7 +326,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                             $this->marketAdvertiserIds = array_unique($this->marketAdvertiserIds);
                         }
                         if( empty($marketAdvertiserId)) {
-                                $marketAdvertiserId = false;
+                                $marketAdvertiserId = '';
                         }
                         $marketStatsRow = array(
                             'website_id' => $websiteId, 

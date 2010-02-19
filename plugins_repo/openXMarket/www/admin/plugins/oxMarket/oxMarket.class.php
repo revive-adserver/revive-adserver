@@ -262,7 +262,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             && $countNewStatistics == 0) {
             $migrationQuery = '	INSERT INTO '.$prefix.'ext_market_stats
                     SELECT date_time, 
-                    		NULL as market_advertiser_id, 
+                    		"" as market_advertiser_id, 
                     		t2.affiliateid as website_id, 
                     		t.width as ad_width, 
                     		t.height as ad_height, 
@@ -286,6 +286,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     WHERE t4.type = 1
                     AND t5.type=1
                     AND t.impressions <> 0
+                    GROUP BY date_time, website_id, zone_id, ad_id,ad_width, ad_height, market_advertiser_id
                     ';
             $rows = $oDbh->query($migrationQuery);
             if (PEAR::isError($rows))
