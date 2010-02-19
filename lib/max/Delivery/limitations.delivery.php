@@ -181,7 +181,7 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
  * @param array $aParams
  * @return boolean true if the value matches the limitation, false otherwise.
  */
-function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, $aParams = array())
+function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aParams = array())
 {
     return MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams, 'CLIENT_GEO');
 }
@@ -200,10 +200,10 @@ function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, $aPara
  * @param string $namespace
  * @return boolean True if the value matches the limitations, false otherwise.
  */
-function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = array(), $namespace='CLIENT')
+function MAX_limitationsMatchArray($paramName, $limitation, $op, &$aParams = array(), $namespace='CLIENT')
 {
     if (empty($aParams)) {
-        $aParams = $GLOBALS['_MAX'][$namespace];
+        $aParams =& $GLOBALS['_MAX'][$namespace];
     }
     if ($limitation == '' || empty($aParams)) {
         return true;
@@ -235,19 +235,20 @@ function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = arra
  * @return boolean True if the $value matches the limitation,
  * false otherwise.
  */
-function MAX_limitationsMatchArrayValue($value, $limitation, $op)
+function MAX_limitationsMatchArrayValue(&$value, &$limitation, $op)
 {
-    $limitation = strtolower($limitation);
-    $value = strtolower($value);
-
-    $aLimitation = MAX_limitationsGetAFromS($limitation);
-
     if ($op == '==') {
-        return count($aLimitation) == 1 && $value == $aLimitation[0];
-    } elseif ($op == '=~') {
-        return in_array($value, $aLimitation);
+        return strcasecmp($limitation, $value) == 0;
+    } else if ($op == '=~') {
+        if ($value == '') {
+            return true;
+        }
+        return stripos(','.$limitation.',', ','.$value.',') !== false;
     } else {
-        return !in_array($value, $aLimitation);
+        if ($value == '') {
+            return false;
+        }
+        return stripos(','.$limitation.',', ','.$value.',') === false;
     }
 }
 

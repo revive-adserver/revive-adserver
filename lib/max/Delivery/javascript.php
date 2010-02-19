@@ -50,10 +50,11 @@ function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = t
     $search[] = '"'; $replace[] = '\"';
     $search[] = "'";  $replace[] = "\\'";
     $search[] = '<';  $replace[] = '<"+"';
+    $string = str_replace($search, $replace, $string);
     $lines = explode("\n", $string);
     foreach ($lines AS $line) {
         if(trim($line) != '') {
-            $jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
+            $jsLines[] = $varName . ' += "' . trim($line) . '\n";';
         }
     }
 
