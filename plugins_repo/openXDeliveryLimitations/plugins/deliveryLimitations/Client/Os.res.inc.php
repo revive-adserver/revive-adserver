@@ -32,6 +32,7 @@ $Id$
  */
 
 $res = array(
+    'w7'        => 'Windows 7',
     'xp'        => 'Windows XP',
     '2k'        => 'Windows 2000',
     '98'        => 'Windows 98',

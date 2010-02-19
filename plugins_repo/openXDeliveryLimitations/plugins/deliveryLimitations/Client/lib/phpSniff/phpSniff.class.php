@@ -129,7 +129,8 @@ class phpSniff
         'browsex'                     => 'BX',
         'amigavoyager'                => 'AV',
         'amiga-aweb'                  => 'AW',
-        'ibrowse'                     => 'IB'
+        'ibrowse'                     => 'IB',
+        'chrome'                      => 'GC',
         );
 
     /**
@@ -584,6 +585,8 @@ class phpSniff
             $v2 = $match[3][count($match[0])-1];
             // Establish NT 5.1 as Windows XP
                 if(stristr($v,'NT') && $v2 == 5.1) $v = 'xp';
+            // Establish NT 6.1 as7
+                elseif(stristr($v,'NT') && $v2 == 6.1) $v = 'w7';
             // Establish NT 5.0 and Windows 2000 as win2k
                 elseif($v == '2000') $v = '2k';
                 elseif(stristr($v,'NT') && $v2 == 5.0) $v = '2k';
@@ -710,6 +713,11 @@ class phpSniff
         if(preg_match_all($this->_browser_regex,$this->_browser_info['ua'],$results))
         {   // get the position of the last browser found
             $count = count($results[0])-1;
+            
+            //special case for Chrome (UA=mozilla/5.0 (windows; u; windows nt 5.1; en-us) applewebkit/532.5 (khtml, like gecko) chrome/4.0.249.89 safari/532.5)
+            if($results[1][$count]=='safari' && $results[1][$count-1]=='chrome') {
+                $count--;
+            }
             // if we're allowing masquerading, revert to the next to last browser found
             // if possible, otherwise stay put
             if($this->_allow_masquerading && $count > 0) $count--;
