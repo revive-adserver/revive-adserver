@@ -716,8 +716,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             ";
         }
         if ($fastLinking) {
-            $query = "INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id)
-                SELECT z.zoneid, b.bannerid
+            $query = "INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id, priority_factor)
+                SELECT z.zoneid, b.bannerid, 1
                 $fromWhereClause
             ";
             return $this->oDbh->exec($query);
@@ -737,6 +737,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             foreach($aAdZones as $aAdZone) {
                 $doAdZoneAssoc->zone_id = $aAdZone['zoneid'];
                 $doAdZoneAssoc->ad_id   = $aAdZone['bannerid'];
+                $doAdZoneAssoc->priority_factor = 1;
                 $doAdZoneAssoc->insert();
             }
             return count($aAdZones);
