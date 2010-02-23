@@ -721,7 +721,7 @@ $query = "
             a.agencyid = m.agencyid";
 $rZoneInfo = OA_Dal_Delivery_query($query);
 if (!is_resource($rZoneInfo)) {
-return false;
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 $query = "
@@ -736,7 +736,7 @@ $query = "
             p.preference_name = 'default_banner_destination_url'";
 $rPreferenceInfo = OA_Dal_Delivery_query($query);
 if (!is_resource($rPreferenceInfo)) {
-return false;
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 if (OA_Dal_Delivery_numRows($rPreferenceInfo) != 2) {
 return $aZoneInfo;
@@ -815,7 +815,7 @@ $query = "
             apa.preference_id = $default_banner_destination_url_id";
 $rDefaultBannerInfo = OA_Dal_Delivery_query($query);
 if (!is_resource($rDefaultBannerInfo)) {
-return false;
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
 if ($aConf['defaultBanner']['imageUrl'] != '') {
@@ -862,7 +862,7 @@ $rZones = OA_Dal_Delivery_query("
         z.affiliateid={$publisherid}
     ");
 if (!is_resource($rZones)) {
-return false;
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 while ($aZone = OA_Dal_Delivery_fetchAssoc($rZones)) {
 $aZones[$aZone['zone_id']] = $aZone;
@@ -960,11 +960,7 @@ $query = "
     ";
 $rAds = OA_Dal_Delivery_query($query);
 if (!is_resource($rAds)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 }
 $aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
@@ -1036,11 +1032,7 @@ $query =
 ."c.status <= 0 ";
 $rAds = OA_Dal_Delivery_query($query);
 if (!is_resource($rAds)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 }
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
 if ($aAd['campaign_priority'] == -1) {
@@ -1083,11 +1075,7 @@ $totals = array(
 $query = OA_Dal_Delivery_buildAdInfoQuery($search, $lastpart, $precondition);
 $rAds = OA_Dal_Delivery_query($query);
 if (!is_resource($rAds)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 }
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
 if ($aAd['campaign_priority'] == -1) {
@@ -1132,11 +1120,7 @@ $totals = array(
 $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
 $rAds = OA_Dal_Delivery_query($query);
 if (!is_resource($rAds)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 }
 $aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
@@ -1241,11 +1225,7 @@ $query = "
     ";
 $rAd = OA_Dal_Delivery_query($query);
 if (!is_resource($rAd)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 return (OA_Dal_Delivery_fetchAssoc($rAd));
 }
@@ -1261,11 +1241,7 @@ $rLimitation = OA_Dal_Delivery_query("
     WHERE
             channelid={$channelid}");
 if (!is_resource($rLimitation)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 }
 $limitations = OA_Dal_Delivery_fetchAssoc($rLimitation);
 return $limitations;
@@ -1283,11 +1259,7 @@ $rCreative = OA_Dal_Delivery_query("
             filename = '{$filename}'
     ");
 if (!is_resource($rCreative)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
 $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
@@ -1315,11 +1287,7 @@ $rTracker = OA_Dal_Delivery_query("
             t.trackerid={$trackerid}
     ");
 if (!is_resource($rTracker)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 return (OA_Dal_Delivery_fetchAssoc($rTracker));
 }
@@ -1348,11 +1316,7 @@ $rCreatives = OA_Dal_Delivery_query("
           " . ((!empty($trackerid)) ? ' AND t.trackerid='.$trackerid : '') . "
     ");
 if (!is_resource($rCreatives)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 $output = array();
 while ($aRow = OA_Dal_Delivery_fetchAssoc($rCreatives)) {
@@ -1378,11 +1342,7 @@ $rVariables = OA_Dal_Delivery_query("
             v.trackerid={$trackerid}
     ");
 if (!is_resource($rVariables)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 $output = array();
 while ($aRow = OA_Dal_Delivery_fetchAssoc($rVariables)) {
@@ -1402,11 +1362,7 @@ $result = OA_Dal_Delivery_query("
         WHERE name = 'maintenance_timestamp'
     ");
 if (!is_resource($result)) {
-if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-} else {
-return null;
-}
+return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
 } else {
 $result = OA_Dal_Delivery_fetchAssoc($result);
 return $result['maintenance_timestamp'];
