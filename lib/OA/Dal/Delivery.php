@@ -159,7 +159,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $rZoneInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rZoneInfo)) {
-        return false;
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
     }
     $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 
@@ -177,7 +177,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $rPreferenceInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rPreferenceInfo)) {
-        return false;
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
     }
     if (OA_Dal_Delivery_numRows($rPreferenceInfo) != 2) {
         // Something went wrong, there should be two preferences, if not,
@@ -263,7 +263,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $rDefaultBannerInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rDefaultBannerInfo)) {
-        return false;
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
     }
 
     if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
@@ -341,7 +341,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
     ");
 
     if (!is_resource($rZones)) {
-        return false;
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
     }
     while ($aZone = OA_Dal_Delivery_fetchAssoc($rZones)) {
         $aZones[$aZone['zone_id']] = $aZone;
@@ -467,11 +467,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
 
     // Get creatives with conversions enabled
@@ -605,11 +601,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
 
     while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
@@ -681,11 +673,7 @@ function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart =
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
 
     while ($aAd = OA_Dal_Delivery_fetchAssoc($rAds)) {
@@ -757,11 +745,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
 
     // Get creatives with conversions enabled
@@ -894,11 +878,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
     ";
     $rAd = OA_Dal_Delivery_query($query);
     if (!is_resource($rAd)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         return (OA_Dal_Delivery_fetchAssoc($rAd));
     }
@@ -925,11 +905,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
     WHERE
             channelid={$channelid}");
     if (!is_resource($rLimitation)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
     $limitations = OA_Dal_Delivery_fetchAssoc($rLimitation);
     return $limitations;
@@ -954,11 +930,7 @@ function OA_Dal_Delivery_getCreative($filename)
             filename = '{$filename}'
     ");
     if (!is_resource($rCreative)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
         $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
@@ -996,11 +968,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
             t.trackerid={$trackerid}
     ");
     if (!is_resource($rTracker)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         return (OA_Dal_Delivery_fetchAssoc($rTracker));
     }
@@ -1033,11 +1001,7 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
           " . ((!empty($trackerid)) ? ' AND t.trackerid='.$trackerid : '') . "
     ");
     if (!is_resource($rCreatives)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         $output = array();
         while ($aRow = OA_Dal_Delivery_fetchAssoc($rCreatives)) {
@@ -1073,11 +1037,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
             v.trackerid={$trackerid}
     ");
     if (!is_resource($rVariables)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         $output = array();
         while ($aRow = OA_Dal_Delivery_fetchAssoc($rVariables)) {
@@ -1103,11 +1063,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
         WHERE name = 'maintenance_timestamp'
     ");
     if (!is_resource($result)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
+        return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         $result = OA_Dal_Delivery_fetchAssoc($result);
 
