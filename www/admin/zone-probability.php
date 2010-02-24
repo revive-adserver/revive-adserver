@@ -103,7 +103,7 @@ function phpAds_showZoneBanners ($zoneId)
             $i = -1;
             foreach($aZoneLinkedAds['xAds'] as $adId => $aLinkedAd) {
                 $i++;
-                $name = phpAds_getBannerName ($adId, 60, false);
+                $name = phpAds_getBannerName ($adId, 60, false, true);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
@@ -185,7 +185,7 @@ function phpAds_showZoneBanners ($zoneId)
             for ($i=10;$i>0;$i--) {
                 if (empty($aZoneLinkedAds['ads'][$i])) { continue; }
                 foreach($aZoneLinkedAds['ads'][$i] as $adId => $aLinkedAd) {
-                $name = phpAds_getBannerName ($adId, 60, false);
+                $name = phpAds_getBannerName ($adId, 60, false, true);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
@@ -280,7 +280,7 @@ function phpAds_showZoneBanners ($zoneId)
 
             $do = OA_Dal::factoryDO('Campaigns');
             foreach($aZoneLinkedAds['eAds'][DataObjects_Campaigns::PRIORITY_ECPM] as $adId => $aLinkedAd) {
-                $name = phpAds_getBannerName ($adId, 60, false);
+                $name = phpAds_getBannerName ($adId, 60, fals, true);
                 echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
@@ -367,7 +367,7 @@ function phpAds_showZoneBanners ($zoneId)
             if ($ofPriority < 0) $ofPriority = 0;
 
             foreach($aZoneLinkedAds['lAds'] as $adId => $aLinkedAd) {
-                $name = phpAds_getBannerName ($adId, 60, false);
+                $name = phpAds_getBannerName ($adId, 60, false, true);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";

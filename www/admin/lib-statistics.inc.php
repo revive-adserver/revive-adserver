@@ -184,21 +184,16 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
     } else {
         $doBanners = OA_Dal::staticGetDO('banners', $bannerid);
         $row = $doBanners->toArray();
+        if ($checkanonymous) {
+            $doCampaigns = OA_Dal::staticGetDO('campaigns', $row['campaignid']);
+            $row['anonymous'] = $doCampaigns->anonymous;
+			if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && MAX_isAnonymous($row['anonymous'])) {
+				$row['description'] = $GLOBALS['strHiddenAd'] . ' ' . $bannerid;
+			}
+        }
         $bannerCache[$bannerid] = $row;
     }
-    if ($checkanonymous) {
-        if  (!isset($row['anonymous']) || $row['anonymous'] = '') {
-            $doCampaigns = OA_Dal::factoryDO('campaigns');
-            $doCampaigns->addReferenceFilter('banners', $bannerid);
-            $doCampaigns->selectAdd();
-            $doCampaigns->selectAdd('anonymous');
-            $doCampaigns->find(true);
-            $anonymous = $doCampaigns->anonymous;
-            $bannerCache[$bannerid]['anonymous'] = $anonymous;
-        } else {
-            $anonymous = $row['anonymous'];
-        }
-    }
+    
     if ($id) {
         return (phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'], $limit));
     } else {
