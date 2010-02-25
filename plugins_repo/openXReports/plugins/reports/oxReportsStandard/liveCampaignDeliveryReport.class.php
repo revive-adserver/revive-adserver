@@ -241,9 +241,18 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *                                         data to delivery that happened in the $oDaySpan range.
      * @return array
      */
-    function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false)
+    function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false, $statsTable = false, $appendSqlWhere = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        
+        // when the parameter is empty, this means we are querying the 'standard' campaigns (not the market campaigns)
+        // see at the end of the function where we query the market campaigns and then merge the results
+        if(empty($appendSqlWhere)) { 
+            $appendSqlWhere = "AND c.type = ".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
+        }
+        if($statsTable === false) {
+            $statsTable = $aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'];
+        }
         $advertiserId    = $oScope->getAdvertiserId();
         $publisherId     = $oScope->getPublisherId();
         $agencyId        = $oScope->getAgencyId();
@@ -256,12 +265,12 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 c.activate_time AS campaign_start,
                 c.expire_time AS campaign_end,
                 c.views AS campaign_booked_impressions,
-                SUM(dsah.impressions) AS campaign_impressions,
-                MAX(dsah.date_time) AS stats_most_recent_date_time
+                SUM(stats.impressions) AS campaign_impressions,
+                MAX(stats.date_time) AS stats_most_recent_date_time
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
                 {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS dsah";
+                ".$statsTable." AS stats";
         if ($publisherId) {
             $query .= ",
                 {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z";
@@ -273,8 +282,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $query .= "
             WHERE
                 c.campaignid = b.campaignid
-                AND
-                b.bannerid = dsah.ad_id";
+				". $appendSqlWhere ."
+				AND
+                b.bannerid = stats.ad_id";
         if ($spanIsForPlacementDates) {
             $query .= "
                 AND
@@ -292,9 +302,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         } else {
             $query .= "
                 AND
-                dsah.date_time >= " . DBC::makeLiteral($oDaySpan->getStartDateStringUTC(), 'string') . "
+                stats.date_time >= " . DBC::makeLiteral($oDaySpan->getStartDateStringUTC(), 'string') . "
                 AND
-                dsah.date_time <= " . DBC::makeLiteral($oDaySpan->getEndDateStringUTC(), 'string') . "
+                stats.date_time <= " . DBC::makeLiteral($oDaySpan->getEndDateStringUTC(), 'string') . "
             ";
         }
         if ($advertiserId) {
@@ -305,7 +315,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         if ($publisherId) {
             $query .= "
                 AND
-                dsah.zone_id = z.zoneid
+                stats.zone_id = z.zoneid
                 AND
                 z.affiliateid = " . DBC::makeLiteral($publisherId, 'integer');
         }
@@ -330,6 +340,22 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $rsDeliveryPerformanceData = DBC::NewRecordSet($query);
         $rsDeliveryPerformanceData->find();
         $aDeliveryPerformanceData = $rsDeliveryPerformanceData->getAll();
+    
+        $marketPluginEnabled = ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] ? true : false);
+        if($marketPluginEnabled) {
+            require_once MAX_PATH . '/www/admin/market/stats.php';
+            $marketStatsHelper = new OX_oxMarket_Stats();
+            $marketStatsTable = $marketStatsHelper->getTableName();
+            
+            // if we are not already fetching Market stats, we now fetch them and merge standard and market stats
+            if($statsTable != $marketStatsTable) {
+                $appendSqlWhere = "AND c.type <> ".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
+                $marketStats = $this->_getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates, $marketStatsTable, $appendSqlWhere);
+                if(!empty($marketStats)) {
+                    $aDeliveryPerformanceData = array_merge($aDeliveryPerformanceData, $marketStats);
+                }
+            }
+        }
         return $aDeliveryPerformanceData;
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
+
 $GENERATE_MARKET_STATS = false;
 
 if($GENERATE_MARKET_STATS) {
