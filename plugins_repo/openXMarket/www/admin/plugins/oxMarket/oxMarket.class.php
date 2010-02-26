@@ -268,7 +268,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     		t.height as ad_height, 
                     		0 as zone_id, 
                     		t6.bannerid as ad_id, 
-                    		t.impressions as impressions, 
+                    		SUM(t.impressions) as impressions, 
                     		0 as clicks, 
                     		0 as requests,
                     		t.revenue as revenue
