@@ -42,35 +42,32 @@ require_once MAX_PATH . '/scripts/rpm/lib-rpm.php';
 $oUpgrader = new OA_Upgrade();
 
 if (file_exists('/opt/ox/adserver/etc/id') && trim(file_get_contents('/opt/ox/adserver/etc/id')) == 'masterconfig') {
+    if (empty($GLOBALS['argv'][1]) || $GLOBALS['argv'][1] == 'default') {
     $customersFile = '/opt/ox/adserver/customers.xml';
     if (file_exists($customersFile)) {
         $customers = getCustomersArrayFromXMLFile($customersFile);
         foreach ($customers as $idx => $customer) {
             if (empty($customer['admin']) || !is_readable(MAX_PATH . '/var/' . $customer['admin'] . '.conf.php')) { continue; }
-            // Re-init using the customers UI domain name
-            $GLOBALS['argv'][1] = $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'] = $customer['admin'];
-            $GLOBALS['_MAX']['CONF'] = parseIniFile();     
-
+                // Call self with exec (to put the upgrade in a seperate memory-space
+                passthru('php ' . MAX_PATH . "/scripts/rpm/plugin-upgrade.php {$customer['admin']} {$GLOBALS['argv'][2]}");
+            }
+        } else {    
+            // Just upgrade/install for the 'current' customer
+            upgradeplugin($GLOBALS['argv'][2], true);
+        }
+    } else {
+        // script was called with a customer's domain, init should have bootstrapped correctly
             // Skip uninitialized customers
             if (empty($GLOBALS['_MAX']['CONF']['openads']['installed'])) { continue; } 
 
             // Verify that we can sucessfully connect to the database for this customer
             $dbh = &OA_DB::singleton();
             if (PEAR::isError($dbh)) {
-                echo "WARNING: Unable to connect to the db for {$customer['shortname']}... skipping this customer\n";
+                echo "WARNING: Unable to connect to the db for {$GLOBALS['argv'][1]}... skipping this customer\n";
                 continue;
             }
-            
-            // Clear various cached items
-            OA_Dal_ApplicationVariables::cleanCache();
-            OA_Dal::cleanCache();
-
-            echo "Installing {$argv[2]} for {$customer['shortname']}\n";
-            upgradeplugin($argv[2], true);
-        }
-    } else {    
-        // Just upgrade/install for the 'current' customer
-        upgradeplugin($argv[2], true);
+        echo "Installing {$GLOBALS['argv'][2]} for {$GLOBALS['argv'][1]}\n";
+        upgradeplugin($GLOBALS['argv'][2], true);
     }
 } else { 
     // This machine is just a slave, unpack the plugin onto the filesystem only

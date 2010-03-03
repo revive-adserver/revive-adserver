@@ -96,6 +96,17 @@ function preUpgrade()
 
 function postUpgrade()
 {
+    // Call the plugin-upgrade script for any bundled plugins (via an exec call)
+    echo "Core upgrade complete - starting plugin upgrade process...\n";
+    $pluginsPath = MAX_PATH . '/etc/plugins';
+    $PLUGINS_DIR = opendir($pluginsPath);
+    while ($file = readdir($PLUGINS_DIR)) {
+        if (is_file($pluginsPath . '/' . $file) && substr($file, strrpos($file, '.')) == '.zip') {
+            $pluginName = substr($file, 0, strpos($file, '.'));
+            passthru('php ' . MAX_PATH . '/scripts/rpm/plugin-upgrade.php default ' . $pluginName);
+        }
+    }
+    
     $oUpgrader = new OA_Upgrade();
     
     if (!$oUpgrader->removeUpgradeTriggerFile()) {
@@ -114,7 +125,7 @@ function upgradeCustomer()
     if (!is_file(MAX_PATH . '/var/UPGRADE'))  { touch (MAX_PATH . '/var/UPGRADE'); }
     if (is_file(MAX_PATH . '/var/INSTALLED')) { unlink(MAX_PATH . '/var/INSTALLED'); }
     
-    if (!$oUpgrader->canUpgrade()) {
+    if (!$oUpgrader->canUpgradeOrInstall(true)) {
         if ($oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION) {
             $message = 'OpenX is up to date';
         } else {
@@ -140,7 +151,10 @@ function upgradeCustomer()
     $oSettings->writeConfigChange();
     
     @unlink(MAX_PATH.'/var/plugins/recover/enabled.log');
-    $oUpgrader->executePostUpgradeTasks();
+    $aUpgradeTasks = $oUpgrader->getPostUpgradeTasks();
+    foreach ($aUpgradeTasks as $upgradeTask) {
+        $oUpgrader->runPostUpgradeTask($upgradeTask);
+    }
     
     $oUpgrader->setOpenadsInstalledOn();
     return 'Upgrade succeeded';
