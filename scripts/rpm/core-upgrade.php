@@ -91,6 +91,24 @@ function preUpgrade()
     if ($result['action'] == CORE_UPGRADE_ERROR_EXIT) {
         return $result['message'];
     }
+    // Make sure that any unbundled plugin .zip files are copied up from the previous codebase
+    $prevPluginsPath = dirname(MAX_PATH) . '/openx.prev/etc/plugins';
+    if (is_dir($prevPluginsPath)) {
+        $aBundledPlugins = array();
+        $pluginsPath = MAX_PATH . '/etc/plugins';
+        $PLUGINS_DIR = opendir($pluginsPath);
+        while ($file = readdir($PLUGINS_DIR)) {
+            if (is_file($pluginsPath . '/' . $file) && substr($file, strrpos($file, '.')) == '.zip') {
+                $aBundledPlugins[] = $file;
+            }
+        }
+        $PREV_PLUGINS_DIR = opendir($prevPluginsPath);
+        while ($file = readdir($PREV_PLUGINS_DIR)) {
+            if (is_file($prevPluginsPath . '/' . $file) && substr($file, strrpos($file, '.')) == '.zip' && !in_array($file, $aBundledPlugins)) {
+                copy($prevPluginsPath . '/' . $file, $pluginsPath . '/' . $file);
+            }
+        }
+    }
     return true;
 }
 
