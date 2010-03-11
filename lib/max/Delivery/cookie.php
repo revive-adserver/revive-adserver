@@ -365,6 +365,8 @@ function MAX_cookieClientCookieFlush()
 	if (!is_array($cookieNames))
 		return;
 
+    $maxCookieSize = !empty($conf['cookie']['maxCookieSize']) ? $conf['cookie']['maxCookieSize'] : 2048;
+    
     // For each type of cookie, repack if necessary
     foreach ($cookieNames as $cookieName) {
         // We only need to write out the compacted cookie if a new item is to be inserted (or updated)
@@ -392,7 +394,7 @@ function MAX_cookieClientCookieFlush()
             // RFC says that maximum cookie data length is 4096 bytes
             // So we are assuming that 2048 will be valid in most browsers
             // Discard oldest data until we are under the limit
-            while (strlen(implode('_', $data)) > 2048) {
+            while (strlen(implode('_', $data)) > $maxCookieSize) {
                 $data = array_slice($data, 1);
             }
             MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));

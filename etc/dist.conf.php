@@ -309,6 +309,7 @@ priority            = 6
 
 [cookie]
 permCookieSeconds   = 31536000      ; 1 year in seconds
+maxCookieSize       = 2048
 
 [debug]
 logfile             =                       ; The delivery engine debugging file
