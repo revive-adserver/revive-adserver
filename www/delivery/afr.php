@@ -468,6 +468,7 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
 $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 if (!is_array($cookieNames))
 return;
+$maxCookieSize = !empty($conf['cookie']['maxCookieSize']) ? $conf['cookie']['maxCookieSize'] : 2048;
 foreach ($cookieNames as $cookieName) {
 if (empty($_COOKIE["_{$cookieName}"])) {
 continue;
@@ -490,7 +491,7 @@ $data = array();
 foreach ($_COOKIE[$cookieName] as $adId => $value) {
 $data[] = "{$adId}.{$value}";
 }
-while (strlen(implode('_', $data)) > 2048) {
+while (strlen(implode('_', $data)) > $maxCookieSize) {
 $data = array_slice($data, 1);
 }
 MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
