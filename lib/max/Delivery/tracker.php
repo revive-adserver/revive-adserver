@@ -176,6 +176,13 @@ function MAX_trackerCheckForValidAction($trackerid)
         foreach ($aPossibleActions as $actionId => $action) {
             // If there is both a connection window set, and this creative has been actioned
             if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
+                // Check for any custom data which a plugin may have stored in the cookie
+                if (stristr($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], ' ')) {
+                    list($value, $extra) = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
+                    $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId] = $value;
+                } else {
+                    $extra = '';
+                }
                 list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
                 // Decode the base32 timestamp
                 $lastAction = MAX_commonUnCompressInt($lastAction);
@@ -193,6 +200,7 @@ function MAX_trackerCheckForValidAction($trackerid)
                         'zid'           => $zoneId,
                         'dt'            => $lastAction,
                         'window'        => $aLinkedInfo[$action . '_window'],
+                        'extra'         => $extra,
                     );
                 }
             }

@@ -373,7 +373,22 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!empty($aSetLastSeen[$index])) {
-        MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
+        $cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
+        
+        // See if any plugin-components have added items to the conversion cookie...
+        $conversionParams =  OX_Delivery_Common_hook('addConversionParams', array($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action, $cookieData));
+        if (!empty($conversionParams) && is_array($conversionParams)) {
+            foreach ($conversionParams as $params) {
+                if (!empty($params) && is_array($params)) {
+                    foreach ($params as $key => $value) {
+                        // Note: We have to use space as a delimiter, if your plugin
+                        // requires spaces in the data, you may need to encode them.
+                        $cookieData .= " {$value}";
+                    }
+                }
+            }
+        }
+        MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", $cookieData, _getTimeThirtyDaysFromNow());
     }
 }
 
