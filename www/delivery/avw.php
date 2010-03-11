@@ -2073,6 +2073,12 @@ $aMatchingActions = array();
 foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
 foreach ($aPossibleActions as $actionId => $action) {
 if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
+if (stristr($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], ' ')) {
+list($value, $extra) = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
+$_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId] = $value;
+} else {
+$extra = '';
+}
 list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
 $lastAction = MAX_commonUnCompressInt($lastAction);
 $lastSeenSecondsAgo = $now - $lastAction;
@@ -2085,6 +2091,7 @@ $aMatchingActions[$lastSeenSecondsAgo] = array(
 'zid' => $zoneId,
 'dt' => $lastAction,
 'window' => $aLinkedInfo[$action . '_window'],
+'extra' => $extra,
 );
 }
 }
@@ -2266,7 +2273,18 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aSetLastSeen[$index])) {
-MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
+$cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
+$conversionParams = OX_Delivery_Common_hook('addConversionParams', array($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action, $cookieData));
+if (!empty($conversionParams) && is_array($conversionParams)) {
+foreach ($conversionParams as $params) {
+if (!empty($params) && is_array($params)) {
+foreach ($params as $key => $value) {
+$cookieData .= " {$value}";
+}
+}
+}
+}
+MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", $cookieData, _getTimeThirtyDaysFromNow());
 }
 }
 function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
