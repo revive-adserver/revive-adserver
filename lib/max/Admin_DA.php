@@ -886,9 +886,9 @@ class Admin_DA
         } else {
             // Add the banner
             if ($aVariables['zone_id'] === 0) {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'link_type' => MAX_AD_ZONE_LINK_DIRECT));
+                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1', 'link_type' => MAX_AD_ZONE_LINK_DIRECT));
             } else {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id']));
+                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1'));
             }
         }
         PEAR::popErrorHandling();
