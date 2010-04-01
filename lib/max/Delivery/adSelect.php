@@ -154,6 +154,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     }
 
     // Store the original zone, campaign or banner IDs for later use
+    $originalZoneId = null;
     if (strpos($what,'zone:') === 0) {
         $originalZoneId = intval(substr($what,5));
     } elseif (strpos($what,'campaignid:') === 0) {
@@ -229,7 +230,9 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 	                $found = true;
 	            }
 	        } else {
-	          $what  = $remaining;
+                    // Log the ad request
+                    MAX_Delivery_log_logAdRequest(null, $originalZoneId, null);
+                    $what  = $remaining;
 	        }
 	    }
     }
