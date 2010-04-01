@@ -3556,6 +3556,7 @@ $GLOBALS['source'] = $source;
 if (empty($GLOBALS['loc'])) {
 $GLOBALS['loc'] = $loc;
 }
+$originalZoneId = null;
 if (strpos($what,'zone:') === 0) {
 $originalZoneId = intval(substr($what,5));
 } elseif (strpos($what,'campaignid:') === 0) {
@@ -3618,6 +3619,7 @@ $what = "zone:{$matches[1]}";
 $found = true;
 }
 } else {
+MAX_Delivery_log_logAdRequest(null, $originalZoneId, null);
 $what = $remaining;
 }
 }
