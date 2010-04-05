@@ -45,15 +45,19 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php'])) {
  */
 function MAX_checkSite_Channel($limitation, $op, $aParams = array())
 {
-	if (empty($limitation)) {
-		return true;
-	}
+    if (empty($limitation)) {
+        return true;
+    }
     if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
         $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = array();
     }
-	$aLimitations = MAX_cacheGetChannelLimitations($limitation);
+    if (isset ($GLOBALS['_MAX']['channel_results'][$limitation][$op])) {
+        return $GLOBALS['_MAX']['channel_results'][$limitation][$op];
+    }
 
-	$aConf = $GLOBALS['_MAX']['CONF'];
+    $aLimitations = MAX_cacheGetChannelLimitations($limitation);
+
+    $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Include required deliveryLimitation files...
     if(strlen($aLimitations['acl_plugins'])) {
@@ -74,6 +78,8 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
 
     // Store the channel result for later use.
     $GLOBALS['_MAX']['channels'][$result][] = array('limitation' => $limitation, 'op' => $op);
+    $GLOBALS['_MAX']['channel_results'][$limitation][$op] = $result;
+
     return $result;
 }
 
