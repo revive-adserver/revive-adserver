@@ -350,7 +350,7 @@ if (isset($trackerid) && $trackerid != '')
 
         if ($variables)
         {
-
+            $varCount = 0;
             if (isset($action['del']))
             {
                 $key = array_keys($action['del']);
@@ -361,7 +361,7 @@ if (isset($trackerid) && $trackerid != '')
                     {
                         if (!isset($v['delete']))
                         {
-
+                            $varCount++;
                             // variable area
                             echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;".$strTrackFollowingVars."</td></tr>\n";
                             echo "<tr><td colspan='4'><img src='" . OX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>\n";
@@ -519,10 +519,12 @@ if (isset($trackerid) && $trackerid != '')
                     echo "</tr>";
 
                     echo "<tr>";
+                    if ($varCount < 10) {
                         echo "<td colspan='4' align='right'>";
                             echo "<img src='" . OX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
                             echo "<input type='image' name='action[new]' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
                         echo "</td>";
+                    }
                     echo "</tr>";
                     echo "<tr>";
                         echo "<td colspan='4'><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>\n";
