@@ -1336,6 +1336,10 @@ $rVariables = OA_Dal_Delivery_query("
             v.trackerid AS tracker_id,
             v.name AS name,
             v.datatype AS type,
+            purpose AS purpose,
+			reject_if_empty AS reject_if_empty,
+			is_unique AS is_unique,
+			unique_window AS unique_window,
             v.variablecode AS variablecode
         FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['variables'])." AS v
@@ -2043,9 +2047,18 @@ $buffer .= "
 }
 }
 if (!empty($variableQuerystring)) {
+$conversionInfoParams = array();
+foreach ($conversionInfo as $plugin => $pluginData) {
+if (is_array($pluginData)) {
+foreach ($pluginData as $key => $value) {
+$conversionInfoParams[] = $key . '=' . urlencode($value);
+}
+}
+}
+$conversionInfoParams = '&' . implode('&', $conversionInfoParams);
 $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid&server_conv_id={$conversionInfo['server_conv_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
+    document.write (\"$url?trackerid=$trackerid{$conversionInfoParams}{$variableQuerystring}'\");";
 $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
 }
 }
@@ -2274,7 +2287,7 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aSetLastSeen[$index])) {
 $cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
-$conversionParams = OX_Delivery_Common_hook('addConversionParams', array($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action, $cookieData));
+$conversionParams = OX_Delivery_Common_hook('addConversionParams', array(&$index, &$aAdIds, &$aZoneIds, &$aSetLastSeen, &$action, &$cookieData));
 if (!empty($conversionParams) && is_array($conversionParams)) {
 foreach ($conversionParams as $params) {
 if (!empty($params) && is_array($params)) {
@@ -3055,10 +3068,10 @@ OX_Delivery_Common_hook('postInit');
 }
 
 
-if (!empty($_GET['server_conv_id']) && !empty($_GET['trackerid'])) {
-$serverConvId = $_GET['server_conv_id'];
-$serverRawIp = $_GET['server_raw_ip'];
+if (!empty($_GET['trackerid'])) {
 $trackerId = $_GET['trackerid'];
+$serverConvId = (isset($_GET['server_conv_id'])) ? $_GET['server_conv_id'] : null;
+$serverRawIp = (isset($_GET['server_raw_ip'])) ? $_GET['server_raw_ip'] : null;
 $aVariables = MAX_cacheGetTrackerVariables($trackerId);
 MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp);
 }
