@@ -38,7 +38,7 @@ $Id$
  * @todo Ask Matteo what the $trackerJsCode is for
  *
  * @param int $trackerid                The ID of the tracker
- * @param array $conversionInfo         An array of the information from the tracker impression
+ * @param array $conversionInfo         An of array of arrays of the return values from the logConversion plugins
  * @param unknown_type $trackerJsCode   Unknown
  *
  * @return string   The JavaScript to pick up the variables from the page, and pass them in to the
@@ -123,9 +123,19 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
             }
         }
         if (!empty($variableQuerystring)) {
+			// Pass the return values from the logConversion hook call into the variables request
+            $conversionInfoParams = array();
+            foreach ($conversionInfo as $plugin => $pluginData) {
+                if (is_array($pluginData)) {
+                    foreach ($pluginData as $key => $value) {
+                        $conversionInfoParams[] = $key . '=' . urlencode($value);
+                    }
+                }
+            }
+            $conversionInfoParams = '&' . implode('&', $conversionInfoParams);
             $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid&server_conv_id={$conversionInfo['server_conv_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
+    document.write (\"$url?trackerid=$trackerid{$conversionInfoParams}{$variableQuerystring}'\");";
             $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
         }
     }

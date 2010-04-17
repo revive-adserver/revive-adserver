@@ -56,9 +56,9 @@ if (($conf['logging']['trackerImpressions'])) {
         $aConversionInfo = MAX_Delivery_log_logConversion($trackerid, $aConversion);
         // Generate code required to send variable values to the {$conf['file']['conversionvars']} script
         if (isset($inherit)) {
-            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aConversionInfo['deliveryLog:oxLogConversion:logConversion'], $inherit);
+            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aConversionInfo, $inherit);
         } else {
-            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aConversionInfo['deliveryLog:oxLogConversion:logConversion']);
+            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aConversionInfo);
         }
         $logVars = true;
     }

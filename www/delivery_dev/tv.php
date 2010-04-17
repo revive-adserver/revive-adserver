@@ -32,10 +32,11 @@ require_once '../../init-delivery.php';
 require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 
 // Register input variables
-if (!empty($_GET['server_conv_id']) && !empty($_GET['trackerid'])) {
-    $serverConvId = $_GET['server_conv_id'];
-    $serverRawIp  = $_GET['server_raw_ip'];
-    $trackerId    = $_GET['trackerid'];
+if (!empty($_GET['trackerid'])) {
+    $trackerId = $_GET['trackerid'];
+    $serverConvId = (isset($_GET['server_conv_id'])) ? $_GET['server_conv_id'] : null;
+    $serverRawIp  = (isset($_GET['server_raw_ip']))  ? $_GET['server_raw_ip']  : null;
+    
     $aVariables   = MAX_cacheGetTrackerVariables($trackerId);
     MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp);
 }

@@ -376,7 +376,7 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
         $cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
         
         // See if any plugin-components have added items to the conversion cookie...
-        $conversionParams =  OX_Delivery_Common_hook('addConversionParams', array($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action, $cookieData));
+        $conversionParams =  OX_Delivery_Common_hook('addConversionParams', array(&$index, &$aAdIds, &$aZoneIds, &$aSetLastSeen, &$action, &$cookieData));
         if (!empty($conversionParams) && is_array($conversionParams)) {
             foreach ($conversionParams as $params) {
                 if (!empty($params) && is_array($params)) {

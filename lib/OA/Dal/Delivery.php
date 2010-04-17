@@ -1030,6 +1030,10 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
             v.trackerid AS tracker_id,
             v.name AS name,
             v.datatype AS type,
+            purpose AS purpose,
+			reject_if_empty AS reject_if_empty,
+			is_unique AS is_unique,
+			unique_window AS unique_window,
             v.variablecode AS variablecode
         FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['variables'])." AS v
