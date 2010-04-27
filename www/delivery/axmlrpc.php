@@ -3874,6 +3874,7 @@ return $zoneId;
 }
 function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = true)
 {
+if ($zoneId === 0) { return false; }
 global $g_append, $g_prepend;
 while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
