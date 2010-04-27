@@ -403,6 +403,9 @@ function _getNextZone($zoneId, $arrZone)
  */
 function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = true)
 {
+    // ZoneID zero is used for direct selected adRequests only
+    if ($zoneId === 0) { return false; }
+    
     global $g_append, $g_prepend;
     while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
         $GLOBALS['_MAX']['followedChain'][] = $zoneId;
