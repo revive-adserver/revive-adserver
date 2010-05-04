@@ -360,6 +360,9 @@ class OA_Dll_Banner extends OA_Dll
                         }
                     }                    
                     break;
+                case 'url':
+                    $bannerData['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($oBanner->imageURL);
+                    break;
             }
 
             $doBanner = OA_Dal::factoryDO('banners');
