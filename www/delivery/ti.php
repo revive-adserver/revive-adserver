@@ -3112,7 +3112,7 @@ if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_
 $serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'];
 }
 if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'])) {
-$serverRawId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
+$serverRawIp = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
 }
 MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $serverConvId, $serverRawIp);
 }
