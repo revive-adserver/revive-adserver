@@ -51,7 +51,7 @@ if ($conf['logging']['trackerImpressions']) {
             $serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'];
         }
         if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'])) {
-            $serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
+            $serverRawId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
         }
         
         // Log tracker impression variable values
