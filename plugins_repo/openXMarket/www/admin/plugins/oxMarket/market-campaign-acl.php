@@ -93,7 +93,7 @@ function displayPage($oMarketComponent, $aEntities, $acl)
     addMarketCampaignPageTools($advertiserId, $campaignId);
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-        'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+        'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
     
     phpAds_PageHeader('market-campaign-acl', $oHeaderModel);
     

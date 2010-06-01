@@ -68,7 +68,7 @@ function displayPage($affiliateid, &$oComponent)
 {
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
-        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oComponent->getPluginVersion())));
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oComponent->getPluginVersion())));
     
     phpAds_PageHeader("market-preferences-website",'','../../');
     $oTpl    = new OA_Plugin_Template('market-preferences-website.html','openXMarket');
@@ -106,7 +106,7 @@ function displayPage($affiliateid, &$oComponent)
     $oTpl->assign('affiliateId', $affiliateid);
     $oTpl->assign('pluginVersion', $oComponent->getPluginVersion());
     
-
+    $oTpl->assign('aBranding', $oComponent->aBranding);
     $oTpl->display();
 
     phpAds_PageFooter();

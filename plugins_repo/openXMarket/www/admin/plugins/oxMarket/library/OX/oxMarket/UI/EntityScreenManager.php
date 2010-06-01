@@ -56,14 +56,14 @@ class OX_oxMarket_UI_EntityScreenManager
         switch($pageId) {
             case 'advertiser-index': {
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-                    'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
                 break;
             }
             
             
             case 'advertiser-campaigns': {
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-                    'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
                 if (isset($oHeaderModel) && $oEntityHelper->isMarketAdvertiser($pageData['clientid'])) {
                     $oHeaderModel->setIconClass('iconCampaignsSystemLarge');
                 }
@@ -161,6 +161,7 @@ class OX_oxMarket_UI_EntityScreenManager
     {
         $oTpl = new OA_Plugin_Template('fragment-campaign-zone.html','oxMarket');
         $oTpl->assign('after', true);
+        $oTpl->assign('aBranding', $this->oMarketComponent->aBranding);
         
         return $oTpl->toString();
     }    
@@ -193,6 +194,7 @@ class OX_oxMarket_UI_EntityScreenManager
         $oTpl->assign('marketClientId', $marketClientId);
         $oTpl->assign('content', $content);
         $oTpl->assign('showMarketInfo', $showInfo);
+        $oTpl->assign('aBranding', $this->oMarketComponent->aBranding);
         
         return $oTpl->toString();
     }    
@@ -220,6 +222,7 @@ class OX_oxMarket_UI_EntityScreenManager
         $oTpl = new OA_Plugin_Template('fragment-advertiser-campaigns.html','oxMarket');
         $oTpl->assign('content', $content);
         $oTpl->assign('before', true);
+        $oTpl->assign('aBranding', $this->oMarketComponent->aBranding);
         
         return $oTpl->toString();
     }
@@ -240,6 +243,7 @@ class OX_oxMarket_UI_EntityScreenManager
         $oTpl = new OA_Plugin_Template('fragment-advertiser-campaigns.html','oxMarket');
         $oTpl->assign('content', $content);
         $oTpl->assign('after', true);
+        $oTpl->assign('aBranding', $this->oMarketComponent->aBranding);
         
         return $oTpl->toString();
     }

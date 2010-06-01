@@ -44,12 +44,15 @@ if ($template) {
     // Header
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
-        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($handler->getPluginVersion())));
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($handler->getPluginVersion())));
     
     $oMenu = OA_Admin_Menu::singleton();
     $oCurrentSection = $oMenu->get("market-campaigns-settings");
     phpAds_PageHeader("market-campaigns-settings", new OA_Admin_UI_Model_PageHeaderModel(
         $oCurrentSection->getName(), "iconMarketLarge"), '../../', true, true, true, false);
+    
+    $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    $template->assign('aBranding', $oMarketComponent->aBranding);
     
     // Content
     $template->display();

@@ -100,7 +100,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      */
     private $websiteDal;
     
-    
+    public $aBranding = array();
     
     /**
      * An instance of DAL for market account preferences and user variables
@@ -119,6 +119,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     
         $this->oFormManager = new OX_oxMarket_UI_EntityFormManager($this);
         $this->preferenceDal = new OX_oxMarket_Dal_PreferenceVariable($this);
+        $this->aBranding = $this->_getBranding();
     }
     
 
@@ -602,10 +603,10 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         }
 
         $hasApiKey = $this->oMarketPublisherClient->hasApiKey();
-        $message = "OpenX Market publisher account is not properly associated with your ad server";
+        $message = $this->translate("%s publisher account is not properly associated with your ad server", array($this->aBranding['name']));
         if (!$hasApiKey) {
             $status = null;
-            $message .= "<br>API Key is missing, please try re-connect your Ad Server to OpenX Market using your OpenX.org account";
+            $message .= $this->translate("<br />API Key is missing, please try re-connect your Ad Server to %s using your %s account", array($this->aBranding['name'], $this->aBranding['service']));
         } else {
             $status = $this->oMarketPublisherClient->getAssociationWithPcStatus();
         }
@@ -657,7 +658,6 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!$this->isRegistered() || !$this->isActive()) {
             return null;
         }
-
         //contact pubconsole and get the menu items
         $aPubconsoleNav = array();
         try {
@@ -764,8 +764,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $aMailContents = $this->oFormManager->buildAdminEmail();
         $url = $aMailContents['url'];
-        $registerMessage = "To enable OpenX Market to serve ads, your OpenX Administrator must activate OpenX Market for your Ad Server.
-        <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
+        $registerMessage = $this->translate("To enable %s to serve ads, your OpenX Administrator must activate %s for your Ad Server.", array($this->aBranding['name'])) . 
+        "<br /><a href='".$url."'><b>" . $this->translate("Contact your administrator") . " &raquo;</b></a>";
 
         $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
     }
@@ -777,8 +777,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
 
-        $registerMessage = 'To enable OpenX Market to serve ads, you must register with OpenX.<br>
-                <a href="'.$url.'">Get started now &raquo;</a>';
+        $registerMessage = $this->translate("To enable %s to serve ads, you must register with OpenX.", array($this->aBranding['name'])) . "<br /><a href='{$url}'>" . $this->translate("Get started now") . " &raquo;</a>";
 
         $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
     }
@@ -802,10 +801,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $registerMessage = isset($aContentKeys['earn-messsage'])
             ? $aContentKeys['earn-messsage']
-            : '<b>New!</b> OpenX Market now offers more ways to help you make more money. '
-             .'<a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">Learn more</a>'
-             .'<a class="dismiss block" style="display: none; font-size: 9px; margin-top: 8px; font-weight: normal; text-align: right;" href="#">Don\'t show again [x]</a>'
-            .'<script type="text/javascript">
+            : $this->translate("'<b>New!</b> %s now offers more ways to help you make more money.", array($this->aBranding['name'])) .
+              $this->translate("<a href='%s' target='_blank'>Learn more</a>", array($this->aBranding['links']['faq_make_money'])) .
+                 "<a class='dismiss block' style='display: none; font-size: 9px; margin-top: 8px; font-weight: normal; text-align: right;' href='#'>" . 
+                 $this->translate("Don't show again") . " [x]</a>" .
+              '<script type="text/javascript">
               <!--
               $(document).ready(function() {
                 $scheduledMessage = $("#secondLevelNavigation .notificationPlaceholder");
@@ -868,10 +868,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $noSSLMessage = isset($aContentKeys['no-ssl-messsage'])
             ? $aContentKeys['no-ssl-messsage']
-            : 'In order to secure your data, we recommend installing a PHP
-                extension which supports secure connections (eg. cURL or OpenSSL).
-                See <a href="http://www.openx.org/faq/market">OpenX Market FAQ</a>
-                for more details.';
+            : $this->translate("In order to secure your data, we recommend installing a PHP extension which supports secure connections (eg. cURL or OpenSSL)")
+                . $this->translate("See <a href='%s'>%s FAQ</a> for more details.", array($this->aBranding['links']['faq'], $this->aBranding['name']));
 
         OA_Admin_UI::queueMessage($noSSLMessage, 'local', 'warning', 0);
     }
@@ -887,6 +885,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         try {
             //connect to pubconsole API and get the custom content for that page
             $customContentUrl = $this->buildPubconsoleApiUrl($this->getConfigValue('marketCustomContentUrl'));
+            
             $oClient = $this->getHttpClient();
             $oClient->setUri($customContentUrl);
             $oClient->setParameterGet(array(
@@ -894,7 +893,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, '')),
                 'pcWebUrl' => urlencode($this->getConfigValue('marketHost')),
                 'v' => $this->getPluginVersion(),
-                'h' => $this->isMultipleAccountsMode()? "1" : "0"            
+                'h' => $this->isMultipleAccountsMode()? "1" : "0",
+                $this->getConfigValue('marketAccountIdParamName') => $this->oMarketPublisherClient->getPcAccountId(),
             ));
 
             $response = $oClient->request();
@@ -1143,7 +1143,39 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
         $oAdvertiserDal = new OX_oxMarket_Dal_Advertiser();
-        $oAdvertiserDal->createMarketAdvertiser($agencyid); 
+        $oAdvertiserDal->createMarketAdvertiser($agencyid, $this->aBranding); 
+    }
+    
+    private function _getBranding()
+    {
+        // Get branding information from PC (currently hard-coded here for development)
+        $aBranding = array(
+            'key'       => 'openx',
+            'name'      => 'OpenX Market',
+            'service'   => 'OpenX.org',
+            'links'     => array(
+                'faq'                   => 'http://www.openx.org/faq/market',
+                'faq_make_money'        => 'http://www.openx.org/en/faq/how-to-make-money-from-openx-market',
+                'info'                  => 'http://www.openx.org/market',
+                'marketTermsUrl'        => 'http://www.openx.org/market/terms',
+                'marketPrivacyUrl'      => 'http://www.openx.org/privacy',
+                'openXTermsUrl'         => 'http://www.openx.org/terms',
+                'openXPrivacyUrl'       => 'http://www.openx.org/privacy',
+                'publisherSupportEmail' => 'publisher-support@openx.org',
+            ),
+            'assetPath' => 'https://ssl-i.xx.openx.com/market/openx',
+        );
+        
+        // Set some GLOBAL strings to override some core translation strings refering to the market
+        $GLOBALS['strMarketCampaignOptin']                  = "{$aBranding['name']} - Opted In Campaigns";
+        $GLOBALS['strMarketZoneOptin']                      = "{$aBranding['name']} - Zone Default Ads";
+        $GLOBALS['strMarketZoneBeforeOpenX2.8.4']           = "{$aBranding['name']} ads before OpenX 2.8.4";
+        $GLOBALS['strOpenX Market']                         = "{$aBranding['name']}";
+        $GLOBALS['strOpenX Market Quickstart']              = "{$aBranding['name']} Quickstart";
+        $GLOBALS['strOpenX Market - Content Restrictions']  = "{$aBranding['name']} - Content Restrictions";
+        $GLOBALS['strOpenX Market - Ad Quality Tool']       = "{$aBranding['name']} - Ad Quality Tool";
+        
+        return $aBranding;
     }
 }
 

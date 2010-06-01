@@ -259,8 +259,8 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
     //header
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
-        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
-    phpAds_PageHeader("openx-market",'','../../');
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+    phpAds_PageHeader("market",'','../../');
 
     //get template and display form
     $aStrings = getTranslationLabels($oMarketComponent);
@@ -322,11 +322,11 @@ function getTranslationLabels($oMarketComponent)
         return $aContentStrings;
     }
 
-    $marketTermsLink = $oMarketComponent->getConfigValue('marketTermsUrl');
-    $marketPrivacyLink = $oMarketComponent->getConfigValue('marketPrivacyUrl');
-    $openXTermsLink = $oMarketComponent->getConfigValue('openXTermsUrl');
-    $openXPrivacyLink = $oMarketComponent->getConfigValue('openXPrivacyUrl');
-    $publisherSupportEmail = $oMarketComponent->getConfigValue('publisherSupportEmail');
+    $marketTermsLink        = $oMarketComponent->aBranding['links']['marketTermsUrl'];
+    $marketPrivacyLink      = $oMarketComponent->aBranding['links']['marketPrivacyUrl'];
+    $openXTermsLink         = $oMarketComponent->aBranding['links']['openXTermsUrl'];
+    $openXPrivacyLink       = $oMarketComponent->aBranding['links']['openXPrivacyUrl'];
+    $publisherSupportEmail  = $oMarketComponent->aBranding['links']['publisherSupportEmail'];
 
     $aContentKeys = $oMarketComponent->retrieveCustomContent('market-signup');
     if (!$aContentKeys) {
@@ -336,109 +336,108 @@ function getTranslationLabels($oMarketComponent)
     //get the custom content and fallback to hardcoded if not found
     $aContentStrings['header_title'] = isset($aContentKeys['header-title'])
         ? $aContentKeys['header-title']
-        : '<span class="section-header">Provide an OpenX.org account</span>
-            <span class="link" help="help-market-info"><span class="icon icon-info">&nbsp;</span></span>
-            <div class="hide" id="help-market-info" style="height: auto; width: 270px;">
+        : "<span class='section-header'>" . $oMarketComponent->translate("Provide an %s account", array($oMarketComponent->aBranding['service'])) . "</span>
+            <span class='link' help='help-market-info'><span class='icon icon-info'>&nbsp;</span></span>
+            <div class='hide' id='help-market-info' style='height: auto; width: 270px;'>
             <p>
-                An OpenX.org account is an account which you may use to login to a variety
-                of OpenX products like OpenX Hosted, the OpenX Community Forums, and more.
+                " . $oMarketComponent->translate("An %s account is an account which you may use to login to a variety of OpenX products like OpenX Hosted, the OpenX Community Forums, and more.", array($oMarketComponent->aBranding['service'])) . "
             </p>
-          ';
+          ";
     $aContentStrings['form_prefix'] = isset($aContentKeys['form-prefix'])
         ? $aContentKeys['form-prefix']
-        : "To get started, provide your OpenX.org account. If you don't have an OpenX.org account, you may create a new one below.";
+        : $oMarketComponent->translate("To get started, provide your %s account. If you don't have an %s account, you may create a new one below.", array($oMarketComponent->aBranding['service'], $oMarketComponent->aBranding['service']));
 
     $aContentStrings['account_question_header_text'] = isset($aContentKeys['account-question-header-text'])
         ? $aContentKeys['account-question-header-text']
-        : "<div class='header'>Do you already have an OpenX.org account?</div>";
+        : "<div class='header'>" . $oMarketComponent->translate("Do you already have an %s account?", array($oMarketComponent->aBranding['service'])) . "</div>";
 
     $aContentStrings['account_question_required_message'] = isset($aContentKeys['account-question-required-message'])
         ? $aContentKeys['account-question-required-message']
-        : "Please indicate whether you'd like to use an existing OpenX.org account or create a new one";
+        : $oMarketComponent->translate("Please indicate whether you'd like to use an existing %s account or create a new one", array($oMarketComponent->aBranding['service']));
 
     $aContentStrings['has_account_field_label'] = isset($aContentKeys['has-account-field-label'])
         ? $aContentKeys['has-account-field-label']
-        : "<span class='type-name'>I <em>have</em> an OpenX.org account</span>";
+        : "<span class='type-name'>" . $oMarketComponent->translate("I <em>have</em> an %s account", array($oMarketComponent->aBranding['service'])) . "</span>";
 
     $aContentStrings['no_account_field_label'] = isset($aContentKeys['no-account-field-label'])
         ? $aContentKeys['no-account-field-label']
-        : "<span class='type-name'>I <em>do not have</em> an OpenX.org account</span>";
+        : "<span class='type-name'>" . $oMarketComponent->translate("I <em>do not have</em> an %s account", array($oMarketComponent->aBranding['service'])) . "</span>";
 
     $aContentStrings['has_account_header_text'] = isset($aContentKeys['has-account-header-text'])
         ? $aContentKeys['has-account-header-text']
-        : "<div class='header'>Please enter your OpenX.org account information</div>";
+        : "<div class='header'>" . $oMarketComponent->translate("Please enter your %s account information", array($oMarketComponent->aBranding['service'])) . "</div>";
 
     $aContentStrings['login_field_label'] = isset($aContentKeys['login-field-label'])
         ? $aContentKeys['login-field-label']
-        : 'OpenX.org Username';
+        : $oMarketComponent->translate("%s Username", array($oMarketComponent->aBranding['service']));
 
     $aContentStrings['password_field_label'] = isset($aContentKeys['password-field-label'])
         ? $aContentKeys['password-field-label']
-        : 'Password';
+        : $oMarketComponent->translate('Password');
 
     $aContentStrings['market_terms_field_label'] = isset($aContentKeys['market-terms-field-label'])
         ? vsprintf($aContentKeys['market-terms-field-label'], array($marketTermsLink, $marketPrivacyLink))
-        : "I accept the OpenX Market <a target='_blank' href='$marketTermsLink'>terms and conditions</a> and <a target='_blank' href='$marketPrivacyLink'>data privacy policy</a>.";
+        : $oMarketComponent->translate("I accept the %s <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($oMarketComponent->aBranding['name'], $marketTermsLink, $marketPrivacyLink));
 
     $aContentStrings['market_terms_field_invalid_message'] = isset($aContentKeys['market-terms-field-invalid-message'])
         ? $aContentKeys['market-terms-field-invalid-message']
-        : "Please agree with OpenX Market terms and conditions and data privacy policy";
+        : $oMarketComponent->translate("Please agree with %s terms and conditions and data privacy policy", array($oMarketComponent->aBranding['name']));
 
     $aContentStrings['no_account_header_text'] = isset($aContentKeys['no-account-header-text'])
         ? $aContentKeys['no-account-header-text']
-        : "<div class='header'>Create a new OpenX.org account</div>";
+        : "<div class='header'>" . $oMarketComponent->translate("Create a new %s account", array($oMarketComponent->aBranding['service'])) . "</div>";
 
     $aContentStrings['signup_email_field_label'] = isset($aContentKeys['signup-email-field-label'])
         ? $aContentKeys['signup-email-field-label']
-        : "Email";
+        : $oMarketComponent->translate("Email");
 
     $aContentStrings['signup_username_field_label'] = isset($aContentKeys['signup-username-field-label'])
         ? $aContentKeys['signup-username-field-label']
-        : "Desired OpenX.org username";
+        : $oMarketComponent->translate("Desired %s username", array($oMarketComponent->aBranding['service']));
 
     $aContentStrings['signup_username_not_available_message'] = isset($aContentKeys['signup-username-not-available-message'])
         ? $aContentKeys['signup-username-not-available-message']
-        : "This OpenX.org username is not available";
+        : $oMarketComponent->translate("This %s username is not available", array($oMarketComponent->aBranding['service']));
 
     $aContentStrings['signup_password_field_label'] = isset($aContentKeys['signup-password-field-label'])
         ? $aContentKeys['signup-password-field-label']
-        : "Password";
+        : $oMarketComponent->translate("Password");
 
     $aContentStrings['signup_password_confirm_field_label'] = isset($aContentKeys['signup-password-confirm-field-label'])
         ? $aContentKeys['signup-password-confirm-field-label']
-        : "Re-enter password";
+        : $oMarketComponent->translate("Re-enter password");
 
     $aContentStrings['signup_password_field_mismatch_message'] = isset($aContentKeys['signup-password-field-mismatch-message'])
         ? $aContentKeys['signup-password-field-mismatch-message']
-        : "The given passwords do not match";
+        : $oMarketComponent->translate("The given passwords do not match");
 
     $aContentStrings['signup_captcha_reload_text'] = isset($aContentKeys['signup-captcha-reload-text'])
         ? $aContentKeys['signup-captcha-reload-text']
-        : "<a href='#' id='captcha-reload'>Try a different image</a>";
+        : "<a href='#' id='captcha-reload'>" . $oMarketComponent->translate("Try a different image") . "</a>";
 
     $aContentStrings['signup_captcha_field_label'] = isset($aContentKeys['signup-captcha-field-label'])
         ? $aContentKeys['signup-captcha-field-label']
-        : "Type the code shown below";
+        : $oMarketComponent->translate("Type the code shown below");
 
     $aContentStrings['signup_captcha_field_required_message'] = isset($aContentKeys['signup-captcha-field-required-message'])
         ? $aContentKeys['signup-captcha-field-required-message']
-        : "Please type the code shown";
+        : $oMarketComponent->translate("Please type the code shown");
 
     $aContentStrings['signup_captcha_field_mismatch_message'] = isset($aContentKeys['signup-captcha-field-mismatch-message'])
                 ? $aContentKeys['signup-captcha-field-mismatch-message']
-                : "Enter the word as it is shown in the image";
+                : $oMarketComponent->translate("Enter the word as it is shown in the image");
 
     $aContentStrings['signup_openx_terms_field_label'] = isset($aContentKeys['signup-openx-terms-field-label'])
         ? vsprintf($aContentKeys['signup-openx-terms-field-label'], array($openXTermsLink, $openXPrivacyLink))
-        : "I accept the OpenX <a target='_blank' href='$openXTermsLink'>terms and conditions</a> and <a target='_blank' href='$openXPrivacyLink'>data privacy policy</a>.";
+        : $oMarketComponent->translate("I accept the OpenX <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($openXTermsLink, $openXPrivacyLink));
 
     $aContentStrings['signup_openx_terms_field_invalid_message'] = isset($aContentKeys['signup-openx-terms-field-invalid-message'])
         ? $aContentKeys['signup-openx-terms-field-invalid-message']
-        : "Please agree with the OpenX terms and conditions and data privacy policy";
+        : $oMarketComponent->translate("Please agree with the OpenX terms and conditions and data privacy policy");
 
     $aContentStrings['submit_field_label'] = isset($aContentKeys['submit-field-label'])
         ? $aContentKeys['submit-field-label']
-        : 'Submit';
+        : $oMarketComponent->translate("Submit");
 
     $aContentStrings['tracker_iframe'] = isset($aContentKeys['tracker-iframe'])
         ? $aContentKeys['tracker-iframe']
@@ -446,12 +445,11 @@ function getTranslationLabels($oMarketComponent)
 
     $aContentStrings['error_message']['701'] = isset($aContentKeys['error-701-message'])
         ? $aContentKeys['error-701-message']
-        : '<div>Invalid user name or password.</div>
+        : "<div>" . $oMarketComponent->translate("Invalid user name or password.") . "</div>
             <ul>
-              <li>Please check that the OpenX User name and password are correct.</li>
-              <li>If you have recently signed up for a new OpenX.org Account,
-              make sure you have gone into your email and activated your OpenX.org Account.</li>
-            </ul>';
+              <li>" . $oMarketComponent->translate("Please check that the OpenX User name and password are correct.") . "</li>
+              <li>" . $oMarketComponent->translate("If you have recently signed up for a new %s Account, make sure you have gone into your email and activated your %s Account.", array($oMarketComponent->aBranding['service'], $oMarketComponent->aBranding['service'])) . "</li>
+            </ul>";
 
     $aContentStrings['error_message']['702'] = isset($aContentKeys['error-702-message'])
         ? $aContentKeys['error-702-message']
@@ -459,52 +457,45 @@ function getTranslationLabels($oMarketComponent)
 
     $aContentStrings['error_message']['703'] = isset($aContentKeys['error-703-message'])
         ? $aContentKeys['error-703-message']
-        : 'There is already an OpenX.org account registered with the given email address.'
-          .' To create a new OpenX.org account please use a different email address';
+        : $oMarketComponent->translate("There is already an %s account registered with the given email address.", array($oMarketComponent->aBranding['service'])) . ' ' .
+          $oMarketComponent->translate("To create a new %s account please use a different email address", array($oMarketComponent->aBranding['service']));
 
     $aContentStrings['error_message']['901'] = isset($aContentKeys['error-901-message'])
         ? vsprintf($aContentKeys['error-901-message'], array($publisherSupportEmail))
-        : 'This Ad Server is already associated with OpenX Market through a different OpenX.org account'
-           .' (Code 901). <br>Please contact <a href="mailto:'.$publisherSupportEmail
-           .'">OpenX Market publisher support</a> if you need further assistance.';
+        : $oMarketComponent->translate("This Ad Server is already associated with OpenX Market through a different %s account (Code 901).", array($oMarketComponent->aBranding['service'])) . "<br />" .
+          $oMarketComponent->translate("Please contact <a href='mailto:%s'>%s publisher support</a> if you need further assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
 
     $aContentStrings['error_message']['902'] = isset($aContentKeys['error-902-message'])
         ? vsprintf($aContentKeys['error-902-message'], array($publisherSupportEmail))
-        : 'This OpenX.org account is already associated with OpenX Market through a different OpenX Ad Server'
-          .' (Code 902). <br>Please contact <a href="mailto:'.$publisherSupportEmail
-          .'">OpenX Market publisher support</a> if you need further assistance.';
-
+        : $oMarketComponent->translate("This %s account is already associated with %s through a different OpenX Ad Server (Code 902).", array($oMarketComponent->aBranding['service'], $oMarketComponent->aBranding['name'])) . "<br />" . 
+          $oMarketComponent->translate("Please contact <a href='mailto:%s'>%s publisher support</a> if you need further assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
+  
     $aContentStrings['error_message']['912'] = isset($aContentKeys['error-912-message'])
         ? vsprintf($aContentKeys['error-912-message'], array($publisherSupportEmail))
-        : 'An error occured while creating your OpenX.org account (Code 912).'
-          .'<br>Please try again in couple of minutes. If the problem persists,'
-          .'please contact <a href="mailto:'.$publisherSupportEmail.'">OpenX Market publisher support</a> for assistance.';
+        : $oMarketComponent->translate("An error occured while creating your %s account (Code 912).", array($oMarketComponent->aBranding['service'])) . "<br />" . 
+          $oMarketComponent->translate("Please try again in couple of minutes.") . 
+          $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
 
     $aContentStrings['error_message']['0'] = isset($aContentKeys['error-0-message'])
         ? $aContentKeys['error-0-message']
-        : 'A generic error occurred while associating your OpenX.org account (Code 0: %s)' //%s needs to replaced with exc message
-          .'<br>The problem may be caused by an improper configuration of your OpenX Ad Server'
-          .' or your web server or by the lack of a required PHP extension.'
-          .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
-          .'">OpenX Market publisher support</a> for assistance.';
+        : $oMarketComponent->translate("A generic error occurred while associating your %s account (Code 0: %s)", array($oMarketComponent->aBranding['service'])) . "<br />" .//%s needs to replaced with exc message
+          $oMarketComponent->translate("The problem may be caused by an improper configuration of your OpenX Ad Server or your web server or by the lack of a required PHP extension.") . "<br />" .
+          $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
 
     $aContentStrings['error_message']['unknown'] = isset($aContentKeys['error-unknown-message'])
         ? $aContentKeys['error-unknown-message']
-        : 'An error occured while associating your OpenX.org account (Code %s).' //%s needs to be replaced with error.code
-          .'<br>Please try again in couple of minutes. If the problem persists,'
-          .'please contact <a href="mailto:%s">OpenX Market publisher support</a>' //%s needs to be replaced with publisher support email
-          .' for assistance.';
+        : $oMarketComponent->translate("An error occured while associating your %s account (Code %s).", array($oMarketComponent->aBranding['service'])) . "<br />" . //%s needs to be replaced with error.code
+          $oMarketComponent->translate("Please try again in couple of minutes.") . 
+          $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
 
     // PEAR XML-RPC errors
     $aXmlRpcPearErrors = getXmlRpcPearErrorsCodes();
     foreach ($aXmlRpcPearErrors as $errnum) {
         $aContentStrings['error_message'][$errnum] = isset($aContentKeys['error-generic-xml-rpc-message'])
             ? $aContentKeys['error-generic-xml-rpc-message']
-            : 'An error occurred while associating your OpenX.org account (Code %s: %s)' //%s needs to replaced with code and exc message
-              .'<br>The problem may be caused by an improper configuration of your OpenX Ad Server'
-              .' or your web server or by the lack of a required PHP extension.'
-              .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
-              .'">OpenX Market publisher support</a> for assistance.';
+            : $oMarketComponent->translate("An error occurred while associating your %s account (Code %s: %s)", array($oMarketComponent->aBranding['service'])) . "<br />" . //%s needs to replaced with code and exc message
+              $oMarketComponent->translate("The problem may be caused by an improper configuration of your OpenX Ad Server or your web server or by the lack of a required PHP extension.") . "<br />" .
+              $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
     }
 
     return $aContentStrings;
@@ -515,7 +506,7 @@ function getErrorMessage($oMarketComponent, $error)
 {
     $aStrings = getTranslationLabels($oMarketComponent);
     $errorKey = ''.$error['code'].'';
-    $publisherSupportEmail = $oMarketComponent->getConfigValue('publisherSupportEmail');
+    $publisherSupportEmail = $oMarketComponent->aBranding['links']['publisherSupportEmail'];
 
     if (isset($aStrings['error_message'][$errorKey])) {
         $message = $aStrings['error_message'][$errorKey];

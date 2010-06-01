@@ -56,8 +56,8 @@ if (!isset($aDeactivationStatus['code'])) {
 //header
 $oUI = OA_Admin_UI::getInstance();
 $oUI->registerStylesheetFile(MAX::constructURL(
-    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
-phpAds_PageHeader("openx-market",'','../../');
+    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+phpAds_PageHeader("market",'','../../');
 
 //get template and display form
 $oTpl = new OA_Plugin_Template('market-inactive.html','openXMarket');
@@ -77,6 +77,7 @@ if (isset($oForm)) {
 }
 
 $oTpl->assign('publisherSupportEmail', $oMarketComponent->getConfigValue('publisherSupportEmail'));
+$oTpl->assign('aBranding', $oMarketComponent->aBranding);
 
 $oTpl->display();
 
@@ -159,64 +160,44 @@ function getTranslationLabels($oMarketComponent)
 {
     static $aContentStrings;
 
-    $marketTermsLink = $oMarketComponent->getConfigValue('marketTermsUrl');
-    $marketPrivacyLink = $oMarketComponent->getConfigValue('marketPrivacyUrl');
-    $publisherSupportEmail = $oMarketComponent->getConfigValue('publisherSupportEmail');
+    $marketTermsLink        = $oMarketComponent->aBranding['links']['marketTermsUrl'];
+    $marketPrivacyLink      = $oMarketComponent->aBranding['links']['marketPrivacyUrl'];
+    $publisherSupportEmail  = $oMarketComponent->aBranding['links']['publisherSupportEmail'];
 
     if ($aContentStrings != null) {
         return $aContentStrings;
     }
 
-    $aContentStrings['has_account_header_text'] =
-        "<div class='header'>Please enter your OpenX.org account information</div>";
-
-    $aContentStrings['login_field_label'] =
-        'OpenX.org Username';
-
-    $aContentStrings['password_field_label'] =
-        'Password';
-
-    $aContentStrings['market_terms_field_label'] =
-        "I accept the OpenX Market <a target='_blank' href='$marketTermsLink'>terms and conditions</a> and <a target='_blank' href='$marketPrivacyLink'>data privacy policy</a>.";
-
-    $aContentStrings['submit_field_label'] =
-        'Submit';
-
-    $aContentStrings['market_terms_field_invalid_message'] =
-        "Please agree with OpenX Market terms and conditions and data privacy policy";
-
-    $aContentStrings['error_message']['701'] =
-          '<div>Invalid user name or password.</div>
+    $aContentStrings['has_account_header_text'] = "<div class='header'>" . $oMarketComponent->translate("Please enter your %s account information", array($oMarketComponent->aBranding['service'])) . "</div>";
+    $aContentStrings['login_field_label'] = $oMarketComponent->translate("%s Username", array($oMarketComponent->aBranding['service']));
+    $aContentStrings['password_field_label'] = $oMarketComponent->translate("Password");
+    $aContentStrings['market_terms_field_label'] = $oMarketComponent->translate("I accept the %s <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($oMarketComponent->aBranding['name'], $marketTermsLink, $marketPrivacyLink));
+    $aContentStrings['submit_field_label'] = $oMarketComponent->translate("Submit");
+    $aContentStrings['market_terms_field_invalid_message'] = $oMarketComponent->translate("Please agree with %s terms and conditions and data privacy policy", $oMarketComponent->aBranding['name']);
+    $aContentStrings['error_message']['701'] ="<div>" . $oMarketComponent->translate("Invalid user name or password.") . "</div>
             <ul>
-              <li>Please check that the OpenX User name and password are correct.</li>
-              <li>If you have recently signed up for a new OpenX.org Account,
-              make sure you have gone into your email and activated your OpenX.org Account.</li>
-            </ul>';
+              <li>" . $oMarketComponent->translate("Please check that the OpenX User name and password are correct.") . "</li>
+              <li>" . $oMarketComponent->translate("If you have recently signed up for a new %s Account, make sure you have gone into your email and activated your %s Account.", array($oMarketComponent->aBranding['service'], $oMarketComponent->aBranding['service'])) . "</li>
+            </ul>";
 
-    $aContentStrings['error_message']['702'] =
-        $aContentStrings['error_message']['701']; //701,702 reuse the message
+    $aContentStrings['error_message']['702'] = $aContentStrings['error_message']['701']; //701,702 reuse the message
+    
+    $aContentStrings['error_message']['913'] = $oMarketComponent->translate("This %s account is not associated with %s (Code 913).", array($oMarketComponent->aBranding['service'], $oMarketComponent->aBranding['name'])) . "<br />" .
+        $oMarketComponent->translate("Please try again in couple of minutes.") . " " .
+        $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
+    
+    $aContentStrings['error_message']['unknown'] = $oMarketComponent->translate("An error occured (Code %s).") . "<br />" . //%s needs to be replaced with error.code
+        $oMarketComponent->translate("Please try again in couple of minutes.") . " " .
+        $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
 
-    $aContentStrings['error_message']['913'] =
-          'This OpenX.org account is not associated with OpenX Market (Code 913).'
-          .'<br>Please try again in couple of minutes. If the problem persists,'
-          .'please contact <a href="mailto:'.$publisherSupportEmail.'">OpenX Market publisher support</a> for assistance.';
-
-    $aContentStrings['error_message']['unknown'] =
-          'An error occured (Code %s).' //%s needs to be replaced with error.code
-          .'<br>Please try again in couple of minutes. If the problem persists,'
-          .'please contact <a href="mailto:'.$publisherSupportEmail.'">OpenX Market publisher support</a>'
-          .' for assistance.';
 
     // PEAR XML-RPC errors
-    $aXmlRpcPearErrors = array('0', '1', '2', '3', '4', '5', '6', '7',
-                  '101', '102', '103', '104', '105', '106');
+    $aXmlRpcPearErrors = array('0', '1', '2', '3', '4', '5', '6', '7', '101', '102', '103', '104', '105', '106');
     foreach ($aXmlRpcPearErrors as $errnum) {
         $aContentStrings['error_message'][$errnum] =
-              'An error occurred (Code %s: %s)' //%s needs to replaced with code and exc message
-              .'<br>The problem may be caused by an improper configuration of your OpenX Ad Server'
-              .' or your web server or by the lack of a required PHP extension.'
-              .' <br>If the problem persists, please contact <a href="mailto:%s' //%s needs to be replaced with publisher support email
-              .'">OpenX Market publisher support</a> for assistance.';
+              $oMarketComponent->translate("An error occurred (Code %s: %s)") . "<br />" . //%s needs to replaced with code and exc message
+              $oMarketComponent->translate("The problem may be caused by an improper configuration of your OpenX Ad Server or your web server or by the lack of a required PHP extension.") . "<br />" .
+              $oMarketComponent->translate("If the problem persists, please contact <a href='mailto:%s'>%s publisher support</a> for assistance.", array($publisherSupportEmail, $oMarketComponent->aBranding['name']));
     }
 
     return $aContentStrings;

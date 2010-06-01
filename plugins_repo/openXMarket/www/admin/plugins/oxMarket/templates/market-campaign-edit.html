@@ -32,15 +32,14 @@ $Id$
     {$right}
   {else}
     <div class="info-box">
-      <h3>How it works</h3>
+      <h3>{t str="How it works"}</h3>
       <p>
-      Your campaign will get its ads from OpenX Market, which holds real-time auctions
-      for each impression.
+      {t str="Your campaign will get its ads from %s, which holds real-time auctions for each impression." values=$aBranding.name}
       </p>
-      <img src="{$adminPluginWebPath}/oxMarket/images/market-auction-vertical.gif" />
-      <h4>Buyers include</h4>
-      <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-vertical.gif" />
-      <p><em>... and hundreds more</em></p>
+      <img src="{$aBranding.assetPath}/market-auction-vertical.gif" />
+      <h4>{t str="Buyers include"}</h4>
+      <img src="{$aBranding.assetPath}/market-adnetworks-vertical.gif" />
+      <p><em>{t str="... and hundreds more"}</em></p>
     </div>
   {/if}
       
@@ -48,7 +47,7 @@ $Id$
     {if $top}
       {$top}
     {else}
-    {if $isNew}<h3>Add a campaign to get ads directly from OpenX Market</h3>{/if}
+    {if $isNew}<h3>{t str="Add a campaign to get ads directly from %s" values=$aBranding.name}</h3>{/if}
     {/if}
   </div>
 

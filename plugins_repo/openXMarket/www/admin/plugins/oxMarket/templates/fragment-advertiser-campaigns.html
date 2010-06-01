@@ -33,25 +33,24 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
   {if $content}
       {$content}
   {else}
-  <h3>Campaigns added here will get ads directly from OpenX Market <span class="link" help="help-market-campaigns"><span class="icon icon-info">&nbsp;</span></span></h3>
+  <h3>{t str="Campaigns added here will get ads directly from %s" values=$aBranding.name} <span class="link" help="help-market-campaigns"><span class="icon icon-info">&nbsp;</span></span></h3>
 
   <div class="hide" id="help-market-campaigns" style="height: auto; width: 355px;">
     <div class="campaigns-info-container">
-      <h4>Adding campaigns for the OpenX Market Advertiser</h4>                                                                                               
+      <h4>{t str="Adding campaigns for the %s Advertiser" values=$aBranding.name}</h4>                                                                                               
       <p>                                                                                                                                               
-          When you add a campaign under the OpenX Market Advertiser, your campaign will get ads from OpenX Market, which holds real-time auctions for
-          each impression. The campaign will have similar properties to a contract campaign but the ads will automatically be delivered by OpenX Market.
+          {t str="When you add a campaign under the %s Advertiser, your campaign will get ads from %s, which holds real-time auctions for each impression. The campaign will have similar properties to a contract campaign but the ads will automatically be delivered by %s." values="`$aBranding.name`|`$aBranding.name`|`$aBranding.name`"}
       </p>
       <div class="imageContainer">
         <div class="left">
-            <img src="{$adminPluginWebPath}/oxMarket/images/market-auction.gif" alt='OpenX Market Auction' title='OpenX Market Auction'/>
+            <img src="{$aBranding.assetPath}/market-auction.gif" alt='{$aBranding.name} Auction' title='{$aBranding.name} Auction'/>
         </div>
         <div class="right">
-          <h4>Buyers include:</h4>
-          <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-horizontal.gif" alt='OpenX Market Advertisers' title='OpenX Market Advertisers'/>
+          <h4>{t str="Buyers include:"}</h4>
+          <img src="{$aBranding.assetPath}/market-adnetworks-horizontal.gif" alt='{$aBranding.name} Advertisers' title='{$aBranding.name} Advertisers'/>
         </div>              
       </div>
-      <p>For more information, visit our FAQ on <a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">how to make money with OpenX Market</a>.</p>
+      <p>{t str="For more information, visit our FAQ on <a href='%s' target='_blank'>how to make money with %s</a>." values="`$aBranding.links.faq_make_money`|`$aBranding.name`"}</p>
     </div>
   </div>  
   {/if}

@@ -36,8 +36,14 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
  */
 class OX_oxMarket_Dal_Campaign
 {
+    /**
+     * @var Plugins_admin_oxMarket_oxMarket
+     */
+    public function __construct()
+    {
+        $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    }
 
-    
     /**
      * Save market contract campaign
      *
@@ -106,7 +112,7 @@ class OX_oxMarket_Dal_Campaign
             $doCampaigns->setEcpmEnabled();
             $aCampaign['campaignid'] = $doCampaigns->insert();
             // create banner
-            $this->addMarketBanner($aCampaign['campaignid'],'OpenX Market contract campaign ads');
+            $this->addMarketBanner($aCampaign['campaignid'], $this->oMarketComponent->translate("%s contract campaign ads", array($this->oMarketComponent->aBranding['name'])));
         }
         
         // optin to the market

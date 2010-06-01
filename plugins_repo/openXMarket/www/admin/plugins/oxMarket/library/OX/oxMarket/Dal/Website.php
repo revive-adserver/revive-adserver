@@ -89,7 +89,7 @@ class OX_oxMarket_Dal_Website
                     $this->setWebsiteId($affiliateId, $websiteId);
                 }
             } catch (Exception $e) {
-                OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
+                OA::debug('openXMarket: Error during register website in ' . $this->oMarketPlugin->aBranding['name'] . ' : '.$e->getMessage());
             }
         } else {
             $websiteId = $oWebsitePref->website_id;
@@ -111,7 +111,7 @@ class OX_oxMarket_Dal_Website
             try {
                 $websiteId = $this->generateWebsiteId($oWebsite->website);
             } catch (Exception $e) {
-                OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
+                OA::debug('openXMarket: Error during register website in ' . $this->oMarketPlugin->aBranding['name'] . ' : '.$e->getMessage());
             }
             if (!empty($websiteId)) {
                 $this->setWebsiteId($affiliateId, $websiteId);
@@ -211,7 +211,7 @@ class OX_oxMarket_Dal_Website
                 $websiteUrl, array_values($aAttribute), array_values($aCategory),
                 array_values($aType), $websiteName);
         } catch (Exception $e) {
-            OA::debug('openXMarket: Error during updating website restriction in OpenX Market : '.$e->getMessage());
+            OA::debug('openXMarket: Error during updating website restriction in ' . $this->oMarketPlugin->aBranding['name'] . ' : '.$e->getMessage());
             return false;
         }
         return (bool) $result;

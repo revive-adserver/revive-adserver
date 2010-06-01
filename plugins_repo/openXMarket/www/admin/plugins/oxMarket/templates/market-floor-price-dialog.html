@@ -2,7 +2,7 @@
 
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                           |
-| ============                                                              |
+| ============                                                              |   
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
@@ -28,21 +28,21 @@ $Id$
 
 -->*}
 <div id="market-floor-price-dialog" class="jqmWindow" style="top: auto">
-  <div class="jqm-window-title">&nbsp;&nbsp;&nbsp;Your floor price may be too low</div>
+  <div class="jqm-window-title">&nbsp;&nbsp;&nbsp;{t str="Your floor price may be too low"}</div>
 
   <div class="jqm-window-body">
     <div style="line-height: 1.8">
-      To maximize revenue, we recommend against setting your campaign floor price lower than your campaign's CPM/eCPM.<br /> 
-      Would you like to keep the floor price you entered?
+        {t str="To maximize revenue, we recommend against setting your campaign floor price lower than your campaign's CPM/eCPM."}<br /> 
+        {t str="Would you like to keep the floor price you entered?"}
     </div>
 
     <div class="jqm-controls">
-      <input id="market-keep-entered" type="button" value="Yes, keep the floor price I entered" 
+      <input id="market-keep-entered" type="button" value='{t str="Yes, keep the floor price I entered"}'
              class="main-submit" style="*width: auto; *overflow: visible; *padding: 2px 4px" {tabindex} />&nbsp;
-      <input id="market-change-to-cpm" type="button" value="No, change to campaign's CPM/eCPM" {tabindex} 
+      <input id="market-change-to-cpm" type="button" value='{t str="No, change to campaign&#039;s CPM/eCPM"}' {tabindex} 
              style="*width: auto; *overflow: visible; *padding: 2px 4px" /><br />
       <div style="text-align: right; margin-top: 20px">
-        <label><input id="dont-show-again" class="checkbox" type="checkbox" /> Do not show this message again during my session</label>
+        <label><input id="dont-show-again" class="checkbox" type="checkbox" /> {t str="Do not show this message again during my session"}</label>
       </div>
     </div>
   </div>

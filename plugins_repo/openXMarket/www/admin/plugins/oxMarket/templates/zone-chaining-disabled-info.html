@@ -25,8 +25,7 @@ $Id: custom-campaign-remaining-impr.html 30820 2009-01-13 19:02:17Z andrew.hill 
 
 -->
 *}
-<p>To enable zone chaining, you must first go to <a href="{$adminWebPath}zone-edit.php?affiliateid={$elem.vars.websiteId}&zoneid={$elem.vars.zoneId}">Zone Properties</a> 
-and unselect the option to serve OpenX Market ads when no ads are available.
+<p>{t str="To enable zone chaining, you must first go to <a href='%s'>Zone Properties</a> and unselect the option to serve %s ads when no ads are available." values="`$adminWebPath`zone-edit.php?affiliateid=`$elem.vars.websiteId`&zoneid=`$elem.vars.zoneId`|`$elem.vars.aBranding.name`"}
     
 
     

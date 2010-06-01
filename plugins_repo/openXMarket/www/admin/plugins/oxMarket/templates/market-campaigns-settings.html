@@ -48,8 +48,8 @@ div.breadcrumb { z-index: 0; }
             <div class="icon"></div>
               <div class="body">
                 <p>
-                    You can add a new type of campaign that gets ads directly from OpenX Market. 
-                    <a href="{$adminWebPath}advertiser-index.php">Go to Advertisers page.</a>
+                    {t str="You can add a new type of campaign that gets ads directly from %s." values=$aBranding.name}
+                    <a href="{$adminWebPath}advertiser-index.php">{t str="Go to Advertisers page."}</a>
                 </p>
               </div>  
             <div class="topleft"></div>
@@ -62,13 +62,12 @@ div.breadcrumb { z-index: 0; }
       {/if}
     
       <div class="section">
-          <h2>Earn more revenue from your existing campaigns with OpenX Market</h2>
+          <h2>{t str="Earn more revenue from your existing campaigns with %s" values=$aBranding.name}</h2>
           <p>
-          Select the campaigns you want to participate in OpenX Market. OpenX Market will 
-          hold real-time auctions for the impressions in each selected campaign and serve 
-          ads only when it can beat the campaign's floor price. 
-          You do not need to retag your zones.
-          <a class="pointer" help="market-cpm-callout">Learn more</a>
+              {t str="Select the campaigns you want to participate in %s." values=$aBranding.name}
+              {t str="%s will hold real-time auctions for the impressions in each selected campaign and serve ads only when it can beat the campaign's floor price." values=$aBranding.name}
+              {t str="You do not need to retag your zones."}
+          <a class="pointer" help="market-cpm-callout">{t str="Learn more"}</a>
           </p>
       </div>
     {/if}
@@ -80,25 +79,25 @@ div.breadcrumb { z-index: 0; }
             <ul class='tableFilters'>
               <li>
                 <span id="loading-indicator" class="ajax-loading hide"></span>
-                <div class='label'>Show</div>
+                <div class='label'>{t str="Show"}</div>
         
                 <div class='dropDown' style="z-index: 2"> {* Hack for IE stacking context bug *}
                   <span><span>
                     {if $campaignType == 'remnant'}
                         Remnant campaigns
                     {elseif $campaignType == 'contract'}
-                        Contract campaigns
+                        {t str="Contract campaigns"}
                     {else}
-                        Remnant and contract campaigns
+                        {t str="Remnant and contract campaigns"}
                     {/if}
                   </span></span>
 
                   <div class='panel'>
                     <div>
                       <ul>
-                        <li><a href='market-campaigns-settings-list.php?campaignType=remnant' class="dropDownLink">Remnant campaigns</a></li>
-                        <li><a href='market-campaigns-settings-list.php?campaignType=contract' class="dropDownLink">Contract campaigns</a></li>
-                        <li><a href='market-campaigns-settings-list.php?campaignType=all' class="dropDownLink">Remnant and contract campaigns</a></li>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=remnant' class="dropDownLink">{t str="Remnant campaigns"}</a></li>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=contract' class="dropDownLink">{t str="Contract campaigns"}</a></li>
+                        <li><a href='market-campaigns-settings-list.php?campaignType=all' class="dropDownLink">{t str="Remnant and contract campaigns"}</a></li>
                       </ul>
                     </div>
                   </div>
@@ -106,22 +105,22 @@ div.breadcrumb { z-index: 0; }
                   <div class='mask'></div>
                 </div>
                 
-                <label class="search">Search <input id="search" type="text" name="search" value="{$search|escape}"></label>
+                <label class="search">{t str="Search} <input id="search" type="text" name="search" value="{$search|escape}"></label>
               </li>            
             </ul>
             <ul class='tableFilters' style="margin: 10px 0">
               <li>
                 <button class="left green-dot" type="submit" name="optInSubmit">
                   <span>&nbsp;</span>
-                  {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if} 
+                  {if $optInSubmitLabel}{$optInSubmitLabel}{else}{t str="Opt in to %s" values=$aBranding.name}{/if} 
                 </button>
                 <button class="left red-dot" type="submit" name="optOutSubmit">
                   <span>&nbsp;</span>
-                  {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
+                  {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}{t str="Opt out of %s" values=$aBranding.name}{/if} 
                 </button>
               </li>
               {if $showSkipLink}
-              <li><a href="{$adminWebPath}advertiser-index.php">{if $skipLinkLabel}{$skipLinkLabel}{else}Skip this step and do it later &raquo;{/if}</a></li>
+              <li><a href="{$adminWebPath}advertiser-index.php">{if $skipLinkLabel}{$skipLinkLabel}{else}{t Skip this step and do it later"} &raquo;{/if}</a></li>
               {/if}
             </ul>
             <div class='clear'></div>

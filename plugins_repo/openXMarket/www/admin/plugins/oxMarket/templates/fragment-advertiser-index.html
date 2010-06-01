@@ -31,33 +31,33 @@ $Id: campaign-script.html 42387 2009-08-31 11:42:44Z stanislaw.osinski $
       {$content}
   {else}
   
-    <a href="#" id="three-ways-link" class="inlineIcon icon icon-info"><b>more info</b></a>
+    <a href="#" id="three-ways-link" class="inlineIcon icon icon-info"><b>{t str="more info"}</b></a>
     
     <div id="market-advertiser-index" class="hide">
       <div id="market-callout" class="popup-help">
-        <div class="close"> <span class="link">Close [x]</span></div>      
-          <h3>New! OpenX Market gives you more ways to make money</h3>
+        <div class="close"> <span class="link">{t str="Close"} [x]</span></div>      
+          <h3>{t str="New! %s gives you more ways to make money" values=$aBranding.name}</h3>
           <p>
-            Openx Market provides ads for your sites through a real-time auction of various ad buyers including:
+          {t str="%s provides ads for your sites through a real-time auction of various ad buyers including:" values=$aBranding.name}
           </p>
           <p class="market-advertisers">
-            <img src="{$adminPluginWebPath}/oxMarket/images/market-adnetworks-horizontal-wide.gif" alt='OpenX Market Advertisers' title='OpenX Market Advertisers'/>
-            <em>and hundreds more</em>.
+            <img src="{$aBranding.assetPath}/market-adnetworks-horizontal-wide.gif" alt='{$aBranding.name} Advertisers' title='{$aBranding.name} Advertisers'/>
+            <em>{t str="and hundreds more"}</em>.
           </p>
         <div class="three-ways-container">
-          <p>There are three ways to participate in OpenX Market</p>
+          <p>{t str="There are three ways to participate in %s" values=$aBranding.name}</p>
           <ul>
             <li><a href="{$adminWebPath}campaign-edit.php?clientid={$marketClientId}">
-              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-optin.gif" alt='Create an OpenX Market campaign'/></a>
+              <img src="{$aBranding.assetPath}/market-3-ways-campaign-optin.gif" alt='Create an {$aBranding.name} campaign'/></a>
             </li>
             <li><a href="{$adminPluginWebPath}/oxMarket/market-campaigns-settings.php">
-              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-campaign-quickstart.gif" alt='Opt in an existing campaign'/></a>
+              <img src="{$aBranding.assetPath}/market-3-ways-campaign-quickstart.gif" alt='Opt in an existing campaign'/></a>
             </li>
             <li><a href="affiliate-zones.php">
-              <img src="{$adminPluginWebPath}/oxMarket/images/market-3-ways-zone-optin.gif" alt='Allow your zones to default to OpenX Market'/></a>
+              <img src="{$aBranding.assetPath}/market-3-ways-zone-optin.gif" alt='Allow your zones to default to {$aBranding.name}'/></a>
             </li>
         </div>
-        <p>For more information, visit our FAQ on <a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">how to make money with OpenX Market</a>.</p>
+        <p>{t str="For more information, visit our FAQ on <a href='%s' target='_blank'>how to make money with %s" values="`$aBranding.links.faq_make_money`|`$aBranding.name`"}</a>.</p>
       </div>
     </div>
   {/if}

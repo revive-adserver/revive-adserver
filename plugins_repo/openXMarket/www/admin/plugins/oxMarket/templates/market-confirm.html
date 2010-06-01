@@ -32,14 +32,14 @@ $Id$
     {$content}
 {else}
     <div class="content market-confirm">
-      <h2 class="section">Your Ad Server is now connected to OpenX Market!</h2>
+      <h2 class="section">{t str="Your Ad Server is now connected to %s!" values=$aBranding.name}</h2>
       <p class="wide">
-          You are now ready to maximize ad revenue through OpenX Market.
+        {t str="You are now ready to maximize ad revenue through %s." values=$aBranding.name}
       </p>
       <p style="font-size:14px; font-weight:bold;">
-        <a href="{$adminWebPath}advertiser-index.php">Create a new ad campaign and opt it into OpenX Market &raquo;</a><br>
-        or<br>
-        <a href="market-campaigns-settings.php">Create a new ad campaign and opt it into OpenX Market &raquo;</a><br>
+        <a href="{$adminWebPath}advertiser-index.php">{t str="Create a new ad campaign and opt it into %s" values=$aBranding.name} &raquo;</a><br>
+            {t str="or"}<br>
+        <a href="market-campaigns-settings.php">{t str="Create a new ad campaign and opt it into %s" values=$aBranding.name} &raquo;</a><br>
     </div>
 {/if}
     <script type="text/javascript"><!--

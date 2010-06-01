@@ -28,7 +28,6 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/JSON/JSON.php';
 
-
 /**
  * 
  */
@@ -83,14 +82,18 @@ class OX_oxMarket_UI_EntityFormManager
                         'class' => $isNewCampaign ? 'hide' : '')));
         
 
-        $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->oMarketComponent->translate("Allow OpenX Market to show ads for this campaign if it beats the CPM below (RECOMMENDED)"), array('id' => 'enable_mktplace'), array("f", "t"));
-        $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
+        $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->oMarketComponent->translate("Allow %s to show ads for this campaign if it beats the CPM below (RECOMMENDED)", array($this->oMarketComponent->aBranding['name'])), array('id' => 'enable_mktplace'), array("f", "t"));
+        $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket', null, array(
+            'aBranding' => $this->oMarketComponent->aBranding,
+        ));
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
-        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->oMarketComponent->translate("Serve an ad from OpenX Market if it pays higher than this CPM &nbsp;&nbsp;$"));
+        $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->oMarketComponent->translate("Serve an ad from %s if it pays higher than this CPM &nbsp;&nbsp;$", array($this->oMarketComponent->aBranding['name'])));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price', 'maxlength' => 3 + strlen($maxFloorPriceValue)));
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', '<label for="floor_price">'.$this->oMarketComponent->translate("USD").'</label>');
-        $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
+        $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket', null, array(
+            'aBranding' => $this->oMarketComponent->aBranding,
+        ));
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
         $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
             array('defaultFloorPrice' => $defaultFloorPrice));
@@ -120,7 +123,7 @@ class OX_oxMarket_UI_EntityFormManager
     {
         $oUI = OA_Admin_UI::getInstance();
         $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-            'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+            'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
 
         $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
 
@@ -128,14 +131,14 @@ class OX_oxMarket_UI_EntityFormManager
             $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->oMarketComponent->group . '/market-info.php');
             $message =
                 "<div class='market-invite'>
-                    To enable OpenX Market to serve ads, you must register with OpenX.
+                    To enable {$this->oMarketComponent->aBranding['name']} to serve ads, you must register with OpenX.
                     <a href='".$url."'><b>Get started now &raquo;</b></a>
                 </div>";
         }
         else {
             $aMailContents = $this->buildAdminEmail();
             $url = $aMailContents['url'];
-            $message = "You can earn more revenue by having your OpenX Administrator activate OpenX Market for your instance of OpenX Ad Server.
+            $message = "You can earn more revenue by having your OpenX Administrator activate {$this->oMarketComponent->aBranding['name']} for your instance of OpenX Ad Server.
             <br><a href='".$url."'><b>Contact your administrator &raquo;</b></a>";
         }
 
@@ -177,7 +180,7 @@ class OX_oxMarket_UI_EntityFormManager
                     $websiteId = $websiteManager->generateWebsiteId($websiteUrl, $websiteName);
                     $websiteManager->setWebsiteId($affiliateId, $websiteId);
                     $restricted = $websiteManager->insertDefaultRestrictions($affiliateId);
-                    $message =  'Website has been registered in OpenX Market';
+                    $message =  'Website has been registered in ' . $this->oMarketComponent->aBranding['name'];
                     if ($restricted) {
                         $message.= ' and its default restrictions have been set.';
                     }
@@ -188,8 +191,8 @@ class OX_oxMarket_UI_EntityFormManager
                     OA_Admin_UI::queueMessage($message, 'local', $restricted ?'confirm' : 'error', $restricted ? 5000 : 0);
                 } 
                 catch (Exception $e) {
-                    OA::debug('openXMarket: Error during register website in OpenX Market : '.$e->getMessage());
-                    $message = 'Unable to register website in OpenX Market.';
+                    OA::debug("openXMarket: Error during register website in {$this->oMarketComponent->aBranding['name']} : ".$e->getMessage());
+                    $message = "Unable to register website in {$this->oMarketComponent->aBranding['name']}.";
                     $aError = split(':',$e->getMessage());
                     if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
                         $message .= " Market account is blocked.";
@@ -212,7 +215,7 @@ class OX_oxMarket_UI_EntityFormManager
                     }
                     catch (Exception $e) {
                         OA::debug('openXMarket: Error during updating website url of #'.$affiliateId.' : '.$e->getMessage());
-                        $message = 'There was an error during updating website url in OpenX Market.';
+                        $message = "There was an error during updating website url in {$this->oMarketComponent->aBranding['name']}.";
                         $aError = split(':',$e->getMessage());
                         if ($aError[0]==Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::XML_ERR_ACCOUNT_BLOCKED) {
                             $message .= " Market account is blocked.";
@@ -229,9 +232,12 @@ class OX_oxMarket_UI_EntityFormManager
     {
         $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', 
             $this->oMarketComponent->translate("If the zone is going to serve a blank ad..."),     
-            $this->oMarketComponent->translate("Serve ads from OpenX Market"), array('id' => 'enable_mktplace'), array("f", "t"));
+            $this->oMarketComponent->translate("Serve ads from %s", array($this->oMarketComponent->aBranding['name'])), array('id' => 'enable_mktplace'), array("f", "t"));
         $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout-zone', 
-            'oxMarket', null,  array('adSizesPreviewUrl' => $this->oMarketComponent->getConfigValue('adSizesPreviewUrl')));
+            'oxMarket', null,  array(
+                'adSizesPreviewUrl' => $this->oMarketComponent->getConfigValue('adSizesPreviewUrl'),
+                'aBranding' => $this->oMarketComponent->aBranding,
+            ));
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
 
         $aMarketSizes = $this->oMarketComponent->getPublisherConsoleApiClient()->getCreativeSizes();
@@ -273,7 +279,11 @@ class OX_oxMarket_UI_EntityFormManager
         //cleanup
         $form->removeElement('g_chain', true); //remove chain group
         //add own elements
-        $chainGroup[] = $form->createElement('plugin-custom', 'zone-chaining-disabled-info', 'oxMarket', null, array('websiteId' => $zone['affiliateid'], 'zoneId' => $zone['zoneid']));
+        $chainGroup[] = $form->createElement('plugin-custom', 'zone-chaining-disabled-info', 'oxMarket', null, array(
+            'websiteId' => $zone['affiliateid'],
+            'zoneId'    => $zone['zoneid'],
+            'aBranding' => $this->oMarketComponent->aBranding,
+        ));
         $form->addGroup($chainGroup, 'g_market_chain', null, array("<BR>", '', ''));
     }    
     
@@ -299,8 +309,8 @@ class OX_oxMarket_UI_EntityFormManager
         $userFullName = $oUser->aUser['contact_name'].' ('.OA_Permission::getUserName().')';
 
         $aMail['to'] = join(',', $this->getAdminEmails());
-        $aMail['subject'] = "Please activate OpenX Market for our instance of OpenX Ad Server";
-        $aMail['body'] = "Help earn more revenue by activating OpenX Market for our ad server. Click this link to get started:%0D%0D<$url>%0D%0DThanks,%0D$userFullName";
+        $aMail['subject'] = "Please activate {$this->oMarketComponent->aBranding['name']} for our instance of OpenX Ad Server";
+        $aMail['body'] = "Help earn more revenue by activating {$this->oMarketComponent->aBranding['name']} for our ad server. Click this link to get started:%0D%0D<$url>%0D%0DThanks,%0D$userFullName";
         $aMail['url'] =  "mailto:".$aMail['to']."?subject=".$aMail['subject']."&body=".$aMail['body'];
         return $aMail;
     }

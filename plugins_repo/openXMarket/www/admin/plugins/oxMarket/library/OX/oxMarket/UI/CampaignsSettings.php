@@ -174,17 +174,15 @@ class OX_oxMarket_UI_CampaignsSettings
             
             $prefix = '';
             if ($hasCpmRateError || $hasEcpmRateError) {
-                $model = ($hasCpmRateError ? 'CPM' : '') . 
+                $model = ($hasCpmRateError ? $this->marketComponent->translate("CPM") : "") . 
                          ($hasCpmRateError && $hasEcpmRateError ? ' / ' : '') .
-                         ($hasEcpmRateError ? 'eCPM' : '');
-                $prefix = 'For your benefit, we require a campaign\'s floor price to be greater ' . 
-                          'than or equal to that campaign\'s ' . $model . '.<br />';
+                         ($hasEcpmRateError ? $this->marketComponent->translate("eCPM") : "");
+                $prefix = $this->marketComponent->translate("For your benefit, we require a campaign's floor price to be greater than or equal to that campaign's %s.<br />", array($model));
             } else {
-                $prefix = 'The specified floor prices contain errors. ';
+                $prefix = $this->marketComponent->translate("The specified floor prices contain errors. ");
             }
             
-            OA_Admin_UI::queueMessage($prefix . 
-                'To opt in campaigns to OpenX Market, please correct the errors below.', 'local', 'error', 0);
+            OA_Admin_UI::queueMessage($prefix . $this->marketComponent->translate("To opt in campaigns to %s, please correct the errors below.", array($this->marketComponent->aBranding['name'])), 'local', 'error', 0);
             $template->assign('minCpmsInvalid', $invalidCpmMessages);
         } 
         else {
@@ -201,6 +199,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $template = new OA_Plugin_Template('market-campaigns-settings-list.html', 'oxMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
+        $template->assign('aBranding', $this->marketComponent->aBranding);
         return $template;
     }
     
@@ -276,17 +275,13 @@ class OX_oxMarket_UI_CampaignsSettings
     
         $message = '';
         if ($actualOptedCount > 0) {
-            $message .= 'You have successfully opted <b>' . $actualOptedCount . ' campaign' .
-                ($actualOptedCount != 1 ? 's' : '') . '</b> into OpenX Market';
+            $message .= $this->marketComponent->translate("You have successfully opted <b>%s campaigns</b> into %s", array($actualOptedCount, $this->marketComponent->aBranding['name']));
         }
         if ($actualOptedCount > 0 && $updatedCount) {
             $message .= '. ';
         }
-        if ($updatedCount > 0)
-        {
-            $suffix = ($updatedCount != 1 ? 's' : '');
-            $message .= 'Floor price' . $suffix . ' of ' . $updatedCount . ' campaign' . $suffix . 
-                ' ' . ($updatedCount != 1 ? 'have' : 'has') . ' been updated.';
+        if ($updatedCount > 0) {
+            $message .= $this->marketComponent->translate("Floor prices of %s campaigns have been updated.", array($updatedCount));
         }
         
         $this->scheduleMessages($message, 'local', 'confirm', 0);
@@ -305,8 +300,7 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $this->prepareAfterStatusChangeCounts();
         
-        $this->scheduleMessages('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
-            ($campaignsOptedOut != 1 ? 's' : '') . '</b> of OpenX Market');
+        $this->scheduleMessages($this->marketComponent->translate("You have successfully opted out <b>%s campaigns</b> of %s", array($campaignsOptedOut, $this->marketComponent->aBranding['name'])));
     
         $this->redirect();
     }
@@ -525,25 +519,25 @@ class OX_oxMarket_UI_CampaignsSettings
     {
         switch($cause) {
             case 'too-small' : {
-                $message = 'Please provide a floor price greater than zero';
+                $message = $this->marketComponent->translate("Please provide a floor price greater than zero");
                 break;
             }
             case 'too-big' : {
-                $message = 'Please provide a floor price smaller than ' . self::formatCpm($this->maxCpm); 
+                $message = $this->marketComponent->translate("Please provide a floor price smaller than %s", array(self::formatCpm($this->maxCpm))); 
                 break;
             }
             case 'compare-ecpm' : {
-                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's eCPM)."; 
+                $message = $this->marketComponent->translate("Please provide a floor price greater than or equal to %s (your campaign's eCPM).", array(self::formatCpm($value))); 
                 break;
             }
             case 'compare-rate' : {
-                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's specified CPM)."; 
+                $message = $this->marketComponent->translate("Please provide a floor price greater than or equal to %s (your campaign's specified CPM).", array(self::formatCpm($value))); 
                 break;
             }
             
             case 'format' : 
             default : {
-                $message = 'Please provide a floor price as a decimal number with two digit precision'; 
+                $message = $this->marketComponent->translate("Please provide a floor price as a decimal number with two digit precision"); 
             }
         }
         

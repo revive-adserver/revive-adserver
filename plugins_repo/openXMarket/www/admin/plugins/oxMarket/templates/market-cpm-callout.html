@@ -28,18 +28,13 @@ $Id: custom-campaign-remaining-impr.html 30820 2009-01-13 19:02:17Z andrew.hill 
 <span class="link" help="help-market-cpm"><span class="icon icon-info">&nbsp;</span></span>
 <div class="hide" id="help-market-cpm" style="height: auto; width: 270px;">
     <p>
-        The minimum CPM you provide here will be the floor price OpenX Market uses 
-        for all your existing remnant campaigns. If the highest bid from OpenX Market 
-        exceeds your floor price, OpenX Market will serve the ad and pay you 
-        the higher revenue. Otherwise, your campaign's existing ad will be delivered.    
+        {t str="The minimum CPM you provide here will be the floor price %s uses for all your existing remnant campaigns." values=$elem.vars.aBranding.name}
+        {t str="If the highest bid from %s exceeds your floor price, %s will serve the ad and pay you the higher revenue." values="`$elem.vars.aBranding.name`|`$elem.vars.aBranding.name`"}
+        {t str="Otherwise, your campaign's existing ad will be delivered."}
     </p>
     <p>
-        We recommend that you specify a CPM that represents the effective CPM that 
-        you expect to get from your remnant campaigns.    
+        {t str="We recommend that you specify a CPM that represents the effective CPM that you expect to get from your remnant campaigns."}
     </p>
 </div>
-
-    
-
     
 

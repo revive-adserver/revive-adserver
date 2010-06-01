@@ -38,9 +38,14 @@ class OX_oxMarket_UI_EntityHelper
     public static $MARKET_CAMPAIGN_REMNANT = 'remnant';
     public static $MARKET_CAMPAIGN_CONTRACT = 'contract';
     
+    /**
+     * @var Plugins_admin_oxMarket_oxMarket
+     */
+    private $marketComponent;
     
     public function __construct(Plugins_admin_oxMarket_oxMarket $marketComponent = null)
     {
+        $this->oMarketComponent = $marketComponent;
     }
 
     
@@ -180,10 +185,11 @@ class OX_oxMarket_UI_EntityHelper
      */
     public function getCampaignTypeName($aCampaign)
     {
-        $type = 'Unknown';
+        $type = $this->oMarketComponent->translate("Unknown");
         
         if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
-            $type = 'OpenX Market Contract';
+            $type = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
+            $type = $this->oMarketComponent->translate("%s Contract", array($this->oMarketComponent->aBranding['name']));
         }
         
         return $type;

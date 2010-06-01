@@ -46,7 +46,7 @@ $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? '
 $pageUrl .= OX_getHostNameWithPort().$_SERVER['REQUEST_URI'];
 
 //header
-phpAds_PageHeader("openx-market",'','../../');
+phpAds_PageHeader("market",'','../../');
 
 $aContentKeys = $oMarketComponent->retrieveCustomContent('market-info');
 if (!$aContentKeys) {

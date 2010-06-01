@@ -48,20 +48,16 @@ $Id$
     {$floorPriceColumnContextHelp}
   {else}
   <div style="width: 530px">
-    <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" alt="OpenX Market competes with your campaigns to provide you with higher paying ads" />
-    <h3>Opting in your campaigns to OpenX Market</h3>
+    <img src="{$aBranding.assetPath}/campaign-cpm-info.gif" alt="{$aBranding.name} competes with your campaigns to provide you with higher paying ads" />
+    <h3>{t str="Opting in your campaigns to %s" values=$aBranding.name}</h3>
     <p>
-      OpenX Market is a service that makes more money for you by holding real-time 
-      auctions for the impressions in your campaigns. When you 
-      opt in a campaign, OpenX Market will serve an ad only if it can pay higher than the 
-      floor price you assign, otherwise the campaign's original ad is served. By default, 
-      the floor price is set to the campaign's specified CPM or eCPM. If these are 
-      unavailable, a default floor price of ${$defaultMinCpm|escape} USD is used.    
+      {t str="%s is a service that makes more money for you by holding real-time auctions for the impressions in your campaigns." values=$aBranding.name}
+      {t str="When you opt in a campaign, %s will serve an ad only if it can pay higher than the floor price you assign, otherwise the campaign's original ad is served." values=$aBranding.name}
+      {t str="By default, the floor price is set to the campaign's specified CPM or eCPM. If these are unavailable, a default floor price of %s USD is used." values=$defaultMinCpm}
     </p>
-    <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
-    CPM it is already earning.
+    <p><em>{t str="Tip:"}</em> {t str="To maximize revenue uplift, set a campaign's floor price close to the CPM it is already earning."}
     </p>
-    <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+    <p class="faq-link">{t str="<a href='%s' target='_blank'>Learn more about %s</a>" values="`$aBranding.links.faq`|`$aBranding.name`"}</p>    
   </div>
   {/if}
 </div>
@@ -74,14 +70,14 @@ $Id$
         <input type='checkbox' id="toggleAll"{if $allSelected} checked="checked"{/if} />
       </th>
       <th class="name{if $order == 'name'}{if $desc} sortDown{else} sortUp{/if}{/if}">
-        <a href="market-campaigns-settings-list.php?order=name&amp;desc={if $order == 'name' && !$desc}1{else}0{/if}">Campaign</a>
+        <a href="market-campaigns-settings-list.php?order=name&amp;desc={if $order == 'name' && !$desc}1{else}0{/if}">{t str="Campaign"}</a>
       </th>
       
       <th class="mkt-status{if $order == 'optinstatus'}{if $desc} sortDown{else} sortUp{/if}{/if}">
-        <a href="market-campaigns-settings-list.php?order=optinstatus&amp;desc={if $order == 'optinstatus' && !$desc}1{else}0{/if}">OpenX Market Settings</a>
+        <a href="market-campaigns-settings-list.php?order=optinstatus&amp;desc={if $order == 'optinstatus' && !$desc}1{else}0{/if}">{t str="%s Settings" values=$aBranding.name}</a>
       </th>
       <th class='cpm last'>
-        Floor Price (CPM)&nbsp;<span class="icon icon-info pointer" help="market-cpm-callout">&nbsp;</span>
+        {t str="Floor Price (CPM)"}&nbsp;<span class="icon icon-info pointer" help="market-cpm-callout">&nbsp;</span>
       </th>
     </tr>
   </thead>
@@ -92,10 +88,10 @@ $Id$
     <tr class="header">
       <td colspan="4">
         <div id="selectAllCampaigns" class="selectAllInAccount hide">
-          All <em>{$showingCount}</em> campaigns on this page selected. <a href="#">Select all <em>{$allMatchingCount}</em> matching campaigns from this account</a>
+          {t str="All <em>%s</em> campaigns on this page selected." values=$showingCount} <a href="#">{t str="Select all <em>%s</em> matching campaigns from this account" values=$allMatchingCount}</a>
         </div>
         <div id="allSelected" class="selectAllInAccount{if !$allSelected} hide{/if}">
-          All <em>{$allMatchingCount}</em> matching campaigns from this account selected. <a href="#">Clear selection</a>
+          {t str="All <em>%s</em> matching campaigns from this account selected." values=$allMatchingCount} <a href="#">{t str="Clear selection"}</a>
         </div>
         {$selectAllExplanation}
       </td>
@@ -121,9 +117,9 @@ $Id$
           
           <td>
              {if $campaign.optin_status}
-             <span class="market-opted-in">Opted in</span>
+             <span class="market-opted-in">{t str="Opted in"}</span>
              {else}
-             <span class="market-not-opted">Not opted in</span>
+             <span class="market-not-opted">{t str="Not opted in"}</span>
              {/if} 
           </td>                
           <td>
@@ -151,9 +147,9 @@ $Id$
             <div class='panel'>
               {capture assign=typeString}
                 {if $campaignType == 'remnant'}
-                    remnant
+                    {t str="remnant"}
                 {elseif $campaignType == 'contract'}
-                    contract
+                    {t str="contract"}
                 {/if} 
               {/capture}
               {capture assign=searchString}
@@ -162,7 +158,7 @@ $Id$
                 {/if} 
               {/capture}
               
-              There are no {$typeString} campaigns {$searchString} in your inventory
+              {t str="There are no %s campaigns %s in your inventory" values="`$typeString`|`$searchString`"}
 
               <div class='corner top-left'></div>
               <div class='corner top-right'></div>
@@ -186,15 +182,15 @@ $Id$
           <li>
             <button class="left green-dot" type="submit" name="optInSubmit">
               <span>&nbsp;</span>
-              {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if} 
+              {if $optInSubmitLabel}{$optInSubmitLabel}{else}{t str="Opt in to %s" values=$aBranding.name}{/if} 
             </button>
             <button class="left red-dot" type="submit" name="optOutSubmit">
               <span>&nbsp;</span>
-              {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
+              {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}{t str="Opt out of %s" values=$aBranding.name}{/if} 
             </button>
           </li>
           {if $showSkipLink}
-          <li><a href="{$adminWebPath}advertiser-index.php">{if $skipLinkLabel}{$skipLinkLabel}{else}Skip this step and do it later &raquo;{/if}</a></li>
+          <li><a href="{$adminWebPath}advertiser-index.php">{if $skipLinkLabel}{$skipLinkLabel}{else}{t str="Skip this step and do it later"} &raquo;{/if}</a></li>
           {/if}
         </ul>                  
         {if !empty($pager->links)}

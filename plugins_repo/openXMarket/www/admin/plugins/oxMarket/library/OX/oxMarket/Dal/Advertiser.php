@@ -35,7 +35,14 @@ require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
  */
 class OX_oxMarket_Dal_Advertiser
 {
-   
+    /**
+     * @var Plugins_admin_oxMarket_oxMarket
+     */
+    public function __construct()
+    {
+        $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+    }
+    
     /**
      * Creates market advertiser account with market campaigns and banners
      *
@@ -53,8 +60,8 @@ class OX_oxMarket_Dal_Advertiser
         $doAdvertiser = OA_Dal::factoryDO('clients');
         $doAdvertiser->agencyid = $agencyid;
         $doAdvertiser->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-        $doAdvertiser->clientname = "OpenX Market Advertiser";
-        $doAdvertiser->contact = "OpenX Market Advertiser";
+        $doAdvertiser->clientname = $this->oMarketComponent->translate("%s Advertiser", array($this->oMarketComponent->aBranding['name']));
+        $doAdvertiser->contact = $this->oMarketComponent->translate("%s Advertiser", array($this->oMarketComponent->aBranding['name']));
         $doAdvertiser->reportdeactivate = 'f';
         $clientid = $doAdvertiser->insert();
         
@@ -68,11 +75,11 @@ class OX_oxMarket_Dal_Advertiser
         $oCampaigns = new OX_oxMarket_Dal_Campaign();
         $oCampaigns->addMarketCampaign($clientid,
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
-            'OpenX Market ads served to opted in campaigns');
+            $this->oMarketComponent->translate("%s ads served to opted in campaigns", array($this->oMarketComponent->aBranding['name'])));
         //Create zone optin campaign with market banner
         $campaignId = $oCampaigns->addMarketCampaign($clientid,
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN,
-            'OpenX Market ads served to zones by default');
+             $this->oMarketComponent->translate("%s ads served to zones by default", array($this->oMarketComponent->aBranding['name'])));
         //optin campaign to the market with floor price =0
         $oCampaignsOptIn = new OX_oxMarket_Dal_CampaignsOptIn();
         $oCampaignsOptIn->insertOrUpdateMarketCampaignPref($campaignId, 0.0);
