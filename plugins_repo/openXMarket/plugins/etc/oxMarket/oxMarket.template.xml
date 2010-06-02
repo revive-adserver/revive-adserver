@@ -15,7 +15,7 @@
 
 
         <files>
-            <file path="{ADMINPATH}/css/">ox.market.css</file>
+            <file path="{ADMINPATH}/css/">ox.market.css.php</file>
             <file path="{ADMINPATH}/js/">ox.market.js</file>
             <file path="{ADMINPATH}/js/">jquery.cookie.js</file>
             <file path="{ADMINPATH}/js/">jquery.typewatch.js</file>
