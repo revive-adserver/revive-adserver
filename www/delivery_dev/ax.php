@@ -38,6 +38,13 @@ MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array());
 
+if (isset($context) && !is_array($context)) {
+    $context = MAX_commonUnpackContext($context);
+}
+if (!is_array($context)) {
+    $context = array();
+}
+
 // Get the banner
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
 
@@ -49,7 +56,7 @@ MAX_commonSendContentTypeHeader('application/xml', $charset);
 
 $aResponse = array(
     'html'    => $banner['html'],
-    'context' => $banner['context'],
+    'context' => MAX_commonPackContext($banner['context']),
 );
 foreach ($banner['aRow']['aSearch'] as $index => $value) {
     $key = substr($value, 1, strlen($value) -2);
@@ -95,4 +102,5 @@ function buildXmlTree($var, &$xml) {
         return xmlencode($var);
     }
 }
+
 ?>
