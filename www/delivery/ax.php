@@ -4241,12 +4241,18 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array());
+if (isset($context) && !is_array($context)) {
+$context = MAX_commonUnpackContext($context);
+}
+if (!is_array($context)) {
+$context = array();
+}
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
 MAX_cookieFlush();
 MAX_commonSendContentTypeHeader('application/xml', $charset);
 $aResponse = array(
 'html' => $banner['html'],
-'context' => $banner['context'],
+'context' => MAX_commonPackContext($banner['context']),
 );
 foreach ($banner['aRow']['aSearch'] as $index => $value) {
 $key = substr($value, 1, strlen($value) -2);
