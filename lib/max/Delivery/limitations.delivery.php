@@ -205,7 +205,7 @@ function MAX_limitationsMatchArray($paramName, $limitation, $op, &$aParams = arr
     if (empty($aParams)) {
         $aParams =& $GLOBALS['_MAX'][$namespace];
     }
-    if ($limitation == '' || empty($aParams)) {
+    if ($limitation == '' || empty($aParams[$paramName])) {
         return !MAX_limitationsIsOperatorPositive($op);
     }
 
