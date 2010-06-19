@@ -56,14 +56,14 @@ class OX_oxMarket_UI_EntityScreenManager
         switch($pageId) {
             case 'advertiser-index': {
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion()) . '&b=' . $this->oMarketComponent->aBranding['key']));
                 break;
             }
             
             
             case 'advertiser-campaigns': {
                 $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+                    'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion()) . '&b=' . $this->oMarketComponent->aBranding['key']));
                 if (isset($oHeaderModel) && $oEntityHelper->isMarketAdvertiser($pageData['clientid'])) {
                     $oHeaderModel->setIconClass('iconCampaignsSystemLarge');
                 }

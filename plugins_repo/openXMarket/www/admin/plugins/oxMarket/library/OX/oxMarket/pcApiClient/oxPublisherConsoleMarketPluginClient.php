@@ -768,4 +768,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         return $this->multipleAccountsMode;
     }
 
+    function getAccountBranding()
+    {
+        try {
+            $this->ensureStatusAndUpdatePcAccountId();
+            return $this->pc_api_client->getAccountBranding();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
 }

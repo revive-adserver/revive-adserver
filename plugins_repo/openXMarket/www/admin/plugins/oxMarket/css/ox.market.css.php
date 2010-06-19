@@ -4,6 +4,7 @@ require_once '../../../../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 require_once '../oxMarket.class.php';
 
+phpAds_SessionDataFetch();
 $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
 
 header("Content-type: text/css"); 
@@ -648,29 +649,29 @@ div.message div.new div.icon {
 
 /* Branded icons */
 .iconAdvertiserSystem {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-advertiser-openx.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-advertiser-openx.png");
 }
 
 .iconCampaignSystem {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaign-openx.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaign-openx.png");
 }
 
 .iconCampaignSystemLarge {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaign-openx-large.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaign-openx-large.png");
 }
 
 .iconCampaignSystemAdd {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaign-openx-add.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaign-openx-add.png");
 }
 
 .iconCampaignSystemAddLarge {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaign-openx-add-large.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaign-openx-add-large.png");
 }
 
 .iconCampaignsSystem {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaigns-openx.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaigns-openx.png");
 }
 
 .iconCampaignsSystemLarge {
-    background-image: url("https://ssl-i.xx.openx.com/market/<?php echo $oMarketComponent->aBranding['key']; ?>/icon-campaigns-openx-large.png");
+    background-image: url("<?php echo $oMarketComponent->aBranding['assetPath']; ?>/icon-campaigns-openx-large.png");
 }

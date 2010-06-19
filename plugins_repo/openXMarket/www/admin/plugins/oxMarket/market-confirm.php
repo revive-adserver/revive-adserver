@@ -47,7 +47,7 @@ $oMarketComponent->updateSSLMessage();
 //header
 $oUI = OA_Admin_UI::getInstance();
 $oUI->registerStylesheetFile(MAX::constructURL(
-    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+    MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion()) . '&b=' . $oMarketComponent->aBranding['key']));
 phpAds_PageHeader("market",'','../../');
 
 //check the type of the signup (exisitng OpenX account or new account)

@@ -44,7 +44,7 @@ if ($template) {
     // Header
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
-        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($handler->getPluginVersion())));
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($handler->getPluginVersion()) . '&b=' . $oMarketComponent->aBranding['key']));
     
     $oMenu = OA_Admin_Menu::singleton();
     $oCurrentSection = $oMenu->get("market-campaigns-settings");

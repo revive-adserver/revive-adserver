@@ -1175,6 +1175,26 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $GLOBALS['strOpenX Market - Content Restrictions']  = "{$aBranding['name']} - Content Restrictions";
         $GLOBALS['strOpenX Market - Ad Quality Tool']       = "{$aBranding['name']} - Ad Quality Tool";
         
+        // Try to retreive branding information if possible
+        if (OA_Auth::isLoggedIn()) {
+            global $session;
+            $accountId = $this->oMarketPublisherClient->getPcAccountId();
+            if (isset($session['oxMarket']['aBranding'][$accountId])) {
+                return $session['oxMarket']['aBranding'][$accountId];
+            }
+            if ($pcBranding = $this->oMarketPublisherClient->getAccountBranding($accountId)) {
+                // Temporary fix to misconfigured assetPath in Tim's PC server
+                $pcBranding['assetPath'] = str_replace('ssl-i.openx.com', 'ssl-i.xx.openx.com', $pcBranding['assetPath']);
+
+                $session['oxMarket']['aBranding'][$accountId] = $pcBranding;
+                phpAds_SessionDataStore();
+                return $pcBranding;
+            } else {
+                // Don't try and connect again this session for this account
+                $session['oxMarket']['aBranding'][$accountId] = $aBranding;
+                phpAds_SessionDataStore();
+            }
+        }
         return $aBranding;
     }
 }

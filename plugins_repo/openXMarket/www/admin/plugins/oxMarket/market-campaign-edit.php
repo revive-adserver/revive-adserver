@@ -220,7 +220,7 @@ $aCampaign['campaignid'] = $campaignid;
 /*-------------------------------------------------------*/
 //header
 $oUI = OA_Admin_UI::getInstance();
-$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+$oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion()) . '&b=' . $oMarketComponent->aBranding['key']));
 
 $oForm = new OX_oxMarket_UI_CampaignForm($oMarketComponent, $aCampaign);
 

@@ -259,7 +259,7 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
     //header
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
-        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion())));
+        MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($oMarketComponent->getPluginVersion()) . '&b=' . $oMarketComponent->aBranding['key']));
     phpAds_PageHeader("market",'','../../');
 
     //get template and display form

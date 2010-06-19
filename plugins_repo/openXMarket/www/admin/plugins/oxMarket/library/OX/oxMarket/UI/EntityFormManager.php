@@ -123,7 +123,7 @@ class OX_oxMarket_UI_EntityFormManager
     {
         $oUI = OA_Admin_UI::getInstance();
         $oUI->registerStylesheetFile(MAX::constructURL(MAX_URL_ADMIN, 
-            'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion())));
+            'plugins/oxMarket/css/ox.market.css.php?v=' . htmlspecialchars($this->oMarketComponent->getPluginVersion()) . '&b=' . $this->oMarketComponent->aBranding['key']));
 
         $form->addElement ( 'header', 'h_marketplace', "Maximize Ad Revenue");
 

@@ -373,4 +373,10 @@ class Plugins_admin_oxMarket_PublisherConsoleClient
     }
     
     
+    function getAccountBranding()
+    {
+        return $this->callApiKeyAuthXmlRpcFunction('getBranding', array());
+    }
+    
+    
 }
