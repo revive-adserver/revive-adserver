@@ -1148,7 +1148,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     
     private function _getBranding()
     {
-        // Get branding information from PC (currently hard-coded here for development)
+        // Set the default branding here, this will be overridden if required by the call to PC
         $aBranding = array(
             'key'       => 'openx',
             'name'      => 'OpenX Market',
@@ -1165,7 +1165,31 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             ),
             'assetPath' => 'https://ssl-i.xx.openx.com/market/openx',
         );
-        
+  
+        // Try to retreive branding information if possible
+        if (OA_Auth::isLoggedIn()) {
+            global $session;
+            $accountId = $this->oMarketPublisherClient->getPcAccountId();
+            if (isset($session['oxMarket']['aBranding'][$accountId])) {
+                $aBranding = $session['oxMarket']['aBranding'][$accountId];
+            } else if ($pcBranding = $this->oMarketPublisherClient->getAccountBranding($accountId)) {
+                if ($pcBranding['key'] != $this->preferenceDal->getMarketAccountPreference('brandingKey')) {
+                    // If the previous branding was unknown/unset or has changed, (re)brand the market entities
+                    require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/Advertiser.php';
+                    $agencyId = OA_Permission::getAgencyId();
+                    OX_oxMarket_Dal_Advertiser::rebrandMarketAdvertisersAndCampaigns($agencyId, $pcBranding);
+                    $this->preferenceDal->setMarketAccountPreference('brandingKey', $pcBranding['key']);
+                }
+                $session['oxMarket']['aBranding'][$accountId] = $pcBranding;
+                phpAds_SessionDataStore();
+                $aBranding = $pcBranding;
+            } else {
+                // Don't try and connect again this session for this account
+                $session['oxMarket']['aBranding'][$accountId] = $aBranding;
+                phpAds_SessionDataStore();
+            }
+        }
+                
         // Set some GLOBAL strings to override some core translation strings refering to the market
         $GLOBALS['strMarketCampaignOptin']                  = "{$aBranding['name']} - Opted In Campaigns";
         $GLOBALS['strMarketZoneOptin']                      = "{$aBranding['name']} - Zone Default Ads";
@@ -1174,27 +1198,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $GLOBALS['strOpenX Market Quickstart']              = "{$aBranding['name']} Quickstart";
         $GLOBALS['strOpenX Market - Content Restrictions']  = "{$aBranding['name']} - Content Restrictions";
         $GLOBALS['strOpenX Market - Ad Quality Tool']       = "{$aBranding['name']} - Ad Quality Tool";
-        
-        // Try to retreive branding information if possible
-        if (OA_Auth::isLoggedIn()) {
-            global $session;
-            $accountId = $this->oMarketPublisherClient->getPcAccountId();
-            if (isset($session['oxMarket']['aBranding'][$accountId])) {
-                return $session['oxMarket']['aBranding'][$accountId];
-            }
-            if ($pcBranding = $this->oMarketPublisherClient->getAccountBranding($accountId)) {
-                // Temporary fix to misconfigured assetPath in Tim's PC server
-                $pcBranding['assetPath'] = str_replace('ssl-i.openx.com', 'ssl-i.xx.openx.com', $pcBranding['assetPath']);
-
-                $session['oxMarket']['aBranding'][$accountId] = $pcBranding;
-                phpAds_SessionDataStore();
-                return $pcBranding;
-            } else {
-                // Don't try and connect again this session for this account
-                $session['oxMarket']['aBranding'][$accountId] = $aBranding;
-                phpAds_SessionDataStore();
-            }
-        }
+      
         return $aBranding;
     }
 }
