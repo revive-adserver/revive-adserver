@@ -4240,16 +4240,46 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 
 MAX_commonSetNoCacheHeaders();
-MAX_commonRegisterGlobalsArray(array());
+MAX_commonRegisterGlobalsArray(array('zones', 'block', 'blockcampaign', 'nz'));
 if (isset($context) && !is_array($context)) {
 $context = MAX_commonUnpackContext($context);
 }
 if (!is_array($context)) {
 $context = array();
 }
+$useMultipleZones = false;
+if(empty($zones)) {
+$zones = $zoneid;
+}
+else {
+$useMultipleZones = true;
+}
+$aBanners = array();
+$zones = explode('|', $zones);
+foreach ($zones as $thisZone) {
+if (empty($thisZone)) continue;
+if (!empty($nz)) {
+list($zonename,$thisZoneid) = explode('=', $thisZone);
+$varname = $zonename;
+} else {
+$thisZoneid = $varname = $thisZone;
+}
+unset($GLOBALS['_MAX']['deliveryData']);
+$what = "zone:".$thisZoneid;
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
-MAX_cookieFlush();
-MAX_commonSendContentTypeHeader('application/xml', $charset);
+if (!empty($block) && !empty($banner['bannerid'])) {
+$banner['context'][] = array('!=' => 'bannerid:' . $banner['bannerid']);
+}
+if (!empty($blockcampaign) && !empty($banner['campaignid'])) {
+$banner['context'][] = array('!=' => 'campaignid:' . $banner['campaignid']);
+}
+if (!empty($banner['context'])) {
+foreach ($banner['context'] as $id => $contextArray) {
+if (!in_array($contextArray, $context)) {
+$context[] = $contextArray;
+}
+}
+}
 $aResponse = array(
 'html' => $banner['html'],
 'context' => MAX_commonPackContext($banner['context']),
@@ -4265,9 +4295,25 @@ $aResponse[$key] = $value;
 }
 }
 $aResponse['creativeUrl'] = _adRenderBuildFileUrl($banner['aRow']);
-$outputXml = "<?xml version='1.0' encoding='{$charset}' ?".">\n<ad version='1.0'>\n";
-buildXmlTree($aResponse, $outputXml);
-$outputXml .= "</ad>";
+$aBanners[] = $aResponse;
+}
+$outputXml = "<?xml version='1.0' encoding='{$charset}' ?".">\n";
+if ($useMultipleZones) {
+$outputXml .= "<ads>\n";
+foreach ($aBanners as $aBanner) {
+$outputXml .= "<ad version=\"1.0\">\n";
+buildXmlTree($aBanner, $outputXml);
+$outputXml .= "</ad>\n";
+}
+$outputXml .= "</ads>";
+}
+elseif (count($aBanners) > 0) {
+$outputXml .= "<ad version=\"1.0\">\n";
+buildXmlTree($aBanners[0], $outputXml);
+$outputXml .= "</ad>\n";
+}
+MAX_cookieFlush();
+MAX_commonSendContentTypeHeader('application/xml', $charset);
 echo $outputXml;
 function xmlencode($string) {
 $search = array('&#x91;', '&#x92;', '&#x93;', '&#x94;', '&#x20;', '&#x00;');
@@ -4277,6 +4323,7 @@ return str_replace($search, $replace, preg_replace('#%([A-F0-9]{2})#', '&#x${1};
 function buildXmlTree($var, &$xml) {
 if (is_array($var)) {
 foreach ($var as $key => $value) {
+if (is_numeric($key)) { $key = "id_".$key; }
 $xml .= "<{$key}>";
 $inner = buildXmlTree($value, $xml);
 $xml .= $inner . "</{$key}>\n";
