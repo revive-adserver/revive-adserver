@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array());
+MAX_commonRegisterGlobalsArray(array('zones', 'block', 'blockcampaign', 'nz'));
 
 if (isset($context) && !is_array($context)) {
     $context = MAX_commonUnpackContext($context);
@@ -45,36 +45,91 @@ if (!is_array($context)) {
     $context = array();
 }
 
-// Get the banner
-$banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
+$useMultipleZones = false;
+
+if(empty($zones)) {
+  $zones = $zoneid;
+}
+else {
+  $useMultipleZones = true;
+}
+
+$aBanners = array();
+$zones = explode('|', $zones);
+foreach ($zones as $thisZone) {
+    if (empty($thisZone)) continue;
+    // nz is set when "named zones" are being used, this allows a zone to be selected more than once
+    if (!empty($nz)) {
+        list($zonename,$thisZoneid) = explode('=', $thisZone);
+        $varname = $zonename;
+    } else {
+        $thisZoneid = $varname = $thisZone;
+    }
+
+    // Clear deiveryData between iterations
+    unset($GLOBALS['_MAX']['deliveryData']);
+    
+    $what = "zone:".$thisZoneid;
+
+    // Get the banner
+    $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
+    if (!empty($block) && !empty($banner['bannerid'])) {
+        $banner['context'][] = array('!=' => 'bannerid:' . $banner['bannerid']);
+    }
+    // Block this campaign for next invocation
+    if (!empty($blockcampaign) && !empty($banner['campaignid'])) {
+        $banner['context'][] = array('!=' => 'campaignid:' . $banner['campaignid']);
+    }
+    // Pass the context array back to the next call, have to iterate over elements to prevent duplication
+    if (!empty($banner['context'])) {
+        foreach ($banner['context'] as $id => $contextArray) {
+            if (!in_array($contextArray, $context)) {
+                $context[] = $contextArray;
+            }
+        }
+    }
+    $aResponse = array(
+        'html'    => $banner['html'],
+        'context' => MAX_commonPackContext($banner['context']),
+    );
+    foreach ($banner['aRow']['aSearch'] as $index => $value) {
+        $key = substr($value, 1, strlen($value) -2);
+        $aResponse[$key] = $banner['aRow']['aReplace'][$index];
+    }
+    // Remove duplicated fields from the aRow
+    unset($banner['aRow']['aSearch'], $banner['aRow']['aReplace'], $banner['aRow']['bannerContent']);
+
+    // Add fields from aRow to the response (assuming they don't exist already)
+    foreach ($banner['aRow'] as $key => $value) {
+        if (!in_array($key, array_keys($aResponse))) {
+            $aResponse[$key] = $value;
+        }
+    }
+    $aResponse['creativeUrl'] = _adRenderBuildFileUrl($banner['aRow']);
+    $aBanners[] = $aResponse;
+}
+
+$outputXml = "<?xml version='1.0' encoding='{$charset}' ?".">\n";
+if ($useMultipleZones) {
+    $outputXml .= "<ads>\n";
+    foreach ($aBanners as $aBanner) {
+        $outputXml .= "<ad version=\"1.0\">\n";
+        buildXmlTree($aBanner, $outputXml);
+        $outputXml .= "</ad>\n";
+    }
+    $outputXml .= "</ads>";
+}
+elseif (count($aBanners) > 0) {
+    $outputXml .= "<ad version=\"1.0\">\n";
+    buildXmlTree($aBanners[0], $outputXml);
+    $outputXml .= "</ad>\n";
+}
 
 // Do something special with cookies? 
 
 MAX_cookieFlush();
 
 MAX_commonSendContentTypeHeader('application/xml', $charset);
-
-$aResponse = array(
-    'html'    => $banner['html'],
-    'context' => MAX_commonPackContext($banner['context']),
-);
-foreach ($banner['aRow']['aSearch'] as $index => $value) {
-    $key = substr($value, 1, strlen($value) -2);
-    $aResponse[$key] = $banner['aRow']['aReplace'][$index];
-}
-// Remove duplicated fields from the aRow
-unset($banner['aRow']['aSearch'], $banner['aRow']['aReplace'], $banner['aRow']['bannerContent']);
-
-// Add fields from aRow to the response (assuming they don't exist already)
-foreach ($banner['aRow'] as $key => $value) {
-    if (!in_array($key, array_keys($aResponse))) {
-        $aResponse[$key] = $value;
-    }
-}
-$aResponse['creativeUrl'] = _adRenderBuildFileUrl($banner['aRow']);
-$outputXml = "<?xml version='1.0' encoding='{$charset}' ?".">\n<ad version='1.0'>\n";
-buildXmlTree($aResponse, $outputXml);
-$outputXml .= "</ad>";
 
 echo $outputXml;
 
@@ -94,6 +149,7 @@ function xmlencode($string) {
 function buildXmlTree($var, &$xml) {
     if (is_array($var)) {
         foreach ($var as $key => $value) {
+            if (is_numeric($key)) { $key = "id_".$key; }
             $xml .= "<{$key}>";
             $inner = buildXmlTree($value, $xml);
             $xml .= $inner . "</{$key}>\n";
