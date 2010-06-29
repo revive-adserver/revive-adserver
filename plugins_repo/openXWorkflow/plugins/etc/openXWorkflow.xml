@@ -9,7 +9,7 @@
     <authorUrl>www.openx.org</authorUrl>
     <license>GPL</license>
     <description>OpenX Workflow Wizard</description>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <oxversion>2.8.2-rc13</oxversion>
     <type>package</type>
 

@@ -232,6 +232,9 @@ class OX_Workflow_UI_Form_ZoneWizardForm
     
     private function addMarketSection() //step3
     {
+        $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
+        $view = $this->getView();
+        $view->assign('aBranding', $oMarketComponent->aBranding);
     }
     
     
