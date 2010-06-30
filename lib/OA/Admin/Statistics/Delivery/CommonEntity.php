@@ -77,6 +77,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function __construct($params)
     {
+        // Load the Market component
+        $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
+        $this->aBranding = $this->oMarketComponent->aBranding;
+        
         // Set the output type "entity" style delivery statistcs
         $this->outputType = 'deliveryEntity';
 
