@@ -764,7 +764,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
         $aMailContents = $this->oFormManager->buildAdminEmail();
         $url = $aMailContents['url'];
-        $registerMessage = $this->translate("To enable %s to serve ads, your OpenX Administrator must activate %s for your Ad Server.", array($this->aBranding['name'])) . 
+        $registerMessage = $this->translate("To enable %s to serve ads, your OpenX Administrator must activate %s for your Ad Server.", array($this->aBranding['name'], $this->aBranding['name'])) . 
         "<br /><a href='".$url."'><b>" . $this->translate("Contact your administrator") . " &raquo;</b></a>";
 
         $oNotificationManager->queueNotification($registerMessage, 'warning', 'oxMarketRegister');
