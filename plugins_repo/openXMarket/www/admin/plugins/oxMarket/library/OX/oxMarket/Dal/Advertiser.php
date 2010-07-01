@@ -144,10 +144,12 @@ class OX_oxMarket_Dal_Advertiser
     static function rebrandMarketAdvertisersAndCampaigns($agencyId, $aBranding)
     {
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doAdvertiser->agencyid = $agencyId;
+        if (empty($GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode']) && !empty($agencyId)) {
+            $doAdvertiser->agencyid = $agencyId;
+        }
         $doAdvertiser->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $doAdvertiser->find();
-        if ($doAdvertiser->fetch()) {
+        while ($doAdvertiser->fetch()) {
             // We'll replace the existing clientname if found in market campaign names
             $oldAdvertiserName = $doAdvertiser->clientname;
             $newAdvertiserName = vsprintf("%s Advertiser", array($aBranding['name']));
