@@ -144,7 +144,7 @@ class OX_oxMarket_Dal_Advertiser
     static function rebrandMarketAdvertisersAndCampaigns($agencyId, $aBranding)
     {
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        if (empty($GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode']) && !empty($agencyId)) {
+        if (!empty($GLOBALS['_MAX']['CONF']['oxMarket']['multipleAccountsMode']) && !empty($agencyId)) {
             $doAdvertiser->agencyid = $agencyId;
         }
         $doAdvertiser->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
