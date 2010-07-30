@@ -160,7 +160,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 AND m.clientid = c.clientid
                 AND c.agencyid = ". DBC::makeLiteral($agency_id) ." 
                 ". ( ($filterMarketBanners) ? 
-                    ("AND (b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET . " OR b.ext_bannertype IS NULL)")) : "") .
+                    ("AND (b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET) . " OR b.ext_bannertype IS NULL)") : "") .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
