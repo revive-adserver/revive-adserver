@@ -82,7 +82,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ";
         if ($filterMarketBanners) {
             //remove market banners
-            $query .= " AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET); 
+            $query .= " AND (b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET) . " OR b.ext_bannertype IS NULL)"; 
         }                                                                  
 
         if($agencyId !== null) {
@@ -117,7 +117,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         " FROM ".$tableB;
         if ($filterMarketBanners) {
             //remove market banners
-            $query .= " WHERE ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET)." "; 
+            $query .= " WHERE (ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET)." OR ext_bannertype IS NULL)"; 
         }
         
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
@@ -160,7 +160,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 AND m.clientid = c.clientid
                 AND c.agencyid = ". DBC::makeLiteral($agency_id) ." 
                 ". ( ($filterMarketBanners) ? 
-                    ("AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET)) : "") .
+                    ("AND (b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET . " OR b.ext_bannertype IS NULL)")) : "") .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -186,7 +186,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         }
         $doBanners = OA_Dal::factoryDO('banners');
         if ($filterMarketBanners) {
-            $doBanners->whereAdd("ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET));
+            $doBanners->whereAdd("(ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET) . " OR ext_bannertype IS NULL)");
         }
         $doBanners->campaignid = $campaignid;
         $doBanners->addListOrderBy($listorder, $orderdirection);
@@ -337,7 +337,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 AND cl.clientid=c.clientid
         ";
         if ($filterMarketBanners) {
-            $query .= " AND b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET);
+            $query .= " AND (b.ext_bannertype <> ". DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET) . " OR b.ext_bannertype IS NULL)";
         }
 
         return DBC::NewRecordSet($query);
