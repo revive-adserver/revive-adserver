@@ -152,7 +152,7 @@ class OA_Admin_DaySpan
      */
     function getEndDateStringUTC($format = '%Y-%m-%d')
     {
-        $oDate = new Date($this->oStartDate);
+        $oDate = new Date($this->oEndDate);
         $oDate->toUTC();
         return $oDate->getDate(DATE_FORMAT_ISO);
     }
