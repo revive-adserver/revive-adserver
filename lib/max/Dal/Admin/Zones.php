@@ -635,6 +635,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      */
     function _linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, $campaignId, $bannerId = null) {
         $prefix = $this->getTablePrefix();
+        
+        $rsEmailZones = DBC::NewRecordSet("SELECT zoneid FROM {$prefix}zones WHERE delivery = " . MAX_ZoneEmail . " AND zoneid IN (" . implode(',', $aZonesIds) . ")");
+        $aEmailZoneIds = $rsEmailZones->getAll();
 
         $fastLinking = !$GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'];
         $fromWhereClause =
@@ -648,12 +651,29 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $fromWhereClause .= "
                 b.campaignid = " . DBC::makeLiteral($campaignId) . "
                 AND";
+            
+            foreach ($aEmailZoneIds as $zoneId) {
+                $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $campaignId);
+                if (PEAR::isError($okToLink)) {
+                    $aZonesIds = array_diff($aZonesIds, array($zoneId));
+                } 
+            }
         }
         if (!empty($bannerId)) {
             $fromWhereClause .= "
                 b.bannerid = " . DBC::makeLiteral($bannerId) . "
                 AND";
+            
+            // Remove any zoneids which this banner cannot be linked to due to email zone restrictions
+            foreach ($aEmailZoneIds as $zoneId) {
+                $aAd = Admin_DA::getAd($bannerId);
+                $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aAd['placement_id']);
+                if (PEAR::isError($okToLink)) {
+                    $aZonesIds = array_diff($aZonesIds, array($zoneId));
+                } 
+            }
         }
+        
         $fromWhereClause .= "
                 z.zoneid IN (" . implode(",",$aZonesIds) . ")
                 AND
@@ -693,28 +713,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         ";
         
         // if only one zone is selected and this zone is an email zone
-        // we only link it if it was not previously linked to any banner (email zones can be linked to one banner only)
-        if(count($aZonesIds) == 1) {
-            $zoneId = current($aZonesIds);
-            $oZone = Admin_DA::getZone($zoneId);
-            if($oZone['type'] == MAX_ZoneEmail) {
-                
-                $aAd = Admin_DA::getAd($bannerId);
-                $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aAd['placement_id']);
-                if (PEAR::isError($okToLink)) {
-                    return $okToLink;
-                } 
-            }
-        }
-        
-        // if there is more than one zone selected, we make sure we don't bulk link email zones 
-        // Email zones can only be linked to one banner and it is not possible to check for this integrity during bulk linking
-        if(count($aZonesIds) > 1) {
-            $fromWhereClause .= "
-                AND
-                z.delivery <> " . MAX_ZoneEmail ."
-            ";
-        }
+        // we only link it if it was not previously linked to any banner (email zones can be linked to one banner only)        
+
         if ($fastLinking) {
             $query = "INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id, priority_factor)
                 SELECT z.zoneid, b.bannerid, 1
