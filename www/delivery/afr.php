@@ -1257,7 +1257,7 @@ $rCreative = OA_Dal_Delivery_query("
         FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['images'])."
         WHERE
-            filename = '{$filename}'
+            filename = '".OX_escapeString($filename)."'
     ");
 if (!is_resource($rCreative)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
