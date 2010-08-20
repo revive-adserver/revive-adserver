@@ -51,6 +51,7 @@ phpAds_registerGlobal (
     ,'appendtype'
     ,'chaintype'
     ,'chainzone'
+    ,'chainbanner'
     ,'prepend'
 );
 
@@ -87,12 +88,19 @@ if (isset($appendtype)) {
 else {
     $aZone['appendtype'] = phpAds_ZoneAppendRaw;
 }
-//extract chainzone
-if (ereg("^zone:([0-9]+)$", $aZone['chain'], $regs)) {
-    $aZone['chainzone'] = $regs[1];
-}
-else {
-    $aZone['chainzone'] = '';
+//extract chain settings
+$aZone['chaintype'] = 0;
+$aZone['chainzone'] = $aZone['chainbanner'] = '';
+if ($aZone['chain'] != '') {
+    if (ereg("^zone:([0-9]+)$", $aZone['chain'], $regs)) {
+        $aZone['chaintype'] = 1;
+        $aZone['chainzone'] = $regs[1];
+    }
+
+    if (ereg("^banner:([0-9]+)$", $aZone['chain'], $regs)) {
+        $aZone['chaintype'] = 2;
+        $aZone['chainbanner'] = $regs[1];
+    }
 }
 
 if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
@@ -142,7 +150,7 @@ function buildZoneForm($aZone, $oComponent = null)
 
     //set form  values
     $form->setDefaults($aZone);
-    $form->setDefaults(array('chaintype' => ($aZone['chain'] == '' ? 0 : 1)));
+    $form->setDefaults(array('chaintype' => $aZone['chaintype']));
 
     //appendinterstitial i appendpopup
     if ($appendid == $k)
@@ -155,14 +163,14 @@ function buildChainSettingsFormSection($form, $aZone)
 {
     $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
 
-    $chainGroup[] = $form->createElement('radio', 'chaintype', null,
-        $GLOBALS['strZoneStopDelivery'], 0, array('id' => 'chaintype-s'));
-    $chainGroup[] = $form->createElement('radio', 'chaintype', null,
-        $GLOBALS['strZoneOtherZone'], 1, array('id' => 'chaintype-z'));
-    $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone),
-        _getChainZones($aZone), array('id'=> 'chainzone', 'class' => 'medium'));
-    $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select',
-            'class' => $aZone['chain']=='' ? 'hide' : '')));
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null, $GLOBALS['strZoneStopDelivery'], 0, array('id' => 'chaintype-s'));
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null, $GLOBALS['strZoneOtherZone'], 1, array('id' => 'chaintype-z'));
+    $chainGroup[] = $form->createElement('select', 'chainzone', _getChainZonesImage($aZone), _getChainZones($aZone), array('id'=> 'chainzone', 'class' => 'medium'));
+    $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select', 'class' => $aZone['chaintype'] !='1' ? 'hide' : '')));
+    $chainGroup[] = $form->createElement('break');
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null, $GLOBALS['strZoneFallbackBanner'], 2, array('id' => 'chaintype-b'));
+    $chainGroup[] = $form->createElement('select', 'chainbanner', _getChainZonesImage($aZone), _getChainBanners($aZone), array('id'=> 'chainbanner', 'class' => 'medium'));
+    $form->addDecorator('chainbanner', 'tag', array('attributes' => array('id' => 'chain-banner-select', 'class' => $aZone['chaintype'] !='2' ? 'hide' : '')));
 
     $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], array("<BR>", '', ''));
 }
@@ -237,11 +245,19 @@ function processForm($aZone, $form, $oComponent = null)
     $doZones->get($aFields['zoneid']);
 
     // Determine chain
-    if ($aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
-        $chain = 'zone:'.$aFields['chainzone'];
-    }
-    else {
-        $chain = '';
+    $chain = '';
+    switch ($aFields['chaintype'])
+    {
+        case '1';
+          if ($aFields['chainzone'] != '') {
+            $chain = 'zone:'.$aFields['chainzone'];
+          }
+          break;
+        case '2';
+          if ($aFields['chainbanner'] != '') {
+            $chain = 'banner:'.$aFields['chainbanner'];
+          }
+          break;
     }
     $doZones->chain = $chain;
 
@@ -326,6 +342,26 @@ function displayPage($aZone, $form)
     _echoDeliveryCappingJs();
     //footer
     phpAds_PageFooter();
+}
+
+function _getChainBanners($aZone)
+{
+    // Get list of zones to link to
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doZones->delivery = $aZone['delivery'];
+    if ($aZone['width'] != -1) {
+        $doBanners->width = $aZone['width'];
+    }
+    if ($aZone['height'] != -1) {
+        $doBanners->height = $aZone['height'];
+    }
+    $doBanners->find();
+
+    $aChainBanners = array();
+    while ($doBanners->fetch() && $row = $doBanners->toArray()) {
+        $aChainBanners[$row['bannerid']] = $row['description'];
+    }
+    return $aChainBanners;
 }
 
 

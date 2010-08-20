@@ -316,9 +316,11 @@ class Plugins_InvocationTags extends OX_Component
         $hrefParams = array();
         $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
+        if ((isset($mi->zoneid)) && ($mi->zoneid != '')) {
+            $hrefParams[] = "zoneid=".$mi->zoneid;
+        }
         if ((isset($mi->bannerid)) && ($mi->bannerid != '')) {
             $hrefParams[] = "bannerid=".$mi->bannerid;
-            $hrefParams[] = "zoneid=".$mi->zoneid;
         } else {
             $hrefParams[] = "n=".$uniqueid;
             $imgParams[] = "n=".$uniqueid;
