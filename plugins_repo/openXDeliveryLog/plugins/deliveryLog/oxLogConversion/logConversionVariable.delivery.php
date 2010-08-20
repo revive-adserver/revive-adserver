@@ -57,8 +57,8 @@ function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logCo
     $aRows = array();
     foreach ($aVariables as $aVariable) {
         $aRows[] = "(
-                        '{$serverConvId}',
-                        '{$serverRawIp}',
+                        '".OX_escapeString($serverConvId)."',
+                        '".OX_escapeString($serverRawIp)."',
                         '{$aVariable['variable_id']}',
                         '".OX_escapeString($aVariable['value'])."',
                         '".gmdate('Y-m-d H:i:s', $time)."'
