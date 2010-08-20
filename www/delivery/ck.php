@@ -3250,6 +3250,14 @@ MAX_redirect($destination);
 function _getZoneAd($zoneId)
 {
 $conf = $GLOBALS['conf'];
+$aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
+if (_areCookiesDisabled() && isset($aZoneInfo['chain']) && strpos($aZoneInfo['chain'],'banner:') === 0)
+{
+$adId = intval(substr($aZoneInfo['chain'],7));
+$ad = MAX_cacheGetAd($adId);
+}
+else
+{
 $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
 reset($zoneLinkedAds['xAds']);
@@ -3264,6 +3272,7 @@ break;
 } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
 reset($zoneLinkedAds['lAds']);
 list($adId, $ad) = each($zoneLinkedAds['lAds']);
+}
 }
 if (!empty($ad['url'])) {
 $_REQUEST[$conf['var']['dest']] = $ad['url'];

@@ -3733,7 +3733,10 @@ $what = substr($what, 0, $ix);
 }
 if (strpos($what, 'zone:') === 0) {
 $zoneId = intval(substr($what,5));
+if (!_areCookiesDisabled() || !is_array($row = MAX_adSelectZoneFallback($zoneId)))
+{
 $row = _adSelectZone($zoneId, $context, $source, $richmedia);
+}
 } else {
 if (strpos($what, '/') > 0) {
 if (strpos($what, '@') > 0) {
@@ -3841,6 +3844,22 @@ $output = array('html' => $outputbuffer, 'bannerid' => '' );
 }
 OX_Delivery_Common_hook('postAdSelect', array(&$output));
 return $output;
+}
+function MAX_adSelectZoneFallback($zoneId)
+{
+$rv = false;
+$aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
+if (!empty($aZoneInfo['chain']) && strpos($aZoneInfo['chain'],'banner:') === 0)
+{
+$bannerId = intval(substr($aZoneInfo['chain'],7));
+$row = MAX_cacheGetAd($bannerId);
+if (is_array($row))
+{
+$row['bannerid'] = $bannerId;
+$rv = $row;
+}
+}
+return $rv;
 }
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
