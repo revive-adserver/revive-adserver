@@ -77,14 +77,12 @@ if (!empty($conf['deliveryLog']['enabled'])) {
     }
 }
 
-
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {
         $adId[$index] = _getZoneAd($zone);
         $creativeId[$index] = 0;
     }
 }
-
 for ($i = 0; $i < count($adId); $i++) {
     $adId[$i] = intval($adId[$i]);
     $zoneId[$i] = intval($zoneId[$i]);
@@ -130,30 +128,21 @@ function _getZoneAd($zoneId)
 {
     $conf = $GLOBALS['conf'];
 
-    $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
-    if (_areCookiesDisabled() && isset($aZoneInfo['chain']) && strpos($aZoneInfo['chain'],'banner:') === 0)
-    {
-        $adId  = intval(substr($aZoneInfo['chain'],7));
-        $ad = MAX_cacheGetAd($adId);
-    }
-    else
-    {
-        $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
-        if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
-            reset($zoneLinkedAds['xAds']); 
-            list($adId, $ad) = each($zoneLinkedAds['xAds']);
-        } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
-            reset($zoneLinkedAds['ads']);
-            // we select the first (and only) banner linked to this email zone
-            foreach($zoneLinkedAds['ads'] as $priority => $ads) {
-                foreach($ads as $adId => $ad) {
-                    break;
-                }
+    $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
+    if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
+        reset($zoneLinkedAds['xAds']); 
+        list($adId, $ad) = each($zoneLinkedAds['xAds']);
+    } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
+        reset($zoneLinkedAds['ads']);
+        // we select the first (and only) banner linked to this email zone
+        foreach($zoneLinkedAds['ads'] as $priority => $ads) {
+            foreach($ads as $adId => $ad) {
+                break;
             }
-        } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
-            reset($zoneLinkedAds['lAds']); 
-            list($adId, $ad) = each($zoneLinkedAds['lAds']);
         }
+    } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
+        reset($zoneLinkedAds['lAds']); 
+        list($adId, $ad) = each($zoneLinkedAds['lAds']);
     }
 
     if (!empty($ad['url'])) {

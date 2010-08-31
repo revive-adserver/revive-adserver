@@ -191,11 +191,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 	        }
 	        if (strpos($what, 'zone:') === 0) {
 	            $zoneId  = intval(substr($what,5));
-                // Use default banner if no cookie data exists
-                if (!_areCookiesDisabled() || !is_array($row = MAX_adSelectZoneFallback($zoneId)))
-                {
-                    $row = _adSelectZone($zoneId, $context, $source, $richmedia);
-                }
+	            $row = _adSelectZone($zoneId, $context, $source, $richmedia);
 	        } else {
 	            // Expand paths to regular statements
 	            if (strpos($what, '/') > 0) {
@@ -326,31 +322,6 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     OX_Delivery_Common_hook('postAdSelect', array(&$output));
 
     return $output;
-}
-
-/**
- * This function selects the fallback ad for a specific zone
- *
- * @param int     $zoneId       The ID of the zone to select an ad from
- *
- * @return array|false          Returns an ad-array (see page DocBlock) or false if no ad found
- */
-
-function MAX_adSelectZoneFallback($zoneId)
-{
-    $rv = false;
-    $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
-    if (!empty($aZoneInfo['chain']) && strpos($aZoneInfo['chain'],'banner:') === 0)
-    {
-        $bannerId  = intval(substr($aZoneInfo['chain'],7));
-        $row = MAX_cacheGetAd($bannerId);
-        if (is_array($row))
-        {
-          $row['bannerid'] = $bannerId;
-          $rv = $row;
-        }
-    }
-    return $rv;
 }
 
 /**

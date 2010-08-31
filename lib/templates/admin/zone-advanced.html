@@ -35,15 +35,9 @@ $Id$
  $(document).ready(function() {
    $('#chaintype-s').click(function() {
       $('#chain-zone-select').hide();
-      $('#chain-banner-select').hide();
    });
    $('#chaintype-z').click(function() {
       $('#chain-zone-select').show();
-      $('#chain-banner-select').hide();
-   });
-   $('#chaintype-b').click(function() {
-      $('#chain-zone-select').hide();
-      $('#chain-banner-select').show();
    });
    $('#append-delivery-popup').click(function() {
       $('#append-interstitial').hide();
@@ -57,9 +51,6 @@ $Id$
     //initial state
    if ($('#chaintype-z').attr('checked') == true) {
      $('#chain-zone-select').show();
-   }
-   if ($('#chaintype-b').attr('checked') == true) {
-     $('#chain-banner-select').show();
    }
    if ($('#append-delivery-popup').attr('checked') == true) {
       $('#append-interstitial').hide();
