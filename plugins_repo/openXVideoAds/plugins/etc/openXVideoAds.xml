@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Serve IAB VAST video ads through OpenX.</description>
-    <version>1.8.6</version>
+    <version>1.8.7</version>
     <type>extension</type>
 
     <install>
