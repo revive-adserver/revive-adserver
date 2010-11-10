@@ -72,7 +72,6 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
     var $varprefix;
     var $appname;
-    var $uri;
 
     /**
      * Constructor
@@ -86,9 +85,6 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) 
             ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION 
             : MAX_PRODUCT_NAME." ".OA_VERSION;
-        $this->uri = (!empty($mi->ssl)) 
-            ? MAX_commonConstructSecureDeliveryUrl('') 
-            : MAX_commonConstructDeliveryUrl('');
     }
 
      /**
@@ -487,8 +483,8 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             $aliasesBlock = $this->generateAliasesCode($aZoneAliases);
             $codeblock .= !empty($aliasesBlock) ? $aliasesBlock : '';
         }
-        
-        $codeblock .= "<script type='text/javascript' src='{$this->uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>";
+        $url = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl($conf['file']['spcjs'])  : MAX_commonConstructDeliveryUrl($conf['file']['spcjs']);
+        $codeblock .= "<script type='text/javascript' src='{$url}?id={$mi->affiliateid}{$additionalParams}'></script>";
 
         return $codeblock;
     }
@@ -523,6 +519,8 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
         $zone['n'] = $affiliate['mnemonic'] . substr(md5(uniqid('', 1)), 0, 7);
 
+        $uri = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl('')  : MAX_commonConstructDeliveryUrl('');
+
         $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
         $js_func = $this->varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
         if ($mi->comments) {
@@ -530,8 +528,8 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         }
         $codeblock .= "\n    {$js_func}(".($zoneAlias ? "'".$zoneAlias."'" : $zone['zoneid']).");\n// ]]> --></script>";
         if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
-            $codeblock .= "<noscript><a target='_blank' href='{$this->uri}{$conf['file']['click']}?n={$zone['n']}'>";
-            $codeblock .= "<img border='0' alt='' src='{$this->uri}{$conf['file']['view']}?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
+            $codeblock .= "<noscript><a target='_blank' href='{$uri}{$conf['file']['click']}?n={$zone['n']}'>";
+            $codeblock .= "<img border='0' alt='' src='{$uri}{$conf['file']['view']}?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
             $codeblock .= "</noscript>";
         }
 
