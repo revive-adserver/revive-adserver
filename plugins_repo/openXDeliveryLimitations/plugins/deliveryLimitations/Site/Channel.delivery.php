@@ -65,7 +65,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
         foreach ($acl_plugins as $acl_plugin) {
             list($extension, $package, $name) = explode(':', $acl_plugin);
             $pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
-            if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
+            if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName]) && file_exists($pluginName)) {
                 require($pluginName);
                 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
             }

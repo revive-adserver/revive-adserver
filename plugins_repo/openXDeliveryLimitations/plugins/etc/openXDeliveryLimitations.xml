@@ -9,7 +9,7 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>GNU General Public License</license>
     <description>OpenX Delivery Limitations Plugins for OpenX</description>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <type>package</type>
 
     <install>
