@@ -151,6 +151,6 @@ if (!empty($campaignid)) {
     }
 }
 
-//Header ("Location: ".$returnurl."?clientid=".(isset($newclientid) ? $newclientid : $clientid)."&campaignid=".$campaignid);
-exit;
+Header ("Location: ".$returnurl."?clientid=".(isset($newclientid) ? $newclientid : $clientid)."&campaignid=".$campaignid);
+
 ?>
