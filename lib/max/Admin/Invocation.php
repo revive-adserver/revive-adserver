@@ -87,6 +87,7 @@ class MAX_Admin_Invocation {
             'resize',
             'scrollbars',
             'source',
+            'ssl',
             'status',
             'target',
             'template',
