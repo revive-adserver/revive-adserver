@@ -60,7 +60,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_tradedoubler extends Plugins_3rd
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $buffer = preg_replace ("/(http.*tradedoubler.*?)(['\"])/i", "$1preurl({clickurl})$2", $buffer);
+        $buffer = preg_replace ("/(http.*tradedoubler.*?)(\??['\"])/i", "$1preurl({clickurl})$2", $buffer);
 
         return $buffer;
     }
