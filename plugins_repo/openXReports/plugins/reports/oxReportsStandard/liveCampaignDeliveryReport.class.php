@@ -27,6 +27,7 @@ $Id$
 
 require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 /**
  * A plugin to generate a report showing conversion tracking information,
