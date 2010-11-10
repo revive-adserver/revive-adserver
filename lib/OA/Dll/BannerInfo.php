@@ -215,6 +215,13 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var string $alt
      */
     var $alt;
+    
+    /**
+     * This field provides the filename of the banner.
+     *
+     * @var string $alt
+     */
+    var $filename;
 
     /**
      * This method sets all default values when adding a new banner.
@@ -312,7 +319,8 @@ class OA_Dll_BannerInfo extends OA_Info
                     'aImage' => 'custom',
                     'aBackupImage' => 'custom',
                     'comments' => 'string',
-                    'alt' => 'string'
+                    'alt' => 'string',
+                    'filename' => 'string',
                 );
     }
 }
