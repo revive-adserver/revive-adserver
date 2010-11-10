@@ -176,6 +176,10 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
         // Uppercase charsets
         $toEncoding   = strtoupper($toEncoding);
         $fromEncoding = strtoupper($fromEncoding);
+        
+        // Treat UNICODE -> UTF-8 regardless of the extension being used
+        $toEncoding = ($toEncoding == 'UNICODE') ? 'UTF-8' : $toEncoding;
+        
         // Charset mapping
         $aMap = array();
         $aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; // Best match to convert hebrew w/ mbstring
