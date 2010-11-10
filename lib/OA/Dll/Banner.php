@@ -317,9 +317,12 @@ class OA_Dll_Banner extends OA_Dll
             $bannerData['storagetype'] = $oBanner->storageType;
             switch($bannerData['storagetype']) {
                 case 'html':
+                    $bannerData['ext_bannertype'] = 'bannerTypeHtml:oxHtml:genericHtml';
+                    break;
                 case 'txt':
-                    $bannerData['contenttype'] = $bannerData['storagetype'];
-                    $bannerData['bannertext']  = $oBanner->bannerText;
+                    $bannerData['contenttype']    = $bannerData['storagetype'];
+                    $bannerData['bannertext']     = $oBanner->bannerText;
+                    $bannerData['ext_bannertype'] = 'bannerTypeText:oxText:genericText';
                     break;
                 case 'sql':
                 case 'web':
