@@ -116,6 +116,20 @@ class OA_Dll_ZoneInfo extends OA_Info
     var $comments;
 
     /**
+     * This field provides appended code for this zone.
+     *
+     * @var string $append
+     */
+    var $append;
+    
+    /**
+     * This field provides the filename of the zone.
+     *
+     * @var string $prepend
+     */
+    var $prepend;
+    
+    /**
      * This method sets all default values when adding a new zone.
      *
      * @access public
@@ -167,6 +181,8 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'sessionCapping' => 'integer',
                     'block' => 'integer',
                     'comments' => 'string',
+                    'append' => 'string',
+                    'prepend' => 'string',
                 );
     }
 }

@@ -321,6 +321,8 @@ class OA_Dll_BannerInfo extends OA_Info
                     'comments' => 'string',
                     'alt' => 'string',
                     'filename' => 'string',
+                    'append' => 'string',
+                    'prepend' => 'string',
                 );
     }
 }

@@ -219,9 +219,23 @@ class OA_Dll_BannerInfo extends OA_Info
     /**
      * This field provides the filename of the banner.
      *
-     * @var string $alt
+     * @var string $filename
      */
     var $filename;
+    
+    /**
+     * This field provides appended code for this banner.
+     *
+     * @var string $append
+     */
+    var $append;
+    
+    /**
+     * This field provides the filename of the banner.
+     *
+     * @var string $prepend
+     */
+    var $prepend;
 
     /**
      * This method sets all default values when adding a new banner.
@@ -321,6 +335,8 @@ class OA_Dll_BannerInfo extends OA_Info
                     'comments' => 'string',
                     'alt' => 'string',
                     'filename' => 'string',
+                    'append' => 'string',
+                    'prepend' => 'string',
                 );
     }
 }

@@ -86,7 +86,7 @@ class BannerXmlRpcService extends BaseBannerService
                 1, array('campaignId', 'bannerName', 'storageType', 'fileName',
                         'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
                         'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
-                        'capping', 'sessionCapping', 'block', 'comments', 'alt'),
+                        'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'),
                    array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -121,7 +121,7 @@ class BannerXmlRpcService extends BaseBannerService
                 1, array('bannerId', 'campaignId', 'bannerName', 'storageType', 'fileName',
                         'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
                         'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
-                        'capping', 'sessionCapping', 'block', 'comments', 'alt'),
+                        'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'),
                    array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;
