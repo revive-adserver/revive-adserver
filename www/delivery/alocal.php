@@ -2400,7 +2400,6 @@ return $content;
 } else {
 $toEncoding = strtoupper($toEncoding);
 $fromEncoding = strtoupper($fromEncoding);
-$toEncoding = ($toEncoding == 'UNICODE') ? 'UTF-8' : $toEncoding;
 $aMap = array();
 $aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8';  $aMap['xml']['ISO-8859-15'] = 'ISO-8859-1';   $converted = false;
 foreach ($aExtensions as $extension) {
@@ -2601,6 +2600,7 @@ $GLOBALS['_MAX']['CONF']['var']['lastClick'],
 $GLOBALS['_MAX']['CONF']['var']['lastView'],
 $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 );
+if (strtolower($charset) == 'unicode') { $charset = 'utf-8'; }
 }
 function MAX_commonDisplay1x1()
 {
