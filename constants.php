@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.8.8-rc5');
+    define('OA_VERSION', '2.8.8-rc6');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
     if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
