@@ -438,10 +438,8 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         }
         $form->addElement('header', 'header_b_display', 'Banner display');
         $form->addElement('text', 'alt', $GLOBALS['strAlt']);
-        $form->applyFilter('alt', 'phpAds_htmlQuotes');
         $form->addElement('text', 'statustext', $GLOBALS['strStatusText']);
         $form->addElement('text', 'bannertext', $GLOBALS['strTextBelow']);
-        $form->applyFilter('bannertext', 'phpAds_htmlQuotes');
 
         if (!empty($aBanner['bannerid'])) {
             $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
@@ -496,12 +494,10 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
 
         $form->addElement('header', 'header_b_display', 'Banner display');
         $form->addElement('text', 'alt', $GLOBALS['strAlt']);
-        $form->applyFilter('alt', 'phpAds_htmlQuotes');
-
+        
         $form->addElement('text', 'statustext', $GLOBALS['strStatusText']);
         $form->addElement('text', 'bannertext', $GLOBALS['strTextBelow']);
-        $form->applyFilter('bannertext', 'phpAds_htmlQuotes');
-
+        
         $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
         $sizeG['width']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
         $sizeG['width']->setSize(5);
