@@ -3267,12 +3267,12 @@ if (!empty($imageUrl)) {
 $imgStatus = empty($clickTag) && !empty($status) ? $status : '';
 $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-$alt = !empty($aBanner['alt']) ? $aBanner['alt'] : '';
+$alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
 $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
 } else {
 $imageTag = '';
 }
-$bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
+$bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag" . htmlspecialchars($aBanner['bannertext'], ENT_QUOTES) . "$clickTagEnd" : '';
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
