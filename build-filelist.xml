@@ -51,10 +51,12 @@
     <include name="var/.htaccess"/>
     <include name="var/UPGRADE"/>
     <include name="www/**"/>
+    <exclude name="www/devel"/>
+    <exclude name="www/devel/**"/>
+    <exclude name="www/delivery_dev"/>
+    <exclude name="www/delivery_dev/**"/>
 
     <exclude name="www/admin/assets/js/jscalendar/test.php"/>
-    <exclude name="www/devel**"/>
-    <exclude name="www/delivery_dev**"/>
 
     <!-- Build-wide rules -->
     <exclude name="**/tests"/>
@@ -98,9 +100,11 @@
     <include name="var/templates_compiled/**"/>
     <include name="var/plugins/config/**"/>
     <include name="www/admin/assets/js/jscalendar/test.php"/>
-    <include name="www/devel/**"/>
-    <include name="www/delivery_dev/**"/>
     <include name="plugins_repo/**"/>
+    <include name="www/devel"/>
+    <include name="www/devel/**"/>
+    <include name="www/delivery_dev"/>
+    <include name="www/delivery_dev/**"/>
 
     <!-- Build-wide rules -->
     <include name="**/tests"/>
@@ -123,3 +127,4 @@
   </patternset>
 
 </project>
+
