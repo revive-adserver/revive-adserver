@@ -71,15 +71,11 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function refreshSession($session_id)
     {
-        $tableS = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session',true);
-        $query = "
-                    UPDATE
-                        {$tableS}
-                    SET
-                        lastused = '". OA::getNowUTC() ."'
-                    WHERE
-                        sessionid = '" . $session_id . "'";
-        $result = $this->oDbh->query($query);
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $doSession->lastused = OA::getNowUTC();
+            $doSession->update();
+        }
     }
 
     /**
@@ -125,11 +121,10 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function deleteSession($session_id)
     {
-        $tableS = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session',true);
-        $query="
-           DELETE FROM {$tableS}
-           WHERE sessionid='" . $session_id . "'";
-        $this->oDbh->query($query);
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $doSession->delete();
+        }
     }
 
 }
