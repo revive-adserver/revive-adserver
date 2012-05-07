@@ -159,7 +159,7 @@ function phpAds_SessionGetToken()
 {
     global $session;
     phpAds_SessionStart();
-    if (!isset($session['token'])) {
+    if (empty($session['token'])) {
         $session['token'] = md5(uniqid('phpads', 1)) . md5;
         phpAds_SessionDataStore();
     }
@@ -168,7 +168,9 @@ function phpAds_SessionGetToken()
 
 function phpAds_SessionValidateToken($token)
 {
-    return ($token === phpAds_SessionGetToken());
+    $result = ($token === phpAds_SessionGetToken());
+    phpAds_SessionDataRegister('token', null);
+    return $result;
 }
 
 ?>
