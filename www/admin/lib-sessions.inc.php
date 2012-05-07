@@ -157,6 +157,9 @@ function phpAds_SessionDataDestroy()
 
 function phpAds_SessionGetToken()
 {
+    if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
+        return false;
+    }
     global $session;
     phpAds_SessionStart();
     if (empty($session['token'])) {

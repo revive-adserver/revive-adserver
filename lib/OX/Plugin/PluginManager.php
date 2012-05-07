@@ -262,7 +262,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 throw new Exception('The uploaded file '.$aFile['name'] .' was not unpacked');
             }
             phpAds_registerGlobalUnslashed('token');
-            if (!phpAds_SessionValidateToken($GLOBALS['token']))
+            if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && !phpAds_SessionValidateToken($GLOBALS['token']))
             {
                 throw new Exception('Invalid request token');
             }
