@@ -160,7 +160,7 @@ function phpAds_SessionGetToken()
     global $session;
     phpAds_SessionStart();
     if (empty($session['token'])) {
-        $session['token'] = md5(uniqid('phpads', 1)) . md5;
+        $session['token'] = md5(uniqid('phpads', 1));
         phpAds_SessionDataStore();
     }
     return $session['token'];
