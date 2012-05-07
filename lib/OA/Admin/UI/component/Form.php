@@ -137,6 +137,9 @@ class OA_Admin_UI_Component_Form
 
         //trim spaces from all data sent by the user
         $this->applyFilter('__ALL__', 'trim');
+
+        $this->addElement('hidden', 'token', phpAds_SessionGetToken());
+        $this->addRule('token', 'Invalid request token', 'callback', 'phpAds_SessionValidateToken');
     }
 
 

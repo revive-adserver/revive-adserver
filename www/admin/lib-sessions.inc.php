@@ -155,4 +155,20 @@ function phpAds_SessionDataDestroy()
 	unset($_COOKIE['sessionID']);
 }
 
+function phpAds_SessionGetToken()
+{
+    global $session;
+    phpAds_SessionStart();
+    if (!isset($session['token'])) {
+        $session['token'] = md5(uniqid('phpads', 1)) . md5;
+        phpAds_SessionDataStore();
+    }
+    return $session['token'];
+}
+
+function phpAds_SessionValidateToken($token)
+{
+    return ($token === phpAds_SessionGetToken());
+}
+
 ?>

@@ -61,7 +61,7 @@ class OA_Admin_UI_UserAccess
     {
         $this->request = phpAds_registerGlobalUnslashed (
             'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
-            'email_address', 'permissions', 'submit', 'language'
+            'email_address', 'permissions', 'submit', 'language', 'token'
         );
         // Sanitize userid
         if (!empty($this->request['userid'])) {
@@ -310,6 +310,10 @@ class OA_Admin_UI_UserAccess
             array(
                 'name'  => 'link',
                 'value' => $link
+            ),
+            array(
+                'name'  => 'token',
+                'value' => phpAds_SessionGetToken(),
             ),
         );
         $fields = array('userid', 'email_address');

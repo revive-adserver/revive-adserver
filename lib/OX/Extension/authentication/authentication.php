@@ -548,6 +548,10 @@ class Plugins_Authentication extends OX_Component
             $this->validateUsersPassword($data['passwd']);
         }
         $this->validateUsersEmail($data['email_address']);
+        
+        if (!phpAds_SessionValidateToken($data['token'])) {
+            $this->addValidationError('Invalid request token');
+        }
 
         return $this->getValidationErrors();
     }

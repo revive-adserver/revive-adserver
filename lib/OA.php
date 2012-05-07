@@ -204,7 +204,7 @@ class OA
         } else if (!is_null($tempDebugPrefix) && $aConf['log']['type'] == 'file') {
             $message = $tempDebugPrefix . $message;
         }
-        $result = $oLogger->log($message, $priority);
+        $result = $oLogger->log(htmlspecialchars($message), $priority);
         // Restore the timezone
         if (!empty($currentTimezone)) {
             OA_setTimeZone($currentTimezone);

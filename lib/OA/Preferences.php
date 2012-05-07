@@ -435,6 +435,9 @@ class OA_Preferences
      */
     function processPreferencesFromForm($aElementNames, $aCheckboxes)
     {
+        phpAds_registerGlobalUnslashed('token');
+        if (!phpAds_SessionValidateToken($GLOBALS['token'])) { return false; }
+        
         // Get all of the preference types that exist
         $aPreferenceTypes = array();
         $doPreferences = OA_Dal::factoryDO('preferences');

@@ -573,6 +573,9 @@ class OA_Admin_Settings
      */
     function processSettingsFromForm($aElementNames)
     {
+        phpAds_registerGlobalUnslashed('token');
+        if (!phpAds_SessionValidateToken($GLOBALS['token'])) { return false; }
+        
         foreach ($aElementNames as $htmlElement => $aConfigInfo) {
             // Register the HTML element value
             MAX_commonRegisterGlobalsArray(array($htmlElement));

@@ -60,7 +60,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !$GLOBALS['_MAX']['CONF']['s
 
 $widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';
 
-if (preg_match('/[a-z0-9]+/i', $widget) && file_exists(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php')) {
+if (preg_match('/^[a-z0-9]+$/i', $widget) && file_exists(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php')) {
     // Load widget
     require(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php');
     $widget = 'OA_Dashboard_Widget_'.$widget;

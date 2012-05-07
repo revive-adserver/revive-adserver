@@ -49,6 +49,7 @@ $Id$
     	            <h2>Upgrade this plugin</h2>
     	            Select file
     	            <input name="package" value="{$aPackage.name}" type="hidden">
+                    <input name="token"   value="{$token}" type="hidden" />
     	            <input name="filename" tabindex="1" type="file" {if $configLocked}disabled='true'{/if}>
     	            <input value="Upgrade" name="upgrade" tabindex="1" type="submit" {if $configLocked}disabled='true'{/if}>
                 </div>
@@ -56,25 +57,13 @@ $Id$
     		        <span class='corner bottom-left'></span>
     		        <span class='corner bottom-right'></span>
 
-    	            <h2>Check for updates</h2>
-    	            <input name="package" value="{$aPackage.name}" type="hidden">
-    	            <input value="Check" name="check" tabindex="2" type="submit">
-                    {if $downloadurl}
-                        <input name="downloadurl" value="{$downloadurl}" type="hidden">
-        	            <input value="Fetch & Upgrade" name="getupgrade" tabindex="1" type="submit" {if $configLocked}disabled='true'{/if}>
-                    {/if}
-    	        </div>
-                <div class="control-set left">
-    		        <span class='corner bottom-left'></span>
-    		        <span class='corner bottom-right'></span>
-
     	            <h2>Tools</h2>
     	            <input name="package" value="{$aPackage.name}" type="hidden">
-    	            <input value="Diagnose" name="diagnose" tabindex="3" type="submit">
+    	            <input value="Diagnose" name="diagnose" tabindex="3" type="submit" {if $configLocked}disabled='true'{/if}>
     	            <input name="package" value="{$aPackage.name}" type="hidden">
-    	            <input value="Export Code" name="export" tabindex="3" type="submit">
+    	            <input value="Export Code" name="export" tabindex="3" type="submit" {if $configLocked}disabled='true'{/if}>
     	            <input name="package" value="{$aPackage.name}" type="hidden">
-    	            <input value="Backup Tables" name="backup" tabindex="3" type="submit">
+    	            <input value="Backup Tables" name="backup" tabindex="3" type="submit" {if $configLocked}disabled='true'{/if}>
     	        </div>
             </div>
     </form>

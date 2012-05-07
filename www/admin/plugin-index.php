@@ -44,6 +44,7 @@ $plugin = $_REQUEST['package'];
 $group  = $_REQUEST['group'];
 $parent = $_REQUEST['parent'];
 
+if (OA_Admin_Settings::isConfigWritable()) {
 //install
 if (array_key_exists('install',$_POST))
 {
@@ -57,92 +58,6 @@ else if (array_key_exists('import',$_POST))
     if (array_key_exists('filename',$_FILES))
     {
         $oPluginManager->installPackageCodeOnly($_FILES['filename']);
-    }
-}
-else if (array_key_exists('getupgrade',$_POST))
-{
-    $downloadurl = $_POST['downloadurl'];
-
-    $aFile['error'] = 0;
-    $aFile['type']  = 'application/zip';
-    $aFile['name']  = basename($downloadurl);
-    $aFile['tmp_name']  = MAX_PATH.'/var/'.$aFile['name'];
-    file_put_contents($aFile['tmp_name'], file_get_contents($downloadurl));
-    if (file_exists($aFile['tmp_name']))
-    {
-        $oPluginManager->upgradePackage($aFile,$plugin);
-        $oTpl = new OA_Admin_Template('plugin-view.html');
-        $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
-        $aComponents = $aPackageInfo['contents'];
-        unset($aPackageInfo['contents']);
-        if ($aPackageInfo['readme'])
-        {
-            $readme = file_get_contents($aPackageInfo['readme']);
-        }
-        $aPackageInfo['package'] = true;
-        $oTpl->assign('aPackage',$aPackageInfo);
-        $oTpl->assign('aPlugins',$aComponents);
-        $oTpl->assign('readme',$readme);
-        $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?selection=packages"));
-        $oTpl->assign('aWarnings',$oPluginManager->aWarnings);
-        $oTpl->assign('aErrors',$oPluginManager->aErrors);
-        $oTpl->assign('aMessages',$oPluginManager->aMessages);
-    }
-}
-else if (array_key_exists('check',$_POST))
-{
-    // Get the package info for display (also need the version for comparison)
-    $oTpl = new OA_Admin_Template('plugin-view.html');
-    $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
-    $aComponents = $aPackageInfo['contents'];
-    unset($aPackageInfo['contents']);
-    if ($aPackageInfo['readme'])
-    {
-        $readme = file_get_contents($aPackageInfo['readme']);
-    }
-    $aPackageInfo['package'] = true;
-    $oTpl->assign('aPackage',$aPackageInfo);
-    $oTpl->assign('aPlugins',$aComponents);
-    $oTpl->assign('readme',$readme);
-    $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?selection=packages"));
-
-    $aParams = array('package' => $_POST['package'], 'version' => $aPackageInfo['version'], 'oxversion' => OA_VERSION);
-    $response = $oPluginManager->checkForUpdates($aParams);
-
-    if ($response)
-    {
-        $aMessages[] = 'Latest version of '.$response['name'].' is '.$response['version'];
-        $aMessages[] = 'Compatible with OpenX version '.$response['oxminver'].' to version '.$response['oxmaxver'];
-        $aMessages[] = 'Currently installed OpenX version '. OA_VERSION;
-        switch ($response['status'])
-        {
-            case 3:
-                $aMessages[] = 'You have a newer plugin version installed than the one available for upgrade.';
-                break;
-            case 1:
-                $aMessages[] = 'This plugin is up to date';
-                break;
-            case 0:
-                $aMessages[] = 'Available from http://'.$response['downloadurl'];
-                $oTpl->assign('downloadurl','http://'.$response['downloadurl']);
-                break;
-            case -1:
-                $aErrors[] = 'THE AVAILABLE PLUGIN IS NOT CERTIFIED FOR USE WITH THIS VERSION OF OPENX ';
-                break;
-            case -2:
-                $aErrors[] = 'YOU WILL NEED TO UPGRADE OPENX IN ORDER TO USE IT ';
-                break;
-            case 999:
-                $aMessages = array();
-                $aMessages[] = 'Plugin does not exist on the updates server';
-                break;
-        }
-        $oTpl->assign('aMessages',$aMessages);
-        $oTpl->assign('aErrors',$aErrors);
-    }
-    else
-    {
-        $oTpl->assign('aErrors',$oPluginManager->aErrors);
     }
 }
 else if (array_key_exists('upgrade',$_POST))
@@ -293,7 +208,8 @@ else if ('disable' == $action)
         OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }
-else if ('info' == $action)
+}
+if ('info' == $action)
 {
     if ($plugin)
     {
@@ -382,6 +298,7 @@ $configLocked = !OA_Admin_Settings::isConfigWritable();
 $image = $configLocked ? 'closed' : 'open';
 $oTpl->assign('configLocked',     $configLocked);
 $oTpl->assign('image',            $image);
+$oTpl->assign('token',            phpAds_SessionGetToken());
 
 $oTpl->display();
 
