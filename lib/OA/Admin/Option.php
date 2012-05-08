@@ -567,7 +567,7 @@ class OA_Admin_Option
             }
             $this->_showEndSection($sectionHasRequiredField);
         }
-        $this->_showHiddenField(array('name' => 'token', 'value' => phpAds_SessionGetToken()));
+        $this->_showHiddenField(array('name' => 'token', 'value' => phpAds_SessionGetToken()), '');
 
         if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
         {
