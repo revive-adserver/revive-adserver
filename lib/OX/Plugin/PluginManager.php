@@ -250,6 +250,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         //OA::logMem('enter unpackPlugin');
         $this->_switchToPluginLog();
         try {
+            phpAds_registerGlobalUnslashed('token');
+            if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && !phpAds_SessionValidateToken($GLOBALS['token']))
+            {
+                throw new Exception('Invalid request token');
+            }
             if ($this->configLocked) {
                 throw new Exception('Configuration file is locked unable to unpack'.$aFile['name']);
             }
@@ -260,11 +265,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             if (!$this->_unpack($aFile, $overwrite, $checkOnly))
             {
                 throw new Exception('The uploaded file '.$aFile['name'] .' was not unpacked');
-            }
-            phpAds_registerGlobalUnslashed('token');
-            if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && !phpAds_SessionValidateToken($GLOBALS['token']))
-            {
-                throw new Exception('Invalid request token');
             }
             $result = true;
         } catch (Exception $e) {

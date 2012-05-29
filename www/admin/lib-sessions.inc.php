@@ -171,8 +171,12 @@ function phpAds_SessionGetToken()
 
 function phpAds_SessionValidateToken($token)
 {
-    $result = ($token === phpAds_SessionGetToken());
-    phpAds_SessionDataRegister('token', null);
+    static $result;
+    
+    if (!isset($result)) {
+        $result = ($token === phpAds_SessionGetToken());
+        phpAds_SessionDataRegister('token', null);
+    }
     return $result;
 }
 
