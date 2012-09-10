@@ -164,7 +164,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditByUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}";
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = " . (int) $id;
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -338,7 +338,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function updateAuditBackupConfDroppedById($upgrade_action_id, $reason = 'dropped')
     {
         $table = $this->getLogTableName();
-        $query = "UPDATE {$table} SET confbackup='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+        $query = "UPDATE {$table} SET confbackup='" . $this->oDbh->escape($reason) . "' WHERE upgrade_action_id='" . $this->oDbh->escape($upgrade_action_id) . "'";
 
         $result = $this->oDbh->exec($query);
 
@@ -359,7 +359,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
     {
         $table = $this->getLogTableName();
-        $query = "UPDATE {$table} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+        $query = "UPDATE {$table} SET logfile='" . $this->oDbh->escape($reason) . "' WHERE upgrade_action_id='" . $this->oDbh->escape($upgrade_action_id) . "'";
 
         $result = $this->oDbh->exec($query);
 

@@ -151,7 +151,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditByUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}";
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = " . (int) $id;
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -163,7 +163,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditBackupTablesByUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}"
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = " . (int) $id
                  ." AND action =".DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED
                  ." AND info2 IS NULL"
                  ." ORDER BY database_action_id DESC";
@@ -178,7 +178,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditAddedTablesByUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}"
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = " . (int) $id
                  ." AND action =".DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED
                  ." AND info2 IS NULL";
         $aResult = $this->oDbh->queryAll($query);
@@ -192,7 +192,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditUpgradeStartedByUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}"
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = " . (int) $id
                  ." AND action =".DB_UPGRADE_ACTION_UPGRADE_STARTED.' LIMIT 1';
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
@@ -205,7 +205,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditByDBUpgradeId($id)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE database_action_id = {$id}";
+        $query = "SELECT * FROM {$table} WHERE database_action_id = " . (int) $id;
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -218,18 +218,18 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     {
         $table = $this->getLogTableName();
         $query =   "SELECT * FROM {$table}"
-                   ." WHERE schema_name ='{$schema}'";
+                   ." WHERE schema_name ='" . $this->oDbh->escape($schema) . "'";
         if ($version)
         {
-            $query.= " AND version ={$version}";
+            $query.= " AND version = " . $this->oDbh->escape($version);
         }
         if (!is_null($timing))
         {
-            $query.= " AND timing ={$timing}";
+            $query.= " AND timing = " . $this->oDbh->escape($timing);
         }
         if (!is_null($action))
         {
-            $query.= " AND action ={$action}";
+            $query.= " AND action = " . $this->oDbh->escape($action);
         }
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying (one) database audit table"))
@@ -242,7 +242,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function queryAuditForABackup($name)
     {
         $table = $this->getLogTableName();
-        $query = "SELECT * FROM {$table} WHERE tablename_backup='{$name}' AND info2 IS NULL";
+        $query = "SELECT * FROM {$table} WHERE tablename_backup='" . $this->oDbh->escape($name) . "' AND info2 IS NULL";
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -255,8 +255,8 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     {
         $table = $this->getLogTableName();
         $query =   "SELECT * FROM {$table}"
-                   ." WHERE schema_name ='{$schema}'"
-                   ." AND version ={$version}"
+                   ." WHERE schema_name ='" . $this->oDbh->escape($schema) . "'"
+                   ." AND version = " . $this->oDbh->escape($version)
                    ." AND action =".DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED
                    ." AND info2 IS NULL";
         $aResult = $this->oDbh->queryAll($query);
@@ -270,7 +270,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function updateAuditBackupDroppedByName($tablename_backup, $reason = 'dropped')
     {
         $table = $this->getLogTableName();
-        $query = "UPDATE {$table} SET info2='{$reason}' WHERE tablename_backup='{$tablename_backup}'";
+        $query = "UPDATE {$table} SET info2='" . $this->oDbh->escape($reason) . "' WHERE tablename_backup='" . $this->oDbh->escape($tablename_backup) . "'";
 
         $result = $this->oDbh->exec($query);
 
@@ -284,7 +284,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function updateAuditBackupDroppedById($database_action_id, $reason = 'dropped')
     {
         $table = $this->getLogTableName();
-        $query = "UPDATE {$table} SET info2='{$reason}' WHERE database_action_id='{$database_action_id}'";
+        $query = "UPDATE {$table} SET info2='" . $this->oDbh->escape($reason) . "' WHERE database_action_id=" . (int) $database_action_id;
 
         $result = $this->oDbh->exec($query);
 

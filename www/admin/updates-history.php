@@ -36,8 +36,8 @@ if (!empty($_POST['xajax'])) {
     unset($session);
     phpAds_SessionDataFetch();
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-        $_POST['xajax'] = 'sessionExpired';
-        $_POST['xajaxargs'] = array();
+        $_POST['xajax']     = $_GET['xajax']     = $_REQUEST['xajax']     = 'sessionExpired';
+        $_POST['xajaxargs'] = $_GET['xajaxargs'] = $_REQUEST['xajaxargs'] = array();
         require_once MAX_PATH . '/lib/xajax.inc.php';
     }
 }
