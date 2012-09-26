@@ -583,7 +583,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             WHERE
                 c.campaignid = " . DBC::makeLiteral($campaignId) . "
                 AND
-                z.zoneid IN (" . implode(",",$aZonesIds) . ")
+                z.zoneid IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
                 AND
                 z.delivery <> " . MAX_ZoneEmail ."
                 AND
@@ -636,7 +636,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     function _linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, $campaignId, $bannerId = null) {
         $prefix = $this->getTablePrefix();
         
-        $rsEmailZones = DBC::NewRecordSet("SELECT zoneid FROM {$prefix}zones WHERE delivery = " . MAX_ZoneEmail . " AND zoneid IN (" . implode(',', $aZonesIds) . ")");
+        $rsEmailZones = DBC::NewRecordSet("SELECT zoneid FROM {$prefix}zones WHERE delivery = " . MAX_ZoneEmail . " AND zoneid IN (" . implode(',', array_map('intval', $aZonesIds)) . ")");
         $aEmailZoneIds = $rsEmailZones->getAll();
 
         $fastLinking = !$GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'];
@@ -675,7 +675,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         }
         
         $fromWhereClause .= "
-                z.zoneid IN (" . implode(",",$aZonesIds) . ")
+                z.zoneid IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
                 AND
                 (
                     (
@@ -779,7 +779,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         $doAgency->joinAdd($doClients);
         $doAffiliates->joinAdd($doAgency);
         $doZones->joinAdd($doAffiliates);
-        $doZones->whereAdd("zoneid IN (" . implode(',', $aZonesIds) . ")");
+        $doZones->whereAdd("zoneid IN (" . implode(',', array_map('intval', $aZonesIds)) . ")");
         $doZones->selectAdd();
         $doZones->selectAdd('count( zoneid ) as zones');
         $doZones->groupBy($doAgency->tableName() . '.agencyid');
@@ -827,9 +827,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                    DELETE
                    FROM {$prefix}ad_zone_assoc
                    WHERE
-                       ad_id IN (" . implode(',', $aBannersIds) . ")
+                       ad_id IN (" . implode(',', array_map('intval', $aBannersIds)) . ")
                        AND
-                       zone_id IN (" . implode(",",$aZonesIds) . ")
+                       zone_id IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
                ";
 
                $unlinkedBanners = $this->oDbh->exec($query);
@@ -845,7 +845,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                WHERE
                    placement_id = " . DBC::makeLiteral($campaignId) . "
                    AND
-                   zone_id IN (" . implode(",",$aZonesIds) . ")
+                   zone_id IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
            ";
            return $this->oDbh->exec($query);
         }
@@ -906,7 +906,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                WHERE
                    ad_id = " . DBC::makeLiteral($bannerId) . "
                    AND
-                   zone_id IN (" . implode(",",$aZonesIds) . ")
+                   zone_id IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
            ";
 
            return $this->oDbh->exec($query);
@@ -956,7 +956,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             FROM
                 {$prefix}zones AS z
             WHERE
-                z.zoneid IN (" . implode(",", $aZonesIds) . ")
+                z.zoneid IN (" . implode(",", array_map('intval', $aZonesIds)) . ")
                 AND
                 z.oac_category_id IS NOT NULL
             ";
@@ -969,7 +969,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                     {$prefix}zones AS z,
                     {$prefix}affiliates AS af
                 WHERE
-                    z.zoneid IN (" . implode(",", $aZonesIds) . ")
+                    z.zoneid IN (" . implode(",", array_map('intval', $aZonesIds)) . ")
                     AND
                     af.affiliateid = z.affiliateid
                     AND

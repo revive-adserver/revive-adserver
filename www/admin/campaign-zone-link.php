@@ -54,8 +54,8 @@ $aZonesIds = array();
 $aZonesIdsHash = array();
 foreach ($_REQUEST['ids'] as $zone) {
     if (substr($zone, 0, 1) == 'z') {
-        $aZonesIds[] = substr($zone, 1);
-        $aZonesIdsHash[substr($zone, 1)] = "x";
+        $aZonesIds[] = (int) substr($zone, 1);
+        $aZonesIdsHash[(int) substr($zone, 1)] = "x";
     }
 }
 

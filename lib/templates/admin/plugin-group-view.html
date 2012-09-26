@@ -33,7 +33,7 @@ $Id$
 </div>
 {/if}
 
-<p class="backlink"><a href="{$backURL}">&laquo; Back to {$parent|escape}</a></p>
+<p class="backlink"><a href="{$backURL|escape}">&laquo; Back to {$parent|escape}</a></p>
 
 <div class='panel'>
    <span class='corner top-left'></span>
@@ -63,7 +63,7 @@ $Id$
 	        <tr><th>Schema Name</th><td>{if $aPlugin.schema_name} {$aPlugin.schema_name} {else} -- {/if}</td></tr>
 	        <tr><th>Schema Version</th><td>{if $aPlugin.schema_version} {$aPlugin.schema_version} {else} -- {/if}</td></tr>
 	        <!-- tr><td colspan="2" style="padding: 0px">
-	          <form name='pluginform' id='pluginform' method='post' action="plugin-index.php?checkdb={$aPlugin.name}&plugins=true&parent={$parent}">
+	          <form name='pluginform' id='pluginform' method='post' action="plugin-index.php?checkdb={$aPlugin.name}&plugins=true&parent={$parent|escape}">
                   <input class="checkdb" type="submit" value="Check Database" />
                 </form>
 	        </td>
