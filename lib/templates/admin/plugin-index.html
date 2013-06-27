@@ -59,7 +59,7 @@ $Id$
 {if $aWarnings}
     <div class="error-box" style="margin-bottom: 10px">
         {foreach from=$aWarnings key=idx item=warning}
-            {$warning}
+            {$warning|escape}
             <br />
         {/foreach}
     </div>
@@ -67,7 +67,7 @@ $Id$
 {if $aErrors}
     <div class="error-box" style="margin-bottom: 10px">
         {foreach from=$aErrors key=idx item=error}
-            {$error}
+            {$error|escape}
             <br />
         {/foreach}
     </div>
