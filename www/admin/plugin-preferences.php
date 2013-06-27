@@ -47,8 +47,10 @@ $oOptions = new OA_Admin_Option('preferences');
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
-$group   = $_REQUEST['group'];
-$plugin = $_REQUEST['parent'];
+$pattern = '/[^a-zA-Z0-9\._-]/';
+$plugin   = preg_replace($pattern, '', $_REQUEST['parent']);
+$group    = preg_replace($pattern, '', $_REQUEST['group']);
+$parent   = preg_replace($pattern, '', $_REQUEST['parent']);
 
 if ($plugin) {
     $backURL =  "plugin-index.php?action=info&package=$plugin";

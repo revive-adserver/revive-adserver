@@ -39,10 +39,11 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $oPluginManager = new OX_PluginManager();
 $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
 
-$action = $_REQUEST['action'];
-$plugin = $_REQUEST['package'];
-$group  = $_REQUEST['group'];
-$parent = $_REQUEST['parent'];
+$pattern = '/[^a-zA-Z0-9\._-]/';
+$action   = preg_replace($pattern, '', $_REQUEST['action']);
+$plugin   = preg_replace($pattern, '', $_REQUEST['package']);
+$group    = preg_replace($pattern, '', $_REQUEST['group']);
+$parent   = preg_replace($pattern, '', $_REQUEST['parent']);
 
 if (OA_Admin_Settings::isConfigWritable()) {
 //install
