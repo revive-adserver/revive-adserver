@@ -1,4 +1,15 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
+|                                                                           |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
++---------------------------------------------------------------------------+
+*/
+
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Zones.php';
 
