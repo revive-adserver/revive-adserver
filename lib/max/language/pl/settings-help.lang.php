@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Settings help translation strings
@@ -67,11 +52,11 @@ $GLOBALS['phpAds_hlp_compact_stats'] = "\n        Traditionally ".MAX_PRODUCT_NA
 
 $GLOBALS['phpAds_hlp_log_adviews'] = "\n        Normally all AdViews are logged, if you don't want to gather statistics \n        about AdViews you can turn this off.\n		";
 
-$GLOBALS['phpAds_hlp_block_adviews'] = "\n		If a visitor reloads a page an AdView will be logged by ".MAX_PRODUCT_NAME." every time. \n		This feature is used to make sure that only one AdView is logged for each unique \n		banner for the number of seconds you specify. For example: if you set this value \n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdViews if the same banner isnÄ?Å¼Ë?t already \n		shown to the same visitor in the last 5 minutes. This feature only works when <i>Use \n		beacons to log AdViews</i> is enabled and if the browser accepts cookies.\n		";
+$GLOBALS['phpAds_hlp_block_adviews'] = "\n		If a visitor reloads a page an AdView will be logged by ".MAX_PRODUCT_NAME." every time. \n		This feature is used to make sure that only one AdView is logged for each unique \n		banner for the number of seconds you specify. For example: if you set this value \n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdViews if the same banner isnï¿½?Å¼ï¿½?t already \n		shown to the same visitor in the last 5 minutes. This feature only works when <i>Use \n		beacons to log AdViews</i> is enabled and if the browser accepts cookies.\n		";
 
 $GLOBALS['phpAds_hlp_log_adclicks'] = "\n        Normally all AdClicks are logged, if you don't want to gather statistics \n        about AdClicks you can turn this off.\n		";
 
-$GLOBALS['phpAds_hlp_block_adclicks'] = "\n		If a visitor clicks multiple times on a banner an AdClick will be logged by ".MAX_PRODUCT_NAME." \n		every time. This feature is used to make sure that only one AdClick is logged for each \n		unique banner for the number of seconds you specify. For example: if you set this value \n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdClicks if the visitor didnÄ?Å¼Ë?t click on the same \n		banner in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
+$GLOBALS['phpAds_hlp_block_adclicks'] = "\n		If a visitor clicks multiple times on a banner an AdClick will be logged by ".MAX_PRODUCT_NAME." \n		every time. This feature is used to make sure that only one AdClick is logged for each \n		unique banner for the number of seconds you specify. For example: if you set this value \n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdClicks if the visitor didnï¿½?Å¼ï¿½?t click on the same \n		banner in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
 
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "\n        ".MAX_PRODUCT_NAME." logs the IP address of each visitor by default. If you want \n        ".MAX_PRODUCT_NAME." to log domain names you should turn this on. Reverse lookup \n        does take some time; it will slow everything down.\n		";
 

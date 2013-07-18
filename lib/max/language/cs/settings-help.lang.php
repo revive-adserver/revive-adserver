@@ -2,30 +2,13 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
-
-
 
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "\n        Specify the hostname of the ".$phpAds_dbmsname." database server to which you are trying to connect.\n		";
@@ -71,21 +54,21 @@ $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "\n        The compact policy which 
 
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "\n        If you want to use a full privacy policy, you can specify the location\n        of the policy.\n		";
 
-$GLOBALS['phpAds_hlp_log_beacon'] = "\n		Beacons are small invisible images which are placed on the page where the banner\n		also is displayed. If you turn this feature on ".MAX_PRODUCT_NAME." will use this beacon image\n		to count the number of impressions the banner has recieved. If you turn this feature\n		off the impression will be counted during delivery, but this is not entirely accurate,\n		because a delivered banner doesnÄ?Å¼Ë?t always have to be displayed on the screen.\n		";
+$GLOBALS['phpAds_hlp_log_beacon'] = "\n		Beacons are small invisible images which are placed on the page where the banner\n		also is displayed. If you turn this feature on ".MAX_PRODUCT_NAME." will use this beacon image\n		to count the number of impressions the banner has recieved. If you turn this feature\n		off the impression will be counted during delivery, but this is not entirely accurate,\n		because a delivered banner doesnï¿½?Å¼ï¿½?t always have to be displayed on the screen.\n		";
 
 $GLOBALS['phpAds_hlp_compact_stats'] = "\n        Traditionally ".MAX_PRODUCT_NAME." used rather extensive logging, which was very\n        detailed but was also very demanding on the database server. This could\n        be a big problem on sites with a lot of visitors. To overcome this problem\n		".MAX_PRODUCT_NAME." also supports a new kind of statistics, the compact statistics,\n		which is less demanding on the database server, but also less detailed.\n		The compact statistics collects AdViews, AdClicks, and AdConversions for each hour, if you need\n		more detail you can turn the compact statistics off.\n		";
 
 $GLOBALS['phpAds_hlp_log_adviews'] = "\n        Normally all AdViews are logged, if you don't want to gather statistics\n        about AdViews you can turn this off.\n		";
 
-$GLOBALS['phpAds_hlp_block_adviews'] = "\n		If a visitor reloads a page an AdView will be logged by ".MAX_PRODUCT_NAME." every time.\n		This feature is used to make sure that only one AdView is logged for each unique\n		banner for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdViews if the same banner isnÄ?Å¼Ë?t already\n		shown to the same visitor in the last 5 minutes. This feature only works the browser accepts cookies.\n		";
+$GLOBALS['phpAds_hlp_block_adviews'] = "\n		If a visitor reloads a page an AdView will be logged by ".MAX_PRODUCT_NAME." every time.\n		This feature is used to make sure that only one AdView is logged for each unique\n		banner for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdViews if the same banner isnï¿½?Å¼ï¿½?t already\n		shown to the same visitor in the last 5 minutes. This feature only works the browser accepts cookies.\n		";
 
 $GLOBALS['phpAds_hlp_log_adclicks'] = "\n        Normally all AdClicks are logged, if you don't want to gather statistics\n        about AdClicks you can turn this off.\n		";
 
-$GLOBALS['phpAds_hlp_block_adclicks'] = "\n		If a visitor clicks multiple times on a banner an AdClick will be logged by ".MAX_PRODUCT_NAME."\n		every time. This feature is used to make sure that only one AdClick is logged for each\n		unique banner for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdClicks if the visitor didnÄ?Å¼Ë?t click on the same\n		banner in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
+$GLOBALS['phpAds_hlp_block_adclicks'] = "\n		If a visitor clicks multiple times on a banner an AdClick will be logged by ".MAX_PRODUCT_NAME."\n		every time. This feature is used to make sure that only one AdClick is logged for each\n		unique banner for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdClicks if the visitor didnï¿½?Å¼ï¿½?t click on the same\n		banner in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
 
 $GLOBALS['phpAds_hlp_log_adconversions'] = "\n        Normally all AdConversions are logged, if you don't want to gather statistics\n        about AdConversions you can turn this off.\n		";
 
-$GLOBALS['phpAds_hlp_block_adconversions'] = "\n		If a visitor reloads a page with an AdConversion beacon, ".MAX_PRODUCT_NAME." will log the AdConversion\n		every time. This feature is used to make sure that only one AdConversion is logged for each\n		unique conversion for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdConversions if the visitor didnÄ?Å¼Ë?t load the same\n		page with the AdConversion beacon in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
+$GLOBALS['phpAds_hlp_block_adconversions'] = "\n		If a visitor reloads a page with an AdConversion beacon, ".MAX_PRODUCT_NAME." will log the AdConversion\n		every time. This feature is used to make sure that only one AdConversion is logged for each\n		unique conversion for the number of seconds you specify. For example: if you set this value\n		to 300 seconds, ".MAX_PRODUCT_NAME." will only log AdConversions if the visitor didnï¿½?Å¼ï¿½?t load the same\n		page with the AdConversion beacon in the last 5 minutes. This feature only works when the browser accepts cookies.\n		";
 
 $GLOBALS['phpAds_hlp_log_source'] = "\n		If you are using the source parameter in the invocation code you can also store this information\n		in the database so you will able to see statistics about how the different source\n		parameters are performing. If you are not using the source parameter, or if you don't\n		want to store information about this parameter you can safely turn this option off.\n		";
 
@@ -93,7 +76,7 @@ $GLOBALS['phpAds_hlp_geotracking_stats'] = "\n		If you are using a geotargeting 
 
 $GLOBALS['phpAds_hlp_log_hostname'] = "\n		If you want to store the hostname or IP address of each visitor in the statistics you can\n		enable this feature. Storing this information will allow you to see which hosts are retrieving\n		the most banners. This option is only available if you are using verbose statistics.\n		";
 
-$GLOBALS['phpAds_hlp_log_iponly'] = "\n		Storing the hostname of the visitor takes a lot of space inside the database. If you enable\n		this feature ".MAX_PRODUCT_NAME." will still store information about the host, but it will store the\n		less space consuming IP address only. This option isnÄ?Å¼Ë?t available if the hostname isn't\n		provided by the server or ".MAX_PRODUCT_NAME.", because in that case the IP address will always be\n		stored.\n		";
+$GLOBALS['phpAds_hlp_log_iponly'] = "\n		Storing the hostname of the visitor takes a lot of space inside the database. If you enable\n		this feature ".MAX_PRODUCT_NAME." will still store information about the host, but it will store the\n		less space consuming IP address only. This option isnï¿½?Å¼ï¿½?t available if the hostname isn't\n		provided by the server or ".MAX_PRODUCT_NAME.", because in that case the IP address will always be\n		stored.\n		";
 
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "\n		The hostname is usually determined by the web server, but in some cases this might be\n		turned off. If you want to use the visitors hostname inside delivery limitations and/or\n		keep statistics about this and the server doesn't provide this information you will need to\n		turn this option on. Determining the hostname of the visitor does take some time; it will\n		slow the delivery of banners down.\n		";
 

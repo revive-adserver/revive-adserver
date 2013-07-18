@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // * Note - This file still contains some non-UTF-8 characters
@@ -1088,7 +1073,7 @@ $GLOBALS['strInventoryForecasting'] = "Previsão de inventário";
 $GLOBALS['strPerSingleImpression'] = "por cada impressão";
 $GLOBALS['strWithXBanners'] = "%d banner(s)";
 $GLOBALS['strTrackerCodeSubject'] = "Anexar código de rastreamento";
-$GLOBALS['strStatsArea'] = "�?rea";
+$GLOBALS['strStatsArea'] = "�?rea";
 $GLOBALS['strNoExpirationEstimation'] = "Sem prazo estimado de vencimento ainda";
 $GLOBALS['strDaysAgo'] = "dias atás";
 $GLOBALS['strCampaignStop'] = "Fim da Campanha";
@@ -1169,7 +1154,7 @@ $GLOBALS['str_tr'] = "Turco";
 $GLOBALS['strGlobalSettings'] = "Configurações global";
 $GLOBALS['strSwitchTo'] = "Alternar para";
 $GLOBALS['strRevenue'] = "Receita";
-$GLOBALS['str_ar'] = "�?rabe";
+$GLOBALS['str_ar'] = "�?rabe";
 $GLOBALS['str_bg'] = "Búlgaro";
 $GLOBALS['str_cy'] = "Galês";
 $GLOBALS['str_da'] = "Dinamarques";
@@ -1343,7 +1328,7 @@ $GLOBALS['strIncomeShort'] = "Rendimento";
 $GLOBALS['strIncomeMarginShort'] = "Marg. Rend.";
 $GLOBALS['strProfitShort'] = "Lucro";
 $GLOBALS['strMarginShort'] = "Margem";
-$GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "ATUALIZAÇÃO CONCLU�?DA";
+$GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "ATUALIZAÇÃO CONCLU�?DA";
 $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "FALHA NA ATUALIZAÇÃO";
 $GLOBALS['strConversionsShort'] = "Conv.";
 $GLOBALS['strPendingConversionsShort'] = "Conv. pendentes";

@@ -1,27 +1,12 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 
 -->*}
 {view_before_content}
@@ -80,7 +65,7 @@ $Id$
                 <th class="ecpm last">{t str=FinanceCPM}</th>
               </tr>
             </tbody>
-  
+
             <tbody id="zones-available-rows">
               <tr class="hide"><td></td></tr>
             </tbody>
@@ -104,7 +89,7 @@ $Id$
                 <th class="ecpm last">{t str=FinanceCPM}</th>
               </tr>
             </tbody>
-  
+
             <tbody id="zones-linked-rows">
               <tr class="hide"><td></td></tr>
             </tbody>
@@ -332,7 +317,7 @@ $Id$
       sendZonesRequest(panel, this.href, {})
       return false;
     });
-      
+
     if ($("#page-" + panel).size() > 0) {
       $("#zones-" + panel + "-loading").addClass("has-paging");
     } else {
@@ -349,7 +334,7 @@ $Id$
       if (!selectAllChecked) {
         cancelAllZonesSelection(panel);
       }
-      
+
       $("#" + (panel == "available" ? "link" : "unlink") + "-button")
         .attr("disabled", $("#zones-" + panel + " :checked").not(".select-all").size() == 0);
     });
@@ -369,7 +354,7 @@ $Id$
       return false;
     });
   }
-  
+
   function cancelAllZonesSelection(panel) {
     $("#select-all-container-" + panel).hide();
     $("#zones-" + panel + "-select-all").hide();

@@ -1,26 +1,12 @@
 {*<!--
+  
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 
 -->*}
 
@@ -45,11 +31,11 @@ $Id$
       <tr><td><img src='{$assetPath}/images/spacer.gif' style="height:1px;" width='100%'></td>
       <td colspan='2'><img src='{$assetPath}/images/break-l.gif' style="height:1px; width:170px;" vspace='6'></td></tr>
       {/if}
-  
+
       {* display section content *}
       {$_e.content}
-      
-      {* close section *}    
+
+      {* close section *}
       {*<tr>
           <td height='10' colspan='3'>&nbsp;</td>
       </tr>*}
@@ -64,7 +50,7 @@ $Id$
             <span style="font-size:80%; color: red">*</span> <span style="font-size:80%; color:#7f7f7f;">{t str=RequiredFieldLegend}</span>
         </span>
       {/if}
-    
+
       {* display form controls *}
       {$_e.content}
       {* close form controls *}
@@ -86,7 +72,7 @@ $Id$
         {/if}
         <td {if $_e.label}width='100%'{else}colspan='2'{/if}>
     {/if}
-      
+
     {cycle name=gsep advance=false values=$_e.separator reset=true print=false}
     {foreach key=gkey item=groupItem from=$_e.elements}
         {if $groupItem.type == "group"}
@@ -95,7 +81,7 @@ $Id$
             {if $groupItem.decorators}
                {$groupItem.decorators.prepend}
             {/if}
-        
+
             {if $groupItem.type == 'custom'}
                 {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
             {else}
@@ -112,13 +98,13 @@ $Id$
         {if $_e.separator}{cycle name=gsep values=$_e.separator}
         {/if}
     {/foreach}
-    
+
     {if !$_e.parent}
-        {if $_e.error}<br><label class="error">{$_e.error}</label>{/if}    
+        {if $_e.error}<br><label class="error">{$_e.error}</label>{/if}
         </td>
     </tr>
     {/if}
-    
+
 {/if}
 
 {if $_e.type == 'text' || $_e.type == 'password' || $_e.type == 'textarea' || $_e.type == 'select' || !$_e.type}
@@ -159,7 +145,7 @@ $Id$
         </td>
     </tr>
     {/if}
-    
+
 {/if}
 
 
@@ -175,7 +161,7 @@ $Id$
             <td colspan="2">
                 {$_e.html}
             </td>
-        {/if}        
+        {/if}
     </tr>
 {/if}
 
