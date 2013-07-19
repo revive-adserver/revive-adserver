@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-signup.php 31449 2009-01-27 08:09:50Z bernard.lange $
 */
 
 require_once 'market-common.php';
@@ -67,13 +52,13 @@ function buildSignupForm($oMarketComponent)
     $oForm->forceClientValidation(true);
 
     $oForm->addElement('header', 'signup_info', $oMarketComponent->translate('Associate an existing OpenX account'));
-    $oForm->addElement('html', 'info', "<div style='line-height: 170%;'>".$oMarketComponent->translate("To activate OpenX Market, please provide your existing OpenX account information. <br>Don't have an OpenX account? <a href='%s' target='_blank'>Sign up for a new account first</a> and then associate it below.</div>", array($ssoSignupUrl))); 
+    $oForm->addElement('html', 'info', "<div style='line-height: 170%;'>".$oMarketComponent->translate("To activate OpenX Market, please provide your existing OpenX account information. <br>Don't have an OpenX account? <a href='%s' target='_blank'>Sign up for a new account first</a> and then associate it below.</div>", array($ssoSignupUrl)));
     $oForm->addElement('text', 'm_username', $oMarketComponent->translate('OpenX User name'));
     $oForm->addElement('password', 'm_password', $oMarketComponent->translate('Password'));
     $oForm->addElement('checkbox', 'terms_agree', null, $oMarketComponent->translate("I accept the OpenX Market <a target='_blank' href='%s'>terms and conditions</a> and <a target='_blank' href='%s'>data privacy policy</a>.", array($termsLink, $privacyLink)));
     $oForm->addElement('controls', 'form-controls');
     $oForm->addElement('submit', 'save', $oMarketComponent->translate('Submit'));
-    
+
     //Form validation rules
     $usernameRequired = $oMarketComponent->translate($GLOBALS['strXRequiredField'], array($oMarketComponent->translate('OpenX Account name')));
     $oForm->addRule('m_username', $usernameRequired, 'required');
@@ -100,11 +85,11 @@ function processForm($oForm, $oMarketComponent)
             $oMarketComponent->removeRegisterNotification();
             $oMarketComponent->updateAllWebsites();
         }
-    } 
+    }
     catch (Exception $exc) {
         return array("error" => true, "message" => $exc->getMessage(), "code" => $exc->getCode());
     }
-    
+
     OX_Admin_Redirect::redirect("plugins/oxMarket/market-confirm.php");
 
 }
@@ -127,7 +112,7 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
 
     $oTpl->assign('aSsoErrors', array(701, 702));
     $oTpl->assign('aLinkOxpErrors', array(901, 902)); //, 903, 904, 905, 906, 907, 908));
-    
+
     $oTpl->display();
 
     //footer

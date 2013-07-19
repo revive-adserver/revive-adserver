@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 /**
@@ -123,12 +108,12 @@ function OA_bucketInsertTable($tableName, $aQuery, $counter = 'count')
 function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     OA_bucketPrepareDb();
-    
+
     // just insert
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
         return OA_bucketInsertTable($tableName, $aQuery, $counter);
     }
-    
+
     // PgSQL stored procedures (update/insert/update)
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'proc') {
         $procQuery = OA_bucket_buildProcQuery($tableName, $aQuery, $counter);
@@ -141,7 +126,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         }
         return (bool)$result;
     }
-    
+
     // MySQL ON DUPLICATE KEY UPDATE
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'duplicate') {
         $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter, true);
@@ -154,7 +139,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         }
         return (bool)$result;
     }
-    
+
     // Else, triple update/insert/update - for performance reasons
     if ($counter) {
         // first update
@@ -241,14 +226,14 @@ function OA_bucket_buildInsertQuery($tableName, $aQuery, $counter)
     return $query;
 }
 
-function OA_bucket_buildProcQuery($tableName, $aQuery, $counter) 
+function OA_bucket_buildProcQuery($tableName, $aQuery, $counter)
 {
     $args = implode(',', OA_bucket_quoteArgs($aQuery));
     $query = "SELECT bucket_update_{$tableName}({$args})";
     return $query;
 }
 
-function OA_bucket_quoteArgs($aArgs) 
+function OA_bucket_quoteArgs($aArgs)
 {
     $array = $aArgs;
     foreach ($array as &$value) {

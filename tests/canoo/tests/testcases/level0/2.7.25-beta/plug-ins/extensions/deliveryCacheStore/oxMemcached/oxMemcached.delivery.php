@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: oxMemcached.delivery.php 23872 2008-08-08 11:22:33Z andrew.hill@openx.org $
 */
 
 /**
@@ -39,7 +24,7 @@ $Id: oxMemcached.delivery.php 23872 2008-08-08 11:22:33Z andrew.hill@openx.org $
  * @param string $filename The name of file where cache entry is stored
  * @return mixed False on error, or the cache content
  */
-function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve($filename) 
+function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve($filename)
 {
     $oMemcache = _oxMemcached_getMemcache();
     if ($oMemcache == false) {
@@ -47,7 +32,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetriev
     }
     // Get serialized cache
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
-    $serializedCacheVar = @$oMemcache->get($filename); 
+    $serializedCacheVar = @$oMemcache->get($filename);
     if ($serializedCacheVar === false) {
         return false;
     }
@@ -62,26 +47,26 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetriev
  * @return bool True if the entry was succesfully stored
  */
 function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $cache_contents)
-{    
+{
     $oMemcache = _oxMemcached_getMemcache();
     if ($oMemcache == false) {
         return false;
     }
-    
+
     $expiryTime = 0;
-    if (is_numeric($GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'])) { 
+    if (is_numeric($GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'])) {
         $expiryTime = $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'];
     }
-    $serializedCacheExport = serialize($cache_contents); 
+    $serializedCacheExport = serialize($cache_contents);
 
     // Store serialized cache
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
     $result = @$oMemcache->replace($filename, $serializedCacheExport, false, $expiryTime);
     if ($result !== true) {
         // Memcache set/replece can return null on error, so ensure, that for all errors results if false
-        // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down  
+        // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
         if (@$oMemcache->set($filename, $serializedCacheExport, false, $expiryTime) !== true) {
-            return false; 
+            return false;
         }
     }
     return true;
@@ -90,7 +75,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
 /**
  * Return current Memcache instance
  *
- * @return Memcache 
+ * @return Memcache
  */
 function _oxMemcached_getMemcache(){
     if (!isset($GLOBALS['OA_Delivery_Cache']['MemcachedObject'])) {
@@ -102,7 +87,7 @@ function _oxMemcached_getMemcache(){
 /**
  * Function to initialize Memcache connection
  * Memcache function is stored in $GLOBALS['OA_Delivery_Cache']['MemcachedObject']
- * 
+ *
  * @return Memcache|bool Memcache object or false on errors
  */
 function _oxMemcached_MemcachedInit() {
@@ -110,8 +95,8 @@ function _oxMemcached_MemcachedInit() {
     if (!class_exists(Memcache)){
         return false;
     }
-    $oMemcache = new Memcache(); 
-    
+    $oMemcache = new Memcache();
+
     $aServers = (explode(',', $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers']));
     $serversAdded = false;
     foreach ($aServers as $server) {
